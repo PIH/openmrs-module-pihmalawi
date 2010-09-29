@@ -1,0 +1,33 @@
+<map>
+  <entry>
+    <string>1</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>2</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition" retired="false">
+        <name>Ages And Genders</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+        </patientProperties>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+</map>

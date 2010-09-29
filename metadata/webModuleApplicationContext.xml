@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Beans to add to the current Web Application context definition -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+           
+    <!-- Set up URL mappings for new URLs -->
+    <bean id="pihHaitiUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    	<property name="order"><value>40</value></property>
+    	<property name="mappings">
+            <props>
+            	<prop key="module/mdrtb/mdrtbAddPatientForm.form">pihmalawiPatientFormController</prop>
+            	<prop key="module/mdrtb/newPatient.form">pihmalawiPatientFormController</prop>
+            	<prop key="admin/patients/newPatient.form">pihmalawiPatientFormController</prop>
+            	<prop key="**/patientSummary.portlet">patientSummaryPortletController</prop>
+            	<prop key="**/mdrtbShortSummary.portlet">shortSummaryPortletController</prop>
+            	<prop key="**/mdrtbCustomList.portlet">customSummaryPortletController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="pihmalawiPatientFormController" class="org.openmrs.module.idgen.web.controller.PatientFormController">
+		<property name="commandName"><value>patient</value></property>
+		<property name="commandClass"><value>org.openmrs.web.controller.patient.ShortPatientModel</value></property>
+		<property name="formView"><value>module/idgen/editPatientForm</value></property>
+		<property name="successView"><value>../../module/mdrtb/mdrtbPatientOverview.form</value></property>
+	</bean>
+	
+	<bean id="patientSummaryPortletController" class="org.openmrs.module.pihmalawi.web.controller.PatientSummaryPortletController" />
+	<bean id="shortSummaryPortletController" class="org.openmrs.module.pihmalawi.web.controller.ShortSummaryPortletController" />
+	<bean id="customSummaryPortletController" class="org.openmrs.module.pihmalawi.web.controller.CustomSummaryPortletController" />
+
+</beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+
+	<description>pihmalawi module tag library</description>
+	<tlib-version>1.1</tlib-version>
+	<short-name>pihmalawi</short-name>
+
+	<tag>
+		<description>
+			Provides functionality to get at complex obs data
+		</description>
+		<name>complexObs</name>
+		<tag-class>org.openmrs.module.pihmalawi.web.taglib.ComplexObsTag</tag-class>
+		<body-content>jsp</body-content>
+		<attribute>
+			<name>obsId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>view</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<function>
+	    <description>
+	      Tests if an Object is an instance of a given class
+	    </description>
+	    <name>instanceOf</name>
+	    <function-class>org.openmrs.module.pihmalawi.web.taglib.Functions</function-class>
+	    <function-signature>boolean instanceOf(java.lang.Object, java.lang.String)</function-signature>
+	    <example>
+	      &lt;c:if test="${fn:instanceOf(myObject, myClassName)}">
+	    </example>
+	</function>
+
+</taglib>
