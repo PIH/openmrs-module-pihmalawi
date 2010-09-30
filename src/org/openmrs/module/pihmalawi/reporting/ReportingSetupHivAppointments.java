@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -289,7 +290,8 @@ public class ReportingSetupHivAppointments {
 			
 			ReportDesignResource resource = new ReportDesignResource();
 			resource.setName("designFile");
-			InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream("org/openmrs/module/reporting/report/renderer/CohortDetailReportRendererResource.xml");
+//			InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream("org/openmrs/module/reporting/report/renderer/CohortDetailReportRendererResource.xml");
+			InputStream is = new FileInputStream("/home/xian/pih/workspace_reports/pihmalawi/CohortDetailReportRendererResource.xml");
 			resource.setContents(IOUtils.toByteArray(is));
 			design.addResource(resource);
 			CohortDetailReportRenderer renderer = new CohortDetailReportRenderer() {
@@ -297,8 +299,9 @@ public class ReportingSetupHivAppointments {
 					return design;
 				}
 			};
+			resource.setReportDesign(design);
 			ReportService rs = Context.getService(ReportService.class);
-//	    	rs.saveReportDesign(design);
+	    	rs.saveReportDesign(design);
 			
 			return rd;
 		}
