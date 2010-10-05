@@ -1,0 +1,162 @@
+<map>
+  <entry>
+    <string>noappndh</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>noappmgt</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>noencndh</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>noencmgt</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>2msdndh</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>2msdmgt</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>8msdndh</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+  <entry>
+    <string>8msdnmgt</string>
+    <org.openmrs.module.reporting.evaluation.parameter.Mapped>
+      <parameterizable class="org.openmrs.module.reporting.dataset.definition.SimplePatientDataSetDefinition">
+        <name>identifiers</name>
+        <parameters/>
+        <patientProperties>
+          <string>patientId</string>
+          <string>age</string>
+          <string>gender</string>
+          <string>familyName</string>
+          <string>givenName</string>
+        </patientProperties>
+        <identifierTypes>
+          <patientIdentifierType uuid="18e5329e-a89d-11df-bba5-000c297f1161"/>
+        </identifierTypes>
+      </parameterizable>
+      <parameterMappings/>
+    </org.openmrs.module.reporting.evaluation.parameter.Mapped>
+  </entry>
+</map>

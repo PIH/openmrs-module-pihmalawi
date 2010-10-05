@@ -1,0 +1,25 @@
+#OPENMRS_BUILD_PROPERTIES_FILE
+webapp.name=openmrs
+webapp.display.name=OpenMRS
+webapp.description=Open-Source EMR
+###Properties for running unit tests with tomcat###
+tomcat.server=localhost
+tomcat.port=8181
+tomcat.manager.url=http://${tomcat.server}:${tomcat.port}/manager
+tomcat.username=openmrs
+tomcat.password=openmrs
+### Database connection properties
+connection.username=openmrs
+connection.password=<fill_me_in>
+#connection.url=jdbc:mysql://localhost:3306/openmrs?autoReconnect=true
+connection.url=jdbc:mysql://localhost:3306/openmrs_testdata?autoReconnect=true
+hibernate.show_sql=false
+### Web Application Properties
+module.allow_web_admin=true
+### lcab/cabextract
+formentry.lcab_location=/usr/bin/lcab
+formentry.cabextract_location=/usr/bin/cabextract
+
+remoteformentry.server_type=remote
+junit.username=test
+junit.password=test2test
