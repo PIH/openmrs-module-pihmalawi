@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.ReportingSetupHivAppointments;
+import org.openmrs.module.pihmalawi.reporting.SetupArtWeeklyVisit;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.indicator.dimension.Dimension;

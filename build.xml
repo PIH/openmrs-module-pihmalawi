@@ -9,6 +9,8 @@
 		
 	<property environment="env"/>
 	
+	<property name="module.home" value="/usr/share/openmrs/modules"/>
+	
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="../openmrs-1.5.x/lib/ant-contrib/ant-contrib-1.0b2.jar"/>
 	
 	<available file="${env.OPENMRS_BUILD_PROPERTIES_FILE}" property="env.file.exists"/>
@@ -29,12 +31,13 @@
 	</if>
 	
 	<property name="test.dir" value="./test" />
-	<property name="junit.test.dir" value="./junit-test" />
+	<property name="junit-tests.dir" value="./junit-test" />
 
 	   <path id="test.classpath">
 	        <path refid="classpath"/>
 	        <fileset dir="dist" includes="*.jar" />
-			<fileset dir="${test.dir}" includes="**/*.java" />
+	   			<fileset dir="build" includes="**/*.class"/>
+	    <pathelement path="build"/>
 	    </path>
 
 	<!-- *********************************************************** -->
@@ -68,6 +71,9 @@
 				<include name="**/*.jar"/>
 			</fileset>
 			<fileset dir="../openmrs-1.5.x/lib">
+				<include name="**/*.jar"/>
+			</fileset>
+			<fileset dir="../reporting/dist">
 				<include name="**/*.jar"/>
 			</fileset>
 			<fileset dir="../openmrs-1.5.x/dist">
@@ -159,15 +165,15 @@
 		</jar>
 	</target>
 	
-	<target name="deploy-web" depends="package-module" description="Copy web files to webapp">
-		<copy todir="${tomcat.home}/webapps/openmrs/WEB-INF/view/module/${module.id}">
-			<fileset dir="web/module" includes="**/*" />
+	<target name="deploy-omod" depends="package-module" description="Deploy omod">
+		<copy todir="${module.home}/">
+			<fileset dir="dist" includes="*.omod" />
 		</copy>
 	</target>
 
 	<target name="compile-tests" depends="package-jar" description="compile the java files in /test">
-		<mkdir dir="${build.dir}" />
-		<javac srcdir="${test.dir}" destdir="${build.dir}" debug="${javac.debug}" debuglevel="${javac.debuglevel}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" classpathref="test.classpath">
+		<mkdir dir="build" />
+		<javac srcdir="${test.dir}" destdir="build" classpathref="test.classpath">
 		</javac>
 	</target>
 
@@ -175,25 +181,17 @@
 		<delete dir="${junit-tests.dir}" failonerror="false"/>
 		<mkdir dir="${junit-tests.dir}" />
 		
-	    <path id="junit-path">
-			<fileset refid="lib.files" />
-		    <pathelement path="${build.dir}"/>
-	    	<pathelement path="${metadata.dir}/api/log4j/"/>
-	    	<pathelement path="web/WEB-INF/"/>
-			<pathelement location="${dist.dir}/${openmrs.api.name}"/>
-		</path>
-		
 		<!-- fork the vm so that translation happens faster -->
         <junit fork="yes" forkmode="once" clonevm="false">
-        	<classpath refid="junit-path"/>
+        	<classpath refid="test.classpath"/>
         	<formatter type="xml"/>
+
         	<!-- overwrite this system property so that there are less properties printed -->
         	<sysproperty key="repositoryFileInput" value="" />
             <batchtest todir="${junit-tests.dir}" haltonfailure="no">
-				<fileset dir="${build.dir}">
-					<include name="org/openmrs/**/*Test.class" />
-					<exclude name="**/test/*" /> <!-- util classes used by junit -->
-					<exclude name="org/openmrs/web/**/*" /> <!-- util classes used by junit -->
+				<fileset dir="./build">
+					<include name="org/openmrs/**/ArtWeeklyVisitPersistentSetup.class" />
+					<include name="org/openmrs/**/AbcTest.class" />
 				</fileset>
 			</batchtest>
 		</junit>

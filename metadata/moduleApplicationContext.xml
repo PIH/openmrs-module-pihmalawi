@@ -11,8 +11,26 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-	<context:component-scan base-package="@MODULE_PACKAGE@" />
+	<context:component-scan base-package="org.openmrs.module.pihmalawi" />
 	
+		
+    <bean id="basicmoduleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    	<property name="mappings">
+            <props>
+	           <prop key="module/pihmalawi/basicmoduleLink.form">basicmoduleFormController</prop>
+	    	</props>
+		</property>
+    </bean>
+	
+    <!-- Controllers -->
+	
+    <bean id="basicmoduleFormController" class="org.openmrs.module.pihmalawi.web.controller.BasicModuleFormController">
+		<property name="commandName"><value>thePatientList</value></property>
+		<property name="formView"><value>/module/pihmalawi/basicmoduleForm</value></property>
+		<property name="successView"><value>basicmoduleLink.form</value></property>
+    </bean>
+	
+  
 </beans>
 
   

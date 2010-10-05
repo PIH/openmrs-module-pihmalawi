@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
 import org.openmrs.module.reporting.evaluation.Definition;
+import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
@@ -19,8 +21,12 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.indicator.dimension.Dimension;
 import org.openmrs.module.reporting.indicator.dimension.service.DimensionService;
+import org.openmrs.module.reporting.report.ReportData;
+import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 
 public class Helper {
 	
@@ -39,7 +45,7 @@ public class Helper {
 	
 	public void purgeDimension(String name) {
 		DimensionService s = (DimensionService) Context.getService(DimensionService.class);
-		List<Dimension> defs = s.getAllDefinitions(false); 
+		List<Dimension> defs = s.getDefinitions(name, true);
 		for (Dimension def : defs) {
 			s.purgeDefinition(def);
 		}
@@ -79,6 +85,14 @@ public class Helper {
 		return dimensionOptions;
 	}
 	
+	public Map<String, String> hashMap(String... e) {
+		Map<String, String> dimensionOptions = new HashMap<String, String>();
+		for (int i = 0; i < e.length; i+=2) {
+			dimensionOptions.put(e[i], e[i+1]);
+		}
+		return dimensionOptions;
+	}
+	
 	public void replaceCohortDefinition(CohortDefinition def) {
 		CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
 		purgeDefinition(def.getClass(), def.getName());
@@ -94,6 +108,35 @@ public class Helper {
 	public void newCountIndicator(String name, String cohort, String parameterMapping) {
 		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
 		        ParameterizableUtil.createParameterMappings(parameterMapping)), null);
+		i.addParameter(new Parameter("startDate", "Start date", Date.class));
+		i.addParameter(new Parameter("endDate", "End date", Date.class));
+		i.addParameter(new Parameter("location", "Location", Location.class));
+		replaceDefinition(i);
+	}
+	
+	public void newCountIndicatorForLocationWithState(String name, String cohort, String parameterMapping) {
+		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
+		        ParameterizableUtil.createParameterMappings(parameterMapping)), null);
+		i.addParameter(new Parameter("startDate", "Start date", Date.class));
+		i.addParameter(new Parameter("endDate", "End date", Date.class));
+		i.addParameter(new Parameter("location", "Location", Location.class));
+		i.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
+		replaceDefinition(i);
+	}
+	
+	public void newCountIndicatorForLocationWithState(String name, String cohort, Map<String, Object> parameterMapping) {
+		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
+		        parameterMapping), null);
+		i.addParameter(new Parameter("startDate", "Start date", Date.class));
+		i.addParameter(new Parameter("endDate", "End date", Date.class));
+		i.addParameter(new Parameter("location", "Location", Location.class));
+		i.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
+		replaceDefinition(i);
+	}
+	
+	public void newCountIndicator(String name, String cohort, Map<String, Object> parameterMapping) {
+		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
+		        parameterMapping), null);
 		i.addParameter(new Parameter("startDate", "Start date", Date.class));
 		i.addParameter(new Parameter("endDate", "End date", Date.class));
 		i.addParameter(new Parameter("location", "Location", Location.class));
@@ -118,6 +161,14 @@ public class Helper {
 		return s;
 	}
 	
+	public Location location(String location) {
+		Location s = Context.getLocationService().getLocation(location);
+		if (s == null) {
+			throw new RuntimeException("Couldn't find Location " + location);
+		}
+		return s;
+	}
+	
 	public void addDefaultIndicatorParameter(CohortIndicator i) {
 		i.addParameter(new Parameter("startDate", "Start date", Date.class));
 		i.addParameter(new Parameter("endDate", "End date", Date.class));
@@ -135,4 +186,41 @@ public class Helper {
 		DimensionService rds = (DimensionService) Context.getService(DimensionService.class);
 		rds.saveDefinition(md);
     }
+	
+	public void render(final ReportDesign design, ReportDefinition report) throws Exception {
+		EvaluationContext context = new EvaluationContext();
+		context.addParameterValue("startDate", new Date());
+		context.addParameterValue("endDate", new Date());
+		context.addParameterValue("location", Context.getLocationService().getLocation(2));
+		
+		ReportDefinitionService rs = Context.getService(ReportDefinitionService.class);
+		ReportData data = rs.evaluate(report, context);
+		
+		CohortDetailReportRenderer renderer = new CohortDetailReportRenderer() {
+			
+			public ReportDesign getDesign(String argument) {
+				return design;
+			}
+		};
+		
+		// We demonstrate here how we can use this renderer to output to HTML
+		FileOutputStream fos = new FileOutputStream("/tmp/test.html"); // You will need to change this if you have no /tmp directory
+		renderer.render(data, "xxx:html", fos);
+		fos.close();
+		
+		// We demonstrate here how we can use this renderer to output to Excel
+		//		fos = new FileOutputStream("/tmp/test.xls"); // You will need to change this if you have no /tmp directory
+		//		renderer.render(data, "xxx:xls", fos);
+		//		fos.close();
+	}
+
+	public Map<String, Object> parameterMap(Object... mappings) {
+    	Map<String, Object> m = new HashMap<String, Object>();
+    	for (int i = 0; i < mappings.length; i += 2) {
+    		m.put((String) mappings[i], (Object) mappings[i + 1]);
+    	}
+    	return m;
+    }
+	
+
 }

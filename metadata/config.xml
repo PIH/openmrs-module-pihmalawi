@@ -1,92 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module configVersion="1.0">
-	
+
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
-	<name>PIH Haiti Customizations</name>
-	<version>0.5</version>
-	<package>org.openmrs.module.@MODULE_ID@</package>
-	<author>Michael Seaton</author>
-	<description>PIH Haiti Implementation Module</description>
-	<activator>@MODULE_PACKAGE@.PihHaitiActivator</activator>
-	<require_version>1.6.1</require_version>
-	
+	<name>PIH Malawi Customizations</name>
+	<version>0.1</version>
+	<package>org.openmrs.module.pihmalawi</package>
+	<author>Christian Neumann</author>
+	<description>PIH Malawi Implementation Module</description>
+	<activator>org.openmrs.module.pihmalawi.ModuleActivator</activator>
+	<require_version>1.5.2</require_version>
+
 	<require_modules>
 		<require_module>org.openmrs.module.reporting</require_module>
-	   	<require_module>org.openmrs.module.idgen</require_module>
-	</require_modules>	
-	
-	<!-- Extensions -->
-	<extension>
-		<point>org.openmrs.patientDashboard.bottomPatientHeader</point>
-		<class>@MODULE_PACKAGE@.extension.html.PatientHeaderExtension</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.linksList.listPatientLinks</point>
-		<class>@MODULE_PACKAGE@.extension.html.ActivePatientsLink</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.linksList.listPatientLinks</point>
-		<class>@MODULE_PACKAGE@.extension.html.PatientListLinks</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.linksList.listPatientLinks</point>
-		<class>@MODULE_PACKAGE@.extension.html.GLCListLinks</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.linksList.reportLinks</point>
-		<class>@MODULE_PACKAGE@.extension.html.ReportLinks</class>
-	</extension>	
-	<extension>
-		<point>org.openmrs.mdrtb.mdrtbDashboardTab</point>
-		<class>@MODULE_PACKAGE@.extension.html.ScannedLabResultTabExtension</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.listPatientDetailPortlets</point>
-		<class>@MODULE_PACKAGE@.extension.html.PatientSummaryExtension</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.listPatientDisplayModes</point>
-		<class>@MODULE_PACKAGE@.extension.html.PatientSummaryListExtension</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.listPatientDisplayModes</point>
-		<class>@MODULE_PACKAGE@.extension.html.MdrtbShortSummaryListExtension</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.mdrtb.listPatientDisplayModes</point>
-		<class>@MODULE_PACKAGE@.extension.html.MdrtbCustomPatientListExtension</class>
-	</extension>
-	
-	<!-- Required Global Properties -->
-	<globalProperty>
-		<property>@MODULE_ID@.hivEmrIdentifierTypeName</property>
-		<defaultValue>HIVEMR-V1</defaultValue>
-		<description>Name of the Patient Identifier that represents the patient id in the HIV EMR</description>
-	</globalProperty>
-	<globalProperty>
-		<property>@MODULE_ID@.mdrTbProgramIdentifierTypeName</property>
-		<defaultValue>MDR-TB Program Identifier</defaultValue>
-		<description>Name of the Patient Identifier for the MDR-TB Program</description>
-	</globalProperty>
-	<globalProperty>
-		<property>@MODULE_ID@.scannedLabResultConceptId</property>
-		<defaultValue></defaultValue>
-		<description>Concept ID for the concept of datatype complex that represents a scanned lab result document</description>
-	</globalProperty>
-	<globalProperty>
-		<property>@MODULE_ID@.healthCenterAttributeTypeName</property>
-		<defaultValue>Health Center</defaultValue>
-		<description>The name of the PersonAttributeType that represents the Patient's Health Center</description>
-	</globalProperty>
-	
+	</require_modules>
 
 	<!-- DWR -->
 
-	<!-- Internationalization (All message codes should start with @MODULE_ID@.*) -->
+	<!--
+		Internationalization (All message codes should start with
+		@MODULE_ID@.*)
+	-->
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
 	</messages>
-	
+
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>org.openmrs.module.pihmalawi.extension.html.AdminList</class>
+	</extension>
 </module>
