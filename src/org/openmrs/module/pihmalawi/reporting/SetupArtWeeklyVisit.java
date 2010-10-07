@@ -145,9 +145,9 @@ public class SetupArtWeeklyVisit {
 		rd.setBaseCohortDefinition(h.cohortDefinition(cohort), ParameterizableUtil
 		        .createParameterMappings("startDate=${startDate},endDate=${endDate},location=${location}"));
 		
-		addColumnForLocations(rd, "On ART", "On ART_", "art");
-		addColumnForLocations(rd, "On ART 1 week ago", "On ART 1 week ago_", "art1");
-		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART 2 weeks ago_", "art2");
+		addColumnForLocations(rd, "On ART", "On ART (appt)_", "art");
+		addColumnForLocations(rd, "On ART 1 week ago", "On ART (appt) 1 week ago_", "art1");
+		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART (appt) 2 weeks ago_", "art2");
 		
 		addColumnForLocations(rd, "With appointment", "With appointment_", "app");
 		addColumnForLocations(rd, "With appointment 1 week ago", "With appointment 1 week ago_", "app1");
@@ -203,25 +203,25 @@ public class SetupArtWeeklyVisit {
 		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Neno District Hospital"));
-		md.addCohortDefinition("Neno", h.cohortDefinition("Enrolled in program_"), m2);
+		md.addCohortDefinition("Neno", h.cohortDefinition("Enrolled in program (appt)_"), m2);
 		m2 = new HashMap<String, Object>();
 		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Nsambe HC"));
-		md.addCohortDefinition("Nsambe", h.cohortDefinition("Enrolled in program_"), m2);
+		md.addCohortDefinition("Nsambe", h.cohortDefinition("Enrolled in program (appt)_"), m2);
 		m2 = new HashMap<String, Object>();
 		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
-		md.addCohortDefinition("Magaleta", h.cohortDefinition("Enrolled in program_"), m2);
+		md.addCohortDefinition("Magaleta", h.cohortDefinition("Enrolled in program (appt)_"), m2);
 		h.replaceDimensionDefinition(md);
 	}
 	
 	private void createIndicators() {
 		// On ART
-		h.newCountIndicator("On ART_", "On ART_", "onDate=${endDate}");
-		h.newCountIndicator("On ART 1 week ago_", "On ART_", "onDate=${endDate-1w}");
-		h.newCountIndicator("On ART 2 weeks ago_", "On ART_", "onDate=${endDate-2w}");
+		h.newCountIndicator("On ART (appt)_", "On ART (appt)_", "onDate=${endDate}");
+		h.newCountIndicator("On ART (appt) 1 week ago_", "On ART (appt)_", "onDate=${endDate-1w}");
+		h.newCountIndicator("On ART (appt) 2 weeks ago_", "On ART (appt)_", "onDate=${endDate-2w}");
 		
 		// With appointment, shortcut taken
 		h.newCountIndicator("With Appointment_", "Missed Appointment_", "value1=${endDate+10y},onOrBefore=${endDate}");
@@ -287,7 +287,7 @@ public class SetupArtWeeklyVisit {
 	private void createCohortDefinitions() {
 		// On ART at end of period
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName("On ART_");
+		iscd.setName("On ART (appt)_");
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
@@ -340,7 +340,7 @@ public class SetupArtWeeklyVisit {
 		ccd.getSearches().put("1",
 		    new Mapped(h.cohortDefinition("Alive_"), ParameterizableUtil.createParameterMappings("endDate=${endDate}")));
 		ccd.getSearches().put("2",
-		    new Mapped(h.cohortDefinition("On ART_"), ParameterizableUtil.createParameterMappings("onDate=${endDate}")));
+		    new Mapped(h.cohortDefinition("On ART (appt)_"), ParameterizableUtil.createParameterMappings("onDate=${endDate}")));
 		ccd.setCompositionString("1 AND 2");
 		h.replaceCohortDefinition(ccd);
 		
@@ -350,7 +350,7 @@ public class SetupArtWeeklyVisit {
 		        .setQuery("SELECT p.patient_id FROM patient p"
 		                + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id AND pp.voided = 0 AND pp.program_id = :program AND pp.date_enrolled <= :endDate AND (pp.date_completed IS NULL OR pp.date_completed > :endDate) AND pp.location_id = :location"
 		                + " WHERE p.voided = 0 GROUP BY p.patient_id");
-		scd.setName("Enrolled in program_");
+		scd.setName("Enrolled in program (appt)_");
 		scd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		scd.addParameter(new Parameter("location", "Location", Location.class));
 		scd.addParameter(new Parameter("program", "Program", Program.class));
@@ -413,17 +413,17 @@ public class SetupArtWeeklyVisit {
 		
 		h.purgeDimension("ART program location_");
 		
-		h.purgeDefinition(CohortDefinition.class, "On ART_");
+		h.purgeDefinition(CohortDefinition.class, "On ART (appt)_");
 		h.purgeDefinition(CohortDefinition.class, "Missed Appointment_");
 		h.purgeDefinition(CohortDefinition.class, "No Appointment_");
 		h.purgeDefinition(CohortDefinition.class, "Death_");
 		h.purgeDefinition(CohortDefinition.class, "Alive_");
 		h.purgeDefinition(CohortDefinition.class, "Alive on ART_");
-		h.purgeDefinition(CohortDefinition.class, "Enrolled in program_");
+		h.purgeDefinition(CohortDefinition.class, "Enrolled in program (appt)_");
 		h.purgeDefinition(CohortDefinition.class, "No ART Encounter_");
 		h.purgeDefinition(CohortDefinition.class, "Person name filter_");
 		h.purgeDefinition(CohortDefinition.class, "Alive On ART for appointment test_");
-		purgeIndicator("On ART");
+		purgeIndicator("On ART (appt)");
 		purgeIndicator("With Appointment");
 		purgeIndicator("Missed Appointment");
 		purgeIndicator("Missed Appointment >1 week");

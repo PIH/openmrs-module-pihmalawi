@@ -102,6 +102,7 @@ public class SetupHivWeeklyOutcome {
 		purgeIndicator("ART Patient visits");
 		purgeIndicator("On ART");
 		purgeIndicator("Started ART");
+		purgeIndicator("Started ART from Following during period");
 		purgeIndicator("Transferred out");
 		purgeIndicator("Treatment stopped");
 		
@@ -114,6 +115,7 @@ public class SetupHivWeeklyOutcome {
 		// dependent elements
 		h.purgeDefinition(CohortDefinition.class, "Ever On ART at location with state_");
 		
+		h.purgeDefinition(CohortDefinition.class, "ART Patient visits_");
 		h.purgeDefinition(CohortDefinition.class, "Defaulted_");
 		h.purgeDefinition(CohortDefinition.class, "Died_");
 		h.purgeDefinition(CohortDefinition.class, "Enrolled in program_");
@@ -121,10 +123,12 @@ public class SetupHivWeeklyOutcome {
 		h.purgeDefinition(CohortDefinition.class, "Ever enrolled in program at location_");
 		h.purgeDefinition(CohortDefinition.class, "Ever On ART_");
 		h.purgeDefinition(CohortDefinition.class, "In State_");
+		h.purgeDefinition(CohortDefinition.class, "Following_");
 		h.purgeDefinition(CohortDefinition.class, "Lost to followup_");
 		h.purgeDefinition(CohortDefinition.class, "On ART_");
 		h.purgeDefinition(CohortDefinition.class, "ART Patients visits ever_");
 		h.purgeDefinition(CohortDefinition.class, "Started ART_");
+		h.purgeDefinition(CohortDefinition.class, "Started ART from Following during period_");
 		h.purgeDefinition(CohortDefinition.class, "Transferred out_");
 		h.purgeDefinition(CohortDefinition.class, "Treatment stopped_");
 	}
