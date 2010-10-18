@@ -21,13 +21,13 @@ public class SetupHivWeeklyVisits {
 	}
 	
 	public void deleteReportElements() {
-		purgeIndicatorForLocationWithState("hivvst: ART Patient visits");
-		purgeIndicatorForLocationWithState("hivvst: EID Patient visits");
-		purgeIndicatorForLocationWithState("hivvst: Pre-ART Patient visits");
+		purgeIndicatorForLocationWithState("hiv: ART Patient visits");
+		purgeIndicatorForLocationWithState("hiv: EID Patient visits");
+		purgeIndicatorForLocationWithState("hiv: Pre-ART Patient visits");
 
-		h.purgeDefinition(CohortDefinition.class, "hivvst: ART Patient visits_");
-		h.purgeDefinition(CohortDefinition.class, "hivvst: EID Patient visits_");
-		h.purgeDefinition(CohortDefinition.class, "hivvst: Pre-ART Patient visits_");
+		h.purgeDefinition(CohortDefinition.class, "hiv: ART Patient visits_");
+		h.purgeDefinition(CohortDefinition.class, "hiv: EID Patient visits_");
+		h.purgeDefinition(CohortDefinition.class, "hiv: Pre-ART Patient visits_");
 	}
 	
 	private void purgeIndicatorForLocationWithState(String name) {
@@ -85,7 +85,7 @@ public class SetupHivWeeklyVisits {
 	public void createCohortDefinitions() {
 		// ART
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
-		ecd.setName("hivvst: ART Patient visits_");
+		ecd.setName("hiv: ART Patient visits_");
 		ecd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("ART_INITIAL"), Context
 		        .getEncounterService().getEncounterType("ART_FOLLOWUP")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
@@ -95,7 +95,7 @@ public class SetupHivWeeklyVisits {
 		
 		// Pre-ART
 		ecd = new EncounterCohortDefinition();
-		ecd.setName("hivvst: Pre-ART Patient visits_");
+		ecd.setName("hiv: Pre-ART Patient visits_");
 		ecd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
 		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
@@ -105,7 +105,7 @@ public class SetupHivWeeklyVisits {
 		
 		// EID
 		ecd = new EncounterCohortDefinition();
-		ecd.setName("hivvst: EID Patient visits_");
+		ecd.setName("hiv: EID Patient visits_");
 		ecd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("EID_INITIAL"), Context
 		        .getEncounterService().getEncounterType("EID_FOLLOWUP")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
@@ -117,14 +117,14 @@ public class SetupHivWeeklyVisits {
 	public void addColumnForLocationsForVisits(PeriodIndicatorReportDefinition rd, String displayNamePrefix,
 	                                           String indicatorFragment, String indicatorKey) {
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " (Neno)", h
-		        .cohortIndicator(indicatorFragment + " (Neno)_"), null);
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Neno)_"), null);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)", h
-		        .cohortIndicator(indicatorFragment + " (Nsambe)_"), null);
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Nsambe)_"), null);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lig", displayNamePrefix + " (Ligowe)", h
-		        .cohortIndicator(indicatorFragment + " (Ligowe)_"), null);
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Ligowe)_"), null);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " (Magaleta)", h
-		        .cohortIndicator(indicatorFragment + " (Magaleta)_"), null);
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Magaleta)_"), null);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mis", displayNamePrefix + " (Neno Mission)", h
-		        .cohortIndicator(indicatorFragment + " (Neno Mission)_"), null);
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Neno Mission)_"), null);
 	}
 }
