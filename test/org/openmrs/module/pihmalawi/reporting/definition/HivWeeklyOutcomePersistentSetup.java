@@ -22,7 +22,7 @@ public class HivWeeklyOutcomePersistentSetup extends BaseModuleContextSensitiveT
 	@Test
 	@Rollback(false)
 	public void setupHivWeekly() throws Exception {
-			new SetupHivWeeklyOutcome(new Helper()).setupHivWeekly(false);
+			new SetupHivWeeklyOutcome(new Helper()).setup(false);
 	}
 	
 }
