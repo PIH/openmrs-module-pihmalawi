@@ -1,7 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
@@ -30,15 +28,10 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
-import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
-import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
-import org.openmrs.util.OpenmrsClassLoader;
 
 public class SetupArtWeeklyVisit {
 	
@@ -55,46 +48,13 @@ public class SetupArtWeeklyVisit {
 		createIndicators();
 		createDimension();
 		ReportDefinition rd = createReportDefinition(useTestPatientCohort);
-		createArtOverviewExcelDesign(rd);
-		//			createSimplePatientDesign(rd);
-		ReportDesign rdes = createApzuPatientDesign(rd);
+		h.createXlsOverview(rd, "ART_Weekly_Visit_Overview.xls", "ART Weekly Visit Overview (Excel)_");
+		//		h.createGenericPatientDesignBreakdown(rd, "Simple Patient Renderer_", "ART_Weekly_Visit_Breakdown_SimpleReportRendererResource.xml");
+		createHtmlBreakdownArt(rd);
+		createHtmlBreakdownEmr(rd);
 	}
 	
-	private void createSimplePatientDesign(ReportDefinition rd) throws IOException {
-		final ReportDesign design = new ReportDesign();
-		design.setName("artvst: Simple Patient Renderer_");
-		design.setReportDefinition(rd);
-		design.setRendererType(CohortDetailReportRenderer.class);
-		
-		ReportDesignResource resource = new ReportDesignResource();
-		resource.setName("designFile");
-		InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream(
-		    "ART_Weekly_Visit_Breakdown_SimpleReportRendererResource.xml");
-		resource.setContents(IOUtils.toByteArray(is));
-		design.addResource(resource);
-		resource.setReportDesign(design);
-		ReportService rs = Context.getService(ReportService.class);
-		rs.saveReportDesign(design);
-	}
-	
-	private void createArtOverviewExcelDesign(ReportDefinition rd) throws IOException {
-		ReportDesignResource resource = new ReportDesignResource();
-		resource.setName("ART Weekly Visit Overview.xls");
-		resource.setExtension("xls");
-		InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream("ART_Weekly_Visit_Overview.xls");
-		resource.setContents(IOUtils.toByteArray(is));
-		final ReportDesign design = new ReportDesign();
-		design.setName("artvst: ART Weekly Visit Overview_");
-		design.setReportDefinition(rd);
-		design.setRendererType(ExcelTemplateRenderer.class);
-		design.addResource(resource);
-		resource.setReportDesign(design);
-		
-		ReportService rs = Context.getService(ReportService.class);
-		rs.saveReportDesign(design);
-	}
-	
-	private ReportDesign createApzuPatientDesign(ReportDefinition rd) throws IOException, SerializationException {
+	private ReportDesign createHtmlBreakdownArt(ReportDefinition rd) throws IOException, SerializationException {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 		
@@ -108,22 +68,42 @@ public class SetupArtWeeklyVisit {
 		m.put("noappnsm", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdnsm", new Mapped<DataSetDefinition>(dsd, null));
 		
-		ReportingSerializer serializer = new ReportingSerializer();
-		String designXml = serializer.serialize(m);
+		m.put("noapplsi", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdlsi", new Mapped<DataSetDefinition>(dsd, null));
 		
-		final ReportDesign design = new ReportDesign();
-		design.setName("artvst: ART Weekly Visit Breakdown_");
-		design.setReportDefinition(rd);
-		design.setRendererType(CohortDetailReportRenderer.class);
+		m.put("noappcfa", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdcfa", new Mapped<DataSetDefinition>(dsd, null));
 		
-		ReportDesignResource resource = new ReportDesignResource();
-		resource.setName("designFile"); // Note: You must name your resource exactly like this for it to work
-		resource.setContents(designXml.getBytes());
-		design.addResource(resource);
-		resource.setReportDesign(design);
-		ReportService rs = Context.getService(ReportService.class);
-		rs.saveReportDesign(design);
-		return design;
+		m.put("noappmte", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdmte", new Mapped<DataSetDefinition>(dsd, null));
+		
+		return h.createHtmlBreakdown(rd, "ART Weekly Visit Breakdown (ART Team)_", m);
+	}
+	
+	private ReportDesign createHtmlBreakdownEmr(ReportDefinition rd) throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+		
+		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		m.put("noappndh", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdndh", new Mapped<DataSetDefinition>(dsd, null));
+		
+		m.put("noappmgt", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdmgt", new Mapped<DataSetDefinition>(dsd, null));
+		
+		m.put("noappnsm", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdnsm", new Mapped<DataSetDefinition>(dsd, null));
+		
+		m.put("noapplsi", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdlsi", new Mapped<DataSetDefinition>(dsd, null));
+		
+		m.put("noappmte", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdmte", new Mapped<DataSetDefinition>(dsd, null));
+		
+		m.put("noappcfa", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdcfa", new Mapped<DataSetDefinition>(dsd, null));
+		
+		return h.createHtmlBreakdown(rd, "ART Weekly Visit Breakdown (EMR Team)_", m);
 	}
 	
 	private ReportDefinition createReportDefinition(boolean useTestPatientCohort) throws IOException {
@@ -143,6 +123,12 @@ public class SetupArtWeeklyVisit {
 		addColumnForLocations(rd, "No appointment", "No appointment_", "noapp");
 		addColumnForLocations(rd, "No appointment 1 week ago", "No appointment 1 week ago_", "noapp1");
 		addColumnForLocations(rd, "No appointment 2 weeks ago", "No appointment 2 weeks ago_", "noapp2");
+		
+		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks", "Missed appointment >2 <=3 weeks_", "2msd");
+		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks 1 week ago",
+		    "Missed appointment >2 <=3 weeks 1 week ago_", "2msd1");
+		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks 2 weeks ago",
+		    "Missed appointment >2 <=3 weeks 2 weeks ago_", "2msd2");
 		
 		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks", "Missed appointment >3 <=8 weeks_", "3msd");
 		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks 1 week ago",
@@ -189,6 +175,23 @@ public class SetupArtWeeklyVisit {
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
 		md.addCohortDefinition("Magaleta", h.cohortDefinition("artvst: Enrolled in program (appt)_"), m2);
+		
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Lisungwi Community Hospital"));
+		md.addCohortDefinition("Lisungwi", h.cohortDefinition("artvst: Enrolled in program (appt)_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Matope HC"));
+		md.addCohortDefinition("Matope", h.cohortDefinition("artvst: Enrolled in program (appt)_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Chifunga HC"));
+		md.addCohortDefinition("Chifunga", h.cohortDefinition("artvst: Enrolled in program (appt)_"), m2);
+		
 		h.replaceDimensionDefinition(md);
 	}
 	
@@ -199,12 +202,12 @@ public class SetupArtWeeklyVisit {
 		h.newCountIndicator("artvst: On ART (appt) 2 weeks ago_", "artvst: On ART (appt)_", "onDate=${endDate-2w}");
 		
 		// Missed appointments
-		h.newCountIndicator("artvst: Missed Appointment >3 weeks_", "artvst: Missed Appointment_",
-		    "value1=${endDate-3w},onOrBefore=${endDate}");
-		h.newCountIndicator("artvst: Missed Appointment >3 weeks 1 week ago_", "artvst: Missed Appointment_",
-		    "value1=${endDate-4w},onOrBefore=${endDate-1w}");
-		h.newCountIndicator("artvst: Missed Appointment >3 weeks 2 weeks ago_", "artvst: Missed Appointment_",
-		    "value1=${endDate-5w},onOrBefore=${endDate-2w}");
+		h.newCountIndicator("artvst: Missed Appointment >2 <=3 weeks_", "artvst: Missed Appointment_",
+		    "value1=${endDate-2w},value2=${endDate-3w},onOrBefore=${endDate}");
+		h.newCountIndicator("artvst: Missed Appointment >2 <=3 weeks 1 week ago_", "artvst: Missed Appointment_",
+		    "value1=${endDate-3w},value2=${endDate-4w},onOrBefore=${endDate-1w}");
+		h.newCountIndicator("artvst: Missed Appointment >2 <=3 weeks 2 weeks ago_", "artvst: Missed Appointment_",
+		    "value1=${endDate-4w},value2=${endDate-5w},onOrBefore=${endDate-2w}");
 		
 		h.newCountIndicator("artvst: Missed Appointment >3 <=8 weeks_", "artvst: Missed Appointment_",
 		    "value1=${endDate-3w},value2=${endDate-8w},onOrBefore=${endDate}");
@@ -240,10 +243,10 @@ public class SetupArtWeeklyVisit {
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-	        .getStateByName("ON ANTIRETROVIRALS"));
+		        .getStateByName("ON ANTIRETROVIRALS"));
 		// internal transfers are still under responsibility of original clinic
 		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-	        .getStateByName("TRANSFERRED INTERNALLY"));
+		        .getStateByName("TRANSFERRED INTERNALLY"));
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
@@ -345,13 +348,13 @@ public class SetupArtWeeklyVisit {
 	public void deleteReportElements() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if ("artvst: Simple Patient Renderer_".equals(rd.getName())) {
+			if ("ART Weekly Visit Overview (Excel)_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
-			if ("artvst: ART Weekly Visit Overview_".equals(rd.getName())) {
+			if ("ART Weekly Visit Breakdown (ART Team)_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
-			if ("artvst: ART Weekly Visit Breakdown_".equals(rd.getName())) {
+			if ("ART Weekly Visit Breakdown (EMR Team)_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
 		}
@@ -371,6 +374,7 @@ public class SetupArtWeeklyVisit {
 		h.purgeDefinition(CohortDefinition.class, "artvst: Person name filter_");
 		h.purgeDefinition(CohortDefinition.class, "artvst: Alive On ART for appointment test_");
 		purgeIndicator("artvst: On ART (appt)");
+		purgeIndicator("artvst: Missed Appointment >2 <=3 weeks");
 		purgeIndicator("artvst: Missed Appointment >3 <=8 weeks");
 		purgeIndicator("artvst: Missed Appointment >8 <=12 weeks");
 		purgeIndicator("artvst: Missed Appointment >12 weeks");
@@ -392,5 +396,11 @@ public class SetupArtWeeklyVisit {
 		        .cohortIndicator("artvst: " + indicator), h.hashMap("Location", "Magaleta"));
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " at Nsambe", h
 		        .cohortIndicator("artvst: " + indicator), h.hashMap("Location", "Nsambe"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " at Lisgunwi", h
+		        .cohortIndicator("artvst: " + indicator), h.hashMap("Location", "Lisungwi"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " at Matope", h
+		        .cohortIndicator("artvst: " + indicator), h.hashMap("Location", "Matope"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " at Chifunga", h
+		        .cohortIndicator("artvst: " + indicator), h.hashMap("Location", "Chifunga"));
 	}
 }

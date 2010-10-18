@@ -1,16 +1,20 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
 import org.openmrs.module.reporting.evaluation.Definition;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -23,10 +27,16 @@ import org.openmrs.module.reporting.indicator.dimension.Dimension;
 import org.openmrs.module.reporting.indicator.dimension.service.DimensionService;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
+import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
+import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.serializer.ReportingSerializer;
+import org.openmrs.serialization.SerializationException;
+import org.openmrs.util.OpenmrsClassLoader;
 
 public class Helper {
 	
@@ -221,6 +231,59 @@ public class Helper {
     		m.put((String) mappings[i], (Object) mappings[i + 1]);
     	}
     	return m;
+    }
+
+	public ReportDesign createHtmlBreakdown(ReportDefinition rd, String name, Map<String, Mapped<? extends DataSetDefinition>> map) throws IOException, SerializationException {
+    	ReportingSerializer serializer = new ReportingSerializer();
+    	String designXml = serializer.serialize(map);
+    	
+    	final ReportDesign design = new ReportDesign();
+    	design.setName(name);
+    	design.setReportDefinition(rd);
+    	design.setRendererType(CohortDetailReportRenderer.class);
+    	
+    	ReportDesignResource resource = new ReportDesignResource();
+    	resource.setName("designFile"); // Note: You must name your resource exactly like this for it to work
+    	resource.setContents(designXml.getBytes());
+    	design.addResource(resource);
+    	resource.setReportDesign(design);
+    	ReportService rs = Context.getService(ReportService.class);
+    	rs.saveReportDesign(design);
+    	return design;
+    }
+
+	public void createGenericPatientDesignBreakdown(ReportDefinition rd, String name, String rendererResource) throws IOException {
+    	final ReportDesign design = new ReportDesign();
+    	design.setName(name);
+    	design.setReportDefinition(rd);
+    	design.setRendererType(CohortDetailReportRenderer.class);
+    	
+    	ReportDesignResource resource = new ReportDesignResource();
+    	resource.setName("designFile");
+    	InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream(
+    	    rendererResource);
+    	resource.setContents(IOUtils.toByteArray(is));
+    	design.addResource(resource);
+    	resource.setReportDesign(design);
+    	ReportService rs = Context.getService(ReportService.class);
+    	rs.saveReportDesign(design);
+    }
+
+	public void createXlsOverview(ReportDefinition rd, String resourceName, String name) throws IOException {
+        ReportDesignResource resource = new ReportDesignResource();
+    	resource.setName(resourceName);
+    	resource.setExtension("xls");
+    	InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream(resourceName);
+    	resource.setContents(IOUtils.toByteArray(is));
+    	final ReportDesign design = new ReportDesign();
+    	design.setName(name);
+    	design.setReportDefinition(rd);
+    	design.setRendererType(ExcelTemplateRenderer.class);
+    	design.addResource(resource);
+    	resource.setReportDesign(design);
+    	
+    	ReportService rs = Context.getService(ReportService.class);
+    	rs.saveReportDesign(design);
     }
 	
 
