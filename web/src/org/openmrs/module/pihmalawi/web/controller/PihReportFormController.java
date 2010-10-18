@@ -21,12 +21,12 @@ public class PihReportFormController {
 	
 	@RequestMapping("/module/pihmalawi/register_hivweeklyoutcome.form")
 	public void registerHivWeeklyOutcome() throws Exception {
-		new SetupHivWeeklyOutcome(new Helper()).setupHivWeekly(false);
+		new SetupHivWeeklyOutcome(new Helper()).setup(false);
 	}
 	
 	@RequestMapping("/module/pihmalawi/remove_hivweeklyoutcome.form")
 	public void removeHivWeeklyOutcome() {
-		new SetupHivWeeklyOutcome(new Helper()).deleteReportElements();
+		new SetupHivWeeklyOutcome(new Helper()).delete();
 	}
 	
 
