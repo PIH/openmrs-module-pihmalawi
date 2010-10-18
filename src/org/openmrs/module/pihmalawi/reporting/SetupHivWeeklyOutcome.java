@@ -1,53 +1,40 @@
 package org.openmrs.module.pihmalawi.reporting;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
-import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
-import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
-import org.openmrs.module.reporting.indicator.util.IndicatorUtil;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
-import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.test.CreateInitialDataSet;
 import org.openmrs.util.OpenmrsClassLoader;
-import org.springframework.test.annotation.Rollback;
 
 public class SetupHivWeeklyOutcome {
 	
@@ -60,13 +47,13 @@ public class SetupHivWeeklyOutcome {
 	public void setupHivWeekly(boolean b) throws Exception {
 		deleteReportElements();
 		
-		createCohortDefinitions();
-		createIndicators();
-		createDimensions();
+//		createCohortDefinitions();
+//		createIndicators();
+//		createDimensions();
 		ReportDefinition rd = createReportDefinition();
-		createArtOverviewExcelDesign(rd);
-		//		//			createSimplePatientDesign(rd);
-		ReportDesign rdes = createApzuPatientDesign(rd);
+//		createArtOverviewExcelDesign(rd);
+				//			createSimplePatientDesign(rd);
+//		ReportDesign rdes = createApzuPatientDesign(rd);
 		//		h.render(rdes, rd);
 		//		return rd;
 	}
@@ -86,6 +73,7 @@ public class SetupHivWeeklyOutcome {
 		}
 		// todo, also purge internal dataset for ART Appointments_
 		h.purgeDefinition(PeriodIndicatorReportDefinition.class, "HIV Weekly Outcome_");
+		h.purgeDefinition(DataSetDefinition.class, "HIV Weekly Outcome_ Data Set");
 		
 		h.purgeDimension("HIV program location_");
 		h.purgeDimension("HIV program location ever_");
@@ -99,23 +87,29 @@ public class SetupHivWeeklyOutcome {
 		purgeIndicator("Ever On ART");
 		purgeIndicator("In State");
 		purgeIndicator("Lost to followup");
-		purgeIndicator("ART Patient visits");
 		purgeIndicator("On ART");
 		purgeIndicator("Started ART");
 		purgeIndicator("Started ART from Following during period");
 		purgeIndicator("Transferred out");
 		purgeIndicator("Treatment stopped");
 		
-		purgeIndicatorForLocationWithState("Ever Died");
-		purgeIndicatorForLocationWithState("Ever Defaulted");
-		purgeIndicatorForLocationWithState("Ever Transferred out");
-		purgeIndicatorForLocationWithState("Ever Treatment stopped");
-		purgeIndicatorForLocationWithState("Ever Lost to Followup");
+		new SetupHivWeeklyVisits(h).deleteReportElements();
+		
+		purgeIndicatorForLocationWithState("Ever Died from On ART");
+		purgeIndicatorForLocationWithState("Ever Defaulted from On ART");
+		purgeIndicatorForLocationWithState("Ever Transferred out from On ART");
+		purgeIndicatorForLocationWithState("Ever stopped from On ART");
+		purgeIndicatorForLocationWithState("Ever Lost to Followup from On ART");
+		
+		purgeIndicatorForLocationWithState("Defaulted");
+		purgeIndicatorForLocationWithState("Died");
+		purgeIndicatorForLocationWithState("Lost to followup");
+		purgeIndicatorForLocationWithState("Treatment stopped");
 		
 		// dependent elements
 		h.purgeDefinition(CohortDefinition.class, "Ever On ART at location with state_");
+		h.purgeDefinition(CohortDefinition.class, "In state at location from On ART_");
 		
-		h.purgeDefinition(CohortDefinition.class, "ART Patient visits_");
 		h.purgeDefinition(CohortDefinition.class, "Defaulted_");
 		h.purgeDefinition(CohortDefinition.class, "Died_");
 		h.purgeDefinition(CohortDefinition.class, "Enrolled in program_");
@@ -123,10 +117,10 @@ public class SetupHivWeeklyOutcome {
 		h.purgeDefinition(CohortDefinition.class, "Ever enrolled in program at location_");
 		h.purgeDefinition(CohortDefinition.class, "Ever On ART_");
 		h.purgeDefinition(CohortDefinition.class, "In State_");
+		h.purgeDefinition(CohortDefinition.class, "In State at location_");
 		h.purgeDefinition(CohortDefinition.class, "Following_");
 		h.purgeDefinition(CohortDefinition.class, "Lost to followup_");
 		h.purgeDefinition(CohortDefinition.class, "On ART_");
-		h.purgeDefinition(CohortDefinition.class, "ART Patients visits ever_");
 		h.purgeDefinition(CohortDefinition.class, "Started ART_");
 		h.purgeDefinition(CohortDefinition.class, "Started ART from Following during period_");
 		h.purgeDefinition(CohortDefinition.class, "Transferred out_");
@@ -140,15 +134,15 @@ public class SetupHivWeeklyOutcome {
 	}
 	
 	private void purgeIndicatorForLocationWithState(String name) {
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART at Neno_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART at Magaleta_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART at Nsambe_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 1 week ago at Neno_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 1 week ago at Magaleta_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 1 week ago at Nsambe_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 2 weeks ago at Neno_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 2 weeks ago at Magaleta_");
-		h.purgeDefinition(CohortIndicator.class, name + " from On ART 2 weeks ago at Nsambe_");
+		h.purgeDefinition(CohortIndicator.class, name + " (Neno)_");
+		h.purgeDefinition(CohortIndicator.class, name + " (Magaleta)_");
+		h.purgeDefinition(CohortIndicator.class, name + " (Nsambe)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Neno)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Magaleta)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Nsambe)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Neno)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Magaleta)_");
+		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Nsambe)_");
 	}
 	
 	private ReportDefinition createReportDefinition() {
@@ -158,59 +152,90 @@ public class SetupHivWeeklyOutcome {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.setName("HIV Weekly Outcome_");
 		rd.setupDataSetDefinition();
-		rd.addDimension("Location", h.cohortDefinitionDimension("HIV program location_"));
-		rd.addDimension("Location ever", h.cohortDefinitionDimension("HIV program location ever_"));
-		rd.setBaseCohortDefinition(h.cohortDefinition(cohort), ParameterizableUtil
-		        .createParameterMappings("startedOnOrBefore=${endDate}"));
-		
-		addColumnForLocationsEver(rd, "Ever on ART", "Ever on ART_", "ever");
-		addColumnForLocationsEver(rd, "Ever on ART 1 week ago", "Ever on ART 1 week ago_", "ever1");
-		addColumnForLocationsEver(rd, "Ever on ART 2 weeks ago", "Ever on ART 2 weeks ago_", "ever2");
-		
-		addColumnForLocationsEver(rd, "ART Patient visits", "ART Patient visits_", "vst");
-		addColumnForLocationsEver(rd, "ART Patient visits 1 week ago", "ART Patient visits 1 week ago_", "vst1");
-		addColumnForLocationsEver(rd, "ART Patient visits 2 weeks ago", "ART Patient visits 2 weeks ago_", "vst2");
-		
-		addColumnForLocations(rd, "Started ART", "Started ART_", "ini");
-		addColumnForLocations(rd, "Started ART 1 week ago", "Started ART 1 week ago_", "ini1");
-		addColumnForLocations(rd, "Started ART 2 weeks ago", "Started ART 2 weeks ago_", "ini2");
-		
-		addColumnForLocations(rd, "Started ART from Following during period", "Started ART from Following during period_", "new");
-		addColumnForLocations(rd, "Started ART from Following during period 1 week ago", "Started ART from Following during period 1 week ago_", "new1");
-		addColumnForLocations(rd, "Started ART from Following during period 2 weeks ago", "Started ART from Following during period 2 weeks ago_", "new2");
-		
-		addColumnForLocations(rd, "On ART", "On ART_", "art");
-		addColumnForLocations(rd, "On ART 1 week ago", "On ART 1 week ago_", "art1");
-		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART 2 weeks ago_", "art2");
-		
-		addColumnForLocationsWithState(rd, "Ever Died from On ART", "Ever Died from On ART", "died");
-		addColumnForLocationsWithState(rd, "Ever Died from On ART 1 week ago", "Ever Died from On ART 1 week ago", "died1");
-		addColumnForLocationsWithState(rd, "Ever Died from On ART 2 weeks ago", "Ever Died from On ART 2 weeks ago", "died2");
-		
-		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART", "Ever Defaulted from On ART", "def");
-		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART 1 week ago", "Ever Defaulted from On ART 1 week ago",
-		    "def1");
-		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART 2 weeks ago",
-		    "Ever Defaulted from On ART 2 weeks ago", "def2");
-		
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from On ART", "Ever Treatment stopped from On ART", "stp");
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from On ART 1 week ago",
-		    "Ever Treatment stopped from On ART 1 week ago", "stp1");
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from On ART 2 weeks ago",
-		    "Ever Treatment stopped from On ART 2 weeks ago", "stp2");
-		
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART", "Ever Transferred out from On ART", "tra");
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 1 week ago",
-		    "Ever Transferred out from On ART 1 week ago", "tra1");
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 2 weeks ago",
-		    "Ever Transferred out from On ART 2 weeks ago", "tra2");
-		
-		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART", "Ever Lost to Followup from On ART", "lost");
-		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART 1 week ago",
-		    "Ever Lost to Followup from On ART 1 week ago", "lost1");
-		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART 2 weeks ago",
-		    "Ever Lost to Followup from On ART 2 weeks ago", "lost2");
-		
+//		rd.addDimension("Location", h.cohortDefinitionDimension("HIV program location_"));
+//		rd.addDimension("Location ever", h.cohortDefinitionDimension("HIV program location ever_"));
+////		rd.setBaseCohortDefinition(h.cohortDefinition(cohort), ParameterizableUtil
+////		        .createParameterMappings("startedOnOrBefore=${endDate}"));
+//		
+//		//				addColumnForLocationsEver(rd, "Ever on ART", "Ever on ART_", "ever");
+//		//				addColumnForLocationsEver(rd, "Ever on ART 1 week ago", "Ever on ART 1 week ago_", "ever1");
+//		//				addColumnForLocationsEver(rd, "Ever on ART 2 weeks ago", "Ever on ART 2 weeks ago_", "ever2");
+//		
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "ART Patient visits", "ART Patient visits", "vst");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "ART Patient visits 1 week ago",
+//		    "ART Patient visits 1 week ago", "vst1");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "ART Patient visits 2 weeks ago",
+//		    "ART Patient visits 2 weeks ago", "vst2");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits", "EID Patient visits", "evst");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits 1 week ago",
+//		    "EID Patient visits 1 week ago", "evst1");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits 2 weeks ago",
+//		    "EID Patient visits 2 weeks ago", "evst2");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Pre-ART Patient visits", "Pre-ART Patient visits", "pvst");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Pre-ART Patient visits 1 week ago",
+//		    "Pre-ART Patient visits 1 week ago", "pvst1");
+//		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Pre-ART Patient visits 2 weeks ago",
+//		    "Pre-ART Patient visits 2 weeks ago", "pvst2");
+//		
+//		addColumnForLocations(rd, "Started ART", "Started ART_", "ini");
+//		addColumnForLocations(rd, "Started ART 1 week ago", "Started ART 1 week ago_", "ini1");
+//		addColumnForLocations(rd, "Started ART 2 weeks ago", "Started ART 2 weeks ago_", "ini2");
+//		
+//		addColumnForLocations(rd, "Started ART from Following during period", "Started ART from Following during period_",
+//		    "new");
+//		addColumnForLocations(rd, "Started ART from Following during period 1 week ago",
+//		    "Started ART from Following during period 1 week ago_", "new1");
+//		addColumnForLocations(rd, "Started ART from Following during period 2 weeks ago",
+//		    "Started ART from Following during period 2 weeks ago_", "new2");
+//		
+//		addColumnForLocations(rd, "On ART", "On ART_", "art");
+//		addColumnForLocations(rd, "On ART 1 week ago", "On ART 1 week ago_", "art1");
+//		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART 2 weeks ago_", "art2");
+//		
+//		//		addColumnForLocationsWithState(rd, "Died", "Died", "dead");
+//		//		addColumnForLocationsWithState(rd, "Died 1 week ago", "Died 1 week ago", "dead1");
+//		//		addColumnForLocationsWithState(rd, "Died 2 weeks ago", "Died 2 weeks ago", "dead2");
+//		
+//		addColumnForLocationsWithState(rd, "Lost to followup", "Lost to followup", "ltf");
+//		addColumnForLocationsWithState(rd, "Lost to followup 1 week ago", "Lost to followup 1 week ago", "ltf1");
+//		addColumnForLocationsWithState(rd, "Lost to followup 2 weeks ago", "Lost to followup 2 weeks ago", "ltf2");
+//		
+//		addColumnForLocationsWithState(rd, "Treatment stopped", "Treatment stopped", "stop");
+//		addColumnForLocationsWithState(rd, "Treatment stopped 1 week ago", "Treatment stopped 1 week ago", "stop1");
+//		addColumnForLocationsWithState(rd, "Treatment stopped 2 weeks ago", "Treatment stopped 2 weeks ago", "stop2");
+//		
+//		addColumnForLocationsWithState(rd, "Defaulted", "Defaulted", "defa");
+//		addColumnForLocationsWithState(rd, "Defaulted 1 week ago", "Defaulted 1 week ago", "defa1");
+//		addColumnForLocationsWithState(rd, "Defaulted 2 weeks ago", "Defaulted 2 weeks ago", "defa2");
+//		
+//		addColumnForLocationsWithState(rd, "Ever Died from On ART", "Ever Died from On ART", "died");
+//		addColumnForLocationsWithState(rd, "Ever Died from On ART 1 week ago", "Ever Died from On ART 1 week ago", "died1");
+//		addColumnForLocationsWithState(rd, "Ever Died from On ART 2 weeks ago", "Ever Died from On ART 2 weeks ago", "died2");
+//		
+//		//		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART", "Ever Defaulted from On ART", "def");
+//		//		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART 1 week ago", "Ever Defaulted from On ART 1 week ago",
+//		//		    "def1");
+//		//		addColumnForLocationsWithState(rd, "Ever Defaulted from On ART 2 weeks ago",
+//		//		    "Ever Defaulted from On ART 2 weeks ago", "def2");
+//		
+//		//		addColumnForLocationsWithState(rd, "Ever stopped from On ART", "Ever stopped from On ART", "stp");
+//		//		addColumnForLocationsWithState(rd, "Ever stopped from On ART 1 week ago",
+//		//		    "Ever stopped from On ART 1 week ago", "stp1");
+//		//		addColumnForLocationsWithState(rd, "Ever stopped from On ART 2 weeks ago",
+//		//		    "Ever stopped from On ART 2 weeks ago", "stp2");
+//		
+//		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART", "Ever Transferred out from On ART", "tra");
+//		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 1 week ago",
+//		    "Ever Transferred out from On ART 1 week ago", "tra1");
+//		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 2 weeks ago",
+//		    "Ever Transferred out from On ART 2 weeks ago", "tra2");
+//		
+//		//		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART", "Ever Lost to Followup from On ART", "lost");
+//		//		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART 1 week ago",
+//		//		    "Ever Lost to Followup from On ART 1 week ago", "lost1");
+//		//		addColumnForLocationsWithState(rd, "Ever Lost to Followup from On ART 2 weeks ago",
+//		//		    "Ever Lost to Followup from On ART 2 weeks ago", "lost2");
+//		
 		h.replaceReportDefinition(rd);
 		return rd;
 	}
@@ -253,9 +278,10 @@ public class SetupHivWeeklyOutcome {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new HashMap<String, Mapped<? extends DataSetDefinition>>();
 		
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
-		m.put("evermgt", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("evernsm", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("defndh", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("artndh", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("artmgt", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("artnsm", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("defmgt", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("defmgt", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("defnsm", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("stpndh", new Mapped<DataSetDefinition>(dsd, null));
@@ -264,6 +290,9 @@ public class SetupHivWeeklyOutcome {
 		m.put("diedndh", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("diedmgt", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("diednsm", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("tranndh", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("tranmgt", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("trannsm", new Mapped<DataSetDefinition>(dsd, null));
 		
 		ReportingSerializer serializer = new ReportingSerializer();
 		String designXml = serializer.serialize(m);
@@ -288,7 +317,6 @@ public class SetupHivWeeklyOutcome {
 		CohortDefinitionDimension md = new CohortDefinitionDimension();
 		md.setName("HIV program location_");
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
-		// todo, why are location and startdate for me mandatory?
 		md.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		md.addParameter(new Parameter("location", "Location", Location.class));
 		Map<String, Object> m2 = new HashMap<String, Object>();
@@ -312,7 +340,6 @@ public class SetupHivWeeklyOutcome {
 		md = new CohortDefinitionDimension();
 		md.setName("HIV program location ever_");
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
-		// todo, why are location and startdate for me mandatory?
 		md.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		md.addParameter(new Parameter("location", "Location", Location.class));
 		m2 = new HashMap<String, Object>();
@@ -347,50 +374,82 @@ public class SetupHivWeeklyOutcome {
 		newCountIndicatorForLocationsWithState("Ever Transferred out from On ART", "Ever On ART at location with state_", h
 		        .workflowState("HIV PROGRAM", "TREATMENT STATUS", "PATIENT TRANSFERRED OUT"));
 		
-		newCountIndicatorForLocationsWithState("Ever Treatment Stopped from On ART", "Ever On ART at location with state_",
-		    h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "TREATMENT STOPPED"));
+		newCountIndicatorForLocationsWithState("Ever stopped from On ART", "Ever On ART at location with state_", h
+		        .workflowState("HIV PROGRAM", "TREATMENT STATUS", "TREATMENT STOPPED"));
 		
 		newCountIndicatorForLocationsWithState("Ever Lost to Followup from On ART", "Ever On ART at location with state_", h
 		        .workflowState("HIV PROGRAM", "TREATMENT STATUS", "LOST TO FOLLOWUP"));
+		
+		newCountIndicatorForLocations("Defaulted", "In state at location from On ART_", h.workflowState("HIV PROGRAM",
+		    "TREATMENT STATUS", "PATIENT DEFAULTED"));
+		newCountIndicatorForLocations("Died", "In state at location from On ART_", h.workflowState("HIV PROGRAM",
+		    "TREATMENT STATUS", "PATIENT DIED"));
+		newCountIndicatorForLocations("Lost to followup", "In state at location from On ART_", h.workflowState(
+		    "HIV PROGRAM", "TREATMENT STATUS", "LOST TO FOLLOWUP"));
+		newCountIndicatorForLocations("Treatment stopped", "In state at location from On ART_", h.workflowState(
+		    "HIV PROGRAM", "TREATMENT STATUS", "TREATMENT STOPPED"));
 		
 		h.newCountIndicator("Ever on ART_", "Ever on ART_", "startedOnOrBefore=${endDate}");
 		h.newCountIndicator("Ever on ART 1 week ago_", "Ever on ART_", "startedOnOrBefore=${endDate-1w}");
 		h.newCountIndicator("Ever on ART 2 weeks ago_", "Ever on ART_", "startedOnOrBefore=${endDate-2w}");
 		
-		
-		h.newCountIndicator("Started ART from Following during period_", "Started ART from Following during period_", "startDate=${endDate-1w},endDate=${endDate}");
-		h.newCountIndicator("Started ART from Following during period 1 week ago_", "Started ART from Following during period_", "startDate=${endDate-2w},endDate=${endDate-1w}");
-		h.newCountIndicator("Started ART from Following during period 2 weeks ago_", "Started ART from Following during period_", "startDate=${endDate-3w},endDate=${endDate-2w}");
+		h.newCountIndicator("Started ART from Following during period_", "Started ART from Following during period_",
+		    "startDate=${endDate-1w},endDate=${endDate}");
+		h.newCountIndicator("Started ART from Following during period 1 week ago_",
+		    "Started ART from Following during period_", "startDate=${endDate-2w},endDate=${endDate-1w}");
+		h.newCountIndicator("Started ART from Following during period 2 weeks ago_",
+		    "Started ART from Following during period_", "startDate=${endDate-3w},endDate=${endDate-2w}");
 		
 		h.newCountIndicator("Started ART_", "Started ART_", "startedOnOrAfter=${endDate-1w},startedOnOrBefore=${endDate}");
 		h.newCountIndicator("Started ART 1 week ago_", "Started ART_",
 		    "startedOnOrAfter=${endDate-2w},startedOnOrBefore=${endDate-1w}");
 		h.newCountIndicator("Started ART 2 weeks ago_", "Started ART_",
 		    "startedOnOrAfter=${endDate-3w},startedOnOrBefore=${endDate-2w}");
-
-		h.newCountIndicator("ART Patient visits_", "ART Patient visits_", "onOrAfter=${endDate-1w},onOrBefore=${endDate}");
-		h.newCountIndicator("ART Patient visits 1 week ago_", "ART Patient visits_", "onOrAfter=${endDate-2w},onOrBefore=${endDate-1w}");
-		h.newCountIndicator("ART Patient visits 2 weeks ago_", "ART Patient visits_", "onOrAfter=${endDate-3w},onOrBefore=${endDate-2w}");
-}
+		
+		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hivvst: ART Patient visits", "hivvst: ART Patient visits_");
+		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hivvst: Pre-ART Patient visits", "hivvst: Pre-ART Patient visits_");
+		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hivvst: EID Patient visits", "hivvst: EID Patient visits_");
+	}
 	
 	private void newCountIndicatorForLocationsWithState(String namePrefix, String cohort, ProgramWorkflowState state) {
-		h.newCountIndicator(namePrefix + " at Neno_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
+		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
 		        .location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " at Magaleta_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
+		h.newCountIndicator(namePrefix + " (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
 		        .location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " at Nsambe_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
+		h.newCountIndicator(namePrefix + " (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
 		        .location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago at Neno_", cohort, h.parameterMap("endDate", "${endDate-1w}",
+		h.newCountIndicator(namePrefix + " 1 week ago (Neno)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
 		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago at Magaleta_", cohort, h.parameterMap("endDate", "${endDate-1w}",
+		h.newCountIndicator(namePrefix + " 1 week ago (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
 		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago at Nsambe_", cohort, h.parameterMap("endDate", "${endDate-1w}",
+		h.newCountIndicator(namePrefix + " 1 week ago (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
 		    "location", h.location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago at Neno_", cohort, h.parameterMap("endDate", "${endDate-2w}",
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Neno)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
 		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago at Magaleta_", cohort, h.parameterMap("endDate", "${endDate-2w}",
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
 		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago at Nsambe_", cohort, h.parameterMap("endDate", "${endDate-2w}",
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
+		    "location", h.location("Nsambe HC"), "state", state));
+	}
+	
+	private void newCountIndicatorForLocations(String namePrefix, String cohort, ProgramWorkflowState state) {
+		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Neno District Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Magaleta HC"), "state", state));
+		h.newCountIndicator(namePrefix + " (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Nsambe HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Neno)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Neno District Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Magaleta HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Nsambe HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Neno)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", h.location("Neno District Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", h.location("Magaleta HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
 		    "location", h.location("Nsambe HC"), "state", state));
 	}
 	
@@ -401,6 +460,14 @@ public class SetupHivWeeklyOutcome {
 		iscd.addParameter(new Parameter("states", "State", ProgramWorkflowState.class));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
+		
+		// In state at location
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName("In state at location_");
+		islcd.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
+		islcd.addParameter(new Parameter("onDate", "endDate", Date.class));
+		islcd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(islcd);
 		
 		// On ART
 		iscd = new InStateCohortDefinition();
@@ -475,7 +542,7 @@ public class SetupHivWeeklyOutcome {
 		            .createParameterMappings("onOrBefore=${endDate},onOrAfter=${startDate}")));
 		ccd.setCompositionString("1 AND 2");
 		h.replaceCohortDefinition(ccd);
-
+		
 		// On ART before end date
 		pscd = new PatientStateCohortDefinition();
 		pscd.setName("Ever On ART_");
@@ -484,13 +551,7 @@ public class SetupHivWeeklyOutcome {
 		h.replaceCohortDefinition(pscd);
 		
 		// Patient visits
-		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
-		ecd.setName("ART Patient visits_");
-		ecd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("ART_INITIAL"), Context.getEncounterService().getEncounterType("ART_FOLLOWUP")));
-		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		ecd.addParameter(new Parameter("locations", "location", Location.class));
-		h.replaceCohortDefinition(ecd);
+		new SetupHivWeeklyVisits(h).createCohortDefinitions();
 		
 		// Ever enrolled in program at location as of end date
 		SqlCohortDefinition scd = new SqlCohortDefinition();
@@ -522,7 +583,7 @@ public class SetupHivWeeklyOutcome {
 		h.replaceCohortDefinition(scd);
 		
 		// Ever On Art at location with state
-		 ccd = new CompositionCohortDefinition();
+		ccd = new CompositionCohortDefinition();
 		ccd.setName("Ever On ART at location with state_");
 		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		ccd.addParameter(new Parameter("location", "Location", Location.class));
@@ -550,35 +611,45 @@ public class SetupHivWeeklyOutcome {
 		scd.addParameter(new Parameter("location", "Location", Location.class));
 		scd.addParameter(new Parameter("program", "Program", Program.class));
 		h.replaceCohortDefinition(scd);
+		
+		// Ever On Art at location with state
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("In state at location from On ART_");
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
+		cd.getSearches().put(
+		    "1",
+		    new Mapped(h.cohortDefinition("In state at location_"), ParameterizableUtil
+		            .createParameterMappings("onDate=${onDate},location=${location},state=${state}")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("endDate", "${endDate}");
+		map.put("location", "${location}");
+		map.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"));
+		cd.getSearches().put("2", new Mapped(h.cohortDefinition("Ever enrolled in program at location with state_"), map));
+		cd.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(cd);
 	}
 	
 	private void addColumnForLocations(PeriodIndicatorReportDefinition rd, String displayNamePrefix, String indicator,
-	                                  String indicatorKey) {
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " at Neno", h
+	                                   String indicatorKey) {
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " (Neno)", h
 		        .cohortIndicator(indicator), h.hashMap("Location", "Neno"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " at Magaleta", h
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " (Magaleta)", h
 		        .cohortIndicator(indicator), h.hashMap("Location", "Magaleta"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " at Nsambe", h
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)", h
 		        .cohortIndicator(indicator), h.hashMap("Location", "Nsambe"));
 	}
 	
-	private void addColumnForLocationsEver(PeriodIndicatorReportDefinition rd, String displayNamePrefix, String indicator,
-	                                      String indicatorKey) {
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " at Neno", h
-		        .cohortIndicator(indicator), h.hashMap("Location ever", "Neno"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " at Magaleta", h
-		        .cohortIndicator(indicator), h.hashMap("Location ever", "Magaleta"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " at Nsambe", h
-		        .cohortIndicator(indicator), h.hashMap("Location ever", "Nsambe"));
-	}
-	
 	private void addColumnForLocationsWithState(PeriodIndicatorReportDefinition rd, String displayNamePrefix,
-	                                           String indicatorFragment, String indicatorKey) {
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " at Neno", h
-		        .cohortIndicator(indicatorFragment + " at Neno_"), null);
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " at Magaleta", h
-		        .cohortIndicator(indicatorFragment + " at Magaleta_"), null);
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " at Nsambe", h
-		        .cohortIndicator(indicatorFragment + " at Nsambe_"), null);
+	                                            String indicatorFragment, String indicatorKey) {
+		CohortIndicator cohortIndicator = h.cohortIndicator(indicatorFragment + " (Neno)_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " (Neno)", cohortIndicator, null);
+		cohortIndicator = h.cohortIndicator(indicatorFragment + " (Magaleta)_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " (Magaleta)", cohortIndicator,
+		    null);
+		cohortIndicator = h.cohortIndicator(indicatorFragment + " (Nsambe)_");
+		PeriodIndicatorReportUtil
+		        .addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)", cohortIndicator, null);
 	}
 }

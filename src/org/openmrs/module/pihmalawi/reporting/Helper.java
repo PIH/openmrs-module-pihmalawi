@@ -134,13 +134,14 @@ public class Helper {
 		replaceDefinition(i);
 	}
 	
-	public void newCountIndicator(String name, String cohort, Map<String, Object> parameterMapping) {
+	public CohortIndicator newCountIndicator(String name, String cohort, Map<String, Object> parameterMapping) {
 		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
 		        parameterMapping), null);
 		i.addParameter(new Parameter("startDate", "Start date", Date.class));
 		i.addParameter(new Parameter("endDate", "End date", Date.class));
 		i.addParameter(new Parameter("location", "Location", Location.class));
 		replaceDefinition(i);
+		return i;
 	}
 	
 	public void newAppointmentIndicator(String name, String cohort, String endDateValue) {
