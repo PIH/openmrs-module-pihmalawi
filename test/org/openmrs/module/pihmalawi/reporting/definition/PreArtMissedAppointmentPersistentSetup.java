@@ -3,11 +3,14 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupArtWeeklyVisit;
+import org.openmrs.module.pihmalawi.reporting.SetupGenericMissedAppointment;
+import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
-public class ArtWeeklyVisitPersistentSetup extends BaseModuleContextSensitiveTest {
+public class PreArtMissedAppointmentPersistentSetup extends BaseModuleContextSensitiveTest {
 	
 	@Override
 	public Boolean useInMemoryDatabase() {
@@ -22,6 +25,6 @@ public class ArtWeeklyVisitPersistentSetup extends BaseModuleContextSensitiveTes
 	@Test
 	@Rollback(false)
 	public void setupHivWeekly() throws Exception {
-		new SetupArtWeeklyVisit(new Helper()).setupHivWeekly(false);
+		new SetupPreArtMissedAppointment(new Helper()).setup();
 	}
 }

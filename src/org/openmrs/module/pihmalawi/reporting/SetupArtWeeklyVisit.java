@@ -358,7 +358,6 @@ public class SetupArtWeeklyVisit {
 				rs.purgeReportDesign(rd);
 			}
 		}
-		// todo, also purge internal dataset for ART Appointments_
 		h.purgeDefinition(PeriodIndicatorReportDefinition.class, "ART Weekly Visit_");
 		h.purgeDefinition(DataSetDefinition.class, "ART Weekly Visit_ Data Set");
 		
