@@ -66,5 +66,6 @@
 	<classpathentry kind="lib" path="lib-common/tests-openmrs-api-1.5.3.13610-dev.jar" sourcepath="/openmrs-1.5.x"/>
 	<classpathentry kind="lib" path="lib-common/web-openmrs-api-1.5.3.13610-dev.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/reporting"/>
+	<classpathentry kind="lib" path="lib-common/reporting-0.4.2.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

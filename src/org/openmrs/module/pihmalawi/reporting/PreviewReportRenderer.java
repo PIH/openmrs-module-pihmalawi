@@ -29,7 +29,7 @@ import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.MapDataSet;
-import org.openmrs.module.reporting.dataset.definition.CohortDataSetDefinition;
+import org.openmrs.module.reporting.dataset.definition.CohortCrossTabDataSetDefinition;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.renderer.RenderingException;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
@@ -80,8 +80,8 @@ public class PreviewReportRenderer extends SimpleHtmlReportRenderer {
 
 			if (dataset instanceof MapDataSet) {
 				DataSetRow data = dataset.iterator().next();
-				if (dataset.getDefinition() instanceof CohortDataSetDefinition) {
-					CohortDataSetDefinition cdd = (CohortDataSetDefinition) dataset.getDefinition();
+				if (dataset.getDefinition() instanceof CohortCrossTabDataSetDefinition) {
+					CohortCrossTabDataSetDefinition cdd = (CohortCrossTabDataSetDefinition) dataset.getDefinition();
 					
 					List<String> rows = new ArrayList<String>(cdd.getRows().keySet());
 					List<String> cols = new ArrayList<String>(cdd.getColumns().keySet());
