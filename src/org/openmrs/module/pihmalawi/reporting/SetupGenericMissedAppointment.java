@@ -1,12 +1,15 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
@@ -42,8 +45,11 @@ public class SetupGenericMissedAppointment {
 	
 	protected Location location2 = null;
 	
+	protected boolean includeDefaulterActionTaken = false;
+	
+
 	public SetupGenericMissedAppointment(Helper helper, String reportName, String reportTag, Program program, Location location1,
-	    Location location2, Location location3) {
+	    Location location2, Location location3, boolean includeDefaulterActionTaken) {
 		h = helper;
 		this.reportName = reportName;
 		this.reportTag = reportTag;
@@ -51,6 +57,7 @@ public class SetupGenericMissedAppointment {
 		this.location1 = location1;
 		this.location2 = location2;
 		this.location3 = location3;
+		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 	
 	public void setup() throws Exception {
@@ -60,37 +67,49 @@ public class SetupGenericMissedAppointment {
 		createIndicators();
 		createDimension();
 		ReportDefinition rd = createReportDefinition();
-		h.createXlsOverview(rd, "generic_missed_appointment_overview.xls", reportName + " Overview (Excel)_");
-		createHtmlBreakdownExternal(rd);
+		h.createXlsOverview(rd, "generic_missed_appointment_overview.xls", reportName + " Overview (Excel)_", excelOverviewProperties());
+		ReportDesign rdes = createHtmlBreakdownExternal(rd);
+//		h.render(rdes, rd);
 		createHtmlBreakdownInternal(rd);
 	}
 	
+	protected Map<? extends Object, ? extends Object> excelOverviewProperties() {
+	    return null;
+    }
+
 	protected ReportDesign createHtmlBreakdownExternal(ReportDefinition rd) throws IOException, SerializationException {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 		
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		dsd.setIncludeDefaulterActionTaken(includeDefaulterActionTaken);
 		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
-		
-//		SimplePatientDataSetDefinition dsd = new SimplePatientDataSetDefinition();
-//		dsd.addPatientProperty("patientId");
-//		dsd.addPatientProperty("age");
-//		dsd.addPatientProperty("gender");
-//		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
 
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+		dsd.setEncounterTypes(getEncounterTypes());		
+		
 		return h.createHtmlBreakdown(rd, reportName + " Breakdown (external)_", m);
 	}
 	
+	protected Collection<EncounterType> getEncounterTypes() {
+	    return null;
+    }
+
+	protected PatientIdentifierType getPatientIdentifierType() {
+	    return null;
+    }
+
 	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd) throws IOException, SerializationException {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 		
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		dsd.setIncludeDefaulterActionTaken(includeDefaulterActionTaken);
 		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("2msdloc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc2", new Mapped<DataSetDefinition>(dsd, null));

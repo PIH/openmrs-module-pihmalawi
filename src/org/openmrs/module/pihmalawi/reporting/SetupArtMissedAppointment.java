@@ -1,10 +1,15 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -21,13 +26,36 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public SetupArtMissedAppointment(Helper helper) {
 		super(helper, "ART Missed Appointment", "artappt", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"), Context
 		        .getLocationService().getLocation("Neno District Hospital"), Context.getLocationService().getLocation(
-		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"));
+		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"), false);
 	}
 	
+    protected Map excelOverviewProperties() {
+		Map properties = new HashMap();
+		properties.put("title", "ART Missed Appointment - Upper Neno");
+		properties.put("baseCohort", "On ART");
+		properties.put("loc1name", "Neno");
+		properties.put("loc2name", "Magaleta");
+		properties.put("loc3name", "Nsambe");
+		return properties;
+    }
+
 	public void setup(boolean useTestPatientCohort) throws Exception {
 		super.setup();
 	}
 	
+	@Override
+    protected Collection<EncounterType> getEncounterTypes() {
+		Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
+		encounterTypes.add(Context.getEncounterService().getEncounterType("ART_INITIAL"));
+		encounterTypes.add(Context.getEncounterService().getEncounterType("ART_FOLLOWUP"));
+		return encounterTypes;
+    }
+
+	@Override
+    protected PatientIdentifierType getPatientIdentifierType() {
+		return Context.getPatientService().getPatientIdentifierTypeByName("ARV Number");
+    }
+
 	protected void createBaseCohort(PeriodIndicatorReportDefinition rd) {
 		//		String cohort = (useTestPatientCohort ? "artvst: Alive On ART for appointment test_" : "artvst: Alive On ART_");
 		rd.setBaseCohortDefinition(h.cohortDefinition(reportTag + ": On ART_"), ParameterizableUtil

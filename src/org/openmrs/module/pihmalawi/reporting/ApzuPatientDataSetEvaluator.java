@@ -1,7 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -10,11 +9,13 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
+import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Relationship;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
@@ -31,6 +32,9 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 @Handler(supports = { ApzuPatientDataSetDefinition.class })
 public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	
+	private static final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService().getConceptByName(
+	    "DEFAULTER ACTION TAKEN");
+	
 	protected Log log = LogFactory.getLog(this.getClass());
 	
 	public ApzuPatientDataSetEvaluator() {
@@ -40,6 +44,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
+		PatientIdentifierType patientIdentifierType = definition.getPatientIdentifierType();
+		Collection<EncounterType> encounterTypes = definition.getEncounterTypes();
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		Cohort cohort = context.getBaseCohort();
@@ -60,14 +66,12 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			DataSetRow row = new DataSetRow();
 			DataSetColumn c = null;
 			
-			// current ART id
-			Context.getPatientService().getPatientIdentifierTypeByName("ARV Number");
+			// todo, get current id and/or preferred
 			String id = "";
-			for (PatientIdentifier pi : p.getPatientIdentifiers(Context.getPatientService().getPatientIdentifierTypeByName(
-			    "ARV Number"))) {
+			for (PatientIdentifier pi : p.getPatientIdentifiers(patientIdentifierType)) {
 				id += pi.getIdentifier() + " ";
 			}
-			c = new DataSetColumn("ART", "ART", String.class);
+			c = new DataSetColumn("#", "#", String.class);
 			row.addColumnValue(c, id);
 			// given
 			c = new DataSetColumn("Given", "Given", String.class);
@@ -82,11 +86,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			c = new DataSetColumn("M/F", "M/F", String.class);
 			row.addColumnValue(c, p.getGender());
 			// last visit & loc
-			Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
-			encounterTypes.add(Context.getEncounterService().getEncounterType("ART_INITIAL"));
-			encounterTypes.add(Context.getEncounterService().getEncounterType("ART_FOLLOWUP"));
-			List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, null, null, encounterTypes, null,
-			    false);
+			List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, null, null,
+			    encounterTypes, null, false);
 			c = new DataSetColumn("Last visit", "Last visit", String.class);
 			if (!encounters.isEmpty()) {
 				Encounter e = encounters.get(encounters.size() - 1);
@@ -119,7 +120,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			String vhw = "";
 			List<Relationship> ships = Context.getPersonService().getRelationshipsByPerson(p);
 			for (Relationship r : ships) {
-				if (r.getRelationshipType().equals(Context.getPersonService().getRelationshipTypeByUuid("19124428-a89d-11df-bba5-000c297f1161"))) {
+				if (r.getRelationshipType().equals(
+				    Context.getPersonService().getRelationshipTypeByUuid("19124428-a89d-11df-bba5-000c297f1161"))) {
 					vhw = r.getPersonB().getGivenName() + " " + r.getPersonB().getFamilyName();
 					break;
 				}
@@ -140,8 +142,16 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			c = new DataSetColumn("missed data entry", "missed data entry", String.class);
 			row.addColumnValue(c, h(""));
 			// comment
+			String comment = "";
+			if (definition.isIncludeDefaulterActionTaken()) {
+				obs = Context.getObsService().getObservationsByPersonAndConcept(p, DEFAULTER_ACTION_TAKEN);
+				for (Obs o : obs) {
+					comment += o.getValueAsString(Context.getLocale());
+					comment += " (" + formatEncounterDate(o.getObsDatetime()) + ") ";
+				}
+			}
 			c = new DataSetColumn("comment", "comment", String.class);
-			row.addColumnValue(c, h(""));
+			row.addColumnValue(c, h(comment));
 			
 			dataSet.addRow(row);
 		}
@@ -149,9 +159,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	}
 	
 	private String formatEncounterDate(Date encounterDatetime) {
-	       return new SimpleDateFormat("dd-MMM-yyyy").format(encounterDatetime);
-    }
-
+		return new SimpleDateFormat("dd-MMM-yyyy").format(encounterDatetime);
+	}
+	
 	private String h(String s) {
 		return ("".equals(s) || s == null ? "&nbsp;" : s);
 	}

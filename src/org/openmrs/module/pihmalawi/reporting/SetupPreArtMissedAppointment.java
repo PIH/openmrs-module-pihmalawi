@@ -1,37 +1,98 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.openmrs.EncounterType;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
+import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
+import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.serialization.SerializationException;
 
 public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment {
 	
 	public SetupPreArtMissedAppointment(Helper helper) {
 		super(helper, "Pre-ART Missed Appointment", "partappt", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"), Context
 		        .getLocationService().getLocation("Neno District Hospital"), Context.getLocationService().getLocation(
-		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"));
+		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"), true);
 	}
 	
 	public void setup(boolean useTestPatientCohort) throws Exception {
 		super.setup();
 	}
 	
+	@Override
+    protected Collection<EncounterType> getEncounterTypes() {
+		Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
+		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_INITIAL"));
+		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_FOLLOWUP"));
+		return encounterTypes;
+    }
+
+	@Override
+    protected PatientIdentifierType getPatientIdentifierType() {
+		return Context.getPatientService().getPatientIdentifierTypeByName("PART Number");
+    }
+
+    protected Map excelOverviewProperties() {
+		Map properties = new HashMap();
+		properties.put("title", "Pre-ART Missed Appointment - Upper Neno");
+		properties.put("baseCohort", "Following");
+		properties.put("loc1name", "Neno");
+		properties.put("loc2name", "Magaleta");
+		properties.put("loc3name", "Nsambe");
+		return properties;
+    }
+
 	protected void createBaseCohort(PeriodIndicatorReportDefinition rd) {
 		//		String cohort = (useTestPatientCohort ? "artvst: Alive On ART for appointment test_" : "artvst: Alive On ART_");
 		rd.setBaseCohortDefinition(h.cohortDefinition(reportTag + ": Following_"), ParameterizableUtil
 		        .createParameterMappings("onDate=${endDate}"));
 		
-		addColumnForLocations(rd, "Following", "Following", "base");
+		addColumnForLocations(rd, "Following", "Following_", "base");
 		addColumnForLocations(rd, "Following 1 week ago", "Following 1 week ago_", "base1");
 		addColumnForLocations(rd, "Following 2 weeks ago", "Following 2 weeks ago_", "base2");
+	}
+	
+	protected ReportDesign createHtmlBreakdownExternal(ReportDefinition rd) throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+		
+		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noapploc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+		dsd.setEncounterTypes(getEncounterTypes());		
+		
+		return h.createHtmlBreakdown(rd, reportName + " Breakdown (external)_", m);
 	}
 	
 	protected void createCohortDefinitions() {
@@ -55,7 +116,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 	protected void createIndicators() {
 		super.createIndicators();
 		
-		h.newCountIndicator(reportTag + ": Following", reportTag + ": Following_", "onDate=${endDate}");
+		h.newCountIndicator(reportTag + ": Following_", reportTag + ": Following_", "onDate=${endDate}");
 		h.newCountIndicator(reportTag + ": Following 1 week ago_", reportTag + ": Following_", "onDate=${endDate-1w}");
 		h.newCountIndicator(reportTag + ": Following 2 weeks ago_", reportTag + ": Following_", "onDate=${endDate-2w}");
 	}
