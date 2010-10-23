@@ -48,7 +48,7 @@ public class SetupArtWeeklyVisit {
 		createIndicators();
 		createDimension();
 		ReportDefinition rd = createReportDefinition(useTestPatientCohort);
-		h.createXlsOverview(rd, "ART_Weekly_Visit_Overview.xls", "ART Weekly Visit Overview (Excel)_");
+		h.createXlsOverview(rd, "ART_Weekly_Visit_Overview.xls", "ART Weekly Visit Overview (Excel)_", null);
 		//		h.createGenericPatientDesignBreakdown(rd, "Simple Patient Renderer_", "ART_Weekly_Visit_Breakdown_SimpleReportRendererResource.xml");
 		createHtmlBreakdownArt(rd);
 		createHtmlBreakdownEmr(rd);
