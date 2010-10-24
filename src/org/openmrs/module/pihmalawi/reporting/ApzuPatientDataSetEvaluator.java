@@ -39,6 +39,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	
 	public DataSet evaluate(DataSetDefinition dataSetDefinition, EvaluationContext context) {
 		final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService().getConceptByName("DEFAULTER ACTION TAKEN");
+		final Concept CD4_COUNT = Context.getConceptService().getConceptByName("CD4 COUNT");
+		
 		
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
@@ -145,7 +147,19 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				obs = Context.getObsService().getObservationsByPersonAndConcept(p, DEFAULTER_ACTION_TAKEN);
 				for (Obs o : obs) {
 					comment += o.getValueAsString(Context.getLocale());
-					comment += " (" + formatEncounterDate(o.getObsDatetime()) + ") ";
+					comment += ":&nbsp;(" + formatEncounterDate(o.getObsDatetime()) + ") ";
+				}
+				obs = Context.getObsService().getObservationsByPersonAndConcept(p, CD4_COUNT);
+				if (obs.iterator().hasNext()) {
+					Obs o = obs.iterator().next();
+					comment += "CD4:&nbsp;" + o.getValueAsString(Context.getLocale());
+					comment += ":&nbsp;(" + formatEncounterDate(o.getObsDatetime()) + ") ";
+				}
+				List<Encounter> encs = Context.getEncounterService().getEncountersByPatient(p);
+				if (encs.size() > 0) {
+					Encounter e = encs.get(encs.size() -1);
+					comment += e.getEncounterType().getName();
+					comment += ":&nbsp;(" + formatEncounterDate(e.getEncounterDatetime()) + ") ";
 				}
 			}
 			c = new DataSetColumn("comment", "comment", String.class);

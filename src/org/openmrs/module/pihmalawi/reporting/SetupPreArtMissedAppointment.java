@@ -68,33 +68,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		addColumnForLocations(rd, "Following 1 week ago", "Following 1 week ago_", "base1");
 		addColumnForLocations(rd, "Following 2 weeks ago", "Following 2 weeks ago_", "base2");
 	}
-	
-	protected ReportDesign createHtmlBreakdownExternal(ReportDefinition rd) throws IOException, SerializationException {
-		// location-specific
-		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 		
-		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
-		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("2msdloc1", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("3msdloc1", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("8msdloc1", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("12msdloc1", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("noapploc2", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("2msdloc2", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("3msdloc2", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("8msdloc2", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("12msdloc2", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
-		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
-		dsd.setPatientIdentifierType(getPatientIdentifierType());
-		dsd.setEncounterTypes(getEncounterTypes());		
-		
-		return h.createHtmlBreakdown(rd, reportName + " Breakdown (external)_", m);
-	}
-	
 	protected void createCohortDefinitions() {
 		super.createCohortDefinitions();
 		

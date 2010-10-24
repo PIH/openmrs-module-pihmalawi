@@ -1,10 +1,16 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
@@ -22,7 +28,9 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.serialization.SerializationException;
 
 public class SetupPreArtWeekly {
 	
@@ -39,8 +47,39 @@ public class SetupPreArtWeekly {
 		createCohortDefinitions((PeriodIndicatorReportDefinition) h.findDefinition(PeriodIndicatorReportDefinition.class,
 		    "Pre-ART Weekly_"));
 		h.createXlsOverview(rd, "Pre-ART_Weekly_Overview.xls", "Pre-ART Weekly Overview", excelOverviewProperties());
+		ReportDesign rdes = createHtmlBreakdown(rd);
+}
+
+	protected ReportDesign createHtmlBreakdown(ReportDefinition rd) throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+		
+		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		dsd.setIncludeDefaulterActionTaken(true);
+		m.put("cd4lowloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("cd4medloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("cd4lowloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("cd4medloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("cd4lowloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("cd4medloc3", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+		dsd.setEncounterTypes(getEncounterTypes());		
+		
+		return h.createHtmlBreakdown(rd, "Pre-ART Weekly Breakdown_", m);
 	}
-	
+
+    private Collection<EncounterType> getEncounterTypes() {
+		Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
+		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_INITIAL"));
+		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_FOLLOWUP"));
+		return encounterTypes;
+    }
+
+    private PatientIdentifierType getPatientIdentifierType() {
+		return Context.getPatientService().getPatientIdentifierTypeByName("PART Number");
+    }
+
 	protected Map excelOverviewProperties() {
 		Map properties = new HashMap();
 		properties.put("title", "Pre-ART Weekly - Upper Neno");

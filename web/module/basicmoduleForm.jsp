@@ -5,10 +5,6 @@
 <h2>PIH Malawi Customizations</h2>
 
 <br/>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/register_artweeklyvisit.form">(Re) register ART Weekly Visit Report</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artweeklyvisit.form">Remove ART Weekly Visit Report</a>
-
-<br/>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment.form">(Re) register ART Missed Appointment Report</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment.form">Remove ART Missed Appointment Report</a>
 

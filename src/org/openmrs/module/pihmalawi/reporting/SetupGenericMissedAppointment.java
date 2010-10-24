@@ -84,11 +84,20 @@ public class SetupGenericMissedAppointment {
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
 		dsd.setIncludeDefaulterActionTaken(includeDefaulterActionTaken);
 		m.put("noapploc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc1", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());		
@@ -117,6 +126,9 @@ public class SetupGenericMissedAppointment {
 		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+		dsd.setEncounterTypes(getEncounterTypes());		
+
 		return h.createHtmlBreakdown(rd, reportName + " Breakdown (internal)_", m);
 	}
 	
