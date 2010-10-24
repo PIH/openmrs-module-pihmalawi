@@ -53,6 +53,22 @@ public class Helper {
 		}
 	}
 	
+	public void purgeAll(String tag) {
+		SerializedDefinitionService s = (SerializedDefinitionService) Context.getService(SerializedDefinitionService.class);
+		List<CohortDefinition> defs = s.getAllDefinitions(CohortDefinition.class, false);
+		for (Definition def : defs) {
+			if (def.getName().startsWith(tag)) {
+				s.purgeDefinition(def);
+			}
+		}
+		List<CohortIndicator> is = s.getAllDefinitions(CohortIndicator.class, false);
+		for (CohortIndicator i : is) {
+			if (i.getName().startsWith(tag)) {
+				s.purgeDefinition(i);
+			}
+		}
+	}
+	
 	public void purgeDimension(String name) {
 		DimensionService s = (DimensionService) Context.getService(DimensionService.class);
 		List<Dimension> defs = s.getDefinitions(name, true);

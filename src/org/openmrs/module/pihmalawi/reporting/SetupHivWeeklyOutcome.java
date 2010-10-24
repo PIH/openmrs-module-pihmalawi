@@ -45,7 +45,7 @@ public class SetupHivWeeklyOutcome {
 		createIndicators();
 		createDimensions();
 		ReportDefinition rd = createReportDefinition();
-		h.createXlsOverview(rd, "HIV_Weekly_Outcome_Overview.xls", "HIV Weekly Outcome Overview (Excel)_");
+		h.createXlsOverview(rd, "HIV_Weekly_Outcome_Overview.xls", "HIV Weekly Outcome Overview (Excel)_", null);
 		//		h.createGenericPatientDesignBreakdown(rd, "Simple Patient Renderer_", "HIV_Weekly_Outcome_Breakdown_SimpleReportRendererResource.xml");
 		
 //		ReportDesign rdes = createHtmlBreakdownArt(rd);

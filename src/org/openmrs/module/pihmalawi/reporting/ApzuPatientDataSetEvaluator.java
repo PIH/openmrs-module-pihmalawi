@@ -32,15 +32,13 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 @Handler(supports = { ApzuPatientDataSetDefinition.class })
 public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	
-	private static final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService().getConceptByName(
-	    "DEFAULTER ACTION TAKEN");
-	
 	protected Log log = LogFactory.getLog(this.getClass());
 	
 	public ApzuPatientDataSetEvaluator() {
 	}
 	
 	public DataSet evaluate(DataSetDefinition dataSetDefinition, EvaluationContext context) {
+		final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService().getConceptByName("DEFAULTER ACTION TAKEN");
 		
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;

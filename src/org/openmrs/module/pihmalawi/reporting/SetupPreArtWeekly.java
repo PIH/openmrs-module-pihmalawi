@@ -1,8 +1,7 @@
 package org.openmrs.module.pihmalawi.reporting;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.openmrs.Location;
@@ -13,7 +12,6 @@ import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortD
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
@@ -35,56 +33,42 @@ public class SetupPreArtWeekly {
 	}
 	
 	public void setup(boolean b) throws Exception {
-		//		deleteReportElements();
+		delete();
 		
-		// one for the heck of it and the show
-		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName("artvst: On ART (appt)_");
-		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
-		states = new ArrayList<ProgramWorkflowState>();
-		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-		        .getStateByName("ON ANTIRETROVIRALS"));
-		iscd.setStates(states);
-		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
-		h.replaceCohortDefinition(iscd);
-		h.newCountIndicator("artvst: On ART (appt)_", "artvst: On ART (appt)_", "onDate=${endDate}");
-
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
-		createCohortDefinitions((PeriodIndicatorReportDefinition) h.findDefinition(PeriodIndicatorReportDefinition.class, "Pre-ART Weekly_"));
-		//		createIndicators();
-		//		createDimensions();
-		//		createArtOverviewExcelDesign(rd);
-		//		//		//			createSimplePatientDesign(rd);
-		//		ReportDesign rdes = createApzuPatientDesign(rd);
-		//		h.render(rdes, rd);
-		//		return rd;
+		createCohortDefinitions((PeriodIndicatorReportDefinition) h.findDefinition(PeriodIndicatorReportDefinition.class,
+		    "Pre-ART Weekly_"));
+		h.createXlsOverview(rd, "Pre-ART_Weekly_Overview.xls", "Pre-ART Weekly Overview", excelOverviewProperties());
 	}
 	
-	public void deleteReportElements() {
+	protected Map excelOverviewProperties() {
+		Map properties = new HashMap();
+		properties.put("title", "Pre-ART Weekly - Upper Neno");
+		properties.put("loc1name", "Neno");
+		properties.put("loc2name", "Magaleta");
+		properties.put("loc3name", "Nsambe");
+		return properties;
+	}
+	
+	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
 			if ("Pre-ART Weekly_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
+			if ("Pre-ART Weekly Overview".equals(rd.getName())) {
+				rs.purgeReportDesign(rd);
+			}
 		}
-		// todo, also purge internal dataset for ART Appointments_
 		h.purgeDefinition(PeriodIndicatorReportDefinition.class, "Pre-ART Weekly_");
 		h.purgeDefinition(DataSetDefinition.class, "Pre-ART Weekly_ Data Set");
 		
+		h.purgeAll("part: ");
 	}
 	
 	private PeriodIndicatorReportDefinition createReportDefinition() {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
-		
-//		rd.addDimension("Location", h.cohortDefinitionDimension("ART program location_"));
-//		rd.setBaseCohortDefinition(h.cohortDefinition(cohort), ParameterizableUtil
-//		        .createParameterMappings("startDate=${startDate},endDate=${endDate},location=${location}"));
-
 		rd.setName("Pre-ART Weekly_");
-//		rd.setupDataSetDefinition();
-//		PeriodIndicatorReportUtil.addColumn(rd, "ndh", " at Neno", h
-//	        .cohortIndicator("artvst: On ART (appt)_"), null);
-
 		h.replaceReportDefinition(rd);
 		return rd;
 	}
@@ -118,8 +102,9 @@ public class SetupPreArtWeekly {
 		        "startedOnOrBefore", "${startedOnOrBefore}", "location", "${location}")));
 		ccd.setCompositionString("1");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, "new", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
-
+		newCountIndicator(rd, "new", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
+		
 		// died from pre-art on date at location
 		ccd = new CompositionCohortDefinition();
 		ccd.setName("part: Died from Pre-ART at location_");
@@ -135,15 +120,16 @@ public class SetupPreArtWeekly {
 		    "2",
 		    new Mapped(h.cohortDefinition("part: Not having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.getSearches().put(
 		    "3",
 		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, "died", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
+		newCountIndicator(rd, "died", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
 		
 		// HIV negativ from pre-art on date at location
 		ccd = new CompositionCohortDefinition();
@@ -160,15 +146,16 @@ public class SetupPreArtWeekly {
 		    "2",
 		    new Mapped(h.cohortDefinition("part: Not having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.getSearches().put(
 		    "3",
 		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, "neg", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
+		newCountIndicator(rd, "neg", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
 		
 		// transfered out from pre-art on date at location
 		ccd = new CompositionCohortDefinition();
@@ -185,15 +172,42 @@ public class SetupPreArtWeekly {
 		    "2",
 		    new Mapped(h.cohortDefinition("part: Not having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.getSearches().put(
 		    "3",
 		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, "trans", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
+		newCountIndicator(rd, "trans", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
+		
+		// internal transfer from pre-art on date at location
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("part: Transferred internally from Pre-ART at location_");
+		ccd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.getSearches().put(
+		    "1",
+		    new Mapped(h.cohortDefinition("part: In state on date at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "TRANSFERRED INTERNALLY"), "onDate", "${startedOnOrBefore}", "location",
+		        "${location}")));
+		ccd.getSearches().put(
+		    "2",
+		    new Mapped(h.cohortDefinition("part: Not having state at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
+		ccd.getSearches().put(
+		    "3",
+		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
+		ccd.setCompositionString("1 AND 2 AND 3");
+		h.replaceCohortDefinition(ccd);
+		newCountIndicator(rd, "int", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
 		
 		// treatment stopped from pre-art on date at location
 		ccd = new CompositionCohortDefinition();
@@ -210,38 +224,87 @@ public class SetupPreArtWeekly {
 		    "2",
 		    new Mapped(h.cohortDefinition("part: Not having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.getSearches().put(
 		    "3",
 		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
 		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
-		        "startedOnOrAfter", "${startedOnOrAfter}", "location", "${location}")));
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, "stp", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
+		newCountIndicator(rd, "stp", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
+		
+		// moved to art on date at location
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("part: Ever On ART from Pre-ART at location_");
+		ccd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.getSearches().put(
+		    "2",
+		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore", "${startedOnOrBefore}",
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
+		ccd.getSearches().put(
+		    "3",
+		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
+		ccd.setCompositionString("2 AND 3");
+		h.replaceCohortDefinition(ccd);
+		newCountIndicator(rd, "eart", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
+		
+		// moved to art on date at location
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("part: On ART from Pre-ART at location_");
+		ccd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.getSearches().put(
+		    "1",
+		    new Mapped(h.cohortDefinition("part: In state on date at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "onDate", "${startedOnOrBefore}", "location",
+		        "${location}")));
+		ccd.getSearches().put(
+		    "3",
+		    new Mapped(h.cohortDefinition("part: Having state at location_"), h.parameterMap("state", h.workflowState(
+		        "HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore", "${startedOnOrBefore}",
+		        "startedOnOrAfter", "${startedOnOrAfter-100y}", "location", "${location}")));
+		ccd.setCompositionString("1 AND 3");
+		h.replaceCohortDefinition(ccd);
+		newCountIndicator(rd, "art", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
+		    "${startDate}"));
 		
 		NumericObsCohortDefinition nocd = new NumericObsCohortDefinition();
-		nocd.setName("part: CD4 Count available_");
+		nocd.setName("part: Total CD4 Count available (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
 		nocd.setTimeModifier(TimeModifier.ANY);
 		h.replaceCohortDefinition(nocd);
-		CohortIndicator i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "cd4", nocd.getName(), i, null);
+		CohortIndicator i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}",
+		    "onOrAfter", "${endDate-6m}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "tcd4", nocd.getName(), i, null);
+		cd4ForLocation(rd, "part: Pre-ART CD4 Count available (last 6 months)_",
+		    "part: Total CD4 Count available (last 6 months)_", "cd4");
 		
 		nocd = new NumericObsCohortDefinition();
-		nocd.setName("part: CD4% available_");
+		nocd.setName("part: Total CD4% available (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 PERCENT"));
 		nocd.setTimeModifier(TimeModifier.ANY);
 		h.replaceCohortDefinition(nocd);
-		 i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "cd4%", nocd.getName(), i, null);
+		i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter",
+		    "${endDate-6m}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "tcd4p", nocd.getName(), i, null);
+		cd4ForLocation(rd, "part: Pre-ART CD4% available (last 6 months)_", "part: Total CD4% available (last 6 months)_",
+		    "cd4p");
 		
 		nocd = new NumericObsCohortDefinition();
-		nocd.setName("part: CD4 Count >500_");
+		nocd.setName("part: Total CD4 Count >500 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
@@ -249,11 +312,14 @@ public class SetupPreArtWeekly {
 		nocd.setOperator1(RangeComparator.GREATER_THAN);
 		nocd.setValue1(500.0);
 		h.replaceCohortDefinition(nocd);
-		 i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "cd4hig", nocd.getName(), i, null);
+		i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter",
+		    "${endDate-6m}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "tcd4hig", nocd.getName(), i, null);
+		cd4ForLocation(rd, "part: Pre-ART CD4 Count >500 (last 6 months)_", "part: Total CD4 Count >500 (last 6 months)_",
+		    "cd4hig");
 		
 		nocd = new NumericObsCohortDefinition();
-		nocd.setName("part: CD4 Count <250_");
+		nocd.setName("part: Total CD4 Count <250 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
@@ -261,11 +327,14 @@ public class SetupPreArtWeekly {
 		nocd.setOperator1(RangeComparator.LESS_THAN);
 		nocd.setValue1(250.0);
 		h.replaceCohortDefinition(nocd);
-		 i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "cd4low", nocd.getName(), i, null);
+		i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter",
+		    "${endDate-6m}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "tcd4low", nocd.getName(), i, null);
+		cd4ForLocation(rd, "part: Pre-ART CD4 Count <250 (last 6 months)_", "part: Total CD4 Count <250 (last 6 months)_",
+		    "cd4low");
 		
 		nocd = new NumericObsCohortDefinition();
-		nocd.setName("part: CD4 Count >=250 and <=500_");
+		nocd.setName("part: Total CD4 Count >=250 and <=500 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
@@ -275,23 +344,47 @@ public class SetupPreArtWeekly {
 		nocd.setOperator2(RangeComparator.LESS_EQUAL);
 		nocd.setValue2(500.0);
 		h.replaceCohortDefinition(nocd);
-		 i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "cd4med", nocd.getName(), i, null);
-		
+		i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter",
+		    "${endDate-6m}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "tcd4med", nocd.getName(), i, null);
+		cd4ForLocation(rd, "part: Pre-ART CD4 Count >=250 and <=500 (last 6 months)_",
+		    "part: Total CD4 Count >=250 and <=500 (last 6 months)_", "cd4med");
 	}
 	
-	private void newCountIndicator(PeriodIndicatorReportDefinition rd, String indicatorKey, CohortDefinition nocd, Map<String, Object> parameterMap) {
+	private void cd4ForLocation(PeriodIndicatorReportDefinition rd, String name, String cd4Query, String key) {
+		CompositionCohortDefinition ccd;
+		ccd = new CompositionCohortDefinition();
+		ccd.setName(name);
+		ccd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.getSearches().put(
+		    "1",
+		    new Mapped(h.cohortDefinition("part: Pre-ART on date at location_"), h.parameterMap("onDate",
+		        "${startedOnOrBefore}", "location", "${location}")));
+		ccd.getSearches().put(
+		    "2",
+		    new Mapped(h.cohortDefinition(cd4Query), h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter",
+		        "${startedOnOrBefore-6m}")));
+		ccd.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(ccd);
+		newCountIndicator(rd, key, ccd, h
+		        .parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${startDate}"));
+	}
+	
+	private void newCountIndicator(PeriodIndicatorReportDefinition rd, String indicatorKey, CohortDefinition nocd,
+	                               Map<String, Object> parameterMap) {
 		parameterMap.put("location", h.location("Neno District Hospital"));
 		CohortIndicator i = h.newCountIndicator(nocd.getName() + " (Neno)", nocd.getName(), parameterMap);
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", nocd.getName(), i, null);
-
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc1", nocd.getName(), i, null);
+		
 		parameterMap.put("location", h.location("Nsambe HC"));
-		 i = h.newCountIndicator(nocd.getName() + " (Nsambe)", nocd.getName(), parameterMap);
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", nocd.getName(), i, null);
+		i = h.newCountIndicator(nocd.getName() + " (Nsambe)", nocd.getName(), parameterMap);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc3", nocd.getName(), i, null);
 		
 		parameterMap.put("location", h.location("Magaleta HC"));
-		 i = h.newCountIndicator(nocd.getName() + " (Magaleta)", nocd.getName(), parameterMap);
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", nocd.getName(), i, null);
+		i = h.newCountIndicator(nocd.getName() + " (Magaleta)", nocd.getName(), parameterMap);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc2", nocd.getName(), i, null);
 	}
 	
 	private void genericCohortDefinitions() {
@@ -388,5 +481,4 @@ public class SetupPreArtWeekly {
 		ccd.setCompositionString("1 AND 2");
 		h.replaceCohortDefinition(ccd);
 	}
-	
 }
