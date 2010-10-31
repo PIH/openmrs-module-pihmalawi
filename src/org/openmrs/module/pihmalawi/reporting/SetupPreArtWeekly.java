@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,8 +49,8 @@ public class SetupPreArtWeekly {
 		    "Pre-ART Weekly_"));
 		h.createXlsOverview(rd, "Pre-ART_Weekly_Overview.xls", "Pre-ART Weekly Overview", excelOverviewProperties());
 		ReportDesign rdes = createHtmlBreakdown(rd);
-}
-
+	}
+	
 	protected ReportDesign createHtmlBreakdown(ReportDefinition rd) throws IOException, SerializationException {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
@@ -62,24 +63,24 @@ public class SetupPreArtWeekly {
 		m.put("cd4medloc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("cd4lowloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("cd4medloc3", new Mapped<DataSetDefinition>(dsd, null));
-
+		
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
-		dsd.setEncounterTypes(getEncounterTypes());		
+		dsd.setEncounterTypes(getEncounterTypes());
 		
 		return h.createHtmlBreakdown(rd, "Pre-ART Weekly Breakdown_", m);
 	}
-
-    private Collection<EncounterType> getEncounterTypes() {
+	
+	private Collection<EncounterType> getEncounterTypes() {
 		Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
 		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_INITIAL"));
 		encounterTypes.add(Context.getEncounterService().getEncounterType("PART_FOLLOWUP"));
 		return encounterTypes;
-    }
-
-    private PatientIdentifierType getPatientIdentifierType() {
+	}
+	
+	private PatientIdentifierType getPatientIdentifierType() {
 		return Context.getPatientService().getPatientIdentifierTypeByName("PART Number");
-    }
-
+	}
+	
 	protected Map excelOverviewProperties() {
 		Map properties = new HashMap();
 		properties.put("title", "Pre-ART Weekly - Upper Neno");
@@ -92,7 +93,7 @@ public class SetupPreArtWeekly {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if ("Pre-ART Weekly_".equals(rd.getName())) {
+			if ("Pre-ART Weekly Breakdown_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
 			if ("Pre-ART Weekly Overview".equals(rd.getName())) {
@@ -321,6 +322,8 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
+		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
+		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		nocd.setTimeModifier(TimeModifier.ANY);
 		h.replaceCohortDefinition(nocd);
 		CohortIndicator i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}",
@@ -334,6 +337,8 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 PERCENT"));
+		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
+		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		nocd.setTimeModifier(TimeModifier.ANY);
 		h.replaceCohortDefinition(nocd);
 		i = h.newCountIndicator(nocd.getName(), nocd.getName(), h.parameterMap("onOrBefore", "${endDate}", "onOrAfter",
@@ -347,6 +352,8 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
+		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
+		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		nocd.setTimeModifier(TimeModifier.LAST);
 		nocd.setOperator1(RangeComparator.GREATER_THAN);
 		nocd.setValue1(500.0);
@@ -362,6 +369,8 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
+		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
+		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		nocd.setTimeModifier(TimeModifier.LAST);
 		nocd.setOperator1(RangeComparator.LESS_THAN);
 		nocd.setValue1(250.0);
@@ -378,6 +387,8 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName("CD4 COUNT"));
 		nocd.setTimeModifier(TimeModifier.LAST);
+		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService().getEncounterType("PART_INITIAL"), Context
+		        .getEncounterService().getEncounterType("PART_FOLLOWUP")));
 		nocd.setOperator1(RangeComparator.GREATER_EQUAL);
 		nocd.setValue1(250.0);
 		nocd.setOperator2(RangeComparator.LESS_EQUAL);
