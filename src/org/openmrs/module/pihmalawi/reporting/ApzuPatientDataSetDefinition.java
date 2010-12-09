@@ -16,6 +16,8 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	boolean includeDefaulterActionTaken = false;
 	
+	boolean includeMissedAppointmentColumns = true;
+	
 	public boolean isIncludeDefaulterActionTaken() {
 		return includeDefaulterActionTaken;
 	}
@@ -38,6 +40,14 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	public void setPatientIdentifierType(PatientIdentifierType patientIdentifierType) {
 		this.patientIdentifierType = patientIdentifierType;
+	}
+	
+	public void setIncludeMissedappointmentColumns(boolean b) {
+		this.includeMissedAppointmentColumns = b;
+	}
+	
+	public boolean isIncludeMissedappointmentColumns() {
+		return this.includeMissedAppointmentColumns;
 	}
 	
 	public Collection<EncounterType> getEncounterTypes() {

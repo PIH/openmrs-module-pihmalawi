@@ -6,6 +6,7 @@ import org.openmrs.module.pihmalawi.reporting.SetupArtWeeklyVisit;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
+import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -61,6 +62,15 @@ public class PihReportFormController {
 	public void removePreArtWeekly() {
 		new SetupPreArtWeekly(new Helper()).delete();
 	}
-	
 
+	
+	@RequestMapping("/module/pihmalawi/register_hivprogramchanges.form")
+	public void registerHivProgramChanges() throws Exception {
+		new SetupProgramChanges(new Helper()).setup();
+	}
+	
+	@RequestMapping("/module/pihmalawi/remove_hivprogramchanges.form")
+	public void removeHivProgramChanges() {
+		new SetupProgramChanges(new Helper()).delete();
+	}
 }

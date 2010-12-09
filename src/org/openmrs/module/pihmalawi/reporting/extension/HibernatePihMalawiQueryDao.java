@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.openmrs.Cohort;
 import org.openmrs.Location;
+import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 
 public class HibernatePihMalawiQueryDao {
@@ -26,7 +27,9 @@ public class HibernatePihMalawiQueryDao {
 	                                            Location location) {
 		// potential to include multiple states in future
 		List<Integer> stateIds = new ArrayList<Integer>();
-		stateIds.add(programWorkflowState.getId());
+		if (programWorkflowState != null) {
+			stateIds.add(programWorkflowState.getId());
+		}
 		
 		// Create SQL query
 		StringBuilder sql = new StringBuilder();
@@ -111,5 +114,43 @@ public class HibernatePihMalawiQueryDao {
 
 		return new Cohort(query.list());
     }
+
+    public Cohort getPatientsInProgramAtLocation(List<Program> programs, Date onOrAfter, Date onOrBefore, Location location) {
+		List<Integer> programIds = new ArrayList<Integer>();
+		for (Program program : programs)
+			programIds.add(program.getProgramId());
+
+		// Create SQL query
+		StringBuilder sql = new StringBuilder();
+		sql.append("select pp.patient_id ");
+		sql.append("from patient_program pp ");
+		sql.append("  inner join patient p on pp.patient_id = p.patient_id ");
+		sql.append("where pp.voided = false and p.voided = false ");
+
+		// optional clauses
+		if (programIds != null && !programIds.isEmpty())
+			sql.append(" and pp.program_id in (:programIds) ");
+		if (onOrAfter != null)
+			sql.append(" and (pp.date_completed is null or pp.date_completed >= :onOrAfter) ");
+		if (onOrBefore != null)
+			sql.append(" and (pp.date_enrolled is null or pp.date_enrolled <= :onOrBefore) ");
+		if (location != null)
+			sql.append(" and pp.location_id = :location ");
+
+		sql.append(" group by pp.patient_id ");
+		log.debug("query: " + sql);
+
+		// Execute query
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString());
+		if (programIds != null && !programIds.isEmpty())
+			query.setParameterList("programIds", programIds);
+		if (onOrAfter != null)
+			query.setDate("onOrAfter", onOrAfter);
+		if (onOrBefore != null)
+			query.setDate("onOrBefore", onOrBefore);
+		if (location != null)
+			query.setInteger("location", location.getId());
+		return new Cohort(query.list()); 
+	}
 
 }

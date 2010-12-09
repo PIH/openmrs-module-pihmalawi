@@ -20,4 +20,8 @@
 <a href="${pageContext.request.contextPath}/module/pihmalawi/register_preartweekly.form">(Re) register Pre-ART Weekly Report</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_preartweekly.form">Remove Pre-ART Weekly Report</a>
 
+<br/>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivprogramchanges.form">(Re) register HIV Program Changes Report</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivprogramchanges.form">Remove HIV Program Changes Report</a>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

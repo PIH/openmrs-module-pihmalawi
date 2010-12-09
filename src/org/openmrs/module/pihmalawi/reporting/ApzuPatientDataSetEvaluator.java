@@ -41,7 +41,6 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService().getConceptByName("DEFAULTER ACTION TAKEN");
 		final Concept CD4_COUNT = Context.getConceptService().getConceptByName("CD4 COUNT");
 		
-		
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
 		PatientIdentifierType patientIdentifierType = definition.getPatientIdentifierType();
@@ -132,15 +131,17 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			
 			// columns for cross-checking
-			// verified
-			c = new DataSetColumn("verified", "verified", String.class);
-			row.addColumnValue(c, h(""));
-			// not verified
-			c = new DataSetColumn("unable to verify", "unable to verify", String.class);
-			row.addColumnValue(c, h(""));
-			// missed data entry
-			c = new DataSetColumn("missed data entry", "missed data entry", String.class);
-			row.addColumnValue(c, h(""));
+			if (definition.isIncludeMissedappointmentColumns()) {
+				// verified
+				c = new DataSetColumn("verified", "verified", String.class);
+				row.addColumnValue(c, h(""));
+				// not verified
+				c = new DataSetColumn("unable to verify", "unable to verify", String.class);
+				row.addColumnValue(c, h(""));
+				// missed data entry
+				c = new DataSetColumn("missed data entry", "missed data entry", String.class);
+				row.addColumnValue(c, h(""));
+			}
 			// comment
 			String comment = "";
 			if (definition.isIncludeDefaulterActionTaken()) {
@@ -157,7 +158,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				}
 				List<Encounter> encs = Context.getEncounterService().getEncountersByPatient(p);
 				if (encs.size() > 0) {
-					Encounter e = encs.get(encs.size() -1);
+					Encounter e = encs.get(encs.size() - 1);
 					comment += e.getEncounterType().getName();
 					comment += ":&nbsp;(" + formatEncounterDate(e.getEncounterDatetime()) + ") ";
 				}

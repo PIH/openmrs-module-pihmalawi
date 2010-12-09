@@ -80,8 +80,8 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
 		        .getStateByName("FOLLOWING"));
 		// internal transfers are still under responsibility of original clinic
-		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-		        .getStateByName("TRANSFERRED INTERNALLY"));
+//		states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
+//		        .getStateByName("TRANSFERRED INTERNALLY"));
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
