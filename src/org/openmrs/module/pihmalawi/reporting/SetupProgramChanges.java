@@ -1,43 +1,26 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openmrs.Concept;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
-import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
-import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -95,6 +78,7 @@ public class SetupProgramChanges {
 		for (int i = 1; i <= columns; i++) {
 			m.put("" + i, new Mapped<DataSetDefinition>(dsd, null));
 		}
+		m.put("unknown", new Mapped<DataSetDefinition>(dsd, null));
 		dsd.setEncounterTypes(null);
 		dsd.setPatientIdentifierType(PATIENT_IDENTIFIER_TYPE);
 		
@@ -165,14 +149,15 @@ public class SetupProgramChanges {
 		ipcd.addParameter(new Parameter("programs", "programs", Program.class));
 		h.replaceCohortDefinition(ipcd);
 
-		// Not at location
+		//  at location
 		InProgramAtProgramLocationCohortDefinition iplcd = new InProgramAtProgramLocationCohortDefinition();
 		iplcd.setName("changes: At location_");
+		iplcd.addParameter(new Parameter("programs", "programs", Program.class));
 		iplcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		iplcd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(iplcd);
 		
-		// At location
+		// not At location
 		InverseCohortDefinition icd = new InverseCohortDefinition();
 		icd.setName("changes: Not at location_");
 		icd.setBaseDefinition(iplcd);
@@ -186,19 +171,19 @@ public class SetupProgramChanges {
 		for (Location l : LOCATIONS) {
 			ccd.getSearches().put(
 			    "" + c,
-			    new Mapped(h.cohortDefinition("changes: Not at location_"), h.parameterMap("onDate", "${endDate}", "location", l)));
-			composition += "NOT " + c + " AND ";
+			    new Mapped(h.cohortDefinition("changes: Not at location_"), h.parameterMap("onDate", "${endDate}", "location", l, "programs", PROGRAM)));
+			composition += c + " AND ";
 			c++;
 		}
 		ccd.getSearches().put(
 		    "unknown",
-		    new Mapped(h.cohortDefinition("changes: In program_"), h.parameterMap("onDate", "${endDate}", "program", PROGRAM)));
+		    new Mapped(h.cohortDefinition("changes: In program_"), h.parameterMap("onDate", "${endDate}", "programs", PROGRAM)));
 		composition += " unknown";
 		ccd.setCompositionString(composition);
 		h.replaceCohortDefinition(ccd);
 		
 		CohortIndicator i = h.newCountIndicator("changes: unknown locations_", "changes: New at unknown location_", h
-		        .parameterMap("endDate", "${endDate}", "startDate", "${startDate}"));
+		        .parameterMap("endDate", "${endDate}" /* TODO, why not anymore?, "startDate", "${startDate}" */));
 		PeriodIndicatorReportUtil.addColumn(rd, "unknown", "New at unknown locations", i, null);
 	}
 }
