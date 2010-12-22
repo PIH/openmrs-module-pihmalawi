@@ -1,7 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.extension;
 
 import java.util.Date;
-import java.util.List;
 
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;

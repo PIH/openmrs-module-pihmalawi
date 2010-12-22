@@ -3,12 +3,10 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.Definition;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
-import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 
 public class TransientHelper extends Helper {
 	

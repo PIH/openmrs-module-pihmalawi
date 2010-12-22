@@ -2,10 +2,10 @@ package org.openmrs.module.pihmalawi.web.controller;
 
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupArtWeeklyVisit;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
+import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,16 +33,6 @@ public class PihReportFormController {
 		new SetupArtMissedAppointment(new Helper()).setup(false);
 	}
 	
-	@RequestMapping("/module/pihmalawi/remove_artweeklyvisit.form")
-	public void removeArtWeeklyVisit() {
-		new SetupArtWeeklyVisit(new Helper()).deleteReportElements();
-	}
-	
-	@RequestMapping("/module/pihmalawi/register_artweeklyvisit.form")
-	public void registerArtWeeklyVisit() throws Exception {
-		new SetupArtWeeklyVisit(new Helper()).setupHivWeekly(false);
-	}
-	
 	@RequestMapping("/module/pihmalawi/register_hivweeklyoutcome.form")
 	public void registerHivWeeklyOutcome() throws Exception {
 		new SetupHivWeeklyOutcome(new Helper()).setup(false);
@@ -63,6 +53,15 @@ public class PihReportFormController {
 		new SetupPreArtWeekly(new Helper()).delete();
 	}
 
+	@RequestMapping("/module/pihmalawi/register_weeklyencounter.form")
+	public void registerWeeklyEncounter() throws Exception {
+		new SetupWeeklyEncounter(new Helper()).setup(false);
+	}
+	
+	@RequestMapping("/module/pihmalawi/remove_weeklyencounter.form")
+	public void removeWeeklyEncounter() {
+		new SetupWeeklyEncounter(new Helper()).delete();
+	}
 	
 	@RequestMapping("/module/pihmalawi/register_hivprogramchanges.form")
 	public void registerHivProgramChanges() throws Exception {

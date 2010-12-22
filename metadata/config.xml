@@ -4,7 +4,7 @@
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
 	<name>PIH Malawi Customizations</name>
-	<version>0.3</version>
+	<version>0.4</version>
 	<package>org.openmrs.module.pihmalawi</package>
 	<author>Christian Neumann</author>
 	<description>PIH Malawi Implementation Module</description>

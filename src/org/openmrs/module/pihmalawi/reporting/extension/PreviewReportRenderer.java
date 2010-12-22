@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.pihmalawi.reporting;
+package org.openmrs.module.pihmalawi.reporting.extension;
 
 import java.io.IOException;
 import java.io.OutputStream;

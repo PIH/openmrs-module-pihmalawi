@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupArtWeeklyVisit;
-import org.openmrs.module.pihmalawi.reporting.SetupGenericMissedAppointment;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 

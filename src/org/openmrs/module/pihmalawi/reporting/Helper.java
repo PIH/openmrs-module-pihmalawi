@@ -131,6 +131,12 @@ public class Helper {
 		s.saveDefinition(def);
 	}
 	
+	public void replaceDataSetDefinition(DataSetDefinition def) {
+		SerializedDefinitionService s = (SerializedDefinitionService) Context.getService(SerializedDefinitionService.class);
+		purgeDefinition(def.getClass(), def.getName());
+		s.saveDefinition(def);
+	}
+	
 	public void newCountIndicator(String name, String cohort, String parameterMapping) {
 		CohortIndicator i = CohortIndicator.newCountIndicator(name, new Mapped<CohortDefinition>(cohortDefinition(cohort),
 		        ParameterizableUtil.createParameterMappings(parameterMapping)), null);
@@ -204,6 +210,12 @@ public class Helper {
 
 	public void replaceReportDefinition(PeriodIndicatorReportDefinition rd) {
 		purgeDefinition(PeriodIndicatorReportDefinition.class, rd.getName());
+		ReportDefinitionService rds = (ReportDefinitionService) Context.getService(ReportDefinitionService.class);
+		rds.saveDefinition(rd);
+    }
+
+	public void replaceReportDefinition(ReportDefinition rd) {
+		purgeDefinition(ReportDefinition.class, rd.getName());
 		ReportDefinitionService rds = (ReportDefinitionService) Context.getService(ReportDefinitionService.class);
 		rds.saveDefinition(rd);
     }
