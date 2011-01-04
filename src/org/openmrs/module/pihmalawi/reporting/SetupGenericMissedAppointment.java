@@ -96,7 +96,7 @@ public class SetupGenericMissedAppointment {
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());		
 		
-		return h.createHtmlBreakdown(rd, reportName + " Breakdown (external)_", m);
+		return h.createHtmlBreakdown(rd, reportName + " Breakdown (>=3 weeks)_", m);
 	}
 	
 	protected Collection<EncounterType> getEncounterTypes() {
@@ -123,7 +123,7 @@ public class SetupGenericMissedAppointment {
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());		
 
-		return h.createHtmlBreakdown(rd, reportName + " Breakdown (internal)_", m);
+		return h.createHtmlBreakdown(rd, reportName + " Breakdown (>=2 weeks <3 weeks)_", m);
 	}
 	
 	protected ReportDefinition createReportDefinition() throws IOException {
@@ -273,10 +273,10 @@ public class SetupGenericMissedAppointment {
 					if (rd.getName().equals(reportName + " Overview (Excel)_")) {
 						rs.purgeReportDesign(rd);
 					}
-					if (rd.getName().equals(reportName + " Breakdown (external)_")) {
+					if (rd.getName().equals(reportName + " Breakdown (>=3 weeks)_")) {
 						rs.purgeReportDesign(rd);
 					}
-					if (rd.getName().equals(reportName + " Breakdown (internal)_")) {
+					if (rd.getName().equals(reportName + " Breakdown (>=2 weeks <3 weeks)_")) {
 						rs.purgeReportDesign(rd);
 					}
 				}
