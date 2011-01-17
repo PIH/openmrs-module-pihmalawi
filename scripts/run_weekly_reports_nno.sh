@@ -1,10 +1,14 @@
 #!/bin/sh
 
+MAIL=cneumann@pih.org
+
 TODAY=`date +%Y%m%d`
 
 NOW=`date +%d`%2F`date +%m`%2F`date +%Y`
-ONE_WEEK_AGO=`date -v-6d +%d`%2F`date -v-6d +%m`%2F`date -v-6d +%Y`
-ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
+ONE_WEEK_AGO=`date --date "6 Days ago" +%d`%2F`date --date "6 Days ago" +%m`%2F`date --date "6 Days ago" +%Y`
+#ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
+#ONE_WEEK_AGO=`date -v-6d +%d`%2F`date -v-6d +%m`%2F`date -v-6d +%Y`
+#ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
 
 # Pre-ART Missed Appointment
 #./run_report.sh \
@@ -23,6 +27,7 @@ ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
   HIV_Weekly_Outcome-`echo $TODAY`.xls
+echo "" | mailx -a ART_Missed_Appointment-20110117.xls -s "emr: Upper Neno ART Missed Appointments 20110117" christian.neumann@gmx.de
 
 # ART Missed Appointment
 ./run_report.sh \
