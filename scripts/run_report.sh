@@ -14,7 +14,7 @@ if [ $# -ne 6 ]; then
   echo ""
   echo "Example:"
   cat <<EOF
-./run_report.sh \
+run_report.sh \
   "HIV PROGRAM Changes_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HIV PROGRAM Changes Breakdown_" \

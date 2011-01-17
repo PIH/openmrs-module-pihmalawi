@@ -1,6 +1,7 @@
 #!/bin/sh
 
 MAIL=cneumann@pih.org
+PATH=$PATH:/bin:/usr/bin
 
 TODAY=`date +%Y%m%d`
 
