@@ -11,7 +11,8 @@ NOW=`date +%d`%2F`date +%m`%2F`date +%Y`
 
 # use this on (older) Ubuntu and RedHat systems
 ONE_WEEK_AGO=`date --date "6 Days ago" +%d`%2F`date --date "6 Days ago" +%m`%2F`date --date "6 Days ago" +%Y`
-#ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
+# todo: it should be - 1 month + 1 day, but it is 1 month ago
+ONE_MONTH_AGO=`date --date "1 Month ago" +%d`%2F`date --date "1 Month ago" +%m`%2F`date --date "1 Month ago" +%Y`
 
 # use this at least on MacOS
 #ONE_WEEK_AGO=`date -v-6d +%d`%2F`date -v-6d +%m`%2F`date -v-6d +%Y`
