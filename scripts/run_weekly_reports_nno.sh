@@ -1,7 +1,9 @@
 #!/bin/sh
 
+echo "START"
+
 MAIL=cneumann@pih.org
-PATH=$PATH:/bin:/usr/bin
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/script_reports
 
 TODAY=`date +%Y%m%d`
 
@@ -26,7 +28,7 @@ ONE_WEEK_AGO=`date --date "6 Days ago" +%d`%2F`date --date "6 Days ago" +%m`%2F`
 
 # HIV Weekly Outcome
 FILE=HIV_Weekly_Outcome-`echo $TODAY`.xls
-./run_report.sh \
+run_report.sh \
   "HIV Weekly Outcome_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HIV Weekly Outcome Overview (Excel)_" \
@@ -34,11 +36,11 @@ FILE=HIV_Weekly_Outcome-`echo $TODAY`.xls
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
 
 # ART Missed Appointment
 FILE=ART_Missed_Appointment-`echo $TODAY`.xls
-./run_report.sh \
+run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Overview (Excel)_" \
@@ -46,10 +48,10 @@ FILE=ART_Missed_Appointment-`echo $TODAY`.xls
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Overview $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
 
 FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
-./run_report.sh \
+run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Breakdown (>=2 weeks <3 weeks)_" \
@@ -57,10 +59,10 @@ FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=2 <3 weeks $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
 
 FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
-./run_report.sh \
+run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Breakdown (>=3 weeks)_" \
@@ -68,11 +70,11 @@ FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
 
 # Weekly Encounter by Location
 FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
-./run_report.sh \
+run_report.sh \
   "Weekly Encounter By Location_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "Weekly Encounter By Location.xls (Excel)_" \
@@ -80,11 +82,11 @@ FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
 
 # Weekly Encounter by User
 FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
-./run_report.sh \
+run_report.sh \
   "Weekly Encounter By User_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "Weekly Encounter By User.xls (Excel)_" \
@@ -92,5 +94,5 @@ FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
-mv $FILE history
+mv $FILE /home/emradmin/script_reports/history
   
