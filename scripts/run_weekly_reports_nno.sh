@@ -24,60 +24,72 @@ ONE_WEEK_AGO=`date --date "6 Days ago" +%d`%2F`date --date "6 Days ago" +%m`%2F`
 #  Pre_ART_Missed_Appointment-`echo $TODAY`.xls
 
 # HIV Weekly Outcome
+FILE=HIV_Weekly_Outcome-`echo $TODAY`.xls
 ./run_report.sh \
   "HIV Weekly Outcome_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HIV Weekly Outcome Overview (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
-  HIV_Weekly_Outcome-`echo $TODAY`.xls
-echo "" | mailx -a HIV_Weekly_Outcome-`echo $TODAY`.xls -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
+mv $FILE history
 
 # ART Missed Appointment
+FILE=ART_Missed_Appointment-`echo $TODAY`.xls
 ./run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Overview (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
-  ART_Missed_Appointment-`echo $TODAY`.xls
-echo "" | mailx -a ART_Missed_Appointment-`echo $TODAY`.xls -s "emr: Upper Neno ART Missed Appointment Overview $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Overview $TODAY" "$MAIL"
+mv $FILE history
 
+FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 ./run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Breakdown (>=2 weeks <3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
-  ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
-echo "" | mailx -a ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html -s "emr: Upper Neno ART Missed Appointment Breakdown >=2 <3 weeks $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=2 <3 weeks $TODAY" "$MAIL"
+mv $FILE history
 
+FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
 ./run_report.sh \
   "ART Missed Appointment_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment Breakdown (>=3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
-  ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
-echo "" | mailx -a ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html -s "emr: Upper Neno ART Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
+mv $FILE history
 
 # Weekly Encounter by Location
+FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
 ./run_report.sh \
   "Weekly Encounter By Location_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "Weekly Encounter By Location.xls (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
-  Weekly_Encounter_By_Location-`echo $TODAY`.xls
-echo "" | mailx -a Weekly_Encounter_By_Location-`echo $TODAY`.xls -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
+mv $FILE history
 
 # Weekly Encounter by User
+FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
 ./run_report.sh \
   "Weekly Encounter By User_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "Weekly Encounter By User.xls (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
-  Weekly_Encounter_By_User-`echo $TODAY`.xls
-echo "" | mailx -a Weekly_Encounter_By_User-`echo $TODAY`.xls -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
+mv $FILE history
   
