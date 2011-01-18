@@ -18,13 +18,13 @@ ONE_MONTH_AGO=`date --date "1 Month ago" +%d`%2F`date --date "1 Month ago" +%m`%
 
 # HIV Program Changes
 FILE=HIV_Program_Changes-`echo $TODAY`.html
-./run_report.sh \
+run_report.sh \
   "HIV PROGRAM Changes_" \
   "userEnteredParams%5BstartDate%5D=$ONE_MONTH_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HIV PROGRAM Changes Breakdown_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
   $FILE
-echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
+echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Program Changes $TODAY" "$MAIL"
 mv $FILE /home/emradmin/script_reports/history
   
