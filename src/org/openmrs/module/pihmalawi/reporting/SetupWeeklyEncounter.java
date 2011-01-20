@@ -42,7 +42,7 @@ public class SetupWeeklyEncounter {
 				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EID_INITIAL"),
 				et("EID_FOLLOWUP"), et("LAB"), et("TB_INITIAL"),
 				et("TB_FOLLOWUP"), et("REGISTRATION"), et("VITALS"),
-				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"));
+				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"), et("CHRONIC_CARE_INITIAL"));
 		// wish-list, what about drugs & drug_orders
 		/*
 		 * ENCOUNTER_TYPES = Arrays .asList( et("ART_INITIAL"),
@@ -91,18 +91,20 @@ public class SetupWeeklyEncounter {
 		return Context.getUserService().getUserByUsername(username);
 	}
 
-	public void setup(boolean b) throws Exception {
+	public ReportDefinition[] setup(boolean b) throws Exception {
 		delete();
 
-		ReportDefinition rd = createReportDefinitionByLocation();
-		h.createXlsOverview(rd, "Weekly_Encounter_By_Location.xls",
+		ReportDefinition rd1 = createReportDefinitionByLocation();
+		h.createXlsOverview(rd1, "Weekly_Encounter_By_Location.xls",
 				"Weekly Encounter By Location.xls (Excel)_",
 				excelOverviewProperties());
 
-		rd = createReportDefinitionByUser();
-		h.createXlsOverview(rd, "Weekly_Encounter_By_User.xls",
+		ReportDefinition rd2 = createReportDefinitionByUser();
+		h.createXlsOverview(rd2, "Weekly_Encounter_By_User.xls",
 				"Weekly Encounter By User.xls (Excel)_",
 				excelOverviewProperties());
+		
+		return new ReportDefinition[] {rd1, rd2};
 	}
 
 	public void delete() {
@@ -182,7 +184,7 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
@@ -229,7 +231,7 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
