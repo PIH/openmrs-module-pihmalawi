@@ -23,6 +23,10 @@ public class HibernatePihMalawiQueryDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	public SessionFactory getSessionFactory() {
+		return this.sessionFactory;
+	}
+	
 	public Cohort getPatientsInStatesAtLocation(ProgramWorkflowState programWorkflowState, Date onOrAfter, Date onOrBefore,
 	                                            Location location) {
 		// potential to include multiple states in future
