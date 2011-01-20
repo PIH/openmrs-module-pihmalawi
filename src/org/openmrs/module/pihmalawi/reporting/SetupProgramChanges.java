@@ -14,12 +14,16 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -79,6 +83,7 @@ public class SetupProgramChanges {
 			m.put("" + i, new Mapped<DataSetDefinition>(dsd, null));
 		}
 		m.put("unknown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("initiated", new Mapped<DataSetDefinition>(dsd, null));
 		dsd.setEncounterTypes(null);
 		dsd.setPatientIdentifierType(PATIENT_IDENTIFIER_TYPE);
 		
@@ -99,6 +104,7 @@ public class SetupProgramChanges {
 	
 	private PeriodIndicatorReportDefinition createReportDefinition() {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
 		rd.setName(PROGRAM.getName() + " Changes_");
 		rd.setupDataSetDefinition();
 		return rd;
@@ -185,5 +191,43 @@ public class SetupProgramChanges {
 		CohortIndicator i = h.newCountIndicator("changes: unknown locations_", "changes: New at unknown location_", h
 		        .parameterMap("endDate", "${endDate}" /* TODO, why not anymore?, "startDate", "${startDate}" */));
 		PeriodIndicatorReportUtil.addColumn(rd, "unknown", "New at unknown locations", i, null);
+		
+		// NOTE: HIV specific implementation
+		// Started ART during period
+		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
+		pscd.setName("changes: Started ART_");
+		pscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS")));
+		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		pscd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		h.replaceCohortDefinition(pscd);
+		
+		// Following during period
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName("changes: Following_");
+		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "FOLLOWING")));
+		iscd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
+		h.replaceCohortDefinition(iscd);
+		
+		// Started ART from Following during period
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("changes: Started ART from Following during period_");
+		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ccd.getSearches().put(
+		    "1",
+		    new Mapped(h.cohortDefinition("changes: Started ART_"), ParameterizableUtil
+		            .createParameterMappings("startedOnOrAfter=${startDate},startedOnOrBefore=${endDate}")));
+		ccd.getSearches().put(
+		    "2",
+		    new Mapped(h.cohortDefinition("changes: Following_"), ParameterizableUtil
+		            .createParameterMappings("onOrBefore=${endDate},onOrAfter=${startDate}")));
+		ccd.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(ccd);
+
+		i = h.newCountIndicator("changes: Started ART from Following_", "changes: Started ART from Following during period_", h
+		        .parameterMap("endDate", "${endDate}", "startDate", "${startDate}" ));
+		PeriodIndicatorReportUtil.addColumn(rd, "initiated", "Started ART from Following across all locations", i, null);
+		
 	}
 }

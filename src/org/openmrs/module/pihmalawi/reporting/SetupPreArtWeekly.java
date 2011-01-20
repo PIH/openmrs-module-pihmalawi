@@ -17,6 +17,7 @@ import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
@@ -108,6 +109,11 @@ public class SetupPreArtWeekly {
 	
 	private PeriodIndicatorReportDefinition createReportDefinition() {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.addParameter(new Parameter("startDate", "Start date (Monday)", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
 		rd.setName("Pre-ART Weekly_");
 		h.replaceReportDefinition(rd);
 		return rd;

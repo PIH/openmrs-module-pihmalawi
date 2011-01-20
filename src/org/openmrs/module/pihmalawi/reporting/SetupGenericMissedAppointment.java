@@ -13,6 +13,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
@@ -129,6 +130,11 @@ public class SetupGenericMissedAppointment {
 	protected ReportDefinition createReportDefinition() throws IOException {
 		// art appointment report
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
+
 		rd.setName(reportName + "_");
 		rd.setupDataSetDefinition();
 		rd.addDimension("Location", h.cohortDefinitionDimension(reportTag + ": program location_"));

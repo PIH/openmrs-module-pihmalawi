@@ -12,6 +12,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
@@ -141,6 +142,10 @@ public class SetupHivWeeklyOutcome {
 		boolean useTestPatientCohort = false;
 		String cohort = (useTestPatientCohort ? "hiv: Ever On ART for test_" : "hiv: Ever On ART_");
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
 		rd.setName("HIV Weekly Outcome_");
 		rd.setupDataSetDefinition();
 		rd.addDimension("Location", h.cohortDefinitionDimension("hiv: HIV program location_"));
