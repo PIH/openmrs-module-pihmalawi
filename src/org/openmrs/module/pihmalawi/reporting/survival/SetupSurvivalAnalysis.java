@@ -55,13 +55,14 @@ public class SetupSurvivalAnalysis {
 				.getStateByName("ON ANTIRETROVIRALS");
 	}
 
-	public void setup() throws Exception {
+	public ReportDefinition[] setup() throws Exception {
 		delete();
 
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
 		createCohortDefinitions(rd);
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdownExternal(rd);
+		return new ReportDefinition[] {rd};
 	}
 
 	protected ReportDesign createHtmlBreakdownExternal(
@@ -108,7 +109,7 @@ public class SetupSurvivalAnalysis {
 		pscd.addParameter(new Parameter("state", "state", ProgramWorkflowState.class));
 //		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
-		pscd.addParameter(new Parameter("location", "location", Location.class));
+//		pscd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(pscd);
 		
 
@@ -139,8 +140,8 @@ public class SetupSurvivalAnalysis {
 		
 		CohortIndicator i = h.newCountIndicator("survival: Ever On ART at location_",
 				"survival: Having state at location_", h
-						.parameterMap("startedOnOrBefore", "${endDate}", "location",
-								"${location}", "state", START_STATE));
+						.parameterMap("startedOnOrBefore", "${endDate}", /*"location",
+								"${location}",*/ "state", START_STATE));
 
 		PeriodIndicatorReportUtil.addColumn(rd, "outcome",
 				"outcome", i, null);

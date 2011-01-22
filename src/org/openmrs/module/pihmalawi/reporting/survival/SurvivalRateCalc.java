@@ -22,20 +22,25 @@ import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryD
 
 public class SurvivalRateCalc {
 
-	public String outcome(Patient p, Location location, int monthsInProgram,
+	public String[] outcome(Patient p, Location location, int monthsInProgram,
 			Program program) {
 
-		String name = "Unknown";
+		String outcomeAndLocation[] = new String[3];
+		
+		outcomeAndLocation[0] = "Unknown outcome";
+		outcomeAndLocation[1] = "Unknown location";
+		outcomeAndLocation[2] = "Unknown start date on art";
 
 		List<PatientProgram> pps = Context.getProgramWorkflowService()
 				.getPatientPrograms(p, program, null, null, null, null, false);
 		for (PatientProgram pp : pps) {
 			if (!pp.isVoided()) {
 				try {
-
+					// todo: check if there are mutliple programs for the same location
 					Location enrollmentLocation = getEnrollmentLocation(pp);
-					if (enrollmentLocation != null
-							& enrollmentLocation.getId() == location.getId()) {
+					if ((location == null)
+							|| (enrollmentLocation != null & enrollmentLocation
+									.getId() == location.getId())) {
 						PatientState firstOnArtState = getFirstOnArtStateAtLocation(
 								p, pp);
 						if (firstOnArtState != null) {
@@ -56,11 +61,17 @@ public class SurvivalRateCalc {
 							HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
 							ArrayList<Long> stupidListConverter = new ArrayList<Long>();
 							for (PatientState ps : states) {
-								if (!ps.isVoided()) {
+								if (!ps.isVoided() 
+										&& ps.getState().getProgramWorkflow().getId()  == 1 // treatment status
+										&& !ps.getState().isRetired() && !ps.getState().getConcept().isRetired()) {
+									if (ps.getStartDate().equals(ps.getEndDate())) {
+										// special treatment for following started and stopped on same date and on art started
+									} else {
 									validPatientStates.put(ps.getStartDate()
 											.getTime(), ps);
 									stupidListConverter.add(ps.getStartDate()
 											.getTime());
+									}
 								}
 							}
 							Collections.<Long> sort(stupidListConverter);
@@ -73,40 +84,53 @@ public class SurvivalRateCalc {
 								if (state.getStartDate().before(enrolledDate)) {
 									// state too early
 								} else {
-								boolean before = state.getStartDate().before(
-										outcomeOn);
+									boolean before = state.getStartDate()
+											.before(outcomeOn);
 
-								if (before) {
-									// so far most recent state
-									outcomeAt = state;
-									name = outcomeAt.getState().getConcept()
-											.getName().getName();
-									System.out.println("most recent state at "
-											+ outcomeOn
-											+ " "
-											+ outcomeAt.getActive(outcomeOn)
-											+ " - "
-											+ outcomeAt.getState().getConcept()
-													.getName() + " - "
-											+ outcomeAt.getStartDate());
-								} else {
-									// assume that state are linear in time,
-									// stop if
-									// more
-									// recent one is found
-									System.out.println("NOPE");
-									break;
+									if (before) {
+										// so far most recent state
+										outcomeAt = state;
+										outcomeAndLocation[0] = outcomeAt.getState()
+												.getConcept().getName()
+												.getName();
+										outcomeAndLocation[1] = getEnrollmentLocation(outcomeAt.getPatientProgram()).getName();
+										outcomeAndLocation[2] = outcomeAt.getStartDate() +  "";
+																			System.out
+												.println("most recent state at "
+														+ outcomeOn
+														+ " "
+														+ outcomeAt
+																.getActive(outcomeOn)
+														+ " - "
+														+ outcomeAt.getState()
+														.getConcept()
+														.getName()
+												+ " - "
+												+ outcomeAt.getVoided()
+												+ " - "
+												+ outcomeAt.getId()
+										+ " - "
+														+ outcomeAt
+																.getStartDate());
+									} else {
+										// assume that state are linear in time,
+										// stop if
+										// more
+										// recent one is found
+										System.out.println("NOPE");
+										break;
+									}
+
 								}
-
-								}}
+							}
 						}
 					}
 				} catch (NullPointerException e) {
-
+					e.printStackTrace();
 				}
 			}
 		}
-		return name;
+		return outcomeAndLocation;
 	}
 
 	private PatientState getFirstOnArtStateAtLocation(Patient p,
