@@ -2,11 +2,13 @@ package org.openmrs.module.pihmalawi.reporting.survival;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +17,7 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
@@ -37,8 +40,7 @@ import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluato
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
 @Handler(supports = { SurvivalDataSetDefinition.class })
-public class SurvivalDataSetEvaluator implements DataSetEvaluator {
-
+public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -50,11 +52,11 @@ public class SurvivalDataSetEvaluator implements DataSetEvaluator {
 			EvaluationContext context) {
 		final Concept CD4_COUNT = Context.getConceptService().getConceptByName(
 				"CD4 COUNT");
-		final RelationshipType VHW_RELATIONSHIP_TYPE = Context.getPersonService()
-		.getRelationshipTypeByName("Village Health Worker");
-//// VHW_RELATIONSHIP_TYPE =
-// Context.getPersonService().getRelationshipTypeByUuid(
-// "19124428-a89d-11df-bba5-000c297f1161");
+		final RelationshipType VHW_RELATIONSHIP_TYPE = Context
+				.getPersonService().getRelationshipType(7);
+		// // VHW_RELATIONSHIP_TYPE =
+		// Context.getPersonService().getRelationshipTypeByUuid(
+		// "19124428-a89d-11df-bba5-000c297f1161");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		SurvivalDataSetDefinition definition = (SurvivalDataSetDefinition) dataSetDefinition;
@@ -63,21 +65,21 @@ public class SurvivalDataSetEvaluator implements DataSetEvaluator {
 		Collection<EncounterType> encounterTypes = definition
 				.getEncounterTypes();
 
-		context = ObjectUtil.nvl(context, new EvaluationContext());
-		Cohort cohort = context.getBaseCohort();
+		 context = ObjectUtil.nvl(context, new EvaluationContext());
+		 Cohort cohort = context.getBaseCohort();
 
-		// By default, get all patients
-		if (cohort == null) {
-			cohort = Context.getPatientSetService().getAllPatients();
-		}
-
-		if (context.getLimit() != null) {
-			CohortUtil.limitCohort(cohort, context.getLimit());
-		}
-
-		// Get a list of patients based on the cohort members
-		List<Patient> patients = Context.getPatientSetService().getPatients(
-				cohort.getMemberIds());
+//		 By default, get all patients
+		 if (cohort == null) {
+		 cohort = Context.getPatientSetService().getAllPatients();
+		 }
+		
+		 if (context.getLimit() != null) {
+		 CohortUtil.limitCohort(cohort, context.getLimit());
+		 }
+		
+		 // Get a list of patients based on the cohort members
+		 List<Patient> patients = Context.getPatientSetService().getPatients(
+		 cohort.getMemberIds());
 
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
@@ -179,13 +181,93 @@ public class SurvivalDataSetEvaluator implements DataSetEvaluator {
 			c = new DataSetColumn("12 months outcome location",
 					"12 months outcome location", String.class);
 			row.addColumnValue(c, outcome[1]);
-			c = new DataSetColumn("12 months outcome date",
-					"12 months outcome date", String.class);
+			c = new DataSetColumn("Date of relevant event for 12 months outcome",
+					"Date of relevant event for 12 months outcome", String.class);
 			row.addColumnValue(c, outcome[2]);
+
+			Encounter initial = firstArtInitial(p);
+
+			c = new DataSetColumn("1st positive HIV test",
+					"1st positive HIV test", String.class);
+			row.addColumnValue(c,
+					obsFromEncounter(initial, "DATE OF HIV DIAGNOSIS"));
+
+			c = new DataSetColumn("1st positive HIV test place",
+					"1st positive HIV test place", String.class);
+			row.addColumnValue(c,
+					obsFromEncounter(initial, "LOCATION WHERE TEST TOOK PLACE"));
+
+			c = new DataSetColumn("Initial Encounter date",
+					"Initial Encounter date", String.class);
+			row.addColumnValue(c, (initial != null ? initial.getEncounterDatetime() : ""));
+
+			c = new DataSetColumn("Initial Encounter place",
+					"Initial Encounter place", String.class);
+			row.addColumnValue(c, (initial != null ? initial.getLocation().getName() : ""));
+
+			c = new DataSetColumn("Transfer in", "Transfer in", String.class);
+			row.addColumnValue(c, obsFromEncounter(initial, "TRANSFER IN"));
+
+			c = new DataSetColumn("Agrees to followup", "Agrees to followup",
+					String.class);
+			row.addColumnValue(c,
+					obsFromEncounter(initial, "FOLLOW UP AGREEMENT"));
+
+			c = new DataSetColumn("Reason for starting", "Reaons for starting",
+					String.class);
+			row.addColumnValue(c,
+					obsFromEncounter(initial, "REASON ANTIRETROVIRALS STARTED"));
+
+			c = new DataSetColumn("WHO Stage", "WHO Stage", String.class);
+			row.addColumnValue(c, obsFromEncounter(initial, "WHO STAGE"));
+
+			c = new DataSetColumn("Weight at initiation", "Weight at initiation", String.class);
+			row.addColumnValue(c, obsFromEncounter(initial, "WEIGHT (KG)"));
+
+			c = new DataSetColumn("Height at initiation", "Height at initiation", String.class);
+			row.addColumnValue(c, obsFromEncounter(initial, "HEIGHT (CM)"));
+
+			c = new DataSetColumn("Age at initiation in Neno district",
+					"Age at initiation (in Neno)", Integer.class);
+			row.addColumnValue(c, (initial != null ? p.getAge(initial.getEncounterDatetime()) : ""));
 
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	private String obsFromEncounter(Encounter initial, String name) {
+		if (initial != null) {
+			Concept c = Context.getConceptService().getConcept(name);
+			List<Obs> os = Context.getObsService().getObservations(null,
+					Arrays.asList(initial), Arrays.asList(c), null, null, null,
+					null, 1, null, null, null, false);
+			if (!os.isEmpty()) {
+				Obs o = os.get(0);
+				String value = "";
+				if (o.getValueNumeric() != null)
+					value = "" + o.getValueNumeric();
+				if (o.getValueDatetime() != null)
+					value = "" + o.getValueDatetime();
+				if (o.getValueText() != null)
+					value = "" + o.getValueText();
+				if (o.getValueCoded() != null)
+					value = "" + o.getValueCoded().getDisplayString();
+				return value;
+			}
+		}
+		return "";
+	}
+
+	private Encounter firstArtInitial(Patient p) {
+		Collection c = new Vector();
+		c.add(Context.getEncounterService().getEncounterType("ART_INITIAL"));
+		List es = Context.getEncounterService().getEncounters(p, null, null,
+				null, null, c, null, false);
+		if (!es.isEmpty()) {
+			return (Encounter) es.get(0);
+		}
+		return null;
 	}
 
 	private Date artStatedOn(Patient p, Program program) {

@@ -57,8 +57,8 @@ public class SetupWeeklyEncounter {
 						h.location("Neno District Hospital - Outpatient"),
 						h.location("Neno District Hospital - Registration"),
 						h.location("Neno District Hospital - Vitals")),
-				Arrays.asList(h.location("Magaleta HC")),
-				Arrays.asList(h.location("Nsambe HC")),
+						Arrays.asList(h.location("Magaleta HC")),
+						Arrays.asList(h.location("Nsambe HC")),
 				Arrays.asList(h.location("Lisungwi Community Hospital")),
 				Arrays.asList(h.location("Chifunga HC")),
 				Arrays.asList(h.location("Matope HC")));

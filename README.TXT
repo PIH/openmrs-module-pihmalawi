@@ -17,6 +17,6 @@ The reports can be invoked through the generic OpenMRS Reporting module UI or
 with automated scripts from the scripts directory. The script may require
 additional software like a specific version of the commands mysql, date or nail.
 Use these crontab entries as an example:
-0 23 * * Mon /home/emradmin/script_reports/run_weekly_reports_nno.sh >> /dev/null
-0 19 * * * /home/emradmin/script_reports/run_monthly_reports_nno.sh >> /dev/null
+0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports_nno.sh >> /dev/null
+0 22 1 * * /home/emradmin/script_reports/run_monthly_reports_nno.sh >> /dev/null
 

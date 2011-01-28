@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.definition;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reporting.survival.SurvivalDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.survival.SurvivalDataSetEvaluator;
 import org.openmrs.module.pihmalawi.reporting.survival.SurvivalRateCalc;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -39,9 +42,17 @@ public class SurvivalRateTest extends BaseModuleContextSensitiveTest {
 				"HIV PROGRAM");
 		int monthsInProgram = 12;
 		Location location = Context.getLocationService().getLocation(2);
-		Patient p = Context.getPatientService().getPatient(16462);
+		Patient p = Context.getPatientService().getPatient(56184);
 
-		new SurvivalRateCalc().outcome(p, location, monthsInProgram, program);
+//		String[] r = new SurvivalRateCalc().outcome(p, null, monthsInProgram, program);
+//		System.out.println(r[0] + "-" +  r[1] + "-" + r[2]);
+		
+		SurvivalDataSetDefinition sdsd = new SurvivalDataSetDefinition();
+		sdsd.setEncounterTypes(null);
+		sdsd.setPatientIdentifierType(Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number"));
+		SurvivalDataSetEvaluator e =new SurvivalDataSetEvaluator();
+//		e.evaluate(sdsd, null, Arrays.asList(p));
 	}
 
 	private SessionFactory sessionFactory() {

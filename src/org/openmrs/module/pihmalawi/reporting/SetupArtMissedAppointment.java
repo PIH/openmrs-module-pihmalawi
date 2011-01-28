@@ -24,18 +24,24 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	
 	public SetupArtMissedAppointment(Helper helper) {
+//		super(helper, "ART Missed Appointment", "artappt", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"), Context
+//		        .getLocationService().getLocation("Neno District Hospital"), Context.getLocationService().getLocation(
+//		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"), false);
 		super(helper, "ART Missed Appointment", "artappt", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"), Context
-		        .getLocationService().getLocation("Neno District Hospital"), Context.getLocationService().getLocation(
-		    "Magaleta HC"), Context.getLocationService().getLocation("Nsambe HC"), false);
+		        .getLocationService().getLocation("Lisungwi Community Hospital"), Context.getLocationService().getLocation(
+		    "Chifunga HC"), Context.getLocationService().getLocation("Matope HC"), false);
 	}
 	
     protected Map excelOverviewProperties() {
 		Map properties = new HashMap();
 		properties.put("title", "ART Missed Appointment - Upper Neno");
 		properties.put("baseCohort", "On ART");
-		properties.put("loc1name", "Neno");
-		properties.put("loc2name", "Magaleta");
-		properties.put("loc3name", "Nsambe");
+		properties.put("loc1name", "Lisungwi");
+		properties.put("loc2name", "Chifunga");
+		properties.put("loc3name", "Matope");
+//		properties.put("loc1name", "Neno");
+//		properties.put("loc2name", "Magaleta");
+//		properties.put("loc3name", "Nsambe");
 		return properties;
     }
 
