@@ -96,4 +96,16 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
 mv $FILE /home/emradmin/script_reports/history
+ 
+# HIV Data Quality
+FILE=HIV_Data_Quality-`echo $TODAY`.xls
+run_report.sh \
+  "HIV Data Quality_" \
+  "userEnteredParams%5BendDate%5D=$NOW" \
+  "SimpleHtmlReportRenderer" \
+  org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: HIV Data Quality $TODAY" "$MAIL"
+mv $FILE /home/emradmin/script_reports/history
   
