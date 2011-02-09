@@ -14,27 +14,28 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 
 public class HibernatePihMalawiQueryDao {
-	
-	protected static final Log log = LogFactory.getLog(HibernatePihMalawiQueryDao.class);
-	
+
+	protected static final Log log = LogFactory
+			.getLog(HibernatePihMalawiQueryDao.class);
+
 	private SessionFactory sessionFactory;
-	
+
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
+
 	public SessionFactory getSessionFactory() {
 		return this.sessionFactory;
 	}
-	
-	public Cohort getPatientsInStatesAtLocation(ProgramWorkflowState programWorkflowState, Date onOrAfter, Date onOrBefore,
-	                                            Location location) {
-		// potential to include multiple states in future
+
+	public Cohort getPatientsInStatesAtLocation(
+			List<ProgramWorkflowState> programWorkflowStates, Date onOrAfter,
+			Date onOrBefore, Location location) {
 		List<Integer> stateIds = new ArrayList<Integer>();
-		if (programWorkflowState != null) {
-			stateIds.add(programWorkflowState.getId());
+		for (ProgramWorkflowState state : programWorkflowStates) {
+			stateIds.add(state.getId());
 		}
-		
+
 		// Create SQL query
 		StringBuilder sql = new StringBuilder();
 		sql.append("select pp.patient_id ");
@@ -42,7 +43,7 @@ public class HibernatePihMalawiQueryDao {
 		sql.append("  inner join patient_program pp on ps.patient_program_id = pp.patient_program_id ");
 		sql.append("  inner join patient p on pp.patient_id = p.patient_id ");
 		sql.append("where ps.voided = false and pp.voided = false and p.voided = false ");
-		
+
 		// optional clauses
 		if (stateIds != null && !stateIds.isEmpty())
 			sql.append(" and ps.state in (:stateIds) ");
@@ -52,11 +53,12 @@ public class HibernatePihMalawiQueryDao {
 			sql.append(" and (ps.start_date is null or ps.start_date <= :onOrBefore) ");
 		if (location != null)
 			sql.append(" and pp.location_id = :location ");
-		
+
 		sql.append(" group by pp.patient_id ");
-		
+
 		// Execute query
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString());
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				sql.toString());
 		if (stateIds != null && !stateIds.isEmpty())
 			query.setParameterList("stateIds", stateIds);
 		if (onOrAfter != null)
@@ -67,10 +69,54 @@ public class HibernatePihMalawiQueryDao {
 			query.setInteger("location", location.getId());
 		return new Cohort(query.list());
 	}
-	
-	public Cohort getPatientsHavingStatesAtLocation(ProgramWorkflowState programWorkflowState,
-	                                      Date startedOnOrAfter, Date startedOnOrBefore,
-                                          Date endedOnOrAfter, Date endedOnOrBefore, Location location) {
+
+	public Cohort getPatientsInStatesAtLocation(
+			ProgramWorkflowState programWorkflowState, Date onOrAfter,
+			Date onOrBefore, Location location) {
+		// potential to include multiple states in future
+		List<Integer> stateIds = new ArrayList<Integer>();
+		if (programWorkflowState != null) {
+			stateIds.add(programWorkflowState.getId());
+		}
+
+		// Create SQL query
+		StringBuilder sql = new StringBuilder();
+		sql.append("select pp.patient_id ");
+		sql.append("from patient_state ps ");
+		sql.append("  inner join patient_program pp on ps.patient_program_id = pp.patient_program_id ");
+		sql.append("  inner join patient p on pp.patient_id = p.patient_id ");
+		sql.append("where ps.voided = false and pp.voided = false and p.voided = false ");
+
+		// optional clauses
+		if (stateIds != null && !stateIds.isEmpty())
+			sql.append(" and ps.state in (:stateIds) ");
+		if (onOrAfter != null)
+			sql.append(" and (ps.end_date is null or ps.end_date >= :onOrAfter) ");
+		if (onOrBefore != null)
+			sql.append(" and (ps.start_date is null or ps.start_date <= :onOrBefore) ");
+		if (location != null)
+			sql.append(" and pp.location_id = :location ");
+
+		sql.append(" group by pp.patient_id ");
+
+		// Execute query
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				sql.toString());
+		if (stateIds != null && !stateIds.isEmpty())
+			query.setParameterList("stateIds", stateIds);
+		if (onOrAfter != null)
+			query.setDate("onOrAfter", onOrAfter);
+		if (onOrBefore != null)
+			query.setDate("onOrBefore", onOrBefore);
+		if (location != null)
+			query.setInteger("location", location.getId());
+		return new Cohort(query.list());
+	}
+
+	public Cohort getPatientsHavingStatesAtLocation(
+			ProgramWorkflowState programWorkflowState, Date startedOnOrAfter,
+			Date startedOnOrBefore, Date endedOnOrAfter, Date endedOnOrBefore,
+			Location location) {
 		// potential to include multiple states in future
 		List<Integer> stateIds = new ArrayList<Integer>();
 		stateIds.add(programWorkflowState.getId());
@@ -82,7 +128,7 @@ public class HibernatePihMalawiQueryDao {
 		sql.append("  inner join patient_program pp on ps.patient_program_id = pp.patient_program_id ");
 		sql.append("  inner join patient p on pp.patient_id = p.patient_id ");
 		sql.append("where ps.voided = false and pp.voided = false and p.voided = false ");
-		
+
 		// Create a list of clauses
 		if (stateIds != null && !stateIds.isEmpty())
 			sql.append(" and ps.state in (:stateIds) ");
@@ -101,7 +147,8 @@ public class HibernatePihMalawiQueryDao {
 		log.debug("query: " + sql);
 
 		// Execute query
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString());
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				sql.toString());
 
 		if (stateIds != null && !stateIds.isEmpty())
 			query.setParameterList("stateIds", stateIds);
@@ -117,9 +164,10 @@ public class HibernatePihMalawiQueryDao {
 			query.setInteger("location", location.getId());
 
 		return new Cohort(query.list());
-    }
+	}
 
-    public Cohort getPatientsInProgramAtLocation(List<Program> programs, Date onOrAfter, Date onOrBefore, Location location) {
+	public Cohort getPatientsInProgramAtLocation(List<Program> programs,
+			Date onOrAfter, Date onOrBefore, Location location) {
 		List<Integer> programIds = new ArrayList<Integer>();
 		for (Program program : programs)
 			programIds.add(program.getProgramId());
@@ -145,7 +193,8 @@ public class HibernatePihMalawiQueryDao {
 		log.debug("query: " + sql);
 
 		// Execute query
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString());
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				sql.toString());
 		if (programIds != null && !programIds.isEmpty())
 			query.setParameterList("programIds", programIds);
 		if (onOrAfter != null)
@@ -154,7 +203,7 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("onOrBefore", onOrBefore);
 		if (location != null)
 			query.setInteger("location", location.getId());
-		return new Cohort(query.list()); 
+		return new Cohort(query.list());
 	}
 
 }

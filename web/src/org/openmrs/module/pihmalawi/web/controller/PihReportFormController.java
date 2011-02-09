@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.web.controller;
 
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
+import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
@@ -71,5 +72,15 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_hivprogramchanges.form")
 	public void removeHivProgramChanges() {
 		new SetupProgramChanges(new Helper()).delete();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_hivdataquality.form")
+	public void registerHivDataQuality() throws Exception {
+		new SetupHivDataQuality(new Helper()).setup();
+	}
+	
+	@RequestMapping("/module/pihmalawi/remove_hivdataquality.form")
+	public void removeDataQuality() {
+		new SetupHivDataQuality(new Helper()).delete();
 	}
 }

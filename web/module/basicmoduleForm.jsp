@@ -28,4 +28,8 @@ Weekly Encounter Report: <a href="${pageContext.request.contextPath}/module/pihm
 HIV Program Changes Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivprogramchanges.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivprogramchanges.form">Remove</a>
 
+<br/>
+HIV Data Quality: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivdataquality.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivdataquality.form">Remove</a>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

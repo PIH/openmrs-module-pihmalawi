@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.unfinished.EncounterAfterProgramStateCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -58,9 +60,9 @@ public class SetupHivDataQuality {
 		STATE_FOLLOWING = PROGRAM.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("FOLLOWING");
 		STATE_STOPPED = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
+				.getStateByName("TREATMENT STOPPED");
 		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
+				.getStateByName("PATIENT TRANSFERRED OUT");
 
 		LOCATIONS = Arrays.asList(h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
@@ -94,6 +96,8 @@ public class SetupHivDataQuality {
 		rd.setName("HIV Data Quality_");
 		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.addParameter(new Parameter("endDate", "End date (Today)", Date.class));
 		rd.setupDataSetDefinition();
 		return rd;
 	}
@@ -341,12 +345,11 @@ public class SetupHivDataQuality {
 						.parameterMap("onOrAfter", "${endDate}")));
 		ccd.getSearches().put(
 				"artNumber",
-				new Mapped(h.cohortDefinition("hivdq: ART number_"),
-						h.parameterMap()));
+				new Mapped(h.cohortDefinition("hivdq: ART number_"), h
+						.parameterMap()));
 		ccd.setCompositionString("onArt AND NOT artNumber");
 		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator(
-				"hivdq: On ART without number_",
+		i = h.newCountIndicator("hivdq: On ART without number_",
 				"hivdq: On ART without number_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "nonoart",
@@ -374,12 +377,11 @@ public class SetupHivDataQuality {
 						.parameterMap("onOrAfter", "${endDate}")));
 		ccd.getSearches().put(
 				"partNumber",
-				new Mapped(h.cohortDefinition("hivdq: PART number_"),
-						h.parameterMap()));
+				new Mapped(h.cohortDefinition("hivdq: PART number_"), h
+						.parameterMap()));
 		ccd.setCompositionString("following AND NOT partNumber");
 		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator(
-				"hivdq: Following without number_",
+		i = h.newCountIndicator("hivdq: Following without number_",
 				"hivdq: Following without number_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "nonopart",
@@ -395,12 +397,11 @@ public class SetupHivDataQuality {
 						.parameterMap("onOrAfter", "${endDate}")));
 		ccd.getSearches().put(
 				"artNumber",
-				new Mapped(h.cohortDefinition("hivdq: ART number_"),
-						h.parameterMap()));
+				new Mapped(h.cohortDefinition("hivdq: ART number_"), h
+						.parameterMap()));
 		ccd.setCompositionString("following AND artNumber");
 		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator(
-				"hivdq: Following with art number_",
+		i = h.newCountIndicator("hivdq: Following with art number_",
 				"hivdq: Following with art number_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "noart",
@@ -433,6 +434,95 @@ public class SetupHivDataQuality {
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "state",
 				"Not in relevant HIV state", i, null);
+
+		List<EncounterType> hivEncounterTypes = Arrays.asList(
+				h.encounterType("ART_INITIAL"),
+				h.encounterType("ART_FOLLOWUP"),
+				h.encounterType("PART_INITIAL"),
+				h.encounterType("PART_FOLLOWUP"));
+		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
+				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT);
+
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
+				h.location("Magaleta HC"), "MGT");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates,
+				Arrays.asList(h.location("Neno District Hospital") /*
+																	 * TODO:
+																	 * deal with
+																	 * mobile
+																	 * clinics ,
+																	 * h
+																	 * .location
+																	 * (
+																	 * "Neno Mission HC"
+																	 * ),
+																	 * h.location
+																	 * (
+																	 * "Ligowe HC"
+																	 * )
+																	 */),
+				h.location("Neno District Hospital"), "NNO");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
+				h.location("Nsambe HC"), "NSM");
+
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates,
+				Arrays.asList(h.location("Lisungwi Community Hospital") /*
+																		 * TODO
+																		 * deal
+																		 * with
+																		 * mobile
+																		 * clinics
+																		 * , h.
+																		 * location
+																		 * (
+																		 * "Midzemba HC"
+																		 * ), h.
+																		 * location
+																		 * (
+																		 * "Zalewa HC"
+																		 * ), h.
+																		 * location
+																		 * (
+																		 * "Nkhula Falls RHC"
+																		 * )
+																		 */),
+				h.location("Lisungwi Community Hospital"), "LSI");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
+				h.location("Chifunga HC"), "CFA");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
+				h.location("Matope HC"), "MTE");
+
+	}
+
+	private void createEncounterAfterTerminalState(
+			PeriodIndicatorReportDefinition rd,
+			List<EncounterType> hivEncounterTypes,
+			List<ProgramWorkflowState> hivTerminalStates,
+			List<Location> clinicLocations, Location enrollmentLocation,
+			String siteCode) {
+		CohortIndicator i;
+		EncounterAfterProgramStateCohortDefinition eapscd = new EncounterAfterProgramStateCohortDefinition();
+		eapscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		eapscd.setName("hivdq: " + siteCode
+				+ ": Hiv encounter after terminal state_");
+		eapscd.setClinicLocations(clinicLocations);
+		eapscd.setEnrollmentLocation(enrollmentLocation);
+		eapscd.setEncounterTypesAfterChangeToTerminalState(hivEncounterTypes);
+		eapscd.setTerminalStates(hivTerminalStates);
+		h.replaceCohortDefinition(eapscd);
+		i = h.newCountIndicator("hivdq: " + siteCode
+				+ ": Hiv encounter after terminal state_", "hivdq: " + siteCode
+				+ ": Hiv encounter after terminal state_",
+				h.parameterMap("onDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd,
+				"term" + siteCode.toLowerCase(), siteCode
+						+ ": Hiv encounter after terminal state", i, null);
 	}
 
 	private void createLastInRangeNumber(PeriodIndicatorReportDefinition rd,
