@@ -98,7 +98,7 @@ echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$
 mv $FILE /home/emradmin/script_reports/history
  
 # HIV Data Quality
-FILE=HIV_Data_Quality-`echo $TODAY`.xls
+FILE=HIV_Data_Quality-`echo $TODAY`.html
 run_report.sh \
   "HIV Data Quality_" \
   "userEnteredParams%5BendDate%5D=$NOW" \
@@ -108,4 +108,3 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: HIV Data Quality $TODAY" "$MAIL"
 mv $FILE /home/emradmin/script_reports/history
-  
