@@ -230,6 +230,7 @@ public class SetupPreArtWeekly {
 		    "${startDate}"));
 		
 		// internal transfer from pre-art on date at location
+		/*
 		ccd = new CompositionCohortDefinition();
 		ccd.setName("part: Transferred internally from Pre-ART at location_");
 		ccd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
@@ -254,7 +255,7 @@ public class SetupPreArtWeekly {
 		h.replaceCohortDefinition(ccd);
 		newCountIndicator(rd, "int", ccd, h.parameterMap("startedOnOrBefore", "${endDate}", "startedOnOrAfter",
 		    "${startDate}"));
-		
+		*/
 		// treatment stopped from pre-art on date at location
 		ccd = new CompositionCohortDefinition();
 		ccd.setName("part: Treatment stopped from Pre-ART at location_");

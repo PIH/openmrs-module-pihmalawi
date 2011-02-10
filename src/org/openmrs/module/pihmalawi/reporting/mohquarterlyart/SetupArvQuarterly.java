@@ -64,7 +64,7 @@ public class SetupArvQuarterly {
 	
 	private PeriodIndicatorReportDefinition createReportDefinition() {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
-		rd.setName("ARV Quaterly_");
+		rd.setName("ARV Quarterly_");
 		rd.setupDataSetDefinition();
 		return rd;
 	}
@@ -80,19 +80,20 @@ public class SetupArvQuarterly {
 		
 		CohortIndicator i = h.newCountIndicator("arvquarterly: Total alive and On ART_", "arvquarterly: In state at location_", h
 		        .parameterMap("onDate", "${endDate}", "state", STATE_ON_ART, "location", "${location}" ));
-		PeriodIndicatorReportUtil.addColumn(rd, "25", "Total alive and On ART", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd, "27", "Total alive and On ART", i, null);
 		
 		i = h.newCountIndicator("arvquarterly: Died total_", "arvquarterly: In state at location_", h
 		        .parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}" ));
-		PeriodIndicatorReportUtil.addColumn(rd, "30", "Died total", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd, "32", "Died total", i, null);
 		
 		i = h.newCountIndicator("arvquarterly: Stopped taking ARVs_", "arvquarterly: In state at location_", h
 		        .parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}" ));
-		PeriodIndicatorReportUtil.addColumn(rd, "32", "Stopped taking ARVs", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd, "34", "Stopped taking ARVs", i, null);
 		
 		i = h.newCountIndicator("arvquarterly: Transferred out_", "arvquarterly: In state at location_", h
 		        .parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}" ));
-		PeriodIndicatorReportUtil.addColumn(rd, "33", "Transferred out", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd, "35", "Transferred out", i, null);
+		
 		
 		// NOTE: HIV specific implementation
 		// Started ART during period
