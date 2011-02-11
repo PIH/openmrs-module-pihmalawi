@@ -143,7 +143,7 @@ public class SetupHivDataQuality {
 		createLastInRangeNumber(rd, "NSM", "NSM-");
 
 		// lower neno
-		createLastInRangeNumber(rd, "LSI", "LSI");
+		createLastInRangeNumber(rd, "LSI", "LSI-");
 		createLastInRangeNumber(rd, "CFA", "CFA-");
 		createLastInRangeNumber(rd, "MTE", "MTE-");
 
@@ -443,60 +443,60 @@ public class SetupHivDataQuality {
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
 				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT);
 
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
-				h.location("Magaleta HC"), "MGT");
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(h.location("Neno District Hospital") /*
-																	 * TODO:
-																	 * deal with
-																	 * mobile
-																	 * clinics ,
-																	 * h
-																	 * .location
-																	 * (
-																	 * "Neno Mission HC"
-																	 * ),
-																	 * h.location
-																	 * (
-																	 * "Ligowe HC"
-																	 * )
-																	 */),
-				h.location("Neno District Hospital"), "NNO");
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
-				h.location("Nsambe HC"), "NSM");
-
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(h.location("Lisungwi Community Hospital") /*
-																		 * TODO
-																		 * deal
-																		 * with
-																		 * mobile
-																		 * clinics
-																		 * , h.
-																		 * location
-																		 * (
-																		 * "Midzemba HC"
-																		 * ), h.
-																		 * location
-																		 * (
-																		 * "Zalewa HC"
-																		 * ), h.
-																		 * location
-																		 * (
-																		 * "Nkhula Falls RHC"
-																		 * )
-																		 */),
-				h.location("Lisungwi Community Hospital"), "LSI");
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
-				h.location("Chifunga HC"), "CFA");
-		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
-				h.location("Matope HC"), "MTE");
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
+//				h.location("Magaleta HC"), "MGT");
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates,
+//				Arrays.asList(h.location("Neno District Hospital") /*
+//																	 * TODO:
+//																	 * deal with
+//																	 * mobile
+//																	 * clinics ,
+//																	 * h
+//																	 * .location
+//																	 * (
+//																	 * "Neno Mission HC"
+//																	 * ),
+//																	 * h.location
+//																	 * (
+//																	 * "Ligowe HC"
+//																	 * )
+//																	 */),
+//				h.location("Neno District Hospital"), "NNO");
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
+//				h.location("Nsambe HC"), "NSM");
+//
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates,
+//				Arrays.asList(h.location("Lisungwi Community Hospital") /*
+//																		 * TODO
+//																		 * deal
+//																		 * with
+//																		 * mobile
+//																		 * clinics
+//																		 * , h.
+//																		 * location
+//																		 * (
+//																		 * "Midzemba HC"
+//																		 * ), h.
+//																		 * location
+//																		 * (
+//																		 * "Zalewa HC"
+//																		 * ), h.
+//																		 * location
+//																		 * (
+//																		 * "Nkhula Falls RHC"
+//																		 * )
+//																		 */),
+//				h.location("Lisungwi Community Hospital"), "LSI");
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
+//				h.location("Chifunga HC"), "CFA");
+//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+//				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
+//				h.location("Matope HC"), "MTE");
 
 	}
 
