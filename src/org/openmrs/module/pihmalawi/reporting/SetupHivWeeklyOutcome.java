@@ -69,7 +69,6 @@ public class SetupHivWeeklyOutcome {
 		h.purgeDimension("hiv: HIV program location_");
 		h.purgeDimension("hiv: HIV program location ever_");
 		
-		purgeIndicator("hiv: Defaulted");
 		purgeIndicator("hiv: Died");
 		purgeIndicator("hiv: Enrolled in program");
 		purgeIndicator("hiv: Ever enrolled in program at location with state");
@@ -77,7 +76,6 @@ public class SetupHivWeeklyOutcome {
 		purgeIndicator("hiv: Ever On ART at location with state");
 		purgeIndicator("hiv: Ever On ART");
 		purgeIndicator("hiv: In State");
-		purgeIndicator("hiv: Lost to followup");
 		purgeIndicator("hiv: On ART");
 		purgeIndicator("hiv: Started ART");
 		purgeIndicator("hiv: Started ART from Following during period");
@@ -88,21 +86,17 @@ public class SetupHivWeeklyOutcome {
 		new SetupHivWeeklyVisits(h).deleteReportElements();
 		
 		purgeIndicatorForLocationWithState("hiv: Ever Died from On ART");
-		purgeIndicatorForLocationWithState("hiv: Ever Defaulted from On ART");
 		purgeIndicatorForLocationWithState("hiv: Ever Transferred out from On ART");
 		purgeIndicatorForLocationWithState("hiv: Ever Transferred internally from On ART");
 		purgeIndicatorForLocationWithState("hiv: Ever treatment stopped from On ART");
 		
-		purgeIndicatorForLocationWithState("hiv: Defaulted");
 		purgeIndicatorForLocationWithState("hiv: Died");
-		purgeIndicatorForLocationWithState("hiv: Lost to followup");
 		purgeIndicatorForLocationWithState("hiv: Treatment stopped");
 		
 		// dependent elements
 		h.purgeDefinition(CohortDefinition.class, "hiv: Ever On ART at location with state_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: In state at location from On ART_");
 		
-		h.purgeDefinition(CohortDefinition.class, "hiv: Defaulted_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Died_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Enrolled in program_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Ever enrolled in program at location with state_");
@@ -111,7 +105,6 @@ public class SetupHivWeeklyOutcome {
 		h.purgeDefinition(CohortDefinition.class, "hiv: In State_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: In State at location_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Following_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Lost to followup_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: On ART_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Started ART_");
 		h.purgeDefinition(CohortDefinition.class, "hiv: Started ART from Following during period_");
@@ -297,10 +290,6 @@ public class SetupHivWeeklyOutcome {
 		newCountIndicatorForLocationsWithState("hiv: Ever Died from On ART", "hiv: Ever On ART at location with state_", h
 		        .workflowState("HIV PROGRAM", "TREATMENT STATUS", "PATIENT DIED"));
 		
-		newCountIndicatorForLocationsWithState("hiv: Ever Defaulted from On ART",
-		    "hiv: Ever On ART at location with state_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-		        "PATIENT DEFAULTED"));
-		
 		newCountIndicatorForLocationsWithState("hiv: Ever Transferred out from On ART",
 		    "hiv: Ever On ART at location with state_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
 		        "PATIENT TRANSFERRED OUT"));
@@ -401,24 +390,10 @@ public class SetupHivWeeklyOutcome {
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
-		// Defaulted
-		iscd = new InStateCohortDefinition();
-		iscd.setName("hiv: Defaulted_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "PATIENT DEFAULTED")));
-		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
-		h.replaceCohortDefinition(iscd);
-		
 		// Treatment stopped
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: Treatment stopped_");
 		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "TREATMENT STOPPED")));
-		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
-		h.replaceCohortDefinition(iscd);
-		
-		// Lost to followup
-		iscd = new InStateCohortDefinition();
-		iscd.setName("hiv: Lost to followup_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "LOST TO FOLLOWUP")));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
