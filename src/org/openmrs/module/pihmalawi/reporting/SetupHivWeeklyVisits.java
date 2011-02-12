@@ -5,10 +5,8 @@ import java.util.Date;
 
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 
@@ -20,35 +18,6 @@ public class SetupHivWeeklyVisits {
 		h = helper;
 	}
 	
-	public void deleteReportElements() {
-		purgeIndicatorForLocationWithState("hiv: ART Patient visits");
-		purgeIndicatorForLocationWithState("hiv: EID Patient visits");
-		purgeIndicatorForLocationWithState("hiv: Pre-ART Patient visits");
-
-		h.purgeDefinition(CohortDefinition.class, "hiv: ART Patient visits_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: EID Patient visits_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Pre-ART Patient visits_");
-	}
-	
-	private void purgeIndicatorForLocationWithState(String name) {
-		h.purgeDefinition(CohortIndicator.class, name + " (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Nsambe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Neno Mission)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Ligowe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Nsambe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Ligowe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Neno Mission)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Nsambe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Neno Mission)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Ligowe)_");
-	}
-	
-
 	public void newCountIndicatorForVisits(String namePrefix, String cohort) {
 		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}", "locationList",
 		    Arrays.asList(h.location("Neno District Hospital")), "onOrBefore", "${endDate}"));
@@ -80,6 +49,38 @@ public class SetupHivWeeklyVisits {
 		    "locationList", Arrays.asList(h.location("Ligowe HC")), "onOrBefore", "${endDate-1w}"));
 		h.newCountIndicator(namePrefix + " 2 weeks ago (Ligowe)_", cohort, h.parameterMap("onOrAfter", "${endDate-3w}",
 		    "locationList", Arrays.asList(h.location("Ligowe HC")), "onOrBefore", "${endDate-2w}"));
+		
+		h.newCountIndicator(namePrefix + " (Lisungwi)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}", "locationList",
+			    Arrays.asList(h.location("Lisungwi Community Hospital")), "onOrBefore", "${endDate}"));
+			h.newCountIndicator(namePrefix + " 1 week ago (Lisungwi)_", cohort, h.parameterMap("onOrAfter", "${endDate-2w}",
+			    "locationList", Arrays.asList(h.location("Lisungwi Community Hospital")), "onOrBefore", "${endDate-1w}"));
+			h.newCountIndicator(namePrefix + " 2 weeks ago (Lisungwi)_", cohort, h.parameterMap("onOrAfter", "${endDate-3w}",
+			    "locationList", Arrays.asList(h.location("Lisungwi Community Hospital")), "onOrBefore", "${endDate-2w}"));
+			h.newCountIndicator(namePrefix + " (Chifunga)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}", "locationList",
+			    Arrays.asList(h.location("Chifunga HC")), "onOrBefore", "${endDate}"));
+			h.newCountIndicator(namePrefix + " 1 week ago (Chifunga)_", cohort, h.parameterMap("onOrAfter", "${endDate-2w}",
+			    "locationList", Arrays.asList(h.location("Chifunga HC")), "onOrBefore", "${endDate-1w}"));
+			h.newCountIndicator(namePrefix + " 2 weeks ago (Chifunga)_", cohort, h.parameterMap("onOrAfter", "${endDate-3w}",
+			    "locationList", Arrays.asList(h.location("Chifunga HC")), "onOrBefore", "${endDate-2w}"));
+			h.newCountIndicator(namePrefix + " (Matope)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}",
+			    "locationList", Arrays.asList(h.location("Matope HC")), "onOrBefore", "${endDate}"));
+			h.newCountIndicator(namePrefix + " 1 week ago (Matope)_", cohort, h.parameterMap("onOrAfter", "${endDate-2w}",
+			    "locationList", Arrays.asList(h.location("Matope HC")), "onOrBefore", "${endDate-1w}"));
+			h.newCountIndicator(namePrefix + " 2 weeks ago (Matope)_", cohort, h.parameterMap("onOrAfter", "${endDate-3w}",
+			    "locationList", Arrays.asList(h.location("Matope HC")), "onOrBefore", "${endDate-2w}"));
+			h.newCountIndicator(namePrefix + " (Midzemba)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}",
+			    "locationList", Arrays.asList(h.location("Midzemba HC")), "onOrBefore", "${endDate}"));
+			h.newCountIndicator(namePrefix + " 1 week ago (Midzemba)_", cohort, h.parameterMap("onOrAfter", "${endDate-2w}",
+			    "locationList", Arrays.asList(h.location("Midzemba HC")), "onOrBefore", "${endDate-1w}"));
+			h.newCountIndicator(namePrefix + " 2 weeks ago (Midzemba)_", cohort, h.parameterMap("onOrAfter",
+			    "${endDate-3w}", "locationList", Arrays.asList(h.location("Midzemba HC")), "onOrBefore", "${endDate-2w}"));
+			h.newCountIndicator(namePrefix + " (Zalewa)_", cohort, h.parameterMap("onOrAfter", "${endDate-1w}", "locationList",
+			    Arrays.asList(h.location("Zalewa HC")), "onOrBefore", "${endDate}"));
+			h.newCountIndicator(namePrefix + " 1 week ago (Zalewa)_", cohort, h.parameterMap("onOrAfter", "${endDate-2w}",
+			    "locationList", Arrays.asList(h.location("Zalewa HC")), "onOrBefore", "${endDate-1w}"));
+			h.newCountIndicator(namePrefix + " 2 weeks ago (Zalewa)_", cohort, h.parameterMap("onOrAfter", "${endDate-3w}",
+			    "locationList", Arrays.asList(h.location("Zalewa HC")), "onOrBefore", "${endDate-2w}"));
+
 	}
 	
 	public void createCohortDefinitions() {
@@ -126,5 +127,16 @@ public class SetupHivWeeklyVisits {
 		        .cohortIndicator("hiv: " +indicatorFragment + " (Magaleta)_"), null);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mis", displayNamePrefix + " (Neno Mission)", h
 		        .cohortIndicator("hiv: " +indicatorFragment + " (Neno Mission)_"), null);
-	}
+
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " (Lisungwi)", h
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Lisungwi)_"), null);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "zal", displayNamePrefix + " (Zalewa)", h
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Zalewa)_"), null);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mid", displayNamePrefix + " (Midzemba)", h
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Midzemba)_"), null);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " (Matope)", h
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Matope)_"), null);
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " (Chifunga)", h
+		        .cohortIndicator("hiv: " +indicatorFragment + " (Chifunga)_"), null);
+}
 }

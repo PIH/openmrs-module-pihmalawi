@@ -15,24 +15,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PihReportFormController {
 	
+	@RequestMapping("/module/pihmalawi/remove_partmissedappointment_lowerneno.form")
+	public void removePreArtMissedAppointmentLowerNeno() {
+		new SetupPreArtMissedAppointment(new Helper(), false).deleteReportElements();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_partmissedappointment_lowerneno.form")
+	public void registerPreArtMissedAppointmentLowerNeno() throws Exception {
+		new SetupPreArtMissedAppointment(new Helper(), false).setup(false);
+	}
+	
+	@RequestMapping("/module/pihmalawi/remove_artmissedappointment_lowerneno.form")
+	public void removeArtMissedAppointmentLowerNeno() {
+		new SetupArtMissedAppointment(new Helper(), false).deleteReportElements();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_artmissedappointment_lowerneno.form")
+	public void registerArtMissedAppointmentLowerNeno() throws Exception {
+		new SetupArtMissedAppointment(new Helper(), false).setup(false);
+	}
+	
 	@RequestMapping("/module/pihmalawi/remove_partmissedappointment.form")
 	public void removePreArtMissedAppointment() {
-		new SetupPreArtMissedAppointment(new Helper()).deleteReportElements();
+		new SetupPreArtMissedAppointment(new Helper(), true).deleteReportElements();
 	}
 	
 	@RequestMapping("/module/pihmalawi/register_partmissedappointment.form")
 	public void registerPreArtMissedAppointment() throws Exception {
-		new SetupPreArtMissedAppointment(new Helper()).setup(false);
+		new SetupPreArtMissedAppointment(new Helper(), true).setup(false);
 	}
 	
 	@RequestMapping("/module/pihmalawi/remove_artmissedappointment.form")
 	public void removeArtMissedAppointment() {
-		new SetupArtMissedAppointment(new Helper()).deleteReportElements();
+		new SetupArtMissedAppointment(new Helper(), true).deleteReportElements();
 	}
 	
 	@RequestMapping("/module/pihmalawi/register_artmissedappointment.form")
 	public void registerArtMissedAppointment() throws Exception {
-		new SetupArtMissedAppointment(new Helper()).setup(false);
+		new SetupArtMissedAppointment(new Helper(), true).setup(false);
 	}
 	
 	@RequestMapping("/module/pihmalawi/register_hivweeklyoutcome.form")

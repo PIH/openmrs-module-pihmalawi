@@ -178,7 +178,7 @@ public class SetupHivDataQuality {
 		h.replaceCohortDefinition(icd);
 
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName("hivdq: New at unknown location_");
+		ccd.setName("hivdq: Unknown location_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		String composition = "";
 		int c = 1;
@@ -201,10 +201,10 @@ public class SetupHivDataQuality {
 		h.replaceCohortDefinition(ccd);
 
 		i = h.newCountIndicator("hivdq: unknown locations_",
-				"hivdq: New at unknown location_",
+				"hivdq: Unknown location_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "unknown",
-				"New at unknown locations", i, null);
+				"Unknown locations", i, null);
 
 		//
 		// EncounterAfterProgramStateCohortDefinition eapscd= new

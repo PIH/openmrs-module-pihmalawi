@@ -13,7 +13,6 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
@@ -46,7 +45,8 @@ public class SetupHivWeeklyOutcome {
 		createIndicators();
 		createDimensions();
 		ReportDefinition rd = createReportDefinition();
-		h.createXlsOverview(rd, "HIV_Weekly_Outcome_Overview.xls", "HIV Weekly Outcome Overview (Excel)_", null);
+		h.createXlsOverview(rd, "HIV_Weekly_Outcome_Overview_Lower_Neno.xls", "HIV Weekly Outcome Overview Lower Neno (Excel)_", null);
+		h.createXlsOverview(rd, "HIV_Weekly_Outcome_Overview_Upper_Neno.xls", "HIV Weekly Outcome Overview Upper Neno (Excel)_", null);
 		//		h.createGenericPatientDesignBreakdown(rd, "Simple Patient Renderer_", "HIV_Weekly_Outcome_Breakdown_SimpleReportRendererResource.xml");
 		
 //		ReportDesign rdes = createHtmlBreakdownArt(rd);
@@ -56,7 +56,10 @@ public class SetupHivWeeklyOutcome {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if ("HIV Weekly Outcome Overview (Excel)_".equals(rd.getName())) {
+			if ("HIV Weekly Outcome Overview Lower Neno (Excel)_".equals(rd.getName())) {
+				rs.purgeReportDesign(rd);
+			}
+			if ("HIV Weekly Outcome Overview Upper Neno (Excel)_".equals(rd.getName())) {
 				rs.purgeReportDesign(rd);
 			}
 			if ("HIV Weekly Outcome Breakdown (HTML)_".equals(rd.getName())) {
@@ -65,73 +68,12 @@ public class SetupHivWeeklyOutcome {
 		}
 		h.purgeDefinition(PeriodIndicatorReportDefinition.class, "HIV Weekly Outcome_");
 		h.purgeDefinition(DataSetDefinition.class, "HIV Weekly Outcome_ Data Set");
-		
 		h.purgeDimension("hiv: HIV program location_");
 		h.purgeDimension("hiv: HIV program location ever_");
-		
-		purgeIndicator("hiv: Died");
-		purgeIndicator("hiv: Enrolled in program");
-		purgeIndicator("hiv: Ever enrolled in program at location with state");
-		purgeIndicator("hiv: Ever enrolled in program at location");
-		purgeIndicator("hiv: Ever On ART at location with state");
-		purgeIndicator("hiv: Ever On ART");
-		purgeIndicator("hiv: In State");
-		purgeIndicator("hiv: On ART");
-		purgeIndicator("hiv: Started ART");
-		purgeIndicator("hiv: Started ART from Following during period");
-		purgeIndicator("hiv: Ever Transferred internally from on ART");
-		purgeIndicator("hiv: Ever Transferred out from on ART");
-		purgeIndicator("hiv: Ever Treatment stopped from on ART");
-		
-		new SetupHivWeeklyVisits(h).deleteReportElements();
-		
-		purgeIndicatorForLocationWithState("hiv: Ever Died from On ART");
-		purgeIndicatorForLocationWithState("hiv: Ever Transferred out from On ART");
-		purgeIndicatorForLocationWithState("hiv: Ever Transferred internally from On ART");
-		purgeIndicatorForLocationWithState("hiv: Ever treatment stopped from On ART");
-		
-		purgeIndicatorForLocationWithState("hiv: Died");
-		purgeIndicatorForLocationWithState("hiv: Treatment stopped");
-		
-		// dependent elements
-		h.purgeDefinition(CohortDefinition.class, "hiv: Ever On ART at location with state_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: In state at location from On ART_");
-		
-		h.purgeDefinition(CohortDefinition.class, "hiv: Died_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Enrolled in program_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Ever enrolled in program at location with state_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Ever enrolled in program at location_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Ever On ART_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: In State_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: In State at location_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Following_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: On ART_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Started ART_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Started ART from Following during period_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Transferred out_");
-		h.purgeDefinition(CohortDefinition.class, "hiv: Treatment stopped_");
-	}
-	
-	private void purgeIndicator(String name) {
-		h.purgeDefinition(CohortIndicator.class, name + "_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago_");
-	}
-	
-	private void purgeIndicatorForLocationWithState(String name) {
-		h.purgeDefinition(CohortIndicator.class, name + " (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " (Nsambe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 1 week ago (Nsambe)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Neno)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Magaleta)_");
-		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago (Nsambe)_");
+		h.purgeAll("hiv:");
 	}
 	
 	private ReportDefinition createReportDefinition() {
-		// hiv weekly report
 		boolean useTestPatientCohort = false;
 		String cohort = (useTestPatientCohort ? "hiv: Ever On ART for test_" : "hiv: Ever On ART_");
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
@@ -182,28 +124,28 @@ public class SetupHivWeeklyOutcome {
 		addColumnForLocations(rd, "On ART 1 week ago", "On ART 1 week ago_", "art1");
 		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART 2 weeks ago_", "art2");
 		
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from on ART", "Ever Treatment stopped from on ART", "stop");
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from on ART 1 week ago",
-		    "Ever Treatment stopped from on ART 1 week ago", "stop1");
-		addColumnForLocationsWithState(rd, "Ever Treatment stopped from on ART 2 weeks ago",
-		    "Ever Treatment stopped from on ART 2 weeks ago", "stop2");
+		addColumnForLocationsWithState(rd, "Treatment stopped from on ART", "Treatment stopped from on ART", "stop");
+		addColumnForLocationsWithState(rd, "Treatment stopped from on ART 1 week ago",
+		    "Treatment stopped from on ART 1 week ago", "stop1");
+		addColumnForLocationsWithState(rd, "Treatment stopped from on ART 2 weeks ago",
+		    "Treatment stopped from on ART 2 weeks ago", "stop2");
 		
-		addColumnForLocationsWithState(rd, "Ever Died from On ART", "Ever Died from On ART", "died");
-		addColumnForLocationsWithState(rd, "Ever Died from On ART 1 week ago", "Ever Died from On ART 1 week ago", "died1");
-		addColumnForLocationsWithState(rd, "Ever Died from On ART 2 weeks ago", "Ever Died from On ART 2 weeks ago", "died2");
+		addColumnForLocationsWithState(rd, "Died from On ART", "Died from On ART", "died");
+		addColumnForLocationsWithState(rd, "Died from On ART 1 week ago", "Died from On ART 1 week ago", "died1");
+		addColumnForLocationsWithState(rd, "Died from On ART 2 weeks ago", "Died from On ART 2 weeks ago", "died2");
 		
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART", "Ever Transferred out from On ART", "tra");
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 1 week ago",
-		    "Ever Transferred out from On ART 1 week ago", "tra1");
-		addColumnForLocationsWithState(rd, "Ever Transferred out from On ART 2 weeks ago",
-		    "Ever Transferred out from On ART 2 weeks ago", "tra2");
+		addColumnForLocationsWithState(rd, "Transferred out from On ART", "Transferred out from On ART", "tra");
+		addColumnForLocationsWithState(rd, "Transferred out from On ART 1 week ago",
+		    "Transferred out from On ART 1 week ago", "tra1");
+		addColumnForLocationsWithState(rd, "Transferred out from On ART 2 weeks ago",
+		    "Transferred out from On ART 2 weeks ago", "tra2");
 		
-		addColumnForLocationsWithState(rd, "Ever Transferred internally from On ART",
-		    "Ever Transferred internally from On ART", "int");
-		addColumnForLocationsWithState(rd, "Ever Transferred internally from On ART 1 week ago",
-		    "Ever Transferred internally from On ART 1 week ago", "int1");
-		addColumnForLocationsWithState(rd, "Ever Transferred internally from On ART 2 weeks ago",
-		    "Ever Transferred internally from On ART 2 weeks ago", "int2");
+		addColumnForLocationsWithState(rd, "Transferred internally from On ART",
+		    "Transferred internally from On ART", "int");
+		addColumnForLocationsWithState(rd, "Transferred internally from On ART 1 week ago",
+		    "Transferred internally from On ART 1 week ago", "int1");
+		addColumnForLocationsWithState(rd, "Transferred internally from On ART 2 weeks ago",
+		    "Transferred internally from On ART 2 weeks ago", "int2");
 		
 		h.replaceReportDefinition(rd);
 		
@@ -235,7 +177,20 @@ public class SetupHivWeeklyOutcome {
 	}
 	
 	private void createDimensions() {
+		
 		// hiv program location
+		// Enrolled in program at location as of end date
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd
+		        .setQuery("SELECT p.patient_id FROM patient p"
+		                + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id AND pp.voided = 0 AND pp.program_id = :program AND pp.date_enrolled <= :endDate AND (pp.date_completed IS NULL OR pp.date_completed > :endDate) AND pp.location_id = :location"
+		                + " WHERE p.voided = 0 GROUP BY p.patient_id");
+		scd.setName("hiv: Enrolled in program_");
+		scd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		scd.addParameter(new Parameter("location", "Location", Location.class));
+		scd.addParameter(new Parameter("program", "Program", Program.class));
+		h.replaceCohortDefinition(scd);
+		
 		CohortDefinitionDimension md = new CohortDefinitionDimension();
 		md.setName("hiv: HIV program location_");
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -256,7 +211,34 @@ public class SetupHivWeeklyOutcome {
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
 		md.addCohortDefinition("Magaleta", h.cohortDefinition("hiv: Enrolled in program_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Lisungwi Community Hospital"));
+		md.addCohortDefinition("Lisungwi", h.cohortDefinition("hiv: Enrolled in program_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Matope HC"));
+		md.addCohortDefinition("Matope", h.cohortDefinition("hiv: Enrolled in program_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Chifunga HC"));
+		md.addCohortDefinition("Chifunga", h.cohortDefinition("hiv: Enrolled in program_"), m2);
 		h.replaceDefinition(md);
+		
+		// Ever enrolled in program at location as of end date
+		 scd = new SqlCohortDefinition();
+		scd
+		        .setQuery("SELECT p.patient_id FROM patient p"
+		                + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id AND pp.voided = 0 AND pp.program_id = :program AND pp.date_enrolled <= :endDate AND pp.location_id = :location"
+		                + " WHERE p.voided = 0 GROUP BY p.patient_id");
+		scd.setName("hiv: Ever enrolled in program at location_");
+		scd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		scd.addParameter(new Parameter("location", "Location", Location.class));
+		scd.addParameter(new Parameter("program", "Program", Program.class));
+		h.replaceCohortDefinition(scd);
 		
 		// hiv program location ever
 		md = new CohortDefinitionDimension();
@@ -279,26 +261,41 @@ public class SetupHivWeeklyOutcome {
 		m2.put("endDate", "${endDate}");
 		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
 		md.addCohortDefinition("Magaleta", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Lisungwi Community Hospital"));
+		md.addCohortDefinition("Lisungwi", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Matope HC"));
+		md.addCohortDefinition("Matope", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
+		m2.put("endDate", "${endDate}");
+		m2.put("location", Context.getLocationService().getLocation("Chifunga HC"));
+		md.addCohortDefinition("Chifunga", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
 		h.replaceDefinition(md);
 	}
-	
+
 	private void createIndicators() {
 		h.newCountIndicator("hiv: On ART_", "hiv: On ART_", "onDate=${endDate}");
 		h.newCountIndicator("hiv: On ART 1 week ago_", "hiv: On ART_", "onDate=${endDate-1w}");
 		h.newCountIndicator("hiv: On ART 2 weeks ago_", "hiv: On ART_", "onDate=${endDate-2w}");
 		
-		newCountIndicatorForLocationsWithState("hiv: Ever Died from On ART", "hiv: Ever On ART at location with state_", h
+		newCountIndicatorForLocationsWithState("hiv: Died from On ART", "hiv: In state at location from On ART_", h
 		        .workflowState("HIV PROGRAM", "TREATMENT STATUS", "PATIENT DIED"));
 		
-		newCountIndicatorForLocationsWithState("hiv: Ever Transferred out from On ART",
-		    "hiv: Ever On ART at location with state_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+		newCountIndicatorForLocationsWithState("hiv: Transferred out from On ART",
+		    "hiv: In state at location from On ART_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
 		        "PATIENT TRANSFERRED OUT"));
 		
-		newCountIndicatorForLocationsWithState("hiv: Ever Transferred internally from On ART",
-		    "hiv: Ever On ART at location with state_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+		newCountIndicatorForLocationsWithState("hiv: Transferred internally from On ART",
+		    "hiv: In state at location from On ART_", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
 		        "TRANSFERRED INTERNALLY"));
 		
-		newCountIndicatorForLocationsWithState("hiv: Ever Treatment stopped from On ART", "hiv: Ever On ART at location with state_",
+		newCountIndicatorForLocationsWithState("hiv: Treatment stopped from On ART", "hiv: In state at location from On ART_",
 		    h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "TREATMENT STOPPED"));
 		
 		h.newCountIndicator("hiv: Ever on ART_", "hiv: Ever on ART_", "startedOnOrBefore=${endDate}");
@@ -326,27 +323,6 @@ public class SetupHivWeeklyOutcome {
 	}
 	
 	private void newCountIndicatorForLocationsWithState(String namePrefix, String cohort, ProgramWorkflowState state) {
-		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
-		        .location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
-		        .location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate}", "location", h
-		        .location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Neno)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
-		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
-		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate-1w}",
-		    "location", h.location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Neno)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
-		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Magaleta)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
-		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Nsambe)_", cohort, h.parameterMap("endDate", "${endDate-2w}",
-		    "location", h.location("Nsambe HC"), "state", state));
-	}
-	
-	private void newCountIndicatorForLocations(String namePrefix, String cohort, ProgramWorkflowState state) {
 		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
 		        .location("Neno District Hospital"), "state", state));
 		h.newCountIndicator(namePrefix + " (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
@@ -365,7 +341,26 @@ public class SetupHivWeeklyOutcome {
 		    "location", h.location("Magaleta HC"), "state", state));
 		h.newCountIndicator(namePrefix + " 2 weeks ago (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
 		    "location", h.location("Nsambe HC"), "state", state));
-	}
+
+		h.newCountIndicator(namePrefix + " (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Lisungwi Community Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " (Matope)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Matope HC"), "state", state));
+		h.newCountIndicator(namePrefix + " (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
+		        .location("Chifunga HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Lisungwi Community Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Matope)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Matope HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", h.location("Chifunga HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", h.location("Lisungwi Community Hospital"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Matope)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", h.location("Matope HC"), "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", h.location("Chifunga HC"), "state", state));
+}
 	
 	private void createCohortDefinitions() {
 		// In state
@@ -453,20 +448,8 @@ public class SetupHivWeeklyOutcome {
 		// Patient visits
 		new SetupHivWeeklyVisits(h).createCohortDefinitions();
 		
-		// Ever enrolled in program at location as of end date
-		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd
-		        .setQuery("SELECT p.patient_id FROM patient p"
-		                + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id AND pp.voided = 0 AND pp.program_id = :program AND pp.date_enrolled <= :endDate AND pp.location_id = :location"
-		                + " WHERE p.voided = 0 GROUP BY p.patient_id");
-		scd.setName("hiv: Ever enrolled in program at location_");
-		scd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		scd.addParameter(new Parameter("location", "Location", Location.class));
-		scd.addParameter(new Parameter("program", "Program", Program.class));
-		h.replaceCohortDefinition(scd);
-		
 		// Ever enrolled in program at location with state as of end date
-		scd = new SqlCohortDefinition();
+		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hiv: Ever enrolled in program at location with state_");
 		String sql = "" + "SELECT pp.patient_id"
 		        + " FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps"
@@ -483,37 +466,6 @@ public class SetupHivWeeklyOutcome {
 		h.replaceCohortDefinition(scd);
 		
 		// Ever On Art at location with state
-		ccd = new CompositionCohortDefinition();
-		ccd.setName("hiv: Ever On ART at location with state_");
-		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		ccd.addParameter(new Parameter("location", "Location", Location.class));
-		ccd.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
-		ccd.getSearches().put(
-		    "1",
-		    new Mapped(h.cohortDefinition("hiv: Ever enrolled in program at location with state_"), ParameterizableUtil
-		            .createParameterMappings("endDate=${endDate},location=${location},state=${state}")));
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("endDate", "${endDate}");
-		m.put("location", "${location}");
-		m.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"));
-		ccd.getSearches().put("2",
-		    new Mapped(h.cohortDefinition("hiv: Ever enrolled in program at location with state_"), m));
-		ccd.setCompositionString("1 AND 2");
-		h.replaceCohortDefinition(ccd);
-		
-		// Enrolled in program at location as of end date
-		scd = new SqlCohortDefinition();
-		scd
-		        .setQuery("SELECT p.patient_id FROM patient p"
-		                + " INNER JOIN patient_program pp ON p.patient_id = pp.patient_id AND pp.voided = 0 AND pp.program_id = :program AND pp.date_enrolled <= :endDate AND (pp.date_completed IS NULL OR pp.date_completed > :endDate) AND pp.location_id = :location"
-		                + " WHERE p.voided = 0 GROUP BY p.patient_id");
-		scd.setName("hiv: Enrolled in program_");
-		scd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		scd.addParameter(new Parameter("location", "Location", Location.class));
-		scd.addParameter(new Parameter("program", "Program", Program.class));
-		h.replaceCohortDefinition(scd);
-		
-		// Ever On Art at location with state
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("hiv: In state at location from On ART_");
 		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
@@ -524,7 +476,7 @@ public class SetupHivWeeklyOutcome {
 		    new Mapped(h.cohortDefinition("hiv: In state at location_"), ParameterizableUtil
 		            .createParameterMappings("onDate=${onDate},location=${location},state=${state}")));
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("endDate", "${endDate}");
+		map.put("endDate", "${onDate}");
 		map.put("location", "${location}");
 		map.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"));
 		cd.getSearches().put("2",
@@ -541,6 +493,12 @@ public class SetupHivWeeklyOutcome {
 		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Magaleta"));
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)", h
 		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Nsambe"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " (Lisungwi)", h
+		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Lisungwi"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " (Matope)", h
+		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Matope"));
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " (Chifunga)", h
+		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Chifunga"));
 	}
 	
 	private void addColumnForLocationsWithState(PeriodIndicatorReportDefinition rd, String displayNamePrefix,
@@ -553,6 +511,15 @@ public class SetupHivWeeklyOutcome {
 		    cohortIndicator, null);
 		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Nsambe)_");
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)",
+		    cohortIndicator, null);
+		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Lisungwi)_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " (Lisungwi)",
+		    cohortIndicator, null);
+		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Matope)_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " (Matope)",
+		    cohortIndicator, null);
+		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Chifunga)_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " (Chifunga)",
 		    cohortIndicator, null);
 	}
 }

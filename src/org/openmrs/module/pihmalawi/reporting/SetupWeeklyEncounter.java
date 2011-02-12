@@ -64,7 +64,7 @@ public class SetupWeeklyEncounter {
 				Arrays.asList(h.location("Matope HC")));
 		USERS = Arrays.asList(u("benndo"), u("amahaka"), u("geomal"),
 				u("qlement"), u("thandie"), u("faydula"), u("cneumann"),
-				u("prichi"), u("wilmwa"), u("nmakwaya"));
+				u("prichi"), u("wilmwa"), u("nelma"));
 	}
 
 	private Map<String, String> excelOverviewProperties() {

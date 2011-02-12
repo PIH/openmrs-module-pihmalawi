@@ -22,6 +22,6 @@ public class PreArtMissedAppointmentPersistentSetup extends BaseModuleContextSen
 	@Test
 	@Rollback(false)
 	public void setupHivWeekly() throws Exception {
-		new SetupPreArtMissedAppointment(new Helper()).setup();
+		new SetupPreArtMissedAppointment(new Helper(), false).setup();
 	}
 }

@@ -8,7 +8,13 @@ Requirement:s
 - Reporting Module 0.5+
 
 After deploying this module the reports can be registered through
-the Administration UI for this module.
+the Administration UI for this module. Some reports make the serialized_object
+table go ...; for this case run this SQL statement:
+  alter table serialized_object modify serialized_data longtext;
+
+To remove the reports either use the Administration UI, or run this SQL. But be
+careful, it clears out everything!
+delete from reporting_report_design_resource; delete from reporting_report_design; delete from serialized_object;
 
 Additionally for a local dev env _misused_ Junit tests can register the reports
 without the need of deploying a module.
