@@ -27,56 +27,59 @@ public class HibernatePihMalawiQueryDao {
 	public SessionFactory getSessionFactory() {
 		return this.sessionFactory;
 	}
-
+	
 	public Cohort getPatientsInStatesAtLocation(
 			List<ProgramWorkflowState> programWorkflowStates, Date onOrAfter,
 			Date onOrBefore, Location location) {
-		List<Integer> stateIds = new ArrayList<Integer>();
-		for (ProgramWorkflowState state : programWorkflowStates) {
-			stateIds.add(state.getId());
+		
+		List<Location> locationList = new ArrayList<Location>();
+		if(location != null) {
+			locationList.add(location);
 		}
-
-		// Create SQL query
-		StringBuilder sql = new StringBuilder();
-		sql.append("select pp.patient_id ");
-		sql.append("from patient_state ps ");
-		sql.append("  inner join patient_program pp on ps.patient_program_id = pp.patient_program_id ");
-		sql.append("  inner join patient p on pp.patient_id = p.patient_id ");
-		sql.append("where ps.voided = false and pp.voided = false and p.voided = false ");
-
-		// optional clauses
-		if (stateIds != null && !stateIds.isEmpty())
-			sql.append(" and ps.state in (:stateIds) ");
-		if (onOrAfter != null)
-			sql.append(" and (ps.end_date is null or ps.end_date >= :onOrAfter) ");
-		if (onOrBefore != null)
-			sql.append(" and (ps.start_date is null or ps.start_date <= :onOrBefore) ");
-		if (location != null)
-			sql.append(" and pp.location_id = :location ");
-
-		sql.append(" group by pp.patient_id ");
-
-		// Execute query
-		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-				sql.toString());
-		if (stateIds != null && !stateIds.isEmpty())
-			query.setParameterList("stateIds", stateIds);
-		if (onOrAfter != null)
-			query.setDate("onOrAfter", onOrAfter);
-		if (onOrBefore != null)
-			query.setDate("onOrBefore", onOrBefore);
-		if (location != null)
-			query.setInteger("location", location.getId());
-		return new Cohort(query.list());
+		
+		return getPatientsInStatesAtLocations(programWorkflowStates, onOrAfter, onOrBefore, locationList);
 	}
-
-	public Cohort getPatientsInStatesAtLocation(
+	
+	public Cohort getPatientsInStateAtLocations(
+			ProgramWorkflowState programWorkflowState, Date onOrAfter,
+			Date onOrBefore, List<Location> locations) {
+		
+		List<ProgramWorkflowState> programWorkflowStateList = new ArrayList<ProgramWorkflowState>();
+		if(programWorkflowState != null) {
+			programWorkflowStateList.add(programWorkflowState);
+		}
+		
+		return getPatientsInStatesAtLocations(programWorkflowStateList, onOrAfter, onOrBefore, locations);
+	}
+	
+	public Cohort getPatientsInStateAtLocation(
 			ProgramWorkflowState programWorkflowState, Date onOrAfter,
 			Date onOrBefore, Location location) {
-		// potential to include multiple states in future
+		
+		List<ProgramWorkflowState> programWorkflowStateList = new ArrayList<ProgramWorkflowState>();
+		if(programWorkflowState != null) {
+			programWorkflowStateList.add(programWorkflowState);
+		}
+		
+		return getPatientsInStatesAtLocation(programWorkflowStateList, onOrAfter, onOrBefore, location);
+	}
+
+	public Cohort getPatientsInStatesAtLocations(
+			List<ProgramWorkflowState> programWorkflowStates, Date onOrAfter,
+			Date onOrBefore, List<Location> locations) {
+		
 		List<Integer> stateIds = new ArrayList<Integer>();
-		if (programWorkflowState != null) {
-			stateIds.add(programWorkflowState.getId());
+		if(programWorkflowStates != null) {
+			for (ProgramWorkflowState state : programWorkflowStates) {
+				stateIds.add(state.getId());
+			}
+		}
+		
+		List<Integer> locationIds = new ArrayList<Integer>();
+		if(locations != null) {
+			for (Location location : locations) {
+				locationIds.add(location.getId());
+			}
 		}
 
 		// Create SQL query
@@ -94,8 +97,8 @@ public class HibernatePihMalawiQueryDao {
 			sql.append(" and (ps.end_date is null or ps.end_date >= :onOrAfter) ");
 		if (onOrBefore != null)
 			sql.append(" and (ps.start_date is null or ps.start_date <= :onOrBefore) ");
-		if (location != null)
-			sql.append(" and pp.location_id = :location ");
+		if (locationIds != null && !locationIds.isEmpty())
+			sql.append(" and pp.location_id in (:locationIds) ");
 
 		sql.append(" group by pp.patient_id ");
 
@@ -108,8 +111,9 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("onOrAfter", onOrAfter);
 		if (onOrBefore != null)
 			query.setDate("onOrBefore", onOrBefore);
-		if (location != null)
-			query.setInteger("location", location.getId());
+		if (locationIds != null && !locationIds.isEmpty())
+			query.setParameterList("locationIds", locationIds);
+		
 		return new Cohort(query.list());
 	}
 
@@ -117,7 +121,7 @@ public class HibernatePihMalawiQueryDao {
 			ProgramWorkflowState programWorkflowState, Date startedOnOrAfter,
 			Date startedOnOrBefore, Date endedOnOrAfter, Date endedOnOrBefore,
 			Location location) {
-		// potential to include multiple states in future
+		
 		List<Integer> stateIds = new ArrayList<Integer>();
 		stateIds.add(programWorkflowState.getId());
 

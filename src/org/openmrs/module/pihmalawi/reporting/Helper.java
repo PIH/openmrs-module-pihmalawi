@@ -426,6 +426,51 @@ public class Helper {
 		}
 		return state;
 	}
+	
+	public List<PatientState> getPatientStatesByWorkflowAtLocation(Patient p,
+			ProgramWorkflowState programWorkflowState,
+			Location enrollmentLocation, Session hibernateSession) {
+		
+		Integer programWorkflowStateId = programWorkflowState.getId();
+		
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						programWorkflowState.getProgramWorkflow().getProgram(),
+						null, null, null, null, false);
+		
+		// list of patientstates (patient, workflow)
+		List<PatientState> patientStateList = new ArrayList<PatientState>();
+		// hope that the first found pp is also first in time
+		for (PatientProgram pp : pps) {
+			if(enrollmentLocation == null) {
+				if (!pp.isVoided()) {
+					for (PatientState ps : pp.getStates()) {
+						if (!ps.isVoided()
+								&& programWorkflowStateId.equals(ps.getState().getId())
+								&& ps.getStartDate() != null) {
+							
+							patientStateList.add(ps);
+						}
+					}
+				}
+			} else {
+				Location location = getEnrollmentLocation(pp, hibernateSession);
+				if (!pp.isVoided() && location != null
+						&& location.getId().equals(enrollmentLocation.getId())) {
+					for (PatientState ps : pp.getStates()) {
+						if (!ps.isVoided()
+								&& programWorkflowStateId.equals(ps.getState().getId())
+								&& ps.getStartDate() != null) {
+							
+							patientStateList.add(ps);
+						}
+					}
+				}
+			}
+		}
+		
+		return patientStateList;
+	}
 
 	public Location getEnrollmentLocation(PatientProgram pp,
 			Session hibernateSession) {

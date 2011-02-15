@@ -1,7 +1,8 @@
 package org.openmrs.module.pihmalawi.reporting.mohquarterlyart;
 
 import java.util.Date;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.Program;
@@ -9,9 +10,12 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.extension.StateRelativeToStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -21,6 +25,9 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 
 public class SetupArvQuarterly {
+	
+	protected static final Log log = LogFactory
+	.getLog(HibernatePihMalawiQueryDao.class);
 
 	private final Concept CONCEPT_APPOINTMENT_DATE;
 
@@ -101,8 +108,28 @@ public class SetupArvQuarterly {
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(islcd);
+		
+		// State relative to state
+		StateRelativeToStateCohortDefinition srtscd = new StateRelativeToStateCohortDefinition();
+		srtscd.setName("arvquarterly: In state any location before state at enrollment location within interval_");
+		srtscd.addParameter(new Parameter("firstState", "First State",
+				ProgramWorkflowState.class));
+		srtscd.addParameter(new Parameter("secondState", "Second State",
+				ProgramWorkflowState.class));
+		//srtscd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		srtscd.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+		srtscd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		srtscd.addParameter(new Parameter("offsetAmount", "Offset Amount", Date.class));
+		srtscd.addParameter(new Parameter("offsetUnit", "Offset Unit", Date.class));
+		srtscd.addParameter(new Parameter("secondStateLocation", "Second State Location", 
+				Location.class));
+		h.replaceCohortDefinition(srtscd);
 
 		i27_alive(rd);
+		
+		i28_died_1month_after_ART(rd);
+		
+		TEST_stopped_1month_after_onART(rd);
 
 		i32_died(rd);
 
@@ -131,6 +158,39 @@ public class SetupArvQuarterly {
 		PeriodIndicatorReportUtil.addColumn(rd, "6_ever",
 				"Total registered ever", i, null);
 	}
+	
+private void i28_died_1month_after_ART(PeriodIndicatorReportDefinition rd) {
+		
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: In ART state any location within one month died state at enrollment location within interval_",
+				"arvquarterly: In state any location before state at enrollment location within interval_", h.parameterMap(
+						"onOrAfter", "${startDate}", 
+						"onOrBefore", "${endDate}", 
+						"firstState", STATE_ON_ART,
+						"secondState", STATE_DIED,
+						"offsetAmount", 1,
+						"secondStateLocation", "${location}",
+						"offsetUnit", DurationUnit.MONTHS));
+		PeriodIndicatorReportUtil.addColumn(rd, "28", "Died within the 1st month after ART initiation", i,
+				null);
+	}
+
+private void TEST_stopped_1month_after_onART(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: In ART state any location before stopped state at enrollment location within interval_",
+			"arvquarterly: In state any location before state at enrollment location within interval_", h.parameterMap(
+					"onOrAfter", "${startDate}", 
+					"onOrBefore", "${endDate}",
+					//"onDate", "${endDate}", 
+					"firstState", STATE_ON_ART,
+					"secondState", STATE_STOPPED,
+					"offsetAmount", 2,
+					"secondStateLocation", "${location}",
+					"offsetUnit", DurationUnit.MONTHS));
+	PeriodIndicatorReportUtil.addColumn(rd, "TEST", "Stopped within the 1st month after ART initiation", i,
+			null);
+}
 
 	private void i35_transferred(PeriodIndicatorReportDefinition rd) {
 		CohortIndicator i = h.newCountIndicator(

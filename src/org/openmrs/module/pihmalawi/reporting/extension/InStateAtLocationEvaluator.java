@@ -27,6 +27,6 @@ public class InStateAtLocationEvaluator implements CohortDefinitionEvaluator {
 			onOrBefore = definition.getOnDate();
 		}
 		
-		return q.getPatientsInStatesAtLocation(definition.getState(), onOrAfter, onOrBefore, definition.getLocation());
+		return q.getPatientsInStateAtLocation(definition.getState(), onOrAfter, onOrBefore, definition.getLocation());
 	}
 }
