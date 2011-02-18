@@ -8,6 +8,7 @@ import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
 import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
+import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
 import org.openmrs.module.pihmalawi.reporting.mohquarterlyart.SetupArvQuarterly;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,4 +115,16 @@ public class PihReportFormController {
 	public void removeDataQuality() {
 		new SetupHivDataQuality(new Helper()).delete();
 	}
+	
+	@RequestMapping("/module/pihmalawi/remove_duplicatehivpatients.form")
+	public void removeDuplicateHivPatients() {
+		new SetupDuplicateHivPatients(new Helper()).delete();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_duplicatehivpatients.form")
+	public void registerDuplicateHivPatients() throws Exception {
+		new SetupDuplicateHivPatients(new Helper()).setup();
+	}
+	
+
 }

@@ -44,4 +44,8 @@ ARV Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/regi
 HIV Data Quality: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivdataquality.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivdataquality.form">Remove</a>
 
+<br/>
+Duplicate HIV Patients: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_duplicatehivpatients.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_duplicatehivpatients.form">Remove</a>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>
