@@ -14,6 +14,8 @@ public class DuplicateSpotterDataSetDefinition extends BaseDataSetDefinition {
 	
 	private boolean nnoEncounterMatching = false;
 	
+	private boolean showSingleRecords = false;
+	
 	private Date onOrAfter = null;
 	
 	public DuplicateSpotterDataSetDefinition() {
@@ -55,4 +57,13 @@ public class DuplicateSpotterDataSetDefinition extends BaseDataSetDefinition {
 	public boolean isSoundexSwapFirstLastName() {
 		return soundexSwapFirstLastName;
 	}
+
+	public boolean isShowSingleRecords() {
+		return showSingleRecords;
+	}
+
+	public void setShowSingleRecords(boolean showSingleRecords) {
+		this.showSingleRecords = showSingleRecords;
+	}
+
 }

@@ -86,14 +86,12 @@ public class DuplicateSpotterDataSetEvaluator implements DataSetEvaluator {
 			DataSetColumn col = null;
 
 			Collection<Patient> ps = null;
-			boolean showMainEntry = true;
 			if (dsds.isNnoEncounterMatching()) {
 				ps = s.spot(p, onOrAfter, patientIds);
 			} else if (dsds.isSoundexCheck()) {
 				ps = sm.soundexMatches(p, encounterTypes, dsds.isSoundexSwapFirstLastName());
-				showMainEntry = !ps.isEmpty();
 			}
-			if (showMainEntry) {
+			if (dsds.isShowSingleRecords()) {
 				col = new DataSetColumn("#", "#", String.class);
 				row.addColumnValue(col, linkifyId(p));
 				int i = 1;

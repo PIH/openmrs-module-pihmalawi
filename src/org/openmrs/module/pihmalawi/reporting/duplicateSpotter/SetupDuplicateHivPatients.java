@@ -43,6 +43,7 @@ public class SetupDuplicateHivPatients {
 
 		ReportDefinition rd = createReportDefinition();
 		h.replaceReportDefinition(rd);
+		createNnoEncounterSoundexBreakdown(rd);
 		createNnoEncounterBreakdown(rd);
 		createSoundexBreakdown(rd);
 		createSoundexSwapFirstLastNameBreakdown(rd);
@@ -56,11 +57,27 @@ public class SetupDuplicateHivPatients {
 		DuplicateSpotterDataSetDefinition dsd = new DuplicateSpotterDataSetDefinition();
 		dsd.setNnoEncounterMatching(true);
 		dsd.setSoundexCheck(false);
+		dsd.setShowSingleRecords(true);
 		dsd.setOnOrAfter(onOrAfter);
 		m.put("dup: 1", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd,
 				"Duplicate HIV patients: NNO Encounter_", m);
+	}
+
+	protected ReportDesign createNnoEncounterSoundexBreakdown(ReportDefinition rd)
+			throws IOException, SerializationException {
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		DuplicateSpotterDataSetDefinition dsd = new DuplicateSpotterDataSetDefinition();
+		dsd.setNnoEncounterMatching(false);
+		dsd.setSoundexCheck(true);
+		dsd.setShowSingleRecords(true);
+		dsd.setOnOrAfter(onOrAfter);
+		m.put("dup: 1", new Mapped<DataSetDefinition>(dsd, null));
+
+		return h.createHtmlBreakdown(rd,
+				"Duplicate HIV patients: NNO Encounter Soundex_", m);
 	}
 
 	protected ReportDesign createSoundexBreakdown(ReportDefinition rd)
@@ -71,23 +88,26 @@ public class SetupDuplicateHivPatients {
 		dsd.setNnoEncounterMatching(false);
 		dsd.setSoundexCheck(true);
 		dsd.setOnOrAfter(onOrAfter);
+		dsd.setShowSingleRecords(false);
 		m.put("entryHIV", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd, "Duplicate HIV patients: Soundex_", m);
 	}
 
-	protected ReportDesign createSoundexSwapFirstLastNameBreakdown(ReportDefinition rd)
-			throws IOException, SerializationException {
+	protected ReportDesign createSoundexSwapFirstLastNameBreakdown(
+			ReportDefinition rd) throws IOException, SerializationException {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
 		DuplicateSpotterDataSetDefinition dsd = new DuplicateSpotterDataSetDefinition();
 		dsd.setNnoEncounterMatching(false);
 		dsd.setSoundexCheck(true);
+		dsd.setShowSingleRecords(false);
 		dsd.setSoundexSwapFirstLastName(true);
 		dsd.setOnOrAfter(onOrAfter);
 		m.put("entryHIV", new Mapped<DataSetDefinition>(dsd, null));
 
-		return h.createHtmlBreakdown(rd, "Duplicate HIV patients: Soundex Swap First & Last Name_", m);
+		return h.createHtmlBreakdown(rd,
+				"Duplicate HIV patients: Soundex Swap First & Last Name_", m);
 	}
 
 	public void delete() {
