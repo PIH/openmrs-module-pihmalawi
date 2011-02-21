@@ -42,28 +42,24 @@ public class SetupWeeklyEncounter {
 				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EID_INITIAL"),
 				et("EID_FOLLOWUP"), et("LAB"), et("TB_INITIAL"),
 				et("TB_FOLLOWUP"), et("REGISTRATION"), et("VITALS"),
-				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"), et("CHRONIC_CARE_INITIAL"));
-		// wish-list, what about drugs & drug_orders
-		/*
-		 * ENCOUNTER_TYPES = Arrays .asList( et("ART_INITIAL"),
-		 * et("ART_FOLLOWUP"), et("PART_INITIAL"), et("PART_FOLLOWUP"),
-		 * et("EID_INITIAL"), et("EID_FOLLOWUP"), et("REGISTRATION"),
-		 * et("VITALS"), et("OUTPATIENT DIAGNOSIS"), et("LAB"),
-		 * et("TB_INITIAL"), et("TB_FOLLOWUP"), et("APPOINTMENT"),
-		 * et("LAB ORDERS"), et("CHEMOTHERAPY"), et("PATIENT EVALUATION"));
-		 */
-		LOCATIONS_LIST = Arrays.asList(
-				Arrays.asList(h.location("Neno District Hospital"),
-						h.location("Neno District Hospital - Outpatient"),
-						h.location("Neno District Hospital - Registration"),
-						h.location("Neno District Hospital - Vitals")),
-						Arrays.asList(h.location("Magaleta HC")),
-						Arrays.asList(h.location("Nsambe HC")),
-				Arrays.asList(h.location("Lisungwi Community Hospital")),
-				Arrays.asList(h.location("Chifunga HC")),
-				Arrays.asList(h.location("Matope HC")));
+				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"),
+				et("CHRONIC_CARE_INITIAL"), et("CHRONIC_CARE_FOLLOWUP"));
+
+		LOCATIONS_LIST = Arrays.asList(Arrays.asList(
+				h.location("Neno District Hospital"),
+				h.location("Neno Mission HC"), h.location("Ligowe HC"),
+				h.location("Neno District Hospital - Outpatient"),
+				h.location("Neno District Hospital - Registration"),
+				h.location("Neno District Hospital - Vitals")), Arrays.asList(h
+				.location("Magaleta HC")), Arrays.asList(h
+				.location("Nsambe HC")), Arrays.asList(
+				h.location("Lisungwi Community Hospital"),
+				h.location("Zalewa HC"), h.location("Midzemba HC"),
+				h.location("Nkhula Falls RHC")), Arrays.asList(h
+				.location("Chifunga HC")), Arrays.asList(h
+				.location("Matope HC")));
 		USERS = Arrays.asList(u("benndo"), u("amahaka"), u("geomal"),
-				u("qlement"), u("thandie"), u("faydula"), u("cneumann"),
+				u("qlement"), u("thandie"), u("cgoliath"), u("cneumann"),
 				u("prichi"), u("wilmwa"), u("nelma"));
 	}
 
@@ -103,8 +99,8 @@ public class SetupWeeklyEncounter {
 		h.createXlsOverview(rd2, "Weekly_Encounter_By_User.xls",
 				"Weekly Encounter By User.xls (Excel)_",
 				excelOverviewProperties());
-		
-		return new ReportDefinition[] {rd1, rd2};
+
+		return new ReportDefinition[] { rd1, rd2 };
 	}
 
 	public void delete() {
@@ -184,7 +180,8 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)",
+				Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
@@ -231,7 +228,8 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)",
+				Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
