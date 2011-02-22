@@ -9,7 +9,9 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.BeforeAfter;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.Event;
 import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
@@ -42,6 +44,8 @@ public class SetupArvQuarterly {
 	private final ProgramWorkflowState STATE_STOPPED;
 
 	private final ProgramWorkflowState STATE_TRANSFERRED_OUT;
+	
+	private final ProgramWorkflowState FOLLOWING;
 
 	/** little hack to have a start date. maybe we could live without it */
 	private static final String MIN_DATE_PARAMETER = "${startDate-5000m}";
@@ -58,6 +62,8 @@ public class SetupArvQuarterly {
 				.getStateByName("TREATMENT STOPPED");
 		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("PATIENT TRANSFERRED OUT");
+		FOLLOWING = PROGRAM.getWorkflowByName("TREATMENT STATUS")
+		.getStateByName("FOLLOWING");
 		CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
 				.getConceptByName("APPOINTMENT DATE");
 	}
@@ -111,25 +117,35 @@ public class SetupArvQuarterly {
 		
 		// State relative to state
 		StateRelativeToStateCohortDefinition srtscd = new StateRelativeToStateCohortDefinition();
-		srtscd.setName("arvquarterly: In state any location before state at enrollment location within interval_");
-		srtscd.addParameter(new Parameter("firstState", "First State",
+		srtscd.setName("arvquarterly: State any location relative to state at enrollment location within interval_");
+		srtscd.addParameter(new Parameter("primaryStateEvent", "Primary State Event", Date.class));
+		srtscd.addParameter(new Parameter("primaryState", "Primary State",
 				ProgramWorkflowState.class));
-		srtscd.addParameter(new Parameter("secondState", "Second State",
-				ProgramWorkflowState.class));
-		//srtscd.addParameter(new Parameter("onDate", "On Date", Date.class));
 		srtscd.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
 		srtscd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		srtscd.addParameter(new Parameter("primaryStateLocation", "Primary State Location", 
+				Location.class));
 		srtscd.addParameter(new Parameter("offsetAmount", "Offset Amount", Date.class));
 		srtscd.addParameter(new Parameter("offsetUnit", "Offset Unit", Date.class));
-		srtscd.addParameter(new Parameter("secondStateLocation", "Second State Location", 
-				Location.class));
+		srtscd.addParameter(new Parameter("beforeAfter", "Before After", Date.class));
+		srtscd.addParameter(new Parameter("relativeStateEvent", "Relative State Event", Date.class));
+		srtscd.addParameter(new Parameter("relativeState", "Relative State",
+				ProgramWorkflowState.class));
+		
 		h.replaceCohortDefinition(srtscd);
 
 		i27_alive(rd);
 		
 		i28_died_1month_after_ART(rd);
 		
-		TEST_stopped_1month_after_onART(rd);
+		//i29_died_2month_after_ART(rd);
+		
+		//i30_died_3month_after_ART(rd);
+		
+		// TESTS
+		//i100_stopped_ART_2month_after_started_following(rd);
+		//i101_started_ART_2month_before_started_died(rd);
+		//i102_stopped_ART_1month_before_started_died(rd);
 
 		i32_died(rd);
 
@@ -163,34 +179,118 @@ private void i28_died_1month_after_ART(PeriodIndicatorReportDefinition rd) {
 		
 		CohortIndicator i = h.newCountIndicator(
 				"arvquarterly: In ART state any location within one month died state at enrollment location within interval_",
-				"arvquarterly: In state any location before state at enrollment location within interval_", h.parameterMap(
+				"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+						"primaryStateEvent", Event.STARTED,
+						"primaryState", STATE_DIED,
 						"onOrAfter", "${startDate}", 
 						"onOrBefore", "${endDate}", 
-						"firstState", STATE_ON_ART,
-						"secondState", STATE_DIED,
+						"primaryStateLocation", "${location}",
 						"offsetAmount", 1,
-						"secondStateLocation", "${location}",
-						"offsetUnit", DurationUnit.MONTHS));
+						"offsetUnit", DurationUnit.MONTHS,
+						"beforeAfter", BeforeAfter.AFTER,
+						"relativeStateEvent", Event.STARTED,
+						"relativeState", STATE_ON_ART));
 		PeriodIndicatorReportUtil.addColumn(rd, "28", "Died within the 1st month after ART initiation", i,
 				null);
 	}
-
-private void TEST_stopped_1month_after_onART(PeriodIndicatorReportDefinition rd) {
+/*
+private void i29_died_2month_after_ART(PeriodIndicatorReportDefinition rd) {
 	
 	CohortIndicator i = h.newCountIndicator(
-			"arvquarterly: In ART state any location before stopped state at enrollment location within interval_",
-			"arvquarterly: In state any location before state at enrollment location within interval_", h.parameterMap(
+			"arvquarterly: In ART state any location within one month died state at enrollment location within interval_",
+			"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+					"primaryStateEvent", Event.STARTED,
+					"primaryState", STATE_DIED,
 					"onOrAfter", "${startDate}", 
-					"onOrBefore", "${endDate}",
-					//"onDate", "${endDate}", 
-					"firstState", STATE_ON_ART,
-					"secondState", STATE_STOPPED,
+					"onOrBefore", "${endDate}", 
+					"primaryStateLocation", "${location}",
 					"offsetAmount", 2,
-					"secondStateLocation", "${location}",
-					"offsetUnit", DurationUnit.MONTHS));
-	PeriodIndicatorReportUtil.addColumn(rd, "TEST", "Stopped within the 1st month after ART initiation", i,
+					"offsetUnit", DurationUnit.MONTHS,
+					"beforeAfter", BeforeAfter.AFTER,
+					"relativeStateEvent", Event.STARTED,
+					"relativeState", STATE_ON_ART));
+	PeriodIndicatorReportUtil.addColumn(rd, "29", "Died within the 2nd month after ART initiation", i,
 			null);
 }
+
+private void i30_died_3month_after_ART(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: In ART state any location within one month died state at enrollment location within interval_",
+			"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+					"primaryStateEvent", Event.STARTED,
+					"primaryState", STATE_DIED,
+					"onOrAfter", "${startDate}", 
+					"onOrBefore", "${endDate}", 
+					"primaryStateLocation", "${location}",
+					"offsetAmount", 3,
+					"offsetUnit", DurationUnit.MONTHS,
+					"beforeAfter", BeforeAfter.AFTER,
+					"relativeStateEvent", Event.STARTED,
+					"relativeState", STATE_ON_ART));
+	PeriodIndicatorReportUtil.addColumn(rd, "30", "Died within the 3rd month after ART initiation", i,
+			null);
+}
+*/
+/*  TESTS
+private void i100_stopped_ART_2month_after_started_following(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: Stopped ART within the 2nd month after started FOLLOWING_",
+			"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+					"primaryStateEvent", Event.STOPPED,
+					"primaryState", STATE_ON_ART,
+					"onOrAfter", "${startDate}", 
+					"onOrBefore", "${endDate}",
+					"primaryStateLocation", "${location}",
+					"offsetAmount", 2,
+					"offsetUnit", DurationUnit.MONTHS,
+					"beforeAfter", BeforeAfter.AFTER,
+					"relativeStateEvent", Event.STARTED,
+					"relativeState", FOLLOWING));
+	PeriodIndicatorReportUtil.addColumn(rd, "100", "Stopped ART within the 2nd month after started FOLLOWING", i,
+			null);
+}
+
+private void i101_started_ART_2month_before_started_died(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: Started ART within the 2nd month before started DIED_",
+			"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+					"primaryStateEvent", Event.STARTED,
+					"primaryState", STATE_ON_ART,
+					"onOrAfter", "${startDate}", 
+					"onOrBefore", "${endDate}",
+					"primaryStateLocation", "${location}",
+					"offsetAmount", 2,
+					"offsetUnit", DurationUnit.MONTHS,
+					"beforeAfter", BeforeAfter.BEFORE,
+					"relativeStateEvent", Event.STARTED,
+					"relativeState", STATE_DIED));
+	PeriodIndicatorReportUtil.addColumn(rd, "101", "Started ART within the 2nd month before started DIED", i,
+			null);
+}
+
+private void i102_stopped_ART_1month_before_started_died(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: Stopped ART within 1 month before started DIED_",
+			"arvquarterly: State any location relative to state at enrollment location within interval_", h.parameterMap(
+					"primaryStateEvent", Event.STOPPED,
+					"primaryState", STATE_ON_ART,
+					"onOrAfter", "${startDate}", 
+					"onOrBefore", "${endDate}",
+					"primaryStateLocation", "${location}",
+					"offsetAmount", 1,
+					"offsetUnit", DurationUnit.MONTHS,
+					"beforeAfter", BeforeAfter.BEFORE,
+					"relativeStateEvent", Event.STARTED,
+					"relativeState", STATE_DIED));
+	PeriodIndicatorReportUtil.addColumn(rd, "102", "Stopped ART within 1 month before started DIED", i,
+			null);
+}
+*/
+
 
 	private void i35_transferred(PeriodIndicatorReportDefinition rd) {
 		CohortIndicator i = h.newCountIndicator(

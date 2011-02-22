@@ -6,6 +6,8 @@ import java.util.List;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.reporting.BeforeAfter;
+import org.openmrs.module.pihmalawi.reporting.Event;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
@@ -30,51 +32,60 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 	private DurationUnit offsetUnit = DurationUnit.MONTHS;
 
 	@ConfigurationProperty(required = false)
-	private Location firstStateLocation = null;
+	private Location relativeStateLocation = null;
 
 	@ConfigurationProperty(required = false)
-	private Location secondStateLocation = null;
+	private Location primaryStateLocation = null;
 
 	@ConfigurationProperty(required = true)
-	private ProgramWorkflowState firstState;
+	private ProgramWorkflowState relativeState;
 
 	@ConfigurationProperty(required = true)
-	private ProgramWorkflowState secondState;
+	private ProgramWorkflowState primaryState;
+	
+	@ConfigurationProperty(required = false)
+	private Event primaryStateEvent = Event.STARTED;
+	
+	@ConfigurationProperty(required = false)
+	private Event relativeStateEvent = Event.STARTED;
+	
+	@ConfigurationProperty(required = false)
+	private BeforeAfter beforeAfter = BeforeAfter.AFTER;
 	
 	public StateRelativeToStateCohortDefinition() {
 		super();
 	}
 
-	public Location getFirstStateLocation() {
-		return firstStateLocation;
+	public Location getRelativeStateLocation() {
+		return relativeStateLocation;
 	}
 
-	public void setFirstStateLocation(Location firstStateLocation) {
-		this.firstStateLocation = firstStateLocation;
+	public void setRelativeStateLocation(Location relativeStateLocation) {
+		this.relativeStateLocation = relativeStateLocation;
 	}
 	
-	public Location getSecondStateLocation() {
-		return secondStateLocation;
+	public Location getPrimaryStateLocation() {
+		return primaryStateLocation;
 	}
 
-	public void setSecondStateLocation(Location secondStateLocation) {
-		this.secondStateLocation = secondStateLocation;
+	public void setPrimaryStateLocation(Location primaryStateLocation) {
+		this.primaryStateLocation = primaryStateLocation;
 	}
 	
-	public ProgramWorkflowState getFirstState() {
-		return firstState;
+	public ProgramWorkflowState getRelativeState() {
+		return relativeState;
 	}
 
-	public void setFirstState(ProgramWorkflowState firstState) {
-		this.firstState = firstState;
+	public void setRelativeState(ProgramWorkflowState relativeState) {
+		this.relativeState = relativeState;
 	}
 	
-	public ProgramWorkflowState getSecondState() {
-		return secondState;
+	public ProgramWorkflowState getPrimaryState() {
+		return primaryState;
 	}
 
-	public void setSecondState(ProgramWorkflowState secondState) {
-		this.secondState = secondState;
+	public void setPrimaryState(ProgramWorkflowState primaryState) {
+		this.primaryState = primaryState;
 	}
 	
 	public Date getOnOrAfter() {
@@ -113,7 +124,31 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 		return offsetUnit;
 	}
 
-	public void setOffsetUnit(DurationUnit offsetAmountUnit) {
-		this.offsetUnit = offsetAmountUnit;
+	public void setOffsetUnit(DurationUnit offsetUnit) {
+		this.offsetUnit = offsetUnit;
+	}
+	
+	public Event getPrimaryStateEvent() {
+		return primaryStateEvent;
+	}
+
+	public void setPrimaryStateEvent(Event primaryStateEvent) {
+		this.primaryStateEvent = primaryStateEvent;
+	}
+	
+	public Event getRelativeStateEvent() {
+		return relativeStateEvent;
+	}
+
+	public void setRelativeStateEvent(Event relativeStateEvent) {
+		this.relativeStateEvent = relativeStateEvent;
+	}
+	
+	public BeforeAfter getBeforeAfter() {
+		return beforeAfter;
+	}
+
+	public void setBeforeAfter(BeforeAfter beforeAfter) {
+		this.beforeAfter = beforeAfter;
 	}
 }
