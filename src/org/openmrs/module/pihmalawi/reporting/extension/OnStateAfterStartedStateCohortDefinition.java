@@ -12,15 +12,9 @@ import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
-public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition {
+public class OnStateAfterStartedStateCohortDefinition  extends BaseCohortDefinition {
 	
 	private static final long serialVersionUID = 1L;
-
-	@ConfigurationProperty(group = "dateRangeGroup")
-	private Date onOrAfter;
-	
-	@ConfigurationProperty(group = "dateRangeGroup")
-	private Date onOrBefore;
 	
 	@ConfigurationProperty(group = "onDateGroup")
 	private Date onDate;
@@ -32,10 +26,10 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 	private Integer offsetDuration = -1;
 	
 	@ConfigurationProperty(required = false)
-	private DurationUnit offsetUnit = DurationUnit.MONTHS;
-
+	private boolean offsetWithin = true;
+	
 	@ConfigurationProperty(required = false)
-	private Location relativeStateLocation = null;
+	private DurationUnit offsetUnit = DurationUnit.MONTHS;
 
 	@ConfigurationProperty(required = false)
 	private Location primaryStateLocation = null;
@@ -46,25 +40,8 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 	@ConfigurationProperty(required = true)
 	private ProgramWorkflowState primaryState;
 	
-	@ConfigurationProperty(required = false)
-	private Event primaryStateEvent = Event.STARTED;
-	
-	@ConfigurationProperty(required = false)
-	private Event relativeStateEvent = Event.STARTED;
-	
-	@ConfigurationProperty(required = false)
-	private BeforeAfter beforeAfter = BeforeAfter.AFTER;
-	
-	public StateRelativeToStateCohortDefinition() {
+	public OnStateAfterStartedStateCohortDefinition() {
 		super();
-	}
-
-	public Location getRelativeStateLocation() {
-		return relativeStateLocation;
-	}
-
-	public void setRelativeStateLocation(Location relativeStateLocation) {
-		this.relativeStateLocation = relativeStateLocation;
 	}
 	
 	public Location getPrimaryStateLocation() {
@@ -90,22 +67,6 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 	public void setPrimaryState(ProgramWorkflowState primaryState) {
 		this.primaryState = primaryState;
 	}
-	
-	public Date getOnOrAfter() {
-		return onOrAfter;
-	}
-	
-	public void setOnOrAfter(Date onOrAfter) {
-		this.onOrAfter = onOrAfter;
-	}
-	
-	public Date getOnOrBefore() {
-		return onOrBefore;
-	}
-	
-	public void setOnOrBefore(Date onOrBefore) {
-		this.onOrBefore = onOrBefore;
-	}
 
 	public Date getOnDate() {
 		return onDate;
@@ -123,7 +84,6 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 		this.offsetAmount = offsetAmount;
 	}
 	
-	
 	public Integer getOffsetDuration() {
 		return offsetDuration;
 	}
@@ -131,35 +91,20 @@ public class StateRelativeToStateCohortDefinition  extends BaseCohortDefinition 
 	public void setOffsetDuration(Integer offsetDuration) {
 		this.offsetDuration = offsetDuration;
 	}
+	
+	public boolean getOffsetWithin() {
+		return offsetWithin;
+	}
+
+	public void setOffsetWithin(boolean offsetWithin) {
+		this.offsetWithin = offsetWithin;
+	}
+	
 	public DurationUnit getOffsetUnit() {
 		return offsetUnit;
 	}
 
 	public void setOffsetUnit(DurationUnit offsetUnit) {
 		this.offsetUnit = offsetUnit;
-	}
-	
-	public Event getPrimaryStateEvent() {
-		return primaryStateEvent;
-	}
-
-	public void setPrimaryStateEvent(Event primaryStateEvent) {
-		this.primaryStateEvent = primaryStateEvent;
-	}
-	
-	public Event getRelativeStateEvent() {
-		return relativeStateEvent;
-	}
-
-	public void setRelativeStateEvent(Event relativeStateEvent) {
-		this.relativeStateEvent = relativeStateEvent;
-	}
-	
-	public BeforeAfter getBeforeAfter() {
-		return beforeAfter;
-	}
-
-	public void setBeforeAfter(BeforeAfter beforeAfter) {
-		this.beforeAfter = beforeAfter;
 	}
 }

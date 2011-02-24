@@ -52,23 +52,32 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 		ProgramWorkflowState relativeState = definition.getRelativeState();
 		ProgramWorkflowState primaryState = definition.getPrimaryState();
 		Integer offsetAmount = definition.getOffsetAmount();
+		Integer offsetDuration = definition.getOffsetDuration();
 		DurationUnit offsetUnit = definition.getOffsetUnit();
-
 		Event primaryStateEvent = definition
-				.getPrimaryStateEvent();
+				.getPrimaryStateEvent(); // started or stopped state??
 		Event relativeStateEvent = definition
-				.getRelativeStateEvent();
+				.getRelativeStateEvent();  // started or stopped state??
 		BeforeAfter beforeAfter = definition.getBeforeAfter();
 
 		if (onDate != null) {
 			onOrAfter = onDate;
 			onOrBefore = onDate;
 		}
+		
+		// duration should be optional, assumed to be the same as amount unless specified
+		if(offsetDuration == -1) {
+			offsetDuration = offsetAmount;
+		}
+		
+		log.warn("offsetAmount="+offsetAmount);
+		log.warn("offsetDuration="+offsetDuration);
 
 		switch (beforeAfter) {
 		case AFTER:
 			// interval has primary state AFTER relative state
 			offsetAmount = -offsetAmount;
+			offsetDuration = -offsetDuration;
 			break;
 		}
 
@@ -100,7 +109,8 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 				
 				Date primaryStateStartDate = patientState.getStartDate(); // ***** CAN THIS BE NULL???
 				Date primaryStateEndDate = patientState.getEndDate();
-				Date intervalCalculatedDate = null;
+				Date offsetEndDate = null;
+				Date offsetStartDate = null;
 				Cohort relativePatients = null;
 
 				// get start and end date of PRIMARY state for relative state
@@ -113,9 +123,11 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 					if (!(primaryStateStartDate.after(onOrAfter) && primaryStateStartDate
 							.before(onOrBefore))) {
 						continue;
-					} else {
-						intervalCalculatedDate = calculateInterval(
-								primaryStateStartDate, offsetUnit, offsetAmount);
+					} else { // ***********  REVERSE names of offsetStartDate and offsetEndDate -- confusing now
+						offsetStartDate = calculateInterval(
+								primaryStateStartDate, offsetUnit, (offsetAmount - offsetDuration)); // what should be excluded
+						offsetEndDate = calculateInterval(
+								primaryStateStartDate, offsetUnit, offsetAmount); // the offset
 					}
 
 					// get patients with RELATIVE state at location in date range
@@ -126,15 +138,15 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState,
-											intervalCalculatedDate,
-											primaryStateStartDate, null, null,
+											offsetEndDate,
+											offsetStartDate, null, null,
 											relativeStateLocation);
 						} else {
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState,
-											primaryStateStartDate,
-											intervalCalculatedDate, null, null,
+											offsetStartDate,
+											offsetEndDate, null, null,
 											relativeStateLocation);
 						}
 						break;
@@ -143,15 +155,15 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState, null, null,
-											intervalCalculatedDate,
-											primaryStateStartDate,
+											offsetEndDate,
+											offsetStartDate,
 											relativeStateLocation);
 						} else {
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState, null, null,
-											primaryStateStartDate,
-											intervalCalculatedDate,
+											offsetStartDate,
+											offsetEndDate,
 											relativeStateLocation);
 						}
 						break;
@@ -165,8 +177,10 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 							.before(onOrBefore))) {
 						continue;
 					} else {
-						intervalCalculatedDate = calculateInterval(
-								primaryStateEndDate, offsetUnit, offsetAmount);
+						offsetStartDate = calculateInterval(
+								primaryStateEndDate, offsetUnit, (offsetAmount - offsetDuration)); // what should be excluded
+						offsetEndDate = calculateInterval(
+								primaryStateEndDate, offsetUnit, offsetAmount); // the offset
 					}
 
 					// get patients with RELATIVE state at location in date range
@@ -177,14 +191,14 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState,
-											intervalCalculatedDate,
-											primaryStateEndDate, null, null,
+											offsetEndDate,
+											offsetStartDate, null, null,
 											relativeStateLocation);
 						} else {
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
-											relativeState, primaryStateEndDate,
-											intervalCalculatedDate, null, null,
+											relativeState, offsetStartDate,
+											offsetEndDate, null, null,
 											relativeStateLocation);
 						}
 						break;
@@ -193,15 +207,15 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState, null, null,
-											intervalCalculatedDate,
-											primaryStateEndDate,
+											offsetEndDate,
+											offsetStartDate,
 											relativeStateLocation);
 						} else {
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState, null, null,
-											primaryStateEndDate,
-											intervalCalculatedDate,
+											offsetStartDate,
+											offsetEndDate,
 											relativeStateLocation);
 						}
 						break;
@@ -232,5 +246,4 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
 				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
 	}
-
 }
