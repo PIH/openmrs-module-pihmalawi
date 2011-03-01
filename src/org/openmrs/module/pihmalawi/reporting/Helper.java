@@ -23,6 +23,7 @@ import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
@@ -35,6 +36,7 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.indicator.dimension.Dimension;
 import org.openmrs.module.reporting.indicator.dimension.service.DimensionService;
+import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportDesignResource;
@@ -488,6 +490,80 @@ public class Helper {
 
 	public EncounterType encounterType(String string) {
 		return Context.getEncounterService().getEncounterType(string);
+	}
+	
+	public void createComposition(PeriodIndicatorReportDefinition rd, String name,
+			String key, String cohort1, Map<String, Object> map1, String cohort2, Map<String, Object> map2, String composition, Map<String, Object> compositionMap) {
+		
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(name);
+		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ccd.addParameter(new Parameter("location", "Location", Location.class));
+		ccd.getSearches().put("1",
+				new Mapped(cohortDefinition(cohort1), map1));
+		ccd.getSearches().put("2",
+				new Mapped(cohortDefinition(cohort2), map2));
+		ccd.setCompositionString(composition);
+		replaceCohortDefinition(ccd);
+				
+		CohortIndicator i = newCountIndicator(name, name, compositionMap);
+		
+		PeriodIndicatorReportUtil.addColumn(rd, key, name, i, null);
+	}
+	
+	public void createComposition(PeriodIndicatorReportDefinition rd, String name, String key, String operator, Map<String, Object> compositionMap,
+			Map<String, Mapped<? extends CohortDefinition>> entries) {
+		
+		// create cohort with cohorts and search string
+		CompositionCohortDefinition ccd = (CompositionCohortDefinition)getCompositionCohort(entries, operator);
+		ccd.setName(name + " Composition");
+		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ccd.addParameter(new Parameter("location", "Location", Location.class));
+		
+		replaceCohortDefinition(ccd);
+		
+		CohortIndicator i = newCountIndicator(name + " Indicator", name + " Composition", compositionMap);
+		
+		PeriodIndicatorReportUtil.addColumn(rd, key, name, i, null);
+	}
+	
+	public static CohortDefinition getCompositionCohort(Map<String, Mapped<? extends CohortDefinition>> entries, String operator) {
+		if (entries.size() == 1) {
+			return entries.values().iterator().next().getParameterizable();
+		}
+		CompositionCohortDefinition d = new CompositionCohortDefinition();
+		StringBuilder s = new StringBuilder();
+		for (Map.Entry<String, Mapped<? extends CohortDefinition>> cd : entries.entrySet()) {
+			d.addSearch(cd.getKey(), cd.getValue().getParameterizable(), cd.getValue().getParameterMappings());
+		
+			if (s.length() > 0) {
+				s.append(" " + operator + " ");
+			}
+			
+			s.append(cd.getKey());
+		}
+		
+		d.setCompositionString(s.toString());
+		return d;
+	}
+	
+	public static CohortDefinition minus(CohortDefinition base, CohortDefinition... toSubtract) {
+		CompositionCohortDefinition d = new CompositionCohortDefinition();
+		d.addSearch("base", base, null);
+		StringBuilder s = new StringBuilder("base AND NOT (");
+		int i = 1;
+		for (CohortDefinition cd : toSubtract) {
+			d.addSearch(""+i, cd, null);
+			if (i > 1) {
+				s.append(" OR ");
+			}
+			s.append(i++);
+		}
+		s.append(")");
+		d.setCompositionString(s.toString());
+		return d;
 	}
 
 }

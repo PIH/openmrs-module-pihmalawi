@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reporting.mohquarterlyart;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -19,6 +20,7 @@ import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortD
 import org.openmrs.module.pihmalawi.reporting.extension.OnStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.StateRelativeToStateCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
@@ -108,22 +110,6 @@ public class SetupArvQuarterly {
 		rd.setupDataSetDefinition();
 		return rd;
 	}
-	
-	private void createComposition(PeriodIndicatorReportDefinition rd, String name,
-			String key, String cohort1, Map<String, Object> map1, String cohort2, Map<String, Object> map2, String composition, Map<String, Object> compositionMap) {
-		
-		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName(name);
-		ccd.getSearches().put("1",
-				new Mapped(h.cohortDefinition(cohort1), map1));
-		ccd.getSearches().put("2",
-				new Mapped(h.cohortDefinition(cohort2), map2));
-		ccd.setCompositionString(composition);
-		h.replaceCohortDefinition(ccd);
-		CohortIndicator i = h.newCountIndicator(name, name, compositionMap);
-		PeriodIndicatorReportUtil.addColumn(rd, key, name, i, null);
-	}
-	
 
 	private void createCohortDefinitions(PeriodIndicatorReportDefinition rd) {
 		i6_registered(rd);
@@ -136,22 +122,6 @@ public class SetupArvQuarterly {
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(islcd);
-		
-		/*
-		// Died after ART initiation -- doesn't work 100%, would need to support IN for PrimaryState and also "Within" vs "Before"
-		StateRelativeToStateCohortDefinition diedAfterARTInitiation = new StateRelativeToStateCohortDefinition();
-		diedAfterARTInitiation.setName("arvquarterly: ART started any location relative to started DIED at enrollment location within interval_");
-		diedAfterARTInitiation.setPrimaryState(STATE_DIED);
-		diedAfterARTInitiation.setRelativeState(STATE_ON_ART);
-		diedAfterARTInitiation.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
-		diedAfterARTInitiation.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
-		diedAfterARTInitiation.addParameter(new Parameter("primaryStateLocation", "Primary State Location", 
-				Location.class));
-		diedAfterARTInitiation.addParameter(new Parameter("offsetAmount", "Offset Amount", Date.class));
-		diedAfterARTInitiation.addParameter(new Parameter("offsetDuration", "Offset Duration", Integer.class));
-		diedAfterARTInitiation.addParameter(new Parameter("offsetUnit", "Offset Unit", Date.class));
-		h.replaceCohortDefinition(diedAfterARTInitiation);
-		*/
 		
 		// Died after ART initiation
 		OnStateAfterStartedStateCohortDefinition diedAfterARTInitiation = new OnStateAfterStartedStateCohortDefinition();
@@ -166,6 +136,23 @@ public class SetupArvQuarterly {
 		diedAfterARTInitiation.addParameter(new Parameter("offsetWithin", "Offset Within", Boolean.class));
 		diedAfterARTInitiation.addParameter(new Parameter("offsetUnit", "Offset Unit", Date.class));
 		h.replaceCohortDefinition(diedAfterARTInitiation);
+		
+		// Defaulters
+		// todo: only take appointment dates from art clinic. not sure how to
+		// get them though
+		// todo: defaulted calculated from next app date, but should be taken
+		// from last visit and expected date running out of arvs. for now we
+		// assume this is the same
+		DateObsCohortDefinition dod = new DateObsCohortDefinition();
+		dod.setName("arvquarterly: Missed Appointment_");
+		dod.setTimeModifier(TimeModifier.MAX);
+		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
+		dod.setOperator1(RangeComparator.LESS_THAN);
+		dod.setOperator2(RangeComparator.GREATER_EQUAL);
+		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
+		dod.addParameter(new Parameter("value1", "to", Date.class));
+		dod.addParameter(new Parameter("value2", "from", Date.class));
+		h.replaceCohortDefinition(dod);
 
 		i27_alive(rd);
 		
@@ -176,21 +163,13 @@ public class SetupArvQuarterly {
 		i30_died_3month_after_ART(rd);
 		
 		i31_died_more_3month_after_ART(rd);
-		
-		/*// Used StateRelativeToStateCohortDefinition for 32 -- needs work
-		 Map<String, Object> map1 = h.parameterMap("onDate", "${endDate}", "location", "${location}", "state", STATE_DIED);
-		 Map<String, Object> map2 = h.parameterMap("onOrAfter", "${onOrAfter}", "onOrBefore", "${onOrBefore}", "primaryStateLocation", "${location}", "offsetAmount", new Integer(3), "offsetDuration", new Integer(3), "offsetUnit", DurationUnit.MONTHS);
-		 Map<String, Object> map3 = h.parameterMap("onDate", "${endDate}", "location", "${location}", "onOrAfter", "${onOrAfter}", "onOrBefore", "${onOrBefore}", "primaryStateLocation", "${location}");
-		createComposition(rd, "Died after the end of the 3rd month after ART initiation", "31",
-				"arvquarterly: In state at location_", map1,
-				"arvquarterly: ART started any location relative to started DIED at enrollment location within interval_", map2, 
-				"1 AND NOT 2", map3);
-		*/
 
 		i32_died(rd);
-
+		
 		i33_defaulted(rd);
 
+		i33_defaultedOld(rd);
+		
 		i34_stopped(rd);
 
 		i35_transferred(rd);
@@ -319,26 +298,22 @@ private void i31_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 				i, null);
 	}
 
-	private void i33_defaulted(PeriodIndicatorReportDefinition rd) {
-		// todo: only take appointment dates from art clinic. not sure how to
-		// get them though
-		// todo: defaulted calculated from next app date, but should be taken
-		// from last visit and expected date running out of arvs. for now we
-		// assume this is the same
-		DateObsCohortDefinition dod = new DateObsCohortDefinition();
-		dod.setName("arvquarterly: Missed Appointment_");
-		dod.setTimeModifier(TimeModifier.MAX);
-		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
-		dod.setOperator1(RangeComparator.LESS_THAN);
-		dod.setOperator2(RangeComparator.GREATER_EQUAL);
-		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
-		dod.addParameter(new Parameter("value1", "to", Date.class));
-		dod.addParameter(new Parameter("value2", "from", Date.class));
-		h.replaceCohortDefinition(dod);
+	private void i33_defaultedOld(PeriodIndicatorReportDefinition rd) {
 
 		CohortIndicator i = h.newCountIndicator("arvquarterly: Defaulted_",
 				"arvquarterly: Missed Appointment_", h.parameterMap("value1",
 						"${endDate-8w}", "onOrBefore", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "33", "Defaulted", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd, "99", "Defaulted (Old)", i, null);
+	}
+	
+	private void i33_defaulted(PeriodIndicatorReportDefinition rd) {
+
+		Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
+		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Missed Appointment_"), h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}")));
+		baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
+		baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
+		
+		h.createComposition(rd, "Defaulted (more than 2 months overdue after expected to have run out of ARVs)",
+				"33", "AND NOT", h.parameterMap("endDate","${endDate}", "location", "${location}"), baseCohortDefs);
 	}
 }
