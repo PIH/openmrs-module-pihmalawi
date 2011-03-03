@@ -24,6 +24,7 @@ import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortD
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.StateRelativeToStateCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -38,6 +39,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
+import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -45,6 +47,7 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 
 public class SetupArvQuarterly {
+	
 	
 	protected static final Log log = LogFactory
 	.getLog(HibernatePihMalawiQueryDao.class);
@@ -89,8 +92,10 @@ public class SetupArvQuarterly {
 	public void setup() throws Exception {
 		delete();
 
+		createCohortDefinitions();
+		createDimensions();
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
-		createCohortDefinitions(rd);
+		createIndicators(rd);
 		h.replaceReportDefinition(rd);
 		h.createXlsOverview(rd, "Arv_Quarterly.xls", "ARV QUARTERLY (Excel)_", null);
 	}
@@ -98,7 +103,9 @@ public class SetupArvQuarterly {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if ("ARV_Quarterly".equals(rd.getName()) ){
+			log.info("ReportDesign="+rd.getName());
+			if ("ARV QUARTERLY (Excel)_".equals(rd.getName()) ){
+				log.info("^^^^^^^^^^^^^^^ purging Report Design="+rd.getName());
 				rs.purgeReportDesign(rd);
 			}
 		}
@@ -109,9 +116,35 @@ public class SetupArvQuarterly {
 	}
 
 	private PeriodIndicatorReportDefinition createReportDefinition() {
+		
+		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.setBaseCohortDefinition(h.cohortDefinition("arvquarterly: On ART at location_"), h.parameterMap("startedOnOrAfter",
+				MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}",
+				"location", "${location}"));
+		rd.setName("ARV Quarterly_");
+		rd.setupDataSetDefinition();
+		rd.addDimension("registered", h.cohortDefinitionDimension("arvquarterly: Total registered by timeframe_"), ParameterizableUtil.createParameterMappings("startDate=${startDate},endDate=${endDate},location=${location}"));
+		return rd;
+	}
+	
+	private void createDimensions() {
+		CohortDefinitionDimension totalRegisteredTimeframe = new CohortDefinitionDimension();
+		totalRegisteredTimeframe.setName("arvquarterly: Total registered by timeframe_");
+		totalRegisteredTimeframe.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		totalRegisteredTimeframe.addParameter(new Parameter("endDate", "End Date", Date.class));
+		totalRegisteredTimeframe.addParameter(new Parameter("location", "Location", Location.class));
+		totalRegisteredTimeframe.addCohortDefinition("quarter", h.cohortDefinition("arvquarterly: On ART at location_"), h.parameterMap(
+				"startedOnOrAfter", "${startDate}",
+				"startedOnOrBefore", "${endDate}", 
+				"location", "${location}"));
+		
+		h.replaceDefinition(totalRegisteredTimeframe);
+	}
+
+	private void createCohortDefinitions() {
 		// Ever On ART at location
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
-		pscd.setName("arvquarterly: Ever On ART at location_");
+		pscd.setName("arvquarterly: On ART at location_");
 		pscd.setState(STATE_ON_ART);
 		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter",
 				Date.class));
@@ -119,20 +152,8 @@ public class SetupArvQuarterly {
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(pscd);
-
-		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
-		rd.setBaseCohortDefinition(pscd, h.parameterMap("startedOnOrAfter",
-				MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}",
-				"location", "${location}"));
-		rd.setName("ARV Quarterly_");
-		rd.setupDataSetDefinition();
-		return rd;
-	}
-
-	private void createCohortDefinitions(PeriodIndicatorReportDefinition rd) {
 		
-		// gender and pregnancy
-		// todo: only take obs from specific encounters??
+		// gender
 		GenderCohortDefinition malecd = new GenderCohortDefinition();
 		malecd.setName("arvquarterly: males_");
 		malecd.setMaleIncluded(true);
@@ -143,6 +164,8 @@ public class SetupArvQuarterly {
         femalecd.setFemaleIncluded(true);
         h.replaceCohortDefinition(femalecd);
         
+        // pregnancy
+		// todo: only take obs from specific encounters??
         CodedObsCohortDefinition pregnantcocd = new CodedObsCohortDefinition();
         pregnantcocd.setName("arvquarterly: pregnant_or_not_");
         pregnantcocd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
@@ -207,7 +230,9 @@ public class SetupArvQuarterly {
 		dod.addParameter(new Parameter("value1", "to", Date.class));
 		dod.addParameter(new Parameter("value2", "from", Date.class));
 		h.replaceCohortDefinition(dod);
-		
+	}
+	
+	private void createIndicators(PeriodIndicatorReportDefinition rd) {
 		i6_registered(rd);
 
 		i10_males(rd);
@@ -244,7 +269,7 @@ public class SetupArvQuarterly {
 	private void i6_registered(PeriodIndicatorReportDefinition rd) {
 		CohortIndicator i = h.newCountIndicator(
 				"arvquarterly: Total registered in quarter_",
-				"arvquarterly: Ever On ART at location_", h.parameterMap(
+				"arvquarterly: On ART at location_", h.parameterMap(
 						"startedOnOrAfter", "${startDate}",
 						"startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
@@ -252,7 +277,7 @@ public class SetupArvQuarterly {
 				"Total registered in quarter", i, null);
 
 		i = h.newCountIndicator("arvquarterly: Total registered ever_",
-				"arvquarterly: Ever On ART at location_", h.parameterMap(
+				"arvquarterly: On ART at location_", h.parameterMap(
 						"startedOnOrAfter", MIN_DATE_PARAMETER,
 						"startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
@@ -263,6 +288,9 @@ public class SetupArvQuarterly {
 private void i10_males(PeriodIndicatorReportDefinition rd) {
 		
 		CohortIndicator i = h.newCountIndicator("arvquarterly: males on ART ever_", "arvquarterly: males_");
+		
+		PeriodIndicatorReportUtil.addColumn(rd, "10_quarter", "Males (all ages)", i,
+				h.hashMap("registered", "quarter")); 
 		PeriodIndicatorReportUtil.addColumn(rd, "10_ever", "Males (all ages)", i,
 				null);
 	}
@@ -275,6 +303,7 @@ private void i11_females_not_pregnant(PeriodIndicatorReportDefinition rd) {
 	
 	CohortIndicator i = h.createCompositionIndicator("Non-Pregnant_Females", "AND NOT", h.parameterMap("endDate","${endDate}"), baseCohortDefs);
 	
+	PeriodIndicatorReportUtil.addColumn(rd, "11_quarter", "Non-pregnant females (all ages)", i, h.hashMap("registered", "quarter"));
 	PeriodIndicatorReportUtil.addColumn(rd, "11_ever", "Non-pregnant females (all ages)", i, null);
 }
 
@@ -286,6 +315,7 @@ private void i12_females_pregnant(PeriodIndicatorReportDefinition rd) {
 	
 	CohortIndicator i = h.createCompositionIndicator("Pregnant_Females", "AND", h.parameterMap("endDate","${endDate}"), baseCohortDefs);
 	
+	PeriodIndicatorReportUtil.addColumn(rd, "12_quarter", "Pregnant females (all ages)", i, h.hashMap("registered", "quarter"));
 	PeriodIndicatorReportUtil.addColumn(rd, "12_ever", "Pregnant females (all ages)", i, null);
 }
 
@@ -300,6 +330,8 @@ private void i13_infants_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 					"maxAge", 18,
 					"maxAgeUnit", DurationUnit.MONTHS
 					));
+	PeriodIndicatorReportUtil.addColumn(rd, "13_quarter", "Infant at ART initiation", i,
+			h.hashMap("registered", "quarter"));
 	PeriodIndicatorReportUtil.addColumn(rd, "13_ever", "Infant at ART initiation", i,
 			null);
 }
@@ -317,6 +349,8 @@ private void i14_children_at_ART_initiation(PeriodIndicatorReportDefinition rd) 
 					"maxAge", 15,
 					"maxAgeUnit", DurationUnit.YEARS
 					));
+	PeriodIndicatorReportUtil.addColumn(rd, "14_quarter", "Child at ART initiation", i,
+			h.hashMap("registered", "quarter"));
 	PeriodIndicatorReportUtil.addColumn(rd, "14_ever", "Child at ART initiation", i,
 			null);
 }
@@ -332,12 +366,14 @@ private void i15_adults_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 					"minAge", 15,
 					"minAgeUnit", DurationUnit.YEARS
 					));
+	PeriodIndicatorReportUtil.addColumn(rd, "15_quarter", "Adult at ART initiation", i,
+			h.hashMap("registered", "quarter"));
 	PeriodIndicatorReportUtil.addColumn(rd, "15_ever", "Adult at ART initiation", i,
 			null);
 }
 
 private void i27_alive(PeriodIndicatorReportDefinition rd) {
-	// todo: excluding defaulters
+	// done: excluding defaulters -- I need to test this!
 	
 	Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
 	baseCohortDefs.put("Alive", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_ON_ART, "location", "${location}")));
