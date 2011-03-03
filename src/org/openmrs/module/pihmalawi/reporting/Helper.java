@@ -15,16 +15,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
 import org.openmrs.module.reporting.evaluation.Definition;
@@ -203,6 +207,10 @@ public class Helper {
 		i.addParameter(new Parameter("state", "State",
 				ProgramWorkflowState.class));
 		replaceDefinition(i);
+	}
+	
+	public CohortIndicator newCountIndicator(String name, String cohort) {
+		return newCountIndicator(name, cohort, new HashMap<String, Object>());
 	}
 
 	public CohortIndicator newCountIndicator(String name, String cohort,
@@ -492,8 +500,8 @@ public class Helper {
 		return Context.getEncounterService().getEncounterType(string);
 	}
 	
-	public void createComposition(PeriodIndicatorReportDefinition rd, String name,
-			String key, String cohort1, Map<String, Object> map1, String cohort2, Map<String, Object> map2, String composition, Map<String, Object> compositionMap) {
+	public CohortIndicator createCompositionIndicator(String name,
+			String cohort1, Map<String, Object> map1, String cohort2, Map<String, Object> map2, String composition, Map<String, Object> compositionMap) {
 		
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName(name);
@@ -509,10 +517,10 @@ public class Helper {
 				
 		CohortIndicator i = newCountIndicator(name, name, compositionMap);
 		
-		PeriodIndicatorReportUtil.addColumn(rd, key, name, i, null);
+		return i;
 	}
 	
-	public void createComposition(PeriodIndicatorReportDefinition rd, String name, String key, String operator, Map<String, Object> compositionMap,
+	public CohortIndicator createCompositionIndicator(String name, String operator, Map<String, Object> compositionMap,
 			Map<String, Mapped<? extends CohortDefinition>> entries) {
 		
 		// create cohort with cohorts and search string
@@ -524,9 +532,7 @@ public class Helper {
 		
 		replaceCohortDefinition(ccd);
 		
-		CohortIndicator i = newCountIndicator(name + " Indicator", name + " Composition", compositionMap);
-		
-		PeriodIndicatorReportUtil.addColumn(rd, key, name, i, null);
+		return newCountIndicator(name + " Indicator", name + " Composition", compositionMap);
 	}
 	
 	public static CohortDefinition getCompositionCohort(Map<String, Mapped<? extends CohortDefinition>> entries, String operator) {
@@ -565,5 +571,22 @@ public class Helper {
 		d.setCompositionString(s.toString());
 		return d;
 	}
+	
+	public static CodedObsCohortDefinition makeCodedObsCohortDefinition(String name, String question, String value, SetComparator setComparator, TimeModifier timeModifier) {		
+		CodedObsCohortDefinition obsCohortDefinition = new CodedObsCohortDefinition();
+		obsCohortDefinition.setName(name);
+		if (question != null) obsCohortDefinition.setQuestion(Context.getConceptService().getConceptByUuid(question));
+		if (setComparator != null) obsCohortDefinition.setOperator(setComparator);
+		if (timeModifier != null) obsCohortDefinition.setTimeModifier(timeModifier);
+		Concept valueCoded = Context.getConceptService().getConceptByUuid(value);
+		List<Concept> valueList = new ArrayList<Concept>();
+		if (valueCoded != null) {
+			valueList.add(valueCoded);
+			obsCohortDefinition.setValueList(valueList);
+		}		
+		return obsCohortDefinition;
+	}
 
 }
+
+

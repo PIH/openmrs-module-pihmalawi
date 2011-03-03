@@ -12,7 +12,7 @@ import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
-public class OnStateAfterStartedStateCohortDefinition  extends BaseCohortDefinition {
+public class InStateAfterStartedStateCohortDefinition  extends BaseCohortDefinition {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -40,7 +40,7 @@ public class OnStateAfterStartedStateCohortDefinition  extends BaseCohortDefinit
 	@ConfigurationProperty(required = true)
 	private ProgramWorkflowState primaryState;
 	
-	public OnStateAfterStartedStateCohortDefinition() {
+	public InStateAfterStartedStateCohortDefinition() {
 		super();
 	}
 	

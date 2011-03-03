@@ -26,11 +26,11 @@ import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinition
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
-@Handler(supports = { OnStateAfterStartedStateCohortDefinition.class })
-public class OnStateAfterStartedStateEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = { InStateAfterStartedStateCohortDefinition.class })
+public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvaluator {
 
 	protected static final Log log = LogFactory
-			.getLog(OnStateAfterStartedStateEvaluator.class);
+			.getLog(InStateAfterStartedStateEvaluator.class);
 
 	public Cohort evaluate(CohortDefinition cohortDefinition,
 			EvaluationContext context) {
@@ -41,7 +41,7 @@ public class OnStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context
 				.getRegisteredComponents(HibernatePihMalawiQueryDao.class).get(
 						0);
-		OnStateAfterStartedStateCohortDefinition definition = (OnStateAfterStartedStateCohortDefinition) cohortDefinition;
+		InStateAfterStartedStateCohortDefinition definition = (InStateAfterStartedStateCohortDefinition) cohortDefinition;
 		PatientService ps = Context.getPatientService();
 
 		Location primaryStateLocation = definition.getPrimaryStateLocation();
