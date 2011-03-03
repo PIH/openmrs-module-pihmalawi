@@ -103,8 +103,8 @@ public class SetupArvQuarterly {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			log.info("ReportDesign="+rd.getName());
-			if ("ARV QUARTERLY (Excel)_".equals(rd.getName()) ){
+			log.info("ReportDesign=*"+rd.getName().toString()+"*");
+			if ("ARV QUARTERLY (Excel)_".equals(rd.getName().toString()) ){
 				log.info("^^^^^^^^^^^^^^^ purging Report Design="+rd.getName());
 				rs.purgeReportDesign(rd);
 			}
@@ -176,6 +176,19 @@ public class SetupArvQuarterly {
         pregnantcocd.setOperator(SetComparator.IN);
 		//cocd.setEncounterTypeList(encounterTypeList); ???
 		h.replaceCohortDefinition(pregnantcocd);
+		
+		// reason for starting ARV
+		// todo: only take obs from specific encounters??
+        CodedObsCohortDefinition reasonARTcocd = new CodedObsCohortDefinition();
+        reasonARTcocd.setName("arvquarterly: reason_started_ARV_");
+        reasonARTcocd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        reasonARTcocd.addParameter(new Parameter("valueList", "value list", List.class));
+        reasonARTcocd.setQuestion(Context.getConceptService().getConcept(
+				"REASON ANTIRETROVIRALS STARTED"));
+        reasonARTcocd.setTimeModifier(TimeModifier.LAST);
+        reasonARTcocd.setOperator(SetComparator.IN);
+		//cocd.setEncounterTypeList(encounterTypeList); ???
+		h.replaceCohortDefinition(reasonARTcocd);
         
 		// age started ART
 		HasAgeOnStartedStateCohortDefinition ageAtARTInitiation = new HasAgeOnStartedStateCohortDefinition();
@@ -246,6 +259,18 @@ public class SetupArvQuarterly {
 		i14_children_at_ART_initiation(rd);
 		
 		i15_adults_at_ART_initiation(rd);
+		
+		i16_reason_started_ART_placeholder(rd);
+		
+		i17_reason_started_ART_placeholder(rd);
+		
+		i18_reason_started_ART_placeholder(rd);
+		
+		i19_reason_started_ART_placeholder(rd);
+		
+		i20_reason_started_ART_WHO_3(rd);
+		
+		i21_reason_started_ART_WHO_4(rd);
 		
 		i27_alive(rd);
 		
@@ -372,6 +397,90 @@ private void i15_adults_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 			null);
 }
 
+private void i16_reason_started_ART_placeholder(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: placeholder16 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("TOTAL MATERNAL TO CHILD TRANSMISSION PROPHYLAXIS"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "16_quarter", "Placeholder16", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "16_ever", "Placeholder16", i,
+			null);
+}
+
+private void i17_reason_started_ART_placeholder(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: placeholder17 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("PULMONARY TUBERCULOSIS"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "17_quarter", "Placeholder17", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "17_ever", "Placeholder17", i,
+			null);
+}
+
+private void i18_reason_started_ART_placeholder(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: placeholder18 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("TRANSFER IN"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "18_quarter", "Placeholder18", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "18_ever", "Placeholder18", i,
+			null);
+}
+
+private void i19_reason_started_ART_placeholder(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: placeholder19 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("TREATMENT"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "19_quarter", "Placeholder19", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "19_ever", "Placeholder19", i,
+			null);
+}
+
+private void i20_reason_started_ART_WHO_3(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: WHO Stage 3 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE 3"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "20_quarter", "WHO stage 3", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "20_ever", "WHO stage 3", i,
+			null);
+}
+
+private void i21_reason_started_ART_WHO_4(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: WHO Stage 4 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE 4"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "21_quarter", "WHO stage 4", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "21_ever", "WHO stage 4", i,
+			null);
+}
+
 private void i27_alive(PeriodIndicatorReportDefinition rd) {
 	// done: excluding defaulters -- I need to test this!
 	
@@ -472,7 +581,7 @@ private void i31_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 		baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
 		baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
 		
-		CohortIndicator i = h.createCompositionIndicator("Defaulted (more than 2 months overdue after expected to have run out of ARVs)",
+		CohortIndicator i = h.createCompositionIndicator("arvquarterly: Defaulted_",
 			 "AND NOT", h.parameterMap("endDate","${endDate}", "location", "${location}"), baseCohortDefs);
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "33", "Defaulted (more than 2 months overdue after expected to have run out of ARVs)", i, null);
