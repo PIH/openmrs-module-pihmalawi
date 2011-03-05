@@ -32,7 +32,7 @@ FILE=HIV_Weekly_Outcome-`echo $TODAY`.xls
 run_report.sh \
   "HIV Weekly Outcome_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "HIV Weekly Outcome Overview (Excel)_" \
+  "HIV Weekly Outcome Overview Upper Neno (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
   $FILE
@@ -42,9 +42,9 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 # ART Missed Appointment
 FILE=ART_Missed_Appointment-`echo $TODAY`.xls
 run_report.sh \
-  "ART Missed Appointment_" \
+  "ART Missed Appointment Upper Neno_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "ART Missed Appointment Overview (Excel)_" \
+  "ART Missed Appointment Upper Neno Overview (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
   $FILE
@@ -53,9 +53,9 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "ART Missed Appointment_" \
+  "ART Missed Appointment Upper Neno_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "ART Missed Appointment Breakdown (>=2 weeks <3 weeks)_" \
+  "ART Missed Appointment Upper Neno Breakdown (>=2 weeks <3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
   $FILE
@@ -64,9 +64,9 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "ART Missed Appointment_" \
+  "ART Missed Appointment Upper Neno_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "ART Missed Appointment Breakdown (>=3 weeks)_" \
+  "ART Missed Appointment Upper Neno Breakdown (>=3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
   $FILE
