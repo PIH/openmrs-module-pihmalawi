@@ -3,7 +3,7 @@
 echo "START"
 
 MAIL=cneumann@pih.org
-PATH=$PATH:/bin:/usr/bin:/home/emradmin/script_reports
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 TODAY=`date +%Y%m%d`
 
@@ -37,7 +37,7 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 # ART Missed Appointment
 FILE=ART_Missed_Appointment-`echo $TODAY`.xls
@@ -49,7 +49,7 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Overview $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 run_report.sh \
@@ -60,7 +60,7 @@ run_report.sh \
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=2 <3 weeks $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
 run_report.sh \
@@ -71,7 +71,7 @@ run_report.sh \
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 # Weekly Encounter by Location
 FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
@@ -83,7 +83,7 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 # Weekly Encounter by User
 FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
@@ -95,7 +95,7 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
  
 # HIV Data Quality
 FILE=HIV_Data_Quality-`echo $TODAY`.html
@@ -107,4 +107,4 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: HIV Data Quality $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
