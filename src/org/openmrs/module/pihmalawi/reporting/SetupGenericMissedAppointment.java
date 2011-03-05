@@ -1,10 +1,11 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openmrs.EncounterType;
@@ -23,11 +24,11 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
 public class SetupGenericMissedAppointment {
@@ -45,7 +46,7 @@ public class SetupGenericMissedAppointment {
 	protected Location location3 = null;
 
 	protected Location location2 = null;
-
+	
 	protected boolean includeDefaulterActionTaken = false;
 
 	public SetupGenericMissedAppointment(Helper helper) {
@@ -65,7 +66,7 @@ public class SetupGenericMissedAppointment {
 		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 
-	public void setup() throws Exception {
+	public ReportDefinition[] setup() throws Exception {
 		deleteReportElements();
 
 		createCohortDefinitions();
@@ -77,6 +78,7 @@ public class SetupGenericMissedAppointment {
 		ReportDesign rdes = createHtmlBreakdownExternal(rd);
 		// h.render(rdes, rd);
 		createHtmlBreakdownInternal(rd);
+		return (ReportDefinition[]) Arrays.asList(rd).toArray();
 	}
 
 	protected Map<? extends Object, ? extends Object> excelOverviewProperties() {
@@ -107,7 +109,7 @@ public class SetupGenericMissedAppointment {
 				reportName + " Breakdown (>=3 weeks)_", m);
 	}
 
-	protected Collection<EncounterType> getEncounterTypes() {
+	protected List<EncounterType> getEncounterTypes() {
 		return null;
 	}
 
@@ -295,6 +297,7 @@ public class SetupGenericMissedAppointment {
 				"APPOINTMENT DATE"));
 		dod.setOperator1(RangeComparator.LESS_THAN);
 		dod.setOperator2(RangeComparator.GREATER_EQUAL);
+		dod.setEncounterTypeList(getEncounterTypes());
 		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		dod.addParameter(new Parameter("value1", "to", Date.class));
 		dod.addParameter(new Parameter("value2", "from", Date.class));
@@ -306,6 +309,7 @@ public class SetupGenericMissedAppointment {
 		dod.setTimeModifier(TimeModifier.NO);
 		dod.setQuestion(Context.getConceptService().getConceptByName(
 				"APPOINTMENT DATE"));
+		dod.setEncounterTypeList(getEncounterTypes());
 		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		h.replaceCohortDefinition(dod);
 

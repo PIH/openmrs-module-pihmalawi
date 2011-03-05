@@ -1,37 +1,25 @@
 package org.openmrs.module.pihmalawi.reporting.survival;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
-import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
 public class SetupSurvivalAnalysis {

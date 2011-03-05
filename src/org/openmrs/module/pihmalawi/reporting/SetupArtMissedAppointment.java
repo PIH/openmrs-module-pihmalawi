@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,13 +77,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	}
 
 	@Override
-	protected Collection<EncounterType> getEncounterTypes() {
-		Collection<EncounterType> encounterTypes = new ArrayList<EncounterType>();
-		encounterTypes.add(Context.getEncounterService().getEncounterType(
-				"ART_INITIAL"));
-		encounterTypes.add(Context.getEncounterService().getEncounterType(
-				"ART_FOLLOWUP"));
-		return encounterTypes;
+	protected List<EncounterType> getEncounterTypes() {
+		return Arrays.asList(h.encounterType("ART_INITIAL"), h.encounterType("ART_FOLLOWUP"));
 	}
 
 	@Override

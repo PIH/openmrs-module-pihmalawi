@@ -40,7 +40,6 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
 import org.openmrs.module.reporting.indicator.dimension.Dimension;
 import org.openmrs.module.reporting.indicator.dimension.service.DimensionService;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportDesignResource;
@@ -50,6 +49,7 @@ import org.openmrs.module.reporting.report.definition.service.ReportDefinitionSe
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
 import org.openmrs.util.OpenmrsClassLoader;

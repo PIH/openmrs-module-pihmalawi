@@ -29,6 +29,7 @@ import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.DuplicatePatientsSpotter;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SoundexMatcher;
@@ -39,6 +40,7 @@ import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
@@ -60,15 +62,19 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
+	public void executeCohortDetailRendererReport() throws Exception {
+		ReportDefinition rds[] = new SetupPreArtMissedAppointment(new Helper(),
+				true).setup();
+		EvaluationContext context = new EvaluationContext();
+		context.addParameterValue("startDate", new Date());
+		context.addParameterValue("endDate", new Date());
+		context.addParameterValue("location", Context.getLocationService()
+				.getLocation(2));
+		executeReportHtml(context, rds[0], null, "/tmp/by_user", "html");
+	}
+
+	// @Test
 	public void run() throws Exception {
-		// ReportDefinition rds[] = new SetupWeeklyEncounter(new
-		// Helper()).setup(false);
-		// EvaluationContext context = new EvaluationContext();
-		// context.addParameterValue("startDate", new Date());
-		// context.addParameterValue("endDate", new Date());
-		// context.addParameterValue("location",
-		// Context.getLocationService().getLocation(2));
-		// executeReport(context, rds[0], null, "/tmp/by_user", "xls");
 
 		// ReportDefinition rds[] = new SetupSurvivalAnalysis(new
 		// Helper()).setup();
@@ -131,7 +137,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 
 		DuplicatePatientsSpotter s = new DuplicatePatientsSpotter();
 		SoundexMatcher sm = new SoundexMatcher();
-		
+
 		Iterator<DataSetRow> i = data.getDataSets().get("defaultDataSet")
 				.iterator();
 		if (i.hasNext()) {
@@ -140,24 +146,26 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 					.getColumnValue("dup: 1");
 			Set<Integer> ids = coadr.getCohortIndicatorResult().getCohort()
 					.getMemberIds();
-//			Set<Integer> ids = new TreeSet();
-//			ids.add(55073);
-//			HibernateCohortQueryDAO dao = (HibernateCohortQueryDAO) Context
-//					.getRegisteredComponents(HibernateCohortQueryDAO.class)
-//					.get(0);
-//			Set<Integer> patientIds = dao.getPatientsHavingEncounters(
-//					SIX_MONTHS_AGO, null, locations, encounterTypes, null, null,
-//					null).getMemberIds();
+			// Set<Integer> ids = new TreeSet();
+			// ids.add(55073);
+			// HibernateCohortQueryDAO dao = (HibernateCohortQueryDAO) Context
+			// .getRegisteredComponents(HibernateCohortQueryDAO.class)
+			// .get(0);
+			// Set<Integer> patientIds = dao.getPatientsHavingEncounters(
+			// SIX_MONTHS_AGO, null, locations, encounterTypes, null, null,
+			// null).getMemberIds();
 			for (Integer id : ids) {
 
 				Patient p = Context.getPatientService().getPatient(id);
-//				List<Patient> ps = s.spot(p, SIX_MONTHS_AGO, patientIds);
-				Collection<Patient> ps = sm.soundexMatches(p, encounterTypes, false);
+				// List<Patient> ps = s.spot(p, SIX_MONTHS_AGO, patientIds);
+				Collection<Patient> ps = sm.soundexMatches(p, encounterTypes,
+						false);
 				String m = p.getId() + ";";
 				for (Patient potential : ps) {
 					m += potential.getId() + ";";
 				}
-				// todo, fill in the patient merge dialog for every possible match
+				// todo, fill in the patient merge dialog for every possible
+				// match
 				System.out.println(m);
 			}
 		}
@@ -191,6 +199,24 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 														// this if you have no
 														// /tmp directory
 		renderer.render(data, "xxx:" + extension, fos);
+		fos.close();
+	}
+
+	public void executeReportHtml(EvaluationContext context,
+			ReportDefinition report, final ReportDesign design,
+			String filename, String extension) throws Exception {
+
+		ReportService r = Context.getService(ReportService.class);
+		ReportRenderer renderer = r
+				.getReportRenderer(CohortDetailReportRenderer.class.getName());
+
+		ReportDefinitionService rs = Context
+				.getService(ReportDefinitionService.class);
+		ReportData data = rs.evaluate(report, context);
+
+		FileOutputStream fos = new FileOutputStream(filename);
+		renderer.render(data, "9b4407c6-96ef-43cf-872e-844ce738b25f:"
+				+ extension, fos);
 		fos.close();
 	}
 

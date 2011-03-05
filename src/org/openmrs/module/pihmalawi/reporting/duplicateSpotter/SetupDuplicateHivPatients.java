@@ -17,11 +17,11 @@ import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
 public class SetupDuplicateHivPatients {

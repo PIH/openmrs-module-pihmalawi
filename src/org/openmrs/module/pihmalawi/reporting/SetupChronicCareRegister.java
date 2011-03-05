@@ -1,28 +1,23 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openmrs.EncounterType;
-import org.openmrs.Location;
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
 public class SetupChronicCareRegister {
@@ -35,8 +30,8 @@ public class SetupChronicCareRegister {
 	public SetupChronicCareRegister(Helper helper) {
 		h = helper;
 		ENCOUNTER_TYPES = Arrays.asList(
-				h.encounterType("CHRONIC_CARE_INITIAL")/*,
-				h.encounterType("CHRONIC_CARE_FOLLOWUP")*/
+				h.encounterType("CHRONIC_CARE_INITIAL"),
+				h.encounterType("CHRONIC_CARE_FOLLOWUP")
 				);
 	}
 

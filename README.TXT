@@ -26,3 +26,31 @@ Use these crontab entries as an example:
 0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports_nno.sh >> /dev/null
 0 22 1 * * /home/emradmin/script_reports/run_monthly_reports_nno.sh >> /dev/null
 
+Mail-Setup for gmail via mailx and msmtp
+~/.mailrc 
+# set smtp for mailx
+
+# gmail account (default)
+# $ mailx -s "subject line" -a /path/attachment recipient@email.com < /path/body.txt
+set from="apzunet@gmail.com (apzunet)"
+set sendmail="/usr/bin/msmtp"
+set message-sendmail-extra-arguments="-a gmail"
+
+~/.msmtprc
+# config options: http://msmtp.sourceforge.net/doc/msmtp.html
+defaults
+logfile /tmp/msmtp.log
+
+# gmail account
+account gmail
+auth on
+host smtp.gmail.com
+port 587
+user apzunet@gmail.com
+password <password>
+from apzunet@gmail.com
+tls on
+tls_trust_file /usr/share/ca-certificates/mozilla/Equifax_Secure_CA.crt
+
+# set default account to use (not necessary with single account)
+account default : gmail

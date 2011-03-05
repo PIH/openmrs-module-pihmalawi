@@ -26,11 +26,11 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.report.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
 public class SetupHivDataQuality {
 
@@ -138,7 +138,7 @@ public class SetupHivDataQuality {
 				"Wrong identifier format", i, null);
 
 		// upper neno
-		createLastInRangeNumber(rd, "NNO", "NNO-");
+		createLastInRangeNumber(rd, "NNO", "NNO ");
 		createLastInRangeNumber(rd, "MGT", "MGT-");
 		createLastInRangeNumber(rd, "NSM", "NSM-");
 
@@ -148,12 +148,12 @@ public class SetupHivDataQuality {
 		createLastInRangeNumber(rd, "MTE", "MTE-");
 
 		// upper neno
-		createMultipleArv(rd, "NNO", "NNO-");
+		createMultipleArv(rd, "NNO", "NNO ");
 		createMultipleArv(rd, "MGT", "MGT-");
 		createMultipleArv(rd, "NSM", "NSM-");
 
 		// lower neno
-		createMultipleArv(rd, "LSI", "LSI");
+		createMultipleArv(rd, "LSI", "LSI-");
 		createMultipleArv(rd, "CFA", "CFA-");
 		createMultipleArv(rd, "MTE", "MTE-");
 
@@ -444,9 +444,6 @@ public class SetupHivDataQuality {
 				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT);
 
 //		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-//				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
-//				h.location("Magaleta HC"), "MGT");
-//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 //				hivTerminalStates,
 //				Arrays.asList(h.location("Neno District Hospital") /*
 //																	 * TODO:
@@ -464,11 +461,14 @@ public class SetupHivDataQuality {
 //																	 * )
 //																	 */),
 //				h.location("Neno District Hospital"), "NNO");
-//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-//				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
-//				h.location("Nsambe HC"), "NSM");
-//
-//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
+				h.location("Magaleta HC"), "MGT");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
+				h.location("Nsambe HC"), "NSM");
+
+		//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 //				hivTerminalStates,
 //				Arrays.asList(h.location("Lisungwi Community Hospital") /*
 //																		 * TODO
@@ -491,12 +491,12 @@ public class SetupHivDataQuality {
 //																		 * )
 //																		 */),
 //				h.location("Lisungwi Community Hospital"), "LSI");
-//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-//				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
-//				h.location("Chifunga HC"), "CFA");
-//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
-//				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
-//				h.location("Matope HC"), "MTE");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
+				h.location("Chifunga HC"), "CFA");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
+				h.location("Matope HC"), "MTE");
 
 	}
 

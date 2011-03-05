@@ -2,6 +2,8 @@ package org.openmrs.module.pihmalawi.web.controller;
 
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
+import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
+import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
@@ -126,5 +128,27 @@ public class PihReportFormController {
 		new SetupDuplicateHivPatients(new Helper()).setup();
 	}
 	
+	// Chronic Care
+	@RequestMapping("/module/pihmalawi/remove_chroniccaremissedappointment.form")
+	public void removeChronicCareMissedAppointment() {
+		new SetupChronicCareMissedAppointment(new Helper()).deleteReportElements();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_chroniccaremissedappointment.form")
+	public void registerChronicCareMissedAppointment() throws Exception {
+		new SetupChronicCareMissedAppointment(new Helper()).setup(false);
+	}
+	
+	@RequestMapping("/module/pihmalawi/remove_chroniccareregister.form")
+	public void removeChronicCareRegister() {
+		new SetupChronicCareRegister(new Helper()).delete();
+	}
+	
+	@RequestMapping("/module/pihmalawi/register_chroniccareregister.form")
+	public void registerChronicCareRegister() throws Exception {
+		new SetupChronicCareRegister(new Helper()).setup();
+	}
+	
+
 
 }

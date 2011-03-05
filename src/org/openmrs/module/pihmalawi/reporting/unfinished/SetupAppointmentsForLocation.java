@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reporting;
+package org.openmrs.module.pihmalawi.reporting.unfinished;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +11,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortCrossTabDataSetDefinition;
@@ -21,7 +22,7 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 
-public class SetupWeeklyEncounter {
+public class SetupAppointmentsForLocation {
 
 	private static final int MAX_PREVIOUS_WEEKS = 12;
 
@@ -36,31 +37,35 @@ public class SetupWeeklyEncounter {
 
 	Helper h = new Helper();
 
-	public SetupWeeklyEncounter(Helper helper) {
+	public SetupAppointmentsForLocation(Helper helper) {
 		h = helper;
 		ENCOUNTER_TYPES = Arrays.asList(et("ART_INITIAL"), et("ART_FOLLOWUP"),
 				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EID_INITIAL"),
 				et("EID_FOLLOWUP"), et("LAB"), et("TB_INITIAL"),
 				et("TB_FOLLOWUP"), et("REGISTRATION"), et("VITALS"),
-				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"),
-				et("CHRONIC_CARE_INITIAL"), et("CHRONIC_CARE_FOLLOWUP"));
-
-		LOCATIONS_LIST = Arrays.asList(Arrays.asList(
-				h.location("Neno District Hospital"),
-				h.location("Neno Mission HC"), h.location("Ligowe HC"),
-				h.location("Neno District Hospital - Outpatient"),
-				h.location("Neno District Hospital - Registration"),
-				h.location("Neno District Hospital - Vitals")), Arrays.asList(h
-				.location("Magaleta HC")), Arrays.asList(h
-				.location("Nsambe HC")), Arrays.asList(
-				h.location("Lisungwi Community Hospital"),
-				h.location("Zalewa HC"), h.location("Midzemba HC"),
-				h.location("Nkhula Falls RHC")), Arrays.asList(h
-				.location("Chifunga HC")), Arrays.asList(h
-				.location("Matope HC")));
+				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"));
+		// wish-list, what about drugs & drug_orders
+		/*
+		 * ENCOUNTER_TYPES = Arrays .asList( et("ART_INITIAL"),
+		 * et("ART_FOLLOWUP"), et("PART_INITIAL"), et("PART_FOLLOWUP"),
+		 * et("EID_INITIAL"), et("EID_FOLLOWUP"), et("REGISTRATION"),
+		 * et("VITALS"), et("OUTPATIENT DIAGNOSIS"), et("LAB"),
+		 * et("TB_INITIAL"), et("TB_FOLLOWUP"), et("APPOINTMENT"),
+		 * et("LAB ORDERS"), et("CHEMOTHERAPY"), et("PATIENT EVALUATION"));
+		 */
+		LOCATIONS_LIST = Arrays.asList(
+				Arrays.asList(h.location("Neno District Hospital"),
+						h.location("Neno District Hospital - Outpatient"),
+						h.location("Neno District Hospital - Registration"),
+						h.location("Neno District Hospital - Vitals")),
+				Arrays.asList(h.location("Magaleta HC")),
+				Arrays.asList(h.location("Nsambe HC")),
+				Arrays.asList(h.location("Lisungwi Community Hospital")),
+				Arrays.asList(h.location("Chifunga HC")),
+				Arrays.asList(h.location("Matope HC")));
 		USERS = Arrays.asList(u("benndo"), u("amahaka"), u("geomal"),
-				u("qlement"), u("thandie"), u("cgoliath"), u("cneumann"),
-				u("prichi"), u("wilmwa"), u("nelma"));
+				u("qlement"), u("thandie"), u("faydula"), u("cneumann"),
+				u("prichi"), u("wilmwa"), u("nmakwaya"));
 	}
 
 	private Map<String, String> excelOverviewProperties() {
@@ -87,20 +92,18 @@ public class SetupWeeklyEncounter {
 		return Context.getUserService().getUserByUsername(username);
 	}
 
-	public ReportDefinition[] setup(boolean b) throws Exception {
+	public void setup(boolean b) throws Exception {
 		delete();
 
-		ReportDefinition rd1 = createReportDefinitionByLocation();
-		h.createXlsOverview(rd1, "Weekly_Encounter_By_Location.xls",
+		ReportDefinition rd = createReportDefinitionByLocation();
+		h.createXlsOverview(rd, "Weekly_Encounter_By_Location.xls",
 				"Weekly Encounter By Location.xls (Excel)_",
 				excelOverviewProperties());
 
-		ReportDefinition rd2 = createReportDefinitionByUser();
-		h.createXlsOverview(rd2, "Weekly_Encounter_By_User.xls",
+		rd = createReportDefinitionByUser();
+		h.createXlsOverview(rd, "Weekly_Encounter_By_User.xls",
 				"Weekly Encounter By User.xls (Excel)_",
 				excelOverviewProperties());
-
-		return new ReportDefinition[] { rd1, rd2 };
 	}
 
 	public void delete() {
@@ -180,8 +183,7 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "End date (Sunday)",
-				Date.class));
+		rd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
@@ -190,8 +192,8 @@ public class SetupWeeklyEncounter {
 	private ReportDefinition createReportDefinitionByUser() {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.setName("enc: What When Who_");
-		ecd.addParameter(new Parameter("createdOnOrAfter", "createdOnOrAfter", Date.class));
-		ecd.addParameter(new Parameter("createdOnOrBefore", "createdOnOrBefore", Date.class));
+		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
+		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		ecd.addParameter(new Parameter("createdBy", "createdBy", User.class));
 		ecd.addParameter(new Parameter("encounterTypeList",
 				"encounterTypeList", EncounterType.class, List.class, false));
@@ -211,8 +213,8 @@ public class SetupWeeklyEncounter {
 								"user" + (u_id + 1) + "enc" + (e_id + 1)
 										+ "ago" + period,
 								new Mapped<CohortDefinition>(ecd, h
-										.parameterMap("createdOnOrAfter", onOrAfter,
-												"createdOnOrBefore", onOrBefore,
+										.parameterMap("onOrAfter", onOrAfter,
+												"onOrBefore", onOrBefore,
 												"createdBy", USERS.get(u_id),
 												"encounterTypeList", et)));
 					}
@@ -228,8 +230,7 @@ public class SetupWeeklyEncounter {
 				new Mapped<DataSetDefinition>(ds, h.parameterMap("endDate",
 						"${endDate}")));
 		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("endDate", "End date (Sunday)",
-				Date.class));
+		rd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		h.replaceReportDefinition(rd);
 
 		return rd;
