@@ -1,12 +1,14 @@
 #!/bin/sh
 
+source nightly_backup.config
+
 # Dump the database to file
 cd $HOME/backup/to_backup
-mysqldump -u openmrs -p<password> openmrs > openmrs.sql
+mysqldump -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB > openmrs.sql
 7z a openmrs.sql.7z openmrs.sql
 
 # Dump smaller database file without 2 GI-normous tables and without global properties
-mysqldump -u openmrs -p<password> --ignore-table=openmrs.formentry_archive --ignore-table=openmrs.hl7_in_archive --ignore-table=openmrs.global_property openmrs > openmrs-no-props.sql
+mysqldump $MYSQL_USER -p$MYSQL_PW $MYSQL_DB --ignore-table=$MYSQL_DB.formentry_archive --ignore-table=$MYSQL_DB.hl7_in_archive --ignore-table=$MYSQL_DB.global_property $MYSQL_DB > openmrs-no-props.sql
 7z a openmrs-no-props.sql.7z openmrs-no-props.sql
 
 # Keep copy of latest files
