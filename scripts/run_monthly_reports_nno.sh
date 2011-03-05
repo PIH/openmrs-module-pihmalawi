@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MAIL=cneumann@pih.org
-PATH=$PATH:/bin:/usr/bin:/home/emradmin/script_reports
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 TODAY=`date +%Y%m%d`
 
@@ -26,5 +26,5 @@ run_report.sh \
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Program Changes $TODAY" "$MAIL"
-mv $FILE /home/emradmin/script_reports/history
+mv $FILE /home/emradmin/pihmalawi/scripts/history
   
