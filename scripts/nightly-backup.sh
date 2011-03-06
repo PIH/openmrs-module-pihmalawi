@@ -2,7 +2,7 @@
 
 ROOT=/home/emradmin/pihmalawi/scripts
 
-source nightly_backup.config
+source /home/emradmin/pihmalawi/scripts/nightly_backup.config
 
 # Dump the database to file
 cd $ROOT/backup/to_backup
