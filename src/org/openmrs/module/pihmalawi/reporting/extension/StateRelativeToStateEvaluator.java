@@ -69,9 +69,6 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 		if(offsetDuration == -1) {
 			offsetDuration = offsetAmount;
 		}
-		
-		log.warn("offsetAmount="+offsetAmount);
-		log.warn("offsetDuration="+offsetDuration);
 
 		switch (beforeAfter) {
 		case AFTER:
@@ -86,6 +83,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 		Cohort primaryPatients = null;
 		switch (primaryStateEvent) {
 		case STARTED:
+			//log.warn("CASE STARTED (primary): getPatientsHavingStatesAtLocation(primaryState="+primaryState+", onOrAfter="+onOrAfter+", onOrBefore="+onOrBefore+", null, null, primaryStateLocation="+primaryStateLocation+")");
 			primaryPatients = q.getPatientsHavingStatesAtLocation(primaryState,
 					onOrAfter, onOrBefore, null, null, primaryStateLocation);
 			break;
@@ -112,6 +110,9 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 				Date offsetEndDate = null;
 				Date offsetStartDate = null;
 				Cohort relativePatients = null;
+				
+				log.warn("primaryStateStartDate="+patientState.getStartDate());
+				log.warn("primaryStateEndDate="+patientState.getEndDate());
 
 				// get start and end date of PRIMARY state for relative state
 				// date range
@@ -123,18 +124,25 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 					if (!(primaryStateStartDate.after(onOrAfter) && primaryStateStartDate
 							.before(onOrBefore))) {
 						continue;
-					} else { // ***********  REVERSE names of offsetStartDate and offsetEndDate -- confusing now
+					} else { 
 						offsetStartDate = calculateInterval(
 								primaryStateStartDate, offsetUnit, (offsetAmount - offsetDuration)); // what should be excluded
 						offsetEndDate = calculateInterval(
 								primaryStateStartDate, offsetUnit, offsetAmount); // the offset
 					}
-
+					
+					// there is no end date if there is no offset duration
+					if(offsetDuration == 0) {
+						offsetEndDate = null;
+					}
+					
 					// get patients with RELATIVE state at location in date range
-					// *** Change method name to having State not States????
 					switch (relativeStateEvent) {
+					
 					case STARTED:
 						if (beforeAfter.equals(BeforeAfter.AFTER)) {
+							
+							// *** Change method name to having State not States????
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState,
@@ -142,6 +150,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 											offsetStartDate, null, null,
 											relativeStateLocation);
 						} else {
+							
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState,
@@ -152,6 +161,8 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 						break;
 					case STOPPED:
 						if (beforeAfter.equals(BeforeAfter.AFTER)) {
+							
+							//log.warn("^^^ CASE:STOPPED (relative) getPatientsHavingStatesAtLocation(relativeState="+relativeState+", onOrAfter="+offsetEndDate+", onOrBefore="+offsetStartDate+", null, null, relativeStateLocation="+relativeStateLocation+")");
 							relativePatients = q
 									.getPatientsHavingStatesAtLocation(
 											relativeState, null, null,
@@ -183,6 +194,11 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 								primaryStateEndDate, offsetUnit, offsetAmount); // the offset
 					}
 
+					// there is no end date if there is no offset duration
+					if(offsetDuration == 0) {
+						offsetEndDate = null;
+					}
+					
 					// get patients with RELATIVE state at location in date range
 					// *** Change name to having State????
 					switch (relativeStateEvent) {

@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.mohquarterlyart;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -9,21 +10,26 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.Event;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.extension.StateRelativeToStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.GenderCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
@@ -41,11 +47,14 @@ import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
 public class SetupArvQuarterly {
 	
-	
 	protected static final Log log = LogFactory
 	.getLog(HibernatePihMalawiQueryDao.class);
 
 	private final Concept CONCEPT_APPOINTMENT_DATE;
+	
+	private final Concept PULMONARY_TUBERCULOSIS;
+	
+	private final Concept PTB_WITHIN_THE_PAST_TWO_YEARS;
 
 	private final Program PROGRAM;
 
@@ -59,7 +68,8 @@ public class SetupArvQuarterly {
 
 	private final ProgramWorkflowState STATE_TRANSFERRED_OUT;
 	
-	private final ProgramWorkflowState FOLLOWING;
+	private final EncounterType ART_INITIAL_ENCOUNTER;
+	
 
 	/** little hack to have a start date. maybe we could live without it */
 	private static final String MIN_DATE_PARAMETER = "${startDate-5000m}";
@@ -76,10 +86,13 @@ public class SetupArvQuarterly {
 				.getStateByName("TREATMENT STOPPED");
 		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("PATIENT TRANSFERRED OUT");
-		FOLLOWING = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-		.getStateByName("FOLLOWING");
 		CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
 				.getConceptByName("APPOINTMENT DATE");
+		ART_INITIAL_ENCOUNTER = Context.getEncounterService().getEncounterType("ART_INITIAL");
+		
+		PULMONARY_TUBERCULOSIS = Context.getConceptService().getConcept("PULMONARY TUBERCULOSIS");
+		
+		PTB_WITHIN_THE_PAST_TWO_YEARS = Context.getConceptService().getConcept("PTB WITHIN THE PAST TWO YEARS");
 	}
 
 	public void setup() throws Exception {
@@ -135,7 +148,7 @@ public class SetupArvQuarterly {
 	}
 
 	private void createCohortDefinitions() {
-		// Ever On ART at location
+		// On ART at location
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName("arvquarterly: On ART at location_");
 		pscd.setState(STATE_ON_ART);
@@ -156,6 +169,86 @@ public class SetupArvQuarterly {
         femalecd.setName("arvquarterly: females_");
         femalecd.setFemaleIncluded(true);
         h.replaceCohortDefinition(femalecd);
+        
+        // generic coded obs
+        CodedObsCohortDefinition genericcocd = new CodedObsCohortDefinition();
+        genericcocd.setName("arvquarterly: generic_coded_obs_");
+        genericcocd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        genericcocd.addParameter(new Parameter("question", "Question", Concept.class));
+        genericcocd.addParameter(new Parameter("valueList", "Value List", List.class));
+        genericcocd.addParameter(new Parameter("encounterTypeList", "Encounter Type List", List.class));
+        genericcocd.setTimeModifier(TimeModifier.LAST);
+        genericcocd.setOperator(SetComparator.IN);
+		h.replaceCohortDefinition(genericcocd);
+		
+		// started state after stopped state
+		StateRelativeToStateCohortDefinition srtscd = new StateRelativeToStateCohortDefinition();
+		srtscd.setName("arvquarterly: started state after stopped state (at enrollment location on date)_");
+		srtscd.addParameter(new Parameter("primaryStateEvent", "Primary State Event",
+				Event.class));
+		srtscd.addParameter(new Parameter("primaryState", "Primary State",
+				ProgramWorkflowState.class));
+		srtscd.addParameter(new Parameter("relativeStateEvent", "Relative State Event",
+				Event.class));
+		srtscd.addParameter(new Parameter("relativeState", "Relative State",
+				ProgramWorkflowState.class));
+		srtscd.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+		srtscd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		srtscd.addParameter(new Parameter("primaryStateLocation", "Primary State Location", 
+				Location.class));
+		srtscd.addParameter(new Parameter("relativeStateLocation", "Relative State Location", 
+				Location.class));
+		srtscd.setOffsetAmount(0);
+		h.replaceCohortDefinition(srtscd);
+		
+		// NOT started state after stopped state
+		InverseCohortDefinition not_srtscd = new InverseCohortDefinition();
+		not_srtscd.setBaseDefinition(srtscd);
+		not_srtscd.setName("arvquarterly: NOT started state after stopped state (at enrollment location on date)_");
+		not_srtscd.addParameter(new Parameter("primaryStateEvent", "Primary State Event",
+				Event.class));
+		not_srtscd.addParameter(new Parameter("primaryState", "Primary State",
+				ProgramWorkflowState.class));
+		not_srtscd.addParameter(new Parameter("relativeStateEvent", "Relative State Event",
+				Event.class));
+		not_srtscd.addParameter(new Parameter("relativeState", "Relative State",
+				ProgramWorkflowState.class));
+		not_srtscd.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+		not_srtscd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		not_srtscd.addParameter(new Parameter("primaryStateLocation", "Primary State Location", 
+				Location.class));
+		not_srtscd.addParameter(new Parameter("relativeStateLocation", "Relative State Location", 
+				Location.class));
+		h.replaceCohortDefinition(not_srtscd);
+		
+		// stage conditions at start of ART obs
+        CodedObsCohortDefinition stage_conditions_start_ARTcocd = new CodedObsCohortDefinition();
+        stage_conditions_start_ARTcocd.setName("arvquarterly: stage_conditions_at_start_ART_coded_obs_");
+        stage_conditions_start_ARTcocd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        stage_conditions_start_ARTcocd.addParameter(new Parameter("valueList", "Value List", List.class));
+        stage_conditions_start_ARTcocd.setQuestion(Context.getConceptService().getConcept("WHO STAGES CRITERIA PRESENT"));
+        stage_conditions_start_ARTcocd.setTimeModifier(TimeModifier.LAST);
+        stage_conditions_start_ARTcocd.setOperator(SetComparator.IN);
+		stage_conditions_start_ARTcocd.setEncounterTypeList(Arrays.asList(ART_INITIAL_ENCOUNTER));
+		h.replaceCohortDefinition(stage_conditions_start_ARTcocd);
+		
+		InverseCohortDefinition i_stage_conditions_cocd = new InverseCohortDefinition();
+		i_stage_conditions_cocd.setBaseDefinition(stage_conditions_start_ARTcocd);
+		i_stage_conditions_cocd.setName("arvquarterly: inverse_stage_conditions_at_start_ART_coded_obs_");
+		i_stage_conditions_cocd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		i_stage_conditions_cocd.addParameter(new Parameter("valueList", "Value List", List.class));
+		h.replaceCohortDefinition(i_stage_conditions_cocd);
+		
+		// generic boolean obs -- use Double(0) and Double(1)
+        NumericObsCohortDefinition genericncd = new NumericObsCohortDefinition();
+        genericncd.setName("arvquarterly: generic_numeric_obs_");
+        genericncd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        genericncd.addParameter(new Parameter("question", "Question", Concept.class));
+        genericncd.addParameter(new Parameter("value1", "Value 1", List.class));
+        genericncd.setTimeModifier(TimeModifier.LAST);
+        genericncd.setOperator1(RangeComparator.EQUAL);
+		//cocd.setEncounterTypeList(encounterTypeList); ???
+		h.replaceCohortDefinition(genericncd);        
         
         // pregnancy
 		// todo: only take obs from specific encounters??
@@ -240,6 +333,12 @@ public class SetupArvQuarterly {
 	
 	private void createIndicators(PeriodIndicatorReportDefinition rd) {
 		i6_registered(rd);
+		
+		i7_on_art_first_time(rd);
+		
+		i8_on_art_after_stopped(rd);
+		
+		i9_transferred_in_on_art(rd);
 
 		i10_males(rd);
 		
@@ -265,6 +364,16 @@ public class SetupArvQuarterly {
 		
 		i21_reason_started_ART_WHO_4(rd);
 		
+		i22_reason_started_ART_placeholder(rd);
+		
+		i23_stage_conditions_no_tb(rd);
+		
+		i24_stage_conditions_tb_2_years(rd);
+		
+		i25_stage_conditions_current_tb(rd);
+		
+		i26_stage_conditions_kaposis_sarcoma(rd);
+		
 		i27_alive(rd);
 		
 		i28_died_1month_after_ART(rd);
@@ -282,6 +391,8 @@ public class SetupArvQuarterly {
 		i34_stopped(rd);
 
 		i35_transferred(rd);
+		
+		i45_patients_with_side_effects(rd);
 	}
 
 	private void i6_registered(PeriodIndicatorReportDefinition rd) {
@@ -301,6 +412,67 @@ public class SetupArvQuarterly {
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "6_ever",
 				"Total registered ever", i, null);
+	}
+	
+	private void i7_on_art_first_time(PeriodIndicatorReportDefinition rd) {
+		// should we include other locations??
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: NOT Ended STOPPED state enrollment location before Started On ART state at enrollment location in window_",
+				"arvquarterly: NOT started state after stopped state (at enrollment location on date)_", h.parameterMap(
+						"primaryStateEvent", Event.STARTED,
+						"primaryState", STATE_ON_ART,
+						"relativeStateEvent", Event.STOPPED,
+						"relativeState", STATE_STOPPED,
+						"onOrAfter", "${startDate}",
+						"onOrBefore", "${endDate}",
+						"primaryStateLocation", "${location}",
+						"relativeStateLocation", "${location}"
+						));
+		
+		PeriodIndicatorReportUtil.addColumn(rd, "7_quarter", "FT: Patients initiated on ART first time", i,
+				h.hashMap("registered", "quarter"));
+		PeriodIndicatorReportUtil.addColumn(rd, "7_ever", "FT: Patients initiated on ART first time", i,
+				null);
+	}
+	
+	private void i8_on_art_after_stopped(PeriodIndicatorReportDefinition rd) {
+		// todo: what about excluding defaulters??
+		// stopping is also be counted at other locations???
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: Ended STOPPED state enrollment location before Started On ART state at enrollment location in window",
+				"arvquarterly: started state after stopped state (at enrollment location on date)_", h.parameterMap(
+						"primaryStateEvent", Event.STARTED,
+						"primaryState", STATE_ON_ART,
+						"relativeStateEvent", Event.STOPPED,
+						"relativeState", STATE_STOPPED,
+						"onOrAfter", "${startDate}",
+						"onOrBefore", "${endDate}",
+						"primaryStateLocation", "${location}",
+						"relativeStateLocation", "${location}"
+						));
+		
+		PeriodIndicatorReportUtil.addColumn(rd, "8_quarter", "Re: Patients re-initiated on ART", i,
+				h.hashMap("registered", "quarter"));
+		PeriodIndicatorReportUtil.addColumn(rd, "8_ever", "Re: Patients re-initiated on ART", i,
+				null);
+	}
+	
+	private void i9_transferred_in_on_art(PeriodIndicatorReportDefinition rd) {
+		// todo: what about excluding defaulters??
+		// should stopping also be counted at other locations???
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: Ever received ART from initial encounter obs_",
+				"arvquarterly: generic_coded_obs_", h.parameterMap(
+						"onOrBefore", "${endDate}",
+						"question", Context.getConceptService().getConcept("PREGNANCY STATUS"),  // todo: change to EVER_RECEIVED_ART OBS
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("YES")),
+						"encounterTypeList", Arrays.asList(ART_INITIAL_ENCOUNTER)
+						));
+		
+		PeriodIndicatorReportUtil.addColumn(rd, "9_quarter", "Placeholder for -- TI: Patients transferred in on ART", i,
+				h.hashMap("registered", "quarter"));
+		PeriodIndicatorReportUtil.addColumn(rd, "9_ever", "Placeholder for -- TI: Patients transferred in on ART", i,
+				null);
 	}
 	
 private void i10_males(PeriodIndicatorReportDefinition rd) {
@@ -474,6 +646,80 @@ private void i21_reason_started_ART_WHO_4(PeriodIndicatorReportDefinition rd) {
 			null);
 }
 
+private void i22_reason_started_ART_placeholder(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: placeholder22 at ART initiation_",
+			"arvquarterly: reason_started_ARV_", h.parameterMap(
+					"onOrBefore", "${endDate}", 
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("TREATMENT"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "22_quarter", "Placeholder22", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "22_ever", "Placeholder22", i,
+			null);
+}
+
+private void i23_stage_conditions_no_tb(PeriodIndicatorReportDefinition rd) {
+	
+	List<Concept> tbList = new ArrayList<Concept>();
+	tbList.add(PULMONARY_TUBERCULOSIS);
+	tbList.add(PTB_WITHIN_THE_PAST_TWO_YEARS);
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: stage_conditions_no_tb_",
+			"arvquarterly: inverse_stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
+					"onOrBefore", "${endDate}",
+					"valueList", tbList));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "23_quarter", "No TB", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "23_ever", "No TB", i,
+			null);
+}
+
+private void i24_stage_conditions_tb_2_years(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: stage_conditions_tb_2_years_",
+			"arvquarterly: stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
+					"onOrBefore", "${endDate}",
+					"valueList", Arrays.asList(PTB_WITHIN_THE_PAST_TWO_YEARS)));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "24_quarter", "TB within the last 2 years", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "24_ever", "TB within the last 2 years", i,
+			null);
+}
+
+private void i25_stage_conditions_current_tb(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: stage_conditions_current_tb_",
+			"arvquarterly: stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
+					"onOrBefore", "${endDate}",
+					"valueList", Arrays.asList(PULMONARY_TUBERCULOSIS)));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "25_quarter", "Current episode of TB", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "25_ever", "Current episode of TB", i,
+			null);
+}
+
+private void i26_stage_conditions_kaposis_sarcoma(PeriodIndicatorReportDefinition rd) {
+	
+	CohortIndicator i = h.newCountIndicator(
+			"arvquarterly: stage_conditions_kaposis_sarcoma_",
+			"arvquarterly: stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
+					"onOrBefore", "${endDate}",
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("KAPOSIS SARCOMA"))));
+	
+	PeriodIndicatorReportUtil.addColumn(rd, "26_quarter", "Kaposi’s Sarcoma", i,
+			h.hashMap("registered", "quarter"));
+	PeriodIndicatorReportUtil.addColumn(rd, "26_ever", "Kaposi’s Sarcoma", i,
+			null);
+}
+
 private void i27_alive(PeriodIndicatorReportDefinition rd) {
 	// done: excluding defaulters -- I need to test this!
 	
@@ -484,13 +730,6 @@ private void i27_alive(PeriodIndicatorReportDefinition rd) {
 	CohortIndicator i = h.createCompositionIndicator("Alive",
 		 "AND NOT", h.parameterMap("endDate","${endDate}", "location", "${location}"), baseCohortDefs);
 	
-	/*
-	CohortIndicator i = h.newCountIndicator(
-			"arvquarterly: Total alive and On ART_",
-			"arvquarterly: In state at location_", h.parameterMap("onDate",
-					"${endDate}", "state", STATE_ON_ART, "location",
-					"${location}"));
-	*/
 	PeriodIndicatorReportUtil.addColumn(rd, "27", "Total alive and On ART",
 			i, null);
 }
@@ -572,6 +811,7 @@ private void i31_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 		Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
 		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Missed Appointment_"), h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}")));
 		baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
+		baseCohortDefs.put("Stopped", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}")));
 		baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
 		
 		CohortIndicator i = h.createCompositionIndicator("arvquarterly: Defaulted_",
@@ -597,6 +837,21 @@ private void i31_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 						"${endDate}", "state", STATE_TRANSFERRED_OUT,
 						"location", "${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "35", "Transferred out", i,
+				null);
+	}
+	
+	private void i45_patients_with_side_effects(PeriodIndicatorReportDefinition rd) {
+		
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: patients_with_side_effects_",
+				"arvquarterly: generic_numeric_obs_", h.parameterMap(
+						"onOrBefore", "${endDate}", 
+						"question", Context.getConceptService().getConcept("DOES PATIENT HAVE ADVERSE EFFECTS"),
+						"value1", new Double(1)));
+		
+		PeriodIndicatorReportUtil.addColumn(rd, "45_quarter", "Total patients with side effects", i,
+				h.hashMap("registered", "quarter"));
+		PeriodIndicatorReportUtil.addColumn(rd, "45_ever", "Total patients with side effects", i,
 				null);
 	}
 }
