@@ -21,6 +21,10 @@ ARV Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/regi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_arvquarterly.form">Remove</a>
 <br/>
 
+ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artappadherence.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artappadherence.form">Remove</a>
+<br/>
+
 <h4>Upper Neno</h4>
 ART Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment.form">Remove</a>
@@ -60,6 +64,10 @@ Chronic Care Missed Appointments: <a href="${pageContext.request.contextPath}/mo
 
 Chronic Care Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccareregister.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareregister.form">Remove</a>
+<br/>
+
+Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_ccappadherence.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_ccappadherence.form">Remove</a>
 <br/>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>
