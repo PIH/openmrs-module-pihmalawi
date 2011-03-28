@@ -80,7 +80,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
 			for (PatientIdentifier pi : p
 					.getPatientIdentifiers(patientIdentifierType)) {
-				patientLink+= "<a href=" + url + "/patientDashboard.form?patientId=" + p.getId() + ">" + pi.getIdentifier() + "</a> ";
+				patientLink += "<a href=" + url + "/patientDashboard.form?patientId=" + p.getId() + ">" + (pi != null ? pi.getIdentifier() : "(none)") + "</a> ";
 			}
 			c = new DataSetColumn("#", "#", String.class);
 			row.addColumnValue(c, patientLink);
