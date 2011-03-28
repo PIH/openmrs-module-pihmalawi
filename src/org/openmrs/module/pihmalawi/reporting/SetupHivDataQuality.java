@@ -17,6 +17,7 @@ import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
@@ -123,12 +124,12 @@ public class SetupHivDataQuality {
 		sql = "select patient_id "
 				+ "from patient_identifier "
 				+ "where identifier_type=4 and voided=0 and "
-				+ "(identifier NOT regexp '^[[:<:]]NNO[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]MGT[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]NSM[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]LSI[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]MTE[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]CFA[[:>:]][- ][0-9]?[0-9]?[0-9]?[0-9]?$')";
+				+ "(identifier NOT regexp '^[[:<:]]NNO[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]MGT[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]NSM[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]LSI[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]MTE[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]CFA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$')";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		i = h.newCountIndicator("hivdq: Wrong identifier format_",
@@ -139,23 +140,23 @@ public class SetupHivDataQuality {
 
 		// upper neno
 		createLastInRangeNumber(rd, "NNO", "NNO ");
-		createLastInRangeNumber(rd, "MGT", "MGT-");
-		createLastInRangeNumber(rd, "NSM", "NSM-");
+		createLastInRangeNumber(rd, "MGT", "MGT ");
+		createLastInRangeNumber(rd, "NSM", "NSM ");
 
 		// lower neno
-		createLastInRangeNumber(rd, "LSI", "LSI-");
-		createLastInRangeNumber(rd, "CFA", "CFA-");
-		createLastInRangeNumber(rd, "MTE", "MTE-");
+		createLastInRangeNumber(rd, "LSI", "LSI ");
+		createLastInRangeNumber(rd, "CFA", "CFA ");
+		createLastInRangeNumber(rd, "MTE", "MTE ");
 
 		// upper neno
 		createMultipleArv(rd, "NNO", "NNO ");
-		createMultipleArv(rd, "MGT", "MGT-");
-		createMultipleArv(rd, "NSM", "NSM-");
+		createMultipleArv(rd, "MGT", "MGT ");
+		createMultipleArv(rd, "NSM", "NSM ");
 
 		// lower neno
-		createMultipleArv(rd, "LSI", "LSI-");
-		createMultipleArv(rd, "CFA", "CFA-");
-		createMultipleArv(rd, "MTE", "MTE-");
+		createMultipleArv(rd, "LSI", "LSI ");
+		createMultipleArv(rd, "CFA", "CFA ");
+		createMultipleArv(rd, "MTE", "MTE ");
 
 		InProgramCohortDefinition ipcd = new InProgramCohortDefinition();
 		ipcd.setName("hivdq: In program_");
@@ -205,19 +206,6 @@ public class SetupHivDataQuality {
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "unknown",
 				"Unknown locations", i, null);
-
-		//
-		// EncounterAfterProgramStateCohortDefinition eapscd= new
-		// EncounterAfterProgramStateCohortDefinition();
-		// eapscd.setName("hivdq: encounter after exit status_");
-		// List<ProgramWorkflowState> programWorkflowStateList = new
-		// ArrayList<ProgramWorkflowState>();
-		// programWorkflowStateList.add(STATE_DIED);
-		// programWorkflowStateList.add(STATE_STOPPED);
-		// programWorkflowStateList.add(STATE_TRANSFERRED_OUT);
-		// eapscd.setProgram(PROGRAM);
-		// eapscd.setProgramWorkflowStateList(programWorkflowStateList);
-		// h.replaceCohortDefinition(eapscd);
 
 		CodedObsCohortDefinition cocd = new CodedObsCohortDefinition();
 		cocd.setName("hivdq: Wrong exit from care_");
@@ -407,6 +395,9 @@ public class SetupHivDataQuality {
 		PeriodIndicatorReportUtil.addColumn(rd, "noart",
 				"Following with art number", i, null);
 
+		onArtWithoutEncounter(rd);
+
+
 		// not in relevant hiv state
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In relevant state_");
@@ -500,6 +491,36 @@ public class SetupHivDataQuality {
 
 	}
 
+	private void onArtWithoutEncounter(PeriodIndicatorReportDefinition rd) {
+		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
+		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ecd.setName("hivdq: No ART encounter_");
+		ecd.setReturnInverse(true);
+		ecd.setEncounterTypeList(Arrays.asList(
+				h.encounterType("ART_INITIAL"),
+				h.encounterType("ART_FOLLOWUP")));
+		h.replaceCohortDefinition(ecd);
+		
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.setName("hivdq: On ART without encounter_");
+		ccd.getSearches().put(
+				"onArt",
+				new Mapped(h.cohortDefinition("hivdq: In state On ART_"), h
+						.parameterMap("onOrAfter", "${endDate}")));
+		ccd.getSearches().put(
+				"artNumber",
+				new Mapped(h.cohortDefinition("hivdq: No ART encounter_"), h
+						.parameterMap("endDate", "${endDate}")));
+		ccd.setCompositionString("onArt AND artNumber");
+		h.replaceCohortDefinition(ccd);
+		CohortIndicator i = h.newCountIndicator("hivdq: On ART without encounter_",
+				"hivdq: On ART without encounter_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "noartenc",
+				"On ART without encounter", i, null);
+	}
+
 	private void createEncounterAfterTerminalState(
 			PeriodIndicatorReportDefinition rd,
 			List<EncounterType> hivEncounterTypes,
@@ -522,7 +543,7 @@ public class SetupHivDataQuality {
 				h.parameterMap("onDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd,
 				"term" + siteCode.toLowerCase(), siteCode
-						+ ": Hiv encounter after terminal state", i, null);
+						+ ": Hiv encounter after terminal state", i, null);		
 	}
 
 	private void createLastInRangeNumber(PeriodIndicatorReportDefinition rd,
