@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.Cohort;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
@@ -33,6 +34,8 @@ import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.DuplicatePatientsSpotter;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SoundexMatcher;
+import org.openmrs.module.pihmalawi.reporting.extension.AppointmentAdherenceCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.indicator.dimension.CohortIndicatorAndDimensionResult;
@@ -62,6 +65,22 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
+	public void appointAdherence() throws Exception {
+		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
+			    HibernatePihMalawiQueryDao.class).get(0);
+			AppointmentAdherenceCohortDefinition d = new AppointmentAdherenceCohortDefinition();
+			d.setEncounterTypes(Arrays.asList(Context.getEncounterService().getEncounterType("ART_INITIAL"), Context.getEncounterService().getEncounterType("ART_FOLLOWUP")));
+			d.setAppointmentConcept(Context.getConceptService().getConceptByName("APPOINTMENT DATE"));
+			d.setFromDate(new Date(1285630180653l));
+			d.setToDate(new Date());
+			d.setMinimumAdherence(0);
+			d.setMaximumAdherence(25);
+			
+			Cohort c = q.getPatientsAppointmentAdherence(d.getEncounterTypes(), d.getAppointmentConcept(), d.getFromDate(), d.getToDate(), d.getMinimumAdherence(), d.getMaximumAdherence());
+			System.out.println(c);
+	}
+	
+//	@Test
 	public void executeCohortDetailRendererReport() throws Exception {
 		ReportDefinition rds[] = new SetupPreArtMissedAppointment(new Helper(),
 				true).setup();

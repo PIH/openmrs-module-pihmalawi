@@ -154,13 +154,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 					.getRelationshipsByPerson(p);
 			for (Relationship r : ships) {
 				if (r.getRelationshipType().equals(
-						Context.getPersonService().getRelationshipTypeByUuid(
-								"19124428-a89d-11df-bba5-000c297f1161"))) {
+						Context.getPersonService().getRelationshipTypeByName("Patient/Village Health Worker"))) {
 					vhw = r.getPersonB().getGivenName() + " "
 							+ r.getPersonB().getFamilyName();
 				} else if (r.getRelationshipType().equals(
-						Context.getPersonService().getRelationshipTypeByUuid(
-								"19124310-a89d-11df-bba5-000c297f1161"))) {
+						Context.getPersonService().getRelationshipTypeByName("Patient/Guardian"))) {
 					vhw = r.getPersonB().getGivenName() + " "
 							+ r.getPersonB().getFamilyName() + " (Guardian)";
 				}

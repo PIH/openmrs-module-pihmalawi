@@ -46,17 +46,16 @@ public class SetupGenericMissedAppointment {
 	protected Location location3 = null;
 
 	protected Location location2 = null;
-	
+
 	protected boolean includeDefaulterActionTaken = false;
 
 	public SetupGenericMissedAppointment(Helper helper) {
 		h = helper;
 	}
 
-	protected void configure(String reportName,
-			String reportTag, Program program, Location location1,
-			Location location2, Location location3,
-			boolean includeDefaulterActionTaken) {
+	protected void configure(String reportName, String reportTag,
+			Program program, Location location1, Location location2,
+			Location location3, boolean includeDefaulterActionTaken) {
 		this.reportName = reportName;
 		this.reportTag = reportTag;
 		this.program = program;
@@ -78,6 +77,7 @@ public class SetupGenericMissedAppointment {
 		ReportDesign rdes = createHtmlBreakdownExternal(rd);
 		// h.render(rdes, rd);
 		createHtmlBreakdownInternal(rd);
+		createHtmlBreakdownDefaulterGis(rd);
 		return (ReportDefinition[]) Arrays.asList(rd).toArray();
 	}
 
@@ -107,6 +107,27 @@ public class SetupGenericMissedAppointment {
 
 		return h.createHtmlBreakdown(rd,
 				reportName + " Breakdown (>=3 weeks)_", m);
+	}
+
+	protected ReportDesign createHtmlBreakdownDefaulterGis(ReportDefinition rd)
+			throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		ArcGisPatientDataSetDefinition dsd = new ArcGisPatientDataSetDefinition();
+		m.put("8msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc1", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc2", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+
+		return h.createHtmlBreakdown(rd,
+				reportName + " ArcGIS Breakdown (>=8 weeks)_", m);
 	}
 
 	protected List<EncounterType> getEncounterTypes() {
@@ -332,6 +353,9 @@ public class SetupGenericMissedAppointment {
 				rs.purgeReportDesign(rd);
 			}
 			if (rd.getName().equals(reportName + " Breakdown (>=3 weeks)_")) {
+				rs.purgeReportDesign(rd);
+			}
+			if (rd.getName().equals(reportName + " ArcGIS Breakdown (>=8 weeks)_")) {
 				rs.purgeReportDesign(rd);
 			}
 			if (rd.getName().equals(
