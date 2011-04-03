@@ -27,6 +27,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.query.db.hibernate.HibernateCohortQueryDAO;
 import org.openmrs.module.reporting.common.DateUtil;
 
 public class HibernatePihMalawiQueryDao {
@@ -237,17 +238,28 @@ public class HibernatePihMalawiQueryDao {
 				.getEncounters(null, null, fromDate, toDate, null,
 						encounterTypes, null, false);
 
+		toDate = DateUtil.getEndOfDay(toDate);
+
 		// build adherence structure for easy(?) navigation
 		AppointmentAdherence aa = new AppointmentAdherence();
 		for (Encounter e : encounters) {
 			aa.addEncounter(e.getPatient(), e);
 		}
 
+		// HibernateCohortQueryDAO dao = (HibernateCohortQueryDAO)
+		// Context.getRegisteredComponents(HibernateCohortQueryDAO.class).get(0);
+		// Set<Integer> patientIds =
+		// dao.getPatientsHavingObs(appointmentConcept.getId(), null, modifier,
+		// value, fromDate, toDate, providers, encounterType)
+
 		Cohort matchingPatients = new Cohort();
 		ObsService os = Context.getObsService();
 		// match adherence
 		Set<Patient> patients = aa.getPatients();
 		for (Patient p : patients) {
+//			if (p.getId() == 16049) {
+//				System.out.println();
+//			}
 			int missed = 0;
 			int ontime = 0;
 
@@ -265,7 +277,7 @@ public class HibernatePihMalawiQueryDao {
 				Date appointmentDate = (obses != null && !obses.isEmpty()) ? DateUtil
 						.getStartOfDay(obses.get(0).getValueDatetime()) : null;
 
-				if (appointmentDate != null) {
+				if (appointmentDate != null && appointmentDate.before(toDate)) {
 					// assume this was last encounter and pre-set nextVisitDate
 					// to end of period
 					Date nextVisitDate = toDate;
@@ -276,20 +288,23 @@ public class HibernatePihMalawiQueryDao {
 										.getEncounterDatetime());
 					}
 					// todo, add buffer period
-					if (appointmentDate.before(nextVisitDate)) {
-						missed++;
-					} else {
+					if (nextVisitDate.equals(appointmentDate) || nextVisitDate.before(appointmentDate)) {
 						ontime++;
+					} else {
+						missed++;
 					}
 				}
 			}
 
-				float f = (1 - (float) missed / (float) (missed + ontime));
-				int adherence = (int) (f * 100);
-				if (adherence >= minimumAdherence
-						&& adherence <= maximumAdherence) {
-					matchingPatients.addMember(p.getId());
-				}
+			float f = (1 - (float) missed / (float) (missed + ontime));
+			int adherence = (int) (f * 100);
+			if (missed == 0 && ontime == 0) {
+				// not enough data
+				adherence = -1;
+			}
+			if (adherence >= minimumAdherence && adherence <= maximumAdherence) {
+				matchingPatients.addMember(p.getId());
+			}
 
 		}
 		return matchingPatients;

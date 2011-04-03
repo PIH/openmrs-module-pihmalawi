@@ -26,15 +26,15 @@ public class AppointmentAdherencePersistentSetup extends
 	@Test
 	@Rollback(false)
 	public void setupReport() throws Exception {
-		new SetupAppointmentAdherence(new Helper(), "adcc", "CC", null, Arrays.asList(Context
-				.getEncounterService().getEncounterType("CHRONIC_CARE_FOLLOWUP")))
-				.setup();
+//		new SetupAppointmentAdherence(new Helper(), "adcc", "Chronic Care", null, Arrays.asList(Context
+//				.getEncounterService().getEncounterType("CHRONIC_CARE_FOLLOWUP")))
+//				.setup();
 		new SetupAppointmentAdherence(new Helper(), "adart", "ART", Context
 				.getProgramWorkflowService().getProgramByName("HIV PROGRAM")
 				.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
-				.getEncounterService().getEncounterType("ART_FOLLOWUP")))
+				.getEncounterService().getEncounterType("ART_FOLLOWUP")), true)
 				.setup();
 
 	}

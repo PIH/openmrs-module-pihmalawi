@@ -40,14 +40,17 @@ public class SetupAppointmentAdherence {
 
 	private final List<EncounterType> ENCOUNTERTYPES;
 
+	private boolean fixedHistoricAdherence = false;
+	
 	public SetupAppointmentAdherence(Helper helper, String prefix,
 			String name, ProgramWorkflowState state,
-			List<EncounterType> encounterTypes) {
+			List<EncounterType> encounterTypes, boolean fixedHistoricAdherence) {
 		h = helper;
 		STATE = state;
 		PREFIX = prefix;
 		NAME = name;
 		ENCOUNTERTYPES = encounterTypes;
+		this.fixedHistoricAdherence = fixedHistoricAdherence;
 	}
 
 	public void setup() throws Exception {
@@ -151,6 +154,7 @@ public class SetupAppointmentAdherence {
 		}
 		h.replaceCohortDefinition(ccd);
 
+		// not enough data (most likely only one visit where app date is out of scope
 		adherenceIndicator(rd, -1, -1);
 		adherenceIndicator(rd, 0, 0);
 		adherenceIndicator(rd, 1, 9);
@@ -168,12 +172,36 @@ public class SetupAppointmentAdherence {
 
 	private void adherenceIndicator(PeriodIndicatorReportDefinition rd,
 			int min, int max) {
-		CohortIndicator i = h.newCountIndicator(PREFIX + " " + NAME
-				+ " Appointment Adherence " + min + "-" + max + "_", PREFIX
-				+ " " + NAME + " Appointment Adherence_", h.parameterMap(
-				"startDate", "${startDate}", "endDate", "${endDate}",
-				"minimumAdherence", min, "maximumAdherence", max));
-		PeriodIndicatorReportUtil.addColumn(rd, "appad" + min + "-" + max, NAME
-				+ " appointment adherence " + min + "-" + max, i, null);
+		String minString  = String.format("%03d", min);
+		if (min == -1) {
+			minString = "-001";
+		}
+		String maxString = String.format("%03d", max);
+		if (max == -1) {
+			maxString = "-001";
+		}
+		
+		if (!fixedHistoricAdherence) {
+			// calc adherence for given period
+			CohortIndicator i = h.newCountIndicator(PREFIX + " " + NAME
+					+ " Appointment Adherence " + minString + "-" + maxString + "_", PREFIX
+					+ " " + NAME + " Appointment Adherence_", h.parameterMap(
+					"startDate", "${startDate}", "endDate", "${endDate}",
+					"minimumAdherence", min, "maximumAdherence", max));
+			PeriodIndicatorReportUtil.addColumn(rd, "appad" + minString + "-" + maxString, NAME
+					+ " appointment adherence " + minString + "-" + maxString, i, null);
+		} else {
+			int intervallInMonths = 3;
+			for (int period = 0; period < 8; period++) {
+			// calc adherence for hardcoded periods
+			CohortIndicator i = h.newCountIndicator(PREFIX + " " + NAME
+					+ " Appointment Adherence " + minString + "-" + maxString + " " + period + "months ago" + "_", PREFIX
+					+ " " + NAME + " Appointment Adherence_", h.parameterMap(
+					"startDate", "${startDate-" + (period * intervallInMonths) + "m}", "endDate", "${endDate-" + (period * intervallInMonths) + "m}",
+					"minimumAdherence", min, "maximumAdherence", max));
+			PeriodIndicatorReportUtil.addColumn(rd, "appad" + period + "ago" + minString + "-" + maxString, NAME
+					+ " appointment adherence " + minString + "-" + maxString + " " + period + " months ago", i, null);
+			}
+		}
 	}
 }

@@ -122,7 +122,7 @@ public class PihReportFormController {
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hivdataquality.form")
-	public void removeDataQuality() {
+	public void removeHivDataQuality() {
 		new SetupHivDataQuality(new Helper()).delete();
 	}
 
@@ -160,16 +160,16 @@ public class PihReportFormController {
 
 	@RequestMapping("/module/pihmalawi/remove_chroniccareappadherence.form")
 	public void removeChronicCareAppAdherence() {
-		new SetupAppointmentAdherence(new Helper(), "adcc", "CC", null,
+		new SetupAppointmentAdherence(new Helper(), "adcc", "Chronic Care", null,
 				Arrays.asList(Context.getEncounterService().getEncounterType(
-						"CHRONIC_CARE_FOLLOWUP"))).delete();
+						"CHRONIC_CARE_FOLLOWUP")), false).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_chroniccareappadherence.form")
 	public void registerChronicCareAppAdherence() throws Exception {
-		new SetupAppointmentAdherence(new Helper(), "adcc", "CC", null,
+		new SetupAppointmentAdherence(new Helper(), "adcc", "Chronic Care", null,
 				Arrays.asList(Context.getEncounterService().getEncounterType(
-						"CHRONIC_CARE_FOLLOWUP"))).setup();
+						"CHRONIC_CARE_FOLLOWUP")), false).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artappadherence.form")
@@ -179,7 +179,7 @@ public class PihReportFormController {
 				.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
-				.getEncounterService().getEncounterType("ART_FOLLOWUP")))
+				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.delete();
 	}
 
@@ -190,8 +190,46 @@ public class PihReportFormController {
 				.getWorkflowByName("TREATMENT STATUS")
 				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
-				.getEncounterService().getEncounterType("ART_FOLLOWUP")))
+				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_all.form")
+	public void removeAll() {
+		removeArtAppAdherence();
+		removeArtMissedAppointment();
+		removeArtMissedAppointmentLowerNeno();
+		removeArvQuarterly();
+		removeChronicCareAppAdherence();
+		removeChronicCareMissedAppointment();
+		removeChronicCareRegister();
+		removeDuplicateHivPatients();
+		removeHivDataQuality();
+		removeHivProgramChanges();
+		removeHivWeeklyOutcome();
+		removePreArtMissedAppointment();
+		removePreArtMissedAppointmentLowerNeno();
+		removePreArtWeekly();
+		removeWeeklyEncounter();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_all.form")
+	public void registerAll() throws Exception {
+//		registerArtAppAdherence();
+		registerArtMissedAppointment();
+//		registerArtMissedAppointmentLowerNeno();
+		registerArvQuarterly();
+//		registerChronicCareAppAdherence();
+		registerChronicCareMissedAppointment();
+		registerChronicCareRegister();
+//		registerDuplicateHivPatients();
+		registerHivDataQuality();
+		registerHivProgramChanges();
+		registerHivWeeklyOutcome();
+		registerPreArtMissedAppointment();
+//		registerPreArtMissedAppointmentLowerNeno();
+		registerPreArtWeekly();
+		registerWeeklyEncounter();
 	}
 
 }

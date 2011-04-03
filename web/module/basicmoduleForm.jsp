@@ -66,8 +66,13 @@ Chronic Care Register: <a href="${pageContext.request.contextPath}/module/pihmal
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareregister.form">Remove</a>
 <br/>
 
-Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_ccappadherence.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_ccappadherence.form">Remove</a>
+Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccareappadherence.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareappadherence.form">Remove</a>
+<br/>
+
+<h3>Everything</h3>
+All reports: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_all.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_all.form">Remove</a>
 <br/>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>

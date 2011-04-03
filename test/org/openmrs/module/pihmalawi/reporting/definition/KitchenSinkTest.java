@@ -71,10 +71,10 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 			AppointmentAdherenceCohortDefinition d = new AppointmentAdherenceCohortDefinition();
 			d.setEncounterTypes(Arrays.asList(Context.getEncounterService().getEncounterType("ART_INITIAL"), Context.getEncounterService().getEncounterType("ART_FOLLOWUP")));
 			d.setAppointmentConcept(Context.getConceptService().getConceptByName("APPOINTMENT DATE"));
-			d.setFromDate(new Date(1285630180653l));
-			d.setToDate(new Date());
-			d.setMinimumAdherence(0);
-			d.setMaximumAdherence(25);
+			d.setFromDate(new Date("2011/01/01"));
+			d.setToDate(new Date("2011/03/31"));
+			d.setMinimumAdherence(-1);
+			d.setMaximumAdherence(100);
 			
 			Cohort c = q.getPatientsAppointmentAdherence(d.getEncounterTypes(), d.getAppointmentConcept(), d.getFromDate(), d.getToDate(), d.getMinimumAdherence(), d.getMaximumAdherence());
 			System.out.println(c);
