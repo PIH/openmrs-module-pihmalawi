@@ -1,5 +1,8 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,7 +15,10 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -102,7 +108,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 
 		// Following at end of period
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName(reportTag + ": Following_");
+		iscd.setName(reportTag + ": Ever Following_");
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService()
@@ -115,6 +121,38 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
+
+		// no paper record, simplified as i should check the obs in this encounter
+		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
+		ecd.setName(reportTag + ": no paper record_");
+		DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date markDate = dfm.parse("2011-04-07");
+			ecd.setOnOrAfter(markDate);
+//			ecd.setOnOrBefore(markDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		ecd.setEncounterTypeList(Arrays.asList(h.encounterType("ADMINISTRATION")));
+		h.replaceCohortDefinition(ecd);
+
+		// Not marked as inactive == has paper record
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(reportTag + ": Following_");
+		ccd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		ccd.getSearches()
+				.put("1",
+						new Mapped(
+								h.cohortDefinition(reportTag + ": Ever Following_"),
+								ParameterizableUtil
+										.createParameterMappings("onDate=${onDate}")));
+		ccd.getSearches().put(
+				"2",
+				new Mapped(h.cohortDefinition(reportTag
+						+ ": no paper record_"), ParameterizableUtil
+						.createParameterMappings("")));
+		ccd.setCompositionString("1 AND NOT 2");
+		h.replaceCohortDefinition(ccd);
 	}
 
 	protected void createIndicators() {
