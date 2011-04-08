@@ -49,11 +49,13 @@ public class SetupPreArtWeekly {
 
 	public void setup(boolean b) throws Exception {
 		delete();
-		
+
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
-		createCohortDefinitions((PeriodIndicatorReportDefinition) h.findDefinition(PeriodIndicatorReportDefinition.class,
-		    "Pre-ART Weekly_"));
-		h.createXlsOverview(rd, "Pre-ART_Weekly_Overview.xls", "Pre-ART Weekly Overview", excelOverviewProperties());
+		createCohortDefinitions((PeriodIndicatorReportDefinition) h
+				.findDefinition(PeriodIndicatorReportDefinition.class,
+						"Pre-ART Weekly_"));
+		h.createXlsOverview(rd, "Pre-ART_Weekly_Overview.xls",
+				"Pre-ART Weekly Overview", excelOverviewProperties());
 		ReportDesign rdes = createHtmlBreakdown(rd);
 	}
 
@@ -507,7 +509,9 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CLINICIAN REPORTED CD4"));
+				"CD4 COUNT"));
+		// nocd.setQuestion(Context.getConceptService().getConceptByName(
+		// "CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -562,7 +566,9 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CLINICIAN REPORTED CD4"));
+		"CD4 COUNT"));
+//		nocd.setQuestion(Context.getConceptService().getConceptByName(
+//				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -603,7 +609,9 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CLINICIAN REPORTED CD4"));
+		"CD4 COUNT"));
+//		nocd.setQuestion(Context.getConceptService().getConceptByName(
+//				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -644,7 +652,9 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CLINICIAN REPORTED CD4"));
+		"CD4 COUNT"));
+//		nocd.setQuestion(Context.getConceptService().getConceptByName(
+//				"CLINICIAN REPORTED CD4"));
 		nocd.setTimeModifier(TimeModifier.LAST);
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
@@ -712,9 +722,8 @@ public class SetupPreArtWeekly {
 						"${startedOnOrBefore-6m}")));
 		ccd.setCompositionString("1 AND 2");
 		h.replaceCohortDefinition(ccd);
-		newCountIndicator(rd, key, ccd, h.parameterMap(
-				"startedOnOrBefore", "${endDate}", "startedOnOrAfter",
-				"${startDate}"));
+		newCountIndicator(rd, key, ccd, h.parameterMap("startedOnOrBefore",
+				"${endDate}", "startedOnOrAfter", "${startDate}"));
 
 		ccd = new CompositionCohortDefinition();
 		ccd.setName(name + "under 5");
@@ -738,8 +747,8 @@ public class SetupPreArtWeekly {
 		ccd.getSearches().put(
 				"3",
 				new Mapped(h.cohortDefinition("part: Age_"), h.parameterMap(
-						"effectiveDate", "${startedOnOrBefore}", "minAge",
-						0, "maxAge", 4)));
+						"effectiveDate", "${startedOnOrBefore}", "minAge", 0,
+						"maxAge", 4)));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
 		newCountIndicator(rd, key + "u5", ccd, h.parameterMap(
@@ -768,14 +777,14 @@ public class SetupPreArtWeekly {
 		ccd.getSearches().put(
 				"3",
 				new Mapped(h.cohortDefinition("part: Age_"), h.parameterMap(
-						"effectiveDate", "${startedOnOrBefore}", "minAge",
-						5, "maxAge", 999)));
+						"effectiveDate", "${startedOnOrBefore}", "minAge", 5,
+						"maxAge", 999)));
 		ccd.setCompositionString("1 AND 2 AND 3");
 		h.replaceCohortDefinition(ccd);
 		newCountIndicator(rd, key + "5a", ccd, h.parameterMap(
 				"startedOnOrBefore", "${endDate}", "startedOnOrAfter",
 				"${startDate}"));
-}
+	}
 
 	private void newCountIndicator(PeriodIndicatorReportDefinition rd,
 			String indicatorKey, CohortDefinition nocd,
@@ -914,7 +923,8 @@ public class SetupPreArtWeekly {
 		acd.setName("part: Age_");
 		acd.addParameter(new Parameter("minAge", "minAge", Integer.class));
 		acd.addParameter(new Parameter("maxAge", "maxAge", Integer.class));
-		acd.addParameter(new Parameter("effectiveDate", "effectiveDate", Date.class));
+		acd.addParameter(new Parameter("effectiveDate", "effectiveDate",
+				Date.class));
 		h.replaceCohortDefinition(acd);
 	}
 }
