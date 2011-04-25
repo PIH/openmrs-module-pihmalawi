@@ -508,10 +508,10 @@ public class SetupPreArtWeekly {
 		nocd.setName("part: Total CD4 Count available (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
-		// nocd.setQuestion(Context.getConceptService().getConceptByName(
-		// "CLINICIAN REPORTED CD4"));
+//		nocd.setQuestion(Context.getConceptService().getConceptByName(
+//				"CD4 COUNT"));
+		 nocd.setQuestion(Context.getConceptService().getConceptByName(
+		 "CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -565,10 +565,10 @@ public class SetupPreArtWeekly {
 		nocd.setName("part: Total CD4 Count >500 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		nocd.setQuestion(Context.getConceptService().getConceptByName(
-		"CD4 COUNT"));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//				"CLINICIAN REPORTED CD4"));
+//		"CD4 COUNT"));
+		nocd.setQuestion(Context.getConceptService().getConceptByName(
+				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -608,10 +608,10 @@ public class SetupPreArtWeekly {
 		nocd.setName("part: Total CD4 Count <250 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		nocd.setQuestion(Context.getConceptService().getConceptByName(
-		"CD4 COUNT"));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//				"CLINICIAN REPORTED CD4"));
+//		"CD4 COUNT"));
+		nocd.setQuestion(Context.getConceptService().getConceptByName(
+				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
 				.getEncounterService().getEncounterType("PART_FOLLOWUP")));
@@ -651,10 +651,10 @@ public class SetupPreArtWeekly {
 		nocd.setName("part: Total CD4 Count >=250 and <=500 (last 6 months)_");
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		nocd.setQuestion(Context.getConceptService().getConceptByName(
-		"CD4 COUNT"));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//				"CLINICIAN REPORTED CD4"));
+//		"CD4 COUNT"));
+		nocd.setQuestion(Context.getConceptService().getConceptByName(
+				"CLINICIAN REPORTED CD4"));
 		nocd.setTimeModifier(TimeModifier.LAST);
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("PART_INITIAL"), Context
