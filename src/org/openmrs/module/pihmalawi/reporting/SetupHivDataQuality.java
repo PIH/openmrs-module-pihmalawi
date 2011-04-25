@@ -124,9 +124,9 @@ public class SetupHivDataQuality {
 		sql = "select patient_id "
 				+ "from patient_identifier "
 				+ "where identifier_type=4 and voided=0 and "
-				+ "(identifier NOT regexp '^[[:<:]]NNO[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]MGT[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
-				+ "identifier NOT regexp '^[[:<:]]NSM[[:>:]] [0-9]?[0-9]?[0-9]?[0-9]?$' AND "
+				+ "(identifier NOT regexp '^[[:<:]]NNO[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]MGT[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]NSM[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]LSI[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]MTE[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]CFA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$')";
@@ -137,6 +137,25 @@ public class SetupHivDataQuality {
 				new HashMap<String, Object>());
 		PeriodIndicatorReportUtil.addColumn(rd, "format",
 				"Wrong identifier format", i, null);
+
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Wrong Pre-ART identifier format_");
+		sql = "select patient_id "
+				+ "from patient_identifier "
+				+ "where identifier_type=13 and voided=0 and "
+				+ "(identifier NOT regexp '^P-[[:<:]]NNO[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]MGT[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]NSM[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]LSI[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]MTE[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]CFA[[:>:]]-[0-9][0-9][0-9][0-9]$')";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		i = h.newCountIndicator("hivdq: Wrong Pre-ART identifier format_",
+				"hivdq: Wrong Pre-ART identifier format_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd, "formatpart",
+				"Wrong Pre-ART identifier format", i, null);
 
 		// upper neno
 		createLastInRangeNumber(rd, "NNO", "NNO ");
@@ -311,6 +330,32 @@ public class SetupHivDataQuality {
 		PeriodIndicatorReportUtil.addColumn(rd, "nostate",
 				"Deceased but not in state died", i, null);
 
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Died without exit from care_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"stateDied",
+				new Mapped(h.cohortDefinition("hivdq: In state patient died_"),
+						h.parameterMap("onOrAfter", "${endDate}")));
+		ccd.getSearches().put(
+				"exitFromCare",
+				new Mapped(h.cohortDefinition("hivdq: With exit from care_"), h
+						.parameterMap()));
+		ccd.getSearches().put(
+				"hiv",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								PROGRAM)));
+		ccd.setCompositionString("NOT exitFromCare AND hiv AND stateDied");
+		h.replaceCohortDefinition(ccd);
+
+		i = h.newCountIndicator(
+				"hivdq: Died without exit from care_",
+				"hivdq: Died without exit from care_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "noexit2",
+				"Died without exit from care", i, null);
+
 		// on art but no arv number
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state On ART_");
@@ -356,9 +401,15 @@ public class SetupHivDataQuality {
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: old PART number_");
+		sql = "select patient_id from patient_identifier where identifier_type=5 and voided=0;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+
 		ccd = new CompositionCohortDefinition();
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		ccd.setName("hivdq: Following without number_");
+		ccd.setName("hivdq: Following without number (excluding Old Pre-ART numbers)_");
 		ccd.getSearches().put(
 				"following",
 				new Mapped(h.cohortDefinition("hivdq: In state Following_"), h
@@ -367,13 +418,17 @@ public class SetupHivDataQuality {
 				"partNumber",
 				new Mapped(h.cohortDefinition("hivdq: PART number_"), h
 						.parameterMap()));
-		ccd.setCompositionString("following AND NOT partNumber");
+		ccd.getSearches().put(
+				"oldPartNumber",
+				new Mapped(h.cohortDefinition("hivdq: Old PART number_"), h
+						.parameterMap()));
+		ccd.setCompositionString("following AND NOT partNumber AND NOT oldPartNumber");
 		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator("hivdq: Following without number_",
-				"hivdq: Following without number_",
+		i = h.newCountIndicator("hivdq: Following without number (excluding Old Pre-ART numbers)_",
+				"hivdq: Following without number (excluding Old Pre-ART numbers)_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "nonopart",
-				"Following without number", i, null);
+				"Following without number (excluding Old Pre-ART numbers)", i, null);
 
 		// on following but arv number
 		ccd = new CompositionCohortDefinition();
@@ -598,6 +653,16 @@ public class SetupHivDataQuality {
 				+ "where identifier_type=4 and voided=0 and identifier like '"
 				+ locationPrefix + "%' "
 				+ "group by patient_id having(count(patient_id)>1)";
+		return sql;
+	}
+	
+	// todo
+	private String sqlForLastDataEntryUser() {
+		String sql = "SELECT p.patient_id FROM patient p " 
+			+ "LEFT OUTER JOIN (SELECT patient_id, MAX(encounter_datetime) encounter_datetime FROM encounter WHERE encounter_type IN (9,10,11,12) AND voided = 0 GROUP BY patient_id) last_art_dt ON p.patient_id = last_art_dt.patient_id "
+			+ "LEFT OUTER JOIN encounter last_art ON p.patient_id = last_art.patient_id AND last_art_dt.encounter_datetime = last_art.encounter_datetime AND last_art.encounter_type IN (9,10,11,12) AND last_art.voided = 0 "
+			+ "WHERE p.voided = 0 AND last_art.creator = :user "
+			+ "GROUP BY p.patient_id;";
 		return sql;
 	}
 }
