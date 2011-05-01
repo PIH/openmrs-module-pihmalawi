@@ -54,3 +54,5 @@ wget --quiet --keep-session-cookies --load-cookies cookies.txt --output-document
 echo "  Cleanup"
 rm -f cookies.txt index.htm sql sql2
 
+# give it some time to process the mail
+sleep 60
