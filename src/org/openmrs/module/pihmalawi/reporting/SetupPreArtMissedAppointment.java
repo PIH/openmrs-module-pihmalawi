@@ -47,9 +47,9 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 					Context.getProgramWorkflowService().getProgramByName(
 							"HIV PROGRAM"),
 					Context.getLocationService().getLocation(
-							"Lisungwi Community Hospital"), Context
-							.getLocationService().getLocation("Matope HC"),
-					Context.getLocationService().getLocation("Chifunga HC"),
+							"Lisungwi Community Hospital"), 
+							Context.getLocationService().getLocation("Chifunga HC"),
+							Context.getLocationService().getLocation("Matope HC"),
 					true);
 
 		}
