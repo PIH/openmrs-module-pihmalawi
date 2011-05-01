@@ -21,16 +21,17 @@ for p in `cat mark_as_paper_record_missing_patients.txt`; do
   FORM=38
   HTML_FORM=13
   # Obs
-  # w1 = 2 # location: nno
+  # w1 = 2 # location: nno; 16: lsi
   # w3 = 16576 # provider: unknown
-  # w5 = 08/04/20113 date
+  # w5 = 08/04/2011 date
   # w8 = 1482 # program: hiv program
   # w10 = 6360 # RECORD MISSING: Pre-ART Mastercard
-  OBS="&w1=2&w3=16576&w5=07%2F04%2F2011&w8=1482&w10=6360"
+  OBS="&w1=16&w3=16576&w5=07%2F04%2F2011&w8=1482&w10=6360"
   PATIENT=$p
 
 #  echo "  Create Encounter"
-  time wget  --keep-session-cookies --load-cookies cookies.txt --output-document=output.htm --post-data "closeAfterSubmission=&encounterModifiedTimestamp=0&formModifiedTimestamp=1301922535000&htmlFormId=$HTML_FORM&personId=$PATIENT$OBS" "$BASE_URL/module/htmlformentry/htmlFormEntry.form?personId=$PATIENT&patientId=$PATIENT&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=$FORM"
+  # todo, deal with formModifiedTimestamp?
+  time wget --keep-session-cookies --load-cookies cookies.txt --output-document=output.htm --post-data "closeAfterSubmission=&encounterModifiedTimestamp=0&formModifiedTimestamp=1302698280000&htmlFormId=$HTML_FORM&personId=$PATIENT$OBS" "$BASE_URL/module/htmlformentry/htmlFormEntry.form?personId=$PATIENT&patientId=$PATIENT&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=$FORM"
 
 done
 
