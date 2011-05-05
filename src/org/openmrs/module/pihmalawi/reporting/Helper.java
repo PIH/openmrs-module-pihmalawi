@@ -21,6 +21,7 @@ import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
+import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
@@ -49,7 +50,6 @@ import org.openmrs.module.reporting.report.definition.service.ReportDefinitionSe
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
-import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
 import org.openmrs.util.OpenmrsClassLoader;
@@ -251,6 +251,16 @@ public class Helper {
 		return s;
 	}
 
+	public Program program(String program) {
+		Program s = Context.getProgramWorkflowService()
+				.getProgramByName(program);;
+		if (s == null) {
+			throw new RuntimeException("Couldn't find Program "
+					+ s);
+		}
+		return s;
+	}
+
 	public Location location(String location) {
 		Location s = Context.getLocationService().getLocation(location);
 		if (s == null) {
@@ -421,6 +431,39 @@ public class Helper {
 				for (PatientState ps : pp.getStates()) {
 					if (!ps.isVoided()
 							&& programWorkflowStateIds.contains(ps.getState().getId())
+							&& ps.getStartDate() != null) {
+						validPatientStates.put(ps.getStartDate().getTime(), ps);
+						stupidListConverter.add(ps.getStartDate().getTime());
+					}
+				}
+				Collections.<Long> sort(stupidListConverter);
+
+				for (Long key : stupidListConverter) {
+					// just take the last one and hope it is the most recent one
+					state = (PatientState) validPatientStates.get(key);
+				}
+			}
+		}
+		return state;
+	}
+	
+	public PatientState getMostRecentStateAtLocation(Patient p,
+			Program program,
+			Location enrollmentLocation, Session hibernateSession) {
+		PatientState state = null;
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						program,
+						null, null, null, null, false);
+		for (PatientProgram pp : pps) {
+			// hope that the first found pp is also first in time
+			Location location = getEnrollmentLocation(pp, hibernateSession);
+			if (!pp.isVoided() && location != null
+					&& location.getId().equals(enrollmentLocation.getId())) {
+				HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
+				ArrayList<Long> stupidListConverter = new ArrayList<Long>();
+				for (PatientState ps : pp.getStates()) {
+					if (!ps.isVoided()
 							&& ps.getStartDate() != null) {
 						validPatientStates.put(ps.getStartDate().getTime(), ps);
 						stupidListConverter.add(ps.getStartDate().getTime());

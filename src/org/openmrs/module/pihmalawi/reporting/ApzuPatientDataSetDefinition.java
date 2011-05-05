@@ -1,9 +1,12 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.Program;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 
 public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
@@ -19,6 +22,12 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	boolean includeMissedAppointmentColumns = true;
 
 	boolean includeFirstVisit = false;
+	
+	boolean includeProgramOutcome = false;
+	
+	boolean includeWeight = false;
+	
+	Program program = null;
 	
 	public boolean isIncludeDefaulterActionTaken() {
 		return includeDefaulterActionTaken;
@@ -56,6 +65,14 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		return encounterTypes;
 	}
 	
+	public List<EncounterType> getEncounterTypesAsList() {
+		List<EncounterType> l = new ArrayList<EncounterType>();
+		for (EncounterType et : getEncounterTypes()) {
+			l.add(et);
+		}
+		return l;
+	}
+	
 	public void setEncounterTypes(Collection<EncounterType> encounterTypes) {
 		this.encounterTypes = encounterTypes;
 	}
@@ -68,4 +85,27 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		return this.includeFirstVisit;
 	}
 
+	public boolean isIncludeProgramOutcome() {
+		return includeProgramOutcome;
+	}
+	
+	public void setIncludeProgramOutcome(boolean b) {
+		includeProgramOutcome = b;
+	}
+
+	public boolean isIncludeWeight() {
+		return includeWeight;
+	}
+	
+	public void setIncludeWeight(boolean b) {
+		includeWeight = b;
+	}
+
+	public Program getProgram() {
+		return program;
+	}
+
+	public void setProgram(Program program) {
+		this.program = program;
+	}
 }

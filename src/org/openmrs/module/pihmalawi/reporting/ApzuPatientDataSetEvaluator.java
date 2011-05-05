@@ -1,7 +1,9 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,17 +11,22 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
+import org.openmrs.Person;
 import org.openmrs.Relationship;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -36,6 +43,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
+	Helper h = new Helper();
+
 	public ApzuPatientDataSetEvaluator() {
 	}
 
@@ -45,8 +54,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				.getConceptByName("DEFAULTER ACTION TAKEN");
 		final Concept CD4_COUNT = Context.getConceptService().getConceptByName(
 				"CD4 COUNT");
-		final Concept APPOINTMENT_DATE = Context.getConceptService().getConceptByName("APPOINTMENT DATE");
-		
+		final Concept APPOINTMENT_DATE = Context.getConceptService()
+				.getConceptByName("APPOINTMENT DATE");
+		final Concept WEIGHT = Context.getConceptService().getConceptByName(
+				"WEIGHT (KG)");
+
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
 		PatientIdentifierType patientIdentifierType = definition
@@ -56,6 +68,13 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		Cohort cohort = context.getBaseCohort();
+		Location locationParameter = (Location) context
+				.getParameterValue("location");
+		Date endDateParameter = (Date) context.getParameterValue("endDate");
+		if (endDateParameter == null) {
+			// default to today
+			endDateParameter = new Date();
+		}
 
 		// By default, get all patients
 		if (cohort == null) {
@@ -77,10 +96,27 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			// todo, get current id and/or preferred one first
 			String patientLink = "";
 			// todo, don't hardcode server
-				String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
+			String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
 			for (PatientIdentifier pi : p
 					.getPatientIdentifiers(patientIdentifierType)) {
-				patientLink += "<a href=" + url + "/patientDashboard.form?patientId=" + p.getId() + ">" + (pi != null ? pi.getIdentifier() : "(none)") + "</a> ";
+				String link = "<a href="
+						+ url
+						+ "/patientDashboard.form?patientId="
+						+ p.getId()
+						+ ">"
+						+ (pi != null ? formatPatientIdentifier(pi
+								.getIdentifier()) : "(none)") + "</a> ";
+				if (pi != null
+						&& pi.getLocation() != null
+						&& locationParameter != null
+						&& pi.getLocation().getId() == locationParameter
+								.getId()) {
+					// move preferred prefixed id to front if location was
+					// specified
+					patientLink = link + patientLink;
+				} else {
+					patientLink += link;
+				}
 			}
 			c = new DataSetColumn("#", "#", String.class);
 			row.addColumnValue(c, patientLink);
@@ -91,11 +127,29 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			c = new DataSetColumn("Last", "Last", String.class);
 			row.addColumnValue(c, p.getFamilyName());
 			// age
-			c = new DataSetColumn("Age", "Age", Integer.class);
-			row.addColumnValue(c, p.getAge());
+			c = new DataSetColumn("Age (yr)", "Age (yr)", Integer.class);
+			row.addColumnValue(c, p.getAge(endDateParameter));
+			// dob
+			c = new DataSetColumn("Birthdate", "Birthdate", Integer.class);
+			row.addColumnValue(c, formatEncounterDate(p.getBirthdate()));
+			// age in months
+			c = new DataSetColumn("Age (mth)", "Age (mth)", Integer.class);
+			row.addColumnValue(c, getAgeInMonths(p, endDateParameter));
 			// sex
 			c = new DataSetColumn("M/F", "M/F", String.class);
 			row.addColumnValue(c, p.getGender());
+
+			if (definition.isIncludeProgramOutcome()) {
+				// enrollment outcome
+				PatientState ps = h.getMostRecentStateAtLocation(p,
+						definition.getProgram(), locationParameter,
+						sessionFactory().getCurrentSession());
+				c = new DataSetColumn("Outcome", "Outcome", String.class);
+				row.addColumnValue(c, ps.getState().getConcept().getName().getName()); 
+				c = new DataSetColumn("Outcome", "Outcome", String.class);
+				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			}
+
 			// last visit & loc
 			List<Encounter> encounters = Context.getEncounterService()
 					.getEncounters(p, null, null, null, null, encounterTypes,
@@ -136,8 +190,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 					null, null, null, encounterTypes, null, false);
 			List<Obs> obs = Context.getObsService().getObservations(
 					Arrays.asList(Context.getPersonService().getPerson(
-							p.getPersonId())), encounters, Arrays.asList(APPOINTMENT_DATE), null, null,
-					null, null, 1, null, null, null, false);
+							p.getPersonId())), encounters,
+					Arrays.asList(APPOINTMENT_DATE), null, null, null, null, 1,
+					null, null, null, false);
 			// getting rvd from any concept of person across encounters
 			// Context.getObsService().getObservationsByPersonAndConcept(p,
 			// Context.getConceptService().getConceptByName("APPOINTMENT DATE"));
@@ -154,11 +209,13 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 					.getRelationshipsByPerson(p);
 			for (Relationship r : ships) {
 				if (r.getRelationshipType().equals(
-						Context.getPersonService().getRelationshipTypeByName("Patient/Village Health Worker"))) {
+						Context.getPersonService().getRelationshipTypeByName(
+								"Patient/Village Health Worker"))) {
 					vhw = r.getPersonB().getGivenName() + " "
 							+ r.getPersonB().getFamilyName();
 				} else if (r.getRelationshipType().equals(
-						Context.getPersonService().getRelationshipTypeByName("Patient/Guardian"))) {
+						Context.getPersonService().getRelationshipTypeByName(
+								"Patient/Guardian"))) {
 					vhw = r.getPersonB().getGivenName() + " "
 							+ r.getPersonB().getFamilyName() + " (Guardian)";
 				}
@@ -212,6 +269,21 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 							+ ") ";
 				}
 			}
+			if (definition.isIncludeWeight()) {
+				// enrollment outcome
+				List<Encounter> es = Context.getEncounterService()
+						.getEncounters(p, null, null, endDateParameter, null,
+								definition.getEncounterTypes(), null, false);
+				obs = Context.getObsService().getObservations(
+						Arrays.asList((Person) p), es, Arrays.asList(WEIGHT),
+						null, null, null, null, 1, null, null, endDateParameter, false);
+				if (obs.iterator().hasNext()) {
+					Obs o = obs.iterator().next();
+					c = new DataSetColumn("Weight", "Weight", String.class);
+					row.addColumnValue(c, (o.getValueNumeric()));
+				}
+			}
+
 			c = new DataSetColumn("comment", "comment", String.class);
 			row.addColumnValue(c, h(comment));
 
@@ -220,6 +292,37 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	private String formatPatientIdentifier(String id) {
+		if (id.lastIndexOf(" ") > 0) {
+			// for now assume that an id without leading zeros is there when there is a space
+			String number = id.substring(id.lastIndexOf(" ") + 1);
+			try {
+				DecimalFormat f = new java.text.DecimalFormat("0000");
+				number = f.format(new Integer(number));
+			} catch (Exception e) {
+				// error while converting
+				return id;
+			}
+			return id.substring(0, id.lastIndexOf(" ")) + "-" + number;
+		}
+		return id;
+	}
+
+	private int getAgeInMonths(Patient p, Date onDate) {
+		Calendar bday = Calendar.getInstance();
+		bday.setTime(p.getBirthdate());
+
+		Calendar onDay = Calendar.getInstance();
+		onDay.setTime(onDate);
+
+		int bDayMonths = bday.get(Calendar.YEAR) * 12
+				+ bday.get(Calendar.MONTH);
+		int onDayMonths = onDay.get(Calendar.YEAR) * 12
+				+ onDay.get(Calendar.MONTH);
+
+		return onDayMonths - bDayMonths;
 	}
 
 	private void chronicCare(Patient p, DataSetRow row) {
@@ -254,4 +357,10 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	private String h(String s) {
 		return ("".equals(s) || s == null ? "&nbsp;" : s);
 	}
+
+	private SessionFactory sessionFactory() {
+		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
+				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
+	}
+
 }
