@@ -6,6 +6,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupAppointmentAdherence;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
+import org.openmrs.module.pihmalawi.reporting.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
@@ -53,6 +54,17 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_partmissedappointment.form")
 	public void registerPreArtMissedAppointment() throws Exception {
 		new SetupPreArtMissedAppointment(new Helper(), true).setup(false);
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_artregister.form")
+	public void removeArtRegister() {
+		new SetupArtRegister(new Helper())
+				.delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_artregister.form")
+	public void registerArtRegister() throws Exception {
+		new SetupArtRegister(new Helper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artmissedappointment.form")
@@ -200,6 +212,7 @@ public class PihReportFormController {
 		removeArtMissedAppointment();
 		removeArtMissedAppointmentLowerNeno();
 		removeArvQuarterly();
+		removeArtRegister();
 		removeChronicCareAppAdherence();
 		removeChronicCareMissedAppointment();
 		removeChronicCareRegister();
@@ -219,6 +232,7 @@ public class PihReportFormController {
 		registerArtMissedAppointment();
 //		registerArtMissedAppointmentLowerNeno();
 		registerArvQuarterly();
+		registerArtRegister();
 //		registerChronicCareAppAdherence();
 		registerChronicCareMissedAppointment();
 		registerChronicCareRegister();

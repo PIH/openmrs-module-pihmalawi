@@ -146,7 +146,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 						sessionFactory().getCurrentSession());
 				c = new DataSetColumn("Outcome", "Outcome", String.class);
 				row.addColumnValue(c, ps.getState().getConcept().getName().getName()); 
-				c = new DataSetColumn("Outcome", "Outcome", String.class);
+				c = new DataSetColumn("Outcome Date", "Outcome Date", String.class);
 				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
 			}
 
