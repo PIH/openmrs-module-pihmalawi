@@ -37,7 +37,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 					Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
-					Context.getLocationService().getLocation("Nsambe HC"),
+							Context.getLocationService().getLocation("Nsambe HC"),
+							Context.getLocationService().getLocation("Neno Mission HC"),
 					false);
 		} else {
 			configure(
@@ -61,6 +62,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			properties.put("loc1name", "Neno");
 			properties.put("loc2name", "Magaleta");
 			properties.put("loc3name", "Nsambe");
+			properties.put("loc4name", "Neno Mission HC");
 		} else {
 			properties.put("title", "ART Missed Appointment - Lower Neno");
 			properties.put("baseCohort", "On ART");

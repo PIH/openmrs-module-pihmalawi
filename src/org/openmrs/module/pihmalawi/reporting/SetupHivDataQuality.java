@@ -68,7 +68,7 @@ public class SetupHivDataQuality {
 		LOCATIONS = Arrays.asList(h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
 				h.location("Neno District Hospital"),
-				h.location("Magaleta HC"), h.location("Nsambe HC"));
+				h.location("Magaleta HC"), h.location("Nsambe HC"), h.location("Neno Mission HC"));
 	}
 
 	public void setup() throws Exception {
@@ -127,6 +127,7 @@ public class SetupHivDataQuality {
 				+ "(identifier NOT regexp '^[[:<:]]NNO[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]MGT[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]NSM[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]NOP[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]LSI[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]MTE[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]CFA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$')";
@@ -146,6 +147,7 @@ public class SetupHivDataQuality {
 				+ "(identifier NOT regexp '^P-[[:<:]]NNO[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]MGT[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]NSM[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]NOP[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]LSI[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]MTE[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]CFA[[:>:]]-[0-9][0-9][0-9][0-9]$')";
@@ -161,6 +163,7 @@ public class SetupHivDataQuality {
 		createLastInRangeNumber(rd, "NNO", "NNO ");
 		createLastInRangeNumber(rd, "MGT", "MGT ");
 		createLastInRangeNumber(rd, "NSM", "NSM ");
+		createLastInRangeNumber(rd, "NOP", "NOP ");
 
 		// lower neno
 		createLastInRangeNumber(rd, "LSI", "LSI ");
@@ -171,6 +174,7 @@ public class SetupHivDataQuality {
 		createMultipleArv(rd, "NNO", "NNO ");
 		createMultipleArv(rd, "MGT", "MGT ");
 		createMultipleArv(rd, "NSM", "NSM ");
+		createMultipleArv(rd, "NOP", "NOP ");
 
 		// lower neno
 		createMultipleArv(rd, "LSI", "LSI ");
@@ -513,6 +517,9 @@ public class SetupHivDataQuality {
 		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Nsambe HC")),
 				h.location("Nsambe HC"), "NSM");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Neno Mission HC")),
+				h.location("Neno Mission HC"), "NOP");
 
 		//		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 //				hivTerminalStates,

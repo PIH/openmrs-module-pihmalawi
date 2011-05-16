@@ -45,6 +45,8 @@ public class SetupGenericMissedAppointment {
 
 	protected Location location3 = null;
 
+	protected Location location4 = null;
+
 	protected Location location2 = null;
 
 	protected boolean includeDefaulterActionTaken = false;
@@ -65,6 +67,19 @@ public class SetupGenericMissedAppointment {
 		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 
+	protected void configure(String reportName, String reportTag,
+			Program program, Location location1, Location location2,
+			Location location3, Location location4, boolean includeDefaulterActionTaken) {
+		this.reportName = reportName;
+		this.reportTag = reportTag;
+		this.program = program;
+		this.location1 = location1;
+		this.location2 = location2;
+		this.location3 = location3;
+		this.location4 = location4;
+		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
+	}
+
 	public ReportDefinition[] setup() throws Exception {
 		deleteReportElements();
 
@@ -77,7 +92,7 @@ public class SetupGenericMissedAppointment {
 		ReportDesign rdes = createHtmlBreakdownExternal(rd);
 		// h.render(rdes, rd);
 		createHtmlBreakdownInternal(rd);
-		createHtmlBreakdownDefaulterGis(rd);
+//		createHtmlBreakdownDefaulterGis(rd);
 		return (ReportDefinition[]) Arrays.asList(rd).toArray();
 	}
 
@@ -101,6 +116,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -123,6 +141,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 
@@ -151,6 +172,8 @@ public class SetupGenericMissedAppointment {
 		m.put("2msdloc2", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noapploc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -247,6 +270,14 @@ public class SetupGenericMissedAppointment {
 		m2.put("location", location3);
 		md.addCohortDefinition("loc3",
 				h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
+		if (location4 != null) {
+			m2 = new HashMap<String, Object>();
+			m2.put("program", program);
+			m2.put("endDate", "${endDate}");
+			m2.put("location", location4);
+			md.addCohortDefinition("loc4",
+					h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
+		}
 		h.replaceDimensionDefinition(md);
 	}
 
@@ -403,5 +434,11 @@ public class SetupGenericMissedAppointment {
 				displayNamePrefix + " (Location 3)",
 				h.cohortIndicator(reportTag + ": " + indicator),
 				h.hashMap("Location", "loc3"));
+		if (location4 != null) {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc4",
+					displayNamePrefix + " (Location 4)",
+					h.cohortIndicator(reportTag + ": " + indicator),
+					h.hashMap("Location", "loc4"));
+		}
 	}
 }
