@@ -18,6 +18,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
@@ -42,18 +43,12 @@ public class HasAgeOnStartedStateEvaluator implements CohortDefinitionEvaluator 
 		ProgramWorkflowState state = definition.getState();
 		Location location = definition.getLocation();
 		Date startedOnOrAfter = definition.getStartedOnOrAfter();
-		Date startedOnOrBefore = definition.getStartedOnOrBefore();
+		Date startedOnOrBefore = DateUtil.getEndOfDayIfTimeExcluded(definition.getStartedOnOrBefore());
 		
 		Integer minAge = definition.getMinAge();
 		DurationUnit minAgeUnit = definition.getMinAgeUnit();
 		Integer maxAge = definition.getMaxAge();
 		DurationUnit maxAgeUnit = definition.getMaxAgeUnit();
-		
-		log.info("$$$$$$$$$$$$$$$$$$$$ minAge="+minAge);
-		log.info("$$$$$$$$$$$$$$$$$$$$ maxAge="+maxAge);
-		
-		log.info("$$$$$$$$$$$$$$$$$$$$ minAgeUnit="+minAgeUnit);
-		log.info("$$$$$$$$$$$$$$$$$$$$ maxAgeUnit="+maxAgeUnit);
 
 		// get all patients who started primary state in report window, enrolled at
 		// location
@@ -92,20 +87,21 @@ public class HasAgeOnStartedStateEvaluator implements CohortDefinitionEvaluator 
 				
 				boolean minAgeOk = true;
 				if(minAge != null) {
-					Calendar maxCal = Calendar.getInstance();
-					maxCal.setTime(stateStartDate);
-					maxCal.add(minAgeUnit.getCalendarField(), -minAgeUnit.getFieldQuantity()*minAge);
-					maxDate = maxCal.getTime();
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(stateStartDate);
+					cal.add(minAgeUnit.getCalendarField(), -minAgeUnit.getFieldQuantity()*minAge);
+					cal.add(Calendar.DATE,1);
+					maxDate = cal.getTime();
 					if(!patientBirthdate.before(maxDate))
 						minAgeOk = false;
 				}
 				
 				boolean maxAgeOk = true;
 				if(maxAge != null) {
-					Calendar minCal = Calendar.getInstance(); 
-					minCal.setTime(stateStartDate);
-					minCal.add(maxAgeUnit.getCalendarField(), -(maxAgeUnit.getFieldQuantity()*maxAge+1));
-					minDate = minCal.getTime();
+					Calendar cal = Calendar.getInstance(); 
+					cal.setTime(stateStartDate);
+					cal.add(maxAgeUnit.getCalendarField(), -(maxAgeUnit.getFieldQuantity()*maxAge+1));
+					minDate = cal.getTime();
 					if(!patientBirthdate.after(minDate))
 						maxAgeOk = false;
 				}
@@ -115,6 +111,7 @@ public class HasAgeOnStartedStateEvaluator implements CohortDefinitionEvaluator 
 				}
 			}
 		}
+		
 		return result;
 	}
 

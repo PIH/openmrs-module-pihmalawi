@@ -566,8 +566,14 @@ public class Helper {
 	public CohortIndicator createCompositionIndicator(String name, String operator, Map<String, Object> compositionMap,
 			Map<String, Mapped<? extends CohortDefinition>> entries) {
 		
+		return createCompositionIndicator(name, operator, compositionMap, entries, false);
+	}
+	
+	public CohortIndicator createCompositionIndicator(String name, String operator, Map<String, Object> compositionMap,
+			Map<String, Mapped<? extends CohortDefinition>> entries, boolean fullString) {
+		
 		// create cohort with cohorts and search string
-		CompositionCohortDefinition ccd = (CompositionCohortDefinition)getCompositionCohort(entries, operator);
+		CompositionCohortDefinition ccd = (CompositionCohortDefinition)getCompositionCohort(entries, operator, fullString);
 		ccd.setName(name + " Composition");
 		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -578,7 +584,7 @@ public class Helper {
 		return newCountIndicator(name + " Indicator", name + " Composition", compositionMap);
 	}
 	
-	public static CohortDefinition getCompositionCohort(Map<String, Mapped<? extends CohortDefinition>> entries, String operator) {
+	public static CohortDefinition getCompositionCohort(Map<String, Mapped<? extends CohortDefinition>> entries, String operator, boolean fullString) {
 		if (entries.size() == 1) {
 			return entries.values().iterator().next().getParameterizable();
 		}
@@ -594,7 +600,11 @@ public class Helper {
 			s.append(cd.getKey());
 		}
 		
-		d.setCompositionString(s.toString());
+		if(fullString) {
+			d.setCompositionString(operator);
+		} else {
+			d.setCompositionString(s.toString());
+		}
 		return d;
 	}
 	

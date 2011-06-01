@@ -23,6 +23,7 @@ import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.Event;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
@@ -47,7 +48,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 		Location relativeStateLocation = definition.getRelativeStateLocation();
 		Location primaryStateLocation = definition.getPrimaryStateLocation();
 		Date onOrAfter = definition.getOnOrAfter();
-		Date onOrBefore = definition.getOnOrBefore();
+		Date onOrBefore = DateUtil.getEndOfDayIfTimeExcluded(definition.getOnOrBefore());
 		Date onDate = definition.getOnDate();
 		ProgramWorkflowState relativeState = definition.getRelativeState();
 		ProgramWorkflowState primaryState = definition.getPrimaryState();
@@ -246,6 +247,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 				}
 			}
 		}
+		
 		return result;
 	}
 

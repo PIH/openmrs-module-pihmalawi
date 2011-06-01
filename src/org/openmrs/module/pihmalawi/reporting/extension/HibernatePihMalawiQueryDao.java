@@ -87,6 +87,8 @@ public class HibernatePihMalawiQueryDao {
 	public Cohort getPatientsInStatesAtLocations(
 			List<ProgramWorkflowState> programWorkflowStates, Date onOrAfter,
 			Date onOrBefore, List<Location> locations) {
+		
+		onOrBefore = DateUtil.getEndOfDayIfTimeExcluded(onOrBefore);
 
 		List<Integer> stateIds = new ArrayList<Integer>();
 		if (programWorkflowStates != null) {
@@ -133,14 +135,21 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("onOrBefore", onOrBefore);
 		if (locationIds != null && !locationIds.isEmpty())
 			query.setParameterList("locationIds", locationIds);
+		
+		Cohort returnCohort = new Cohort(query.list());
+		
+		//System.out.println("%%%%%%%%%%%%%%% query members="+returnCohort.getCommaSeparatedPatientIds());
+		//System.out.println("%%%%%%%%%%%%%%% query size="+returnCohort.size());
 
-		return new Cohort(query.list());
+		return returnCohort;
 	}
 
 	public Cohort getPatientsHavingStatesAtLocation(
 			ProgramWorkflowState programWorkflowState, Date startedOnOrAfter,
 			Date startedOnOrBefore, Date endedOnOrAfter, Date endedOnOrBefore,
 			Location location) {
+		
+		endedOnOrBefore = DateUtil.getEndOfDayIfTimeExcluded(endedOnOrBefore);
 
 		List<Integer> stateIds = new ArrayList<Integer>();
 		stateIds.add(programWorkflowState.getId());
@@ -186,12 +195,17 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("endedOnOrBefore", endedOnOrBefore);
 		if (location != null)
 			query.setInteger("location", location.getId());
+		
+		Cohort returnCohort = new Cohort(query.list());
 
-		return new Cohort(query.list());
+		return returnCohort;
 	}
 
 	public Cohort getPatientsInProgramAtLocation(List<Program> programs,
 			Date onOrAfter, Date onOrBefore, Location location) {
+		
+		onOrBefore = DateUtil.getEndOfDayIfTimeExcluded(onOrBefore);
+		
 		List<Integer> programIds = new ArrayList<Integer>();
 		for (Program program : programs)
 			programIds.add(program.getProgramId());
@@ -227,7 +241,10 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("onOrBefore", onOrBefore);
 		if (location != null)
 			query.setInteger("location", location.getId());
-		return new Cohort(query.list());
+		
+		Cohort returnCohort = new Cohort(query.list());
+		
+		return returnCohort;
 	}
 
 	public Cohort getPatientsAppointmentAdherence(
@@ -257,9 +274,6 @@ public class HibernatePihMalawiQueryDao {
 		// match adherence
 		Set<Patient> patients = aa.getPatients();
 		for (Patient p : patients) {
-//			if (p.getId() == 16049) {
-//				System.out.println();
-//			}
 			int missed = 0;
 			int ontime = 0;
 

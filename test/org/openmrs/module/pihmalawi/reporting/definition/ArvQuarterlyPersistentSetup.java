@@ -22,6 +22,7 @@ public class ArvQuarterlyPersistentSetup extends BaseModuleContextSensitiveTest 
 	@Test
 	@Rollback(false)
 	public void setupArvQuarterly() throws Exception {
+		System.out.println("Starting ARV Quarterly Test");
 		new SetupArvQuarterly(new Helper()).setup();
 	}
 	

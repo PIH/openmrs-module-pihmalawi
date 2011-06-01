@@ -23,6 +23,7 @@ import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.Event;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
@@ -45,7 +46,7 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 		PatientService ps = Context.getPatientService();
 
 		Location primaryStateLocation = definition.getPrimaryStateLocation();
-		Date onDate = definition.getOnDate();
+		Date onDate = DateUtil.getEndOfDayIfTimeExcluded(definition.getOnDate());
 		ProgramWorkflowState relativeState = definition.getRelativeState();
 		ProgramWorkflowState primaryState = definition.getPrimaryState();
 		Integer offsetAmount = definition.getOffsetAmount();
@@ -87,11 +88,12 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 				// get window BETWEEN primary state start date and interval, to be used for relative state date range
 				cal.setTime(primaryStateStartDate);
 				cal.add(offsetUnit.getCalendarField(), -offsetUnit.getFieldQuantity()*offsetAmount);
+				cal.add(Calendar.HOUR, 24); // so the various timeframes don't overlap because of ON-orAfter ON-orBefore
 				Date offsetDate = cal.getTime(); // the offset
 				
 				cal.setTime(primaryStateStartDate);
 				cal.add(offsetUnit.getCalendarField(), -offsetUnit.getFieldQuantity()*(offsetAmount - offsetDuration));
-				Date offsetExclusionDate = cal.getTime(); // what should be excluded
+				Date offsetExclusionDate = DateUtil.getEndOfDayIfTimeExcluded(cal.getTime()); // what should be excluded	
 				
 				// get patients who started relative state at location according to time interval
 				Cohort relativePatients = null;
@@ -103,6 +105,7 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 						offsetExclusionDate, null, null,
 						null);
 				} else { // interval is itself excluded, use period before offsetDate
+					cal.add(Calendar.SECOND, -1);
 					relativePatients = q
 					.getPatientsHavingStatesAtLocation(
 							relativeState,
@@ -115,7 +118,7 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 					result.addMember(p.getId());
 				}
 			}
-		}
+		}	
 		return result;
 	}
 
