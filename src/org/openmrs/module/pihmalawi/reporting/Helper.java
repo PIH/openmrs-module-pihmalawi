@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -640,6 +642,15 @@ public class Helper {
 		return obsCohortDefinition;
 	}
 
+	public Set<PatientState> getMostRecentStates(Patient p,
+			Session currentSession) {
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						null, null, null, null, null, false);
+		Set<PatientState> allStates = new HashSet<PatientState>();
+		for (PatientProgram pp : pps) {
+			allStates.addAll(pp.getCurrentStates());
+		}
+		return allStates;
+	}
 }
-
-

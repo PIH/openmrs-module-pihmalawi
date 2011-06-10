@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +58,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		final Concept APPOINTMENT_DATE = Context.getConceptService()
 				.getConceptByName("APPOINTMENT DATE");
 		final Concept WEIGHT = Context.getConceptService().getConceptByName(
-				"WEIGHT (KG)");
+		"WEIGHT (KG)");
+		final Concept HEIGHT = Context.getConceptService().getConceptByName(
+		"HEIGHT (CM)");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
@@ -145,8 +148,10 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 						definition.getProgram(), locationParameter,
 						sessionFactory().getCurrentSession());
 				c = new DataSetColumn("Outcome", "Outcome", String.class);
-				row.addColumnValue(c, ps.getState().getConcept().getName().getName()); 
-				c = new DataSetColumn("Outcome Date", "Outcome Date", String.class);
+				row.addColumnValue(c, ps.getState().getConcept().getName()
+						.getName());
+				c = new DataSetColumn("Outcome Date", "Outcome Date",
+						String.class);
 				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
 			}
 
@@ -273,21 +278,55 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				// enrollment outcome
 				List<Encounter> es = Context.getEncounterService()
 						.getEncounters(p, null, null, endDateParameter, null,
-								definition.getEncounterTypes(), null, false);
-				obs = Context.getObsService().getObservations(
+											definition.getEncounterTypes(), null, false);
+						obs = Context.getObsService().getObservations(
 						Arrays.asList((Person) p), es, Arrays.asList(WEIGHT),
-						null, null, null, null, 1, null, null, endDateParameter, false);
+						null, null, null, null, 1, null, null,
+						endDateParameter, false);
 				if (obs.iterator().hasNext()) {
 					Obs o = obs.iterator().next();
 					c = new DataSetColumn("Weight", "Weight", String.class);
 					row.addColumnValue(c, (o.getValueNumeric()));
 				}
 			}
+			
+			if (definition.isIncludeMostRecentVitals()) {
+				// enrollment outcome
+				List<Encounter> es = Context.getEncounterService()
+						.getEncounters(p, null, null, endDateParameter, null,
+								null, null, false);
+				obs = Context.getObsService().getObservations(
+						Arrays.asList((Person) p), es, Arrays.asList(HEIGHT),
+						null, null, null, null, 1, null, null,
+						endDateParameter, false);
+				if (obs.iterator().hasNext()) {
+					Obs o = obs.iterator().next();
+					c = new DataSetColumn("Height (cm)", "Height (cm)", String.class);
+					row.addColumnValue(c, (o.getValueNumeric()));
+				}
+				obs = Context.getObsService().getObservations(
+						Arrays.asList((Person) p), es, Arrays.asList(WEIGHT),
+						null, null, null, null, 1, null, null,
+						endDateParameter, false);
+				if (obs.iterator().hasNext()) {
+					Obs o = obs.iterator().next();
+					c = new DataSetColumn("Weight (kg)", "Weight (kg)", String.class);
+					row.addColumnValue(c, (o.getValueNumeric()));
+					c = new DataSetColumn("Vitals date", "Vitals date", String.class);
+					row.addColumnValue(c, formatEncounterDate(o.getObsDatetime()));
+				}
+			}
+
+			if (definition.isIncludeChronicCareDiagnosis()) {
+				chronicCare(p, row);
+			}
+
+			if (definition.isIncludeProgramEnrollments()) {
+				programEnrollments(p, row);
+			}
 
 			c = new DataSetColumn("comment", "comment", String.class);
 			row.addColumnValue(c, h(comment));
-
-			// chronicCare(p, row);
 
 			dataSet.addRow(row);
 		}
@@ -296,7 +335,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 	private String formatPatientIdentifier(String id) {
 		if (id.lastIndexOf(" ") > 0) {
-			// for now assume that an id without leading zeros is there when there is a space
+			// for now assume that an id without leading zeros is there when
+			// there is a space
 			String number = id.substring(id.lastIndexOf(" ") + 1);
 			try {
 				DecimalFormat f = new java.text.DecimalFormat("0000");
@@ -332,11 +372,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		// chronic care additions
 		// deceased
 		c = new DataSetColumn("Status", "Status", String.class);
-		boolean deceased = (p.getDead() || p.getCauseOfDeath() != null || p
-				.getDeathDate() != null);
+		boolean deceased = (p.getDead() /* || p.getCauseOfDeath() != null || p
+				.getDeathDate() != null*/);
 		row.addColumnValue(c, (deceased ? "died" : "&nbsp;"));
 
-		// cc diagnose
+		// cc diagnosis
 		String diag = "";
 		obs = Context.getObsService().getObservationsByPersonAndConcept(
 				p,
@@ -346,8 +386,28 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		while (i.hasNext()) {
 			diag += i.next().getValueAsString(Context.getLocale()) + ", ";
 		}
-		c = new DataSetColumn("Diagnose", "Diagnose", String.class);
+		c = new DataSetColumn("Diagnosis", "Diagnosis", String.class);
 		row.addColumnValue(c, h(diag));
+	}
+
+	private void programEnrollments(Patient p, DataSetRow row) {
+		DataSetColumn c;
+		c = new DataSetColumn("Enrollments", "Enrollments", String.class);
+		String programs = "";
+
+		// just collect everything latest program enrollment you can find
+		Set<PatientState> pss = h.getMostRecentStates(p, sessionFactory()
+				.getCurrentSession());
+		if (pss != null) {
+			Iterator<PatientState> i = pss.iterator();
+			while (i.hasNext()) {
+				PatientState ps = i.next();
+				programs += ps.getPatientProgram().getProgram().getName()
+						+ ":&nbsp;" + ps.getState().getConcept().getName()
+						+ "&nbsp;(since&nbsp;" + formatEncounterDate(ps.getStartDate()) + ") ";
+			}
+		}
+		row.addColumnValue(c, h(programs));
 	}
 
 	private String formatEncounterDate(Date encounterDatetime) {

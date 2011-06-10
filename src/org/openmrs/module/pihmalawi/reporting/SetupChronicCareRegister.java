@@ -54,6 +54,9 @@ public class SetupChronicCareRegister {
 		dsd.setIncludeDefaulterActionTaken(false);
 		dsd.setIncludeFirstVisit(false);
 		dsd.setIncludeMissedappointmentColumns(false);
+		dsd.setIncludeChronicCareDiagnosis(true);
+		dsd.setIncludeProgramEnrollments(true);
+		dsd.setIncludeMostRecentVitals(true);
 		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(Context.getPatientService()

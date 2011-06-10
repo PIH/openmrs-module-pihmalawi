@@ -27,6 +27,12 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	boolean includeWeight = false;
 	
+	boolean includeMostRecentVitals = false;
+	
+	boolean includeChronicCareDiagnosis = false;
+	
+	boolean includeProgramEnrollments = false;
+	
 	Program program = null;
 	
 	public boolean isIncludeDefaulterActionTaken() {
@@ -101,6 +107,14 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		includeWeight = b;
 	}
 
+	public boolean isIncludeMostRecentVitals() {
+		return includeMostRecentVitals;
+	}
+
+	public void setIncludeMostRecentVitals(boolean includeMostRecentVitals) {
+		this.includeMostRecentVitals = includeMostRecentVitals;
+	}
+
 	public Program getProgram() {
 		return program;
 	}
@@ -108,4 +122,21 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	public void setProgram(Program program) {
 		this.program = program;
 	}
+
+	public boolean isIncludeChronicCareDiagnosis() {
+		return includeChronicCareDiagnosis;
+	}
+
+	public void setIncludeChronicCareDiagnosis(boolean includeChronicCareDiagnosis) {
+		this.includeChronicCareDiagnosis = includeChronicCareDiagnosis;
+	}
+
+	public boolean isIncludeProgramEnrollments() {
+		return includeProgramEnrollments;
+	}
+
+	public void setIncludeProgramEnrollments(boolean includeProgramEnrollments) {
+		this.includeProgramEnrollments = includeProgramEnrollments;
+	}
+	
 }
