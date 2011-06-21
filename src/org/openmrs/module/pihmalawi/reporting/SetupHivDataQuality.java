@@ -66,7 +66,7 @@ public class SetupHivDataQuality {
 				.getStateByName("PATIENT TRANSFERRED OUT");
 
 		LOCATIONS = Arrays.asList(h.location("Lisungwi Community Hospital"),
-				h.location("Matope HC"), h.location("Chifunga HC"),
+				h.location("Matope HC"), h.location("Chifunga HC"), h.location("Zalewa HC"), h.location("Nkhula Falls RHC"),
 				h.location("Neno District Hospital"),
 				h.location("Magaleta HC"), h.location("Nsambe HC"), h.location("Neno Mission HC"));
 	}
@@ -130,6 +130,8 @@ public class SetupHivDataQuality {
 				+ "identifier NOT regexp '^[[:<:]]NOP[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]LSI[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]MTE[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]ZLA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
+				+ "identifier NOT regexp '^[[:<:]]NKA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND "
 				+ "identifier NOT regexp '^[[:<:]]CFA[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$')";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
@@ -150,6 +152,8 @@ public class SetupHivDataQuality {
 				+ "identifier NOT regexp '^P-[[:<:]]NOP[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]LSI[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]MTE[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]ZLA[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
+				+ "identifier NOT regexp '^P-[[:<:]]NKA[[:>:]]-[0-9][0-9][0-9][0-9]$' AND "
 				+ "identifier NOT regexp '^P-[[:<:]]CFA[[:>:]]-[0-9][0-9][0-9][0-9]$')";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
@@ -169,6 +173,8 @@ public class SetupHivDataQuality {
 		createLastInRangeNumber(rd, "LSI", "LSI ");
 		createLastInRangeNumber(rd, "CFA", "CFA ");
 		createLastInRangeNumber(rd, "MTE", "MTE ");
+		createLastInRangeNumber(rd, "ZLA", "ZLA ");
+		createLastInRangeNumber(rd, "NKA", "NKA ");
 
 		// upper neno
 		createMultipleArv(rd, "NNO", "NNO ");
@@ -180,6 +186,8 @@ public class SetupHivDataQuality {
 		createMultipleArv(rd, "LSI", "LSI ");
 		createMultipleArv(rd, "CFA", "CFA ");
 		createMultipleArv(rd, "MTE", "MTE ");
+		createMultipleArv(rd, "ZLA", "ZLA ");
+		createMultipleArv(rd, "NKA", "NKA ");
 
 		InProgramCohortDefinition ipcd = new InProgramCohortDefinition();
 		ipcd.setName("hivdq: In program_");
@@ -500,11 +508,6 @@ public class SetupHivDataQuality {
 //																	 * deal with
 //																	 * mobile
 //																	 * clinics ,
-//																	 * h
-//																	 * .location
-//																	 * (
-//																	 * "Neno Mission HC"
-//																	 * ),
 //																	 * h.location
 //																	 * (
 //																	 * "Ligowe HC"
@@ -533,14 +536,6 @@ public class SetupHivDataQuality {
 //																		 * location
 //																		 * (
 //																		 * "Midzemba HC"
-//																		 * ), h.
-//																		 * location
-//																		 * (
-//																		 * "Zalewa HC"
-//																		 * ), h.
-//																		 * location
-//																		 * (
-//																		 * "Nkhula Falls RHC"
 //																		 * )
 //																		 */),
 //				h.location("Lisungwi Community Hospital"), "LSI");
@@ -550,6 +545,12 @@ public class SetupHivDataQuality {
 		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
 				h.location("Matope HC"), "MTE");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Zalewa HC")),
+				h.location("Zalewa HC"), "ZLA");
+		createEncounterAfterTerminalState(rd, hivEncounterTypes,
+				hivTerminalStates, Arrays.asList(h.location("Nkhula Falls RHC")),
+				h.location("Nkhula Falls RHC"), "NKA");
 
 	}
 
