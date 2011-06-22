@@ -48,9 +48,9 @@ public class SetupWeeklyEncounter {
 		LOCATIONS_LIST = Arrays.asList(Arrays.asList(
 				h.location("Neno District Hospital"),
 				h.location("Neno Mission HC"), h.location("Ligowe HC"),
-				h.location("Neno District Hospital - Outpatient"),
-				h.location("Neno District Hospital - Registration"),
-				h.location("Neno District Hospital - Vitals")), Arrays.asList(h
+				h.location("Outpatient"),
+				h.location("Registration"),
+				h.location("Vitals")), Arrays.asList(h
 				.location("Magaleta HC")), Arrays.asList(h
 				.location("Nsambe HC")), Arrays.asList(
 				h.location("Lisungwi Community Hospital"),
