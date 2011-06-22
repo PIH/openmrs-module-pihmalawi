@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.hibernate.SessionFactory;
 import org.openmrs.ConceptName;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -33,6 +34,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 
 public class ArtExporter {
 
@@ -63,7 +65,7 @@ public class ArtExporter {
 
 		// connection init
 		Context.startup(conncetionUrl, connectionUser, conncetionPw,
-				new Properties());
+				prop);
 		Context.openSession();
 		Context.authenticate(openmrsUser, openmrsPw);
 
@@ -71,15 +73,32 @@ public class ArtExporter {
 	}
 
 	public void run() throws Exception {
-		String[] mappings = { "ALIVE", "",
+		String[] mappings = { 
+				"Neno District Hospital", "NNO",
+				"Nsambe HC", "NSM", 
+				"Magaleta HC", "MGT",
+				
+				"ON ANTIRETROVIRALS", "", 
+				"ALIVE", "",
+				"PATIENT TRANSFERRED OUT", "TO",
+				
 				"ALIVE AND ON FIRST LINE ANTIRETROVIRAL REGIMEN", "1L",
-				"SUBSTITUTE ANOTHER 1ST LINE ARV DRUG", "(Alt 1st Line)",
-				"PERIPHERAL NEUROPATHY", "PN", "Neno District Hospital", "NNO",
-				"Nsambe HC", "NSM", "Magaleta HC", "MGT", "ON ANTIRETROVIRALS",
-				"", "WHO STAGE I PEDS", "1", "WHO STAGE II PEDS", "2",
-				"WHO STAGE III PEDS", "3", "WHO STAGE IV PEDS", "4",
-				"WHO STAGE I ADULT", "1", "WHO STAGE II ADULT", "2",
-				"WHO STAGE III ADULT", "3", "WHO STAGE IV ADULT", "4", "NONE", "No", "OTHER NON-CODED", "Oth", "PATIENT TRANSFERRED OUT", "TO" };
+				"SUBSTITUTE ANOTHER 1ST LINE ARV DRUG", "",
+				
+				"NONE", "No", 
+				"PERIPHERAL NEUROPATHY", "PN",
+				"OTHER NON-CODED", "Oth",
+
+				"WHO STAGE I PEDS",  "1", 
+				"WHO STAGE II PEDS", "2",
+				"WHO STAGE III PEDS","3", 
+				"WHO STAGE IV PEDS", "4",
+				"WHO STAGE I ADULT",  "1", 
+				"WHO STAGE II ADULT", "2",
+				"WHO STAGE III ADULT","3", 
+				"WHO STAGE IV ADULT", "4", 
+				"", ""
+		};
 		for (int i = 0; i < mappings.length; i += 2) {
 			mapper.put(mappings[i], mappings[i + 1]);
 		}
@@ -102,7 +121,7 @@ public class ArtExporter {
 				.getEncounterType("ART_INITIAL"));
 		List<EncounterType> artFollowups = Arrays.asList(es
 				.getEncounterType("ART_FOLLOWUP"));
-		for (int i = 1500; i < 2000; i++) {
+		for (int i = 1795; i < 3000; i++) {
 			patients.addAll(ps.getPatients(null, "NNO " + i, identifierTypes,
 					true));
 		}
@@ -299,7 +318,7 @@ public class ArtExporter {
 	private String csv(String... strings) {
 		String result = "";
 		for (String s : strings) {
-			result += s + ";";
+			result += s.replaceAll("\\r|\\n|\\t|;", " ").replaceAll("   ", " ").replaceAll("  ", " ").trim() + ";";
 		}
 		return result;
 	}
@@ -312,20 +331,23 @@ public class ArtExporter {
 		return result;
 	}
 
+	private SessionFactory sessionFactory() {
+		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
+				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
+	}
+
 	private String exportInitial(Encounter encounter) {
 		String r = "";
 
 		PatientState ps = currentProgramWorkflowStatus(1,
 				encounter.getPatient(), new Date());
+		ps = h.getMostRecentStateAtLocation(encounter.getPatient(), h.program("HIV PROGRAM"), h.location("Neno District Hospital"), sessionFactory().getCurrentSession());
 		if (ps != null) {
-			r += csv("Current Outcome at NNO", ps.getState().getConcept()
-					.getName().getName(), "at location", "(todo)"
-			/*
-			 * new Helper().getEnrollmentLocation(ps.getPatientProgram(),
-			 * sessionFactory().getCurrentSession()).getName()
-			 */);
+			r += csv("Outcome NNO", ps.getState().getConcept()
+					.getName().getName(), "at location", map(h.getEnrollmentLocation(ps.getPatientProgram(),
+			 sessionFactory().getCurrentSession()).getName()));
 		} else {
-			r += csv("Current Outcome at NNO", "Unknown");
+			r += csv("Outcome NNO", "Unknown");
 		}
 		r += NEWLINE;
 
@@ -342,7 +364,6 @@ public class ArtExporter {
 		String patientId = "" + encounter.getPatientId();
 		String vhwName = "(todo)";
 		String name = h(encounter.getPatient().getGivenName()) + " "
-				+ h(encounter.getPatient().getMiddleName()) + " "
 				+ h(encounter.getPatient().getFamilyName());
 		String stage = NOT_AVAILABLE;
 		String tbStat = NOT_AVAILABLE;
@@ -355,7 +376,8 @@ public class ArtExporter {
 		String cd4P = NOT_AVAILABLE;
 		String ks = NOT_AVAILABLE;
 		String addr = "";
-		for (PersonAddress a : encounter.getPatient().getAddresses()) {
+		Set<PersonAddress> addresses = encounter.getPatient().getAddresses();
+		for (PersonAddress a : addresses) {
 			addr += h(a.getCityVillage()) + " " + h(a.getCountyDistrict())
 					+ ", ";
 		}
@@ -419,8 +441,7 @@ public class ArtExporter {
 			}
 		}
 
-		r += csv("ART no", artNos, "Pre-ART no", partNos, "Pre-ART start date",
-				partStart, "OpenMRS ID", patientId, "VHW", vhwName);
+		r += csv("ART no", artNos, "OpenMRS ID", patientId);
 		r += NEWLINE + NEWLINE;
 		r += csv("Patient Guardian details", "", "", "", "", "",
 				"Status at ART initiation", "", "", "", "", "",
