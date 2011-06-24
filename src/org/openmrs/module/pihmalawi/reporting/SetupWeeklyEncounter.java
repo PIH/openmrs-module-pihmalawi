@@ -28,11 +28,20 @@ public class SetupWeeklyEncounter {
 	/** List of encounter included in report */
 	private final List<EncounterType> ENCOUNTER_TYPES;
 
+	/** List of encounter counted as others */
+	private final List<EncounterType> OTHER_ENCOUNTER_TYPES;
+
 	/** List of List of Locations to be grouped together */
 	private final List<List<Location>> LOCATIONS_LIST;
 
+	/** List of Locations included as others */
+	private final List<Location> OTHER_LOCATIONS;
+
 	/** List of included Users */
 	private final List<User> USERS;
+
+	/** List of included Users */
+	private final List<User> OTHER_USERS;
 
 	Helper h = new Helper();
 
@@ -44,23 +53,53 @@ public class SetupWeeklyEncounter {
 				et("TB_FOLLOWUP"), et("REGISTRATION"), et("VITALS"),
 				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"),
 				et("CHRONIC_CARE_INITIAL"), et("CHRONIC_CARE_FOLLOWUP"));
+		List<EncounterType> ets = Context.getEncounterService()
+				.getAllEncounterTypes(false);
+		OTHER_ENCOUNTER_TYPES = new ArrayList<EncounterType>();
+		for (EncounterType et : ets) {
+			if (!ENCOUNTER_TYPES.contains(et)) {
+				OTHER_ENCOUNTER_TYPES.add(et);
+			}
+		}
 
-		LOCATIONS_LIST = Arrays.asList(Arrays.asList(
-				h.location("Neno District Hospital"),
-				h.location("Neno Mission HC"), h.location("Ligowe HC"),
-				h.location("Outpatient"),
-				h.location("Registration"),
-				h.location("Vitals")), Arrays.asList(h
-				.location("Magaleta HC")), Arrays.asList(h
-				.location("Nsambe HC")), Arrays.asList(
-				h.location("Lisungwi Community Hospital"),
-				h.location("Zalewa HC"), h.location("Midzemba HC"),
-				h.location("Nkhula Falls RHC")), Arrays.asList(h
-				.location("Chifunga HC")), Arrays.asList(h
-				.location("Matope HC")));
+		LOCATIONS_LIST = Arrays.asList(
+				Arrays.asList(h.location("Neno District Hospital"),
+						h.location("Ligowe HC"), h.location("Outpatient"),
+						h.location("Registration"), h.location("Vitals"),
+						h.location("Matandani Rural Health Center")),
+				Arrays.asList(h.location("Magaleta HC")),
+				Arrays.asList(h.location("Nsambe HC")),
+				Arrays.asList(h.location("Lisungwi Community Hospital"),
+						h.location("Midzemba HC")),
+				Arrays.asList(h.location("Chifunga HC")),
+				Arrays.asList(h.location("Matope HC")),
+				Arrays.asList(h.location("Neno Mission HC")),
+				Arrays.asList(h.location("Nkhula Falls RHC")),
+				Arrays.asList(h.location("Zalewa HC")));
+
+		List<Location> flatKnownLocations = new ArrayList<Location>();
+		for (List<Location> knownLocations : LOCATIONS_LIST) {
+			// i just dont know it better right now...
+			flatKnownLocations.addAll(knownLocations);
+		}
+		OTHER_LOCATIONS = new ArrayList<Location>();
+		for (Location l : Context.getLocationService().getAllLocations(false)) {
+			if (!flatKnownLocations.contains(l)) {
+				OTHER_LOCATIONS.add(l);
+			}
+		}
+
 		USERS = Arrays.asList(u("benndo"), u("amahaka"), u("geomal"),
 				u("qlement"), u("thandie"), u("cgoliath"), u("cneumann"),
-				u("prichi"), u("wilmwa"), u("nelma"));
+				u("prichi"), u("wilmwa"), u("nelma"), u("moblack"));
+
+		List<User> us = Context.getUserService().getAllUsers();
+		OTHER_USERS = new ArrayList<User>();
+		for (User u : us) {
+			if (!USERS.contains(u)) {
+				OTHER_USERS.add(u);
+			}
+		}
 	}
 
 	private Map<String, String> excelOverviewProperties() {
@@ -122,6 +161,7 @@ public class SetupWeeklyEncounter {
 		h.purgeAll("enc: ");
 	}
 
+	/** Weekly Encounter by Location */
 	private ReportDefinition createReportDefinitionByLocation() {
 		// currently unused as CrossTabDataSetDefinition Mapping and Indicators
 		// don't take lists of something
@@ -156,6 +196,7 @@ public class SetupWeeklyEncounter {
 		ds.setName("enc: What When Where_");
 		ds.addParameter(new Parameter("endDate", "endDate", Date.class));
 		for (int l_id = 0; l_id < defs.size(); l_id++) {
+			// known encounters
 			EncounterCohortDefinition ecd = defs.get(l_id);
 			for (int e_id = 0; e_id < ENCOUNTER_TYPES.size(); e_id++) {
 				EncounterType et = ENCOUNTER_TYPES.get(e_id);
@@ -170,6 +211,36 @@ public class SetupWeeklyEncounter {
 									onOrBefore, "encounterTypeList", et)));
 				}
 			}
+
+			// other encounters
+			for (int period = 0; period < MAX_PREVIOUS_WEEKS; period++) {
+				String onOrBefore = "${endDate-" + period + "w}";
+				String onOrAfter = "${endDate-" + (period + 1) + "w}";
+				ds.addRow(
+						"loc" + (l_id + 1) + "otherencago" + period,
+						new Mapped<CohortDefinition>(ecd, h.parameterMap(
+								"onOrAfter", onOrAfter, "onOrBefore",
+								onOrBefore, "encounterTypeList",
+								OTHER_ENCOUNTER_TYPES)));
+			}
+		}
+		EncounterCohortDefinition ecd2 = new EncounterCohortDefinition();
+		ecd2.setName("enc: What When other loc_");
+		ecd2.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
+		ecd2.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		ecd2.addParameter(new Parameter("encounterTypeList",
+				"encounterTypeList", EncounterType.class, List.class, null));
+		ecd2.setLocationList(OTHER_LOCATIONS);
+		defs.add(ecd2);
+		h.replaceCohortDefinition(ecd2);
+		// other locations
+		for (int period = 0; period < MAX_PREVIOUS_WEEKS; period++) {
+			String onOrBefore = "${endDate-" + period + "w}";
+			String onOrAfter = "${endDate-" + (period + 1) + "w}";
+			ds.addRow(
+					"otherlocallencago" + period,
+					new Mapped<CohortDefinition>(ecd2, h.parameterMap(
+							"onOrAfter", onOrAfter, "onOrBefore", onOrBefore)));
 		}
 		h.replaceDataSetDefinition(ds);
 
@@ -187,11 +258,14 @@ public class SetupWeeklyEncounter {
 		return rd;
 	}
 
+	/** Weekly Encounter by User */
 	private ReportDefinition createReportDefinitionByUser() {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.setName("enc: What When Who_");
-		ecd.addParameter(new Parameter("createdOnOrAfter", "createdOnOrAfter", Date.class));
-		ecd.addParameter(new Parameter("createdOnOrBefore", "createdOnOrBefore", Date.class));
+		ecd.addParameter(new Parameter("createdOnOrAfter", "createdOnOrAfter",
+				Date.class));
+		ecd.addParameter(new Parameter("createdOnOrBefore",
+				"createdOnOrBefore", Date.class));
 		ecd.addParameter(new Parameter("createdBy", "createdBy", User.class));
 		ecd.addParameter(new Parameter("encounterTypeList",
 				"encounterTypeList", EncounterType.class, List.class, false));
@@ -211,11 +285,24 @@ public class SetupWeeklyEncounter {
 								"user" + (u_id + 1) + "enc" + (e_id + 1)
 										+ "ago" + period,
 								new Mapped<CohortDefinition>(ecd, h
-										.parameterMap("createdOnOrAfter", onOrAfter,
-												"createdOnOrBefore", onOrBefore,
-												"createdBy", USERS.get(u_id),
+										.parameterMap("createdOnOrAfter",
+												onOrAfter, "createdOnOrBefore",
+												onOrBefore, "createdBy",
+												USERS.get(u_id),
 												"encounterTypeList", et)));
 					}
+				}
+				// other encounter types
+				for (int period = 0; period < MAX_PREVIOUS_WEEKS; period++) {
+					String onOrBefore = "${endDate-" + period + "w}";
+					String onOrAfter = "${endDate-" + (period + 1) + "w}";
+					ds.addRow(
+							"user" + (u_id + 1) + "otherencago" + period,
+							new Mapped<CohortDefinition>(ecd, h.parameterMap(
+									"createdOnOrAfter", onOrAfter,
+									"createdOnOrBefore", onOrBefore,
+									"createdBy", USERS.get(u_id),
+									"encounterTypeList", OTHER_ENCOUNTER_TYPES)));
 				}
 			}
 		}
