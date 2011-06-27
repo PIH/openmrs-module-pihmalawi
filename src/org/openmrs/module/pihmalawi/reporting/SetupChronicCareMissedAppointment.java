@@ -41,7 +41,7 @@ public class SetupChronicCareMissedAppointment extends
 						"CHRONIC CARE PROGRAM"), Context.getLocationService()
 						.getLocation("Neno District Hospital"), Context
 						.getLocationService().getLocation("Magaleta HC"),
-				Context.getLocationService().getLocation("Nsambe HC"), false);
+						Context.getLocationService().getLocation("Nsambe HC"), Context.getLocationService().getLocation("Neno Mission HC"), false);
 	}
 
 	protected Map excelOverviewProperties() {
@@ -51,6 +51,8 @@ public class SetupChronicCareMissedAppointment extends
 		properties.put("loc1name", "Neno");
 		properties.put("loc2name", "(unused)");
 		properties.put("loc3name", "(unused)");
+		properties.put("loc4name", "(unused)");
+		properties.put("loc5name", "(unused)");
 		return properties;
 	}
 

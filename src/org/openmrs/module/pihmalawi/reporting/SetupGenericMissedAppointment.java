@@ -49,22 +49,12 @@ public class SetupGenericMissedAppointment {
 
 	protected Location location2 = null;
 
+	protected Location location5 = null;
+
 	protected boolean includeDefaulterActionTaken = false;
 
 	public SetupGenericMissedAppointment(Helper helper) {
 		h = helper;
-	}
-
-	protected void configure(String reportName, String reportTag,
-			Program program, Location location1, Location location2,
-			Location location3, boolean includeDefaulterActionTaken) {
-		this.reportName = reportName;
-		this.reportTag = reportTag;
-		this.program = program;
-		this.location1 = location1;
-		this.location2 = location2;
-		this.location3 = location3;
-		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 
 	protected void configure(String reportName, String reportTag,
@@ -77,6 +67,20 @@ public class SetupGenericMissedAppointment {
 		this.location2 = location2;
 		this.location3 = location3;
 		this.location4 = location4;
+		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
+	}
+
+	protected void configure(String reportName, String reportTag,
+			Program program, Location location1, Location location2,
+			Location location3, Location location4, Location location5, boolean includeDefaulterActionTaken) {
+		this.reportName = reportName;
+		this.reportTag = reportTag;
+		this.program = program;
+		this.location1 = location1;
+		this.location2 = location2;
+		this.location3 = location3;
+		this.location4 = location4;
+		this.location5 = location5;
 		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 
@@ -119,6 +123,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -144,6 +151,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 
@@ -174,6 +184,8 @@ public class SetupGenericMissedAppointment {
 		m.put("2msdloc3", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("2msdloc4", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noapploc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -276,6 +288,14 @@ public class SetupGenericMissedAppointment {
 			m2.put("endDate", "${endDate}");
 			m2.put("location", location4);
 			md.addCohortDefinition("loc4",
+					h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
+		}
+		if (location5 != null) {
+			m2 = new HashMap<String, Object>();
+			m2.put("program", program);
+			m2.put("endDate", "${endDate}");
+			m2.put("location", location5);
+			md.addCohortDefinition("loc5",
 					h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
 		}
 		h.replaceDimensionDefinition(md);
@@ -439,6 +459,12 @@ public class SetupGenericMissedAppointment {
 					displayNamePrefix + " (Location 4)",
 					h.cohortIndicator(reportTag + ": " + indicator),
 					h.hashMap("Location", "loc4"));
+		}
+		if (location5 != null) {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc5",
+					displayNamePrefix + " (Location 5)",
+					h.cohortIndicator(reportTag + ": " + indicator),
+					h.hashMap("Location", "loc5"));
 		}
 	}
 }

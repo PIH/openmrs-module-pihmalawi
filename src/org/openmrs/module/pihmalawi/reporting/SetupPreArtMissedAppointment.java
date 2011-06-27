@@ -52,6 +52,8 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 							"Lisungwi Community Hospital"), 
 							Context.getLocationService().getLocation("Chifunga HC"),
 							Context.getLocationService().getLocation("Matope HC"),
+							Context.getLocationService().getLocation("Zalewa HC"),
+							Context.getLocationService().getLocation("Nkhula Falls RHC"),
 					true);
 
 		}
@@ -80,13 +82,15 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			properties.put("loc1name", "Neno");
 			properties.put("loc2name", "Magaleta");
 			properties.put("loc3name", "Nsambe");
-			properties.put("loc4name", "Neno Mission HC");
+			properties.put("loc4name", "Neno Mission");
 		} else {
 			properties.put("title", "Pre-ART Missed Appointment - Lower Neno");
 			properties.put("baseCohort", "Following");
 			properties.put("loc1name", "Lisungwi");
 			properties.put("loc2name", "Chifunga");
 			properties.put("loc3name", "Matope");
+			properties.put("loc4name", "Zalewa");
+			properties.put("loc5name", "Nkhula Falls");
 		}
 		return properties;
 	}
