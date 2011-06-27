@@ -15,6 +15,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.EncounterAfterProgramStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -23,6 +24,7 @@ import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -504,8 +506,9 @@ public class SetupHivDataQuality {
 		// not in relevant hiv state
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In relevant state_");
-		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT, STATE_TRANSFERRED_INTERNALLY,
-				STATE_STOPPED, STATE_ON_ART, STATE_FOLLOWING));
+		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
+				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
+				STATE_FOLLOWING));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -538,7 +541,8 @@ public class SetupHivDataQuality {
 				h.encounterType("PART_INITIAL"),
 				h.encounterType("PART_FOLLOWUP"));
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
-				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT, STATE_TRANSFERRED_INTERNALLY);
+				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT,
+				STATE_TRANSFERRED_INTERNALLY);
 
 		// createEncounterAfterTerminalState(rd, hivEncounterTypes,
 		// hivTerminalStates,
@@ -592,6 +596,215 @@ public class SetupHivDataQuality {
 				hivTerminalStates,
 				Arrays.asList(h.location("Nkhula Falls RHC")),
 				h.location("Nkhula Falls RHC"), "NKA");
+
+		intermediateEid(rd);
+	}
+
+	private void intermediateEid(PeriodIndicatorReportDefinition[] rd) {
+		final Program EID_PROGRAM = Context.getProgramWorkflowService()
+				.getProgramByName("EARLY INFANT DIAGNOSIS PROGRAM");
+
+		// in both programs
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: In EID and HIV_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"eid",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								PROGRAM)));
+		ccd.getSearches().put(
+				"hiv",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		ccd.setCompositionString("eid AND hiv");
+		h.replaceCohortDefinition(ccd);
+		CohortIndicator i = h.newCountIndicator("hivdq: In EID and HIV_",
+				"hivdq: In EID and HIV_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidandhiv",
+				"In EID and HIV", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidandhiv",
+				"In EID and HIV", i, null);
+
+		// too long in eid
+		AgeCohortDefinition age = new AgeCohortDefinition();
+		age.setName("hivdq: Above 17 months_");
+		age.addParameter(new Parameter("effectiveDate", "effectiveDate",
+				Date.class));
+		age.setMinAge(18);
+		age.setMinAgeUnit(DurationUnit.MONTHS);
+		h.replaceCohortDefinition(age);
+
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: EID Above 17 months_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"eid",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		ccd.getSearches().put(
+				"age",
+				new Mapped(h.cohortDefinition("hivdq: Above 17 months_"), h
+						.parameterMap("effectiveDate", "${endDate}")));
+		ccd.setCompositionString("eid AND age");
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hivdq: EID Above 17 months_",
+				"hivdq: EID Above 17 months_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidage",
+				"EID Above 17 months", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidage",
+				"EID Above 17 months", i, null);
+
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: EID Above 17 months not in HIV_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"eid",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		ccd.getSearches().put(
+				"hiv",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								PROGRAM)));
+		ccd.getSearches().put(
+				"age",
+				new Mapped(h.cohortDefinition("hivdq: Above 17 months_"), h
+						.parameterMap("effectiveDate", "${endDate}")));
+		ccd.setCompositionString("eid AND age AND NOT hiv");
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hivdq: EID Above 17 months not in HIV_",
+				"hivdq: EID Above 17 months not in HIV_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidagenothiv",
+				"EID Above 17 months not in HIV", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidagenothiv",
+				"EID Above 17 months not in HIV", i, null);
+
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: EID Above 17 months in HIV_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"eid",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		ccd.getSearches().put(
+				"hiv",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								PROGRAM)));
+		ccd.getSearches().put(
+				"age",
+				new Mapped(h.cohortDefinition("hivdq: Above 17 months_"), h
+						.parameterMap("effectiveDate", "${endDate}")));
+		ccd.setCompositionString("eid AND age AND hiv");
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hivdq: EID Above 17 months in HIV_",
+				"hivdq: EID Above 17 months in HIV_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidagehiv",
+				"EID Above 17 months in HIV", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidagehiv",
+				"EID Above 17 months in HIV", i, null);
+
+		// wrong eid format
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Wrong EID identifier format_");
+		String eidFormat = "identifier NOT regexp '^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$'";
+		String sql = "select patient_id from patient_identifier "
+				+ "where identifier_type=9 and voided=0 and (" + eidFormat
+				+ ")";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		i = h.newCountIndicator("hivdq: Wrong EID identifier format_",
+				"hivdq: Wrong EID identifier format_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidformat",
+				"Wrong EID identifier format", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidformat",
+				"Wrong EID identifier format", i, null);
+
+		// unknown location
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Unknown EID locations_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		String composition = "";
+		int c = 1;
+		for (Location l : LOCATIONS.keySet()) {
+			ccd.getSearches().put(
+					"" + c,
+					new Mapped(h.cohortDefinition("hivdq: Not at location_"), h
+							.parameterMap("onDate", "${endDate}", "location",
+									l, "programs", EID_PROGRAM)));
+			composition += c + " AND ";
+			c++;
+		}
+		ccd.getSearches().put(
+				"unknown",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		composition += " unknown";
+		ccd.setCompositionString(composition);
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hivdq: Unknown EID locations_",
+				"hivdq: Unknown EID locations_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidunknown",
+				"Unknown EID locations", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidunknown",
+				"Unknown EID locations", i, null);
+
+		ProgramWorkflowState EID_STATE_FOLLOWING = EID_PROGRAM
+				.getWorkflowByName("PATIENT STATUS")
+				.getStateByName("FOLLOWING");
+		ProgramWorkflowState EID_STATE_DISCHARGED = EID_PROGRAM
+				.getWorkflowByName("PATIENT STATUS").getStateByName(
+						"DISCHARGED");
+		ProgramWorkflowState EID_STATE_ON_ART = EID_PROGRAM.getWorkflowByName(
+				"PATIENT STATUS").getStateByName("ON ANTIRETROVIRALS");
+		ProgramWorkflowState EID_STATE_TRANSFERRED_OUT = EID_PROGRAM
+				.getWorkflowByName("PATIENT STATUS").getStateByName(
+						"PATIENT TRANSFERRED OUT");
+		ProgramWorkflowState EID_STATE_DIED = EID_PROGRAM.getWorkflowByName(
+				"PATIENT STATUS").getStateByName("PATIENT DIED");
+
+		// not in relevant eid state
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName("hivdq: In relevant state_");
+		iscd.setStates(Arrays.asList(EID_STATE_FOLLOWING, EID_STATE_DISCHARGED,
+				EID_STATE_ON_ART, EID_STATE_TRANSFERRED_OUT, EID_STATE_DIED));
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		h.replaceCohortDefinition(iscd);
+
+		ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Not in relevant EID state_");
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.getSearches().put(
+				"state",
+				new Mapped(h.cohortDefinition("hivdq: In relevant state_"), h
+						.parameterMap("onDate", "${endDate}")));
+		ccd.getSearches().put(
+				"eid",
+				new Mapped(h.cohortDefinition("hivdq: In program_"), h
+						.parameterMap("onDate", "${endDate}", "programs",
+								EID_PROGRAM)));
+		ccd.setCompositionString("NOT state AND eid");
+		h.replaceCohortDefinition(ccd);
+
+		i = h.newCountIndicator("hivdq: Not in relevant EID state_",
+				"hivdq: Not in relevant EID state_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "eidstate",
+				"Not in relevant EID state", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "eidstate",
+				"Not in relevant EID state", i, null);
 
 	}
 
