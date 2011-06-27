@@ -64,7 +64,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		authenticate();
 	}
 
-	@Test
+	//@Test
 	public void appointAdherence() throws Exception {
 		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
 			    HibernatePihMalawiQueryDao.class).get(0);
@@ -92,7 +92,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		executeReportHtml(context, rds[0], null, "/tmp/by_user", "html");
 	}
 
-	// @Test
+	 @Test
 	public void run() throws Exception {
 
 		// ReportDefinition rds[] = new SetupSurvivalAnalysis(new
@@ -129,7 +129,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 
 		Helper h = new Helper();
 		Location touchscreenNno = h
-				.location("Neno District Hospital - ART Clinic (NNO)");
+				.location("_to_be_voided_Neno District Hospital - ART Clinic (NNO)");
 		Location nno = h.location("Neno District Hospital");
 		List<Location> locations = Arrays.asList(nno);
 		List<EncounterType> encounterTypes = Arrays
@@ -162,7 +162,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		if (i.hasNext()) {
 			DataSetRow dsr = i.next();
 			CohortIndicatorAndDimensionResult coadr = (CohortIndicatorAndDimensionResult) dsr
-					.getColumnValue("dup: 1");
+					.getColumnValue("entryHIV");
 			Set<Integer> ids = coadr.getCohortIndicatorResult().getCohort()
 					.getMemberIds();
 			// Set<Integer> ids = new TreeSet();
