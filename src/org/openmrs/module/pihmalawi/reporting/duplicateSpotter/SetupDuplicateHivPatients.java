@@ -139,7 +139,8 @@ public class SetupDuplicateHivPatients {
 		ecd.setOnOrAfter(onOrAfter);
 		ecd.setEncounterTypeList(Arrays.asList(h.encounterType("REGISTRATION")));
 		ecd.setLocationList(Arrays.asList(h
-				.location("Neno District Hospital - ART Clinic (NNO)")));
+				.location("_to_be_voided_Neno District Hospital - ART Clinic (NNO)"),h
+				.location("HIV Reception")));
 		h.replaceCohortDefinition(ecd);
 		CohortIndicator i = h.newCountIndicator(
 				"dup: touchscreen HIV encounter_",

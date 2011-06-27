@@ -91,7 +91,7 @@ public class DuplicateSpotterDataSetEvaluator implements DataSetEvaluator {
 			} else if (dsds.isSoundexCheck()) {
 				ps = sm.soundexMatches(p, encounterTypes, dsds.isSoundexSwapFirstLastName());
 			}
-			if (dsds.isShowSingleRecords()) {
+			if (!dsds.isShowSingleRecords() && !ps.isEmpty()) {
 				col = new DataSetColumn("#", "#", String.class);
 				row.addColumnValue(col, linkifyId(p));
 				int i = 1;
@@ -108,7 +108,7 @@ public class DuplicateSpotterDataSetEvaluator implements DataSetEvaluator {
 		return dataSet;
 	}
 
-	private final static String OPENMRS_SERVER = "http://172.16.1.2:8080";
+	private final static String OPENMRS_SERVER = "http://172.16.1.4:8080";
 
 	private String linkifyId(Patient p) {
 		return "<a href=" + OPENMRS_SERVER

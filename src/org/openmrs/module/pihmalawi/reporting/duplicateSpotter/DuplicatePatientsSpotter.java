@@ -30,7 +30,7 @@ public class DuplicatePatientsSpotter {
 		es = Context.getEncounterService();
 
 		touchscreenNno = h
-				.location("Neno District Hospital - ART Clinic (NNO)");
+				.location("_to_be_voided_Neno District Hospital - ART Clinic (NNO)");
 		nno = h.location("Neno District Hospital");
 		locations = Arrays.asList(nno);
 		encounterTypes = Arrays
