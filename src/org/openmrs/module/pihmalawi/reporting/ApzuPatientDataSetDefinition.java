@@ -46,6 +46,9 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	@ConfigurationProperty
 	Program program = null;
+
+	@ConfigurationProperty
+	private boolean includeArvNumber;
 	
 	public boolean getIncludeDefaulterActionTaken() {
 		return includeDefaulterActionTaken;
@@ -149,5 +152,13 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 
 	public void setIncludeProgramEnrollments(boolean includeProgramEnrollments) {
 		this.includeProgramEnrollments = includeProgramEnrollments;
+	}
+
+	public void setIncludeArvNumber(boolean b) {
+		this.includeArvNumber = b;
+	}
+
+	public boolean getIncludeArvNumber() {
+		return includeArvNumber;
 	}
 }

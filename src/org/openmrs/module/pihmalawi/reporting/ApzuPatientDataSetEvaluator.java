@@ -58,9 +58,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		final Concept APPOINTMENT_DATE = Context.getConceptService()
 				.getConceptByName("APPOINTMENT DATE");
 		final Concept WEIGHT = Context.getConceptService().getConceptByName(
-		"WEIGHT (KG)");
+				"WEIGHT (KG)");
 		final Concept HEIGHT = Context.getConceptService().getConceptByName(
-		"HEIGHT (CM)");
+				"HEIGHT (CM)");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
@@ -123,6 +123,10 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			}
 			c = new DataSetColumn("#", "#", String.class);
 			row.addColumnValue(c, patientLink);
+			// arvNumbers
+			if (definition.getIncludeArvNumber()) {
+				arvNumbers(p, row);
+			}
 			// given
 			c = new DataSetColumn("Given", "Given", String.class);
 			row.addColumnValue(c, p.getGivenName());
@@ -278,8 +282,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				// enrollment outcome
 				List<Encounter> es = Context.getEncounterService()
 						.getEncounters(p, null, null, endDateParameter, null,
-											definition.getEncounterTypes(), null, false);
-						obs = Context.getObsService().getObservations(
+								definition.getEncounterTypes(), null, false);
+				obs = Context.getObsService().getObservations(
 						Arrays.asList((Person) p), es, Arrays.asList(WEIGHT),
 						null, null, null, null, 1, null, null,
 						endDateParameter, false);
@@ -289,7 +293,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 					row.addColumnValue(c, (o.getValueNumeric()));
 				}
 			}
-			
+
 			if (definition.getIncludeMostRecentVitals()) {
 				// enrollment outcome
 				List<Encounter> es = Context.getEncounterService()
@@ -301,7 +305,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 						endDateParameter, false);
 				if (obs.iterator().hasNext()) {
 					Obs o = obs.iterator().next();
-					c = new DataSetColumn("Height (cm)", "Height (cm)", String.class);
+					c = new DataSetColumn("Height (cm)", "Height (cm)",
+							String.class);
 					row.addColumnValue(c, (o.getValueNumeric()));
 				}
 				obs = Context.getObsService().getObservations(
@@ -310,10 +315,13 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 						endDateParameter, false);
 				if (obs.iterator().hasNext()) {
 					Obs o = obs.iterator().next();
-					c = new DataSetColumn("Weight (kg)", "Weight (kg)", String.class);
+					c = new DataSetColumn("Weight (kg)", "Weight (kg)",
+							String.class);
 					row.addColumnValue(c, (o.getValueNumeric()));
-					c = new DataSetColumn("Vitals date", "Vitals date", String.class);
-					row.addColumnValue(c, formatEncounterDate(o.getObsDatetime()));
+					c = new DataSetColumn("Vitals date", "Vitals date",
+							String.class);
+					row.addColumnValue(c,
+							formatEncounterDate(o.getObsDatetime()));
 				}
 			}
 
@@ -331,6 +339,21 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	private void arvNumbers(Patient p, DataSetRow row) {
+		PatientIdentifierType piType = Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number");
+		String arvs = "";
+		if (piType != null) {
+			for (PatientIdentifier pi : p.getPatientIdentifiers(piType)) {
+				if (pi != null && pi.getLocation() != null) {
+					arvs += pi.getIdentifier() + " ";
+				}
+			}
+			DataSetColumn c = new DataSetColumn("ARV #", "ARV #", String.class);
+			row.addColumnValue(c, arvs);
+		}
 	}
 
 	private String formatPatientIdentifier(String id) {
@@ -372,8 +395,10 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		// chronic care additions
 		// deceased
 		c = new DataSetColumn("Status", "Status", String.class);
-		boolean deceased = (p.getDead() /* || p.getCauseOfDeath() != null || p
-				.getDeathDate() != null*/);
+		boolean deceased = (p.getDead() /*
+										 * || p.getCauseOfDeath() != null || p
+										 * .getDeathDate() != null
+										 */);
 		row.addColumnValue(c, (deceased ? "died" : "&nbsp;"));
 
 		// cc diagnosis
@@ -404,7 +429,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				PatientState ps = i.next();
 				programs += ps.getPatientProgram().getProgram().getName()
 						+ ":&nbsp;" + ps.getState().getConcept().getName()
-						+ "&nbsp;(since&nbsp;" + formatEncounterDate(ps.getStartDate()) + ") ";
+						+ "&nbsp;(since&nbsp;"
+						+ formatEncounterDate(ps.getStartDate()) + ") ";
 			}
 		}
 		row.addColumnValue(c, h(programs));
