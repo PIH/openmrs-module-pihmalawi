@@ -68,7 +68,7 @@ public class SetupAppointmentAdherence {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
 		dsd.setIncludeDefaulterActionTaken(false);
-		dsd.setIncludeMissedappointmentColumns(false);
+		dsd.setIncludeMissedAppointmentColumns(false);
 		int columns = rd.getIndicatorDataSetDefinition().getColumns().size();
 		for (int i = 1; i <= columns; i++) {
 			m.put("" + i, new Mapped<DataSetDefinition>(dsd, null));

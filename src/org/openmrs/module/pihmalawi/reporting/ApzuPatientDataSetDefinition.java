@@ -8,34 +8,46 @@ import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
+import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
 public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	private static final long serialVersionUID = 6405583324151111487L;
 	
+	@ConfigurationProperty
 	PatientIdentifierType patientIdentifierType = null;
 	
+	@ConfigurationProperty
 	Collection<EncounterType> encounterTypes = null;
 	
+	@ConfigurationProperty
 	boolean includeDefaulterActionTaken = false;
 	
+	@ConfigurationProperty
 	boolean includeMissedAppointmentColumns = true;
 
+	@ConfigurationProperty
 	boolean includeFirstVisit = false;
 	
+	@ConfigurationProperty
 	boolean includeProgramOutcome = false;
 	
+	@ConfigurationProperty
 	boolean includeWeight = false;
 	
+	@ConfigurationProperty
 	boolean includeMostRecentVitals = false;
 	
+	@ConfigurationProperty
 	boolean includeChronicCareDiagnosis = false;
 	
+	@ConfigurationProperty
 	boolean includeProgramEnrollments = false;
 	
+	@ConfigurationProperty
 	Program program = null;
 	
-	public boolean isIncludeDefaulterActionTaken() {
+	public boolean getIncludeDefaulterActionTaken() {
 		return includeDefaulterActionTaken;
 	}
 	
@@ -59,11 +71,11 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		this.patientIdentifierType = patientIdentifierType;
 	}
 	
-	public void setIncludeMissedappointmentColumns(boolean b) {
+	public void setIncludeMissedAppointmentColumns(boolean b) {
 		this.includeMissedAppointmentColumns = b;
 	}
 	
-	public boolean isIncludeMissedappointmentColumns() {
+	public boolean getIncludeMissedAppointmentColumns() {
 		return this.includeMissedAppointmentColumns;
 	}
 	
@@ -91,7 +103,7 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		return this.includeFirstVisit;
 	}
 
-	public boolean isIncludeProgramOutcome() {
+	public boolean getIncludeProgramOutcome() {
 		return includeProgramOutcome;
 	}
 	
@@ -99,7 +111,7 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		includeProgramOutcome = b;
 	}
 
-	public boolean isIncludeWeight() {
+	public boolean getIncludeWeight() {
 		return includeWeight;
 	}
 	
@@ -107,7 +119,7 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		includeWeight = b;
 	}
 
-	public boolean isIncludeMostRecentVitals() {
+	public boolean getIncludeMostRecentVitals() {
 		return includeMostRecentVitals;
 	}
 
@@ -123,7 +135,7 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		this.program = program;
 	}
 
-	public boolean isIncludeChronicCareDiagnosis() {
+	public boolean getIncludeChronicCareDiagnosis() {
 		return includeChronicCareDiagnosis;
 	}
 
@@ -131,12 +143,11 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		this.includeChronicCareDiagnosis = includeChronicCareDiagnosis;
 	}
 
-	public boolean isIncludeProgramEnrollments() {
+	public boolean getIncludeProgramEnrollments() {
 		return includeProgramEnrollments;
 	}
 
 	public void setIncludeProgramEnrollments(boolean includeProgramEnrollments) {
 		this.includeProgramEnrollments = includeProgramEnrollments;
 	}
-	
 }

@@ -54,7 +54,7 @@ public class SetupArtRegister {
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
 		dsd.setIncludeDefaulterActionTaken(false);
 		dsd.setIncludeFirstVisit(false);
-		dsd.setIncludeMissedappointmentColumns(false);
+		dsd.setIncludeMissedAppointmentColumns(false);
 		dsd.setIncludeProgramOutcome(true);
 		dsd.setIncludeWeight(true);
 		m.put("register", new Mapped<DataSetDefinition>(dsd, null));

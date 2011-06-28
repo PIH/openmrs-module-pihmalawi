@@ -142,7 +142,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			c = new DataSetColumn("M/F", "M/F", String.class);
 			row.addColumnValue(c, p.getGender());
 
-			if (definition.isIncludeProgramOutcome()) {
+			if (definition.getIncludeProgramOutcome()) {
 				// enrollment outcome
 				PatientState ps = h.getMostRecentStateAtLocation(p,
 						definition.getProgram(), locationParameter,
@@ -231,7 +231,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 
 			// columns for cross-checking
-			if (definition.isIncludeMissedappointmentColumns()) {
+			if (definition.getIncludeMissedAppointmentColumns()) {
 				// verified
 				c = new DataSetColumn("verified", "verified", String.class);
 				row.addColumnValue(c, h(""));
@@ -246,7 +246,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			}
 			// comment
 			String comment = "";
-			if (definition.isIncludeDefaulterActionTaken()) {
+			if (definition.getIncludeDefaulterActionTaken()) {
 				obs = Context.getObsService()
 						.getObservationsByPersonAndConcept(p,
 								DEFAULTER_ACTION_TAKEN);
@@ -274,7 +274,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 							+ ") ";
 				}
 			}
-			if (definition.isIncludeWeight()) {
+			if (definition.getIncludeWeight()) {
 				// enrollment outcome
 				List<Encounter> es = Context.getEncounterService()
 						.getEncounters(p, null, null, endDateParameter, null,
@@ -290,7 +290,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				}
 			}
 			
-			if (definition.isIncludeMostRecentVitals()) {
+			if (definition.getIncludeMostRecentVitals()) {
 				// enrollment outcome
 				List<Encounter> es = Context.getEncounterService()
 						.getEncounters(p, null, null, endDateParameter, null,
@@ -317,11 +317,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				}
 			}
 
-			if (definition.isIncludeChronicCareDiagnosis()) {
+			if (definition.getIncludeChronicCareDiagnosis()) {
 				chronicCare(p, row);
 			}
 
-			if (definition.isIncludeProgramEnrollments()) {
+			if (definition.getIncludeProgramEnrollments()) {
 				programEnrollments(p, row);
 			}
 

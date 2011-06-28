@@ -4,23 +4,17 @@
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
 	<name>PIH Malawi Customizations</name>
-	<version>0.6</version>
+	<version>0.7</version>
 	<package>org.openmrs.module.pihmalawi</package>
 	<author>Christian Neumann</author>
 	<description>PIH Malawi Implementation Module</description>
 	<activator>org.openmrs.module.pihmalawi.ModuleActivator</activator>
-	<require_version>1.5.2</require_version>
+	<require_version>1.5.3</require_version>
 
 	<require_modules>
 		<require_module>org.openmrs.module.reporting</require_module>
 	</require_modules>
 
-	<!-- DWR -->
-
-	<!--
-		Internationalization (All message codes should start with
-		@MODULE_ID@.*)
-	-->
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>

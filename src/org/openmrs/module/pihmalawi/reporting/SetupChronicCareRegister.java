@@ -53,7 +53,7 @@ public class SetupChronicCareRegister {
 		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
 		dsd.setIncludeDefaulterActionTaken(false);
 		dsd.setIncludeFirstVisit(false);
-		dsd.setIncludeMissedappointmentColumns(false);
+		dsd.setIncludeMissedAppointmentColumns(false);
 		dsd.setIncludeChronicCareDiagnosis(true);
 		dsd.setIncludeProgramEnrollments(true);
 		dsd.setIncludeMostRecentVitals(true);
