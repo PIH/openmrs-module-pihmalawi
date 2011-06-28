@@ -30,6 +30,7 @@ import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.DuplicatePatientsSpotter;
 import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
@@ -80,19 +81,19 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 			System.out.println(c);
 	}
 	
-//	@Test
+	@Test
 	public void executeCohortDetailRendererReport() throws Exception {
-		ReportDefinition rds[] = new SetupPreArtMissedAppointment(new Helper(),
-				true).setup();
+		ReportDefinition rds[] = new SetupChronicCareRegister(new Helper()).setup();
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("startDate", new Date());
 		context.addParameterValue("endDate", new Date());
 		context.addParameterValue("location", Context.getLocationService()
 				.getLocation(2));
-		executeReportHtml(context, rds[0], null, "/tmp/by_user", "html");
+		List<ReportDesign> designs = Context.getService(ReportService.class).getReportDesigns(rds[0], CohortDetailReportRenderer.class, false);
+		executeReportHtml(context, rds[0], designs.get(0), "/tmp/by_user", "html");
 	}
 
-	 @Test
+//	 @Test
 	public void run() throws Exception {
 
 		// ReportDefinition rds[] = new SetupSurvivalAnalysis(new
@@ -234,7 +235,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		ReportData data = rs.evaluate(report, context);
 
 		FileOutputStream fos = new FileOutputStream(filename);
-		renderer.render(data, "9b4407c6-96ef-43cf-872e-844ce738b25f:"
+		renderer.render(data, design.getUuid() + ":"
 				+ extension, fos);
 		fos.close();
 	}
