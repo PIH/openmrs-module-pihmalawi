@@ -61,9 +61,9 @@ public class SetupProgramChanges {
 				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
 						"TREATMENT STOPPED"));
 		LOCATIONS = Arrays.asList(h.location("Neno District Hospital"),
-				h.location("Magaleta HC"), h.location("Nsambe HC"),
+				h.location("Magaleta HC"), h.location("Nsambe HC"), h.location("Neno Mission HC"),
 				h.location("Lisungwi Community Hospital"),
-				h.location("Matope HC"), h.location("Chifunga HC"));
+				h.location("Matope HC"), h.location("Chifunga HC"), h.location("Zalewa HC"), h.location("Nkhula Falls RHC"));
 
 	}
 
