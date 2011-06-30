@@ -86,7 +86,7 @@ public class SetupArtRegister {
 		rd.setName("ART Register_");
 		rd.setupDataSetDefinition();
 		
-		CohortDefinition cd = ArtReportElements.everOnArtWithLocationStartedOnOrBefore(prefix);
+		CohortDefinition cd = ArtReportElements.everOnArtAtLocationStartedOnOrBefore(prefix);
 		CohortIndicator i = h.newCountIndicator(prefix + "Register_",
 				cd.getName(), h.parameterMap("location", "${location}", "startedOnOrBefore", "${endDate}"));
 		PeriodIndicatorReportUtil
