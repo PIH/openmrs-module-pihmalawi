@@ -100,8 +100,13 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			String patientLink = "";
 			// todo, don't hardcode server
 			String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
-			for (PatientIdentifier pi : p
-					.getPatientIdentifiers(patientIdentifierType)) {
+			List<PatientIdentifier> pis = null;
+			if (patientIdentifierType == null) {
+				pis = p.getActiveIdentifiers();
+			} else {
+				pis = p.getPatientIdentifiers(patientIdentifierType);
+			}
+			for (PatientIdentifier pi : pis) {
 				String link = "<a href="
 						+ url
 						+ "/patientDashboard.form?patientId="
