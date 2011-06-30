@@ -1,17 +1,24 @@
 package org.openmrs.module.pihmalawi.reporting.repository;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.PatientSetService.TimeModifier;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
@@ -20,15 +27,30 @@ public class ArtReportElements {
 	
 	static Helper h = new Helper();
 
-	public static CohortDefinition onArtWithLocationOnDate(String prefix) {
-		// In state at location
-//		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
-//		islcd.setName(prefix + ": In state at location_");
-//		islcd.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
-//		islcd.addParameter(new Parameter("onDate", "endDate", Date.class));
-//		islcd.addParameter(new Parameter("location", "location", Location.class));
-//		h.replaceCohortDefinition(islcd);
-		
+	public static List<List<Location>> hivLocations() {
+		return Arrays.asList(
+				Arrays.asList(h.location("Neno District Hospital"),
+						h.location("Ligowe HC"), h.location("Outpatient"),
+						h.location("Registration"), h.location("Vitals"),
+						h.location("Matandani Rural Health Center")),
+				Arrays.asList(h.location("Magaleta HC")),
+				Arrays.asList(h.location("Nsambe HC")),
+				Arrays.asList(h.location("Lisungwi Community Hospital"),
+						h.location("Midzemba HC")),
+				Arrays.asList(h.location("Chifunga HC")),
+				Arrays.asList(h.location("Matope HC")),
+				Arrays.asList(h.location("Neno Mission HC")),
+				Arrays.asList(h.location("Nkhula Falls RHC")),
+				Arrays.asList(h.location("Zalewa HC")));
+	}
+	
+	public static List<EncounterType> hivEncounterTypes() {
+		return Arrays.asList(h.encounterType("ART_INITIAL"), h.encounterType("ART_FOLLOWUP"),
+				h.encounterType("PART_INITIAL"), h.encounterType("PART_FOLLOWUP"), h.encounterType("EID_INITIAL"),
+				h.encounterType("EID_FOLLOWUP"));
+	}
+	
+	public static CohortDefinition onArtAtLocationOnDate(String prefix) {
 		// On ART at end of period
 		InStateAtLocationCohortDefinition iscd = new InStateAtLocationCohortDefinition();
 		iscd.setName(prefix + ": On ART with location & date_");
@@ -42,7 +64,7 @@ public class ArtReportElements {
 		return iscd;
 	}
 
-	public static CohortDefinition everOnArtWithLocationStartedOnOrBefore(String prefix) {
+	public static CohortDefinition everOnArtAtLocationStartedOnOrBefore(String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Having state at location_");
 		pscd.setState(h.workflowState("HIV PROGRAM", "TREATMENT STATUS", "ON ANTIRETROVIRALS"));
@@ -51,6 +73,7 @@ public class ArtReportElements {
 		h.replaceCohortDefinition(pscd);
 		return pscd;
 	}
+	
 	public static void a(String prefix) {
 		// GENERIC
 		// In state at location
@@ -78,9 +101,6 @@ public class ArtReportElements {
 		scd.addParameter(new Parameter("state", "State", ProgramWorkflowState.class));
 		h.replaceCohortDefinition(scd);
 		
-
-		
-		
 		// SPECIFIC
 		// Ever On Art at location with state
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
@@ -102,4 +122,5 @@ public class ArtReportElements {
 		h.replaceCohortDefinition(cd);
 
 	}
+
 }

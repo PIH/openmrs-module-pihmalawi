@@ -653,4 +653,8 @@ public class Helper {
 		}
 		return allStates;
 	}
+
+	public Concept concept(String string) {
+		return Context.getConceptService().getConcept("APPOINTMENT DATE");
+	}
 }
