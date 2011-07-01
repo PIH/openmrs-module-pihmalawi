@@ -15,9 +15,11 @@ import org.openmrs.Program;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -51,6 +53,8 @@ public class SetupGenericMissedAppointment {
 
 	protected Location location5 = null;
 
+	protected Location location6 = null;
+
 	protected boolean includeDefaulterActionTaken = false;
 
 	public SetupGenericMissedAppointment(Helper helper) {
@@ -72,7 +76,7 @@ public class SetupGenericMissedAppointment {
 
 	protected void configure(String reportName, String reportTag,
 			Program program, Location location1, Location location2,
-			Location location3, Location location4, Location location5, boolean includeDefaulterActionTaken) {
+			Location location3, Location location4, Location location5, Location location6, boolean includeDefaulterActionTaken) {
 		this.reportName = reportName;
 		this.reportTag = reportTag;
 		this.program = program;
@@ -81,6 +85,7 @@ public class SetupGenericMissedAppointment {
 		this.location3 = location3;
 		this.location4 = location4;
 		this.location5 = location5;
+		this.location6 = location6;
 		this.includeDefaulterActionTaken = includeDefaulterActionTaken;
 	}
 
@@ -126,6 +131,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc6", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc6", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc6", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -154,6 +162,9 @@ public class SetupGenericMissedAppointment {
 		m.put("3msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("8msdloc5", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("12msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("3msdloc6", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("8msdloc6", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("12msdloc6", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 
@@ -186,6 +197,8 @@ public class SetupGenericMissedAppointment {
 		m.put("2msdloc4", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noapploc5", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("2msdloc5", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noapploc6", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("2msdloc6", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
@@ -298,6 +311,14 @@ public class SetupGenericMissedAppointment {
 			md.addCohortDefinition("loc5",
 					h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
 		}
+		if (location6 != null) {
+			m2 = new HashMap<String, Object>();
+			m2.put("program", program);
+			m2.put("endDate", "${endDate}");
+			m2.put("location", location6);
+			md.addCohortDefinition("loc6",
+					h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
+		}
 		h.replaceDimensionDefinition(md);
 	}
 
@@ -395,6 +416,17 @@ public class SetupGenericMissedAppointment {
 		scd.addParameter(new Parameter("location", "Location", Location.class));
 		scd.addParameter(new Parameter("program", "Program", Program.class));
 		h.replaceCohortDefinition(scd);
+		
+		AgeCohortDefinition acd = new AgeCohortDefinition();
+		// there clearly is a more efficient way...
+		acd.setName(reportTag + ": intentionally empty_");
+		acd.setMinAge(1000);
+		acd.setMinAgeUnit(DurationUnit.YEARS);
+		h.replaceCohortDefinition(acd);
+		h.newCountIndicator(reportTag
+				+ ": intentionally empty_", reportTag
+				+ ": intentionally empty_",
+				"");
 	}
 
 	public void deleteReportElements() {
@@ -459,12 +491,33 @@ public class SetupGenericMissedAppointment {
 					displayNamePrefix + " (Location 4)",
 					h.cohortIndicator(reportTag + ": " + indicator),
 					h.hashMap("Location", "loc4"));
+		} else {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc4",
+					displayNamePrefix + " (Location 4)",
+					h.cohortIndicator(reportTag + ": intentionally empty_"),
+					h.hashMap());
 		}
 		if (location5 != null) {
 			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc5",
 					displayNamePrefix + " (Location 5)",
 					h.cohortIndicator(reportTag + ": " + indicator),
 					h.hashMap("Location", "loc5"));
+		} else {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc5",
+					displayNamePrefix + " (Location 5)",
+					h.cohortIndicator(reportTag + ": intentionally empty_"),
+					h.hashMap());
+		}
+		if (location6 != null) {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc6",
+					displayNamePrefix + " (Location 6)",
+					h.cohortIndicator(reportTag + ": " + indicator),
+					h.hashMap("Location", "loc6"));
+		} else {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc6",
+					displayNamePrefix + " (Location 6)",
+					h.cohortIndicator(reportTag + ": intentionally empty_"),
+					h.hashMap());
 		}
 	}
 }

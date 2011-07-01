@@ -52,6 +52,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 							Context.getLocationService().getLocation("Matope HC"),
 							Context.getLocationService().getLocation("Zalewa HC"),
 							Context.getLocationService().getLocation("Nkhula Falls RHC"),
+							null,
 					false);
 		}
 	}

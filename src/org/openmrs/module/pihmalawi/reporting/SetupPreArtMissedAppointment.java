@@ -36,11 +36,11 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 					"partappt",
 					Context.getProgramWorkflowService().getProgramByName(
 							"HIV PROGRAM"),
-					Context.getLocationService().getLocation(
+							Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
-					Context.getLocationService().getLocation("Nsambe HC"), 
-					Context.getLocationService().getLocation("Neno Mission HC"),
+							Context.getLocationService().getLocation("Nsambe HC"),
+							Context.getLocationService().getLocation("Neno Mission HC"),
 					true);
 		} else {
 			configure(
@@ -48,12 +48,13 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 					"partappt",
 					Context.getProgramWorkflowService().getProgramByName(
 							"HIV PROGRAM"),
-					Context.getLocationService().getLocation(
-							"Lisungwi Community Hospital"), 
-							Context.getLocationService().getLocation("Chifunga HC"),
+							Context.getLocationService().getLocation(
+							"Lisungwi Community Hospital"), Context
+							.getLocationService().getLocation("Chifunga HC"),
 							Context.getLocationService().getLocation("Matope HC"),
 							Context.getLocationService().getLocation("Zalewa HC"),
 							Context.getLocationService().getLocation("Nkhula Falls RHC"),
+							null,
 					true);
 
 		}
