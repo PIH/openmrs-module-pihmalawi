@@ -53,6 +53,7 @@ public class SetupChronicCareMissedAppointment extends
 		properties.put("loc3name", "(unused)");
 		properties.put("loc4name", "(unused)");
 		properties.put("loc5name", "(unused)");
+		properties.put("loc6name", "(unused)");
 		return properties;
 	}
 
@@ -96,9 +97,9 @@ public class SetupChronicCareMissedAppointment extends
 //		h.replaceCohortDefinition(iscd);
 		
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
-//		ecd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		ecd.addParameter(ReportingConstants.LOCATION_PARAMETER);
 		ecd.addParameter(new Parameter("onDate", "onDate", Date.class));
-		ecd.addParameter(new Parameter("locationList", "locationList", List.class));
+//		ecd.addParameter(new Parameter("locationList", "locationList", List.class));
 		ecd.setName(reportTag + ": In CC_");
 		ecd.setEncounterTypeList(ENCOUNTER_TYPES);
 		h.replaceCohortDefinition(ecd);
@@ -113,18 +114,33 @@ public class SetupChronicCareMissedAppointment extends
 		md.addParameter(new Parameter("location", "Location", Location.class));
 		Map<String, Object> m2 = new HashMap<String, Object>();
 		m2.put("onDate", "${endDate}");
-		m2.put("locationList", Arrays.asList(location1));
+//		m2.put("locationList", Arrays.asList(location1));
 		md.addCohortDefinition("loc1",
 				h.cohortDefinition(reportTag + ": In CC_"), m2);
 		m2 = new HashMap<String, Object>();
 		m2.put("onDate", "${endDate}");
-		m2.put("locationList", Arrays.asList(location2));
+//		m2.put("locationList", Arrays.asList(location2));
 		md.addCohortDefinition("loc2",
 				h.cohortDefinition(reportTag + ": In CC_"), m2);
 		m2 = new HashMap<String, Object>();
 		m2.put("onDate", "${endDate}");
-		m2.put("locationList", Arrays.asList(location3));
+//		m2.put("locationList", Arrays.asList(location3));
 		md.addCohortDefinition("loc3",
+				h.cohortDefinition(reportTag + ": In CC_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("onDate", "${endDate}");
+//		m2.put("locationList", Arrays.asList(location4));
+		md.addCohortDefinition("loc4",
+				h.cohortDefinition(reportTag + ": In CC_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("onDate", "${endDate}");
+//		m2.put("locationList", Arrays.asList(location5));
+		md.addCohortDefinition("loc5",
+				h.cohortDefinition(reportTag + ": In CC_"), m2);
+		m2 = new HashMap<String, Object>();
+		m2.put("onDate", "${endDate}");
+//		m2.put("locationList", Arrays.asList(location6));
+		md.addCohortDefinition("loc6",
 				h.cohortDefinition(reportTag + ": In CC_"), m2);
 		h.replaceDimensionDefinition(md);
 	}
