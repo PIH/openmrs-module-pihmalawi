@@ -12,6 +12,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
@@ -196,36 +197,14 @@ public class SetupHivWeeklyOutcome {
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
 		md.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		md.addParameter(new Parameter("location", "Location", Location.class));
+		
+		for (Location l : ArtReportElements.hivStaticLocations()) {
 		Map<String, Object> m2 = new HashMap<String, Object>();
 		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
 		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Neno District Hospital"));
-		md.addCohortDefinition("Neno", h.cohortDefinition("hiv: Enrolled in program_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Nsambe HC"));
-		md.addCohortDefinition("Nsambe", h.cohortDefinition("hiv: Enrolled in program_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
-		md.addCohortDefinition("Magaleta", h.cohortDefinition("hiv: Enrolled in program_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Lisungwi Community Hospital"));
-		md.addCohortDefinition("Lisungwi", h.cohortDefinition("hiv: Enrolled in program_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Matope HC"));
-		md.addCohortDefinition("Matope", h.cohortDefinition("hiv: Enrolled in program_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Chifunga HC"));
-		md.addCohortDefinition("Chifunga", h.cohortDefinition("hiv: Enrolled in program_"), m2);
+		m2.put("location", l);
+		md.addCohortDefinition(l.getName(), h.cohortDefinition("hiv: Enrolled in program_"), m2);
+		}
 		h.replaceDefinition(md);
 		
 		// Ever enrolled in program at location as of end date
@@ -246,36 +225,14 @@ public class SetupHivWeeklyOutcome {
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
 		md.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		md.addParameter(new Parameter("location", "Location", Location.class));
-		m2 = new HashMap<String, Object>();
+		
+		for (Location l : ArtReportElements.hivStaticLocations()) {
+			Map<String, Object> m2 = new HashMap<String, Object>();
 		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
 		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Neno District Hospital"));
-		md.addCohortDefinition("Neno", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Nsambe HC"));
-		md.addCohortDefinition("Nsambe", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Magaleta HC"));
-		md.addCohortDefinition("Magaleta", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Lisungwi Community Hospital"));
-		md.addCohortDefinition("Lisungwi", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Matope HC"));
-		md.addCohortDefinition("Matope", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
-		m2 = new HashMap<String, Object>();
-		m2.put("program", Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM"));
-		m2.put("endDate", "${endDate}");
-		m2.put("location", Context.getLocationService().getLocation("Chifunga HC"));
-		md.addCohortDefinition("Chifunga", h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
+		m2.put("location", l);
+		md.addCohortDefinition(l.getName(), h.cohortDefinition("hiv: Ever enrolled in program at location_"), m2);
+		}
 		h.replaceDefinition(md);
 	}
 
@@ -323,44 +280,14 @@ public class SetupHivWeeklyOutcome {
 	}
 	
 	private void newCountIndicatorForLocationsWithState(String namePrefix, String cohort, ProgramWorkflowState state) {
-		h.newCountIndicator(namePrefix + " (Neno)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Neno)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Nsambe HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Neno)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Neno District Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Magaleta)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Magaleta HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Nsambe)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Nsambe HC"), "state", state));
-
-		h.newCountIndicator(namePrefix + " (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Lisungwi Community Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " (Matope)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Matope HC"), "state", state));
-		h.newCountIndicator(namePrefix + " (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate}", "location", h
-		        .location("Chifunga HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Lisungwi Community Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Matope)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Matope HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 1 week ago (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate-1w}",
-		    "location", h.location("Chifunga HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Lisungwi)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Lisungwi Community Hospital"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Matope)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Matope HC"), "state", state));
-		h.newCountIndicator(namePrefix + " 2 weeks ago (Chifunga)_", cohort, h.parameterMap("onDate", "${endDate-2w}",
-		    "location", h.location("Chifunga HC"), "state", state));
-}
+		for (Location l : ArtReportElements.hivStaticLocations()) {
+		h.newCountIndicator(namePrefix + " (" + l.getName() + ")_", cohort, h.parameterMap("onDate", "${endDate}", "location", l, "state", state));
+		h.newCountIndicator(namePrefix + " 1 week ago (" + l.getName() + ")_", cohort, h.parameterMap("onDate", "${endDate-1w}",
+		    "location", l, "state", state));
+		h.newCountIndicator(namePrefix + " 2 weeks ago (" + l.getName() + ")_", cohort, h.parameterMap("onDate", "${endDate-2w}",
+		    "location", l, "state", state));
+		}
+	}
 	
 	private void createCohortDefinitions() {
 		// In state
@@ -487,39 +414,18 @@ public class SetupHivWeeklyOutcome {
 	
 	private void addColumnForLocations(PeriodIndicatorReportDefinition rd, String displayNamePrefix, String indicator,
 	                                   String indicatorKey) {
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " (Neno)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Neno"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " (Magaleta)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Magaleta"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Nsambe"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " (Lisungwi)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Lisungwi"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " (Matope)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Matope"));
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " (Chifunga)", h
-		        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", "Chifunga"));
+		for (Location l : ArtReportElements.hivStaticLocations()) {
+			PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + ArtReportElements.hivSiteCode(l), displayNamePrefix + " (" + l.getName() + ")", h
+			        .cohortIndicator("hiv: " + indicator), h.hashMap("Location", l.getName()));
+		}
 	}
 	
 	private void addColumnForLocationsWithState(PeriodIndicatorReportDefinition rd, String displayNamePrefix,
 	                                            String indicatorFragment, String indicatorKey) {
-		CohortIndicator cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Neno)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "ndh", displayNamePrefix + " (Neno)",
+		for (Location l : ArtReportElements.hivStaticLocations()) {
+		CohortIndicator cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (" + l.getName() + ")_");
+		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + ArtReportElements.hivSiteCode(l), displayNamePrefix + " (" + l.getName() + ")",
 		    cohortIndicator, null);
-		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Magaleta)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mgt", displayNamePrefix + " (Magaleta)",
-		    cohortIndicator, null);
-		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Nsambe)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "nsm", displayNamePrefix + " (Nsambe)",
-		    cohortIndicator, null);
-		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Lisungwi)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "lsi", displayNamePrefix + " (Lisungwi)",
-		    cohortIndicator, null);
-		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Matope)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "mte", displayNamePrefix + " (Matope)",
-		    cohortIndicator, null);
-		cohortIndicator = h.cohortIndicator("hiv: " + indicatorFragment + " (Chifunga)_");
-		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "cfa", displayNamePrefix + " (Chifunga)",
-		    cohortIndicator, null);
+		}
 	}
 }
