@@ -505,7 +505,7 @@ public class SetupHivDataQuality {
 
 		// not in relevant hiv state
 		iscd = new InStateCohortDefinition();
-		iscd.setName("hivdq: In relevant state_");
+		iscd.setName("hivdq: In relevant HIV state_");
 		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
 				STATE_FOLLOWING));
@@ -517,7 +517,7 @@ public class SetupHivDataQuality {
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
 				"state",
-				new Mapped(h.cohortDefinition("hivdq: In relevant state_"), h
+				new Mapped(h.cohortDefinition("hivdq: In relevant HIV state_"), h
 						.parameterMap("onDate", "${endDate}")));
 		ccd.getSearches().put(
 				"hiv",
@@ -777,7 +777,7 @@ public class SetupHivDataQuality {
 
 		// not in relevant eid state
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName("hivdq: In relevant state_");
+		iscd.setName("hivdq: In relevant EID state_");
 		iscd.setStates(Arrays.asList(EID_STATE_FOLLOWING, EID_STATE_DISCHARGED,
 				EID_STATE_ON_ART, EID_STATE_TRANSFERRED_OUT, EID_STATE_DIED));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
@@ -788,7 +788,7 @@ public class SetupHivDataQuality {
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
 				"state",
-				new Mapped(h.cohortDefinition("hivdq: In relevant state_"), h
+				new Mapped(h.cohortDefinition("hivdq: In relevant EID state_"), h
 						.parameterMap("onDate", "${endDate}")));
 		ccd.getSearches().put(
 				"eid",
