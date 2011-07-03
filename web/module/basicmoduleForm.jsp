@@ -74,6 +74,11 @@ Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareappadherence.form">Remove</a>
 <br/>
 
+<h3>General</h3>
+Appointments for Location and Date: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_appointments.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_appointments.form">Remove</a>
+<br/>
+
 <h3>Everything</h3>
 All reports: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_all.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_all.form">Remove</a>

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.SetupAppointmentAdherence;
+import org.openmrs.module.pihmalawi.reporting.SetupAppointmentsForLocation;
 import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
@@ -206,6 +207,18 @@ public class PihReportFormController {
 				.setup();
 	}
 
+	@RequestMapping("/module/pihmalawi/remove_appointments.form")
+	public void removeAppointments() {
+		new SetupAppointmentsForLocation(new Helper())
+				.delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_appointments.form")
+	public void registerAppointments() throws Exception {
+		new SetupAppointmentsForLocation(new Helper())
+				.setup();
+	}
+
 	@RequestMapping("/module/pihmalawi/remove_all.form")
 	public void removeAll() {
 		removeArtAppAdherence();
@@ -224,6 +237,7 @@ public class PihReportFormController {
 		removePreArtMissedAppointmentLowerNeno();
 		removePreArtWeekly();
 		removeWeeklyEncounter();
+		removeAppointments();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_all.form")
@@ -244,6 +258,7 @@ public class PihReportFormController {
 //		registerPreArtMissedAppointmentLowerNeno();
 		registerPreArtWeekly();
 		registerWeeklyEncounter();
+		registerAppointments();
 	}
 
 }
