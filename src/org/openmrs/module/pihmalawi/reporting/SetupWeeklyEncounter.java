@@ -69,11 +69,11 @@ public class SetupWeeklyEncounter {
 						h.location("Matandani Rural Health Center")),
 				Arrays.asList(h.location("Magaleta HC")),
 				Arrays.asList(h.location("Nsambe HC")),
+				Arrays.asList(h.location("Neno Mission HC")),
 				Arrays.asList(h.location("Lisungwi Community Hospital"),
 						h.location("Midzemba HC")),
 				Arrays.asList(h.location("Chifunga HC")),
 				Arrays.asList(h.location("Matope HC")),
-				Arrays.asList(h.location("Neno Mission HC")),
 				Arrays.asList(h.location("Nkhula Falls RHC")),
 				Arrays.asList(h.location("Zalewa HC")));
 

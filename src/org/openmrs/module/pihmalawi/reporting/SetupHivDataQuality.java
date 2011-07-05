@@ -1,11 +1,15 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
@@ -26,6 +30,7 @@ import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.SetComparator;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -502,6 +507,8 @@ public class SetupHivDataQuality {
 				"Following with art number", i, null);
 
 		onArtWithoutEncounter(rd);
+		
+		followupWithoutInitialEncounter(rd);
 
 		// not in relevant hiv state
 		iscd = new InStateCohortDefinition();
@@ -598,6 +605,69 @@ public class SetupHivDataQuality {
 				h.location("Nkhula Falls RHC"), "NKA");
 
 		intermediateEid(rd);
+	}
+
+	private void followupWithoutInitialEncounter(PeriodIndicatorReportDefinition[] rd) {
+			EncounterCohortDefinition ecd = new EncounterCohortDefinition();
+			ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+			ecd.addParameter(new Parameter("encounterTypeList", "encounterTypeList", EncounterType.class));
+			ecd.setName("hivdq: With encounter_");
+			ecd.setTimeQualifier(TimeQualifier.FIRST);
+			h.replaceCohortDefinition(ecd);
+
+			CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+			ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+			ccd.setName("hivdq: Followup without Initial_");
+			ccd.getSearches().put(
+					"artFollowup",
+					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
+							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("ART_FOLLOWUP")))));
+			ccd.getSearches().put(
+					"artInitial",
+					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
+							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("ART_INITIAL")))));
+			ccd.setCompositionString("artFollowup AND NOT artInitial");
+			h.replaceCohortDefinition(ccd);
+			CohortIndicator i = h.newCountIndicator(
+					"hivdq: Followup without Initial_",
+					"hivdq: Followup without Initial_",
+					h.parameterMap("endDate", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd[0], "noinitial",
+					"Followup without Initial", i, null);
+			PeriodIndicatorReportUtil.addColumn(rd[1], "noinitial",
+					"Followup without Initial", i, null);
+
+			ccd = new CompositionCohortDefinition();
+			ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+			ccd.setName("hivdq: Pre-ART Followup without Initial_");
+			ccd.getSearches().put(
+					"partFollowup",
+					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
+							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("PART_FOLLOWUP")))));
+			ccd.getSearches().put(
+					"partInitial",
+					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
+							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("PART_INITIAL")))));
+			ccd.setCompositionString("partFollowup AND NOT partInitial");
+			h.replaceCohortDefinition(ccd);
+			 i = h.newCountIndicator(
+					"hivdq: Pre-ART Followup without Initial_",
+					"hivdq: Pre-ART Followup without Initial_",
+					h.parameterMap("endDate", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd[0], "partnoinitial",
+					"Pre-ART Followup without Initial", i, null);
+			PeriodIndicatorReportUtil.addColumn(rd[1], "partnoinitial",
+					"Pre-ART Followup without Initial", i, null);
+}
+
+	private Date date(String string) {
+		DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			return dfm.parse(string);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private void intermediateEid(PeriodIndicatorReportDefinition[] rd) {
