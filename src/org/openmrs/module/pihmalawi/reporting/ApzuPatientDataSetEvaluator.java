@@ -44,7 +44,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	Helper h = new Helper();
+	protected Helper h = new Helper();
 
 	public ApzuPatientDataSetEvaluator() {
 	}
@@ -340,10 +340,16 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 			c = new DataSetColumn("comment", "comment", String.class);
 			row.addColumnValue(c, h(comment));
+			
+			additionalColumns(p, row, locationParameter, endDateParameter);
 
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	protected void additionalColumns(Patient p, DataSetRow row, Location locationParameter, Date endDateParameter) {
+		// template method, empty by intention
 	}
 
 	private void arvNumbers(Patient p, DataSetRow row) {
@@ -441,11 +447,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		row.addColumnValue(c, h(programs));
 	}
 
-	private String formatEncounterDate(Date encounterDatetime) {
+	protected String formatEncounterDate(Date encounterDatetime) {
 		return new SimpleDateFormat("yyyy-MM-dd").format(encounterDatetime);
 	}
 
-	private String h(String s) {
+	protected String h(String s) {
 		return ("".equals(s) || s == null ? "&nbsp;" : s);
 	}
 

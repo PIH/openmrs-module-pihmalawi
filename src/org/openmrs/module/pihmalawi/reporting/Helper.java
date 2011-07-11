@@ -655,6 +655,6 @@ public class Helper {
 	}
 
 	public Concept concept(String string) {
-		return Context.getConceptService().getConcept("APPOINTMENT DATE");
+		return Context.getConceptService().getConcept(string);
 	}
 }

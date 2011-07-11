@@ -2,16 +2,19 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -50,7 +53,7 @@ public class SetupKSRegister {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
-		ApzuPatientDataSetDefinition dsd = new ApzuPatientDataSetDefinition();
+		ApzuKsPatientDataSetDefinition dsd = new ApzuKsPatientDataSetDefinition();
 		dsd.setIncludeDefaulterActionTaken(false);
 		dsd.setIncludeFirstVisit(false);
 		dsd.setIncludeMissedAppointmentColumns(false);
@@ -83,17 +86,17 @@ public class SetupKSRegister {
 	private ReportDefinition createReportDefinition() {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
 		rd.setName("KS Register_");
 		rd.setupDataSetDefinition();
 
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
-		ecd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		ecd.addParameter(new Parameter("locationList", "location", Location.class));
+		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		ecd.setName("ks: Register_");
 		ecd.setEncounterTypeList(ENCOUNTER_TYPES);
 		h.replaceCohortDefinition(ecd);
 		CohortIndicator i = h.newCountIndicator("ks: Register_",
-				"ks: Register_", h.parameterMap("location", "${location}"));
+				"ks: Register_", h.parameterMap("locationList", "${location}", "onOrBefore", "${endDate}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "register", "Register", i, null);
 
