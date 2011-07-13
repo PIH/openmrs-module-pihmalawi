@@ -112,7 +112,6 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 
 	public void additionalColumns(Patient p, DataSetRow row, Location location,
 			Date endDate) {
-		// init();
 		exportAllEncountersAndObs(p, row, location, endDate,
 				h.encounterType("PATIENT EVALUATION"), MAX_EVALUATIONS,
 				EVALUATION_CONCEPTS);
@@ -147,27 +146,27 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 			row.addColumnValue(col, value);
 
 			for (Concept c : encounterConcepts) {
-				try {
-					value = "";
+					value = "<empty>";
 					String label = c.getName().getName() + "_" + encounterCount + "_" + encounterType.getName();
 					col = new DataSetColumn(label, label, String.class);
+				try {
 					if (e != null) {
 						List<Obs> os = obs(e, c, location, endDate);
 						for (Obs o : os) {
 							value += o.getValueAsString(Context.getLocale()) + " ";
 						}
 					}
-					row.addColumnValue(col, h(value));
 				} catch (Throwable t) {
-					t.printStackTrace();
+					log.error(t);
 				}
+				row.addColumnValue(col, h(value));
 			}
 		}
 	}
 
 	private List<Obs> obs(Encounter e, Concept concept, Location location, Date endDate) {
 		List<Obs> obs = Context.getObsService().getObservations(null,
-				Arrays.asList(e), Arrays.asList(concept), null, null, Arrays.asList(location),
+				Arrays.asList(e), Arrays.asList(concept), null, null, null,
 				null, null, null, null, endDate, false);
 		return obs;
 	}
