@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -17,9 +18,11 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -40,6 +43,8 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 	private final static long MILLISECONDS_PER_WEEK = (long) 7 * 24 * 60 * 60
 			* 1000;
 
+	private final static int WEEKS_MISSED_bUT_STILL_CONSIDERED_IN_CARE = 3;
+	
 	public ApzuAppointmentAdherencePatientDataSetEvaluator() {
 	}
 
@@ -121,6 +126,16 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			// village
 			c = new DataSetColumn("Village", "Village", String.class);
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
+			// enrollment outcome
+			PatientState ps = new Helper().getMostRecentStateAtLocation(p,
+					new Helper().program("HIV PROGRAM"), location,
+					sessionFactory().getCurrentSession());
+			c = new DataSetColumn("Outcome", "Outcome", String.class);
+			row.addColumnValue(c, ps.getState().getConcept().getName()
+					.getName());
+			c = new DataSetColumn("Outcome Date", "Outcome Date",
+					String.class);
+			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
 
 			// app adherence
 			List<Encounter> es = Context.getEncounterService().getEncounters(p,
@@ -137,16 +152,18 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			int missedBy4Weeks = 0;
 			int missedBy8Weeks = 0;
 			int missedMoreThan8Weeks = 0;
+			int weeksMissedInCare = 0;
+			int weeksConsideredEnrolled = -1;
 
 			for (int appointments = obses.size() - 1; appointments > 0; appointments--) {
 
-				Date dayAfterEncounterDate = DateUtil.getEndOfDay(obses.get(appointments).getEncounter().getEncounterDatetime());
-				Date dayAfterNextAppointmentDate = DateUtil.getEndOfDay(obses.get(appointments).getValueDatetime());
-				Date dayAfterNextAppointmentDateBuffer1Week = addWeeks(DateUtil.getEndOfDay(dayAfterNextAppointmentDate), 1);
-				Date dayAfterNextAppointmentDateBuffer2Weeks = addWeeks(DateUtil.getEndOfDay(dayAfterNextAppointmentDate), 2);
-				Date dayAfterNextAppointmentDateBuffer3Weeks = addWeeks(DateUtil.getEndOfDay(dayAfterNextAppointmentDate), 3);
-				Date dayAfterNextAppointmentDateBuffer4Weeks = addWeeks(DateUtil.getEndOfDay(dayAfterNextAppointmentDate), 4);
-				Date dayAfterNextAppointmentDateBuffer8Weeks = addWeeks(DateUtil.getEndOfDay(dayAfterNextAppointmentDate), 8);
+				Date dayAfterEncounterDate = startOfNextDay(obses.get(appointments).getEncounter().getEncounterDatetime());
+				Date dayAfterNextAppointmentDate = startOfNextDay(obses.get(appointments).getValueDatetime());
+				Date dayAfterNextAppointmentDateBuffer1Week = addWeeks(startOfNextDay(dayAfterNextAppointmentDate), 1);
+				Date dayAfterNextAppointmentDateBuffer2Weeks = addWeeks(startOfNextDay(dayAfterNextAppointmentDate), 2);
+				Date dayAfterNextAppointmentDateBuffer3Weeks = addWeeks(startOfNextDay(dayAfterNextAppointmentDate), 3);
+				Date dayAfterNextAppointmentDateBuffer4Weeks = addWeeks(startOfNextDay(dayAfterNextAppointmentDate), 4);
+				Date dayAfterNextAppointmentDateBuffer8Weeks = addWeeks(startOfNextDay(dayAfterNextAppointmentDate), 8);
 
 				if (visitHappened(p, location, dayAfterEncounterDate,
 						dayAfterNextAppointmentDate, ets)) {
@@ -169,27 +186,82 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 				} else {
 					missedMoreThan8Weeks++;
 				}
+				
+				long delta = weeksDifference(dayAfterNextAppointmentDate, nextVisit(p, location, dayAfterEncounterDate, ets));
+				log("p", p.getId(), "delta", delta, "dayAfterEncounterDate", dayAfterEncounterDate, "dayafternextappotdate", dayAfterNextAppointmentDate, "nextVisit", nextVisit(p, location, dayAfterEncounterDate, ets));
+				
+				if (delta >= WEEKS_MISSED_bUT_STILL_CONSIDERED_IN_CARE) {
+					weeksMissedInCare += delta;
+				}
 			}
+			if (es.size() > 1) {
+				weeksConsideredEnrolled = (int) weeksDifference(es.get(0).getEncounterDatetime(), es.get(es.size()-1).getEncounterDatetime());
+			} else {
+				weeksConsideredEnrolled = 0;
+			}
+			c = new DataSetColumn("weeksConsideredEnrolled", "weeksConsideredEnrolled", String.class);
+			row.addColumnValue(c, weeksConsideredEnrolled);
+			c = new DataSetColumn("weeksMissedInCare", "weeksMissedInCare", String.class);
+			row.addColumnValue(c, weeksMissedInCare);
+			c = new DataSetColumn("%weeksMissedInCare", "%weeksMissedInCare", String.class);
+			row.addColumnValue(c, indicator(weeksMissedInCare, weeksConsideredEnrolled));
+
 			c = new DataSetColumn("consideredvisits", "consideredvisits", String.class);
 			row.addColumnValue(c, visits);
 			c = new DataSetColumn("ontime", "ontime", String.class);
 			row.addColumnValue(c, indicator(visitOnTime, visits));
+			c = new DataSetColumn("%ontime", "%ontime", String.class);
+			row.addColumnValue(c, indicator(visitOnTime, visits));
+			
 			c = new DataSetColumn("missedBy1Week", "missedBy1Week", String.class);
+			row.addColumnValue(c, missedBy1Week);
+			c = new DataSetColumn("%missedBy1Week", "%missedBy1Week", String.class);
 			row.addColumnValue(c, indicator(missedBy1Week, visits));
+			
 			c = new DataSetColumn("missedBy2Weeks", "missedBy2Weeks", String.class);
+			row.addColumnValue(c, missedBy2Weeks);
+			c = new DataSetColumn("%missedBy2Weeks", "%missedBy2Weeks", String.class);
 			row.addColumnValue(c, indicator(missedBy2Weeks, visits));
+			
 			c = new DataSetColumn("missedBy3Weeks", "missedBy3Weeks", String.class);
+			row.addColumnValue(c, missedBy3Weeks);
+			c = new DataSetColumn("%missedBy3Weeks", "%missedBy3Weeks", String.class);
 			row.addColumnValue(c, indicator(missedBy3Weeks, visits));
+			
 			c = new DataSetColumn("missedBy4Weeks", "missedBy4Weeks", String.class);
+			row.addColumnValue(c, missedBy4Weeks);
+			c = new DataSetColumn("%missedBy4Weeks", "%missedBy4Weeks", String.class);
 			row.addColumnValue(c, indicator(missedBy4Weeks, visits));
+			
 			c = new DataSetColumn("missedBy8Weeks", "missedBy8Weeks", String.class);
+			row.addColumnValue(c, missedBy8Weeks);
+			c = new DataSetColumn("%missedBy8Weeks", "%missedBy8Weeks", String.class);
 			row.addColumnValue(c, indicator(missedBy8Weeks, visits));
+			
 			c = new DataSetColumn("missedMoreThan8Weeks", "missedMoreThan8Weeks", String.class);
+			row.addColumnValue(c, missedMoreThan8Weeks);
+			c = new DataSetColumn("%missedMoreThan8Weeks", "%missedMoreThan8Weeks", String.class);
 			row.addColumnValue(c, indicator(missedMoreThan8Weeks, visits));
 
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	private Date startOfNextDay(Date date) {
+		return DateUtil.getStartOfDay(addDays(date, 1));
+	}
+
+	private Date addDays(Date date, int days) {
+		return new Date(date.getTime() + days * (1000 * 60 * 60 * 24));
+	}
+
+	private void log(Object... strings) {
+		String text = "";
+		for (Object s : strings) {
+			text += s +  " ";
+		}
+		log.error(text);
 	}
 
 	private String indicator(int visitOnTime, int visits) {
@@ -232,9 +304,32 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 				.isEmpty();
 	}
 
+	private Date nextVisit(Patient p, Location location,
+			Date dayAfterPreviousVisit,
+			List<EncounterType> ets) {
+		List<Encounter> es = Context
+				.getEncounterService()
+				.getEncounters(p, location, dayAfterPreviousVisit,
+						null, null, ets, null, false);
+		if (es.size()>0) {
+			return es.get(0).getEncounterDatetime();
+		}
+		// doesn't seem there was a next visit, take today as max
+		return null;
+	}
+	
+	private long weeksDifference(Date from, Date to) {
+		if (from == null || to == null)
+			return 0;
+		return (to.getTime() - from.getTime()) / MILLISECONDS_PER_WEEK;
+	}
+
 	private Date addWeeks(Date date, int weeks) {
 		return new Date(date.getTime() + weeks * MILLISECONDS_PER_WEEK);
 	}
 
-
+	private SessionFactory sessionFactory() {
+		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
+				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
+	}
 }

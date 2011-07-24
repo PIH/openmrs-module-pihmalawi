@@ -125,38 +125,19 @@ public class ApzuNumericConceptPatientDataSetEvaluator implements DataSetEvaluat
 						+ ((MILLISECONDS_PER_WEEK) * i));
 				Date weekEnd = new Date(startDateParameter.getTime()
 						+ ((MILLISECONDS_PER_WEEK) * (i + 1)));
-				c = new DataSetColumn(concept.getName().getName() +"_" + i, concept.getName().getName() + "_" + i,
+				c = new DataSetColumn(columnHeader(concept, i), columnHeader(concept, i),
 						String.class);
 				List<Obs> obses = Context.getObsService().getObservations(
 						Arrays.asList((Person) p), null,
-						Arrays.asList(concept), null, null, null, null, null,
+						Arrays.asList(concept), null, null, null, null, 1,
 						null, weekStart, weekEnd, false);
 				if (!obses.isEmpty()) {
 					Obs o = obses.get(0);
-					row.addColumnValue(c, o.getValueNumeric());
+					row.addColumnValue(c, calcObsValue(o, weekEnd));
 				} else {
 					row.addColumnValue(c, "&nbsp;");
 				}
 			}
-
-			/*
-			 * // getting rvd from valid encounters encounters =
-			 * Context.getEncounterService().getEncounters(p, null, null, null,
-			 * null, encounterTypes, null, false); List<Obs> obs =
-			 * Context.getObsService().getObservations(
-			 * Arrays.asList(Context.getPersonService().getPerson(
-			 * p.getPersonId())), encounters, Arrays.asList(APPOINTMENT_DATE),
-			 * null, null, null, null, 1, null, null, null, false); // getting
-			 * rvd from any concept of person across encounters //
-			 * Context.getObsService().getObservationsByPersonAndConcept(p, //
-			 * Context
-			 * .getConceptService().getConceptByName("APPOINTMENT DATE"));
-			 * Iterator<Obs> i = obs.iterator(); if (i.hasNext()) { rvd =
-			 * i.next().getValueAsString(Context.getLocale()); } c = new
-			 * DataSetColumn("RVD", "RVD", String.class); row.addColumnValue(c,
-			 * h(rvd));
-			 */
-
 			dataSet.addRow(row);
 		}
 		return dataSet;
@@ -185,5 +166,13 @@ public class ApzuNumericConceptPatientDataSetEvaluator implements DataSetEvaluat
 
 	protected String h(String s) {
 		return ("".equals(s) || s == null ? "&nbsp;" : s);
+	}
+	
+	protected String calcObsValue(Obs o, Date endDate) {
+		return "" + o.getValueNumeric();
+	}
+
+	protected String columnHeader(Concept concept, int i) {
+		return concept.getName().getName() +"_" + i;
 	}
 }

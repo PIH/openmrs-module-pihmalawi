@@ -2,11 +2,16 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -30,10 +35,8 @@ public class SetupArtRegister {
 
 	public SetupArtRegister(Helper helper) {
 		h = helper;
-		ENCOUNTER_TYPES = Arrays.asList(
-				h.encounterType("ART_INITIAL"),
-				h.encounterType("ART_FOLLOWUP")
-				);
+		ENCOUNTER_TYPES = Arrays.asList(h.encounterType("ART_INITIAL"),
+				h.encounterType("ART_FOLLOWUP"));
 	}
 
 	public ReportDefinition[] setup() throws Exception {
@@ -42,6 +45,10 @@ public class SetupArtRegister {
 		ReportDefinition rd = createReportDefinition("artreg");
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd);
+		createCD4History(rd);
+		createBMIHistory(rd);
+		createWeightBreakdown(rd);
+		createAppointmentAdherenceHistory(rd);
 
 		return new ReportDefinition[] { rd };
 	}
@@ -62,20 +69,80 @@ public class SetupArtRegister {
 		dsd.setProgram(h.program("HIV PROGRAM"));
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
-		dsd.setEncounterTypes(ENCOUNTER_TYPES);		
+		dsd.setEncounterTypes(ENCOUNTER_TYPES);
 
 		return h.createHtmlBreakdown(rd, "ART Register_", m);
+	}
+
+	protected ReportDesign createWeightBreakdown(ReportDefinition rd)
+			throws IOException, SerializationException {
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		ApzuNumericConceptPatientDataSetDefinition dsd = new ApzuNumericConceptPatientDataSetDefinition();
+		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number"));
+		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
+				"WEIGHT (KG)"));
+
+		return h.createHtmlBreakdown(rd, "ART Register Weight_", m);
+	}
+
+	protected ReportDesign createBMIHistory(ReportDefinition rd)
+			throws IOException, SerializationException {
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		ApzuBMIPatientDataSetDefinition dsd = new ApzuBMIPatientDataSetDefinition();
+		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number"));
+		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
+		"WEIGHT (KG)"));
+
+		return h.createHtmlBreakdown(rd, "ART Register BMI_", m);
+	}
+
+	protected ReportDesign createCD4History(ReportDefinition rd)
+			throws IOException, SerializationException {
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		ApzuNumericConceptPatientDataSetDefinition dsd = new ApzuNumericConceptPatientDataSetDefinition();
+		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number"));
+		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
+				"CD4 COUNT"));
+
+		return h.createHtmlBreakdown(rd, "ART Register CD4_", m);
+	}
+
+	protected ReportDesign createAppointmentAdherenceHistory(ReportDefinition rd)
+			throws IOException, SerializationException {
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		ApzuAppointmentAdherencePatientDataSetDefinition dsd = new ApzuAppointmentAdherencePatientDataSetDefinition();
+		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
+
+		dsd.setPatientIdentifierType(Context.getPatientService()
+				.getPatientIdentifierTypeByName("ARV Number"));
+		dsd.setEncounterTypes(Arrays.asList(Context.getEncounterService()
+				.getEncounterType("ART_INITIAL"), Context.getEncounterService()
+				.getEncounterType("ART_FOLLOWUP")));
+		return h.createHtmlBreakdown(rd, "ART Register Appointment Adherence",
+				m);
 	}
 
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if (rd.getName().equals("ART Register_")) {
+			if (rd.getName().startsWith("ART Register")) {
 				rs.purgeReportDesign(rd);
 			}
 		}
-		h.purgeDefinition(DataSetDefinition.class,
-				"ART_ Data Set");
+		h.purgeDefinition(DataSetDefinition.class, "ART_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "ART Register_");
 		h.purgeAll("artreg");
 	}
@@ -85,13 +152,15 @@ public class SetupArtRegister {
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
 		rd.setName("ART Register_");
 		rd.setupDataSetDefinition();
-		
-		CohortDefinition cd = ArtReportElements.everOnArtAtLocationStartedOnOrBefore(prefix);
-		CohortIndicator i = h.newCountIndicator(prefix + "Register_",
-				cd.getName(), h.parameterMap("location", "${location}", "startedOnOrBefore", "${endDate}"));
+
+		CohortDefinition cd = ArtReportElements
+				.everOnArtAtLocationStartedOnOrBefore(prefix);
+		CohortIndicator i = h.newCountIndicator(prefix + "Register_", cd
+				.getName(), h.parameterMap("location", "${location}",
+				"startedOnOrBefore", "${endDate}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "register", "Register", i, null);
-		
+
 		return rd;
 	}
 }
