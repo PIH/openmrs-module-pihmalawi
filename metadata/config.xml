@@ -4,7 +4,7 @@
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
 	<name>PIH Malawi Customizations</name>
-	<version>0.7</version>
+	<version>0.8</version>
 	<package>org.openmrs.module.pihmalawi</package>
 	<author>Christian Neumann</author>
 	<description>PIH Malawi Implementation Module</description>
@@ -19,6 +19,11 @@
 		<lang>en</lang>
 		<file>messages.properties</file>
 	</messages>
+
+	<extension>
+	      <point>org.openmrs.patientDashboard.overviewBox</point>
+	      <class>org.openmrs.module.pihmalawi.extension.html.EMastercardsBoxExt</class>
+	</extension>
 
 	<extension>
 		<point>org.openmrs.admin.list</point>
