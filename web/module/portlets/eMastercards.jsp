@@ -1,17 +1,9 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
-aa
-<%=request.getHeader("referer") %>
-aaa
-
-script type="text/javascript"
-top.location.href = "admin/modules/module.list";
-script
 
 <c:set var="personId" value="${model.personId}" />
 <c:set var="patientId" value="${model.patientId}" />
 
 <table cellspacing="0" cellpadding="2">
-<!--
 	<tr>
 		<c:set var="eMastercardFormId" value="57" />
 		<c:set var="eMastercardLabel" value="ART Mastercard" />
@@ -49,7 +41,6 @@ script
 			</c:otherwise>
 		</c:choose>
 	</tr>
--->
 	<tr>
 		<c:set var="eMastercardFormId" value="58" />
 		<c:set var="eMastercardLabel" value="Pre-ART Mastercard" />
