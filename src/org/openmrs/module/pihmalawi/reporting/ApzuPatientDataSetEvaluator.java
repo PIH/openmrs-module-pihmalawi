@@ -152,10 +152,18 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			row.addColumnValue(c, p.getGender());
 
 			if (definition.getIncludeProgramOutcome()) {
-				// enrollment outcome
-				PatientState ps = h.getMostRecentStateAtLocation(p,
+				PatientState ps = null;
+				if (locationParameter == null) {
+					// outcome from endDate, hopefully the one you are interested in
+					ps = h.getMostRecentStateAtDate(p,
+							definition.getProgram(), endDateParameter,
+							sessionFactory().getCurrentSession());
+				} else {
+					// enrollment outcome from location
+					ps = h.getMostRecentStateAtLocation(p,
 						definition.getProgram(), locationParameter,
 						sessionFactory().getCurrentSession());
+				}
 				c = new DataSetColumn("Outcome", "Outcome", String.class);
 				row.addColumnValue(c, ps.getState().getConcept().getName()
 						.getName());
