@@ -12,6 +12,7 @@ import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
@@ -97,35 +98,44 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		// String cohort = (useTestPatientCohort ?
 		// "artvst: Alive On ART for appointment test_" :
 		// "artvst: Alive On ART_");
-		rd.setBaseCohortDefinition(h.cohortDefinition(reportTag + ": On ART_"),
+		rd.setBaseCohortDefinition(h.cohortDefinition(reportTag + ": On ART or internal transfer_"),
 				ParameterizableUtil
-						.createParameterMappings("onDate=${endDate}"));
+						.createParameterMappings("endDate=${endDate}"));
 
-		addColumnForLocations(rd, "On ART", "On ART_", "base");
-		addColumnForLocations(rd, "On ART 1 week ago", "On ART 1 week ago_",
+		addColumnForLocations(rd, "On ART", "On ART or internal transfer_", "base");
+		addColumnForLocations(rd, "On ART 1 week ago", "On ART or internal transfer 1 week ago_",
 				"base1");
-		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART 2 weeks ago_",
+		addColumnForLocations(rd, "On ART 2 weeks ago", "On ART or internal transfer 2 weeks ago_",
 				"base2");
 	}
 
 	protected void createCohortDefinitions() {
 		super.createCohortDefinitions();
 
-		// On ART at end of period
-		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName(reportTag + ": On ART_");
-		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
-		states = new ArrayList<ProgramWorkflowState>();
-		states.add(Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS"));
-		// internal transfers are still under responsibility of original clinic
-		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-		// .getStateByName("TRANSFERRED INTERNALLY"));
-		iscd.setStates(states);
-		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
-		h.replaceCohortDefinition(iscd);
+		CohortDefinition cd1 = null;
+		CohortDefinition cd2 = null;
+		
+		cd1 = ArtReportElements.onArtOnDate(reportTag);
+
+		cd2 = ArtReportElements.transferredInternallyOnDate(reportTag);
+		
+
+//		ArtReportElements.everOnArtStartedOnOrBefore(reportTag);
+//		CohortDefinition internal = ArtReportElements.transferredInternallyFromArt(reportTag);
+//		
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(reportTag + ": On ART or internal transfer_");
+		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		ccd.getSearches()
+				.put("1",
+						new Mapped(
+								cd1,
+								h.parameterMap("onDate", "${endDate}")));
+		ccd.getSearches().put(
+				"2",
+				new Mapped(cd2, h.parameterMap("onDate", "${endDate}")));
+		ccd.setCompositionString("1 OR 2");
+		h.replaceCohortDefinition(ccd);
 
 		// Filter by patient names for testing
 		SqlCohortDefinition scd = new SqlCohortDefinition();
@@ -138,46 +148,123 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		h.replaceCohortDefinition(scd);
 
 		// Alive On ART with test names
-		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName(reportTag + ": On ART for appointment test_");
-		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		ccd.addParameter(new Parameter("location", "Location", Location.class));
-		ccd.getSearches()
-				.put("1",
-						new Mapped(
-								h.cohortDefinition(reportTag + ": On ART_"),
-								ParameterizableUtil
-										.createParameterMappings("endDate=${endDate}")));
-		ccd.getSearches().put(
-				"2",
-				new Mapped(h.cohortDefinition(reportTag
-						+ ": Person name filter_"), ParameterizableUtil
-						.createParameterMappings("family_name=appointment")));
-		ccd.setCompositionString("1 AND 2");
-		h.replaceCohortDefinition(ccd);
+//		 ccd = new CompositionCohortDefinition();
+//		ccd.setName(reportTag + ": On ART for appointment test_");
+//		ccd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+//		ccd.addParameter(new Parameter("endDate", "End Date", Date.class));
+//		ccd.addParameter(new Parameter("location", "Location", Location.class));
+//		ccd.getSearches()
+//				.put("1",
+//						new Mapped(
+//								helpercohortDefinition(reportTag + ": On ART_"),
+//								ParameterizableUtil
+//										.createParameterMappings("endDate=${endDate}")));
+//		ccd.getSearches().put(
+//				"2",
+//				new Mapped(helpercohortDefinition(reportTag
+//						+ ": Person name filter_"), ParameterizableUtil
+//						.createParameterMappings("family_name=appointment")));
+//		ccd.setCompositionString("1 AND 2");
+//		helperreplaceCohortDefinition(ccd);
 
 	}
 
 	protected void createIndicators() {
 		super.createIndicators();
 
-		h.newCountIndicator(reportTag + ": On ART_", reportTag + ": On ART_",
-				"onDate=${endDate}");
-		h.newCountIndicator(reportTag + ": On ART 1 week ago_", reportTag
-				+ ": On ART_", "onDate=${endDate-1w}");
-		h.newCountIndicator(reportTag + ": On ART 2 weeks ago_", reportTag
-				+ ": On ART_", "onDate=${endDate-2w}");
+		h.newCountIndicator(reportTag + ": On ART or internal transfer_", reportTag + ": On ART or internal transfer_",
+				"endDate=${endDate}");
+		h.newCountIndicator(reportTag + ": On ART or internal transfer 1 week ago_", reportTag
+				+ ": On ART or internal transfer_", "endDate=${endDate-1w}");
+		h.newCountIndicator(reportTag + ": On ART or internal transfer 2 weeks ago_", reportTag
+				+ ": On ART or internal transfer_", "endDate=${endDate-2w}");
 	}
 
 	public void deleteReportElements() {
 		super.deleteReportElements();
 
 		h.purgeDefinition(CohortDefinition.class, reportTag + ": On ART_");
+		h.purgeDefinition(CohortDefinition.class, reportTag + ": On ART or internal transfer_");
 		h.purgeDefinition(CohortDefinition.class, reportTag
 				+ ": Person name filter_");
 		h.purgeDefinition(CohortDefinition.class, reportTag
 				+ ": On ART for appointment test_");
 		purgeIndicator(reportTag + ": On ART");
 	}
+	
+	public  CohortDefinition transferredInternallyFromArtAtLocation(String prefix) {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("onDate", "${onDate}");
+		parameterMap.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+			"TRANSFERRED INTERNALLY"));
+
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName(prefix + ": Transferred internally from location from On ART_");
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.getSearches()
+				.put("1",
+						new Mapped(
+								h.cohortDefinition(prefix + ": In state at location from On ART_"),
+										parameterMap));
+		cd.setCompositionString("1");
+		h.replaceCohortDefinition(cd);
+		return cd;
+	}
+	
+	public  CohortDefinition inStateFromArtAtLocation(String prefix) {
+		// Ever On Art at location with state
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName(prefix + ": In state at location from On ART_");
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		cd.addParameter(new Parameter("state", "State",
+				ProgramWorkflowState.class));
+		cd.getSearches()
+				.put("1",
+						new Mapped(
+								h.cohortDefinition(prefix
+										+ ": In state at location_"),
+								ParameterizableUtil
+										.createParameterMappings("onDate=${onDate},location=${location},state=${state}")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("endDate", "${onDate}");
+		map.put("location", "${location}");
+		map.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+				"ON ANTIRETROVIRALS"));
+		cd.getSearches().put(
+				"2",
+				new Mapped(h.cohortDefinition(prefix
+						+ ": Ever enrolled in program at location with state_"),
+						map));
+		cd.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(cd);
+		return cd;
+	}
+	
+	public  CohortDefinition transferredInternallyFromArt(String prefix) {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("onDate", "${onDate}");
+		parameterMap.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+			"TRANSFERRED INTERNALLY"));
+
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName(prefix + ": Transferred internally from On ART_");
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.getSearches()
+		.put("1",
+				new Mapped(
+						h.cohortDefinition(prefix + ": In state_"),
+								h.parameterMap("onDate", "${onDate}", "state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+			"TRANSFERRED INTERNALLY"))));
+		cd.getSearches()
+		.put("2",
+				new Mapped(
+						h.cohortDefinition(prefix + ": Ever on ART_"),
+								h.parameterMap("startedOnOrBefore", "${onDate}")));
+		cd.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(cd);
+		return cd;		
+	}
+	
+
 }

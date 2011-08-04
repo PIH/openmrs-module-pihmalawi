@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,11 +10,14 @@ import java.util.Map;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.pihmalawi.reporting.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -114,6 +118,18 @@ public class ArtReportElements {
 		return iscd;
 	}
 
+	public static CohortDefinition everOnArtStartedOnOrBefore(
+			String prefix) {
+		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
+		pscd.setName(prefix + ": Ever on ART_");
+		pscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+				"ON ANTIRETROVIRALS")));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		h.replaceCohortDefinition(pscd);
+		return pscd;
+	}
+
 	public static CohortDefinition everOnArtAtLocationStartedOnOrBefore(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
@@ -127,9 +143,7 @@ public class ArtReportElements {
 		return pscd;
 	}
 
-	public static void a(String prefix) {
-		// GENERIC
-		// In state at location
+	public static CohortDefinition inStateAtLocationOnDate(String prefix) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(prefix + ": In state at location_");
 		islcd.addParameter(new Parameter("state", "State",
@@ -137,8 +151,20 @@ public class ArtReportElements {
 		islcd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(islcd);
+		return islcd;
+	}
 
-		// Ever enrolled in program at location with state as of end date
+	public static CohortDefinition transferredInternallyOnDate(String reportTag) {
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName(reportTag + ": transferred internally_");
+		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
+				"TRANSFERRED INTERNALLY")));
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		h.replaceCohortDefinition(iscd);
+		return iscd;
+	}
+
+	public static CohortDefinition everInStateAtLocation(String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName(prefix
 				+ ": Ever enrolled in program at location with state_");
@@ -157,33 +183,21 @@ public class ArtReportElements {
 		scd.addParameter(new Parameter("state", "State",
 				ProgramWorkflowState.class));
 		h.replaceCohortDefinition(scd);
+		return scd;
+	}
 
-		// SPECIFIC
-		// Ever On Art at location with state
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName(prefix + ": In state at location from On ART_");
-		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		cd.addParameter(new Parameter("state", "State",
-				ProgramWorkflowState.class));
-		cd.getSearches()
-				.put("1",
-						new Mapped(
-								h.cohortDefinition(prefix
-										+ "In state at location_"),
-								ParameterizableUtil
-										.createParameterMappings("onDate=${onDate},location=${location},state=${state}")));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("endDate", "${onDate}");
-		map.put("location", "${location}");
-		map.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"ON ANTIRETROVIRALS"));
-		cd.getSearches().put(
-				"2",
-				new Mapped(h.cohortDefinition(prefix
-						+ "Ever enrolled in program at location with state_"),
-						map));
-		cd.setCompositionString("1 AND 2");
-		h.replaceCohortDefinition(cd);
+	public static CohortDefinition onArtOnDate(String reportTag) {
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName(reportTag + ": On ART_");
+		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
+		states = new ArrayList<ProgramWorkflowState>();
+		states.add(Context.getProgramWorkflowService()
+				.getProgramByName("HIV PROGRAM")
+				.getWorkflowByName("TREATMENT STATUS")
+				.getStateByName("ON ANTIRETROVIRALS"));
+		iscd.setStates(states);
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		h.replaceCohortDefinition(iscd);
+		return iscd;
 	}
 }

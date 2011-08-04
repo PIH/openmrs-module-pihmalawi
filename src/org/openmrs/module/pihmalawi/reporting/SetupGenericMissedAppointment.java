@@ -137,6 +137,10 @@ public class SetupGenericMissedAppointment {
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
+		if (program != null) {
+			dsd.setProgram(program);
+			dsd.setIncludeProgramOutcome(true);
+		}
 
 		return h.createHtmlBreakdown(rd,
 				reportName + " Breakdown (>=3 weeks)_", m);
@@ -202,6 +206,10 @@ public class SetupGenericMissedAppointment {
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
+		if (program != null) {
+			dsd.setProgram(program);
+			dsd.setIncludeProgramOutcome(true);
+		}
 
 		return h.createHtmlBreakdown(rd, reportName
 				+ " Breakdown (>=2 weeks <3 weeks)_", m);
@@ -446,6 +454,7 @@ public class SetupGenericMissedAppointment {
 				rs.purgeReportDesign(rd);
 			}
 		}
+//		h.purgeAll(reportTag);
 		h.purgeDefinition(PeriodIndicatorReportDefinition.class, reportName
 				+ "_");
 		h.purgeDefinition(DataSetDefinition.class, reportName + "_ Data Set");

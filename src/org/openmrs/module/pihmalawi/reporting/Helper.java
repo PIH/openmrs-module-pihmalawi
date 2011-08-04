@@ -482,6 +482,40 @@ public class Helper {
 		return state;
 	}
 	
+	public PatientState getMostRecentStateAtDate(Patient p, Program program,
+			Date endDate, org.hibernate.classic.Session hibernateSession) {
+		// wrong assumption that there is only one programworkflow for a program 
+		PatientState state = null;
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						program,
+						null, null, null, null, false);
+		
+		HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
+		ArrayList<Long> sortedByStartDate = new ArrayList<Long>();
+
+		for (PatientProgram pp : pps) {
+			if (!pp.isVoided() ) {
+				for (PatientState ps : pp.getStates()) {
+					if (!ps.isVoided()
+							&& ps.getStartDate() != null) {
+						validPatientStates.put(ps.getStartDate().getTime(), ps);
+						sortedByStartDate.add(ps.getStartDate().getTime());
+					}
+				}
+			}
+		}
+		Collections.<Long> sort(sortedByStartDate);
+
+		for (Long key : sortedByStartDate) {
+			// take the one with the start date on or before endDate
+			if (key <= endDate.getTime()) {
+				state = (PatientState) validPatientStates.get(key);
+			}
+		}
+		return state;
+	}
+
 	public List<PatientState> getPatientStatesByWorkflowAtLocation(Patient p,
 			ProgramWorkflowState programWorkflowState,
 			Location enrollmentLocation, Session hibernateSession) {
