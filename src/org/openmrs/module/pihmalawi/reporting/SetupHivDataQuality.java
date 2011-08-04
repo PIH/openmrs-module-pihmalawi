@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
@@ -27,6 +26,7 @@ import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.SetComparator;
@@ -153,6 +153,8 @@ public class SetupHivDataQuality {
 	}
 
 	private void createCohortDefinitions(PeriodIndicatorReportDefinition[] rd) {
+		createProgramCompletionMismatch(rd);
+
 		// multiple death
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Multiple death_");
@@ -225,8 +227,8 @@ public class SetupHivDataQuality {
 			createMultipleArv(rd, s, s + " ");
 		}
 
-		g_inProgramOnDate();
-
+		g_everInProgramOnDate();
+		
 		InProgramAtProgramLocationCohortDefinition iplcd = g_inProgramAtLocationOnDate();
 
 		// not At location
@@ -604,7 +606,80 @@ public class SetupHivDataQuality {
 				Arrays.asList(h.location("Nkhula Falls RHC")),
 				h.location("Nkhula Falls RHC"), "NKA");
 
-		intermediateEid(rd);
+//		intermediateEid(rd);
+	}
+
+	private void createProgramCompletionMismatch(
+			PeriodIndicatorReportDefinition[] rd) {
+		/*
+-- Most recent state for a program enrollment
+-- not sure why the group_concat values can be used for a join, but it seems to work
+-- this should be THE query to return the most recent state for a patient_program with the assumption
+-- that the highest patient_state_id is also the most recent one
+-- note: a temp table didn't work as mysql can't reuse a temp table in a subquery
+-- MySQL specific
+
+SELECT pp.patient_id, pp.patient_program_id, pws.program_workflow_state_id, ps.patient_state_id
+FROM (
+  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d
+  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps 
+  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id 
+    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id 
+    AND pws.program_workflow_id = 1 
+    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0  
+--  AND pp.patient_id=15925
+  GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps 
+WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id 
+  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id 
+  AND pws.program_workflow_state_id in (2,3,6) and pp.date_completed is  null 
+
+		 */
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Terminal state, program not completed_");
+		String sql = "SELECT pp.patient_id "
+			+ "FROM ( "
+		+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
+		+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+		+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+		+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
+		+ "    AND pws.program_workflow_id = 1 "
+		+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "  
+		+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps " 
+		+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id " 
+		+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
+		+ "  AND pws.program_workflow_state_id in (2,3,6) and pp.date_completed is  null ";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		CohortIndicator i = h.newCountIndicator("hivdq: Terminal state, program not completed_",
+				"hivdq: Terminal state, program not completed_", new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "prgnotcompleted",
+				" Terminal state, program not completed", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "prgnotcompleted",
+				" Terminal state, program not completed", i, null);
+
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Non terminal state, program completed_");
+		 sql = "SELECT pp.patient_id "
+			+ "FROM ( "
+		+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
+		+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+		+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+		+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
+		+ "    AND pws.program_workflow_id = 1 "
+		+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "  
+		+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps " 
+		+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id " 
+		+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
+		+ "  AND pws.program_workflow_state_id not in (2,3,6) and pp.date_completed is not null ";
+		 
+		 scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		 i = h.newCountIndicator("hivdq: Non terminal state, program completed_",
+				"hivdq: Non terminal state, program completed_", new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "prgcompleted",
+				" Non terminal state, program completed", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "prgcompleted",
+				" Non terminal state, program completed", i, null);
 	}
 
 	private void followupWithoutInitialEncounter(PeriodIndicatorReportDefinition[] rd) {
@@ -670,6 +745,7 @@ public class SetupHivDataQuality {
 		return null;
 	}
 
+	// old stuff regarding the old eid program, it was never properly defined anyways.
 	private void intermediateEid(PeriodIndicatorReportDefinition[] rd) {
 		final Program EID_PROGRAM = Context.getProgramWorkflowService()
 				.getProgramByName("EARLY INFANT DIAGNOSIS PROGRAM");
@@ -888,14 +964,25 @@ public class SetupHivDataQuality {
 		return iplcd;
 	}
 
-	private void g_inProgramOnDate() {
-		InProgramCohortDefinition ipcd = new InProgramCohortDefinition();
-		ipcd.setName("hivdq: In program_");
-		ipcd.addParameter(new Parameter("onDate", "onDate", Date.class));
+	private void g_everInProgramOnDate() {
+		ProgramEnrollmentCohortDefinition ipcd = new ProgramEnrollmentCohortDefinition();
+		ipcd.setName("hivdq: Ever in program_");
+		ipcd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
 		ipcd.addParameter(new Parameter("programs", "programs", Program.class));
 		h.replaceCohortDefinition(ipcd);
-	}
 
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: In program_");
+		ccd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		ccd.addParameter(new Parameter("programs", "programs", Program.class));
+		ccd.getSearches().put(
+				"state",
+				new Mapped(h.cohortDefinition("hivdq: Ever in program_"), h
+						.parameterMap("programs", "${programs}", "enrolledOnOrBefore", "${onDate}")));
+		ccd.setCompositionString("state");
+		h.replaceCohortDefinition(ccd);
+	}
+	
 	private void onArtWithoutEncounter(PeriodIndicatorReportDefinition[] rd) {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
