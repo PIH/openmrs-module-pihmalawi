@@ -81,14 +81,18 @@ public class EMastercardAccessTag extends BodyTagSupport {
 					o.write("<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + encounterId + "&mode=EDIT\">Edit " + f.getName() + "</a> " + details);
 				}
 			}
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			log.error("Could not write to pageContext", e);
+		} finally {
+			release();
 		}
-		release();
 		return SKIP_BODY;
 	}
 	
 	private String formatDate(Date date) {
+		if (date == null) {
+			return "??-???-????";
+		}
 		return new SimpleDateFormat("dd-MMM-yyyy").format(date);
 	}
 
