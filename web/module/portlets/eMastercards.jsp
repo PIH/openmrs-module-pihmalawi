@@ -47,6 +47,28 @@
 		</c:choose>
 	</tr>
 	<tr>
+		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="12" num="1" var="enc">
+			<c:if test="${ not empty enc }">
+				<c:set var="partEncounter" value="true" />
+			</c:if>
+		</openmrs:forEachEncounter>
+		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="13" num="1" var="enc">
+			<c:if test="${ not empty enc }">
+				<c:set var="cd4Encounter" value="true" />
+			</c:if>
+		</openmrs:forEachEncounter>
+		<td>CD4 Logbook:</td>
+		<c:choose>
+			<c:set var="eMastercardFormId" value="63" />
+			<c:when test="${ partEncounter || cd4Encounter }">
+				<td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">View CD4 Logbook</a></td>
+			</c:when>
+			<c:otherwise>
+				<td>Not available</td>
+			</c:otherwise>
+		</c:choose>
+	</tr>
+	<tr>
 		<td><br /></td>
 	</tr>
 	<tr>
