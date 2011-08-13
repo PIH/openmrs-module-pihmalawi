@@ -54,3 +54,25 @@ tls_trust_file /usr/share/ca-certificates/mozilla/Equifax_Secure_CA.crt
 
 # set default account to use (not necessary with single account)
 account default : gmail
+
+Person name code tables::
+DROP TABLE IF EXISTS `person_name_code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `person_name_code` (
+  `person_name_code_id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_name_id` int(11) DEFAULT NULL,
+  `given_name_code` varchar(50) DEFAULT NULL,
+  `middle_name_code` varchar(50) DEFAULT NULL,
+  `family_name_code` varchar(50) DEFAULT NULL,
+  `family_name2_code` varchar(50) DEFAULT NULL,
+  `family_name_suffix_code` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`person_name_code_id`),
+  KEY `name_for_patient` (`person_name_id`),
+  KEY `given_name_code` (`given_name_code`),
+  KEY `middle_name_code` (`middle_name_code`),
+  KEY `family_name_code` (`family_name_code`),
+  KEY `given_family_name_code` (`given_name_code`,`family_name_code`),
+  CONSTRAINT `code for name` FOREIGN KEY (`person_name_id`) REFERENCES `person_name` (`person_name_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=135857 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
