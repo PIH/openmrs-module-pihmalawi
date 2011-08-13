@@ -1,7 +1,8 @@
-package org.openmrs.module.pihmalawi.exportToCsvMastercard;
+package org.openmrs.module.pihmalawi.scripting;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.module.pihmalawi.scripting.ArtExporter;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
