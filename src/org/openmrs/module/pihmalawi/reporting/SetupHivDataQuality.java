@@ -23,9 +23,7 @@ import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinit
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
@@ -155,67 +153,15 @@ public class SetupHivDataQuality {
 	private void createCohortDefinitions(PeriodIndicatorReportDefinition[] rd) {
 		createProgramCompletionMismatch(rd);
 
-		// multiple death
-		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd.setName("hivdq: Multiple death_");
-		String sql = "SELECT pp.patient_id "
-				+ "FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-				+ "WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id AND pws.program_workflow_id = 1 AND pw.retired = 0 AND pp.voided = 0 AND pws.retired = 0 AND ps.voided = 0 AND pws.program_workflow_state_id=3 "
-				+ "GROUP BY pp.patient_id HAVING COUNT(*) > 1;";
-		scd.setQuery(sql);
-		h.replaceCohortDefinition(scd);
-		CohortIndicator i = h.newCountIndicator("hivdq: Multiple death_",
-				"hivdq: Multiple death_", new HashMap<String, Object>());
-		PeriodIndicatorReportUtil.addColumn(rd[0], "died2x",
-				"Died multiple times", i, null);
-		PeriodIndicatorReportUtil.addColumn(rd[1], "died2x",
-				"Died multiple times", i, null);
+		SqlCohortDefinition scd;
+		String sql;
+		CohortIndicator i;
+		
+		multipleDeaths(rd);
 
-		// wrong arv format
-		scd = new SqlCohortDefinition();
-		scd.setName("hivdq: Wrong identifier format_");
-		String artFormat = "";
-		for (String s : LOCATIONS.values()) {
-			artFormat += "identifier NOT regexp '^[[:<:]]" + s
-					+ "[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND ";
-		}
-		artFormat = artFormat.substring(0,
-				artFormat.length() - " AND ".length());
-		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=4 and voided=0 and (" + artFormat
-				+ ")";
-		scd.setQuery(sql);
-		h.replaceCohortDefinition(scd);
-		i = h.newCountIndicator("hivdq: Wrong identifier format_",
-				"hivdq: Wrong identifier format_",
-				new HashMap<String, Object>());
-		PeriodIndicatorReportUtil.addColumn(rd[0], "format",
-				"Wrong identifier format", i, null);
-		PeriodIndicatorReportUtil.addColumn(rd[1], "format",
-				"Wrong identifier format", i, null);
+		wrongArvFormat(rd);
 
-		// wrong part format
-		scd = new SqlCohortDefinition();
-		scd.setName("hivdq: Wrong Pre-ART identifier format_");
-		String partFormat = "";
-		for (String s : LOCATIONS.values()) {
-			partFormat += "identifier NOT regexp '^P-[[:<:]]" + s
-					+ "[[:>:]]-[0-9][0-9][0-9][0-9]$' AND ";
-		}
-		partFormat = partFormat.substring(0,
-				partFormat.length() - " AND ".length());
-		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=13 and voided=0 and (" + partFormat
-				+ ")";
-		scd.setQuery(sql);
-		h.replaceCohortDefinition(scd);
-		i = h.newCountIndicator("hivdq: Wrong Pre-ART identifier format_",
-				"hivdq: Wrong Pre-ART identifier format_",
-				new HashMap<String, Object>());
-		PeriodIndicatorReportUtil.addColumn(rd[0], "formatpart",
-				"Wrong Pre-ART identifier format", i, null);
-		PeriodIndicatorReportUtil.addColumn(rd[1], "formatpart",
-				"Wrong Pre-ART identifier format", i, null);
+		wrongPartFormat(rd);
 
 		// gaps in numbers
 		for (String s : LOCATIONS.values()) {
@@ -229,44 +175,9 @@ public class SetupHivDataQuality {
 
 		g_everInProgramOnDate();
 		
-		InProgramAtProgramLocationCohortDefinition iplcd = g_inProgramAtLocationOnDate();
+		InProgramAtProgramLocationCohortDefinition igplcd = g_inProgramAtLocationOnDate();
 
-		// not At location
-		InverseCohortDefinition icd = new InverseCohortDefinition();
-		icd.setName("hivdq: Not at location_");
-		icd.setBaseDefinition(iplcd);
-		h.replaceCohortDefinition(icd);
-
-		// unknown location
-		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName("hivdq: Unknown location_");
-		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		String composition = "";
-		int c = 1;
-		for (Location l : LOCATIONS.keySet()) {
-			ccd.getSearches().put(
-					"" + c,
-					new Mapped(h.cohortDefinition("hivdq: Not at location_"), h
-							.parameterMap("onDate", "${endDate}", "location",
-									l, "programs", PROGRAM)));
-			composition += c + " AND ";
-			c++;
-		}
-		ccd.getSearches().put(
-				"unknown",
-				new Mapped(h.cohortDefinition("hivdq: In program_"), h
-						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
-		composition += " unknown";
-		ccd.setCompositionString(composition);
-		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator("hivdq: unknown locations_",
-				"hivdq: Unknown location_",
-				h.parameterMap("endDate", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd[0], "unknown",
-				"Unknown locations", i, null);
-		PeriodIndicatorReportUtil.addColumn(rd[1], "unknown",
-				"Unknown locations", i, null);
+		g_unknownLocations(rd);
 
 		// wrong exit from care
 		CodedObsCohortDefinition cocd = new CodedObsCohortDefinition();
@@ -279,7 +190,7 @@ public class SetupHivDataQuality {
 				"PATIENT DIED")));
 		h.replaceCohortDefinition(cocd);
 
-		ccd = new CompositionCohortDefinition();
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName("hivdq: Wrong exit from care in HIV_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
@@ -521,7 +432,7 @@ public class SetupHivDataQuality {
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
-		ccd = new CompositionCohortDefinition();
+		 ccd = new CompositionCohortDefinition();
 		ccd.setName("hivdq: Not in relevant HIV state_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
@@ -607,6 +518,99 @@ public class SetupHivDataQuality {
 				h.location("Nkhula Falls RHC"), "NKA");
 
 //		intermediateEid(rd);
+	}
+
+	private void wrongPartFormat(PeriodIndicatorReportDefinition[] rd) {
+		SqlCohortDefinition scd;
+		String sql;
+		CohortIndicator i;
+		// wrong part format
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Wrong Pre-ART identifier format_");
+		String partFormat = "";
+		for (String s : LOCATIONS.values()) {
+			partFormat += "identifier NOT regexp '^P-[[:<:]]" + s
+					+ "[[:>:]]-[0-9][0-9][0-9][0-9]$' AND ";
+		}
+		partFormat = partFormat.substring(0,
+				partFormat.length() - " AND ".length());
+		sql = "select patient_id from patient_identifier "
+				+ "where identifier_type=13 and voided=0 and (" + partFormat
+				+ ")";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		i = h.newCountIndicator("hivdq: Wrong Pre-ART identifier format_",
+				"hivdq: Wrong Pre-ART identifier format_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "formatpart",
+				"Wrong Pre-ART identifier format", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "formatpart",
+				"Wrong Pre-ART identifier format", i, null);
+	}
+
+	private void wrongArvFormat(PeriodIndicatorReportDefinition[] rd) {
+		SqlCohortDefinition scd;
+		String sql;
+		CohortIndicator i;
+		// wrong arv format
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Wrong identifier format_");
+		String artFormat = "";
+		for (String s : LOCATIONS.values()) {
+			artFormat += "identifier NOT regexp '^[[:<:]]" + s
+					+ "[[:>:]] [1-9][0-9]?[0-9]?[0-9]?$' AND ";
+		}
+		artFormat = artFormat.substring(0,
+				artFormat.length() - " AND ".length());
+		sql = "select patient_id from patient_identifier "
+				+ "where identifier_type=4 and voided=0 and (" + artFormat
+				+ ")";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		i = h.newCountIndicator("hivdq: Wrong identifier format_",
+				"hivdq: Wrong identifier format_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "format",
+				"Wrong identifier format", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "format",
+				"Wrong identifier format", i, null);
+	}
+
+	private void multipleDeaths(PeriodIndicatorReportDefinition[] rd) {
+		// multiple death
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Multiple death_");
+		String sql = "SELECT pp.patient_id "
+				+ "FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id AND pws.program_workflow_id = 1 AND pw.retired = 0 AND pp.voided = 0 AND pws.retired = 0 AND ps.voided = 0 AND pws.program_workflow_state_id=3 "
+				+ "GROUP BY pp.patient_id HAVING COUNT(*) > 1;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		CohortIndicator i = h.newCountIndicator("hivdq: Multiple death_",
+				"hivdq: Multiple death_", new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "died2x",
+				"Died multiple times", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "died2x",
+				"Died multiple times", i, null);
+	}
+
+	private void g_unknownLocations(PeriodIndicatorReportDefinition[] rd) {
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Unknown location_");
+		String sql = "select pp.patient_id from patient_program pp where pp.voided=0 and pp.program_id=1 and pp.location_id not in (";
+		for (Location l : LOCATIONS.keySet()) {
+			sql += l.getId() + ", ";
+		}
+		sql = sql.substring(0, sql.length() - 2) + ");";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		CohortIndicator i = h.newCountIndicator("hivdq: Unknown location_",
+				"hivdq: Unknown location_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "unknwnloc",
+				"Unknown location", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "unknownloc",
+				"Unknwon location", i, null);
 	}
 
 	private void createProgramCompletionMismatch(
