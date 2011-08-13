@@ -64,7 +64,25 @@
 		<td><br /></td>
 	</tr>
 	<tr>
-		<td>KS Flowsheet:</td>
-		<td>(todo)</td>
+		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="24" num="1" var="enc">
+			<c:if test="${ not empty enc }">
+				<c:set var="ctEncounter" value="true" />
+			</c:if>
+		</openmrs:forEachEncounter>
+		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="17" num="1" var="enc">
+			<c:if test="${ not empty enc }">
+				<c:set var="evaluationEncounter" value="true" />
+			</c:if>
+		</openmrs:forEachEncounter>
+		<td>Kaposis Sarcoma Flowsheet:</td>
+		<c:choose>
+			<c:set var="eMastercardFormId" value="62" />
+			<c:when test="${ evaluationEncounter || ctEncounter }">
+				<td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Edit KS file</a></td>
+			</c:when>
+			<c:otherwise>
+				<td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Create new KS file</a></td>
+			</c:otherwise>
+		</c:choose>
 	</tr>
 </table>
