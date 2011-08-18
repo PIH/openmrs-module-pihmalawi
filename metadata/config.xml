@@ -4,7 +4,7 @@
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
 	<name>PIH Malawi Customizations</name>
-	<version>0.8</version>
+	<version>0.9</version>
 	<package>org.openmrs.module.pihmalawi</package>
 	<author>Christian Neumann</author>
 	<description>PIH Malawi Implementation Module</description>
@@ -13,12 +13,18 @@
 
 	<require_modules>
 		<require_module>org.openmrs.module.reporting</require_module>
+		<require_module>org.openmrs.module.programlocation</require_module>
 	</require_modules>
 
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
 	</messages>
+
+	<extension>
+		<point>org.openmrs.patientDashboard.overviewBox</point>
+		<class>org.openmrs.module.pihmalawi.extension.html.QuickProgramsBoxExt</class>
+	</extension>
 
 	<extension>
 	      <point>org.openmrs.patientDashboard.overviewBox</point>
