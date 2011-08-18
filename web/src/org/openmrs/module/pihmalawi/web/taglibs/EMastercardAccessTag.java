@@ -43,49 +43,56 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		EncounterType initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
 		
 		try {
-			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(initialEncounterType), null, false);
-			if (initials.size()>1) {
-				o.write("Multiple Initial Encounters found, " + f.getName() + " not available");
-			} else if (initials.size() == 0) {
-				if (isReadonly()) {
-					o.write(f.getName() + " not available");
-				} else {
-					o.write("<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId=" + p.getPersonId() + "&patientId=" + p.getPatientId() + "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=" + f.getFormId() + "\">Create new " + f.getName() + "</a>");
-				}
-			} else if (initials.size() == 1) {
-				EncounterType followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
-				List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
-				String created = "created: " + formatDate(initials.get(0).getEncounterDatetime());
-				String visited = "visited: no";
-				String rvd = "appointment: none";
-				if (!followups.isEmpty()) {
-					Encounter lastFollowup = followups.get(followups.size() -1);
-					visited = "visited: " + formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
-					Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
-					List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, null, 1, null, null, null, false);
-					if (!os.isEmpty()) {
-						rvd = "appointment: " + formatDate(os.get(0).getValueDatetime());
+			if (f == null || initialEncounterType == null) {
+				o.write("(not available)");
+			} else {
+				List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(initialEncounterType), null, false);
+				if (initials.size()>1) {
+					o.write("Multiple Initial Encounters found, " + f.getName() + " not available");
+				} else if (initials.size() == 0) {
+					if (isReadonly()) {
+						o.write(f.getName() + " not available");
+					} else {
+						o.write("<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId=" + p.getPersonId() + "&patientId=" + p.getPatientId() + "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=" + f.getFormId() + "\">Create new " + f.getName() + "</a>");
 					}
-				}
-				Encounter encounter =  initials.get(0);
-				Integer encounterId = encounter.getId();
-				String details = "(" + created + ", " + visited + ", " + rvd + ")";
-				if (isReadonly()) {
-					String encounterType =encounter.getEncounterType().getName();
-					String location = encounter.getLocation().getName();
-					String encounterDate = formatDate(encounter.getEncounterDatetime());
-					// TODO: clash in OpenMRS 1.7?
-					String provider = ""; //encounter.getProvider().getGivenName() + " " + encounter.getProvider().getFamilyName();
-					o.write("<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('" + encounterType + "@" + location + " | " + encounterDate + " | " + provider + "', '/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + encounterId + "&inPopup=true'); return false;\">View " + f.getName() + "</a> " + details);
-				} else {
-					o.write("<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + encounterId + "&mode=EDIT\">Edit " + f.getName() + "</a> " + details);
+				} else if (initials.size() == 1) {
+					EncounterType followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
+					List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
+					String created = "created: " + formatDate(initials.get(0).getEncounterDatetime());
+					String visited = "visited: no";
+					String rvd = "appointment: none";
+					if (!followups.isEmpty()) {
+						Encounter lastFollowup = followups.get(followups.size() -1);
+						visited = "visited: " + formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
+						Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
+						List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, null, 1, null, null, null, false);
+						if (!os.isEmpty()) {
+							rvd = "appointment: " + formatDate(os.get(0).getValueDatetime());
+						}
+					}
+					Encounter encounter =  initials.get(0);
+					Integer encounterId = encounter.getId();
+					String details = "(" + created + ", " + visited + ", " + rvd + ")";
+					if (isReadonly()) {
+						String encounterType =encounter.getEncounterType().getName();
+						String location = encounter.getLocation().getName();
+						String encounterDate = formatDate(encounter.getEncounterDatetime());
+						// TODO: clash in OpenMRS 1.7?
+						String provider = ""; //encounter.getProvider().getGivenName() + " " + encounter.getProvider().getFamilyName();
+						o.write("<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('" + encounterType + "@" + location + " | " + encounterDate + " | " + provider + "', '/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + encounterId + "&inPopup=true'); return false;\">View " + f.getName() + "</a> " + details);
+					} else {
+						o.write("<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + encounterId + "&mode=EDIT\">Edit " + f.getName() + "</a> " + details);
+					}
 				}
 			}
 		} catch (Throwable e) {
+			try {
+				o.write("Unknown error, call help!");
+			} catch (IOException e1) {
+			}
 			log.error("Could not write to pageContext", e);
-		} finally {
-			release();
 		}
+		release();
 		return SKIP_BODY;
 	}
 	

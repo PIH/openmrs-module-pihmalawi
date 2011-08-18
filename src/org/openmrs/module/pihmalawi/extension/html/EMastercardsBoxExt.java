@@ -19,7 +19,7 @@ public class EMastercardsBoxExt extends BoxExt {
 
 	@Override
 	public String getRequiredPrivilege() {
-	      return "Patient Dashboard - View Example Section";
+		return "View Patients";
 	}
 
 	@Override
