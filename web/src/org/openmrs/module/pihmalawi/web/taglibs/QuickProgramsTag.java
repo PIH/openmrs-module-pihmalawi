@@ -81,39 +81,41 @@ public class QuickProgramsTag extends BodyTagSupport {
 		}
 
 		try {
-			if (!hasOpenProgramWorkflow(programWorkflow, patient)) {
-				// no or closed program enrollment available
-				for (ProgramWorkflowState pws : initialStates) {
-					o.write(enrollForm(program,
-							patient,
-							pws));
-				}
-			} else {
-				// open program enrollment available
-				for (ProgramWorkflowState pws : states) {
-					if (!(currentState != null && currentState.getState().equals(pws))) {
-						o.write(changeToStateSubmitTag("Change",
-							currentPatientProgram(program, patient),
-							pws.getProgramWorkflow(), pws,
-							"'dateForPWS" + pws.getId() + "'")
-							+ " to "
-							+ pws.getConcept().getName()
-							+ " on "
-							+ dateTag("dateForPWS" + pws.getId()) 
-							+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+			if (!patient.isDead()) {
+				if (!hasOpenProgramWorkflow(programWorkflow, patient)) {
+					// no or closed program enrollment available
+					for (ProgramWorkflowState pws : initialStates) {
+						o.write(enrollForm(program,
+								patient,
+								pws));
 					}
-				}
-				for (ProgramWorkflowState pws : terminalStates) {
-					if (!(currentState != null && currentState.getState().equals(pws))) {
-						o.write(changeToStateSubmitTag("Complete",
-							currentPatientProgram(program, patient),
-							pws.getProgramWorkflow(), pws,
-							"'dateForPWS" + pws.getId() + "'")
-							+ " with "
-							+ pws.getConcept().getName()
-							+ " on "
-							+ dateTag("dateForPWS" + pws.getId())
-							+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+				} else {
+					// open program enrollment available
+					for (ProgramWorkflowState pws : states) {
+						if (!(currentState != null && currentState.getState().equals(pws))) {
+							o.write(changeToStateSubmitTag("Change",
+								currentPatientProgram(program, patient),
+								pws.getProgramWorkflow(), pws,
+								"'dateForPWS" + pws.getId() + "'")
+								+ " to "
+								+ pws.getConcept().getName()
+								+ " on "
+								+ dateTag("dateForPWS" + pws.getId()) 
+								+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+						}
+					}
+					for (ProgramWorkflowState pws : terminalStates) {
+						if (!(currentState != null && currentState.getState().equals(pws))) {
+							o.write(changeToStateSubmitTag("Complete",
+								currentPatientProgram(program, patient),
+								pws.getProgramWorkflow(), pws,
+								"'dateForPWS" + pws.getId() + "'")
+								+ " with "
+								+ pws.getConcept().getName()
+								+ " on "
+								+ dateTag("dateForPWS" + pws.getId())
+								+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+						}
 					}
 				}
 			}
