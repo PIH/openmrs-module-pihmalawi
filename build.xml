@@ -171,6 +171,12 @@
 		</copy>
 	</target>
 
+	<target name="deploy-web" description="web">
+		<copy todir="${module.home}/">
+			<fileset dir="dist" includes="*.omod" />
+		</copy>
+	</target>
+
 	<target name="compile-tests" depends="package-jar" description="compile the java files in /test">
 		<mkdir dir="build-ant" />
 		<javac srcdir="${test.dir}" destdir="build-ant" classpathref="test.classpath">
