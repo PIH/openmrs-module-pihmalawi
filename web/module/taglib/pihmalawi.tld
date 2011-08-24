@@ -39,29 +39,4 @@
 		</attribute>
 	</tag>
 
-	<tag>
-		<description>Quick and clean programs management</description>
-		<name>quickPrograms</name>
-		<tag-class>org.openmrs.module.pihmalawi.web.taglibs.QuickProgramsTag</tag-class>
-		<attribute>
-			<name>patientId</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>stateIds</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>initialStateIds</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>terminalStateIds</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
 </taglib>
