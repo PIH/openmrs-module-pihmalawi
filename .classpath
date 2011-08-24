@@ -4,9 +4,13 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="web/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/opencsv-2.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/reporting"/>
+	<classpathentry exported="true" kind="lib" path="lib/opencsv-2.2.jar"/>
+	<classpathentry kind="lib" path="lib-common/openmrs-api-1.5.2.11623-dev.jar"/>
+	<classpathentry kind="lib" path="lib-common/tests-openmrs-api-1.5.2.11623-dev.jar"/>
+	<classpathentry kind="lib" path="lib-common/web-openmrs-api-1.5.2.11623-dev.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/openmrs-1.5.x"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/programlocation"/>
+	<classpathentry exported="true" kind="lib" path="dist"/>
+	<classpathentry exported="true" kind="lib" path="metadata"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/reporting"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
