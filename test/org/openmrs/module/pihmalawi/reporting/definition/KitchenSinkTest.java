@@ -109,7 +109,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 	}
 
 
-	@Test
+//	@Test
 	public void nix() {
 		long i = weeksDifference(new Date(), addWeeks(new Date(), 3));
 		System.out.println(i);
@@ -138,7 +138,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		}
 	}
 
-//	 @Test
+	 @Test
 	public void run() throws Exception {
 
 		// ReportDefinition rds[] = new SetupSurvivalAnalysis(new
