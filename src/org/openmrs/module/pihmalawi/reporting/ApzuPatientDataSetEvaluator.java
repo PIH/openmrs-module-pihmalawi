@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +40,8 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.web.WebConstants;
+
+import com.mchange.v1.identicator.Identicator;
 
 @Handler(supports = { ApzuPatientDataSetDefinition.class })
 public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
@@ -92,6 +96,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		List<Patient> patients = Context.getPatientSetService().getPatients(
 				cohort.getMemberIds());
 
+		// sorting like this is expensive and should be somehow provided by the framework!
+		sortByIdentifier(patients, patientIdentifierType, locationParameter);
+		
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
 			DataSetColumn c = null;
@@ -354,6 +361,47 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			dataSet.addRow(row);
 		}
 		return dataSet;
+	}
+
+	private void sortByIdentifier(List<Patient> patients, final PatientIdentifierType patientIdentifierType,
+			final Location locationParameter) {
+		Collections.sort(patients, new Comparator<Patient>() {
+			@Override
+			public int compare(Patient p1, Patient p2) {
+				
+				String p1ids = allIds(patientIdentifierType, locationParameter, p1);
+				String p2ids = allIds(patientIdentifierType, locationParameter, p2);
+				
+				return p1ids.compareToIgnoreCase(p2ids);
+			}
+
+			private String allIds(
+					final PatientIdentifierType patientIdentifierType,
+					final Location locationParameter, Patient p) {
+				String allIds = "";
+				List<PatientIdentifier> pis = null;
+				if (patientIdentifierType == null) {
+					pis = p.getActiveIdentifiers();
+				} else {
+					pis = p.getPatientIdentifiers(patientIdentifierType);
+				}
+				for (PatientIdentifier pi : pis) {
+					String id = (pi != null ? formatPatientIdentifier(pi.getIdentifier()) : "(none) ");
+					if (pi != null
+							&& pi.getLocation() != null
+							&& locationParameter != null
+							&& pi.getLocation().getId() == locationParameter
+									.getId()) {
+						// move preferred prefixed id to front if location was
+						// specified
+						allIds = id + allIds;
+					} else {
+						allIds += id;
+					}
+				}
+				return allIds;
+			}
+		});
 	}
 
 	protected void additionalColumns(Patient p, DataSetRow row, Location locationParameter, Date endDateParameter) {
