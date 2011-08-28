@@ -341,7 +341,7 @@ public class ArtExporter {
 
 		PatientState ps = currentProgramWorkflowStatus(1,
 				encounter.getPatient(), new Date());
-		ps = h.getMostRecentStateAtLocation(encounter.getPatient(), h.program("HIV PROGRAM"), h.location("Neno District Hospital"), sessionFactory().getCurrentSession());
+		ps = h.getMostRecentStateAtLocation_hack(encounter.getPatient(), h.program("HIV PROGRAM"), h.location("Neno District Hospital"), sessionFactory().getCurrentSession());
 		if (ps != null) {
 			r += csv("Outcome NNO", ps.getState().getConcept()
 					.getName().getName(), "at location", map(h.getEnrollmentLocation(ps.getPatientProgram(),

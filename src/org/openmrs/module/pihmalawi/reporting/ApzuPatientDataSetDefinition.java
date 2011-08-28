@@ -7,6 +7,7 @@ import java.util.List;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
@@ -45,7 +46,7 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	boolean includeProgramEnrollments = false;
 	
 	@ConfigurationProperty
-	Program program = null;
+	ProgramWorkflow programWorkflow = null;
 
 	@ConfigurationProperty
 	private boolean includeArvNumber;
@@ -130,12 +131,12 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 		this.includeMostRecentVitals = includeMostRecentVitals;
 	}
 
-	public Program getProgram() {
-		return program;
+	public ProgramWorkflow getProgramWorkflow() {
+		return programWorkflow;
 	}
 
-	public void setProgram(Program program) {
-		this.program = program;
+	public void setProgramWorkflow(ProgramWorkflow programWorkflow) {
+		this.programWorkflow = programWorkflow;
 	}
 
 	public boolean getIncludeChronicCareDiagnosis() {

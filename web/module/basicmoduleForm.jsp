@@ -52,8 +52,8 @@ HIV Data Quality: <a href="${pageContext.request.contextPath}/module/pihmalawi/r
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivdataquality.form">Remove</a>
 <br/>
 
-Duplicate HIV Patients: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_duplicatehivpatients.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_duplicatehivpatients.form">Remove</a>
+Find HIV Patients to merge: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_findpatientstomerge.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_findpatientstomerge.form">Remove</a>
 <br/>
 
 <h3>EMR Summary</h3>

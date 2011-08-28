@@ -13,7 +13,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.indicator.dimension.CohortDefinitionDimension;
@@ -37,8 +36,7 @@ public class SetupChronicCareMissedAppointment extends
 		configure(
 				"Chronic Care Missed Appointment Neno",
 				"ccappt",
-				Context.getProgramWorkflowService().getProgramByName(
-						"CHRONIC CARE PROGRAM"), Context.getLocationService()
+				helper.programWorkflow("CHRONIC CARE PROGRAM", "CHRONIC CARE TREATMENT STATUS"), Context.getLocationService()
 						.getLocation("Neno District Hospital"), Context
 						.getLocationService().getLocation("Magaleta HC"),
 						Context.getLocationService().getLocation("Nsambe HC"), Context.getLocationService().getLocation("Neno Mission HC"), false);

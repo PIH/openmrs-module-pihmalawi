@@ -1,6 +1,5 @@
 package org.openmrs.module.pihmalawi.reporting;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -33,8 +31,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			configure(
 					"ART Missed Appointment Upper Neno",
 					"artappt",
-					Context.getProgramWorkflowService().getProgramByName(
-							"HIV PROGRAM"),
+					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
 					Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
@@ -45,8 +42,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			configure(
 					"ART Missed Appointment Lower Neno",
 					"artappt",
-					Context.getProgramWorkflowService().getProgramByName(
-							"HIV PROGRAM"),
+					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
 					Context.getLocationService().getLocation(
 							"Lisungwi Community Hospital"), Context
 							.getLocationService().getLocation("Chifunga HC"),

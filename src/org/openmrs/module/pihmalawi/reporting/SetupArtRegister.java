@@ -2,16 +2,11 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openmrs.Concept;
 import org.openmrs.EncounterType;
-import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -66,7 +61,7 @@ public class SetupArtRegister {
 		dsd.setIncludeWeight(true);
 		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
 
-		dsd.setProgram(h.program("HIV PROGRAM"));
+		dsd.setProgramWorkflow(h.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"));
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 		dsd.setEncounterTypes(ENCOUNTER_TYPES);

@@ -10,13 +10,13 @@ import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
+import org.openmrs.module.pihmalawi.reporting.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
 import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
-import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
 import org.openmrs.module.pihmalawi.reporting.mohquarterlyart.SetupArvQuarterly;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -139,14 +139,14 @@ public class PihReportFormController {
 		new SetupHivDataQuality(new Helper()).delete();
 	}
 
-	@RequestMapping("/module/pihmalawi/remove_duplicatehivpatients.form")
+	@RequestMapping("/module/pihmalawi/remove_findpatientstomerge.form")
 	public void removeDuplicateHivPatients() {
-		new SetupDuplicateHivPatients(new Helper()).delete();
+		new SetupFindPatientsToMergeSoundex(new Helper()).delete();
 	}
 
-	@RequestMapping("/module/pihmalawi/register_duplicatehivpatients.form")
+	@RequestMapping("/module/pihmalawi/register_findpatientstomerge.form")
 	public void registerDuplicateHivPatients() throws Exception {
-		new SetupDuplicateHivPatients(new Helper()).setup();
+		new SetupFindPatientsToMergeSoundex(new Helper()).setup();
 	}
 
 	// Chronic Care

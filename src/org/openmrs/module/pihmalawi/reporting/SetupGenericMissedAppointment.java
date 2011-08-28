@@ -12,6 +12,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -37,7 +38,7 @@ public class SetupGenericMissedAppointment {
 
 	protected Helper h = null;
 
-	protected Program program = null;
+	protected ProgramWorkflow programWorkflow = null;
 
 	protected String reportName = null;
 
@@ -62,11 +63,11 @@ public class SetupGenericMissedAppointment {
 	}
 
 	protected void configure(String reportName, String reportTag,
-			Program program, Location location1, Location location2,
+			ProgramWorkflow programWorkflow, Location location1, Location location2,
 			Location location3, Location location4, boolean includeDefaulterActionTaken) {
 		this.reportName = reportName;
 		this.reportTag = reportTag;
-		this.program = program;
+		this.programWorkflow = programWorkflow;
 		this.location1 = location1;
 		this.location2 = location2;
 		this.location3 = location3;
@@ -75,11 +76,11 @@ public class SetupGenericMissedAppointment {
 	}
 
 	protected void configure(String reportName, String reportTag,
-			Program program, Location location1, Location location2,
+			ProgramWorkflow programWorkflow, Location location1, Location location2,
 			Location location3, Location location4, Location location5, Location location6, boolean includeDefaulterActionTaken) {
 		this.reportName = reportName;
 		this.reportTag = reportTag;
-		this.program = program;
+		this.programWorkflow = programWorkflow;
 		this.location1 = location1;
 		this.location2 = location2;
 		this.location3 = location3;
@@ -137,8 +138,8 @@ public class SetupGenericMissedAppointment {
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
-		if (program != null) {
-			dsd.setProgram(program);
+		if (programWorkflow != null) {
+			dsd.setProgramWorkflow(programWorkflow);
 			dsd.setIncludeProgramOutcome(true);
 		}
 
@@ -206,8 +207,8 @@ public class SetupGenericMissedAppointment {
 
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
 		dsd.setEncounterTypes(getEncounterTypes());
-		if (program != null) {
-			dsd.setProgram(program);
+		if (programWorkflow != null) {
+			dsd.setProgramWorkflow(programWorkflow);
 			dsd.setIncludeProgramOutcome(true);
 		}
 
@@ -286,26 +287,26 @@ public class SetupGenericMissedAppointment {
 		md.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		md.addParameter(new Parameter("location", "Location", Location.class));
 		Map<String, Object> m2 = new HashMap<String, Object>();
-		m2.put("program", program);
+		m2.put("program", programWorkflow.getProgram());
 		m2.put("endDate", "${endDate}");
 		m2.put("location", location1);
 		md.addCohortDefinition("loc1",
 				h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
 		m2 = new HashMap<String, Object>();
-		m2.put("program", program);
+		m2.put("program", programWorkflow.getProgram());
 		m2.put("endDate", "${endDate}");
 		m2.put("location", location2);
 		md.addCohortDefinition("loc2",
 				h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
 		m2 = new HashMap<String, Object>();
-		m2.put("program", program);
+		m2.put("program", programWorkflow.getProgram());
 		m2.put("endDate", "${endDate}");
 		m2.put("location", location3);
 		md.addCohortDefinition("loc3",
 				h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
 		if (location4 != null) {
 			m2 = new HashMap<String, Object>();
-			m2.put("program", program);
+			m2.put("program", programWorkflow.getProgram());
 			m2.put("endDate", "${endDate}");
 			m2.put("location", location4);
 			md.addCohortDefinition("loc4",
@@ -313,7 +314,7 @@ public class SetupGenericMissedAppointment {
 		}
 		if (location5 != null) {
 			m2 = new HashMap<String, Object>();
-			m2.put("program", program);
+			m2.put("program", programWorkflow.getProgram());
 			m2.put("endDate", "${endDate}");
 			m2.put("location", location5);
 			md.addCohortDefinition("loc5",
@@ -321,7 +322,7 @@ public class SetupGenericMissedAppointment {
 		}
 		if (location6 != null) {
 			m2 = new HashMap<String, Object>();
-			m2.put("program", program);
+			m2.put("program", programWorkflow.getProgram());
 			m2.put("endDate", "${endDate}");
 			m2.put("location", location6);
 			md.addCohortDefinition("loc6",

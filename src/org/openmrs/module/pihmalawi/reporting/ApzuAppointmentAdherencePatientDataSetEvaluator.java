@@ -127,7 +127,7 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			c = new DataSetColumn("Village", "Village", String.class);
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			// enrollment outcome
-			PatientState ps = new Helper().getMostRecentStateAtLocation(p,
+			PatientState ps = new Helper().getMostRecentStateAtLocation_hack(p,
 					new Helper().program("HIV PROGRAM"), location,
 					sessionFactory().getCurrentSession());
 			c = new DataSetColumn("Outcome", "Outcome", String.class);

@@ -41,8 +41,6 @@ import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluato
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.web.WebConstants;
 
-import com.mchange.v1.identicator.Identicator;
-
 @Handler(supports = { ApzuPatientDataSetDefinition.class })
 public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
@@ -163,12 +161,11 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				if (locationParameter == null) {
 					// outcome from endDate, hopefully the one you are interested in
 					ps = h.getMostRecentStateAtDate(p,
-							definition.getProgram(), endDateParameter,
-							sessionFactory().getCurrentSession());
+							definition.getProgramWorkflow(), endDateParameter);
 				} else {
 					// enrollment outcome from location
 					ps = h.getMostRecentStateAtLocation(p,
-						definition.getProgram(), locationParameter,
+						definition.getProgramWorkflow(), locationParameter,
 						sessionFactory().getCurrentSession());
 				}
 				c = new DataSetColumn("Outcome", "Outcome", String.class);

@@ -34,8 +34,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			configure(
 					"Pre-ART Missed Appointment",
 					"partappt",
-					Context.getProgramWorkflowService().getProgramByName(
-							"HIV PROGRAM"),
+					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
 							Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
@@ -46,8 +45,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			configure(
 					"Pre-ART Missed Appointment",
 					"partappt",
-					Context.getProgramWorkflowService().getProgramByName(
-							"HIV PROGRAM"),
+					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
 							Context.getLocationService().getLocation(
 							"Lisungwi Community Hospital"), Context
 							.getLocationService().getLocation("Chifunga HC"),

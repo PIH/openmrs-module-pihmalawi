@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
@@ -55,6 +57,7 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
 import org.openmrs.util.OpenmrsClassLoader;
+import org.openmrs.util.OpenmrsUtil;
 
 public class Helper {
 
@@ -263,6 +266,10 @@ public class Helper {
 		return s;
 	}
 
+	public ProgramWorkflow programWorkflow(String program, String workflow) {
+		return program(program).getWorkflowByName(workflow);
+	}
+	
 	public Location location(String location) {
 		Location s = Context.getLocationService().getLocation(location);
 		if (s == null) {
@@ -448,8 +455,9 @@ public class Helper {
 		}
 		return state;
 	}
-	
-	public PatientState getMostRecentStateAtLocation(Patient p,
+
+	// sorry, but this a haaack
+	public PatientState getMostRecentStateAtLocation_hack(Patient p,
 			Program program,
 			Location enrollmentLocation, Session hibernateSession) {
 		PatientState state = null;
@@ -482,7 +490,87 @@ public class Helper {
 		return state;
 	}
 	
-	public PatientState getMostRecentStateAtDate(Patient p, Program program,
+	public PatientState getMostRecentStateAtLocation(Patient p,
+			ProgramWorkflow programWorkflow,
+			Location enrollmentLocation, Session hibernateSession) {
+		List<PatientState> lastStateOfAllPatientPrograms = new ArrayList<PatientState>();
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						programWorkflow.getProgram(),
+						null, null, null, null, false);
+		
+		// get all last states of patientprograms
+		for (PatientProgram pp : pps) {
+			List<PatientState> states = statesInWorkflow(pp, programWorkflow);
+			if (states != null && !states.isEmpty()) {
+				lastStateOfAllPatientPrograms.add(states.get(states.size()));
+				log.debug("lastStatesOfAllPatientPrograms " + p.getPatientId() + " " + states.get(states.size()).getState().getConcept().getName());
+			}
+		}
+		// figure out which patientprogram is last
+		PatientState lastState = null;
+		for (PatientState state : lastStateOfAllPatientPrograms) {
+			if (state.getPatientProgram().getDateCompleted() == null) {
+				// assume only one uncompleted program is possible (although not the case)
+				return state; 
+			} else {
+				// otherwise assume the order of patientprograms is sequentially ordered (although not the case)
+				lastState = state;
+			}
+		}
+		return lastState;
+	}
+	
+	// quick hack copied from bugfix for PatientProgram from ProgramLocation module
+	// once OpenMRS can handle same-day-transitions this could be removed
+	private List<PatientState> statesInWorkflow(PatientProgram patientProgram, ProgramWorkflow programWorkflow) {
+		List<PatientState> ret = new ArrayList<PatientState>();
+		for (PatientState st : patientProgram.getStates()) {
+			if (st.getState().getProgramWorkflow().equals(programWorkflow) && !st.getVoided()) {
+				ret.add(st);
+			}
+		}
+		Collections.sort(ret, new Comparator<PatientState>() {
+			
+			public int compare(PatientState left, PatientState right) {
+				// check if one of the states is active 
+				if (left.getActive()) {
+					return 1;
+				}
+				if (right.getActive()) {
+					return -1;
+				}
+				return OpenmrsUtil.compareWithNullAsEarliest(left.getStartDate(), right.getStartDate());
+			}
+		});
+		return ret;
+	}
+
+	public PatientState getMostRecentStateAtDate(Patient p, ProgramWorkflow programWorkflow,
+			Date endDate) {
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p,
+						programWorkflow.getProgram(),
+						null, null, null, null, false);
+		PatientState lastStateOnDate = null;
+		
+		for (PatientProgram pp : pps) {
+			if (pp.getActive(endDate)) {
+				// assuming there is only on active patientprogram (migh tbe wrong)
+				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
+				for (PatientState state : states) {
+					if (state.getStartDate().getTime() < endDate.getTime()) {
+						// assuming the states is ordered
+						lastStateOnDate = state;
+					}
+				}
+				
+			}
+		}
+		return lastStateOnDate;
+	}
+
+	public PatientState getMostRecentStateAtDate_hack(Patient p, Program program,
 			Date endDate, org.hibernate.classic.Session hibernateSession) {
 		// wrong assumption that there is only one programworkflow for a program 
 		PatientState state = null;
