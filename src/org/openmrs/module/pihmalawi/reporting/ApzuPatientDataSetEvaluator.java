@@ -169,11 +169,15 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 						sessionFactory().getCurrentSession());
 				}
 				c = new DataSetColumn("Outcome", "Outcome", String.class);
-				row.addColumnValue(c, ps.getState().getConcept().getName()
-						.getName());
+				if (ps != null) {
+					row.addColumnValue(c, ps.getState().getConcept().getName()
+							.getName());
+				}
 				c = new DataSetColumn("Outcome Date", "Outcome Date",
 						String.class);
-				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+				if (ps != null) {
+					row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+				}
 			}
 
 			// last visit & loc
