@@ -316,6 +316,8 @@ public class SetupHivDataQuality {
 		PeriodIndicatorReportUtil.addColumn(rd[1], "noexit2",
 				"Died without exit from care", i, null);
 
+		multipleOpenStates();
+		
 		// on art but no arv number
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state On ART_");
@@ -350,6 +352,8 @@ public class SetupHivDataQuality {
 		PeriodIndicatorReportUtil.addColumn(rd[1], "nonoart",
 				"On ART without number", i, null);
 
+		artEncounterWithoutNumber(rd);
+		
 		// on following but no pre-art number
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state Following_");
@@ -518,6 +522,14 @@ public class SetupHivDataQuality {
 				h.location("Nkhula Falls RHC"), "NKA");
 
 //		intermediateEid(rd);
+	}
+
+	private void multipleOpenStates() {
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Multiple open states without end date_");
+		String sql = "select pp.patient_id from  patient_program pp, patient_state ps where pp.patient_program_id = ps.patient_program_id and ps.end_date is null and ps.voided=0 group by ps.patient_program_id having count(*)>1";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
 	}
 
 	private void wrongPartFormat(PeriodIndicatorReportDefinition[] rd) {
@@ -1017,6 +1029,39 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 				"On ART without encounter", i, null);
 		PeriodIndicatorReportUtil.addColumn(rd[1], "noartenc",
 				"On ART without encounter", i, null);
+	}
+
+	private void artEncounterWithoutNumber(PeriodIndicatorReportDefinition[] rd) {
+		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
+		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ecd.setName("hivdq: ART encounter_");
+		ecd.setEncounterTypeList(Arrays.asList(h.encounterType("ART_INITIAL"),
+				h.encounterType("ART_FOLLOWUP")));
+		h.replaceCohortDefinition(ecd);
+
+		// depends on 'hivdq: ART number_'
+		
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.setName("hivdq: ART encounter without number_");
+		ccd.getSearches().put(
+				"artEncounter",
+				new Mapped(h.cohortDefinition("hivdq: ART encounter_"), h
+						.parameterMap("endDate", "${endDate}")));
+		ccd.getSearches().put(
+				"artNumber",
+				new Mapped(h.cohortDefinition("hivdq: ART number_"), h
+						.parameterMap()));
+		ccd.setCompositionString("artEncounter AND NOT artNumber");
+		h.replaceCohortDefinition(ccd);
+		CohortIndicator i = h.newCountIndicator("hivdq: ART encounter without number_",
+				"hivdq: ART encounter without number_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "artnono",
+				"ART encounter without number", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "artnono",
+				"ART encounter without number", i, null);
+
 	}
 
 	private void createEncounterAfterTerminalState(
