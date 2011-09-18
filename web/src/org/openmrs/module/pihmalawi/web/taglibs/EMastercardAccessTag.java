@@ -23,7 +23,7 @@ import org.openmrs.api.context.Context;
 
 public class EMastercardAccessTag extends BodyTagSupport {
 
-	private static final String APPOINTMENT_DATE = "APPOINTMENT DATE";
+	private static final String APPOINTMENT_DATE = "Appointment date";
 	
 	public static final long serialVersionUID = 128234353L;
 	
