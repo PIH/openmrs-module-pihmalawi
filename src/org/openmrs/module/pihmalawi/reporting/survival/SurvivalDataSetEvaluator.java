@@ -51,7 +51,7 @@ public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 	public DataSet evaluate(DataSetDefinition dataSetDefinition,
 			EvaluationContext context) {
 		final Concept CD4_COUNT = Context.getConceptService().getConceptByName(
-				"CD4 COUNT");
+				"CD4 count");
 		final RelationshipType VHW_RELATIONSHIP_TYPE = Context
 				.getPersonService().getRelationshipType(7);
 		// // VHW_RELATIONSHIP_TYPE =
@@ -126,7 +126,7 @@ public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 				// Set<Obs> observations = e.getObs();
 				// for (Obs o : observations) {
 				// if
-				// (o.getConcept().equals(Context.getConceptService().getConceptByName("APPOINTMENT DATE")))
+				// (o.getConcept().equals(Context.getConceptService().getConceptByName("Appointment date")))
 				// {
 				// rvd = o.getValueAsString(Context.getLocale());
 				// c = new DataSetColumn("RVD", "RVD", String.class);
@@ -155,7 +155,7 @@ public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 
 			Program program = Context.getProgramWorkflowService()
-					.getProgramByName("HIV PROGRAM");
+					.getProgramByName("HIV program");
 
 			// first on art on
 			c = new DataSetColumn("ART started on", "ART started on",
@@ -216,16 +216,16 @@ public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 			c = new DataSetColumn("Reason for starting", "Reaons for starting",
 					String.class);
 			row.addColumnValue(c,
-					obsFromEncounter(initial, "REASON ANTIRETROVIRALS STARTED"));
+					obsFromEncounter(initial, "REASOn antiretrovirals STARTED"));
 
 			c = new DataSetColumn("WHO Stage", "WHO Stage", String.class);
 			row.addColumnValue(c, obsFromEncounter(initial, "WHO STAGE"));
 
 			c = new DataSetColumn("Weight at initiation", "Weight at initiation", String.class);
-			row.addColumnValue(c, obsFromEncounter(initial, "WEIGHT (KG)"));
+			row.addColumnValue(c, obsFromEncounter(initial, "Weight (kg)"));
 
 			c = new DataSetColumn("Height at initiation", "Height at initiation", String.class);
-			row.addColumnValue(c, obsFromEncounter(initial, "HEIGHT (CM)"));
+			row.addColumnValue(c, obsFromEncounter(initial, "Height (cm)"));
 
 			c = new DataSetColumn("Age at initiation in Neno district",
 					"Age at initiation (in Neno)", Integer.class);
@@ -281,9 +281,9 @@ public class SurvivalDataSetEvaluator  implements DataSetEvaluator {
 	private PatientState getFirstOnArtState(Patient p, Program program) {
 
 		ProgramWorkflowState onArt = Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals");
 
 		List<PatientProgram> pps = Context.getProgramWorkflowService()
 				.getPatientPrograms(p, program, null, null, null, null, false);

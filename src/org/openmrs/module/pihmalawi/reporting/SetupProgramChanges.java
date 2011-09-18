@@ -45,21 +45,21 @@ public class SetupProgramChanges {
 	public SetupProgramChanges(Helper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
+				"HIV program");
 		PATIENT_IDENTIFIER_TYPE = Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number");
 
 		STATES = Arrays.asList(
-				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
-						"FOLLOWING"),
-				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
-						"ON ANTIRETROVIRALS"),
-				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
-						"PATIENT DIED"),
-				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
-						"PATIENT TRANSFERRED OUT"),
-				PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName(
-						"TREATMENT STOPPED"));
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Pre-ART (Continue)"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"On antiretrovirals"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Patient died"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Patient transferred out"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Treatment stopped"));
 		LOCATIONS = Arrays.asList(h.location("Neno District Hospital"),
 				h.location("Magaleta HC"), h.location("Nsambe HC"),
 				h.location("Neno Mission HC"),
@@ -178,8 +178,8 @@ public class SetupProgramChanges {
 		// Started ART during period
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName("changes: Started ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM",
-				"TREATMENT STATUS", "ON ANTIRETROVIRALS")));
+		pscd.setStates(Arrays.asList(h.workflowState("HIV program",
+				"Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter",
 				Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
@@ -189,8 +189,8 @@ public class SetupProgramChanges {
 		// Following during period
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName("changes: Following_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM",
-				"TREATMENT STATUS", "FOLLOWING")));
+		iscd.setStates(Arrays.asList(h.workflowState("HIV program",
+				"Treatment status", "Pre-ART (Continue)")));
 		iscd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		h.replaceCohortDefinition(iscd);

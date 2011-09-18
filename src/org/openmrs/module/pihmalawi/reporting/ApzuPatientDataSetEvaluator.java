@@ -54,15 +54,15 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	public DataSet evaluate(DataSetDefinition dataSetDefinition,
 			EvaluationContext context) {
 		final Concept DEFAULTER_ACTION_TAKEN = Context.getConceptService()
-				.getConceptByName("DEFAULTER ACTION TAKEN");
+				.getConceptByName("Defaulter action taken");
 		final Concept CD4_COUNT = Context.getConceptService().getConceptByName(
-				"CD4 COUNT");
+				"CD4 count");
 		final Concept APPOINTMENT_DATE = Context.getConceptService()
-				.getConceptByName("APPOINTMENT DATE");
+				.getConceptByName("Appointment date");
 		final Concept WEIGHT = Context.getConceptService().getConceptByName(
-				"WEIGHT (KG)");
+				"Weight (kg)");
 		final Concept HEIGHT = Context.getConceptService().getConceptByName(
-				"HEIGHT (CM)");
+				"Height (cm)");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuPatientDataSetDefinition definition = (ApzuPatientDataSetDefinition) dataSetDefinition;
@@ -203,7 +203,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				// Set<Obs> observations = e.getObs();
 				// for (Obs o : observations) {
 				// if
-				// (o.getConcept().equals(Context.getConceptService().getConceptByName("APPOINTMENT DATE")))
+				// (o.getConcept().equals(Context.getConceptService().getConceptByName("Appointment date")))
 				// {
 				// rvd = o.getValueAsString(Context.getLocale());
 				// c = new DataSetColumn("RVD", "RVD", String.class);
@@ -225,7 +225,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 					null, null, null, false);
 			// getting rvd from any concept of person across encounters
 			// Context.getObsService().getObservationsByPersonAndConcept(p,
-			// Context.getConceptService().getConceptByName("APPOINTMENT DATE"));
+			// Context.getConceptService().getConceptByName("Appointment date"));
 			Iterator<Obs> i = obs.iterator();
 			if (i.hasNext()) {
 				rvd = i.next().getValueAsString(Context.getLocale());

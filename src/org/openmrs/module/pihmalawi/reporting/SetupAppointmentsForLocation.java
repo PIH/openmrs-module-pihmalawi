@@ -86,7 +86,7 @@ public class SetupAppointmentsForLocation {
 		docd.addParameter(new Parameter("value1", "Appointment Date",
 				Date.class));
 		docd.setEncounterTypeList(ArtReportElements.hivEncounterTypes());
-		docd.setQuestion(h.concept("APPOINTMENT DATE"));
+		docd.setQuestion(h.concept("Appointment date"));
 		docd.setTimeModifier(TimeModifier.LAST);
 		docd.setName(PREFIX + ": HIV Appointments");
 		docd.setOperator1(RangeComparator.EQUAL);

@@ -188,9 +188,9 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_artappadherence.form")
 	public void removeArtAppAdherence() {
 		new SetupAppointmentAdherence(new Helper(), "adart", "ART", Context
-				.getProgramWorkflowService().getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
+				.getProgramWorkflowService().getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.delete();
@@ -199,9 +199,9 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_artappadherence.form")
 	public void registerArtAppAdherence() throws Exception {
 		new SetupAppointmentAdherence(new Helper(), "adart", "ART", Context
-				.getProgramWorkflowService().getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
+				.getProgramWorkflowService().getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.setup();

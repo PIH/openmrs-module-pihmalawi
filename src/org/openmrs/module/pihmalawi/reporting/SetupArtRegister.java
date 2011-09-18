@@ -61,7 +61,7 @@ public class SetupArtRegister {
 		dsd.setIncludeWeight(true);
 		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
 
-		dsd.setProgramWorkflow(h.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"));
+		dsd.setProgramWorkflow(h.programWorkflow("HIV program", "Treatment status"));
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 		dsd.setEncounterTypes(ENCOUNTER_TYPES);
@@ -79,7 +79,7 @@ public class SetupArtRegister {
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
-				"WEIGHT (KG)"));
+				"Weight (kg)"));
 
 		return h.createHtmlBreakdown(rd, "ART Register Weight_", m);
 	}
@@ -94,7 +94,7 @@ public class SetupArtRegister {
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
-		"WEIGHT (KG)"));
+		"Weight (kg)"));
 
 		return h.createHtmlBreakdown(rd, "ART Register BMI_", m);
 	}
@@ -109,7 +109,7 @@ public class SetupArtRegister {
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 		dsd.setNumericConcept(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
+				"CD4 count"));
 
 		return h.createHtmlBreakdown(rd, "ART Register CD4_", m);
 	}

@@ -177,7 +177,7 @@ public class SetupDuplicateHivPatients {
 		iplcd.setName("dup: in HIV program_");
 		iplcd.setLocation(h.location("Neno District Hospital"));
 		iplcd.setPrograms(Arrays.asList(Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")));
+				.getProgramByName("HIV program")));
 		h.replaceCohortDefinition(iplcd);
 		i = h.newCountIndicator("dup: in HIV program_", "dup: in HIV program_",
 				h.parameterMap());

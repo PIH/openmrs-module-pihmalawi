@@ -23,10 +23,10 @@ public class ReinitiatedEvaluator implements CohortDefinitionEvaluator  {
 	
 	public Cohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
 		
-		Program PROGRAM = Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM");
-		ProgramWorkflowState STATE_DIED = PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName("PATIENT DIED");
-		ProgramWorkflowState STATE_STOPPED = PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName("TREATMENT STOPPED");
-		ProgramWorkflowState STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS").getStateByName("PATIENT TRANSFERRED OUT");
+		Program PROGRAM = Context.getProgramWorkflowService().getProgramByName("HIV program");
+		ProgramWorkflowState STATE_DIED = PROGRAM.getWorkflowByName("Treatment status").getStateByName("Patient died");
+		ProgramWorkflowState STATE_STOPPED = PROGRAM.getWorkflowByName("Treatment status").getStateByName("Treatment stopped");
+		ProgramWorkflowState STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("Treatment status").getStateByName("Patient transferred out");
 		
 		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
 			    HibernatePihMalawiQueryDao.class).get(0);
@@ -69,7 +69,7 @@ public class ReinitiatedEvaluator implements CohortDefinitionEvaluator  {
 			// defaulters in a given quarter in the past
 			Cohort defaulters = cohortService.getPatientsHavingRangedObs(
 					TimeModifier.MAX, Context.getConceptService()
-					.getConceptByName("APPOINTMENT DATE"), null,
+					.getConceptByName("Appointment date"), null,
 					null, endDate,
 					cd.getLocationList(), cd.getEncounterTypeList(),
 					RangeComparator.LESS_THAN, value1,

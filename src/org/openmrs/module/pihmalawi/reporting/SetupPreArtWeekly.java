@@ -148,8 +148,8 @@ public class SetupPreArtWeekly {
 				"1",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -184,8 +184,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"FOLLOWING"), "onDate", "${onDate}",
+										"HIV program", "Treatment status",
+										"Pre-ART (Continue)"), "onDate", "${onDate}",
 										"location", "${location}")));
 		ccd.getSearches().put(
 				"2",
@@ -206,8 +206,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"FOLLOWING"), "onDate", "${onDate}",
+										"HIV program", "Treatment status",
+										"Pre-ART (Continue)"), "onDate", "${onDate}",
 										"location", "${location}")));
 		ccd.setCompositionString("1");
 		h.replaceCohortDefinition(ccd);
@@ -226,8 +226,8 @@ public class SetupPreArtWeekly {
 				"1",
 				new Mapped(h
 						.cohortDefinition("part: State change at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrAfter", "${startedOnOrAfter}",
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"location", "${location}")));
@@ -249,8 +249,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"PATIENT DIED"), "onDate",
+										"HIV program", "Treatment status",
+										"Patient died"), "onDate",
 										"${startedOnOrBefore}", "location",
 										"${location}")));
 		ccd.getSearches()
@@ -258,8 +258,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"ON ANTIRETROVIRALS"),
+										"HIV program", "Treatment status",
+										"On antiretrovirals"),
 										"startedOnOrBefore",
 										"${startedOnOrBefore}",
 										"startedOnOrAfter",
@@ -269,8 +269,8 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -292,7 +292,7 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
+										"HIV program", "Treatment status",
 										"PATIENT HIV NEGATIVE"), "onDate",
 										"${startedOnOrBefore}", "location",
 										"${location}")));
@@ -301,8 +301,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"ON ANTIRETROVIRALS"),
+										"HIV program", "Treatment status",
+										"On antiretrovirals"),
 										"startedOnOrBefore",
 										"${startedOnOrBefore}",
 										"startedOnOrAfter",
@@ -312,8 +312,8 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -335,8 +335,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"PATIENT TRANSFERRED OUT"), "onDate",
+										"HIV program", "Treatment status",
+										"Patient transferred out"), "onDate",
 										"${startedOnOrBefore}", "location",
 										"${location}")));
 		ccd.getSearches()
@@ -344,8 +344,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"ON ANTIRETROVIRALS"),
+										"HIV program", "Treatment status",
+										"On antiretrovirals"),
 										"startedOnOrBefore",
 										"${startedOnOrBefore}",
 										"startedOnOrAfter",
@@ -355,8 +355,8 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -375,19 +375,19 @@ public class SetupPreArtWeekly {
 		 * ccd.addParameter(new Parameter("location", "location",
 		 * Location.class)); ccd.getSearches().put( "1", new
 		 * Mapped(h.cohortDefinition("part: In state on date at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV PROGRAM",
-		 * "TREATMENT STATUS", "TRANSFERRED INTERNALLY"), "onDate",
+		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * "Treatment status", "Transferred internally"), "onDate",
 		 * "${startedOnOrBefore}", "location", "${location}")));
 		 * ccd.getSearches().put( "2", new
 		 * Mapped(h.cohortDefinition("part: Not having state at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV PROGRAM",
-		 * "TREATMENT STATUS", "ON ANTIRETROVIRALS"), "startedOnOrBefore",
+		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * "Treatment status", "On antiretrovirals"), "startedOnOrBefore",
 		 * "${startedOnOrBefore}", "startedOnOrAfter",
 		 * "${startedOnOrAfter-100y}", "location", "${location}")));
 		 * ccd.getSearches().put( "3", new
 		 * Mapped(h.cohortDefinition("part: Having state at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV PROGRAM",
-		 * "TREATMENT STATUS", "FOLLOWING"), "startedOnOrBefore",
+		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * "Treatment status", "Pre-ART (Continue)"), "startedOnOrBefore",
 		 * "${startedOnOrBefore}", "startedOnOrAfter",
 		 * "${startedOnOrAfter-100y}", "location", "${location}")));
 		 * ccd.setCompositionString("1 AND 2 AND 3");
@@ -408,8 +408,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"TREATMENT STOPPED"), "onDate",
+										"HIV program", "Treatment status",
+										"Treatment stopped"), "onDate",
 										"${startedOnOrBefore}", "location",
 										"${location}")));
 		ccd.getSearches()
@@ -417,8 +417,8 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"ON ANTIRETROVIRALS"),
+										"HIV program", "Treatment status",
+										"On antiretrovirals"),
 										"startedOnOrBefore",
 										"${startedOnOrBefore}",
 										"startedOnOrAfter",
@@ -428,8 +428,8 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -450,8 +450,8 @@ public class SetupPreArtWeekly {
 				"2",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "ON ANTIRETROVIRALS"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "On antiretrovirals"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -459,8 +459,8 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -482,16 +482,16 @@ public class SetupPreArtWeekly {
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
 								h.parameterMap("state", h.workflowState(
-										"HIV PROGRAM", "TREATMENT STATUS",
-										"ON ANTIRETROVIRALS"), "onDate",
+										"HIV program", "Treatment status",
+										"On antiretrovirals"), "onDate",
 										"${startedOnOrBefore}", "location",
 										"${location}")));
 		ccd.getSearches().put(
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV PROGRAM",
-								"TREATMENT STATUS", "FOLLOWING"),
+						.parameterMap("state", h.workflowState("HIV program",
+								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
 								"location", "${location}")));
@@ -509,7 +509,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//				"CD4 COUNT"));
+//				"CD4 count"));
 		 nocd.setQuestion(Context.getConceptService().getConceptByName(
 		 "CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
@@ -531,7 +531,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
+				"CD4 count"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("LAB")));
 		nocd.setTimeModifier(TimeModifier.ANY);
@@ -566,7 +566,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//		"CD4 COUNT"));
+//		"CD4 count"));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
 				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
@@ -588,7 +588,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
+				"CD4 count"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("LAB")));
 		nocd.setTimeModifier(TimeModifier.LAST);
@@ -609,7 +609,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//		"CD4 COUNT"));
+//		"CD4 count"));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
 				"CLINICIAN REPORTED CD4"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
@@ -631,7 +631,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
+				"CD4 count"));
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("LAB")));
 		nocd.setTimeModifier(TimeModifier.LAST);
@@ -652,7 +652,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 //		nocd.setQuestion(Context.getConceptService().getConceptByName(
-//		"CD4 COUNT"));
+//		"CD4 count"));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
 				"CLINICIAN REPORTED CD4"));
 		nocd.setTimeModifier(TimeModifier.LAST);
@@ -678,7 +678,7 @@ public class SetupPreArtWeekly {
 		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
-				"CD4 COUNT"));
+				"CD4 count"));
 		nocd.setTimeModifier(TimeModifier.LAST);
 		nocd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
 				.getEncounterType("LAB")));

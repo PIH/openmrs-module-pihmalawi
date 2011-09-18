@@ -34,7 +34,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			configure(
 					"Pre-ART Missed Appointment",
 					"partappt",
-					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
+					helper.programWorkflow("HIV program", "Treatment status"),
 							Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
@@ -45,7 +45,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			configure(
 					"Pre-ART Missed Appointment",
 					"partappt",
-					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
+					helper.programWorkflow("HIV program", "Treatment status"),
 							Context.getLocationService().getLocation(
 							"Lisungwi Community Hospital"), Context
 							.getLocationService().getLocation("Chifunga HC"),
@@ -118,12 +118,12 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("FOLLOWING"));
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("Pre-ART (Continue)"));
 		// internal transfers are still under responsibility of original clinic
-		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-		// .getStateByName("TRANSFERRED INTERNALLY"));
+		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
+		// .getStateByName("Transferred internally"));
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);

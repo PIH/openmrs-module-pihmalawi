@@ -51,7 +51,7 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 	public DataSet evaluate(DataSetDefinition dataSetDefinition,
 			EvaluationContext context) {
 		final Concept concept = Context.getConceptService().getConceptByName(
-		"APPOINTMENT DATE");
+		"Appointment date");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		ApzuAppointmentAdherencePatientDataSetDefinition definition = (ApzuAppointmentAdherencePatientDataSetDefinition) dataSetDefinition;
@@ -128,7 +128,7 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			// enrollment outcome
 			PatientState ps = new Helper().getMostRecentStateAtLocation_hack(p,
-					new Helper().program("HIV PROGRAM"), location,
+					new Helper().program("HIV program"), location,
 					sessionFactory().getCurrentSession());
 			c = new DataSetColumn("Outcome", "Outcome", String.class);
 			row.addColumnValue(c, ps.getState().getConcept().getName()

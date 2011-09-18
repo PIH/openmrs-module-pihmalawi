@@ -137,9 +137,9 @@ public class SurvivalRateCalc {
 			PatientProgram pp) {
 
 		ProgramWorkflowState onArt = Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals");
 
 		HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
 		ArrayList<Long> stupidListConverter = new ArrayList<Long>();

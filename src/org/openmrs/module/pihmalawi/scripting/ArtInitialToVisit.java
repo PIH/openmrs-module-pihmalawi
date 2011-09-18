@@ -60,11 +60,11 @@ public class ArtInitialToVisit {
 		artFollowups = Arrays.asList(Context.getEncounterService()
 				.getEncounterType("ART_FOLLOWUP"));
 		artVisitForm = Context.getFormService().getForm("ART Visit");
-		apptDate = Context.getConceptService().getConcept("APPOINTMENT DATE");
+		apptDate = Context.getConceptService().getConcept("Appointment date");
 		numberArvs = Context.getConceptService().getConcept(
 				"NUMBER OF ANTIRETROVIRALS GIVEN");
-		weight = Context.getConceptService().getConcept("WEIGHT (KG)");
-		height = Context.getConceptService().getConcept("HEIGHT (CM)");
+		weight = Context.getConceptService().getConcept("Weight (kg)");
+		height = Context.getConceptService().getConcept("Height (cm)");
 		amount = Context.getConceptService().getConcept("AMOUNT OF DRUG BROUGHT TO CLINIC");
 		
 //		Patient p = Context.getPatientService().getPatient(16817);

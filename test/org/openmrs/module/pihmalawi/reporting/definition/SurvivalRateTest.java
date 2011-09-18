@@ -39,7 +39,7 @@ public class SurvivalRateTest extends BaseModuleContextSensitiveTest {
 	@Rollback(false)
 	public void setupHivWeekly() throws Exception {
 		Program program = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
+				"HIV program");
 		int monthsInProgram = 12;
 		Location location = Context.getLocationService().getLocation(2);
 		Patient p = Context.getPatientService().getPatient(56184);

@@ -29,7 +29,7 @@ import org.openmrs.serialization.SerializationException;
 public class SetupAppointmentAdherence {
 
 	private static final Concept APPOINTMENT_CONCEPT = Context
-			.getConceptService().getConceptByName("APPOINTMENT DATE");
+			.getConceptService().getConceptByName("Appointment date");
 
 	Helper h = new Helper();
 

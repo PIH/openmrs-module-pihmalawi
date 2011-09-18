@@ -48,8 +48,8 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 	private void init() {
 		// set up all concepts for all encountertypes to be included
 		EVALUATION_CONCEPTS = new ArrayList<Concept>();
-		EVALUATION_CONCEPTS.add(h.concept("WEIGHT (KG)"));
-		EVALUATION_CONCEPTS.add(h.concept("HEIGHT (CM)"));
+		EVALUATION_CONCEPTS.add(h.concept("Weight (kg)"));
+		EVALUATION_CONCEPTS.add(h.concept("Height (cm)"));
 		EVALUATION_CONCEPTS.add(h.concept("BODY SURFACE AREA CALCULATED"));
 		EVALUATION_CONCEPTS.add(h.concept("BODY MASS INDEX, MEASURED"));
 		EVALUATION_CONCEPTS.add(h
@@ -82,7 +82,7 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 		EVALUATION_CONCEPTS.add(h
 				.concept("ALANINE AMINOTRANSFERASE")); // aka SERUM GLUTAMIC-PYRUVIC TRANSAMINASE
 		EVALUATION_CONCEPTS.add(h.concept("NEUTROPHILS"));
-		EVALUATION_CONCEPTS.add(h.concept("CD4 COUNT"));
+		EVALUATION_CONCEPTS.add(h.concept("CD4 count"));
 		EVALUATION_CONCEPTS.add(h.concept("PLATELETS"));
 		// laboratory examinations construct
 		EVALUATION_CONCEPTS.add(h.concept("NUMBER OF LESIONS"));
@@ -91,12 +91,12 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 		EVALUATION_CONCEPTS.add(h.concept("TUMOUR PROGNOSIS FOR KS"));
 		EVALUATION_CONCEPTS.add(h.concept("SYSTEMIC ILLNESS PROGNOSIS FOR KS"));
 		EVALUATION_CONCEPTS.add(h.concept("DATE ANTIRETROVIRALS STARTED"));
-//		jEVALUATION_CONCEPTS.add(h.concept("CD4 COUNT")); // not sure how to deal with the construct
+//		jEVALUATION_CONCEPTS.add(h.concept("CD4 count")); // not sure how to deal with the construct
 		
 		CHEMOTHERAPY_CONCEPTS = new ArrayList<Concept>();
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("HEIGHT (CM)"));
+		CHEMOTHERAPY_CONCEPTS.add(h.concept("Height (cm)"));
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("CHEMOTHERAPY CYCLE NUMBER"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("WEIGHT (KG)"));
+		CHEMOTHERAPY_CONCEPTS.add(h.concept("Weight (kg)"));
 		CHEMOTHERAPY_CONCEPTS.add(h
 				.concept("VINCRISTINE SULPHATE DOSE RECEIVED"));
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("BLEOMYCIN DOSE RECEIVED"));
@@ -106,7 +106,7 @@ public class ApzuKsPatientDataSetEvaluator extends ApzuPatientDataSetEvaluator
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("PLATELETS"));
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("NEUTROPHILS"));
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("WHITE BLOOD CELLS"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("APPOINTMENT DATE"));
+		CHEMOTHERAPY_CONCEPTS.add(h.concept("Appointment date"));
 		CHEMOTHERAPY_CONCEPTS.add(h.concept("SERUM ALBUMIN"));
 	}
 

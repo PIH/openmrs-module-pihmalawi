@@ -108,10 +108,10 @@ public class ArtReportElements {
 		InStateAtLocationCohortDefinition iscd = new InStateAtLocationCohortDefinition();
 		iscd.setName(prefix + ": On ART with location & date_");
 		// internal transfers are still under responsibility of original clinic
-		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV PROGRAM").getWorkflowByName("TREATMENT STATUS")
-		// .getStateByName("TRANSFERRED INTERNALLY"));
-		iscd.setState(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"ON ANTIRETROVIRALS"));
+		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
+		// .getStateByName("Transferred internally"));
+		iscd.setState(h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals"));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		iscd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(iscd);
@@ -122,8 +122,8 @@ public class ArtReportElements {
 			String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Ever on ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"ON ANTIRETROVIRALS")));
+		pscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
@@ -134,8 +134,8 @@ public class ArtReportElements {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Having state at location_");
-		pscd.setState(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"ON ANTIRETROVIRALS"));
+		pscd.setState(h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals"));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
@@ -157,8 +157,8 @@ public class ArtReportElements {
 	public static CohortDefinition transferredInternallyOnDate(String reportTag) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName(reportTag + ": transferred internally_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"TRANSFERRED INTERNALLY")));
+		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status",
+				"Transferred internally")));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		return iscd;
@@ -192,9 +192,9 @@ public class ArtReportElements {
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService()
-				.getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS"));
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals"));
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);

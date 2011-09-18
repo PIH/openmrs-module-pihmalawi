@@ -31,7 +31,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			configure(
 					"ART Missed Appointment Upper Neno",
 					"artappt",
-					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
+					helper.programWorkflow("HIV program", "Treatment status"),
 					Context.getLocationService().getLocation(
 							"Neno District Hospital"), Context
 							.getLocationService().getLocation("Magaleta HC"),
@@ -42,7 +42,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			configure(
 					"ART Missed Appointment Lower Neno",
 					"artappt",
-					helper.programWorkflow("HIV PROGRAM", "TREATMENT STATUS"),
+					helper.programWorkflow("HIV program", "Treatment status"),
 					Context.getLocationService().getLocation(
 							"Lisungwi Community Hospital"), Context
 							.getLocationService().getLocation("Chifunga HC"),
@@ -191,8 +191,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public  CohortDefinition transferredInternallyFromArtAtLocation(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-			"TRANSFERRED INTERNALLY"));
+		parameterMap.put("state", h.workflowState("HIV program", "Treatment status",
+			"Transferred internally"));
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName(prefix + ": Transferred internally from location from On ART_");
@@ -225,8 +225,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("endDate", "${onDate}");
 		map.put("location", "${location}");
-		map.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-				"ON ANTIRETROVIRALS"));
+		map.put("state", h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals"));
 		cd.getSearches().put(
 				"2",
 				new Mapped(h.cohortDefinition(prefix
@@ -240,8 +240,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public  CohortDefinition transferredInternallyFromArt(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-			"TRANSFERRED INTERNALLY"));
+		parameterMap.put("state", h.workflowState("HIV program", "Treatment status",
+			"Transferred internally"));
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName(prefix + ": Transferred internally from On ART_");
@@ -250,8 +250,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		.put("1",
 				new Mapped(
 						h.cohortDefinition(prefix + ": In state_"),
-								h.parameterMap("onDate", "${onDate}", "state", h.workflowState("HIV PROGRAM", "TREATMENT STATUS",
-			"TRANSFERRED INTERNALLY"))));
+								h.parameterMap("onDate", "${onDate}", "state", h.workflowState("HIV program", "Treatment status",
+			"Transferred internally"))));
 		cd.getSearches()
 		.put("2",
 				new Mapped(

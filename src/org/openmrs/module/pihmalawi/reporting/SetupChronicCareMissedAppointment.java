@@ -36,7 +36,7 @@ public class SetupChronicCareMissedAppointment extends
 		configure(
 				"Chronic Care Missed Appointment Neno",
 				"ccappt",
-				helper.programWorkflow("CHRONIC CARE PROGRAM", "CHRONIC CARE TREATMENT STATUS"), Context.getLocationService()
+				helper.programWorkflow("Chronic care program", "Chronic care treatment status"), Context.getLocationService()
 						.getLocation("Neno District Hospital"), Context
 						.getLocationService().getLocation("Magaleta HC"),
 						Context.getLocationService().getLocation("Nsambe HC"), Context.getLocationService().getLocation("Neno Mission HC"), false);

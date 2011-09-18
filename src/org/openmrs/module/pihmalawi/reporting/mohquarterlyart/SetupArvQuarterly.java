@@ -85,17 +85,17 @@ public class SetupArvQuarterly {
 	public SetupArvQuarterly(Helper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
-		STATE_DIED = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("PATIENT DIED");
-		STATE_ON_ART = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
-		STATE_STOPPED = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("TREATMENT STOPPED");
-		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("PATIENT TRANSFERRED OUT");
+				"HIV program");
+		STATE_DIED = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Patient died");
+		STATE_ON_ART = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals");
+		STATE_STOPPED = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Treatment stopped");
+		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Patient transferred out");
 		CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
-				.getConceptByName("APPOINTMENT DATE");
+				.getConceptByName("Appointment date");
 		ART_INITIAL_ENCOUNTER = Context.getEncounterService().getEncounterType("ART_INITIAL");
 		ART_FOLLOWUP_ENCOUNTER = Context.getEncounterService().getEncounterType("ART_FOLLOWUP");
 		HIV_STAGING_ENCOUNTER = Context.getEncounterService().getEncounterType("HIV STAGING");
@@ -654,7 +654,7 @@ private void i17_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("CD4 COUNT LESS THAN 350"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("CD4 count LESS THAN 350"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "17_quarter", "CD4 Count Less Than 350", i,
 			h.hashMap("registered", "quarter"));

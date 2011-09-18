@@ -78,9 +78,9 @@ public class ArtExporter {
 				"Nsambe HC", "NSM", 
 				"Magaleta HC", "MGT",
 				
-				"ON ANTIRETROVIRALS", "", 
+				"On antiretrovirals", "", 
 				"ALIVE", "",
-				"PATIENT TRANSFERRED OUT", "TO",
+				"Patient transferred out", "TO",
 				
 				"ALIVE AND ON FIRST LINE ANTIRETROVIRAL REGIMEN", "1L",
 				"SUBSTITUTE ANOTHER 1ST LINE ARV DRUG", "",
@@ -341,7 +341,7 @@ public class ArtExporter {
 
 		PatientState ps = currentProgramWorkflowStatus(1,
 				encounter.getPatient(), new Date());
-		ps = h.getMostRecentStateAtLocation_hack(encounter.getPatient(), h.program("HIV PROGRAM"), h.location("Neno District Hospital"), sessionFactory().getCurrentSession());
+		ps = h.getMostRecentStateAtLocation_hack(encounter.getPatient(), h.program("HIV program"), h.location("Neno District Hospital"), sessionFactory().getCurrentSession());
 		if (ps != null) {
 			r += csv("Outcome NNO", ps.getState().getConcept()
 					.getName().getName(), "at location", map(h.getEnrollmentLocation(ps.getPatientProgram(),

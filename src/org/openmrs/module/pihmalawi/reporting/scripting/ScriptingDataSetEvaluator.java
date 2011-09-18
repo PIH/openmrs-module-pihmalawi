@@ -78,13 +78,13 @@ public class ScriptingDataSetEvaluator implements DataSetEvaluator {
 	private void addStatePatientTransferedOutAfterEveryTransferInternallyState(
 			Patient p) {
 		Program program = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
+				"HIV program");
 		ProgramWorkflow programWorkflow = program
-				.getWorkflowByName("TREATMENT STATUS");
+				.getWorkflowByName("Treatment status");
 		ProgramWorkflowState internalTransfer = programWorkflow
-				.getState("TRANSFERRED INTERNALLY");
+				.getState("Transferred internally");
 		ProgramWorkflowState transferOut = programWorkflow
-				.getState("PATIENT TRANSFERRED OUT");
+				.getState("Patient transferred out");
 
 		List<PatientProgram> patientPrograms = Context
 				.getProgramWorkflowService().getPatientPrograms(p, program,

@@ -30,9 +30,9 @@ public class AppointmentAdherencePersistentSetup extends
 //				.getEncounterService().getEncounterType("CHRONIC_CARE_FOLLOWUP")))
 //				.setup();
 		new SetupAppointmentAdherence(new Helper(), "adart", "ART", Context
-				.getProgramWorkflowService().getProgramByName("HIV PROGRAM")
-				.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS"), Arrays.asList(Context
+				.getProgramWorkflowService().getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), true)
 				.setup();

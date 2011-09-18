@@ -1,11 +1,13 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +41,7 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
+import org.openmrs.serialization.SerializationException;
 
 public class SetupHivDataQuality {
 
@@ -48,7 +51,7 @@ public class SetupHivDataQuality {
 
 	private final ProgramWorkflowState STATE_DIED;
 	private final ProgramWorkflowState STATE_ON_ART;
-	private final ProgramWorkflowState STATE_FOLLOWING;
+	private final ProgramWorkflowState STATE_PRE_ART;
 	private final ProgramWorkflowState STATE_STOPPED;
 	private final ProgramWorkflowState STATE_TRANSFERRED_OUT;
 	private final ProgramWorkflowState STATE_TRANSFERRED_INTERNALLY;
@@ -58,19 +61,19 @@ public class SetupHivDataQuality {
 	public SetupHivDataQuality(Helper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
-		STATE_DIED = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("PATIENT DIED");
-		STATE_ON_ART = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
-		STATE_FOLLOWING = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("FOLLOWING");
-		STATE_STOPPED = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("TREATMENT STOPPED");
-		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("PATIENT TRANSFERRED OUT");
+				"HIV program");
+		STATE_DIED = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Patient died");
+		STATE_ON_ART = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals");
+		STATE_PRE_ART = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Pre-ART (Continue)");
+		STATE_STOPPED = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Treatment stopped");
+		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Patient transferred out");
 		STATE_TRANSFERRED_INTERNALLY = PROGRAM.getWorkflowByName(
-				"TREATMENT STATUS").getStateByName("TRANSFERRED INTERNALLY");
+				"Treatment status").getStateByName("Transferred internally");
 
 		LOCATIONS = new HashMap<Location, String>();
 		LOCATIONS.put(h.location("Lisungwi Community Hospital"), "LSI");
@@ -89,9 +92,25 @@ public class SetupHivDataQuality {
 
 		PeriodIndicatorReportDefinition[] rds = createReportDefinition();
 		createCohortDefinitions(rds);
+		
 		h.replaceReportDefinition(rds[0]);
+//		createHtmlBreakdownInternal(rds[0]);
 		h.replaceReportDefinition(rds[1]);
+//		createHtmlBreakdownInternal(rds[1]);
 	}
+
+	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd)
+			throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+		
+		ApzuPatientIdDataSetDefinition dsd = new ApzuPatientIdDataSetDefinition();
+		m.put("noexit", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("noexit2", new Mapped<DataSetDefinition>(dsd, null));
+		
+		return h.createHtmlBreakdown(rd, "HIV DQ Breakdown_", m);
+	}
+
 
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
@@ -187,7 +206,7 @@ public class SetupHivDataQuality {
 		cocd.setTimeModifier(TimeModifier.LAST);
 		cocd.setOperator(SetComparator.NOT_IN);
 		cocd.setValueList(Arrays.asList(Context.getConceptService().getConcept(
-				"PATIENT DIED")));
+				"Patient died")));
 		h.replaceCohortDefinition(cocd);
 
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
@@ -358,7 +377,7 @@ public class SetupHivDataQuality {
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state Following_");
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		iscd.setStates(Arrays.asList(STATE_FOLLOWING));
+		iscd.setStates(Arrays.asList(STATE_PRE_ART));
 		h.replaceCohortDefinition(iscd);
 
 		scd = new SqlCohortDefinition();
@@ -432,7 +451,7 @@ public class SetupHivDataQuality {
 		iscd.setName("hivdq: In relevant HIV state_");
 		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
-				STATE_FOLLOWING));
+				STATE_PRE_ART));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -923,24 +942,24 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		PeriodIndicatorReportUtil.addColumn(rd[1], "eidunknown",
 				"Unknown EID locations", i, null);
 
-		ProgramWorkflowState EID_STATE_FOLLOWING = EID_PROGRAM
+		ProgramWorkflowState EID_STATE_PRE_ART = EID_PROGRAM
 				.getWorkflowByName("PATIENT STATUS")
-				.getStateByName("FOLLOWING");
+				.getStateByName("Pre-ART (Continue)");
 		ProgramWorkflowState EID_STATE_DISCHARGED = EID_PROGRAM
 				.getWorkflowByName("PATIENT STATUS").getStateByName(
 						"DISCHARGED");
 		ProgramWorkflowState EID_STATE_ON_ART = EID_PROGRAM.getWorkflowByName(
-				"PATIENT STATUS").getStateByName("ON ANTIRETROVIRALS");
+				"PATIENT STATUS").getStateByName("On antiretrovirals");
 		ProgramWorkflowState EID_STATE_TRANSFERRED_OUT = EID_PROGRAM
 				.getWorkflowByName("PATIENT STATUS").getStateByName(
-						"PATIENT TRANSFERRED OUT");
+						"Patient transferred out");
 		ProgramWorkflowState EID_STATE_DIED = EID_PROGRAM.getWorkflowByName(
-				"PATIENT STATUS").getStateByName("PATIENT DIED");
+				"PATIENT STATUS").getStateByName("Patient died");
 
 		// not in relevant eid state
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In relevant EID state_");
-		iscd.setStates(Arrays.asList(EID_STATE_FOLLOWING, EID_STATE_DISCHARGED,
+		iscd.setStates(Arrays.asList(EID_STATE_PRE_ART, EID_STATE_DISCHARGED,
 				EID_STATE_ON_ART, EID_STATE_TRANSFERRED_OUT, EID_STATE_DIED));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);

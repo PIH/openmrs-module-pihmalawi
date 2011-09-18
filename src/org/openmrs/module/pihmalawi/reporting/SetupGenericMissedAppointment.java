@@ -396,7 +396,7 @@ public class SetupGenericMissedAppointment {
 		dod.setName(reportTag + ": Missed Appointment_");
 		dod.setTimeModifier(TimeModifier.MAX);
 		dod.setQuestion(Context.getConceptService().getConceptByName(
-				"APPOINTMENT DATE"));
+				"Appointment date"));
 		dod.setOperator1(RangeComparator.LESS_THAN);
 		dod.setOperator2(RangeComparator.GREATER_EQUAL);
 		dod.setEncounterTypeList(getEncounterTypes());
@@ -410,7 +410,7 @@ public class SetupGenericMissedAppointment {
 		dod.setName(reportTag + ": No Appointment_");
 		dod.setTimeModifier(TimeModifier.NO);
 		dod.setQuestion(Context.getConceptService().getConceptByName(
-				"APPOINTMENT DATE"));
+				"Appointment date"));
 		dod.setEncounterTypeList(getEncounterTypes());
 		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		h.replaceCohortDefinition(dod);

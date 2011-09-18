@@ -35,12 +35,12 @@ public class SetupSurvivalAnalysis {
 	public SetupSurvivalAnalysis(Helper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
+				"HIV program");
 		PATIENT_IDENTIFIER_TYPE = Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number");
 
-		START_STATE = PROGRAM.getWorkflowByName("TREATMENT STATUS")
-				.getStateByName("ON ANTIRETROVIRALS");
+		START_STATE = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals");
 	}
 
 	public ReportDefinition[] setup() throws Exception {

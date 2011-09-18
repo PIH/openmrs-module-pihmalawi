@@ -106,13 +106,13 @@ public class ScriptItTest extends BaseModuleContextSensitiveTest {
 	private void addStatePatientTransferedOutAfterEveryTransferInternallyState(
 			Patient p) {
 		Program program = Context.getProgramWorkflowService().getProgramByName(
-				"HIV PROGRAM");
+				"HIV program");
 		ProgramWorkflow programWorkflow = program
 				.getWorkflowByName("TREATMENT STATUS");
 		ProgramWorkflowState internalTransfer = programWorkflow
-				.getState("TRANSFERRED INTERNALLY");
+				.getState("Transferred internally");
 		ProgramWorkflowState transferOut = programWorkflow
-				.getState("PATIENT TRANSFERRED OUT");
+				.getState("Patient transferred out");
 
 		List<PatientProgram> patientPrograms = Context
 				.getProgramWorkflowService().getPatientPrograms(p, program,

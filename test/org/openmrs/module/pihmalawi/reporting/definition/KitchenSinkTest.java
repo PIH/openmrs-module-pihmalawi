@@ -74,7 +74,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 			    HibernatePihMalawiQueryDao.class).get(0);
 			AppointmentAdherenceCohortDefinition d = new AppointmentAdherenceCohortDefinition();
 			d.setEncounterTypes(Arrays.asList(Context.getEncounterService().getEncounterType("ART_INITIAL"), Context.getEncounterService().getEncounterType("ART_FOLLOWUP")));
-			d.setAppointmentConcept(Context.getConceptService().getConceptByName("APPOINTMENT DATE"));
+			d.setAppointmentConcept(Context.getConceptService().getConceptByName("Appointment date"));
 			d.setFromDate(new Date("2011/01/01"));
 			d.setToDate(new Date("2011/03/31"));
 			d.setMinimumAdherence(-1);
@@ -151,14 +151,14 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		// executeReport(context, rds[0], null, "/tmp/by_user", "xls");
 
 		// Program hiv = Context.getProgramWorkflowService().getProgramByName(
-		// "HIV PROGRAM");
+		// "HIV program");
 		// ProgramWorkflowState died = hiv.getWorkflowByName("TREATMENT STATUS")
-		// .getStateByName("PATIENT DIED");
+		// .getStateByName("Patient died");
 		// ProgramWorkflowState stopped = hiv
 		// .getWorkflowByName("TREATMENT STATUS").getStateByName(
-		// "TREATMENT STOPPED");
+		// "Treatment stopped");
 		// ProgramWorkflowState transferredOut = hiv.getWorkflowByName(
-		// "TREATMENT STATUS").getStateByName("PATIENT TRANSFERRED OUT");
+		// "TREATMENT STATUS").getStateByName("Patient transferred out");
 		//
 		// Helper h = new Helper();
 		// EncounterAfterProgramStateEvaluator e = new
