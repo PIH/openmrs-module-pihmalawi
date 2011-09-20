@@ -7,8 +7,8 @@
 
 <table cellspacing="0" cellpadding="2">
 	<tr>
-		<td>ART Mastercard:</td>
-		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="57" initialEncounterTypeId="9" followupEncounterTypeId="10"/></td>
+		<td>ART Patient Card:</td>
+		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="64" initialEncounterTypeId="9" followupEncounterTypeId="10"/></td>
 	</tr>
 	<tr>
 		<c:set var="artInitialEncounter" value="" />
@@ -18,13 +18,13 @@
 				<c:set var="artInitialEncounter" value="true" />
 			</c:if>
 		</openmrs:forEachEncounter>
-		<td>Pre-ART Mastercard:</td>
+		<td>Pre-ART Patient Card:</td>
 		<c:choose>
 			<c:when test="${ not empty artInitialEncounter }">
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="58" initialEncounterTypeId="11" followupEncounterTypeId="12" readonly="true"/> (readonly because of ART Initial Encounter)</td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" readonly="true"/> (readonly because of ART Initial Encounter)</td>
 			</c:when>
 			<c:otherwise>
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="58" initialEncounterTypeId="11" followupEncounterTypeId="11"/></td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="11"/></td>
 			</c:otherwise>
 		</c:choose>
 	</tr>
@@ -36,13 +36,13 @@
 				<c:set var="artInitialEncounter" value="true" />
 			</c:if>
 		</openmrs:forEachEncounter>
-		<td>EID Mastercard:</td>
+		<td>Exposed Child Patient Card</td>
 		<c:choose>
 			<c:when test="${ not empty artInitialEncounter }">
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="28" initialEncounterTypeId="20" followupEncounterTypeId="21" readonly="true"/> (readonly because of ART Initial Encounter)</td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93" readonly="true"/> (readonly because of ART Initial Encounter)</td>
 			</c:when>
 			<c:otherwise>
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="28" initialEncounterTypeId="20" followupEncounterTypeId="21"/></td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93"/></td>
 			</c:otherwise>
 		</c:choose>
 	</tr>
