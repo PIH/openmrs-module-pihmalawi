@@ -11,18 +11,31 @@ import org.openmrs.module.pihmalawi.reporting.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reporting.SetupFindPatientsToMergeSoundex;
+import org.openmrs.module.pihmalawi.reporting.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
-import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
+import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reporting.mohquarterlyart.SetupArvQuarterly;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PihReportFormController {
+
+	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment_lowerneno.form")
+	public void removeHccMissedAppointmentLowerNeno() {
+		new SetupHccMissedAppointment(new Helper(), false)
+				.deleteReportElements();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_hccmissedappointment_lowerneno.form")
+	public void registerHccMissedAppointmentLowerNeno() throws Exception {
+		new SetupHccMissedAppointment(new Helper(), false).setup(false);
+	}
+
 
 	@RequestMapping("/module/pihmalawi/remove_partmissedappointment_lowerneno.form")
 	public void removePreArtMissedAppointmentLowerNeno() {
@@ -55,6 +68,17 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_partmissedappointment.form")
 	public void registerPreArtMissedAppointment() throws Exception {
 		new SetupPreArtMissedAppointment(new Helper(), true).setup(false);
+	}
+
+	@RequestMapping("/module/pihmalawi/register_hccmissedappointment.form")
+	public void registerHccMissedAppointment() throws Exception {
+		new SetupHccMissedAppointment(new Helper(), true).setup(false);
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment.form")
+	public void removeHccMissedAppointment() {
+		new SetupHccMissedAppointment(new Helper(), true)
+				.deleteReportElements();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artregister.form")

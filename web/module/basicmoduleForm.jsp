@@ -9,9 +9,11 @@ HIV Weekly Outcome Report: <a href="${pageContext.request.contextPath}/module/pi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivweeklyoutcome.form">Remove</a>
 <br/>
 
+<!-- 
 Pre-ART Weekly Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_preartweekly.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_preartweekly.form">Remove</a>
 <br/>
+-->
 
 HIV Program Changes Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivprogramchanges.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivprogramchanges.form">Remove</a>
@@ -38,6 +40,10 @@ Pre-ART Missed Appointments: <a href="${pageContext.request.contextPath}/module/
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partmissedappointment.form">Remove</a>
 <br/>
 
+HCC Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccmissedappointment.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccmissedappointment.form">Remove</a>
+<br/>
+
 <h4>Lower Neno</h4>
 ART Missed Appointments Lower Neno: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment_lowerneno.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment_lowerneno.form">Remove</a>
@@ -45,6 +51,10 @@ ART Missed Appointments Lower Neno: <a href="${pageContext.request.contextPath}/
 
 Pre-ART Missed Appointments Lower Neno: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_partmissedappointment_lowerneno.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partmissedappointment_lowerneno.form">Remove</a>
+<br/>
+
+HCC Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccmissedappointment_lowerneno.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccmissedappointment_lowerneno.form">Remove</a>
 <br/>
 
 <h3>HIV Data cleanup</h3>
