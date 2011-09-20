@@ -200,4 +200,23 @@ public class ArtReportElements {
 		h.replaceCohortDefinition(iscd);
 		return iscd;
 	}
+
+	public static CohortDefinition inHccOnDate(String reportTag) {
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName(reportTag + ": In HCC_");
+		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
+		states = new ArrayList<ProgramWorkflowState>();
+		states.add(Context.getProgramWorkflowService()
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("Pre-ART (Continue)") );
+		states.add(Context.getProgramWorkflowService()
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("Exposed Child (Continue)"));
+		iscd.setStates(states);
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		h.replaceCohortDefinition(iscd);
+		return iscd;
+	}
 }

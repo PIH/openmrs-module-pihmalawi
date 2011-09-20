@@ -20,6 +20,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.Helper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
 @Handler(supports = { EncounterAfterProgramStateCohortDefinition.class })
@@ -58,26 +59,33 @@ public class EncounterAfterProgramStateEvaluator implements
 			Patient p = ps.getPatient(id);
 
 			// get date of change to terminal state
-			PatientState mostRecentState = h.getMostRecentStateAtLocation(p,
+			PatientState mostTerminalRecentState = h.getMostRecentStateAtLocation(p,
 					terminalStates, enrollmentLoc, sessionFactory()
 							.getCurrentSession());
-			if (mostRecentState != null
-					&& mostRecentState.getStartDate() != null) {
-				// check if more recent encounter happened after date of change
-				// to terminal state at this location
-				for (Location clinicLoc : clinicLocs) {
-					// 1d = 1000*60*60*24
-					Date oneDayLater = new Date(mostRecentState.getStartDate().getTime() + 86400000);
-					List<Encounter> encounters = es.getEncounters(p, clinicLoc,
-							oneDayLater, null, null,
-							unwantedEncounterTypes, null, false);
-					if (!encounters.isEmpty()) {
-						result.addMember(p.getId());
+			if (mostTerminalRecentState != null
+					&& mostTerminalRecentState.getStartDate() != null) {
+				// check if there is a new patient_program for the same location and active again
+				PatientState mostRecentState = h.getMostRecentStateAtLocation(p, terminalStates.get(0).getProgramWorkflow(), enrollmentLoc, sessionFactory().getCurrentSession());
+				if (terminalStates.contains(mostRecentState.getState())) {
+					// check if more recent encounter happened after date of change
+					// to terminal state at this location
+					for (Location clinicLoc : clinicLocs) {
+						Date oneDayLater = getNextDay(mostTerminalRecentState);
+						List<Encounter> encounters = es.getEncounters(p, clinicLoc,
+								oneDayLater, null, null,
+								unwantedEncounterTypes, null, false);
+						if (!encounters.isEmpty()) {
+							result.addMember(p.getId());
+						}
 					}
 				}
 			}
 		}
 		return result;
+	}
+
+	private Date getNextDay(PatientState mostRecentState) {
+		return new Date(DateUtil.getEndOfDay(mostRecentState.getStartDate()).getTime() + 10000);
 	}
 
 	private SessionFactory sessionFactory() {

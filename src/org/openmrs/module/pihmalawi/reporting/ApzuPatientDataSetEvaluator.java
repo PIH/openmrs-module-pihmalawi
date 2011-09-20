@@ -505,6 +505,9 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	}
 
 	protected String formatEncounterDate(Date encounterDatetime) {
+		if (encounterDatetime == null) {
+			return "<Unknown>";
+		}
 		return new SimpleDateFormat("yyyy-MM-dd").format(encounterDatetime);
 	}
 

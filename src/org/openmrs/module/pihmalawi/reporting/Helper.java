@@ -501,10 +501,13 @@ public class Helper {
 		
 		// get all last states of patientprograms
 		for (PatientProgram pp : pps) {
-			List<PatientState> states = statesInWorkflow(pp, programWorkflow);
-			if (states != null && !states.isEmpty()) {
-				lastStateOfAllPatientPrograms.add(states.get(states.size()));
-				log.debug("lastStatesOfAllPatientPrograms " + p.getPatientId() + " " + states.get(states.size()).getState().getConcept().getName());
+			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
+			if (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId())) {
+				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
+				if (states != null && !states.isEmpty()) {
+					lastStateOfAllPatientPrograms.add(states.get(states.size() - 1));
+					log.debug("lastStatesOfAllPatientPrograms " + p.getPatientId() + " " + states.get(states.size() - 1).getState().getConcept().getName());
+				}
 			}
 		}
 		// figure out which patientprogram is last

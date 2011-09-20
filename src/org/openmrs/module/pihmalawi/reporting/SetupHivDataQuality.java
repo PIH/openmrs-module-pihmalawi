@@ -55,6 +55,7 @@ public class SetupHivDataQuality {
 	private final ProgramWorkflowState STATE_STOPPED;
 	private final ProgramWorkflowState STATE_TRANSFERRED_OUT;
 	private final ProgramWorkflowState STATE_TRANSFERRED_INTERNALLY;
+	private final ProgramWorkflowState STATE_EXPOSED_CHILD;
 
 	private final Map<Location, String> LOCATIONS;
 
@@ -74,6 +75,8 @@ public class SetupHivDataQuality {
 				.getStateByName("Patient transferred out");
 		STATE_TRANSFERRED_INTERNALLY = PROGRAM.getWorkflowByName(
 				"Treatment status").getStateByName("Transferred internally");
+		STATE_EXPOSED_CHILD = PROGRAM.getWorkflowByName("Treatment status")
+				.getStateByName("Exposed Child (Continue)");
 
 		LOCATIONS = new HashMap<Location, String>();
 		LOCATIONS.put(h.location("Lisungwi Community Hospital"), "LSI");
@@ -92,25 +95,24 @@ public class SetupHivDataQuality {
 
 		PeriodIndicatorReportDefinition[] rds = createReportDefinition();
 		createCohortDefinitions(rds);
-		
+
 		h.replaceReportDefinition(rds[0]);
-//		createHtmlBreakdownInternal(rds[0]);
+		// createHtmlBreakdownInternal(rds[0]);
 		h.replaceReportDefinition(rds[1]);
-//		createHtmlBreakdownInternal(rds[1]);
+		// createHtmlBreakdownInternal(rds[1]);
 	}
 
 	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd)
 			throws IOException, SerializationException {
 		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
-		
+
 		ApzuPatientIdDataSetDefinition dsd = new ApzuPatientIdDataSetDefinition();
 		m.put("noexit", new Mapped<DataSetDefinition>(dsd, null));
 		m.put("noexit2", new Mapped<DataSetDefinition>(dsd, null));
-		
+
 		return h.createHtmlBreakdown(rd, "HIV DQ Breakdown_", m);
 	}
-
 
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
@@ -175,7 +177,7 @@ public class SetupHivDataQuality {
 		SqlCohortDefinition scd;
 		String sql;
 		CohortIndicator i;
-		
+
 		multipleDeaths(rd);
 
 		wrongArvFormat(rd);
@@ -184,7 +186,12 @@ public class SetupHivDataQuality {
 
 		// gaps in numbers
 		for (String s : LOCATIONS.values()) {
-			createLastInRangeNumber(rd, s, s + " ");
+			createLastInRangeArvNumber(rd, s, s + " ");
+		}
+
+		// gaps in numbers
+		for (String s : LOCATIONS.values()) {
+			createLastInRangeHccNumber(rd, s, s + " ");
 		}
 
 		// multiple arv numbers
@@ -193,7 +200,7 @@ public class SetupHivDataQuality {
 		}
 
 		g_everInProgramOnDate();
-		
+
 		InProgramAtProgramLocationCohortDefinition igplcd = g_inProgramAtLocationOnDate();
 
 		g_unknownLocations(rd);
@@ -336,7 +343,7 @@ public class SetupHivDataQuality {
 				"Died without exit from care", i, null);
 
 		multipleOpenStates();
-		
+
 		// on art but no arv number
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state On ART_");
@@ -372,7 +379,7 @@ public class SetupHivDataQuality {
 				"On ART without number", i, null);
 
 		artEncounterWithoutNumber(rd);
-		
+
 		// on following but no pre-art number
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state Following_");
@@ -443,7 +450,7 @@ public class SetupHivDataQuality {
 				"Following with art number", i, null);
 
 		onArtWithoutEncounter(rd);
-		
+
 		followupWithoutInitialEncounter(rd);
 
 		// not in relevant hiv state
@@ -451,17 +458,17 @@ public class SetupHivDataQuality {
 		iscd.setName("hivdq: In relevant HIV state_");
 		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
-				STATE_PRE_ART));
+				STATE_PRE_ART, STATE_EXPOSED_CHILD));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
-		 ccd = new CompositionCohortDefinition();
+		ccd = new CompositionCohortDefinition();
 		ccd.setName("hivdq: Not in relevant HIV state_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
 				"state",
-				new Mapped(h.cohortDefinition("hivdq: In relevant HIV state_"), h
-						.parameterMap("onDate", "${endDate}")));
+				new Mapped(h.cohortDefinition("hivdq: In relevant HIV state_"),
+						h.parameterMap("onDate", "${endDate}")));
 		ccd.getSearches().put(
 				"hiv",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
@@ -481,25 +488,22 @@ public class SetupHivDataQuality {
 		List<EncounterType> hivEncounterTypes = Arrays.asList(
 				h.encounterType("ART_INITIAL"),
 				h.encounterType("ART_FOLLOWUP"),
+				h.encounterType("EXPOSED_CHILD_INITIAL"),
+				h.encounterType("EXPOSED_CHILD_FOLLOWUP"),
 				h.encounterType("PART_INITIAL"),
 				h.encounterType("PART_FOLLOWUP"));
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
 				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY);
 
-		// createEncounterAfterTerminalState(rd, hivEncounterTypes,
-		// hivTerminalStates,
-		// Arrays.asList(h.location("Neno District Hospital") /*
-		// * TODO:
-		// * deal with
-		// * mobile
-		// * clinics ,
-		// * h.location
-		// * (
-		// * "Ligowe HC"
-		// * )
-		// */),
-		// h.location("Neno District Hospital"), "NNO");
+		createEncounterAfterTerminalState(
+				rd,
+				hivEncounterTypes,
+				hivTerminalStates,
+				Arrays.asList(h.location("Neno District Hospital"),
+						h.location("Ligowe HC"),
+						h.location("Matandani Rural Health Center")),
+				h.location("Neno District Hospital"), "NNO");
 		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Magaleta HC")),
 				h.location("Magaleta HC"), "MGT");
@@ -511,21 +515,13 @@ public class SetupHivDataQuality {
 				Arrays.asList(h.location("Neno Mission HC")),
 				h.location("Neno Mission HC"), "NOP");
 
-		// createEncounterAfterTerminalState(rd, hivEncounterTypes,
-		// hivTerminalStates,
-		// Arrays.asList(h.location("Lisungwi Community Hospital") /*
-		// * TODO
-		// * deal
-		// * with
-		// * mobile
-		// * clinics
-		// * , h.
-		// * location
-		// * (
-		// * "Midzemba HC"
-		// * )
-		// */),
-		// h.location("Lisungwi Community Hospital"), "LSI");
+		createEncounterAfterTerminalState(
+				rd,
+				hivEncounterTypes,
+				hivTerminalStates,
+				Arrays.asList(h.location("Lisungwi Community Hospital"),
+						h.location("Midzemba HC")),
+				h.location("Lisungwi Community Hospital"), "LSI");
 		createEncounterAfterTerminalState(rd, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
 				h.location("Chifunga HC"), "CFA");
@@ -540,7 +536,7 @@ public class SetupHivDataQuality {
 				Arrays.asList(h.location("Nkhula Falls RHC")),
 				h.location("Nkhula Falls RHC"), "NKA");
 
-//		intermediateEid(rd);
+		// intermediateEid(rd);
 	}
 
 	private void multipleOpenStates() {
@@ -577,6 +573,34 @@ public class SetupHivDataQuality {
 				"Wrong Pre-ART identifier format", i, null);
 		PeriodIndicatorReportUtil.addColumn(rd[1], "formatpart",
 				"Wrong Pre-ART identifier format", i, null);
+	}
+
+	private void wrongHccFormat(PeriodIndicatorReportDefinition[] rd) {
+		SqlCohortDefinition scd;
+		String sql;
+		CohortIndicator i;
+		// wrong part format
+		scd = new SqlCohortDefinition();
+		scd.setName("hivdq: Wrong HCC identifier format_");
+		String partFormat = "";
+		for (String s : LOCATIONS.values()) {
+			partFormat += "identifier NOT regexp '^[[:<:]]" + s
+					+ "[[:>:]]-[0-9][0-9][0-9][0-9]-HCC$' AND ";
+		}
+		partFormat = partFormat.substring(0,
+				partFormat.length() - " AND ".length());
+		sql = "select patient_id from patient_identifier "
+				+ "where identifier_type=13 and voided=0 and (" + partFormat
+				+ ")";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		i = h.newCountIndicator("hivdq: Wrong HCC identifier format_",
+				"hivdq: Wrong HCC identifier format_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0], "formathcc",
+				"Wrong HCC identifier format", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "formathcc",
+				"Wrong HCC identifier format", i, null);
 	}
 
 	private void wrongArvFormat(PeriodIndicatorReportDefinition[] rd) {
@@ -636,8 +660,7 @@ public class SetupHivDataQuality {
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		CohortIndicator i = h.newCountIndicator("hivdq: Unknown location_",
-				"hivdq: Unknown location_",
-				new HashMap<String, Object>());
+				"hivdq: Unknown location_", new HashMap<String, Object>());
 		PeriodIndicatorReportUtil.addColumn(rd[0], "unknwnloc",
 				"Unknown location", i, null);
 		PeriodIndicatorReportUtil.addColumn(rd[1], "unknownloc",
@@ -647,46 +670,54 @@ public class SetupHivDataQuality {
 	private void createProgramCompletionMismatch(
 			PeriodIndicatorReportDefinition[] rd) {
 		/*
--- Most recent state for a program enrollment
--- not sure why the group_concat values can be used for a join, but it seems to work
--- this should be THE query to return the most recent state for a patient_program with the assumption
--- that the highest patient_state_id is also the most recent one
--- note: a temp table didn't work as mysql can't reuse a temp table in a subquery
--- MySQL specific
-
-SELECT pp.patient_id, pp.patient_program_id, pws.program_workflow_state_id, ps.patient_state_id
-FROM (
-  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d
-  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps 
-  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id 
-    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id 
-    AND pws.program_workflow_id = 1 
-    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0  
---  AND pp.patient_id=15925
-  GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps 
-WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id 
-  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id 
-  AND pws.program_workflow_state_id in (2,3,6) and pp.date_completed is  null 
-
+		 * -- Most recent state for a program enrollment -- not sure why the
+		 * group_concat values can be used for a join, but it seems to work --
+		 * this should be THE query to return the most recent state for a
+		 * patient_program with the assumption -- that the highest
+		 * patient_state_id is also the most recent one -- note: a temp table
+		 * didn't work as mysql can't reuse a temp table in a subquery -- MySQL
+		 * specific
+		 * 
+		 * SELECT pp.patient_id, pp.patient_program_id,
+		 * pws.program_workflow_state_id, ps.patient_state_id FROM ( SELECT
+		 * pp.patient_id a, pp.patient_program_id b,
+		 * pws.program_workflow_state_id c, group_concat(ps.patient_state_id
+		 * order by ps.patient_state_id desc) d FROM patient_program pp,
+		 * program_workflow pw, program_workflow_state pws, patient_state ps
+		 * WHERE pp.program_id = pw.program_id AND pw.program_workflow_id =
+		 * pws.program_workflow_id AND pws.program_workflow_state_id = ps.state
+		 * AND ps.patient_program_id = pp.patient_program_id AND
+		 * pws.program_workflow_id = 1 AND pw.retired = 0 AND pp.voided = 0 AND
+		 * ps.voided = 0 -- AND pp.patient_id=15925 GROUP BY pp.patient_id,
+		 * pp.patient_program_id) most_recent_state, patient_program pp,
+		 * program_workflow pw, program_workflow_state pws, patient_state ps
+		 * WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id =
+		 * pw.program_id AND pw.program_workflow_id = pws.program_workflow_id
+		 * AND pws.program_workflow_state_id = ps.state AND
+		 * ps.patient_program_id = pp.patient_program_id AND
+		 * pws.program_workflow_state_id in (2,3,6) and pp.date_completed is
+		 * null
 		 */
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Terminal state, program not completed_");
 		String sql = "SELECT pp.patient_id "
-			+ "FROM ( "
-		+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
-		+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-		+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
-		+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
-		+ "    AND pws.program_workflow_id = 1 "
-		+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "  
-		+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps " 
-		+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id " 
-		+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
-		+ "  AND pws.program_workflow_state_id in (2,3,6) and pp.date_completed is  null ";
+				+ "FROM ( "
+				+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
+				+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
+				+ "    AND pws.program_workflow_id = 1 "
+				+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "
+				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
+				+ "  AND pws.program_workflow_state_id in (2,3,6,119) and pp.date_completed is  null ";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
-		CohortIndicator i = h.newCountIndicator("hivdq: Terminal state, program not completed_",
-				"hivdq: Terminal state, program not completed_", new HashMap<String, Object>());
+		CohortIndicator i = h.newCountIndicator(
+				"hivdq: Terminal state, program not completed_",
+				"hivdq: Terminal state, program not completed_",
+				new HashMap<String, Object>());
 		PeriodIndicatorReportUtil.addColumn(rd[0], "prgnotcompleted",
 				" Terminal state, program not completed", i, null);
 		PeriodIndicatorReportUtil.addColumn(rd[1], "prgnotcompleted",
@@ -694,81 +725,99 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 
 		scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Non terminal state, program completed_");
-		 sql = "SELECT pp.patient_id "
-			+ "FROM ( "
-		+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
-		+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-		+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
-		+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
-		+ "    AND pws.program_workflow_id = 1 "
-		+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "  
-		+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps " 
-		+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id " 
-		+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id " 
-		+ "  AND pws.program_workflow_state_id not in (2,3,6) and pp.date_completed is not null ";
-		 
-		 scd.setQuery(sql);
+		sql = "SELECT pp.patient_id "
+				+ "FROM ( "
+				+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
+				+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
+				+ "    AND pws.program_workflow_id = 1 "
+				+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "
+				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
+				+ "  AND pws.program_workflow_state_id not in (2,3,6,119) and pp.date_completed is not null ";
+
+		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
-		 i = h.newCountIndicator("hivdq: Non terminal state, program completed_",
-				"hivdq: Non terminal state, program completed_", new HashMap<String, Object>());
+		i = h.newCountIndicator(
+				"hivdq: Non terminal state, program completed_",
+				"hivdq: Non terminal state, program completed_",
+				new HashMap<String, Object>());
 		PeriodIndicatorReportUtil.addColumn(rd[0], "prgcompleted",
 				" Non terminal state, program completed", i, null);
 		PeriodIndicatorReportUtil.addColumn(rd[1], "prgcompleted",
 				" Non terminal state, program completed", i, null);
 	}
 
-	private void followupWithoutInitialEncounter(PeriodIndicatorReportDefinition[] rd) {
-			EncounterCohortDefinition ecd = new EncounterCohortDefinition();
-			ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-			ecd.addParameter(new Parameter("encounterTypeList", "encounterTypeList", EncounterType.class));
-			ecd.setName("hivdq: With encounter_");
-			ecd.setTimeQualifier(TimeQualifier.FIRST);
-			h.replaceCohortDefinition(ecd);
+	private void followupWithoutInitialEncounter(
+			PeriodIndicatorReportDefinition[] rd) {
+		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
+		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		ecd.addParameter(new Parameter("encounterTypeList",
+				"encounterTypeList", EncounterType.class));
+		ecd.setName("hivdq: With encounter_");
+		ecd.setTimeQualifier(TimeQualifier.FIRST);
+		h.replaceCohortDefinition(ecd);
 
-			CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-			ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-			ccd.setName("hivdq: Followup without Initial_");
-			ccd.getSearches().put(
-					"artFollowup",
-					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
-							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("ART_FOLLOWUP")))));
-			ccd.getSearches().put(
-					"artInitial",
-					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
-							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("ART_INITIAL")))));
-			ccd.setCompositionString("artFollowup AND NOT artInitial");
-			h.replaceCohortDefinition(ccd);
-			CohortIndicator i = h.newCountIndicator(
-					"hivdq: Followup without Initial_",
-					"hivdq: Followup without Initial_",
-					h.parameterMap("endDate", "${endDate}"));
-			PeriodIndicatorReportUtil.addColumn(rd[0], "noinitial",
-					"Followup without Initial", i, null);
-			PeriodIndicatorReportUtil.addColumn(rd[1], "noinitial",
-					"Followup without Initial", i, null);
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.setName("hivdq: Followup without Initial_");
+		ccd.getSearches()
+				.put("artFollowup",
+						new Mapped(
+								h.cohortDefinition("hivdq: With encounter_"),
+								h.parameterMap("onOrBefore", "${endDate}",
+										"encounterTypeList", Arrays.asList(h
+												.encounterType("ART_FOLLOWUP")))));
+		ccd.getSearches()
+				.put("artInitial",
+						new Mapped(
+								h.cohortDefinition("hivdq: With encounter_"),
+								h.parameterMap("onOrBefore", "${endDate}",
+										"encounterTypeList", Arrays.asList(h
+												.encounterType("ART_INITIAL")))));
+		ccd.setCompositionString("artFollowup AND NOT artInitial");
+		h.replaceCohortDefinition(ccd);
+		CohortIndicator i = h.newCountIndicator(
+				"hivdq: Followup without Initial_",
+				"hivdq: Followup without Initial_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "noinitial",
+				"Followup without Initial", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "noinitial",
+				"Followup without Initial", i, null);
 
-			ccd = new CompositionCohortDefinition();
-			ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-			ccd.setName("hivdq: Pre-ART Followup without Initial_");
-			ccd.getSearches().put(
-					"partFollowup",
-					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
-							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("PART_FOLLOWUP")))));
-			ccd.getSearches().put(
-					"partInitial",
-					new Mapped(h.cohortDefinition("hivdq: With encounter_"), h
-							.parameterMap("onOrBefore", "${endDate}", "encounterTypeList", Arrays.asList(h.encounterType("PART_INITIAL")))));
-			ccd.setCompositionString("partFollowup AND NOT partInitial");
-			h.replaceCohortDefinition(ccd);
-			 i = h.newCountIndicator(
-					"hivdq: Pre-ART Followup without Initial_",
-					"hivdq: Pre-ART Followup without Initial_",
-					h.parameterMap("endDate", "${endDate}"));
-			PeriodIndicatorReportUtil.addColumn(rd[0], "partnoinitial",
-					"Pre-ART Followup without Initial", i, null);
-			PeriodIndicatorReportUtil.addColumn(rd[1], "partnoinitial",
-					"Pre-ART Followup without Initial", i, null);
-}
+		ccd = new CompositionCohortDefinition();
+		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
+		ccd.setName("hivdq: Pre-ART Followup without Initial_");
+		ccd.getSearches()
+				.put("partFollowup",
+						new Mapped(
+								h.cohortDefinition("hivdq: With encounter_"),
+								h.parameterMap(
+										"onOrBefore",
+										"${endDate}",
+										"encounterTypeList",
+										Arrays.asList(h
+												.encounterType("PART_FOLLOWUP")))));
+		ccd.getSearches()
+				.put("partInitial",
+						new Mapped(
+								h.cohortDefinition("hivdq: With encounter_"),
+								h.parameterMap("onOrBefore", "${endDate}",
+										"encounterTypeList", Arrays.asList(h
+												.encounterType("PART_INITIAL")))));
+		ccd.setCompositionString("partFollowup AND NOT partInitial");
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hivdq: Pre-ART Followup without Initial_",
+				"hivdq: Pre-ART Followup without Initial_",
+				h.parameterMap("endDate", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd[0], "partnoinitial",
+				"Pre-ART Followup without Initial", i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1], "partnoinitial",
+				"Pre-ART Followup without Initial", i, null);
+	}
 
 	private Date date(String string) {
 		DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd");
@@ -780,7 +829,8 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		return null;
 	}
 
-	// old stuff regarding the old eid program, it was never properly defined anyways.
+	// old stuff regarding the old eid program, it was never properly defined
+	// anyways.
 	private void intermediateEid(PeriodIndicatorReportDefinition[] rd) {
 		final Program EID_PROGRAM = Context.getProgramWorkflowService()
 				.getProgramByName("EARLY INFANT DIAGNOSIS PROGRAM");
@@ -942,9 +992,8 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		PeriodIndicatorReportUtil.addColumn(rd[1], "eidunknown",
 				"Unknown EID locations", i, null);
 
-		ProgramWorkflowState EID_STATE_PRE_ART = EID_PROGRAM
-				.getWorkflowByName("PATIENT STATUS")
-				.getStateByName("Pre-ART (Continue)");
+		ProgramWorkflowState EID_STATE_PRE_ART = EID_PROGRAM.getWorkflowByName(
+				"PATIENT STATUS").getStateByName("Pre-ART (Continue)");
 		ProgramWorkflowState EID_STATE_DISCHARGED = EID_PROGRAM
 				.getWorkflowByName("PATIENT STATUS").getStateByName(
 						"DISCHARGED");
@@ -969,8 +1018,8 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.getSearches().put(
 				"state",
-				new Mapped(h.cohortDefinition("hivdq: In relevant EID state_"), h
-						.parameterMap("onDate", "${endDate}")));
+				new Mapped(h.cohortDefinition("hivdq: In relevant EID state_"),
+						h.parameterMap("onDate", "${endDate}")));
 		ccd.getSearches().put(
 				"eid",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
@@ -1002,7 +1051,8 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 	private void g_everInProgramOnDate() {
 		ProgramEnrollmentCohortDefinition ipcd = new ProgramEnrollmentCohortDefinition();
 		ipcd.setName("hivdq: Ever in program_");
-		ipcd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
+		ipcd.addParameter(new Parameter("enrolledOnOrBefore",
+				"enrolledOnOrBefore", Date.class));
 		ipcd.addParameter(new Parameter("programs", "programs", Program.class));
 		h.replaceCohortDefinition(ipcd);
 
@@ -1013,11 +1063,12 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		ccd.getSearches().put(
 				"state",
 				new Mapped(h.cohortDefinition("hivdq: Ever in program_"), h
-						.parameterMap("programs", "${programs}", "enrolledOnOrBefore", "${onDate}")));
+						.parameterMap("programs", "${programs}",
+								"enrolledOnOrBefore", "${onDate}")));
 		ccd.setCompositionString("state");
 		h.replaceCohortDefinition(ccd);
 	}
-	
+
 	private void onArtWithoutEncounter(PeriodIndicatorReportDefinition[] rd) {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
@@ -1059,7 +1110,7 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		h.replaceCohortDefinition(ecd);
 
 		// depends on 'hivdq: ART number_'
-		
+
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.setName("hivdq: ART encounter without number_");
@@ -1073,7 +1124,8 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 						.parameterMap()));
 		ccd.setCompositionString("artEncounter AND NOT artNumber");
 		h.replaceCohortDefinition(ccd);
-		CohortIndicator i = h.newCountIndicator("hivdq: ART encounter without number_",
+		CohortIndicator i = h.newCountIndicator(
+				"hivdq: ART encounter without number_",
 				"hivdq: ART encounter without number_",
 				h.parameterMap("endDate", "${endDate}"));
 		PeriodIndicatorReportUtil.addColumn(rd[0], "artnono",
@@ -1111,11 +1163,11 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 						+ ": Hiv encounter after terminal state", i, null);
 	}
 
-	private void createLastInRangeNumber(PeriodIndicatorReportDefinition[] rd,
-			String loc, String prefix) {
+	private void createLastInRangeArvNumber(
+			PeriodIndicatorReportDefinition[] rd, String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Out of range for " + loc + "_");
-		scd.setQuery(sqlForOutOfRangeNumbers(prefix));
+		scd.setQuery(sqlForOutOfRangeArvNumbers(prefix));
 		h.replaceCohortDefinition(scd);
 		CohortIndicator i = h.newCountIndicator("hivdq: Out of range for "
 				+ loc + "_", "hivdq: Out of range for " + loc + "_",
@@ -1126,6 +1178,25 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 		PeriodIndicatorReportUtil.addColumn(rd[1], "gap" + loc.toLowerCase(),
 				loc + ": Last In-range ARV number before gap in sequence", i,
 				null);
+	}
+
+	private void createLastInRangeHccNumber(
+			PeriodIndicatorReportDefinition[] rd, String loc, String prefix) {
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: HCC Out of range for " + loc + "_");
+		scd.setQuery(sqlForOutOfRangeArvNumbers(prefix));
+		h.replaceCohortDefinition(scd);
+		CohortIndicator i = h.newCountIndicator("hivdq: HCC Out of range for "
+				+ loc + "_", "hivdq: HCC Out of range for " + loc + "_",
+				new HashMap<String, Object>());
+		PeriodIndicatorReportUtil.addColumn(rd[0],
+				"hccgap" + loc.toLowerCase(), loc
+						+ ": Last In-range HCC number before gap in sequence",
+				i, null);
+		PeriodIndicatorReportUtil.addColumn(rd[1],
+				"hccgap" + loc.toLowerCase(), loc
+						+ ": Last In-range HCC number before gap in sequence",
+				i, null);
 	}
 
 	private void createMultipleArv(PeriodIndicatorReportDefinition[] rd,
@@ -1143,7 +1214,7 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 				loc + ": Multiple ARV numbers", i, null);
 	}
 
-	private String sqlForOutOfRangeNumbers(String locationPrefix) {
+	private String sqlForOutOfRangeArvNumbers(String locationPrefix) {
 		String sql = "select patient_id from patient_identifier "
 				+ "where identifier in ("
 				+ "  select concat('"
@@ -1158,6 +1229,27 @@ WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id 
 				+ "  left outer join "
 				+ "    (select substring(identifier, 5) as id_number "
 				+ "    from patient_identifier where identifier_type=4 and identifier like '"
+				+ locationPrefix
+				+ "%' and voided = 0) as b on a.id_number + 1 = b.id_number"
+				+ "  where b.id_number is null) as c" + ")";
+		return sql;
+	}
+
+	private String sqlForOutOfRangeHccNumbers(String locationPrefix) {
+		String sql = "select patient_id from patient_identifier "
+				+ "where identifier in ("
+				+ "  select concat('"
+				+ locationPrefix
+				+ "', cast(c.start as char))"
+				+ "  from (select a.id_number  as start"
+				+ "  from "
+				+ "    (select replace(substring(identifier, 5), '-HCC', '') as id_number "
+				+ "    from patient_identifier where identifier_type=19 and identifier like '"
+				+ locationPrefix
+				+ "%' and voided = 0) as a"
+				+ "  left outer join "
+				+ "    (select replace(substring(identifier, 5), '-HCC', '') as id_number "
+				+ "    from patient_identifier where identifier_type=19 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as b on a.id_number + 1 = b.id_number"
 				+ "  where b.id_number is null) as c" + ")";
