@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.EncounterType;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -59,6 +60,10 @@ public class SetupArtRegister {
 		dsd.setIncludeMissedAppointmentColumns(false);
 		dsd.setIncludeProgramOutcome(true);
 		dsd.setIncludeWeight(true);
+		dsd.setFirstTimeInProgramWorkflowState(Context.getProgramWorkflowService()
+				.getProgramByName("HIV program")
+				.getWorkflowByName("Treatment status")
+				.getStateByName("On antiretrovirals"));
 		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
 
 		dsd.setProgramWorkflow(h.programWorkflow("HIV program", "Treatment status"));

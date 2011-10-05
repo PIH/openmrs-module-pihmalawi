@@ -154,7 +154,7 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 		return "<a href=" + OPENMRS_SERVER
 				+ "/openmrs/patientDashboard.form?patientId=" + p.getId() + ">"
 				+ p.getGivenName() + " " + p.getFamilyName() + " ("
-				+ p.getGender() + ", " + p.getAge() + ")</a>";
+				+ p.getGender() + ", " + p.getAge() + ", " + p.getAddresses().iterator().next().getCityVillage() + ")</a>";
 	}
 
 	private String linkifyMerge(Patient p, Patient p2) {

@@ -2,12 +2,14 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -24,12 +26,16 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.Person;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reporting.survival.SurvivalRateCalc;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -157,6 +163,17 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 			row.addColumnValue(c, p.getGender());
 
 			if (definition.getIncludeProgramOutcome()) {
+				if (definition.getFirstTimeInProgramWorkflowState() != null) {
+					// first on art on
+					c = new DataSetColumn("ART started on", "ART started on",
+							String.class);
+					row.addColumnValue(c, formatEncounterDate(artStatedOn(p, definition.getProgramWorkflow().getProgram(), definition.getFirstTimeInProgramWorkflowState())));
+	
+					// first on art at
+					c = new DataSetColumn("ART started at", "ART started at",
+							String.class);
+					row.addColumnValue(c, artStartedAt(p, definition.getProgramWorkflow().getProgram(), definition.getFirstTimeInProgramWorkflowState()));
+				}
 				PatientState ps = null;
 				if (locationParameter == null) {
 					// outcome from endDate, hopefully the one you are interested in
@@ -518,6 +535,23 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	private SessionFactory sessionFactory() {
 		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
 				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
+	}
+
+	private Location artStartedAt(Patient p, Program program, ProgramWorkflowState firstTimeInState) {
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
+		if (ps != null) {
+			return h.getEnrollmentLocation(ps
+					.getPatientProgram(), sessionFactory().getCurrentSession());
+		}
+		return null;
+	}
+
+	private Date artStatedOn(Patient p, Program program, ProgramWorkflowState firstTimeInState) {
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
+		if (ps != null) {
+			return ps.getStartDate();
+		}
+		return null;
 	}
 
 }

@@ -184,6 +184,8 @@ public class SetupHivDataQuality {
 
 		wrongPartFormat(rd);
 
+		wrongHccFormat(rd);
+		
 		// gaps in numbers
 		for (String s : LOCATIONS.values()) {
 			createLastInRangeArvNumber(rd, s, s + " ");
@@ -585,12 +587,12 @@ public class SetupHivDataQuality {
 		String partFormat = "";
 		for (String s : LOCATIONS.values()) {
 			partFormat += "identifier NOT regexp '^[[:<:]]" + s
-					+ "[[:>:]]-[0-9][0-9][0-9][0-9]-HCC$' AND ";
+					+ "[[:>:]] [1-9][0-9]?[0-9]?[0-9]? HCC$' AND ";
 		}
 		partFormat = partFormat.substring(0,
 				partFormat.length() - " AND ".length());
 		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=13 and voided=0 and (" + partFormat
+				+ "where identifier_type=19 and voided=0 and (" + partFormat
 				+ ")";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
@@ -652,11 +654,11 @@ public class SetupHivDataQuality {
 	private void g_unknownLocations(PeriodIndicatorReportDefinition[] rd) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Unknown location_");
-		String sql = "select pp.patient_id from patient_program pp where pp.voided=0 and pp.program_id=1 and pp.location_id not in (";
+		String sql = "select pp.patient_id from patient_program pp where pp.voided=0 and pp.program_id=1 and (pp.location_id is null or pp.location_id not in (";
 		for (Location l : LOCATIONS.keySet()) {
 			sql += l.getId() + ", ";
 		}
-		sql = sql.substring(0, sql.length() - 2) + ");";
+		sql = sql.substring(0, sql.length() - 2) + "));";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		CohortIndicator i = h.newCountIndicator("hivdq: Unknown location_",
@@ -1184,7 +1186,7 @@ public class SetupHivDataQuality {
 			PeriodIndicatorReportDefinition[] rd, String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: HCC Out of range for " + loc + "_");
-		scd.setQuery(sqlForOutOfRangeArvNumbers(prefix));
+		scd.setQuery(sqlForOutOfRangeHccNumbers(prefix));
 		h.replaceCohortDefinition(scd);
 		CohortIndicator i = h.newCountIndicator("hivdq: HCC Out of range for "
 				+ loc + "_", "hivdq: HCC Out of range for " + loc + "_",
@@ -1243,12 +1245,12 @@ public class SetupHivDataQuality {
 				+ "', cast(c.start as char))"
 				+ "  from (select a.id_number  as start"
 				+ "  from "
-				+ "    (select replace(substring(identifier, 5), '-HCC', '') as id_number "
+				+ "    (select replace(substring(identifier, 5), ' HCC', '') as id_number "
 				+ "    from patient_identifier where identifier_type=19 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as a"
 				+ "  left outer join "
-				+ "    (select replace(substring(identifier, 5), '-HCC', '') as id_number "
+				+ "    (select replace(substring(identifier, 5), ' HCC', '') as id_number "
 				+ "    from patient_identifier where identifier_type=19 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as b on a.id_number + 1 = b.id_number"

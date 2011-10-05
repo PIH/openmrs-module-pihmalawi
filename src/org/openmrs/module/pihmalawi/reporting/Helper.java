@@ -418,6 +418,38 @@ public class Helper {
 		rs.saveReportDesign(design);
 	}
 
+	public PatientState getFirstTimeInState(Patient p, Program program, ProgramWorkflowState firstTimeInState) {
+
+		List<PatientProgram> pps = Context.getProgramWorkflowService()
+				.getPatientPrograms(p, program, null, null, null, null, false);
+		for (PatientProgram pp : pps) {
+			// hope that the first found pp is also first in time
+			// should be refactored to use statesInWorkflow() as an intermediate solution
+			if (!pp.isVoided()) {
+				HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
+				ArrayList<Long> stupidListConverter = new ArrayList<Long>();
+				for (PatientState ps : pp.getStates()) {
+					if (!ps.isVoided()
+							&& ps.getState().getId().equals(firstTimeInState.getId())
+							&& ps.getStartDate() != null) {
+						validPatientStates.put(ps.getStartDate().getTime(), ps);
+						stupidListConverter.add(ps.getStartDate().getTime());
+					}
+				}
+				Collections.<Long> sort(stupidListConverter);
+
+				for (Long key : stupidListConverter) {
+					PatientState state = (PatientState) validPatientStates
+							.get(key);
+					// just take the first one
+					return state;
+				}
+			}
+		}
+		return null;
+	}
+
+
 	public PatientState getMostRecentStateAtLocation(Patient p,
 			List<ProgramWorkflowState> programWorkflowStates,
 			Location enrollmentLocation, Session hibernateSession) {

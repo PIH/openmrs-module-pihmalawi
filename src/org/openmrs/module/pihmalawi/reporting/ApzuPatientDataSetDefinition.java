@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
-import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
@@ -47,6 +47,9 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	
 	@ConfigurationProperty
 	ProgramWorkflow programWorkflow = null;
+
+	@ConfigurationProperty
+	ProgramWorkflowState firstTimeInProgramWorkflowState = null;
 
 	@ConfigurationProperty
 	private boolean includeArvNumber;
@@ -162,4 +165,14 @@ public class ApzuPatientDataSetDefinition extends BaseDataSetDefinition {
 	public boolean getIncludeArvNumber() {
 		return includeArvNumber;
 	}
+
+	public ProgramWorkflowState getFirstTimeInProgramWorkflowState() {
+		return firstTimeInProgramWorkflowState;
+	}
+
+	public void setFirstTimeInProgramWorkflowState(
+			ProgramWorkflowState firstTimeInProgramWorkflowState) {
+		this.firstTimeInProgramWorkflowState = firstTimeInProgramWorkflowState;
+	}
+	
 }
