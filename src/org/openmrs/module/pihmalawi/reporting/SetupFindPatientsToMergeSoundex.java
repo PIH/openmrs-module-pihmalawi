@@ -2,27 +2,16 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.openmrs.Location;
-import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.DuplicateSpotterDataSetDefinition;
-import org.openmrs.module.pihmalawi.reporting.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.repository.ArtReportElements;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
-import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -66,6 +55,8 @@ public class SetupFindPatientsToMergeSoundex {
 
 		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
 		dsd.setEncounterTypesToLookForDuplicates(Arrays.asList(h.encounterType("PART_INITIAL"), h.encounterType("PART_FOLLOWUP")));
+		dsd.setEncounterTypesForSummary(Arrays.asList(h.encounterType("PART_INITIAL"), h.encounterType("PART_FOLLOWUP"), h.encounterType("ART_INITIAL"), h.encounterType("ART_FOLLOWUP"), h.encounterType("EXPOSED_CHILD_INITIAL"), h.encounterType("EXPOSED_CHILD_FOLLOWUP")));
+		dsd.setProgramWorkflowForSummary(h.programWorkflow("HIV program", "Treatment status"));
 		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd, "Find patients to merge in Pre-ART Soundex_", m);

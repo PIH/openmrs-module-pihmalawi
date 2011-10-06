@@ -1,6 +1,8 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +15,11 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.openmrs.Cohort;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Patient;
+import org.openmrs.PatientState;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
@@ -83,12 +89,12 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 					dsds.isSwapFirstLastName());
 			if (ps != null && !ps.isEmpty()) {
 				col = new DataSetColumn("#", "#", String.class);
-				row.addColumnValue(col, linkifyId(p));
+				row.addColumnValue(col, linkifyId(p, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
 				int i = 1;
 				for (Patient potential : ps) {
 					col = new DataSetColumn("potential match_" + i,
 							"potential match_" + i, String.class);
-					row.addColumnValue(col, linkifyMerge(p, potential));
+					row.addColumnValue(col, linkifyMerge(p, potential, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
 					i++;
 				}
 				dataSet.addRow(row);
@@ -150,19 +156,51 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
 	}
 
-	private String linkifyId(Patient p) {
+	private String linkifyId(Patient p, List<EncounterType> encounterTypes, ProgramWorkflow pw) {
 		return "<a href=" + OPENMRS_SERVER
 				+ "/openmrs/patientDashboard.form?patientId=" + p.getId() + ">"
-				+ p.getGivenName() + " " + p.getFamilyName() + " ("
-				+ p.getGender() + ", " + p.getAge() + ", " + p.getAddresses().iterator().next().getCityVillage() + ")</a>";
+				+ p.getGivenName() + " " + p.getFamilyName() + "</a>"
+				+ "<br/>" + p.getGender() + ", " + p.getAge() + ", " + currentVillage(p) 
+				+ "<br/>" + firstLastEncounter(p, encounterTypes)
+				+ "<br/>" + currentOutcome(p, pw);
 	}
 
-	private String linkifyMerge(Patient p, Patient p2) {
+	private String currentVillage(Patient p) {
+		return p.getAddresses().iterator().next().getCityVillage();
+	}
+
+	private String linkifyMerge(Patient p, Patient p2, List<EncounterType> encounterTypes, ProgramWorkflow pw) {
 		return "<a href=" + OPENMRS_SERVER
 				+ "/openmrs/admin/patients/mergePatients.form?patientId="
 				+ p2.getId() + "&patientId=" + p.getId() + ">"
-				+ p2.getGivenName() + " " + p2.getFamilyName() + " ("
-				+ p2.getGender() + ", " + p2.getAge() + ")</a>";
+				+ p2.getGivenName() + " " + p2.getFamilyName() + "</a>"
+				+ "<br/>" + p2.getGender() + ", " + p2.getAge() + ", " + currentVillage(p2) 
+				+ "<br/>" + firstLastEncounter(p2, encounterTypes)
+				+ "<br/>" + currentOutcome(p2, pw);
+	}
+
+	private String currentOutcome(Patient p, ProgramWorkflow pw) {
+		PatientState ps = new Helper().getMostRecentStateAtDate(p, pw, new Date());
+		if (ps != null) {
+			return ps.getState().getConcept().getName() + "@" + (ps.getEndDate() == null ? formatDate(ps.getStartDate()) : formatDate(ps.getEndDate())); 
+		}
+		return null;
+	}
+
+	private String firstLastEncounter(Patient p, List<EncounterType> encounterTypes) {
+		String e = "";
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, null, null, encounterTypes, null, false);
+		if (!encounters.isEmpty()) {
+			Encounter firstEncounter = encounters.get(0);
+			e = firstEncounter.getEncounterType().getName() + "@" + formatDate(firstEncounter.getEncounterDatetime());
+			Encounter lastEncounter = encounters.get(encounters.size() - 1);
+			e += " - " + lastEncounter.getEncounterType().getName() + "@" + formatDate(lastEncounter.getEncounterDatetime());			
+		}
+		return e;
+	}
+
+	private String formatDate(Date encounterDatetime) {
+		return new SimpleDateFormat("dd-MMM-yyyy").format(encounterDatetime);
 	}
 
 	private String h(String s) {
