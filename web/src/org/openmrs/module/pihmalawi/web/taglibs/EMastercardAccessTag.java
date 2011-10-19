@@ -99,7 +99,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 				if (!isInProgramWorkflowState(p,
 						getProgramWorkflowStatesAsList())) {
 					o.write(createViewCardHtmlTag(p, f, initials.get(0),
-							"Readonly: Wrong state"));
+							"Readonly: Inactive program state"));
 					release();
 					return SKIP_BODY;
 				}
