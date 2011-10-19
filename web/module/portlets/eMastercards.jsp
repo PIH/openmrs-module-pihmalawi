@@ -8,7 +8,7 @@
 <table cellspacing="0" cellpadding="2">
 	<tr>
 		<td>ART Patient Card:</td>
-		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="64" initialEncounterTypeId="9" followupEncounterTypeId="10"/></td>
+		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="64" initialEncounterTypeId="9" followupEncounterTypeId="10" patientIdentifierType="4" programWorkflowStates="7"/></td>
 	</tr>
 	<tr>
 		<c:set var="artInitialEncounter" value="" />
@@ -21,10 +21,10 @@
 		<td>Pre-ART Patient Card:</td>
 		<c:choose>
 			<c:when test="${ not empty artInitialEncounter }">
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" readonly="true"/> (readonly because of ART Initial Encounter)</td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" patientIdentifierType="19" programWorkflowStates="1" readonly="true"/> (Readonly: ART Initial Encounter)</td>
 			</c:when>
 			<c:otherwise>
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="11"/></td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" patientIdentifierType="19" programWorkflowStates="1"/></td>
 			</c:otherwise>
 		</c:choose>
 	</tr>
@@ -39,10 +39,10 @@
 		<td>Exposed Child Patient Card</td>
 		<c:choose>
 			<c:when test="${ not empty artInitialEncounter }">
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93" readonly="true"/> (readonly because of ART Initial Encounter)</td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93" patientIdentifierType="19" programWorkflowStates="120" readonly="true"/> (Readonly: ART Initial Encounter)</td>
 			</c:when>
 			<c:otherwise>
-				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93"/></td>
+				<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93" patientIdentifierType="19" programWorkflowStates="120"/></td>
 			</c:otherwise>
 		</c:choose>
 	</tr>
@@ -73,14 +73,7 @@
 	</tr>
 	<tr>
 		<td>Chronic Care Record:</td>
-		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69"/></td>
-	</tr>
-	<tr>
-		<td><br /></td>
-	</tr>
-	<tr>
-		<td>TB Treatment Card:</td>
-		<td>(todo)</td>
+		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"/></td>
 	</tr>
 	<tr>
 		<td><br /></td>

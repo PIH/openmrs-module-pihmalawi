@@ -70,6 +70,9 @@
 			<fileset dir="lib-common">
 				<include name="**/*.jar"/>
 			</fileset>
+			<fileset dir="../programlocation/dist">
+				<include name="**/*.jar"/>
+			</fileset>
 			<fileset dir="../openmrs-1.5.x/lib">
 				<include name="**/*.jar"/>
 			</fileset>
@@ -110,15 +113,14 @@
 			<src path="src/" />
 			<include name="**/*.java" />
 		</javac>
-		
+
 		<!--  Compile module web java files -->
-		<javac destdir="build-ant" classpathref="classpath" debug="true" debuglevel="lines,source,vars">
+		 <javac destdir="build-ant" classpathref="classpath" debug="true" debuglevel="lines,source,vars">
 			<compilerarg line="-g" />
 			<compilerarg line="-target 1.5" />
 			<src path="web/src/" />
 			<include name="**/*.java" />
 		</javac>
-		
 	</target>
 	
 	<target name="package-module" depends="compile-module" description="Packages module into jar file">

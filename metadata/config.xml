@@ -4,12 +4,12 @@
 	<!-- Base Module Properties -->
 	<id>pihmalawi</id>
 	<name>PIH Malawi Customizations</name>
-	<version>0.9</version>
+	<version>1.0</version>
 	<package>org.openmrs.module.pihmalawi</package>
 	<author>Christian Neumann</author>
 	<description>PIH Malawi Implementation Module</description>
 	<activator>org.openmrs.module.pihmalawi.ModuleActivator</activator>
-	<require_version>1.5.3</require_version>
+	<require_version>1.7.2</require_version>
 
 	<require_modules>
 		<require_module>org.openmrs.module.reporting</require_module>
