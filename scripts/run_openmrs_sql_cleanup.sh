@@ -6,6 +6,9 @@ source run_report.config
 
 mysql -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB <<EOF
 
+-- clean up old reporting request, they sloooow down opening the reporting tab
+delete from reporting_report_request; -- where request_datetime < subdate(now(), interval 1 week);
+
 -- update identifier locations
 -- LSI
 update patient_identifier set location_id=16 where identifier like 'LSI%' and identifier_type in (4,19);
