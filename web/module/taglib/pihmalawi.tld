@@ -49,4 +49,39 @@
 		</attribute>
 	</tag>
 
+	<tag>
+		<description>Renders access to eRecord</description>
+		<name>eRecordAccess</name>
+		<tag-class>org.openmrs.module.pihmalawi.web.taglibs.ERecordAccessTag</tag-class>
+		<attribute>
+			<name>patientId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>formId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>encounterTypeId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>readonly</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>patientIdentifierType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>programWorkflowStates</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>

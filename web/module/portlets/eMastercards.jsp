@@ -79,6 +79,13 @@
 		<td><br /></td>
 	</tr>
 	<tr>
+		<td>Tuberculosis Record:</td>
+		<td><pihmalawi:eRecordAccess patientId="${model.patientId}" formId="21" encounterTypeId="14" programWorkflowStates="92" patientIdentifierType="7"/></td>
+	</tr>
+	<tr>
+		<td><br /></td>
+	</tr>
+	<tr>
 		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="24" num="1" var="enc">
 			<c:if test="${ not empty enc }">
 				<c:set var="ctEncounter" value="true" />
