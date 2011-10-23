@@ -22,11 +22,6 @@
 	</messages>
 
 	<extension>
-	      <point>org.openmrs.patientDashboard.overviewBox</point>
-	      <class>org.openmrs.module.pihmalawi.extension.html.EMastercardsBoxExt</class>
-	</extension>
-
-	<extension>
 		<point>org.openmrs.admin.list</point>
 		<class>org.openmrs.module.pihmalawi.extension.html.AdminList</class>
 	</extension>
