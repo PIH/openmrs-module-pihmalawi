@@ -84,6 +84,11 @@ Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareappadherence.form">Remove</a>
 <br/>
 
+<h3>TB</h3>
+Tuberculosis Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_tb_register.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_tb_register.form">Remove</a>
+<br/>
+
 <h3>General</h3>
 Appointments for Location and Date: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_appointments.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_appointments.form">Remove</a>
