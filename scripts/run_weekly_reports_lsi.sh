@@ -112,3 +112,14 @@ run_report.sh \
 echo "" | mailx -a $FILE -s "emr: Lower Neno HIV Data Quality $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
+# HIV Data Quality For All Users
+FILE=HIV_Data_Quality-`echo $TODAY`.xls
+run_report.sh \
+  "HIV Data Quality For All Users_" \
+  "userEnteredParams%5BendDate%5D=$NOW" \
+  "HIV Data Quality For All Users.xls (Excel)_" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Lower Neno HIV Data Quality For All Users $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
