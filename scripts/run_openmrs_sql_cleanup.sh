@@ -2,6 +2,8 @@
 
 # runs cleanup/maintenance/convenience statements against openmrs db
 
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
+
 source run_report.config
 
 mysql -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB <<EOF
@@ -20,6 +22,8 @@ update patient_identifier set location_id=18 where identifier like 'CFA%' and id
 update patient_identifier set location_id=35 where identifier like 'ZLA%' and identifier_type in (4,19);
 -- NKA
 update patient_identifier set location_id=21 where identifier like 'NKA%' and identifier_type in (4,19);
+-- LWAN
+update patient_identifier set location_id=17 where identifier like 'LWAN%' and identifier_type in (4,19);
 -- NNO
 update patient_identifier set location_id=2 where identifier like 'NNO%' and identifier_type in (4,19);
 -- NOP
@@ -28,6 +32,10 @@ update patient_identifier set location_id=4 where identifier like 'NOP%' and ide
 update patient_identifier set location_id=20 where identifier like 'NSM%' and identifier_type in (4,19);
 -- MGT
 update patient_identifier set location_id=3 where identifier like 'MGT%' and identifier_type in (4,19);
+-- LGWE
+update patient_identifier set location_id=34 where identifier like 'LGWE%' and identifier_type in (4,19);
+-- MTDN
+update patient_identifier set location_id=5 where identifier like 'MTDN%' and identifier_type in (4,19);
 
 -- create health center person attribute if it doesn't exist
 
