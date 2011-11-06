@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.User;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.EncounterAfterProgramStateCohortDefinition;
@@ -61,8 +63,8 @@ public class SetupHivDataQuality {
 	private final ProgramWorkflowState STATE_EXPOSED_CHILD_DISCHARGED;
 
 	private final Map<Location, String> LOCATIONS;
-	
-	private final Map<String, Integer> USERS;
+
+	private final List<User> USERS;
 
 	public SetupHivDataQuality(Helper helper) {
 		h = helper;
@@ -81,9 +83,9 @@ public class SetupHivDataQuality {
 		STATE_TRANSFERRED_INTERNALLY = PROGRAM.getWorkflowByName(
 				"Treatment status").getStateByName("Transferred internally");
 		STATE_EXPOSED_CHILD = PROGRAM.getWorkflowByName("Treatment status")
-		.getStateByName("Exposed Child (Continue)");
-		STATE_EXPOSED_CHILD_DISCHARGED = PROGRAM.getWorkflowByName("Treatment status")
-		.getStateByName("Discharged uninfected");
+				.getStateByName("Exposed Child (Continue)");
+		STATE_EXPOSED_CHILD_DISCHARGED = PROGRAM.getWorkflowByName(
+				"Treatment status").getStateByName("Discharged uninfected");
 
 		LOCATIONS = new HashMap<Location, String>();
 		LOCATIONS.put(h.location("Lisungwi Community Hospital"), "LSI");
@@ -98,20 +100,14 @@ public class SetupHivDataQuality {
 		LOCATIONS.put(h.location("Magaleta HC"), "MGT");
 		LOCATIONS.put(h.location("Neno Mission HC"), "NOP");
 		LOCATIONS.put(h.location("Nsambe HC"), "NSM");
-		
-		USERS = new HashMap<String, Integer>();
-		USERS.put("Andrew", 15883);
-		USERS.put("Charles", 22190);
-		USERS.put("Christian", 48974);
-		USERS.put("George", 45635);
-		USERS.put("Qlement", 15884);
-		USERS.put("Thandie", 38038);
-		
-		USERS.put("Harvey", 21852);
-		USERS.put("Nellie", 19865);
-		USERS.put("Pricalia", 18490);
-		
-		USERS.put("Moir", 21270);
+
+		USERS = new ArrayList<User>();
+		for (String user : new String[] { "benndo", "amahaka", "geomal",
+				"qlement", "thandie", "cgoliath", "cneumann", "prichi",
+				"harzam", "nelma", "moblack" }) {
+			if (Context.getUserService().getUserByUsername(user) != null)
+				USERS.add(Context.getUserService().getUserByUsername(user));
+		}
 	}
 
 	public void setup() throws Exception {
@@ -121,12 +117,16 @@ public class SetupHivDataQuality {
 		createDimension();
 		PeriodIndicatorReportDefinition[] rds = createReportDefinition();
 		createCohortDefinitions(rds);
-		
+
 		h.replaceReportDefinition(rds[0]);
 		// createHtmlBreakdownInternal(rds[0]);
 		h.replaceReportDefinition(rds[1]);
 		// createHtmlBreakdownInternal(rds[1]);
 		h.replaceReportDefinition(rds[2]);
+		h.createXlsOverview(rds[2], "HIV_Data_Quality_For_All_Users.xls",
+				"HIV Data Quality For All Users.xls (Excel)_",
+				null);
+
 	}
 
 	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd)
@@ -144,20 +144,21 @@ public class SetupHivDataQuality {
 	private void createDimension() {
 		CohortDefinitionDimension totalRegisteredTimeframe = new CohortDefinitionDimension();
 		totalRegisteredTimeframe.setName("hivdq: Last updating user_");
-		totalRegisteredTimeframe.addParameter(new Parameter("user", "User ID", Integer.class));
-		totalRegisteredTimeframe.addCohortDefinition("user", h.cohortDefinition("hivdq: Last updating user_"), h.parameterMap(
-				"user", "${user}"));
-		
+		totalRegisteredTimeframe.addParameter(new Parameter("user", "User ID",
+				Integer.class));
+		totalRegisteredTimeframe.addCohortDefinition("user",
+				h.cohortDefinition("hivdq: Last updating user_"),
+				h.parameterMap("user", "${user}"));
+
 		h.replaceDefinition(totalRegisteredTimeframe);
 	}
 
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			// if (rd.getName().equals(PROGRAM.getName() +
-			// " Changes Breakdown_")) {
-			// rs.purgeReportDesign(rd);
-			// }
+			 if (rd.getName().equals("HIV Data Quality For All Users.xls (Excel)_")) {
+			 rs.purgeReportDesign(rd);
+			 }
 		}
 		h.purgeDefinition(DataSetDefinition.class, "HIV Data Quality_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "HIV Data Quality_");
@@ -165,8 +166,9 @@ public class SetupHivDataQuality {
 				"HIV Data Quality By User_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "HIV Data Quality By User_");
 		h.purgeDefinition(DataSetDefinition.class,
-			"HIV Data Quality For All Users_ Data Set");
-		h.purgeDefinition(ReportDefinition.class, "HIV Data Quality For All Users_");
+				"HIV Data Quality For All Users_ Data Set");
+		h.purgeDefinition(ReportDefinition.class,
+				"HIV Data Quality For All Users_");
 		h.purgeAll("hivdq: ");
 	}
 
@@ -189,20 +191,24 @@ public class SetupHivDataQuality {
 		rd2.addParameter(new Parameter("endDate", "End date (Today)",
 				Date.class));
 		rd2.addParameter(new Parameter("user", "User ID", Integer.class));
-		rd2.setBaseCohortDefinition(h.cohortDefinition("hivdq: Last updating user_"),
+		rd2.setBaseCohortDefinition(
+				h.cohortDefinition("hivdq: Last updating user_"),
 				ParameterizableUtil.createParameterMappings("user=${user}"));
 		rd2.setupDataSetDefinition();
-		
+
 		// catch all DQ report with dimension
 		PeriodIndicatorReportDefinition rd3 = new PeriodIndicatorReportDefinition();
 		rd3.setName("HIV Data Quality For All Users_");
 		rd3.removeParameter(ReportingConstants.LOCATION_PARAMETER);
 		rd3.removeParameter(ReportingConstants.START_DATE_PARAMETER);
 		rd3.removeParameter(ReportingConstants.END_DATE_PARAMETER);
-		rd3.addParameter(new Parameter("endDate", "End date (Today)", Date.class));
+		rd3.addParameter(new Parameter("endDate", "End date (Today)",
+				Date.class));
 		rd3.setupDataSetDefinition();
-		for (String username : USERS.keySet()) {
-			rd3.addDimension(username, h.cohortDefinitionDimension("hivdq: Last updating user_"),  h.parameterMap("user", USERS.get(username)));
+		for (User user : USERS) {
+			rd3.addDimension(user.getUsername(),
+					h.cohortDefinitionDimension("hivdq: Last updating user_"),
+					h.parameterMap("user", user.getId()));
 		}
 		return new PeriodIndicatorReportDefinition[] { rd, rd2, rd3 };
 	}
@@ -236,7 +242,7 @@ public class SetupHivDataQuality {
 		wrongPartFormat(rds);
 
 		wrongHccFormat(rds);
-		
+
 		// gaps in numbers
 		for (String s : LOCATIONS.values()) {
 			createLastInRangeArvNumber(rds, s, s + " ");
@@ -283,7 +289,8 @@ public class SetupHivDataQuality {
 								PROGRAM)));
 		ccd.setCompositionString("exit AND unknown");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "exit", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "exit", h.parameterMap("endDate", "${endDate}"),
+				rds);
 
 		// deceased without exit from care
 		BirthAndDeathCohortDefinition badcd = new BirthAndDeathCohortDefinition();
@@ -317,7 +324,8 @@ public class SetupHivDataQuality {
 								PROGRAM)));
 		ccd.setCompositionString("deceased AND hiv AND NOT exitFromCare");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "noexit", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "noexit", h.parameterMap("endDate", "${endDate}"),
+				rds);
 
 		// deceased but not in patient died
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
@@ -344,8 +352,9 @@ public class SetupHivDataQuality {
 								PROGRAM)));
 		ccd.setCompositionString("deceased AND hiv AND NOT stateDied");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "nostate", h.parameterMap("endDate", "${endDate}"), rds);
-		
+		createIndicator(ccd, "nostate",
+				h.parameterMap("endDate", "${endDate}"), rds);
+
 		ccd = new CompositionCohortDefinition();
 		ccd.setName("hivdq: Died without exit from care_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
@@ -364,7 +373,8 @@ public class SetupHivDataQuality {
 								PROGRAM)));
 		ccd.setCompositionString("NOT exitFromCare AND hiv AND stateDied");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "noexit2", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "noexit2",
+				h.parameterMap("endDate", "${endDate}"), rds);
 
 		multipleOpenStates();
 
@@ -394,7 +404,8 @@ public class SetupHivDataQuality {
 						.parameterMap()));
 		ccd.setCompositionString("onArt AND NOT artNumber");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "nonoart", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "nonoart",
+				h.parameterMap("endDate", "${endDate}"), rds);
 
 		artEncounterWithoutNumber(rds);
 
@@ -444,7 +455,8 @@ public class SetupHivDataQuality {
 						.parameterMap()));
 		ccd.setCompositionString("following AND NOT hccNumber AND NOT partNumber AND NOT oldPartNumber");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "nonopart", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "nonopart",
+				h.parameterMap("endDate", "${endDate}"), rds);
 
 		// on following but arv number
 		ccd = new CompositionCohortDefinition();
@@ -460,7 +472,8 @@ public class SetupHivDataQuality {
 						.parameterMap()));
 		ccd.setCompositionString("following AND artNumber");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "noart", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "noart", h.parameterMap("endDate", "${endDate}"),
+				rds);
 
 		onArtWithoutEncounter(rds);
 
@@ -471,7 +484,8 @@ public class SetupHivDataQuality {
 		iscd.setName("hivdq: In relevant HIV state_");
 		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
-				STATE_PRE_ART, STATE_EXPOSED_CHILD, STATE_EXPOSED_CHILD_DISCHARGED));
+				STATE_PRE_ART, STATE_EXPOSED_CHILD,
+				STATE_EXPOSED_CHILD_DISCHARGED));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -489,7 +503,8 @@ public class SetupHivDataQuality {
 								PROGRAM)));
 		ccd.setCompositionString("NOT state AND hiv");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "state", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "state", h.parameterMap("endDate", "${endDate}"),
+				rds);
 
 		List<EncounterType> hivEncounterTypes = Arrays.asList(
 				h.encounterType("ART_INITIAL"),
@@ -500,11 +515,10 @@ public class SetupHivDataQuality {
 				h.encounterType("PART_FOLLOWUP"));
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
 				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT,
-				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD, STATE_EXPOSED_CHILD_DISCHARGED);
+				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD,
+				STATE_EXPOSED_CHILD_DISCHARGED);
 
-		createEncounterAfterTerminalState(
-				rds,
-				hivEncounterTypes,
+		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates,
 				Arrays.asList(h.location("Neno District Hospital")),
 				h.location("Neno District Hospital"), "NNO");
@@ -523,8 +537,7 @@ public class SetupHivDataQuality {
 				Arrays.asList(h.location("Matandani Rural Health Center")),
 				h.location("Matandani Rural Health Center"), "MTDN");
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(h.location("Ligowe HC")),
+				hivTerminalStates, Arrays.asList(h.location("Ligowe HC")),
 				h.location("Ligowe HC"), "LGWE");
 
 		createEncounterAfterTerminalState(
@@ -554,19 +567,25 @@ public class SetupHivDataQuality {
 		exposedInfants(rds);
 	}
 
-	private void createIndicator(CohortDefinition cd, String key, Map<String, Object> parameterMap, PeriodIndicatorReportDefinition[] rds) {
+	private void createIndicator(CohortDefinition cd, String key,
+			Map<String, Object> parameterMap,
+			PeriodIndicatorReportDefinition[] rds) {
 		if (parameterMap == null)
 			parameterMap = new HashMap<String, Object>();
-		String displayName = cd.getName().substring(6, cd.getName().length() - 1);
-		CohortIndicator i = h.newCountIndicator(cd.getName(),
-				cd.getName(),
+		String displayName = cd.getName().substring(6,
+				cd.getName().length() - 1);
+		CohortIndicator i = h.newCountIndicator(cd.getName(), cd.getName(),
 				parameterMap);
-		PeriodIndicatorReportUtil.addColumn(rds[0], key,
-				displayName, i, null);
-		PeriodIndicatorReportUtil.addColumn(rds[1], key,
-				displayName, i, null);
-		PeriodIndicatorReportUtil.addColumn(rds[2], key,
-				displayName, i, null);
+		PeriodIndicatorReportUtil.addColumn(rds[0], key, displayName, i, null);
+		PeriodIndicatorReportUtil.addColumn(rds[1], key, displayName, i, null);
+		// PeriodIndicatorReportUtil.addColumn(rds[2], key,
+		// displayName, i, null);
+		for (User user : USERS) {
+			// something seems wrong with my dimensions...
+			PeriodIndicatorReportUtil.addColumn(rds[2], user.getUsername()
+					+ key, displayName, i,
+					h.hashMap(user.getUsername(), "user"));
+		}
 	}
 
 	private void multipleOpenStates() {
@@ -764,8 +783,9 @@ public class SetupHivDataQuality {
 												.encounterType("ART_INITIAL")))));
 		ccd.setCompositionString("artFollowup AND NOT artInitial");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "noinitial", h.parameterMap("endDate", "${endDate}"), rds);
-		
+		createIndicator(ccd, "noinitial",
+				h.parameterMap("endDate", "${endDate}"), rds);
+
 		ccd = new CompositionCohortDefinition();
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.setName("hivdq: Pre-ART Followup without Initial_");
@@ -788,7 +808,8 @@ public class SetupHivDataQuality {
 												.encounterType("PART_INITIAL")))));
 		ccd.setCompositionString("partFollowup AND NOT partInitial");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "partnoinitial", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "partnoinitial",
+				h.parameterMap("endDate", "${endDate}"), rds);
 	}
 
 	private Date date(String string) {
@@ -822,16 +843,19 @@ public class SetupHivDataQuality {
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName("hivdq: EID Above 25 months_");
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		ccd.getSearches().put(
-				"eid",
-				new Mapped(h.cohortDefinition("hivdq: In state Exposed_"), null));
+		ccd.getSearches()
+				.put("eid",
+						new Mapped(h
+								.cohortDefinition("hivdq: In state Exposed_"),
+								null));
 		ccd.getSearches().put(
 				"age",
 				new Mapped(h.cohortDefinition("hivdq: Above 25 months_"), h
 						.parameterMap("effectiveDate", "${endDate}")));
 		ccd.setCompositionString("eid AND age");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "eidage", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "eidage", h.parameterMap("endDate", "${endDate}"),
+				rds);
 	}
 
 	private InProgramAtProgramLocationCohortDefinition g_inProgramAtLocationOnDate() {
@@ -887,7 +911,8 @@ public class SetupHivDataQuality {
 						.parameterMap("endDate", "${endDate}")));
 		ccd.setCompositionString("onArt AND artNumber");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "noartenc", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "noartenc",
+				h.parameterMap("endDate", "${endDate}"), rds);
 	}
 
 	private void artEncounterWithoutNumber(PeriodIndicatorReportDefinition[] rds) {
@@ -913,7 +938,8 @@ public class SetupHivDataQuality {
 						.parameterMap()));
 		ccd.setCompositionString("artEncounter AND NOT artNumber");
 		h.replaceCohortDefinition(ccd);
-		createIndicator(ccd, "artnono", h.parameterMap("endDate", "${endDate}"), rds);
+		createIndicator(ccd, "artnono",
+				h.parameterMap("endDate", "${endDate}"), rds);
 	}
 
 	private void createEncounterAfterTerminalState(
@@ -931,13 +957,15 @@ public class SetupHivDataQuality {
 		eapscd.setEncounterTypesAfterChangeToTerminalState(hivEncounterTypes);
 		eapscd.setTerminalStates(hivTerminalStates);
 		h.replaceCohortDefinition(eapscd);
-		createIndicator(eapscd, "term" + siteCode.toLowerCase(), h.parameterMap("onDate", "${endDate}"), rds);
+		createIndicator(eapscd, "term" + siteCode.toLowerCase(),
+				h.parameterMap("onDate", "${endDate}"), rds);
 	}
 
 	private void createLastInRangeArvNumber(
 			PeriodIndicatorReportDefinition[] rds, String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd.setName("hivdq: Last In-range ARV number before gap in sequence " + loc + "_");
+		scd.setName("hivdq: Last In-range ARV number before gap in sequence "
+				+ loc + "_");
 		scd.setQuery(sqlForOutOfRangeArvNumbers(prefix));
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "gap" + loc.toLowerCase(), null, rds);
@@ -946,7 +974,8 @@ public class SetupHivDataQuality {
 	private void createLastInRangeHccNumber(
 			PeriodIndicatorReportDefinition[] rds, String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd.setName("hivdq: Last In-range ARV number before gap in sequence " + loc + "_");
+		scd.setName("hivdq: Last In-range HCC number before gap in sequence "
+				+ loc + "_");
 		scd.setQuery(sqlForOutOfRangeHccNumbers(prefix));
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "hccgap" + loc.toLowerCase(), null, rds);
