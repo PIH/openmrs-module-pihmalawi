@@ -59,13 +59,23 @@ public class SetupProgramChanges {
 				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
 						"Patient transferred out"),
 				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Transferred internally"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Exposed Child (Continue)"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
+						"Discharged uninfected"),
+				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
 						"Treatment stopped"));
 		LOCATIONS = Arrays.asList(h.location("Neno District Hospital"),
 				h.location("Magaleta HC"), h.location("Nsambe HC"),
 				h.location("Neno Mission HC"),
 				h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
-				h.location("Zalewa HC"), h.location("Nkhula Falls RHC"));
+				h.location("Zalewa HC"), h.location("Nkhula Falls RHC"),
+				h.location("Matandani rural Health Center"),
+				h.location("Ligowe HC"),
+				h.location("Luwani RHC")
+				);
 
 	}
 

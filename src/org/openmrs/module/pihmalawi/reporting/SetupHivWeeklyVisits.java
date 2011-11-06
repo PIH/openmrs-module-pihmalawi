@@ -63,10 +63,10 @@ public class SetupHivWeeklyVisits {
 
 		// EID
 		ecd = new EncounterCohortDefinition();
-		ecd.setName("hiv: EID Patient visits_");
+		ecd.setName("hiv: Exposed Child Patient visits_");
 		ecd.setEncounterTypeList(Arrays.asList(Context.getEncounterService()
-				.getEncounterType("EID_INITIAL"), Context.getEncounterService()
-				.getEncounterType("EID_FOLLOWUP")));
+				.getEncounterType("EXPOSED_CHILD_INITIAL"), Context.getEncounterService()
+				.getEncounterType("EXPOSED_CHILD_FOLLOWUP")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		ecd.addParameter(new Parameter("locationList", "locationList",

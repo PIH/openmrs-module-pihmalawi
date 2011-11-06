@@ -40,6 +40,8 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 							.getLocationService().getLocation("Magaleta HC"),
 							Context.getLocationService().getLocation("Nsambe HC"),
 							Context.getLocationService().getLocation("Neno Mission HC"),
+							Context.getLocationService().getLocation("Matandani Rural Health Center"),
+							Context.getLocationService().getLocation("Ligowe HC"),
 					true);
 		} else {
 			configure(
@@ -52,7 +54,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 							Context.getLocationService().getLocation("Matope HC"),
 							Context.getLocationService().getLocation("Zalewa HC"),
 							Context.getLocationService().getLocation("Nkhula Falls RHC"),
-							null,
+							Context.getLocationService().getLocation("Luwani RHC"),
 					true);
 
 		}
@@ -82,6 +84,8 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			properties.put("loc2name", "Magaleta");
 			properties.put("loc3name", "Nsambe");
 			properties.put("loc4name", "Neno Mission");
+			properties.put("loc5name", "Matandani");
+			properties.put("loc6name", "Ligowe");
 		} else {
 			properties.put("title", "Pre-ART Missed Appointment - Lower Neno");
 			properties.put("baseCohort", "Following");
@@ -90,6 +94,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 			properties.put("loc3name", "Matope");
 			properties.put("loc4name", "Zalewa");
 			properties.put("loc5name", "Nkhula Falls");
+			properties.put("loc6name", "Luwani");
 		}
 		return properties;
 	}

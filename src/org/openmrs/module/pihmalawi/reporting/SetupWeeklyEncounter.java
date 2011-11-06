@@ -48,8 +48,8 @@ public class SetupWeeklyEncounter {
 	public SetupWeeklyEncounter(Helper helper) {
 		h = helper;
 		ENCOUNTER_TYPES = Arrays.asList(et("ART_INITIAL"), et("ART_FOLLOWUP"),
-				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EID_INITIAL"),
-				et("EID_FOLLOWUP"), et("LAB"), et("TB_INITIAL"),
+				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EXPOSED_CHILD_INITIAL"),
+				et("EXPOSED_CHILD_FOLLOWUP"), et("LAB"), et("TB_INITIAL"),
 				et("TB_FOLLOWUP"), et("REGISTRATION"), et("VITALS"),
 				et("OUTPATIENT DIAGNOSIS"), et("APPOINTMENT"),
 				et("CHRONIC_CARE_INITIAL"), et("CHRONIC_CARE_FOLLOWUP"));
@@ -64,18 +64,20 @@ public class SetupWeeklyEncounter {
 
 		LOCATIONS_LIST = Arrays.asList(
 				Arrays.asList(h.location("Neno District Hospital"),
-						h.location("Ligowe HC"), h.location("Outpatient"),
-						h.location("Registration"), h.location("Vitals"),
-						h.location("Matandani Rural Health Center")),
+						h.location("Outpatient"),
+						h.location("Registration"), h.location("Vitals")),
 				Arrays.asList(h.location("Magaleta HC")),
 				Arrays.asList(h.location("Nsambe HC")),
 				Arrays.asList(h.location("Neno Mission HC")),
+				Arrays.asList(h.location("Matandani Rural Health Center")),
+				Arrays.asList(h.location("Ligowe HC")),
 				Arrays.asList(h.location("Lisungwi Community Hospital"),
 						h.location("Midzemba HC")),
 				Arrays.asList(h.location("Chifunga HC")),
 				Arrays.asList(h.location("Matope HC")),
 				Arrays.asList(h.location("Nkhula Falls RHC")),
-				Arrays.asList(h.location("Zalewa HC")));
+				Arrays.asList(h.location("Zalewa HC")),
+				Arrays.asList(h.location("Luwani RHC")));
 
 		List<Location> flatKnownLocations = new ArrayList<Location>();
 		for (List<Location> knownLocations : LOCATIONS_LIST) {
