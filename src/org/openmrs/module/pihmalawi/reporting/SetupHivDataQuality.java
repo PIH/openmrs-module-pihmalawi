@@ -515,8 +515,7 @@ public class SetupHivDataQuality {
 				h.encounterType("PART_FOLLOWUP"));
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
 				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT,
-				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD,
-				STATE_EXPOSED_CHILD_DISCHARGED);
+				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD_DISCHARGED);
 
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates,

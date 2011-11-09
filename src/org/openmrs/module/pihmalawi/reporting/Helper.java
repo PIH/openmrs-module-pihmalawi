@@ -589,18 +589,22 @@ public class Helper {
 						null, null, null, null, false);
 		PatientState lastStateOnDate = null;
 		
-		for (PatientProgram pp : pps) {
-			if (pp.getActive(endDate)) {
-				// assuming there is only on active patientprogram (migh tbe wrong)
-				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
-				for (PatientState state : states) {
-					if (state.getStartDate().getTime() < endDate.getTime()) {
-						// assuming the states is ordered
-						lastStateOnDate = state;
+		try {
+			for (PatientProgram pp : pps) {
+				if (pp.getActive(endDate)) {
+					// assuming there is only on active patientprogram (migh tbe wrong)
+					List<PatientState> states = statesInWorkflow(pp, programWorkflow);
+					for (PatientState state : states) {
+						if (state.getStartDate().getTime() < endDate.getTime()) {
+							// assuming the states is ordered
+							lastStateOnDate = state;
+						}
 					}
+					
 				}
-				
 			}
+		} catch (Exception e) {
+			// shouldn't happen, but it does...
 		}
 		return lastStateOnDate;
 	}

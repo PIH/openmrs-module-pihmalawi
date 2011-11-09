@@ -39,8 +39,8 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 public class FindPatientsToMergeSoundexDataSetEvaluator implements
 		DataSetEvaluator {
 
-	private final static String OPENMRS_SERVER = "http://172.16.1.4:8080";
-	// private final static String OPENMRS_SERVER = "http://192.168.1.7:8180";
+//	private final static String OPENMRS_SERVER = "http://172.16.1.4:8080";
+	 private final static String OPENMRS_SERVER = "http://192.168.1.7:8180";
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -85,18 +85,25 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 			DataSetRow row = new DataSetRow();
 			DataSetColumn col = null;
 
-			Collection<Patient> ps = soundexMatches(query, p, memberIds,
-					dsds.isSwapFirstLastName());
-			if (ps != null && !ps.isEmpty()) {
-				col = new DataSetColumn("#", "#", String.class);
-				row.addColumnValue(col, linkifyId(p, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
-				int i = 1;
-				for (Patient potential : ps) {
-					col = new DataSetColumn("potential match_" + i,
-							"potential match_" + i, String.class);
-					row.addColumnValue(col, linkifyMerge(p, potential, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
-					i++;
+			try {
+				Collection<Patient> ps = soundexMatches(query, p, memberIds,
+						dsds.isSwapFirstLastName());
+				if (ps != null && !ps.isEmpty()) {
+					col = new DataSetColumn("#", "#", String.class);
+					row.addColumnValue(col, linkifyId(p, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
+					int i = 1;
+					for (Patient potential : ps) {
+						col = new DataSetColumn("potential match_" + i,
+								"potential match_" + i, String.class);
+						row.addColumnValue(col, linkifyMerge(p, potential, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
+						i++;
+					}
+					dataSet.addRow(row);
 				}
+			} catch (Throwable t) {
+				col = new DataSetColumn("Error",
+						"Error", String.class);
+				row.addColumnValue(col, "Error while loading patient " + p.getId());
 				dataSet.addRow(row);
 			}
 		}
