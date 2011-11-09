@@ -9,5 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="metadata"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/openmrs-1.7.x"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/reporting"/>
+	<classpathentry kind="lib" path="/reporting/dist/reporting-0.6.2.DEV.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
