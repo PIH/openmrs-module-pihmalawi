@@ -603,7 +603,7 @@ public class Helper {
 					
 				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable t) {
 			// shouldn't happen, but it does...
 		}
 		return lastStateOnDate;
