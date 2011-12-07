@@ -93,7 +93,7 @@ public class SetupHivDataQuality {
 		LOCATIONS.put(h.location("Chifunga HC"), "CFA");
 		LOCATIONS.put(h.location("Zalewa HC"), "ZLA");
 		LOCATIONS.put(h.location("Nkhula Falls RHC"), "NKA");
-		LOCATIONS.put(h.location("Luwani RHC"), "LUWI");
+		LOCATIONS.put(h.location("Luwani RHC"), "LWI");
 		LOCATIONS.put(h.location("Neno District Hospital"), "NNO");
 		LOCATIONS.put(h.location("Matandani Rural Health Center"), "MTDN");
 		LOCATIONS.put(h.location("Ligowe HC"), "LGWE");
@@ -1015,7 +1015,7 @@ public class SetupHivDataQuality {
 				+ "where identifier in ("
 				+ "  select concat('"
 				+ locationPrefix
-				+ "', cast(c.start as char))"
+				+ "', cast(c.start as char), ' HCC')"
 				+ "  from (select a.id_number  as start"
 				+ "  from "
 				+ "    (select replace(substring(identifier, 5), ' HCC', '') as id_number "

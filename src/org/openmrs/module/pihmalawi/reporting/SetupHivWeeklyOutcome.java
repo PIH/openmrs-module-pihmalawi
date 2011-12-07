@@ -98,11 +98,11 @@ public class SetupHivWeeklyOutcome {
 		    "ART Patient visits 1 week ago", "vst1");
 		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "ART Patient visits 2 weeks ago",
 		    "ART Patient visits 2 weeks ago", "vst2");
-		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits", "EID Patient visits", "evst");
-		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits 1 week ago",
-		    "EID Patient visits 1 week ago", "evst1");
-		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "EID Patient visits 2 weeks ago",
-		    "EID Patient visits 2 weeks ago", "evst2");
+		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Exposed Child Patient visits", "Exposed Child Patient visits", "evst");
+		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Exposed Child Patient visits 1 week ago",
+		    "Exposed Child Patient visits 1 week ago", "evst1");
+		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Exposed Child Patient visits 2 weeks ago",
+		    "Exposed Child Patient visits 2 weeks ago", "evst2");
 		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Pre-ART Patient visits", "Pre-ART Patient visits",
 		    "pvst");
 		new SetupHivWeeklyVisits(h).addColumnForLocationsForVisits(rd, "Pre-ART Patient visits 1 week ago",
@@ -276,7 +276,7 @@ public class SetupHivWeeklyOutcome {
 		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hiv: ART Patient visits", "hiv: ART Patient visits_");
 		new SetupHivWeeklyVisits(h)
 		        .newCountIndicatorForVisits("hiv: Pre-ART Patient visits", "hiv: Pre-ART Patient visits_");
-		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hiv: EID Patient visits", "hiv: EID Patient visits_");
+		new SetupHivWeeklyVisits(h).newCountIndicatorForVisits("hiv: Exposed Child Patient visits", "hiv: Exposed Child Patient visits_");
 	}
 	
 	private void newCountIndicatorForLocationsWithState(String namePrefix, String cohort, ProgramWorkflowState state) {
