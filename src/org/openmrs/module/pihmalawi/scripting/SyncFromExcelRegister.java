@@ -1,10 +1,15 @@
 package org.openmrs.module.pihmalawi.scripting;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +19,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openmrs.Location;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
@@ -25,6 +29,22 @@ import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryD
 import au.com.bytecode.opencsv.CSVReader;
 
 public class SyncFromExcelRegister {
+
+	class PatientRecord {
+		Integer arvNo = null;
+		Date regDate = null;
+		boolean transferIn = false;
+		boolean female = true;
+		boolean pregnant = false;
+		Integer ageAtReg = null;
+		Date arvStartDate = null;
+		String arvStartReason = null;
+		Date deathDate = null;
+		Date defDate = null;
+		Date stoppedDate = null;
+		Date toDate = null;
+
+	}
 
 	public static void main(String[] args) throws Exception {
 		try {
@@ -50,8 +70,7 @@ public class SyncFromExcelRegister {
 			String conncetionUrl = prop.getProperty("connection.url");
 
 			// connection init
-			Context.startup(conncetionUrl, connectionUser, conncetionPw,
-					prop);
+			Context.startup(conncetionUrl, connectionUser, conncetionPw, prop);
 			Context.openSession();
 			Context.authenticate(openmrsUser, openmrsPw);
 
@@ -73,126 +92,164 @@ public class SyncFromExcelRegister {
 	}
 
 	private void run(String concept_file) throws IOException {
-		hibernateSession = sessionFactory().getCurrentSession();
-		PatientIdentifierType arvPI = Context.getPatientService()
-				.getPatientIdentifierTypeByName("ARV Number");
 		String siteCode = "NNO ";
 
 		CSVReader reader = new CSVReader(new FileReader(concept_file), ';',
 				'"', 1);
-		Integer arvNo = null;
-		Date regDate = null;
-		boolean female = true;
-		boolean pregnant = false;
-		Integer ageAtReg = null;
-		Date arvStartDate = null;
-		String arvStartReason = null;
-		Date deathDate = null;
-		Date defDate = null;
-		Date stoppedDate = null;
-		Date toDate = null;
+
+		PatientRecord previousPr = new PatientRecord();
+		List prs = new ArrayList();
 
 		for (String[] entry : reader.readAll()) {
 			try {
 				System.out.println("Importing register line: "
 						+ Arrays.toString(entry));
 
-				if (entry.length != 11) {
-					throw new RuntimeException("Wrong syntax, ignoring line");
-				}
-
-				int i = 0;
-
-				arvNo = Integer.parseInt(entry[i++]);
-
-				regDate = date(entry[i++], regDate);
-
-				String e = entry[i++];
-				if ("fp".equalsIgnoreCase(e)) {
-					pregnant = true;
-				}
-				e = entry[i++];
-				if ("m".equalsIgnoreCase(e)) {
-					female = false;
-				}
-
-				ageAtReg = Integer.parseInt(entry[i++]);
-
-				arvStartDate = date(entry[i++], regDate);
-
-				e = entry[i++];
-				if (isEmpty(e)) {
-					arvStartReason = "3";
-				} else {
-					arvStartReason = e;
-				}
-
-				deathDate = date(entry[i++], null);
-
-				toDate = date(entry[i++], null);
-
-				defDate = date(entry[i++], null);
-
-				stoppedDate = date(entry[i++], null);
-
-				// find patient
-				List<Patient> ps = Context.getPatientService().getPatients(
-						null, siteCode + arvNo, Arrays.asList(arvPI), true);
-				if (ps.size() != 1) {
-					throw new RuntimeException("No unique patient found");
-				}
-				Patient p = ps.get(0);
-
-				Date existingRegDate = regDate(p);
-				if (!same(regDate, existingRegDate, 1)) {
-					logMismatch(p, "regDate", regDate, existingRegDate);
-				}
-
-				Integer existingAgeAtReg = ageAtDate(p, existingRegDate);
-				if (!same(ageAtReg, existingAgeAtReg, 1)) {
-					logMismatch(p, "ageAtReg", ageAtReg, existingAgeAtReg);
-				}
-
-				Date existingArvStartDate = arvStartDate(p);
-				if (!same(arvStartDate, existingArvStartDate, 1)) {
-					logMismatch(p, "arvStartDate", arvStartDate,
-							existingArvStartDate);
-				}
-
-				String existingArvStartReason = arvStartReason(p);
-				if (!same(arvStartReason, existingArvStartReason)) {
-					// unimportant, take register
-				}
-
-				if (deathDate != null) {
-					Date existingDeathDate = outcomeDeath(p);
-					if (!same(deathDate, existingDeathDate, 1)) {
-						logMismatch(p, "deathDate", deathDate,
-								existingDeathDate);
-					}
-				} else if (toDate != null) {
-					Date existingToDate = outcomeTo(p);
-					if (!same(toDate, existingToDate, 1)) {
-						logMismatch(p, "toDate", toDate, existingToDate);
-					}
-				} else if (stoppedDate != null) {
-					Date existingStoppedDate = outcomeStopped(p);
-					if (!same(stoppedDate, existingStoppedDate, 1)) {
-						logMismatch(p, "stoppedDate", stoppedDate,
-								existingStoppedDate);
-					}
-				} else if (defDate != null) {
-					Date existingDefDate = outcomeDef(p);
-					if (!same(defDate, existingDefDate, 1)) {
-						logMismatch(p, "defDate", defDate, existingDefDate);
-					}
-				}
-
+				PatientRecord pr = createPatientRecord(entry, previousPr);
+				prs.add(pr);
+				previousPr = pr;
+				/*
+				 * // hibernateSession = sessionFactory().getCurrentSession();
+				 * PatientIdentifierType arvPI = Context.getPatientService()
+				 * .getPatientIdentifierTypeByName("ARV Number"); // find
+				 * patient List<Patient> ps =
+				 * Context.getPatientService().getPatients( null, siteCode +
+				 * arvNo, Arrays.asList(arvPI), true); if (ps.size() != 1) {
+				 * throw new RuntimeException("No unique patient found"); }
+				 * Patient p = ps.get(0);
+				 * 
+				 * Date existingRegDate = regDate(p); if (!same(regDate,
+				 * existingRegDate, 1)) { logMismatch(p, "regDate", regDate,
+				 * existingRegDate); }
+				 * 
+				 * Integer existingAgeAtReg = ageAtDate(p, existingRegDate); if
+				 * (!same(ageAtReg, existingAgeAtReg, 1)) { logMismatch(p,
+				 * "ageAtReg", ageAtReg, existingAgeAtReg); }
+				 * 
+				 * Date existingArvStartDate = arvStartDate(p); if
+				 * (!same(arvStartDate, existingArvStartDate, 1)) {
+				 * logMismatch(p, "arvStartDate", arvStartDate,
+				 * existingArvStartDate); }
+				 * 
+				 * String existingArvStartReason = arvStartReason(p); if
+				 * (!same(arvStartReason, existingArvStartReason)) { //
+				 * unimportant, take register }
+				 * 
+				 * if (deathDate != null) { Date existingDeathDate =
+				 * outcomeDeath(p); if (!same(deathDate, existingDeathDate, 1))
+				 * { logMismatch(p, "deathDate", deathDate, existingDeathDate);
+				 * } } else if (toDate != null) { Date existingToDate =
+				 * outcomeTo(p); if (!same(toDate, existingToDate, 1)) {
+				 * logMismatch(p, "toDate", toDate, existingToDate); } } else if
+				 * (stoppedDate != null) { Date existingStoppedDate =
+				 * outcomeStopped(p); if (!same(stoppedDate,
+				 * existingStoppedDate, 1)) { logMismatch(p, "stoppedDate",
+				 * stoppedDate, existingStoppedDate); } } else if (defDate !=
+				 * null) { Date existingDefDate = outcomeDef(p); if
+				 * (!same(defDate, existingDefDate, 1)) { logMismatch(p,
+				 * "defDate", defDate, existingDefDate); } }
+				 */
 			} catch (Throwable e) {
 				System.err.println("  Error importing: " + e.getMessage());
 
 			}
+
+			writeRecord("NNO", prs);
+
 		}
+	}
+
+	private PatientRecord createPatientRecord(String[] entry,
+			PatientRecord previousPr) throws ParseException {
+		if (entry.length != 10) {
+			throw new RuntimeException("Wrong syntax, ignoring line for: "
+					+ csv(entry));
+		}
+
+		PatientRecord pr = new PatientRecord();
+		try {
+
+			int i = 0;
+
+			pr.arvNo = Integer.parseInt(entry[i++]);
+
+			pr.regDate = date(entry[i++], previousPr.regDate);
+
+			String e = entry[i++];
+			if ("fp".equalsIgnoreCase(e) || "preg".equalsIgnoreCase(e)) {
+				pr.pregnant = true;
+			}
+			if ("m".equalsIgnoreCase(e)) {
+				pr.female = false;
+			}
+
+			pr.ageAtReg = Integer.parseInt(entry[i++]);
+
+			pr.arvStartDate = date(entry[i++], previousPr.regDate);
+
+			pr.transferIn = (pr.regDate.equals(pr.arvStartDate));
+
+			e = entry[i++];
+			if (isEmpty(e)) {
+				pr.arvStartReason = "3";
+			} else {
+				pr.arvStartReason = e;
+			}
+
+			pr.deathDate = date(entry[i++], null);
+
+			pr.toDate = date(entry[i++], null);
+
+			pr.defDate = date(entry[i++], null);
+
+			pr.stoppedDate = date(entry[i++], null);
+
+		} catch (Throwable t) {
+			System.err.println("  Error importing: " + t.getMessage());
+		}
+		return pr;
+	}
+
+	private void writeRecord(String siteCode, List<PatientRecord> prs) {
+		try {
+			BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(siteCode + "_converted.csv")));
+			w.write("ARV, Registration Date, Gender (female), Pregnant, ARV Start date, Transfer in, Reason starting ARVs, Death date, Default date, Stopped date, Transfer out date"
+					+ System.getProperty("line.separator"));
+			for (PatientRecord pr : prs) {
+				String line = siteCode
+						+ " "
+						+ pr.arvNo
+						+ ","
+						+ csv(pr.regDate, pr.female, pr.pregnant,
+								pr.arvStartDate, !pr.transferIn, pr.arvStartReason,
+								pr.deathDate, pr.defDate, pr.stoppedDate,
+								pr.toDate)
+						+ System.getProperty("line.separator");
+
+				w.write(line);
+			}
+			w.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String csv(Object... values) {
+		String line = "";
+		for (Object value : values) {
+			if (value == null) {
+				line += ",";
+			} else if (value instanceof Date) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+				line += sdf.format((Date) value) + ",";
+			} else {
+				line += value + ",";
+			}
+		}
+		return line;
 	}
 
 	private Date outcomeDef(Patient p) {
@@ -336,10 +393,14 @@ public class SyncFromExcelRegister {
 	}
 
 	private Date date(String trim, Date previous) throws ParseException {
+		if ("?".equals(trim)) {
+			return null;
+		}
 		if (!isEmpty(trim)) {
 			if (previous != null && trim.trim().lastIndexOf(" ") == 2) {
+				SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
 				return new SimpleDateFormat("dd MM yy").parse(trim.trim() + " "
-						+ previous.getYear());
+						+ simpleDateformat.format(previous));
 			}
 			return new SimpleDateFormat("dd MM yy").parse(trim.trim());
 		}
@@ -349,4 +410,5 @@ public class SyncFromExcelRegister {
 	private boolean isEmpty(String trim) {
 		return (trim == null || "".equals(trim));
 	}
+
 }
