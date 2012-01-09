@@ -1,6 +1,7 @@
 #!/bin/sh
 
-MAIL=cneumann@pih.org
+#MAIL=apzunet@gmail.com
+MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 TODAY=`date +%Y%m%d`

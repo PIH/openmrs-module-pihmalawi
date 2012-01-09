@@ -2,7 +2,7 @@
 
 echo "START"
 
-MAIL=cneumann@pih.org
+MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 TODAY=`date +%Y%m%d`
