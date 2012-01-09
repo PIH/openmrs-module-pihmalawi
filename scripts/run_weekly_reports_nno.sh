@@ -106,7 +106,7 @@ run_report.sh \
   org.openmrs.module.reporting.report.renderer.SimpleHtmlReportRenderer \
   "" \
   $FILE
-echo "" | mailx -a $FILE -s "emr: HIV Data Quality $TODAY" "$MAIL"
+echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Data Quality $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
  
 # HIV Data Quality For All Users
@@ -118,5 +118,5 @@ run_report.sh \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
   $FILE
-echo "" | mailx -a $FILE -s "emr: HIV Data Quality For All Users $TODAY" "$MAIL"
+echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Data Quality For All Users $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
