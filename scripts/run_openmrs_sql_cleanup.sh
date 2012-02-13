@@ -77,3 +77,8 @@ update patient_identifier pi
 
 -- void addresses, names from deleted and voided persons
 EOF
+
+MAIL=apzu-emr@apzu.pih.org
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
+TODAY=`date +%Y%m%d`
+echo "" | mailx -s "emr: OpenMRS SQL cleanup done $TODAY" "$MAIL"
