@@ -17,3 +17,7 @@ scp $HOME/backup/sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-openmrs.sql.7z
 # Remove today's temporary file
 rm -f $HOME/backup/to_backup/*
 
+MAIL=apzu-emr@apzu.pih.org
+PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
+TODAY=`date +%Y%m%d`
+echo "" | mailx -s "emr: Lower Neno nightly backup done $TODAY" "$MAIL"
