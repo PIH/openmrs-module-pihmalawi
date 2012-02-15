@@ -76,6 +76,10 @@ update patient_identifier pi
 -- void/delete persons and patients from voided/deleted patients and persons
 
 -- void addresses, names from deleted and voided persons
+
+-- void relationships if person a or person b was voided
+update relationship rs, person p set rs.voided=1 where p.person_id = rs.person_a and p.voided=1 and rs.voided=0;
+update relationship rs, person p set rs.voided=1 where p.person_id = rs.person_b and p.voided=1 and rs.voided=0;
 EOF
 
 MAIL=apzu-emr@apzu.pih.org
