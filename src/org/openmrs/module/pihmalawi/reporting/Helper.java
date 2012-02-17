@@ -538,7 +538,7 @@ public class Helper {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				if (states != null && !states.isEmpty()) {
 					lastStateOfAllPatientPrograms.add(states.get(states.size() - 1));
-					log.debug("lastStatesOfAllPatientPrograms " + p.getPatientId() + " " + states.get(states.size() - 1).getState().getConcept().getName());
+//					log.debug("lastStatesOfAllPatientPrograms " + p.getPatientId() + " " + states.get(states.size() - 1).getState().getConcept().getName());
 				}
 			}
 		}
@@ -591,8 +591,8 @@ public class Helper {
 		
 		try {
 			for (PatientProgram pp : pps) {
-				if (pp.getActive(endDate)) {
-					// assuming there is only on active patientprogram (migh tbe wrong)
+//				if (pp.getActive(endDate)) {
+					// assuming there is only on active patientprogram (might be wrong)
 					List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 					for (PatientState state : states) {
 						if (state.getStartDate().getTime() < endDate.getTime()) {
@@ -600,8 +600,7 @@ public class Helper {
 							lastStateOnDate = state;
 						}
 					}
-					
-				}
+//				}
 			}
 		} catch (Throwable t) {
 			// shouldn't happen, but it does...

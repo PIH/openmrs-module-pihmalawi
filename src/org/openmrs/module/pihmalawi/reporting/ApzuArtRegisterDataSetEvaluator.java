@@ -61,6 +61,10 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 
 	private PatientIdentifierType HCC_PATIENT_IDENTIFIER_TYPE;
 
+	private ProgramWorkflowState DIED_STATE;
+	private ProgramWorkflowState STOPPED_STATE;
+	private ProgramWorkflowState TRANSFER_STATE;
+
 	private ProgramWorkflowState ON_ART_STATE;
 
 	private ProgramWorkflowState PART_STATE;
@@ -82,8 +86,11 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 	private Concept TLC;
 
 	private EncounterType ART_INITIAL;
+	
+	private boolean simplifiedPaperComparisonLayout;
 
 	public ApzuArtRegisterDataSetEvaluator() {
+		simplifiedPaperComparisonLayout = false;
 	}
 
 	public DataSet evaluate(DataSetDefinition dataSetDefinition,
@@ -107,6 +114,18 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				.getPatientIdentifierTypeByName("ARV Number");
 		HCC_PATIENT_IDENTIFIER_TYPE = Context.getPatientService()
 				.getPatientIdentifierTypeByName("HCC Number");
+		DIED_STATE = Context.getProgramWorkflowService()
+		.getProgramByName("HIV program")
+		.getWorkflowByName("Treatment status")
+		.getStateByName("Patient died");
+		TRANSFER_STATE = Context.getProgramWorkflowService()
+		.getProgramByName("HIV program")
+		.getWorkflowByName("Treatment status")
+		.getStateByName("Patient transferred out");
+		STOPPED_STATE = Context.getProgramWorkflowService()
+		.getProgramByName("HIV program")
+		.getWorkflowByName("Treatment status")
+		.getStateByName("Treatment stopped");
 		ON_ART_STATE = Context.getProgramWorkflowService()
 				.getProgramByName("HIV program")
 				.getWorkflowByName("Treatment status")
@@ -173,11 +192,11 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 								+ "/patientDashboard.form?patientId="
 								+ p.getId()
 								+ ">"
-								+ (pi != null ? formatPatientIdentifier(pi
-										.getIdentifier()) : "(none)") + "</a> ";
+								+ (pi != null ? /*formatPatientIdentifier(*/pi
+										.getIdentifier() : "(none)") + "</a> ";
 					}
 				}
-				c = new DataSetColumn("Current ARV #", "Current ARV #",
+				c = new DataSetColumn("ARV No location", "ARV No location",
 						String.class);
 				row.addColumnValue(c, h(patientLink));
 
@@ -189,6 +208,7 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				firstTimeChangeToStateDate(p, ON_ART_STATE,
 						"1st time On antiretrovirals", row);
 				firstTimeEnrollment(p, ON_ART_STATE, row);
+				// transfer in
 
 				// hcc
 				identifiers(p, HCC_PATIENT_IDENTIFIER_TYPE, row);
@@ -207,11 +227,11 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				row.addColumnValue(c, p.getFamilyName());
 //				c = new DataSetColumn("Age at Init (yr)", "Age at Init (yr)", Integer.class);
 //				row.addColumnValue(c, p.getAge(endDateParameter));
-				c = new DataSetColumn("Age (yr)", "Age (yr)", Integer.class);
+				c = new DataSetColumn("Current Age (yr)", "Current Age (yr)", Integer.class);
 				row.addColumnValue(c, p.getAge(endDateParameter));
 				c = new DataSetColumn("Birthdate", "Birthdate", Integer.class);
 				row.addColumnValue(c, formatEncounterDate(p.getBirthdate()));
-				c = new DataSetColumn("Age (mth)", "Age (mth)", Integer.class);
+				c = new DataSetColumn("Current Age (mth)", "Current Age (mth)", Integer.class);
 				row.addColumnValue(c, getAgeInMonths(p, endDateParameter));
 				c = new DataSetColumn("M/F", "M/F", String.class);
 				row.addColumnValue(c, p.getGender());
@@ -283,42 +303,42 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", CD4: " + o.getValueAsString(Context.getLocale());
 		}
 		obs = Context.getObsService().getObservations(
 				Arrays.asList((Person) p), es, Arrays.asList(KS), null,
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", KS: " + o.getValueAsString(Context.getLocale());
 		}
 		obs = Context.getObsService().getObservations(
 				Arrays.asList((Person) p), es, Arrays.asList(TB), null,
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", TB: " + o.getValueAsString(Context.getLocale());
 		}
 		obs = Context.getObsService().getObservations(
 				Arrays.asList((Person) p), es, Arrays.asList(WHO_STAGE), null,
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", STAGE: " + o.getValueAsString(Context.getLocale());
 		}
 		obs = Context.getObsService().getObservations(
 				Arrays.asList((Person) p), es, Arrays.asList(TLC), null,
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", TLC: " + o.getValueAsString(Context.getLocale());
 		}
 		obs = Context.getObsService().getObservations(
 				Arrays.asList((Person) p), es, Arrays.asList(PSHD), null,
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			reasons += " " + o.getValueAsString(Context.getLocale());
+			reasons += ", PSHD: " + o.getValueAsString(Context.getLocale());
 		}
 		DataSetColumn c = new DataSetColumn("ARV start reasons", "ARV start reasons", String.class);
 		row.addColumnValue(c, reasons);
@@ -371,6 +391,27 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 		if (ps != null) {
 			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
 		}
+
+		c = new DataSetColumn("Death date", "Death Date", String.class);
+		if (ps.getState().getId().equals(DIED_STATE.getId())) {
+			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+		} else {
+			row.addColumnValue(c, h(""));			
+		}
+		c = new DataSetColumn("Default date", "Default Date", String.class);
+			row.addColumnValue(c, "tbd");			
+		c = new DataSetColumn("Stopped date", "Stopped Date", String.class);
+		if (ps.getState().getId().equals(STOPPED_STATE.getId())) {
+			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+		} else {
+			row.addColumnValue(c, h(""));			
+		}
+		c = new DataSetColumn("Transfer out date", "Transfer out Date", String.class);
+		if (ps.getState().getId().equals(TRANSFER_STATE.getId())) {
+			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+		} else {
+			row.addColumnValue(c, h(""));			
+		}
 	}
 
 	private void changeToStateDate(Patient p, Location locationParameter,
@@ -415,13 +456,13 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			DataSetColumn c = new DataSetColumn(concept.getName(
-					Context.getLocale()).getName(), concept.getName(
+			DataSetColumn c = new DataSetColumn("Last " + concept.getName(
+					Context.getLocale()).getName(), "Last " + concept.getName(
 					Context.getLocale()).getName(), String.class);
 			row.addColumnValue(c, o.getValueNumeric());
 
-			c = new DataSetColumn(concept.getName(Context.getLocale())
-					.getName() + " Date", concept.getName(Context.getLocale())
+			c = new DataSetColumn("Last " + concept.getName(Context.getLocale())
+					.getName() + " Date", "Last " + concept.getName(Context.getLocale())
 					.getName() + " Date", String.class);
 			row.addColumnValue(c, formatEncounterDate(o.getObsDatetime()));
 		}
@@ -436,8 +477,8 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				null, null, null, 1, null, null, endDate, false);
 		if (obs.iterator().hasNext()) {
 			Obs o = obs.iterator().next();
-			DataSetColumn c = new DataSetColumn(concept.getName(
-					Context.getLocale()).getName(), concept.getName(
+			DataSetColumn c = new DataSetColumn("Last " + concept.getName(
+					Context.getLocale()).getName(), "Last " + concept.getName(
 					Context.getLocale()).getName(), String.class);
 			row.addColumnValue(c, formatEncounterDate(o.getValueDatetime()));
 		}
@@ -568,7 +609,7 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 		if (piType != null) {
 			for (PatientIdentifier pi : p.getPatientIdentifiers(piType)) {
 				if (pi != null && pi.getLocation() != null) {
-					arvs += pi.getIdentifier() + " ";
+					arvs += pi.getIdentifier() + ", ";
 				}
 			}
 			DataSetColumn c = new DataSetColumn(piType.getName() + "s",
@@ -624,7 +665,7 @@ public class ApzuArtRegisterDataSetEvaluator implements DataSetEvaluator {
 				programs += ps.getPatientProgram().getProgram().getName()
 						+ ":&nbsp;" + ps.getState().getConcept().getName()
 						+ "&nbsp;(since&nbsp;"
-						+ formatEncounterDate(ps.getStartDate()) + "),<br/>";
+						+ formatEncounterDate(ps.getStartDate()) + "); ";
 			}
 		}
 		row.addColumnValue(c, h(programs));
