@@ -90,10 +90,10 @@ public class SetupHivDataQuality {
 		LOCATIONS = new HashMap<Location, String>();
 		LOCATIONS.put(h.location("Lisungwi Community Hospital"), "LSI");
 		LOCATIONS.put(h.location("Matope HC"), "MTE");
-		LOCATIONS.put(h.location("Chifunga HC"), "CFA");
+		LOCATIONS.put(h.location("Chifunga HC"), "CFGA");
 		LOCATIONS.put(h.location("Zalewa HC"), "ZLA");
 		LOCATIONS.put(h.location("Nkhula Falls RHC"), "NKA");
-		LOCATIONS.put(h.location("Luwani RHC"), "LWI");
+		LOCATIONS.put(h.location("Luwani RHC"), "LWAN");
 		LOCATIONS.put(h.location("Neno District Hospital"), "NNO");
 		LOCATIONS.put(h.location("Matandani Rural Health Center"), "MTDN");
 		LOCATIONS.put(h.location("Ligowe HC"), "LGWE");
@@ -548,7 +548,7 @@ public class SetupHivDataQuality {
 				h.location("Lisungwi Community Hospital"), "LSI");
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Chifunga HC")),
-				h.location("Chifunga HC"), "CFA");
+				h.location("Chifunga HC"), "CFGA");
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Matope HC")),
 				h.location("Matope HC"), "MTE");
@@ -557,7 +557,7 @@ public class SetupHivDataQuality {
 				h.location("Zalewa HC"), "ZLA");
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates, Arrays.asList(h.location("Luwani RHC")),
-				h.location("Luwani RHC"), "LWNI");
+				h.location("Luwani RHC"), "LWAN");
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
 				hivTerminalStates,
 				Arrays.asList(h.location("Nkhula Falls RHC")),
@@ -990,6 +990,7 @@ public class SetupHivDataQuality {
 	}
 
 	private String sqlForOutOfRangeArvNumbers(String locationPrefix) {
+		String prefixLength = "" + locationPrefix.length() + 1;
 		String sql = "select patient_id from patient_identifier "
 				+ "where identifier in ("
 				+ "  select concat('"
@@ -997,12 +998,12 @@ public class SetupHivDataQuality {
 				+ "', cast(c.start as char))"
 				+ "  from (select a.id_number  as start"
 				+ "  from "
-				+ "    (select substring(identifier, 5) as id_number "
+				+ "    (select substring(identifier, " + prefixLength + ") as id_number "
 				+ "    from patient_identifier where identifier_type=4 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as a"
 				+ "  left outer join "
-				+ "    (select substring(identifier, 5) as id_number "
+				+ "    (select substring(identifier,  " + prefixLength + ") as id_number "
 				+ "    from patient_identifier where identifier_type=4 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as b on a.id_number + 1 = b.id_number"
@@ -1011,6 +1012,7 @@ public class SetupHivDataQuality {
 	}
 
 	private String sqlForOutOfRangeHccNumbers(String locationPrefix) {
+		String prefixLength = "" + locationPrefix.length() + 1;
 		String sql = "select patient_id from patient_identifier "
 				+ "where identifier in ("
 				+ "  select concat('"
@@ -1018,12 +1020,12 @@ public class SetupHivDataQuality {
 				+ "', cast(c.start as char), ' HCC')"
 				+ "  from (select a.id_number  as start"
 				+ "  from "
-				+ "    (select replace(substring(identifier, 5), ' HCC', '') as id_number "
+				+ "    (select replace(substring(identifier,  " + prefixLength + "), ' HCC', '') as id_number "
 				+ "    from patient_identifier where identifier_type=19 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as a"
 				+ "  left outer join "
-				+ "    (select replace(substring(identifier, 5), ' HCC', '') as id_number "
+				+ "    (select replace(substring(identifier,  " + prefixLength + "), ' HCC', '') as id_number "
 				+ "    from patient_identifier where identifier_type=19 and identifier like '"
 				+ locationPrefix
 				+ "%' and voided = 0) as b on a.id_number + 1 = b.id_number"
