@@ -221,7 +221,7 @@ public class SyncFromExcelRegister {
 						+ " "
 						+ pr.arvNo
 						+ ","
-						+ csv(pr.regDate, pr.female, pr.pregnant,
+						+ csv(pr.regDate, pr.female, pr.ageAtReg, pr.pregnant,
 								pr.arvStartDate, !pr.transferIn, pr.arvStartReason,
 								pr.deathDate, pr.defDate, pr.stoppedDate,
 								pr.toDate)
