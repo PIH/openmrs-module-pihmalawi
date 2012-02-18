@@ -251,9 +251,9 @@ public class ArtReportElements {
 		return iscd;
 	}
 
-	public static CohortDefinition inHccOnDate(String reportTag) {
+	public static CohortDefinition inHccOnDate(String prefix) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
-		iscd.setName(reportTag + ": In HCC_");
+		iscd.setName(prefix + ": In HCC without number_");
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
 		states = new ArrayList<ProgramWorkflowState>();
 		states.add(Context.getProgramWorkflowService()
@@ -267,6 +267,28 @@ public class ArtReportElements {
 		iscd.setStates(states);
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
-		return iscd;
+
+		// excluding everyone without a hcc number for the location (old pre-art and eid patients)
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName(prefix + ": HCC number_");
+		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": In HCC _");
+		ccd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		ccd.getSearches().put(
+				"hcc",
+				new Mapped(h.cohortDefinition(prefix + ": In HCC without number_"),
+						h.parameterMap("onDate", "${onDate}")));
+		ccd.getSearches().put(
+				"hccnumber",
+				new Mapped(h.cohortDefinition(prefix + ": HCC number_"), h
+						.parameterMap()));
+		ccd.setCompositionString("hcc AND hccnumber");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
 	}
 }
