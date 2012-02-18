@@ -3,7 +3,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openmrs.module.pihmalawi.reporting.Helper;
+import org.openmrs.module.pihmalawi.reports.Helper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.Definition;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;

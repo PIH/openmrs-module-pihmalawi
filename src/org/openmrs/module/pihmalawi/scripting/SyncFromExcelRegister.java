@@ -23,8 +23,8 @@ import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 
 import au.com.bytecode.opencsv.CSVReader;
 

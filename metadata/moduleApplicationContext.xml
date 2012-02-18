@@ -30,7 +30,7 @@
 		<property name="successView"><value>basicmoduleLink.form</value></property>
     </bean>
 	
-	<bean id="malawiQueryDao" class="org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao">
+	<bean id="malawiQueryDao" class="org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao">
 		<property name="sessionFactory"><ref bean="sessionFactory"/></property>	
 	</bean>							
 

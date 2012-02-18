@@ -26,7 +26,7 @@ Use these crontab entries as an example:
 0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports_nno.sh >> /dev/null
 0 22 1 * * /home/emradmin/script_reports/run_monthly_reports_nno.sh >> /dev/null
 
-Mail-Setup for gmail via mailx and msmtp
+Mail-Setup for gmail via mailx and msmtp (sudo apt-get install msmtp heirloom-mailx)
 ~/.mailrc 
 # set smtp for mailx
 

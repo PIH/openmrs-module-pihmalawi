@@ -1,11 +1,5 @@
 package org.openmrs.module.pihmalawi.reporting.definition;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -13,13 +7,11 @@ import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
-import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
-import org.openmrs.module.pihmalawi.reporting.survival.SurvivalDataSetDefinition;
-import org.openmrs.module.pihmalawi.reporting.survival.SurvivalDataSetEvaluator;
-import org.openmrs.module.pihmalawi.reporting.survival.SurvivalRateCalc;
+import org.openmrs.module.pihmalawi.reports.experimental.survival.SurvivalDataSetDefinition;
+import org.openmrs.module.pihmalawi.reports.experimental.survival.SurvivalDataSetEvaluator;
+import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 

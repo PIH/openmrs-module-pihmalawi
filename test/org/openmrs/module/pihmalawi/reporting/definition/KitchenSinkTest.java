@@ -15,34 +15,21 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import java.io.FileOutputStream;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
-import org.openmrs.EncounterType;
-import org.openmrs.Location;
 import org.openmrs.Obs;
-import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.ApzuKsPatientDataSetEvaluator;
-import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
-import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.DuplicatePatientsSpotter;
-import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SetupDuplicateHivPatients;
-import org.openmrs.module.pihmalawi.reporting.duplicateSpotter.SoundexMatcher;
-import org.openmrs.module.pihmalawi.reporting.extension.AppointmentAdherenceCohortDefinition;
-import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
-import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.extension.AppointmentAdherenceCohortDefinition;
+import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
-import org.openmrs.module.reporting.indicator.dimension.CohortIndicatorAndDimensionResult;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -172,68 +159,6 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		// d.setTerminalStates(Arrays.asList(died, stopped, transferredOut));
 		// Cohort c = e.evaluate(d, null);
 		// System.out.println(c);
-
-		Helper h = new Helper();
-		Location touchscreenNno = h
-				.location("_to_be_voided_Neno District Hospital - ART Clinic (NNO)");
-		Location nno = h.location("Neno District Hospital");
-		List<Location> locations = Arrays.asList(nno);
-		List<EncounterType> encounterTypes = Arrays
-				.asList(h.encounterType("ART_INITIAL"),
-						h.encounterType("ART_FOLLOWUP"),
-						h.encounterType("PART_INITIAL"),
-						h.encounterType("PART_FOLLOWUP"),
-						h.encounterType("EID_INITIAL"),
-						h.encounterType("EID_FOLLOWUP"));
-		List<EncounterType> touchscreenEncounterTypes = Arrays.asList(h
-				.encounterType("REGISTRATION"));
-
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		c.add(Calendar.MONTH, -6);
-		Date SIX_MONTHS_AGO = c.getTime();
-
-		ReportDefinition rds = new SetupDuplicateHivPatients(new Helper())
-				.setup();
-		ReportService r = Context.getService(ReportService.class);
-		ReportDefinitionService rs = Context
-				.getService(ReportDefinitionService.class);
-		ReportData data = rs.evaluate(rds, new EvaluationContext());
-
-		DuplicatePatientsSpotter s = new DuplicatePatientsSpotter();
-		SoundexMatcher sm = new SoundexMatcher();
-
-		Iterator<DataSetRow> i = data.getDataSets().get("defaultDataSet")
-				.iterator();
-		if (i.hasNext()) {
-			DataSetRow dsr = i.next();
-			CohortIndicatorAndDimensionResult coadr = (CohortIndicatorAndDimensionResult) dsr
-					.getColumnValue("entryHIV");
-			Set<Integer> ids = coadr.getCohortIndicatorResult().getCohort()
-					.getMemberIds();
-			// Set<Integer> ids = new TreeSet();
-			// ids.add(55073);
-			// HibernateCohortQueryDAO dao = (HibernateCohortQueryDAO) Context
-			// .getRegisteredComponents(HibernateCohortQueryDAO.class)
-			// .get(0);
-			// Set<Integer> patientIds = dao.getPatientsHavingEncounters(
-			// SIX_MONTHS_AGO, null, locations, encounterTypes, null, null,
-			// null).getMemberIds();
-			for (Integer id : ids) {
-
-				Patient p = Context.getPatientService().getPatient(id);
-				// List<Patient> ps = s.spot(p, SIX_MONTHS_AGO, patientIds);
-				Collection<Patient> ps = sm.soundexMatches(p, encounterTypes,
-						false);
-				String m = p.getId() + ";";
-				for (Patient potential : ps) {
-					m += potential.getId() + ";";
-				}
-				// todo, fill in the patient merge dialog for every possible
-				// match
-				System.out.println(m);
-			}
-		}
 
 	}
 

@@ -33,8 +33,8 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 
 public class ArtExporter {
 

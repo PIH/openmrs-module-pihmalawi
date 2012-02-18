@@ -19,6 +19,10 @@ HIV Program Changes Report: <a href="${pageContext.request.contextPath}/module/p
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivprogramchanges.form">Remove</a>
 <br/>
 
+HIV Visits Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hiv_visits.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hiv_visits.form">Remove</a>
+<br/>
+
 ARV Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_arvquarterly.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_arvquarterly.form">Remove</a>
 <br/>
@@ -29,6 +33,10 @@ ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pi
 
 ART Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artregister.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artregister.form">Remove</a>
+<br/>
+
+HCC Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccregister.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccregister.form">Remove</a>
 <br/>
 
 <h4>Upper Neno</h4>
@@ -82,6 +90,10 @@ Chronic Care Register: <a href="${pageContext.request.contextPath}/module/pihmal
 
 Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccareappadherence.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareappadherence.form">Remove</a>
+<br/>
+
+Chronic Care Visits Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_cc_visits.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_cc_visits.form">Remove</a>
 <br/>
 
 <h3>TB</h3>

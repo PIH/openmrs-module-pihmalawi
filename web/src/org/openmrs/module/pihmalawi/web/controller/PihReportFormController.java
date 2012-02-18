@@ -3,23 +3,26 @@ package org.openmrs.module.pihmalawi.web.controller;
 import java.util.Arrays;
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reporting.Helper;
-import org.openmrs.module.pihmalawi.reporting.SetupAppointmentAdherence;
-import org.openmrs.module.pihmalawi.reporting.SetupAppointmentsForLocation;
-import org.openmrs.module.pihmalawi.reporting.SetupArtMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupArtRegister;
-import org.openmrs.module.pihmalawi.reporting.SetupChronicCareMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupChronicCareRegister;
-import org.openmrs.module.pihmalawi.reporting.SetupFindPatientsToMergeSoundex;
-import org.openmrs.module.pihmalawi.reporting.SetupHccMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reporting.SetupHivWeeklyOutcome;
-import org.openmrs.module.pihmalawi.reporting.SetupPreArtMissedAppointment;
-import org.openmrs.module.pihmalawi.reporting.SetupPreArtWeekly;
-import org.openmrs.module.pihmalawi.reporting.SetupProgramChanges;
-import org.openmrs.module.pihmalawi.reporting.SetupTbRegister;
-import org.openmrs.module.pihmalawi.reporting.SetupWeeklyEncounter;
-import org.openmrs.module.pihmalawi.reporting.mohquarterlyart.SetupArvQuarterly;
+import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
+import org.openmrs.module.pihmalawi.reports.experimental.mohquarterlyart.SetupArvQuarterly;
+import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
+import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
+import org.openmrs.module.pihmalawi.reports.setup.SetupArtRegister;
+import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
+import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
+import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
+import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
+import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
+import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
+import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupHivWeeklyOutcome;
+import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtMissedAppointment;
+import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtWeekly;
+import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupProgramChanges;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,6 +38,28 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_tb_register.form")
 	public void registerTbRegister() throws Exception {
 		new SetupTbRegister(new Helper()).setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_cc_visits.form")
+	public void removeCcVisits() {
+		new SetupChronicCareVisits(new Helper())
+				.delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_cc_visits.form")
+	public void registerCcVisits() throws Exception {
+		new SetupChronicCareVisits(new Helper()).setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_hiv_visits.form")
+	public void removeHivVisits() {
+		new SetupHivVisits(new Helper())
+				.delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_hiv_visits.form")
+	public void registerHivVisits() throws Exception {
+		new SetupHivVisits(new Helper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment_lowerneno.form")
@@ -90,6 +115,17 @@ public class PihReportFormController {
 	public void removeHccMissedAppointment() {
 		new SetupHccMissedAppointment(new Helper(), true)
 				.deleteReportElements();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_hccregister.form")
+	public void removeHccRegister() {
+		new SetupHccRegister(new Helper())
+				.delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_hccregister.form")
+	public void registerHccRegister() throws Exception {
+		new SetupHccRegister(new Helper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artregister.form")
@@ -261,6 +297,7 @@ public class PihReportFormController {
 		removeArtMissedAppointmentLowerNeno();
 		removeArvQuarterly();
 		removeArtRegister();
+		removeHccRegister();
 		removeChronicCareAppAdherence();
 		removeChronicCareMissedAppointment();
 		removeChronicCareRegister();
@@ -282,16 +319,18 @@ public class PihReportFormController {
 //		registerArtMissedAppointmentLowerNeno();
 		registerArvQuarterly();
 		registerArtRegister();
+		registerHccRegister();
 //		registerChronicCareAppAdherence();
 		registerChronicCareMissedAppointment();
 		registerChronicCareRegister();
 //		registerDuplicateHivPatients();
 		registerHivDataQuality();
-		registerHivProgramChanges();
-		registerHivWeeklyOutcome();
-		registerPreArtMissedAppointment();
+//		registerHivProgramChanges();
+//		registerHivWeeklyOutcome();
+		registerHccMissedAppointment();
+//		registerPreArtMissedAppointment();
 //		registerPreArtMissedAppointmentLowerNeno();
-		registerPreArtWeekly();
+//		registerPreArtWeekly();
 		registerWeeklyEncounter();
 		registerAppointments();
 	}
