@@ -201,7 +201,7 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			}
 			c = new DataSetColumn("weeksConsideredEnrolled", "weeksConsideredEnrolled", String.class);
 			row.addColumnValue(c, weeksConsideredEnrolled);
-			c = new DataSetColumn("weeksMissedInCare", "weeksMissedInCare", String.class);
+			c = new DataSetColumn("weeksMissedInCare", "weeksMissedInCare (>=" + WEEKS_MISSED_bUT_STILL_CONSIDERED_IN_CARE + " wks)", String.class);
 			row.addColumnValue(c, weeksMissedInCare);
 			c = new DataSetColumn("%weeksMissedInCare", "%weeksMissedInCare", String.class);
 			row.addColumnValue(c, indicator(weeksMissedInCare, weeksConsideredEnrolled));
@@ -209,7 +209,7 @@ public class ApzuAppointmentAdherencePatientDataSetEvaluator implements DataSetE
 			c = new DataSetColumn("consideredvisits", "consideredvisits", String.class);
 			row.addColumnValue(c, visits);
 			c = new DataSetColumn("ontime", "ontime", String.class);
-			row.addColumnValue(c, indicator(visitOnTime, visits));
+			row.addColumnValue(c, visitOnTime);
 			c = new DataSetColumn("%ontime", "%ontime", String.class);
 			row.addColumnValue(c, indicator(visitOnTime, visits));
 			
