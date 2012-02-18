@@ -35,7 +35,6 @@ import org.openmrs.Relationship;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.extension.HibernatePihMalawiQueryDao;
-import org.openmrs.module.pihmalawi.reporting.survival.SurvivalRateCalc;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
