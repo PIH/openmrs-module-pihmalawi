@@ -507,6 +507,28 @@ public abstract class BreakdownRowRenderer {
 		}
 	}
 
+	protected void addMostRecentObsCols(DataSetRow row, Patient p,
+			Concept concept, Date endDate) {
+		try {
+			List<Encounter> es = Context.getEncounterService().getEncounters(p,
+					null, null, endDate, null, null, null, false);
+			List<Obs> obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(concept),
+					null, null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				DataSetColumn c = new DataSetColumn("Last "
+						+ concept.getName(Context.getLocale()).getName(),
+						"Last "
+								+ concept.getName(Context.getLocale())
+										.getName(), String.class);
+				row.addColumnValue(c, o.getValueAsString(Context.getLocale()));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
 	protected void addMostRecentNumericObsCols(DataSetRow row, Patient p,
 			Concept concept, Date endDate) {
 		try {

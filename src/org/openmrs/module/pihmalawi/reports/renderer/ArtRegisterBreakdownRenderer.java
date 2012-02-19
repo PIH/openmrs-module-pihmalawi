@@ -79,6 +79,8 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addReasonStartingArvsCols(row, p, endDateParameter);
 		// date 1st time arvs
 		addMostRecentDatetimeObsCols(row, p, lookupConcept("Start date 1st line ARV"), endDateParameter);
+		// current regimen
+		addMostRecentObsCols(row, p, lookupConcept("Malawi Antiretroviral drugs received"), endDateParameter);
 
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
