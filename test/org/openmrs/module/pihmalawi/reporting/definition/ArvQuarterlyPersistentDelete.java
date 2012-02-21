@@ -3,7 +3,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.reports.Helper;
-import org.openmrs.module.pihmalawi.reports.experimental.mohquarterlyart.SetupArvQuarterly;
+import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 

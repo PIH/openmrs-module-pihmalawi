@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.experimental.mohquarterlyart;
+package org.openmrs.module.pihmalawi.reports.setup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,12 +53,6 @@ public class SetupArvQuarterly {
 
 	private final Concept CONCEPT_APPOINTMENT_DATE;
 	
-	private final Concept PULMONARY_TUBERCULOSIS;
-	
-	private final Concept EXTRA_PULMONARY_TUBERCULOSIS;
-	
-	private final Concept PTB_WITHIN_THE_PAST_TWO_YEARS;
-
 	private final Program PROGRAM;
 
 	Helper h = new Helper();
@@ -74,8 +68,6 @@ public class SetupArvQuarterly {
 	private final EncounterType ART_INITIAL_ENCOUNTER;
 	
 	private final EncounterType ART_FOLLOWUP_ENCOUNTER;
-	
-	private final EncounterType HIV_STAGING_ENCOUNTER;
 	
 
 	/** little hack to have a start date. maybe we could live without it */
@@ -97,11 +89,6 @@ public class SetupArvQuarterly {
 				.getConceptByName("Appointment date");
 		ART_INITIAL_ENCOUNTER = Context.getEncounterService().getEncounterType("ART_INITIAL");
 		ART_FOLLOWUP_ENCOUNTER = Context.getEncounterService().getEncounterType("ART_FOLLOWUP");
-		HIV_STAGING_ENCOUNTER = Context.getEncounterService().getEncounterType("HIV STAGING");
-		
-		PULMONARY_TUBERCULOSIS = Context.getConceptService().getConcept("PULMONARY TUBERCULOSIS");
-		EXTRA_PULMONARY_TUBERCULOSIS = Context.getConceptService().getConcept("EXTRAPULMONARY TUBERCULOSIS (EPTB)");
-		PTB_WITHIN_THE_PAST_TWO_YEARS = Context.getConceptService().getConcept("PTB WITHIN THE PAST TWO YEARS"); // PULMONARY TUBERCULOSIS WITHIN THE LAST 2 YEARS
 	}
 
 	public void setup() throws Exception {
@@ -268,7 +255,7 @@ public class SetupArvQuarterly {
         stage_conditions_start_ARTcocd.setQuestion(Context.getConceptService().getConcept("WHO STAGES CRITERIA PRESENT"));
         stage_conditions_start_ARTcocd.setTimeModifier(TimeModifier.ANY);
         stage_conditions_start_ARTcocd.setOperator(SetComparator.IN);
-		stage_conditions_start_ARTcocd.setEncounterTypeList(Arrays.asList(HIV_STAGING_ENCOUNTER));
+		stage_conditions_start_ARTcocd.setEncounterTypeList(Arrays.asList(ART_INITIAL_ENCOUNTER));
 		h.replaceCohortDefinition(stage_conditions_start_ARTcocd);
 		
 		InverseCohortDefinition i_stage_conditions_cocd = new InverseCohortDefinition();
@@ -301,7 +288,7 @@ public class SetupArvQuarterly {
 		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
 		dod.setOperator1(RangeComparator.LESS_THAN);
 		dod.setOperator2(RangeComparator.GREATER_EQUAL);
-		dod.setEncounterTypeList(artEncounterTypeList);
+		dod.setEncounterTypeList(Arrays.asList(ART_FOLLOWUP_ENCOUNTER));
 		dod.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
 		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		dod.addParameter(new Parameter("locationList", "Location List", List.class));
@@ -311,7 +298,7 @@ public class SetupArvQuarterly {
 		
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.setName("arvquarterly: Had Appointment_");
-		ecd.setEncounterTypeList(artEncounterTypeList);
+		ecd.setEncounterTypeList(Arrays.asList(ART_FOLLOWUP_ENCOUNTER));
 		ecd.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
 		ecd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		ecd.addParameter(new Parameter("locationList", "Location List", List.class));
@@ -352,11 +339,24 @@ public class SetupArvQuarterly {
         current_tb_status.addParameter(new Parameter("locationList", "Location List", List.class));
         current_tb_status.addParameter(new Parameter("valueList", "value list", List.class));
         current_tb_status.setQuestion(Context.getConceptService().getConcept(
-				"TB_STATUS"));
+				"TB status"));
         current_tb_status.setTimeModifier(TimeModifier.LAST);
         current_tb_status.setOperator(SetComparator.IN);
-        current_tb_status.setEncounterTypeList(artEncounterTypeList);
+        current_tb_status.setEncounterTypeList(Arrays.asList(ART_FOLLOWUP_ENCOUNTER));
 		h.replaceCohortDefinition(current_tb_status);
+		
+		// current regimen
+        CodedObsCohortDefinition current_regimen = new CodedObsCohortDefinition();
+        current_regimen.setName("arvquarterly: current_regimen_");
+        current_regimen.addParameter(new Parameter("onDate", "On Date", Date.class));
+        current_regimen.addParameter(new Parameter("locationList", "Location List", List.class));
+        current_regimen.addParameter(new Parameter("valueList", "value list", List.class));
+        current_regimen.setQuestion(Context.getConceptService().getConcept(
+				"Malawi Antiretroviral drugs received"));
+        current_regimen.setTimeModifier(TimeModifier.LAST);
+        current_regimen.setOperator(SetComparator.IN);
+        current_regimen.setEncounterTypeList(Arrays.asList(ART_FOLLOWUP_ENCOUNTER));
+		h.replaceCohortDefinition(current_regimen);
 	}
 	
 	private void createIndicators(PeriodIndicatorReportDefinition rd) {
@@ -431,7 +431,7 @@ public class SetupArvQuarterly {
 		
 		// 40 not in report
 		
-		// 41-47 ARV Regimens -- not in report for now
+		iXX_regimen(rd);
 		
 		i48_patients_with_side_effects(rd);
 		
@@ -481,8 +481,8 @@ public class SetupArvQuarterly {
 		baseCohortDefs.put("TransferIn", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: generic_coded_obs_"), h.parameterMap(
 				"onOrAfter", "${startDate}",
 				"onOrBefore", "${endDate}",
-				"question", Context.getConceptService().getConcept("EVER RECEIVED ART?"), // ToDo: shouldn't this be a coded concept?
-				"valueList", Arrays.asList(Context.getConceptService().getConcept("YES")),
+				"question", Context.getConceptService().getConcept("Ever received ART?"), // ToDo: shouldn't this be a coded concept?
+				"valueList", Arrays.asList(Context.getConceptService().getConcept("Yes")),
 				"locationList", "${location}",
 				"encounterTypeList", Arrays.asList(ART_INITIAL_ENCOUNTER))));
 		
@@ -517,8 +517,8 @@ public class SetupArvQuarterly {
 				"arvquarterly: generic_coded_obs_", h.parameterMap(
 						"onOrAfter", "${startDate}",
 						"onOrBefore", "${endDate}",
-						"question", Context.getConceptService().getConcept("EVER RECEIVED ART?"), // ToDo: shouldn't this be a coded concept?
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("YES")),
+						"question", Context.getConceptService().getConcept("Ever received ART?"), // ToDo: shouldn't this be a coded concept?
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("Yes")),
 						"locationList", "${location}",
 						"encounterTypeList", Arrays.asList(ART_INITIAL_ENCOUNTER)
 						));
@@ -547,7 +547,7 @@ private void i11_females_not_pregnant(PeriodIndicatorReportDefinition rd) {
 			"onOrAfter", "${startDate}", 
 			"onOrBefore", "${endDate}", 
 			"locationList", "${location}",
-			"valueList", Arrays.asList(Context.getConceptService().getConcept("YES"))))); // using AND NOT composition
+			"valueList", Arrays.asList(Context.getConceptService().getConcept("Yes"))))); // using AND NOT composition
 	
 	CohortIndicator i = h.createCompositionIndicator("arvquarterly: non-pregnant_females", "AND NOT", h.parameterMap("startDate", "${startDate}", "endDate","${endDate}", "location", "${location}"), baseCohortDefs);
 	
@@ -584,7 +584,7 @@ private void i13_infants_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 					"startedOnOrAfter", MIN_DATE_PARAMETER,
 					"startedOnOrBefore", "${endDate}", 
 					"location", "${location}",
-					"maxAge", 17,
+					"maxAge", 23,
 					"maxAgeUnit", DurationUnit.MONTHS
 					));
 	PeriodIndicatorReportUtil.addColumn(rd, "13_quarter", "Infant at ART initiation", i,
@@ -601,7 +601,7 @@ private void i14_children_at_ART_initiation(PeriodIndicatorReportDefinition rd) 
 					"startedOnOrAfter", MIN_DATE_PARAMETER,
 					"startedOnOrBefore", "${endDate}", 
 					"location", "${location}",
-					"minAge", 18,
+					"minAge", 24,
 					"minAgeUnit", DurationUnit.MONTHS,
 					"maxAge", 14,
 					"maxAgeUnit", DurationUnit.YEARS
@@ -637,7 +637,7 @@ private void i16_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("UNKNOWN"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Unknown"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "16_quarter", "Unknown", i,
 			h.hashMap("registered", "quarter"));
@@ -669,7 +669,7 @@ private void i18_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE III ADULT AND PEDS"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage III adult and peds"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "18_quarter", "WHO Stage 3 Adults And Peds", i,
 			h.hashMap("registered", "quarter"));
@@ -685,7 +685,7 @@ private void i19_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE IV ADULT AND PEDS"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage IV adult and peds"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "19_quarter", "WHO Stage 4 Adults And Peds", i,
 			h.hashMap("registered", "quarter"));
@@ -701,7 +701,7 @@ private void i20_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE III ADULT"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage III adult"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "20_quarter", "WHO Stage 3 Adults", i,
 			h.hashMap("registered", "quarter"));
@@ -717,7 +717,7 @@ private void i21_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE IV ADULT"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage IV adult"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "21_quarter", "WHO Stage 4 Adults", i,
 			h.hashMap("registered", "quarter"));
@@ -733,7 +733,7 @@ private void i22_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE III PEDS"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage III peds"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "22_quarter", "WHO Stage 3 Peds", i,
 			h.hashMap("registered", "quarter"));
@@ -749,7 +749,7 @@ private void i23_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO STAGE IV PEDS"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("WHO stage IV peds"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "23_quarter", "WHO Stage 4 Peds", i,
 			h.hashMap("registered", "quarter"));
@@ -781,7 +781,7 @@ private void i25_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("PRESUMED SEVERE HIV CRITERIA IN INFANTS")))); // todo:swap this out
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Presumed severe HIV criteria present")))); // todo:swap this out
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "25_quarter", "Presumed Severe HIV Criteria In Infants", i,
 			h.hashMap("registered", "quarter"));
@@ -790,19 +790,15 @@ private void i25_reason_started_ART(PeriodIndicatorReportDefinition rd) {
 }
 
 private void i26_stage_conditions_no_tb(PeriodIndicatorReportDefinition rd) {
-	
-	List<Concept> tbList = new ArrayList<Concept>();
-	tbList.add(PULMONARY_TUBERCULOSIS);
-	tbList.add(EXTRA_PULMONARY_TUBERCULOSIS);
-	tbList.add(PTB_WITHIN_THE_PAST_TWO_YEARS);
-	
+
+	// todo, Unkown is mapped to no, and Obs is not filtered based on Concept
 	CohortIndicator i = h.newCountIndicator(
 			"arvquarterly: stage_conditions_no_tb_",
 			"arvquarterly: inverse_stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", tbList));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Unknown"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "26_quarter", "No TB", i,
 			h.hashMap("registered", "quarter"));
@@ -818,7 +814,7 @@ private void i27_stage_conditions_tb_2_years(PeriodIndicatorReportDefinition rd)
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(PTB_WITHIN_THE_PAST_TWO_YEARS)));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Treatment complete"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "27_quarter", "TB within the last 2 years", i,
 			h.hashMap("registered", "quarter"));
@@ -828,17 +824,13 @@ private void i27_stage_conditions_tb_2_years(PeriodIndicatorReportDefinition rd)
 
 private void i28_stage_conditions_current_tb(PeriodIndicatorReportDefinition rd) {
 	
-	List<Concept> currentTBList = new ArrayList<Concept>();
-	currentTBList.add(PULMONARY_TUBERCULOSIS);
-	currentTBList.add(EXTRA_PULMONARY_TUBERCULOSIS);
-	
 	CohortIndicator i = h.newCountIndicator(
 			"arvquarterly: stage_conditions_current_tb_",
 			"arvquarterly: stage_conditions_at_start_ART_coded_obs_", h.parameterMap(
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", currentTBList));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Currently in treatment"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "28_quarter", "Current episode of TB", i,
 			h.hashMap("registered", "quarter"));
@@ -854,7 +846,7 @@ private void i29_stage_conditions_kaposis_sarcoma(PeriodIndicatorReportDefinitio
 					"onOrAfter", "${startDate}",
 					"onOrBefore", "${endDate}",
 					"locationList", "${location}",
-					"valueList", Arrays.asList(Context.getConceptService().getConcept("KAPOSIS SARCOMA"))));
+					"valueList", Arrays.asList(Context.getConceptService().getConcept("Kaposis sarcoma side effects worsening while on ARVs?"))));
 	
 	PeriodIndicatorReportUtil.addColumn(rd, "29_quarter", "Kaposi’s Sarcoma", i,
 			h.hashMap("registered", "quarter"));
@@ -1007,17 +999,132 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 	}
 	
 	private void i48_patients_with_side_effects(PeriodIndicatorReportDefinition rd) {
-		
+		// todo, exclude answer no from being counted
 		CohortIndicator i = h.newCountIndicator(
 				"arvquarterly: patients_with_side_effects_",
 				"arvquarterly: generic_numeric_obs_", h.parameterMap(
 						"onDate", "${endDate}", 
 						"locationList", "${location}",
-						"question", Context.getConceptService().getConcept("DOES PATIENT HAVE ADVERSE EFFECTS"),
+						"question", Context.getConceptService().getConcept("Malawi ART side effects"),
 						"value1", new Double(1)));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "48", "Total patients with side effects", i,
 				null);
+	}
+	
+	private void iXX_regimen(PeriodIndicatorReportDefinition rd) {		
+		CohortIndicator i = h.newCountIndicator(
+				"arvquarterly: regimen_1A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("1A: d4T / 3TC / NVP (previous 1L)"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41a", "1A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_2A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("2A: AZT / 3TC / NVP (previous AZT)"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41b", "2A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_3A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("3A: d4T / 3TC + EFV (previous EFV)"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41c", "3A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_4A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("4A: AZT / 3TC + EFV (previous AZTEFV)"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41d", "4A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_5A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("5A: TDF + 3TC + EFV"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41e", "5A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_6A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("6A: TDF / 3TC + NVP"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41f", "6A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_7A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("7A: TDF / 3TC + LPV/r"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41g", "7A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_8A_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("8A: AZT / 3TC + LPV/r"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "41h", "8A", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_1P_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("1P: d4T / 3TC / NVP"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "42a", "1P", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_2P_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("2P: AZT / 3TC / NVP"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "42b", "2P", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_3P_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("3P: d4T / 3TC + EFV"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "42c", "3P", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_4P_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("4P: AZT / 3TC + EFV"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "42d", "4P", i, null);
+		
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_9P_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("9P: ABC / 3TC + LPV/r"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "42e", "9P", i, null);
+		
+		// todo, what if another obs also has other as an answer?
+		i = h.newCountIndicator(
+				"arvquarterly: regimen_Other_",
+				"arvquarterly: current_regimen_", h.parameterMap(
+						"onDate", "${endDate}",
+						"locationList", "${location}",
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("Other"))));
+		PeriodIndicatorReportUtil.addColumn(rd, "43a", "Other", i, null);
 	}
 	
 	private void i51_current_tb_status_unknown(PeriodIndicatorReportDefinition rd) {
@@ -1027,7 +1134,7 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 				"arvquarterly: current_tb_status_", h.parameterMap(
 						"onDate", "${endDate}",
 						"locationList", "${location}",
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("UNKNOWN"))));
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("Unknown"))));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "51", "TB unknown", i,
 				null);
@@ -1040,7 +1147,7 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 				"arvquarterly: current_tb_status_", h.parameterMap(
 						"onDate", "${endDate}",
 						"locationList", "${location}",
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("TB NOT SUSPECTED"))));
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("TB NOT suspected"))));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "52", "TB not suspected", i,
 				null);
@@ -1053,7 +1160,7 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 				"arvquarterly: current_tb_status_", h.parameterMap(
 						"onDate", "${endDate}",
 						"locationList", "${location}",
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("TB SUSPECTED"))));
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("TB suspected"))));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "53", "TB suspected", i,
 				null);
@@ -1066,7 +1173,7 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 				"arvquarterly: current_tb_status_", h.parameterMap(
 						"onDate", "${endDate}",
 						"locationList", "${location}",
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("CONFIRMED TB NOT ON TREATMENT"))));
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("Confirmed TB NOT on treatment"))));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "54", "TB confirmed Not on TB treatment", i,
 				null);
@@ -1079,7 +1186,7 @@ private void i55_current_tb_status_confirmed_treatment(PeriodIndicatorReportDefi
 				"arvquarterly: current_tb_status_", h.parameterMap(
 						"onDate", "${endDate}",
 						"locationList", "${location}",
-						"valueList", Arrays.asList(Context.getConceptService().getConcept("CONFIRMED TB ON TREATMENT"))));
+						"valueList", Arrays.asList(Context.getConceptService().getConcept("Confirmed TB on treatment"))));
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "55", "TB confirmed On TB treatment", i,
 				null);
