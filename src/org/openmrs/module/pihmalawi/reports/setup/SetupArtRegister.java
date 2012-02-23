@@ -96,7 +96,7 @@ public class SetupArtRegister {
 		rd.setupDataSetDefinition();
 
 		CohortDefinition cd = ApzuReportElementsArt
-				.everOnArtAtLocationStartedOnOrBefore(prefix);
+				.artEverEnrolledAtLocationStartedOnOrBefore(prefix);
 		CohortIndicator i = h.newCountIndicator(prefix + "Register_", cd
 				.getName(), h.parameterMap("location", "${location}",
 				"startedOnOrBefore", "${endDate}"));

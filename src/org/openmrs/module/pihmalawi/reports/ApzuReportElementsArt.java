@@ -5,17 +5,21 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
@@ -54,11 +58,10 @@ public class ApzuReportElementsArt {
 	public static List<Location> hivStaticLocations() {
 		return Arrays.asList(h.location("Neno District Hospital"),
 				h.location("Magaleta HC"), h.location("Nsambe HC"),
-				h.location("Neno Mission HC"), 
+				h.location("Neno Mission HC"),
 				h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
-				h.location("Zalewa HC"),
-				h.location("Nkhula Falls RHC"));
+				h.location("Zalewa HC"), h.location("Nkhula Falls RHC"));
 	}
 
 	public static String hivSiteCode(Location l) {
@@ -114,19 +117,18 @@ public class ApzuReportElementsArt {
 		return iscd;
 	}
 
-	public static CohortDefinition everOnArtStartedOnOrBefore(
-			String prefix) {
+	public static CohortDefinition everOnArtStartedOnOrBefore(String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Ever on ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals")));
+		pscd.setStates(Arrays.asList(h.workflowState("HIV program",
+				"Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
 		return pscd;
 	}
 
-	public static CohortDefinition everOnArtAtLocationStartedOnOrBefore(
+	public static CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Having state at location_");
@@ -139,63 +141,251 @@ public class ApzuReportElementsArt {
 		return pscd;
 	}
 
-	public static CohortDefinition everInHccAtLocationStartedOnOrBefore(
-			String prefix) {
-		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
-		pscd.setName(prefix + ": Pre-ART at location_");
-		pscd.setState(h.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)"));
-		pscd.addParameter(new Parameter("startedOnOrBefore",
-				"startedOnOrBefore", Date.class));
-		pscd.addParameter(new Parameter("location", "location", Location.class));
-		h.replaceCohortDefinition(pscd);
-		
-		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
-		pscd2.setName(prefix + ": Exposed Child at location_");
-		pscd2.setState(h.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)"));
-		pscd2.addParameter(new Parameter("startedOnOrBefore",
-				"startedOnOrBefore", Date.class));
-		pscd2.addParameter(new Parameter("location", "location", Location.class));
-		h.replaceCohortDefinition(pscd2);
-		
-		// excluding everyone without a hcc number for the location (old pre-art and eid patients)
-		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd.setName(prefix + ": HCC number_");
-		scd.addParameter(new Parameter("location", "location", Location.class));
-		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0 and location_id = :location ;";
-		scd.setQuery(sql);
-		h.replaceCohortDefinition(scd);
-		
+	public static CohortDefinition hccEverEnrolledAtLocationStartedOnOrBefore(
+			String prefix, CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore, CohortDefinition exposedEverEnrolledAtLocationStartedOnOrBefore) {
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName(prefix + ": In HCC at location_");
 		ccd.addParameter(new Parameter("location", "location", Location.class));
-		ccd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
 		ccd.getSearches().put(
 				"part",
-				new Mapped(h.cohortDefinition(prefix + ": Pre-ART at location_"),
-						h.parameterMap("startedOnOrBefore", "${startedOnOrBefore}", "location", "${location}")));
+				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrAfter}", "startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
 		ccd.getSearches().put(
 				"exposed",
-				new Mapped(h.cohortDefinition(prefix + ": Exposed Child at location_"), h
-						.parameterMap("startedOnOrBefore", "${startedOnOrBefore}", "location", "${location}")));
-		ccd.getSearches().put(
-				"hccnumber",
-				new Mapped(h.cohortDefinition(prefix + ": HCC number_"), h
-						.parameterMap()));
-		ccd.setCompositionString("(part OR exposed) AND hccnumber");
+				new Mapped(exposedEverEnrolledAtLocationStartedOnOrBefore, h.parameterMap("startedOnOrAfter",
+						"${startedOnOrAfter}", 
+						"startedOnOrBefore", "${startedOnOrBefore}",
+						"location", "${location}")));
+		ccd.setCompositionString("part OR exposed");
 		h.replaceCohortDefinition(ccd);
 
 		return ccd;
 	}
 
-	public static CohortDefinition inStateAtLocationOnDate(String prefix) {
+	public static CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore(
+			String prefix) {
+		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
+		pscd.setName(prefix + ": Pre-ART at location_");
+		pscd.setState(h.workflowState("HIV program", "Treatment status",
+				"Pre-ART (Continue)"));
+		pscd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		pscd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(pscd);
+
+		// excluding everyone without a hcc number for the location (old pre-art
+		// and eid patients)
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName(prefix + ": HCC number part ever enrolled_");
+		scd.addParameter(new Parameter("location", "location", Location.class));
+		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0 and location_id = :location ;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": In Pre-ART at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(pscd, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrAfter}","startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"hccnumber",
+				new Mapped(scd, h
+						.parameterMap("location",
+								"${location}")));
+		ccd.setCompositionString("part AND hccnumber");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition partDiedAtLocationStartedOnOrBefore(
+			String prefix,
+			CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition hivDiedAtLocationOnDate) {
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": Died from Pre-ART at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrBefore-100y}", "startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"art",
+				new Mapped(artEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"died",
+				new Mapped(hivDiedAtLocationOnDate, h.parameterMap(
+						"onDate", "${startedOnOrBefore}",
+						"location", "${location}")));
+		ccd.setCompositionString("part AND died AND NOT art");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition partTransferredOutAtLocationStartedOnOrBefore(
+			String prefix,
+			CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition hivTransferredOutAtLocationOnDate) {
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": Transferred from Pre-ART at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrBefore-100y}", "startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"art",
+				new Mapped(artEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"to",
+				new Mapped(hivTransferredOutAtLocationOnDate, h.parameterMap(
+						"onDate", "${startedOnOrBefore}",
+						"location", "${location}")));
+		ccd.setCompositionString("part AND to AND NOT art");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition partOnArtAtLocationStartedOnOrBefore(
+			String prefix,
+			CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore) {
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": On ART from Pre-ART at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrBefore-100y}", "startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"art",
+				new Mapped(artEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.setCompositionString("part AND art");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition exposedEverEnrolledAtLocationStartedOnOrBefore(
+			String prefix) {
+		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
+		pscd2.setName(prefix + ": Exposed Child at location_");
+		pscd2.setState(h.workflowState("HIV program", "Treatment status",
+				"Exposed Child (Continue)"));
+		pscd2.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		pscd2.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		pscd2.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(pscd2);
+
+		// excluding everyone without a hcc number for the location (old pre-art
+		// and eid patients)
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName(prefix + ": HCC number ever exposed_");
+		scd.addParameter(new Parameter("location", "location", Location.class));
+		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0 and location_id = :location ;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": In Exposed at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		ccd.getSearches().put(
+				"exposed",
+				new Mapped(pscd2, h.parameterMap(
+						"startedOnOrAfter", "${startedOnOrAfter}",
+						"startedOnOrBefore", "${startedOnOrBefore}",
+						"location", "${location}")));
+		ccd.getSearches().put(
+				"hccnumber",
+				new Mapped(scd, h
+						.parameterMap("location", "${location}")));
+		ccd.setCompositionString("exposed AND hccnumber");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition genericInStateAtLocationOnDate(String prefix) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(prefix + ": In state at location_");
 		islcd.addParameter(new Parameter("state", "State",
 				ProgramWorkflowState.class));
-		islcd.addParameter(new Parameter("onDate", "endDate", Date.class));
+		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(islcd);
+		return islcd;
+	}
+
+	public static CohortDefinition hivTransferredOutAtLocationOnDate(String prefix) {
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName(prefix + ": Transferred out at location_");
+		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		islcd.addParameter(new Parameter("location", "location", Location.class));
+		islcd.setState(h.workflowState("HIV program", "Treatment status",
+				"Patient transferred out"));
+		h.replaceCohortDefinition(islcd);
+		return islcd;
+	}
+
+	public static CohortDefinition hivDiedAtLocationOnDate(String prefix) {
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName(prefix + ": Died at location_");
+		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		islcd.addParameter(new Parameter("location", "location", Location.class));
+		islcd.setState(h.workflowState("HIV program", "Treatment status",
+				"Patient died"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}
@@ -203,14 +393,14 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition transferredInternallyOnDate(String reportTag) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName(reportTag + ": transferred internally_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status",
-				"Transferred internally")));
+		iscd.setStates(Arrays.asList(h.workflowState("HIV program",
+				"Treatment status", "Transferred internally")));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		return iscd;
 	}
 
-	public static CohortDefinition everInStateAtLocation(String prefix) {
+	public static CohortDefinition everInStateAtLocationAtEndDate(String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName(prefix
 				+ ": Ever enrolled in program at location with state_");
@@ -255,7 +445,7 @@ public class ApzuReportElementsArt {
 		states.add(Context.getProgramWorkflowService()
 				.getProgramByName("HIV program")
 				.getWorkflowByName("Treatment status")
-				.getStateByName("Pre-ART (Continue)") );
+				.getStateByName("Pre-ART (Continue)"));
 		states.add(Context.getProgramWorkflowService()
 				.getProgramByName("HIV program")
 				.getWorkflowByName("Treatment status")
@@ -264,27 +454,62 @@ public class ApzuReportElementsArt {
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
-		// excluding everyone without a hcc number for the location (old pre-art and eid patients)
+		// excluding everyone without a hcc number for the location (old pre-art
+		// and eid patients)
 		SqlCohortDefinition scd = new SqlCohortDefinition();
-		scd.setName(prefix + ": HCC number_");
+		scd.setName(prefix + ": HCC number for In state_");
 		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0;";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
-		
+
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName(prefix + ": In HCC _");
 		ccd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		ccd.getSearches().put(
 				"hcc",
-				new Mapped(h.cohortDefinition(prefix + ": In HCC without number_"),
-						h.parameterMap("onDate", "${onDate}")));
+				new Mapped(iscd, h.parameterMap("onDate",
+						"${onDate}")));
 		ccd.getSearches().put(
 				"hccnumber",
-				new Mapped(h.cohortDefinition(prefix + ": HCC number_"), h
+				new Mapped(scd, h
 						.parameterMap()));
 		ccd.setCompositionString("hcc AND hccnumber");
 		h.replaceCohortDefinition(ccd);
 
 		return ccd;
+	}
+
+	public static CohortDefinition hccMissedAppointmentAtLocationOnOrBefore(String string) {
+		Concept CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
+		.getConceptByName("Appointment date");
+		EncounterType PART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
+		.getEncounterType("PART_FOLLOWUP");
+		EncounterType EXPOSED_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
+		.getEncounterType("PART_FOLLOWUP");
+
+		DateObsCohortDefinition dod = new DateObsCohortDefinition();
+		dod.setName(string + ": HCC Missed Appointments_");
+		dod.setTimeModifier(TimeModifier.MAX);
+		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
+		dod.setOperator1(RangeComparator.LESS_THAN);
+		dod.setEncounterTypeList(Arrays.asList(PART_FOLLOWUP_ENCOUNTER, EXPOSED_FOLLOWUP_ENCOUNTER));
+		dod.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		dod.addParameter(new Parameter("location", "Location",
+				Location.class));
+		dod.addParameter(new Parameter("value1", "value1", Date.class));
+		h.replaceCohortDefinition(dod);
+		return dod;
+	}
+
+	public static CohortDefinition partActiveWithDefaultersAtLocationOnOrBefore(
+			String string) {
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName(string + ": Active Pre-ART at location_");
+		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+		islcd.addParameter(new Parameter("location", "location", Location.class));
+		islcd.setState(h.workflowState("HIV program", "Treatment status",
+				"Pre-ART (Continue)"));
+		h.replaceCohortDefinition(islcd);
+		return islcd;
 	}
 }

@@ -32,6 +32,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.GenderCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
@@ -222,6 +223,18 @@ public class Helper {
 			Map<String, Object> parameterMapping) {
 		CohortIndicator i = CohortIndicator.newCountIndicator(name,
 				new Mapped<CohortDefinition>(cohortDefinition(cohort),
+						parameterMapping), null);
+		i.addParameter(new Parameter("startDate", "Start date", Date.class));
+		i.addParameter(new Parameter("endDate", "End date", Date.class));
+		i.addParameter(new Parameter("location", "Location", Location.class));
+		replaceDefinition(i);
+		return i;
+	}
+
+	public CohortIndicator newCountIndicator(String name, CohortDefinition cohort,
+			Map<String, Object> parameterMapping) {
+		CohortIndicator i = CohortIndicator.newCountIndicator(name,
+				new Mapped<CohortDefinition>(cohort,
 						parameterMapping), null);
 		i.addParameter(new Parameter("startDate", "Start date", Date.class));
 		i.addParameter(new Parameter("endDate", "End date", Date.class));
@@ -816,5 +829,11 @@ public class Helper {
 
 	public Concept concept(String string) {
 		return Context.getConceptService().getConcept(string);
+	}
+
+	public CohortIndicator newCountIndicator(String name,
+			CohortDefinition cohort) {
+		// i know, i know. not really efficient...
+		return newCountIndicator(name, cohort.getName());
 	}
 }
