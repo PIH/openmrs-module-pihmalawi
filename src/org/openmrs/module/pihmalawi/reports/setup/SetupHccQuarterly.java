@@ -476,7 +476,7 @@ public class SetupHccQuarterly {
 						.parameterMap("startedOnOrAfter", MIN_DATE_PARAMETER,
 								"startedOnOrBefore", "${endDate}", "location",
 								"${location}", "minAge", 0, "minAgeUnit",
-								DurationUnit.MONTHS, "maxAge", 2, "maxAgeUnit",
+								DurationUnit.MONTHS, "maxAge", 1, "maxAgeUnit",
 								DurationUnit.MONTHS));
 		PeriodIndicatorReportUtil.addColumn(rd, "13_quarter",
 				"Infants below 2 months at enrollment", i,
@@ -489,7 +489,7 @@ public class SetupHccQuarterly {
 						.parameterMap("startedOnOrAfter", MIN_DATE_PARAMETER,
 								"startedOnOrBefore", "${endDate}", "location",
 								"${location}", "minAge", 2, "minAgeUnit",
-								DurationUnit.MONTHS, "maxAge", 24,
+								DurationUnit.MONTHS, "maxAge", 23,
 								"maxAgeUnit", DurationUnit.MONTHS));
 		PeriodIndicatorReportUtil.addColumn(rd, "14_quarter",
 				"Children below 24 months at enrollment", i,
@@ -527,24 +527,24 @@ public class SetupHccQuarterly {
 
 		// i19 part alive
 		// in part and not missing appointment
-		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName("hccquarterly: Pre-ART active_");
-		ccd.addParameter(new Parameter("location", "location", Location.class));
-		ccd.addParameter(new Parameter("startedOnOrBefore",
+		CompositionCohortDefinition partActiveWithoutDefaulters = new CompositionCohortDefinition();
+		partActiveWithoutDefaulters.setName("hccquarterly: Pre-ART active_");
+		partActiveWithoutDefaulters.addParameter(new Parameter("location", "location", Location.class));
+		partActiveWithoutDefaulters.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
-		ccd.getSearches().put(
+		partActiveWithoutDefaulters.getSearches().put(
 				"part",
 				new Mapped(partActive, h.parameterMap("onDate",
 						"${startedOnOrBefore}", "location", "${location}")));
-		ccd.getSearches().put(
+		partActiveWithoutDefaulters.getSearches().put(
 				"defaulted",
 				new Mapped(hccMissingAppointment, h.parameterMap("onOrBefore",
 						"${startedOnOrBefore}", "location", "${location}",
 						"value1", "${startedOnOrBefore-8w}")));
-		ccd.setCompositionString("part AND NOT defaulted");
-		h.replaceCohortDefinition(ccd);
+		partActiveWithoutDefaulters.setCompositionString("part AND NOT defaulted");
+		h.replaceCohortDefinition(partActiveWithoutDefaulters);
 		CohortIndicator i = h.newCountIndicator("hccquarterly: Pre-ART active",
-				ccd, h.parameterMap("startedOnOrBefore", "${endDate}",
+				partActiveWithoutDefaulters, h.parameterMap("startedOnOrBefore", "${endDate}",
 						"location", "${location}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "19", "Pre-ART active", i, null);
@@ -565,23 +565,23 @@ public class SetupHccQuarterly {
 
 		// i22 part defaulted
 		// in part and missing appointment
-		ccd = new CompositionCohortDefinition();
-		ccd.setName("hccquarterly: Pre-ART defaulted_");
-		ccd.addParameter(new Parameter("location", "location", Location.class));
-		ccd.addParameter(new Parameter("startedOnOrBefore",
+		CompositionCohortDefinition partDefaulted = new CompositionCohortDefinition();
+		partDefaulted.setName("hccquarterly: Pre-ART defaulted_");
+		partDefaulted.addParameter(new Parameter("location", "location", Location.class));
+		partDefaulted.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
-		ccd.getSearches().put(
+		partDefaulted.getSearches().put(
 				"part",
 				new Mapped(partActive, h.parameterMap("onDate",
 						"${startedOnOrBefore}", "location", "${location}")));
-		ccd.getSearches().put(
+		partDefaulted.getSearches().put(
 				"defaulted",
 				new Mapped(hccMissingAppointment, h.parameterMap("onOrBefore",
 						"${startedOnOrBefore}", "location", "${location}",
 						"value1", "${startedOnOrBefore-8w}")));
-		ccd.setCompositionString("part AND defaulted");
-		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator("hccquarterly: Pre-ART defaulted_", ccd, h
+		partDefaulted.setCompositionString("part AND defaulted");
+		h.replaceCohortDefinition(partDefaulted);
+		i = h.newCountIndicator("hccquarterly: Pre-ART defaulted_", partDefaulted, h
 				.parameterMap("startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "22", "Pre-ART defaulted", i,
@@ -592,6 +592,42 @@ public class SetupHccQuarterly {
 				.parameterMap("startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "23", "Pre-ART died", i, null);
+		
+		// any other outcome
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hccquarterly: Pre-ART any other outcome_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"partEver",
+				new Mapped(partEver, h.parameterMap("startedOnOrAfter",
+						"${startedOnOrBefore-100y}", "startedOnOrBefore",
+						"${startedOnOrBefore}", "location", "${location}")));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partActiveWithoutDefaulters, h.parameterMap("startedOnOrBefore",
+						"${startedOnOrBefore}", "location", "${location}")));
+		ccd.getSearches().put(
+				"partOnArt",
+				new Mapped(partOnArt, h.parameterMap("startedOnOrBefore",
+						"${startedOnOrBefore}", "location", "${location}")));
+		ccd.getSearches().put(
+				"partTransferredOut",
+				new Mapped(partTransferredOut, h.parameterMap("startedOnOrBefore",
+						"${startedOnOrBefore}", "location", "${location}")));
+		ccd.getSearches().put(
+				"partDefaulted",
+				new Mapped(partDefaulted, h.parameterMap("startedOnOrBefore",
+						"${startedOnOrBefore}", "location", "${location}")));
+		ccd.setCompositionString("partEver AND NOT (part OR partOnArt OR partTransferredOut OR partDefaulted)");
+		h.replaceCohortDefinition(ccd);
+		i = h.newCountIndicator("hccquarterly: Pre-ART any other outcome_", ccd, h
+				.parameterMap("startedOnOrBefore", "${endDate}", "location",
+						"${location}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "23_check", "Pre-ART any other outcome", i,
+				null);
+
 	}
 
 }
