@@ -131,9 +131,24 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
-		pscd.setName(prefix + ": Having state at location_");
+		pscd.setName(prefix + ": ART ever at location_");
 		pscd.setState(h.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		pscd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(pscd);
+		return pscd;
+	}
+
+	public static CohortDefinition artPeriodEnrolledAtLocation(
+			String prefix) {
+		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
+		pscd.setName(prefix + ": ART at location_");
+		pscd.setState(h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals"));
+		pscd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
@@ -298,6 +313,36 @@ public class ApzuReportElementsArt {
 				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
 						.parameterMap("startedOnOrAfter",
 								"${startedOnOrBefore-100y}", "startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.getSearches().put(
+				"art",
+				new Mapped(artEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}", "location",
+								"${location}")));
+		ccd.setCompositionString("part AND art");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition partPeriodOnArtAtLocation(
+			String prefix,
+			CohortDefinition partEverEnrolledAtLocationStartedOnOrBefore,
+			CohortDefinition artEverEnrolledAtLocationStartedOnOrBefore) {
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": On ART from Pre-ART in period at location_");
+		ccd.addParameter(new Parameter("location", "location", Location.class));
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.addParameter(new Parameter("startedOnOrAfter",
+				"startedOnOrAfter", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partEverEnrolledAtLocationStartedOnOrBefore, h
+						.parameterMap("startedOnOrAfter",
+								"${startedOnOrAfter}", "startedOnOrBefore",
 								"${startedOnOrBefore}", "location",
 								"${location}")));
 		ccd.getSearches().put(
@@ -479,13 +524,33 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	public static CohortDefinition artMissedAppointmentAtLocationOnOrBefore(String string) {
+		Concept CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
+		.getConceptByName("Appointment date");
+		EncounterType PART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
+		.getEncounterType("ART_FOLLOWUP");
+
+		DateObsCohortDefinition dod = new DateObsCohortDefinition();
+		dod.setName(string + ": ART Missed Appointments_");
+		dod.setTimeModifier(TimeModifier.MAX);
+		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
+		dod.setOperator1(RangeComparator.LESS_THAN);
+		dod.setEncounterTypeList(Arrays.asList(PART_FOLLOWUP_ENCOUNTER));
+		dod.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		dod.addParameter(new Parameter("location", "Location",
+				Location.class));
+		dod.addParameter(new Parameter("value1", "value1", Date.class));
+		h.replaceCohortDefinition(dod);
+		return dod;
+	}
+
 	public static CohortDefinition hccMissedAppointmentAtLocationOnOrBefore(String string) {
 		Concept CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
 		.getConceptByName("Appointment date");
 		EncounterType PART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
 		.getEncounterType("PART_FOLLOWUP");
 		EncounterType EXPOSED_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
-		.getEncounterType("PART_FOLLOWUP");
+		.getEncounterType("EXPOSED_FOLLOWUP");
 
 		DateObsCohortDefinition dod = new DateObsCohortDefinition();
 		dod.setName(string + ": HCC Missed Appointments_");
@@ -493,6 +558,26 @@ public class ApzuReportElementsArt {
 		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
 		dod.setOperator1(RangeComparator.LESS_THAN);
 		dod.setEncounterTypeList(Arrays.asList(PART_FOLLOWUP_ENCOUNTER, EXPOSED_FOLLOWUP_ENCOUNTER));
+		dod.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		dod.addParameter(new Parameter("location", "Location",
+				Location.class));
+		dod.addParameter(new Parameter("value1", "value1", Date.class));
+		h.replaceCohortDefinition(dod);
+		return dod;
+	}
+
+	public static CohortDefinition partMissedAppointmentAtLocationOnOrBefore(String string) {
+		Concept CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
+		.getConceptByName("Appointment date");
+		EncounterType PART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
+		.getEncounterType("PART_FOLLOWUP");
+
+		DateObsCohortDefinition dod = new DateObsCohortDefinition();
+		dod.setName(string + ": Pre-ART Missed Appointments_");
+		dod.setTimeModifier(TimeModifier.MAX);
+		dod.setQuestion(CONCEPT_APPOINTMENT_DATE);
+		dod.setOperator1(RangeComparator.LESS_THAN);
+		dod.setEncounterTypeList(Arrays.asList(PART_FOLLOWUP_ENCOUNTER));
 		dod.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		dod.addParameter(new Parameter("location", "Location",
 				Location.class));
