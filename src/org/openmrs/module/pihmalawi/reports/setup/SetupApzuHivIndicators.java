@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
@@ -66,7 +65,7 @@ public class SetupApzuHivIndicators {
 	}
 
 	public ReportDefinition[] setup() throws Exception {
-		deleteReportElements();
+		delete();
 
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
 		createCohortDefinitions(rd);
@@ -339,7 +338,7 @@ public class SetupApzuHivIndicators {
 		}
 	}
 
-	public void deleteReportElements() {
+	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
 			if (rd.getName().startsWith(reportName)) {

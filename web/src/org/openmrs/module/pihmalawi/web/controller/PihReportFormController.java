@@ -6,6 +6,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.Helper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
 import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
+import org.openmrs.module.pihmalawi.reports.setup.SetupApzuHivIndicators;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
@@ -14,6 +15,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
@@ -28,6 +30,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PihReportFormController {
+
+	@RequestMapping("/module/pihmalawi/remove_apzu_hiv.form")
+	public void removeApzuHiv() {
+		new SetupApzuHivIndicators(new Helper()).delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_apzu_hiv.form")
+	public void registerApzuHiv() throws Exception {
+		new SetupApzuHivIndicators(new Helper()).setup();
+	}
+
 
 	@RequestMapping("/module/pihmalawi/remove_tb_register.form")
 	public void removeTbRegister() {
@@ -198,6 +211,16 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_arvquarterly.form")
 	public void removeArvQuarterly() {
 		new SetupArvQuarterly(new Helper()).delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_hccquarterly.form")
+	public void registerHccQuarterly() throws Exception {
+		new SetupHccQuarterly(new Helper()).setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_hccquarterly.form")
+	public void removeHccQuarterly() {
+		new SetupHccQuarterly(new Helper()).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hivdataquality.form")
