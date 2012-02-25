@@ -1,11 +1,8 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,20 +10,16 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
-import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.Helper;
 import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.ObsAfterStateStartCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.GenderCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
-import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -58,8 +51,9 @@ public class SetupHccQuarterly {
 	private final EncounterType PART_FOLLOWUP_ENCOUNTER;
 	private final EncounterType EXPOSED_CHILD_FOLLOWUP_ENCOUNTER;
 
-	private CohortDefinition hccEverEnrolled;
+	private CohortDefinition hccEnrolledInPeriod;
 	private CohortDefinition hivDied;
+	private CohortDefinition partEnrolledInPeriod;
 	private CohortDefinition partEver;
 	private CohortDefinition artEver;
 	private CohortDefinition partDied;
@@ -67,9 +61,8 @@ public class SetupHccQuarterly {
 	private CohortDefinition partOnArt;
 	private CohortDefinition hccMissingAppointment;
 	private CohortDefinition partActive;
-
 	private CohortDefinition hivTransferredOut;
-
+	private CohortDefinition exposedEnrolledInPeriod;
 	private CohortDefinition exposedEver;
 
 	/** little hack to have a start date. maybe we could live without it */
@@ -125,8 +118,9 @@ public class SetupHccQuarterly {
 	private PeriodIndicatorReportDefinition createReportDefinition() {
 
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
-		rd.setBaseCohortDefinition(hccEverEnrolled, h.parameterMap(
-				"startedOnOrAfter", "${startDate-100y}", "startedOnOrBefore", "${endDate}", "location", "${location}"));
+		rd.setBaseCohortDefinition(hccEnrolledInPeriod, h.parameterMap(
+				"startedOnOrAfter", "${startDate-100y}", "startedOnOrBefore",
+				"${endDate}", "location", "${location}"));
 		rd.setName("HCC Quarterly_");
 		rd.setupDataSetDefinition();
 		rd.addDimension(
@@ -148,9 +142,9 @@ public class SetupHccQuarterly {
 		totalRegisteredTimeframe.addParameter(new Parameter("location",
 				"Location", Location.class));
 		totalRegisteredTimeframe.addCohortDefinition("quarter",
-				hccEverEnrolled, h.parameterMap("startedOnOrAfter",
-						"${startDate}", "startedOnOrBefore",
-						"${endDate}", "location", "${location}"));
+				hccEnrolledInPeriod, h.parameterMap("startedOnOrAfter",
+						"${startDate}", "startedOnOrBefore", "${endDate}",
+						"location", "${location}"));
 
 		h.replaceDefinition(totalRegisteredTimeframe);
 	}
@@ -163,25 +157,30 @@ public class SetupHccQuarterly {
 		hivDied = ApzuReportElementsArt.hivDiedAtLocationOnDate("hccquarterly");
 		hivTransferredOut = ApzuReportElementsArt
 				.hivTransferredOutAtLocationOnDate("hccquarterly");
+		partEnrolledInPeriod = ApzuReportElementsArt
+				.partEnrolledAtLocationInPeriod("hccquarterly");
 		partEver = ApzuReportElementsArt
-		.partEverEnrolledAtLocationStartedOnOrBefore("hccquarterly");
+				.partEverEnrolledAtLocationOnDate("hccquarterly");
 		exposedEver = ApzuReportElementsArt
-		.exposedEverEnrolledAtLocationStartedOnOrBefore("hccquarterly");
-		hccEverEnrolled = ApzuReportElementsArt
-		.hccEverEnrolledAtLocationStartedOnOrBefore("hccquarterly", partEver, exposedEver);
+				.exposedEverEnrolledAtLocationOnDate("hccquarterly");
+		exposedEnrolledInPeriod = ApzuReportElementsArt
+				.exposedEnrolledAtLocationInPeriod("hccquarterly");
+		hccEnrolledInPeriod = ApzuReportElementsArt
+				.hccEnrolledAtLocationInPeriod("hccquarterly",
+						partEnrolledInPeriod, exposedEnrolledInPeriod);
 		artEver = ApzuReportElementsArt
-				.artEverEnrolledAtLocationStartedOnOrBefore("hccquarterly");
-		partDied = ApzuReportElementsArt.partDiedAtLocationStartedOnOrBefore(
+				.artEverEnrolledAtLocationOnDate("hccquarterly");
+		partDied = ApzuReportElementsArt.partDiedAtLocationOnDate(
 				"hccquarterly", partEver, artEver, hivDied);
 		partTransferredOut = ApzuReportElementsArt
-				.partTransferredOutAtLocationStartedOnOrBefore("hccquarterly",
-						partEver, artEver, hivTransferredOut);
-		partOnArt = ApzuReportElementsArt.partOnArtAtLocationStartedOnOrBefore(
+				.partTransferredOutAtLocationOnDate("hccquarterly", partEver,
+						artEver, hivTransferredOut);
+		partOnArt = ApzuReportElementsArt.partOnArtAtLocationOnDate(
 				"hccquarterly", partEver, artEver);
 		hccMissingAppointment = ApzuReportElementsArt
-				.hccMissedAppointmentAtLocationOnOrBefore("hccquarterly");
+				.hccMissedAppointmentAtLocationOnDate("hccquarterly");
 		partActive = ApzuReportElementsArt
-				.partActiveWithDefaultersAtLocationOnOrBefore("hccquarterly");
+				.partActiveWithDefaultersAtLocationOnDate("hccquarterly");
 
 		// in state at location (used for primary outcomes)
 		// todo, exclude patients ever been in On ART at this location
@@ -217,46 +216,48 @@ public class SetupHccQuarterly {
 
 	private void i17_i18_exposed_part(PeriodIndicatorReportDefinition rd) {
 		CohortIndicator i = h.newCountIndicator(
-				"hccquarterly: Total exposed in quarter_", exposedEver,
-				h.parameterMap("startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}", "location",
-						"${location}"));
+				"hccquarterly: Total exposed in quarter_", exposedEnrolledInPeriod, h
+						.parameterMap("startedOnOrAfter", "${startDate}",
+								"startedOnOrBefore", "${endDate}", "location",
+								"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "17_quarter",
 				"Total exposed in quarter", i, null);
 
 		i = h.newCountIndicator("hccquarterly: Total exposed ever_",
-				exposedEver, h.parameterMap("startedOnOrAfter",
-						"${startDate-100y}", "startedOnOrBefore",
-						"${endDate}", "location", "${location}"));
+				exposedEnrolledInPeriod, h.parameterMap("startedOnOrAfter",
+						"${startDate-100y}", "startedOnOrBefore", "${endDate}",
+						"location", "${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "17_ever",
 				"Total exposed ever", i, null);
 
-		 i = h.newCountIndicator(
-				"hccquarterly: Total part in quarter_", partEver,
-				h.parameterMap("startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}", "location",
+		i = h.newCountIndicator("hccquarterly: Total part in quarter_",
+				partEnrolledInPeriod, h.parameterMap("startedOnOrAfter", "${startDate}",
+						"startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "18_quarter",
 				"Total Pre-ART in quarter", i, null);
 
-		i = h.newCountIndicator("hccquarterly: Total part ever_",
-				partEver, h.parameterMap("startedOnOrAfter",
-						"${startDate-100y}", "startedOnOrBefore",
-						"${endDate}", "location", "${location}"));
+		i = h.newCountIndicator("hccquarterly: Total part ever_", partEnrolledInPeriod, h
+				.parameterMap("startedOnOrAfter", "${startDate-100y}",
+						"startedOnOrBefore", "${endDate}", "location",
+						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "18_ever",
 				"Total Pre-ART ever", i, null);
-}
+	}
 
 	private void i6_registered(PeriodIndicatorReportDefinition rd) {
 		CohortIndicator i = h.newCountIndicator(
-				"hccquarterly: Total registered in quarter_", hccEverEnrolled,
-				h.parameterMap("startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}", "location",
-						"${location}"));
+				"hccquarterly: Total registered in quarter_",
+				hccEnrolledInPeriod, h.parameterMap("startedOnOrAfter",
+						"${startDate}", "startedOnOrBefore", "${endDate}",
+						"location", "${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "6_quarter",
 				"Total registered in quarter", i, null);
 
 		i = h.newCountIndicator("hccquarterly: Total registered ever_",
-				hccEverEnrolled, h.parameterMap("startedOnOrAfter",
-						"${startDate-100y}", "startedOnOrBefore",
-						"${endDate}", "location", "${location}"));
+				hccEnrolledInPeriod, h.parameterMap("startedOnOrAfter",
+						"${startDate-100y}", "startedOnOrBefore", "${endDate}",
+						"location", "${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "6_ever",
 				"Total registered ever", i, null);
 	}
@@ -278,124 +279,90 @@ public class SetupHccQuarterly {
 	}
 
 	private void i11_i12_females(PeriodIndicatorReportDefinition rd) {
-		/* todo, pregnancy unclear
-		// gender
-		GenderCohortDefinition femalecd = new GenderCohortDefinition();
-		femalecd.setName("hccquarterly: females_");
-		femalecd.setFemaleIncluded(true);
-		h.replaceCohortDefinition(femalecd);
-
-		// pregnancy
-		CodedObsCohortDefinition pregnantcocd = new CodedObsCohortDefinition();
-		pregnantcocd.setName("hccquarterly: pregnant_or_not_");
-		pregnantcocd.addParameter(new Parameter("onOrAfter", "On Or After",
-				Date.class));
-		pregnantcocd.addParameter(new Parameter("onOrBefore", "On Or Before",
-				Date.class));
-		pregnantcocd.addParameter(new Parameter("locationList",
-				"Location List", List.class));
-		pregnantcocd.addParameter(new Parameter("valueList", "Value List",
-				List.class));
-		pregnantcocd.setQuestion(Context.getConceptService().getConcept(
-				"PREGNANCY STATUS"));
-		pregnantcocd.setTimeModifier(TimeModifier.ANY);
-		pregnantcocd.setOperator(SetComparator.IN);
-		pregnantcocd.setEncounterTypeList(Arrays.asList(PART_INITIAL_ENCOUNTER,
-				PART_FOLLOWUP_ENCOUNTER));
-		h.replaceCohortDefinition(pregnantcocd);
-
-		// pregnant within one month
-		ObsAfterStateStartCohortDefinition pregnantoasscd = new ObsAfterStateStartCohortDefinition();
-		pregnantoasscd.setName("hccquarterly: pregnant_within_month_or_not_");
-		pregnantoasscd.addParameter(new Parameter("startedOnOrAfter",
-				"Started On Or After", Date.class));
-		pregnantoasscd.addParameter(new Parameter("endedOnOrBefore",
-				"Ended On Or Before", Date.class));
-		pregnantoasscd.addParameter(new Parameter("locationList",
-				"Location List", List.class));
-		pregnantoasscd.addParameter(new Parameter("valueList", "Value List",
-				List.class));
-		pregnantoasscd.setQuestion(Context.getConceptService().getConcept(
-				"PREGNANCY STATUS"));
-		pregnantoasscd.setState(STATE_ON_ART);
-		pregnantoasscd.setTimeModifier(TimeModifier.ANY);
-		pregnantoasscd.setOperator(SetComparator.IN);
-		pregnantoasscd.setEncounterTypeList(Arrays.asList(
-				PART_INITIAL_ENCOUNTER, PART_FOLLOWUP_ENCOUNTER));
-		h.replaceCohortDefinition(pregnantoasscd);
-
-		// i11 non-pregnant
-		Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
-		baseCohortDefs.put("Females", new Mapped<CohortDefinition>(femalecd,
-				null));
-		baseCohortDefs.put(
-				"Pregnant",
-				new Mapped<CohortDefinition>(pregnantcocd, h.parameterMap(
-						"onOrAfter",
-						"${startDate}",
-						"onOrBefore",
-						"${endDate}",
-						"locationList",
-						"${location}",
-						"valueList",
-						Arrays.asList(Context.getConceptService().getConcept(
-								"Yes"))))); // using
-											// AND
-											// NOT
-											// composition
-
-		CohortIndicator i = h.createCompositionIndicator(
-				"hccquarterly: non-pregnant_females", "AND NOT", h
-						.parameterMap("startDate", "${startDate}", "endDate",
-								"${endDate}", "location", "${location}"),
-				baseCohortDefs);
-
-		PeriodIndicatorReportUtil.addColumn(rd, "11_quarter",
-				"Non-pregnant females (all ages)", i,
-				h.hashMap("registered", "quarter"));
-		PeriodIndicatorReportUtil.addColumn(rd, "11_ever",
-				"Non-pregnant females (all ages)", i, null);
-
-		// i12 pregnant
-		baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
-		baseCohortDefs.put("Females", new Mapped<CohortDefinition>(femalecd,
-				null));
-		baseCohortDefs.put(
-				"Pregnant",
-				new Mapped<CohortDefinition>(pregnantcocd, h.parameterMap(
-						"onOrAfter",
-						"${startDate}",
-						"onOrBefore",
-						"${endDate}",
-						"locationList",
-						"${location}",
-						"valueList",
-						Arrays.asList(Context.getConceptService().getConcept(
-								"Yes")))));
-		baseCohortDefs.put(
-				"MonthPregnant",
-				new Mapped<CohortDefinition>(pregnantoasscd, h.parameterMap(
-						"startedOnOrAfter",
-						"${startDate}",
-						"endedOnOrBefore",
-						"${endDate}",
-						"locationList",
-						"${location}",
-						"valueList",
-						Arrays.asList(Context.getConceptService().getConcept(
-								"Yes")))));
-
-		i = h.createCompositionIndicator("hccquarterly: pregnant females",
-				"Females AND (Pregnant OR MonthPregnant)", h.parameterMap(
-						"startDate", "${startDate}", "endDate", "${endDate}",
-						"location", "${location}"), baseCohortDefs, true);
-
-		PeriodIndicatorReportUtil.addColumn(rd, "12_quarter",
-				"Pregnant females (all ages)", i,
-				h.hashMap("registered", "quarter"));
-		PeriodIndicatorReportUtil.addColumn(rd, "12_ever",
-				"Pregnant females (all ages)", i, null);
-				*/
+		/*
+		 * todo, pregnancy unclear // gender GenderCohortDefinition femalecd =
+		 * new GenderCohortDefinition();
+		 * femalecd.setName("hccquarterly: females_");
+		 * femalecd.setFemaleIncluded(true);
+		 * h.replaceCohortDefinition(femalecd);
+		 * 
+		 * // pregnancy CodedObsCohortDefinition pregnantcocd = new
+		 * CodedObsCohortDefinition();
+		 * pregnantcocd.setName("hccquarterly: pregnant_or_not_");
+		 * pregnantcocd.addParameter(new Parameter("onOrAfter", "On Or After",
+		 * Date.class)); pregnantcocd.addParameter(new Parameter("onOrBefore",
+		 * "On Or Before", Date.class)); pregnantcocd.addParameter(new
+		 * Parameter("locationList", "Location List", List.class));
+		 * pregnantcocd.addParameter(new Parameter("valueList", "Value List",
+		 * List.class));
+		 * pregnantcocd.setQuestion(Context.getConceptService().getConcept(
+		 * "PREGNANCY STATUS")); pregnantcocd.setTimeModifier(TimeModifier.ANY);
+		 * pregnantcocd.setOperator(SetComparator.IN);
+		 * pregnantcocd.setEncounterTypeList
+		 * (Arrays.asList(PART_INITIAL_ENCOUNTER, PART_FOLLOWUP_ENCOUNTER));
+		 * h.replaceCohortDefinition(pregnantcocd);
+		 * 
+		 * // pregnant within one month ObsAfterStateStartCohortDefinition
+		 * pregnantoasscd = new ObsAfterStateStartCohortDefinition();
+		 * pregnantoasscd
+		 * .setName("hccquarterly: pregnant_within_month_or_not_");
+		 * pregnantoasscd.addParameter(new Parameter("startedOnOrAfter",
+		 * "Started On Or After", Date.class)); pregnantoasscd.addParameter(new
+		 * Parameter("endedOnOrBefore", "Ended On Or Before", Date.class));
+		 * pregnantoasscd.addParameter(new Parameter("locationList",
+		 * "Location List", List.class)); pregnantoasscd.addParameter(new
+		 * Parameter("valueList", "Value List", List.class));
+		 * pregnantoasscd.setQuestion(Context.getConceptService().getConcept(
+		 * "PREGNANCY STATUS")); pregnantoasscd.setState(STATE_ON_ART);
+		 * pregnantoasscd.setTimeModifier(TimeModifier.ANY);
+		 * pregnantoasscd.setOperator(SetComparator.IN);
+		 * pregnantoasscd.setEncounterTypeList(Arrays.asList(
+		 * PART_INITIAL_ENCOUNTER, PART_FOLLOWUP_ENCOUNTER));
+		 * h.replaceCohortDefinition(pregnantoasscd);
+		 * 
+		 * // i11 non-pregnant Map<String, Mapped<? extends CohortDefinition>>
+		 * baseCohortDefs = new LinkedHashMap<String, Mapped<? extends
+		 * CohortDefinition>>(); baseCohortDefs.put("Females", new
+		 * Mapped<CohortDefinition>(femalecd, null)); baseCohortDefs.put(
+		 * "Pregnant", new Mapped<CohortDefinition>(pregnantcocd,
+		 * h.parameterMap( "onOrAfter", "${startDate}", "onOrBefore",
+		 * "${endDate}", "locationList", "${location}", "valueList",
+		 * Arrays.asList(Context.getConceptService().getConcept( "Yes"))))); //
+		 * using // AND // NOT // composition
+		 * 
+		 * CohortIndicator i = h.createCompositionIndicator(
+		 * "hccquarterly: non-pregnant_females", "AND NOT", h
+		 * .parameterMap("startDate", "${startDate}", "endDate", "${endDate}",
+		 * "location", "${location}"), baseCohortDefs);
+		 * 
+		 * PeriodIndicatorReportUtil.addColumn(rd, "11_quarter",
+		 * "Non-pregnant females (all ages)", i, h.hashMap("registered",
+		 * "quarter")); PeriodIndicatorReportUtil.addColumn(rd, "11_ever",
+		 * "Non-pregnant females (all ages)", i, null);
+		 * 
+		 * // i12 pregnant baseCohortDefs = new LinkedHashMap<String, Mapped<?
+		 * extends CohortDefinition>>(); baseCohortDefs.put("Females", new
+		 * Mapped<CohortDefinition>(femalecd, null)); baseCohortDefs.put(
+		 * "Pregnant", new Mapped<CohortDefinition>(pregnantcocd,
+		 * h.parameterMap( "onOrAfter", "${startDate}", "onOrBefore",
+		 * "${endDate}", "locationList", "${location}", "valueList",
+		 * Arrays.asList(Context.getConceptService().getConcept( "Yes")))));
+		 * baseCohortDefs.put( "MonthPregnant", new
+		 * Mapped<CohortDefinition>(pregnantoasscd, h.parameterMap(
+		 * "startedOnOrAfter", "${startDate}", "endedOnOrBefore", "${endDate}",
+		 * "locationList", "${location}", "valueList",
+		 * Arrays.asList(Context.getConceptService().getConcept( "Yes")))));
+		 * 
+		 * i = h.createCompositionIndicator("hccquarterly: pregnant females",
+		 * "Females AND (Pregnant OR MonthPregnant)", h.parameterMap(
+		 * "startDate", "${startDate}", "endDate", "${endDate}", "location",
+		 * "${location}"), baseCohortDefs, true);
+		 * 
+		 * PeriodIndicatorReportUtil.addColumn(rd, "12_quarter",
+		 * "Pregnant females (all ages)", i, h.hashMap("registered",
+		 * "quarter")); PeriodIndicatorReportUtil.addColumn(rd, "12_ever",
+		 * "Pregnant females (all ages)", i, null);
+		 */
 	}
 
 	private void i13_i14_i15_i16_age(PeriodIndicatorReportDefinition rd) {
@@ -529,9 +496,10 @@ public class SetupHccQuarterly {
 		// in part and not missing appointment
 		CompositionCohortDefinition partActiveWithoutDefaulters = new CompositionCohortDefinition();
 		partActiveWithoutDefaulters.setName("hccquarterly: Pre-ART active_");
-		partActiveWithoutDefaulters.addParameter(new Parameter("location", "location", Location.class));
-		partActiveWithoutDefaulters.addParameter(new Parameter("startedOnOrBefore",
-				"startedOnOrBefore", Date.class));
+		partActiveWithoutDefaulters.addParameter(new Parameter("location",
+				"location", Location.class));
+		partActiveWithoutDefaulters.addParameter(new Parameter(
+				"startedOnOrBefore", "startedOnOrBefore", Date.class));
 		partActiveWithoutDefaulters.getSearches().put(
 				"part",
 				new Mapped(partActive, h.parameterMap("onDate",
@@ -541,11 +509,13 @@ public class SetupHccQuarterly {
 				new Mapped(hccMissingAppointment, h.parameterMap("onOrBefore",
 						"${startedOnOrBefore}", "location", "${location}",
 						"value1", "${startedOnOrBefore-8w}")));
-		partActiveWithoutDefaulters.setCompositionString("part AND NOT defaulted");
+		partActiveWithoutDefaulters
+				.setCompositionString("part AND NOT defaulted");
 		h.replaceCohortDefinition(partActiveWithoutDefaulters);
 		CohortIndicator i = h.newCountIndicator("hccquarterly: Pre-ART active",
-				partActiveWithoutDefaulters, h.parameterMap("startedOnOrBefore", "${endDate}",
-						"location", "${location}"));
+				partActiveWithoutDefaulters, h.parameterMap(
+						"startedOnOrBefore", "${endDate}", "location",
+						"${location}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "19", "Pre-ART active", i, null);
 
@@ -567,7 +537,8 @@ public class SetupHccQuarterly {
 		// in part and missing appointment
 		CompositionCohortDefinition partDefaulted = new CompositionCohortDefinition();
 		partDefaulted.setName("hccquarterly: Pre-ART defaulted_");
-		partDefaulted.addParameter(new Parameter("location", "location", Location.class));
+		partDefaulted.addParameter(new Parameter("location", "location",
+				Location.class));
 		partDefaulted.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		partDefaulted.getSearches().put(
@@ -581,9 +552,9 @@ public class SetupHccQuarterly {
 						"value1", "${startedOnOrBefore-8w}")));
 		partDefaulted.setCompositionString("part AND defaulted");
 		h.replaceCohortDefinition(partDefaulted);
-		i = h.newCountIndicator("hccquarterly: Pre-ART defaulted_", partDefaulted, h
-				.parameterMap("startedOnOrBefore", "${endDate}", "location",
-						"${location}"));
+		i = h.newCountIndicator("hccquarterly: Pre-ART defaulted_",
+				partDefaulted, h.parameterMap("startedOnOrBefore",
+						"${endDate}", "location", "${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "22", "Pre-ART defaulted", i,
 				null);
 
@@ -592,7 +563,7 @@ public class SetupHccQuarterly {
 				.parameterMap("startedOnOrBefore", "${endDate}", "location",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "23", "Pre-ART died", i, null);
-		
+
 		// any other outcome
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
 		ccd.setName("hccquarterly: Pre-ART any other outcome_");
@@ -601,32 +572,34 @@ public class SetupHccQuarterly {
 				"startedOnOrBefore", Date.class));
 		ccd.getSearches().put(
 				"partEver",
-				new Mapped(partEver, h.parameterMap("startedOnOrAfter",
+				new Mapped(partEnrolledInPeriod, h.parameterMap("startedOnOrAfter",
 						"${startedOnOrBefore-100y}", "startedOnOrBefore",
 						"${startedOnOrBefore}", "location", "${location}")));
 		ccd.getSearches().put(
 				"part",
-				new Mapped(partActiveWithoutDefaulters, h.parameterMap("startedOnOrBefore",
-						"${startedOnOrBefore}", "location", "${location}")));
+				new Mapped(partActiveWithoutDefaulters, h.parameterMap(
+						"startedOnOrBefore", "${startedOnOrBefore}",
+						"location", "${location}")));
 		ccd.getSearches().put(
 				"partOnArt",
 				new Mapped(partOnArt, h.parameterMap("startedOnOrBefore",
 						"${startedOnOrBefore}", "location", "${location}")));
 		ccd.getSearches().put(
 				"partTransferredOut",
-				new Mapped(partTransferredOut, h.parameterMap("startedOnOrBefore",
-						"${startedOnOrBefore}", "location", "${location}")));
+				new Mapped(partTransferredOut, h.parameterMap(
+						"startedOnOrBefore", "${startedOnOrBefore}",
+						"location", "${location}")));
 		ccd.getSearches().put(
 				"partDefaulted",
 				new Mapped(partDefaulted, h.parameterMap("startedOnOrBefore",
 						"${startedOnOrBefore}", "location", "${location}")));
 		ccd.setCompositionString("partEver AND NOT (part OR partOnArt OR partTransferredOut OR partDefaulted)");
 		h.replaceCohortDefinition(ccd);
-		i = h.newCountIndicator("hccquarterly: Pre-ART any other outcome_", ccd, h
-				.parameterMap("startedOnOrBefore", "${endDate}", "location",
-						"${location}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "23_check", "Pre-ART any other outcome", i,
-				null);
+		i = h.newCountIndicator("hccquarterly: Pre-ART any other outcome_",
+				ccd, h.parameterMap("startedOnOrBefore", "${endDate}",
+						"location", "${location}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "23_check",
+				"Pre-ART any other outcome", i, null);
 
 	}
 

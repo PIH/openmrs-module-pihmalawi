@@ -55,9 +55,6 @@ public class SetupArtRegister {
 		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd, "ART Register Appointment Adherence_", m);
-
-		
-		
 	}
 
 	protected ReportDesign createHtmlBreakdown(ReportDefinition rd)
@@ -96,7 +93,7 @@ public class SetupArtRegister {
 		rd.setupDataSetDefinition();
 
 		CohortDefinition cd = ApzuReportElementsArt
-				.artEverEnrolledAtLocationStartedOnOrBefore(prefix);
+				.artEverEnrolledAtLocationOnDate(prefix);
 		CohortIndicator i = h.newCountIndicator(prefix + "Register_", cd
 				.getName(), h.parameterMap("location", "${location}",
 				"startedOnOrBefore", "${endDate}"));

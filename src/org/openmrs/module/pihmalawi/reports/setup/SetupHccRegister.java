@@ -93,14 +93,14 @@ public class SetupHccRegister {
 		rd.setName("HCC Register_");
 		rd.setupDataSetDefinition();
 
-		CohortDefinition partEver = ApzuReportElementsArt.partEverEnrolledAtLocationStartedOnOrBefore(prefix);
-		CohortDefinition exposedEver = ApzuReportElementsArt.exposedEverEnrolledAtLocationStartedOnOrBefore(prefix);
-
+		CohortDefinition partEver = ApzuReportElementsArt.partEverEnrolledAtLocationOnDate(prefix);
+		CohortDefinition exposedEver = ApzuReportElementsArt.exposedEverEnrolledAtLocationOnDate(prefix);
 		CohortDefinition cd = ApzuReportElementsArt
-				.hccEverEnrolledAtLocationStartedOnOrBefore(prefix, partEver, exposedEver);
+				.hccEverEnrolledAtLocationOnDate(prefix, partEver, exposedEver);
+
 		CohortIndicator i = h.newCountIndicator(prefix + "Register_", cd
 				.getName(), h.parameterMap("location", "${location}",
-				"startedOnOrBefore", "${endDate}", "startedOnOrAfter", "${endDate-100y}"));
+				"startedOnOrBefore", "${endDate}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "breakdown", "Breakdown", i, null);
 
