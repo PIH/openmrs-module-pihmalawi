@@ -114,6 +114,10 @@ Appointments for Location and Date: <a href="${pageContext.request.contextPath}/
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_appointments.form">Remove</a>
 <br/>
 
+PIH Quarterly Cross Site Indicators: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_pih_xsite.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_pih_xsite.form">Remove</a>
+<br/>
+
 <h3>Everything</h3>
 All reports: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_all.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_all.form">Remove</a>

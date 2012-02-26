@@ -19,6 +19,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
+import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuaterlyCrossSite;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupHivWeeklyOutcome;
@@ -31,6 +32,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PihReportFormController {
 
+	@RequestMapping("/module/pihmalawi/remove_pih_xsite.form")
+	public void removePihXSite() {
+		new SetupPihQuaterlyCrossSite(new Helper()).delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_pih_xsite.form")
+	public void registerPihXSite() throws Exception {
+		new SetupPihQuaterlyCrossSite(new Helper()).setup();
+	}
+
 	@RequestMapping("/module/pihmalawi/remove_apzu_hiv.form")
 	public void removeApzuHiv() {
 		new SetupApzuHivIndicators(new Helper()).delete();
@@ -40,7 +51,6 @@ public class PihReportFormController {
 	public void registerApzuHiv() throws Exception {
 		new SetupApzuHivIndicators(new Helper()).setup();
 	}
-
 
 	@RequestMapping("/module/pihmalawi/remove_tb_register.form")
 	public void removeTbRegister() {
