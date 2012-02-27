@@ -41,6 +41,10 @@ public class SetupArtRegister {
 		createHtmlBreakdown(rd);
 		createAppointmentAdherenceBreakdown(rd);
 
+		 rd = createReportDefinitionForAllLocations("artregcomplete");
+		h.replaceReportDefinition(rd);
+		createHtmlBreakdown(rd);
+
 		return new ReportDefinition[] { rd };
 	}
 
@@ -81,7 +85,10 @@ public class SetupArtRegister {
 		}
 		h.purgeDefinition(DataSetDefinition.class, "ART Register_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "ART Register_");
+		h.purgeDefinition(DataSetDefinition.class, "ART Register For All Locations (SLOW)_ Data Set");
+		h.purgeDefinition(ReportDefinition.class, "ART Register For All Locations (SLOW)_");
 		h.purgeAll("artreg");
+		h.purgeAll("artregcomplete");
 	}
 
 	private ReportDefinition createReportDefinition(String prefix) {
@@ -94,8 +101,27 @@ public class SetupArtRegister {
 
 		CohortDefinition cd = ApzuReportElementsArt
 				.artEverEnrolledAtLocationOnDate(prefix);
-		CohortIndicator i = h.newCountIndicator(prefix + "Register_", cd
+		CohortIndicator i = h.newCountIndicator(prefix + ": Register_", cd
 				.getName(), h.parameterMap("location", "${location}",
+				"startedOnOrBefore", "${endDate}"));
+		PeriodIndicatorReportUtil
+				.addColumn(rd, "breakdown", "Breakdown", i, null);
+
+		return rd;
+	}
+	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
+		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
+		rd.setName("ART Register For All Locations (SLOW)_");
+		rd.setupDataSetDefinition();
+
+		CohortDefinition cd = ApzuReportElementsArt
+				.artEverEnrolledOnDate(prefix);
+		CohortIndicator i = h.newCountIndicator(prefix + ": Register For All Locations", cd
+				.getName(), h.parameterMap(
 				"startedOnOrBefore", "${endDate}"));
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "breakdown", "Breakdown", i, null);
