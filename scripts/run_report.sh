@@ -55,4 +55,4 @@ echo "  Cleanup"
 rm -f cookies.txt index.htm sql sql2
 
 # give it some time to process the mail
-sleep 120
+sleep 180

@@ -18,27 +18,6 @@ ONE_MONTH_AGO=`date --date "1 Month ago" +%d`%2F`date --date "1 Month ago" +%m`%
 #ONE_WEEK_AGO=`date -v-6d +%d`%2F`date -v-6d +%m`%2F`date -v-6d +%Y`
 #ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
 
-# Pre-ART Missed Appointment
-#./run_report.sh \
-#  "Pre-ART Missed Appointment_" \
-#  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-#  "Pre-ART Missed Appointment Overview (Excel)_" \
-#  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
-#  "" \
-#  Pre_ART_Missed_Appointment-`echo $TODAY`.xls
-
-# HIV Weekly Outcome
-FILE=HIV_Weekly_Outcome-`echo $TODAY`.xls
-run_report.sh \
-  "HIV Weekly Outcome_" \
-  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "HIV Weekly Outcome Overview Upper Neno (Excel)_" \
-  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
-  "" \
-  $FILE
-echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Weekly Outcome $TODAY" "$MAIL"
-mv $FILE /home/emradmin/pihmalawi/scripts/history
-
 # ART Missed Appointment
 FILE=ART_Missed_Appointment-`echo $TODAY`.xls
 run_report.sh \
@@ -71,6 +50,40 @@ run_report.sh \
   "html" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno ART Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# HCC Missed Appointment
+FILE=HCC_Missed_Appointment-`echo $TODAY`.xls
+run_report.sh \
+  "HCC Missed Appointment Upper Neno_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
+  "HCC Missed Appointment Upper Neno Overview (Excel)_" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno HCC Missed Appointment Overview $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+FILE=HCC_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
+run_report.sh \
+  "HCC Missed Appointment Upper Neno_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
+  "HCC Missed Appointment Upper Neno Breakdown (>=2 weeks <3 weeks)_" \
+  org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
+  "html" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno HCC Missed Appointment Breakdown >=2 <3 weeks $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+FILE=HCC_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
+run_report.sh \
+  "HCC Missed Appointment Upper Neno_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
+  "HCC Missed Appointment Upper Neno Breakdown (>=3 weeks)_" \
+  org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
+  "html" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno HCC Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 # Weekly Encounter by Location
