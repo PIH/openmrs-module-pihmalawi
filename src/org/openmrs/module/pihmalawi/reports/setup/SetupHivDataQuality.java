@@ -151,9 +151,9 @@ public class SetupHivDataQuality {
 				"HIV Data Quality By User_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "HIV Data Quality By User_");
 		h.purgeDefinition(DataSetDefinition.class,
-				"HIV Data Quality For All Users_ Data Set");
+				"HIV Data Quality For All Users (SLOW)_ Data Set");
 		h.purgeDefinition(ReportDefinition.class,
-				"HIV Data Quality For All Users_");
+				"HIV Data Quality For All Users (SLOW)_");
 		h.purgeDimension("hivdq: Last updating user_");
 		h.purgeAll("hivdq: ");
 	}
@@ -184,7 +184,7 @@ public class SetupHivDataQuality {
 
 		// catch all DQ report with dimension
 		PeriodIndicatorReportDefinition rd3 = new PeriodIndicatorReportDefinition();
-		rd3.setName("HIV Data Quality For All Users_");
+		rd3.setName("HIV Data Quality For All Users (SLOW)_");
 		rd3.removeParameter(ReportingConstants.LOCATION_PARAMETER);
 		rd3.removeParameter(ReportingConstants.START_DATE_PARAMETER);
 		rd3.removeParameter(ReportingConstants.END_DATE_PARAMETER);

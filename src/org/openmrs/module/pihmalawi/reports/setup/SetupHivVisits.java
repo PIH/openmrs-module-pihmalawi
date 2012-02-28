@@ -39,10 +39,8 @@ public class SetupHivVisits {
 				rs.purgeReportDesign(rd);
 			}
 		}
-		h.purgeDefinition(DataSetDefinition.class,
-		"HIV Visits_ Data Set");
-		h.purgeDefinition(DataSetDefinition.class,
-		"hivvisits: encounters");
+		h.purgeDefinition(DataSetDefinition.class, "HIV Visits_ Data Set");
+		h.purgeDefinition(DataSetDefinition.class, "hivvisits: encounters");
 		h.purgeDefinition(ReportDefinition.class, "HIV Visits_");
 		h.purgeAll("hivvisits:");
 	}
@@ -50,8 +48,8 @@ public class SetupHivVisits {
 	private ReportDefinition createReportDefinition() {
 		EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
 		dsd.setName("hivvisits: encounters");
-		dsd.addParameter(new Parameter("encounterTypes",
-				"encounterTypes", EncounterType.class));
+		dsd.addParameter(new Parameter("encounterTypes", "encounterTypes",
+				EncounterType.class));
 		dsd.addParameter(new Parameter("encounterDatetimeOnOrAfter",
 				"encounterDatetimeOnOrAfter", Date.class));
 		dsd.addParameter(new Parameter("encounterDatetimeOnOrBefore",
@@ -75,15 +73,14 @@ public class SetupHivVisits {
 								.getPatientService().getPatientIdentifierType(
 										"ARV Number")))));
 		map.put("art_followup",
-				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(h
+				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
+						"encounterTypes", Arrays.asList(h
 								.encounterType("ART_FOLLOWUP")),
-								"encounterDatetimeOnOrBefore", "${endDate}",
-								"encounterDatetimeOnOrAfter", "${startDate}",
-								"patientIdentifierTypes", Arrays
-										.asList(Context.getPatientService()
-												.getPatientIdentifierType(
-														"ARV Number")))));
+						"encounterDatetimeOnOrBefore", "${endDate}",
+						"encounterDatetimeOnOrAfter", "${startDate}",
+						"patientIdentifierTypes", Arrays.asList(Context
+								.getPatientService().getPatientIdentifierType(
+										"ARV Number")))));
 		map.put("part_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
 						"encounterTypes", Arrays.asList(h
@@ -94,34 +91,33 @@ public class SetupHivVisits {
 								.getPatientService().getPatientIdentifierType(
 										"HCC Number")))));
 		map.put("part_followup",
-				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(h
-								.encounterType("PART_FOLLOWUP")),
-								"encounterDatetimeOnOrBefore", "${endDate}",
-								"encounterDatetimeOnOrAfter", "${startDate}",
-								"patientIdentifierTypes", Arrays
-										.asList(Context.getPatientService()
-												.getPatientIdentifierType(
-														"HCC Number")))));
-		map.put("exposed_child_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
 						"encounterTypes", Arrays.asList(h
-								.encounterType("EXPOSED_CHILD_INITIAL")),
+								.encounterType("PART_FOLLOWUP")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
 								.getPatientService().getPatientIdentifierType(
 										"HCC Number")))));
-		map.put("exposed_child_followup",
+		map.put("exposed_child_initial",
 				new Mapped<DataSetDefinition>(dsd,
 						h.parameterMap("encounterTypes", Arrays.asList(h
-								.encounterType("EXPOSED_CHILD_FOLLOWUP")),
+								.encounterType("EXPOSED_CHILD_INITIAL")),
 								"encounterDatetimeOnOrBefore", "${endDate}",
 								"encounterDatetimeOnOrAfter", "${startDate}",
 								"patientIdentifierTypes", Arrays
 										.asList(Context.getPatientService()
 												.getPatientIdentifierType(
 														"HCC Number")))));
+		map.put("exposed_child_followup",
+				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
+						"encounterTypes", Arrays.asList(h
+								.encounterType("EXPOSED_CHILD_FOLLOWUP")),
+						"encounterDatetimeOnOrBefore", "${endDate}",
+						"encounterDatetimeOnOrAfter", "${startDate}",
+						"patientIdentifierTypes", Arrays.asList(Context
+								.getPatientService().getPatientIdentifierType(
+										"HCC Number")))));
 		rd.setDataSetDefinitions(map);
 		rd.addParameter(new Parameter("startDate", "Start date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End date", Date.class));

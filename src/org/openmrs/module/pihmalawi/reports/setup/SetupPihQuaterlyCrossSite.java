@@ -152,6 +152,7 @@ public class SetupPihQuaterlyCrossSite {
 				rs.purgeReportDesign(rd);
 			}
 		}
+		h.purgeDimension("xsite: Age_");
 		h.purgeDefinition(DataSetDefinition.class, "PIH Quaterly Cross Site_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "PIH Quaterly Cross Site_");
 		h.purgeAll("xsite: ");

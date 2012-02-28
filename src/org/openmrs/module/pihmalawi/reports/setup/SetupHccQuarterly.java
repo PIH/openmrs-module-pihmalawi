@@ -110,6 +110,7 @@ public class SetupHccQuarterly {
 			}
 		}
 
+		h.purgeDimension("hccquarterly: Total registered by timeframe_");
 		h.purgeDefinition(DataSetDefinition.class, "HCC Quarterly_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "HCC Quarterly_");
 		h.purgeAll("hccquarterly: ");

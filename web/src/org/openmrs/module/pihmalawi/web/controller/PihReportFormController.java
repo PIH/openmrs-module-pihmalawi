@@ -10,6 +10,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupApzuHivIndicators;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
+import org.openmrs.module.pihmalawi.reports.setup.SetupArvRegimen;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
@@ -223,6 +224,16 @@ public class PihReportFormController {
 		new SetupArvQuarterly(new Helper()).delete();
 	}
 
+	@RequestMapping("/module/pihmalawi/register_arvregimen.form")
+	public void registerArvRegimen() throws Exception {
+		new SetupArvRegimen(new Helper()).setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_arvregimen.form")
+	public void removeArvRegimen() {
+		new SetupArvRegimen(new Helper()).delete();
+	}
+
 	@RequestMapping("/module/pihmalawi/register_hccquarterly.form")
 	public void registerHccQuarterly() throws Exception {
 		new SetupHccQuarterly(new Helper()).setup();
@@ -322,50 +333,4 @@ public class PihReportFormController {
 		new SetupAppointmentsForLocation(new Helper())
 				.setup();
 	}
-
-	@RequestMapping("/module/pihmalawi/remove_all.form")
-	public void removeAll() {
-		removeArtAppAdherence();
-		removeArtMissedAppointment();
-		removeArtMissedAppointmentLowerNeno();
-		removeArvQuarterly();
-		removeArtRegister();
-		removeHccRegister();
-		removeChronicCareAppAdherence();
-		removeChronicCareMissedAppointment();
-		removeChronicCareRegister();
-		removeDuplicateHivPatients();
-		removeHivDataQuality();
-		removeHivProgramChanges();
-		removeHivWeeklyOutcome();
-		removePreArtMissedAppointment();
-		removePreArtMissedAppointmentLowerNeno();
-		removePreArtWeekly();
-		removeWeeklyEncounter();
-		removeAppointments();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_all.form")
-	public void registerAll() throws Exception {
-//		registerArtAppAdherence();
-		registerArtMissedAppointment();
-//		registerArtMissedAppointmentLowerNeno();
-		registerArvQuarterly();
-		registerArtRegister();
-		registerHccRegister();
-//		registerChronicCareAppAdherence();
-		registerChronicCareMissedAppointment();
-		registerChronicCareRegister();
-//		registerDuplicateHivPatients();
-		registerHivDataQuality();
-//		registerHivProgramChanges();
-//		registerHivWeeklyOutcome();
-		registerHccMissedAppointment();
-//		registerPreArtMissedAppointment();
-//		registerPreArtMissedAppointmentLowerNeno();
-//		registerPreArtWeekly();
-		registerWeeklyEncounter();
-		registerAppointments();
-	}
-
 }

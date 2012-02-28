@@ -17,6 +17,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
+import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
@@ -249,7 +250,7 @@ public class SetupApzuHivIndicators {
 		h.replaceCohortDefinition(nocd);
 
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName("xsite: Active Pre-ART CD4 count_");
+		ccd.setName(reportTag + ": Active Pre-ART CD4 count_");
 		ccd.addParameter(new Parameter("startDate", "startDate", Date.class));
 		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ccd.addParameter(new Parameter("location", "location", Location.class));
@@ -345,6 +346,8 @@ public class SetupApzuHivIndicators {
 				rs.purgeReportDesign(rd);
 			}
 		}
+		h.purgeDefinition(DataSetDefinition.class, "APZU HIV Indicators_ Data Set");
+		h.purgeDefinition(ReportDefinition.class, "APZU HIV Indicators_");
 		h.purgeAll(reportTag);
 	}
 }

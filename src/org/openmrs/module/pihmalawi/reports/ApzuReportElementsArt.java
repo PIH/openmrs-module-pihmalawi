@@ -27,6 +27,15 @@ public class ApzuReportElementsArt {
 
 	static Helper h = new Helper();
 
+	public static String[] hivRegimenConcepts = { "1A: d4T / 3TC / NVP (previous 1L)",
+			"2A: AZT / 3TC / NVP (previous AZT)",
+			"3A: d4T / 3TC + EFV (previous EFV)",
+			"4A: AZT / 3TC + EFV (previous AZTEFV)", "5A: TDF + 3TC + EFV",
+			"6A: TDF / 3TC + NVP", "7A: TDF / 3TC + LPV/r",
+			"8A: AZT / 3TC + LPV/r", "1P: d4T / 3TC / NVP",
+			"2P: AZT / 3TC / NVP", "3P: d4T / 3TC + EFV",
+			"4P: AZT / 3TC + EFV", "9P: ABC / 3TC + LPV/r", "Other" };
+
 	public static List<List<Location>> locations() {
 		return Arrays.asList(
 				Arrays.asList(h.location("Neno District Hospital"),
@@ -740,6 +749,17 @@ public class ApzuReportElementsArt {
 		islcd.setName(string + ": Active ART at location_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
+		islcd.setState(h.workflowState("HIV program", "Treatment status",
+				"On antiretrovirals"));
+		h.replaceCohortDefinition(islcd);
+		return islcd;
+	}
+
+	public static CohortDefinition artActiveWithDefaultersOnDate(
+			String string) {
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName(string + ": Active ART_");
+		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.setState(h.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		h.replaceCohortDefinition(islcd);

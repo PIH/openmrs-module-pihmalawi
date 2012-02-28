@@ -110,6 +110,7 @@ public class SetupArvQuarterly {
 			}
 		}
 		
+		h.purgeDimension("arvquarterly: Total registered by timeframe_");
 		h.purgeDefinition(DataSetDefinition.class, "ARV Quarterly_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "ARV Quarterly_");
 		h.purgeAll("arvquarterly: ");

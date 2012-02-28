@@ -66,7 +66,7 @@ public class SetupTbRegister {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if (rd.getName().equals("Tuberculosis Register_")) {
+			if (rd.getName().startsWith("Tuberculosis Register")) {
 				rs.purgeReportDesign(rd);
 			}
 		}
