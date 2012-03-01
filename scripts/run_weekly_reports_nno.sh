@@ -88,30 +88,6 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno HCC Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
-
-# Weekly Encounter by Location
-FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
-run_report.sh \
-  "Weekly Encounter By Location_" \
-  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "Weekly Encounter By Location.xls (Excel)_" \
-  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
-  "" \
-  $FILE
-echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
-mv $FILE /home/emradmin/pihmalawi/scripts/history
-
-# Weekly Encounter by User
-FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
-run_report.sh \
-  "Weekly Encounter By User_" \
-  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
-  "Weekly Encounter By User.xls (Excel)_" \
-  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
-  "" \
-  $FILE
-echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
-mv $FILE /home/emradmin/pihmalawi/scripts/history
  
 # HIV Data Quality
 FILE=HIV_Data_Quality-`echo $TODAY`.html
@@ -135,4 +111,30 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: Upper Neno HIV Data Quality For All Users $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# Weekly Encounter by Location
+FILE=Weekly_Encounter_By_Location-`echo $TODAY`.xls
+run_report.sh \
+  "Weekly Encounter By Location_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
+  "Weekly Encounter By Location.xls (Excel)_" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by Location $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+sleep 320
+
+# Weekly Encounter by User
+FILE=Weekly_Encounter_By_User-`echo $TODAY`.xls
+run_report.sh \
+  "Weekly Encounter By User_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
+  "Weekly Encounter By User.xls (Excel)_" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: Upper Neno Weekly Encounter by User $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history

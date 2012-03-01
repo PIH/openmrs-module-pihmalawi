@@ -31,7 +31,7 @@ run_report.sh \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
   $FILE
-echo "" | mailx -a $FILE -s "emr: Upper Neno ARV Regimen $YESTERDAY" "$MAIL"
+echo "" | mailx -a $FILE -s "emr: Upper Neno PIH XSite $YESTERDAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
   
 # APZU HIV Indicators
