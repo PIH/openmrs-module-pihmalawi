@@ -25,7 +25,7 @@ THREE_MONTHS_AGO=`date --date "3 Months ago" +%d`%2F`date --date "3 Months ago" 
 # PIX XSite Indicators
 FILE=Quarterly_Cross_Site_Indicator_Upper_Neno-`echo $YESTERDAY`.xls
 run_report.sh \
-  "PIH Quaterly Cross Site_" \
+  "PIH Quarterly Cross Site_" \
   "userEnteredParams%5BstartDate%5D=$THREE_MONTHS_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
   "Quarterly Cross Site Indicator Form 10.15.xls (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
