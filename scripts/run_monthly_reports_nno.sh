@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# cronjob entry
+# 0 2 1 * * /home/emradmin/script_reports/run_monthly_reports_nno.sh >> /dev/null
+
 #MAIL=apzunet@gmail.com
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
@@ -7,6 +10,7 @@ PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
 
 NOW=`date +%d`%2F`date +%m`%2F`date +%Y`
+YESTERDAY=`date --date "1 Day ago" +%d`%2F`date --date "1 Day ago" +%m`%2F`date --date "1 Day ago" +%Y`
 
 # use this on (older) Ubuntu and RedHat systems
 ONE_WEEK_AGO=`date --date "6 Days ago" +%d`%2F`date --date "6 Days ago" +%m`%2F`date --date "6 Days ago" +%Y`
@@ -21,7 +25,7 @@ ONE_MONTH_AGO=`date --date "1 Month ago" +%d`%2F`date --date "1 Month ago" +%m`%
 FILE=ARV_Regimen-`echo $TODAY`.xls
 run_report.sh \
   "ARV Regimen_" \
-  "userEnteredParams%5BendDate%5D=$NOW" \
+  "userEnteredParams%5BendDate%5D=$YESTERDAY" \
   "ARV Regimen (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \
@@ -33,7 +37,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 FILE=APZU_HIV_Indicators-`echo $TODAY`.xls
 run_report.sh \
   "APZU HIV Indicators_" \
-  "userEnteredParams%5BstartDate%5D=$ONE_MONTH_AGO&userEnteredParams%5BendDate%5D=$NOW" \
+  "userEnteredParams%5BstartDate%5D=$ONE_MONTH_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
   "APZU HIV Indicators (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
   "" \

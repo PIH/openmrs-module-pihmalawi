@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# cronjob entry
+# 0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports_nno.sh >> /dev/null
+
 echo "START"
 
 MAIL=apzu-emr@apzu.pih.org
