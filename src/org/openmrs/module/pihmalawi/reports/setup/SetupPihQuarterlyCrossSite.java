@@ -117,8 +117,8 @@ public class SetupPihQuarterlyCrossSite {
 		PeriodIndicatorReportDefinition rd = createReportDefinition();
 		createCohortDefinitions(rd);
 		h.replaceReportDefinition(rd);
-		h.createXlsOverview(rd, "Quartely Cross Site Indicator Form 10.15.xls",
-		    "Quartely Cross Site Indicator Form 10.15.xls (Excel)_", null);
+		h.createXlsOverview(rd, "Quarterly Cross Site Indicator Form 10.15.xls",
+		    "Quarterly Cross Site Indicator Form 10.15.xls (Excel)_", null);
 	}
 	
 	private void createDimensions() {
@@ -148,7 +148,7 @@ public class SetupPihQuarterlyCrossSite {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if (rd.getName().equals("Quartely Cross Site Indicator Form 10.15.xls (Excel)_")) {
+			if (rd.getName().equals("Quarterly Cross Site Indicator Form 10.15.xls (Excel)_")) {
 				rs.purgeReportDesign(rd);
 			}
 		}
