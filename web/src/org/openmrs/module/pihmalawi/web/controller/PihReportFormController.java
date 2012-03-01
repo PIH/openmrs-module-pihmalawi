@@ -20,7 +20,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
-import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuaterlyCrossSite;
+import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuarterlyCrossSite;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupHivWeeklyOutcome;
@@ -35,12 +35,12 @@ public class PihReportFormController {
 
 	@RequestMapping("/module/pihmalawi/remove_pih_xsite.form")
 	public void removePihXSite() {
-		new SetupPihQuaterlyCrossSite(new Helper()).delete();
+		new SetupPihQuarterlyCrossSite(new Helper()).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_pih_xsite.form")
 	public void registerPihXSite() throws Exception {
-		new SetupPihQuaterlyCrossSite(new Helper()).setup();
+		new SetupPihQuarterlyCrossSite(new Helper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_apzu_hiv.form")

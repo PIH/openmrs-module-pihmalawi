@@ -40,7 +40,7 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
-public class SetupPihQuaterlyCrossSite {
+public class SetupPihQuarterlyCrossSite {
 	
 	private final Concept CONCEPT_HIV_DNA_PCR;
 	
@@ -84,7 +84,7 @@ public class SetupPihQuaterlyCrossSite {
 	
 	Helper h = new Helper();
 	
-	public SetupPihQuaterlyCrossSite(Helper helper) {
+	public SetupPihQuarterlyCrossSite(Helper helper) {
 		h = helper;
 		CONCEPT_HIV_DNA_PCR = Context.getConceptService()
 		        .getConceptByName("HIV DNA polymerase chain reaction");
@@ -153,8 +153,8 @@ public class SetupPihQuaterlyCrossSite {
 			}
 		}
 		h.purgeDimension("xsite: Age_");
-		h.purgeDefinition(DataSetDefinition.class, "PIH Quaterly Cross Site_ Data Set");
-		h.purgeDefinition(ReportDefinition.class, "PIH Quaterly Cross Site_");
+		h.purgeDefinition(DataSetDefinition.class, "PIH Quarterly Cross Site_ Data Set");
+		h.purgeDefinition(ReportDefinition.class, "PIH Quarterly Cross Site_");
 		h.purgeAll("xsite: ");
 	}
 	
@@ -166,7 +166,7 @@ public class SetupPihQuaterlyCrossSite {
 		rd.addParameter(new Parameter("startDate", "Start date (Start of quarter)", Date.class));
 		rd.addParameter(new Parameter("endDate", "End date (End of quarter)", Date.class));
 
-		rd.setName("PIH Quaterly Cross Site_");
+		rd.setName("PIH Quarterly Cross Site_");
 		rd.setupDataSetDefinition();
 		rd.addDimension("Age", h.cohortDefinitionDimension("xsite: Age_"), h.parameterMap("endDate", "${endDate}"));
 		return rd;
