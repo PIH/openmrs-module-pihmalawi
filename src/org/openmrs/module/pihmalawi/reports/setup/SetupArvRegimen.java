@@ -1,7 +1,9 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +18,7 @@ import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -96,25 +99,25 @@ public class SetupArvRegimen {
 				h.parameterMap("onDate", "${endDate}"));
 
 		for (String r : ApzuReportElementsArt.hivRegimenConcepts) {
-			// technically it should be posible to hand in the regimen concepts
-			// as a parameter list, however i can;t get it to work
+			// technically it should be possible to hand in the regimen concepts
+			// as a parameter list, however i can't get it to work
 			// so i'm breaking down the regimen concepts in separate
 			// cohortdefinitions
-			CodedObsCohortDefinition current_regimen = new CodedObsCohortDefinition();
-			current_regimen.setName("arvregimen: current_regimen_"
+			CodedObsCohortDefinition regimen = new CodedObsCohortDefinition();
+			regimen.setName("arvregimen: current_regimen_"
 					+ r.substring(0, 3));
-			current_regimen.addParameter(new Parameter("endDate", "endDate",
+			regimen.addParameter(new Parameter("endDate", "endDate",
 					Date.class));
-			current_regimen.setQuestion(CONCEPT_REGIMEN);
-			current_regimen.setTimeModifier(TimeModifier.LAST);
-			current_regimen.setOperator(SetComparator.IN);
-			current_regimen.setEncounterTypeList(Arrays
+			regimen.setQuestion(CONCEPT_REGIMEN);
+			regimen.setTimeModifier(TimeModifier.LAST);
+			regimen.setOperator(SetComparator.IN);
+			regimen.setEncounterTypeList(Arrays
 					.asList(ART_FOLLOWUP_ENCOUNTER));
-			current_regimen.setValueList(Arrays.asList(Context
+			regimen.setValueList(Arrays.asList(Context
 					.getConceptService().getConcept(r)));
-			h.replaceCohortDefinition(current_regimen);
+			h.replaceCohortDefinition(regimen);
 			CohortIndicator i = h.newCountIndicator(
-					"arvregimen: " + r.substring(0, 3), current_regimen,
+					"arvregimen: " + r.substring(0, 3), regimen,
 					h.parameterMap("endDate", "${endDate}"));
 			for (Location l : ApzuReportElementsArt.hivStaticLocations()) {
 				PeriodIndicatorReportUtil.addColumn(
@@ -128,6 +131,45 @@ public class SetupArvRegimen {
 								ApzuReportElementsArt.hivSiteCode(l)));
 			}
 		}
+		
+		// make sure that we also report in the ones NOT on one of the official regimen (e.g. empty or maybe very old patients)
+		List<Concept> knownRegimens = new ArrayList<Concept>();
+		for (String r : ApzuReportElementsArt.hivRegimenConcepts) {
+			knownRegimens.add(Context.getConceptService().getConcept(r));
+		}		
+		CodedObsCohortDefinition knownRegimen = new CodedObsCohortDefinition();
+		knownRegimen.setName("arvregimen: known_regimen_");
+		knownRegimen.addParameter(new Parameter("endDate", "endDate",
+				Date.class));
+		knownRegimen.setQuestion(CONCEPT_REGIMEN);
+		knownRegimen.setTimeModifier(TimeModifier.LAST);
+		knownRegimen.setOperator(SetComparator.IN);
+		knownRegimen.setEncounterTypeList(Arrays
+				.asList(ART_FOLLOWUP_ENCOUNTER));
+		knownRegimen.setValueList(knownRegimens);
+		h.replaceCohortDefinition(knownRegimen);
+		InverseCohortDefinition unknownRegimen = new InverseCohortDefinition();
+		unknownRegimen.setBaseDefinition(knownRegimen);
+		unknownRegimen.setName("arvregimen: unknown_regimen_");
+		unknownRegimen.addParameter(new Parameter("endDate", "endDate",
+				Date.class));
+		h.replaceCohortDefinition(unknownRegimen);
+		
+		CohortIndicator i = h.newCountIndicator(
+				"arvregimen: unknown_regimens_", unknownRegimen,
+				h.parameterMap("endDate", "${endDate}"));
+		for (Location l : ApzuReportElementsArt.hivStaticLocations()) {
+			PeriodIndicatorReportUtil.addColumn(
+					rd,
+					"unknown:"
+							+ ApzuReportElementsArt.hivSiteCode(l),
+					"unknown:"
+							+ ApzuReportElementsArt.hivSiteCode(l),
+					i,
+					h.hashMap("location",
+							ApzuReportElementsArt.hivSiteCode(l)));
+		}
+
 
 		return rd;
 	}
