@@ -23,3 +23,4 @@ TODAY=`date +%Y%m%d`
 
 # echo "Process run from $START to $STOP" | 
 mailx -s "emr: Upper Neno rebuild_person_name_codes $TODAY" "$MAIL" < $LOGFILE
+rm $LOGFILE

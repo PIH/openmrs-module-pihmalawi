@@ -53,4 +53,4 @@ MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
 mailx -s "emr: Upper Neno nightly backup done $TODAY" "$MAIL" < $LOGFILE
-
+rm $LOGFILE

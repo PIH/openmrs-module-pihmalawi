@@ -9,6 +9,8 @@ PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 source run_report.config
 
+echo "Start cleanup `date`"
+
 mysql -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB <<EOF
 
 -- clean up old reporting request, they sloooow down opening the reporting tab
@@ -85,7 +87,11 @@ update relationship rs, person p set rs.voided=1 where p.person_id = rs.person_a
 update relationship rs, person p set rs.voided=1 where p.person_id = rs.person_b and p.voided=1 and rs.voided=0;
 EOF
 
+echo "Finish cleanup `date`"
+
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
 mailx -s "emr: OpenMRS SQL cleanup done $TODAY" "$MAIL" < $LOGFILE
+rm $LOGFILE
+
