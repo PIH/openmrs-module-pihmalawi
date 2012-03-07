@@ -4,6 +4,9 @@ ROOT=/home/emradmin/pihmalawi/scripts
 
 source /home/emradmin/pihmalawi/scripts/nightly_backup.config
 
+LOGFILE=$$.log
+exec > $LOGFILE 2>&1
+
 # Dump the database to file
 cd $ROOT/backup/to_backup
 mysqldump -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB > openmrs.sql
@@ -49,5 +52,5 @@ rm -f $ROOT/backup/to_backup/*
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
-echo "" | mailx -s "emr: Upper Neno nightly backup done $TODAY" "$MAIL"
+mailx -s "emr: Upper Neno nightly backup done $TODAY" "$MAIL" < $LOGFILE
 

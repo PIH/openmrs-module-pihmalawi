@@ -2,6 +2,9 @@
 
 # runs cleanup/maintenance/convenience statements against openmrs db
 
+LOGFILE=$$.log
+exec > $LOGFILE 2>&1
+
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 
 source run_report.config
@@ -17,7 +20,7 @@ update patient_identifier set location_id=16 where identifier like 'LSI%' and id
 -- MTE
 update patient_identifier set location_id=22 where identifier like 'MTE%' and identifier_type in (4,19);
 -- CFA
-update patient_identifier set location_id=18 where identifier like 'CFA%' and identifier_type in (4,19);
+update patient_identifier set location_id=18 where identifier like 'CFGA%' and identifier_type in (4,19);
 -- ZLA
 update patient_identifier set location_id=35 where identifier like 'ZLA%' and identifier_type in (4,19);
 -- NKA
@@ -85,4 +88,4 @@ EOF
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
-echo "" | mailx -s "emr: OpenMRS SQL cleanup done $TODAY" "$MAIL"
+mailx -s "emr: OpenMRS SQL cleanup done $TODAY" "$MAIL" < $LOGFILE
