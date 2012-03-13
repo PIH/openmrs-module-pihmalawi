@@ -21,7 +21,7 @@ delete from reporting_report_request; -- where request_datetime < subdate(now(),
 update patient_identifier set location_id=16 where identifier like 'LSI%' and identifier_type in (4,19);
 -- MTE
 update patient_identifier set location_id=22 where identifier like 'MTE%' and identifier_type in (4,19);
--- CFA
+-- CFGA
 update patient_identifier set location_id=18 where identifier like 'CFGA%' and identifier_type in (4,19);
 -- ZLA
 update patient_identifier set location_id=35 where identifier like 'ZLA%' and identifier_type in (4,19);
