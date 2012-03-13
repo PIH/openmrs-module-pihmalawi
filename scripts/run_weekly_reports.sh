@@ -34,11 +34,10 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA ART Missed Appointment Overview $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
-exit
 
 FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "ART Missed Appointment $AREA_" \
+  "ART Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment $AREA Breakdown (>=2 weeks <3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
@@ -49,7 +48,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=ART_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "ART Missed Appointment $AREA_" \
+  "ART Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment $AREA Breakdown (>=3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
@@ -61,7 +60,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 # HCC Missed Appointment
 FILE=HCC_Missed_Appointment-`echo $TODAY`.xls
 run_report.sh \
-  "HCC Missed Appointment $AREA_" \
+  "HCC Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HCC Missed Appointment $AREA Overview (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
@@ -72,7 +71,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=HCC_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "HCC Missed Appointment $AREA_" \
+  "HCC Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HCC Missed Appointment $AREA Breakdown (>=2 weeks <3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
@@ -83,7 +82,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 FILE=HCC_Missed_Appointment_more_than_3_weeks-`echo $TODAY`.html
 run_report.sh \
-  "HCC Missed Appointment $AREA_" \
+  "HCC Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "HCC Missed Appointment $AREA Breakdown (>=3 weeks)_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
@@ -92,8 +91,6 @@ run_report.sh \
 echo "" | mailx -a $FILE -s "emr: $AREA HCC Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
-exit
- 
 # HIV Data Quality
 FILE=HIV_Data_Quality-`echo $TODAY`.html
 run_report.sh \
