@@ -26,7 +26,7 @@ ONE_MONTH_AGO=`date --date "1 Month ago" +%d`%2F`date --date "1 Month ago" +%m`%
 # ART Missed Appointment
 FILE=ART_Missed_Appointment-`echo $TODAY`.xls
 run_report.sh \
-  "ART Missed Appointment $AREA_" \
+  "ART Missed Appointment `echo $AREA`_" \
   "userEnteredParams%5BstartDate%5D=$ONE_WEEK_AGO&userEnteredParams%5BendDate%5D=$NOW&userEnteredParams%5Blocation%5D=6" \
   "ART Missed Appointment $AREA Overview (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
@@ -34,6 +34,7 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA ART Missed Appointment Overview $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
+exit
 
 FILE=ART_Missed_Appointment_between_2_and_3_weeks-`echo $TODAY`.html
 run_report.sh \
@@ -90,6 +91,8 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA HCC Missed Appointment Breakdown >=3 weeks $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+exit
  
 # HIV Data Quality
 FILE=HIV_Data_Quality-`echo $TODAY`.html
