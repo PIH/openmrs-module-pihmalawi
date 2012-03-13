@@ -140,3 +140,4 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA Weekly Encounter by User $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
+
