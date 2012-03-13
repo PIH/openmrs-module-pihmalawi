@@ -4,7 +4,7 @@
 
 echo "START"
 
-AREA=LowerNeno
+AREA=Lower_Neno
 
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
@@ -25,7 +25,7 @@ THREE_MONTHS_AGO=`date --date "3 Months ago" +%d`%2F`date --date "3 Months ago" 
 #ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
 
 # PIX XSite Indicators
-FILE=Quarterly_Cross_Site_Indicator_Upper_Neno-`echo $YESTERDAY`.xls
+FILE=Quarterly_Cross_Site_Indicator_`echo $AREA`-`echo $YESTERDAY`.xls
 run_report.sh \
   "PIH Quarterly Cross Site_" \
   "userEnteredParams%5BstartDate%5D=$THREE_MONTHS_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
@@ -37,7 +37,7 @@ echo "" | mailx -a $FILE -s "emr: $AREA PIH XSite $YESTERDAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
   
 # APZU HIV Indicators
-FILE=APZU_HIV_Indicators_Quarterly_Upper_Neno-`echo $YESTERDAY`.xls
+FILE=APZU_HIV_Indicators_Quarterly_`echo $AREA`-`echo $YESTERDAY`.xls
 run_report.sh \
   "APZU HIV Indicators_" \
   "userEnteredParams%5BstartDate%5D=$THREE_MONTHS_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
