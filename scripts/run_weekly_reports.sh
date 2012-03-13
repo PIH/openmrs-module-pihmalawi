@@ -3,7 +3,7 @@
 # cronjob entry
 # 0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports.sh >> /dev/null
 
-AREA=Lower_Neno
+AREA="Lower Neno"
 
 echo "START"
 
