@@ -46,6 +46,7 @@ public class ApzuReportElementsArt {
 				Arrays.asList(h.location("Ligowe HC")),
 				Arrays.asList(h.location("Matandani Rural Health Center")),
 				Arrays.asList(h.location("Neno Mission HC")),
+				Arrays.asList(h.location("Luwani RHC")),
 				Arrays.asList(h.location("Lisungwi Community Hospital"),
 						h.location("Midzemba HC")),
 				Arrays.asList(h.location("Chifunga HC")),
@@ -60,8 +61,8 @@ public class ApzuReportElementsArt {
 				h.location("Magaleta HC"), h.location("Nsambe HC"),
 				h.location("Neno Mission HC"), h.location("Ligowe HC"),
 				h.location("Matandani Rural Health Center"),
-				h.location("Lisungwi Community Hospital"),
 				h.location("Luwani RHC"),
+				h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
 				h.location("Zalewa HC"), h.location("Midzemba HC"),
 				h.location("Nkhula Falls RHC"));
@@ -72,8 +73,8 @@ public class ApzuReportElementsArt {
 				h.location("Magaleta HC"), h.location("Nsambe HC"),
 				h.location("Neno Mission HC"), h.location("Ligowe HC"),
 				h.location("Matandani Rural Health Center"),
-				h.location("Lisungwi Community Hospital"),
 				h.location("Luwani RHC"),
+				h.location("Lisungwi Community Hospital"),
 				h.location("Matope HC"), h.location("Chifunga HC"),
 				h.location("Zalewa HC"),
 				h.location("Nkhula Falls RHC"));

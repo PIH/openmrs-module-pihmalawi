@@ -49,13 +49,13 @@ public class SetupApzuHivIndicators {
 				Context.getLocationService().getLocation(
 						"Matandani Rural Health Center"),
 				Context.getLocationService().getLocation("Ligowe HC"),
+				Context.getLocationService().getLocation("Luwani RHC"),
 				Context.getLocationService().getLocation(
 						"Lisungwi Community Hospital"), Context
 						.getLocationService().getLocation("Chifunga HC"),
 				Context.getLocationService().getLocation("Matope HC"), Context
 						.getLocationService().getLocation("Zalewa HC"), Context
-						.getLocationService().getLocation("Nkhula Falls RHC"),
-				Context.getLocationService().getLocation("Luwani RHC")));
+						.getLocationService().getLocation("Nkhula Falls RHC")));
 	}
 
 	protected void configure(String reportName, String reportTag,
@@ -80,7 +80,7 @@ public class SetupApzuHivIndicators {
 
 	protected Map<? extends Object, ? extends Object> excelOverviewProperties() {
 		Map properties = new HashMap();
-		properties.put("title", "ART Missed Appointment - Upper Neno");
+		properties.put("title", "APZU HIV Indicators");
 		properties.put("baseCohort", "On ART");
 		properties.put("loc1name", "Neno");
 		properties.put("loc2name", "Magaleta");
@@ -88,12 +88,12 @@ public class SetupApzuHivIndicators {
 		properties.put("loc4name", "Neno Parish");
 		properties.put("loc5name", "Matandani");
 		properties.put("loc6name", "Ligowe");
-		properties.put("loc7name", "Lisungwi");
-		properties.put("loc8name", "Chifunga");
-		properties.put("loc9name", "Matope");
-		properties.put("loc10name", "Zalewa");
-		properties.put("loc11name", "Nkhula Falls");
-		properties.put("loc12name", "Luwani");
+		properties.put("loc7name", "Luwani");
+		properties.put("loc8name", "Lisungwi");
+		properties.put("loc9name", "Chifunga");
+		properties.put("loc10name", "Matope");
+		properties.put("loc11name", "Zalewa");
+		properties.put("loc12name", "Nkhula Falls");
 		return properties;
 	}
 

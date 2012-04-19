@@ -41,7 +41,9 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 							Context.getLocationService().getLocation(
 									"Matandani Rural Health Center"),
 							Context.getLocationService().getLocation(
-									"Ligowe HC")),
+									"Ligowe HC"),
+							Context.getLocationService().getLocation(
+									"Luwani RHC")),
 					HccMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("HCC Missed Appointment Lower Neno", "hccappt",
@@ -56,9 +58,7 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 							Context.getLocationService().getLocation(
 									"Zalewa HC"),
 							Context.getLocationService().getLocation(
-									"Nkhula Falls RHC"),
-							Context.getLocationService().getLocation(
-									"Luwani RHC")),
+									"Nkhula Falls RHC")),
 					HccMissedAppointmentBreakdownRenderer.class.getName());
 		}
 	}

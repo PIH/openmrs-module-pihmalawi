@@ -71,14 +71,14 @@ public class SetupWeeklyEncounter {
 				Arrays.asList(h.location("Nsambe HC")),
 				Arrays.asList(h.location("Neno Mission HC")),
 				Arrays.asList(h.location("Matandani Rural Health Center")),
+				Arrays.asList(h.location("Luwani RHC")),
 				Arrays.asList(h.location("Ligowe HC")),
 				Arrays.asList(h.location("Lisungwi Community Hospital"),
 						h.location("Midzemba HC")),
 				Arrays.asList(h.location("Chifunga HC")),
 				Arrays.asList(h.location("Matope HC")),
 				Arrays.asList(h.location("Nkhula Falls RHC")),
-				Arrays.asList(h.location("Zalewa HC")),
-				Arrays.asList(h.location("Luwani RHC")));
+				Arrays.asList(h.location("Zalewa HC")));
 
 		List<Location> flatKnownLocations = new ArrayList<Location>();
 		for (List<Location> knownLocations : LOCATIONS_LIST) {

@@ -44,7 +44,9 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 							Context.getLocationService().getLocation(
 									"Matandani Rural Health Center"),
 							Context.getLocationService().getLocation(
-									"Ligowe HC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
+									"Ligowe HC"),
+							Context.getLocationService().getLocation(
+									"Luwani RHC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("ART Missed Appointment Lower Neno", "artappt",
 					helper.programWorkflow("HIV program", "Treatment status"),
@@ -58,9 +60,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 							Context.getLocationService().getLocation(
 									"Zalewa HC"),
 							Context.getLocationService().getLocation(
-									"Nkhula Falls RHC"),
-							Context.getLocationService().getLocation(
-									"Luwani RHC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
+									"Nkhula Falls RHC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
 		}
 	}
 
@@ -75,6 +75,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			properties.put("loc4name", "Neno Mission");
 			properties.put("loc5name", "Matandani");
 			properties.put("loc6name", "Ligowe");
+			properties.put("loc7name", "Luwani");
 		} else {
 			properties.put("title", "ART Missed Appointment - Lower Neno");
 			properties.put("baseCohort", "On ART");
@@ -83,7 +84,6 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 			properties.put("loc3name", "Matope");
 			properties.put("loc4name", "Zalewa");
 			properties.put("loc5name", "Nkhula Falls");
-			properties.put("loc6name", "Luwani");
 		}
 		return properties;
 	}
