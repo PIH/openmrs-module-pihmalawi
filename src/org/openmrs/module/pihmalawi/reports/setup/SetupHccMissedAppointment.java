@@ -74,6 +74,7 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 			properties.put("loc4name", "Neno Mission");
 			properties.put("loc5name", "Matandani");
 			properties.put("loc6name", "Ligowe");
+			properties.put("loc7name", "Luwani");
 		} else {
 			properties.put("title", "HCC Missed Appointment - Lower Neno");
 			properties.put("baseCohort", "In HCC");
@@ -82,7 +83,6 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 			properties.put("loc3name", "Matope");
 			properties.put("loc4name", "Zalewa");
 			properties.put("loc5name", "Nkhula Falls");
-			properties.put("loc6name", "Luwani");
 		}
 		return properties;
 	}
