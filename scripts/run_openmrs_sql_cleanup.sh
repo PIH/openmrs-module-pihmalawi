@@ -13,6 +13,9 @@ echo "Start cleanup `date`"
 
 mysql -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB <<EOF
 
+-- set default location from user profiles back to null to avoid accidentally using old values
+update user_property set property_value=null where property='defaultLocation';
+
 -- clean up old reporting request, they sloooow down opening the reporting tab
 delete from reporting_report_request; -- where request_datetime < subdate(now(), interval 1 week);
 
