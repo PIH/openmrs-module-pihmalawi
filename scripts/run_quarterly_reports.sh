@@ -4,7 +4,7 @@
 
 echo "START"
 
-AREA=Lower_Neno
+AREA=Upper_Neno
 
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts

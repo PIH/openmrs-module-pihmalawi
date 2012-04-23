@@ -3,7 +3,7 @@
 # cronjob entry
 # 0 23 * * Sun /home/emradmin/script_reports/run_weekly_reports.sh >> /dev/null
 
-AREA="Lower Neno"
+AREA="Upper Neno"
 
 echo "START"
 
@@ -106,7 +106,7 @@ mv $FILE /home/emradmin/pihmalawi/scripts/history
 # HIV Data Quality For All Users
 FILE=HIV_Data_Quality-`echo $TODAY`.xls
 run_report.sh \
-  "HIV Data Quality For All Users_" \
+  "HIV Data Quality For All Users (SLOW)_" \
   "userEnteredParams%5BendDate%5D=$NOW" \
   "HIV Data Quality For All Users.xls (Excel)_" \
   org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \

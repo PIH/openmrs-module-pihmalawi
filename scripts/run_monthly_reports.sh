@@ -3,7 +3,7 @@
 # cronjob entry
 # 0 2 1 * * /home/emradmin/script_reports/run_monthly_reports.sh >> /dev/null
 
-AREA=Lower_Neno
+AREA=Upper_Neno
 
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
