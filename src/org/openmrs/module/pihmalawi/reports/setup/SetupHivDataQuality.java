@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -233,16 +234,19 @@ public class SetupHivDataQuality {
 		for (String s : LOCATIONS.values()) {
 			createLastInRangeArvNumber(rds, s, s + " ");
 		}
+		createLastInRangeArvNumberForAllLocations(rds, LOCATIONS.values());
 
 		// gaps in numbers
 		for (String s : LOCATIONS.values()) {
 			createLastInRangeHccNumber(rds, s, s + " ");
 		}
+		createLastInRangeHccNumberForAllLocations(rds, LOCATIONS.values());
 
 		// multiple arv numbers
 		for (String s : LOCATIONS.values()) {
 			createMultipleArv(rds, s, s + " ");
 		}
+		createMultipleArvForAllLocations(rds, LOCATIONS.values());
 
 		g_everInProgramOnDate();
 
@@ -956,6 +960,27 @@ public class SetupHivDataQuality {
 		createIndicator(scd, "gap" + loc.toLowerCase(), null, rds);
 	}
 
+	private void createLastInRangeArvNumberForAllLocations(
+			PeriodIndicatorReportDefinition[] rds, Collection<String> locations) {
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Last In-range ARV number before gap in sequence all_");
+		for (String loc : locations) {
+			ccd.getSearches().put(
+				loc,
+				new Mapped(h.cohortDefinition("hivdq: Last In-range ARV number before gap in sequence " + loc + "_"),
+						h.parameterMap()));
+		}
+		String composition = "";
+		for (String loc : locations) {
+			composition += loc + " OR ";
+		}
+		ccd.setCompositionString(composition.substring(0, composition.length() - "OR ".length()));
+		h.replaceCohortDefinition(ccd);
+		createIndicator(ccd, "gapall", h.parameterMap(),
+				rds);
+	}
+
 	private void createLastInRangeHccNumber(
 			PeriodIndicatorReportDefinition[] rds, String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
@@ -966,6 +991,27 @@ public class SetupHivDataQuality {
 		createIndicator(scd, "hccgap" + loc.toLowerCase(), null, rds);
 	}
 
+	private void createLastInRangeHccNumberForAllLocations(
+			PeriodIndicatorReportDefinition[] rds, Collection<String> locations) {
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Last In-range HCC number before gap in sequence all_");
+		for (String loc : locations) {
+			ccd.getSearches().put(
+				loc,
+				new Mapped(h.cohortDefinition("hivdq: Last In-range HCC number before gap in sequence " + loc + "_"),
+						h.parameterMap()));
+		}
+		String composition = "";
+		for (String loc : locations) {
+			composition += loc + " OR ";
+		}
+		ccd.setCompositionString(composition.substring(0, composition.length() - "OR ".length()));
+		h.replaceCohortDefinition(ccd);
+		createIndicator(ccd, "hccgapall", h.parameterMap(),
+				rds);
+	}
+
 	private void createMultipleArv(PeriodIndicatorReportDefinition[] rds,
 			String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
@@ -973,6 +1019,27 @@ public class SetupHivDataQuality {
 		scd.setQuery(sqlForMultipleArvNumber(prefix));
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "dup" + loc.toLowerCase(), null, rds);
+	}
+
+	private void createMultipleArvForAllLocations(
+			PeriodIndicatorReportDefinition[] rds, Collection<String> locations) {
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName("hivdq: Multiple ARV numbers all_");
+		for (String loc : locations) {
+			ccd.getSearches().put(
+				loc,
+				new Mapped(h.cohortDefinition("hivdq: Multiple ARV numbers " + loc + "_"),
+						h.parameterMap()));
+		}
+		String composition = "";
+		for (String loc : locations) {
+			composition += loc + " OR ";
+		}
+		ccd.setCompositionString(composition.substring(0, composition.length() - "OR ".length()));
+		h.replaceCohortDefinition(ccd);
+		createIndicator(ccd, "dupall", h.parameterMap(),
+				rds);
 	}
 
 	private String sqlForOutOfRangeArvNumbers(String locationPrefix) {
