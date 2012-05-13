@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.SetupApzuHivIndicators;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -22,7 +22,7 @@ public class ApzuHivIndicatorsPersistentSetup extends BaseModuleContextSensitive
 	@Test
 	@Rollback(false)
 	public void setupReport() throws Exception {
-		new SetupApzuHivIndicators(new Helper()).setup();
+		new SetupApzuHivIndicators(new ReportHelper()).setup();
 	}
 
 }

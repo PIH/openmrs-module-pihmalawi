@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -22,7 +22,7 @@ public class FindPatientsToMergeSoundexPersistentSetup extends BaseModuleContext
 	@Test
 	@Rollback(false)
 	public void setupReport() throws Exception {
-			new SetupFindPatientsToMergeSoundex(new Helper()).setup();
+			new SetupFindPatientsToMergeSoundex(new ReportHelper()).setup();
 	}
 	
 }

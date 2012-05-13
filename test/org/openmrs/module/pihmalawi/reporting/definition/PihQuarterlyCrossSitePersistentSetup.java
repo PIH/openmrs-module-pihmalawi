@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuarterlyCrossSite;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -22,6 +22,6 @@ public class PihQuarterlyCrossSitePersistentSetup extends BaseModuleContextSensi
 	@Test
 	@Rollback(false)
 	public void setupReport() throws Exception {
-		new SetupPihQuarterlyCrossSite(new Helper()).setup();
+		new SetupPihQuarterlyCrossSite(new ReportHelper()).setup();
 	}
 }

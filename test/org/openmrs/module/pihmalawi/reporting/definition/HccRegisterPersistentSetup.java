@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -22,7 +22,7 @@ public class HccRegisterPersistentSetup extends BaseModuleContextSensitiveTest {
 	@Test
 	@Rollback(false)
 	public void setupReport() throws Exception {
-		new SetupHccRegister(new Helper()).setup();
+		new SetupHccRegister(new ReportHelper()).setup();
 	}
 
 }

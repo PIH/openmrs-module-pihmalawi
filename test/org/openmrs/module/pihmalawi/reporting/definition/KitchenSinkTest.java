@@ -25,7 +25,7 @@ import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.AppointmentAdherenceCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
@@ -73,7 +73,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 	
 //	@Test
 	public void executeCohortDetailRendererReport() throws Exception {
-		ReportDefinition rds[] = new SetupChronicCareRegister(new Helper()).setup();
+		ReportDefinition rds[] = new SetupChronicCareRegister(new ReportHelper()).setup();
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("startDate", new Date());
 		context.addParameterValue("endDate", new Date());
@@ -129,7 +129,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 	public void run() throws Exception {
 
 		// ReportDefinition rds[] = new SetupSurvivalAnalysis(new
-		// Helper()).setup();
+		// ReportHelper()).setup();
 		// EvaluationContext context = new EvaluationContext();
 		// context.addParameterValue("startDate", new Date());
 		// context.addParameterValue("endDate", new Date());
@@ -147,7 +147,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 		// ProgramWorkflowState transferredOut = hiv.getWorkflowByName(
 		// "TREATMENT STATUS").getStateByName("Patient transferred out");
 		//
-		// Helper h = new Helper();
+		// ReportHelper h = new ReportHelper();
 		// EncounterAfterProgramStateEvaluator e = new
 		// EncounterAfterProgramStateEvaluator();
 		// EncounterAfterProgramStateCohortDefinition d = new

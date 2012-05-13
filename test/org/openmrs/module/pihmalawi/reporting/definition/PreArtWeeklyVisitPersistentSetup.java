@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtWeekly;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
@@ -22,6 +22,6 @@ public class PreArtWeeklyVisitPersistentSetup extends BaseModuleContextSensitive
 	@Test
 	@Rollback(false)
 	public void setupHivWeekly() throws Exception {
-		new SetupPreArtWeekly(new Helper()).setup(false);
+		new SetupPreArtWeekly(new ReportHelper()).setup(false);
 	}
 }
