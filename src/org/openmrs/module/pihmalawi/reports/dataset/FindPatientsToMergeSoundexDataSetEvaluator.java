@@ -24,7 +24,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.cohort.query.db.hibernate.HibernateCohortQueryDAO;
@@ -199,7 +199,7 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 	}
 
 	private String currentOutcome(Patient p, ProgramWorkflow pw) {
-		PatientState ps = new Helper().getMostRecentStateAtDate(p, pw, new Date());
+		PatientState ps = new ProgramHelper().getMostRecentStateAtDate(p, pw, new Date());
 		if (ps != null) {
 			return ps.getState().getConcept().getName() + "@" + (ps.getEndDate() == null ? formatDate(ps.getStartDate()) : formatDate(ps.getEndDate())); 
 		}

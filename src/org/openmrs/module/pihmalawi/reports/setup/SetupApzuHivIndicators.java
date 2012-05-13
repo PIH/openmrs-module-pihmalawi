@@ -10,8 +10,9 @@ import java.util.Map;
 import org.openmrs.Location;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -30,7 +31,7 @@ import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
 public class SetupApzuHivIndicators {
 
-	protected Helper h = null;
+	protected ReportHelper h = null;
 
 	protected String reportName = null;
 
@@ -38,7 +39,7 @@ public class SetupApzuHivIndicators {
 
 	protected List<Location> locations = null;
 
-	public SetupApzuHivIndicators(Helper helper) {
+	public SetupApzuHivIndicators(ReportHelper helper) {
 		h = helper;
 		configure("APZU HIV Indicators", "apzuhiv", Arrays.asList(
 				Context.getLocationService().getLocation(
@@ -212,8 +213,8 @@ public class SetupApzuHivIndicators {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.setName(reportTag + ": Pre-ART visits_");
 		ecd.setEncounterTypeList(Arrays.asList(
-				h.encounterType("PART_FOLLOWUP"),
-				h.encounterType("PART_INITIAL")));
+				MetadataLookup.encounterType("PART_FOLLOWUP"),
+				MetadataLookup.encounterType("PART_INITIAL")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		h.replaceCohortDefinition(ecd);
@@ -244,7 +245,7 @@ public class SetupApzuHivIndicators {
 		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		nocd.setQuestion(Context.getConceptService().getConceptByName(
 				"Clinician reported to CD4"));
-		nocd.setEncounterTypeList(Arrays.asList(h
+		nocd.setEncounterTypeList(Arrays.asList(MetadataLookup
 				.encounterType("PART_FOLLOWUP")));
 		nocd.setTimeModifier(TimeModifier.ANY);
 		h.replaceCohortDefinition(nocd);
@@ -274,8 +275,8 @@ public class SetupApzuHivIndicators {
 
 		ecd = new EncounterCohortDefinition();
 		ecd.setName(reportTag + ": ART visits_");
-		ecd.setEncounterTypeList(Arrays.asList(h.encounterType("ART_FOLLOWUP"),
-				h.encounterType("ART_INITIAL")));
+		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup.encounterType("ART_FOLLOWUP"),
+				MetadataLookup.encounterType("ART_INITIAL")));
 		ecd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		h.replaceCohortDefinition(ecd);

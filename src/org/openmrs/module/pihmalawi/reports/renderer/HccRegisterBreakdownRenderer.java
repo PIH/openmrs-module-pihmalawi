@@ -53,6 +53,12 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
 				endDateParameter);
 		addVhwCol(row, p);
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1);
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),

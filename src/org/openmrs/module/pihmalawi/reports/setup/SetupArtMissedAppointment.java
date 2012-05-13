@@ -11,8 +11,9 @@ import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtMissedAppointmentBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -26,12 +27,12 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 
 	boolean upperNeno;
 
-	public SetupArtMissedAppointment(Helper helper, boolean upperNeno) {
+	public SetupArtMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
 		if (upperNeno) {
 			configure("ART Missed Appointment Upper Neno", "artappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Neno District Hospital"),
@@ -49,7 +50,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 									"Luwani RHC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("ART Missed Appointment Lower Neno", "artappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Lisungwi Community Hospital"),
@@ -94,8 +95,8 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(h.encounterType("ART_INITIAL"),
-				h.encounterType("ART_FOLLOWUP"));
+		return Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
+				MetadataLookup.encounterType("ART_FOLLOWUP"));
 	}
 
 	@Override
@@ -208,7 +209,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public CohortDefinition transferredInternallyFromArtAtLocation(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", h.workflowState("HIV program",
+		parameterMap.put("state", MetadataLookup.workflowState("HIV program",
 				"Treatment status", "Transferred internally"));
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
@@ -243,7 +244,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("endDate", "${onDate}");
 		map.put("location", "${location}");
-		map.put("state", h.workflowState("HIV program", "Treatment status",
+		map.put("state", MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		cd.getSearches()
 				.put("2",
@@ -259,7 +260,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public CohortDefinition transferredInternallyFromArt(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", h.workflowState("HIV program",
+		parameterMap.put("state", MetadataLookup.workflowState("HIV program",
 				"Treatment status", "Transferred internally"));
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
@@ -268,7 +269,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		cd.getSearches().put(
 				"1",
 				new Mapped(h.cohortDefinition(prefix + ": In state_"), h
-						.parameterMap("onDate", "${onDate}", "state", h
+						.parameterMap("onDate", "${onDate}", "state", MetadataLookup
 								.workflowState("HIV program",
 										"Treatment status",
 										"Transferred internally"))));

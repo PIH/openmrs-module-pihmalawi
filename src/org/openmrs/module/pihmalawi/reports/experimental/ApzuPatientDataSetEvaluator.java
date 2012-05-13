@@ -31,7 +31,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -49,7 +49,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	protected Helper h = new Helper();
+	protected ProgramHelper h = new ProgramHelper();
 
 	public ApzuPatientDataSetEvaluator() {
 	}

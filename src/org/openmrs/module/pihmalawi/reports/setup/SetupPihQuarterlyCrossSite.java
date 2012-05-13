@@ -9,12 +9,12 @@ import java.util.Map;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
-import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
@@ -82,9 +82,9 @@ public class SetupPihQuarterlyCrossSite {
 	
 	private final ProgramWorkflowState STATE_ON_ANTIRETROVIRALS;
 	
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 	
-	public SetupPihQuarterlyCrossSite(Helper helper) {
+	public SetupPihQuarterlyCrossSite(ReportHelper helper) {
 		h = helper;
 		CONCEPT_HIV_DNA_PCR = Context.getConceptService()
 		        .getConceptByName("HIV DNA polymerase chain reaction");
@@ -180,7 +180,7 @@ public class SetupPihQuarterlyCrossSite {
 			String prefix) {
 		PatientStateCohortDefinition pscd2 = new PatientStateCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child at location_");
-		pscd2.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status",
+		pscd2.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Exposed Child (Continue)")));
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));

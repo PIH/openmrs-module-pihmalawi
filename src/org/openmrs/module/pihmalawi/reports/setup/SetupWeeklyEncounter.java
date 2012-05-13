@@ -11,7 +11,8 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortCrossTabDataSetDefinition;
@@ -44,9 +45,9 @@ public class SetupWeeklyEncounter {
 	/** List of included Users */
 	private final List<User> OTHER_USERS;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupWeeklyEncounter(Helper helper) {
+	public SetupWeeklyEncounter(ReportHelper helper) {
 		h = helper;
 		ENCOUNTER_TYPES = Arrays.asList(et("ART_INITIAL"), et("ART_FOLLOWUP"),
 				et("PART_INITIAL"), et("PART_FOLLOWUP"), et("EXPOSED_CHILD_INITIAL"),
@@ -64,21 +65,21 @@ public class SetupWeeklyEncounter {
 		}
 
 		LOCATIONS_LIST = Arrays.asList(
-				Arrays.asList(h.location("Neno District Hospital"),
-						h.location("Outpatient"),
-						h.location("Registration"), h.location("Vitals")),
-				Arrays.asList(h.location("Magaleta HC")),
-				Arrays.asList(h.location("Nsambe HC")),
-				Arrays.asList(h.location("Neno Mission HC")),
-				Arrays.asList(h.location("Matandani Rural Health Center")),
-				Arrays.asList(h.location("Luwani RHC")),
-				Arrays.asList(h.location("Ligowe HC")),
-				Arrays.asList(h.location("Lisungwi Community Hospital"),
-						h.location("Midzemba HC")),
-				Arrays.asList(h.location("Chifunga HC")),
-				Arrays.asList(h.location("Matope HC")),
-				Arrays.asList(h.location("Nkhula Falls RHC")),
-				Arrays.asList(h.location("Zalewa HC")));
+				Arrays.asList(MetadataLookup.location("Neno District Hospital"),
+						MetadataLookup.location("Outpatient"),
+						MetadataLookup.location("Registration"), MetadataLookup.location("Vitals")),
+				Arrays.asList(MetadataLookup.location("Magaleta HC")),
+				Arrays.asList(MetadataLookup.location("Nsambe HC")),
+				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
+				Arrays.asList(MetadataLookup.location("Matandani Rural Health Center")),
+				Arrays.asList(MetadataLookup.location("Luwani RHC")),
+				Arrays.asList(MetadataLookup.location("Ligowe HC")),
+				Arrays.asList(MetadataLookup.location("Lisungwi Community Hospital"),
+						MetadataLookup.location("Midzemba HC")),
+				Arrays.asList(MetadataLookup.location("Chifunga HC")),
+				Arrays.asList(MetadataLookup.location("Matope HC")),
+				Arrays.asList(MetadataLookup.location("Nkhula Falls RHC")),
+				Arrays.asList(MetadataLookup.location("Zalewa HC")));
 
 		List<Location> flatKnownLocations = new ArrayList<Location>();
 		for (List<Location> knownLocations : LOCATIONS_LIST) {

@@ -15,7 +15,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
@@ -38,7 +38,7 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupGenericMissedAppointment {
 
-	protected Helper h = null;
+	protected ReportHelper h = null;
 
 	protected ProgramWorkflow programWorkflow = null;
 
@@ -50,7 +50,7 @@ public class SetupGenericMissedAppointment {
 
 	private String breakdownRenderer = null;
 
-	public SetupGenericMissedAppointment(Helper helper) {
+	public SetupGenericMissedAppointment(ReportHelper helper) {
 		h = helper;
 	}
 

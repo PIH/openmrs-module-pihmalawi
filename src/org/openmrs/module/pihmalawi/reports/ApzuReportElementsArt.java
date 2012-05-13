@@ -11,6 +11,7 @@ import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -25,7 +26,7 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
 public class ApzuReportElementsArt {
 
-	static Helper h = new Helper();
+	static ReportHelper h = new ReportHelper();
 
 	public static String[] hivRegimenConcepts = { "1A: d4T / 3TC / NVP (previous 1L)",
 			"2A: AZT / 3TC / NVP (previous AZT)",
@@ -38,46 +39,46 @@ public class ApzuReportElementsArt {
 
 	public static List<List<Location>> locations() {
 		return Arrays.asList(
-				Arrays.asList(h.location("Neno District Hospital"),
-						h.location("Outpatient"),
-						h.location("Registration"), h.location("Vitals")),
-				Arrays.asList(h.location("Magaleta HC")),
-				Arrays.asList(h.location("Nsambe HC")),
-				Arrays.asList(h.location("Ligowe HC")),
-				Arrays.asList(h.location("Matandani Rural Health Center")),
-				Arrays.asList(h.location("Neno Mission HC")),
-				Arrays.asList(h.location("Luwani RHC")),
-				Arrays.asList(h.location("Lisungwi Community Hospital"),
-						h.location("Midzemba HC")),
-				Arrays.asList(h.location("Chifunga HC")),
-				Arrays.asList(h.location("Matope HC")),
-				Arrays.asList(h.location("Neno Mission HC")),
-				Arrays.asList(h.location("Nkhula Falls RHC")),
-				Arrays.asList(h.location("Zalewa HC")));
+				Arrays.asList(MetadataLookup.location("Neno District Hospital"),
+						MetadataLookup.location("Outpatient"),
+						MetadataLookup.location("Registration"), MetadataLookup.location("Vitals")),
+				Arrays.asList(MetadataLookup.location("Magaleta HC")),
+				Arrays.asList(MetadataLookup.location("Nsambe HC")),
+				Arrays.asList(MetadataLookup.location("Ligowe HC")),
+				Arrays.asList(MetadataLookup.location("Matandani Rural Health Center")),
+				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
+				Arrays.asList(MetadataLookup.location("Luwani RHC")),
+				Arrays.asList(MetadataLookup.location("Lisungwi Community Hospital"),
+						MetadataLookup.location("Midzemba HC")),
+				Arrays.asList(MetadataLookup.location("Chifunga HC")),
+				Arrays.asList(MetadataLookup.location("Matope HC")),
+				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
+				Arrays.asList(MetadataLookup.location("Nkhula Falls RHC")),
+				Arrays.asList(MetadataLookup.location("Zalewa HC")));
 	}
 
 	public static List<Location> hivLocations() {
-		return Arrays.asList(h.location("Neno District Hospital"),
-				h.location("Magaleta HC"), h.location("Nsambe HC"),
-				h.location("Neno Mission HC"), h.location("Ligowe HC"),
-				h.location("Matandani Rural Health Center"),
-				h.location("Luwani RHC"),
-				h.location("Lisungwi Community Hospital"),
-				h.location("Matope HC"), h.location("Chifunga HC"),
-				h.location("Zalewa HC"), h.location("Midzemba HC"),
-				h.location("Nkhula Falls RHC"));
+		return Arrays.asList(MetadataLookup.location("Neno District Hospital"),
+				MetadataLookup.location("Magaleta HC"), MetadataLookup.location("Nsambe HC"),
+				MetadataLookup.location("Neno Mission HC"), MetadataLookup.location("Ligowe HC"),
+				MetadataLookup.location("Matandani Rural Health Center"),
+				MetadataLookup.location("Luwani RHC"),
+				MetadataLookup.location("Lisungwi Community Hospital"),
+				MetadataLookup.location("Matope HC"), MetadataLookup.location("Chifunga HC"),
+				MetadataLookup.location("Zalewa HC"), MetadataLookup.location("Midzemba HC"),
+				MetadataLookup.location("Nkhula Falls RHC"));
 	}
 
 	public static List<Location> hivStaticLocations() {
-		return Arrays.asList(h.location("Neno District Hospital"),
-				h.location("Magaleta HC"), h.location("Nsambe HC"),
-				h.location("Neno Mission HC"), h.location("Ligowe HC"),
-				h.location("Matandani Rural Health Center"),
-				h.location("Luwani RHC"),
-				h.location("Lisungwi Community Hospital"),
-				h.location("Matope HC"), h.location("Chifunga HC"),
-				h.location("Zalewa HC"),
-				h.location("Nkhula Falls RHC"));
+		return Arrays.asList(MetadataLookup.location("Neno District Hospital"),
+				MetadataLookup.location("Magaleta HC"), MetadataLookup.location("Nsambe HC"),
+				MetadataLookup.location("Neno Mission HC"), MetadataLookup.location("Ligowe HC"),
+				MetadataLookup.location("Matandani Rural Health Center"),
+				MetadataLookup.location("Luwani RHC"),
+				MetadataLookup.location("Lisungwi Community Hospital"),
+				MetadataLookup.location("Matope HC"), MetadataLookup.location("Chifunga HC"),
+				MetadataLookup.location("Zalewa HC"),
+				MetadataLookup.location("Nkhula Falls RHC"));
 	}
 
 	public static String hivSiteCode(Location l) {
@@ -112,12 +113,12 @@ public class ApzuReportElementsArt {
 
 	public static List<EncounterType> hivEncounterTypes() {
 		return Arrays
-				.asList(h.encounterType("ART_INITIAL"),
-						h.encounterType("ART_FOLLOWUP"),
-						h.encounterType("PART_INITIAL"),
-						h.encounterType("PART_FOLLOWUP"),
-						h.encounterType("EXPOSED_CHILD_INITIAL"),
-						h.encounterType("EXPOSED_CHILD_FOLLOWUP"));
+				.asList(MetadataLookup.encounterType("ART_INITIAL"),
+						MetadataLookup.encounterType("ART_FOLLOWUP"),
+						MetadataLookup.encounterType("PART_INITIAL"),
+						MetadataLookup.encounterType("PART_FOLLOWUP"),
+						MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
+						MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP"));
 	}
 
 	public static CohortDefinition artActiveAtLocationOnDate(String prefix) {
@@ -127,7 +128,7 @@ public class ApzuReportElementsArt {
 		// internal transfers are still under responsibility of original clinic
 		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
 		// .getStateByName("Transferred internally"));
-		iscd.setState(h.workflowState("HIV program", "Treatment status",
+		iscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		iscd.addParameter(new Parameter("location", "location", Location.class));
@@ -138,7 +139,7 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition artEverEnrolledOnDate(String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Ever on ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV program",
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
 				"Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
@@ -150,7 +151,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": ART ever at location_");
-		pscd.setState(h.workflowState("HIV program", "Treatment status",
+		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
@@ -163,7 +164,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": ART at location_");
-		pscd.setState(h.workflowState("HIV program", "Treatment status",
+		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		pscd.addParameter(new Parameter("startedOnOrAfter",
 				"startedOnOrAfter", Date.class));
@@ -229,7 +230,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART at location_");
-		pscd.setState(h.workflowState("HIV program", "Treatment status",
+		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Pre-ART (Continue)"));
 		pscd.addParameter(new Parameter("startedOnOrAfter",
 				"startedOnOrAfter", Date.class));
@@ -276,7 +277,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART ever at location_");
-		pscd.setState(h.workflowState("HIV program", "Treatment status",
+		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Pre-ART (Continue)"));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
@@ -441,7 +442,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child ever at location_");
-		pscd2.setState(h.workflowState("HIV program", "Treatment status",
+		pscd2.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Exposed Child (Continue)"));
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
@@ -480,7 +481,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child at location_");
-		pscd2.setState(h.workflowState("HIV program", "Treatment status",
+		pscd2.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Exposed Child (Continue)"));
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
@@ -535,7 +536,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(prefix + ": Transferred out at location_");
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(h.workflowState("HIV program", "Treatment status",
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Patient transferred out"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;
@@ -546,7 +547,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(prefix + ": Died at location_");
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(h.workflowState("HIV program", "Treatment status",
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Patient died"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;
@@ -555,7 +556,7 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition transferredInternallyOnDate(String reportTag) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName(reportTag + ": transferred internally_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program",
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
 				"Treatment status", "Transferred internally")));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
@@ -709,7 +710,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(string + ": Active Pre-ART at location_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(h.workflowState("HIV program", "Treatment status",
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"Pre-ART (Continue)"));
 		h.replaceCohortDefinition(islcd);
 		
@@ -750,7 +751,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(string + ": Active ART at location_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(h.workflowState("HIV program", "Treatment status",
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;
@@ -761,7 +762,7 @@ public class ApzuReportElementsArt {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(string + ": Active ART_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
-		islcd.setState(h.workflowState("HIV program", "Treatment status",
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
 				"On antiretrovirals"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;

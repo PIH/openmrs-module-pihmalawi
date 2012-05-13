@@ -8,8 +8,9 @@ import java.util.Map;
 import org.openmrs.Location;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.GenericApzuBreakdownRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -31,9 +32,9 @@ public class SetupAppointmentsForLocation {
 
 	private final String PREFIX = "appt";
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupAppointmentsForLocation(Helper helper) {
+	public SetupAppointmentsForLocation(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -88,7 +89,7 @@ public class SetupAppointmentsForLocation {
 		docd.addParameter(new Parameter("value1", "Appointment Date",
 				Date.class));
 		docd.setEncounterTypeList(ApzuReportElementsArt.hivEncounterTypes());
-		docd.setQuestion(h.concept("Appointment date"));
+		docd.setQuestion(MetadataLookup.concept("Appointment date"));
 		docd.setTimeModifier(TimeModifier.LAST);
 		docd.setName(PREFIX + ": HIV Appointments");
 		docd.setOperator1(RangeComparator.EQUAL);

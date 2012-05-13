@@ -14,7 +14,8 @@ import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.HccMissedAppointmentBreakdownRenderer;
 import org.openmrs.module.pihmalawi.reports.setup.SetupGenericMissedAppointment;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -30,12 +31,12 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 
 	boolean upperNeno;
 
-	public SetupPreArtMissedAppointment(Helper helper, boolean upperNeno) {
+	public SetupPreArtMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
 		if (upperNeno) {
 			configure("Pre-ART Missed Appointment", "partappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Neno District Hospital"),
@@ -51,7 +52,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 									"Ligowe HC")), HccMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("Pre-ART Missed Appointment", "partappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Lisungwi Community Hospital"),
@@ -75,8 +76,8 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP"));
+		return Arrays.asList(MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP"));
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		ecd.setEncounterTypeList(Arrays.asList(h
+		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup
 				.encounterType("ADMINISTRATION")));
 		h.replaceCohortDefinition(ecd);
 

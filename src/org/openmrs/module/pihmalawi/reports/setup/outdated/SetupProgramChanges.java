@@ -12,7 +12,8 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.ApzuPatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -42,9 +43,9 @@ public class SetupProgramChanges {
 
 	private final List<Location> LOCATIONS;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupProgramChanges(Helper helper) {
+	public SetupProgramChanges(ReportHelper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
 				"HIV program");
@@ -68,15 +69,15 @@ public class SetupProgramChanges {
 						"Discharged uninfected"),
 				PROGRAM.getWorkflowByName("Treatment status").getStateByName(
 						"Treatment stopped"));
-		LOCATIONS = Arrays.asList(h.location("Neno District Hospital"),
-				h.location("Magaleta HC"), h.location("Nsambe HC"),
-				h.location("Neno Mission HC"),
-				h.location("Lisungwi Community Hospital"),
-				h.location("Matope HC"), h.location("Chifunga HC"),
-				h.location("Zalewa HC"), h.location("Nkhula Falls RHC"),
-				h.location("Matandani rural Health Center"),
-				h.location("Ligowe HC"),
-				h.location("Luwani RHC")
+		LOCATIONS = Arrays.asList(MetadataLookup.location("Neno District Hospital"),
+				MetadataLookup.location("Magaleta HC"), MetadataLookup.location("Nsambe HC"),
+				MetadataLookup.location("Neno Mission HC"),
+				MetadataLookup.location("Lisungwi Community Hospital"),
+				MetadataLookup.location("Matope HC"), MetadataLookup.location("Chifunga HC"),
+				MetadataLookup.location("Zalewa HC"), MetadataLookup.location("Nkhula Falls RHC"),
+				MetadataLookup.location("Matandani rural Health Center"),
+				MetadataLookup.location("Ligowe HC"),
+				MetadataLookup.location("Luwani RHC")
 				);
 
 	}
@@ -190,7 +191,7 @@ public class SetupProgramChanges {
 		// Started ART during period
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName("changes: Started ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV program",
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
 				"Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter",
 				Date.class));
@@ -201,7 +202,7 @@ public class SetupProgramChanges {
 		// Following during period
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName("changes: Following_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program",
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
 				"Treatment status", "Pre-ART (Continue)")));
 		iscd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));

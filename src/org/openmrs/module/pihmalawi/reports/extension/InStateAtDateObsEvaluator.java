@@ -21,7 +21,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
@@ -36,7 +36,7 @@ public class InStateAtDateObsEvaluator implements CohortDefinitionEvaluator {
 	public Cohort evaluate(CohortDefinition cohortDefinition,
 		EvaluationContext context) {
 	
-		Helper h = new Helper();
+		ProgramHelper h = new ProgramHelper();
 		Cohort result = new Cohort();
 		
 		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context

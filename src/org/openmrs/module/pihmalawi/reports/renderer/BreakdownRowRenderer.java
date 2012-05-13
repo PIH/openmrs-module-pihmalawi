@@ -30,7 +30,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
@@ -47,7 +47,7 @@ public abstract class BreakdownRowRenderer {
 	private Map<String, ProgramWorkflowState> programWorkflowStateCache = null;
 	private Map<String, PatientIdentifierType> patientIdentifierTypeCache = null;
 	
-	Helper h = new Helper();
+	ProgramHelper h = new ProgramHelper();
 
 	public BreakdownRowRenderer() {
 		conceptCache = new HashMap<String, Concept>();
@@ -289,6 +289,68 @@ public abstract class BreakdownRowRenderer {
 
 	}
 
+	protected void addVisitColsOfVisitX(DataSetRow row, Patient p,
+			List<EncounterType> encounterTypes, int visitNumber) {
+		try {
+			List<Encounter> encounters = Context.getEncounterService()
+					.getEncounters(p, null, null, null, null, encounterTypes,
+							null, false);
+			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date in program",
+					"Visit #" + visitNumber + " date in program", String.class);
+			DataSetColumn c2 = new DataSetColumn("Visit #" + visitNumber + " loc in program",
+					"Visit #" + visitNumber + " loc in program", String.class);
+			DataSetColumn c3 = new DataSetColumn("Visit #" + visitNumber + " appt date",
+					"Visit #" + visitNumber + " appt date", String.class);
+			if (encounters.size() >= visitNumber) {
+				Encounter e = encounters.get(visitNumber - 1);
+				row.addColumnValue(c1,
+						formatEncounterDate(e.getEncounterDatetime()));
+				row.addColumnValue(c2, e.getLocation());
+
+				// rvd from last encounter
+				Set<Obs> observations = e.getObs();
+				for (Obs o : observations) {
+					if (o.getConcept()
+							.equals(lookupConcept("Appointment date"))) {
+						row.addColumnValue(c3,
+								formatEncounterDate(o.getValueDatetime()));
+						break;
+					}
+				}
+			} else {
+				row.addColumnValue(c1, h("(no encounter found)"));
+				row.addColumnValue(c2, h(""));
+				row.addColumnValue(c3, h(""));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
+	protected void addOutcomeFromStateCols(DataSetRow row, Patient p,
+			Location locationParameter, ProgramWorkflow pw, ProgramWorkflowState stateBeforeStateChange) {
+		try {
+			PatientState ps = null;
+			// enrollment outcome from location
+			ps = h.getMostRecentStateAtLocation(p, pw, locationParameter,
+					sessionFactory().getCurrentSession());
+
+			DataSetColumn c = new DataSetColumn("Outcome", "Outcome",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, ps.getState().getConcept().getName()
+						.getName());
+			}
+			c = new DataSetColumn("Outcome change date", "Outcome change Date",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
 	protected void addOutcomeCols(DataSetRow row, Patient p,
 			Location locationParameter, ProgramWorkflow pw) {
 		try {
@@ -311,7 +373,6 @@ public abstract class BreakdownRowRenderer {
 		} catch (Exception e) {
 			log.error(e);
 		}
-
 	}
 
 	protected void addMostRecentOutcomeWithinDatabaseCols(DataSetRow row,

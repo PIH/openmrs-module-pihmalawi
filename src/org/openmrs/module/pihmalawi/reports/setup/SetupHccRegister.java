@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.DemographicsOnlyBreakdownRenderer;
 import org.openmrs.module.pihmalawi.reports.renderer.HccRegisterBreakdownRenderer;
@@ -26,9 +26,9 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupHccRegister {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupHccRegister(Helper helper) {
+	public SetupHccRegister(ReportHelper helper) {
 		h = helper;
 	}
 

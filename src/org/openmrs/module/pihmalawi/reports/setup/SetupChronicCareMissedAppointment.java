@@ -10,7 +10,8 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.ChronicCareMissedAppointmentBreakdownRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -28,14 +29,14 @@ public class SetupChronicCareMissedAppointment extends
 	/** List of encounter included in report */
 	private final List<EncounterType> ENCOUNTER_TYPES;
 
-	public SetupChronicCareMissedAppointment(Helper helper) {
+	public SetupChronicCareMissedAppointment(ReportHelper helper) {
 		super(helper);
 		ENCOUNTER_TYPES = Arrays.asList(
-				h.encounterType("CHRONIC_CARE_INITIAL"),
-				h.encounterType("CHRONIC_CARE_FOLLOWUP"));
+				MetadataLookup.encounterType("CHRONIC_CARE_INITIAL"),
+				MetadataLookup.encounterType("CHRONIC_CARE_FOLLOWUP"));
 
 		configure("Chronic Care Missed Appointment Neno", "ccappt",
-				helper.programWorkflow("Chronic care program",
+				MetadataLookup.programWorkflow("Chronic care program",
 						"Chronic care treatment status"), Arrays.asList(Context
 						.getLocationService().getLocation(
 								"Neno District Hospital")), ChronicCareMissedAppointmentBreakdownRenderer.class.getName());
@@ -55,8 +56,8 @@ public class SetupChronicCareMissedAppointment extends
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(h.encounterType("CHRONIC_CARE_INITIAL"),
-				h.encounterType("CHRONIC_CARE_FOLLOWUP"));
+		return Arrays.asList(MetadataLookup.encounterType("CHRONIC_CARE_INITIAL"),
+				MetadataLookup.encounterType("CHRONIC_CARE_FOLLOWUP"));
 	}
 
 	@Override

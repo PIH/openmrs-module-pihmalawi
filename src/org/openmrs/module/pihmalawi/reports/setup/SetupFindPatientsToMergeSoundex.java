@@ -6,8 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.FindPatientsToMergeSoundexDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
@@ -24,9 +25,9 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupFindPatientsToMergeSoundex {
 
-	private Helper h;
+	private ReportHelper h;
 
-	public SetupFindPatientsToMergeSoundex(Helper helper) {
+	public SetupFindPatientsToMergeSoundex(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -58,14 +59,14 @@ public class SetupFindPatientsToMergeSoundex {
 
 		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
 		dsd.setEncounterTypesToLookForDuplicates(Arrays.asList(
-				h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP")));
+				MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP")));
 		dsd.setEncounterTypesForSummary(Arrays.asList(
-				h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP"),
-				h.encounterType("ART_INITIAL"),
-				h.encounterType("ART_FOLLOWUP")));
-		dsd.setProgramWorkflowForSummary(h.programWorkflow("HIV program",
+				MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP"),
+				MetadataLookup.encounterType("ART_INITIAL"),
+				MetadataLookup.encounterType("ART_FOLLOWUP")));
+		dsd.setProgramWorkflowForSummary(MetadataLookup.programWorkflow("HIV program",
 				"Treatment status"));
 		dsd.setPatientIdentifierTypeRequiredToLookForDuplicates(Context.getPatientService()
 				.getPatientIdentifierTypeByName("HCC Number"));
@@ -81,16 +82,16 @@ public class SetupFindPatientsToMergeSoundex {
 
 		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
 		dsd.setEncounterTypesToLookForDuplicates(Arrays.asList(
-				h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP")));
+				MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP")));
 		dsd.setEncounterTypesForSummary(Arrays.asList(
-				h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP"),
-				h.encounterType("ART_INITIAL"),
-				h.encounterType("ART_FOLLOWUP"),
-				h.encounterType("EXPOSED_CHILD_INITIAL"),
-				h.encounterType("EXPOSED_CHILD_FOLLOWUP")));
-		dsd.setProgramWorkflowForSummary(h.programWorkflow("HIV program",
+				MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP"),
+				MetadataLookup.encounterType("ART_INITIAL"),
+				MetadataLookup.encounterType("ART_FOLLOWUP"),
+				MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
+				MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP")));
+		dsd.setProgramWorkflowForSummary(MetadataLookup.programWorkflow("HIV program",
 				"Treatment status"));
 		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
 
@@ -141,8 +142,8 @@ public class SetupFindPatientsToMergeSoundex {
 		h.replaceCohortDefinition(docd);
 
 		docd = new EncounterCohortDefinition();
-		docd.setEncounterTypeList(Arrays.asList(h.encounterType("ART_INITIAL"),
-				h.encounterType("ART_FOLLOWUP")));
+		docd.setEncounterTypeList(Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
+				MetadataLookup.encounterType("ART_FOLLOWUP")));
 		docd.setName("merge: ART Encounters");
 		h.replaceCohortDefinition(docd);
 

@@ -10,7 +10,8 @@ import java.util.Map;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.TbRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -31,12 +32,12 @@ public class SetupTbRegister {
 	/** List of encounter included in report */
 	private final List<EncounterType> ENCOUNTER_TYPES;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupTbRegister(Helper helper) {
+	public SetupTbRegister(ReportHelper helper) {
 		h = helper;
 		ENCOUNTER_TYPES = Arrays.asList(
-				h.encounterType("TB_INITIAL")
+				MetadataLookup.encounterType("TB_INITIAL")
 				);
 	}
 

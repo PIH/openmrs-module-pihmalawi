@@ -23,7 +23,8 @@ import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -332,7 +333,7 @@ public class SyncFromExcelRegister {
 				"Neno District Hospital");
 
 		// hiv program states at location
-		List<PatientState> states = new Helper()
+		List<PatientState> states = new ProgramHelper()
 				.getPatientStatesByWorkflowAtLocation(p, onArtState, location,
 						hibernateSession);
 
@@ -358,7 +359,7 @@ public class SyncFromExcelRegister {
 				"Neno District Hospital");
 
 		// hiv program states at location
-		PatientState state = new Helper().getMostRecentStateAtLocation(p,
+		PatientState state = new ProgramHelper().getMostRecentStateAtLocation(p,
 				Arrays.asList(onArtState), location, hibernateSession);
 
 		return state;

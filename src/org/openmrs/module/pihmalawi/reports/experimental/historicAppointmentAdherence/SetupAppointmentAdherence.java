@@ -11,7 +11,7 @@ import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.ApzuPatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.AppointmentAdherenceCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -33,7 +33,7 @@ public class SetupAppointmentAdherence {
 	private static final Concept APPOINTMENT_CONCEPT = Context
 			.getConceptService().getConceptByName("Appointment date");
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
 	private final ProgramWorkflowState STATE;
 
@@ -44,7 +44,7 @@ public class SetupAppointmentAdherence {
 
 	private boolean fixedHistoricAdherence = false;
 	
-	public SetupAppointmentAdherence(Helper helper, String prefix,
+	public SetupAppointmentAdherence(ReportHelper helper, String prefix,
 			String name, ProgramWorkflowState state,
 			List<EncounterType> encounterTypes, boolean fixedHistoricAdherence) {
 		h = helper;

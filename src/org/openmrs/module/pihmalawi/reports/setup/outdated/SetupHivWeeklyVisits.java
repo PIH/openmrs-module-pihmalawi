@@ -6,7 +6,7 @@ import java.util.Date;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -14,9 +14,9 @@ import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
 public class SetupHivWeeklyVisits {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupHivWeeklyVisits(Helper helper) {
+	public SetupHivWeeklyVisits(ReportHelper helper) {
 		h = helper;
 	}
 

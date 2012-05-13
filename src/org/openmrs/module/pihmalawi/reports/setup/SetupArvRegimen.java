@@ -13,7 +13,7 @@ import org.openmrs.Location;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -37,11 +37,11 @@ public class SetupArvRegimen {
 
 	private final Concept CONCEPT_REGIMEN;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
 	private final EncounterType ART_FOLLOWUP_ENCOUNTER;
 
-	public SetupArvRegimen(Helper helper) {
+	public SetupArvRegimen(ReportHelper helper) {
 		h = helper;
 		CONCEPT_REGIMEN = Context.getConceptService().getConceptByName(
 				"Malawi Antiretroviral drugs received");

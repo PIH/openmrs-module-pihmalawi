@@ -16,7 +16,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAfterStartedStateCohortDefinition;
@@ -55,7 +55,7 @@ public class SetupArvQuarterly {
 	
 	private final Program PROGRAM;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
 	private final ProgramWorkflowState STATE_DIED;
 
@@ -73,7 +73,7 @@ public class SetupArvQuarterly {
 	/** little hack to have a start date. maybe we could live without it */
 	private static final String MIN_DATE_PARAMETER = "${startDate-5000m}";
 
-	public SetupArvQuarterly(Helper helper) {
+	public SetupArvQuarterly(ReportHelper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
 				"HIV program");

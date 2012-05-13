@@ -18,6 +18,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
@@ -63,13 +64,13 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		REMARKS = Context.getConceptService().getConceptByName(
 				"Comments at conclusion of examination");
 
-		tbProgram = h.program("TB program");
-		programWorkflow = h.programWorkflow("TB program",
+		tbProgram = MetadataLookup.program("TB program");
+		programWorkflow = MetadataLookup.programWorkflow("TB program",
 				"Tuberculosis treatment status");
-		onTreatment = h.workflowState("TB program",
+		onTreatment = MetadataLookup.workflowState("TB program",
 				"Tuberculosis treatment status", "Currently in treatment");
 
-		encounterTypes = Arrays.asList(h.encounterType("TB_INITIAL"));
+		encounterTypes = Arrays.asList(MetadataLookup.encounterType("TB_INITIAL"));
 
 	}
 

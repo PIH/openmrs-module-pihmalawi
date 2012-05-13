@@ -11,8 +11,9 @@ import org.openmrs.Location;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.ApzuPatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -35,9 +36,9 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupHivWeeklyOutcome {
 	
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 	
-	public SetupHivWeeklyOutcome(Helper helper) {
+	public SetupHivWeeklyOutcome(ReportHelper helper) {
 		h = helper;
 	}
 	
@@ -243,19 +244,19 @@ public class SetupHivWeeklyOutcome {
 		h.newCountIndicator("hiv: On ART 1 week ago_", "hiv: On ART_", "onDate=${endDate-1w}");
 		h.newCountIndicator("hiv: On ART 2 weeks ago_", "hiv: On ART_", "onDate=${endDate-2w}");
 		
-		newCountIndicatorForLocationsWithState("hiv: Died from On ART", "hiv: In state at location from On ART_", h
+		newCountIndicatorForLocationsWithState("hiv: Died from On ART", "hiv: In state at location from On ART_", MetadataLookup
 		        .workflowState("HIV program", "Treatment status", "Patient died"));
 		
 		newCountIndicatorForLocationsWithState("hiv: Transferred out from On ART",
-		    "hiv: In state at location from On ART_", h.workflowState("HIV program", "Treatment status",
+		    "hiv: In state at location from On ART_", MetadataLookup.workflowState("HIV program", "Treatment status",
 		        "Patient transferred out"));
 		
 		newCountIndicatorForLocationsWithState("hiv: Transferred internally from On ART",
-		    "hiv: In state at location from On ART_", h.workflowState("HIV program", "Treatment status",
+		    "hiv: In state at location from On ART_", MetadataLookup.workflowState("HIV program", "Treatment status",
 		        "Transferred internally"));
 		
 		newCountIndicatorForLocationsWithState("hiv: Treatment stopped from On ART", "hiv: In state at location from On ART_",
-		    h.workflowState("HIV program", "Treatment status", "Treatment stopped"));
+				MetadataLookup.workflowState("HIV program", "Treatment status", "Treatment stopped"));
 		
 		h.newCountIndicator("hiv: Ever on ART_", "hiv: Ever on ART_", "startedOnOrBefore=${endDate}");
 		h.newCountIndicator("hiv: Ever on ART 1 week ago_", "hiv: Ever on ART_", "startedOnOrBefore=${endDate-1w}");
@@ -310,35 +311,35 @@ public class SetupHivWeeklyOutcome {
 		// On ART
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: On ART_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
 		// Treatment stopped
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: Treatment stopped_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "Treatment stopped")));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "Treatment stopped")));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
 		// Transferred out
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: Transferred out_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "Patient transferred out")));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient transferred out")));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
 		// Died
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: Died_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "Patient died")));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient died")));
 		iscd.addParameter(new Parameter("onDate", "endDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		
 		// Started ART during period
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName("hiv: Started ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
@@ -346,7 +347,7 @@ public class SetupHivWeeklyOutcome {
 		// Following during period
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hiv: Following_");
-		iscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "Pre-ART (Continue)")));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "Pre-ART (Continue)")));
 		iscd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		h.replaceCohortDefinition(iscd);
@@ -370,7 +371,7 @@ public class SetupHivWeeklyOutcome {
 		// On ART before end date
 		pscd = new PatientStateCohortDefinition();
 		pscd.setName("hiv: Ever On ART_");
-		pscd.setStates(Arrays.asList(h.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals")));
 		pscd.addParameter(new Parameter("startedOnOrBefore", "endDate", Date.class));
 		h.replaceCohortDefinition(pscd);
 		
@@ -407,7 +408,7 @@ public class SetupHivWeeklyOutcome {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("endDate", "${onDate}");
 		map.put("location", "${location}");
-		map.put("state", h.workflowState("HIV program", "Treatment status", "On antiretrovirals"));
+		map.put("state", MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals"));
 		cd.getSearches().put("2",
 		    new Mapped(h.cohortDefinition("hiv: Ever enrolled in program at location with state_"), map));
 		cd.setCompositionString("1 AND 2");

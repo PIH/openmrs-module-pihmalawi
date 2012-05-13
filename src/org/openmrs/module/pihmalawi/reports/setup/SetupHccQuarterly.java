@@ -12,7 +12,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
@@ -37,7 +37,7 @@ public class SetupHccQuarterly {
 	protected static final Log log = LogFactory
 			.getLog(HibernatePihMalawiQueryDao.class);
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
 	private final Program PROGRAM;
 
@@ -68,7 +68,7 @@ public class SetupHccQuarterly {
 	/** little hack to have a start date. maybe we could live without it */
 	private static final String MIN_DATE_PARAMETER = "${startDate-5000m}";
 
-	public SetupHccQuarterly(Helper helper) {
+	public SetupHccQuarterly(ReportHelper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
 				"HIV program");

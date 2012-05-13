@@ -13,6 +13,7 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
@@ -31,66 +32,59 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 	private void init() {
 		// set up all concepts for all encountertypes to be included
 		EVALUATION_CONCEPTS = new ArrayList<Concept>();
-		EVALUATION_CONCEPTS.add(h.concept("Weight (kg)"));
-		EVALUATION_CONCEPTS.add(h.concept("Height (cm)"));
-		EVALUATION_CONCEPTS.add(h.concept("BODY SURFACE AREA CALCULATED"));
-		EVALUATION_CONCEPTS.add(h.concept("BODY MASS INDEX, MEASURED"));
-		EVALUATION_CONCEPTS.add(h
-				.concept("KAPOSIS SARCOMA METHOD OF DIAGNOSIS"));
-		EVALUATION_CONCEPTS.add(h.concept("CHEMOTHERAPY CYCLE NUMBER"));
-		EVALUATION_CONCEPTS.add(h.concept("TAKING ANTIRETROVIRAL DRUGS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("Weight (kg)"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("Height (cm)"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("BODY SURFACE AREA CALCULATED"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("BODY MASS INDEX, MEASURED"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("KAPOSIS SARCOMA METHOD OF DIAGNOSIS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("CHEMOTHERAPY CYCLE NUMBER"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("TAKING ANTIRETROVIRAL DRUGS"));
 		EVALUATION_CONCEPTS
-				.add(h.concept("REASON ANTIRETROVIRALS STARTED"));
-		EVALUATION_CONCEPTS.add(h.concept("DATE OF HIV DIAGNOSIS"));
-		EVALUATION_CONCEPTS.add(h.concept("STATUS OF ANTIRETROVIRAL REGIMEN"));
+				.add(MetadataLookup.concept("REASON ANTIRETROVIRALS STARTED"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("DATE OF HIV DIAGNOSIS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("STATUS OF ANTIRETROVIRAL REGIMEN"));
 		EVALUATION_CONCEPTS
-				.add(h.concept("KAPOSIS SARCOMA SIDE EFFECTS WORSENING WHILE ON ARVS?"));
-		EVALUATION_CONCEPTS.add(h
-				.concept("HISTORY OF OPPORTUNISTIC INFECTIONS?"));
-		EVALUATION_CONCEPTS.add(h
-				.concept("ARE YOU PRESENTLY PHYSICALLY ABLE TO WORK"));
-		EVALUATION_CONCEPTS.add(h.concept("IS PATIENT ABLE TO EAT?"));
-		EVALUATION_CONCEPTS.add(h.concept("IS PATIENT ABLE TO WALK?"));
-		EVALUATION_CONCEPTS.add(h.concept("PATIENT COMPLAINS OF COUGH"));
-		EVALUATION_CONCEPTS.add(h.concept("PAIN SCALE OF 0 TO 10"));
+				.add(MetadataLookup.concept("KAPOSIS SARCOMA SIDE EFFECTS WORSENING WHILE ON ARVS?"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("HISTORY OF OPPORTUNISTIC INFECTIONS?"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("ARE YOU PRESENTLY PHYSICALLY ABLE TO WORK"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("IS PATIENT ABLE TO EAT?"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("IS PATIENT ABLE TO WALK?"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("PATIENT COMPLAINS OF COUGH"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("PAIN SCALE OF 0 TO 10"));
 		// laboratory examinations construct
-		EVALUATION_CONCEPTS.add(h
-				.concept("SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE"));
-		EVALUATION_CONCEPTS.add(h
-				.concept("STOOL GUAIAC (OCCULT BLOOD TEST) RESULT"));
-		EVALUATION_CONCEPTS.add(h.concept("WHITE BLOOD CELLS"));
-		EVALUATION_CONCEPTS.add(h.concept("CHEST XRAY COMMENTS"));
-		EVALUATION_CONCEPTS.add(h.concept("HEMOGLOBIN"));
-		EVALUATION_CONCEPTS.add(h.concept("LYMPHOCYTES"));
-		EVALUATION_CONCEPTS.add(h
-				.concept("ALANINE AMINOTRANSFERASE")); // aka SERUM GLUTAMIC-PYRUVIC TRANSAMINASE
-		EVALUATION_CONCEPTS.add(h.concept("NEUTROPHILS"));
-		EVALUATION_CONCEPTS.add(h.concept("CD4 count"));
-		EVALUATION_CONCEPTS.add(h.concept("PLATELETS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("STOOL GUAIAC (OCCULT BLOOD TEST) RESULT"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("WHITE BLOOD CELLS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("CHEST XRAY COMMENTS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("HEMOGLOBIN"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("LYMPHOCYTES"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("ALANINE AMINOTRANSFERASE")); // aka SERUM GLUTAMIC-PYRUVIC TRANSAMINASE
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("NEUTROPHILS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("CD4 count"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("PLATELETS"));
 		// laboratory examinations construct
-		EVALUATION_CONCEPTS.add(h.concept("NUMBER OF LESIONS"));
-		EVALUATION_CONCEPTS.add(h.concept("KS CLINICAL EXAM FINDINGS"));
-		EVALUATION_CONCEPTS.add(h.concept("LYMPHADENOPATHY COMMENTS"));
-		EVALUATION_CONCEPTS.add(h.concept("TUMOUR PROGNOSIS FOR KS"));
-		EVALUATION_CONCEPTS.add(h.concept("SYSTEMIC ILLNESS PROGNOSIS FOR KS"));
-		EVALUATION_CONCEPTS.add(h.concept("DATE ANTIRETROVIRALS STARTED"));
-//		jEVALUATION_CONCEPTS.add(h.concept("CD4 count")); // not sure how to deal with the construct
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("NUMBER OF LESIONS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("KS CLINICAL EXAM FINDINGS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("LYMPHADENOPATHY COMMENTS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("TUMOUR PROGNOSIS FOR KS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("SYSTEMIC ILLNESS PROGNOSIS FOR KS"));
+		EVALUATION_CONCEPTS.add(MetadataLookup.concept("DATE ANTIRETROVIRALS STARTED"));
+//		jEVALUATION_CONCEPTS.add(MetadataLookup.concept("CD4 count")); // not sure how to deal with the construct
 		
 		CHEMOTHERAPY_CONCEPTS = new ArrayList<Concept>();
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("Height (cm)"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("CHEMOTHERAPY CYCLE NUMBER"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("Weight (kg)"));
-		CHEMOTHERAPY_CONCEPTS.add(h
-				.concept("VINCRISTINE SULPHATE DOSE RECEIVED"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("BLEOMYCIN DOSE RECEIVED"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("Height (cm)"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("CHEMOTHERAPY CYCLE NUMBER"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("Weight (kg)"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("VINCRISTINE SULPHATE DOSE RECEIVED"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("BLEOMYCIN DOSE RECEIVED"));
 		CHEMOTHERAPY_CONCEPTS
-				.add(h.concept("PACLITAXEL (TAXOL) DOSE RECEIVED"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("HEMOGLOBIN"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("PLATELETS"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("NEUTROPHILS"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("WHITE BLOOD CELLS"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("Appointment date"));
-		CHEMOTHERAPY_CONCEPTS.add(h.concept("SERUM ALBUMIN"));
+				.add(MetadataLookup.concept("PACLITAXEL (TAXOL) DOSE RECEIVED"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("HEMOGLOBIN"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("PLATELETS"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("NEUTROPHILS"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("WHITE BLOOD CELLS"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("Appointment date"));
+		CHEMOTHERAPY_CONCEPTS.add(MetadataLookup.concept("SERUM ALBUMIN"));
 	}
 
 	public DataSetRow renderRow(Patient p,
@@ -122,10 +116,10 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addAllEnrollmentsCol(row, p);
 		
 		exportAllEncountersAndObs(p, row, locationParameter, endDateParameter,
-				h.encounterType("PATIENT EVALUATION"), MAX_EVALUATIONS,
+				MetadataLookup.encounterType("PATIENT EVALUATION"), MAX_EVALUATIONS,
 				EVALUATION_CONCEPTS);
 		exportAllEncountersAndObs(p, row, locationParameter, endDateParameter,
-				h.encounterType("CHEMOTHERAPY"), MAX_CHEMOTHERAPIES,
+				MetadataLookup.encounterType("CHEMOTHERAPY"), MAX_CHEMOTHERAPIES,
 				CHEMOTHERAPY_CONCEPTS);
 
 		return row;

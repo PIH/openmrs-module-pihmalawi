@@ -8,7 +8,8 @@ import java.util.Map;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition.ColumnDisplayFormat;
@@ -20,9 +21,9 @@ import org.openmrs.module.reporting.report.service.ReportService;
 
 public class SetupChronicCareVisits {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupChronicCareVisits(Helper helper) {
+	public SetupChronicCareVisits(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -67,7 +68,7 @@ public class SetupChronicCareVisits {
 		Map<String, Mapped<? extends DataSetDefinition>> map = new HashMap<String, Mapped<? extends DataSetDefinition>>();
 		map.put("initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("CHRONIC_CARE_INITIAL")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
@@ -76,7 +77,7 @@ public class SetupChronicCareVisits {
 										"National ID")))));
 		map.put("followup",
 				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(h
+						h.parameterMap("encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("CHRONIC_CARE_FOLLOWUP")),
 								"encounterDatetimeOnOrBefore", "${endDate}",
 								"encounterDatetimeOnOrAfter", "${startDate}",

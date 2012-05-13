@@ -9,8 +9,9 @@ import java.util.Map;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.HccMissedAppointmentBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -23,12 +24,12 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 
 	boolean upperNeno;
 
-	public SetupHccMissedAppointment(Helper helper, boolean upperNeno) {
+	public SetupHccMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
 		if (upperNeno) {
 			configure("HCC Missed Appointment Upper Neno", "hccappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Neno District Hospital"),
@@ -47,7 +48,7 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 					HccMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("HCC Missed Appointment Lower Neno", "hccappt",
-					helper.programWorkflow("HIV program", "Treatment status"),
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Lisungwi Community Hospital"),
@@ -93,10 +94,10 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(h.encounterType("PART_INITIAL"),
-				h.encounterType("PART_FOLLOWUP"),
-				h.encounterType("EXPOSED_CHILD_INITIAL"),
-				h.encounterType("EXPOSED_CHILD_FOLLOWUP"));
+		return Arrays.asList(MetadataLookup.encounterType("PART_INITIAL"),
+				MetadataLookup.encounterType("PART_FOLLOWUP"),
+				MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
+				MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP"));
 	}
 
 	@Override

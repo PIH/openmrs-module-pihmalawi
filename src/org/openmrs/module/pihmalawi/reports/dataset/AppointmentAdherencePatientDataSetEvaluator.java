@@ -22,7 +22,8 @@ import org.openmrs.PatientState;
 import org.openmrs.Person;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -129,8 +130,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			c = new DataSetColumn("Village", "Village", String.class);
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			// enrollment outcome
-			PatientState ps = new Helper().getMostRecentStateAtLocation_hack(p,
-					new Helper().program("HIV program"), location,
+			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation_hack(p,
+					MetadataLookup.program("HIV program"), location,
 					sessionFactory().getCurrentSession());
 			c = new DataSetColumn("Outcome", "Outcome", String.class);
 			row.addColumnValue(c, ps.getState().getConcept().getName()

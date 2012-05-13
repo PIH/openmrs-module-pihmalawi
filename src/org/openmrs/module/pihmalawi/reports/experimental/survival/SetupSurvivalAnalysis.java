@@ -9,7 +9,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -30,9 +30,9 @@ public class SetupSurvivalAnalysis {
 
 	private final ProgramWorkflowState START_STATE;
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupSurvivalAnalysis(Helper helper) {
+	public SetupSurvivalAnalysis(ReportHelper helper) {
 		h = helper;
 		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
 				"HIV program");

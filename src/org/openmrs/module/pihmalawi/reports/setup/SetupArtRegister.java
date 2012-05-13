@@ -7,8 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
@@ -27,9 +28,9 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupArtRegister {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupArtRegister(Helper helper) {
+	public SetupArtRegister(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -52,7 +53,7 @@ public class SetupArtRegister {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
 		AppointmentAdherencePatientDataSetDefinition dsd = new AppointmentAdherencePatientDataSetDefinition();
-		dsd.setEncounterTypes(Arrays.asList(h.encounterType("ART_FOLLOWUP")));
+		dsd.setEncounterTypes(Arrays.asList(MetadataLookup.encounterType("ART_FOLLOWUP")));
 		dsd.setPatientIdentifierType(Context.getPatientService()
 				.getPatientIdentifierTypeByName("ARV Number"));
 

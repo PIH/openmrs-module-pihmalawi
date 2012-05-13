@@ -15,7 +15,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -98,7 +98,7 @@ public class ScriptingDataSetEvaluator implements DataSetEvaluator {
 						&& ps.getState().getId()
 								.equals(internalTransfer.getId())) {
 					log.warn("PS matches " + pp.getId());
-					Location programLocation = new Helper().getEnrollmentLocation(ps.getPatientProgram(),
+					Location programLocation = new ProgramHelper().getEnrollmentLocation(ps.getPatientProgram(),
 							 sessionFactory().getCurrentSession());
 					if (programLocation != null && location != null && programLocation.getId().equals(location.getId())) {
 						// found a program with last state internal transfer, add

@@ -18,7 +18,8 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.ApzuPatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
@@ -43,9 +44,9 @@ import org.openmrs.serialization.SerializationException;
 
 public class SetupPreArtWeekly {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupPreArtWeekly(Helper helper) {
+	public SetupPreArtWeekly(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -150,7 +151,7 @@ public class SetupPreArtWeekly {
 				"1",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -172,7 +173,7 @@ public class SetupPreArtWeekly {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		ecd.setEncounterTypeList(Arrays.asList(h
+		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup
 				.encounterType("ADMINISTRATION")));
 		h.replaceCohortDefinition(ecd);
 
@@ -185,7 +186,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"Pre-ART (Continue)"), "onDate", "${onDate}",
 										"location", "${location}")));
@@ -207,7 +208,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"Pre-ART (Continue)"), "onDate", "${onDate}",
 										"location", "${location}")));
@@ -228,7 +229,7 @@ public class SetupPreArtWeekly {
 				"1",
 				new Mapped(h
 						.cohortDefinition("part: State change at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrAfter", "${startedOnOrAfter}",
 								"startedOnOrBefore", "${startedOnOrBefore}",
@@ -250,7 +251,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"Patient died"), "onDate",
 										"${startedOnOrBefore}", "location",
@@ -259,7 +260,7 @@ public class SetupPreArtWeekly {
 				.put("2",
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"On antiretrovirals"),
 										"startedOnOrBefore",
@@ -271,7 +272,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -293,7 +294,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"PATIENT HIV NEGATIVE"), "onDate",
 										"${startedOnOrBefore}", "location",
@@ -302,7 +303,7 @@ public class SetupPreArtWeekly {
 				.put("2",
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"On antiretrovirals"),
 										"startedOnOrBefore",
@@ -314,7 +315,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -336,7 +337,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"Patient transferred out"), "onDate",
 										"${startedOnOrBefore}", "location",
@@ -345,7 +346,7 @@ public class SetupPreArtWeekly {
 				.put("2",
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"On antiretrovirals"),
 										"startedOnOrBefore",
@@ -357,7 +358,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -377,18 +378,18 @@ public class SetupPreArtWeekly {
 		 * ccd.addParameter(new Parameter("location", "location",
 		 * Location.class)); ccd.getSearches().put( "1", new
 		 * Mapped(h.cohortDefinition("part: In state on date at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * h.parameterMap("state", MetadataLookup.workflowState( "HIV program",
 		 * "Treatment status", "Transferred internally"), "onDate",
 		 * "${startedOnOrBefore}", "location", "${location}")));
 		 * ccd.getSearches().put( "2", new
 		 * Mapped(h.cohortDefinition("part: Not having state at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * h.parameterMap("state", MetadataLookup.workflowState( "HIV program",
 		 * "Treatment status", "On antiretrovirals"), "startedOnOrBefore",
 		 * "${startedOnOrBefore}", "startedOnOrAfter",
 		 * "${startedOnOrAfter-100y}", "location", "${location}")));
 		 * ccd.getSearches().put( "3", new
 		 * Mapped(h.cohortDefinition("part: Having state at location_"),
-		 * h.parameterMap("state", h.workflowState( "HIV program",
+		 * h.parameterMap("state", MetadataLookup.workflowState( "HIV program",
 		 * "Treatment status", "Pre-ART (Continue)"), "startedOnOrBefore",
 		 * "${startedOnOrBefore}", "startedOnOrAfter",
 		 * "${startedOnOrAfter-100y}", "location", "${location}")));
@@ -409,7 +410,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"Treatment stopped"), "onDate",
 										"${startedOnOrBefore}", "location",
@@ -418,7 +419,7 @@ public class SetupPreArtWeekly {
 				.put("2",
 						new Mapped(
 								h.cohortDefinition("part: Not having state at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"On antiretrovirals"),
 										"startedOnOrBefore",
@@ -430,7 +431,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -452,7 +453,7 @@ public class SetupPreArtWeekly {
 				"2",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "On antiretrovirals"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -461,7 +462,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -483,7 +484,7 @@ public class SetupPreArtWeekly {
 				.put("1",
 						new Mapped(
 								h.cohortDefinition("part: In state on date at location_"),
-								h.parameterMap("state", h.workflowState(
+								h.parameterMap("state", MetadataLookup.workflowState(
 										"HIV program", "Treatment status",
 										"On antiretrovirals"), "onDate",
 										"${startedOnOrBefore}", "location",
@@ -492,7 +493,7 @@ public class SetupPreArtWeekly {
 				"3",
 				new Mapped(h
 						.cohortDefinition("part: Having state at location_"), h
-						.parameterMap("state", h.workflowState("HIV program",
+						.parameterMap("state", MetadataLookup.workflowState("HIV program",
 								"Treatment status", "Pre-ART (Continue)"),
 								"startedOnOrBefore", "${startedOnOrBefore}",
 								"startedOnOrAfter", "${startedOnOrAfter-100y}",
@@ -798,19 +799,19 @@ public class SetupPreArtWeekly {
 			String indicatorKey, CohortDefinition nocd,
 			Map<String, Object> parameterMap,
 			Map<String, String> dimensionOptions) {
-		parameterMap.put("location", h.location("Neno District Hospital"));
+		parameterMap.put("location", MetadataLookup.location("Neno District Hospital"));
 		CohortIndicator i = h.newCountIndicator(nocd.getName() + " (Neno)",
 				nocd.getName(), parameterMap);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc1",
 				nocd.getName(), i, dimensionOptions);
 
-		parameterMap.put("location", h.location("Nsambe HC"));
+		parameterMap.put("location", MetadataLookup.location("Nsambe HC"));
 		i = h.newCountIndicator(nocd.getName() + " (Nsambe)", nocd.getName(),
 				parameterMap);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc3",
 				nocd.getName(), i, dimensionOptions);
 
-		parameterMap.put("location", h.location("Magaleta HC"));
+		parameterMap.put("location", MetadataLookup.location("Magaleta HC"));
 		i = h.newCountIndicator(nocd.getName() + " (Magaleta)", nocd.getName(),
 				parameterMap);
 		PeriodIndicatorReportUtil.addColumn(rd, indicatorKey + "loc2",

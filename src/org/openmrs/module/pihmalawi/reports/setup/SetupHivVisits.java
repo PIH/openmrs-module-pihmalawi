@@ -8,7 +8,8 @@ import java.util.Map;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.Helper;
+import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition.ColumnDisplayFormat;
@@ -20,9 +21,9 @@ import org.openmrs.module.reporting.report.service.ReportService;
 
 public class SetupHivVisits {
 
-	Helper h = new Helper();
+	ReportHelper h = new ReportHelper();
 
-	public SetupHivVisits(Helper helper) {
+	public SetupHivVisits(ReportHelper helper) {
 		h = helper;
 	}
 
@@ -65,7 +66,7 @@ public class SetupHivVisits {
 		Map<String, Mapped<? extends DataSetDefinition>> map = new HashMap<String, Mapped<? extends DataSetDefinition>>();
 		map.put("art_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("ART_INITIAL")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
@@ -74,7 +75,7 @@ public class SetupHivVisits {
 										"ARV Number")))));
 		map.put("art_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("ART_FOLLOWUP")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
@@ -83,7 +84,7 @@ public class SetupHivVisits {
 										"ARV Number")))));
 		map.put("part_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("PART_INITIAL")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
@@ -92,7 +93,7 @@ public class SetupHivVisits {
 										"HCC Number")))));
 		map.put("part_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("PART_FOLLOWUP")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
@@ -101,7 +102,7 @@ public class SetupHivVisits {
 										"HCC Number")))));
 		map.put("exposed_child_initial",
 				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(h
+						h.parameterMap("encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("EXPOSED_CHILD_INITIAL")),
 								"encounterDatetimeOnOrBefore", "${endDate}",
 								"encounterDatetimeOnOrAfter", "${startDate}",
@@ -111,7 +112,7 @@ public class SetupHivVisits {
 														"HCC Number")))));
 		map.put("exposed_child_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(h
+						"encounterTypes", Arrays.asList(MetadataLookup
 								.encounterType("EXPOSED_CHILD_FOLLOWUP")),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
