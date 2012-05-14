@@ -79,10 +79,10 @@
 			<fileset dir="../openmrs-1.5.x/dist">
 				<include name="**/*.jar"/>
 			</fileset>
-			<fileset dir="../reporting/dist">
+			<fileset dir="../reporting-0.6.2/dist">
 				<include name="**/*.omod"/>
 			</fileset>
-			<fileset dir="../reporting/lib-common">
+			<fileset dir="../reporting-0.6.2/lib-common">
 				<include name="**/*.jar"/>
 			</fileset>
 		</path>
