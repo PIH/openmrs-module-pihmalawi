@@ -163,9 +163,9 @@ public class ProgramHelper {
 	}
 	
 	public PatientState getStateAfterStateAtLocation(Patient p,
-			ProgramWorkflow programWorkflow, ProgramWorkflowState referenceState,
+			ProgramWorkflow programWorkflow, List<ProgramWorkflowState> referenceStates,
 			Location enrollmentLocation, Session hibernateSession) {
-		List<PatientState> stateAfterStateOfAllPatientPrograms = new ArrayList<PatientState>();
+		List<PatientProgram> ppsWithReferenceState = new ArrayList<PatientProgram>();
 		List<PatientProgram> pps = Context.getProgramWorkflowService()
 				.getPatientPrograms(p,
 						programWorkflow.getProgram(),
@@ -175,36 +175,54 @@ public class ProgramHelper {
 			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
 			if (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId())) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
-				for (int i = states.size() - 1; i >= 0; i--) {
-					PatientState state = states.get(i);
-					if (state.getState().getId() == referenceState.getId()) {
-						// found the state, now check if there is another state after this state
-						if (i + 1 < states.size()) {
-							stateAfterStateOfAllPatientPrograms.add(states.get(i+1));
-							break;
-						}
+				for (PatientState state : states) {
+					if (containedIn(state.getState(), referenceStates)) {
+						// we found a patient program with our reference state, keep it
+						ppsWithReferenceState.add(state.getPatientProgram());
+						break;
 					}
 				}
 			}
 		}
 		
-		// todo, there could be multiple pp for the location and we ned to figure out which one is the right one
-		// assuming now that the last pp is the one we want to see
-		PatientState stateAfterState = null;
-		if (!stateAfterStateOfAllPatientPrograms.isEmpty()) {
-			
-		}
-		for (PatientState state : stateAfterStateOfAllPatientPrograms) {
-			if (state.getPatientProgram().getDateCompleted() == null) {
+		// now figure out which state is closest to what we want and get his potential successor state
+		PatientProgram lastRelevantPatientProgram = null;
+		for (PatientProgram pp : ppsWithReferenceState) {
+			if (pp.getDateCompleted() == null) {
 				// assume only one uncompleted program is possible (although not the case)
-				stateAfterState = state; 
+				lastRelevantPatientProgram = pp; 
 				break;
 			} else {
 				// otherwise assume the order of patientprograms is sequentially ordered (although not the case)
-				stateAfterState = state;
+				lastRelevantPatientProgram = pp;
+			}
+		}
+		
+		// get the next state from the referencestate (might be still the same)
+		List<PatientState> states = statesInWorkflow(lastRelevantPatientProgram, programWorkflow);
+		PatientState stateAfterState = null;
+		for (int i = 0; i < states.size(); i++) {
+			PatientState state = states.get(i);
+			if (containedIn(state.getState(), referenceStates)) {
+				// looks like we found our referencestate, check if there is another one following
+				if (i + 1 < states.size()) {
+					stateAfterState = states.get(i+1);
+				} else {
+					stateAfterState = state;
+				}
 			}
 		}
 		return stateAfterState;
+	}
+	
+	private boolean containedIn(ProgramWorkflowState state,
+			List<ProgramWorkflowState> referenceStates) {
+		for(ProgramWorkflowState pws : referenceStates) {
+			if (pws.getId() == state.getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// quick hack copied from bugfix for PatientProgram from ProgramLocation module

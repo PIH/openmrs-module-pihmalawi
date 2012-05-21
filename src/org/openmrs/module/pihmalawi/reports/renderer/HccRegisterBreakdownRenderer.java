@@ -6,6 +6,9 @@ import java.util.Date;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
+import org.openmrs.ProgramWorkflow;
+import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
 public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
@@ -39,12 +42,18 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				"Pre-ART initial");
 		addFirstEncounterCols(row, p,
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"), "Exposed initial");
-		addFirstChangeToStateCols(row, p,
-				lookupProgramWorkflowState("HIV program", "Treatment status", "Pre-ART (Continue)"), "Pre-ART state");
-		addFirstChangeToStateCols(row, p,
-				lookupProgramWorkflowState("HIV program", "Treatment status", "Exposed Child (Continue)"), "Exposed state");
+		addFirstChangeToStateCols(
+				row,
+				p,
+				lookupProgramWorkflowState("HIV program", "Treatment status",
+						"Pre-ART (Continue)"), "Pre-ART state");
+		addFirstChangeToStateCols(
+				row,
+				p,
+				lookupProgramWorkflowState("HIV program", "Treatment status",
+						"Exposed Child (Continue)"), "Exposed state");
 		addDemographicCols(row, p, endDateParameter);
-		addOutcomeCols(row, p, locationParameter,
+		addOutcomeColsForHcc(row, p, locationParameter,
 				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addCol(row, "Missing 2+ months since", "(tbd)");
 		addMostRecentOutcomeWithinDatabaseCols(row, p,
@@ -65,6 +74,34 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")));
 		addAllEnrollmentsCol(row, p);
 		return row;
+	}
+
+	protected void addOutcomeColsForHcc(DataSetRow row, Patient p,
+			Location locationParameter, ProgramWorkflow pw) {
+		try {
+			PatientState ps = null;
+			// enrollment outcome from location
+			ps = h.getStateAfterStateAtLocation(p, pw, Arrays.asList(
+					lookupProgramWorkflowState("HIV program",
+							"Treatment status", "Exposed Child (Continue)"),
+					lookupProgramWorkflowState("HIV program",
+							"Treatment status", "Pre-ART (Continue)")),
+					locationParameter, sessionFactory().getCurrentSession());
+
+			DataSetColumn c = new DataSetColumn("Outcome in HCC", "Outcome in HCC",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, ps.getState().getConcept().getName()
+						.getName());
+			}
+			c = new DataSetColumn("Outcome in HCC change date", "Outcome in HCC change Date",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
 	}
 
 }
