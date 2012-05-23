@@ -63,11 +63,6 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				row,
 				p,
 				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"On antiretrovirals"), "1st time in ART");
-		addFirstTimeChangeToStateDateCols(
-				row,
-				p,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
 						"Pre-ART (Continue)"), "1st time in Pre-ART");
 		addFirstTimeChangeToStateDateCols(
 				row,
@@ -75,18 +70,42 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupProgramWorkflowState("HIV program", "Treatment status",
 						"Exposed Child (Continue)"),
 				"1st time in Exposed Child");
+		addFirstTimeChangeToStateDateCols(
+				row,
+				p,
+				lookupProgramWorkflowState("HIV program", "Treatment status",
+						"On antiretrovirals"), "1st time in ART");
 		// reason starting arvs
 		addReasonStartingArvsCols(row, p, endDateParameter);
 		// date 1st time arvs
 		addMostRecentDatetimeObsCols(row, p, lookupConcept("Start date 1st line ARV"), endDateParameter);
-		// current regimen
-		addMostRecentObsCols(row, p, lookupConcept("Malawi Antiretroviral drugs received"), endDateParameter);
+		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
+				endDateParameter);
 
 		addVhwCol(row, p);
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("ART_FOLLOWUP"),
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HIV");
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("ART_FOLLOWUP"),
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HIV");
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("ART_FOLLOWUP"),
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV");
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")));
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
+		// current regimen
+		addMostRecentObsCols(row, p, lookupConcept("Malawi Antiretroviral drugs received"), endDateParameter);
+		// tb status
+		addMostRecentObsCols(row, p, lookupConcept("TB status"),
+				endDateParameter);
+		// side effects
+		addMostRecentObsCols(row, p, lookupConcept("Malawi ART side effects"), endDateParameter);
 		addAllEnrollmentsCol(row, p);
 		return row;
 	}

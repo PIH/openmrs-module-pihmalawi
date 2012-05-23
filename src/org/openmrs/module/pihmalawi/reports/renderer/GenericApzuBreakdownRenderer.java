@@ -61,7 +61,7 @@ public class GenericApzuBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("PART_FOLLOWUP"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")));
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), "");
 		addAllEnrollmentsCol(row, p);
 
 		return row;

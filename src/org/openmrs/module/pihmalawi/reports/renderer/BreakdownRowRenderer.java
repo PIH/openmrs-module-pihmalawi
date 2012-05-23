@@ -251,14 +251,14 @@ public abstract class BreakdownRowRenderer {
 	}
 
 	protected void addLastVisitCols(DataSetRow row, Patient p,
-			List<EncounterType> encounterTypes) {
+			List<EncounterType> encounterTypes, String visitClassification) {
 		try {
 			List<Encounter> encounters = Context.getEncounterService()
 					.getEncounters(p, null, null, null, null, encounterTypes,
 							null, false);
-			DataSetColumn c1 = new DataSetColumn("Last visit date in program",
-					"Last visit date", String.class);
-			DataSetColumn c2 = new DataSetColumn("Last visit loc in program",
+			DataSetColumn c1 = new DataSetColumn("Last visit date " + visitClassification,
+					"Last visit date " + visitClassification, String.class);
+			DataSetColumn c2 = new DataSetColumn("Last visit loc",
 					"Last visit loc", String.class);
 			DataSetColumn c3 = new DataSetColumn("Last visit appt date",
 					"Last visit appt date", String.class);
@@ -290,15 +290,15 @@ public abstract class BreakdownRowRenderer {
 	}
 
 	protected void addVisitColsOfVisitX(DataSetRow row, Patient p,
-			List<EncounterType> encounterTypes, int visitNumber) {
+			List<EncounterType> encounterTypes, int visitNumber, String visitClassification) {
 		try {
 			List<Encounter> encounters = Context.getEncounterService()
 					.getEncounters(p, null, null, null, null, encounterTypes,
 							null, false);
-			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date in program",
-					"Visit #" + visitNumber + " date in program", String.class);
-			DataSetColumn c2 = new DataSetColumn("Visit #" + visitNumber + " loc in program",
-					"Visit #" + visitNumber + " loc in program", String.class);
+			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date " + visitClassification,
+					"Visit #" + visitNumber + " date " + visitClassification, String.class);
+			DataSetColumn c2 = new DataSetColumn("Visit #" + visitNumber + " loc",
+					"Visit #" + visitNumber + " loc", String.class);
 			DataSetColumn c3 = new DataSetColumn("Visit #" + visitNumber + " appt date",
 					"Visit #" + visitNumber + " appt date", String.class);
 			if (encounters.size() >= visitNumber) {
@@ -584,6 +584,13 @@ public abstract class BreakdownRowRenderer {
 								+ concept.getName(Context.getLocale())
 										.getName(), String.class);
 				row.addColumnValue(c, o.getValueAsString(Context.getLocale()));
+
+				c = new DataSetColumn("Last "
+						+ concept.getName(Context.getLocale()).getName()
+						+ " Date", "Last "
+						+ concept.getName(Context.getLocale()).getName()
+						+ " Date", String.class);
+				row.addColumnValue(c, formatEncounterDate(o.getObsDatetime()));
 			}
 		} catch (Exception e) {
 			log.error(e);

@@ -189,7 +189,7 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("TB_INITIAL"),
-				lookupEncounterType("TB_FOLLOWUP")));
+				lookupEncounterType("TB_FOLLOWUP")), "");
 		addAllEnrollmentsCol(row, p);
 
 		return row;

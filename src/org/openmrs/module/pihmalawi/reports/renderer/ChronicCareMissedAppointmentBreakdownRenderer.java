@@ -29,7 +29,7 @@ public class ChronicCareMissedAppointmentBreakdownRenderer extends BreakdownRowR
 				lookupProgramWorkflow("Chronic care program", "Chronic care treatment status"));
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
-				lookupEncounterType("CHRONIC_CARE_FOLLOWUP")));
+				lookupEncounterType("CHRONIC_CARE_FOLLOWUP")), "");
 		addVerificationCols(row, p);
 		
 		return row;

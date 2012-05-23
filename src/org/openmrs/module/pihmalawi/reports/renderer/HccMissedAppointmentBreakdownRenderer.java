@@ -32,7 +32,7 @@ public class HccMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer 
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP")));
+				lookupEncounterType("PART_FOLLOWUP")), " in HCC");
 		addVerificationCols(row, p);
 		
 		return row;

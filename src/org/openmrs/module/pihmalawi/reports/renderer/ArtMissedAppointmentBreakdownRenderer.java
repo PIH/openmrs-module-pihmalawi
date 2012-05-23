@@ -31,7 +31,7 @@ public class ArtMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer 
 				endDateParameter);
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
-				lookupEncounterType("ART_FOLLOWUP")));
+				lookupEncounterType("ART_FOLLOWUP")), " in ART");
 		addVerificationCols(row, p);
 
 		return row;

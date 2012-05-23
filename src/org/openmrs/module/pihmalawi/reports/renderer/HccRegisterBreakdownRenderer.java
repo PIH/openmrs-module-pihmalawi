@@ -39,14 +39,14 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 			log.error(e);
 		}
 		addFirstEncounterCols(row, p, lookupEncounterType("PART_INITIAL"),
-				"Pre-ART initial");
-		addFirstEncounterCols(row, p,
-				lookupEncounterType("EXPOSED_CHILD_INITIAL"), "Exposed initial");
+				"Pre-ART initial visit");
 		addFirstChangeToStateCols(
 				row,
 				p,
 				lookupProgramWorkflowState("HIV program", "Treatment status",
 						"Pre-ART (Continue)"), "Pre-ART state");
+		addFirstEncounterCols(row, p,
+				lookupEncounterType("EXPOSED_CHILD_INITIAL"), "Exposed initial visit");
 		addFirstChangeToStateCols(
 				row,
 				p,
@@ -59,19 +59,30 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addMostRecentOutcomeWithinDatabaseCols(row, p,
 				lookupProgramWorkflow("HIV program", "Treatment status"),
 				endDateParameter);
-		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
-				endDateParameter);
 		addVhwCol(row, p);
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1);
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HCC");
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2);
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HCC");
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HCC");
+		addLastVisitCols(row, p, Arrays.asList(
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HCC");
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")));
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
+		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
+				endDateParameter);
+		// tb status
+		addMostRecentObsCols(row, p, lookupConcept("TB status"),
+				endDateParameter);
+		// side effects
+		addMostRecentObsCols(row, p, lookupConcept("Malawi ART side effects"), endDateParameter);
 		addAllEnrollmentsCol(row, p);
 		return row;
 	}

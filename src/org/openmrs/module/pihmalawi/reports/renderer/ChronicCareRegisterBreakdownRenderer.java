@@ -55,7 +55,7 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addMostRecentVitalsCols(row, p, endDateParameter);
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
-				lookupEncounterType("CHRONIC_CARE_FOLLOWUP")));
+				lookupEncounterType("CHRONIC_CARE_FOLLOWUP")), "");
 		addAllEnrollmentsCol(row, p);
 		return row;
 	}

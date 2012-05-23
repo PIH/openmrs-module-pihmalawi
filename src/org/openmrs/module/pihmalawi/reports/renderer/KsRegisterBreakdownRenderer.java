@@ -112,7 +112,7 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("CHEMOTHERAPY"),
-				lookupEncounterType("PATIENT EVALUATION")));
+				lookupEncounterType("PATIENT EVALUATION")), "");
 		addAllEnrollmentsCol(row, p);
 		
 		exportAllEncountersAndObs(p, row, locationParameter, endDateParameter,
