@@ -262,6 +262,8 @@ public abstract class BreakdownRowRenderer {
 					"Last visit loc", String.class);
 			DataSetColumn c3 = new DataSetColumn("Last visit appt date",
 					"Last visit appt date", String.class);
+			DataSetColumn c4 = new DataSetColumn("Last visit type",
+					"Last visit type", String.class);
 			if (!encounters.isEmpty()) {
 				Encounter e = encounters.get(encounters.size() - 1);
 				row.addColumnValue(c1,
@@ -278,10 +280,12 @@ public abstract class BreakdownRowRenderer {
 						break;
 					}
 				}
+				row.addColumnValue(c4, e.getEncounterType().getName());
 			} else {
 				row.addColumnValue(c1, h("(no encounter found)"));
 				row.addColumnValue(c2, h(""));
 				row.addColumnValue(c3, h(""));
+				row.addColumnValue(c4, h(""));
 			}
 		} catch (Exception e) {
 			log.error(e);
@@ -301,6 +305,8 @@ public abstract class BreakdownRowRenderer {
 					"Visit #" + visitNumber + " loc", String.class);
 			DataSetColumn c3 = new DataSetColumn("Visit #" + visitNumber + " appt date",
 					"Visit #" + visitNumber + " appt date", String.class);
+			DataSetColumn c4 = new DataSetColumn("Visit #" + visitNumber + " type",
+					"Visit #" + visitNumber + " type", String.class);
 			if (encounters.size() >= visitNumber) {
 				Encounter e = encounters.get(visitNumber - 1);
 				row.addColumnValue(c1,
@@ -317,10 +323,12 @@ public abstract class BreakdownRowRenderer {
 						break;
 					}
 				}
+				row.addColumnValue(c4, e.getEncounterType().getName());
 			} else {
 				row.addColumnValue(c1, h("(no encounter found)"));
 				row.addColumnValue(c2, h(""));
 				row.addColumnValue(c3, h(""));
+				row.addColumnValue(c4, h(""));
 			}
 		} catch (Exception e) {
 			log.error(e);
