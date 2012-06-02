@@ -837,7 +837,7 @@ public class SetupHivDataQuality {
 				.put("eid",
 						new Mapped(h
 								.cohortDefinition("hivdq: In state Exposed_"),
-								null));
+								 h.parameterMap("onOrAfter", "${endDate}")));
 		ccd.getSearches().put(
 				"age",
 				new Mapped(h.cohortDefinition("hivdq: Above 25 months_"), h
