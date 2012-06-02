@@ -60,7 +60,8 @@ update patient_identifier pi
 update patient_identifier pi, person_attribute pa 
   set pi.preferred=1 
   where pi.voided=0 and (pi.identifier_type=19 or pi.identifier_type=4) and pi.patient_id = pa.person_id 
-    and pa.voided=0 and pa.person_attribute_type_id=7 and pa.value=pi.location_id;
+    and pa.voided=0 and pa.person_attribute_type_id=7 and pa.value=pi.location_id
+    and pi.location_id = (select e.location_id from encounter e where pa.person_id=e.patient_id and e.voided=0 and e.encounter_type in (9, 10, 11, 12, 92, 93) order by e.encounter_datetime DESC limit 1);
 -- 3. make sure that if a patient has an ARV and HCC number, only the ARV number is taken
 update patient_identifier pi
   set preferred=0
@@ -70,10 +71,6 @@ update patient_identifier pi
     ) as t);
 
 -- remove double addresses and names without any difference
-
--- breakdown of encounters for BART2
-
--- BART2 compliant regimens
 
 -- void encounters from voided and deleted patients
 
