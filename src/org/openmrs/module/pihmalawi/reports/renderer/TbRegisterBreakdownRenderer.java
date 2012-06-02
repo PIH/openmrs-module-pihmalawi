@@ -66,9 +66,9 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
 		tbProgram = MetadataLookup.program("TB program");
 		programWorkflow = MetadataLookup.programWorkflow("TB program",
-				"Tuberculosis treatment status");
+				"Treatment status");
 		onTreatment = MetadataLookup.workflowState("TB program",
-				"Tuberculosis treatment status", "Currently in treatment");
+				"Treatment status", "Currently in treatment");
 
 		encounterTypes = Arrays.asList(MetadataLookup.encounterType("TB_INITIAL"));
 
