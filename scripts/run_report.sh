@@ -50,7 +50,7 @@ echo "  OpenMRS Login"
 wget --quiet --keep-session-cookies --save-cookies cookies.txt --post-data "uname=$USER&pw=$PW" $BASE_URL/loginServlet
 echo "  Run report"
 #echo "  wget --keep-session-cookies --load-cookies cookies.txt --output-document=$OUTPUTFILE --post-data $PARAMETERS&selectedRenderer=$SELECTED_RENDERER $BASE_URL/module/reporting/run/runReport.form?reportId=$REPORT_UUID"
-wget --quiet --keep-session-cookies --load-cookies cookies.txt --output-document=$OUTPUTFILE --post-data "$PARAMETERS&selectedRenderer=$SELECTED_RENDERER" $BASE_URL/module/reporting/run/runReport.form?reportId=$REPORT_UUID
+wget --quiet --timeout=1800 --keep-session-cookies --load-cookies cookies.txt --output-document=$OUTPUTFILE --post-data "$PARAMETERS&selectedRenderer=$SELECTED_RENDERER" $BASE_URL/module/reporting/run/runReport.form?reportId=$REPORT_UUID
 echo "  Cleanup"
 rm -f cookies.txt index.htm sql sql2
 
