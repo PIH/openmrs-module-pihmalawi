@@ -71,3 +71,8 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA ART Register ALL Locations  $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# after all this heavy work, schedule a reboot of the whole system
+sleep 600
+# this requires the setuid bit and isn't the most secure way: sudo chmod ug+s /sbin/reboot
+/sbin/reboot
