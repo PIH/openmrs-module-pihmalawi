@@ -24,7 +24,7 @@ THREE_MONTHS_AGO=`date --date "3 Months ago" +%d`%2F`date --date "3 Months ago" 
 #ONE_WEEK_AGO=`date -v-6d +%d`%2F`date -v-6d +%m`%2F`date -v-6d +%Y`
 #ONE_MONTH_AGO=`date -v-1m -v+1d +%d`%2F`date -v-1m -v+1d +%m`%2F`date -v-1m -v+1d +%Y`
 
-# PIX XSite Indicators
+# PIH xSite Indicators
 FILE=Quarterly_Cross_Site_Indicator_`echo $AREA`-`echo $YESTERDAY`.xls
 run_report.sh \
   "PIH Quarterly Cross Site_" \
@@ -46,4 +46,28 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA Quarterly APZU HIV Indicators $YESTERDAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# HIV Visits
+FILE=HIV_Visits-`echo $TODAY`.xls
+run_report.sh \
+  "HIV Visits_" \
+  "userEnteredParams%5BstartDate%5D=$THREE_MONTHS_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
+  "Excel (Default)" \
+  org.openmrs.module.reporting.report.renderer.XlsReportRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: $AREA HIV Visits $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# ART Register For All Locations (SLOW)_
+FILE=ART_Register_All_Locations-`echo $TODAY`.html
+run_report.sh \
+  "ART Register For All Locations (SLOW)_" \
+  "userEnteredParams%5BendDate%5D=$YESTERDAY" \
+  "ART Register For All Locations_" \
+  org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
+  "html" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: $AREA ART Register ALL Locations  $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
