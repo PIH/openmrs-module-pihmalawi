@@ -46,3 +46,27 @@ run_report.sh \
 echo "" | mailx -a $FILE -s "emr: $AREA APZU HIV Indicators $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
+# HIV Vistts
+FILE=HIV_Visits-`echo $TODAY`.xls
+run_report.sh \
+  "HIV Visits_" \
+  "userEnteredParams%5BstartDate%5D=$ONE_MONTH_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
+  "Excel (Default)" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: $AREA HIV Visits $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# ART Register For All Locations (SLOW)_
+FILE=ART_Register_All_Locations-`echo $TODAY`.html
+run_report.sh \
+  "ART Register For All Locations (SLOW)_" \
+  "userEnteredParams%5BendDate%5D=$YESTERDAY" \
+  "ART Register_" \
+  org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
+  "html" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: $AREA ART Register ALL Locations  $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
