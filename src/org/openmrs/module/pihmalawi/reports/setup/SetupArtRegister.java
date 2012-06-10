@@ -39,12 +39,12 @@ public class SetupArtRegister {
 
 		ReportDefinition rd = createReportDefinition("artreg");
 		h.replaceReportDefinition(rd);
-		createHtmlBreakdown(rd);
+		createHtmlBreakdown(rd, "ART Register_");
 		createAppointmentAdherenceBreakdown(rd);
 
-		 rd = createReportDefinitionForAllLocations("artregcomplete");
+		rd = createReportDefinitionForAllLocations("artregcomplete");
 		h.replaceReportDefinition(rd);
-		createHtmlBreakdown(rd);
+		createHtmlBreakdown(rd, "ART Register For All Locations_");
 
 		return new ReportDefinition[] { rd };
 	}
@@ -62,7 +62,7 @@ public class SetupArtRegister {
 		return h.createHtmlBreakdown(rd, "ART Register Appointment Adherence_", m);
 	}
 
-	protected ReportDesign createHtmlBreakdown(ReportDefinition rd)
+	protected ReportDesign createHtmlBreakdown(ReportDefinition rd, String name)
 			throws IOException, SerializationException {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
@@ -74,7 +74,7 @@ public class SetupArtRegister {
 
 		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
-		return h.createHtmlBreakdown(rd, "ART Register_", m);
+		return h.createHtmlBreakdown(rd, name, m);
 	}
 
 	public void delete() {

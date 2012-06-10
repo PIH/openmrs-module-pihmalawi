@@ -153,7 +153,9 @@ public abstract class BreakdownRowRenderer {
 			c = new DataSetColumn("M/F", "M/F", String.class);
 			row.addColumnValue(c, p.getGender());
 			c = new DataSetColumn("Village", "Village", String.class);
-			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
+			if (p.getPersonAddress() != null) {
+				row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
+			}
 		} catch (Exception e) {
 			log.error(e);
 		}
