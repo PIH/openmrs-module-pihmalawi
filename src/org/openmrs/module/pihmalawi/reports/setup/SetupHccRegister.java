@@ -37,13 +37,17 @@ public class SetupHccRegister {
 
 		ReportDefinition rd = createReportDefinition("hccreg");
 		h.replaceReportDefinition(rd);
-		createHtmlBreakdown(rd);
+		createHtmlBreakdown(rd, "HCC Register_");
 		createDemographicsHtmlBreakdown(rd);
+
+		rd = createReportDefinitionForAllLocations("hccregcomplete");
+		h.replaceReportDefinition(rd);
+		createHtmlBreakdown(rd, "HCC Register For All Locations_");
 
 		return new ReportDefinition[] { rd };
 	}
 
-	protected ReportDesign createHtmlBreakdown(ReportDefinition rd)
+	protected ReportDesign createHtmlBreakdown(ReportDefinition rd, String name)
 			throws IOException, SerializationException {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
@@ -55,7 +59,7 @@ public class SetupHccRegister {
 
 		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
-		return h.createHtmlBreakdown(rd, "HCC Register_", m);
+		return h.createHtmlBreakdown(rd, name, m);
 	}
 
 	protected ReportDesign createDemographicsHtmlBreakdown(ReportDefinition rd)
@@ -68,7 +72,7 @@ public class SetupHccRegister {
 		dsd.setHtmlBreakdownPatientRowClassname(DemographicsOnlyBreakdownRenderer.class
 				.getName());
 
-		m.put("register", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd, "HCC Register Demographics only_", m);
 	}
@@ -82,7 +86,10 @@ public class SetupHccRegister {
 		}
 		h.purgeDefinition(DataSetDefinition.class, "HCC Register_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "HCC Register_");
+		h.purgeDefinition(DataSetDefinition.class, "HCC Register For All Locations_ Data Set");
+		h.purgeDefinition(ReportDefinition.class, "HCC Register For All Locations_");
 		h.purgeAll("hccreg");
+		h.purgeAll("hccregcomplete");
 	}
 
 	private ReportDefinition createReportDefinition(String prefix) {
@@ -106,4 +113,28 @@ public class SetupHccRegister {
 
 		return rd;
 	}
+	
+	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
+		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
+		rd.setName("HCC Register For All Locations (SLOW)_");
+		rd.setupDataSetDefinition();
+
+		CohortDefinition partEver = ApzuReportElementsArt.partEverEnrolledOnDate(prefix);
+		CohortDefinition exposedEver = ApzuReportElementsArt.exposedEverEnrolledOnDate(prefix);
+		CohortDefinition cd = ApzuReportElementsArt
+				.hccEverEnrolledOnDate(prefix, partEver, exposedEver);
+
+		CohortIndicator i = h.newCountIndicator(prefix + ": Register For All Locations", cd
+				.getName(), h.parameterMap(
+				"startedOnOrBefore", "${endDate}"));
+		PeriodIndicatorReportUtil
+				.addColumn(rd, "breakdown", "Breakdown", i, null);
+
+		return rd;
+	}
+
 }

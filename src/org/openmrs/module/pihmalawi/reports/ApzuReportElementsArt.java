@@ -203,6 +203,26 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	public static CohortDefinition hccEverEnrolledOnDate(
+			String prefix, CohortDefinition partEverEnrolled, CohortDefinition exposedEverEnrolled) {
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": In Ever HCC_");
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(partEverEnrolled, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}")));
+		ccd.getSearches().put(
+				"exposed",
+				new Mapped(exposedEverEnrolled, h.parameterMap("startedOnOrBefore", "${startedOnOrBefore}")));
+		ccd.setCompositionString("part OR exposed");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
 	public static CohortDefinition hccEverEnrolledAtLocationOnDate(
 			String prefix, CohortDefinition partEverEnrolled, CohortDefinition exposedEverEnrolled) {
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
@@ -309,6 +329,43 @@ public class ApzuReportElementsArt {
 				new Mapped(scd, h
 						.parameterMap("location",
 								"${location}")));
+		ccd.setCompositionString("part AND hccnumber");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition partEverEnrolledOnDate(
+			String prefix) {
+		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
+		pscd.setName(prefix + ": Pre-ART ever_");
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Pre-ART (Continue)")));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		h.replaceCohortDefinition(pscd);
+
+		// excluding everyone without a hcc number for the location (old pre-art
+		// and eid patients)
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName(prefix + ": HCC number part ever enrolled_");
+		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0 ;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": Ever In Pre-ART_");
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"part",
+				new Mapped(pscd, h
+						.parameterMap("startedOnOrBefore",
+								"${startedOnOrBefore}")));
+		ccd.getSearches().put(
+				"hccnumber",
+				new Mapped(scd, h
+						.parameterMap()));
 		ccd.setCompositionString("part AND hccnumber");
 		h.replaceCohortDefinition(ccd);
 
@@ -471,6 +528,40 @@ public class ApzuReportElementsArt {
 				"hccnumber",
 				new Mapped(scd, h
 						.parameterMap("location", "${location}")));
+		ccd.setCompositionString("exposed AND hccnumber");
+		h.replaceCohortDefinition(ccd);
+
+		return ccd;
+	}
+
+	public static CohortDefinition exposedEverEnrolledOnDate(
+			String prefix) {
+		PatientStateCohortDefinition pscd2 = new PatientStateCohortDefinition();
+		pscd2.setName(prefix + ": Exposed Child ever_");
+		pscd2.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Exposed Child (Continue)")));
+		pscd2.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		h.replaceCohortDefinition(pscd2);
+
+		// excluding everyone without a hcc number for the location (old pre-art
+		// and eid patients)
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName(prefix + ": HCC number ever exposed 2_");
+		String sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0 ;";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+
+		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
+		ccd.setName(prefix + ": Ever In Exposed_");
+		ccd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		ccd.getSearches().put(
+				"exposed",
+				new Mapped(pscd2, h.parameterMap("startedOnOrBefore", "${startedOnOrBefore}")));
+		ccd.getSearches().put(
+				"hccnumber",
+				new Mapped(scd, h.parameterMap()));
 		ccd.setCompositionString("exposed AND hccnumber");
 		h.replaceCohortDefinition(ccd);
 

@@ -173,7 +173,7 @@ public class ProgramHelper {
 
 		for (PatientProgram pp : pps) {
 			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
-			if (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId())) {
+			if ((enrollmentLocation == null) || (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId()))) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				for (PatientState state : states) {
 					if (containedIn(state.getState(), referenceStates)) {
