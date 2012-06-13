@@ -110,6 +110,7 @@ public class SetupArtRegister {
 
 		return rd;
 	}
+
 	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
