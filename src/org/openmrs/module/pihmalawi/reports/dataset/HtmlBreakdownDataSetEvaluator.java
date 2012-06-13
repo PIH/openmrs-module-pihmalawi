@@ -132,30 +132,30 @@ public class HtmlBreakdownDataSetEvaluator implements DataSetEvaluator {
 	
 	private String formatPatientIdentifier(String id) {
 		if (id.endsWith(" HCC")) {
-			int firstSpace = id.indexOf(" ");
-			int lastSpace = id.lastIndexOf(" ");
-			String number = id.substring(firstSpace + 1, lastSpace);
 			try {
+				int firstSpace = id.indexOf(" ");
+				int lastSpace = id.lastIndexOf(" ");
+				String number = id.substring(firstSpace + 1, lastSpace);
 				DecimalFormat f = new java.text.DecimalFormat("0000");
 				number = f.format(new Integer(number));
+				return id.substring(0, firstSpace) + "-" + number + "-HCC";
 			} catch (Exception e) {
 				// error while converting
 				return id;
 			}
-			return id.substring(0, firstSpace) + "-" + number + "-HCC";
 		} else {
 			if (id.lastIndexOf(" ") > 0) {
-				// for now assume that an id without leading zeros is there when
-				// there is a space
-				String number = id.substring(id.lastIndexOf(" ") + 1);
 				try {
+					// for now assume that an id without leading zeros is there when
+					// there is a space
+					String number = id.substring(id.lastIndexOf(" ") + 1);
 					DecimalFormat f = new java.text.DecimalFormat("0000");
 					number = f.format(new Integer(number));
+					return id.substring(0, id.lastIndexOf(" ")) + "-" + number;
 				} catch (Exception e) {
 					// error while converting
 					return id;
 				}
-				return id.substring(0, id.lastIndexOf(" ")) + "-" + number;
 			}
 			return id;
 		}
