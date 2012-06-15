@@ -94,7 +94,7 @@ public class SetupWeeklyEncounter {
 		}
 
 		USERS = Arrays.asList(u("benndo"), u("amahaka"), u("geomal"),
-				u("qlement"), u("thandie"), u("cgoliath"), u("cneumann"),
+				u("tvuma"), u("thandie"), u("cgoliath"), u("cneumann"),
 				u("prichi"), u("harzam"), u("nelma"), u("moblack"));
 
 		List<User> us = Context.getUserService().getAllUsers();
