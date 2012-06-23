@@ -72,6 +72,14 @@ update patient_identifier pi
 
 -- remove double addresses and names without any difference
 
+-- make names and addresses to first upper, the rest lower case letters
+update person_name set given_name = CONCAT(UPPER(LEFT(given_name, 1)), LOWER(SUBSTRING(given_name, 2))) where voided=0;
+update person_name set middle_name = CONCAT(UPPER(LEFT(middle_name, 1)), LOWER(SUBSTRING(middle_name, 2))) where voided=0;
+update person_name set family_name = CONCAT(UPPER(LEFT(family_name, 1)), LOWER(SUBSTRING(family_name, 2))) where voided=0;
+update person_address set county_district = CONCAT(UPPER(LEFT(county_district, 1)), LOWER(SUBSTRING(county_district, 2))) where voided=0;
+update person_address set city_village = CONCAT(UPPER(LEFT(city_village, 1)), LOWER(SUBSTRING(city_village, 2))) where voided=0;
+update person_address set state_province = CONCAT(UPPER(LEFT(state_province, 1)), LOWER(SUBSTRING(state_province, 2))) where voided=0;
+
 -- void encounters from voided and deleted patients
 
 -- void obs from voided encounters
