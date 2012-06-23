@@ -26,6 +26,7 @@ public class ModuleActivator implements Activator {
 	}
 
 	private void registerMalawiAddressTemplate() {
+		log.warn("Hard-coded configuration of address template for Malawi");
 		AddressTemplate at = new AddressTemplate();
 		at.setDisplayName("Malawi Address Format");
 		at.setCodeName("malawi");

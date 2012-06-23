@@ -568,6 +568,33 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	public static CohortDefinition exposedActiveAtLocationOnDate(String prefix) {
+		InStateAtLocationCohortDefinition iscd = new InStateAtLocationCohortDefinition();
+		iscd.setName(prefix + ": In Exposed Child with location & date_");
+		// internal transfers are still under responsibility of original clinic
+		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
+		// .getStateByName("Transferred internally"));
+		iscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Exposed Child (Continue)"));
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		iscd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(iscd);
+		return iscd;
+	}
+
+	public static CohortDefinition exposedActiveOnDate(String prefix) {
+		InStateCohortDefinition iscd = new InStateCohortDefinition();
+		iscd.setName(prefix + ": In Exposed Child with date_");
+		// internal transfers are still under responsibility of original clinic
+		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
+		// .getStateByName("Transferred internally"));
+		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Exposed Child (Continue)")));
+		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		h.replaceCohortDefinition(iscd);
+		return iscd;
+	}
+
 	public static CohortDefinition exposedEnrolledAtLocationInPeriod(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();

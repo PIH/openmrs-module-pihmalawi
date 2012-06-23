@@ -367,6 +367,9 @@ public class SetupHivDataQuality {
 		createIndicator(ccd, "noexit2",
 				h.parameterMap("endDate", "${endDate}"), rds);
 
+		artNumberForLocationWithoutOnARVsAtLocation(rds);
+		hccNumberForLocationWithoutOnPreArtOrExposedsAtLocation(rds);
+		
 		multipleOpenStates();
 
 		// on art but no arv number
@@ -660,6 +663,40 @@ public class SetupHivDataQuality {
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "died2x", null, rds);
+	}
+
+	private void artNumberForLocationWithoutOnARVsAtLocation(PeriodIndicatorReportDefinition[] rds) {
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: ARV Number for location without being in state On ARVs at this location_");
+		String sql = 
+			"select pi.patient_id "  
+			+ " from patient_identifier pi, person p, patient pa " 
+			+ " where pi.patient_id = p.person_id and pa.patient_id = pi.patient_id and p.voided=0 and pa.voided=0 and pi.voided=0 and pi.identifier_type=4 and pi.patient_id not in  "
+			+ "  ( "
+			+ "  select pp.patient_id " 
+			+ "     from patient_program pp, patient_state ps "  
+			+ "     where pi.patient_id = pp.patient_id and pp.location_id = pi.location_id and ps.patient_program_id = pp.patient_program_id and pp.program_id=1 and ps.state=7 and ps.voided=0 and pp.voided=0 "
+			+ " ); ";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		createIndicator(scd, "noartbutnumber", null, rds);
+	}
+
+	private void hccNumberForLocationWithoutOnPreArtOrExposedsAtLocation(PeriodIndicatorReportDefinition[] rds) {
+		SqlCohortDefinition scd = new SqlCohortDefinition();
+		scd.setName("hivdq: HCC Number for location without being in state Pre-ART or Exposed Child at this location_");
+		String sql = 
+			"select pi.patient_id " 
+			+ " from patient_identifier pi, person p, patient pa " 
+			+ " where pi.patient_id = p.person_id and pa.patient_id = pi.patient_id and p.voided=0 and pa.voided=0 and pi.voided=0 and pi.identifier_type=19 and pi.patient_id not in " 
+			+ " ( "
+			+ "   select pp.patient_id " 
+			+ "     from patient_program pp, patient_state ps "  
+			+ "     where pi.patient_id = pp.patient_id and pp.location_id = pi.location_id and ps.patient_program_id = pp.patient_program_id and pp.program_id=1 and (ps.state=1 or ps.state=120) and ps.voided=0 and pp.voided=0 "
+			+ " ); ";
+		scd.setQuery(sql);
+		h.replaceCohortDefinition(scd);
+		createIndicator(scd, "nohccbutnumber", null, rds);
 	}
 
 	private void g_unknownLocations(PeriodIndicatorReportDefinition[] rds) {
