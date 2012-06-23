@@ -19,6 +19,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
+import org.openmrs.module.pihmalawi.reports.setup.SetupHivDnaPcrResults;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuarterlyCrossSite;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
@@ -32,6 +33,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PihReportFormController {
+
+	@RequestMapping("/module/pihmalawi/remove_exposed_dna.form")
+	public void removeExposedDna() {
+		new SetupHivDnaPcrResults(new ReportHelper()).delete();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_exposed_dna.form")
+	public void registerExposedDna() throws Exception {
+		new SetupHivDnaPcrResults(new ReportHelper()).setup();
+	}
 
 	@RequestMapping("/module/pihmalawi/remove_pih_xsite.form")
 	public void removePihXSite() {
