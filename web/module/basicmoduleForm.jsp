@@ -51,6 +51,10 @@ APZU HIV Indicators: <a href="${pageContext.request.contextPath}/module/pihmalaw
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_apzu_hiv.form">Remove</a>
 <br/>
 
+Exposed Child DNA-PCR results: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_exposed_dna.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_exposed_dna.form">Remove</a>
+<br/>
+
 <h4>Upper Neno</h4>
 ART Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment.form">Remove</a>
