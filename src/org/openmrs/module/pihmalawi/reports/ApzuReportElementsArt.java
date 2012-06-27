@@ -618,7 +618,7 @@ public class ApzuReportElementsArt {
 		h.replaceCohortDefinition(scd);
 
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName(prefix + ": In Exposed at location_");
+		ccd.setName(prefix + ": Newly enrolled in Exposed at location_");
 		ccd.addParameter(new Parameter("location", "location", Location.class));
 		ccd.addParameter(new Parameter("startedOnOrAfter",
 				"startedOnOrAfter", Date.class));

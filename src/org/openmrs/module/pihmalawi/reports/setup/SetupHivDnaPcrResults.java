@@ -3,6 +3,7 @@ package org.openmrs.module.pihmalawi.reports.setup;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,8 @@ public class SetupHivDnaPcrResults {
 
 		ReportDefinition rd = createReportDefinition("expdna");
 		h.replaceReportDefinition(rd);
+		h.createXlsOverview(rd, "hiv_dna_pcr_results.xls", "DNA-PCR Results Overview (Excel)_", excelOverviewProperties());
+
 //		createHtmlBreakdown(rd, "ART Register_");
 //		createAppointmentAdherenceBreakdown(rd);
 
@@ -60,6 +63,14 @@ public class SetupHivDnaPcrResults {
 //		createHtmlBreakdown(rd, "ART Register For All Locations_");
 
 		return new ReportDefinition[] { rd };
+	}
+
+	protected Map excelOverviewProperties() {
+		Map properties = new HashMap();
+		for (int i = 0 ; i < ApzuReportElementsArt.hivStaticLocations().size(); i++) {
+			properties.put("loc" + i + "name", ApzuReportElementsArt.hivStaticLocations().get(i).getName());
+		}
+		return properties;
 	}
 
 	protected ReportDesign createHtmlBreakdown(ReportDefinition rd, String name)
@@ -80,7 +91,7 @@ public class SetupHivDnaPcrResults {
 	public void delete() {
 		ReportService rs = Context.getService(ReportService.class);
 		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if (rd.getName().startsWith("HIV Exposed Children DNA-PCR Results")) {
+			if (rd.getName().startsWith("DNA-PCR Results Overview (Excel)_")) {
 				rs.purgeReportDesign(rd);
 			}
 		}
@@ -97,14 +108,11 @@ public class SetupHivDnaPcrResults {
 
 		// 1 currently enrolled
 		CohortDefinition exposedEnrolled = ApzuReportElementsArt.exposedActiveAtLocationOnDate(prefix);
-		CohortIndicator i = h.newCountIndicator(exposedEnrolled.getName(), exposedEnrolled,
-				h.parameterMap("location", "${location}", "onDate", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "1", "1", i, null);
 
 		// 1.1 without any result
 		CohortDefinition anyValidResult = anyDnaPcrResultInPeriod(prefix + ": Any Valid DNA PCR", Arrays.asList(pcrPositive, pcrNegative));
 		CompositionCohortDefinition withoutAnyResult = new CompositionCohortDefinition();
-		withoutAnyResult.setName(prefix + ": Enrolled without any DNA PCR_");
+		withoutAnyResult.setName(prefix + ": Enrolled without any valid DNA PCR_");
 		withoutAnyResult.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		withoutAnyResult.addParameter(new Parameter("location", "location", Location.class));
 		withoutAnyResult.getSearches().put(
@@ -115,11 +123,22 @@ public class SetupHivDnaPcrResults {
 				new Mapped(anyValidResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", MIN_DATE_PARAMETER)));
 		withoutAnyResult.setCompositionString("exposedEnrolled AND NOT anyDnaPcrResult");
 		h.replaceCohortDefinition(withoutAnyResult);
-		i = h.newCountIndicator(withoutAnyResult.getName(), withoutAnyResult,
-				h.parameterMap("location", "${location}", "startedOnOrBefore", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "1.1", "1.1", i, null);
 
-		// 1.2 positive result, not yet on ARVs
+		// 1.2 with any result
+		CompositionCohortDefinition withAnyResult = new CompositionCohortDefinition();
+		withAnyResult.setName(prefix + ": Enrolled with any valid DNA PCR_");
+		withAnyResult.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		withAnyResult.addParameter(new Parameter("location", "location", Location.class));
+		withAnyResult.getSearches().put(
+				"exposedEnrolled",
+				new Mapped(exposedEnrolled, h.parameterMap("onDate", "${startedOnOrBefore}", "location", "${location}")));
+		withAnyResult.getSearches().put(
+				"anyDnaPcrResult",
+				new Mapped(anyValidResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", MIN_DATE_PARAMETER)));
+		withAnyResult.setCompositionString("exposedEnrolled AND anyDnaPcrResult");
+		h.replaceCohortDefinition(withAnyResult);
+
+		// 1.3 positive result, not yet on ARVs
 		CohortDefinition anyPositiveResult = anyDnaPcrResultInPeriod("expdna: Any Positive DNA PCR", Arrays.asList(pcrPositive));
 		CohortDefinition everOnArt = ApzuReportElementsArt.artEverEnrolledOnDate(prefix);
 		CompositionCohortDefinition positiveNotYetOnArvs = new CompositionCohortDefinition();
@@ -137,25 +156,23 @@ public class SetupHivDnaPcrResults {
 				new Mapped(anyPositiveResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", MIN_DATE_PARAMETER)));
 		positiveNotYetOnArvs.setCompositionString("exposedEnrolled AND anyPositiveResult AND NOT everOnArt");
 		h.replaceCohortDefinition(positiveNotYetOnArvs);
-		i = h.newCountIndicator(positiveNotYetOnArvs.getName(), positiveNotYetOnArvs,
-				h.parameterMap("location", "${location}", "startedOnOrBefore", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "1.2", "1.2", i, null);
+		
+		// 1.4 pending result
+		// todo
 		
 		// 2 
 		CohortDefinition everExposed = ApzuReportElementsArt.exposedEnrolledAtLocationInPeriod(prefix);
-		i = h.newCountIndicator(everExposed.getName(), everExposed,
-				h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "2", "2", i, null);
 
 		// 3 
 		CohortDefinition anyResult = anyDnaPcrResultInPeriod("expdna: Any DNA PCR", Arrays.asList(pcrInderterminate, pcrPositive, pcrNegative));
 		CompositionCohortDefinition exposedResultsEver = new CompositionCohortDefinition();
-		exposedResultsEver.setName(prefix + ": Ever enrolled with any DNA PCR");
+		exposedResultsEver.setName(prefix + ": Newly enrolled with any DNA PCR");
+		exposedResultsEver.addParameter(new Parameter("location", "location", Location.class));
 		exposedResultsEver.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		exposedResultsEver.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		exposedResultsEver.getSearches().put(
 				"everExposed",
-				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startedOnOrAfter}", "startedOnOrBefore", "${startedOnOrBefore}")));
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", MIN_DATE_PARAMETER, "startedOnOrBefore", "${startedOnOrBefore}")));
 		exposedResultsEver.getSearches().put(
 				"anyResult",
 				new Mapped(anyResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
@@ -165,12 +182,13 @@ public class SetupHivDnaPcrResults {
 		// 3.1
 		CohortDefinition anyNegativeResult = anyDnaPcrResultInPeriod("expdna: Any Negative DNA PCR", Arrays.asList(pcrNegative));;
 		CompositionCohortDefinition exposedNegativeResultsEver = new CompositionCohortDefinition();
-		exposedNegativeResultsEver.setName(prefix + ": Ever enrolled and negative DNA PCR_");
+		exposedNegativeResultsEver.setName(prefix + ": Newly enrolled and negative DNA PCR_");
+		exposedNegativeResultsEver.addParameter(new Parameter("location", "location", Location.class));
 		exposedNegativeResultsEver.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		exposedNegativeResultsEver.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		exposedNegativeResultsEver.getSearches().put(
 				"everExposed",
-				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}")));
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}")));
 		exposedNegativeResultsEver.getSearches().put(
 				"anyNegativeResult",
 				new Mapped(anyNegativeResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
@@ -180,12 +198,13 @@ public class SetupHivDnaPcrResults {
 		// 3.2
 		CohortDefinition anyIndeterminateResult = anyDnaPcrResultInPeriod("expdna: Any Indeterminate DNA PCR", Arrays.asList(pcrInderterminate));;
 		CompositionCohortDefinition exposedIndeterminateResultsEver = new CompositionCohortDefinition();
-		exposedIndeterminateResultsEver.setName(prefix + ": Ever enrolled and indeterminate DNA PCR_");
+		exposedIndeterminateResultsEver.setName(prefix + ": Newly enrolled and indeterminate DNA PCR_");
+		exposedIndeterminateResultsEver.addParameter(new Parameter("location", "location", Location.class));
 		exposedIndeterminateResultsEver.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		exposedIndeterminateResultsEver.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		exposedIndeterminateResultsEver.getSearches().put(
 				"everExposed",
-				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}")));
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}")));
 		exposedIndeterminateResultsEver.getSearches().put(
 				"anyIndeterminateResult",
 				new Mapped(anyIndeterminateResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
@@ -194,12 +213,13 @@ public class SetupHivDnaPcrResults {
 
 		// 3.3
 		CompositionCohortDefinition exposedPositiveResultsEver = new CompositionCohortDefinition();
-		exposedPositiveResultsEver.setName(prefix + ": Ever enrolled and positive DNA PCR_");
+		exposedPositiveResultsEver.setName(prefix + ": Newly enrolled and positive DNA PCR_");
+		exposedPositiveResultsEver.addParameter(new Parameter("location", "location", Location.class));
 		exposedPositiveResultsEver.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		exposedPositiveResultsEver.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		exposedPositiveResultsEver.getSearches().put(
 				"everExposed",
-				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}")));
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}")));
 		exposedPositiveResultsEver.getSearches().put(
 				"anyPositiveResult",
 				new Mapped(anyPositiveResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
@@ -209,11 +229,12 @@ public class SetupHivDnaPcrResults {
 		// 3.3.1
 		CompositionCohortDefinition positiveOnArvs = new CompositionCohortDefinition();
 		positiveOnArvs.setName(prefix + ": Positive DNA PCR on ARVs_");
+		positiveOnArvs.addParameter(new Parameter("location", "location", Location.class));
 		positiveOnArvs.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		positiveOnArvs.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		positiveOnArvs.getSearches().put(
 				"everExposed",
-				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}")));
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}")));
 		positiveOnArvs.getSearches().put(
 				"everOnArt",
 				new Mapped(everOnArt, h.parameterMap("startedOnOrBefore", "${startedOnOrBefore}")));
@@ -230,36 +251,83 @@ public class SetupHivDnaPcrResults {
 		CohortDefinition exposedEnrolledAnywhere = ApzuReportElementsArt.exposedActiveOnDate(prefix);
 		CompositionCohortDefinition positiveNotOnArvs = new CompositionCohortDefinition();
 		positiveNotOnArvs.setName(prefix + ": Positive DNA PCR not on ARVs_");
+		positiveNotOnArvs.addParameter(new Parameter("location", "location", Location.class));
 		positiveNotOnArvs.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		positiveNotOnArvs.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		positiveNotOnArvs.getSearches().put(
-				"activeExposed",
-				new Mapped(exposedEnrolledAnywhere, h.parameterMap("onDate", "${startedOnOrBefore}")));
+				"exposedEnrolled",
+				new Mapped(exposedEnrolled, h.parameterMap("location", "${location}", "onDate", "${startedOnOrBefore}")));
 		positiveNotOnArvs.getSearches().put(
 				"anyPositiveResult",
 				new Mapped(anyPositiveResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
-		positiveNotOnArvs.setCompositionString("anyPositiveResult AND activeExposed");
+		positiveNotOnArvs.setCompositionString("anyPositiveResult AND exposedEnrolled");
 		h.replaceCohortDefinition(positiveNotOnArvs);
 
 		//		// 3.3.3
 		CompositionCohortDefinition positiveOther = new CompositionCohortDefinition();
 		positiveOther.setName(prefix + ": Positive DNA PCR other outcome_");
+		positiveOther.addParameter(new Parameter("location", "location", Location.class));
 		positiveOther.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		positiveOther.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		positiveOther.getSearches().put(
-				"activeExposed",
-				new Mapped(exposedEnrolledAnywhere, h.parameterMap("onDate", "${startedOnOrBefore}")));
+				"everExposed",
+				new Mapped(everExposed, h.parameterMap("location", "${location}", "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}")));
+		positiveOther.getSearches().put(
+				"exposedEnrolled",
+				new Mapped(exposedEnrolled, h.parameterMap("location", "${location}", "onDate", "${startedOnOrBefore}")));
 		positiveOther.getSearches().put(
 				"anyPositiveResult",
 				new Mapped(anyPositiveResult, h.parameterMap("onOrBefore", "${startedOnOrBefore}", "onOrAfter", "${startedOnOrAfter}")));
 		positiveOther.getSearches().put(
 				"everOnArt",
 				new Mapped(everOnArt, h.parameterMap("startedOnOrBefore", "${startedOnOrBefore}")));
-		positiveOther.setCompositionString("anyPositiveResult AND NOT activeExposed AND NOT everOnArt");
+		positiveOther.setCompositionString("anyPositiveResult AND everExposed AND NOT exposedEnrolled AND NOT everOnArt");
 		h.replaceCohortDefinition(positiveOther);
-		
+
 		// 3.4
 //		averageAgeOf exposedResultsEver;
+
+		for (int j = 0 ; j < ApzuReportElementsArt.hivStaticLocations().size(); j++) {
+			Location l = ApzuReportElementsArt.hivStaticLocations().get(j);
+//			String siteCode = ApzuReportElementsArt.hivSiteCode(l);
+			String siteCode = "loc" + j;
+			CohortIndicator i = h.newCountIndicator(exposedEnrolled.getName() + "-" + siteCode, exposedEnrolled,
+					h.parameterMap("location", l, "onDate", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_1", exposedEnrolled.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(withoutAnyResult.getName() + "-" + siteCode, withoutAnyResult,
+					h.parameterMap("location", l, "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_1_1", withoutAnyResult.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(withAnyResult.getName() + "-" + siteCode, withAnyResult,
+					h.parameterMap("location", l, "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_1_2", withAnyResult.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(positiveNotYetOnArvs.getName() + "-" + siteCode, positiveNotYetOnArvs,
+					h.parameterMap("location", l, "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_1_3", positiveNotYetOnArvs.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(everExposed.getName() + "-" + siteCode, everExposed,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_2", everExposed.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(exposedResultsEver.getName() + "-" + siteCode, exposedResultsEver,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3", exposedResultsEver.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(exposedNegativeResultsEver.getName() + "-" + siteCode, exposedNegativeResultsEver,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_1", exposedNegativeResultsEver.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(exposedIndeterminateResultsEver.getName() + "-" + siteCode, exposedIndeterminateResultsEver,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_2", exposedIndeterminateResultsEver.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(exposedPositiveResultsEver.getName() + "-" + siteCode, exposedPositiveResultsEver,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_3", exposedPositiveResultsEver.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(positiveOnArvs.getName() + "-" + siteCode, positiveOnArvs,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_3_1", positiveOnArvs.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(positiveNotOnArvs.getName() + "-" + siteCode, positiveNotOnArvs,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_3_2", positiveNotOnArvs.getName() + "-" + siteCode, i, null);
+			i = h.newCountIndicator(positiveOther.getName() + "-" + siteCode, positiveOther,
+					h.parameterMap("location", l, "startedOnOrAfter", "${startDate}", "startedOnOrBefore", "${endDate}"));
+			PeriodIndicatorReportUtil.addColumn(rd, siteCode + "_3_3_3", positiveOther.getName() + "-" + siteCode, i, null);
+		}
 		
 		return rd;
 	}
