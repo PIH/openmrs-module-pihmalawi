@@ -80,6 +80,28 @@ update person_address set county_district = CONCAT(UPPER(LEFT(county_district, 1
 update person_address set city_village = CONCAT(UPPER(LEFT(city_village, 1)), LOWER(SUBSTRING(city_village, 2))) where voided=0;
 update person_address set state_province = CONCAT(UPPER(LEFT(state_province, 1)), LOWER(SUBSTRING(state_province, 2))) where voided=0;
 
+-- find exact duplicate names through lack of clever merging
+-- unfortunately the subquery is sooo inefficient and i'm too lazy to rewrite it. i'll just leave it up here for future reference
+-- update person_name set voided=1 where voided=0 person_name_id in (
+--   select max(pn1.person_name_id)
+--     from person_name pn1, person_name pn2
+--     where pn1.person_id = pn2.person_id and pn1.person_name_id <> pn2.person_name_id and pn1.voided=0 and pn2.voided=0
+--       and pn1.given_name = pn2.given_name and pn1.family_name = pn2.family_name 
+--       and (pn1.middle_name = pn2.middle_name or ((pn1.middle_name is null AND pn2.middle_name ='') or pn1.middle_name='' AND pn2.middle_name is null))
+--     group by pn1.person_id having count(pn1.person_id) > 1
+-- );
+
+-- find exact duplicate names through lack of clever merging
+-- unfortunately the subquery is sooo inefficient and i'm too lazy to rewrite it. i'll just leave it up here for future reference
+-- update person_address set voided=1 where voided=0 and person_address_id in
+-- (
+-- select 
+--   max(pa1.person_address_id) 
+--   from person_address pa1, person_address pa2
+--   where pa1.person_id = pa2.person_id and pa1.person_address_id <> pa2.person_address_id and pa1.city_village = pa2.city_village 
+--     and pa2.state_province = pa2.state_province and pa1.voided=0 and pa2.voided=0 group by pa1.person_id having count(pa1.person_id) > 1
+-- );
+
 -- void encounters from voided and deleted patients
 
 -- void obs from voided encounters
