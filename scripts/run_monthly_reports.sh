@@ -46,7 +46,7 @@ run_report.sh \
 echo "" | mailx -a $FILE -s "emr: $AREA APZU HIV Indicators $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
-# HIV Vistts
+# HIV Visits
 FILE=HIV_Visits-`echo $TODAY`.xls
 run_report.sh \
   "HIV Visits_" \
@@ -56,6 +56,18 @@ run_report.sh \
   "" \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA HIV Visits $TODAY" "$MAIL"
+mv $FILE /home/emradmin/pihmalawi/scripts/history
+
+# HIV Data Quality For All Users
+FILE=HIV_Data_Quality-`echo $TODAY`.xls
+run_report.sh \
+  "HIV Data Quality For All Users (SLOW)_" \
+  "userEnteredParams%5BendDate%5D=$NOW" \
+  "HIV Data Quality For All Users.xls (Excel)_" \
+  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
+  "" \
+  $FILE
+echo "" | mailx -a $FILE -s "emr: $AREA HIV Data Quality For All Users $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
 # ART Register For All Locations (SLOW)_
@@ -69,4 +81,3 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA ART Register ALL Locations  $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
-
