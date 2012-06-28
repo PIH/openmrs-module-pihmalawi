@@ -7,7 +7,7 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHivDnaPcrResults;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
-public class HivExposedDnaPcrResultsPersistentSetup extends BaseModuleContextSensitiveTest {
+public class HivDnaPcrResultsPersistentSetup extends BaseModuleContextSensitiveTest {
 
 	@Override
 	public Boolean useInMemoryDatabase() {
