@@ -4,7 +4,7 @@ ROOT=/home/emradmin/pihmalawi/scripts
 
 source /home/emradmin/pihmalawi/scripts/nightly_backup.config
 
-LOGFILE=$$.log
+LOGFILE=`pwd`/$$.log
 exec > $LOGFILE 2>&1
 
 # Dump the database to file
