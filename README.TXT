@@ -76,3 +76,18 @@ CREATE TABLE `person_name_code` (
   CONSTRAINT `code for name` FOREIGN KEY (`person_name_id`) REFERENCES `person_name` (`person_name_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=135857 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+# Neno EMR crontab (120701)
+# m h  dom mon dow   command
+MAILTO=eball@pih.org,cneumann@pih.org
+
+# Every night at 1:30AM, run the nightly backup of the malawi database
+50 1 * * * /home/emradmin/pihmalawi/scripts/nightly-backup.sh > /dev/null
+0 22 * * Sun /home/emradmin/pihmalawi/scripts/run_weekly_reports.sh >> /dev/null
+0 2 1 * * /home/emradmin/pihmalawi/scripts/run_monthly_reports.sh >> /dev/null
+0 3 1 */3 * /home/emradmin/pihmalawi/scripts/run_quarterly_reports.sh >> /dev/null
+0 4 * * * /home/emradmin/pihmalawi/scripts/rebuild_person_name_codes.sh > /home/emradmin/rebuild_names.log
+30 3 * * * /home/emradmin/pihmalawi/scripts/run_openmrs_sql_cleanup.sh >> /dev/null
+30 6 * * Sun /home/emradmin/apzu-server-admin/server_reboot/ubuntu_reboot.sh
+@reboot /home/emradmin/apzu-server-admin/startup_notifications/ubuntu_startup_notification.sh
+
