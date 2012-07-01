@@ -59,20 +59,3 @@ run_report.sh \
   $FILE
 echo "" | mailx -a $FILE -s "emr: $AREA HIV Visits $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
-
-# ART Register For All Locations (SLOW)_
-FILE=ART_Register_All_Locations-`echo $TODAY`.html
-run_report.sh \
-  "ART Register For All Locations (SLOW)_" \
-  "userEnteredParams%5BendDate%5D=$YESTERDAY" \
-  "ART Register For All Locations_" \
-  org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
-  "html" \
-  $FILE
-echo "" | mailx -a $FILE -s "emr: $AREA ART Register ALL Locations  $TODAY" "$MAIL"
-mv $FILE /home/emradmin/pihmalawi/scripts/history
-
-# after all this heavy work, schedule a reboot of the whole system
-sleep 600
-# this requires the setuid bit and isn't the most secure way: sudo chmod ug+s /sbin/reboot
-/sbin/reboot

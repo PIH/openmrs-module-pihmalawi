@@ -46,18 +46,6 @@ run_report.sh \
 echo "" | mailx -a $FILE -s "emr: $AREA APZU HIV Indicators $TODAY" "$MAIL"
 mv $FILE /home/emradmin/pihmalawi/scripts/history
 
-# HIV Visits
-FILE=HIV_Visits-`echo $TODAY`.xls
-run_report.sh \
-  "HIV Visits_" \
-  "userEnteredParams%5BstartDate%5D=$ONE_MONTH_AGO&userEnteredParams%5BendDate%5D=$YESTERDAY" \
-  "Excel (Default)" \
-  org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer \
-  "" \
-  $FILE
-echo "" | mailx -a $FILE -s "emr: $AREA HIV Visits $TODAY" "$MAIL"
-mv $FILE /home/emradmin/pihmalawi/scripts/history
-
 # HIV Data Quality For All Users
 FILE=HIV_Data_Quality-`echo $TODAY`.xls
 run_report.sh \
