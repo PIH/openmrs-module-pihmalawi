@@ -288,107 +288,110 @@ public class EncounterAndObsDataSetEvaluator implements DataSetEvaluator {
 			DataSetColumn c3 = new DataSetColumn(ObjectUtil.trimStringIfNeeded("LOCATION", maxColumnHeaderWidth), ObjectUtil.trimStringIfNeeded("LOCATION", maxColumnHeaderWidth), String.class);
 			row.addColumnValue(c3, (encounter.getLocation() != null) ? encounter.getLocation().getName() : EMPTY);
 			
-			// we are not interested in provider
-//			DataSetColumn c4 = new DataSetColumn(ObjectUtil.trimStringIfNeeded("PROVIDER", maxColumnHeaderWidth), ObjectUtil.trimStringIfNeeded("PROVIDER", maxColumnHeaderWidth), String.class);
-//			row.addColumnValue(c4, providerName);
-			
-			DataSetColumn c5 = new DataSetColumn(ObjectUtil.trimStringIfNeeded("INTERNAL_PATIENT_ID", maxColumnHeaderWidth), ObjectUtil.trimStringIfNeeded("INTERNAL_PATIENT_ID", maxColumnHeaderWidth),
-					Integer.class);
-			row.addColumnValue(c5, encounter.getPatient() != null ? encounter.getPatient().getPatientId() : EMPTY);
-
-			if (patientIdentifierTypes != null) {
-				for (PatientIdentifierType pit : patientIdentifierTypes) {
-					List<PatientIdentifier> patientIdentifiers = encounter.getPatient().getPatientIdentifiers(pit);
-					
-					StringBuffer sbPatientIdentifiers = new StringBuffer();
-					int count = 0;
-					for (PatientIdentifier patientIdentifier : patientIdentifiers) {
-						if (count > 0) {
-							sbPatientIdentifiers.append(", ");
+			try {
+				// we are not interested in provider
+	//			DataSetColumn c4 = new DataSetColumn(ObjectUtil.trimStringIfNeeded("PROVIDER", maxColumnHeaderWidth), ObjectUtil.trimStringIfNeeded("PROVIDER", maxColumnHeaderWidth), String.class);
+	//			row.addColumnValue(c4, providerName);
+				
+				DataSetColumn c5 = new DataSetColumn(ObjectUtil.trimStringIfNeeded("INTERNAL_PATIENT_ID", maxColumnHeaderWidth), ObjectUtil.trimStringIfNeeded("INTERNAL_PATIENT_ID", maxColumnHeaderWidth),
+						Integer.class);
+				row.addColumnValue(c5, encounter.getPatient() != null ? encounter.getPatient().getPatientId() : EMPTY);
+	
+				if (patientIdentifierTypes != null) {
+					for (PatientIdentifierType pit : patientIdentifierTypes) {
+						List<PatientIdentifier> patientIdentifiers = encounter.getPatient().getPatientIdentifiers(pit);
+						
+						StringBuffer sbPatientIdentifiers = new StringBuffer();
+						int count = 0;
+						for (PatientIdentifier patientIdentifier : patientIdentifiers) {
+							if (count > 0) {
+								sbPatientIdentifiers.append(", ");
+							}
+							sbPatientIdentifiers.append(patientIdentifier.toString());
+							count++;
 						}
-						sbPatientIdentifiers.append(patientIdentifier.toString());
-						count++;
+	
+						DataSetColumn c6 = new DataSetColumn(pit.getName(), ObjectUtil.trimStringIfNeeded(pit.getName(), maxColumnHeaderWidth), String.class);
+						row.addColumnValue(c6, sbPatientIdentifiers.toString());
 					}
-
-					DataSetColumn c6 = new DataSetColumn(pit.getName(), ObjectUtil.trimStringIfNeeded(pit.getName(), maxColumnHeaderWidth), String.class);
-					row.addColumnValue(c6, sbPatientIdentifiers.toString());
 				}
+	
+				// we are interested in gender, village and age of patient
+				DataSetColumn c7 = new DataSetColumn("Birthdate", ObjectUtil.trimStringIfNeeded("Birthdate", maxColumnHeaderWidth), String.class);
+				row.addColumnValue(c7, formatEncounterDate(encounter.getPatient().getBirthdate()));
+				DataSetColumn c8 = new DataSetColumn("Age at encounter (yr)", ObjectUtil.trimStringIfNeeded("Age at encounter (yr)", maxColumnHeaderWidth), String.class);
+				row.addColumnValue(c8, encounter.getPatient().getAge(encounter.getEncounterDatetime()));
+				DataSetColumn c9 = new DataSetColumn("Age at encounter (mth)", ObjectUtil.trimStringIfNeeded("Age at encounter (mth)", maxColumnHeaderWidth), String.class);
+				row.addColumnValue(c9, getAgeInMonths(encounter.getPatient(), encounter.getEncounterDatetime()));
+				DataSetColumn c10 = new DataSetColumn("M/F", ObjectUtil.trimStringIfNeeded("M/F", maxColumnHeaderWidth), String.class);
+				row.addColumnValue(c10, encounter.getPatient().getGender());
+				DataSetColumn c11 = new DataSetColumn("Village", ObjectUtil.trimStringIfNeeded("Village", maxColumnHeaderWidth), String.class);
+				row.addColumnValue(c11, encounter.getPatient().getPersonAddress() != null ? encounter.getPatient().getPersonAddress().getCityVillage() : "(no data)");
+				
+				Map<EncounterAndObsDataSetObsColumnDescriptor, Obs> obsInEncounter = fieldMap.get(encounter);
+				
+				// Look up all obs for a given encounter based on column headers for all encounters
+				for (EncounterAndObsDataSetObsColumnDescriptor columnKey : allColumns) {
+	
+					Obs obs = obsInEncounter.get(columnKey);
+					String columnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth);
+					DataSetColumn obsDsc = new DataSetColumn(columnName, columnName, String.class);
+	
+					StringBuffer columnValue = new StringBuffer();
+					if (obs != null && obs.getValueCoded() != null) {
+						if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.ID)) {
+							columnValue.append(obs.getValueCoded());
+						}
+	
+						if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.ID) && columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME)) {
+							columnValue.append("_");
+						}
+	
+						if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME)) {
+							String conceptName = obs.getValueAsString(Context.getLocale());
+							columnValue.append(maxColumnHeaderWidth != null && conceptName.length() > maxColumnHeaderWidth - columnValue.length() ? conceptName.substring(0, maxColumnHeaderWidth
+									- columnValue.length() - 1) : conceptName);
+						}
+						row.addColumnValue(obsDsc, (obs != null) ? columnValue.toString() : EMPTY);
+					} else {
+						row.addColumnValue(obsDsc, (obs != null) ? obs.getValueAsString(Context.getLocale()) : EMPTY);
+					}
+	
+					// we are not intersted in obs date as it is the same as encounter
+	//				String dateColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 5 : null);
+	//				DataSetColumn obsDscDate = new DataSetColumn(dateColumnName + "_DATE", dateColumnName + "_DATE", String.class);
+	//				row.addColumnValue(obsDscDate, (obs != null) ? obs.getObsDatetime().toString() : EMPTY);
+	
+					// we are not interested in parent column (whatever it is)
+	//				String parentColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 7 : null);
+	//				DataSetColumn obsDscParent = new DataSetColumn(parentColumnName + "_PARENT", parentColumnName + "_PARENT", String.class);
+	//				row.addColumnValue(obsDscParent, (obs != null && obs.getObsGroup() != null) ? obs.getObsGroup().getId() : EMPTY);
+	
+					if (optionalColumns != null) {
+	
+						if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.VALUE_MODIFIER)) {
+							String valModColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 10 : null);
+							DataSetColumn obsDscValueModifier = new DataSetColumn(valModColumnName + "_VALUE_MOD", valModColumnName + "_VALUE_MOD",
+									String.class);
+							row.addColumnValue(obsDscValueModifier, (obs != null) ? obs.getValueModifier() : EMPTY);
+						}
+						if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.ACCESSION_NUMBER)) {
+							String accessionNumColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 14 : null);
+							DataSetColumn obsDscAccessionNumber = new DataSetColumn(accessionNumColumnName + "_ACCESSION_NUM", accessionNumColumnName
+									+ "_ACCESSION_NUM", String.class);
+							row.addColumnValue(obsDscAccessionNumber, (obs != null) ? obs.getAccessionNumber() : EMPTY);
+						}
+						if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.COMMENT)) {
+							String commentColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 8 : null);
+							DataSetColumn obsDscComment = new DataSetColumn(commentColumnName + "_COMMENT", commentColumnName + "_COMMENT",
+									String.class);
+							row.addColumnValue(obsDscComment, (obs != null) ? obs.getComment() : EMPTY);
+						}
+					}
+				}
+			} catch (Exception e) {
+				log.error(e);
 			}
-
-			// we are interested in gender, village and age of patient
-			DataSetColumn c7 = new DataSetColumn("Birthdate", ObjectUtil.trimStringIfNeeded("Birthdate", maxColumnHeaderWidth), String.class);
-			row.addColumnValue(c7, formatEncounterDate(encounter.getPatient().getBirthdate()));
-			DataSetColumn c8 = new DataSetColumn("Age at encounter (yr)", ObjectUtil.trimStringIfNeeded("Age at encounter (yr)", maxColumnHeaderWidth), String.class);
-			row.addColumnValue(c8, encounter.getPatient().getAge(encounter.getEncounterDatetime()));
-			DataSetColumn c9 = new DataSetColumn("Age at encounter (mth)", ObjectUtil.trimStringIfNeeded("Age at encounter (mth)", maxColumnHeaderWidth), String.class);
-			row.addColumnValue(c9, getAgeInMonths(encounter.getPatient(), encounter.getEncounterDatetime()));
-			DataSetColumn c10 = new DataSetColumn("M/F", ObjectUtil.trimStringIfNeeded("M/F", maxColumnHeaderWidth), String.class);
-			row.addColumnValue(c10, encounter.getPatient().getGender());
-			DataSetColumn c11 = new DataSetColumn("Village", ObjectUtil.trimStringIfNeeded("Village", maxColumnHeaderWidth), String.class);
-			row.addColumnValue(c11, encounter.getPatient().getPersonAddress().getCityVillage());
-			
-			Map<EncounterAndObsDataSetObsColumnDescriptor, Obs> obsInEncounter = fieldMap.get(encounter);
-			
-			// Look up all obs for a given encounter based on column headers for all encounters
-			for (EncounterAndObsDataSetObsColumnDescriptor columnKey : allColumns) {
-
-				Obs obs = obsInEncounter.get(columnKey);
-				String columnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth);
-				DataSetColumn obsDsc = new DataSetColumn(columnName, columnName, String.class);
-
-				StringBuffer columnValue = new StringBuffer();
-				if (obs != null && obs.getValueCoded() != null) {
-					if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.ID)) {
-						columnValue.append(obs.getValueCoded());
-					}
-
-					if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.ID) && columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME)) {
-						columnValue.append("_");
-					}
-
-					if (columnDisplayFormat.contains(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME)) {
-						String conceptName = obs.getValueAsString(Context.getLocale());
-						columnValue.append(maxColumnHeaderWidth != null && conceptName.length() > maxColumnHeaderWidth - columnValue.length() ? conceptName.substring(0, maxColumnHeaderWidth
-								- columnValue.length() - 1) : conceptName);
-					}
-					row.addColumnValue(obsDsc, (obs != null) ? columnValue.toString() : EMPTY);
-				} else {
-					row.addColumnValue(obsDsc, (obs != null) ? obs.getValueAsString(Context.getLocale()) : EMPTY);
-				}
-
-				// we are not intersted in obs date as it is the same as encounter
-//				String dateColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 5 : null);
-//				DataSetColumn obsDscDate = new DataSetColumn(dateColumnName + "_DATE", dateColumnName + "_DATE", String.class);
-//				row.addColumnValue(obsDscDate, (obs != null) ? obs.getObsDatetime().toString() : EMPTY);
-
-				// we are not interested in parent column (whatever it is)
-//				String parentColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 7 : null);
-//				DataSetColumn obsDscParent = new DataSetColumn(parentColumnName + "_PARENT", parentColumnName + "_PARENT", String.class);
-//				row.addColumnValue(obsDscParent, (obs != null && obs.getObsGroup() != null) ? obs.getObsGroup().getId() : EMPTY);
-
-				if (optionalColumns != null) {
-
-					if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.VALUE_MODIFIER)) {
-						String valModColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 10 : null);
-						DataSetColumn obsDscValueModifier = new DataSetColumn(valModColumnName + "_VALUE_MOD", valModColumnName + "_VALUE_MOD",
-								String.class);
-						row.addColumnValue(obsDscValueModifier, (obs != null) ? obs.getValueModifier() : EMPTY);
-					}
-					if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.ACCESSION_NUMBER)) {
-						String accessionNumColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 14 : null);
-						DataSetColumn obsDscAccessionNumber = new DataSetColumn(accessionNumColumnName + "_ACCESSION_NUM", accessionNumColumnName
-								+ "_ACCESSION_NUM", String.class);
-						row.addColumnValue(obsDscAccessionNumber, (obs != null) ? obs.getAccessionNumber() : EMPTY);
-					}
-					if (optionalColumns.contains(EncounterAndObsDataSetDefinition.ObsOptionalColumn.COMMENT)) {
-						String commentColumnName = columnKey.format(columnDisplayFormat, maxColumnHeaderWidth != null ? maxColumnHeaderWidth - 8 : null);
-						DataSetColumn obsDscComment = new DataSetColumn(commentColumnName + "_COMMENT", commentColumnName + "_COMMENT",
-								String.class);
-						row.addColumnValue(obsDscComment, (obs != null) ? obs.getComment() : EMPTY);
-					}
-				}
-			}
-			
 			dataSet.addRow(row);
 		}
 		return dataSet;
