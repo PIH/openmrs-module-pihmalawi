@@ -43,6 +43,10 @@ HCC Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/regis
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccregister.form">Remove</a>
 <br/>
 
+Pre-ART Register (incl. old Pre-ART patients): <a href="${pageContext.request.contextPath}/module/pihmalawi/register_partregister.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partregister.form">Remove</a>
+<br/>
+
 HCC Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccquarterly.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccquarterly.form">Remove</a>
 <br/>

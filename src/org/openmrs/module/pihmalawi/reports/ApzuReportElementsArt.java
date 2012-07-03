@@ -335,6 +335,20 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	public static CohortDefinition partEverEnrolledIncludingOldPatientsAtLocationOnDate(
+			String prefix) {
+		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
+		pscd.setName(prefix + ": Pre-ART ever at location inlc Old patients_");
+		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Pre-ART (Continue)"));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		pscd.addParameter(new Parameter("location", "location", Location.class));
+		h.replaceCohortDefinition(pscd);
+
+		return pscd;
+	}
+
 	public static CohortDefinition partEverEnrolledOnDate(
 			String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
@@ -370,6 +384,19 @@ public class ApzuReportElementsArt {
 		h.replaceCohortDefinition(ccd);
 
 		return ccd;
+	}
+
+	public static CohortDefinition partEverEnrolledIncludingOldPatientsOnDate(
+			String prefix) {
+		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
+		pscd.setName(prefix + ": Pre-ART ever_");
+		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
+				"Pre-ART (Continue)")));
+		pscd.addParameter(new Parameter("startedOnOrBefore",
+				"startedOnOrBefore", Date.class));
+		h.replaceCohortDefinition(pscd);
+
+		return pscd;
 	}
 
 	public static CohortDefinition partDiedAtLocationOnDate(
