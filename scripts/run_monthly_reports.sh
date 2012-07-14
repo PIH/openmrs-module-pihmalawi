@@ -63,7 +63,7 @@ FILE=ART_Register_All_Locations-`echo $TODAY`.html
 run_report.sh \
   "ART Register For All Locations (SLOW)_" \
   "userEnteredParams%5BendDate%5D=$YESTERDAY" \
-  "ART Register_" \
+  "ART Register For All Locations_" \
   org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer \
   "html" \
   $FILE
