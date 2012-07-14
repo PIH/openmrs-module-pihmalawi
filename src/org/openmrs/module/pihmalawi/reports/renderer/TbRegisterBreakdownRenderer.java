@@ -110,7 +110,7 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		addOutcomeCols(
 				row,
 				p,
-				locationParameter,
+				locationParameter, endDateParameter,
 				lookupProgramWorkflow("Kaposis sarcoma program",
 						"Treatment status"));
 
@@ -119,7 +119,7 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				String.class);
 		row.addColumnValue(c, es.size());
 		// reg date
-		addFirstTimeEnrollmentCols(row, p, onTreatment, "Registration date");
+		addFirstTimeEnrollmentCols(row, p, onTreatment, endDateParameter, "Registration date");
 		c = new DataSetColumn("Treatment Unit", "Treatment Unit", String.class);
 		row.addColumnValue(c, obsFromEncounter(p, e, TREATMENT_UNIT));
 

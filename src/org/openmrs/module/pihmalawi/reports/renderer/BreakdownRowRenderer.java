@@ -161,10 +161,24 @@ public abstract class BreakdownRowRenderer {
 		}
 	}
 
+	protected void addDemographicTaDistrictCols(DataSetRow row, Patient p,
+			Date endDateParameter) {
+		try {
+			DataSetColumn c2 = new DataSetColumn("TA", "TA", String.class);
+			DataSetColumn c3 = new DataSetColumn("District", "District", String.class);
+			if (p.getPersonAddress() != null) {
+				row.addColumnValue(c2, h(p.getPersonAddress().getCountyDistrict()));
+				row.addColumnValue(c3, h(p.getPersonAddress().getStateProvince()));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
 	protected void addAllEnrollmentsCol(DataSetRow row, Patient p) {
 		try {
 			DataSetColumn c;
-			c = new DataSetColumn("All Enrollments", "All Enrollments",
+			c = new DataSetColumn("All Enrollments (not filtered)", "All Enrollments (not filtered)",
 					String.class);
 			String programs = "";
 
@@ -251,7 +265,7 @@ public abstract class BreakdownRowRenderer {
 			log.error(e);
 		}
 	}
-
+/*
 	protected void addLastVisitCols(DataSetRow row, Patient p,
 			List<EncounterType> encounterTypes, String visitClassification) {
 		try {
@@ -292,14 +306,98 @@ public abstract class BreakdownRowRenderer {
 		} catch (Exception e) {
 			log.error(e);
 		}
+	}
+*/
+	protected void addLastVisitCols(DataSetRow row, Patient p,
+			List<EncounterType> encounterTypes, String visitClassification) {
+		try {
+			List<Encounter> encounters = Context.getEncounterService()
+					.getEncounters(p, null, null, null, null, encounterTypes,
+							null, false);
+			DataSetColumn c1 = new DataSetColumn("Last visit date " + visitClassification + " (not filtered)",
+					"Last visit date " + visitClassification, String.class);
+			DataSetColumn c2 = new DataSetColumn("Last visit loc",
+					"Last visit loc", String.class);
+			DataSetColumn c3 = new DataSetColumn("Last visit appt date",
+					"Last visit appt date", String.class);
+			DataSetColumn c4 = new DataSetColumn("Last visit type",
+					"Last visit type", String.class);
+			if (!encounters.isEmpty()) {
+				Encounter e = encounters.get(encounters.size() - 1);
+				row.addColumnValue(c1,
+						formatEncounterDate(e.getEncounterDatetime()));
+				row.addColumnValue(c2, e.getLocation());
+
+				// rvd from last encounter
+				Set<Obs> observations = e.getObs();
+				for (Obs o : observations) {
+					if (o.getConcept()
+							.equals(lookupConcept("Appointment date"))) {
+						row.addColumnValue(c3,
+								formatEncounterDate(o.getValueDatetime()));
+						break;
+					}
+				}
+				row.addColumnValue(c4, e.getEncounterType().getName());
+			} else {
+				row.addColumnValue(c1, h("(no encounter found)"));
+				row.addColumnValue(c2, h(""));
+				row.addColumnValue(c3, h(""));
+				row.addColumnValue(c4, h(""));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
 
 	}
-
+/*
 	protected void addVisitColsOfVisitX(DataSetRow row, Patient p,
 			List<EncounterType> encounterTypes, int visitNumber, String visitClassification) {
 		try {
 			List<Encounter> encounters = Context.getEncounterService()
 					.getEncounters(p, null, null, null, null, encounterTypes,
+							null, false);
+			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date " + visitClassification,
+					"Visit #" + visitNumber + " date " + visitClassification, String.class);
+			DataSetColumn c2 = new DataSetColumn("Visit #" + visitNumber + " loc",
+					"Visit #" + visitNumber + " loc", String.class);
+			DataSetColumn c3 = new DataSetColumn("Visit #" + visitNumber + " appt date",
+					"Visit #" + visitNumber + " appt date", String.class);
+			DataSetColumn c4 = new DataSetColumn("Visit #" + visitNumber + " type",
+					"Visit #" + visitNumber + " type", String.class);
+			if (encounters.size() >= visitNumber) {
+				Encounter e = encounters.get(visitNumber - 1);
+				row.addColumnValue(c1,
+						formatEncounterDate(e.getEncounterDatetime()));
+				row.addColumnValue(c2, e.getLocation());
+
+				// rvd from last encounter
+				Set<Obs> observations = e.getObs();
+				for (Obs o : observations) {
+					if (o.getConcept()
+							.equals(lookupConcept("Appointment date"))) {
+						row.addColumnValue(c3,
+								formatEncounterDate(o.getValueDatetime()));
+						break;
+					}
+				}
+				row.addColumnValue(c4, e.getEncounterType().getName());
+			} else {
+				row.addColumnValue(c1, h("(no encounter found)"));
+				row.addColumnValue(c2, h(""));
+				row.addColumnValue(c3, h(""));
+				row.addColumnValue(c4, h(""));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+*/
+	protected void addVisitColsOfVisitX(DataSetRow row, Patient p,
+			List<EncounterType> encounterTypes, int visitNumber, String visitClassification, Date endDate) {
+		try {
+			List<Encounter> encounters = Context.getEncounterService()
+					.getEncounters(p, null, null, endDate, null, encounterTypes,
 							null, false);
 			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date " + visitClassification,
 					"Visit #" + visitNumber + " date " + visitClassification, String.class);
@@ -360,7 +458,7 @@ public abstract class BreakdownRowRenderer {
 			log.error(e);
 		}
 	}
-
+/*
 	protected void addOutcomeCols(DataSetRow row, Patient p,
 			Location locationParameter, ProgramWorkflow pw) {
 		try {
@@ -384,14 +482,38 @@ public abstract class BreakdownRowRenderer {
 			log.error(e);
 		}
 	}
-
-	protected void addMostRecentOutcomeWithinDatabaseCols(DataSetRow row,
-			Patient p, ProgramWorkflow pw, Date endDate) {
+*/
+	protected void addOutcomeCols(DataSetRow row, Patient p,
+			Location locationParameter, Date endDate, ProgramWorkflow pw) {
 		try {
 			PatientState ps = null;
-			ps = h.getMostRecentStateAtDate(p, pw, endDate);
+			// enrollment outcome from location
+			ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate,
+					sessionFactory().getCurrentSession());
 
-			DataSetColumn c1 = new DataSetColumn("Last Outcome in DB",
+			DataSetColumn c = new DataSetColumn("Outcome", "Outcome",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, ps.getState().getConcept().getName()
+						.getName());
+			}
+			c = new DataSetColumn("Outcome change date", "Outcome change Date",
+					String.class);
+			if (ps != null) {
+				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
+	protected void addMostRecentOutcomeWithinDatabaseCols(DataSetRow row,
+			Patient p, ProgramWorkflow pw) {
+		try {
+			PatientState ps = null;
+			ps = h.getMostRecentState(p, pw);
+
+			DataSetColumn c1 = new DataSetColumn("Last Outcome in DB (not filtered)",
 					"Last Outcome in DB", String.class);
 			DataSetColumn c2 = new DataSetColumn("Last Outcome change date",
 					"Last Outcome change Date", String.class);
@@ -415,7 +537,7 @@ public abstract class BreakdownRowRenderer {
 		}
 
 	}
-
+/*
 	protected void addFirstTimeChangeToStateDateCols(DataSetRow row, Patient p,
 			ProgramWorkflowState state, String header) {
 		DataSetColumn c1 = new DataSetColumn(header + " date",
@@ -431,6 +553,27 @@ public abstract class BreakdownRowRenderer {
 					c2,
 					firstTimeInStateAtLocation(p, state.getProgramWorkflow()
 							.getProgram(), state));
+		} else {
+			row.addColumnValue(c1, h(""));
+			row.addColumnValue(c2, h(""));
+		}
+	}
+*/
+	protected void addFirstTimeChangeToStateDateCols(DataSetRow row, Patient p,
+			ProgramWorkflowState state, String header, Date endDate) {
+		DataSetColumn c1 = new DataSetColumn(header + " date",
+				header + " date", String.class);
+		DataSetColumn c2 = new DataSetColumn(header + " location", header
+				+ " location", String.class);
+		PatientState ps = h.getFirstTimeInState(p, state.getProgramWorkflow()
+				.getProgram(), state, endDate);
+		if (ps != null) {
+			row.addColumnValue(c1, formatEncounterDate(ps.getStartDate()));
+			// first on art at
+			row.addColumnValue(
+					c2,
+					firstTimeInStateAtLocation(p, state.getProgramWorkflow()
+							.getProgram(), state, endDate));
 		} else {
 			row.addColumnValue(c1, h(""));
 			row.addColumnValue(c2, h(""));
@@ -453,13 +596,13 @@ public abstract class BreakdownRowRenderer {
 	}
 
 	protected void addFirstTimeEnrollmentCols(DataSetRow row, Patient p,
-			ProgramWorkflowState state, String label) {
+			ProgramWorkflowState state, Date endDate, String label) {
 		try {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
 			row.addColumnValue(
 					c,
-					formatEncounterDate(firstTimeInState(p,
-							state.getProgramWorkflow().getProgram(), state)
+					formatEncounterDate(h.getFirstTimeInState(p,
+							state.getProgramWorkflow().getProgram(), state, endDate)
 							.getPatientProgram().getDateEnrolled()));
 
 			// first on art at
@@ -468,12 +611,12 @@ public abstract class BreakdownRowRenderer {
 			row.addColumnValue(
 					c,
 					firstTimeInStateAtLocation(p, state.getProgramWorkflow()
-							.getProgram(), state));
+							.getProgram(), state, endDate));
 		} catch (Exception e) {
 			log.error(e);
 		}
 	}
-
+/*
 	protected void addFirstEncounterCols(DataSetRow row, Patient p,
 			EncounterType encounterType, String label) {
 		try {
@@ -497,22 +640,46 @@ public abstract class BreakdownRowRenderer {
 			log.error(e);
 		}
 	}
+*/
+	protected void addFirstEncounterCols(DataSetRow row, Patient p,
+			EncounterType encounterType, String label, Date endDate) {
+		try {
+			List<Encounter> encounters = Context.getEncounterService()
+					.getEncounters(p, null, null, endDate, null,
+							Arrays.asList(encounterType), null, false);
+			DataSetColumn c1 = new DataSetColumn(label + " date", label
+					+ " date", String.class);
+			DataSetColumn c2 = new DataSetColumn(label + " location", label
+					+ " location", String.class);
+			if (!encounters.isEmpty()) {
+				Encounter e = encounters.get(encounters.size() - 1);
+				row.addColumnValue(c1,
+						formatEncounterDate(e.getEncounterDatetime()));
+				row.addColumnValue(c2, e.getLocation());
+			} else {
+				row.addColumnValue(c1, h(""));
+				row.addColumnValue(c2, h(""));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
 
 	protected void addFirstChangeToStateCols(DataSetRow row, Patient p,
-			ProgramWorkflowState state, String label) {
+			ProgramWorkflowState state, Date endDate, String label) {
 		try {
 			DataSetColumn c1 = new DataSetColumn(label + " date", label
 					+ " date", String.class);
 			DataSetColumn c2 = new DataSetColumn(label + " location", label
 					+ " location", String.class);
-			PatientState ps = firstTimeInState(p, state.getProgramWorkflow()
-					.getProgram(), state);
+			PatientState ps = h.getFirstTimeInState(p, state.getProgramWorkflow()
+					.getProgram(), state, endDate);
 			if (ps != null) {
 				row.addColumnValue(c1, formatEncounterDate(ps.getStartDate()));
 				row.addColumnValue(
 						c2,
 						firstTimeInStateAtLocation(p, state
-								.getProgramWorkflow().getProgram(), state));
+								.getProgramWorkflow().getProgram(), state, endDate));
 			} else {
 				row.addColumnValue(c1, h(""));
 				row.addColumnValue(c2, h(""));
@@ -637,21 +804,27 @@ public abstract class BreakdownRowRenderer {
 	}
 
 	private Location firstTimeInStateAtLocation(Patient p, Program program,
-			ProgramWorkflowState firstTimeInState) {
-		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
+			ProgramWorkflowState firstTimeInState, Date endDate) {
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
 		if (ps != null) {
 			return h.getEnrollmentLocation(ps.getPatientProgram(),
 					sessionFactory().getCurrentSession());
 		}
 		return null;
 	}
-
+/*
 	private PatientState firstTimeInState(Patient p, Program program,
 			ProgramWorkflowState firstTimeInState) {
 		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
 		return ps;
 	}
 
+	private PatientState firstTimeInState(Patient p, Program program,
+			ProgramWorkflowState firstTimeInState, Date endDate) {
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
+		return ps;
+	}
+*/
 	protected PatientProgram currentPatientProgram(Program program,
 			Patient patient) {
 		List<org.openmrs.PatientProgram> pps = Context.getProgramWorkflowService()

@@ -130,8 +130,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			c = new DataSetColumn("Village", "Village", String.class);
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			// enrollment outcome
-			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation_hack(p,
-					MetadataLookup.program("HIV program"), location,
+			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation(p,
+					MetadataLookup.programWorkflow("HIV program", "Treatment status"), location,
 					sessionFactory().getCurrentSession());
 			c = new DataSetColumn("Outcome", "Outcome", String.class);
 			row.addColumnValue(c, ps.getState().getConcept().getName()

@@ -107,7 +107,7 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 			log.error(e);
 		}
 		addDemographicCols(row, p, endDateParameter);
-		addOutcomeCols(row, p, locationParameter,
+		addOutcomeCols(row, p, locationParameter, endDateParameter,
 				lookupProgramWorkflow("Kaposis sarcoma program", "Treatment status"));
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(

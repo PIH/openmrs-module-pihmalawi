@@ -40,7 +40,7 @@ public class SetupArtRegister {
 		ReportDefinition rd = createReportDefinition("artreg");
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd, "ART Register_");
-		createAppointmentAdherenceBreakdown(rd);
+//		createAppointmentAdherenceBreakdown(rd);
 
 		rd = createReportDefinitionForAllLocations("artregcomplete");
 		h.replaceReportDefinition(rd);
@@ -95,8 +95,6 @@ public class SetupArtRegister {
 	private ReportDefinition createReportDefinition(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("ART Register_");
 		rd.setupDataSetDefinition();
 
@@ -114,9 +112,7 @@ public class SetupArtRegister {
 	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
 		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("ART Register For All Locations (SLOW)_");
 		rd.setupDataSetDefinition();
 

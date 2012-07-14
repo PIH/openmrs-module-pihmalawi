@@ -25,10 +25,9 @@ public class ArtMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer 
 		}
 		addDemographicCols(row, p, endDateParameter);
 		addOutcomeCols(row, p, locationParameter,
-				lookupProgramWorkflow("HIV program", "Treatment status"));
+				endDateParameter, lookupProgramWorkflow("HIV program", "Treatment status"));
 		addMostRecentOutcomeWithinDatabaseCols(row, p,
-				lookupProgramWorkflow("HIV program", "Treatment status"),
-				endDateParameter);
+				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_FOLLOWUP")), " in ART");

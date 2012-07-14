@@ -78,8 +78,6 @@ public class SetupPreArtRegister {
 	private ReportDefinition createReportDefinition(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("Pre-ART Register (incl. old patients)_");
 		rd.setupDataSetDefinition();
 
@@ -97,9 +95,7 @@ public class SetupPreArtRegister {
 	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
 		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("Pre-ART Register For All Locations (incl. old patients) (SLOW)_");
 		rd.setupDataSetDefinition();
 

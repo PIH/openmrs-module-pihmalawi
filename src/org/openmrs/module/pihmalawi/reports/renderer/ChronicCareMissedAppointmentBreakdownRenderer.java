@@ -29,7 +29,7 @@ public class ChronicCareMissedAppointmentBreakdownRenderer extends BreakdownRowR
 			log.error(e);
 		}
 		addDemographicCols(row, p, endDateParameter);
-		addOutcomeCols(row, p, locationParameter,
+		addOutcomeCols(row, p, locationParameter, endDateParameter,
 				lookupProgramWorkflow("Chronic care program", "Chronic care treatment status"));
 		addVhwCol(row, p);
 		addChronicCareCols(row, p);

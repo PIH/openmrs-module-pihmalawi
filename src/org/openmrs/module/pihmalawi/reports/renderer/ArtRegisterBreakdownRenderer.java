@@ -30,83 +30,90 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 			log.error(e);
 		}
 		try {
-			addCol(row, "All HCC #s",
+			addCol(row, "All HCC #s (not filtered)",
 					identifiers(p, lookupPatientIdentifierType("HCC Number")));
 		} catch (Exception e) {
 			log.error(e);
 		}
 		try {
-			addCol(row, "All ARV #s",
+			addCol(row, "All ARV #s (not filtered)",
 					identifiers(p, lookupPatientIdentifierType("ARV Number")));
 		} catch (Exception e) {
 			log.error(e);
 		}
-		addFirstEncounterCols(row, p, lookupEncounterType("ART_INITIAL"),
-				"ART initial");
-		addDemographicCols(row, p, endDateParameter);
-		addOutcomeCols(row, p, locationParameter,
-				lookupProgramWorkflow("HIV program", "Treatment status"));
-		addCol(row, "Missing 2+ months since", "(tbd)");
-		addMostRecentOutcomeWithinDatabaseCols(row, p,
-				lookupProgramWorkflow("HIV program", "Treatment status"),
-				endDateParameter);
-		addEnrollmentDateCols(row, 
-				p,
-				locationParameter,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"On antiretrovirals"), "Enrollment date at location (ART or HCC)");
-		addFirstTimeEnrollmentCols(row,
-				p,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"On antiretrovirals"), "1st time enrollment (ART or HCC)");
-		addFirstTimeChangeToStateDateCols(
-				row,
-				p,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"Pre-ART (Continue)"), "1st time in Pre-ART");
-		addFirstTimeChangeToStateDateCols(
-				row,
-				p,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"Exposed Child (Continue)"),
-				"1st time in Exposed Child");
-		addFirstTimeChangeToStateDateCols(
-				row,
-				p,
-				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"On antiretrovirals"), "1st time in ART");
-		// reason starting arvs
-		addReasonStartingArvsCols(row, p, endDateParameter);
-		// date 1st time arvs
-		addMostRecentDatetimeObsCols(row, p, lookupConcept("Start date 1st line ARV"), endDateParameter);
-		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
-				endDateParameter);
-
-		addVhwCol(row, p);
-		addVisitColsOfVisitX(row, p, Arrays.asList(
-				lookupEncounterType("ART_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HIV");
-		addVisitColsOfVisitX(row, p, Arrays.asList(
-				lookupEncounterType("ART_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HIV");
-		addVisitColsOfVisitX(row, p, Arrays.asList(
-				lookupEncounterType("ART_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV");
-		addLastVisitCols(row, p, Arrays.asList(
-				lookupEncounterType("ART_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
-		// current regimen
-		addMostRecentObsCols(row, p, lookupConcept("Malawi Antiretroviral drugs received"), endDateParameter);
-		// tb status
-		addMostRecentObsCols(row, p, lookupConcept("TB status"),
-				endDateParameter);
-		// side effects
-		addMostRecentObsCols(row, p, lookupConcept("Malawi ART side effects"), endDateParameter);
-		addAllEnrollmentsCol(row, p);
+		try {
+			addFirstEncounterCols(row, p, lookupEncounterType("ART_INITIAL"), "ART initial", endDateParameter);
+			addDemographicCols(row, p, endDateParameter);
+			addDemographicTaDistrictCols(row, p, endDateParameter);
+			addOutcomeCols(row, p, locationParameter, endDateParameter, lookupProgramWorkflow("HIV program", "Treatment status"));
+			addCol(row, "Missing 2+ months", "(tbd)");
+			addMostRecentOutcomeWithinDatabaseCols(row, p, lookupProgramWorkflow("HIV program", "Treatment status"));
+			addEnrollmentDateCols(row, 
+					p,
+					locationParameter,
+					lookupProgramWorkflowState("HIV program", "Treatment status", "On antiretrovirals"), 
+					"Enrollment date at location (ART or HCC) (not filtered)");
+			addFirstTimeEnrollmentCols(row,
+					p,
+					lookupProgramWorkflowState("HIV program", "Treatment status", "On antiretrovirals"),
+					endDateParameter, 
+					"1st time enrollment (ART or HCC) (not filtered)");
+			addFirstTimeChangeToStateDateCols(
+					row,
+					p,
+					lookupProgramWorkflowState("HIV program", "Treatment status", "Pre-ART (Continue)"), 
+					"1st time in Pre-ART", 
+					endDateParameter);
+			addFirstTimeChangeToStateDateCols(
+					row,
+					p,
+					lookupProgramWorkflowState("HIV program", "Treatment status", "Exposed Child (Continue)"),
+					"1st time in Exposed Child", 
+					endDateParameter);
+			addFirstTimeChangeToStateDateCols(
+					row,
+					p,
+					lookupProgramWorkflowState("HIV program", "Treatment status", "On antiretrovirals"), 
+					"1st time in ART", 
+					endDateParameter);
+			addReasonStartingArvsCols(row, p, endDateParameter);
+			addMostRecentDatetimeObsCols(row, p, lookupConcept("Start date 1st line ARV"), endDateParameter);
+			addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"), endDateParameter);
+	
+			addVhwCol(row, p);
+			addVisitColsOfVisitX(row, p, Arrays.asList(
+					lookupEncounterType("ART_FOLLOWUP"),
+					lookupEncounterType("PART_FOLLOWUP"),
+					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
+					1, 
+					" in HIV", 
+					endDateParameter);
+			addVisitColsOfVisitX(row, p, Arrays.asList(
+					lookupEncounterType("ART_FOLLOWUP"),
+					lookupEncounterType("PART_FOLLOWUP"),
+					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
+					2, 
+					" in HIV", 
+					endDateParameter);
+			addVisitColsOfVisitX(row, p, Arrays.asList(
+					lookupEncounterType("ART_FOLLOWUP"),
+					lookupEncounterType("PART_FOLLOWUP"),
+					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
+					3, 
+					" in HIV", 
+					endDateParameter);
+			addLastVisitCols(row, p, Arrays.asList(
+					lookupEncounterType("ART_FOLLOWUP"),
+					lookupEncounterType("PART_FOLLOWUP"),
+					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
+					" in HIV");
+			addMostRecentObsCols(row, p, lookupConcept("Malawi Antiretroviral drugs received"), endDateParameter);
+			addMostRecentObsCols(row, p, lookupConcept("TB status"), endDateParameter);
+			addMostRecentObsCols(row, p, lookupConcept("Malawi ART side effects"), endDateParameter);
+			addAllEnrollmentsCol(row, p);
+		} catch (Exception e) {
+			log.error(e);
+		}
 		return row;
 	}
 	

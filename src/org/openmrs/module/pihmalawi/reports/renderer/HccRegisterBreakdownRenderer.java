@@ -27,38 +27,37 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 			log.error(e);
 		}
 		try {
-			addCol(row, "All HCC #s",
+			addCol(row, "All HCC #s (not filtered)",
 					identifiers(p, lookupPatientIdentifierType("HCC Number")));
 		} catch (Exception e) {
 			log.error(e);
 		}
 		try {
-			addCol(row, "All ARV #s",
+			addCol(row, "All ARV #s (not filtered)",
 					identifiers(p, lookupPatientIdentifierType("ARV Number")));
 		} catch (Exception e) {
 			log.error(e);
 		}
 		addFirstEncounterCols(row, p, lookupEncounterType("PART_INITIAL"),
-				"Pre-ART initial visit");
+				"Pre-ART initial visit", endDateParameter);
 		addFirstChangeToStateCols(
 				row,
 				p,
 				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"Pre-ART (Continue)"), "Pre-ART state");
+						"Pre-ART (Continue)"), endDateParameter, "Pre-ART state");
 		addFirstEncounterCols(row, p,
-				lookupEncounterType("EXPOSED_CHILD_INITIAL"), "Exposed initial visit");
+				lookupEncounterType("EXPOSED_CHILD_INITIAL"), "Exposed initial visit", endDateParameter);
 		addFirstChangeToStateCols(
 				row,
 				p,
 				lookupProgramWorkflowState("HIV program", "Treatment status",
-						"Exposed Child (Continue)"), "Exposed state");
+						"Exposed Child (Continue)"), endDateParameter, "Exposed state");
 		addDemographicCols(row, p, endDateParameter);
-		addOutcomeColsForHcc(row, p, locationParameter,
+		addOutcomeColsForHcc(row, p, locationParameter, endDateParameter,
 				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addCol(row, "Missing 2+ months since", "(tbd)");
 		addMostRecentOutcomeWithinDatabaseCols(row, p,
-				lookupProgramWorkflow("HIV program", "Treatment status"),
-				endDateParameter);
+				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addVhwCol(row, p);
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
@@ -66,28 +65,28 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HCC");
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HIV", endDateParameter);
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HCC");
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HIV", endDateParameter);
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HCC");
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV", endDateParameter);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HCC");
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
@@ -97,17 +96,15 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
 		addMostRecentNumericObsCols(row, p, lookupConcept("CD4 count"),
 				endDateParameter);
-		// tb status
 		addMostRecentObsCols(row, p, lookupConcept("TB status"),
 				endDateParameter);
-		// side effects
 		addMostRecentObsCols(row, p, lookupConcept("Malawi ART side effects"), endDateParameter);
 		addAllEnrollmentsCol(row, p);
 		return row;
 	}
 
 	protected void addOutcomeColsForHcc(DataSetRow row, Patient p,
-			Location locationParameter, ProgramWorkflow pw) {
+			Location locationParameter, Date endDate, ProgramWorkflow pw) {
 		try {
 			PatientState ps = null;
 			// enrollment outcome from location
@@ -116,7 +113,7 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 							"Treatment status", "Exposed Child (Continue)"),
 					lookupProgramWorkflowState("HIV program",
 							"Treatment status", "Pre-ART (Continue)")),
-					locationParameter, sessionFactory().getCurrentSession());
+					locationParameter, endDate, sessionFactory().getCurrentSession());
 
 			DataSetColumn c = new DataSetColumn("Outcome in HCC", "Outcome in HCC",
 					String.class);

@@ -24,11 +24,10 @@ public class HccMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer 
 			log.error(e);
 		}
 		addDemographicCols(row, p, endDateParameter);
-		addOutcomeCols(row, p, locationParameter,
+		addOutcomeCols(row, p, locationParameter, endDateParameter,
 				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addMostRecentOutcomeWithinDatabaseCols(row, p,
-				lookupProgramWorkflow("HIV program", "Treatment status"),
-				endDateParameter);
+				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addVhwCol(row, p);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP"),

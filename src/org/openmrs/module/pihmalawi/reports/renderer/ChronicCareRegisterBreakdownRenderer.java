@@ -37,18 +37,21 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
 		addFirstEncounterCols(row, p,
 				lookupEncounterType("CHRONIC_CARE_INITIAL"),
-				"Chronic Care initial");
+				"Chronic Care initial", endDateParameter);
 		addFirstChangeToStateCols(
 				row,
 				p,
 				lookupProgramWorkflowState("Chronic care program",
 						"Chronic care treatment status", "On treatment"),
+				endDateParameter,
 				"State");
 		addDemographicCols(row, p, endDateParameter);
+		addDemographicTaDistrictCols(row, p, endDateParameter);
 		addOutcomeCols(
 				row,
 				p,
 				locationParameter,
+				endDateParameter,
 				lookupProgramWorkflow("Chronic care program",
 						"Chronic care treatment status"));
 		addChronicCareCols(row, p);

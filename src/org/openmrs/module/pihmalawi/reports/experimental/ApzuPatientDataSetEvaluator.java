@@ -535,7 +535,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	}
 
 	private Location artStartedAt(Patient p, Program program, ProgramWorkflowState firstTimeInState) {
-		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, new Date());
 		if (ps != null) {
 			return h.getEnrollmentLocation(ps
 					.getPatientProgram(), sessionFactory().getCurrentSession());
@@ -544,7 +544,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 	}
 
 	private Date artStatedOn(Patient p, Program program, ProgramWorkflowState firstTimeInState) {
-		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
+		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, new Date());
 		if (ps != null) {
 			return ps.getStartDate();
 		}

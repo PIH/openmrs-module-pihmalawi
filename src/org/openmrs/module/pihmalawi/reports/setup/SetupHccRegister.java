@@ -38,7 +38,7 @@ public class SetupHccRegister {
 		ReportDefinition rd = createReportDefinition("hccreg");
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd, "HCC Register_");
-		createDemographicsHtmlBreakdown(rd);
+//		createDemographicsHtmlBreakdown(rd);
 
 		rd = createReportDefinitionForAllLocations("hccregcomplete");
 		h.replaceReportDefinition(rd);
@@ -95,8 +95,6 @@ public class SetupHccRegister {
 	private ReportDefinition createReportDefinition(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("HCC Register_");
 		rd.setupDataSetDefinition();
 
@@ -117,9 +115,7 @@ public class SetupHccRegister {
 	private ReportDefinition createReportDefinitionForAllLocations(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
-		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
 		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (today)", Date.class));
 		rd.setName("HCC Register For All Locations (SLOW)_");
 		rd.setupDataSetDefinition();
 
