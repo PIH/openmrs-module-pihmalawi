@@ -53,6 +53,7 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupProgramWorkflowState("HIV program", "Treatment status",
 						"Exposed Child (Continue)"), endDateParameter, "Exposed state");
 		addDemographicCols(row, p, endDateParameter);
+		addDemographicTaDistrictCols(row, p, endDateParameter);
 		addOutcomeColsForHcc(row, p, locationParameter, endDateParameter,
 				lookupProgramWorkflow("HIV program", "Treatment status"));
 		addCol(row, "Missing 2+ months since", "(tbd)");

@@ -73,7 +73,7 @@ public abstract class BreakdownRowRenderer {
 	protected String patientLink(Patient p,
 			PatientIdentifierType identifierType, Location locationParameter) {
 		// todo, get current id and/or preferred one first
-		String patientLink = "";
+		String patientLink = "(not applicable)";
 		// todo, don't hardcode server
 		String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
 		List<PatientIdentifier> pis = p.getPatientIdentifiers(identifierType);
@@ -487,9 +487,13 @@ public abstract class BreakdownRowRenderer {
 			Location locationParameter, Date endDate, ProgramWorkflow pw) {
 		try {
 			PatientState ps = null;
-			// enrollment outcome from location
-			ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate,
-					sessionFactory().getCurrentSession());
+			if (locationParameter != null) {
+				// enrollment outcome from location
+				ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate,
+						sessionFactory().getCurrentSession());
+			} else {
+				ps = h.getMostRecentStateAtDate(p, pw, endDate);
+			}
 
 			DataSetColumn c = new DataSetColumn("Outcome", "Outcome",
 					String.class);
@@ -501,6 +505,16 @@ public abstract class BreakdownRowRenderer {
 					String.class);
 			if (ps != null) {
 				row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			}
+			c = new DataSetColumn("Outcome location", "Outcome location",
+					String.class);
+			if (ps != null && locationParameter == null) {
+				// register for all locations
+				row.addColumnValue(c, h.getEnrollmentLocation(ps
+						.getPatientProgram(), sessionFactory()
+						.getCurrentSession()));
+			} else if (ps != null && locationParameter != null) {
+				row.addColumnValue(c, locationParameter);
 			}
 		} catch (Exception e) {
 			log.error(e);
@@ -584,12 +598,16 @@ public abstract class BreakdownRowRenderer {
 			Location locationParameter, ProgramWorkflowState state, String label) {
 		try {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
-			List<PatientState> states = h.getPatientStatesByWorkflowAtLocation(
-					p, state, locationParameter, sessionFactory()
-							.getCurrentSession());
-			PatientState firstState = states.get(0);
-			row.addColumnValue(c, formatEncounterDate(firstState
-					.getPatientProgram().getDateEnrolled()));
+			if (locationParameter != null) {
+				List<PatientState> states = h.getPatientStatesByWorkflowAtLocation(
+						p, state, locationParameter, sessionFactory()
+								.getCurrentSession());
+				PatientState firstState = states.get(0);
+				row.addColumnValue(c, formatEncounterDate(firstState
+						.getPatientProgram().getDateEnrolled()));
+			} else {
+				row.addColumnValue(c, h("(not applicable)"));
+			}
 		} catch (Exception e) {
 			log.error(e);
 		}

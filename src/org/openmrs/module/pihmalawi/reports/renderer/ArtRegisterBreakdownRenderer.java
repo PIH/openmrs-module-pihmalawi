@@ -46,7 +46,7 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 			addDemographicCols(row, p, endDateParameter);
 			addDemographicTaDistrictCols(row, p, endDateParameter);
 			addOutcomeCols(row, p, locationParameter, endDateParameter, lookupProgramWorkflow("HIV program", "Treatment status"));
-			addCol(row, "Missing 2+ months", "(tbd)");
+			addCol(row, "Missing 2+ months", "(todo)");
 			addMostRecentOutcomeWithinDatabaseCols(row, p, lookupProgramWorkflow("HIV program", "Treatment status"));
 			addEnrollmentDateCols(row, 
 					p,
