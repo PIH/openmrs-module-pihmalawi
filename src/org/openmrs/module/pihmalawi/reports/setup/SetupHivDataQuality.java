@@ -103,7 +103,7 @@ public class SetupHivDataQuality {
 
 		USERS = new ArrayList<User>();
 		for (String user : new String[] { "benndo", "amahaka", "geomal",
-				"tvuma", "thandie", "cgoliath", "cneumann", "prichi",
+				"tvuma", "ehez", "cgoliath", "cneumann", "prichi",
 				"harzam", "nelma", "moblack" }) {
 			if (Context.getUserService().getUserByUsername(user) != null)
 				USERS.add(Context.getUserService().getUserByUsername(user));
