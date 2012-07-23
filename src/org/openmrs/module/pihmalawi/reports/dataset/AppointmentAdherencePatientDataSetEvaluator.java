@@ -264,7 +264,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 		for (Object s : strings) {
 			text += s +  " ";
 		}
-		log.error(text);
+//		log.error(text);
 	}
 
 	private String indicator(int visitOnTime, int visits) {
