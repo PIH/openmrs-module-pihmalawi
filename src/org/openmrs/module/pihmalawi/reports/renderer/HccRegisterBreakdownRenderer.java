@@ -81,6 +81,13 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
 				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV", endDateParameter);
+		addVisitColsOfVisitX(row, p, Arrays.asList(
+				lookupEncounterType("ART_INITIAL"),
+				lookupEncounterType("PART_INITIAL"),
+				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
+				lookupEncounterType("ART_FOLLOWUP"),
+				lookupEncounterType("PART_FOLLOWUP"),
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 4, " in HIV", endDateParameter);
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
