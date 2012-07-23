@@ -40,7 +40,7 @@ public class SetupArtRegister {
 		ReportDefinition rd = createReportDefinition("artreg");
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd, "ART Register_");
-//		createAppointmentAdherenceBreakdown(rd);
+		createAppointmentAdherenceBreakdown(rd);
 
 		rd = createReportDefinitionForAllLocations("artregcomplete");
 		h.replaceReportDefinition(rd);
