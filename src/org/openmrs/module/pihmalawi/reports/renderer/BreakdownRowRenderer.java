@@ -394,13 +394,13 @@ public abstract class BreakdownRowRenderer {
 	}
 */
 	protected void addVisitColsOfVisitX(DataSetRow row, Patient p,
-			List<EncounterType> encounterTypes, int visitNumber, String visitClassification, Date endDate) {
+			List<EncounterType> encounterTypes, int visitNumber, String visitClassification) {
 		try {
 			List<Encounter> encounters = Context.getEncounterService()
-					.getEncounters(p, null, null, endDate, null, encounterTypes,
+					.getEncounters(p, null, null, null, null, encounterTypes,
 							null, false);
-			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date " + visitClassification,
-					"Visit #" + visitNumber + " date " + visitClassification, String.class);
+			DataSetColumn c1 = new DataSetColumn("Visit #" + visitNumber + " date " + visitClassification + " (not filtered)",
+					"Visit #" + visitNumber + " date " + visitClassification + " (not filtered)", String.class);
 			DataSetColumn c2 = new DataSetColumn("Visit #" + visitNumber + " loc",
 					"Visit #" + visitNumber + " loc", String.class);
 			DataSetColumn c3 = new DataSetColumn("Visit #" + visitNumber + " appt date",

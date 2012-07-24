@@ -66,35 +66,28 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HIV", endDateParameter);
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 1, " in HIV");
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HIV", endDateParameter);
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 2, " in HIV");
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV", endDateParameter);
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 3, " in HIV");
 		addVisitColsOfVisitX(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),
 				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
 				lookupEncounterType("ART_FOLLOWUP"),
 				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 4, " in HIV", endDateParameter);
-		addLastVisitCols(row, p, Arrays.asList(
-				lookupEncounterType("ART_INITIAL"),
-				lookupEncounterType("PART_INITIAL"),
-				lookupEncounterType("EXPOSED_CHILD_INITIAL"),
-				lookupEncounterType("ART_FOLLOWUP"),
-				lookupEncounterType("PART_FOLLOWUP"),
-				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), " in HIV");
+				lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 4, " in HIV");
 		addLastVisitCols(row, p, Arrays.asList(
 				lookupEncounterType("ART_INITIAL"),
 				lookupEncounterType("PART_INITIAL"),

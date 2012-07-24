@@ -86,22 +86,19 @@ public class ArtRegisterBreakdownRenderer extends BreakdownRowRenderer {
 					lookupEncounterType("PART_FOLLOWUP"),
 					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
 					1, 
-					" in HIV", 
-					endDateParameter);
+					" in HIV");
 			addVisitColsOfVisitX(row, p, Arrays.asList(
 					lookupEncounterType("ART_FOLLOWUP"),
 					lookupEncounterType("PART_FOLLOWUP"),
 					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
 					2, 
-					" in HIV", 
-					endDateParameter);
+					" in HIV");
 			addVisitColsOfVisitX(row, p, Arrays.asList(
 					lookupEncounterType("ART_FOLLOWUP"),
 					lookupEncounterType("PART_FOLLOWUP"),
 					lookupEncounterType("EXPOSED_CHILD_FOLLOWUP")), 
 					3, 
-					" in HIV", 
-					endDateParameter);
+					" in HIV");
 			addLastVisitCols(row, p, Arrays.asList(
 					lookupEncounterType("ART_FOLLOWUP"),
 					lookupEncounterType("PART_FOLLOWUP"),
