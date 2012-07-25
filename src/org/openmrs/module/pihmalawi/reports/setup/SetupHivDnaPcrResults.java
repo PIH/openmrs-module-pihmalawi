@@ -16,6 +16,7 @@ import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
@@ -102,7 +103,7 @@ public class SetupHivDnaPcrResults {
 
 	private ReportDefinition createReportDefinition(String prefix) {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
-//		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
+		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
 		rd.setName("HIV Exposed Children DNA-PCR Results_");
 		rd.setupDataSetDefinition();
 
