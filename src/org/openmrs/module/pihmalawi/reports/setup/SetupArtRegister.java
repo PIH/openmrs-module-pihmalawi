@@ -69,7 +69,7 @@ public class SetupArtRegister {
 		dsd.setNumericConcept(Context.getConceptService().getConcept(5089));
 		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
-		return h.createHtmlBreakdown(rd, "ART Register BMI_", m);
+		return h.createHtmlBreakdown(rd, "ART Register BMI (SLOW)_", m);
 
 	}
 
