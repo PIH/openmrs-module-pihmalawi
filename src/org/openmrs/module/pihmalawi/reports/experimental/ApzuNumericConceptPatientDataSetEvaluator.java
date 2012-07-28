@@ -33,7 +33,7 @@ public class ApzuNumericConceptPatientDataSetEvaluator implements DataSetEvaluat
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	private final static int MAX_PREVIOUS_WEEKS = 208;
+	private final static int MAX_PREVIOUS_WEEKS = 52;
 	private final static long MILLISECONDS_PER_WEEK = (long) 7 * 24 * 60 * 60
 			* 1000;
 
