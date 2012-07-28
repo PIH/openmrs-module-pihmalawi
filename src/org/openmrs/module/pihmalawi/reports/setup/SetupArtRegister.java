@@ -2,22 +2,22 @@ package org.openmrs.module.pihmalawi.reports.setup;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
+import org.openmrs.module.pihmalawi.reports.experimental.ApzuBMIPatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
@@ -41,6 +41,7 @@ public class SetupArtRegister {
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd, "ART Register_");
 		createAppointmentAdherenceBreakdown(rd);
+		createBmiBreakdown(rd);
 
 		rd = createReportDefinitionForAllLocations("artregcomplete");
 		h.replaceReportDefinition(rd);
@@ -60,6 +61,16 @@ public class SetupArtRegister {
 		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
 
 		return h.createHtmlBreakdown(rd, "ART Register Appointment Adherence_", m);
+	}		
+	
+	private ReportDesign createBmiBreakdown(ReportDefinition rd) throws IOException, SerializationException {	
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+		ApzuBMIPatientDataSetDefinition dsd = new ApzuBMIPatientDataSetDefinition();
+		dsd.setNumericConcept(Context.getConceptService().getConcept(5089));
+		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+
+		return h.createHtmlBreakdown(rd, "ART Register BMI_", m);
+
 	}
 
 	protected ReportDesign createHtmlBreakdown(ReportDefinition rd, String name)
