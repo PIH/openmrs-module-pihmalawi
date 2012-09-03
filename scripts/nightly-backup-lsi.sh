@@ -1,28 +1,56 @@
-#!/bin/sh
+#!/bin/bash
 
-LOGFILE=$$.log
+ROOT=/home/emradmin/pihmalawi/scripts
+
+source /home/emradmin/pihmalawi/scripts/nightly_backup.config
+
+LOGFILE=`pwd`/$$.log
 exec > $LOGFILE 2>&1
 
-# Dump the database to a file
-cd $HOME/backup/to_backup
-mysqldump -u openmrs -ppa55ionFruit openmrs > openmrs.sql
+# Dump the database to file
+cd $ROOT/backup/to_backup
+mysqldump -u $MYSQL_USER -p$MYSQL_PW $MYSQL_DB > openmrs.sql
 7z a openmrs.sql.7z openmrs.sql
 
-# Keep a backup sequence of the files
-cd $HOME/backup
-cp to_backup/openmrs.sql.7z sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-openmrs.sql.7z
-rm -f current/openmrs.*
+# Dump smaller database file without 2 GI-normous tables and without global properties
+mysqldump -u $MYSQL_USER -p$MYSQL_PW --ignore-table=$MYSQL_DB.formentry_archive --ignore-table=$MYSQL_DB.hl7_in_archive --ignore-table=$MYSQL_DB.global_property $MYSQL_DB > openmrs-no-props.sql
+7z a openmrs-no-props.sql.7z openmrs-no-props.sql
+
+# Keep copy of latest files
+cd $ROOT/backup
+rm -f current/*
 cp to_backup/openmrs.sql.7z current/.
+cp to_backup/openmrs-no-props.sql.7z current/.
+
+# Keep a backup sequence of the files
+cd $ROOT/backup
+cp to_backup/openmrs.sql.7z sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-lisungwi-mysql.7z
+cp to_backup/openmrs-no-props.sql.7z sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-lisungwi-no-props-mysql.7z
+rm -f current/*
+cp to_backup/* current/.
 
 # Copy database to Boston data storage for safe-keeping
-scp -P 8999 $HOME/backup/sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-openmrs.sql.7z emradmin@195.200.93.242:backup_lisungwi/
+cd $ROOT/backup/to_backup
+#chown emradmin.backup openmrs.7z
+#chmod 660 openmrs.sql.7z
+scp openmrs.sql.7z backup@dev.pih-emr.org:malawi/db-lisungwi/`date '+%Y'`-`date '+%b'`-`date '+%d'`-lisungwi-mysql.7z
+
+# Copy birt reports to Boston data storage
+# no more BIRT reports, and if they are in Subversion
+#cd /home/tomcat5/.OpenMRS/birt
+#tar cf - reports/*.rptdesign | 7za a -siy $ROOT/backup/to_backup/birt-reports.tar.7z >/dev/null
+#chown emradmin.backup $ROOT/backup/to_backup/birt-reports.tar.7z
+#chmod 660 $ROOT/backup/to_backup/birt-reports.tar.7z
+#cd $ROOT/backup
+#cp to_backup/birt-reports.tar.7z current/.
+#cp to_backup/birt-reports.tar.7z sequences/`date '+%Y'`-`date '+%b'`-`date '+%d'`-birt-reports.tar.7z
+#scp current/birt-reports.tar.7z backup@dev.pih-emr.org:malawi/birt/`date '+%Y'`-`date '+%b'`-`date '+%d'`-birt-report.tar.7z
 
 # Remove today's temporary file
-rm -f $HOME/backup/to_backup/*
+rm -f $ROOT/backup/to_backup/*
 
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin:/home/emradmin/pihmalawi/scripts
 TODAY=`date +%Y%m%d`
-mailx -s "emr: Lower Neno nightly backup done $TODAY" "$MAIL" < $LOGFILE
-
-
+mailx -s "emr: Upper Neno nightly backup done $TODAY" "$MAIL" < $LOGFILE
+rm $LOGFILE
