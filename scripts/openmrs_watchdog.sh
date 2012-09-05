@@ -30,10 +30,6 @@ if [ $? -ne 0 ]; then
 `tail -n 250 /var/log/tomcat5.5/catalina.out`
 EOF
   fi
-else
-#  mailx -s "emr: OpenMRS running. All ok at `date +%Y%m%d-%H%M`" "$MAIL" <<EOF
-#(intentionally empty)
-#EOF
 fi
 
 rm -f index.htm*
