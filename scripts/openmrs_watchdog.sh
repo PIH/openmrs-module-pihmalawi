@@ -24,8 +24,9 @@ if [ $? -ne 0 ]; then
     # stop and start tomcat, might/will require root privileges
     # run script from root crontab or give sudo permissions to user (sudo visudo)
     sudo /etc/init.d/tomcat5.5 stop
-    sleep 300
+    sleep 180
     sudo /etc/init.d/tomcat5.5 start
+    sleep 60
     mailx -s "emr: OpenMRS did not respond. Restarted at `date +%Y%m%d-%H%M`" "$MAIL" <<EOF
 `tail -n 250 /var/log/tomcat5.5/catalina.out`
 EOF
