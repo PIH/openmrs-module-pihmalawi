@@ -20,6 +20,8 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientState;
 import org.openmrs.Person;
+import org.openmrs.Relationship;
+import org.openmrs.RelationshipType;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.MetadataLookup;
@@ -139,7 +141,21 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			c = new DataSetColumn("Outcome Date", "Outcome Date",
 					String.class);
 			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
-
+			// chw
+			RelationshipType chwType = Context.getPersonService().getRelationshipType(7);
+			List<Relationship> chws = Context.getPersonService().getRelationships(p, null, chwType);
+			StringBuilder chwName = new StringBuilder();
+			if (!chws.isEmpty()) {
+				for (Relationship r : chws) {
+					if (chwName.length() > 0) {
+						chwName.append(", ");
+					}
+					chwName.append(r.getPersonB().getPersonName().getFullName());
+				}
+			}
+			c = new DataSetColumn("CHW", "CHW", String.class);
+			row.addColumnValue(c, chwName);
+			
 			// app adherence
 			List<Encounter> es = Context.getEncounterService().getEncounters(p,
 					location, startDateParameter, endDateParameter, null, ets, null, false);
@@ -209,6 +225,11 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			c = new DataSetColumn("%weeksMissedInCare", "%weeksMissedInCare", String.class);
 			row.addColumnValue(c, indicator(weeksMissedInCare, weeksConsideredEnrolled));
 
+			c = new DataSetColumn("numEncounters", "numEncounters", Integer.class);
+			row.addColumnValue(c, es.size());
+			c = new DataSetColumn("numNextAppointmentObs", "numNextAppointmentObs", Integer.class);
+			row.addColumnValue(c, obses.size());
+			
 			c = new DataSetColumn("consideredvisits", "consideredvisits", String.class);
 			row.addColumnValue(c, visits);
 			c = new DataSetColumn("ontime", "ontime", String.class);

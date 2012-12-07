@@ -40,8 +40,11 @@ public class SetupArtRegister {
 		ReportDefinition rd = createReportDefinition("artreg");
 		h.replaceReportDefinition(rd);
 		createHtmlBreakdown(rd, "ART Register_");
-		createAppointmentAdherenceBreakdown(rd);
 		createBmiBreakdown(rd);
+		
+		rd = createReportDefinitionForAdherence("artregadherence");
+		h.replaceReportDefinition(rd);
+		createAppointmentAdherenceBreakdown(rd);
 
 		rd = createReportDefinitionForAllLocations("artregcomplete");
 		h.replaceReportDefinition(rd);
@@ -100,6 +103,7 @@ public class SetupArtRegister {
 		h.purgeDefinition(DataSetDefinition.class, "ART Register For All Locations (SLOW)_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "ART Register For All Locations (SLOW)_");
 		h.purgeAll("artreg");
+		h.purgeAll("artregadherence");
 		h.purgeAll("artregcomplete");
 	}
 
@@ -117,6 +121,16 @@ public class SetupArtRegister {
 		PeriodIndicatorReportUtil
 				.addColumn(rd, "breakdown", "Breakdown", i, null);
 
+		return rd;
+	}
+	
+	private ReportDefinition createReportDefinitionForAdherence(String prefix) {
+		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
+		rd.setName("ART Register Appointment Adherence_");
+		rd.setupDataSetDefinition();
+		CohortDefinition cd = ApzuReportElementsArt.artEverEnrolledAtLocationOnDate(prefix);
+		CohortIndicator i = h.newCountIndicator(prefix + ": Register_", cd.getName(), h.parameterMap("location", "${location}", "startedOnOrBefore", "${endDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "breakdown", "Breakdown", i, null);
 		return rd;
 	}
 
