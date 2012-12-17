@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.reports.dataset;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -53,15 +54,13 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 	public AppointmentAdherencePatientDataSetEvaluator() {
 	}
 
-	public DataSet evaluate(DataSetDefinition dataSetDefinition,
-			EvaluationContext context) {
-		final Concept concept = Context.getConceptService().getConceptByName(
-		"Appointment date");
+	public DataSet evaluate(DataSetDefinition dataSetDefinition, EvaluationContext context) {
+
+		final Concept concept = Context.getConceptService().getConceptByName("Appointment date");
 
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 		AppointmentAdherencePatientDataSetDefinition definition = (AppointmentAdherencePatientDataSetDefinition) dataSetDefinition;
-		PatientIdentifierType patientIdentifierType = definition
-				.getPatientIdentifierType();
+		PatientIdentifierType patientIdentifierType = definition.getPatientIdentifierType();
 		List<EncounterType> ets = definition.getEncounterTypes();
 
 		context = ObjectUtil.nvl(context, new EvaluationContext());
@@ -87,17 +86,17 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 		}
 
 		// Get a list of patients based on the cohort members
-		List<Patient> patients = Context.getPatientSetService().getPatients(
-				cohort.getMemberIds());
+		List<Patient> patients = Context.getPatientSetService().getPatients(cohort.getMemberIds());
 
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
 			DataSetColumn c = null;
 
-			// todo, get current id and/or preferred one first
+			// patientId
+			c = new DataSetColumn("#", "#", String.class);
+			row.addColumnValue(c, p.getId());
+			// identifiers (TODO: get current id and/or preferred one first)
 			String patientLink = "";
-			// todo, don't hardcode server
-			String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
 			List<PatientIdentifier> pis = null;
 			if (patientIdentifierType == null) {
 				pis = p.getActiveIdentifiers();
@@ -105,16 +104,10 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				pis = p.getPatientIdentifiers(patientIdentifierType);
 			}
 			for (PatientIdentifier pi : pis) {
-				String link = "<a href="
-						+ url
-						+ "/patientDashboard.form?patientId="
-						+ p.getId()
-						+ ">"
-						+ (pi != null ? formatPatientIdentifier(pi
-								.getIdentifier()) : "(none)") + "</a> ";
-				patientLink += link;
+				patientLink += ("".equals(patientLink) ? "" : ", ");
+				patientLink += (pi != null ? formatPatientIdentifier(pi.getIdentifier()) : "(none)");
 			}
-			c = new DataSetColumn("#", "#", String.class);
+			c = new DataSetColumn("Identifier", "Identifier", String.class);
 			row.addColumnValue(c, patientLink);
 			// given
 			c = new DataSetColumn("Given", "Given", String.class);
@@ -155,13 +148,13 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			}
 			c = new DataSetColumn("CHW", "CHW", String.class);
 			row.addColumnValue(c, chwName);
-			
+
 			// app adherence
-			List<Encounter> es = Context.getEncounterService().getEncounters(p,
-					location, startDateParameter, endDateParameter, null, ets, null, false);
-			List<Obs> obses = Context.getObsService().getObservations(
-					Arrays.asList((Person) p), es, Arrays.asList(concept), null,
-					null, null, null, null, null, startDateParameter, endDateParameter, false);
+			List<Encounter> es = Context.getEncounterService().getEncounters(p, location, startDateParameter, endDateParameter, null, ets, null, false);
+			List<Obs> obses = new ArrayList<Obs>();
+			if (es.size() > 0) {
+				obses = Context.getObsService().getObservations(Arrays.asList((Person) p), es, Arrays.asList(concept), null, null, null, null, null, null, startDateParameter, endDateParameter, false);
+			}
 
 			int visits = obses.size() > 1 ? obses.size() - 1 : 0;
 			int visitOnTime = 0;
