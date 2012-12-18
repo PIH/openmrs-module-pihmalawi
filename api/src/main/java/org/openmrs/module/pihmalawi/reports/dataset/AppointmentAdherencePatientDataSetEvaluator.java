@@ -1,28 +1,9 @@
 package org.openmrs.module.pihmalawi.reports.dataset;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
-import org.openmrs.Cohort;
-import org.openmrs.Concept;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
-import org.openmrs.Location;
-import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.PatientState;
-import org.openmrs.Person;
-import org.openmrs.Relationship;
-import org.openmrs.RelationshipType;
+import org.openmrs.*;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.MetadataLookup;
@@ -38,7 +19,10 @@ import org.openmrs.module.reporting.dataset.SimpleDataSet;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
-import org.openmrs.web.WebConstants;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 // todo, should/could be migrated to the HtmlBreakdownDataSet
 @Handler(supports = { AppointmentAdherencePatientDataSetDefinition.class })
@@ -123,17 +107,25 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			row.addColumnValue(c, p.getGender());
 			// village
 			c = new DataSetColumn("Village", "Village", String.class);
+			String villageName = "";
+			if (p.getPersonAddress() != null) {
+				villageName = p.getPersonAddress().getCityVillage();
+			}
 			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
 			// enrollment outcome
 			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation(p,
 					MetadataLookup.programWorkflow("HIV program", "Treatment status"), location,
 					sessionFactory().getCurrentSession());
 			c = new DataSetColumn("Outcome", "Outcome", String.class);
-			row.addColumnValue(c, ps.getState().getConcept().getName()
-					.getName());
-			c = new DataSetColumn("Outcome Date", "Outcome Date",
-					String.class);
-			row.addColumnValue(c, formatEncounterDate(ps.getStartDate()));
+			String status = "";
+			String statusDate = "";
+			if (ps != null) {
+				status = ps.getState().getConcept().getName().getName();
+				statusDate = formatEncounterDate(ps.getStartDate());
+			}
+			row.addColumnValue(c, status);
+			c = new DataSetColumn("Outcome Date", "Outcome Date", String.class);
+			row.addColumnValue(c, statusDate);
 			// chw
 			RelationshipType chwType = Context.getPersonService().getRelationshipType(7);
 			List<Relationship> chws = Context.getPersonService().getRelationships(p, null, chwType);
@@ -154,6 +146,13 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			List<Obs> obses = new ArrayList<Obs>();
 			if (es.size() > 0) {
 				obses = Context.getObsService().getObservations(Arrays.asList((Person) p), es, Arrays.asList(concept), null, null, null, null, null, null, startDateParameter, endDateParameter, false);
+			}
+			// Remove any obs that happen to have null valueDatetime
+			for (Iterator<Obs> i = obses.iterator(); i.hasNext();) {
+				Obs o = i.next();
+				if (o.getValueDatetime() == null) {
+					i.remove();
+				}
 			}
 
 			int visits = obses.size() > 1 ? obses.size() - 1 : 0;
