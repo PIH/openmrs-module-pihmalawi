@@ -111,7 +111,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			if (p.getPersonAddress() != null) {
 				villageName = p.getPersonAddress().getCityVillage();
 			}
-			row.addColumnValue(c, h(p.getPersonAddress().getCityVillage()));
+			row.addColumnValue(c, h(villageName));
 			// enrollment outcome
 			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation(p,
 					MetadataLookup.programWorkflow("HIV program", "Treatment status"), location,
