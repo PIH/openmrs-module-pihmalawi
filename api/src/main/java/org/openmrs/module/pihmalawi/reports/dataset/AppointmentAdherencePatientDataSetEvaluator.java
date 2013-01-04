@@ -112,6 +112,17 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				villageName = p.getPersonAddress().getCityVillage();
 			}
 			row.addColumnValue(c, h(villageName));
+
+			// arv start date
+			ProgramWorkflowState onArvState = MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals");
+			PatientState arvState = new ProgramHelper().getMostRecentStateAtLocation(p, Arrays.asList(onArvState), location, sessionFactory().getCurrentSession());
+			c = new DataSetColumn("ARV Start Date", "ARV Start Date", String.class);
+			String arvStartDate = "";
+			if (arvState != null) {
+				arvStartDate = formatEncounterDate(arvState.getStartDate());
+			}
+			row.addColumnValue(c, arvStartDate);
+
 			// enrollment outcome
 			PatientState ps = new ProgramHelper().getMostRecentStateAtLocation(p,
 					MetadataLookup.programWorkflow("HIV program", "Treatment status"), location,
