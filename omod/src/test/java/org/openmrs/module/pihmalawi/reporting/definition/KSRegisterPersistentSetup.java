@@ -6,7 +6,9 @@ import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 
+@ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
 public class KSRegisterPersistentSetup extends BaseModuleContextSensitiveTest {
 
 	@Override
