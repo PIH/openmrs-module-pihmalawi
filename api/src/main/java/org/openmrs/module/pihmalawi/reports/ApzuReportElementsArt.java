@@ -432,6 +432,8 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+
+
 	public static CohortDefinition partTransferredOutAtLocationOnDate(
 			String prefix,
 			CohortDefinition partEverEnrolledAtLocationOnDate,
@@ -696,6 +698,27 @@ public class ApzuReportElementsArt {
 				"Patient died"));
 		h.replaceCohortDefinition(islcd);
 		return islcd;
+	}
+
+	public static CohortDefinition hivDefaultedAtLocationOnDate(String prefix) {
+		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
+		islcd.setName(prefix + ": Defaulted at location_");
+		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		islcd.addParameter(new Parameter("location", "location", Location.class));
+		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient defaulted"));
+		h.replaceCohortDefinition(islcd);
+		return islcd;
+	}
+
+	public static CohortDefinition hivDefaultedAtLocationDuringPeriod(String prefix) {
+		PatientStateAtLocationCohortDefinition pslcd = new PatientStateAtLocationCohortDefinition();
+		pslcd.setName(prefix + ": Defaulted during period at location_");
+		pslcd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		pslcd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		pslcd.addParameter(new Parameter("location", "location", Location.class));
+		pslcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient defaulted"));
+		h.replaceCohortDefinition(pslcd);
+		return pslcd;
 	}
 
 	public static CohortDefinition transferredInternallyOnDate(String reportTag) {

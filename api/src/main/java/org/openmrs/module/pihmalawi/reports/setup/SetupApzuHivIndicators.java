@@ -124,6 +124,10 @@ public class SetupApzuHivIndicators {
 				.artActiveWithDefaultersAtLocationOnDate(reportTag);
 		CohortDefinition hivDied = ApzuReportElementsArt
 				.hivDiedAtLocationOnDate(reportTag);
+		CohortDefinition hivDefaultedOnDate = ApzuReportElementsArt
+				.hivDefaultedAtLocationOnDate(reportTag);
+		CohortDefinition hivDefaultedDuringPeriod = ApzuReportElementsArt
+				.hivDefaultedAtLocationDuringPeriod(reportTag);
 		CohortDefinition artPeriod = ApzuReportElementsArt
 				.artEnrolledAtLocationInPeriod(reportTag);
 		CohortDefinition artMissingAppointment = ApzuReportElementsArt
@@ -134,24 +138,6 @@ public class SetupApzuHivIndicators {
 				.partOnArtAtLocationInPeriod(reportTag, partEver, artPeriod);
 
 		// monthly
-		/*
-		 * CompositionCohortDefinition partActiveWithoutDefaulters = new
-		 * CompositionCohortDefinition();
-		 * partActiveWithoutDefaulters.setName(reportTag + ": Pre-ART active_");
-		 * partActiveWithoutDefaulters.addParameter(new Parameter("location",
-		 * "location", Location.class));
-		 * partActiveWithoutDefaulters.addParameter(new Parameter(
-		 * "startedOnOrBefore", "startedOnOrBefore", Date.class));
-		 * partActiveWithoutDefaulters.getSearches().put( "part", new
-		 * Mapped(partActive, h.parameterMap("onDate", "${startedOnOrBefore}",
-		 * "location", "${location}")));
-		 * partActiveWithoutDefaulters.getSearches().put( "defaulted", new
-		 * Mapped(partMissingAppointment, h.parameterMap("onOrBefore",
-		 * "${startedOnOrBefore}", "location", "${location}", "value1",
-		 * "${startedOnOrBefore-8w}"))); partActiveWithoutDefaulters
-		 * .setCompositionString("part AND NOT defaulted");
-		 * h.replaceCohortDefinition(partActiveWithoutDefaulters);
-		 */
 		addColumnForLocations(rd, reportTag + ": Pre-ART enrolled", "3m",
 				partPeriod, h.parameterMap("startedOnOrBefore", "${endDate}",
 						"startedOnOrAfter", "${startDate}"));
@@ -207,6 +193,20 @@ public class SetupApzuHivIndicators {
 
 		addColumnForLocations(rd, reportTag + ": ART overdue 2 months", "7bm",
 				artMissing2Months, h.parameterMap("onOrBefore", "${endDate}"));
+
+		// 7c: Add a line for patients who have been on ART but were confirmed defaulted during the period, and who are still defaulted at the end of the period
+		CompositionCohortDefinition artDefaultedDuringPeriod = new CompositionCohortDefinition();
+		artDefaultedDuringPeriod.setName(reportTag + ": ART defaulted_");
+		artDefaultedDuringPeriod.addParameter(new Parameter("location", "location", Location.class));
+		artDefaultedDuringPeriod.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
+		artDefaultedDuringPeriod.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		artDefaultedDuringPeriod.getSearches().put("artEver", new Mapped(artEver, h.parameterMap("startedOnOrBefore", "${onOrBefore}", "location", "${location}")));
+		artDefaultedDuringPeriod.getSearches().put("defaultedDuringPeriod",new Mapped(hivDefaultedDuringPeriod, h.parameterMap("startedOnOrAfter", "${onOrAfter}", "startedOnOrBefore", "${onOrBefore}", "location", "${location}")));
+		artDefaultedDuringPeriod.getSearches().put("defaultedAtEnd",new Mapped(hivDefaultedOnDate, h.parameterMap("onDate", "${onOrBefore}", "location", "${location}")));
+		artDefaultedDuringPeriod.setCompositionString("artEver AND defaultedDuringPeriod AND defaultedAtEnd");
+		h.replaceCohortDefinition(artDefaultedDuringPeriod);
+
+		addColumnForLocations(rd, reportTag + ": Defaulted", "7cm", artDefaultedDuringPeriod, h.parameterMap("onOrAfter", "${startDate}", "onOrBefore", "${endDate}"));
 
 		// quaterly
 
