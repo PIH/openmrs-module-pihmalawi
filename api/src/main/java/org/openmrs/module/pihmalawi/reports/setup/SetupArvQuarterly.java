@@ -16,6 +16,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
@@ -24,13 +25,8 @@ import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDef
 import org.openmrs.module.pihmalawi.reports.extension.ObsAfterStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.GenderCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.*;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
@@ -283,6 +279,11 @@ public class SetupArvQuarterly {
 		// todo: defaulted calculated from next app date, but should be taken
 		// from last visit and expected date running out of arvs. for now we
 		// assume this is the same
+
+		// Defaulters currently calculated as a composition of:
+		// Last scheduled appointment date more than 8 weeks before the end of the quarter OR
+		// confirmed defaulted in HIV program based on program enrollment status by end of the quarter
+
 		DateObsCohortDefinition dod = new DateObsCohortDefinition();
 		dod.setName("arvquarterly: Missed Appointment_");
 		dod.setTimeModifier(TimeModifier.MAX);
@@ -296,7 +297,19 @@ public class SetupArvQuarterly {
 		dod.addParameter(new Parameter("value1", "to", Date.class));
 		dod.addParameter(new Parameter("value2", "from", Date.class));
 		h.replaceCohortDefinition(dod);
-		
+
+		CohortDefinition confirmedDefaultersOnDate = ApzuReportElementsArt.hivDefaultedAtLocationOnDate("arvquarterly");
+
+		CompositionCohortDefinition defaultedByEnd = new CompositionCohortDefinition();
+		defaultedByEnd.setName("arvquarterly: Defaulted By End_");
+		defaultedByEnd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		defaultedByEnd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		defaultedByEnd.addSearch("missedAppt", dod, h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}", "locationList", "${location}"));
+		defaultedByEnd.addSearch("confirmedDefaulted", confirmedDefaultersOnDate, h.parameterMap("onDate", "${endDate}",  "location", "${location}"));
+		defaultedByEnd.setCompositionString("missedAppt OR confirmedDefaulted");
+		h.replaceCohortDefinition(defaultedByEnd);
+
+		/*
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.setName("arvquarterly: Had Appointment_");
 		ecd.setEncounterTypeList(Arrays.asList(ART_FOLLOWUP_ENCOUNTER));
@@ -304,7 +317,8 @@ public class SetupArvQuarterly {
 		ecd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		ecd.addParameter(new Parameter("locationList", "Location List", List.class));
 		h.replaceCohortDefinition(ecd);
-		
+		*/
+
 		// in state after started state (used for primary outcomes --died)
 		InStateAfterStartedStateCohortDefinition diedAfterARTInitiation = new InStateAfterStartedStateCohortDefinition();
 		diedAfterARTInitiation.setName("arvquarterly: ART started at enrollment location relative to started DIED at enrollment location on date_");
@@ -859,7 +873,7 @@ private void i30_alive(PeriodIndicatorReportDefinition rd) {
 	
 	Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
 	baseCohortDefs.put("Alive", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_ON_ART, "location", "${location}")));
-	baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Missed Appointment_"), h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}", "locationList", "${location}")));
+	baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Defaulted By End_"), h.parameterMap("endDate", "${endDate}", "location", "${location}")));
 	baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
 	baseCohortDefs.put("Stopped", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}")));
 	baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
@@ -952,9 +966,9 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 	private void i36_defaulted(PeriodIndicatorReportDefinition rd) {
 
 		Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
-		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Missed Appointment_"), h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}", "locationList", "${location}")));
+		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Defaulted By End_"), h.parameterMap("endDate", "${endDate}", "location", "${location}")));
 		baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
-		baseCohortDefs.put("Stopped", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}")));
+		baseCohortDefs.put("Stpped", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}")));
 		baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
 		
 		CohortIndicator i = h.createCompositionIndicator("arvquarterly: Defaulted_",
@@ -988,7 +1002,7 @@ private void i34_died_more_3month_after_ART(PeriodIndicatorReportDefinition rd) 
 	private void i39_total_adverse_outcomes(PeriodIndicatorReportDefinition rd) {
 
 		Map<String, Mapped<? extends CohortDefinition>> baseCohortDefs = new LinkedHashMap<String, Mapped<? extends CohortDefinition>>();
-		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Missed Appointment_"), h.parameterMap("value1","${endDate-8w}", "onOrBefore", "${endDate}", "locationList", "${location}")));
+		baseCohortDefs.put("Defaulted", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: Defaulted By End_"), h.parameterMap("endDate", "${endDate}", "location", "${location}")));
 		baseCohortDefs.put("Died", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_DIED, "location", "${location}")));
 		baseCohortDefs.put("Stopped", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_STOPPED, "location", "${location}")));
 		baseCohortDefs.put("TransferredOut", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: In state at location_"), h.parameterMap("onDate", "${endDate}", "state", STATE_TRANSFERRED_OUT, "location", "${location}")));
