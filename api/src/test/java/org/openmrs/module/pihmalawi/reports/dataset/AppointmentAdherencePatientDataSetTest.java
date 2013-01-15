@@ -44,11 +44,11 @@ public class AppointmentAdherencePatientDataSetTest extends BaseModuleContextSen
 		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("ARV Number"));
 
 		EvaluationContext context = new EvaluationContext();
-		Cohort baseCohort = new Cohort("15889,15891,44302,16998,41841");
+		Cohort baseCohort = new Cohort("61878");
 		context.setBaseCohort(baseCohort);
 		context.addParameterValue("startDate", DateUtil.getDateTime(2006, 1, 1));
-		context.addParameterValue("endDate", DateUtil.getDateTime(2012, 11, 31));
-		context.addParameterValue("location", MetadataLookup.location("Neno District Hospital"));
+		context.addParameterValue("endDate", DateUtil.getDateTime(2012, 11, 30));
+		context.addParameterValue("location", MetadataLookup.location("Luwani RHC"));
 
 		DataSetDefinitionService svc = Context.getService(DataSetDefinitionService.class);
 		DataSet dataset = svc.evaluate(dsd, context);

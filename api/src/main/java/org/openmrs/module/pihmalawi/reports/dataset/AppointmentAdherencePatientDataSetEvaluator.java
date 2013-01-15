@@ -12,6 +12,7 @@ import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetRow;
@@ -20,6 +21,8 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 // todo, should/could be migrated to the HtmlBreakdownDataSet
@@ -71,8 +74,6 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			pdh.addCol(row, "#", p.getPatientId());
 			pdh.addCol(row, "Facility", (location == null ? "" : location.getName()));
 			pdh.addCol(row, "Identifier", pdh.preferredIdentifierAtLocation(p, patientIdentifierType, location));
-			pdh.addCol(row, "Given", pdh.getGivenName(p));
-			pdh.addCol(row, "Last", pdh.getFamilyName(p));
 			pdh.addCol(row, "Birthdate", pdh.getBirthdate(p));
 			pdh.addCol(row, "M/F", pdh.getGender(p));
 			pdh.addCol(row, "Village", pdh.getVillage(p));
@@ -90,14 +91,19 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			ProgramWorkflow hivTreatmentStatus = MetadataLookup.programWorkflow("HIV program", "Treatment status");
 			ProgramWorkflowState onArvState = MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals");
 
-			PatientProgram latestHivProgramEnrollment = new ProgramHelper().getMostRecentProgramEnrollmentAtLocation(p, hivProgram, location, session);
-			PatientState latestOnArvsState = new ProgramHelper().getMostRecentStateAtLocation(p, Arrays.asList(onArvState), location, session);
-			PatientState latestTxStatusState = new ProgramHelper().getMostRecentStateAtLocation(p, hivTreatmentStatus, location, session);
-			Date arvStartDate = (latestOnArvsState == null ? null : latestOnArvsState.getStartDate());
+			PatientState earliestOnArvsState = new ProgramHelper().getFirstTimeInState(p, hivProgram, onArvState, endDateParameter);
+			Date arvStartDate = (earliestOnArvsState == null ? null : earliestOnArvsState.getStartDate());
 
-			pdh.addCol(row, "ARV Start Date", pdh.formatStateStartDate(latestOnArvsState));
-			pdh.addCol(row, "HIV Tx Status", pdh.formatStateName(latestTxStatusState));
-			pdh.addCol(row, "HIV Tx Status Date", pdh.formatStateStartDate(latestTxStatusState));
+			pdh.addCol(row, "ARV Start Date", pdh.formatStateStartDate(earliestOnArvsState));
+
+			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter, session);
+
+			pdh.addCol(row, "HIV Tx Status at Location", pdh.formatStateName(latestTxStatusStateAtLocation));
+			pdh.addCol(row, "HIV Tx Status at Location Date", pdh.formatStateStartDate(latestTxStatusStateAtLocation));
+
+			PatientState latestTxStatusStateOverall = new ProgramHelper().getMostRecentStateAtDate(p, hivTreatmentStatus, endDateParameter);
+			pdh.addCol(row, "HIV Tx Status Overall", pdh.formatStateName(latestTxStatusStateOverall));
+			pdh.addCol(row, "HIV Tx Status Overall Date", pdh.formatStateStartDate(latestTxStatusStateOverall));
 
 			Obs nextApptDate = pdh.getLatestObs(p, "Appointment date", ets, null); // This is as of the report generation date
 			pdh.addCol(row, "Next Appt Date", pdh.formatValueDatetime(nextApptDate));
@@ -126,6 +132,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				adherencePeriodStart = arvStartDate;
 			}
 
+			PatientProgram latestHivProgramEnrollment = new ProgramHelper().getMostRecentProgramEnrollment(p, hivProgram, endDateParameter);
+
 			Date adherencePeriodEnd = endDateParameter;
 			if (latestHivProgramEnrollment != null && latestHivProgramEnrollment.getDateCompleted() != null) {
 				if (adherencePeriodEnd == null || latestHivProgramEnrollment.getDateCompleted().before(adherencePeriodEnd)) {
@@ -138,16 +146,16 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 			// Get all scheduled and actual encounters during this period
 			Set<Date> scheduledVisits = new TreeSet<Date>();
-			Set<Date> actualVisits = new TreeSet<Date>();
+			Map<Date, Boolean> actualVisits = new TreeMap<Date, Boolean>(); // Dates of actual visits, and true if they are at the passed location
 
-			List<Encounter> es = Context.getEncounterService().getEncounters(p, location, adherencePeriodStart, adherencePeriodEnd, null, ets, null, false);
+			List<Encounter> es = Context.getEncounterService().getEncounters(p, null, adherencePeriodStart, adherencePeriodEnd, null, ets, null, false);
 			for (Encounter e : es) {
-				actualVisits.add(e.getEncounterDatetime());
+				actualVisits.put(e.getEncounterDatetime(), e.getLocation().equals(location));
 			}
 			if (es.size() > 0) {
 				Concept apptDateConcept = MetadataLookup.concept("Appointment date");
 				for (Obs o : Context.getObsService().getObservations(Arrays.asList((Person) p), es, Arrays.asList(apptDateConcept), null, null, null, null, null, null, null, null, false)) {
-					if (o.getValueDatetime() != null) {
+					if (o.getValueDatetime() != null && o.getValueDatetime().compareTo(adherencePeriodEnd) <= 0) {
 						scheduledVisits.add(o.getValueDatetime());
 					}
 				}
@@ -155,13 +163,42 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 			// Remove the first actual visit in the list since it does not correspond to a scheduled visit date from a previous visit
 			if (actualVisits.size() > 0) {
-				Iterator<Date> i = actualVisits.iterator();
+				Iterator<Date> i = actualVisits.keySet().iterator();
 				i.next();
 				i.remove();
 			}
 
 			pdh.addCol(row, "Num Scheduled Visits", scheduledVisits.size());
 			pdh.addCol(row, "Num Actual Visits", actualVisits.size());
+
+			// Determine what dates the patient was "enrolled" in the passed in Location, based on encounter data
+
+			Map<Date, Date> datesAtLocation = new LinkedHashMap<Date, Date>();
+			Date currentPeriodStart = null;
+			boolean lastVisitAtLocation = false;
+			for (Date d1 : actualVisits.keySet()) {
+				if (currentPeriodStart == null) {
+					currentPeriodStart = adherencePeriodStart;
+				}
+				lastVisitAtLocation = actualVisits.get(d1);
+
+				if (lastVisitAtLocation) {
+					datesAtLocation.put(currentPeriodStart, d1);
+				}
+				currentPeriodStart = addDays(d1, 1);
+			}
+			if (lastVisitAtLocation) {
+				datesAtLocation.put(currentPeriodStart, adherencePeriodEnd);
+			}
+
+			int overallDaysAtLocation = 0;
+			int missedDaysAtLocation = 0;
+			int lateApptsAtLocation = 0;
+			int overallApptsAtLocation = 0;
+
+			for (Map.Entry<Date, Date> e : datesAtLocation.entrySet()) {
+				overallDaysAtLocation += numDaysInRange(e.getKey(), e.getValue());
+			}
 
 			// Iterate across all of the scheduled visit dates that fall within the period
 			for (Date scheduledVisitDate : scheduledVisits) {
@@ -170,7 +207,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 				// Find the actual visit date that is is closest to the scheduled visit date
 				Date closestVisitDate = null;
-				for (Iterator<Date> i = actualVisits.iterator(); i.hasNext();) {
+				for (Iterator<Date> i = actualVisits.keySet().iterator(); i.hasNext();) {
 					Date actualVisitDate = i.next();
 					if (actualVisitDate.compareTo(scheduledVisitDate) <= 0 || closestVisitDate == null) {
 						closestVisitDate = actualVisitDate;
@@ -186,10 +223,30 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				int daysBetweenScheduledAndActualVisit = daysBetween(scheduledVisitDate, closestVisitDate);
 				daysMissedByScheduledVisitDate.put(scheduledVisitDate, daysBetweenScheduledAndActualVisit);
 
+				// If the patient is "enrolled" at the current location at the visit date, include them for the location
+				for (Map.Entry<Date, Date> e : datesAtLocation.entrySet()) {
+					if (isDateInRange(closestVisitDate, e.getKey(), e.getValue())) {
+						int daysFromDate = daysBetweenScheduledAndActualVisit - 2;
+						if (daysFromDate > 0) {
+							missedDaysAtLocation += daysFromDate;
+							lateApptsAtLocation++;
+						}
+						overallApptsAtLocation++;
+					}
+				}
+
 				log.debug("Days missed for this scheduled date: " + daysBetweenScheduledAndActualVisit);
 			}
 
-			Integer adherencePeriodDays = daysBetween(adherencePeriodStart, adherencePeriodEnd);
+			// First report on overall adherence at the report Location
+			pdh.addCol(row, "LocationDaysMissed", missedDaysAtLocation);
+			pdh.addCol(row, "LocationDaysOverall", overallDaysAtLocation);
+			pdh.addCol(row, "LocationOntimeAppts", (overallApptsAtLocation-lateApptsAtLocation));
+			pdh.addCol(row, "LocationOverallAppts", overallApptsAtLocation);
+
+			// Now look at adherence overall for the patient across all Locations
+
+			Integer adherencePeriodDays = numDaysInRange(adherencePeriodStart, adherencePeriodEnd);
 
 			List<Integer> intervals = new ArrayList<Integer>();
 			intervals.add(null);  // Represents the overall total interval
@@ -212,8 +269,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 					for (Date d : daysMissedByScheduledVisitDate.keySet()) {
 						int daysFromStart = daysBetween(adherencePeriodStart, d);
 						if (interval == null || daysFromStart <= interval) {
-							Integer daysFromDate = daysMissedByScheduledVisitDate.get(d);
-							if (daysFromDate > 2) {
+							Integer daysFromDate = daysMissedByScheduledVisitDate.get(d) - 2;
+							if (daysFromDate > 0) {
 								missedDays += daysFromDate;
 								lateAppts++;
 							}
@@ -236,7 +293,28 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 	private int daysBetween(Date from, Date to) {
 		return (int)((to.getTime() - from.getTime())/1000/60/60/24);
+	}
 
+	private int numDaysInRange(Date from, Date to) {
+		int d = daysBetween(DateUtil.getStartOfDay(from), DateUtil.getStartOfDay(to));
+		return d < 0 ? (d-1) : (d+1);
+	}
+
+	private Date addDays(Date d, int increment) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(d);
+		c.add(Calendar.DATE, 1);
+		return c.getTime();
+	}
+
+	private boolean isDateInRange(Date dateToCheck, Date lowerBound, Date upperBound) {
+		if (dateToCheck.getTime() >= lowerBound.getTime()) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			if (df.format(dateToCheck).compareTo(df.format(upperBound)) <= 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private SessionFactory sessionFactory() {

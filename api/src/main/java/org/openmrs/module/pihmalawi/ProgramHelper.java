@@ -17,33 +17,21 @@ import org.openmrs.util.OpenmrsUtil;
 public class ProgramHelper {
 	
 	public PatientState getFirstTimeInState(Patient p, Program program, ProgramWorkflowState firstTimeInState, Date endDate) {
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p, program, null, endDate, null, null, false);
-		
-		
-		HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
-		ArrayList<Long> stupidListConverter = new ArrayList<Long>();
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, program, null, endDate, null, null, false);
+		Map<Long, PatientState> validPatientStates = new TreeMap<Long, PatientState>();
 		for (PatientProgram pp : pps) {
-				List<PatientState> states = statesInWorkflow(pp, firstTimeInState.getProgramWorkflow());
-				if (states != null && !states.isEmpty()) {
-					for (int i = 0; i < states.size(); i++) {
-						PatientState ps = states.get(i);
-						if (ps.getStartDate().getTime() <= endDate.getTime() && ps.getState().getId().equals(firstTimeInState.getId())) {
-							validPatientStates.put(ps.getStartDate().getTime(), ps);
-							stupidListConverter.add(ps.getStartDate().getTime());
-						}
+			List<PatientState> states = statesInWorkflow(pp, firstTimeInState.getProgramWorkflow());
+			if (states != null) {
+				for (PatientState ps : states) {
+					if (ps.getStartDate().compareTo(endDate) <= 0 && ps.getState().getId().equals(firstTimeInState.getId())) {
+						validPatientStates.put(ps.getStartDate().getTime(), ps);
 					}
 				}
+			}
 		}
-		Collections.<Long> sort(stupidListConverter);
-
-		for (Long key : stupidListConverter) {
-			PatientState state = (PatientState) validPatientStates
-					.get(key);
-			// just take the first one
-			return state;
+		if (!validPatientStates.isEmpty()) {
+			return validPatientStates.values().iterator().next();
 		}
-
 		return null;
 	}
 
@@ -83,6 +71,19 @@ public class ProgramHelper {
 			}
 		}
 		return state;
+	}
+
+	public PatientProgram getMostRecentProgramEnrollment(Patient p, Program program, Date asOfDate) {
+		PatientProgram ret = null;
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, program, null, asOfDate, null, null, false);
+		for (PatientProgram pp : pps) {
+			if (!pp.isVoided()) {
+				if (ret == null || pp.getDateEnrolled().after(ret.getDateEnrolled())) {
+					ret = pp;
+				}
+			}
+		}
+		return ret;
 	}
 
 	public PatientProgram getMostRecentProgramEnrollmentAtLocation(Patient p, Program program, Location enrollmentLocation, Session hibernateSession) {
