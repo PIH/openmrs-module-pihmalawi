@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
@@ -33,6 +34,7 @@ import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
+@Ignore
 public class ScriptItTest extends BaseModuleContextSensitiveTest {
 
 	protected Log log = LogFactory.getLog(this.getClass());

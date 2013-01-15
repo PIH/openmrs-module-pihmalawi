@@ -1,13 +1,6 @@
 package org.openmrs.module.pihmalawi;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -90,6 +83,20 @@ public class ProgramHelper {
 			}
 		}
 		return state;
+	}
+
+	public PatientProgram getMostRecentProgramEnrollmentAtLocation(Patient p, Program program, Location enrollmentLocation, Session hibernateSession) {
+		PatientProgram ret = null;
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, program, null, null, null, null, false);
+		for (PatientProgram pp : pps) {
+			Location location = getEnrollmentLocation(pp, hibernateSession);
+			if (!pp.isVoided() && location != null && location.getId().equals(enrollmentLocation.getId())) {
+				if (ret == null || pp.getDateEnrolled().after(ret.getDateEnrolled())) {
+					ret = pp;
+				}
+			}
+		}
+		return ret;
 	}
 
 	public PatientState getMostRecentStateAtLocation(Patient p,

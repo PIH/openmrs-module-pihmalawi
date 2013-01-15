@@ -3,11 +3,13 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.Definition;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 
+@Ignore
 public class TransientHelper extends ReportHelper {
 	
 	Map myDefinitions = new HashMap();

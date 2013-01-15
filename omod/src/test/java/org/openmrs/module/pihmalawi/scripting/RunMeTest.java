@@ -1,11 +1,13 @@
 package org.openmrs.module.pihmalawi.scripting;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.scripting.ArtExporter;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
+@Ignore
 public class RunMeTest extends BaseModuleContextSensitiveTest {
 	
 	@Override

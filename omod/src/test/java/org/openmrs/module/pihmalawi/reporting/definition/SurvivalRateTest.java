@@ -3,6 +3,7 @@ package org.openmrs.module.pihmalawi.reporting.definition;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.Patient;
@@ -15,6 +16,7 @@ import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.test.annotation.Rollback;
 
+@Ignore
 public class SurvivalRateTest extends BaseModuleContextSensitiveTest {
 
 	@Override

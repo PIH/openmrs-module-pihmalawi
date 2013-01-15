@@ -70,6 +70,20 @@ public abstract class BreakdownRowRenderer {
 		row.addColumnValue(c, h(value));
 	}
 
+	protected String preferredIdentifierAtLocation(Patient p, PatientIdentifierType identifierType, Location locationParameter) {
+		String ret = "";
+		List<PatientIdentifier> pis = p.getPatientIdentifiers(identifierType);
+		for (PatientIdentifier pi : pis) {
+			if (pi != null && pi.getLocation() != null && locationParameter != null && pi.getLocation().getId() == locationParameter.getId()) {
+				ret = formatPatientIdentifier(pi.getIdentifier());
+				if (pi.isPreferred()) {
+					return ret;
+				}
+			}
+		}
+		return ret;
+	}
+
 	protected String patientLink(Patient p,
 			PatientIdentifierType identifierType, Location locationParameter) {
 		// todo, get current id and/or preferred one first
@@ -594,6 +608,21 @@ public abstract class BreakdownRowRenderer {
 		}
 	}
 
+	protected void addEnrollmentDateCols(DataSetRow row, Patient p, Location locationParameter, Program program, String label) {
+		try {
+			DataSetColumn c = new DataSetColumn(label, label, String.class);
+			if (locationParameter != null) {
+				PatientProgram pp = h.getMostRecentProgramEnrollmentAtLocation(p, program, locationParameter, sessionFactory().getCurrentSession());
+				row.addColumnValue(c, formatEncounterDate(pp.getDateEnrolled()));
+			}
+			else {
+				row.addColumnValue(c, h("(not applicable)"));
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
 	protected void addEnrollmentDateCols(DataSetRow row, Patient p,
 			Location locationParameter, ProgramWorkflowState state, String label) {
 		try {
@@ -816,6 +845,61 @@ public abstract class BreakdownRowRenderer {
 						+ " Date", String.class);
 				row.addColumnValue(c, formatEncounterDate(o.getObsDatetime()));
 			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
+	protected void addReasonStartingArvsCols(DataSetRow row, Patient p, Date endDate) {
+		try {
+			List<Encounter> es = Context.getEncounterService().getEncounters(p,
+					null, null, endDate, null, Arrays.asList(lookupEncounterType("ART_INITIAL")), null, false);
+			String reasons = "";
+
+			List<Obs> obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("CD4 count")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", CD4: " + o.getValueAsString(Context.getLocale());
+			}
+			obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("Kaposis sarcoma side effects worsening while on ARVs?")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", KS: " + o.getValueAsString(Context.getLocale());
+			}
+			obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("Tuberculosis treatment status")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", TB: " + o.getValueAsString(Context.getLocale());
+			}
+			obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("WHO stage")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", STAGE: " + o.getValueAsString(Context.getLocale());
+			}
+			obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("Cd4%")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", TLC: " + o.getValueAsString(Context.getLocale());
+			}
+			obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("Presumed severe HIV criteria present")), null,
+					null, null, null, 1, null, null, endDate, false);
+			if (obs.iterator().hasNext()) {
+				Obs o = obs.iterator().next();
+				reasons += ", PSHD: " + o.getValueAsString(Context.getLocale());
+			}
+			DataSetColumn c = new DataSetColumn("ARV start reasons", "ARV start reasons", String.class);
+			row.addColumnValue(c, reasons);
 		} catch (Exception e) {
 			log.error(e);
 		}

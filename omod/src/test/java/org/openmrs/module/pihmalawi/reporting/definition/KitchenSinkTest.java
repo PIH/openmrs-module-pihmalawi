@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
@@ -43,6 +44,7 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 /**
  * Supports rendering a series of Cohorts with particular datasets
  */
+@Ignore
 public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 
 	@Override
