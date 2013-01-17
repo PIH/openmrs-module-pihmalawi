@@ -68,7 +68,10 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
 		if (latestKsProgramDate != null) {
 			Obs artRegimen = pdh.getLatestObs(p, "Malawi Antiretroviral drugs received", null, latestKsProgramDate);
-			pdh.addCol(row, "ART Regimen at Enrollment", pdh.formatValue(artRegimen));
+			pdh.addCol(row, "ART Regimen Obs at Enrollment", pdh.formatValue(artRegimen));
+
+			Set<Concept> drugOrdersAtEnrollment = pdh.getDrugsTakingOnDate(p, latestKsProgramDate);
+			pdh.addCol(row, "Drugs Taking at Enrollment", pdh.formatConcepts(drugOrdersAtEnrollment, "+"));
 
 			Obs cd4 = pdh.getLatestObs(p, "CD4 count", null, latestKsProgramDate);
 			pdh.addCol(row, "CD4 at enrollment", pdh.formatValue(cd4));

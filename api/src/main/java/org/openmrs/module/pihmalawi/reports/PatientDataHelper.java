@@ -13,6 +13,7 @@ import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.util.OpenmrsUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -290,6 +291,26 @@ public class PatientDataHelper {
 			return null;
 		}
 		return l.get(0);
+	}
+
+	public Set<Concept> getDrugsTakingOnDate(Patient p, Date onDate) {
+		Set<Concept> l = new HashSet<Concept>();
+		for (DrugOrder drugOrder : Context.getOrderService().getOrders(DrugOrder.class, Arrays.asList(p), null, OrderService.ORDER_STATUS.NOTVOIDED, null, null, null)) {
+			if (drugOrder.isCurrent(onDate)) {
+				l.add(drugOrder.getConcept());
+			}
+		}
+		return l;
+	}
+
+	public String formatConcepts(Collection<Concept> concepts, String separator) {
+		Set<String> names = new TreeSet<String>();
+		if (concepts != null) {
+			for (Concept c : concepts) {
+				names.add(c.getName().getName());
+			}
+		}
+		return OpenmrsUtil.join(names, separator);
 	}
 
 	public String formatOrderStartDate(Order order) {

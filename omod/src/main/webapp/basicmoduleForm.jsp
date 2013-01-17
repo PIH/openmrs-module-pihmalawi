@@ -130,4 +130,8 @@ PIH Quarterly Cross Site Indicators: <a href="${pageContext.request.contextPath}
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_pih_xsite.form">Remove</a>
 <br/>
 
+KS Register Export: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_ksregister.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_ksregister.form">Remove</a>
+<br/>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

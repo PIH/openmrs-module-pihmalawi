@@ -5,30 +5,12 @@ import java.util.Arrays;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
-import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
-import org.openmrs.module.pihmalawi.reports.setup.SetupApzuHivIndicators;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArtRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArvRegimen;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
-import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHivDnaPcrResults;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
-import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuarterlyCrossSite;
-import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
+import org.openmrs.module.pihmalawi.reports.setup.*;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupHivWeeklyOutcome;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtWeekly;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupProgramChanges;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -354,5 +336,22 @@ public class PihReportFormController {
 	public void registerAppointments() throws Exception {
 		new SetupAppointmentsForLocation(new ReportHelper())
 				.setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/register_ksregister.form")
+	public String registerKsRegister() throws Exception {
+		ReportDefinition[] rds = new SetupKsRegister(new ReportHelper()).setup();
+		if (rds.length == 1) {
+			return "redirect:/module/reporting/run/runReport.form?reportId=" + rds[0].getUuid();
+		}
+		else {
+			return "redirect:/module/reporting/dashboard/index.form";
+		}
+	}
+
+	@RequestMapping("/module/pihmalawi/remove_ksregister.form")
+	public String removeKsRegister() {
+		new SetupKsRegister(new ReportHelper()).delete();
+		return "redirect:/module/reporting/dashboard/index.form";
 	}
 }
