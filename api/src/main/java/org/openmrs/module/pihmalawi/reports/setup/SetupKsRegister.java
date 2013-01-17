@@ -73,7 +73,7 @@ public class SetupKsRegister {
 			}
 		}
 		h.purgeDefinition(DataSetDefinition.class,
-				"KS_ Data Set");
+				"KS Register_ Data Set");
 		h.purgeDefinition(ReportDefinition.class, "KS Register_");
 		h.purgeAll("ks:");
 	}
