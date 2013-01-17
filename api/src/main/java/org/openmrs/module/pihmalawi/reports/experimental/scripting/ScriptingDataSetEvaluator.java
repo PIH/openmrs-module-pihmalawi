@@ -98,8 +98,8 @@ public class ScriptingDataSetEvaluator implements DataSetEvaluator {
 						&& ps.getState().getId()
 								.equals(internalTransfer.getId())) {
 					log.warn("PS matches " + pp.getId());
-					Location programLocation = new ProgramHelper().getEnrollmentLocation(ps.getPatientProgram(),
-							 sessionFactory().getCurrentSession());
+					Location programLocation = new ProgramHelper().getEnrollmentLocation(ps.getPatientProgram()
+					);
 					if (programLocation != null && location != null && programLocation.getId().equals(location.getId())) {
 						// found a program with last state internal transfer, add
 						// transferred out

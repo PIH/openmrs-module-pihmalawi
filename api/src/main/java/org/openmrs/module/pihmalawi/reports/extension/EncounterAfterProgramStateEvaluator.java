@@ -60,12 +60,11 @@ public class EncounterAfterProgramStateEvaluator implements
 
 			// get date of change to terminal state
 			PatientState mostTerminalRecentState = h.getMostRecentStateAtLocation(p,
-					terminalStates, enrollmentLoc, sessionFactory()
-							.getCurrentSession());
+					terminalStates, enrollmentLoc);
 			if (mostTerminalRecentState != null
 					&& mostTerminalRecentState.getStartDate() != null) {
 				// check if there is a new patient_program for the same location and active again
-				PatientState mostRecentState = h.getMostRecentStateAtLocation(p, terminalStates.get(0).getProgramWorkflow(), enrollmentLoc, sessionFactory().getCurrentSession());
+				PatientState mostRecentState = h.getMostRecentStateAtLocation(p, terminalStates.get(0).getProgramWorkflow(), enrollmentLoc);
 				if (terminalStates.contains(mostRecentState.getState())) {
 					// check if more recent encounter happened after date of change
 					// to terminal state at this location

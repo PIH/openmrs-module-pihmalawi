@@ -99,8 +99,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 			// Can this redundancy be improved???
 			List<PatientState> patientStateList = h
 					.getPatientStatesByWorkflowAtLocation(p, primaryState,
-							primaryStateLocation, sessionFactory()
-									.getCurrentSession());
+							primaryStateLocation);
 			for (PatientState patientState : patientStateList) {
 				
 				Date primaryStateStartDate = patientState.getStartDate(); // ***** CAN THIS BE NULL???

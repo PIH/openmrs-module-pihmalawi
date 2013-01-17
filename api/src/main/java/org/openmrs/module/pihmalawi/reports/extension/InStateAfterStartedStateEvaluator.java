@@ -68,8 +68,7 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 			// Can this redundancy be improved???
 			List<PatientState> patientStateList = h
 					.getPatientStatesByWorkflowAtLocation(p, primaryState,
-							primaryStateLocation, sessionFactory()
-									.getCurrentSession());
+							primaryStateLocation);
 
 			for(PatientState patientState : patientStateList) {
 				Date primaryStateStartDate = patientState.getStartDate();

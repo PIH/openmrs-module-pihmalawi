@@ -89,8 +89,7 @@ public class InStateAtDateObsEvaluator implements CohortDefinitionEvaluator {
 			
 			List<PatientState> patientStateList = h
 			.getPatientStatesByWorkflowAtLocation(p, state,
-					location, sessionFactory()
-							.getCurrentSession());
+					location);
 			
 			for(PatientState patientState : patientStateList) {
 				if(patientState.getState().equals(state) && patientState.getActive(appointmentDate)) {

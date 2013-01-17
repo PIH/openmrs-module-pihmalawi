@@ -114,7 +114,7 @@ public class HccRegisterBreakdownRenderer extends BreakdownRowRenderer {
 							"Treatment status", "Exposed Child (Continue)"),
 					lookupProgramWorkflowState("HIV program",
 							"Treatment status", "Pre-ART (Continue)")),
-					locationParameter, endDate, sessionFactory().getCurrentSession());
+					locationParameter, endDate);
 
 			DataSetColumn c = new DataSetColumn("Outcome in HCC", "Outcome in HCC",
 					String.class);

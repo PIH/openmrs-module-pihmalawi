@@ -96,7 +96,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 			pdh.addCol(row, "ARV Start Date", pdh.formatStateStartDate(earliestOnArvsState));
 
-			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter, session);
+			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter);
 
 			pdh.addCol(row, "HIV Tx Status at Location", pdh.formatStateName(latestTxStatusStateAtLocation));
 			pdh.addCol(row, "HIV Tx Status at Location Date", pdh.formatStateStartDate(latestTxStatusStateAtLocation));

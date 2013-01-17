@@ -24,7 +24,6 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
-import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -334,8 +333,8 @@ public class SyncFromExcelRegister {
 
 		// hiv program states at location
 		List<PatientState> states = new ProgramHelper()
-				.getPatientStatesByWorkflowAtLocation(p, onArtState, location,
-						hibernateSession);
+				.getPatientStatesByWorkflowAtLocation(p, onArtState, location
+				);
 
 		// check for the first On ART state ever
 		PatientState latestState = null;
@@ -360,7 +359,7 @@ public class SyncFromExcelRegister {
 
 		// hiv program states at location
 		PatientState state = new ProgramHelper().getMostRecentStateAtLocation(p,
-				Arrays.asList(onArtState), location, hibernateSession);
+				Arrays.asList(onArtState), location);
 
 		return state;
 	}

@@ -179,8 +179,8 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 				} else {
 					// enrollment outcome from location
 					ps = h.getMostRecentStateAtLocation(p,
-						definition.getProgramWorkflow(), locationParameter,
-						sessionFactory().getCurrentSession());
+						definition.getProgramWorkflow(), locationParameter
+					);
 				}
 				c = new DataSetColumn("Outcome", "Outcome", String.class);
 				if (ps != null) {
@@ -503,8 +503,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		String programs = "";
 
 		// just collect everything latest program enrollment you can find
-		Set<PatientState> pss = h.getMostRecentStates(p, sessionFactory()
-				.getCurrentSession());
+		Set<PatientState> pss = h.getMostRecentStates(p);
 		if (pss != null) {
 			Iterator<PatientState> i = pss.iterator();
 			while (i.hasNext()) {
@@ -538,7 +537,7 @@ public class ApzuPatientDataSetEvaluator implements DataSetEvaluator {
 		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, new Date());
 		if (ps != null) {
 			return h.getEnrollmentLocation(ps
-					.getPatientProgram(), sessionFactory().getCurrentSession());
+					.getPatientProgram());
 		}
 		return null;
 	}

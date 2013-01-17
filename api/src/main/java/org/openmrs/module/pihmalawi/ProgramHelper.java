@@ -35,21 +35,16 @@ public class ProgramHelper {
 		return null;
 	}
 
-	public PatientState getMostRecentStateAtLocation(Patient p,
-			List<ProgramWorkflowState> programWorkflowStates,
-			Location enrollmentLocation, Session hibernateSession) {
+	public PatientState getMostRecentStateAtLocation(Patient p, List<ProgramWorkflowState> programWorkflowStates, Location enrollmentLocation) {
 		PatientState state = null;
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflowStates.get(0).getProgramWorkflow().getProgram(),
-						null, null, null, null, false);
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p,programWorkflowStates.get(0).getProgramWorkflow().getProgram(),null, null, null, null, false);
 		List<Integer> programWorkflowStateIds = new ArrayList<Integer>();
 		for (ProgramWorkflowState pws : programWorkflowStates) {
 			programWorkflowStateIds.add(pws.getId());
 		}
 		for (PatientProgram pp : pps) {
 			// hope that the first found pp is also first in time
-			Location location = getEnrollmentLocation(pp, hibernateSession);
+			Location location = getEnrollmentLocation(pp);
 			if (!pp.isVoided() && location != null
 					&& location.getId().equals(enrollmentLocation.getId())) {
 				HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
@@ -86,11 +81,11 @@ public class ProgramHelper {
 		return ret;
 	}
 
-	public PatientProgram getMostRecentProgramEnrollmentAtLocation(Patient p, Program program, Location enrollmentLocation, Session hibernateSession) {
+	public PatientProgram getMostRecentProgramEnrollmentAtLocation(Patient p, Program program, Location enrollmentLocation) {
 		PatientProgram ret = null;
 		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, program, null, null, null, null, false);
 		for (PatientProgram pp : pps) {
-			Location location = getEnrollmentLocation(pp, hibernateSession);
+			Location location = getEnrollmentLocation(pp);
 			if (!pp.isVoided() && location != null && location.getId().equals(enrollmentLocation.getId())) {
 				if (ret == null || pp.getDateEnrolled().after(ret.getDateEnrolled())) {
 					ret = pp;
@@ -100,18 +95,13 @@ public class ProgramHelper {
 		return ret;
 	}
 
-	public PatientState getMostRecentStateAtLocation(Patient p,
-			ProgramWorkflow programWorkflow,
-			Location enrollmentLocation, Session hibernateSession) {
+	public PatientState getMostRecentStateAtLocation(Patient p, ProgramWorkflow programWorkflow, Location enrollmentLocation) {
 		List<PatientState> lastStateOfAllPatientPrograms = new ArrayList<PatientState>();
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflow.getProgram(),
-						null, null, null, null, false);
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, programWorkflow.getProgram(), null, null, null, null, false);
 		
 		// get all last states of patientprograms
 		for (PatientProgram pp : pps) {
-			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
+			Location programLocation = getEnrollmentLocation(pp);
 			if (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId())) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				if (states != null && !states.isEmpty()) {
@@ -134,18 +124,13 @@ public class ProgramHelper {
 		return lastState;
 	}
 	
-	public PatientState getMostRecentStateAtLocationAndDate(Patient p,
-			ProgramWorkflow programWorkflow,
-			Location enrollmentLocation, Date endDate, Session hibernateSession) {
+	public PatientState getMostRecentStateAtLocationAndDate(Patient p, ProgramWorkflow programWorkflow, Location enrollmentLocation, Date endDate) {
 		List<PatientState> lastStateOfAllPatientPrograms = new ArrayList<PatientState>();
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflow.getProgram(),
-						null, null, null, null, false);
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, programWorkflow.getProgram(), null, null, null, null, false);
 		
 		// get all last states of patientprograms as of enddate
 		for (PatientProgram pp : pps) {
-			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
+			Location programLocation = getEnrollmentLocation(pp);
 			if (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId())) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				if (states != null && !states.isEmpty()) {
@@ -172,17 +157,12 @@ public class ProgramHelper {
 		return lastState;
 	}
 	
-	public PatientState getStateAfterStateAtLocation(Patient p,
-			ProgramWorkflow programWorkflow, List<ProgramWorkflowState> referenceStates,
-			Location enrollmentLocation, Date endDate, Session hibernateSession) {
+	public PatientState getStateAfterStateAtLocation(Patient p, ProgramWorkflow programWorkflow, List<ProgramWorkflowState> referenceStates, Location enrollmentLocation, Date endDate) {
 		List<PatientProgram> ppsWithReferenceState = new ArrayList<PatientProgram>();
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflow.getProgram(),
-						null, null, null, null, false);
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, programWorkflow.getProgram(), null, null, null, null, false);
 
 		for (PatientProgram pp : pps) {
-			Location programLocation = getEnrollmentLocation(pp, hibernateSession);
+			Location programLocation = getEnrollmentLocation(pp);
 			if ((enrollmentLocation == null) || (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId()))) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				for (PatientState state : states) {
@@ -225,8 +205,7 @@ public class ProgramHelper {
 		return stateAfterState;
 	}
 	
-	private boolean containedIn(ProgramWorkflowState state,
-			List<ProgramWorkflowState> referenceStates) {
+	private boolean containedIn(ProgramWorkflowState state, List<ProgramWorkflowState> referenceStates) {
 		for(ProgramWorkflowState pws : referenceStates) {
 			if (pws.getId() == state.getId()) {
 				return true;
@@ -260,26 +239,18 @@ public class ProgramHelper {
 		return ret;
 	}
 
-	public PatientState getMostRecentStateAtDate(Patient p, ProgramWorkflow programWorkflow,
-			Date endDate) {
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflow.getProgram(),
-						null, null, null, null, false);
+	public PatientState getMostRecentStateAtDate(Patient p, ProgramWorkflow programWorkflow, Date endDate) {
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, programWorkflow.getProgram(), null, null, null, null, false);
 		PatientState lastStateOnDate = null;
-		
 		try {
 			for (PatientProgram pp : pps) {
-//				if (pp.getActive(endDate)) {
-					// assuming there is only on active patientprogram (might be wrong)
-					List<PatientState> states = statesInWorkflow(pp, programWorkflow);
-					for (PatientState state : states) {
-						if (state.getStartDate().getTime() <= endDate.getTime()) {
-							// assuming the states is ordered
-							lastStateOnDate = state;
-						}
+				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
+				for (PatientState state : states) {
+					if (state.getStartDate().getTime() <= endDate.getTime()) {
+						// assuming the states is ordered
+						lastStateOnDate = state;
 					}
-//				}
+				}
 			}
 		} catch (Throwable t) {
 			// shouldn't happen, but it does...
@@ -291,16 +262,10 @@ public class ProgramHelper {
 		return getMostRecentStateAtDate(p, programWorkflow, new Date());
 	}
 
-	public List<PatientState> getPatientStatesByWorkflowAtLocation(Patient p,
-			ProgramWorkflowState programWorkflowState,
-			Location enrollmentLocation, Session hibernateSession) {
+	public List<PatientState> getPatientStatesByWorkflowAtLocation(Patient p, ProgramWorkflowState programWorkflowState, Location enrollmentLocation) {
 		
 		Integer programWorkflowStateId = programWorkflowState.getId();
-		
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						programWorkflowState.getProgramWorkflow().getProgram(),
-						null, null, null, null, false);
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, programWorkflowState.getProgramWorkflow().getProgram(), null, null, null, null, false);
 		
 		// list of patientstates (patient, workflow)
 		List<PatientState> patientStateList = new ArrayList<PatientState>();
@@ -309,23 +274,18 @@ public class ProgramHelper {
 			if(enrollmentLocation == null) {
 				if (!pp.isVoided()) {
 					for (PatientState ps : pp.getStates()) {
-						if (!ps.isVoided()
-								&& programWorkflowStateId.equals(ps.getState().getId())
-								&& ps.getStartDate() != null) {
-							
+						if (!ps.isVoided() && programWorkflowStateId.equals(ps.getState().getId()) && ps.getStartDate() != null) {
 							patientStateList.add(ps);
 						}
 					}
 				}
-			} else {
-				Location location = getEnrollmentLocation(pp, hibernateSession);
+			}
+			else {
+				Location location = getEnrollmentLocation(pp);
 				if (!pp.isVoided() && location != null
 						&& location.getId().equals(enrollmentLocation.getId())) {
 					for (PatientState ps : pp.getStates()) {
-						if (!ps.isVoided()
-								&& programWorkflowStateId.equals(ps.getState().getId())
-								&& ps.getStartDate() != null) {
-							
+						if (!ps.isVoided() && programWorkflowStateId.equals(ps.getState().getId()) && ps.getStartDate() != null) {
 							patientStateList.add(ps);
 						}
 					}
@@ -336,28 +296,40 @@ public class ProgramHelper {
 		return patientStateList;
 	}
 
-	public Location getEnrollmentLocation(PatientProgram pp,
-			Session hibernateSession) {
-		String sql = "select location_id from patient_program where patient_program_id = "
-				+ pp.getId();
-
-		Query query = hibernateSession.createSQLQuery(sql.toString());
+	public Location getEnrollmentLocation(PatientProgram pp) {
+		String sql = "select location_id from patient_program where patient_program_id = " + pp.getId();
+		List<List<Object>> ret = Context.getAdministrationService().executeSQL(sql, true);
 		// assume there is only one
-		if (!query.list().isEmpty() && query.list().get(0) != null) {
-			return Context.getLocationService().getLocation(
-					((Integer) (query.list().get(0))).intValue());
+		if (!ret.isEmpty()) {
+			List<Object> o = ret.get(0);
+			if (o != null && !o.isEmpty()) {
+				Object id = o.get(0);
+				if (id != null) {
+					return Context.getLocationService().getLocation((Integer)id);
+				}
+			}
 		}
 		return null;
 	}
 
-	public Set<PatientState> getMostRecentStates(Patient p,
-			Session currentSession) {
-		List<PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(p,
-						null, null, null, null, null, false);
+	public Set<PatientState> getMostRecentStates(Patient p) {
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, null, null, null, null, null, false);
 		Set<PatientState> allStates = new HashSet<PatientState>();
 		for (PatientProgram pp : pps) {
 			allStates.addAll(pp.getCurrentStates());
+		}
+		return allStates;
+	}
+
+	public Set<PatientState> getActiveStatesOnDate(Patient p, Date d) {
+		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, null, null, null, null, null, false);
+		Set<PatientState> allStates = new HashSet<PatientState>();
+		for (PatientProgram pp : pps) {
+			for (PatientState ps : pp.getStates()) {
+				if (ps.getActive(d)) {
+					allStates.add(ps);
+				}
+			}
 		}
 		return allStates;
 	}

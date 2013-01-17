@@ -147,7 +147,7 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		} else {
 			// enrollment outcome from location
 			ps = h.getMostRecentStateAtLocation(p, programWorkflow,
-					locationParameter, sessionFactory().getCurrentSession());
+					locationParameter);
 		}
 
 		c = new DataSetColumn("Outcome", "Outcome", String.class);

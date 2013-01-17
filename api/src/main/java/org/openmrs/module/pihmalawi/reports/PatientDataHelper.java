@@ -6,21 +6,13 @@ import org.hibernate.SessionFactory;
 import org.openmrs.*;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.ObsService;
-import org.openmrs.api.PatientSetService.TimeModifier;
+import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
-import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.*;
-import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.web.WebConstants;
-import org.openmrs.web.controller.person.RelationshipTypeViewFormController;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -214,6 +206,25 @@ public class PatientDataHelper {
 		return l.get(0);
 	}
 
+	public Obs getEarliestObs(Patient p, String concept, List<EncounterType> onlyInEncountersOfType, Date endDate) {
+		Concept c = MetadataLookup.concept(concept);
+		List<Encounter> encs = null;
+		if (onlyInEncountersOfType != null) {
+			EncounterService es = Context.getEncounterService();
+			encs = es.getEncounters(p, null, null, endDate, null, onlyInEncountersOfType, null, false);
+		}
+		ObsService os = Context.getObsService();
+		List<Obs> l = os.getObservations(Arrays.asList((Person)p), encs, Arrays.asList(c), null, null, null, null, null, null, null, endDate, false);
+		Map<Date, Obs> m = new TreeMap<Date, Obs>();
+		for (Obs o : l) {
+			m.put(o.getObsDatetime(), o);
+		}
+		if (m.isEmpty()) {
+			return null;
+		}
+		return m.values().iterator().next();
+	}
+
 	public Map<String, String> getReasonStartingArvs(Patient p, Date endDate) {
 		Map<String, String> reasons = new LinkedHashMap<String, String>();
 		List<EncounterType> artInitialEncounter = Arrays.asList(lookupEncounterType("ART_INITIAL"));
@@ -260,6 +271,34 @@ public class PatientDataHelper {
 		return "";
 	}
 
+	// Orders
+
+	public List<DrugOrder> getDrugOrdersByStartDateAscending(Patient p, String conceptNameOrId, Date onOrBeforeDate) {
+		Map<Date, DrugOrder> m = new TreeMap<Date, DrugOrder>();
+		Concept drugConcept = MetadataLookup.concept(conceptNameOrId);
+		for (DrugOrder drugOrder : Context.getOrderService().getOrders(DrugOrder.class, Arrays.asList(p), Arrays.asList(drugConcept), OrderService.ORDER_STATUS.NOTVOIDED, null, null, null)) {
+			if (onOrBeforeDate == null || drugOrder.getStartDate().compareTo(onOrBeforeDate) <= 0) {
+				m.put(drugOrder.getStartDate(), drugOrder);
+			}
+		}
+		return new ArrayList<DrugOrder>(m.values());
+	}
+
+	public DrugOrder getEarliestDrugOrder(Patient p, String conceptNameOrId, Date onOrBeforeDate) {
+		List<DrugOrder> l = getDrugOrdersByStartDateAscending(p, conceptNameOrId, onOrBeforeDate);
+		if (l.isEmpty()) {
+			return null;
+		}
+		return l.get(0);
+	}
+
+	public String formatOrderStartDate(Order order) {
+		if (order != null) {
+			return formatYmd(order.getStartDate());
+		}
+		return "";
+	}
+
 	// Program Enrollments
 
 	public String formatStateName(PatientState state) {
@@ -287,7 +326,7 @@ public class PatientDataHelper {
 		String programs = "";
 
 		// just collect everything latest program enrollment you can find
-		Set<PatientState> pss = h.getMostRecentStates(p, sessionFactory().getCurrentSession());
+		Set<PatientState> pss = h.getMostRecentStates(p);
 		if (pss != null) {
 			Iterator<PatientState> i = pss.iterator();
 			while (i.hasNext()) {
@@ -306,8 +345,8 @@ public class PatientDataHelper {
 		try {
 			PatientState ps = null;
 			// enrollment outcome from location
-			ps = h.getMostRecentStateAtLocation(p, pw, locationParameter,
-					sessionFactory().getCurrentSession());
+			ps = h.getMostRecentStateAtLocation(p, pw, locationParameter
+			);
 
 			DataSetColumn c = new DataSetColumn("Outcome", "Outcome",
 					String.class);
@@ -331,8 +370,8 @@ public class PatientDataHelper {
 			PatientState ps = null;
 			if (locationParameter != null) {
 				// enrollment outcome from location
-				ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate,
-						sessionFactory().getCurrentSession());
+				ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate
+				);
 			} else {
 				ps = h.getMostRecentStateAtDate(p, pw, endDate);
 			}
@@ -353,8 +392,7 @@ public class PatientDataHelper {
 			if (ps != null && locationParameter == null) {
 				// register for all locations
 				row.addColumnValue(c, h.getEnrollmentLocation(ps
-						.getPatientProgram(), sessionFactory()
-						.getCurrentSession()));
+						.getPatientProgram()));
 			} else if (ps != null && locationParameter != null) {
 				row.addColumnValue(c, locationParameter);
 			}
@@ -381,8 +419,7 @@ public class PatientDataHelper {
 				row.addColumnValue(c2, formatYmd(ps.getStartDate()));
 				row.addColumnValue(c2, formatYmd(ps.getStartDate()));
 				row.addColumnValue(c3, h.getEnrollmentLocation(ps
-						.getPatientProgram(), sessionFactory()
-						.getCurrentSession()));
+						.getPatientProgram()));
 			} else {
 				row.addColumnValue(c1, h(""));
 				row.addColumnValue(c2, h(""));
@@ -419,7 +456,7 @@ public class PatientDataHelper {
 		try {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
 			if (locationParameter != null) {
-				PatientProgram pp = h.getMostRecentProgramEnrollmentAtLocation(p, program, locationParameter, sessionFactory().getCurrentSession());
+				PatientProgram pp = h.getMostRecentProgramEnrollmentAtLocation(p, program, locationParameter);
 				row.addColumnValue(c, formatYmd(pp.getDateEnrolled()));
 			}
 			else {
@@ -436,8 +473,7 @@ public class PatientDataHelper {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
 			if (locationParameter != null) {
 				List<PatientState> states = h.getPatientStatesByWorkflowAtLocation(
-						p, state, locationParameter, sessionFactory()
-						.getCurrentSession());
+						p, state, locationParameter);
 				PatientState firstState = states.get(0);
 				row.addColumnValue(c, formatYmd(firstState
 						.getPatientProgram().getDateEnrolled()));
@@ -639,8 +675,8 @@ public class PatientDataHelper {
 												ProgramWorkflowState firstTimeInState, Date endDate) {
 		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
 		if (ps != null) {
-			return h.getEnrollmentLocation(ps.getPatientProgram(),
-					sessionFactory().getCurrentSession());
+			return h.getEnrollmentLocation(ps.getPatientProgram()
+			);
 		}
 		return null;
 	}

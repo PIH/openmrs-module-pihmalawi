@@ -68,8 +68,7 @@ public class ObsAfterStateStartEvaluator implements CohortDefinitionEvaluator {
 			// Can this redundancy be improved???
 			List<PatientState> patientStateList = h
 					.getPatientStatesByWorkflowAtLocation(p, state,
-							locationList.get(0), sessionFactory()
-									.getCurrentSession());
+							locationList.get(0));
 
 			for(PatientState patientState : patientStateList) {
 				Date stateStartDate = patientState.getStartDate();

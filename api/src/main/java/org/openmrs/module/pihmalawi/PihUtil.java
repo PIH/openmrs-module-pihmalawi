@@ -2,10 +2,7 @@ package org.openmrs.module.pihmalawi;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import org.openmrs.Concept;
 import org.openmrs.OpenmrsMetadata;
@@ -212,5 +209,18 @@ public class PihUtil {
 		String s1 = DateUtil.formatDate(d1, format);
 		String s2 = DateUtil.formatDate(d2, format);
 		return s1.compareTo(s2);
+	}
+
+	public static int monthsBetween(Date d1, Date d2) {
+		int count = 0;
+		Calendar c = Calendar.getInstance();
+		c.setTime((d1.before(d2) ? d1 : d2));
+		c.add(Calendar.MONTH, 1);
+		Date compareDate = (d1.before(d2) ? d2 : d1);
+		while (c.getTime().compareTo(compareDate) <= 0) {
+			count++;
+			c.add(Calendar.MONTH, 1);
+		}
+		return count;
 	}
 }

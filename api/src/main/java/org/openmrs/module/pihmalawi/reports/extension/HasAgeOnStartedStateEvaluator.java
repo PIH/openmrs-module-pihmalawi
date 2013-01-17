@@ -63,8 +63,7 @@ public class HasAgeOnStartedStateEvaluator implements CohortDefinitionEvaluator 
 			// Can this redundancy be improved???
 			List<PatientState> patientStateList = h
 					.getPatientStatesByWorkflowAtLocation(p, state,
-							location, sessionFactory()
-									.getCurrentSession());
+							location);
 			
 			//*************  WOULD HAVE TO BE THE FIRST TIME STARTING ARVS???
 			

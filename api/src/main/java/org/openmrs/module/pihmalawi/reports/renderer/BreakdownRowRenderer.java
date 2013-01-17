@@ -197,8 +197,7 @@ public abstract class BreakdownRowRenderer {
 			String programs = "";
 
 			// just collect everything latest program enrollment you can find
-			Set<PatientState> pss = h.getMostRecentStates(p, sessionFactory()
-					.getCurrentSession());
+			Set<PatientState> pss = h.getMostRecentStates(p);
 			if (pss != null) {
 				Iterator<PatientState> i = pss.iterator();
 				while (i.hasNext()) {
@@ -454,8 +453,8 @@ public abstract class BreakdownRowRenderer {
 		try {
 			PatientState ps = null;
 			// enrollment outcome from location
-			ps = h.getMostRecentStateAtLocation(p, pw, locationParameter,
-					sessionFactory().getCurrentSession());
+			ps = h.getMostRecentStateAtLocation(p, pw, locationParameter
+			);
 
 			DataSetColumn c = new DataSetColumn("Outcome", "Outcome",
 					String.class);
@@ -503,8 +502,8 @@ public abstract class BreakdownRowRenderer {
 			PatientState ps = null;
 			if (locationParameter != null) {
 				// enrollment outcome from location
-				ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate,
-						sessionFactory().getCurrentSession());
+				ps = h.getMostRecentStateAtLocationAndDate(p, pw, locationParameter, endDate
+				);
 			} else {
 				ps = h.getMostRecentStateAtDate(p, pw, endDate);
 			}
@@ -525,8 +524,7 @@ public abstract class BreakdownRowRenderer {
 			if (ps != null && locationParameter == null) {
 				// register for all locations
 				row.addColumnValue(c, h.getEnrollmentLocation(ps
-						.getPatientProgram(), sessionFactory()
-						.getCurrentSession()));
+						.getPatientProgram()));
 			} else if (ps != null && locationParameter != null) {
 				row.addColumnValue(c, locationParameter);
 			}
@@ -553,8 +551,7 @@ public abstract class BreakdownRowRenderer {
 				row.addColumnValue(c2, formatEncounterDate(ps.getStartDate()));
 				row.addColumnValue(c2, formatEncounterDate(ps.getStartDate()));
 				row.addColumnValue(c3, h.getEnrollmentLocation(ps
-						.getPatientProgram(), sessionFactory()
-						.getCurrentSession()));
+						.getPatientProgram()));
 			} else {
 				row.addColumnValue(c1, h(""));
 				row.addColumnValue(c2, h(""));
@@ -612,7 +609,7 @@ public abstract class BreakdownRowRenderer {
 		try {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
 			if (locationParameter != null) {
-				PatientProgram pp = h.getMostRecentProgramEnrollmentAtLocation(p, program, locationParameter, sessionFactory().getCurrentSession());
+				PatientProgram pp = h.getMostRecentProgramEnrollmentAtLocation(p, program, locationParameter);
 				row.addColumnValue(c, formatEncounterDate(pp.getDateEnrolled()));
 			}
 			else {
@@ -629,8 +626,7 @@ public abstract class BreakdownRowRenderer {
 			DataSetColumn c = new DataSetColumn(label, label, String.class);
 			if (locationParameter != null) {
 				List<PatientState> states = h.getPatientStatesByWorkflowAtLocation(
-						p, state, locationParameter, sessionFactory()
-								.getCurrentSession());
+						p, state, locationParameter);
 				PatientState firstState = states.get(0);
 				row.addColumnValue(c, formatEncounterDate(firstState
 						.getPatientProgram().getDateEnrolled()));
@@ -909,8 +905,8 @@ public abstract class BreakdownRowRenderer {
 			ProgramWorkflowState firstTimeInState, Date endDate) {
 		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
 		if (ps != null) {
-			return h.getEnrollmentLocation(ps.getPatientProgram(),
-					sessionFactory().getCurrentSession());
+			return h.getEnrollmentLocation(ps.getPatientProgram()
+			);
 		}
 		return null;
 	}
