@@ -297,19 +297,25 @@ public class ProgramHelper {
 	}
 
 	public Location getEnrollmentLocation(PatientProgram pp) {
-		String sql = "select location_id from patient_program where patient_program_id = " + pp.getId();
-		List<List<Object>> ret = Context.getAdministrationService().executeSQL(sql, true);
-		// assume there is only one
-		if (!ret.isEmpty()) {
-			List<Object> o = ret.get(0);
-			if (o != null && !o.isEmpty()) {
-				Object id = o.get(0);
-				if (id != null) {
-					return Context.getLocationService().getLocation((Integer)id);
+		try {
+			Context.addProxyPrivilege("SQL Level Access");
+			String sql = "select location_id from patient_program where patient_program_id = " + pp.getId();
+			List<List<Object>> ret = Context.getAdministrationService().executeSQL(sql, true);
+			// assume there is only one
+			if (!ret.isEmpty()) {
+				List<Object> o = ret.get(0);
+				if (o != null && !o.isEmpty()) {
+					Object id = o.get(0);
+					if (id != null) {
+						return Context.getLocationService().getLocation((Integer)id);
+					}
 				}
 			}
+			return null;
 		}
-		return null;
+		finally {
+			Context.removeProxyPrivilege("SQL Level Access");
+		}
 	}
 
 	public Set<PatientState> getMostRecentStates(Patient p) {
