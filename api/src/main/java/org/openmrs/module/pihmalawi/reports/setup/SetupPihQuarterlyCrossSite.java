@@ -43,16 +43,15 @@ import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 public class SetupPihQuarterlyCrossSite {
 	
 	private final Concept CONCEPT_HIV_DNA_PCR;
+	private final Concept CONCEPT_DNA_PCR_RESULT;
+	private final Concept CONCEPT_DNA_PCR_RESULT_2;
+	private final Concept CONCEPT_DNA_PCR_RESULT_3;
 	
-	private final Concept CONCEPT_ID_DNA_PCR_NEGATIVE;
-	
-	private final Concept CONCEPT_ID_DNA_PCR_POSITIVE;
-	
-	private final Concept CONCEPT_ID_DNA_PCR_INDETERMINATE;
-	
+	private final Concept CONCEPT_NEGATIVE;
+	private final Concept CONCEPT_POSITIVE;
+	private final Concept CONCEPT_INDETERMINATE;
+
 	private static final Date MIN_DATE_PARAMETER = new Date(100, 1, 1);
-	
-	private final Program PROGRAM_EID_PROGRAM;
 	
 	private final Program PROGRAM_HIV_PROGRAM;
 	
@@ -76,8 +75,6 @@ public class SetupPihQuarterlyCrossSite {
 	
 	private final Concept CONCEPT_WEIGHT;
 	
-	private final Concept CONCEPT_DNA_PCR;
-	
 	private final ProgramWorkflowState STATE_FOLLOWING;
 	
 	private final ProgramWorkflowState STATE_ON_ANTIRETROVIRALS;
@@ -86,12 +83,15 @@ public class SetupPihQuarterlyCrossSite {
 	
 	public SetupPihQuarterlyCrossSite(ReportHelper helper) {
 		h = helper;
-		CONCEPT_HIV_DNA_PCR = Context.getConceptService()
-		        .getConceptByName("HIV DNA polymerase chain reaction");
-		CONCEPT_ID_DNA_PCR_NEGATIVE = Context.getConceptService().getConceptByIdOrName("703");
-		CONCEPT_ID_DNA_PCR_POSITIVE = Context.getConceptService().getConceptByIdOrName("664");
-		CONCEPT_ID_DNA_PCR_INDETERMINATE = Context.getConceptService().getConceptByIdOrName("1138");
-		PROGRAM_EID_PROGRAM = Context.getProgramWorkflowService().getProgramByName("z_deprecated Early infant diagnosis program");
+
+		CONCEPT_HIV_DNA_PCR = Context.getConceptService().getConceptByName("HIV DNA polymerase chain reaction");
+		CONCEPT_DNA_PCR_RESULT = Context.getConceptService().getConceptByName("DNA-PCR Testing Result");
+		CONCEPT_DNA_PCR_RESULT_2 = Context.getConceptService().getConceptByName("DNA-PCR Testing Result 2");
+		CONCEPT_DNA_PCR_RESULT_3 = Context.getConceptService().getConceptByName("DNA-PCR Testing Result 3");
+		CONCEPT_NEGATIVE = Context.getConceptService().getConceptByName("Negative");
+		CONCEPT_POSITIVE = Context.getConceptService().getConceptByName("Positive");
+		CONCEPT_INDETERMINATE = Context.getConceptService().getConcept("1138");
+
 		PROGRAM_HIV_PROGRAM = Context.getProgramWorkflowService().getProgramByName("HIV program");
 		ENCOUNTER_TYPE_LAB = Context.getEncounterService().getEncounterType("LAB");
 		ENCOUNTER_TYPE_PART_INITIAL = Context.getEncounterService().getEncounterType("PART_INITIAL");
@@ -103,11 +103,9 @@ public class SetupPihQuarterlyCrossSite {
 		CONCEPT_CD4_COUNT = Context.getConceptService().getConceptByName("CD4 count");
 		CONCEPT_CD4_COUNT_MASTERCARD = Context.getConceptService().getConceptByName("Clinician reported to CD4");
 		CONCEPT_WEIGHT = Context.getConceptService().getConceptByName("Weight (kg)");
-		CONCEPT_DNA_PCR = Context.getConceptService().getConceptByName("CONCEPT_DNA_PCR");
+
 		STATE_FOLLOWING = PROGRAM_HIV_PROGRAM.getWorkflowByName("Treatment status").getStateByName("Pre-ART (Continue)");
-		STATE_ON_ANTIRETROVIRALS = PROGRAM_HIV_PROGRAM.getWorkflowByName("Treatment status").getStateByName(
-		    "On antiretrovirals");
-		
+		STATE_ON_ANTIRETROVIRALS = PROGRAM_HIV_PROGRAM.getWorkflowByName("Treatment status").getStateByName("On antiretrovirals");
 	}
 	
 	public void setup() throws Exception {
@@ -690,6 +688,7 @@ public class SetupPihQuarterlyCrossSite {
 	}
 	
 	private void createEid(PeriodIndicatorReportDefinition rd) {
+
 		BirthAndDeathCohortDefinition badcd = new BirthAndDeathCohortDefinition();
 		badcd.setName("xsite: Birth date in period_");
 		badcd.addParameter(new Parameter("bornOnOrAfter", "bornOnOrAfter", Date.class));
@@ -700,83 +699,58 @@ public class SetupPihQuarterlyCrossSite {
 		pecd.setName("xsite: EID program_");
 		pecd.addParameter(new Parameter("enrolledOnOrAfter", "enrolledOnOrAfter", Date.class));
 		pecd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
-		pecd.setPrograms(Arrays.asList(PROGRAM_EID_PROGRAM));
+		pecd.setPrograms(Arrays.asList(PROGRAM_HIV_PROGRAM));
 		h.replaceCohortDefinition(pecd);
+
+		SqlCohortDefinition pcrCohortDef = new SqlCohortDefinition();
+		pcrCohortDef.setName("xsite: DNA-PCR result available_");
+		pcrCohortDef.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		StringBuilder query = new StringBuilder();
+		query.append("select 	p.patient_id ");
+		query.append("from	 	patient p, encounter e, obs o ");
+		query.append("where		p.patient_id = e.patient_id and e.encounter_id = o.encounter_id ");
+		query.append("and		p.voided = 0 and e.voided = 0 and o.voided = 0 ");
+		query.append("and		o.obs_datetime <= :onOrBefore ");
+		query.append("and		o.concept_id in (");
+		query.append(CONCEPT_HIV_DNA_PCR.getConceptId() + ",");
+		query.append(CONCEPT_DNA_PCR_RESULT.getConceptId() + ",");
+		query.append(CONCEPT_DNA_PCR_RESULT_2.getConceptId() + ",");
+		query.append(CONCEPT_DNA_PCR_RESULT_3.getConceptId() + ") ");
+		query.append("and		o.value_coded in (");
+		query.append(CONCEPT_NEGATIVE.getConceptId() + ",");
+		query.append(CONCEPT_POSITIVE.getConceptId() + ",");
+		query.append(CONCEPT_INDETERMINATE.getConceptId() + ") ");
+		pcrCohortDef.setQuery(query.toString());
+		h.replaceCohortDefinition(pcrCohortDef);
 		
-		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
-		ccd.setName("xsite: Infants turned 13 weeks during review quarter_");
-		ccd.addParameter(new Parameter("startDate", "startDate", Date.class));
-		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		ccd.getSearches().put(
-		    "1",
-		    new Mapped(h.cohortDefinition("xsite: EID program_"), h.parameterMap("enrolledOnOrBefore", "${endDate}",
-		        "enrolledOnOrAfter", MIN_DATE_PARAMETER)));
-		ccd.getSearches().put(
-		    "2",
-		    new Mapped(h.cohortDefinition("xsite: Birth date in period_"), h.parameterMap("bornOnOrBefore",
-		        "${endDate-13w}", "bornOnOrAfter", "${startDate-13w}")));
-		ccd.setCompositionString("1 AND 2");
-		h.replaceCohortDefinition(ccd);
-		
-		// eid q1-den
-		CohortIndicator i = h.newCountIndicator(ccd.getName(), ccd.getName(), h.parameterMap("endDate", "${endDate}",
-		    "startDate", "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "eidq1_den",
-		    "Infants who turned thirteen weeks old during the review quarter", i, null);
-		
-		//		NumericObsCohortDefinition nocd = new NumericObsCohortDefinition();
-		//		nocd.setName("xsite: DNA-PCR available_");
-		//		nocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		//		nocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		//		nocd.setQuestion(CONCEPT_DNA_PCR);
-		//		nocd.setTimeModifier(TimeModifier.ANY);
-		//		h.replaceCohortDefinition(nocd);
-		
-		CodedObsCohortDefinition cocd = new CodedObsCohortDefinition();
-		cocd.setName("xsite: DNA-PCR result available_");
-		cocd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		cocd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		cocd.setQuestion(CONCEPT_HIV_DNA_PCR);
-		cocd.setTimeModifier(TimeModifier.ANY);
-		cocd.setOperator(SetComparator.IN);
-		List<Concept> concepts = new ArrayList<Concept>();
-		concepts.add(CONCEPT_ID_DNA_PCR_INDETERMINATE); //"INDETERMINATE"));
-		concepts.add(CONCEPT_ID_DNA_PCR_POSITIVE); //"POSITIVE"));
-		concepts.add(CONCEPT_ID_DNA_PCR_NEGATIVE); //"NEGATIVE"));
-		cocd.setValueList(concepts);
-		h.replaceCohortDefinition(cocd);
-		
-		ccd = new CompositionCohortDefinition();
-		ccd.setName("xsite: EID with DNA-PCR result available_");
-		ccd.addParameter(new Parameter("startDate", "startDate", Date.class));
-		ccd.addParameter(new Parameter("endDate", "endDate", Date.class));
-		ccd.getSearches().put(
-		    "1",
-		    new Mapped(h.cohortDefinition("xsite: EID program_"), h.parameterMap("enrolledOnOrBefore", "${endDate}",
-		        "enrolledOnOrAfter", MIN_DATE_PARAMETER)));
-		ccd.getSearches().put(
-		    "2",
-		    new Mapped(h.cohortDefinition("xsite: Birth date in period_"), h.parameterMap("bornOnOrBefore",
-		        "${endDate-13w}", "bornOnOrAfter", "${startDate-13w}")));
-		ccd.getSearches().put(
-		    "3",
-		    new Mapped(h.cohortDefinition("xsite: DNA-PCR result available_"), h.parameterMap("onOrBefore", "${endDate}",
-		        "onOrAfter", MIN_DATE_PARAMETER)));
-		ccd.setCompositionString("1 AND 2 AND 3");
-		h.replaceCohortDefinition(ccd);
-		
-		// eid q1
-		i = h.newCountIndicator(ccd.getName(), ccd.getName(), h.parameterMap("endDate", "${endDate}", "startDate",
-		    "${startDate}"));
-		PeriodIndicatorReportUtil.addColumn(rd, "eidq1",
-		    "Infants who turned thirteen weeks during the review quarter with DNA PCR", i, null);
+		CompositionCohortDefinition eidDenominatorCohort = new CompositionCohortDefinition();
+		eidDenominatorCohort.setName("xsite: Infants turned 13 weeks during review quarter_");
+		eidDenominatorCohort.addParameter(new Parameter("startDate", "startDate", Date.class));
+		eidDenominatorCohort.addParameter(new Parameter("endDate", "endDate", Date.class));
+		eidDenominatorCohort.getSearches().put("1", new Mapped(h.cohortDefinition("xsite: EID program_"), h.parameterMap("enrolledOnOrBefore", "${endDate}", "enrolledOnOrAfter", MIN_DATE_PARAMETER)));
+		eidDenominatorCohort.getSearches().put("2", new Mapped(h.cohortDefinition("xsite: Birth date in period_"), h.parameterMap("bornOnOrBefore", "${endDate-13w}", "bornOnOrAfter", "${startDate-13w}")));
+		eidDenominatorCohort.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(eidDenominatorCohort);
+
+		CompositionCohortDefinition eidNumeratorCohort = new CompositionCohortDefinition();
+		eidNumeratorCohort.setName("xsite: EID with DNA-PCR result available_");
+		eidNumeratorCohort.addParameter(new Parameter("startDate", "startDate", Date.class));
+		eidNumeratorCohort.addParameter(new Parameter("endDate", "endDate", Date.class));
+		eidNumeratorCohort.getSearches().put("1", new Mapped(h.cohortDefinition("xsite: Infants turned 13 weeks during review quarter_"), h.parameterMap("startDate", "${startDate}", "endDate", "${endDate}")));
+		eidNumeratorCohort.getSearches().put("2", new Mapped(h.cohortDefinition("xsite: DNA-PCR result available_"), h.parameterMap("onOrBefore", "${endDate}")));
+		eidNumeratorCohort.setCompositionString("1 AND 2");
+		h.replaceCohortDefinition(eidNumeratorCohort);
+
+		CohortIndicator eid1Denominator = h.newCountIndicator(eidDenominatorCohort.getName(), eidDenominatorCohort.getName(), h.parameterMap("endDate", "${endDate}", "startDate", "${startDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "eidq1den", "Infants who turned thirteen weeks old during the review quarter", eid1Denominator, null);
+
+		CohortIndicator eid1Numerator = h.newCountIndicator(eidNumeratorCohort.getName(), eidNumeratorCohort.getName(), h.parameterMap("endDate", "${endDate}", "startDate", "${startDate}"));
+		PeriodIndicatorReportUtil.addColumn(rd, "eidq1", "Infants who turned thirteen weeks during the review quarter with DNA PCR", eid1Numerator, null);
 	}
 	
-	private void addDimensionColumn(PeriodIndicatorReportDefinition rd, String key, String displayName, CohortIndicator i,
-	                                Object object) {
+	private void addDimensionColumn(PeriodIndicatorReportDefinition rd, String key, String displayName, CohortIndicator i, Object object) {
 		PeriodIndicatorReportUtil.addColumn(rd, key + "_a", displayName + " (Adult)", i, h.hashMap("Age", "Adult"));
 		PeriodIndicatorReportUtil.addColumn(rd, key + "_c", displayName + " (Child)", i, h.hashMap("Age", "Child"));
-		//		PeriodIndicatorReportUtil.addColumn(rd, key + "-?", displayName + " (?)", i, h.hashMap("Age", "?"));
 		PeriodIndicatorReportUtil.addColumn(rd, key + "_all", displayName + " (all)", i, null);
 	}
 }
