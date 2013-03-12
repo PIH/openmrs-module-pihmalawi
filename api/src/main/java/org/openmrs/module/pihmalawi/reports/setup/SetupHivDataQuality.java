@@ -61,6 +61,7 @@ public class SetupHivDataQuality {
 	private final ProgramWorkflowState STATE_TRANSFERRED_INTERNALLY;
 	private final ProgramWorkflowState STATE_EXPOSED_CHILD;
 	private final ProgramWorkflowState STATE_EXPOSED_CHILD_DISCHARGED;
+	private final ProgramWorkflowState STATE_DEFAULTED;
 
 	private final Map<Location, String> LOCATIONS;
 
@@ -86,6 +87,8 @@ public class SetupHivDataQuality {
 				.getStateByName("Exposed Child (Continue)");
 		STATE_EXPOSED_CHILD_DISCHARGED = PROGRAM.getWorkflowByName(
 				"Treatment status").getStateByName("Discharged uninfected");
+		STATE_DEFAULTED = PROGRAM.getWorkflowByName(
+				"Treatment status").getStateByName("Patient defaulted");
 
 		LOCATIONS = new HashMap<Location, String>();
 		LOCATIONS.put(MetadataLookup.location("Lisungwi Community Hospital"), "LSI");
@@ -479,7 +482,7 @@ public class SetupHivDataQuality {
 		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
 				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
 				STATE_PRE_ART, STATE_EXPOSED_CHILD,
-				STATE_EXPOSED_CHILD_DISCHARGED));
+				STATE_EXPOSED_CHILD_DISCHARGED, STATE_DEFAULTED));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -508,7 +511,7 @@ public class SetupHivDataQuality {
 				MetadataLookup.encounterType("PART_INITIAL"),
 				MetadataLookup.encounterType("PART_FOLLOWUP"));
 		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
-				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT,
+				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT, STATE_DEFAULTED,
 				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD_DISCHARGED);
 
 		createEncounterAfterTerminalState(rds, hivEncounterTypes,
@@ -756,7 +759,7 @@ public class SetupHivDataQuality {
 				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
 				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
-				+ "  AND pws.program_workflow_state_id in (2,3,6,119) and pp.date_completed is  null ";
+				+ "  AND pws.program_workflow_state_id in (2,3,6,119,12) and pp.date_completed is  null ";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "prgnotcompleted", null, rds);
@@ -774,7 +777,7 @@ public class SetupHivDataQuality {
 				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
 				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
-				+ "  AND pws.program_workflow_state_id not in (2,3,6,119) and pp.date_completed is not null ";
+				+ "  AND pws.program_workflow_state_id not in (2,3,6,119,12) and pp.date_completed is not null ";
 
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
