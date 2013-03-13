@@ -89,15 +89,19 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 	}
 
 	public Object getFirstObsValue(Person p, String conceptName, String answerConceptName, String encounterTypeName) {
-		List<Obs> obs = Context.getObsService().getObservationsByPersonAndConcept(p, lookupConcept(conceptName));
+		Concept question = lookupConcept(conceptName);
+		List<Obs> obs = Context.getObsService().getObservationsByPersonAndConcept(p, question);
 		if (!obs.isEmpty()) {
 			Concept a = (answerConceptName != null ? lookupConcept(answerConceptName) : null);
 			EncounterType et = (encounterTypeName != null ? lookupEncounterType(encounterTypeName) : null);
 			for (Obs o : obs) {
 				if (a == null || a.equals(o.getValueCoded())) {
 					if (et == null || et.equals(o.getEncounter().getEncounterType())) {
-						if (o.getValueNumeric() != null) {
+						if (!"BIT".equals(question.getDatatype().getHl7Abbreviation()) && o.getValueNumeric() != null) {
 							return o.getValueNumeric();
+						}
+						else if (a != null && a.equals(o.getValueCoded())) {
+							return Boolean.TRUE;
 						}
 						else {
 							return o.getValueAsString(Locale.ENGLISH);
