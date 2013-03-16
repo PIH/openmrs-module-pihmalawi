@@ -258,6 +258,13 @@ public class PatientDataHelper {
 		return "";
 	}
 
+	public Date getValueDatetime(Obs o) {
+		if (o != null) {
+			return o.getValueDatetime();
+		}
+		return null;
+	}
+
 	public String formatValue(Obs o) {
 		if (o == null) {
 			return "";
@@ -271,6 +278,14 @@ public class PatientDataHelper {
 		}
 		return "";
 	}
+
+	public Date getObsDatetime(Obs o) {
+		if (o != null) {
+			return o.getObsDatetime();
+		}
+		return null;
+	}
+
 
 	// Orders
 
@@ -334,6 +349,13 @@ public class PatientDataHelper {
 			return formatYmd(state.getStartDate());
 		}
 		return "";
+	}
+
+	public Date getStateStartDate(PatientState state) {
+		if (state != null) {
+			return state.getStartDate();
+		}
+		return null;
 	}
 
 	public String formatStateEndDate(PatientState state) {

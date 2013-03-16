@@ -74,13 +74,13 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			pdh.addCol(row, "#", p.getPatientId());
 			pdh.addCol(row, "Facility", (location == null ? "" : location.getName()));
 			pdh.addCol(row, "Identifier", pdh.preferredIdentifierAtLocation(p, patientIdentifierType, location));
-			pdh.addCol(row, "Birthdate", pdh.getBirthdate(p));
+			pdh.addCol(row, "Birthdate", p.getBirthdate());
 			pdh.addCol(row, "M/F", pdh.getGender(p));
 			pdh.addCol(row, "Village", pdh.getVillage(p));
 			pdh.addCol(row, "VHW", pdh.vhwName(p, false));
 
 			Obs mostRecentDxDate = pdh.getLatestObs(p, "DATE OF HIV DIAGNOSIS", null, endDateParameter);
-			pdh.addCol(row, "HIV dx date", pdh.formatValueDatetime(mostRecentDxDate));
+			pdh.addCol(row, "HIV dx date", pdh.getValueDatetime(mostRecentDxDate));
 
 			Map<String, String> reasonsForStartingArvs = pdh.getReasonStartingArvs(p, endDateParameter);
 			for (String reasonKey : reasonsForStartingArvs.keySet()) {
@@ -94,7 +94,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			PatientState earliestOnArvsState = new ProgramHelper().getFirstTimeInState(p, hivProgram, onArvState, endDateParameter);
 			Date arvStartDate = (earliestOnArvsState == null ? null : earliestOnArvsState.getStartDate());
 
-			pdh.addCol(row, "First On ARVs State Start Date", pdh.formatStateStartDate(earliestOnArvsState));
+			pdh.addCol(row, "First On ARVs State Start Date", arvStartDate);
 
 			List<EncounterType> artEncounterTypes = new ArrayList<EncounterType>();
 			artEncounterTypes.add(MetadataLookup.encounterType("ART_INITIAL"));
@@ -102,34 +102,34 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			Encounter firstArtEncounter = pdh.getFirstEncounterOfType(p, artEncounterTypes, endDateParameter);
 
 			if (firstArtEncounter != null) {
-				pdh.addCol(row, "First ART Encounter Date", pdh.formatYmd(firstArtEncounter.getEncounterDatetime()));
+				pdh.addCol(row, "First ART Encounter Date", firstArtEncounter.getEncounterDatetime());
 			}
 
 			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter);
 
 			pdh.addCol(row, "HIV Tx Status at Location", pdh.formatStateName(latestTxStatusStateAtLocation));
-			pdh.addCol(row, "HIV Tx Status at Location Date", pdh.formatStateStartDate(latestTxStatusStateAtLocation));
+			pdh.addCol(row, "HIV Tx Status at Location Date", pdh.getStateStartDate(latestTxStatusStateAtLocation));
 
 			PatientState latestTxStatusStateOverall = new ProgramHelper().getMostRecentStateAtDate(p, hivTreatmentStatus, endDateParameter);
 			pdh.addCol(row, "HIV Tx Status Overall", pdh.formatStateName(latestTxStatusStateOverall));
-			pdh.addCol(row, "HIV Tx Status Overall Date", pdh.formatStateStartDate(latestTxStatusStateOverall));
+			pdh.addCol(row, "HIV Tx Status Overall Date", pdh.getStateStartDate(latestTxStatusStateOverall));
 
 			Obs nextApptDate = pdh.getLatestObs(p, "Appointment date", ets, null); // This is as of the report generation date
-			pdh.addCol(row, "Next Appt Date", pdh.formatValueDatetime(nextApptDate));
+			pdh.addCol(row, "Next Appt Date", pdh.getValueDatetime(nextApptDate));
 
 			Obs weightAtArtStart = pdh.getLatestObs(p, "Weight (kg)", null, arvStartDate);
 			pdh.addCol(row, "ART START WT", pdh.formatValue(weightAtArtStart));
 
 			Obs weight = pdh.getLatestObs(p, "Weight (kg)", null, endDateParameter);
 			pdh.addCol(row, "LAST WT", pdh.formatValue(weight));
-			pdh.addCol(row, "LAST WT DATE", pdh.formatObsDatetime(weight));
+			pdh.addCol(row, "LAST WT DATE", pdh.getObsDatetime(weight));
 
 			Obs heightAtArtStart = pdh.getLatestObs(p, "Height (cm)", null, arvStartDate);
 			pdh.addCol(row, "ART START HT", pdh.formatValue(heightAtArtStart));
 
 			Obs height = pdh.getLatestObs(p, "Height (cm)", null, endDateParameter);
 			pdh.addCol(row, "LAST HT", pdh.formatValue(height));
-			pdh.addCol(row, "LAST HT DATE", pdh.formatObsDatetime(height));
+			pdh.addCol(row, "LAST HT DATE", pdh.getObsDatetime(height));
 
 			// app adherence
 
@@ -150,8 +150,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				}
 			}
 
-			pdh.addCol(row, "Adherence Period Start", pdh.formatYmd(adherencePeriodStart));
-			pdh.addCol(row, "Adherence Period End", pdh.formatYmd(adherencePeriodEnd));
+			pdh.addCol(row, "Adherence Period Start", adherencePeriodStart);
+			pdh.addCol(row, "Adherence Period End", adherencePeriodEnd);
 
 			// Get all scheduled and actual encounters during this period
 			Set<Date> scheduledVisits = new TreeSet<Date>();
