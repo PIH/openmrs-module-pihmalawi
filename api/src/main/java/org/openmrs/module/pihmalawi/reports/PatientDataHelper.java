@@ -361,6 +361,17 @@ public class PatientDataHelper {
 		return programs;
 	}
 
+	public Encounter getFirstEncounterOfType(Patient p, List<EncounterType> encounterTypes, Date endDate) {
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, endDate, null, encounterTypes, null, false);
+		Encounter ret = null;
+		for (Encounter e : encounters) {
+			if (ret == null || e.getEncounterDatetime().before(ret.getEncounterDatetime())) {
+				ret = e;
+			}
+		}
+		return ret;
+	}
+
 	protected void addOutcomeFromStateCols(DataSetRow row, Patient p,
 										   Location locationParameter, ProgramWorkflow pw, ProgramWorkflowState stateBeforeStateChange) {
 		try {
@@ -531,9 +542,7 @@ public class PatientDataHelper {
 	protected void addFirstEncounterCols(DataSetRow row, Patient p,
 										 EncounterType encounterType, String label, Date endDate) {
 		try {
-			List<Encounter> encounters = Context.getEncounterService()
-					.getEncounters(p, null, null, endDate, null,
-							Arrays.asList(encounterType), null, false);
+			List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, endDate, null, Arrays.asList(encounterType), null, false);
 			DataSetColumn c1 = new DataSetColumn(label + " date", label
 					+ " date", String.class);
 			DataSetColumn c2 = new DataSetColumn(label + " location", label

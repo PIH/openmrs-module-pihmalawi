@@ -94,7 +94,16 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			PatientState earliestOnArvsState = new ProgramHelper().getFirstTimeInState(p, hivProgram, onArvState, endDateParameter);
 			Date arvStartDate = (earliestOnArvsState == null ? null : earliestOnArvsState.getStartDate());
 
-			pdh.addCol(row, "ARV Start Date", pdh.formatStateStartDate(earliestOnArvsState));
+			pdh.addCol(row, "First On ARVs State Start Date", pdh.formatStateStartDate(earliestOnArvsState));
+
+			List<EncounterType> artEncounterTypes = new ArrayList<EncounterType>();
+			artEncounterTypes.add(MetadataLookup.encounterType("ART_INITIAL"));
+			artEncounterTypes.add(MetadataLookup.encounterType("ART_FOLLOWUP"));
+			Encounter firstArtEncounter = pdh.getFirstEncounterOfType(p, artEncounterTypes, endDateParameter);
+
+			if (firstArtEncounter != null) {
+				pdh.addCol(row, "First ART Encounter Date", pdh.formatYmd(firstArtEncounter.getEncounterDatetime()));
+			}
 
 			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter);
 
@@ -270,6 +279,9 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 						int daysFromStart = daysBetween(adherencePeriodStart, d);
 						if (interval == null || daysFromStart <= interval) {
 							Integer daysFromDate = daysMissedByScheduledVisitDate.get(d) - 2;
+							if (interval != null && (daysFromStart + daysFromDate > interval)) {
+								daysFromDate = interval - daysFromStart;
+							}
 							if (daysFromDate > 0) {
 								missedDays += daysFromDate;
 								lateAppts++;
