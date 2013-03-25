@@ -2,7 +2,7 @@
 
 # Beware: mailx is a bitch to set up, in particular with gmail, check README.TXT for some hints
 
-MAIL=cneumann@pih.org
+MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin # make sure wget and mailx commands are in the crontab path
 BASEDIR=$(dirname $0)
 
@@ -30,7 +30,7 @@ if [ $? -ne 0 ]; then
     sudo /etc/init.d/tomcat5.5 start
     sleep 60
     mailx -s "emr: `echo $AREA` OpenMRS did not respond. Restarted at `date +%Y%m%d-%H%M`" "$MAIL" <<EOF
-`tail -n 250 /var/log/tomcat5.5/catalina.out`
+`tail -n 250 /home/emradmin/apache-tomcat-5.5.31/logs/catalina.out`
 EOF
   fi
 fi
