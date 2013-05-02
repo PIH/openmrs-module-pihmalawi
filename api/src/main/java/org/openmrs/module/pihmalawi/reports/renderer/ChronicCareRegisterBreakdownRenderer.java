@@ -27,7 +27,6 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		}
 
 		addFirstEncounterCols(row, p,lookupEncounterType("CHRONIC_CARE_INITIAL"),"Chronic Care initial", endDateParameter);
-		addFirstChangeToStateCols(row,p,lookupProgramWorkflowState("Chronic care program","Chronic care treatment status", "On treatment"),endDateParameter,"State");
 		addDemographicCols(row, p, endDateParameter);
 		addDemographicTaDistrictCols(row, p, endDateParameter);
 		addOutcomeCols(row,p,locationParameter,endDateParameter,lookupProgramWorkflow("Chronic care program","Chronic care treatment status"));
@@ -82,6 +81,66 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		{
 			DataSetColumn column = new DataSetColumn("High risk", "High risk", String.class);
 			Object value = getFirstObsValue(p, "High risk patient", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Building type", "Building type", String.class);
+			Object value = getFirstObsValue(p, "Wall material", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Roof type", "Roof type", String.class);
+			Object value = getFirstObsValue(p, "Roof material", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Electricity", "Electricity", String.class);
+			Object value = getFirstObsValue(p, "Home electricity", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Radio", "Radio", String.class);
+			Object value = getFirstObsValue(p, "Patient owns radio", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Bicycle", "Bicycle", String.class);
+			Object value = getFirstObsValue(p, "Access to bicycle", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Cooking source", "Cooking source", String.class);
+			Object value = getFirstObsValue(p, "Location of cooking", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Fuel source", "Fuel source", String.class);
+			Object value = getFirstObsValue(p, "Fuel source", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Num fruit veg per day", "Num fruit veg per day", String.class);
+			Object value = getFirstObsValue(p, "Number of servings of fruits and vegetables consumed per day", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Smoking status", "Smoking status", String.class);
+			Object value = getFirstObsValue(p, "Smoking history", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Num cigarrettes per day", "Num cigarrettes per day", String.class);
+			Object value = getFirstObsValue(p, "Number of cigarettes smoked per day", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("History of alcohol use", "History of alcohol use", String.class);
+			Object value = getFirstObsValue(p, "History of alcohol use", null, null);
+			row.addColumnValue(column, value);
+		}
+		{
+			DataSetColumn column = new DataSetColumn("Liters alcohol per day", "Liters alcohol per day", String.class);
+			Object value = getFirstObsValue(p, "Liters per day", null, null);
 			row.addColumnValue(column, value);
 		}
 
