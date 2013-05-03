@@ -1,23 +1,16 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openmrs.EncounterType;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
-import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition.ColumnDisplayFormat;
+import org.openmrs.module.pihmalawi.reports.extension.ChronicCareVisitDataSetDefinition;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.service.ReportService;
 
 public class SetupChronicCareVisits {
 
@@ -30,65 +23,41 @@ public class SetupChronicCareVisits {
 	public ReportDefinition[] setup() throws Exception {
 		delete();
 		ReportDefinition rd = createReportDefinition();
+		h.replaceReportDefinition(rd);
 		return new ReportDefinition[] { rd };
 	}
 
 	public void delete() {
-		ReportService rs = Context.getService(ReportService.class);
-		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
-			if (rd.getName().equals("Chronic Care Visits_")) {
-				rs.purgeReportDesign(rd);
-			}
-		}
-		h.purgeDefinition(DataSetDefinition.class,
-				"Chronic Care Visits_ Data Set");
-		h.purgeDefinition(DataSetDefinition.class,
-		"chronicvisits: encounters");
+		h.purgeDefinition(DataSetDefinition.class,"chronicvisits: encounters");
 		h.purgeDefinition(ReportDefinition.class, "Chronic Care Visits_");
 		h.purgeAll("chronicvisits:");
 	}
 
-	private ReportDefinition createReportDefinition() {
-		EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
-		dsd.setName("chronicvisits: encounters");
-		dsd.addParameter(new Parameter("encounterTypes",
-				"encounterTypes", EncounterType.class));
-		dsd.addParameter(new Parameter("encounterDatetimeOnOrAfter",
-				"encounterDatetimeOnOrAfter", Date.class));
-		dsd.addParameter(new Parameter("encounterDatetimeOnOrBefore",
-				"encounterDatetimeOnOrBefore", Date.class));
-		dsd.addParameter(new Parameter("patientIdentifierTypes",
-				"patientIdentifierTypes", PatientIdentifierType.class));
-		dsd.setColumnDisplayFormat(Arrays
-				.asList(ColumnDisplayFormat.BEST_SHORT_NAME));
-		h.replaceDataSetDefinition(dsd);
+	public static ReportDefinition createReportDefinition() {
 
 		ReportDefinition rd = new ReportDefinition();
 		rd.setName("Chronic Care Visits_");
-		Map<String, Mapped<? extends DataSetDefinition>> map = new HashMap<String, Mapped<? extends DataSetDefinition>>();
-		map.put("initial",
-				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("CHRONIC_CARE_INITIAL")),
-						"encounterDatetimeOnOrBefore", "${endDate}",
-						"encounterDatetimeOnOrAfter", "${startDate}",
-						"patientIdentifierTypes", Arrays.asList(Context
-								.getPatientService().getPatientIdentifierType(
-										"National ID")))));
-		map.put("followup",
-				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("CHRONIC_CARE_FOLLOWUP")),
-								"encounterDatetimeOnOrBefore", "${endDate}",
-								"encounterDatetimeOnOrAfter", "${startDate}",
-								"patientIdentifierTypes", Arrays
-										.asList(Context.getPatientService()
-												.getPatientIdentifierType(
-														"National ID")))));
-		rd.setDataSetDefinitions(map);
-		rd.addParameter(new Parameter("startDate", "Start date", Date.class));
-		rd.addParameter(new Parameter("endDate", "End date", Date.class));
-		h.replaceReportDefinition(rd);
+		rd.addParameter(new Parameter("fromDate", "From Date", Date.class));
+		rd.addParameter(new Parameter("toDate", "To Date", Date.class));
+		rd.addParameter(new Parameter("location", "At Location", Location.class));
+		rd.addParameter(new Parameter("which", "Which Encounters during this period", TimeQualifier.class, null , TimeQualifier.ANY, null));
+		rd.addParameter(new Parameter("limitedToPatientsEnrolledAtEnd", "Only include patients enrolled at the period end", Boolean.class));
+
+		ChronicCareVisitDataSetDefinition dsd = new ChronicCareVisitDataSetDefinition();
+		dsd.setName("chronicvisits: encounters");
+		dsd.addParameter(new Parameter("fromDate", "From Date", Date.class));
+		dsd.addParameter(new Parameter("toDate", "To Date", Date.class));
+		dsd.addParameter(new Parameter("location", "At Location", Location.class));
+		dsd.addParameter(new Parameter("which", "Which Encounters during this period", TimeQualifier.class));
+		dsd.addParameter(new Parameter("limitedToPatientsEnrolledAtEnd", "Only include patients enrolled at the period end", Boolean.class));
+
+		Map<String, Object> mappings = new HashMap<String, Object>();
+		mappings.put("fromDate", "${fromDate}");
+		mappings.put("toDate", "${toDate}");
+		mappings.put("location", "${location}");
+		mappings.put("which", "${which}");
+		mappings.put("limitedToPatientsEnrolledAtEnd", "${limitedToPatientsEnrolledAtEnd}");
+		rd.addDataSetDefinition(dsd, mappings);
 
 		return rd;
 	}

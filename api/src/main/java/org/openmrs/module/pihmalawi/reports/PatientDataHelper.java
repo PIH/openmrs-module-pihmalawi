@@ -142,16 +142,24 @@ public class PatientDataHelper {
 		return ret;
 	}
 
-	public String identifiers(Patient p, PatientIdentifierType piType) {
+	public String identifiers(Patient p, String piType, String delimiter) {
+		return identifiers(p, lookupPatientIdentifierType(piType), delimiter);
+	}
+
+	public String identifiers(Patient p, PatientIdentifierType piType, String delimiter) {
 		String ids = "";
 		if (piType != null) {
 			for (PatientIdentifier pi : p.getPatientIdentifiers(piType)) {
 				if (pi != null && pi.getLocation() != null) {
-					ids += formatPatientIdentifier(pi.getIdentifier()) + " ";
+					ids += (ids.equals("") ? "" : delimiter) + formatPatientIdentifier(pi.getIdentifier());
 				}
 			}
 		}
 		return ids;
+	}
+
+	public String identifiers(Patient p, PatientIdentifierType piType) {
+		return identifiers(p, piType, " ");
 	}
 
 	public String formatPatientIdentifier(String id) {
