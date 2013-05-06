@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openmrs.Location;
+import org.openmrs.api.AdministrationService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.ChronicCareVisitDataSetDefinition;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
+import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 
@@ -28,9 +31,9 @@ public class SetupChronicCareVisits {
 	}
 
 	public void delete() {
-		h.purgeDefinition(DataSetDefinition.class,"chronicvisits: encounters");
-		h.purgeDefinition(ReportDefinition.class, "Chronic Care Visits_");
-		h.purgeAll("chronicvisits:");
+		AdministrationService as = Context.getAdministrationService();
+		as.executeSQL("delete from serialized_object where name = 'chronicvisits: encounters';", false);
+		as.executeSQL("delete from serialized_object where name = 'Chronic Care Visits_';", false);
 	}
 
 	public static ReportDefinition createReportDefinition() {
