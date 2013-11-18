@@ -1,11 +1,20 @@
 package org.openmrs.module.pihmalawi.reports.renderer;
 
-import java.util.*;
-
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
@@ -25,6 +34,13 @@ public class ChronicCareRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		catch (Exception e) {
 			log.error(e);
 		}
+        try {
+        // MLW-142 ticket
+        addCol(row, "Chronic Care Number",
+                identifiers(p, lookupPatientIdentifierType("Chronic Care Number")));
+        } catch (Exception e) {
+            log.error(e);
+        }
 
 		addFirstEncounterCols(row, p,lookupEncounterType("CHRONIC_CARE_INITIAL"),"Chronic Care initial", endDateParameter);
 		addDemographicCols(row, p, endDateParameter);

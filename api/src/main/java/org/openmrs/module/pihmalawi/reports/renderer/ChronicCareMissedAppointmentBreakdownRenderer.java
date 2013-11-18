@@ -1,10 +1,5 @@
 package org.openmrs.module.pihmalawi.reports.renderer;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -12,6 +7,11 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class ChronicCareMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer {
 
@@ -23,8 +23,11 @@ public class ChronicCareMissedAppointmentBreakdownRenderer extends BreakdownRowR
 
 		// exception handling looks really ugly, but its necessary...
 		try {
-			addCol(row, "All National IDs",
-					identifiers(p, lookupPatientIdentifierType("National IDs")));
+			addCol(row, "NATIONAL ID",
+					identifiers(p, lookupPatientIdentifierType("National ID")));
+            // MLW-142 ticket
+            addCol(row, "Chronic Care Number",
+                    identifiers(p, lookupPatientIdentifierType("Chronic Care Number")));
 		} catch (Exception e) {
 			log.error(e);
 		}

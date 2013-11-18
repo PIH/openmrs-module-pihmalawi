@@ -60,7 +60,7 @@ public class SetupChronicCareVisits {
 		mappings.put("location", "${location}");
 		mappings.put("which", "${which}");
 		mappings.put("limitedToPatientsEnrolledAtEnd", "${limitedToPatientsEnrolledAtEnd}");
-		rd.addDataSetDefinition(dsd, mappings);
+		rd.addDataSetDefinition("visits", dsd, mappings);
 
 		return rd;
 	}

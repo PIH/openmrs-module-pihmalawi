@@ -1,12 +1,12 @@
 package org.openmrs.module.pihmalawi.reports.renderer;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+
+import java.util.Arrays;
+import java.util.Date;
 
 public class GenericApzuBreakdownRenderer extends BreakdownRowRenderer {
 
@@ -40,6 +40,14 @@ public class GenericApzuBreakdownRenderer extends BreakdownRowRenderer {
 		} catch (Exception e) {
 			log.error(e);
 		}
+        try {
+            // MLW-142 ticket
+            addCol(row, "Chronic Care Number",
+                    identifiers(p, lookupPatientIdentifierType("Chronic Care Number")));
+        } catch (Exception e) {
+            log.error(e);
+        }
+
 		try {
 			addCol(row, "All KS #s",
 					identifiers(p, lookupPatientIdentifierType("KS Number")));

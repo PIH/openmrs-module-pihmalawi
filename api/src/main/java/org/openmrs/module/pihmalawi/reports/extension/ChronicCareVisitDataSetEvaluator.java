@@ -26,7 +26,6 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
-import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -48,7 +47,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Evaluates the Chronic Care Visit DataSet
@@ -130,6 +128,7 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 					row.addColumnValue(createColumn("ENCOUNTER_TYPE", String.class), e.getEncounterType().getName());
 
 					row.addColumnValue(createColumn("NATIONAL ID", String.class), pdh.identifiers(p, "National ID", ", "));
+                    row.addColumnValue(createColumn("CHRONIC CARE NUMBER", String.class), pdh.identifiers(p, "Chronic Care Number", ", "));
 					row.addColumnValue(createColumn("INTERNAL_PATIENT_ID", Integer.class), p.getPatientId());
 					row.addColumnValue(createColumn("FIRST NAME", String.class), pdh.getGivenName(p));
 					row.addColumnValue(createColumn("LAST NAME", String.class), pdh.getFamilyName(p));
