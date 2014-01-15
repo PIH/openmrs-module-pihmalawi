@@ -392,15 +392,20 @@ public class PatientDataHelper {
 	}
 
 	public Encounter getFirstEncounterOfType(Patient p, List<EncounterType> encounterTypes, Date endDate) {
-		List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, endDate, null, encounterTypes, null, false);
-		Encounter ret = null;
-		for (Encounter e : encounters) {
-			if (ret == null || e.getEncounterDatetime().before(ret.getEncounterDatetime())) {
-				ret = e;
-			}
-		}
-		return ret;
+		return getFirstEncounterAtLocationOfType(p, encounterTypes, endDate, null);
 	}
+    public Encounter getFirstEncounterAtLocationOfType(Patient p, List<EncounterType> encounterTypes, Date endDate, Location location) {
+        List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, endDate, null, encounterTypes, null, false);
+        Encounter ret = null;
+        for (Encounter e : encounters) {
+            if (ret == null || e.getEncounterDatetime().before(ret.getEncounterDatetime())) {
+                if (location == null || location.equals(e.getLocation())) {
+                    ret = e;
+                }
+            }
+        }
+        return ret;
+    }
 
 	protected void addOutcomeFromStateCols(DataSetRow row, Patient p,
 										   Location locationParameter, ProgramWorkflow pw, ProgramWorkflowState stateBeforeStateChange) {

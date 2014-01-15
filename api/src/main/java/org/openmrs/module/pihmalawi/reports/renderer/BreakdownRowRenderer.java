@@ -236,7 +236,7 @@ public abstract class BreakdownRowRenderer {
 		return onDayMonths - bDayMonths;
 	}
 
-	protected String identifiers(Patient p, PatientIdentifierType piType) {
+	public String identifiers(Patient p, PatientIdentifierType piType) {
 		String arvs = "";
 		if (piType != null) {
 			for (PatientIdentifier pi : p.getPatientIdentifiers(piType)) {

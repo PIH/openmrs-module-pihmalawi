@@ -11,6 +11,8 @@ import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
+import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
+import org.openmrs.module.pihmalawi.reports.renderer.BreakdownRowRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -67,11 +69,14 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 		List<Patient> patients = Context.getPatientSetService().getPatients(cohort.getMemberIds());
 
 		PatientDataHelper pdh = new PatientDataHelper();
+        ArtRegisterBreakdownRenderer brr = new ArtRegisterBreakdownRenderer();
 
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
 
 			pdh.addCol(row, "#", p.getPatientId());
+            pdh.addCol(row, "Given Name", pdh.getGivenName(p));
+            pdh.addCol(row, "Family Name", pdh.getFamilyName(p));
 			pdh.addCol(row, "Facility", (location == null ? "" : location.getName()));
 			pdh.addCol(row, "Identifier", pdh.preferredIdentifierAtLocation(p, patientIdentifierType, location));
 			pdh.addCol(row, "Birthdate", p.getBirthdate());
@@ -101,9 +106,10 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			artEncounterTypes.add(MetadataLookup.encounterType("ART_FOLLOWUP"));
 			Encounter firstArtEncounter = pdh.getFirstEncounterOfType(p, artEncounterTypes, endDateParameter);
 
-			if (firstArtEncounter != null) {
-				pdh.addCol(row, "First ART Encounter Date", firstArtEncounter.getEncounterDatetime());
-			}
+            pdh.addCol(row, "First ART Encounter Date", (firstArtEncounter == null ? null : firstArtEncounter.getEncounterDatetime()));
+
+            Encounter firstArtEncounterAtLocation = pdh.getFirstEncounterAtLocationOfType(p, artEncounterTypes, endDateParameter, location);
+            pdh.addCol(row, "First ART Encounter Date at Location", firstArtEncounterAtLocation == null ? null : firstArtEncounterAtLocation.getEncounterDatetime());
 
 			PatientState latestTxStatusStateAtLocation = new ProgramHelper().getMostRecentStateAtLocationAndDate(p, hivTreatmentStatus, location, endDateParameter);
 
