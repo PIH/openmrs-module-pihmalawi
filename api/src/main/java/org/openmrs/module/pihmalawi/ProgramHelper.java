@@ -17,14 +17,21 @@ import org.openmrs.util.OpenmrsUtil;
 public class ProgramHelper {
 	
 	public PatientState getFirstTimeInState(Patient p, Program program, ProgramWorkflowState firstTimeInState, Date endDate) {
+		return getFirstTimeInStateAtLocation(p, program, firstTimeInState, endDate, null);
+	}
+
+	public PatientState getFirstTimeInStateAtLocation(Patient p, Program program, ProgramWorkflowState firstTimeInState, Date endDate, Location location) {
 		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p, program, null, endDate, null, null, false);
 		Map<Long, PatientState> validPatientStates = new TreeMap<Long, PatientState>();
 		for (PatientProgram pp : pps) {
 			List<PatientState> states = statesInWorkflow(pp, firstTimeInState.getProgramWorkflow());
 			if (states != null) {
+				Location enrollmentLocation = getEnrollmentLocation(pp);
 				for (PatientState ps : states) {
 					if (ps.getStartDate().compareTo(endDate) <= 0 && ps.getState().getId().equals(firstTimeInState.getId())) {
-						validPatientStates.put(ps.getStartDate().getTime(), ps);
+						if (location == null || location.equals(enrollmentLocation)) {
+							validPatientStates.put(ps.getStartDate().getTime(), ps);
+						}
 					}
 				}
 			}

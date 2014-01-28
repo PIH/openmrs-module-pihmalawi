@@ -101,6 +101,10 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 			pdh.addCol(row, "First On ARVs State Start Date", arvStartDate);
 
+			PatientState earliestOnArvsStateAtLocation = new ProgramHelper().getFirstTimeInStateAtLocation(p, hivProgram, onArvState, endDateParameter, location);
+			Date arvStartDateAtLocation = (earliestOnArvsStateAtLocation == null ? null : earliestOnArvsStateAtLocation.getStartDate());
+			pdh.addCol(row, "First On ARVs State Start Date At Location", arvStartDateAtLocation);
+
 			List<EncounterType> artEncounterTypes = new ArrayList<EncounterType>();
 			artEncounterTypes.add(MetadataLookup.encounterType("ART_INITIAL"));
 			artEncounterTypes.add(MetadataLookup.encounterType("ART_FOLLOWUP"));
