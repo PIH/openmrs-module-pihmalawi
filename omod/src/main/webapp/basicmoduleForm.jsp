@@ -134,4 +134,8 @@ KS Register Export: <a href="${pageContext.request.contextPath}/module/pihmalawi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_ksregister.form">Remove</a>
 <br/>
 
+ART Encounter Export: <a href="${pageContext.request.contextPath}/module/pihmalawi/registerArtEncounterExport.form">(Re) register</a>
+<a href="${pageContext.request.contextPath}/module/pihmalawi/removeArtEncounterExport.form">Remove</a>
+<br/>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

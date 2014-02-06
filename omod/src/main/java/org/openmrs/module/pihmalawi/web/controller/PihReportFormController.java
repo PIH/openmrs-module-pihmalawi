@@ -354,4 +354,14 @@ public class PihReportFormController {
 		new SetupKsRegister(new ReportHelper()).delete();
 		return "redirect:/module/reporting/dashboard/index.form";
 	}
+
+	@RequestMapping("/module/pihmalawi/registerArtEncounterExport.form")
+	public void registerArtEncounterExport() throws Exception {
+		new SetupArtEncounterReport().setup();
+	}
+
+	@RequestMapping("/module/pihmalawi/removeArtEncounterExport.form")
+	public void removeArtEncounterExport() throws Exception {
+		new SetupArtEncounterReport().delete();
+	}
 }
