@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reports.dataset;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.api.context.Context;
@@ -30,6 +31,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Ignore
 @ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
 public class ChronicCareVisitDataSetTest extends BaseModuleContextSensitiveTest {
 

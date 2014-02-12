@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reports.dataset;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
@@ -25,6 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.io.OutputStream;
 import java.util.*;
 
+@Ignore
 @ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
 public class KsRegisterBreakdownTest extends BaseModuleContextSensitiveTest {
 
