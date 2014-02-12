@@ -23,6 +23,12 @@
 
 	<extension>
 		<point>org.openmrs.admin.list</point>
-		<class>org.openmrs.module.pihmalawi.extension.html.AdminList</class>
+		<class>org.openmrs.module.pihmalawi.web.extension.AdminList</class>
 	</extension>
+
+	<extension>
+		<point>org.openmrs.patientDashboard.overviewBox</point>
+		<class>org.openmrs.module.pihmalawi.web.extension.EMastercardsBoxExt</class>
+	</extension>
+
 </module>
