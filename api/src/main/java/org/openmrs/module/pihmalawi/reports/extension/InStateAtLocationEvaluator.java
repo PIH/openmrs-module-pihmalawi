@@ -5,6 +5,7 @@ import java.util.Date;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -15,7 +16,7 @@ public class InStateAtLocationEvaluator implements CohortDefinitionEvaluator {
 	public InStateAtLocationEvaluator() {
 	}
 	
-	public Cohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
+	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
 		// todo, fixme if you want
 		HibernatePihMalawiQueryDao q = (HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
 		    HibernatePihMalawiQueryDao.class).get(0);
@@ -27,6 +28,7 @@ public class InStateAtLocationEvaluator implements CohortDefinitionEvaluator {
 			onOrBefore = definition.getOnDate();
 		}
 		
-		return q.getPatientsInStateAtLocation(definition.getState(), onOrAfter, onOrBefore, definition.getLocation());
+		Cohort c = q.getPatientsInStateAtLocation(definition.getState(), onOrAfter, onOrBefore, definition.getLocation());
+		return new EvaluatedCohort(c, cohortDefinition, context);
 	}
 }

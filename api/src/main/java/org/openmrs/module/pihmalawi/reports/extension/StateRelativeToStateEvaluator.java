@@ -18,6 +18,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.BeforeAfter;
 import org.openmrs.module.pihmalawi.reports.Event;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -30,7 +31,7 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 	protected static final Log log = LogFactory
 			.getLog(StateRelativeToStateEvaluator.class);
 
-	public Cohort evaluate(CohortDefinition cohortDefinition,
+	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition,
 			EvaluationContext context) {
 
 		ProgramHelper h = new ProgramHelper();
@@ -243,8 +244,8 @@ public class StateRelativeToStateEvaluator implements CohortDefinitionEvaluator 
 				}
 			}
 		}
-		
-		return result;
+
+		return new EvaluatedCohort(result, cohortDefinition, context);
 	}
 
 	private Date calculateInterval(Date date, DurationUnit offsetUnit,

@@ -18,6 +18,7 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -30,7 +31,7 @@ public class EncounterAfterProgramStateEvaluator implements
 	protected static final Log log = LogFactory
 			.getLog(EncounterAfterProgramStateEvaluator.class);
 
-	public Cohort evaluate(CohortDefinition cohortDefinition,
+	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition,
 			EvaluationContext context) {
 		ProgramHelper h = new ProgramHelper();
 		Cohort result = new Cohort();
@@ -80,7 +81,7 @@ public class EncounterAfterProgramStateEvaluator implements
 				}
 			}
 		}
-		return result;
+		return new EvaluatedCohort(result, cohortDefinition, context);
 	}
 
 	private Date getNextDay(PatientState mostRecentState) {

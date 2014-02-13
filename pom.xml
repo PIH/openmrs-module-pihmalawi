@@ -37,9 +37,10 @@
 	<properties>
 		<openMRSVersion>1.7.2</openMRSVersion>
 		<programlocationVersion>1.0</programlocationVersion>
-		<reportingVersion>0.6.2</reportingVersion>
+		<reportingVersion>0.8.2-SNAPSHOT</reportingVersion>
 		<serializationVersion>0.2.7</serializationVersion>
-		<htmlwidgetsVersion>1.6.4</htmlwidgetsVersion>
+		<htmlwidgetsVersion>1.6.6</htmlwidgetsVersion>
+		<calculationVersion>1.0</calculationVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
 		<MODULE_NAME>${project.parent.name}</MODULE_NAME>
@@ -68,7 +69,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>						
-			<artifactId>reporting</artifactId>											
+			<artifactId>reporting-api</artifactId>
+			<version>${reportingVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>reporting-omod</artifactId>
 			<version>${reportingVersion}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -88,6 +95,13 @@
 			<groupId>org.openmrs.module</groupId>						
 			<artifactId>htmlwidgets-omod</artifactId>											
 			<version>${htmlwidgetsVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>calculation-api</artifactId>
+			<version>${calculationVersion}</version>
+			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

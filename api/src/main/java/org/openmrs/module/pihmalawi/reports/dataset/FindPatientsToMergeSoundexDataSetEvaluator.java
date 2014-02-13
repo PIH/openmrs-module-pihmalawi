@@ -28,6 +28,7 @@ import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.cohort.query.db.hibernate.HibernateCohortQueryDAO;
+import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
@@ -69,10 +70,8 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 
 		Set<Integer> memberIds = cohort.getMemberIds();
 		if (dsds.getEncounterTypesToLookForDuplicates() != null) {
-			HibernateCohortQueryDAO dao = (HibernateCohortQueryDAO) Context
-					.getRegisteredComponents(HibernateCohortQueryDAO.class)
-					.get(0);
-			memberIds = dao.getPatientsHavingEncounters(null,
+			CohortQueryService cqs = Context.getService(CohortQueryService.class);
+			memberIds = cqs.getPatientsHavingEncounters(null,
 					null, null, dsds.getEncounterTypesToLookForDuplicates(),
 					null, null, null).getMemberIds();
 			Set<Integer> memberIdsWithoutIdentifierType = new HashSet<Integer>();

@@ -16,6 +16,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -28,7 +29,7 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 	protected static final Log log = LogFactory
 			.getLog(InStateAfterStartedStateEvaluator.class);
 
-	public Cohort evaluate(CohortDefinition cohortDefinition,
+	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition,
 			EvaluationContext context) {
 
 		ProgramHelper h = new ProgramHelper();
@@ -112,8 +113,8 @@ public class InStateAfterStartedStateEvaluator implements CohortDefinitionEvalua
 					result.addMember(p.getId());
 				}
 			}
-		}	
-		return result;
+		}
+		return new EvaluatedCohort(result, cohortDefinition, context);
 	}
 
 	private SessionFactory sessionFactory() {

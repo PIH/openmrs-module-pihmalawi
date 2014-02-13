@@ -9,6 +9,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
@@ -21,7 +22,7 @@ public class ReinitiatedEvaluator implements CohortDefinitionEvaluator  {
 	
 	public ReinitiatedEvaluator() { }
 	
-	public Cohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
+	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
 		
 		Program PROGRAM = Context.getProgramWorkflowService().getProgramByName("HIV program");
 		ProgramWorkflowState STATE_DIED = PROGRAM.getWorkflowByName("Treatment status").getStateByName("Patient died");
@@ -109,8 +110,8 @@ public class ReinitiatedEvaluator implements CohortDefinitionEvaluator  {
 			cal.add(Calendar.MONTH, -3);
 			endDate = cal.getTime();
 		}
-		 
-		 return ret;
+
+		return new EvaluatedCohort(ret, cohortDefinition, context);
 	}
 
 }
