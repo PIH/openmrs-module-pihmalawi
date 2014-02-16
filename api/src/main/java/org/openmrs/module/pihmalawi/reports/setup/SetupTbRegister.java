@@ -1,16 +1,8 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.TbMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.TbRegisterBreakdownRenderer;
@@ -27,18 +19,19 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class SetupTbRegister {
 
-	/** List of encounter included in report */
-	private final List<EncounterType> ENCOUNTER_TYPES;
-
 	ReportHelper h = new ReportHelper();
+	TbMetadata tbMetadata = new TbMetadata();
 
 	public SetupTbRegister(ReportHelper helper) {
 		h = helper;
-		ENCOUNTER_TYPES = Arrays.asList(
-				MetadataLookup.encounterType("TB_INITIAL")
-				);
 	}
 
 	public ReportDefinition[] setup() throws Exception {
@@ -91,7 +84,7 @@ public class SetupTbRegister {
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore",
 				Date.class));
 		ecd.setName("tb: Register_");
-		ecd.setEncounterTypeList(ENCOUNTER_TYPES);
+		ecd.setEncounterTypeList(Arrays.asList(tbMetadata.getTbInitialEncounterType()));
 		h.replaceCohortDefinition(ecd);
 		CohortIndicator i = h.newCountIndicator("tb: Register_",
 				"tb: Register_", h.parameterMap("locationList", "${location}", "onOrBefore", "${endDate}"));

@@ -1,16 +1,8 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.ChronicCareRegisterBreakdownRenderer;
@@ -27,19 +19,18 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class SetupChronicCareRegister {
 
-	/** List of encounter included in report */
-	private final List<EncounterType> ENCOUNTER_TYPES;
-
 	ReportHelper h = new ReportHelper();
+	ChronicCareMetadata ccMetadata = new ChronicCareMetadata();
 
 	public SetupChronicCareRegister(ReportHelper helper) {
 		h = helper;
-		ENCOUNTER_TYPES = Arrays.asList(
-				MetadataLookup.encounterType("CHRONIC_CARE_INITIAL"),
-				MetadataLookup.encounterType("CHRONIC_CARE_FOLLOWUP")
-				);
 	}
 
 	public ReportDefinition[] setup() throws Exception {
@@ -92,7 +83,7 @@ public class SetupChronicCareRegister {
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore",
 				Date.class));
 		ecd.setName("chronic: Register_");
-		ecd.setEncounterTypeList(ENCOUNTER_TYPES);
+		ecd.setEncounterTypeList(ccMetadata.getChronicCareEncounterTypes());
 		h.replaceCohortDefinition(ecd);
 		CohortIndicator i = h.newCountIndicator("chronic: Register_",
 				"chronic: Register_", h.parameterMap("locationList", "${location}", "onOrBefore", "${endDate}"));

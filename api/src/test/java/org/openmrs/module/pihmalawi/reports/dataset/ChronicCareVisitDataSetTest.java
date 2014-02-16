@@ -3,10 +3,8 @@ package org.openmrs.module.pihmalawi.reports.dataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openmrs.Cohort;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
-import org.openmrs.module.pihmalawi.reports.extension.ChronicCareVisitDataSetDefinition;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -14,7 +12,6 @@ import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
-import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -26,7 +23,6 @@ import org.springframework.test.context.ContextConfiguration;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,12 +44,14 @@ public class ChronicCareVisitDataSetTest extends BaseModuleContextSensitiveTest 
 	@Test
 	public void testDataSet() throws Exception {
 
+		ChronicCareMetadata ccMetadata = new ChronicCareMetadata();
+
 		ReportDefinition rd = SetupChronicCareVisits.createReportDefinition();
 
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("fromDate", DateUtil.getDateTime(2013, 1, 1));
 		context.addParameterValue("toDate", DateUtil.getDateTime(2013, 3, 31));
-		context.addParameterValue("location", MetadataLookup.location("Neno District Hospital"));
+		context.addParameterValue("location", ccMetadata.getNenoHospital());
 		context.addParameterValue("which", TimeQualifier.LAST);
 		context.addParameterValue("limitedToPatientsEnrolledAtEnd", false);
 

@@ -1,16 +1,8 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.KaposiSarcomaMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.renderer.KsRegisterBreakdownRenderer;
@@ -27,19 +19,18 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class SetupKsRegister {
 
-	/** List of encounter included in report */
-	private final List<EncounterType> ENCOUNTER_TYPES;
-
 	ReportHelper h = new ReportHelper();
+	KaposiSarcomaMetadata ksMetadata = new KaposiSarcomaMetadata();
 
 	public SetupKsRegister(ReportHelper helper) {
 		h = helper;
-		ENCOUNTER_TYPES = Arrays.asList(
-				MetadataLookup.encounterType("PATIENT EVALUATION"),
-				MetadataLookup.encounterType("CHEMOTHERAPY")
-				);
 	}
 
 	public ReportDefinition[] setup() throws Exception {
@@ -90,7 +81,7 @@ public class SetupKsRegister {
 		ecd.addParameter(new Parameter("locationList", "location", Location.class));
 		ecd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
 		ecd.setName("ks: Register_");
-		ecd.setEncounterTypeList(ENCOUNTER_TYPES);
+		ecd.setEncounterTypeList(ksMetadata.getKaposiSarcomaEncounterTypes());
 		h.replaceCohortDefinition(ecd);
 		CohortIndicator i = h.newCountIndicator("ks: Register_",
 				"ks: Register_", h.parameterMap("locationList", "${location}", "onOrBefore", "${endDate}"));

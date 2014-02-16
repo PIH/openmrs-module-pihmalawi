@@ -1,17 +1,10 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
@@ -22,6 +15,13 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SetupWeeklyEncounter {
 
@@ -46,6 +46,7 @@ public class SetupWeeklyEncounter {
 	private final List<User> OTHER_USERS;
 
 	ReportHelper h = new ReportHelper();
+	HivMetadata hivMetadata = new HivMetadata();
 
 	public SetupWeeklyEncounter(ReportHelper helper) {
 		h = helper;
@@ -64,22 +65,10 @@ public class SetupWeeklyEncounter {
 			}
 		}
 
-		LOCATIONS_LIST = Arrays.asList(
-				Arrays.asList(MetadataLookup.location("Neno District Hospital"),
-						MetadataLookup.location("Outpatient"),
-						MetadataLookup.location("Registration"), MetadataLookup.location("Vitals")),
-				Arrays.asList(MetadataLookup.location("Magaleta HC")),
-				Arrays.asList(MetadataLookup.location("Nsambe HC")),
-				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
-				Arrays.asList(MetadataLookup.location("Matandani Rural Health Center")),
-				Arrays.asList(MetadataLookup.location("Luwani RHC")),
-				Arrays.asList(MetadataLookup.location("Ligowe HC")),
-				Arrays.asList(MetadataLookup.location("Lisungwi Community Hospital"),
-						MetadataLookup.location("Midzemba HC")),
-				Arrays.asList(MetadataLookup.location("Chifunga HC")),
-				Arrays.asList(MetadataLookup.location("Matope HC")),
-				Arrays.asList(MetadataLookup.location("Nkhula Falls RHC")),
-				Arrays.asList(MetadataLookup.location("Zalewa HC")));
+		LOCATIONS_LIST = new ArrayList<List<Location>>();
+		for (Location l : hivMetadata.getPrimaryFacilities()) {
+			LOCATIONS_LIST.add(hivMetadata.getAllLocations(l));
+		}
 
 		List<Location> flatKnownLocations = new ArrayList<Location>();
 		for (List<Location> knownLocations : LOCATIONS_LIST) {

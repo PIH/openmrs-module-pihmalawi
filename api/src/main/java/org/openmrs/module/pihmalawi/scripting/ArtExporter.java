@@ -33,7 +33,8 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.Metadata;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 
@@ -340,9 +341,8 @@ public class ArtExporter {
 	private String exportInitial(Encounter encounter) {
 		String r = "";
 
-		PatientState ps = currentProgramWorkflowStatus(1,
-				encounter.getPatient(), new Date());
-		ps = h.getMostRecentStateAtLocation(encounter.getPatient(), MetadataLookup.programWorkflow("HIV program", "Treatment status"), MetadataLookup.location("Neno District Hospital"));
+		HivMetadata hivMetadata = new HivMetadata();
+		PatientState ps = h.getMostRecentStateAtLocation(encounter.getPatient(), hivMetadata.getTreatmentStatusWorkfow(), hivMetadata.getNenoHospital());
 		if (ps != null) {
 			r += csv("Outcome NNO", ps.getState().getConcept()
 					.getName().getName(), "at location", map(h.getEnrollmentLocation(ps.getPatientProgram()

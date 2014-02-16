@@ -1,16 +1,11 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
@@ -32,24 +27,13 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
+import java.util.Date;
+
 public class SetupHccQuarterly {
 
-	protected static final Log log = LogFactory
-			.getLog(HibernatePihMalawiQueryDao.class);
+	protected static final Log log = LogFactory.getLog(HibernatePihMalawiQueryDao.class);
 
 	ReportHelper h = new ReportHelper();
-
-	private final Program PROGRAM;
-
-	private final ProgramWorkflowState STATE_ON_ART;
-	private final ProgramWorkflowState STATE_PRE_ART;
-	private final ProgramWorkflowState STATE_EXPOSED;
-
-	private final EncounterType ART_INITIAL_ENCOUNTER;
-	private final EncounterType ART_FOLLOWUP_ENCOUNTER;
-	private final EncounterType PART_INITIAL_ENCOUNTER;
-	private final EncounterType PART_FOLLOWUP_ENCOUNTER;
-	private final EncounterType EXPOSED_CHILD_FOLLOWUP_ENCOUNTER;
 
 	private CohortDefinition hccEnrolledInPeriod;
 	private CohortDefinition hivDied;
@@ -70,24 +54,6 @@ public class SetupHccQuarterly {
 
 	public SetupHccQuarterly(ReportHelper helper) {
 		h = helper;
-		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV program");
-		STATE_ON_ART = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("On antiretrovirals");
-		STATE_PRE_ART = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Pre-ART (Continue)");
-		STATE_EXPOSED = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Exposed Child (Continue)");
-		ART_INITIAL_ENCOUNTER = Context.getEncounterService().getEncounterType(
-				"ART_INITIAL");
-		ART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
-				.getEncounterType("ART_FOLLOWUP");
-		PART_INITIAL_ENCOUNTER = Context.getEncounterService()
-				.getEncounterType("PART_INITIAL");
-		PART_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
-				.getEncounterType("PART_FOLLOWUP");
-		EXPOSED_CHILD_FOLLOWUP_ENCOUNTER = Context.getEncounterService()
-				.getEncounterType("EXPOSED_CHILD_FOLLOWUP");
 	}
 
 	public void setup() throws Exception {
@@ -151,37 +117,20 @@ public class SetupHccQuarterly {
 	}
 
 	private void createCohortDefinitions() {
-		List<EncounterType> artEncounterTypeList = new ArrayList<EncounterType>();
-		artEncounterTypeList.add(ART_INITIAL_ENCOUNTER);
-		artEncounterTypeList.add(ART_FOLLOWUP_ENCOUNTER);
 
 		hivDied = ApzuReportElementsArt.hivDiedAtLocationOnDate("hccquarterly");
-		hivTransferredOut = ApzuReportElementsArt
-				.hivTransferredOutAtLocationOnDate("hccquarterly");
-		partEnrolledInPeriod = ApzuReportElementsArt
-				.partEnrolledAtLocationInPeriod("hccquarterly");
-		partEver = ApzuReportElementsArt
-				.partEverEnrolledAtLocationOnDate("hccquarterly");
-		exposedEver = ApzuReportElementsArt
-				.exposedEverEnrolledAtLocationOnDate("hccquarterly");
-		exposedEnrolledInPeriod = ApzuReportElementsArt
-				.exposedEnrolledAtLocationInPeriod("hccquarterly");
-		hccEnrolledInPeriod = ApzuReportElementsArt
-				.hccEnrolledAtLocationInPeriod("hccquarterly",
-						partEnrolledInPeriod, exposedEnrolledInPeriod);
-		artEver = ApzuReportElementsArt
-				.artEverEnrolledAtLocationOnDate("hccquarterly");
-		partDied = ApzuReportElementsArt.partDiedAtLocationOnDate(
-				"hccquarterly", partEver, artEver, hivDied);
-		partTransferredOut = ApzuReportElementsArt
-				.partTransferredOutAtLocationOnDate("hccquarterly", partEver,
-						artEver, hivTransferredOut);
-		partOnArt = ApzuReportElementsArt.partOnArtAtLocationOnDate(
-				"hccquarterly", partEver, artEver);
-		hccMissingAppointment = ApzuReportElementsArt
-				.hccMissedAppointmentAtLocationOnDate("hccquarterly");
-		partActive = ApzuReportElementsArt
-				.partActiveWithDefaultersAtLocationOnDate("hccquarterly");
+		hivTransferredOut = ApzuReportElementsArt.hivTransferredOutAtLocationOnDate("hccquarterly");
+		partEnrolledInPeriod = ApzuReportElementsArt.partEnrolledAtLocationInPeriod("hccquarterly");
+		partEver = ApzuReportElementsArt.partEverEnrolledAtLocationOnDate("hccquarterly");
+		exposedEver = ApzuReportElementsArt.exposedEverEnrolledAtLocationOnDate("hccquarterly");
+		exposedEnrolledInPeriod = ApzuReportElementsArt.exposedEnrolledAtLocationInPeriod("hccquarterly");
+		hccEnrolledInPeriod = ApzuReportElementsArt.hccEnrolledAtLocationInPeriod("hccquarterly", partEnrolledInPeriod, exposedEnrolledInPeriod);
+		artEver = ApzuReportElementsArt.artEverEnrolledAtLocationOnDate("hccquarterly");
+		partDied = ApzuReportElementsArt.partDiedAtLocationOnDate("hccquarterly", partEver, artEver, hivDied);
+		partTransferredOut = ApzuReportElementsArt.partTransferredOutAtLocationOnDate("hccquarterly", partEver, artEver, hivTransferredOut);
+		partOnArt = ApzuReportElementsArt.partOnArtAtLocationOnDate("hccquarterly", partEver, artEver);
+		hccMissingAppointment = ApzuReportElementsArt.hccMissedAppointmentAtLocationOnDate("hccquarterly");
+		partActive = ApzuReportElementsArt.partActiveWithDefaultersAtLocationOnDate("hccquarterly");
 
 		// in state at location (used for primary outcomes)
 		// todo, exclude patients ever been in On ART at this location
@@ -368,11 +317,12 @@ public class SetupHccQuarterly {
 
 	private void i13_i14_i15_i16_age(PeriodIndicatorReportDefinition rd) {
 
+		HivMetadata hivMetadata = new HivMetadata();
 		// age enrolled in HCC
 		HasAgeOnStartedStateCohortDefinition ageAtPreARTEnrollment = new HasAgeOnStartedStateCohortDefinition();
 		ageAtPreARTEnrollment
 				.setName("hccquarterly: Age at Pre-ART enrollment_");
-		ageAtPreARTEnrollment.setState(STATE_PRE_ART);
+		ageAtPreARTEnrollment.setState(hivMetadata.getPreArtState());
 		ageAtPreARTEnrollment.addParameter(new Parameter("startedOnOrAfter",
 				"Started On Or After", Date.class));
 		ageAtPreARTEnrollment.addParameter(new Parameter("startedOnOrBefore",
@@ -391,7 +341,7 @@ public class SetupHccQuarterly {
 		HasAgeOnStartedStateCohortDefinition ageAtExposedEnrollment = new HasAgeOnStartedStateCohortDefinition();
 		ageAtExposedEnrollment
 				.setName("hccquarterly: Age at Exposed enrollment_");
-		ageAtExposedEnrollment.setState(STATE_EXPOSED);
+		ageAtExposedEnrollment.setState(hivMetadata.getExposedChildState());
 		ageAtExposedEnrollment.addParameter(new Parameter("startedOnOrAfter",
 				"Started On Or After", Date.class));
 		ageAtExposedEnrollment.addParameter(new Parameter("startedOnOrBefore",

@@ -1,15 +1,9 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.HccMissedAppointmentBreakdownRenderer;
@@ -20,46 +14,44 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 
 	boolean upperNeno;
+	HivMetadata hivMetadata = new HivMetadata();
 
 	public SetupHccMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
 		if (upperNeno) {
 			configure("HCC Missed Appointment Upper Neno", "hccappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+					hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
-							Context.getLocationService().getLocation(
-									"Neno District Hospital"),
-							Context.getLocationService().getLocation(
-									"Magaleta HC"),
-							Context.getLocationService().getLocation(
-									"Nsambe HC"),
-							Context.getLocationService().getLocation(
-									"Neno Mission HC"),
-							Context.getLocationService().getLocation(
-									"Matandani Rural Health Center"),
-							Context.getLocationService().getLocation(
-									"Ligowe HC"),
-							Context.getLocationService().getLocation(
-									"Luwani RHC")),
+						hivMetadata.getNenoHospital(),
+						hivMetadata.getMagaletaHc(),
+						hivMetadata.getNsambeHc(),
+						hivMetadata.getNenoMissionHc(),
+						hivMetadata.getMatandaniHc(),
+						hivMetadata.getLigoweHc(),
+						hivMetadata.getLuwaniHc()
+					),
 					HccMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("HCC Missed Appointment Lower Neno", "hccappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+					hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
-							Context.getLocationService().getLocation(
-									"Lisungwi Community Hospital"),
-							Context.getLocationService().getLocation(
-									"Chifunga HC"),
-							Context.getLocationService().getLocation(
-									"Matope HC"),
-							Context.getLocationService().getLocation(
-									"Zalewa HC"),
-							Context.getLocationService().getLocation(
-									"Nkhula Falls RHC")),
+						hivMetadata.getLisungwiHospital(),
+						hivMetadata.getChifungaHc(),
+						hivMetadata.getMatopeHc(),
+						hivMetadata.getZalewaHc(),
+						hivMetadata.getNkhulaFallsHc()
+					),
 					HccMissedAppointmentBreakdownRenderer.class.getName());
 		}
 	}
@@ -94,10 +86,10 @@ public class SetupHccMissedAppointment extends SetupGenericMissedAppointment {
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP"));
+		List<EncounterType> l = new ArrayList<EncounterType>();
+		l.addAll(hivMetadata.getPreArtEncounterTypes());
+		l.addAll(hivMetadata.getExposedChildEncounterTypes());
+		return l;
 	}
 
 	@Override

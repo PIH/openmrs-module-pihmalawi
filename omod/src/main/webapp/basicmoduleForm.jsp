@@ -5,19 +5,6 @@
 <h2>PIH Malawi Customizations</h2>
 
 <h3>HIV Reports</h3>
-<!-- 
-HIV Weekly Outcome Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivweeklyoutcome.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivweeklyoutcome.form">Remove</a>
-<br/>
-
-Pre-ART Weekly Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_preartweekly.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_preartweekly.form">Remove</a>
-<br/>
-
-HIV Program Changes Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivprogramchanges.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivprogramchanges.form">Remove</a>
-<br/>
--->
 
 HIV Visits Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hiv_visits.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hiv_visits.form">Remove</a>

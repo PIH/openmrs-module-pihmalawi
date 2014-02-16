@@ -1,31 +1,10 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
-import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
-import org.openmrs.module.pihmalawi.reports.dataset.AppointmentAdherencePatientDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.experimental.ApzuBMIPatientDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
-import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.indicator.CohortIndicator;
-import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.service.ReportService;
-import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
-import org.openmrs.serialization.SerializationException;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SetupArtEncounterReport {
 

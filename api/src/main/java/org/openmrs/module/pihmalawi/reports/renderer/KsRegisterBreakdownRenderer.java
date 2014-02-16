@@ -3,12 +3,11 @@ package org.openmrs.module.pihmalawi.reports.renderer;
 import java.util.*;
 
 import org.openmrs.*;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.Metadata;
 import org.openmrs.module.pihmalawi.PihUtil;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
-import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
 public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
@@ -17,6 +16,7 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
 		PatientDataHelper pdh = new PatientDataHelper();
 		ProgramHelper ph = new ProgramHelper();
+		HivMetadata hivMetadata = new HivMetadata();
 
 		DataSetRow row = new DataSetRow();
 		pdh.addCol(row, "#", p.getPatientId());
@@ -44,8 +44,8 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		Obs mostRecentDxDate = pdh.getLatestObs(p, "DATE OF HIV DIAGNOSIS", null, endDate);
 		pdh.addCol(row, "Date HIV Diagnosis", pdh.formatValueDatetime(mostRecentDxDate));
 
-		Program hivProgram = MetadataLookup.program("HIV program");
-		ProgramWorkflowState onArvState = MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals");
+		Program hivProgram = hivMetadata.getHivProgram();
+		ProgramWorkflowState onArvState = hivMetadata.getOnArvsState();
 
 		PatientState earliestOnArvsState = ph.getFirstTimeInState(p, hivProgram, onArvState, endDate);
 		Date arvStartDate = (earliestOnArvsState == null ? null : earliestOnArvsState.getStartDate());

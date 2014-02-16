@@ -1,16 +1,5 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Program;
@@ -18,7 +7,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.User;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.EncounterAfterProgramStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InProgramAtProgramLocationCohortDefinition;
@@ -47,21 +36,21 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class SetupHivDataQuality {
 
-	private final Program PROGRAM;
-
 	ReportHelper h = new ReportHelper();
-
-	private final ProgramWorkflowState STATE_DIED;
-	private final ProgramWorkflowState STATE_ON_ART;
-	private final ProgramWorkflowState STATE_PRE_ART;
-	private final ProgramWorkflowState STATE_STOPPED;
-	private final ProgramWorkflowState STATE_TRANSFERRED_OUT;
-	private final ProgramWorkflowState STATE_TRANSFERRED_INTERNALLY;
-	private final ProgramWorkflowState STATE_EXPOSED_CHILD;
-	private final ProgramWorkflowState STATE_EXPOSED_CHILD_DISCHARGED;
-	private final ProgramWorkflowState STATE_DEFAULTED;
+	HivMetadata hivMetadata = new HivMetadata();
 
 	private final Map<Location, String> LOCATIONS;
 
@@ -69,40 +58,19 @@ public class SetupHivDataQuality {
 
 	public SetupHivDataQuality(ReportHelper helper) {
 		h = helper;
-		PROGRAM = Context.getProgramWorkflowService().getProgramByName(
-				"HIV program");
-		STATE_DIED = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Patient died");
-		STATE_ON_ART = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("On antiretrovirals");
-		STATE_PRE_ART = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Pre-ART (Continue)");
-		STATE_STOPPED = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Treatment stopped");
-		STATE_TRANSFERRED_OUT = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Patient transferred out");
-		STATE_TRANSFERRED_INTERNALLY = PROGRAM.getWorkflowByName(
-				"Treatment status").getStateByName("Transferred internally");
-		STATE_EXPOSED_CHILD = PROGRAM.getWorkflowByName("Treatment status")
-				.getStateByName("Exposed Child (Continue)");
-		STATE_EXPOSED_CHILD_DISCHARGED = PROGRAM.getWorkflowByName(
-				"Treatment status").getStateByName("Discharged uninfected");
-		STATE_DEFAULTED = PROGRAM.getWorkflowByName(
-				"Treatment status").getStateByName("Patient defaulted");
-
 		LOCATIONS = new HashMap<Location, String>();
-		LOCATIONS.put(MetadataLookup.location("Lisungwi Community Hospital"), "LSI");
-		LOCATIONS.put(MetadataLookup.location("Matope HC"), "MTE");
-		LOCATIONS.put(MetadataLookup.location("Chifunga HC"), "CFGA");
-		LOCATIONS.put(MetadataLookup.location("Zalewa HC"), "ZLA");
-		LOCATIONS.put(MetadataLookup.location("Nkhula Falls RHC"), "NKA");
-		LOCATIONS.put(MetadataLookup.location("Luwani RHC"), "LWAN");
-		LOCATIONS.put(MetadataLookup.location("Neno District Hospital"), "NNO");
-		LOCATIONS.put(MetadataLookup.location("Matandani Rural Health Center"), "MTDN");
-		LOCATIONS.put(MetadataLookup.location("Ligowe HC"), "LGWE");
-		LOCATIONS.put(MetadataLookup.location("Magaleta HC"), "MGT");
-		LOCATIONS.put(MetadataLookup.location("Neno Mission HC"), "NOP");
-		LOCATIONS.put(MetadataLookup.location("Nsambe HC"), "NSM");
+		LOCATIONS.put(hivMetadata.getLisungwiHospital(), "LSI");
+		LOCATIONS.put(hivMetadata.getMatopeHc(), "MTE");
+		LOCATIONS.put(hivMetadata.getChifungaHc(), "CFGA");
+		LOCATIONS.put(hivMetadata.getZalewaHc(), "ZLA");
+		LOCATIONS.put(hivMetadata.getNkhulaFallsHc(), "NKA");
+		LOCATIONS.put(hivMetadata.getLuwaniHc(), "LWAN");
+		LOCATIONS.put(hivMetadata.getNenoHospital(), "NNO");
+		LOCATIONS.put(hivMetadata.getMatandaniHc(), "MTDN");
+		LOCATIONS.put(hivMetadata.getLigoweHc(), "LGWE");
+		LOCATIONS.put(hivMetadata.getMagaletaHc(), "MGT");
+		LOCATIONS.put(hivMetadata.getNenoMissionHc(), "NOP");
+		LOCATIONS.put(hivMetadata.getNsambeHc(), "NSM");
 
 		USERS = new ArrayList<User>();
 		for (String user : new String[] { "benndo", "amahaka", "geomal",
@@ -280,7 +248,7 @@ public class SetupHivDataQuality {
 				"unknown",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
 						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
+								hivMetadata.getHivProgram())));
 		ccd.setCompositionString("exit AND unknown");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "exit", h.parameterMap("endDate", "${endDate}"),
@@ -315,7 +283,7 @@ public class SetupHivDataQuality {
 				"hiv",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
 						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
+								hivMetadata.getHivProgram())));
 		ccd.setCompositionString("deceased AND hiv AND NOT exitFromCare");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "noexit", h.parameterMap("endDate", "${endDate}"),
@@ -324,7 +292,7 @@ public class SetupHivDataQuality {
 		// deceased but not in patient died
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state patient died_");
-		iscd.setStates(Arrays.asList(STATE_DIED));
+		iscd.setStates(Arrays.asList(hivMetadata.getDiedState()));
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -343,7 +311,7 @@ public class SetupHivDataQuality {
 				"hiv",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
 						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
+								hivMetadata.getHivProgram())));
 		ccd.setCompositionString("deceased AND hiv AND NOT stateDied");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "nostate",
@@ -364,7 +332,7 @@ public class SetupHivDataQuality {
 				"hiv",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
 						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
+								hivMetadata.getHivProgram())));
 		ccd.setCompositionString("NOT exitFromCare AND hiv AND stateDied");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "noexit2",
@@ -379,7 +347,7 @@ public class SetupHivDataQuality {
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state On ART_");
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		iscd.setStates(Arrays.asList(STATE_ON_ART));
+		iscd.setStates(Arrays.asList(hivMetadata.getOnArvsState()));
 		h.replaceCohortDefinition(iscd);
 
 		scd = new SqlCohortDefinition();
@@ -410,7 +378,7 @@ public class SetupHivDataQuality {
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state Following_");
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		iscd.setStates(Arrays.asList(STATE_PRE_ART));
+		iscd.setStates(Arrays.asList(hivMetadata.getPreArtState()));
 		h.replaceCohortDefinition(iscd);
 
 		scd = new SqlCohortDefinition();
@@ -479,10 +447,7 @@ public class SetupHivDataQuality {
 		// not in relevant hiv state
 		iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In relevant HIV state_");
-		iscd.setStates(Arrays.asList(STATE_DIED, STATE_TRANSFERRED_OUT,
-				STATE_TRANSFERRED_INTERNALLY, STATE_STOPPED, STATE_ON_ART,
-				STATE_PRE_ART, STATE_EXPOSED_CHILD,
-				STATE_EXPOSED_CHILD_DISCHARGED, STATE_DEFAULTED));
+		iscd.setStates(hivMetadata.getAllStates());
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 
@@ -497,68 +462,23 @@ public class SetupHivDataQuality {
 				"hiv",
 				new Mapped(h.cohortDefinition("hivdq: In program_"), h
 						.parameterMap("onDate", "${endDate}", "programs",
-								PROGRAM)));
+								hivMetadata.getHivProgram())));
 		ccd.setCompositionString("NOT state AND hiv");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "state", h.parameterMap("endDate", "${endDate}"),
 				rds);
 
-		List<EncounterType> hivEncounterTypes = Arrays.asList(
-				MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP"),
-				MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP"));
-		List<ProgramWorkflowState> hivTerminalStates = Arrays.asList(
-				STATE_DIED, STATE_STOPPED, STATE_TRANSFERRED_OUT, STATE_DEFAULTED,
-				STATE_TRANSFERRED_INTERNALLY, STATE_EXPOSED_CHILD_DISCHARGED);
+		List<EncounterType> hivEncounterTypes = hivMetadata.getHivAndExposedChildEncounterTypes();
+		List<ProgramWorkflowState> hivTerminalStates = hivMetadata.getTerminalStates();
 
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(MetadataLookup.location("Neno District Hospital")),
-				MetadataLookup.location("Neno District Hospital"), "NNO");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Magaleta HC")),
-				MetadataLookup.location("Magaleta HC"), "MGT");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Nsambe HC")),
-				MetadataLookup.location("Nsambe HC"), "NSM");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
-				MetadataLookup.location("Neno Mission HC"), "NOP");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(MetadataLookup.location("Matandani Rural Health Center")),
-				MetadataLookup.location("Matandani Rural Health Center"), "MTDN");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Ligowe HC")),
-				MetadataLookup.location("Ligowe HC"), "LGWE");
-
-		createEncounterAfterTerminalState(
-				rds,
-				hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(MetadataLookup.location("Lisungwi Community Hospital"),
-						MetadataLookup.location("Midzemba HC")),
-				MetadataLookup.location("Lisungwi Community Hospital"), "LSI");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Chifunga HC")),
-				MetadataLookup.location("Chifunga HC"), "CFGA");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Matope HC")),
-				MetadataLookup.location("Matope HC"), "MTE");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Zalewa HC")),
-				MetadataLookup.location("Zalewa HC"), "ZLA");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates, Arrays.asList(MetadataLookup.location("Luwani RHC")),
-				MetadataLookup.location("Luwani RHC"), "LWAN");
-		createEncounterAfterTerminalState(rds, hivEncounterTypes,
-				hivTerminalStates,
-				Arrays.asList(MetadataLookup.location("Nkhula Falls RHC")),
-				MetadataLookup.location("Nkhula Falls RHC"), "NKA");
+		for (Location l : LOCATIONS.keySet()) {
+			List<Location> clinicLocations = new ArrayList<Location>();
+			clinicLocations.add(l);
+			if (l.equals(hivMetadata.getLisungwiHospital())) {
+				clinicLocations.add(hivMetadata.getMidzembaHc());
+			}
+			createEncounterAfterTerminalState(rds, hivEncounterTypes, hivTerminalStates, clinicLocations, l, LOCATIONS.get(l));
+		}
 
 		exposedInfants(rds);
 	}
@@ -802,15 +722,13 @@ public class SetupHivDataQuality {
 						new Mapped(
 								h.cohortDefinition("hivdq: With encounter_"),
 								h.parameterMap("onOrBefore", "${endDate}",
-										"encounterTypeList", Arrays.asList(MetadataLookup
-												.encounterType("ART_FOLLOWUP")))));
+										"encounterTypeList", Arrays.asList(hivMetadata.getArtFollowupEncounterType()))));
 		ccd.getSearches()
 				.put("artInitial",
 						new Mapped(
 								h.cohortDefinition("hivdq: With encounter_"),
 								h.parameterMap("onOrBefore", "${endDate}",
-										"encounterTypeList", Arrays.asList(MetadataLookup
-												.encounterType("ART_INITIAL")))));
+										"encounterTypeList", Arrays.asList(hivMetadata.getArtInitialEncounterType()))));
 		ccd.setCompositionString("artFollowup AND NOT artInitial");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "noinitial",
@@ -827,15 +745,13 @@ public class SetupHivDataQuality {
 										"onOrBefore",
 										"${endDate}",
 										"encounterTypeList",
-										Arrays.asList(MetadataLookup
-												.encounterType("PART_FOLLOWUP")))));
+										Arrays.asList(hivMetadata.getPreArtFollowupEncounterType()))));
 		ccd.getSearches()
 				.put("partInitial",
 						new Mapped(
 								h.cohortDefinition("hivdq: With encounter_"),
 								h.parameterMap("onOrBefore", "${endDate}",
-										"encounterTypeList", Arrays.asList(MetadataLookup
-												.encounterType("PART_INITIAL")))));
+										"encounterTypeList", Arrays.asList(hivMetadata.getPreArtInitialEncounterType()))));
 		ccd.setCompositionString("partFollowup AND NOT partInitial");
 		h.replaceCohortDefinition(ccd);
 		createIndicator(ccd, "partnoinitial",
@@ -858,7 +774,7 @@ public class SetupHivDataQuality {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName("hivdq: In state Exposed_");
 		iscd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
-		iscd.setStates(Arrays.asList(STATE_EXPOSED_CHILD));
+		iscd.setStates(Arrays.asList(hivMetadata.getExposedChildState()));
 		h.replaceCohortDefinition(iscd);
 
 		// too long in eid
@@ -924,8 +840,7 @@ public class SetupHivDataQuality {
 		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ecd.setName("hivdq: No ART encounter_");
 		ecd.setReturnInverse(true);
-		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP")));
+		ecd.setEncounterTypeList(hivMetadata.getArtEncounterTypes());
 		h.replaceCohortDefinition(ecd);
 
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();
@@ -949,8 +864,7 @@ public class SetupHivDataQuality {
 		EncounterCohortDefinition ecd = new EncounterCohortDefinition();
 		ecd.addParameter(new Parameter("endDate", "endDate", Date.class));
 		ecd.setName("hivdq: ART encounter_");
-		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP")));
+		ecd.setEncounterTypeList(hivMetadata.getArtEncounterTypes());
 		h.replaceCohortDefinition(ecd);
 
 		// depends on 'hivdq: ART number_'

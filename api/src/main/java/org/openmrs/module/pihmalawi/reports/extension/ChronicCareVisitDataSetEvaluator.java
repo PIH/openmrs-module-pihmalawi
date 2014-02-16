@@ -24,7 +24,7 @@ import org.openmrs.Patient;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -43,10 +43,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Evaluates the Chronic Care Visit DataSet
@@ -57,8 +55,7 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 	protected static final Log log = LogFactory.getLog(ChronicCareVisitDataSetEvaluator.class);
 
 	private static final String EMPTY = "";
-
-	private Map<String, Concept> conceptCache = new HashMap<String, Concept>();
+	private ChronicCareMetadata ccMetadata = new ChronicCareMetadata();
 
 	/**
 	 * Public constructor
@@ -71,9 +68,8 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 		ChronicCareVisitDataSetDefinition dsd = (ChronicCareVisitDataSetDefinition) dataSetDefinition;
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 
-		Set<EncounterType> types = new HashSet<EncounterType>();
-		types.add(MetadataLookup.encounterType("CHRONIC_CARE_INITIAL"));
-		types.add(MetadataLookup.encounterType("CHRONIC_CARE_FOLLOWUP"));
+
+		List<EncounterType> types = ccMetadata.getChronicCareEncounterTypes();
 
 		EncounterService es = Context.getEncounterService();
 		List<Encounter> encounters = es.getEncounters(null, dsd.getLocation(), dsd.getFromDate(), dsd.getToDate(), null, types, null, false);
@@ -105,7 +101,7 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 		if (dsd.getLimitedToPatientsEnrolledAtEnd()) {
 			InProgramAtProgramLocationCohortDefinition cd = new InProgramAtProgramLocationCohortDefinition();
 			cd.setOnDate(dsd.getToDate());
-			cd.setPrograms(Arrays.asList(MetadataLookup.program("Chronic care program")));
+			cd.setPrograms(Arrays.asList(ccMetadata.getChronicCareProgram()));
 			cd.setLocation(dsd.getLocation());
 			patientsToInclude = Context.getService(CohortDefinitionService.class).evaluate(cd, context);
 		}
@@ -193,8 +189,8 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 	public void addObs(DataSetRow row, Encounter e, String columnName, String conceptName, String answerName) {
 		List<String> result = new ArrayList<String>();
 		PatientDataHelper pdh = new PatientDataHelper();
-		Concept question = getConcept(conceptName);
-		Concept answer = (ObjectUtil.isNull(answerName) ? null : getConcept(answerName));
+		Concept question = ccMetadata.getConcept(conceptName);
+		Concept answer = (ObjectUtil.isNull(answerName) ? null : ccMetadata.getConcept(answerName));
 		for (Obs o : e.getAllObs()) {
 			if (o.getConcept().equals(question)) {
 				if (answer == null) {
@@ -206,19 +202,6 @@ public class ChronicCareVisitDataSetEvaluator implements DataSetEvaluator {
 			}
 		}
 		row.addColumnValue(createColumn(columnName, String.class), OpenmrsUtil.join(result, ", "));
-	}
-
-	public Concept getConcept(String name) {
-		Concept c = conceptCache.get(name);
-		if (c == null) {
-			String lookup = ("Furosemide".equals(name) ? "99" : name);
-			c = MetadataLookup.concept(lookup);
-			if (c == null) {
-				throw new IllegalArgumentException("Illegal concept name of " + lookup + " specified.");
-			}
-			conceptCache.put(name, c);
-		}
-		return c;
 	}
 
 	public DataSetColumn createColumn(String name, Class<?> type) {

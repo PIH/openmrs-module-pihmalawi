@@ -1,12 +1,7 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.FindPatientsToMergeSoundexDataSetDefinition;
@@ -23,92 +18,48 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class SetupFindPatientsToMergeSoundex {
 
 	private ReportHelper h;
+	private HivMetadata hivMetadata;
 
 	public SetupFindPatientsToMergeSoundex(ReportHelper helper) {
 		h = helper;
+		hivMetadata = new HivMetadata();
 	}
 
 	public ReportDefinition setup() throws Exception {
 		delete();
-
 		ReportDefinition rd = createReportDefinition();
 		h.replaceReportDefinition(rd);
-//		createSoundexBreakdown(rd);
 		createSoundexBreakdownPreART(rd);
 		createSoundexBreakdownHCC(rd);
-//		createSoundexSwapFirstLastNameBreakdown(rd);
 		return rd;
 	}
 
-	protected ReportDesign createSoundexBreakdown(ReportDefinition rd)
-			throws IOException, SerializationException {
+	protected ReportDesign createSoundexBreakdownHCC(ReportDefinition rd) throws IOException, SerializationException {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
-
 		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
+		dsd.setEncounterTypesToLookForDuplicates(hivMetadata.getPreArtEncounterTypes());
+		dsd.setEncounterTypesForSummary(hivMetadata.getHivEncounterTypes());
+		dsd.setProgramWorkflowForSummary(hivMetadata.getTreatmentStatusWorkfow());
+		dsd.setPatientIdentifierTypeRequiredToLookForDuplicates(hivMetadata.getHccNumberIdentifierType());
 		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
-
-		return h.createHtmlBreakdown(rd, "Find patients to merge Soundex_", m);
+		return h.createHtmlBreakdown(rd, "Find patients to merge in HCC Soundex_", m);
 	}
 
-	protected ReportDesign createSoundexBreakdownHCC(ReportDefinition rd)
-			throws IOException, SerializationException {
+	protected ReportDesign createSoundexBreakdownPreART(ReportDefinition rd) throws IOException, SerializationException {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
-
 		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
-		dsd.setEncounterTypesToLookForDuplicates(Arrays.asList(
-				MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP")));
-		dsd.setEncounterTypesForSummary(Arrays.asList(
-				MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP"),
-				MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP")));
-		dsd.setProgramWorkflowForSummary(MetadataLookup.programWorkflow("HIV program",
-				"Treatment status"));
-		dsd.setPatientIdentifierTypeRequiredToLookForDuplicates(Context.getPatientService()
-				.getPatientIdentifierTypeByName("HCC Number"));
+		dsd.setEncounterTypesToLookForDuplicates(hivMetadata.getPreArtEncounterTypes());
+		dsd.setEncounterTypesForSummary(hivMetadata.getHivAndExposedChildEncounterTypes());
+		dsd.setProgramWorkflowForSummary(hivMetadata.getTreatmentStatusWorkfow());
 		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
-
-		return h.createHtmlBreakdown(rd,
-				"Find patients to merge in HCC Soundex_", m);
-	}
-
-	protected ReportDesign createSoundexBreakdownPreART(ReportDefinition rd)
-			throws IOException, SerializationException {
-		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
-
-		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
-		dsd.setEncounterTypesToLookForDuplicates(Arrays.asList(
-				MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP")));
-		dsd.setEncounterTypesForSummary(Arrays.asList(
-				MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP"),
-				MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
-				MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP")));
-		dsd.setProgramWorkflowForSummary(MetadataLookup.programWorkflow("HIV program",
-				"Treatment status"));
-		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
-
-		return h.createHtmlBreakdown(rd,
-				"Find patients to merge in Pre-ART Soundex_", m);
-	}
-
-	protected ReportDesign createSoundexSwapFirstLastNameBreakdown(
-			ReportDefinition rd) throws IOException, SerializationException {
-		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
-
-		FindPatientsToMergeSoundexDataSetDefinition dsd = new FindPatientsToMergeSoundexDataSetDefinition();
-		dsd.setSwapFirstLastName(true);
-		m.put("patients", new Mapped<DataSetDefinition>(dsd, null));
-
-		return h.createHtmlBreakdown(rd,
-				"Find patients to merge Soundex Swap First & Last Name_", m);
+		return h.createHtmlBreakdown(rd, "Find patients to merge in Pre-ART Soundex_", m);
 	}
 
 	public void delete() {
@@ -118,11 +69,8 @@ public class SetupFindPatientsToMergeSoundex {
 				rs.purgeReportDesign(rd);
 			}
 		}
-
-		h.purgeDefinition(DataSetDefinition.class,
-				"Find patients to merge (SLOW)_ Data Set");
-		h.purgeDefinition(ReportDefinition.class,
-				"Find patients to merge (SLOW)_");
+		h.purgeDefinition(DataSetDefinition.class, "Find patients to merge (SLOW)_ Data Set");
+		h.purgeDefinition(ReportDefinition.class, "Find patients to merge (SLOW)_");
 		h.purgeAll("merge: ");
 	}
 
@@ -142,8 +90,7 @@ public class SetupFindPatientsToMergeSoundex {
 		h.replaceCohortDefinition(docd);
 
 		docd = new EncounterCohortDefinition();
-		docd.setEncounterTypeList(Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP")));
+		docd.setEncounterTypeList(hivMetadata.getArtEncounterTypes());
 		docd.setName("merge: ART Encounters");
 		h.replaceCohortDefinition(docd);
 
@@ -151,10 +98,8 @@ public class SetupFindPatientsToMergeSoundex {
 		AgeCohortDefinition all = new AgeCohortDefinition();
 		all.setName("merge: all patients");
 		h.replaceCohortDefinition(all);
-		CohortIndicator i = h.newCountIndicator("merge: Patients_",
-				all.getName(), h.parameterMap());
-		PeriodIndicatorReportUtil
-				.addColumn(rd, "patients", "Patients", i, null);
+		CohortIndicator i = h.newCountIndicator("merge: Patients_", all.getName(), h.parameterMap());
+		PeriodIndicatorReportUtil.addColumn(rd, "patients", "Patients", i, null);
 
 		return rd;
 	}

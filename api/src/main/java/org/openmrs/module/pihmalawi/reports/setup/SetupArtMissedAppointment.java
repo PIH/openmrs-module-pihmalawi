@@ -1,17 +1,11 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtMissedAppointmentBreakdownRenderer;
@@ -23,16 +17,23 @@ import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 
 	boolean upperNeno;
+
+	HivMetadata hivMetadata = new HivMetadata();
 
 	public SetupArtMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
 		if (upperNeno) {
-			configure("ART Missed Appointment Upper Neno", "artappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+			configure("ART Missed Appointment Upper Neno", "artappt", hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Neno District Hospital"),
@@ -50,7 +51,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 									"Luwani RHC")), ArtMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("ART Missed Appointment Lower Neno", "artappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+					hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Lisungwi Community Hospital"),
@@ -95,8 +96,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(MetadataLookup.encounterType("ART_INITIAL"),
-				MetadataLookup.encounterType("ART_FOLLOWUP"));
+		return hivMetadata.getArtEncounterTypes();
 	}
 
 	@Override
@@ -209,8 +209,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public CohortDefinition transferredInternallyFromArtAtLocation(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", MetadataLookup.workflowState("HIV program",
-				"Treatment status", "Transferred internally"));
+		parameterMap.put("state", hivMetadata.getTransferredInternallyState());
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName(prefix
@@ -244,8 +243,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("endDate", "${onDate}");
 		map.put("location", "${location}");
-		map.put("state", MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		map.put("state", hivMetadata.getOnArvsState());
 		cd.getSearches()
 				.put("2",
 						new Mapped(
@@ -260,8 +258,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 	public CohortDefinition transferredInternallyFromArt(String prefix) {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("onDate", "${onDate}");
-		parameterMap.put("state", MetadataLookup.workflowState("HIV program",
-				"Treatment status", "Transferred internally"));
+		parameterMap.put("state", hivMetadata.getTransferredInternallyState());
 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName(prefix + ": Transferred internally from On ART_");
@@ -269,10 +266,7 @@ public class SetupArtMissedAppointment extends SetupGenericMissedAppointment {
 		cd.getSearches().put(
 				"1",
 				new Mapped(h.cohortDefinition(prefix + ": In state_"), h
-						.parameterMap("onDate", "${onDate}", "state", MetadataLookup
-								.workflowState("HIV program",
-										"Treatment status",
-										"Transferred internally"))));
+						.parameterMap("onDate", "${onDate}", "state", hivMetadata.getTransferredInternallyState())));
 		cd.getSearches().put(
 				"2",
 				new Mapped(h.cohortDefinition(prefix + ": Ever on ART_"), h

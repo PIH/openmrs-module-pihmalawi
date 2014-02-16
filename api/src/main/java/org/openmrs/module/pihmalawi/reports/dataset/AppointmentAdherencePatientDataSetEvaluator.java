@@ -4,15 +4,28 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
-import org.openmrs.*;
+import org.openmrs.Cohort;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientProgram;
+import org.openmrs.PatientState;
+import org.openmrs.Person;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
-import org.openmrs.module.pihmalawi.reports.renderer.BreakdownRowRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -25,7 +38,17 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 // todo, should/could be migrated to the HtmlBreakdownDataSet
 @Handler(supports = { AppointmentAdherencePatientDataSetDefinition.class })
@@ -70,6 +93,8 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 
 		PatientDataHelper pdh = new PatientDataHelper();
         ArtRegisterBreakdownRenderer brr = new ArtRegisterBreakdownRenderer();
+		HivMetadata hivMetadata = new HivMetadata();
+		CommonMetadata commonMetadata = new CommonMetadata();
 
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
@@ -92,9 +117,9 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				pdh.addCol(row, "ARV Reason " + reasonKey, reasonsForStartingArvs.get(reasonKey));
 			}
 
-			Program hivProgram = MetadataLookup.program("HIV program");
-			ProgramWorkflow hivTreatmentStatus = MetadataLookup.programWorkflow("HIV program", "Treatment status");
-			ProgramWorkflowState onArvState = MetadataLookup.workflowState("HIV program", "Treatment status", "On antiretrovirals");
+			Program hivProgram = hivMetadata.getHivProgram();
+			ProgramWorkflow hivTreatmentStatus = hivMetadata.getTreatmentStatusWorkfow();
+			ProgramWorkflowState onArvState = hivMetadata.getOnArvsState();
 
 			PatientState earliestOnArvsState = new ProgramHelper().getFirstTimeInState(p, hivProgram, onArvState, endDateParameter);
 			Date arvStartDate = (earliestOnArvsState == null ? null : earliestOnArvsState.getStartDate());
@@ -105,9 +130,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			Date arvStartDateAtLocation = (earliestOnArvsStateAtLocation == null ? null : earliestOnArvsStateAtLocation.getStartDate());
 			pdh.addCol(row, "First On ARVs State Start Date At Location", arvStartDateAtLocation);
 
-			List<EncounterType> artEncounterTypes = new ArrayList<EncounterType>();
-			artEncounterTypes.add(MetadataLookup.encounterType("ART_INITIAL"));
-			artEncounterTypes.add(MetadataLookup.encounterType("ART_FOLLOWUP"));
+			List<EncounterType> artEncounterTypes = hivMetadata.getArtEncounterTypes();
 			Encounter firstArtEncounter = pdh.getFirstEncounterOfType(p, artEncounterTypes, endDateParameter);
 
             pdh.addCol(row, "First ART Encounter Date", (firstArtEncounter == null ? null : firstArtEncounter.getEncounterDatetime()));
@@ -172,7 +195,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 				actualVisits.put(e.getEncounterDatetime(), e.getLocation().equals(location));
 			}
 			if (es.size() > 0) {
-				Concept apptDateConcept = MetadataLookup.concept("Appointment date");
+				Concept apptDateConcept = commonMetadata.getAppointmentDateConcept();
 				for (Obs o : Context.getObsService().getObservations(Arrays.asList((Person) p), es, Arrays.asList(apptDateConcept), null, null, null, null, null, null, null, null, false)) {
 					if (o.getValueDatetime() != null && o.getValueDatetime().compareTo(adherencePeriodEnd) <= 0) {
 						scheduledVisits.add(o.getValueDatetime());

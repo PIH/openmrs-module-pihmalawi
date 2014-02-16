@@ -1,10 +1,5 @@
 package org.openmrs.module.pihmalawi.reports.renderer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -18,9 +13,14 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.TbMetadata;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
@@ -39,6 +39,8 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 	ProgramWorkflowState onTreatment = null;
 
 	List<EncounterType> encounterTypes = null;
+
+	TbMetadata tbMetadata = new TbMetadata();
 
 	public TbRegisterBreakdownRenderer() {
 		init();
@@ -64,14 +66,10 @@ public class TbRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		REMARKS = Context.getConceptService().getConceptByName(
 				"Comments at conclusion of examination");
 
-		tbProgram = MetadataLookup.program("TB program");
-		programWorkflow = MetadataLookup.programWorkflow("TB program",
-				"Treatment status");
-		onTreatment = MetadataLookup.workflowState("TB program",
-				"Treatment status", "Currently in treatment");
-
-		encounterTypes = Arrays.asList(MetadataLookup.encounterType("TB_INITIAL"));
-
+		tbProgram = tbMetadata.getTbProgram();
+		programWorkflow = tbMetadata.getTreatmentStatusWorkfow();
+		onTreatment = tbMetadata.getOnTreatmentState();
+		encounterTypes = Arrays.asList(tbMetadata.getTbInitialEncounterType());
 	}
 
 	public DataSetRow renderRow(Patient p,

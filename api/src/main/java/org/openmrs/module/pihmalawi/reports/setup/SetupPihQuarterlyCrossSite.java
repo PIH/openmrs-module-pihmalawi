@@ -1,24 +1,16 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
@@ -27,7 +19,6 @@ import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
-import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -39,6 +30,11 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetupPihQuarterlyCrossSite {
 	
@@ -80,6 +76,7 @@ public class SetupPihQuarterlyCrossSite {
 	private final ProgramWorkflowState STATE_ON_ANTIRETROVIRALS;
 	
 	ReportHelper h = new ReportHelper();
+	HivMetadata hivMetadata = new HivMetadata();
 	
 	public SetupPihQuarterlyCrossSite(ReportHelper helper) {
 		h = helper;
@@ -174,12 +171,10 @@ public class SetupPihQuarterlyCrossSite {
 		genericCohortDefinitions(rd);
 	}
 	
-	public CohortDefinition exposedEnrolledAtLocationInPeriod(
-			String prefix) {
+	public CohortDefinition exposedEnrolledAtLocationInPeriod(String prefix) {
 		PatientStateCohortDefinition pscd2 = new PatientStateCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child at location_");
-		pscd2.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)")));
+		pscd2.setStates(Arrays.asList(hivMetadata.getExposedChildState()));
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd2.addParameter(new Parameter("startedOnOrAfter",

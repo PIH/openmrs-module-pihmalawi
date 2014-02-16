@@ -1,17 +1,13 @@
 package org.openmrs.module.pihmalawi.reports;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -24,9 +20,16 @@ import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 public class ApzuReportElementsArt {
 
 	static ReportHelper h = new ReportHelper();
+	static HivMetadata hivMetadata = new HivMetadata();
+	static CommonMetadata commonMetadata = new CommonMetadata();
 
 	public static String[] hivRegimenConcepts = { "1A: d4T / 3TC / NVP (previous 1L)",
 			"2A: AZT / 3TC / NVP (previous AZT)",
@@ -37,48 +40,12 @@ public class ApzuReportElementsArt {
 			"2P: AZT / 3TC / NVP", "3P: d4T / 3TC + EFV",
 			"4P: AZT / 3TC + EFV", "9P: ABC / 3TC + LPV/r", "Other" };
 
-	public static List<List<Location>> locations() {
-		return Arrays.asList(
-				Arrays.asList(MetadataLookup.location("Neno District Hospital"),
-						MetadataLookup.location("Outpatient"),
-						MetadataLookup.location("Registration"), MetadataLookup.location("Vitals")),
-				Arrays.asList(MetadataLookup.location("Magaleta HC")),
-				Arrays.asList(MetadataLookup.location("Nsambe HC")),
-				Arrays.asList(MetadataLookup.location("Ligowe HC")),
-				Arrays.asList(MetadataLookup.location("Matandani Rural Health Center")),
-				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
-				Arrays.asList(MetadataLookup.location("Luwani RHC")),
-				Arrays.asList(MetadataLookup.location("Lisungwi Community Hospital"),
-						MetadataLookup.location("Midzemba HC")),
-				Arrays.asList(MetadataLookup.location("Chifunga HC")),
-				Arrays.asList(MetadataLookup.location("Matope HC")),
-				Arrays.asList(MetadataLookup.location("Neno Mission HC")),
-				Arrays.asList(MetadataLookup.location("Nkhula Falls RHC")),
-				Arrays.asList(MetadataLookup.location("Zalewa HC")));
-	}
-
 	public static List<Location> hivLocations() {
-		return Arrays.asList(MetadataLookup.location("Neno District Hospital"),
-				MetadataLookup.location("Magaleta HC"), MetadataLookup.location("Nsambe HC"),
-				MetadataLookup.location("Neno Mission HC"), MetadataLookup.location("Ligowe HC"),
-				MetadataLookup.location("Matandani Rural Health Center"),
-				MetadataLookup.location("Luwani RHC"),
-				MetadataLookup.location("Lisungwi Community Hospital"),
-				MetadataLookup.location("Matope HC"), MetadataLookup.location("Chifunga HC"),
-				MetadataLookup.location("Zalewa HC"), MetadataLookup.location("Midzemba HC"),
-				MetadataLookup.location("Nkhula Falls RHC"));
+		return hivMetadata.getHivLocations();
 	}
 
 	public static List<Location> hivStaticLocations() {
-		return Arrays.asList(MetadataLookup.location("Neno District Hospital"),
-				MetadataLookup.location("Magaleta HC"), MetadataLookup.location("Nsambe HC"),
-				MetadataLookup.location("Neno Mission HC"), MetadataLookup.location("Ligowe HC"),
-				MetadataLookup.location("Matandani Rural Health Center"),
-				MetadataLookup.location("Luwani RHC"),
-				MetadataLookup.location("Lisungwi Community Hospital"),
-				MetadataLookup.location("Matope HC"), MetadataLookup.location("Chifunga HC"),
-				MetadataLookup.location("Zalewa HC"),
-				MetadataLookup.location("Nkhula Falls RHC"));
+		return hivMetadata.getHivStaticLocations();
 	}
 
 	public static String hivSiteCode(Location l) {
@@ -111,14 +78,9 @@ public class ApzuReportElementsArt {
 		return null;
 	}
 
+	@Deprecated
 	public static List<EncounterType> hivEncounterTypes() {
-		return Arrays
-				.asList(MetadataLookup.encounterType("ART_INITIAL"),
-						MetadataLookup.encounterType("ART_FOLLOWUP"),
-						MetadataLookup.encounterType("PART_INITIAL"),
-						MetadataLookup.encounterType("PART_FOLLOWUP"),
-						MetadataLookup.encounterType("EXPOSED_CHILD_INITIAL"),
-						MetadataLookup.encounterType("EXPOSED_CHILD_FOLLOWUP"));
+		return hivMetadata.getHivAndExposedChildEncounterTypes();
 	}
 
 	public static CohortDefinition artActiveAtLocationOnDate(String prefix) {
@@ -128,8 +90,7 @@ public class ApzuReportElementsArt {
 		// internal transfers are still under responsibility of original clinic
 		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
 		// .getStateByName("Transferred internally"));
-		iscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		iscd.setState(hivMetadata.getOnArvsState());
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		iscd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(iscd);
@@ -139,20 +100,19 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition artEverEnrolledOnDate(String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Ever on ART_");
-		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
-				"Treatment status", "On antiretrovirals")));
+		pscd.setStates(Arrays.asList(hivMetadata.getOnArvsState()));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
 		return pscd;
 	}
 
+	@Deprecated
 	public static CohortDefinition artEverEnrolledAtLocationOnDate(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": ART ever at location_");
-		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		pscd.setState(hivMetadata.getOnArvsState());
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
@@ -160,12 +120,12 @@ public class ApzuReportElementsArt {
 		return pscd;
 	}
 
+
 	public static CohortDefinition artEnrolledAtLocationInPeriod(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": ART at location_");
-		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		pscd.setState(hivMetadata.getOnArvsState());
 		pscd.addParameter(new Parameter("startedOnOrAfter",
 				"startedOnOrAfter", Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
@@ -250,8 +210,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART at location_");
-		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)"));
+		pscd.setState(hivMetadata.getPreArtState());
 		pscd.addParameter(new Parameter("startedOnOrAfter",
 				"startedOnOrAfter", Date.class));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
@@ -297,8 +256,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART ever at location_");
-		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)"));
+		pscd.setState(hivMetadata.getPreArtState());
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
@@ -339,8 +297,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART ever at location inlc Old patients_");
-		pscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)"));
+		pscd.setState(hivMetadata.getPreArtState());
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd.addParameter(new Parameter("location", "location", Location.class));
@@ -353,8 +310,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART ever_");
-		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)")));
+		pscd.setStates(Arrays.asList(hivMetadata.getPreArtState()));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
@@ -390,8 +346,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName(prefix + ": Pre-ART ever_");
-		pscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)")));
+		pscd.setStates(Arrays.asList(hivMetadata.getPreArtState()));
 		pscd.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd);
@@ -528,8 +483,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child ever at location_");
-		pscd2.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)"));
+		pscd2.setState(hivMetadata.getExposedChildState());
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd2.addParameter(new Parameter("location", "location", Location.class));
@@ -567,8 +521,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateCohortDefinition pscd2 = new PatientStateCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child ever_");
-		pscd2.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)")));
+		pscd2.setStates(Arrays.asList(hivMetadata.getExposedChildState()));
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		h.replaceCohortDefinition(pscd2);
@@ -603,8 +556,7 @@ public class ApzuReportElementsArt {
 		// internal transfers are still under responsibility of original clinic
 		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
 		// .getStateByName("Transferred internally"));
-		iscd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)"));
+		iscd.setState(hivMetadata.getExposedChildState());
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		iscd.addParameter(new Parameter("location", "location", Location.class));
 		h.replaceCohortDefinition(iscd);
@@ -617,8 +569,7 @@ public class ApzuReportElementsArt {
 		// internal transfers are still under responsibility of original clinic
 		// states.add(Context.getProgramWorkflowService().getProgramByName("HIV program").getWorkflowByName("Treatment status")
 		// .getStateByName("Transferred internally"));
-		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)")));
+		iscd.setStates(Arrays.asList(hivMetadata.getExposedChildState()));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		return iscd;
@@ -628,8 +579,7 @@ public class ApzuReportElementsArt {
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd2 = new PatientStateAtLocationCohortDefinition();
 		pscd2.setName(prefix + ": Exposed Child at location_");
-		pscd2.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Exposed Child (Continue)"));
+		pscd2.setState(hivMetadata.getExposedChildState());
 		pscd2.addParameter(new Parameter("startedOnOrBefore",
 				"startedOnOrBefore", Date.class));
 		pscd2.addParameter(new Parameter("startedOnOrAfter",
@@ -683,8 +633,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(prefix + ": Transferred out at location_");
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Patient transferred out"));
+		islcd.setState(hivMetadata.getTransferredOutState());
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}
@@ -694,8 +643,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(prefix + ": Died at location_");
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Patient died"));
+		islcd.setState(hivMetadata.getDiedState());
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}
@@ -705,7 +653,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(prefix + ": Defaulted at location_");
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient defaulted"));
+		islcd.setState(hivMetadata.getDefaultedState());
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}
@@ -716,7 +664,7 @@ public class ApzuReportElementsArt {
 		pslcd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		pslcd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		pslcd.addParameter(new Parameter("location", "location", Location.class));
-		pslcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status", "Patient defaulted"));
+		pslcd.setState(hivMetadata.getDefaultedState());
 		h.replaceCohortDefinition(pslcd);
 		return pslcd;
 	}
@@ -724,8 +672,7 @@ public class ApzuReportElementsArt {
 	public static CohortDefinition transferredInternallyOnDate(String reportTag) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName(reportTag + ": transferred internally_");
-		iscd.setStates(Arrays.asList(MetadataLookup.workflowState("HIV program",
-				"Treatment status", "Transferred internally")));
+		iscd.setStates(Arrays.asList(hivMetadata.getTransferredInternallyState()));
 		iscd.addParameter(new Parameter("onDate", "onDate", Date.class));
 		h.replaceCohortDefinition(iscd);
 		return iscd;
@@ -878,8 +825,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(string + ": Active Pre-ART at location_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"Pre-ART (Continue)"));
+		islcd.setState(hivMetadata.getPreArtState());
 		h.replaceCohortDefinition(islcd);
 		
 		// excluding everyone without a hcc number for the location (old pre-art
@@ -919,8 +865,7 @@ public class ApzuReportElementsArt {
 		islcd.setName(string + ": Active ART at location_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
 		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		islcd.setState(hivMetadata.getOnArvsState());
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}
@@ -930,8 +875,7 @@ public class ApzuReportElementsArt {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(string + ": Active ART_");
 		islcd.addParameter(new Parameter("onDate", "OnDate", Date.class));
-		islcd.setState(MetadataLookup.workflowState("HIV program", "Treatment status",
-				"On antiretrovirals"));
+		islcd.setState(hivMetadata.getOnArvsState());
 		h.replaceCohortDefinition(islcd);
 		return islcd;
 	}

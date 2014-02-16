@@ -3,13 +3,31 @@ package org.openmrs.module.pihmalawi.reports;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientProgram;
+import org.openmrs.PatientState;
+import org.openmrs.Person;
+import org.openmrs.PersonAddress;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
+import org.openmrs.Relationship;
+import org.openmrs.RelationshipType;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
 import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
@@ -17,7 +35,20 @@ import org.openmrs.util.OpenmrsUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class PatientDataHelper {
 
@@ -31,6 +62,7 @@ public class PatientDataHelper {
 	private Map<String, PatientIdentifierType> patientIdentifierTypeCache = new HashMap<String, PatientIdentifierType>();
 	private Map<String, RelationshipType> relTypeCache = new HashMap<String, RelationshipType>();
 	private ProgramHelper h = new ProgramHelper();
+	private CommonMetadata commonMetadata = new CommonMetadata();
 
 	// Data Set Utilities
 
@@ -201,7 +233,7 @@ public class PatientDataHelper {
 	// Obs
 
 	public Obs getLatestObs(Patient p, String concept, List<EncounterType> onlyInEncountersOfType, Date endDate) {
-		Concept c = MetadataLookup.concept(concept);
+		Concept c = commonMetadata.getConcept(concept);
 		List<Encounter> encs = null;
 		if (onlyInEncountersOfType != null) {
 			EncounterService es = Context.getEncounterService();
@@ -216,7 +248,7 @@ public class PatientDataHelper {
 	}
 
 	public Obs getEarliestObs(Patient p, String concept, List<EncounterType> onlyInEncountersOfType, Date endDate) {
-		Concept c = MetadataLookup.concept(concept);
+		Concept c = commonMetadata.getConcept(concept);
 		List<Encounter> encs = null;
 		if (onlyInEncountersOfType != null) {
 			EncounterService es = Context.getEncounterService();
@@ -299,7 +331,7 @@ public class PatientDataHelper {
 
 	public List<DrugOrder> getDrugOrdersByStartDateAscending(Patient p, String conceptNameOrId, Date onOrBeforeDate) {
 		Map<Date, DrugOrder> m = new TreeMap<Date, DrugOrder>();
-		Concept drugConcept = MetadataLookup.concept(conceptNameOrId);
+		Concept drugConcept = commonMetadata.getConcept(conceptNameOrId);
 		for (DrugOrder drugOrder : Context.getOrderService().getOrders(DrugOrder.class, Arrays.asList(p), Arrays.asList(drugConcept), OrderService.ORDER_STATUS.NOTVOIDED, null, null, null)) {
 			if (onOrBeforeDate == null || drugOrder.getStartDate().compareTo(onOrBeforeDate) <= 0) {
 				m.put(drugOrder.getStartDate(), drugOrder);

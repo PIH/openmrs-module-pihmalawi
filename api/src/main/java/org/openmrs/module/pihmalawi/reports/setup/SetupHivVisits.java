@@ -1,14 +1,9 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition.ColumnDisplayFormat;
@@ -19,9 +14,15 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SetupHivVisits {
 
 	ReportHelper h = new ReportHelper();
+	HivMetadata hivMetadata = new HivMetadata();
 
 	public SetupHivVisits(ReportHelper helper) {
 		h = helper;
@@ -66,8 +67,7 @@ public class SetupHivVisits {
 		Map<String, Mapped<? extends DataSetDefinition>> map = new HashMap<String, Mapped<? extends DataSetDefinition>>();
 		map.put("art_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("ART_INITIAL")),
+						"encounterTypes", Arrays.asList(hivMetadata.getArtInitialEncounterType()),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
@@ -75,8 +75,7 @@ public class SetupHivVisits {
 										"ARV Number")))));
 		map.put("art_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("ART_FOLLOWUP")),
+						"encounterTypes", Arrays.asList(hivMetadata.getArtFollowupEncounterType()),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
@@ -84,8 +83,7 @@ public class SetupHivVisits {
 										"ARV Number")))));
 		map.put("part_initial",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("PART_INITIAL")),
+						"encounterTypes", Arrays.asList(hivMetadata.getPreArtInitialEncounterType()),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
@@ -93,8 +91,7 @@ public class SetupHivVisits {
 										"HCC Number")))));
 		map.put("part_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("PART_FOLLOWUP")),
+						"encounterTypes", Arrays.asList(hivMetadata.getPreArtFollowupEncounterType()),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
@@ -102,23 +99,21 @@ public class SetupHivVisits {
 										"HCC Number")))));
 		map.put("exposed_child_initial",
 				new Mapped<DataSetDefinition>(dsd,
-						h.parameterMap("encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("EXPOSED_CHILD_INITIAL")),
+						h.parameterMap("encounterTypes", Arrays.asList(hivMetadata.getExposedChildInitialEncounterType()),
 								"encounterDatetimeOnOrBefore", "${endDate}",
 								"encounterDatetimeOnOrAfter", "${startDate}",
 								"patientIdentifierTypes", Arrays
-										.asList(Context.getPatientService()
-												.getPatientIdentifierType(
-														"HCC Number")))));
+								.asList(Context.getPatientService()
+										.getPatientIdentifierType(
+												"HCC Number")))));
 		map.put("exposed_child_followup",
 				new Mapped<DataSetDefinition>(dsd, h.parameterMap(
-						"encounterTypes", Arrays.asList(MetadataLookup
-								.encounterType("EXPOSED_CHILD_FOLLOWUP")),
+						"encounterTypes", Arrays.asList(hivMetadata.getExposedChildFollowupEncounterType()),
 						"encounterDatetimeOnOrBefore", "${endDate}",
 						"encounterDatetimeOnOrAfter", "${startDate}",
 						"patientIdentifierTypes", Arrays.asList(Context
 								.getPatientService().getPatientIdentifierType(
-										"HCC Number")))));
+								"HCC Number")))));
 		rd.setDataSetDefinitions(map);
 		rd.addParameter(new Parameter("startDate", "Start date", Date.class));
 		rd.addParameter(new Parameter("endDate", "End date", Date.class));

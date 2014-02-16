@@ -14,7 +14,8 @@ import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.MetadataLookup;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.Metadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.renderer.HccMissedAppointmentBreakdownRenderer;
 import org.openmrs.module.pihmalawi.reports.setup.SetupGenericMissedAppointment;
@@ -30,13 +31,15 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment {
 
 	boolean upperNeno;
+	private HivMetadata hivMetadata;
 
 	public SetupPreArtMissedAppointment(ReportHelper helper, boolean upperNeno) {
 		super(helper);
 		this.upperNeno = upperNeno;
+		hivMetadata = new HivMetadata();
 		if (upperNeno) {
 			configure("Pre-ART Missed Appointment", "partappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+					hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Neno District Hospital"),
@@ -52,7 +55,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 									"Ligowe HC")), HccMissedAppointmentBreakdownRenderer.class.getName());
 		} else {
 			configure("Pre-ART Missed Appointment", "partappt",
-					MetadataLookup.programWorkflow("HIV program", "Treatment status"),
+					hivMetadata.getTreatmentStatusWorkfow(),
 					Arrays.asList(
 							Context.getLocationService().getLocation(
 									"Lisungwi Community Hospital"),
@@ -76,8 +79,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 
 	@Override
 	protected List<EncounterType> getEncounterTypes() {
-		return Arrays.asList(MetadataLookup.encounterType("PART_INITIAL"),
-				MetadataLookup.encounterType("PART_FOLLOWUP"));
+		return hivMetadata.getPreArtEncounterTypes();
 	}
 
 	@Override
@@ -156,8 +158,7 @@ public class SetupPreArtMissedAppointment extends SetupGenericMissedAppointment 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		ecd.setEncounterTypeList(Arrays.asList(MetadataLookup
-				.encounterType("ADMINISTRATION")));
+		ecd.setEncounterTypeList(Arrays.asList(hivMetadata.getEncounterType("ADMINISTRATION")));
 		h.replaceCohortDefinition(ecd);
 
 		// Not marked as inactive == has paper record
