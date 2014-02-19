@@ -1,3 +1,16 @@
+/**
+ * The contents of this file are subject to the OpenMRS Public License
+ * Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://license.openmrs.org
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+ */
 package org.openmrs.module.pihmalawi;
 
 import java.util.Arrays;
@@ -7,48 +20,42 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.context.Context;
 import org.openmrs.layout.web.address.AddressSupport;
 import org.openmrs.layout.web.address.AddressTemplate;
-import org.openmrs.module.Activator;
+import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 
-public class ModuleActivator implements Activator {
+public class ModuleActivator extends BaseModuleActivator {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	public void startup() {
-		log.info("Starting pihmalawi Module");
+	@Override
+	public void started() {
+		log.info("pihmalawi module started");
 		registerMalawiAddressTemplate();
+		ReportInitializer reportInitializer = Context.getRegisteredComponents(ReportInitializer.class).get(0);
+		reportInitializer.setupReports();
 	}
 
-	public void shutdown() {
-		log.info("Shutting down pihmalawi Module");
+	@Override
+	public void stopped() {
+		log.info("pihmalawi module stopped");
 		unregisterMalawiAddressTemplate();
 	}
 
 	private void registerMalawiAddressTemplate() {
+
 		log.warn("Hard-coded configuration of address template for Malawi");
-		AddressTemplate at = new AddressTemplate();
+		AddressTemplate at = new AddressTemplate("pihmalawi");
 		at.setDisplayName("Malawi Address Format");
 		at.setCodeName("malawi");
 		at.setCountry("Malawi");
 
-		/*
-		 * Original values from openmrs-servlet.xml for Malawi
-		 * 
-		 * <prop key="stateProvince">Location.district</prop> <prop
-		 * key="countyDistrict">Location.traditionalAuthority</prop> <prop
-		 * key="cityVillage">Location.village</prop> <prop
-		 * key="neighborhoodCell">Location.neighborhood</prop> <prop
-		 * key="address1">Location.address1</prop>
-		 */
 		Map<String, String> nameMappings = new HashMap<String, String>();
-		// nameMappings.put("country", "pihmalawi.address.country");
 		nameMappings.put("countyDistrict", "pihmalawi.address.countyDistrict");
 		nameMappings.put("stateProvince", "pihmalawi.address.stateProvince");
 		nameMappings.put("cityVillage", "pihmalawi.address.cityVillage");
-		// nameMappings.put("neighborhoodCell", "pihmalawi.address.neighborhoodCell");
-		// nameMappings.put("address1", "pihmalawi.address.address1");
-		// nameMappings.put("address2", "pihmalawi.address.address2");
 		at.setNameMappings(nameMappings);
 
 		Map<String, String> sizeMappings = new HashMap<String, String>();
@@ -61,8 +68,7 @@ public class ModuleActivator implements Activator {
 		elementDefaults.put("country", "Malawi");
 		at.setElementDefaults(elementDefaults);
 
-		at.setLineByLineFormat(Arrays.asList("cityVillage", "countyDistrict",
-				"stateProvince"));
+		at.setLineByLineFormat(Arrays.asList("cityVillage", "countyDistrict", "stateProvince"));
 
 		AddressSupport.getInstance().getLayoutTemplates().add(at);
 	}
@@ -75,5 +81,4 @@ public class ModuleActivator implements Activator {
 			}
 		}
 	}
-
 }

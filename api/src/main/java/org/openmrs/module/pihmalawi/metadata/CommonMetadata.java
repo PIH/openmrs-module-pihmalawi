@@ -23,10 +23,60 @@ import java.util.List;
 @Component
 public class CommonMetadata extends Metadata {
 
-	public static String APPOINTMENT_DATE = "Appointment date";
+	public static final String APPOINTMENT_DATE = "Appointment date";
+	public static final String CD4_COUNT = "CD4 count";
+	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
+	public static final String TB_TREATMENT_STATUS = "Tuberculosis treatment status";
+	public static final String WHO_STAGE = "WHO stage";
+	public static final String CD4_PERCENT = "Cd4%";
+	public static final String PRESUMED_SEVERE_HIV_CRITERIA_PRESENT = "Presumed severe HIV criteria present";
+	public static final String FIRST_LINE_ARV_START_DATE = "Start date 1st line ARV";
+	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";
+	public static final String TB_STATUS = "TB status";
+	public static final String ART_SIDE_EFFECTS = "Malawi ART side effects";
 
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
+	}
+
+	public Concept getCd4CountConcept() {
+		return getConcept(CD4_COUNT);
+	}
+
+	public Concept getKsSideEffectsWorseningOnArvsConcept() {
+		return getConcept(KS_SIDE_EFFECTS_WORSENING_ON_ARVS);
+	}
+
+	public Concept getTbTreatmentStatusConcept() {
+		return getConcept(TB_TREATMENT_STATUS);
+	}
+
+	public Concept getWhoStageConcept() {
+		return getConcept(WHO_STAGE);
+	}
+
+	public Concept getCd4PercentConcept() {
+		return getConcept(CD4_PERCENT);
+	}
+
+	public Concept getPresumedSevereHivCriteriaPresentConcept() {
+		return getConcept(PRESUMED_SEVERE_HIV_CRITERIA_PRESENT);
+	}
+
+	public Concept getFirstLineArvStartDateConcept() {
+		return getConcept(FIRST_LINE_ARV_START_DATE);
+	}
+
+	public Concept getArvDrugsReceivedConcept() {
+		return getConcept(ARV_DRUGS_RECEIVED);
+	}
+
+	public Concept getTbStatusConcept() {
+		return getConcept(TB_STATUS);
+	}
+
+	public Concept getArtSideEffectsConcept() {
+		return getConcept(ART_SIDE_EFFECTS);
 	}
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

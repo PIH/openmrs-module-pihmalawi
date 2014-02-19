@@ -39,7 +39,6 @@ public class HivMetadata extends CommonMetadata {
 	public static String HIV_PROGRAM_STATUS_TREATMENT_STOPPED = "Treatment stopped";
 	public static String HIV_PROGRAM_STATUS_DISCHARGED_UNINFECTED = "Discharged uninfected";
 
-
 	public static String PRE_ART_INITIAL = "PART_INITIAL";
 	public static String PRE_ART_FOLLOWUP = "PART_FOLLOWUP";
 
@@ -50,6 +49,7 @@ public class HivMetadata extends CommonMetadata {
 	public static String EXPOSED_CHILD_FOLLOWUP = "EXPOSED_CHILD_FOLLOWUP";
 
 	public static String HCC_NUMBER = "HCC Number";
+	public static String ARV_NUMBER = "ARV Number";
 
 	public Program getHivProgram() {
 		return getProgram(HIV_PROGRAM);
@@ -182,6 +182,10 @@ public class HivMetadata extends CommonMetadata {
 
 	public PatientIdentifierType getHccNumberIdentifierType() {
 		return getPatientIdentifierType(HCC_NUMBER);
+	}
+
+	public PatientIdentifierType getArvNumberIdentifierType() {
+		return getPatientIdentifierType(ARV_NUMBER);
 	}
 
 	public List<Location> getHivLocations() {

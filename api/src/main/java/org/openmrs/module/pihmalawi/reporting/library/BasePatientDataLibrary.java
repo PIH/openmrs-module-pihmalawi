@@ -13,207 +13,139 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.Concept;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.PersonAddress;
+import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
+import org.openmrs.module.reporting.common.TimeQualifier;
+import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
+import org.openmrs.module.reporting.data.converter.CollectionConverter;
+import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.reporting.data.converter.ObjectFormatter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
+import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
-import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
+import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.PreferredIdentifierDataDefinition;
+import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
+import org.openmrs.module.reporting.data.person.definition.ConvertedPersonDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
+import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.stereotype.Component;
 
-@Component
-public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
+import java.util.Arrays;
+import java.util.Date;
 
-    @Override
-    public Class<? super PatientDataDefinition> getDefinitionType() {
-        return PatientDataDefinition.class;
-    }
+@Component
+public class BasePatientDataLibrary extends BuiltInPatientDataLibrary {
 
     @Override
     public String getKeyPrefix() {
         return "pihmalawi.patientData.";
     }
 
-	/*
-    @DocumentedDefinition("numberOfZlEmrIds")
-    public PatientDataDefinition getNumberOfZlEmrIds() {
-        return getIdentifiersOf(mirebalaisReportsProperties.getZlEmrIdentifierType(), new CountConverter());
-    }
+	// Address Data
 
-    @DocumentedDefinition("numberOfDossierNumbers")
-    public PatientDataDefinition getNumberOfDossierNumbers() {
-        return getIdentifiersOf(mirebalaisReportsProperties.getDossierNumberIdentifierType(), new CountConverter());
-    }
+	@DocumentedDefinition("village")
+	public PatientDataDefinition getVillage() {
+		return getPreferredAddress("cityVillage");
+	}
 
-    @DocumentedDefinition("numberOfHivEmrIds")
-    public PatientDataDefinition getNumberOfHivEmrIds() {
-        return getIdentifiersOf(mirebalaisReportsProperties.getHivEmrIdentifierType(), new CountConverter());
-    }
+	@DocumentedDefinition("traditionalAuthority")
+	public PatientDataDefinition getTraditionalAuthority() {
+		return getPreferredAddress("countyDistrict");
+	}
 
-    @DocumentedDefinition("preferredZlEmrId.identifier")
-    public PatientDataDefinition getPreferredZlEmrIdIdentifier() {
-        return getPreferredIdentifierOf(
-                mirebalaisReportsProperties.getZlEmrIdentifierType(),
-                new PropertyConverter(PatientIdentifier.class, "identifier"));
-    }
+	@DocumentedDefinition("district")
+	public PatientDataDefinition getDistrict() {
+		return getPreferredAddress("stateProvince");
+	}
 
-    @DocumentedDefinition("mostRecentZlEmrId.identifier")
-    public PatientDataDefinition getMostRecentZlEmrIdIdentifier() {
-        return getMostRecentIdentifierOf(
-                mirebalaisReportsProperties.getZlEmrIdentifierType(),
-                new PropertyConverter(PatientIdentifier.class, "identifier"));
-    }
+	@DocumentedDefinition("ageAtEndInMonths")
+	public PatientDataDefinition getAgeAtEndInMonths() {
+		PatientDataDefinition ageAtEnd = getAgeAtEnd();
+		return convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
+	}
 
-    @DocumentedDefinition("mostRecentZlEmrId.location")
-    public PatientDataDefinition getMostRecentZlEmrIdLocation() {
-        return getMostRecentIdentifierOf(
-                mirebalaisReportsProperties.getZlEmrIdentifierType(),
-                new PropertyConverter(PatientIdentifier.class, "location"),
-                new ObjectFormatter());
-    }
+	// Data Definition Convenience methods
 
-    @DocumentedDefinition("mostRecentDossierNumber.identifier")
-    public PatientDataDefinition getMostRecentDossierNumberIdentifier() {
-        return getMostRecentIdentifierOf(
-                mirebalaisReportsProperties.getDossierNumberIdentifierType(),
-                new PropertyConverter(PatientIdentifier.class, "identifier"));
-    }
+	protected PatientDataDefinition getPreferredAddress(String property) {
+		PreferredAddressDataDefinition d = new PreferredAddressDataDefinition();
+		PropertyConverter converter = new PropertyConverter(PersonAddress.class, property);
+		return convert(d, converter);
+	}
 
-    @DocumentedDefinition("mostRecentHivEmrId.identifier")
-    public PatientDataDefinition getMostRecentHivEmrIdIdentifier() {
-        return getMostRecentIdentifierOf(
-                mirebalaisReportsProperties.getHivEmrIdentifierType(),
-                new PropertyConverter(PatientIdentifier.class, "identifier"));
-    }
+	protected PatientDataDefinition getPreferredIdentifierAtLocation(PatientIdentifierType pit, DataConverter...converters) {
+		PreferredIdentifierDataDefinition def = new PreferredIdentifierDataDefinition();
+		def.setIdentifierType(pit);
+		def.addParameter(new Parameter("location", "Location", Location.class));
+		return new ConvertedPatientDataDefinition(def, converters);
+	}
 
-    @DocumentedDefinition("unknownPatient.value")
-    public PatientDataDefinition getUnknownPatient() {
-        return new ConvertedPatientDataDefinition(
-                new PersonToPatientDataDefinition(
-                        new PersonAttributeDataDefinition(emrApiProperties.getUnknownPatientPersonAttributeType())),
-                new PropertyConverter(PersonAttribute.class, "value"));
-    }
+	protected PatientDataDefinition getAllIdentifiersOfType(PatientIdentifierType pit, DataConverter...converters) {
+		PatientIdentifierDataDefinition def = new PatientIdentifierDataDefinition();
+		def.setTypes(Arrays.asList(pit));
+		return new ConvertedPatientDataDefinition(def, converters);
+	}
 
-    @DocumentedDefinition("preferredAddress.department")
-    public PatientDataDefinition getPreferredAddressDepartment() {
-        return getPreferredAddress("stateProvince");
-    }
+	protected PatientDataDefinition getFirstEncounterOfType(EncounterType type, DataConverter...converters) {
+		EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
+		def.setWhich(TimeQualifier.FIRST);
+		def.setTypes(Arrays.asList(type));
+		return def;
+	}
 
-    @DocumentedDefinition("preferredAddress.commune")
-    public PatientDataDefinition getPreferredAddressCommune() {
-        return getPreferredAddress("cityVillage");
-    }
+	protected PersonDataDefinition getFirstObsByEndDate(Concept question, EncounterType...encounterType) {
+		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+		def.setWhich(TimeQualifier.FIRST);
+		def.setQuestion(question);
+		def.setEncounterTypeList(Arrays.asList(encounterType));
+		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		ConvertedPersonDataDefinition mappedDef = new ConvertedPersonDataDefinition();
+		mappedDef.addParameter(new Parameter("endDate", "End Date", Date.class));
+		mappedDef.setDefinitionToConvert(Mapped.<PersonDataDefinition>map(def, "onOrBefore=${endDate}"));
+		return mappedDef;
+	}
 
-    @DocumentedDefinition("preferredAddress.section")
-    public PatientDataDefinition getPreferredAddressSection() {
-        return getPreferredAddress("address3");
-    }
+	protected PersonDataDefinition getMostRecentObsByEndDate(Concept question, EncounterType...encounterType) {
+		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setQuestion(question);
+		def.setEncounterTypeList(Arrays.asList(encounterType));
+		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		ConvertedPersonDataDefinition mappedDef = new ConvertedPersonDataDefinition();
+		mappedDef.addParameter(new Parameter("endDate", "End Date", Date.class));
+		mappedDef.setDefinitionToConvert(Mapped.<PersonDataDefinition>map(def, "onOrBefore=${endDate}"));
+		return mappedDef;
+	}
 
-    @DocumentedDefinition("preferredAddress.locality")
-    public PatientDataDefinition getPreferredAddressLocality() {
-        return getPreferredAddress("address1");
-    }
+	// Converter Convenience methods
 
-    @DocumentedDefinition("preferredAddress.streetLandmark")
-    public PatientDataDefinition getPreferredAddressStreetLandmark() {
-        return getPreferredAddress("address2");
-    }
+	protected DataConverter getIdentifierCollectionConverter() {
+		CollectionConverter collectionConverter = new CollectionConverter(new PatientIdentifierConverter(), true, null);
+		return new ChainedConverter(collectionConverter, new ObjectFormatter(" "));
+	}
 
-    @DocumentedDefinition("registration.encounterDatetime")
-    public PatientDataDefinition getRegistrationDatetime() {
-        return getRegistrationEncounter(new PropertyConverter(Encounter.class, "encounterDatetime"));
-    }
+	protected DataConverter getObsDatetimeConverter() {
+		return new PropertyConverter(Obs.class, "obsDatetime");
+	}
 
-    @DocumentedDefinition("admission.location")
-    public PatientDataDefinition getAdmissionLocation() {
-        return getAdmissionEncounter(new PropertyConverter(Encounter.class, "location"),
-                new ObjectFormatter());
-    }
+	protected DataConverter getObsValueNumericConverter() {
+		return new PropertyConverter(Obs.class, "valueNumeric");
+	}
 
-    @DocumentedDefinition("admission.encounterDatetime")
-    public PatientDataDefinition getAdmissionDatetime() {
-        return getAdmissionEncounter(new PropertyConverter(Encounter.class, "encounterDatetime"));
-    }
-
-    @DocumentedDefinition("inpatient.location")
-    public PatientDataDefinition getInpatientLocation() {
-        return getAdmissionOrTransferEncounter(new PropertyConverter(Encounter.class, "location"),
-                new ObjectFormatter());
-    }
-
-    @DocumentedDefinition("inpatient.encounterDatetime")
-    public PatientDataDefinition getInpatientDatetime() {
-        return getAdmissionOrTransferEncounter(new PropertyConverter(Encounter.class, "encounterDatetime"));
-    }
-
-    @DocumentedDefinition("registration.location")
-    public PatientDataDefinition getRegistrationLocation() {
-        return getRegistrationEncounter(new PropertyConverter(Encounter.class, "location"),
-                new ObjectFormatter());
-    }
-
-    @DocumentedDefinition("registration.creator.name")
-    public PatientDataDefinition getRegistrationCreatorName() {
-        return getRegistrationEncounter(new PropertyConverter(Encounter.class, "creator"),
-                new PropertyConverter(User.class, "personName"),
-                new ObjectFormatter("{givenName} {familyName}"));
-    }
-
-    @DocumentedDefinition("registration.age")
-    public PatientDataDefinition getRegistrationAge() {
-        MappedData<PatientDataDefinition> effectiveDate = new MappedData<PatientDataDefinition>(getRegistrationDatetime(), null);
-
-        AgeAtDateOfOtherDataDefinition ageAtRegistration = new AgeAtDateOfOtherDataDefinition();
-        ageAtRegistration.setEffectiveDateDefinition(effectiveDate);
-
-        return new ConvertedPatientDataDefinition(new PersonToPatientDataDefinition(ageAtRegistration), new AgeConverter("{y:1}"));
-    }
-
-    private PatientDataDefinition getIdentifiersOf(PatientIdentifierType patientIdentifierType, DataConverter... converters) {
-        return new ConvertedPatientDataDefinition(
-                new PatientIdentifierDataDefinition(null, patientIdentifierType),
-                converters);
-    }
-
-    private PatientDataDefinition getPreferredIdentifierOf(PatientIdentifierType patientIdentifierType, DataConverter... converters) {
-        PatientIdentifierDataDefinition dd = new PatientIdentifierDataDefinition(null, patientIdentifierType);
-        dd.setIncludeFirstNonNullOnly(true);
-        if (converters.length > 0) {
-            return new ConvertedPatientDataDefinition(dd, converters);
-        }
-        else {
-            return dd;
-        }
-    }
-
-    private PatientDataDefinition getMostRecentIdentifierOf(PatientIdentifierType patientIdentifierType, DataConverter... converters) {
-        return getIdentifiersOf(patientIdentifierType,
-                converters(new MostRecentlyCreatedConverter(PatientIdentifier.class), converters));
-    }
-
-    private PatientDataDefinition getPreferredAddress(String property) {
-        return new ConvertedPatientDataDefinition(
-                new PersonToPatientDataDefinition(
-                        new PreferredAddressDataDefinition()),
-                new PropertyConverter(PersonAddress.class, property));
-    }
-
-    private PatientDataDefinition getRegistrationEncounter(DataConverter... converters) {
-        EncountersForPatientDataDefinition registrationEncounters = new EncountersForPatientDataDefinition();
-        registrationEncounters.setTypes(Arrays.asList(mirebalaisReportsProperties.getRegistrationEncounterType()));
-
-        return new ConvertedPatientDataDefinition(registrationEncounters,
-                converters(new EarliestCreatedConverter(Encounter.class), converters));
-    }
-    private PatientDataDefinition getAdmissionEncounter(DataConverter... converters) {
-        EncountersForPatientDataDefinition admissionEncounters = new EncountersForPatientDataDefinition();
-        admissionEncounters.setTypes(Arrays.asList(emrApiProperties.getAdmissionEncounterType()));
-        admissionEncounters.setOnlyInActiveVisit(true);
-        admissionEncounters.setWhich(TimeQualifier.FIRST);
-        return new ConvertedPatientDataDefinition(admissionEncounters, converters);
-    }
-    private PatientDataDefinition getAdmissionOrTransferEncounter(DataConverter... converters) {
-        EncountersForPatientDataDefinition adtEncounters = new EncountersForPatientDataDefinition();
-        adtEncounters.setTypes(Arrays.asList(emrApiProperties.getAdmissionEncounterType(),emrApiProperties.getTransferWithinHospitalEncounterType()));
-        adtEncounters.setOnlyInActiveVisit(true);
-        adtEncounters.setWhich(TimeQualifier.LAST);
-        return new ConvertedPatientDataDefinition(adtEncounters,converters);
-    }
-    */
+	protected DataConverter getObsValueDatetimeConverter() {
+		return new PropertyConverter(Obs.class, "valueDatetime");
+	}
 }

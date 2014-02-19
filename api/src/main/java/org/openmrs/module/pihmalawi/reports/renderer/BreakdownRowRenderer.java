@@ -1,16 +1,5 @@
 package org.openmrs.module.pihmalawi.reports.renderer;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
@@ -31,10 +20,21 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.web.WebConstants;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class BreakdownRowRenderer {
 
@@ -75,7 +75,7 @@ public abstract class BreakdownRowRenderer {
 		List<PatientIdentifier> pis = p.getPatientIdentifiers(identifierType);
 		for (PatientIdentifier pi : pis) {
 			if (pi != null && pi.getLocation() != null && locationParameter != null && pi.getLocation().getId() == locationParameter.getId()) {
-				ret = formatPatientIdentifier(pi.getIdentifier());
+				ret = formatPatientIdentifier(pi);
 				if (pi.isPreferred()) {
 					return ret;
 				}
@@ -84,64 +84,26 @@ public abstract class BreakdownRowRenderer {
 		return ret;
 	}
 
-	protected String patientLink(Patient p,
-			PatientIdentifierType identifierType, Location locationParameter) {
+	protected String patientLink(Patient p, PatientIdentifierType identifierType, Location locationParameter) {
 		// todo, get current id and/or preferred one first
 		String patientLink = "(not applicable)";
 		// todo, don't hardcode server
 		String url = "http://emr:8080/" + WebConstants.WEBAPP_NAME;
 		List<PatientIdentifier> pis = p.getPatientIdentifiers(identifierType);
 		for (PatientIdentifier pi : pis) {
-			if (pi != null && pi.getLocation() != null
-					&& locationParameter != null
-					&& pi.getLocation().getId() == locationParameter.getId()) {
+			if (pi != null && pi.getLocation() != null && locationParameter != null &&
+				pi.getLocation().getId() == locationParameter.getId()) {
 				// take id for location
-				patientLink = "<a href="
-						+ url
-						+ "/patientDashboard.form?patientId="
-						+ p.getId()
-						+ ">"
-						+ (pi != null ? formatPatientIdentifier(pi
-								.getIdentifier()) : "(none)") + "</a> ";
+				String display = formatPatientIdentifier(pi);
+				patientLink = "<a href="+url+"/patientDashboard.form?patientId="+p.getId()+">"+display+"</a> ";
 			}
 		}
 		return patientLink;
 	}
 
-	private String formatPatientIdentifier(String id) {
-		try {
-			if (id.endsWith(" HCC")) {
-				int firstSpace = id.indexOf(" ");
-				int lastSpace = id.lastIndexOf(" ");
-				String number = id.substring(firstSpace + 1, lastSpace);
-				try {
-					DecimalFormat f = new java.text.DecimalFormat("0000");
-					number = f.format(new Integer(number));
-				} catch (Exception e) {
-					// error while converting
-					return id;
-				}
-				return id.substring(0, firstSpace) + "-" + number + "-HCC";
-			} else {
-				if (id.lastIndexOf(" ") > 0) {
-					// for now assume that an id without leading zeros is there
-					// when
-					// there is a space
-					String number = id.substring(id.lastIndexOf(" ") + 1);
-					try {
-						DecimalFormat f = new java.text.DecimalFormat("0000");
-						number = f.format(new Integer(number));
-					} catch (Exception e) {
-						// error while converting
-						return id;
-					}
-					return id.substring(0, id.lastIndexOf(" ")) + "-" + number;
-				}
-				return id;
-			}
-		} catch (Exception e) {
-			return "(error)";
-		}
+	protected String formatPatientIdentifier(PatientIdentifier pi) {
+		PatientIdentifierConverter converter = new PatientIdentifierConverter();
+		return converter.convert(pi).toString();
 	}
 
 	protected String h(String s) {
@@ -241,7 +203,7 @@ public abstract class BreakdownRowRenderer {
 		if (piType != null) {
 			for (PatientIdentifier pi : p.getPatientIdentifiers(piType)) {
 				if (pi != null && pi.getLocation() != null) {
-					arvs += formatPatientIdentifier(pi.getIdentifier()) + " ";
+					arvs += formatPatientIdentifier(pi) + " ";
 				}
 			}
 		}
@@ -457,7 +419,8 @@ public abstract class BreakdownRowRenderer {
 		}
 	}
 
-	protected void addEnrollmentDateCols(DataSetRow row, Patient p, Location locationParameter, Program program, String label) {
+	protected void addEnrollmentDateCols(DataSetRow row, Patient p, Location locationParameter,
+										 Program program, String label) {
 		try {
 			DataSetColumn c = new DataSetColumn(label, label, Date.class);
 			if (locationParameter != null) {

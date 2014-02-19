@@ -14,9 +14,9 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -35,7 +35,7 @@ public class ArtRegister extends BaseReportManager {
 	private HivCohortDefinitionLibrary hivCohorts;
 
 	@Autowired
-	private BuiltInPatientDataLibrary builtInPatientData;
+	private HivPatientDataLibrary hivPatientData ;
 
 	public ArtRegister() {}
 
@@ -66,28 +66,87 @@ public class ArtRegister extends BaseReportManager {
 	public ReportDefinition constructReportDefinition() {
 
 		ReportDefinition rd = new ReportDefinition();
+		rd.setUuid(getUuid());
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
 
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
+		dsd.addParameters(getParameters());
+		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
 		// Rows are defined as all patients who ever have been in the On Antiretrovirals state at the given location
 		CohortDefinition everEnrolled = hivCohorts.getEverEnrolledInArtAtLocationByEndDate();
 		dsd.addRowFilter(Mapped.mapStraightThrough(everEnrolled));
 
-		dsd.addColumn("#", builtInPatientData.getPatientId(), "");
-		dsd.addColumn("Given Name", builtInPatientData.getPreferredGivenName(), "");
-		dsd.addColumn("Family Name", builtInPatientData.getPreferredFamilyName(), "");
+		addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
+		addColumn(dsd, "All HCC #s (not filtered)", hivPatientData.getAllHccNumbers());
+		addColumn(dsd, "All ARV #s (not filtered)", hivPatientData.getAllArvNumbers());
 
-		// TODO:  Add "Facility" column for the location of the report from parameter value
-		// TODO:  Add "Identifier", pdh.preferredIdentifierAtLocation(p, patientIdentifierType, location))
+		// TODO: Limit the art initial encounter to those onOrBefore endDate
 
-		dsd.addColumn("Birthdate", builtInPatientData.getBirthdate(), "");
-		dsd.addColumn("M/F", builtInPatientData.getGender(), "");
+		addColumn(dsd, "ART initial date", hivPatientData.getFirstArtInitialEncounterDate());
+		addColumn(dsd, "ART initial location", hivPatientData.getFirstArtInitialEncounterLocation());
+		addColumn(dsd, "Given name", hivPatientData.getPreferredGivenName());
+		addColumn(dsd, "Last name", hivPatientData.getPreferredFamilyName());
+		addColumn(dsd, "Birthdate", hivPatientData.getBirthdate());
+		addColumn(dsd, "Current Age (yr)", hivPatientData.getAgeAtEnd());
+		addColumn(dsd, "Current Age (mth)", hivPatientData.getAgeAtEndInMonths());
+		addColumn(dsd, "M/F", hivPatientData.getGender());
+		addColumn(dsd, "Village", hivPatientData.getVillage());
+		addColumn(dsd, "TA", hivPatientData.getTraditionalAuthority());
+		addColumn(dsd, "District", hivPatientData.getDistrict());
 
-		// TODO:  Add "Village", pdh.getVillage(p)
-		// TODO:  Add "VHW", pdh.vhwName(p, false)
+		// TODO: For most recent patient state for hiv program treatment status, limited by endDate and location if passed in
+		//addColumn(dsd, "Outcome", null); // formatted display of the state
+		//addColumn(dsd, "Outcome change date", null); // startDate of the state
+		//addColumn(dsd, "Outcome location", null); // location of the state
+
+		// TODO: Only if location != null, get dateEnrolled of first on arvs state at that location
+		//addColumn(dsd, "Enrollment date at location (ART or HCC) (not filtered)", null);
+
+		// TODO: Get date enrolled and enrollment location of first on arvs state on or before the end date
+		//addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered)", null);
+		//addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered) location", null);
+
+		// TODO: Get earliest patientState startDate and enrollment Location for the "Pre-ART (Continue)" state on or before the end date
+		//addColumn(dsd, "1st time in Pre-ART date", null);
+		//addColumn(dsd, "1st time in Pre-ART location", null);
+
+		// TODO: Get earliest patientState startDate and enrollment Location for the "Exposed Child (Continue)" state on or before the end date
+		//addColumn(dsd, "1st time in Exposed Child date", null);
+		//addColumn(dsd, "1st time in Exposed Child location", null);
+
+		// TODO: Get earliest patientState startDate and enrollment Location for the "On antiretrovirals" state on or before the end date
+		//addColumn(dsd, "1st time in ART date", null);
+		//addColumn(dsd, "1st time in ART location", null);
+
+		// TODO: Add below back in, failing now
+		//addColumn(dsd, "ARV start reasons", hivPatientData.getFirstArtInitialReasonForStartingArvs());
+		addColumn(dsd, "Start date 1st line ARV", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
+		addColumn(dsd, "CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
+
+		// TODO: Get all "Patient/Village Health Worker" and "Patient/Guardian" relationships, and add the most recent found givenName + " " + familyName + " (Guardian)" if that relationship type
+		//addColumn(dsd, "VHW", null);
+
+		// TODO: For 1st 3 and most recent encounter of type ART_FOLLOWUP, PART_FOLLOWUP, EXPOSED_CHILD_FOLLOWUP
+
+		//addColumn(dsd, "Visit # 1 date in HIV (not filtered)", null); // encounterDatetime or (no encounter found)
+		//addColumn(dsd, "Visit # 1 loc", null); // location.name or empty
+		//addColumn(dsd, "Visit # 1 appt date", null); // appointmentDate.valueDatetime or empty
+		//addColumn(dsd, "Visit # 1 type", null); // encounterType.name or empty
+
+		addColumn(dsd, "Last Malawi Antiretroviral drugs received", hivPatientData.getLatestArvDrugsReceivedByEndDate());
+		addColumn(dsd, "Last Malawi Antiretroviral drugs received Date", hivPatientData.getLatestArvDrugsReceivedDateByEndDate());
+		addColumn(dsd, "Last TB status", hivPatientData.getLatestTbStatusByEndDate());
+		addColumn(dsd, "Last TB status Date", hivPatientData.getLatestTbStatusDateByEndDate());
+		addColumn(dsd, "Last Malawi ART side effects", hivPatientData.getLatestArtSideEffectsByEndDate());
+		addColumn(dsd, "Last Malawi ART side effects Date", hivPatientData.getLatestArtSideEffectsDateByEndDate());
+
+		// TODO: Get all active states in all programs for the patient, and display "programName: stateName (since state.startDate)" where date is yyyy-MM-dd
+		//addColumn(dsd, "All Enrollments (not filtered)", null);
+
+
 
 		// This formerly created an indicator backing this, and added to period indicator report as "breakdown"
 
@@ -119,11 +178,13 @@ public class ArtRegister extends BaseReportManager {
 
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		return null;
+		List<ReportDesign> l = new ArrayList<ReportDesign>();
+		l.add(createExcelReportDesign(reportDefinition, null));
+		return l;
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.0-SNAPSHOT";
 	}
 }
