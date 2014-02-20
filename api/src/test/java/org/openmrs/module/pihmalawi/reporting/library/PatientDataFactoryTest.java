@@ -16,7 +16,6 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openmrs.Obs;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.data.patient.PatientData;
@@ -44,11 +43,11 @@ public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
 
 	@Test
 	public void testMostRecentObs() throws Exception {
-		PatientDataDefinition pdd = pdf.getFirstObsByEndDate(metadata.getCd4CountConcept());
+		PatientDataDefinition pdd = pdf.getFirstObsByEndDate(metadata.getCd4CountConcept(), null, pdf.getObsValueNumericConverter());
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014, 1, 31));
 		PatientData pd = patientDataService.evaluate(pdd, context);
 		Assert.assertEquals(1, pd.getData().size());
-		Assert.assertEquals(150, ((Obs)pd.getData().get(7)).getValueNumeric().intValue());
+		Assert.assertEquals(150, pd.getData().get(7));
 	}
 }
