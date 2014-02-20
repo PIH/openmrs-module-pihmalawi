@@ -13,10 +13,12 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -33,6 +35,12 @@ public class ArtRegister extends BaseReportManager {
 
 	@Autowired
 	private HivCohortDefinitionLibrary hivCohorts;
+
+	@Autowired
+	private BuiltInPatientDataLibrary builtInPatientData ;
+
+	@Autowired
+	private BasePatientDataLibrary basePatientData ;
 
 	@Autowired
 	private HivPatientDataLibrary hivPatientData ;
@@ -87,15 +95,15 @@ public class ArtRegister extends BaseReportManager {
 
 		addColumn(dsd, "ART initial date", hivPatientData.getFirstArtInitialEncounterDate());
 		addColumn(dsd, "ART initial location", hivPatientData.getFirstArtInitialEncounterLocation());
-		addColumn(dsd, "Given name", hivPatientData.getPreferredGivenName());
-		addColumn(dsd, "Last name", hivPatientData.getPreferredFamilyName());
-		addColumn(dsd, "Birthdate", hivPatientData.getBirthdate());
-		addColumn(dsd, "Current Age (yr)", hivPatientData.getAgeAtEnd());
-		addColumn(dsd, "Current Age (mth)", hivPatientData.getAgeAtEndInMonths());
-		addColumn(dsd, "M/F", hivPatientData.getGender());
-		addColumn(dsd, "Village", hivPatientData.getVillage());
-		addColumn(dsd, "TA", hivPatientData.getTraditionalAuthority());
-		addColumn(dsd, "District", hivPatientData.getDistrict());
+		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
+		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
+		addColumn(dsd, "Birthdate", builtInPatientData.getBirthdate());
+		addColumn(dsd, "Current Age (yr)", builtInPatientData.getAgeAtEnd());
+		addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
+		addColumn(dsd, "M/F", builtInPatientData.getGender());
+		addColumn(dsd, "Village", basePatientData.getVillage());
+		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
+		addColumn(dsd, "District", basePatientData.getDistrict());
 
 		// TODO: For most recent patient state for hiv program treatment status, limited by endDate and location if passed in
 		//addColumn(dsd, "Outcome", null); // formatted display of the state
@@ -121,8 +129,7 @@ public class ArtRegister extends BaseReportManager {
 		//addColumn(dsd, "1st time in ART date", null);
 		//addColumn(dsd, "1st time in ART location", null);
 
-		// TODO: Add below back in, failing now
-		//addColumn(dsd, "ARV start reasons", hivPatientData.getFirstArtInitialReasonForStartingArvs());
+		addColumn(dsd, "ARV start reasons", hivPatientData.getFirstArtInitialReasonForStartingArvs());
 		addColumn(dsd, "Start date 1st line ARV", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
 		addColumn(dsd, "CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
 
