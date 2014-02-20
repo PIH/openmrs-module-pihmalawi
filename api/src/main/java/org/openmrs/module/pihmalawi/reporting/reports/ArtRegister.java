@@ -90,11 +90,8 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
 		addColumn(dsd, "All HCC #s (not filtered)", hivPatientData.getAllHccNumbers());
 		addColumn(dsd, "All ARV #s (not filtered)", hivPatientData.getAllArvNumbers());
-
-		// TODO: Limit the art initial encounter to those onOrBefore endDate
-
-		addColumn(dsd, "ART initial date", hivPatientData.getFirstArtInitialEncounterDate());
-		addColumn(dsd, "ART initial location", hivPatientData.getFirstArtInitialEncounterLocation());
+		addColumn(dsd, "ART initial date", hivPatientData.getFirstArtInitialEncounterDateByEndDate());
+		addColumn(dsd, "ART initial location", hivPatientData.getFirstArtInitialEncounterLocationByEndDate());
 		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
 		addColumn(dsd, "Birthdate", builtInPatientData.getBirthdate());

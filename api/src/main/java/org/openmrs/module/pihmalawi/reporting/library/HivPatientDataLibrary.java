@@ -69,13 +69,13 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.date")
-	public PatientDataDefinition getFirstArtInitialEncounterDate() {
-		return getFirstArtInitialEncounter(pdf.getEncounterDatetimeConverter());
+	public PatientDataDefinition getFirstArtInitialEncounterDateByEndDate() {
+		return getFirstArtInitialEncounterByEndDate(pdf.getEncounterDatetimeConverter());
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.location")
-	public PatientDataDefinition getFirstArtInitialEncounterLocation() {
-		return getFirstArtInitialEncounter(pdf.getEncounterLocationNameConverter());
+	public PatientDataDefinition getFirstArtInitialEncounterLocationByEndDate() {
+		return getFirstArtInitialEncounterByEndDate(pdf.getEncounterLocationNameConverter());
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.cd4Count")
@@ -158,7 +158,7 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 
 	// ***** CONVENIENCE METHODS
 
-	protected PatientDataDefinition getFirstArtInitialEncounter(DataConverter converter) {
+	protected PatientDataDefinition getFirstArtInitialEncounterByEndDate(DataConverter converter) {
 		EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
 		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
 	}

@@ -23,13 +23,11 @@ import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinitio
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.test.SkipBaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Tests the methods in the PatientDataFactory
  */
-@SkipBaseSetup
 public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
 
 	@Autowired
@@ -48,6 +46,6 @@ public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014, 1, 31));
 		PatientData pd = patientDataService.evaluate(pdd, context);
 		Assert.assertEquals(1, pd.getData().size());
-		Assert.assertEquals(150, pd.getData().get(7));
+		Assert.assertEquals(150.0, pd.getData().get(7));
 	}
 }
