@@ -4,10 +4,9 @@ import java.util.*;
 
 import org.openmrs.*;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.metadata.Metadata;
-import org.openmrs.module.pihmalawi.PihUtil;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
 public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
@@ -62,7 +61,7 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		if (arvStartDate != null) {
 			pdh.addCol(row, "Start Date for ART", pdh.formatStateStartDate(earliestOnArvsState));
 			if (latestKsProgramDate != null) {
-				pdh.addCol(row, "Months on ART at KS Enrollment", PihUtil.monthsBetween(arvStartDate, latestKsProgramDate));
+				pdh.addCol(row, "Months on ART at KS Enrollment", DateUtil.monthsBetween(arvStartDate, latestKsProgramDate));
 			}
 		}
 

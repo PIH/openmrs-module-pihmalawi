@@ -30,8 +30,7 @@
 	</tr>
 	<tr>
 		<c:set var="artInitialEncounter" value="" />
-		<openmrs:forEachEncounter encounters="${model.patientEncounters}"
-			type="9" num="1" var="enc">
+		<openmrs:forEachEncounter encounters="${model.patientEncounters}" type="9" num="1" var="enc">
 			<c:if test="${ not empty enc }">
 				<c:set var="artInitialEncounter" value="true" />
 			</c:if>
@@ -63,8 +62,8 @@
 				</c:if>
 			</openmrs:forEachEncounter>
 			<c:choose>
-				<c:set var="eMastercardFormId" value="63" />
 				<c:when test="${ partEncounter || cd4Encounter }">
+					<c:set var="eMastercardFormId" value="63" />
 					<a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">View CD4 Logbook</a>
 				</c:when>
 				<c:otherwise>
@@ -103,11 +102,12 @@
 		</openmrs:forEachEncounter>
 		<td>Kaposis Sarcoma Flowsheet:</td>
 		<c:choose>
-			<c:set var="eMastercardFormId" value="62" />
 			<c:when test="${ evaluationEncounter || ctEncounter }">
+				<c:set var="eMastercardFormId" value="62" />
 				<td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Edit KS file</a></td>
 			</c:when>
 			<c:otherwise>
+				<c:set var="eMastercardFormId" value="62" />
 				<td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Create new KS file</a></td>
 			</c:otherwise>
 		</c:choose>
