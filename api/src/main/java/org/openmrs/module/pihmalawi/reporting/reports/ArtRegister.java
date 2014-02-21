@@ -104,28 +104,19 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
 		addColumn(dsd, "District", basePatientData.getDistrict());
 
-		addColumn(dsd, "Outcome", hivPatientData.getMostRecentHivTreatmentStatusAtLocationByEndDate());
-		addColumn(dsd, "Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusDateAtLocationByEndDate());
-		addColumn(dsd, "Outcome location", hivPatientData.getMostRecentHivTreatmentStatusLocationAtLocationByEndDate());
+		addColumn(dsd, "Outcome", hivPatientData.getMostRecentHivTreatmentStatusStateAtLocationByEndDate());
+		addColumn(dsd, "Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusStateStartDateAtLocationByEndDate());
+		addColumn(dsd, "Outcome location", hivPatientData.getMostRecentHivTreatmentStatusStateLocationAtLocationByEndDate());
 
-		// TODO: Only if location != null, get dateEnrolled of first on arvs state at that location
-		//addColumn(dsd, "Enrollment date at location (ART or HCC) (not filtered)", null);
-
-		// TODO: Get date enrolled and enrollment location of first on arvs state on or before the end date
-		//addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered)", null);
-		//addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered) location", null);
-
-		// TODO: Get earliest patientState startDate and enrollment Location for the "Pre-ART (Continue)" state on or before the end date
-		//addColumn(dsd, "1st time in Pre-ART date", null);
-		//addColumn(dsd, "1st time in Pre-ART location", null);
-
-		// TODO: Get earliest patientState startDate and enrollment Location for the "Exposed Child (Continue)" state on or before the end date
-		//addColumn(dsd, "1st time in Exposed Child date", null);
-		//addColumn(dsd, "1st time in Exposed Child location", null);
-
-		// TODO: Get earliest patientState startDate and enrollment Location for the "On antiretrovirals" state on or before the end date
-		//addColumn(dsd, "1st time in ART date", null);
-		//addColumn(dsd, "1st time in ART location", null);
+		addColumn(dsd, "Enrollment date at location (ART or HCC) (not filtered)", hivPatientData.getEarliestOnArvsStateAtLocationByEndDate());
+		addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered)", hivPatientData.getEarliestOnArvsStateEnrollmentDateByEndDate());
+		addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered) location", hivPatientData.getEarliestOnArvsStateLocationByEndDate());
+		addColumn(dsd, "1st time in Pre-ART date", hivPatientData.getEarliestPreArtStateStartDateByEndDate());
+		addColumn(dsd, "1st time in Pre-ART location", hivPatientData.getEarliestPreArtStateLocationByEndDate());
+		addColumn(dsd, "1st time in Exposed Child date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
+		addColumn(dsd, "1st time in Exposed Child location", hivPatientData.getEarliestExposedChildStateLocationByEndDate());
+		addColumn(dsd, "1st time in ART date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
+		addColumn(dsd, "1st time in ART location", hivPatientData.getEarliestOnArvsStateLocationByEndDate());
 
 		addColumn(dsd, "ARV start reasons", hivPatientData.getFirstArtInitialReasonForStartingArvs());
 		addColumn(dsd, "Start date 1st line ARV", hivPatientData.getLatestFirstLineArvStartDateByEndDate());

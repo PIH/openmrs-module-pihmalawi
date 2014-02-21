@@ -9,16 +9,6 @@
 				value="%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n" />
 		</layout>
 	</appender>
- 
- 	<logger name="org.openmrs.module.reporting.definition.service.BaseDefinitionService">
-		<level value="DEBUG" />
-		<appender-ref ref="CONSOLE" />
- 	</logger>
-
-	<logger name="org.openmrs.module.reporting.dataset.definition.evaluator.PatientDataSetEvaluator">
-		<level value="DEBUG" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
 
 	<logger name="org.openmrs.module.pihmalawi">
 		<level value="DEBUG" />

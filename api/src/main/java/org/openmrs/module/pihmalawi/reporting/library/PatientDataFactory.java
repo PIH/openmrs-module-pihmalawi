@@ -22,6 +22,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
 import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -107,6 +108,23 @@ public class PatientDataFactory {
 		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
 	}
 
+	public PatientDataDefinition getEarliestStateAtLocationByEndDate(ProgramWorkflowState state, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.FIRST);
+		def.setState(state);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
+		def.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
+	public PatientDataDefinition getEarliestStateByEndDate(ProgramWorkflowState state, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.FIRST);
+		def.setState(state);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
 	// Converters
 
 	public DataConverter getIdentifierCollectionConverter() {
@@ -144,6 +162,10 @@ public class PatientDataFactory {
 
 	public DataConverter getStateLocationConverter() {
 		return new ChainedConverter(new PropertyConverter(PatientState.class, "patientProgram.location"), new ObjectFormatter());
+	}
+
+	public DataConverter getStateProgramEnrollmentDateConverter() {
+		return new PropertyConverter(PatientState.class, "patientProgram.dateEnrolled");
 	}
 
 	public DataConverter getObjectFormatter() {

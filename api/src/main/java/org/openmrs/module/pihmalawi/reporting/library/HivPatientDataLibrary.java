@@ -17,6 +17,7 @@ import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ReasonForStartingArvsPatientDataDefinition;
@@ -157,23 +158,75 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), pdf.getObsDatetimeConverter());
 	}
 
-	@DocumentedDefinition("latestHivTreatmentStatusAtLocation")
-	public PatientDataDefinition getMostRecentHivTreatmentStatusAtLocationByEndDate() {
+	@DocumentedDefinition("latestHivTreatmentStatusStateAtLocation")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusStateAtLocationByEndDate() {
 		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
 		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateNameConverter());
 	}
 
-	@DocumentedDefinition("latestHivTreatmentStatusAtLocation.date")
-	public PatientDataDefinition getMostRecentHivTreatmentStatusDateAtLocationByEndDate() {
+	@DocumentedDefinition("latestHivTreatmentStatusStateAtLocation.date")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusStateStartDateAtLocationByEndDate() {
 		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
 		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateStartDateConverter());
 	}
 
-	@DocumentedDefinition("latestHivTreatmentStatusAtLocation.location")
-	public PatientDataDefinition getMostRecentHivTreatmentStatusLocationAtLocationByEndDate() {
+	@DocumentedDefinition("latestHivTreatmentStatusStateAtLocation.location")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusStateLocationAtLocationByEndDate() {
 		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
 		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateLocationConverter());
 	}
+
+	@DocumentedDefinition("earliestOnArvsStateAtLocationByEndDate")
+	public PatientDataDefinition getEarliestOnArvsStateAtLocationByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getOnArvsState();
+		return pdf.getEarliestStateAtLocationByEndDate(state, pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition("earliestOnArvsStateByEndDate.enrollmentDate")
+	public PatientDataDefinition getEarliestOnArvsStateEnrollmentDateByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getOnArvsState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateProgramEnrollmentDateConverter());
+	}
+
+	@DocumentedDefinition("earliestOnArvsStateByEndDate.date")
+	public PatientDataDefinition getEarliestOnArvsStateStartDateByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getOnArvsState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition("earliestOnArvsStateByEndDate.location")
+	public PatientDataDefinition getEarliestOnArvsStateLocationByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getOnArvsState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
+	}
+
+	@DocumentedDefinition("earliestPreArtStateByEndDate.date")
+	public PatientDataDefinition getEarliestPreArtStateStartDateByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getPreArtState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition("earliestPreArtStateByEndDate.location")
+	public PatientDataDefinition getEarliestPreArtStateLocationByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getPreArtState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
+	}
+
+	@DocumentedDefinition("earliestExposedChildStateByEndDate.date")
+	public PatientDataDefinition getEarliestExposedChildStateStartDateByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getExposedChildState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition("earliestExposedChildStateByEndDate.location")
+	public PatientDataDefinition getEarliestExposedChildStateLocationByEndDate() {
+		ProgramWorkflowState state = hivMetadata.getExposedChildState();
+		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
+	}
+
+	// TODO: Get earliest patientState startDate and enrollment Location for the "On antiretrovirals" state on or before the end date
+	//addColumn(dsd, "1st time in ART date", null);
+	//addColumn(dsd, "1st time in ART location", null);
 
 	// ***** CONVENIENCE METHODS
 
