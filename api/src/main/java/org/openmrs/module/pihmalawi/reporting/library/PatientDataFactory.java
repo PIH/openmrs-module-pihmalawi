@@ -19,7 +19,9 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -34,6 +36,7 @@ import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinitio
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PersonToPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PreferredIdentifierDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.ProgramStatesForPatientDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
@@ -95,6 +98,15 @@ public class PatientDataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), null);
 	}
 
+	public PatientDataDefinition getMostRecentStateForWorkflowAtLocationByEndDate(ProgramWorkflow workflow, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setWorkflow(workflow);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
+		def.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
 	// Converters
 
 	public DataConverter getIdentifierCollectionConverter() {
@@ -120,6 +132,18 @@ public class PatientDataFactory {
 
 	public DataConverter getObsValueDatetimeConverter() {
 		return new PropertyConverter(Obs.class, "valueDatetime");
+	}
+
+	public DataConverter getStateNameConverter() {
+		return new ChainedConverter(new PropertyConverter(PatientState.class, "state.concept"), getObjectFormatter());
+	}
+
+	public DataConverter getStateStartDateConverter() {
+		return new PropertyConverter(PatientState.class, "startDate");
+	}
+
+	public DataConverter getStateLocationConverter() {
+		return new ChainedConverter(new PropertyConverter(PatientState.class, "patientProgram.location"), new ObjectFormatter());
 	}
 
 	public DataConverter getObjectFormatter() {

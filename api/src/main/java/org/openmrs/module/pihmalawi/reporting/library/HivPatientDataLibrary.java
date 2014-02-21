@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ReasonForStartingArvsPatientDataDefinition;
@@ -154,6 +155,24 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	@DocumentedDefinition("latestArvDrugsReceived.date")
 	public PatientDataDefinition getLatestArtSideEffectsDateByEndDate() {
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), pdf.getObsDatetimeConverter());
+	}
+
+	@DocumentedDefinition("latestHivTreatmentStatusAtLocation")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusAtLocationByEndDate() {
+		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
+		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateNameConverter());
+	}
+
+	@DocumentedDefinition("latestHivTreatmentStatusAtLocation.date")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusDateAtLocationByEndDate() {
+		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
+		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition("latestHivTreatmentStatusAtLocation.location")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusLocationAtLocationByEndDate() {
+		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
+		return pdf.getMostRecentStateForWorkflowAtLocationByEndDate(wf, pdf.getStateLocationConverter());
 	}
 
 	// ***** CONVENIENCE METHODS

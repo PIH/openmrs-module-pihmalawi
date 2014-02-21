@@ -90,8 +90,10 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
 		addColumn(dsd, "All HCC #s (not filtered)", hivPatientData.getAllHccNumbers());
 		addColumn(dsd, "All ARV #s (not filtered)", hivPatientData.getAllArvNumbers());
+
 		addColumn(dsd, "ART initial date", hivPatientData.getFirstArtInitialEncounterDateByEndDate());
 		addColumn(dsd, "ART initial location", hivPatientData.getFirstArtInitialEncounterLocationByEndDate());
+
 		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
 		addColumn(dsd, "Birthdate", builtInPatientData.getBirthdate());
@@ -102,10 +104,9 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
 		addColumn(dsd, "District", basePatientData.getDistrict());
 
-		// TODO: For most recent patient state for hiv program treatment status, limited by endDate and location if passed in
-		//addColumn(dsd, "Outcome", null); // formatted display of the state
-		//addColumn(dsd, "Outcome change date", null); // startDate of the state
-		//addColumn(dsd, "Outcome location", null); // location of the state
+		addColumn(dsd, "Outcome", hivPatientData.getMostRecentHivTreatmentStatusAtLocationByEndDate());
+		addColumn(dsd, "Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusDateAtLocationByEndDate());
+		addColumn(dsd, "Outcome location", hivPatientData.getMostRecentHivTreatmentStatusLocationAtLocationByEndDate());
 
 		// TODO: Only if location != null, get dateEnrolled of first on arvs state at that location
 		//addColumn(dsd, "Enrollment date at location (ART or HCC) (not filtered)", null);
