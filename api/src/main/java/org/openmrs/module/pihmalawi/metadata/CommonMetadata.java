@@ -15,6 +15,7 @@ package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.Concept;
 import org.openmrs.Location;
+import org.openmrs.RelationshipType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +23,17 @@ import java.util.List;
 
 @Component
 public class CommonMetadata extends Metadata {
+
+	public static final String CHW_RELATIONSHIP_TYPE = "Patient/Village Health Worker";
+	public static final String GUARDIAN_RELATIONSHIP_TYPE = "Patient/Guardian";
+
+	public RelationshipType getChwRelationshipType() {
+		return getRelationshipType(CHW_RELATIONSHIP_TYPE);
+	}
+
+	public RelationshipType getGuardianRelationshipType() {
+		return getRelationshipType(GUARDIAN_RELATIONSHIP_TYPE);
+	}
 
 	public static final String APPOINTMENT_DATE = "Appointment date";
 	public static final String CD4_COUNT = "CD4 count";

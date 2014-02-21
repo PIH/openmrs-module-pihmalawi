@@ -122,8 +122,7 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "Start date 1st line ARV", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
 		addColumn(dsd, "CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
 
-		// TODO: Get all "Patient/Village Health Worker" and "Patient/Guardian" relationships, and add the most recent found givenName + " " + familyName + " (Guardian)" if that relationship type
-		//addColumn(dsd, "VHW", null);
+		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
 		// TODO: For 1st 3 and most recent encounter of type ART_FOLLOWUP, PART_FOLLOWUP, EXPOSED_CHILD_FOLLOWUP
 

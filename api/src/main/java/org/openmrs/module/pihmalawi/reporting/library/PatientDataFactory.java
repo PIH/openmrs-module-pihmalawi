@@ -23,12 +23,15 @@ import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.Relationship;
+import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.reporting.data.converter.MostRecentlyCreatedConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
@@ -41,6 +44,7 @@ import org.openmrs.module.reporting.data.patient.definition.ProgramStatesForPati
 import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.RelationshipsForPersonDataDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.stereotype.Component;
@@ -123,6 +127,18 @@ public class PatientDataFactory {
 		def.setState(state);
 		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
 		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
+	public PatientDataDefinition getRelationships(RelationshipType type, Boolean includeA, Boolean includeB) {
+		RelationshipsForPersonDataDefinition def = new RelationshipsForPersonDataDefinition();
+		def.addRelationshipType(type);
+		def.setPersonAIncluded(includeA);
+		def.setPersonBIncluded(includeB);
+		ChainedConverter c = new ChainedConverter();
+		c.addConverter(new MostRecentlyCreatedConverter(Relationship.class));
+		c.addConverter(new PropertyConverter(Relationship.class, "personB"));
+		c.addConverter(new ObjectFormatter());
+		return convert(def, c);
 	}
 
 	// Converters

@@ -13,7 +13,15 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.Relationship;
+import org.openmrs.RelationshipType;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
+import org.openmrs.module.reporting.data.converter.MostRecentlyCreatedConverter;
+import org.openmrs.module.reporting.data.converter.ObjectFormatter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
@@ -21,11 +29,17 @@ import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
 
 	@Autowired
 	private PatientDataFactory pdf;
+
+	@Autowired
+	private HivMetadata metadata;
 
 	@Autowired
 	private BuiltInPatientDataLibrary builtInPatientData;
@@ -56,6 +70,25 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public PatientDataDefinition getDistrict() {
 		return pdf.getPreferredAddress("stateProvince");
 	}
+
+	// Relationship Data
+
+	@DocumentedDefinition("chw")
+	public PatientDataDefinition getChw() {
+		return pdf.getRelationships(metadata.getChwRelationshipType(), false, true);
+	}
+
+	@DocumentedDefinition("parentOrGuardian")
+	public PatientDataDefinition getParentOrGuardian() {
+		return pdf.getRelationships(metadata.getGuardianRelationshipType(), false, true);
+	}
+
+	@DocumentedDefinition("chwOrGuardian")
+	public PatientDataDefinition getChwOrGuardian() {
+		return new ChwOrGuardianPatientDataDefinition();
+	}
+
+	// Demographic Data
 
 	@DocumentedDefinition("ageAtEndInMonths")
 	public PatientDataDefinition getAgeAtEndInMonths() {
