@@ -13,12 +13,19 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.common.SortCriteria;
+import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
+import org.openmrs.module.reporting.data.patient.definition.PatientDataSetDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
+import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -34,7 +41,13 @@ import java.util.List;
 public class ArtRegister extends BaseReportManager {
 
 	@Autowired
+	private DataFactory df;
+
+	@Autowired
 	private HivCohortDefinitionLibrary hivCohorts;
+
+	@Autowired
+	private HivEncounterQueryLibrary encounterQueries;
 
 	@Autowired
 	private BuiltInPatientDataLibrary builtInPatientData ;
@@ -44,6 +57,12 @@ public class ArtRegister extends BaseReportManager {
 
 	@Autowired
 	private HivPatientDataLibrary hivPatientData ;
+
+	@Autowired
+	private BuiltInEncounterDataLibrary builtInEncounterData;
+
+	@Autowired
+	private BaseEncounterDataLibrary baseEncounterData;
 
 	public ArtRegister() {}
 
@@ -124,12 +143,29 @@ public class ArtRegister extends BaseReportManager {
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
-		// TODO: For 1st 3 and most recent encounter of type ART_FOLLOWUP, PART_FOLLOWUP, EXPOSED_CHILD_FOLLOWUP
+		// Add encounter details for 1st, 2nd, 3rd, and most recent hiv follow-up encounters
+		EncounterDataSetDefinition encDsd = new EncounterDataSetDefinition();
+		encDsd.addParameters(getParameters());
+		encDsd.addRowFilter(Mapped.mapStraightThrough(encounterQueries.getHivFollowupEncountersByEndDate()));
+		addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
+		addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
+		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
+		addColumn(encDsd, "encounterTypeName", builtInEncounterData.getEncounterTypeName());
+		encDsd.addSortCriteria("encounterDate", SortCriteria.SortDirection.ASC);
 
-		//addColumn(dsd, "Visit # 1 date in HIV (not filtered)", null); // encounterDatetime or (no encounter found)
-		//addColumn(dsd, "Visit # 1 loc", null); // location.name or empty
-		//addColumn(dsd, "Visit # 1 appt date", null); // appointmentDate.valueDatetime or empty
-		//addColumn(dsd, "Visit # 1 type", null); // encounterType.name or empty
+		PatientDataSetDataDefinition followups = new PatientDataSetDataDefinition(encDsd);
+
+		for (int i=0; i<3; i++) {
+			String prefix = "Visit # " + (i+1);
+			addColumn(dsd, prefix + " date in HIV (not filtered)", df.convert(followups, df.getDataSetItemConverter(i, "encounterDate", "(no encounter found)")));
+			addColumn(dsd, prefix + " loc", df.convert(followups, df.getDataSetItemConverter(i, "locationName", "")));
+			addColumn(dsd, prefix + " appt date", df.convert(followups, df.getDataSetItemConverter(i, "appointmentDate", "")));
+			addColumn(dsd, prefix + " type", df.convert(followups, df.getDataSetItemConverter(i, "encounterTypeName", "")));
+		}
+		addColumn(dsd, "Last Visit date in HIV (not filtered)", df.convert(followups, df.getLastDataSetItemConverter("encounterDate", "(no encounter found)")));
+		addColumn(dsd, "Last Visit loc", df.convert(followups, df.getLastDataSetItemConverter("locationName", "")));
+		addColumn(dsd, "Last Visit appt date", df.convert(followups, df.getLastDataSetItemConverter("appointmentDate", "")));
+		addColumn(dsd, "Last Visit type", df.convert(followups, df.getLastDataSetItemConverter("encounterTypeName", "")));
 
 		addColumn(dsd, "Last Malawi Antiretroviral drugs received", hivPatientData.getLatestArvDrugsReceivedByEndDate());
 		addColumn(dsd, "Last Malawi Antiretroviral drugs received Date", hivPatientData.getLatestArvDrugsReceivedDateByEndDate());
@@ -138,10 +174,7 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "Last Malawi ART side effects", hivPatientData.getLatestArtSideEffectsByEndDate());
 		addColumn(dsd, "Last Malawi ART side effects Date", hivPatientData.getLatestArtSideEffectsDateByEndDate());
 
-		// TODO: Get all active states in all programs for the patient, and display "programName: stateName (since state.startDate)" where date is yyyy-MM-dd
-		//addColumn(dsd, "All Enrollments (not filtered)", null);
-
-
+		addColumn(dsd, "All Enrollments (not filtered)", df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()));
 
 		// This formerly created an indicator backing this, and added to period indicator report as "breakdown"
 

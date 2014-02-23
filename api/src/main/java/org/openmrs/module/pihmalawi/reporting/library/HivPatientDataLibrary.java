@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
 
 	@Autowired
-	private PatientDataFactory pdf;
+	private DataFactory pdf;
 
 	@Autowired
 	private HivMetadata hivMetadata;

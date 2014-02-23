@@ -13,15 +13,9 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.Relationship;
-import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
-import org.openmrs.module.reporting.data.converter.ChainedConverter;
-import org.openmrs.module.reporting.data.converter.MostRecentlyCreatedConverter;
-import org.openmrs.module.reporting.data.converter.ObjectFormatter;
-import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
@@ -29,14 +23,11 @@ import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Component
 public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
 
 	@Autowired
-	private PatientDataFactory pdf;
+	private DataFactory df;
 
 	@Autowired
 	private HivMetadata metadata;
@@ -58,29 +49,29 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@DocumentedDefinition("village")
 	public PatientDataDefinition getVillage() {
-		return pdf.getPreferredAddress("cityVillage");
+		return df.getPreferredAddress("cityVillage");
 	}
 
 	@DocumentedDefinition("traditionalAuthority")
 	public PatientDataDefinition getTraditionalAuthority() {
-		return pdf.getPreferredAddress("countyDistrict");
+		return df.getPreferredAddress("countyDistrict");
 	}
 
 	@DocumentedDefinition("district")
 	public PatientDataDefinition getDistrict() {
-		return pdf.getPreferredAddress("stateProvince");
+		return df.getPreferredAddress("stateProvince");
 	}
 
 	// Relationship Data
 
 	@DocumentedDefinition("chw")
 	public PatientDataDefinition getChw() {
-		return pdf.getRelationships(metadata.getChwRelationshipType(), false, true);
+		return df.getRelationships(metadata.getChwRelationshipType(), false, true);
 	}
 
 	@DocumentedDefinition("parentOrGuardian")
 	public PatientDataDefinition getParentOrGuardian() {
-		return pdf.getRelationships(metadata.getGuardianRelationshipType(), false, true);
+		return df.getRelationships(metadata.getGuardianRelationshipType(), false, true);
 	}
 
 	@DocumentedDefinition("chwOrGuardian")
@@ -93,6 +84,6 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	@DocumentedDefinition("ageAtEndInMonths")
 	public PatientDataDefinition getAgeAtEndInMonths() {
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
-		return pdf.convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
+		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
 	}
 }

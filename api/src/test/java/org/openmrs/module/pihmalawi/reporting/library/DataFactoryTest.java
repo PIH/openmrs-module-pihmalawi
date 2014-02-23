@@ -15,7 +15,10 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.PatientState;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.data.patient.PatientData;
@@ -28,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the methods in the PatientDataFactory
  */
-public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
+public class DataFactoryTest extends BaseModuleContextSensitiveTest {
 
 	@Autowired
 	HivMetadata metadata;
@@ -37,7 +40,14 @@ public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
 	PatientDataService patientDataService;
 
 	@Autowired
-	PatientDataFactory pdf;
+	DataFactory pdf;
+
+	@Test
+	public void testStateNameAndDateFormatter() {
+		PatientState state = Context.getProgramWorkflowService().getPatientState(21418);
+		Object converted = pdf.getStateNameAndDateFormatter().convert(state);
+		System.out.println(converted);
+	}
 
 	@Test
 	public void testMostRecentObs() throws Exception {
@@ -47,5 +57,15 @@ public class PatientDataFactoryTest extends BaseModuleContextSensitiveTest {
 		PatientData pd = patientDataService.evaluate(pdd, context);
 		Assert.assertEquals(1, pd.getData().size());
 		Assert.assertEquals(150.0, pd.getData().get(7));
+	}
+
+	@Override
+	public Boolean useInMemoryDatabase() {
+		return false;
+	}
+
+	@Before
+	public void setup() throws Exception {
+		authenticate();
 	}
 }

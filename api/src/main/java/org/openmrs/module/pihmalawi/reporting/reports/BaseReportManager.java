@@ -15,7 +15,10 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -67,6 +70,10 @@ public abstract class BaseReportManager implements ReportManager {
 
 	protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
 		dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
+	}
+
+	protected void addColumn(EncounterDataSetDefinition dsd, String columnName, EncounterDataDefinition edd) {
+		dsd.addColumn(columnName, edd, ObjectUtil.toString(Mapped.straightThroughMappings(edd), "=",","));
 	}
 
     protected ReportDesign createExcelReportDesign(ReportDefinition reportDefinition, byte[] excelTemplate) {

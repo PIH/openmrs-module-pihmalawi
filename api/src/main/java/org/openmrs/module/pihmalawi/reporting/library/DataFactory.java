@@ -28,12 +28,20 @@ import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
+import org.openmrs.module.reporting.data.ConvertedDataDefinition;
+import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.reporting.data.converter.DataSetRowConverter;
+import org.openmrs.module.reporting.data.converter.ListConverter;
 import org.openmrs.module.reporting.data.converter.MostRecentlyCreatedConverter;
+import org.openmrs.module.reporting.data.converter.NullValueConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
+import org.openmrs.module.reporting.data.encounter.definition.ConvertedEncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.definition.ObsForEncounterDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -45,18 +53,20 @@ import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefin
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.RelationshipsForPersonDataDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
+import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class PatientDataFactory {
+public class DataFactory {
 
 	public PatientDataDefinition getPreferredAddress(String property) {
 		PreferredAddressDataDefinition d = new PreferredAddressDataDefinition();
@@ -129,6 +139,12 @@ public class PatientDataFactory {
 		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
 	}
 
+	public PatientDataDefinition getAllActiveStatesOnEndDate(DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.addParameter(new Parameter("activeOnDate", "Active on Date", Date.class));
+		return convert(def, ObjectUtil.toMap("activeOnDate=endDate"), converter);
+	}
+
 	public PatientDataDefinition getRelationships(RelationshipType type, Boolean includeA, Boolean includeB) {
 		RelationshipsForPersonDataDefinition def = new RelationshipsForPersonDataDefinition();
 		def.addRelationshipType(type);
@@ -139,6 +155,13 @@ public class PatientDataFactory {
 		c.addConverter(new PropertyConverter(Relationship.class, "personB"));
 		c.addConverter(new ObjectFormatter());
 		return convert(def, c);
+	}
+
+	public EncounterDataDefinition getSingleObsForEncounter(Concept concept) {
+		ObsForEncounterDataDefinition def = new ObsForEncounterDataDefinition();
+		def.setQuestion(concept);
+		def.setSingleObs(true);
+		return def;
 	}
 
 	// Converters
@@ -184,35 +207,47 @@ public class PatientDataFactory {
 		return new PropertyConverter(PatientState.class, "patientProgram.dateEnrolled");
 	}
 
+	public DataConverter getStateNameAndDateFormatter() {
+		return new ObjectFormatter("{patientProgram.program}: {state} (since {startDate|yyyy-MM-dd})");
+	}
+
+	public DataConverter getActiveStatesAsStringConverter() {
+		ChainedConverter converter = new ChainedConverter();
+		converter.addConverter(new CollectionConverter(getStateNameAndDateFormatter(), false, null));
+		converter.addConverter(new ObjectFormatter(", "));
+		return converter;
+	}
+
 	public DataConverter getObjectFormatter() {
 		return new ObjectFormatter();
+	}
+
+	public DataConverter getDataSetItemConverter(Integer index, String columnName, Object nullReplacement) {
+		ChainedConverter ret = new ChainedConverter();
+		ret.addConverter(new ListConverter(index, DataSetRow.class));
+		ret.addConverter(new DataSetRowConverter(columnName));
+		if (nullReplacement != null) {
+			ret.addConverter(new NullValueConverter(nullReplacement));
+		}
+		return ret;
+	}
+
+	public DataConverter getLastDataSetItemConverter(String columnName, Object nullReplacement) {
+		ChainedConverter ret = new ChainedConverter();
+		ret.addConverter(new ListConverter(TimeQualifier.LAST, 1, DataSetRow.class));
+		ret.addConverter(new DataSetRowConverter(columnName));
+		if (nullReplacement != null) {
+			ret.addConverter(new NullValueConverter(nullReplacement));
+		}
+		return ret;
 	}
 
 	// Convenience methods
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, Map<String, String> renamedParameters, DataConverter converter) {
-		ConvertedPatientDataDefinition converted = new ConvertedPatientDataDefinition();
-		Map<String, Object> mappings = new HashMap<String, Object>();
-		for (Parameter p : pdd.getParameters()) {
-			String paramName = p.getName();
-			if (renamedParameters != null && renamedParameters.containsKey(paramName)) {
-				paramName = renamedParameters.get(paramName);
-			}
-			mappings.put(p.getName(), "${" + paramName + "}");
-			Parameter newParameter = new Parameter();
-			newParameter.setName(paramName);
-			newParameter.setLabel(p.getLabel());
-			newParameter.setType(p.getType());
-			newParameter.setCollectionType(p.getCollectionType());
-			newParameter.setDefaultValue(p.getDefaultValue());
-			newParameter.setWidgetConfiguration(p.getWidgetConfiguration());
-			converted.addParameter(newParameter);
-		}
-		converted.setDefinitionToConvert(new Mapped<PatientDataDefinition>(pdd, mappings));
-		if (converter != null) {
-			converted.setConverters(Arrays.asList(converter));
-		}
-		return converted;
+		ConvertedPatientDataDefinition convertedDefinition = new ConvertedPatientDataDefinition();
+		addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
+		return convertedDefinition;
 	}
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, DataConverter converter) {
@@ -225,5 +260,26 @@ public class PatientDataFactory {
 
 	public PatientDataDefinition convert(PersonDataDefinition pdd, DataConverter converter) {
 		return convert(pdd, null, converter);
+	}
+
+	public EncounterDataDefinition convert(EncounterDataDefinition pdd, Map<String, String> renamedParameters, DataConverter converter) {
+		ConvertedEncounterDataDefinition convertedDefinition = new ConvertedEncounterDataDefinition();
+		addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
+		return convertedDefinition;
+	}
+
+	public EncounterDataDefinition convert(EncounterDataDefinition pdd, DataConverter converter) {
+		return convert(pdd, null, converter);
+	}
+
+	public EncounterQuery convert(EncounterQuery query, Map<String, String> renamedParameters) {
+		return new MappedParametersEncounterQuery(query, renamedParameters);
+	}
+
+	protected <T extends DataDefinition> void addAndConvertMappings(T copyFrom, ConvertedDataDefinition<T> copyTo, Map<String, String> renamedParameters, DataConverter converter) {
+		copyTo.setDefinitionToConvert(ParameterizableUtil.copyAndMap(copyFrom, copyTo, renamedParameters));
+		if (converter != null) {
+			copyTo.setConverters(Arrays.asList(converter));
+		}
 	}
 }
