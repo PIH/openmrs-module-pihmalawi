@@ -15,9 +15,12 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ChwOrGuardianPatientDataDefinition;
+import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
+import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	}
 
 	// Address Data
+
+	@DocumentedDefinition("birthdate")
+	public PatientDataDefinition getBirthdate() {
+		return df.convert(new BirthdateDataDefinition(), new PropertyConverter(Birthdate.class, "birthdate"));
+	}
 
 	@DocumentedDefinition("village")
 	public PatientDataDefinition getVillage() {

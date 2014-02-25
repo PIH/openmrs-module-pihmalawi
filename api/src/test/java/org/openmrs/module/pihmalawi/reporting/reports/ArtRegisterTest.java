@@ -24,8 +24,12 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.FileOutputStream;
+import java.util.Properties;
 
 /**
  * Tests the methods in the PatientDataFactory
@@ -51,12 +55,19 @@ public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 		authenticate();
 	}
 
+	@Override
+	public Properties getRuntimeProperties() {
+		Properties p = super.getRuntimeProperties();
+		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_19x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		return p;
+	}
+
 	@Test
 	public void shouldRunReportWithoutErrors() throws Exception {
 		ReportDefinition reportDefinition = artRegister.constructReportDefinition();
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("location", metadata.getChifungaHc());
-		context.addParameterValue("endDate", DateUtil.getDateTime(2014,1,31));
+		context.addParameterValue("location", metadata.getLigoweHc());
+		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
 		ReportData data = reportDefinitionService.evaluate(reportDefinition, context);
 		for (String dsName : data.getDataSets().keySet()) {
 			System.out.println(dsName);
@@ -64,5 +75,9 @@ public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 			DataSetUtil.printDataSet(data.getDataSets().get(dsName), System.out);
 			System.out.println("");
 		}
+		XlsReportRenderer renderer = new XlsReportRenderer();
+		FileOutputStream fos = new FileOutputStream("/home/mseaton/Desktop/Art_Register_New_Ligowe_2014-02-01.xls");
+		renderer.render(data, null, fos);
+		fos.close();
 	}
 }

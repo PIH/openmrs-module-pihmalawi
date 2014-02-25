@@ -28,6 +28,8 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Properties;
+
 /**
  * Tests the methods in the PatientDataFactory
  */
@@ -57,6 +59,13 @@ public class DataFactoryTest extends BaseModuleContextSensitiveTest {
 		PatientData pd = patientDataService.evaluate(pdd, context);
 		Assert.assertEquals(1, pd.getData().size());
 		Assert.assertEquals(150.0, pd.getData().get(7));
+	}
+
+	@Override
+	public Properties getRuntimeProperties() {
+		Properties p = super.getRuntimeProperties();
+		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_19x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		return p;
 	}
 
 	@Override

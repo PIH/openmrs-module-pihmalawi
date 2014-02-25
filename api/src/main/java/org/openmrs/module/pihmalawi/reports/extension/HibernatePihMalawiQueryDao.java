@@ -138,9 +138,6 @@ public class HibernatePihMalawiQueryDao {
 		
 		Cohort returnCohort = new Cohort(query.list());
 		
-		//System.out.println("%%%%%%%%%%%%%%% query members="+returnCohort.getCommaSeparatedPatientIds());
-		//System.out.println("%%%%%%%%%%%%%%% query size="+returnCohort.size());
-
 		return returnCohort;
 	}
 
@@ -177,7 +174,6 @@ public class HibernatePihMalawiQueryDao {
 			sql.append(" and pp.location_id = :location ");
 
 		sql.append(" group by pp.patient_id ");
-		log.debug("query: " + sql);
 
 		// Execute query
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(
@@ -195,7 +191,7 @@ public class HibernatePihMalawiQueryDao {
 			query.setDate("endedOnOrBefore", endedOnOrBefore);
 		if (location != null)
 			query.setInteger("location", location.getId());
-		
+
 		Cohort returnCohort = new Cohort(query.list());
 
 		return returnCohort;

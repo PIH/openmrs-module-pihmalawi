@@ -214,7 +214,7 @@ public class DataFactory {
 	public DataConverter getActiveStatesAsStringConverter() {
 		ChainedConverter converter = new ChainedConverter();
 		converter.addConverter(new CollectionConverter(getStateNameAndDateFormatter(), false, null));
-		converter.addConverter(new ObjectFormatter(", "));
+		converter.addConverter(new ObjectFormatter("; "));
 		return converter;
 	}
 

@@ -22,6 +22,7 @@ import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
+import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataSetDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
@@ -100,6 +101,8 @@ public class ArtRegister extends BaseReportManager {
 
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.addParameters(getParameters());
+		dsd.addSortCriteria("ARV #", SortDirection.ASC);
+
 		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
 		// Rows are defined as all patients who ever have been in the On Antiretrovirals state at the given location
@@ -115,7 +118,7 @@ public class ArtRegister extends BaseReportManager {
 
 		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
-		addColumn(dsd, "Birthdate", builtInPatientData.getBirthdate());
+		addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
 		addColumn(dsd, "Current Age (yr)", builtInPatientData.getAgeAtEnd());
 		addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
 		addColumn(dsd, "M/F", builtInPatientData.getGender());
@@ -138,8 +141,9 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "1st time in ART location", hivPatientData.getEarliestOnArvsStateLocationByEndDate());
 
 		addColumn(dsd, "ARV start reasons", hivPatientData.getFirstArtInitialReasonForStartingArvs());
-		addColumn(dsd, "Start date 1st line ARV", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
-		addColumn(dsd, "CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
+		addColumn(dsd, "Last Date of starting first line antiretroviral regimen", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
+		addColumn(dsd, "Last CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
+		addColumn(dsd, "Last CD4 count Date", hivPatientData.getLatestCd4CountDateByEndDate());
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
@@ -176,27 +180,27 @@ public class ArtRegister extends BaseReportManager {
 
 		addColumn(dsd, "All Enrollments (not filtered)", df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()));
 
-		// This formerly created an indicator backing this, and added to period indicator report as "breakdown"
-
-		// 2 output formats:
-		//  1. 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
-		//			dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("ARV Number"));
-		//			dsd.setHtmlBreakdownPatientRowClassname(ArtRegisterBreakdownRenderer.class.getName());
-		//			rendered using Helper.createHtmlBreakdown
+		// BMI Report
+		// Parameters: SD, ED (SD defaults to 52 weeks before ED)
+		// rowCohort: Same patients
+		// columns: Identifier(s) (either all active, or all of a particular type, need to check output), Given, Last, Birthdate, M/F, Village
+		// * For each full week in the period, add columns for:
+		// ** BMI_0, BMI_1, BMI_2..., with values that calculate BMI as:
+		// *** weightKg = (5089) the most recent weight during that week
+		// *** heightCm = (5090) the most recent height on or before the end of that week
+		// *** BMI = weightKg / ((heightCm/100)^2)
 		//
-		//  2. 		ApzuBMIPatientDataSetDefinition dsd = new ApzuBMIPatientDataSetDefinition();
-		//			dsd.setNumericConcept(Context.getConceptService().getConcept(5089));
-
-		// Adherence
+		// Adherence Report
 		// Name:  ART Register Appointment Adherence
 		// Parameters: SD, ED, Loc
-		// rowCohort:  Same as ART Register (hivCohorts.getEverEnrolledInArtAtLocationOnDate();)
-		// columns:  Defined in:
+		// ReportDefinition with:
+		// * baseCohort: Same patients as above
+		// * singleDsd:
 		//		dsd = new AppointmentAdherencePatientDataSetDefinition();
 		//		dsd.setEncounterTypes(Arrays.asList(Metadata.encounterType("ART_FOLLOWUP")));
 		//		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("ARV Number"));
-		//		rendered using Helper.createHtmlBreakdown
-
+		// * outputFormat: Excel
+		//
 		// For all locations
 		// Same as above, just rowCohort is not limited to a location - ApzuReportElementsArt.artEverEnrolledOnDate(prefix);
 		// createHtmlBreakdown(rd, "ART Register For All Locations_");
