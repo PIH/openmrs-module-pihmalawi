@@ -153,11 +153,11 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("activeOnDate=endDate"), converter);
 	}
 
-	public PatientDataDefinition getRelationships(RelationshipType type, Boolean includeA, Boolean includeB) {
+	public PatientDataDefinition getRelationships(RelationshipType type, Boolean valuesArePersonA, Boolean valuesArePersonB) {
 		RelationshipsForPersonDataDefinition def = new RelationshipsForPersonDataDefinition();
 		def.addRelationshipType(type);
-		def.setPersonAIncluded(includeA);
-		def.setPersonBIncluded(includeB);
+		def.setValuesArePersonA(valuesArePersonA);
+		def.setValuesArePersonB(valuesArePersonB);
 		ChainedConverter c = new ChainedConverter();
 		c.addConverter(new MostRecentlyCreatedConverter(Relationship.class));
 		c.addConverter(new PropertyConverter(Relationship.class, "personB"));
