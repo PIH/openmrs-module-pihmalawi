@@ -130,6 +130,10 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusStateStartDateAtLocationByEndDate());
 		addColumn(dsd, "Outcome location", hivPatientData.getMostRecentHivTreatmentStatusStateLocationAtLocationByEndDate());
 
+		addColumn(dsd, "Last Outcome in DB (not filtered)", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
+		addColumn(dsd, "Last Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusStateStartDateByEndDate());
+		addColumn(dsd, "Last Outcome change loc", hivPatientData.getMostRecentHivTreatmentStatusStateLocationByEndDate());
+
 		addColumn(dsd, "Enrollment date at location (ART or HCC) (not filtered)", hivPatientData.getEarliestOnArvsStateAtLocationByEndDate());
 		addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered)", hivPatientData.getEarliestOnArvsStateEnrollmentDateByEndDate());
 		addColumn(dsd, "1st time enrollment (ART or HCC) (not filtered) location", hivPatientData.getEarliestOnArvsStateLocationByEndDate());

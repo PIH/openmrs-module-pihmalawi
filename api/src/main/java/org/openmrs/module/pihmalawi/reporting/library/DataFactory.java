@@ -113,6 +113,14 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), null);
 	}
 
+	public PatientDataDefinition getMostRecentStateForWorkflowByEndDate(ProgramWorkflow workflow, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setWorkflow(workflow);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
 	public PatientDataDefinition getMostRecentStateForWorkflowAtLocationByEndDate(ProgramWorkflow workflow, DataConverter converter) {
 		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
 		def.setWhich(TimeQualifier.LAST);
