@@ -21,6 +21,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.util.OpenmrsUtil;
 
 /**
@@ -163,26 +164,10 @@ public class Helper {
 		if (ps != null) {
 			PatientProgram pp = (PatientProgram) ps.getPatientProgram();
 			if (pp != null) {
-				return getEnrollmentLocation(pp);
+				ProgramHelper h = new ProgramHelper();
+				return h.getEnrollmentLocation(pp);
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * @return the Location associated with the given PatientProgram
-	 * TODO: Replace this with a proper API call to ProgramLocation ProgramWorkflowService
-	 */
-	public static Location getEnrollmentLocation(PatientProgram pp) {
-		Location ret = null;
-		String sql = "select location_id from patient_program where patient_program_id = " + pp.getId();
-		List<List<Object>> results = Context.getAdministrationService().executeSQL(sql, true);
-		
-		// assume there is only one
-		if (!results.isEmpty() && results.get(0) != null) {
-			List<Object> row = results.get(0);
-			ret = Context.getLocationService().getLocation((Integer)row.get(0));
-		}
-		return ret;
 	}
 }
