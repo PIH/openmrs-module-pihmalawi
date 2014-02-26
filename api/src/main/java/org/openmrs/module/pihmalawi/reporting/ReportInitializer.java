@@ -57,55 +57,59 @@ public class ReportInitializer {
     public void setupReports() {
 		if (reportManagers != null) {
 			for (ReportManager rm : reportManagers) {
-
-				String gpName = "pihmalawi." + rm.getUuid() + ".version";
-				GlobalProperty gp = adminService.getGlobalPropertyObject(gpName);
-				if (gp == null) {
-					gp = new GlobalProperty(gpName, "");
-				}
-
-				if (rm.getVersion().contains("-SNAPSHOT") || gp == null || !gp.getPropertyValue().equals(rm.getVersion())) {
-
-					ReportDefinition reportDefinition = rm.constructReportDefinition();
-					log.info("Updating " + reportDefinition.getName() + " to version " + rm.getVersion());
-
-					ReportDefinition existing = reportDefinitionService.getDefinitionByUuid(reportDefinition.getUuid());
-					if (existing != null) {
-						// we need to overwrite the existing, rather than purge-and-recreate, to avoid deleting old ReportRequests
-						log.debug("Overwriting existing ReportDefinition");
-						reportDefinition.setId(existing.getId());
-						Context.evictFromSession(existing);
-					}
-					else {
-						// incompatible class changes for a serialized object could mean that getting the definition returns null
-						// and some serialization error gets logged. In that case we want to overwrite the invalid serialized definition
-						SerializedObject invalidSerializedObject = serializedObjectDAO.getSerializedObjectByUuid(reportDefinition.getUuid());
-						if (invalidSerializedObject != null) {
-							reportDefinition.setId(invalidSerializedObject.getId());
-							Context.evictFromSession(invalidSerializedObject);
-						}
-					}
-
-					reportDefinitionService.saveDefinition(reportDefinition);
-
-					// purging a ReportDesign doesn't trigger any extra logic, so we can just purge-and-recreate here
-					List<ReportDesign> existingDesigns = reportService.getReportDesigns(reportDefinition, null, true);
-					if (existingDesigns.size() > 0) {
-						log.debug("Deleting " + existingDesigns.size() + " old designs for " + reportDefinition.getName());
-						for (ReportDesign design : existingDesigns) {
-							reportService.purgeReportDesign(design);
-						}
-					}
-
-					List<ReportDesign> designs = rm.constructReportDesigns(reportDefinition);
-					for (ReportDesign design : designs) {
-						reportService.saveReportDesign(design);
-					}
-
-					gp.setPropertyValue(rm.getVersion());
-					adminService.saveGlobalProperty(gp);
-				}
+				setupReport(rm);
 			}
 		}
     }
+
+	public void setupReport(ReportManager rm) {
+
+		String gpName = "pihmalawi." + rm.getUuid() + ".version";
+		GlobalProperty gp = adminService.getGlobalPropertyObject(gpName);
+		if (gp == null) {
+			gp = new GlobalProperty(gpName, "");
+		}
+
+		if (rm.getVersion().contains("-SNAPSHOT") || gp == null || !gp.getPropertyValue().equals(rm.getVersion())) {
+
+			ReportDefinition reportDefinition = rm.constructReportDefinition();
+			log.info("Updating " + reportDefinition.getName() + " to version " + rm.getVersion());
+
+			ReportDefinition existing = reportDefinitionService.getDefinitionByUuid(reportDefinition.getUuid());
+			if (existing != null) {
+				// we need to overwrite the existing, rather than purge-and-recreate, to avoid deleting old ReportRequests
+				log.debug("Overwriting existing ReportDefinition");
+				reportDefinition.setId(existing.getId());
+				Context.evictFromSession(existing);
+			}
+			else {
+				// incompatible class changes for a serialized object could mean that getting the definition returns null
+				// and some serialization error gets logged. In that case we want to overwrite the invalid serialized definition
+				SerializedObject invalidSerializedObject = serializedObjectDAO.getSerializedObjectByUuid(reportDefinition.getUuid());
+				if (invalidSerializedObject != null) {
+					reportDefinition.setId(invalidSerializedObject.getId());
+					Context.evictFromSession(invalidSerializedObject);
+				}
+			}
+
+			reportDefinitionService.saveDefinition(reportDefinition);
+
+			// purging a ReportDesign doesn't trigger any extra logic, so we can just purge-and-recreate here
+			List<ReportDesign> existingDesigns = reportService.getReportDesigns(reportDefinition, null, true);
+			if (existingDesigns.size() > 0) {
+				log.debug("Deleting " + existingDesigns.size() + " old designs for " + reportDefinition.getName());
+				for (ReportDesign design : existingDesigns) {
+					reportService.purgeReportDesign(design);
+				}
+			}
+
+			List<ReportDesign> designs = rm.constructReportDesigns(reportDefinition);
+			for (ReportDesign design : designs) {
+				reportService.saveReportDesign(design);
+			}
+
+			gp.setPropertyValue(rm.getVersion());
+			adminService.saveGlobalProperty(gp);
+		}
+	}
 }

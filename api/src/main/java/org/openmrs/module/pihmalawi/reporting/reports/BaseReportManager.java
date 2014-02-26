@@ -76,8 +76,9 @@ public abstract class BaseReportManager implements ReportManager {
 		dsd.addColumn(columnName, edd, ObjectUtil.toString(Mapped.straightThroughMappings(edd), "=",","));
 	}
 
-    protected ReportDesign createExcelReportDesign(ReportDefinition reportDefinition, byte[] excelTemplate) {
+    protected ReportDesign createExcelReportDesign(String reportDesignUuid, ReportDefinition reportDefinition, byte[] excelTemplate) {
         ReportDesign design = new ReportDesign();
+		design.setUuid(reportDesignUuid);
         design.setName("Excel");
         design.setReportDefinition(reportDefinition);
         design.setRendererType(XlsReportRenderer.class);

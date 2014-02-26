@@ -41,6 +41,8 @@ import java.util.List;
 @Component
 public class ArtRegister extends BaseReportManager {
 
+	public static final String EXCEL_REPORT_DESIGN_UUID = "cea86583-9ca5-4ad9-94e4-e20081a57619";
+
 	@Autowired
 	private DataFactory df;
 
@@ -185,38 +187,13 @@ public class ArtRegister extends BaseReportManager {
 
 		addColumn(dsd, "All Enrollments (not filtered)", df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()));
 
-		// BMI Report
-		// Parameters: SD, ED (SD defaults to 52 weeks before ED)
-		// rowCohort: Same patients
-		// columns: Identifier(s) (either all active, or all of a particular type, need to check output), Given, Last, Birthdate, M/F, Village
-		// * For each full week in the period, add columns for:
-		// ** BMI_0, BMI_1, BMI_2..., with values that calculate BMI as:
-		// *** weightKg = (5089) the most recent weight during that week
-		// *** heightCm = (5090) the most recent height on or before the end of that week
-		// *** BMI = weightKg / ((heightCm/100)^2)
-		//
-		// Adherence Report
-		// Name:  ART Register Appointment Adherence
-		// Parameters: SD, ED, Loc
-		// ReportDefinition with:
-		// * baseCohort: Same patients as above
-		// * singleDsd:
-		//		dsd = new AppointmentAdherencePatientDataSetDefinition();
-		//		dsd.setEncounterTypes(Arrays.asList(Metadata.encounterType("ART_FOLLOWUP")));
-		//		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("ARV Number"));
-		// * outputFormat: Excel
-		//
-		// For all locations
-		// Same as above, just rowCohort is not limited to a location - ApzuReportElementsArt.artEverEnrolledOnDate(prefix);
-		// createHtmlBreakdown(rd, "ART Register For All Locations_");
-
 		return rd;
 	}
 
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelReportDesign(reportDefinition, null));
+		l.add(createExcelReportDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, null));
 		return l;
 	}
 

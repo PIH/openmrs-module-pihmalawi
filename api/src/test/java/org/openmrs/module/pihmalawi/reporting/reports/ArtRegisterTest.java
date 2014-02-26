@@ -15,16 +15,19 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
+import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
+import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,10 +40,16 @@ import java.util.Properties;
 public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 
 	@Autowired
+	ReportInitializer reportInitializer;
+
+	@Autowired
 	ArtRegister artRegister;
 
 	@Autowired
 	ReportDefinitionService reportDefinitionService;
+
+	@Autowired
+	ReportService reportService;
 
 	@Autowired
 	HivMetadata metadata;
@@ -53,6 +62,7 @@ public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 	@Before
 	public void setup() throws Exception {
 		authenticate();
+		reportInitializer.setupReport(artRegister);
 	}
 
 	@Override
@@ -64,9 +74,9 @@ public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 
 	@Test
 	public void shouldRunReportWithoutErrors() throws Exception {
-		ReportDefinition reportDefinition = artRegister.constructReportDefinition();
+		ReportDefinition reportDefinition = reportDefinitionService.getDefinitionByUuid(artRegister.getUuid());
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("location", metadata.getLigoweHc());
+		context.addParameterValue("location", metadata.getChifungaHc());
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
 		ReportData data = reportDefinitionService.evaluate(reportDefinition, context);
 		for (String dsName : data.getDataSets().keySet()) {
@@ -75,9 +85,10 @@ public class ArtRegisterTest extends BaseModuleContextSensitiveTest {
 			DataSetUtil.printDataSet(data.getDataSets().get(dsName), System.out);
 			System.out.println("");
 		}
-		XlsReportRenderer renderer = new XlsReportRenderer();
+		ReportDesign design = reportService.getReportDesignByUuid(ArtRegister.EXCEL_REPORT_DESIGN_UUID);
+		ReportRenderer renderer = design.getRendererType().newInstance();
 		FileOutputStream fos = new FileOutputStream("/home/mseaton/Desktop/Art_Register_New_Ligowe_2014-02-01.xls");
-		renderer.render(data, null, fos);
+		renderer.render(data, design.getUuid(), fos);
 		fos.close();
 	}
 }
