@@ -27,12 +27,12 @@
 
 	<extension>
 		<point>org.openmrs.patientDashboard.overviewBox</point>
-		<class>org.openmrs.module.pihmalawi.web.extension.QuickProgramsBoxExt</class>
+		<class>org.openmrs.module.pihmalawi.web.extension.EMastercardsBoxExt</class>
 	</extension>
 
 	<extension>
 		<point>org.openmrs.patientDashboard.overviewBox</point>
-		<class>org.openmrs.module.pihmalawi.web.extension.EMastercardsBoxExt</class>
+		<class>org.openmrs.module.pihmalawi.web.extension.QuickProgramsBoxExt</class>
 	</extension>
 
 </module>

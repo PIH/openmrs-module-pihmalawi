@@ -90,6 +90,9 @@ public abstract class BaseReportManager implements ReportManager {
             resource.setReportDesign(design);
             design.addResource(resource);
         }
+		else {
+			design.addPropertyValue(XlsReportRenderer.INCLUDE_DATASET_NAME_AND_PARAMETERS_PROPERTY, "true");
+		}
         return design;
     }
 
