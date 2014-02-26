@@ -52,11 +52,6 @@ public abstract class BaseReportManager implements ReportManager {
 	}
 
 	@Override
-	public List<RenderingMode> getRenderingModes() {
-		return new ArrayList<RenderingMode>();
-	}
-
-	@Override
 	public String getRequiredPrivilege() {
 		return null;
 	}

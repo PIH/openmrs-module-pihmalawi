@@ -48,13 +48,6 @@ public interface ReportManager {
 	List<Parameter> getParameters();
 
 	/**
-     * @deprecated shift to using constructReportDesigns instead, so that report definitions can be persisted
-	 * @return the rendering modes of the Report
-	 */
-    @Deprecated
-	List<RenderingMode> getRenderingModes();
-
-	/**
 	 * @return the privilege required to view or evaluate this report
 	 */
 	String getRequiredPrivilege();

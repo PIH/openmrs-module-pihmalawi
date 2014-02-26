@@ -14,31 +14,49 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.report.ReportData;
+import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.ReportRenderer;
+import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.FileOutputStream;
+import java.util.Properties;
 
 /**
  * Tests the methods in the PatientDataFactory
  */
-public class ArtRegisterTest extends ReportManagerTest {
+public class ArtAppointmentAdherenceTest extends ReportManagerTest {
+
+	@Autowired
+	HivMetadata metadata;
 
 	@Autowired
 	HivMetadata hivMetadata;
 
 	@Autowired
-	ArtRegister artRegister;
+	ArtAppointmentAdherence artAppointmentAdherence;
 
 	@Override
 	public ReportManager getReportManager() {
-		return artRegister;
+		return artAppointmentAdherence;
 	}
 
 	@Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
+		context.addParameterValue("startDate", DateUtil.getDateTime(2006,1,1));
+		context.addParameterValue("endDate", DateUtil.getDateTime(2013,12,31));
 		context.addParameterValue("location", hivMetadata.getChifungaHc());
 		return context;
 	}

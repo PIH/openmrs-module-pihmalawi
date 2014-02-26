@@ -12,34 +12,33 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 
-package org.openmrs.module.pihmalawi.reporting.reports;
+package org.openmrs.module.pihmalawi.reporting;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openmrs.PatientState;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.data.patient.PatientData;
+import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Properties;
+import java.util.UUID;
+
 /**
- * Tests the methods in the PatientDataFactory
+ * Produces uuids for embedding in reports
  */
-public class ArtRegisterTest extends ReportManagerTest {
+public class UuidGeneratorTest {
 
-	@Autowired
-	HivMetadata hivMetadata;
-
-	@Autowired
-	ArtRegister artRegister;
-
-	@Override
-	public ReportManager getReportManager() {
-		return artRegister;
-	}
-
-	@Override
-	public EvaluationContext getEvaluationContext() {
-		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
-		context.addParameterValue("location", hivMetadata.getChifungaHc());
-		return context;
+	@Test
+	public void generateUuid() {
+		System.out.println(UUID.randomUUID().toString());
 	}
 }
