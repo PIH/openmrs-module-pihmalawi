@@ -100,6 +100,7 @@ public class ArtRegister extends BaseReportManager {
 		rd.setParameters(getParameters());
 
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
+		dsd.setName("ART Register");
 		dsd.addParameters(getParameters());
 		dsd.addSortCriteria("ARV #", SortDirection.ASC);
 
