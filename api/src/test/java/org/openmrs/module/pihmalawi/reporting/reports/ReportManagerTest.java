@@ -27,6 +27,7 @@ import org.openmrs.module.reporting.report.definition.service.ReportDefinitionSe
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.web.renderers.WebReportRenderer;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -96,11 +97,13 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 		Assert.assertTrue(data.getDataSets().size() > 0);
 		for (RenderingMode renderingMode : reportService.getRenderingModes(reportDefinition)) {
 			ReportRenderer renderer = renderingMode.getRenderer();
-			String argument = renderingMode.getArgument();
-			File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(reportDefinition, argument));
-			FileOutputStream fos = new FileOutputStream(outFile);
-			renderer.render(data, argument, fos);
-			fos.close();
+			if (!(renderer instanceof WebReportRenderer)) {
+				String argument = renderingMode.getArgument();
+				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(reportDefinition, argument));
+				FileOutputStream fos = new FileOutputStream(outFile);
+				renderer.render(data, argument, fos);
+				fos.close();
+			}
 		}
 	}
 }
