@@ -74,4 +74,34 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getEverEnrolledInStateAtLocationByEndDate(hivMetadata.getOnArvsState());
 	}
 
+	@DocumentedDefinition(value = "hadPreArtEncounterBeforeStartDate")
+	public CohortDefinition getPatientsWithAPreArtEncounterBeforeStartDate() {
+		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getPreArtEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadArtEncounterBeforeStartDate")
+	public CohortDefinition getPatientsWithAnArtEncounterBeforeStartDate() {
+		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getArtEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadHivEncounterBeforeStartDate")
+	public CohortDefinition getPatientsWithAnHivEncounterBeforeStartDate() {
+		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getHivEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadPreArtEncounterDuringPeriod")
+	public CohortDefinition getPatientsWithAPreArtEncounterDuringPeriod() {
+		return df.getAnyEncounterOfTypesDuringPeriod(hivMetadata.getPreArtEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadArtEncounterDuringPeriod")
+	public CohortDefinition getPatientsWithAnArtEncounterDuringPeriod() {
+		return df.getAnyEncounterOfTypesDuringPeriod(hivMetadata.getArtEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadHivEncounterDuringPeriod")
+	public CohortDefinition getPatientsWithAnHivEncounterDuringPeriod() {
+		return df.getAnyEncounterOfTypesDuringPeriod(hivMetadata.getHivEncounterTypes());
+	}
+
 }

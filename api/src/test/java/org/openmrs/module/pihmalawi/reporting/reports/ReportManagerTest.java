@@ -13,12 +13,14 @@
  */
 
 package org.openmrs.module.pihmalawi.reporting.reports;
+
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
+import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -75,9 +77,9 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
-	public void shouldCreateDefinitionsAndDesigns() {
+	public void shouldRunReportWithoutErrors() throws Exception {
 		ReportManager rm = getReportManager();
-		ReportDefinition rd = reportDefinitionService.getDefinition(rm.getUuid(), ReportDefinition.class);
+		ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(rm.getUuid());
 		Assert.assertEquals(rm.getName(), rd.getName());
 		Assert.assertEquals(rm.getDescription(), rd.getDescription());
 		for (ReportDesign design : rm.constructReportDesigns(rd)) {
@@ -86,24 +88,33 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 			Assert.assertEquals(design.getRendererType(), dbDesign.getRendererType());
 			Assert.assertEquals(design.getResources().size(), dbDesign.getResources().size());
 		}
-	}
 
-	@Test
-	public void shouldRunReportWithoutErrors() throws Exception {
-		ReportManager rm = getReportManager();
-		ReportDefinition reportDefinition = reportDefinitionService.getDefinitionByUuid(rm.getUuid());
 		EvaluationContext context = getEvaluationContext();
-		ReportData data = reportDefinitionService.evaluate(reportDefinition, context);
+		ReportData data = reportDefinitionService.evaluate(rd, context);
 		Assert.assertTrue(data.getDataSets().size() > 0);
-		for (RenderingMode renderingMode : reportService.getRenderingModes(reportDefinition)) {
+		for (RenderingMode renderingMode : reportService.getRenderingModes(rd)) {
 			ReportRenderer renderer = renderingMode.getRenderer();
 			if (!(renderer instanceof WebReportRenderer)) {
 				String argument = renderingMode.getArgument();
-				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(reportDefinition, argument));
+				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(rd, argument));
 				FileOutputStream fos = new FileOutputStream(outFile);
 				renderer.render(data, argument, fos);
 				fos.close();
 			}
 		}
+		if (enableReportOutput()) {
+			for (String dsName : data.getDataSets().keySet()) {
+				System.out.println(dsName);
+				System.out.println("---------------------------------");
+				DataSetUtil.printDataSet(data.getDataSets().get(dsName), System.out);
+			}
+		}
+	}
+
+	/**
+	 * @return true if a subclass wants to print out the report contents to System.out
+	 */
+	public boolean enableReportOutput() {
+		return false;
 	}
 }

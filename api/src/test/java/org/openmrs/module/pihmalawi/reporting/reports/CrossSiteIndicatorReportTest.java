@@ -45,4 +45,9 @@ public class CrossSiteIndicatorReportTest extends ReportManagerTest {
 		context.addParameterValue("endDate", DateUtil.getDateTime(2013,3,31));
 		return context;
 	}
+
+	@Override
+	public boolean enableReportOutput() {
+		return true;
+	}
 }

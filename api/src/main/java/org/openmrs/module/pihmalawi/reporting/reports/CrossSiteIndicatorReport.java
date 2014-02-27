@@ -99,12 +99,15 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 		CohortDefinition hasAnArvNumber = hivCohorts.getPatientsWithAnArvNumber();
 		CohortDefinition everEnrolledInHivProgram = hivCohorts.getEverEnrolledInHivProgramByEndDate();
 		CohortDefinition startedExposedChild = hivCohorts.getStartedInExposedChildStateDuringPeriod();
-		CohortDefinition hivProgramPatients = df.createComposition(everEnrolledInHivProgram, "AND NOT", startedExposedChild, "AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
-		addAdultChildIndicator(dsd, "hivq1", "Ever registered in the HIV program", hivProgramPatients);
+		CohortDefinition hivQ1 = df.createComposition(everEnrolledInHivProgram, "AND NOT", startedExposedChild, "AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
+		addAdultChildIndicator(dsd, "hivq1", "Ever registered in the HIV program", hivQ1);
 
 		// HIV Q2
 
-
+		CohortDefinition hadHivVisitBeforePeriod = hivCohorts.getPatientsWithAnHivEncounterBeforeStartDate();
+		CohortDefinition hadHivVisitDuringPeriod = hivCohorts.getPatientsWithAnHivEncounterDuringPeriod();
+		CohortDefinition hivQ2 = df.createComposition(everEnrolledInHivProgram, "AND", hadHivVisitDuringPeriod, "AND NOT", hadHivVisitBeforePeriod);
+		addAdultChildIndicator(dsd, "hivq2", "Enrolled in HIV care during the quarter", hivQ2);
 
 
 		return rd;
@@ -117,6 +120,8 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 
 	public void addIndicator(CohortIndicatorDataSetDefinition dsd, String key, String label, CohortDefinition cohortDefinition, String dimensionOptions) {
 		CohortIndicator ci = new CohortIndicator();
+		ci.addParameter(ReportingConstants.START_DATE_PARAMETER);
+		ci.addParameter(ReportingConstants.END_DATE_PARAMETER);
 		ci.setType(CohortIndicator.IndicatorType.COUNT);
 		ci.setCohortDefinition(Mapped.mapStraightThrough(cohortDefinition));
 		dsd.addColumn(key, label, Mapped.mapStraightThrough(ci), dimensionOptions);

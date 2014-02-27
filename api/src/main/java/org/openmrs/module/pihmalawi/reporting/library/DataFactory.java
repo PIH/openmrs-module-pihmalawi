@@ -32,6 +32,7 @@ import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCoho
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
@@ -243,6 +244,21 @@ public class DataFactory {
 		cd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		cd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
 		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getAnyEncounterOfTypesDuringPeriod(List<EncounterType> types) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getAnyEncounterOfTypesBeforeStartDate(List<EncounterType> types) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=startDate-1ms"));
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
