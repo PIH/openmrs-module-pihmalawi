@@ -68,6 +68,21 @@ import java.util.Map;
 @Component
 public class DataFactory {
 
+	public Parameter getStartDateParameter() {
+		return new Parameter("startDate", "Start Date", Date.class);
+	}
+
+	public Parameter getEndDateParameter() {
+		return new Parameter("endDate", "End Date", Date.class);
+	}
+
+	public Parameter getLocationParameter() {
+		Parameter p = new Parameter("location", "Location", Location.class);
+		p.addToWidgetConfiguration("optionHeader", "All Locations");
+		p.setRequired(false);
+		return p;
+	}
+
 	public PatientDataDefinition getPreferredAddress(String property) {
 		PreferredAddressDataDefinition d = new PreferredAddressDataDefinition();
 		PropertyConverter converter = new PropertyConverter(PersonAddress.class, property);

@@ -19,7 +19,6 @@ import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
-import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
@@ -87,8 +86,8 @@ public class ArtRegister extends BaseReportManager {
 	@Override
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
-		l.add(ReportingConstants.END_DATE_PARAMETER);
-		l.add(ReportingConstants.LOCATION_PARAMETER);
+		l.add(df.getEndDateParameter());
+		l.add(df.getLocationParameter());
 		return l;
 	}
 
@@ -122,7 +121,7 @@ public class ArtRegister extends BaseReportManager {
 		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
 		addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
-		addColumn(dsd, "Current Age (yr)", builtInPatientData.getAgeAtEnd());
+		addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
 		addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
 		addColumn(dsd, "M/F", builtInPatientData.getGender());
 		addColumn(dsd, "Village", basePatientData.getVillage());

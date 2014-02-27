@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reports.dataset.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -33,6 +34,9 @@ import java.util.List;
 public class ArtAppointmentAdherence extends BaseReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "f2ba89b4-b6b7-4e69-91d7-68a5653ed1a6";
+
+	@Autowired
+	private DataFactory df;
 
 	@Autowired
 	private HivMetadata hivMetadata;
@@ -60,9 +64,9 @@ public class ArtAppointmentAdherence extends BaseReportManager {
 	@Override
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
-		l.add(ReportingConstants.START_DATE_PARAMETER);
-		l.add(ReportingConstants.END_DATE_PARAMETER);
-		l.add(ReportingConstants.LOCATION_PARAMETER);
+		l.add(df.getStartDateParameter());
+		l.add(df.getEndDateParameter());
+		l.add(df.getLocationParameter());
 		return l;
 	}
 

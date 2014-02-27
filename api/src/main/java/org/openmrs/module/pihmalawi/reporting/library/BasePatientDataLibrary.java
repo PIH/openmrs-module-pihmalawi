@@ -89,6 +89,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	// Demographic Data
 
+	@DocumentedDefinition("ageAtEndInYears")
+	public PatientDataDefinition getAgeAtEndInYears() {
+		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
+		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.YEARS));
+	}
+
 	@DocumentedDefinition("ageAtEndInMonths")
 	public PatientDataDefinition getAgeAtEndInMonths() {
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
