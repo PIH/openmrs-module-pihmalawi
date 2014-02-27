@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -38,8 +39,9 @@ public class ArtRegisterTest extends ReportManagerTest {
 	@Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
+		context.setBaseCohort(new Cohort("59342,61822,20684,16351"));
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
-		context.addParameterValue("location", hivMetadata.getChifungaHc());
+		context.addParameterValue("location", null);
 		return context;
 	}
 }

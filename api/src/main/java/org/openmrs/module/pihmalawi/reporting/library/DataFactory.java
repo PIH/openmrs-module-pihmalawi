@@ -21,11 +21,13 @@ import org.openmrs.Obs;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
+import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.data.definition.ProgramPatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.ConvertedDataDefinition;
@@ -47,7 +49,6 @@ import org.openmrs.module.reporting.data.patient.definition.EncountersForPatient
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PersonToPatientDataDefinition;
-import org.openmrs.module.reporting.data.patient.definition.PreferredIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.ProgramStatesForPatientDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
@@ -89,9 +90,10 @@ public class DataFactory {
 		return convert(d, converter);
 	}
 
-	public PatientDataDefinition getPreferredIdentifierAtLocation(PatientIdentifierType pit, DataConverter converter) {
-		PreferredIdentifierDataDefinition def = new PreferredIdentifierDataDefinition();
+	public PatientDataDefinition getPreferredProgramIdentifierAtLocation(PatientIdentifierType pit, Program program, DataConverter converter) {
+		ProgramPatientIdentifierDataDefinition def = new ProgramPatientIdentifierDataDefinition();
 		def.setIdentifierType(pit);
+		def.setProgram(program);
 		def.addParameter(new Parameter("location", "Location", Location.class));
 		return convert(def, converter);
 	}

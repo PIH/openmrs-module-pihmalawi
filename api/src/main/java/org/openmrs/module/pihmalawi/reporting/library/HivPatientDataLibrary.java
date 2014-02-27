@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -55,7 +56,8 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	@DocumentedDefinition("arvNumberAtLocation")
 	public PatientDataDefinition getArvNumberAtLocation() {
 		PatientIdentifierType pit = hivMetadata.getArvNumberIdentifierType();
-		return pdf.getPreferredIdentifierAtLocation(pit, new PatientIdentifierConverter());
+		Program hivProgram = hivMetadata.getHivProgram();
+		return pdf.getPreferredProgramIdentifierAtLocation(pit, hivProgram, new PatientIdentifierConverter());
 	}
 
 	@DocumentedDefinition("allHccNumbers")
@@ -246,10 +248,6 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		ProgramWorkflowState state = hivMetadata.getExposedChildState();
 		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
 	}
-
-	// TODO: Get earliest patientState startDate and enrollment Location for the "On antiretrovirals" state on or before the end date
-	//addColumn(dsd, "1st time in ART date", null);
-	//addColumn(dsd, "1st time in ART location", null);
 
 	// ***** CONVENIENCE METHODS
 
