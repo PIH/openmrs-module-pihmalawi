@@ -28,6 +28,14 @@ import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ProgramPatientIdentifierDataDefinition;
+import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.ConvertedDataDefinition;
@@ -55,12 +63,14 @@ import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.RelationshipsForPersonDataDefinition;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -189,6 +199,97 @@ public class DataFactory {
 		return def;
 	}
 
+	// Cohort Definitions
+
+	public CohortDefinition getAgeByEndDate(Integer minAge, Integer maxAge) {
+		AgeCohortDefinition cd = new AgeCohortDefinition();
+		cd.setMinAge(minAge);
+		cd.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
+		return convert(cd, ObjectUtil.toMap("effectiveDate=endDate"));
+	}
+
+	public CohortDefinition getPatientsWithIdentifierOfType(PatientIdentifierType type) {
+		PatientIdentifierCohortDefinition cd = new PatientIdentifierCohortDefinition();
+		cd.addTypeToMatch(type);
+		return cd;
+	}
+
+	public CohortDefinition getEverEnrolledInStateAtLocationByEndDate(ProgramWorkflowState state) {
+		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
+		cd.setState(state);
+		cd.addParameter(new Parameter("startedOnOrBefore", "Started on or before", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getEverEnrolledInProgramByEndDate(Program program) {
+		ProgramEnrollmentCohortDefinition cd = new ProgramEnrollmentCohortDefinition();
+		cd.setPrograms(Arrays.asList(program));
+		cd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
+		return convert(cd, ObjectUtil.toMap("enrolledOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getEnrolledInProgramDuringPeriod(Program program) {
+		ProgramEnrollmentCohortDefinition cd = new ProgramEnrollmentCohortDefinition();
+		cd.setPrograms(Arrays.asList(program));
+		cd.addParameter(new Parameter("enrolledOnOrAfter", "enrolledOnOrAfter", Date.class));
+		cd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
+		return convert(cd, ObjectUtil.toMap("enrolledOnOrAfter=startDate,enrolledOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getStartedInStateDuringPeriod(ProgramWorkflowState state) {
+		PatientStateCohortDefinition cd = new PatientStateCohortDefinition();
+		cd.setStates(Arrays.asList(state));
+		cd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		cd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
+	}
+
+	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
+		List<Object> l = new ArrayList<Object>();
+		for (CohortDefinition cd : elements) {
+			if (!l.isEmpty()) {
+				l.add("AND");
+			}
+			l.add(cd);
+		}
+		return createComposition(l.toArray());
+	}
+
+	public CompositionCohortDefinition getPatientsInAny(CohortDefinition...elements) {
+		List<Object> l = new ArrayList<Object>();
+		for (CohortDefinition cd : elements) {
+			if (!l.isEmpty()) {
+				l.add("OR");
+			}
+			l.add(cd);
+		}
+		return createComposition(l.toArray());
+	}
+
+	public CompositionCohortDefinition createComposition(Object...elements) {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		StringBuilder s = new StringBuilder();
+		int definitionCount = 0;
+		for (Object o : elements) {
+			String key = o.toString();
+			if (o instanceof CohortDefinition) {
+				CohortDefinition cohortDefinition = (CohortDefinition)o;
+				definitionCount++;
+				key = Integer.toString(definitionCount);
+				for (Parameter p : cohortDefinition.getParameters()) {
+					if (cd.getParameter(p.getName()) == null) {
+						cd.addParameter(p);
+					}
+				}
+				cd.addSearch(key, Mapped.mapStraightThrough(cohortDefinition));
+			}
+			s.append(s.length() > 0 ? " " : "").append(key);
+		}
+		cd.setCompositionString(s.toString());
+		return cd;
+	}
+
 	// Converters
 
 	public DataConverter getIdentifierCollectionConverter() {
@@ -299,6 +400,10 @@ public class DataFactory {
 
 	public EncounterQuery convert(EncounterQuery query, Map<String, String> renamedParameters) {
 		return new MappedParametersEncounterQuery(query, renamedParameters);
+	}
+
+	public CohortDefinition convert(CohortDefinition cd, Map<String, String> renamedParameters) {
+		return new MappedParametersCohortDefinition(cd, renamedParameters);
 	}
 
 	protected <T extends DataDefinition> void addAndConvertMappings(T copyFrom, ConvertedDataDefinition<T> copyTo, Map<String, String> renamedParameters, DataConverter converter) {

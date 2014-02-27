@@ -13,27 +13,23 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
-import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 /**
  * Defines all of the Cohort Definition instances we want to expose for Pih Malawi
  */
-@Component("pihMalawiCohortDefinitionLibrary")
+@Component
 public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefinition> {
 
     public static final String PREFIX = "pihmalawi.cohortDefinition.hiv.";
+
+	@Autowired
+	private DataFactory df;
 
     @Autowired
     private HivMetadata hivMetadata;
@@ -48,12 +44,34 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
         return PREFIX;
     }
 
+	@DocumentedDefinition(value = "hasAnHccNumber")
+	public CohortDefinition getPatientsWithAnHccNumber() {
+		return df.getPatientsWithIdentifierOfType(hivMetadata.getHccNumberIdentifierType());
+	}
+
+	@DocumentedDefinition(value = "hasAnArvNumber")
+	public CohortDefinition getPatientsWithAnArvNumber() {
+		return df.getPatientsWithIdentifierOfType(hivMetadata.getArvNumberIdentifierType());
+	}
+
+	@DocumentedDefinition(value = "enrolledInHivProgramByEndDate")
+	public CohortDefinition getEverEnrolledInHivProgramByEndDate() {
+		return df.getEverEnrolledInProgramByEndDate(hivMetadata.getHivProgram());
+	}
+
+	@DocumentedDefinition(value = "enrolledInHivProgramDuringPeriod")
+	public CohortDefinition getEnrolledInHivProgramDuringPeriod() {
+		return df.getEnrolledInProgramDuringPeriod(hivMetadata.getHivProgram());
+	}
+
+	@DocumentedDefinition(value = "everEnrolledInArtAtLocationByEndDate")
+	public CohortDefinition getStartedInExposedChildStateDuringPeriod() {
+		return df.getStartedInStateDuringPeriod(hivMetadata.getOnArvsState());
+	}
+
 	@DocumentedDefinition(value = "everEnrolledInArtAtLocationByEndDate")
 	public CohortDefinition getEverEnrolledInArtAtLocationByEndDate() {
-		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
-		cd.setState(hivMetadata.getOnArvsState());
-		cd.addParameter(new Parameter("startedOnOrBefore", "Started on or before", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		return new MappedParametersCohortDefinition(cd, "startedOnOrBefore", ReportingConstants.END_DATE_PARAMETER.getName(), "location", ReportingConstants.LOCATION_PARAMETER.getName());
+		return df.getEverEnrolledInStateAtLocationByEndDate(hivMetadata.getOnArvsState());
 	}
+
 }

@@ -13,9 +13,6 @@
  */
 
 package org.openmrs.module.pihmalawi.reporting.reports;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,6 +24,7 @@ import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -76,17 +74,32 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
+	public void shouldCreateDefinitionsAndDesigns() {
+		ReportManager rm = getReportManager();
+		ReportDefinition rd = reportDefinitionService.getDefinition(rm.getUuid(), ReportDefinition.class);
+		Assert.assertEquals(rm.getName(), rd.getName());
+		Assert.assertEquals(rm.getDescription(), rd.getDescription());
+		for (ReportDesign design : rm.constructReportDesigns(rd)) {
+			ReportDesign dbDesign = reportService.getReportDesignByUuid(design.getUuid());
+			Assert.assertEquals(design.getName(), dbDesign.getName());
+			Assert.assertEquals(design.getRendererType(), dbDesign.getRendererType());
+			Assert.assertEquals(design.getResources().size(), dbDesign.getResources().size());
+		}
+	}
+
+	@Test
 	public void shouldRunReportWithoutErrors() throws Exception {
 		ReportManager rm = getReportManager();
 		ReportDefinition reportDefinition = reportDefinitionService.getDefinitionByUuid(rm.getUuid());
 		EvaluationContext context = getEvaluationContext();
 		ReportData data = reportDefinitionService.evaluate(reportDefinition, context);
 		Assert.assertTrue(data.getDataSets().size() > 0);
-		for (ReportDesign design : reportService.getAllReportDesigns(false)) {
-			ReportRenderer renderer = design.getRendererType().newInstance();
-			File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(reportDefinition, design.getUuid()));
+		for (RenderingMode renderingMode : reportService.getRenderingModes(reportDefinition)) {
+			ReportRenderer renderer = renderingMode.getRenderer();
+			String argument = renderingMode.getArgument();
+			File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(reportDefinition, argument));
 			FileOutputStream fos = new FileOutputStream(outFile);
-			renderer.render(data, design.getUuid(), fos);
+			renderer.render(data, argument, fos);
 			fos.close();
 		}
 	}

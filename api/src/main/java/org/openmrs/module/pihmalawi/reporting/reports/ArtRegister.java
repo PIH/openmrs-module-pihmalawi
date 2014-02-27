@@ -192,7 +192,7 @@ public class ArtRegister extends BaseReportManager {
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelReportDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, null));
+		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
 		return l;
 	}
 

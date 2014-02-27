@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.Concept;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.RelationshipType;
 import org.springframework.stereotype.Component;
@@ -35,8 +36,17 @@ public class CommonMetadata extends Metadata {
 		return getRelationshipType(GUARDIAN_RELATIONSHIP_TYPE);
 	}
 
+	public static final String LAB_ENCOUNTER_TYPE = "LAB";
+
+	public EncounterType getLabEncounterType() {
+		return getEncounterType(LAB_ENCOUNTER_TYPE);
+	}
+
 	public static final String APPOINTMENT_DATE = "Appointment date";
+	public static final String WEIGHT = "Weight (kg)";
 	public static final String CD4_COUNT = "CD4 count";
+	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
+
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
 	public static final String TB_TREATMENT_STATUS = "Tuberculosis treatment status";
 	public static final String WHO_STAGE = "WHO stage";
@@ -46,13 +56,28 @@ public class CommonMetadata extends Metadata {
 	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";
 	public static final String TB_STATUS = "TB status";
 	public static final String ART_SIDE_EFFECTS = "Malawi ART side effects";
+	public static final String HIV_DNA_PCR = "HIV DNA polymerase chain reaction";
+	public static final String DNA_PCR_RESULT = "DNA-PCR Testing Result";
+	public static final String DNA_PCR_RESULT_2 = "DNA-PCR Testing Result 2";
+	public static final String DNA_PCR_RESULT_3 = "DNA-PCR Testing Result 3";
+	public static final String NEGATIVE = "Negative";
+	public static final String POSITIVE = "Positive";
+	public static final String INDETERMINATE = "Indeterminate";
 
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
 
+	public Concept getWeightConcept() {
+		return getConcept(WEIGHT);
+	}
+
 	public Concept getCd4CountConcept() {
 		return getConcept(CD4_COUNT);
+	}
+
+	public Concept getClinicianReportedCd4Concept() {
+		return getConcept(CLINICIAN_REPORTED_CD4);
 	}
 
 	public Concept getKsSideEffectsWorseningOnArvsConcept() {
@@ -89,6 +114,34 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getArtSideEffectsConcept() {
 		return getConcept(ART_SIDE_EFFECTS);
+	}
+
+	public Concept getHivDnaPcrTestConcept() {
+		return getConcept(HIV_DNA_PCR);
+	}
+
+	public Concept getDnaPcrResultConcept() {
+		return getConcept(DNA_PCR_RESULT);
+	}
+
+	public Concept getDnaPcrResult2Concept() {
+		return getConcept(DNA_PCR_RESULT_2);
+	}
+
+	public Concept getDnaPcrResult3Concept() {
+		return getConcept(DNA_PCR_RESULT_3);
+	}
+
+	public Concept getNegativeConcept() {
+		return getConcept(NEGATIVE);
+	}
+
+	public Concept getPositiveConcept() {
+		return getConcept(POSITIVE);
+	}
+
+	public Concept getIndeterminateConcept() {
+		return getConcept(INDETERMINATE);
 	}
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";
