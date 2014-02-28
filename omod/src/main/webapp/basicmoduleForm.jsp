@@ -22,10 +22,6 @@ ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artappadherence.form">Remove</a>
 <br/>
 
-ART Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artregister.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artregister.form">Remove</a>
-<br/>
-
 HCC Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccregister.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccregister.form">Remove</a>
 <br/>
@@ -111,10 +107,6 @@ Tuberculosis Register: <a href="${pageContext.request.contextPath}/module/pihmal
 <h3>General</h3>
 Appointments for Location and Date: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_appointments.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_appointments.form">Remove</a>
-<br/>
-
-PIH Quarterly Cross Site Indicators: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_pih_xsite.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_pih_xsite.form">Remove</a>
 <br/>
 
 KS Register Export: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_ksregister.form">(Re) register</a>

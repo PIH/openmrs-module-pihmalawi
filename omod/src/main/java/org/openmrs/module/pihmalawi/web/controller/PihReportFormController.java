@@ -20,7 +20,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDnaPcrResults;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupPihQuarterlyCrossSite;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
@@ -42,16 +41,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_exposed_dna.form")
 	public void registerExposedDna() throws Exception {
 		new SetupHivDnaPcrResults(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_pih_xsite.form")
-	public void removePihXSite() {
-		new SetupPihQuarterlyCrossSite(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_pih_xsite.form")
-	public void registerPihXSite() throws Exception {
-		new SetupPihQuarterlyCrossSite(new ReportHelper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_apzu_hiv.form")
