@@ -41,12 +41,17 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
     }
 
 	@DocumentedDefinition(value = "age0to14ByEndDate")
-	public CohortDefinition getAge0to14UpByEnd() {
+	public CohortDefinition getAge0to14ByEnd() {
 		return df.getAgeByEndDate(null, 14);
 	}
 
 	@DocumentedDefinition(value = "age15upByEndDate")
 	public CohortDefinition getAge15UpByEnd() {
 		return df.getAgeByEndDate(15, null);
+	}
+
+	@DocumentedDefinition(value = "turned13WeeksOldDuringPeriod")
+	public CohortDefinition getPatientsWhoTurned13WeeksDuringPeriod() {
+		return df.getPatientsWhoTurnedWeeksOldDuringPeriod(13);
 	}
 }

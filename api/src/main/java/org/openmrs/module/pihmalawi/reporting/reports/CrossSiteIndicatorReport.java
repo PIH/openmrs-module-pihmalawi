@@ -90,17 +90,17 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 		CohortDefinitionDimension adultChild = new CohortDefinitionDimension();
 		adultChild.addParameter(ReportingConstants.END_DATE_PARAMETER);
 		adultChild.addCohortDefinition("adult", Mapped.mapStraightThrough(baseCohorts.getAge15UpByEnd()));
-		adultChild.addCohortDefinition("child", Mapped.mapStraightThrough(baseCohorts.getAge0to14UpByEnd()));
+		adultChild.addCohortDefinition("child", Mapped.mapStraightThrough(baseCohorts.getAge0to14ByEnd()));
 		dsd.addDimension("age", Mapped.mapStraightThrough(adultChild));
 
 		// Indicators
 
-		// HIV Q1
+		// HIV Q1 TODO: Why would we exclude anyone who was ever an exposed child?  Don't they get enrolled as patients?
 		CohortDefinition hasAnHccNumber = hivCohorts.getPatientsWithAnHccNumber();
 		CohortDefinition hasAnArvNumber = hivCohorts.getPatientsWithAnArvNumber();
 		CohortDefinition everEnrolledInHivProgram = hivCohorts.getEverEnrolledInHivProgramByEndDate();
-		CohortDefinition startedExposedChild = hivCohorts.getStartedInExposedChildStateDuringPeriod();
-		CohortDefinition hivQ1 = df.createComposition(everEnrolledInHivProgram, "AND NOT", startedExposedChild, "AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
+		CohortDefinition everExposedChild = hivCohorts.getPatientsEverInExposedChildStateByEndDate();
+		CohortDefinition hivQ1 = df.createComposition(everEnrolledInHivProgram, "AND NOT", everExposedChild, "AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
 		addAdultChildIndicator(dsd, "hivq1", "Ever registered in the HIV program", hivQ1);
 
 		// HIV Q2
@@ -131,16 +131,80 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 
 		CohortDefinition hadPreArtVisitInLast12Months = hivCohorts.getPatientsWithAPreArtEncounterWithinMonthsOfEndDate(12);
 		CohortDefinition hivQ4b = df.createComposition(hivQ3, "AND", hadPreArtVisitInLast12Months);
-		addAdultChildIndicator(dsd, "hivQ4b", "Patients with a visit recorded in the last 12 months", hivQ4b);
+		addAdultChildIndicator(dsd, "hivq4b", "Patients with a visit recorded in the last 12 months", hivQ4b);
 
 		CohortDefinition hadPreArtVisitInLast18Months = hivCohorts.getPatientsWithAPreArtEncounterWithinMonthsOfEndDate(18);
-		CohortDefinition hivq4c = df.createComposition(hivQ3, "AND", hadPreArtVisitInLast18Months);
-		addAdultChildIndicator(dsd, "hivq4c", "Patients with a visit recorded in the last 18 months", hivq4c);
+		CohortDefinition hivQ4c = df.createComposition(hivQ3, "AND", hadPreArtVisitInLast18Months);
+		addAdultChildIndicator(dsd, "hivq4c", "Patients with a visit recorded in the last 18 months", hivQ4c);
 
 		CohortDefinition hivQ4d = df.createComposition(hivQ3, "AND", hadPreArtVisitInLast24Months);
-		addAdultChildIndicator(dsd, "hivQ4d", "Patients with a visit recorded in the last 24 months", hivQ4d);
+		addAdultChildIndicator(dsd, "hivq4d", "Patients with a visit recorded in the last 24 months", hivQ4d);
 
+		// HIV Q5
+		CohortDefinition everOnArvs = hivCohorts.getPatientsEverInOnArvsStateByEndDate();
+		CohortDefinition hivQ5 = everOnArvs;
+		addAdultChildIndicator(dsd, "hivq5", "Ever on ART", hivQ5);
 
+		// HIV Q6
+		CohortDefinition onArvsAtEnd = hivCohorts.getPatientsInOnArvsStateOnEndDate();
+		CohortDefinition hivQ6 = onArvsAtEnd;
+		addAdultChildIndicator(dsd, "hivq6", "ART patients who do not have a final program exit", hivQ6);
+
+		// HIV Q7
+		CohortDefinition hadArtVisitInLast3Months = hivCohorts.getPatientsWithAnArtEncounterWithinMonthsOfEndDate(3);
+		CohortDefinition hivQ7 = df.createComposition(hivQ6, "AND", hadArtVisitInLast3Months);
+		addAdultChildIndicator(dsd, "hivq7", "Patients with a visit recorded in the three months", hivQ7);
+
+		// HIV Q7b
+		CohortDefinition hivQ7b = df.createComposition(hivQ6, "AND NOT", hadArtVisitInLast3Months);
+		addAdultChildIndicator(dsd, "hivq7b", "Patients without a visit recorded in the three months", hivQ7b);
+
+		// HIV Q8
+		CohortDefinition hadArtVisitBeforePeriod = hivCohorts.getPatientsWithAnArtEncounterBeforeStartDate();
+		CohortDefinition hadArtVisitDuringPeriod = hivCohorts.getPatientsWithAnArtEncounterDuringPeriod();
+		CohortDefinition hivQ8 = df.createComposition(hivQ5, "AND", hadArtVisitDuringPeriod, "AND NOT", hadArtVisitBeforePeriod);
+		addAdultChildIndicator(dsd, "hivq8", "Initiated ART during the quarter", hivQ8);
+
+		// HIV Q9
+		CohortDefinition hadCd4RecordedInLast6Months = hivCohorts.getPatientsWithCd4RecordedAtHivEncounterWithinMonthsOfEndDate(6);
+		CohortDefinition hivQ9 = df.createComposition(hadCd4RecordedInLast6Months, "AND", inPreArtState);
+		addAdultChildIndicator(dsd, "hivq9", "Pre-ART patients with CD4 count recorded in the last two quarters", hivQ9);
+
+		// HIV Q9b
+		CohortDefinition hasCd4InLabInLast6Months = hivCohorts.getPatientsWithCd4MeasuredInLabWithinMonthsOfEndDate(6);
+		CohortDefinition hivQ9b = df.createComposition(hasCd4InLabInLast6Months, "AND", inPreArtState);
+		addAdultChildIndicator(dsd, "hivq9b", "Pre-ART patients with CD4 count measured in the last two quarters", hivQ9b);
+
+		// HIV Q10
+		CohortDefinition hivQ10 = df.createComposition(hadCd4RecordedInLast6Months, "AND", onArvsAtEnd);
+		addAdultChildIndicator(dsd, "hivq10", "ART patients with CD4 count recorded in the last two quarters", hivQ10);
+
+		// HIV Q10b
+		CohortDefinition hivQ10b = df.createComposition(hasCd4InLabInLast6Months, "AND", onArvsAtEnd);
+		addAdultChildIndicator(dsd, "hivq10b", "ART patients with CD4 count measured in the last two quarters", hivQ10b);
+
+		// HIV Q11_den
+		CohortDefinition anyHivVisitDuringPeriod = hivCohorts.getPatientsWithAnHivEncounterDuringPeriod();
+		CohortDefinition hivQ11Den = anyHivVisitDuringPeriod;
+		addAdultChildIndicator(dsd, "hivq11_den", "Patients with HIV visits in period", hivQ11Den);
+
+		// HIV Q11
+		CohortDefinition weighedDuringPeriod = hivCohorts.getPatientsWithWeightAtHivEncounterDuringPeriod();
+		CohortDefinition hivQ11 = df.createComposition(hivQ11Den, "AND", weighedDuringPeriod);
+		addAdultChildIndicator(dsd, "hivq11", "Patients with weight recorded", hivQ11);
+
+		// HIV Q11b
+		CohortDefinition hivQ11b = df.createComposition(hivQ11Den, "AND NOT", weighedDuringPeriod);
+		addAdultChildIndicator(dsd, "hivq11b", "Patients without weight recorded", hivQ11b);
+
+		// EID Q1
+		CohortDefinition turned13Weeks = baseCohorts.getPatientsWhoTurned13WeeksDuringPeriod();
+		CohortDefinition eidq1den = df.createComposition(everEnrolledInHivProgram, "AND", turned13Weeks);
+		addIndicator(dsd, "eidq1den", "Infants who turned thirteen weeks old during the review quarter", eidq1den, "");
+
+		CohortDefinition hadPcrTest = hivCohorts.getPatientsWithPcrTestResultByEndDate();
+		CohortDefinition eidq1 = df.createComposition(eidq1den, "AND", hadPcrTest);
+		addIndicator(dsd, "eidq1", "Infants who turned thirteen weeks during the review quarter with DNA PCR", eidq1, "");
 
 		return rd;
 	}

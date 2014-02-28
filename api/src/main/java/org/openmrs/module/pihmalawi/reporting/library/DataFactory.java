@@ -26,19 +26,24 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
+import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ProgramPatientIdentifierDataDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.ConvertedDataDefinition;
 import org.openmrs.module.reporting.data.DataDefinition;
@@ -206,8 +211,16 @@ public class DataFactory {
 	public CohortDefinition getAgeByEndDate(Integer minAge, Integer maxAge) {
 		AgeCohortDefinition cd = new AgeCohortDefinition();
 		cd.setMinAge(minAge);
+		cd.setMaxAge(maxAge);
 		cd.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
 		return convert(cd, ObjectUtil.toMap("effectiveDate=endDate"));
+	}
+
+	public CohortDefinition getPatientsWhoTurnedWeeksOldDuringPeriod(int numWeeks) {
+		BirthAndDeathCohortDefinition cd = new BirthAndDeathCohortDefinition();
+		cd.addParameter(new Parameter("bornOnOrAfter", "Born On Or After", Date.class));
+		cd.addParameter(new Parameter("bornOnOrBefore", "Born On Or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("bornOnOrAfter=startDate-"+numWeeks+"w,bornOnOrBefore=endDate-"+numWeeks+"w"));
 	}
 
 	public CohortDefinition getPatientsWithIdentifierOfType(PatientIdentifierType type) {
@@ -247,6 +260,21 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
 	}
 
+	public CohortDefinition getEverInStateDuringPeriod(ProgramWorkflowState state) {
+		InStateCohortDefinition cd = new InStateCohortDefinition();
+		cd.setStates(Arrays.asList(state));
+		cd.addParameter(new Parameter("onOrAfter", "onOrAfter", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getEverInStateByEndDate(ProgramWorkflowState state) {
+		InStateCohortDefinition cd = new InStateCohortDefinition();
+		cd.setStates(Arrays.asList(state));
+		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
+
 	public CohortDefinition getCurrentlyInStateOnEndDate(ProgramWorkflowState... state) {
 		InStateCohortDefinition cd = new InStateCohortDefinition();
 		cd.setStates(Arrays.asList(state));
@@ -281,7 +309,37 @@ public class DataFactory {
 		cd.setEncounterTypeList(types);
 		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
-		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m,onOrBefore=endDate"));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWithAnyObsDuringPeriod(Concept question, List<EncounterType> restrictToTypes) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, List<EncounterType> restrictToTypes, int numMonths) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWithCodedObsByEndDate(Concept question, List<Concept> codedValues) {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setOperator(SetComparator.IN);
+		cd.setValueList(codedValues);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
