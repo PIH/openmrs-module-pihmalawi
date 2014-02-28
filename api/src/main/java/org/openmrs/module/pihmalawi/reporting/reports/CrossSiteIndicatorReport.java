@@ -111,7 +111,7 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 
 		// HIV Q3
 		CohortDefinition inPreArtState = hivCohorts.getPatientsInPreArtStateOnEndDate();
-		CohortDefinition hivQ3 = df.createComposition(everEnrolledInHivProgram, "AND", inPreArtState);
+		CohortDefinition hivQ3 = df.createComposition(inPreArtState, "AND", hasAnHccNumber);
 		addAdultChildIndicator(dsd, "hivq3", "HIV patients who have not started ART", hivQ3);
 
 		// HIV Q3b
