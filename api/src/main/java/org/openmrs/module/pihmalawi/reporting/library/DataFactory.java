@@ -33,6 +33,7 @@ import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
@@ -246,6 +247,13 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
 	}
 
+	public CohortDefinition getCurrentlyInStateOnEndDate(ProgramWorkflowState... state) {
+		InStateCohortDefinition cd = new InStateCohortDefinition();
+		cd.setStates(Arrays.asList(state));
+		cd.addParameter(new Parameter("onDate", "onDate", Date.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate"));
+	}
+
 	public CohortDefinition getAnyEncounterOfTypesDuringPeriod(List<EncounterType> types) {
 		EncounterCohortDefinition cd = new EncounterCohortDefinition();
 		cd.setEncounterTypeList(types);
@@ -259,6 +267,21 @@ public class DataFactory {
 		cd.setEncounterTypeList(types);
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(cd, ObjectUtil.toMap("onOrBefore=startDate-1ms"));
+	}
+
+	public CohortDefinition getAnyEncounterOfTypesByEndDate(List<EncounterType> types) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getAnyEncounterOfTypesWithinMonthsByEndDate(List<EncounterType> types, int numMonths) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m,onOrBefore=endDate"));
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
