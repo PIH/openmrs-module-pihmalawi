@@ -25,14 +25,9 @@
 		<class>org.openmrs.module.pihmalawi.web.extension.AdminList</class>
 	</extension>
 
-	<extension>
-		<point>org.openmrs.patientDashboard.overviewBox</point>
-		<class>org.openmrs.module.pihmalawi.web.extension.EMastercardsBoxExt</class>
-	</extension>
-
-	<extension>
-		<point>org.openmrs.patientDashboard.overviewBox</point>
-		<class>org.openmrs.module.pihmalawi.web.extension.QuickProgramsBoxExt</class>
-	</extension>
+    <extension>
+        <point>org.openmrs.patientDashboard.overviewBox</point>
+        <class>org.openmrs.module.pihmalawi.web.extension.MalawiPatientDashboardBoxExt</class>
+    </extension>
 
 </module>
