@@ -83,6 +83,7 @@ public class ApzuReportElementsArt {
 		return hivMetadata.getHivAndExposedChildEncounterTypes();
 	}
 
+	@Deprecated
 	public static CohortDefinition artActiveAtLocationOnDate(String prefix) {
 		// On ART at end of period
 		InStateAtLocationCohortDefinition iscd = new InStateAtLocationCohortDefinition();
@@ -120,7 +121,7 @@ public class ApzuReportElementsArt {
 		return pscd;
 	}
 
-
+	@Deprecated
 	public static CohortDefinition artEnrolledAtLocationInPeriod(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
@@ -206,6 +207,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated
 	public static CohortDefinition partEnrolledAtLocationInPeriod(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
@@ -252,6 +254,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated
 	public static CohortDefinition partEverEnrolledAtLocationOnDate(
 			String prefix) {
 		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
@@ -449,6 +452,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated
 	public static CohortDefinition partOnArtAtLocationInPeriod(
 			String prefix,
 			CohortDefinition partEverEnrolledAtLocationOnDate,
@@ -638,6 +642,7 @@ public class ApzuReportElementsArt {
 		return islcd;
 	}
 
+	@Deprecated
 	public static CohortDefinition hivDiedAtLocationOnDate(String prefix) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(prefix + ": Died at location_");
@@ -648,6 +653,7 @@ public class ApzuReportElementsArt {
 		return islcd;
 	}
 
+	@Deprecated
 	public static CohortDefinition hivDefaultedAtLocationOnDate(String prefix) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
 		islcd.setName(prefix + ": Defaulted at location_");
@@ -658,6 +664,7 @@ public class ApzuReportElementsArt {
 		return islcd;
 	}
 
+	@Deprecated
 	public static CohortDefinition hivDefaultedAtLocationDuringPeriod(String prefix) {
 		PatientStateAtLocationCohortDefinition pslcd = new PatientStateAtLocationCohortDefinition();
 		pslcd.setName(prefix + ": Defaulted during period at location_");
@@ -757,6 +764,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated
 	public static CohortDefinition artMissedAppointmentAtLocationOnDate(String string) {
 		Concept CONCEPT_APPOINTMENT_DATE = Context.getConceptService()
 		.getConceptByName("Appointment date");
@@ -819,6 +827,7 @@ public class ApzuReportElementsArt {
 		return dod;
 	}
 
+	@Deprecated
 	public static CohortDefinition partActiveWithDefaultersAtLocationOnDate(
 			String string) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
@@ -859,6 +868,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated
 	public static CohortDefinition artActiveWithDefaultersAtLocationOnDate(
 			String string) {
 		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();

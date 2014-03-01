@@ -40,5 +40,6 @@ public class UuidGeneratorTest {
 	@Test
 	public void generateUuid() {
 		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
 	}
 }

@@ -7,7 +7,10 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.common.Localized;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
+import org.openmrs.module.reporting.definition.configuration.ConfigurationPropertyCachingStrategy;
+import org.openmrs.module.reporting.evaluation.caching.Caching;
 
+@Caching(strategy=ConfigurationPropertyCachingStrategy.class)
 @Localized("pihmalawi.InStateAtLocationCohortDefinition")
 public class InStateAtLocationCohortDefinition extends BaseCohortDefinition {
 	

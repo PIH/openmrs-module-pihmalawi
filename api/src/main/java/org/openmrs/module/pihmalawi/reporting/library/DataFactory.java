@@ -29,6 +29,7 @@ import org.openmrs.RelationshipType;
 import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.data.definition.ProgramPatientIdentifierDataDefinition;
+import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
@@ -229,12 +230,44 @@ public class DataFactory {
 		return cd;
 	}
 
+	public CohortDefinition getPatientsWithIdentifierOfTypeAtLocation(PatientIdentifierType type) {
+		PatientIdentifierCohortDefinition cd = new PatientIdentifierCohortDefinition();
+		cd.addParameter(new Parameter("locationsToMatch", "Location", Location.class));
+		cd.addTypeToMatch(type);
+		return convert(cd, ObjectUtil.toMap("locationsToMatch=location"));
+	}
+
 	public CohortDefinition getEverEnrolledInStateAtLocationByEndDate(ProgramWorkflowState state) {
 		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
 		cd.setState(state);
 		cd.addParameter(new Parameter("startedOnOrBefore", "Started on or before", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getStartedInStateAtLocationDuringPeriod(ProgramWorkflowState state) {
+		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
+		cd.setState(state);
+		cd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		cd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getActiveInStateAtLocationOnEndDate(ProgramWorkflowState state) {
+		InStateAtLocationCohortDefinition cd = new InStateAtLocationCohortDefinition();
+		cd.setState(state);
+		cd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate"));
+	}
+
+	public CohortDefinition getActiveInStateAtLocationNumMonthsBeforeEndDate(ProgramWorkflowState state, int numMonths) {
+		InStateAtLocationCohortDefinition cd = new InStateAtLocationCohortDefinition();
+		cd.setState(state);
+		cd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate-"+numMonths+"m"));
 	}
 
 	public CohortDefinition getEverEnrolledInProgramByEndDate(Program program) {
