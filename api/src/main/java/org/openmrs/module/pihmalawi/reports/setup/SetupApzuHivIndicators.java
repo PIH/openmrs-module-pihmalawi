@@ -76,7 +76,7 @@ public class SetupApzuHivIndicators {
 
 		h.replaceReportDefinition(rd);
 
-		h.createXlsOverview(rd, "APZU_HIV_Indicators.xls",
+		h.createXlsOverview(rd, "org/openmrs/module/pihmalawi/reporting/reports/ApzuHivIndicatorsReport.xls",
 				"APZU HIV Indicators (Excel)_", excelOverviewProperties());
 		return (ReportDefinition[]) Arrays.asList(rd).toArray();
 	}

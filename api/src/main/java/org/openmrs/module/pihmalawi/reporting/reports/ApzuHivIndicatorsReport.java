@@ -90,8 +90,9 @@ public class ApzuHivIndicatorsReport extends BaseReportManager {
 		// Base Data Set Definition
 
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		dsd.setParameters(getParameters());
 		dsd.addParameter(df.getLocationParameter());
-		rd.addDataSetDefinition("loc", Mapped.mapStraightThrough(dsd));
+		multiPeriodDsd.setBaseDefinition(dsd);
 
 		// Underlying cohorts
 
@@ -153,7 +154,8 @@ public class ApzuHivIndicatorsReport extends BaseReportManager {
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME));
+		//l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME));
+		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
 		return l;
 	}
 
