@@ -4,7 +4,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
 import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
-import org.openmrs.module.pihmalawi.reports.setup.SetupApzuHivIndicators;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtEncounterReport;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
@@ -41,16 +40,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_exposed_dna.form")
 	public void registerExposedDna() throws Exception {
 		new SetupHivDnaPcrResults(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_apzu_hiv.form")
-	public void removeApzuHiv() {
-		new SetupApzuHivIndicators(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_apzu_hiv.form")
-	public void registerApzuHiv() throws Exception {
-		new SetupApzuHivIndicators(new ReportHelper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_tb_register.form")

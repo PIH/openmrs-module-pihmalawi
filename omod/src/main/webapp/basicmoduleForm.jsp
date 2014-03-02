@@ -34,10 +34,6 @@ HCC Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/regi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccquarterly.form">Remove</a>
 <br/>
 
-APZU HIV Indicators: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_apzu_hiv.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_apzu_hiv.form">Remove</a>
-<br/>
-
 Exposed Child DNA-PCR results: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_exposed_dna.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_exposed_dna.form">Remove</a>
 <br/>
