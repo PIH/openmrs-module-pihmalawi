@@ -29,8 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class ApzuHivIndicatorsReport extends BaseReportManager {
@@ -85,7 +87,7 @@ public class ApzuHivIndicatorsReport extends BaseReportManager {
 
 		MultiParameterDataSetDefinition multiPeriodDsd = new MultiParameterDataSetDefinition();
 		multiPeriodDsd.setParameters(getParameters());
-		rd.addDataSetDefinition("loc", Mapped.mapStraightThrough(multiPeriodDsd));
+		rd.addDataSetDefinition("Apzu_Hiv_Indicators", Mapped.mapStraightThrough(multiPeriodDsd));
 
 		// Base Data Set Definition
 
@@ -153,10 +155,9 @@ public class ApzuHivIndicatorsReport extends BaseReportManager {
 
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		//l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME));
-		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-		return l;
+		ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME);
+		design.addPropertyValue("repeatingSections", "sheet:1,column:5,dataset:Apzu_Hiv_Indicators");
+		return Arrays.asList(design);
 	}
 
 	@Override
