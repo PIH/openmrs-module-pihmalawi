@@ -9,6 +9,8 @@ import org.openmrs.module.reporting.dataset.DataSetRow;
 import java.util.Arrays;
 import java.util.Date;
 
+// TODO: Delete this class once the ART Missed Appointment Report is done
+@Deprecated
 public class ArtMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer {
 
 	public DataSetRow renderRow(Patient p, PatientIdentifierType patientIdentifierType, Location locationParameter, Date startDateParameter, Date endDateParameter) {

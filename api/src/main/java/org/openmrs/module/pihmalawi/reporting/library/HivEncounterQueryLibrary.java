@@ -56,4 +56,12 @@ public class HivEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQue
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
 		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
 	}
+
+	@DocumentedDefinition(value = "artFollowupEncountersByEndDate")
+	public EncounterQuery getArtFollowupEncountersByEndDate() {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.addEncounterType(hivMetadata.getArtFollowupEncounterType());
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
 }
