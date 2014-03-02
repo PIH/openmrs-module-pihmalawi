@@ -197,4 +197,16 @@ public class HivMetadata extends CommonMetadata {
 		l.remove(getMidzembaHc());
 		return l;
 	}
+
+	public List<Location> getUpperNenoHivStaticLocations() {
+		List<Location> l = getHivStaticLocations();
+		l.retainAll(getUpperNenoFacilities());
+		return l;
+	}
+
+	public List<Location> getLowerNenoHivStaticLocations() {
+		List<Location> l = getHivStaticLocations();
+		l.retainAll(getLowerNenoFacilities());
+		return l;
+	}
 }

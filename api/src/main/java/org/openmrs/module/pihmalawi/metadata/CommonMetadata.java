@@ -243,6 +243,29 @@ public class CommonMetadata extends Metadata {
 		return l;
 	}
 
+	public List<Location> getUpperNenoFacilities() {
+		List<Location> l = new ArrayList<Location>();
+		l.add(getNenoHospital());
+		l.add(getMagaletaHc());
+		l.add(getNsambeHc());
+		l.add(getNenoMissionHc());
+		l.add(getLigoweHc());
+		l.add(getMatandaniHc());
+		l.add(getLuwaniHc());
+		return l;
+	}
+
+	public List<Location> getLowerNenoFacilities() {
+		List<Location> l = new ArrayList<Location>();
+		l.add(getLisungwiHospital());
+		l.add(getMatopeHc());
+		l.add(getChifungaHc());
+		l.add(getZalewaHc());
+		l.add(getMidzembaHc());
+		l.add(getNkhulaFallsHc());
+		return l;
+	}
+
 	public List<Location> getAllLocations(Location primaryFacility) {
 		List<Location> l = new ArrayList<Location>();
 		l.add(primaryFacility);
