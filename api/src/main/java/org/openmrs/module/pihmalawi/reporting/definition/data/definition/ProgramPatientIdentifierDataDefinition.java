@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.pihmalawi.reporting.data.definition;
+package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifier;

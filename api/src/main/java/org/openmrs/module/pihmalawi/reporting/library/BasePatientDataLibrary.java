@@ -14,7 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.data.definition.ChwOrGuardianPatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;

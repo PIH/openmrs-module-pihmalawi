@@ -19,6 +19,7 @@ import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Form;
 import org.openmrs.Location;
+import org.openmrs.LocationTag;
 import org.openmrs.OrderType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
@@ -382,6 +383,32 @@ public abstract class Metadata {
 	}
 
 	/**
+	 * @return the Location Tag that matches the passed uuid, name, or primary key id
+	 */
+	public LocationTag getLocationTag(String lookup) {
+		LocationTag et = Context.getLocationService().getLocationTagByUuid(lookup);
+		if (et == null) {
+			et = Context.getLocationService().getLocationTagByName(lookup);
+		}
+		if (et == null) {
+			try {
+				et = Context.getLocationService().getLocationTag(Integer.parseInt(lookup));
+			}
+			catch(Exception e) {}
+		}
+		if (et == null) {
+			throw new IllegalArgumentException("Unable to find Location Tag using key: " + lookup);
+		}
+
+		return et;
+	}
+
+	public List<Location> getLocationsForTag(String lookup) {
+		LocationTag tag = getLocationTag(lookup);
+		return Context.getLocationService().getLocationsByTag(tag);
+	}
+
+	/**
 	 * @return the PersonAttributeType that matches the passed uuid, name, or primary key id
 	 */
 	public PersonAttributeType getPersonAttributeType(String lookup) {
@@ -400,5 +427,13 @@ public abstract class Metadata {
 		}
 
 		return et;
+	}
+
+	/**
+	 * @return the global property with the passed name, or the default value if not found
+	 */
+	public String getGlobalProperty(String propertyName, String defaultValue) {
+		String s = Context.getAdministrationService().getGlobalProperty(propertyName);
+		return ObjectUtil.nvlStr(s, defaultValue);
 	}
 }

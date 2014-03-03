@@ -76,6 +76,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getEverEnrolledInProgramByEndDate(hivMetadata.getHivProgram());
 	}
 
+	@DocumentedDefinition(value = "activelyEnrolledInHivProgramOnEndDate")
+	public CohortDefinition getActivelyEnrolledInHivProgramAtLocationOnEndDate() {
+		return df.getActivelyEnrolledInProgramAtLocationOnEndDate(hivMetadata.getHivProgram());
+	}
+
 	@DocumentedDefinition(value = "enrolledInHivProgramDuringPeriod")
 	public CohortDefinition getEnrolledInHivProgramDuringPeriod() {
 		return df.getEnrolledInProgramDuringPeriod(hivMetadata.getHivProgram());
@@ -115,6 +120,16 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	@DocumentedDefinition(value = "inOnArtStateAtLocationOnEndDate")
 	public CohortDefinition getInOnArtStateAtLocationOnEndDate() {
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getOnArvsState());
+	}
+
+	@DocumentedDefinition(value = "inOnArtStateOnEndDate")
+	public CohortDefinition getInOnArtStateOnEndDate() {
+		return df.getCurrentlyInStateOnEndDate(hivMetadata.getOnArvsState());
+	}
+
+	@DocumentedDefinition(value = "inTransferredInternallyStateOnEndDate")
+	public CohortDefinition getTransferredInternallyStateOnEndDate() {
+		return df.getCurrentlyInStateOnEndDate(hivMetadata.getTransferredInternallyState());
 	}
 
 	@DocumentedDefinition(value = "transitionedFromPreArtToArtAtLocationDuringPeriod")

@@ -707,6 +707,7 @@ public class ApzuReportElementsArt {
 		return scd;
 	}
 
+	@Deprecated // hivCohorts.getInOnArtStateOnEndDate();
 	public static CohortDefinition onArtOnDate(String reportTag) {
 		InStateCohortDefinition iscd = new InStateCohortDefinition();
 		iscd.setName(reportTag + ": On ART_");

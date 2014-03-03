@@ -27,8 +27,9 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.PatientSetService;
-import org.openmrs.module.pihmalawi.reporting.data.converter.PatientIdentifierConverter;
-import org.openmrs.module.pihmalawi.reporting.data.definition.ProgramPatientIdentifierDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ProgramPatientIdentifierDataDefinition;
+import org.openmrs.module.pihmalawi.reports.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
@@ -283,6 +284,22 @@ public class DataFactory {
 		cd.setPrograms(Arrays.asList(program));
 		cd.addParameter(new Parameter("enrolledOnOrBefore", "enrolledOnOrBefore", Date.class));
 		return convert(cd, ObjectUtil.toMap("enrolledOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getActivelyEnrolledInProgramAtLocationOnEndDate(Program program) {
+		InProgramAtProgramLocationCohortDefinition cd = new InProgramAtProgramLocationCohortDefinition();
+		cd.setPrograms(Arrays.asList(program));
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate"));
+	}
+
+	public CohortDefinition getActivelyEnrolledInProgramAtLocationOnEndDate(Program program, Location location) {
+		InProgramAtProgramLocationCohortDefinition cd = new InProgramAtProgramLocationCohortDefinition();
+		cd.setPrograms(Arrays.asList(program));
+		cd.setLocation(location);
+		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate"));
 	}
 
 	public CohortDefinition getEnrolledInProgramDuringPeriod(Program program) {

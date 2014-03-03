@@ -25,6 +25,8 @@ import java.util.List;
 @Component
 public class CommonMetadata extends Metadata {
 
+	public static final String CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY = "pihmalawi.systemLocationsTag";
+
 	public static final String CHW_RELATIONSHIP_TYPE = "Patient/Village Health Worker";
 	public static final String GUARDIAN_RELATIONSHIP_TYPE = "Patient/Guardian";
 
@@ -278,5 +280,13 @@ public class CommonMetadata extends Metadata {
 			l.add(getMidzembaHc());
 		}
 		return l;
+	}
+
+	public List<Location> getSystemLocations() {
+		String tagName = getGlobalProperty(CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY, null);
+		if (tagName == null) {
+			return getPrimaryFacilities();
+		}
+		return getLocationsForTag(tagName);
 	}
 }

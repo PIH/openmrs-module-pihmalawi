@@ -198,15 +198,9 @@ public class HivMetadata extends CommonMetadata {
 		return l;
 	}
 
-	public List<Location> getUpperNenoHivStaticLocations() {
+	public List<Location> getSupportedHivStaticLocations() {
 		List<Location> l = getHivStaticLocations();
-		l.retainAll(getUpperNenoFacilities());
-		return l;
-	}
-
-	public List<Location> getLowerNenoHivStaticLocations() {
-		List<Location> l = getHivStaticLocations();
-		l.retainAll(getLowerNenoFacilities());
+		l.retainAll(getSystemLocations());
 		return l;
 	}
 }
