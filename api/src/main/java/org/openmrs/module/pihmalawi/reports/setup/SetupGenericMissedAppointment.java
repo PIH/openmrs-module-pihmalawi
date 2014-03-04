@@ -1,5 +1,13 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
@@ -7,6 +15,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -28,28 +37,26 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 public class SetupGenericMissedAppointment {
 
 	protected ReportHelper h = null;
+
 	protected ProgramWorkflow programWorkflow = null;
+
 	protected String reportName = null;
+
 	protected String reportTag = null;
+
 	protected List<Location> locations = null;
+
 	private String breakdownRenderer = null;
 
 	public SetupGenericMissedAppointment(ReportHelper helper) {
 		h = helper;
 	}
 
-	protected void configure(String reportName, String reportTag, ProgramWorkflow programWorkflow, List<Location> locations, String breakdownRenderer) {
+	protected void configure(String reportName, String reportTag,
+			ProgramWorkflow programWorkflow, List<Location> locations, String breakdownRenderer) {
 		this.reportName = reportName;
 		this.reportTag = reportTag;
 		this.programWorkflow = programWorkflow;
@@ -59,17 +66,42 @@ public class SetupGenericMissedAppointment {
 
 	public ReportDefinition[] setup() throws Exception {
 		deleteReportElements();
+
 		createCohortDefinitions();
 		createIndicators();
 		createDimension();
 		ReportDefinition rd = createReportDefinition();
-		h.createXlsOverview(rd, "generic_missed_appointment_overview.xls", reportName + " Overview (Excel)_", excelOverviewProperties());
+		h.createXlsOverview(rd, "generic_missed_appointment_overview.xls",
+				reportName + " Overview (Excel)_", excelOverviewProperties());
+		ReportDesign rdes = createHtmlBreakdownExternal(rd);
+		// h.render(rdes, rd);
 		createHtmlBreakdownInternal(rd);
+		// createHtmlBreakdownDefaulterGis(rd);
 		return (ReportDefinition[]) Arrays.asList(rd).toArray();
 	}
 
 	protected Map<? extends Object, ? extends Object> excelOverviewProperties() {
 		return null;
+	}
+
+	protected ReportDesign createHtmlBreakdownExternal(ReportDefinition rd)
+			throws IOException, SerializationException {
+		// location-specific
+		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
+		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
+		int i = 1;
+		for (Location location : locations) {
+			m.put("3msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			m.put("8msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			m.put("12msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			i++;
+		}
+		dsd.setHtmlBreakdownPatientRowClassname(getBreakdownRenderer());
+		dsd.setPatientIdentifierType(getPatientIdentifierType());
+
+		return h.createHtmlBreakdown(rd,
+				reportName + " Breakdown (>=3 weeks)_", m);
 	}
 
 	protected List<EncounterType> getEncounterTypes() {
@@ -79,52 +111,89 @@ public class SetupGenericMissedAppointment {
 	protected PatientIdentifierType getPatientIdentifierType() {
 		return null;
 	}
-
+	
 	protected String getBreakdownRenderer() {
-		return breakdownRenderer;
+		return breakdownRenderer ;
 	}
 
-	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd) throws IOException, SerializationException {
+	protected ReportDesign createHtmlBreakdownInternal(ReportDefinition rd)
+			throws IOException, SerializationException {
+		// location-specific
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
+
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
-		for (int i=1; i<=locations.size(); i++) {
+		int i = 1;
+		for (Location location : locations) {
 			m.put("noapploc" + i, new Mapped<DataSetDefinition>(dsd, null));
 			m.put("2msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			i++;
 		}
 		dsd.setHtmlBreakdownPatientRowClassname(getBreakdownRenderer());
 		dsd.setPatientIdentifierType(getPatientIdentifierType());
-		return h.createHtmlBreakdown(rd, reportName + " Breakdown (>=2 weeks <3 weeks)_", m);
+
+		// dsd.setEncounterTypes(getEncounterTypes());
+		// if (programWorkflow != null) {
+		// dsd.setProgramWorkflow(programWorkflow);
+		// dsd.setIncludeProgramOutcome(true);
+		// }
+
+		return h.createHtmlBreakdown(rd, reportName
+				+ " Breakdown (>=2 weeks <3 weeks)_", m);
 	}
 
 	protected ReportDefinition createReportDefinition() throws IOException {
-
+		// art appointment report
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.removeParameter(ReportingConstants.START_DATE_PARAMETER);
 		rd.removeParameter(ReportingConstants.END_DATE_PARAMETER);
 		rd.removeParameter(ReportingConstants.LOCATION_PARAMETER);
-		rd.addParameter(new Parameter("endDate", "End date (Sunday)", Date.class));
+		rd.addParameter(new Parameter("endDate", "End date (Sunday)",
+				Date.class));
 
 		rd.setName(reportName + "_");
 		rd.setupDataSetDefinition();
-		rd.addDimension("Location", h.cohortDefinitionDimension(reportTag + ": program location_"));
+		rd.addDimension("Location",
+				h.cohortDefinitionDimension(reportTag + ": program location_"));
 
 		createBaseCohort(rd);
 
 		addColumnForLocations(rd, "No appointment", "No appointment_", "noapp");
-		addColumnForLocations(rd, "No appointment 1 week ago", "No appointment 1 week ago_", "noapp1");
-		addColumnForLocations(rd, "No appointment 2 weeks ago", "No appointment 2 weeks ago_", "noapp2");
-		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks", "Missed appointment >2 <=3 weeks_", "2msd");
-		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks 1 week ago", "Missed appointment >2 <=3 weeks 1 week ago_", "2msd1");
-		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks 2 weeks ago", "Missed appointment >2 <=3 weeks 2 weeks ago_", "2msd2");
-		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks", "Missed appointment >3 <=8 weeks_", "3msd");
-		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks 1 week ago", "Missed appointment >3 <=8 weeks 1 week ago_", "3msd1");
-		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks 2 weeks ago", "Missed appointment >3 <=8 weeks 2 weeks ago_", "3msd2");
-		addColumnForLocations(rd, "Missed appointment >8 <=12 weeks", "Missed appointment >8 <=12 weeks_", "8msd");
-		addColumnForLocations(rd, "Missed appointment >8 <=12 weeks 1 week ago", "Missed appointment >8 <=12 weeks 1 week ago_", "8msd1");
-		addColumnForLocations(rd, "Missed appointment >8 <=12 weeks 2 weeks ago", "Missed appointment >8 <=12 weeks 2 weeks ago_", "8msd2");
-		addColumnForLocations(rd, "Missed appointment >12 weeks", "Missed appointment >12 weeks_", "12msd");
-		addColumnForLocations(rd, "Missed appointment >12 weeks 1 week ago", "Missed appointment >12 weeks 1 week ago_", "12msd1");
-		addColumnForLocations(rd, "Missed appointment >12 weeks 2 weeks ago", "Missed appointment >12 weeks 2 weeks ago_", "12msd2");
+		addColumnForLocations(rd, "No appointment 1 week ago",
+				"No appointment 1 week ago_", "noapp1");
+		addColumnForLocations(rd, "No appointment 2 weeks ago",
+				"No appointment 2 weeks ago_", "noapp2");
+
+		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks",
+				"Missed appointment >2 <=3 weeks_", "2msd");
+		addColumnForLocations(rd, "Missed appointment >2 <=3 weeks 1 week ago",
+				"Missed appointment >2 <=3 weeks 1 week ago_", "2msd1");
+		addColumnForLocations(rd,
+				"Missed appointment >2 <=3 weeks 2 weeks ago",
+				"Missed appointment >2 <=3 weeks 2 weeks ago_", "2msd2");
+
+		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks",
+				"Missed appointment >3 <=8 weeks_", "3msd");
+		addColumnForLocations(rd, "Missed appointment >3 <=8 weeks 1 week ago",
+				"Missed appointment >3 <=8 weeks 1 week ago_", "3msd1");
+		addColumnForLocations(rd,
+				"Missed appointment >3 <=8 weeks 2 weeks ago",
+				"Missed appointment >3 <=8 weeks 2 weeks ago_", "3msd2");
+
+		addColumnForLocations(rd, "Missed appointment >8 <=12 weeks",
+				"Missed appointment >8 <=12 weeks_", "8msd");
+		addColumnForLocations(rd,
+				"Missed appointment >8 <=12 weeks 1 week ago",
+				"Missed appointment >8 <=12 weeks 1 week ago_", "8msd1");
+		addColumnForLocations(rd,
+				"Missed appointment >8 <=12 weeks 2 weeks ago",
+				"Missed appointment >8 <=12 weeks 2 weeks ago_", "8msd2");
+
+		addColumnForLocations(rd, "Missed appointment >12 weeks",
+				"Missed appointment >12 weeks_", "12msd");
+		addColumnForLocations(rd, "Missed appointment >12 weeks 1 week ago",
+				"Missed appointment >12 weeks 1 week ago_", "12msd1");
+		addColumnForLocations(rd, "Missed appointment >12 weeks 2 weeks ago",
+				"Missed appointment >12 weeks 2 weeks ago_", "12msd2");
 
 		h.replaceReportDefinition(rd);
 
@@ -136,6 +205,7 @@ public class SetupGenericMissedAppointment {
 	}
 
 	protected void createDimension() {
+		// location-specific
 		CohortDefinitionDimension md = new CohortDefinitionDimension();
 		md.setName(reportTag + ": program location_");
 		md.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -149,76 +219,79 @@ public class SetupGenericMissedAppointment {
 			m2.put("program", programWorkflow.getProgram());
 			m2.put("endDate", "${endDate}");
 			m2.put("location", location);
-			md.addCohortDefinition("loc" + i, h.cohortDefinition(reportTag + ": Enrolled in program_"), m2);
+			md.addCohortDefinition("loc" + i,
+					h.cohortDefinition(reportTag + ": Enrolled in program_"),
+					m2);
 		}
 		h.replaceDimensionDefinition(md);
 	}
 
 	protected void createIndicators() {
+		// Missed appointments
 		h.newCountIndicator(reportTag + ": Missed Appointment >2 <=3 weeks_",
 				reportTag + ": Missed Appointment_",
 				"value1=${endDate-2w},value2=${endDate-3w},onOrBefore=${endDate}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >2 <=3 weeks 1 week ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >2 <=3 weeks 1 week ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-3w},value2=${endDate-4w},onOrBefore=${endDate-1w}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >2 <=3 weeks 2 weeks ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >2 <=3 weeks 2 weeks ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-4w},value2=${endDate-5w},onOrBefore=${endDate-2w}");
+
 		h.newCountIndicator(reportTag + ": Missed Appointment >3 <=8 weeks_",
 				reportTag + ": Missed Appointment_",
 				"value1=${endDate-3w},value2=${endDate-8w},onOrBefore=${endDate}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >3 <=8 weeks 1 week ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >3 <=8 weeks 1 week ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-4w},value2=${endDate-9w},onOrBefore=${endDate-1w}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >3 <=8 weeks 2 weeks ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >3 <=8 weeks 2 weeks ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-5w},value2=${endDate-10w},onOrBefore=${endDate-2w}");
+
 		h.newCountIndicator(reportTag + ": Missed Appointment >8 <=12 weeks_",
 				reportTag + ": Missed Appointment_",
 				"value1=${endDate-8w},value2=${endDate-12w},onOrBefore=${endDate}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >8 <=12 weeks 1 week ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >8 <=12 weeks 1 week ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-9w},value2=${endDate-13w},onOrBefore=${endDate-1w}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >8 <=12 weeks 2 weeks ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >8 <=12 weeks 2 weeks ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-10w},value2=${endDate-14w},onOrBefore=${endDate-2w}");
-		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >12 weeks_",
+
+		h.newCountIndicator(reportTag + ": Missed Appointment >12 weeks_",
 				reportTag + ": Missed Appointment_",
 				"value1=${endDate-12w},onOrBefore=${endDate}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >12 weeks 1 week ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >12 weeks 1 week ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-13w},onOrBefore=${endDate-1w}");
 		h.newCountIndicator(reportTag
-				+ ": Missed Appointment >12 weeks 2 weeks ago_",
-				reportTag + ": Missed Appointment_",
+				+ ": Missed Appointment >12 weeks 2 weeks ago_", reportTag
+				+ ": Missed Appointment_",
 				"value1=${endDate-14w},onOrBefore=${endDate-2w}");
-		h.newCountIndicator(reportTag
-				+ ": No appointment_",
-				reportTag+ ": No appointment_",
-				"onOrBefore=${endDate}");
-		h.newCountIndicator(reportTag
-				+ ": No appointment 1 week ago_",
-				reportTag + ": No appointment_",
-				"onOrBefore=${endDate-1w}");
-		h.newCountIndicator(reportTag
-				+ ": No appointment 2 weeks ago_",
-				reportTag + ": No appointment_",
-				"onOrBefore=${endDate-2w}");
+
+		// No appointment
+		h.newCountIndicator(reportTag + ": No appointment_", reportTag
+				+ ": No appointment_", "onOrBefore=${endDate}");
+		h.newCountIndicator(reportTag + ": No appointment 1 week ago_",
+				reportTag + ": No appointment_", "onOrBefore=${endDate-1w}");
+		h.newCountIndicator(reportTag + ": No appointment 2 weeks ago_",
+				reportTag + ": No appointment_", "onOrBefore=${endDate-2w}");
 	}
 
 	protected void createCohortDefinitions() {
+		// Missed Appointment
 		DateObsCohortDefinition dod = new DateObsCohortDefinition();
 		dod.setName(reportTag + ": Missed Appointment_");
 		dod.setTimeModifier(TimeModifier.MAX);
-		dod.setQuestion(Context.getConceptService().getConceptByName("Appointment date"));
+		dod.setQuestion(Context.getConceptService().getConceptByName(
+				"Appointment date"));
 		dod.setOperator1(RangeComparator.LESS_THAN);
 		dod.setOperator2(RangeComparator.GREATER_EQUAL);
 		dod.setEncounterTypeList(getEncounterTypes());
@@ -231,7 +304,8 @@ public class SetupGenericMissedAppointment {
 		dod = new DateObsCohortDefinition();
 		dod.setName(reportTag + ": No Appointment_");
 		dod.setTimeModifier(TimeModifier.NO);
-		dod.setQuestion(Context.getConceptService().getConceptByName("Appointment date"));
+		dod.setQuestion(Context.getConceptService().getConceptByName(
+				"Appointment date"));
 		dod.setEncounterTypeList(getEncounterTypes());
 		dod.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		h.replaceCohortDefinition(dod);
@@ -253,7 +327,8 @@ public class SetupGenericMissedAppointment {
 		acd.setMinAge(1000);
 		acd.setMinAgeUnit(DurationUnit.YEARS);
 		h.replaceCohortDefinition(acd);
-		h.newCountIndicator(reportTag + ": intentionally empty_", reportTag + ": intentionally empty_", "");
+		h.newCountIndicator(reportTag + ": intentionally empty_", reportTag
+				+ ": intentionally empty_", "");
 	}
 
 	public void deleteReportElements() {
@@ -300,7 +375,8 @@ public class SetupGenericMissedAppointment {
 		h.purgeDefinition(CohortIndicator.class, name + " 2 weeks ago_");
 	}
 
-	protected void addColumnForLocations(PeriodIndicatorReportDefinition rd, String displayNamePrefix, String indicator, String indicatorKey) {
+	protected void addColumnForLocations(PeriodIndicatorReportDefinition rd,
+			String displayNamePrefix, String indicator, String indicatorKey) {
 		// location-specific
 		int i = 0;
 		for (Location location : locations) {
