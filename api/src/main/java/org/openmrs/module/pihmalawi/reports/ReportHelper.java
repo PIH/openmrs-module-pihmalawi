@@ -25,6 +25,7 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
+import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.openmrs.serialization.SerializationException;
@@ -220,6 +221,17 @@ public class ReportHelper {
 
 		ReportService rs = Context.getService(ReportService.class);
 		rs.saveReportDesign(design);
+	}
+
+	public void createXlsOverview(ReportDefinition rd, String name, Map<?, ?> properties) throws IOException {
+		final ReportDesign design = new ReportDesign();
+		design.setName(name);
+		design.setReportDefinition(rd);
+		design.setRendererType(XlsReportRenderer.class);
+		if (properties != null) {
+			design.getProperties().putAll(properties);
+		}
+		Context.getService(ReportService.class).saveReportDesign(design);
 	}
 	
 	public CohortIndicator createCompositionIndicator(String name, String operator, Map<String, Object> compositionMap,

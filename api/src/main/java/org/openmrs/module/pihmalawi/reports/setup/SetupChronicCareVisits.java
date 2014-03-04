@@ -13,7 +13,9 @@ import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.definition.service.SerializedDefinitionService;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.service.ReportService;
 
 public class SetupChronicCareVisits {
 
@@ -27,10 +29,17 @@ public class SetupChronicCareVisits {
 		delete();
 		ReportDefinition rd = createReportDefinition();
 		h.replaceReportDefinition(rd);
+		h.createXlsOverview(rd, "Chronic Care Visits (Excel)_", null);
 		return new ReportDefinition[] { rd };
 	}
 
 	public void delete() {
+		ReportService rs = Context.getService(ReportService.class);
+		for (ReportDesign rd : rs.getAllReportDesigns(false)) {
+			if (rd.getName().equals("Chronic Care Visits_")) {
+				rs.purgeReportDesign(rd);
+			}
+		}
 		AdministrationService as = Context.getAdministrationService();
 		as.executeSQL("delete from serialized_object where name = 'chronicvisits: encounters';", false);
 		as.executeSQL("delete from serialized_object where name = 'Chronic Care Visits_';", false);

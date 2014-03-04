@@ -31,6 +31,7 @@ public class SetupHivVisits {
 	public ReportDefinition[] setup() throws Exception {
 		delete();
 		ReportDefinition rd = createReportDefinition();
+		h.createXlsOverview(rd, "HIV Visits (Excel)_", null);
 		return new ReportDefinition[] { rd };
 	}
 
