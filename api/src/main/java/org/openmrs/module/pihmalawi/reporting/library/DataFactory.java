@@ -460,6 +460,10 @@ public class DataFactory {
 		return new ChainedConverter(new PropertyConverter(Encounter.class, "location"), new ObjectFormatter());
 	}
 
+	public DataConverter getEncounterTypeNameConverter() {
+		return new ChainedConverter(new PropertyConverter(Encounter.class, "type"), new ObjectFormatter());
+	}
+
 	public DataConverter getObsDatetimeConverter() {
 		return new PropertyConverter(Obs.class, "obsDatetime");
 	}
@@ -501,6 +505,24 @@ public class DataFactory {
 
 	public DataConverter getObjectFormatter() {
 		return new ObjectFormatter();
+	}
+
+	public DataConverter getListItemConverter(Integer index, DataConverter... converters) {
+		ChainedConverter ret = new ChainedConverter();
+		ret.addConverter(new ListConverter(index, Object.class));
+		for (DataConverter converter : converters) {
+			ret.addConverter(converter);
+		}
+		return ret;
+	}
+
+	public DataConverter getLastListItemConverter(DataConverter... converters) {
+		ChainedConverter ret = new ChainedConverter();
+		ret.addConverter(new ListConverter(TimeQualifier.LAST, 1, Object.class));
+		for (DataConverter converter : converters) {
+			ret.addConverter(converter);
+		}
+		return ret;
 	}
 
 	public DataConverter getDataSetItemConverter(Integer index, String columnName, Object nullReplacement) {
