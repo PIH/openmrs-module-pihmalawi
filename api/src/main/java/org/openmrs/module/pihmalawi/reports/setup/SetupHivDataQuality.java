@@ -152,7 +152,7 @@ public class SetupHivDataQuality {
 		rd2.addParameter(new Parameter("user", "User ID", Integer.class));
 		rd2.setBaseCohortDefinition(
 				h.cohortDefinition("hivdq: Last updating user_"),
-				ParameterizableUtil.createParameterMappings("user=${user}"));
+				ParameterizableUtil.createParameterMappings("user=${user}")); // TODO: MS: We should really ensure this uses endDate as well
 		rd2.setupDataSetDefinition();
 
 		// catch all DQ report with dimension
@@ -352,7 +352,7 @@ public class SetupHivDataQuality {
 
 		scd = new SqlCohortDefinition();
 		scd.setName("hivdq: ART number_");
-		sql = "select patient_id from patient_identifier where identifier_type=4 and voided=0;";
+		sql = identifierQuery(4);
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 
@@ -383,19 +383,19 @@ public class SetupHivDataQuality {
 
 		scd = new SqlCohortDefinition();
 		scd.setName("hivdq: PART number_");
-		sql = "select patient_id from patient_identifier where identifier_type=13 and voided=0;";
+		sql = identifierQuery(13);
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 
 		scd = new SqlCohortDefinition();
 		scd.setName("hivdq: HCC number_");
-		sql = "select patient_id from patient_identifier where identifier_type=19 and voided=0;";
+		sql = identifierQuery(19);
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 
 		scd = new SqlCohortDefinition();
 		scd.setName("hivdq: old PART number_");
-		sql = "select patient_id from patient_identifier where identifier_type=5 and voided=0;";
+		sql = identifierQuery(5);
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 
@@ -507,7 +507,7 @@ public class SetupHivDataQuality {
 	private void multipleOpenStates() {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Multiple open states without end date_");
-		String sql = "select pp.patient_id from  patient_program pp, patient_state ps where pp.patient_program_id = ps.patient_program_id and ps.end_date is null and ps.voided=0 group by ps.patient_program_id having count(*)>1";
+		String sql = "select pp.patient_id from  patient_program pp, patient_state ps, patient p where pp.patient_id = p.patient_id and pp.patient_program_id = ps.patient_program_id and ps.end_date is null and ps.voided=0 and p.voided = 0 group by ps.patient_program_id having count(*)>1";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 	}
@@ -523,11 +523,8 @@ public class SetupHivDataQuality {
 			partFormat += "identifier NOT regexp '^P-[[:<:]]" + s
 					+ "[[:>:]]-[0-9][0-9][0-9][0-9]$' AND ";
 		}
-		partFormat = partFormat.substring(0,
-				partFormat.length() - " AND ".length());
-		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=13 and voided=0 and (" + partFormat
-				+ ")";
+		partFormat = partFormat.substring(0, partFormat.length() - " AND ".length());
+		sql = identifierQuery(13) + "and (" + partFormat + ")";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "formatpart", null, rds);
@@ -546,9 +543,7 @@ public class SetupHivDataQuality {
 		}
 		partFormat = partFormat.substring(0,
 				partFormat.length() - " AND ".length());
-		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=19 and voided=0 and (" + partFormat
-				+ ")";
+		sql = identifierQuery(19) + "and (" + partFormat + ")";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "formathcc", null, rds);
@@ -567,9 +562,7 @@ public class SetupHivDataQuality {
 		}
 		artFormat = artFormat.substring(0,
 				artFormat.length() - " AND ".length());
-		sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=4 and voided=0 and (" + artFormat
-				+ ")";
+		sql = identifierQuery(4) + "and (" + artFormat + ")";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "format", null, rds);
@@ -580,8 +573,10 @@ public class SetupHivDataQuality {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Multiple death_");
 		String sql = "SELECT pp.patient_id "
-				+ "FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-				+ "WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id AND pws.program_workflow_id = 1 AND pw.retired = 0 AND pp.voided = 0 AND pws.retired = 0 AND ps.voided = 0 AND pws.program_workflow_state_id=3 "
+				+ "FROM patient p, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "WHERE p.patient_id = pp.patient_id and pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id AND pws.program_workflow_id = 1 "
+				+ "AND pw.retired = 0 AND pp.voided = 0 and p.voided = 0 AND pws.retired = 0 AND ps.voided = 0 AND pws.program_workflow_state_id=3 "
 				+ "GROUP BY pp.patient_id HAVING COUNT(*) > 1;";
 		scd.setQuery(sql);
 		h.replaceCohortDefinition(scd);
@@ -625,7 +620,7 @@ public class SetupHivDataQuality {
 	private void g_unknownLocations(PeriodIndicatorReportDefinition[] rds) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Unknown location_");
-		String sql = "select pp.patient_id from patient_program pp where pp.voided=0 and pp.program_id=1 and (pp.location_id is null or pp.location_id not in (";
+		String sql = "select pp.patient_id from patient_program pp, patient p where pp.patient_id = p.patient_id and p.voided=0 and pp.voided=0 and pp.program_id=1 and (pp.location_id is null or pp.location_id not in (";
 		for (Location l : LOCATIONS.keySet()) {
 			sql += l.getId() + ", ";
 		}
@@ -671,11 +666,11 @@ public class SetupHivDataQuality {
 		String sql = "SELECT pp.patient_id "
 				+ "FROM ( "
 				+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
-				+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-				+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "  FROM patient p, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "  WHERE p.patient_id = pp.patient_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
 				+ "    AND pws.program_workflow_id = 1 "
-				+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "
+				+ "    AND pw.retired = 0 AND p.voided = 0 AND pp.voided = 0 AND ps.voided = 0 "
 				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
 				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
@@ -689,11 +684,11 @@ public class SetupHivDataQuality {
 		sql = "SELECT pp.patient_id "
 				+ "FROM ( "
 				+ "  SELECT pp.patient_id a, pp.patient_program_id b, pws.program_workflow_state_id c, group_concat(ps.patient_state_id order by ps.patient_state_id desc) d "
-				+ "  FROM patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
-				+ "  WHERE pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
+				+ "  FROM patient p, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
+				+ "  WHERE p.patient_id = pp.patient_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "    AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
 				+ "    AND pws.program_workflow_id = 1 "
-				+ "    AND pw.retired = 0 AND pp.voided = 0 AND ps.voided = 0 "
+				+ "    AND pw.retired = 0 AND p.voided = 0 AND pp.voided = 0 AND ps.voided = 0 "
 				+ "GROUP BY pp.patient_id, pp.patient_program_id) most_recent_state, patient_program pp, program_workflow pw, program_workflow_state pws, patient_state ps "
 				+ "WHERE most_recent_state.d=ps.patient_state_id AND pp.program_id = pw.program_id AND pw.program_workflow_id = pws.program_workflow_id "
 				+ "  AND pws.program_workflow_state_id = ps.state AND ps.patient_program_id = pp.patient_program_id "
@@ -971,7 +966,7 @@ public class SetupHivDataQuality {
 			String loc, String prefix) {
 		SqlCohortDefinition scd = new SqlCohortDefinition();
 		scd.setName("hivdq: Multiple ARV numbers " + loc + "_");
-		scd.setQuery(sqlForMultipleArvNumber(prefix));
+		scd.setQuery(identifierQuery(4) + " and identifier like '" + prefix + "%' " + "group by i.patient_id having(count(i.patient_id)>1)");
 		h.replaceCohortDefinition(scd);
 		createIndicator(scd, "dup" + loc.toLowerCase(), null, rds);
 	}
@@ -999,8 +994,9 @@ public class SetupHivDataQuality {
 
 	private String sqlForOutOfRangeArvNumbers(String locationPrefix) {
 		String prefixLength = "" + (locationPrefix.length() + 1);
-		String sql = "select patient_id from patient_identifier "
-				+ "where identifier in ("
+		String sql = "select pi.patient_id from patient_identifier pi, patient p "
+				+ "where pi.patient_id = p.patient_id and pi.voided = 0 and p.voided = 0 "
+				+ "and identifier in ("
 				+ "  select concat('"
 				+ locationPrefix
 				+ "', cast(c.start as char))"
@@ -1025,8 +1021,9 @@ public class SetupHivDataQuality {
 
 	private String sqlForOutOfRangeHccNumbers(String locationPrefix) {
 		String prefixLength = "" + (locationPrefix.length() + 1);
-		String sql = "select patient_id from patient_identifier "
-				+ "where identifier in ("
+		String sql = "select pi.patient_id from patient_identifier pi, patient p "
+				+ "where pi.patient_id = p.patient_id and pi.voided = 0 and p.voided = 0 "
+				+ "and identifier in ("
 				+ "  select concat('"
 				+ locationPrefix
 				+ "', cast(c.start as char), ' HCC')"
@@ -1049,11 +1046,11 @@ public class SetupHivDataQuality {
 		return sql;
 	}
 
-	private String sqlForMultipleArvNumber(String locationPrefix) {
-		String sql = "select patient_id from patient_identifier "
-				+ "where identifier_type=4 and voided=0 and identifier like '"
-				+ locationPrefix + "%' "
-				+ "group by patient_id having(count(patient_id)>1)";
-		return sql;
+	private String identifierQuery(Integer typeId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select p.patient_id from patient_identifier i, patient p where i.patient_id = p.patient_id and identifier_type=");
+		sb.append(typeId);
+		sb.append(" and p.voided = 0 and i.voided = 0 ");
+		return sb.toString();
 	}
 }
