@@ -59,7 +59,7 @@ public class SetupAppointmentsForLocation {
 		dsd.setHtmlBreakdownPatientRowClassname(GenericApzuBreakdownRenderer.class
 				.getName());
 
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 
 		return h.createHtmlBreakdown(rd, "Appointments_", m);
 	}

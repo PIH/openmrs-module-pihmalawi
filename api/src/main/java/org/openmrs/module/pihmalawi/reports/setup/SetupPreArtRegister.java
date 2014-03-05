@@ -55,7 +55,7 @@ public class SetupPreArtRegister {
 		dsd.setHtmlBreakdownPatientRowClassname(HccRegisterBreakdownRenderer.class
 				.getName());
 
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 
 		return h.createHtmlBreakdown(rd, name, m);
 	}

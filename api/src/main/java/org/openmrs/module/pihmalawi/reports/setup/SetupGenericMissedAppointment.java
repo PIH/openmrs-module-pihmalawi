@@ -92,9 +92,9 @@ public class SetupGenericMissedAppointment {
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
 		int i = 1;
 		for (Location location : locations) {
-			m.put("3msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
-			m.put("8msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
-			m.put("12msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			m.put("3msdloc" + i, Mapped.mapStraightThrough(dsd));
+			m.put("8msdloc" + i, Mapped.mapStraightThrough(dsd));
+			m.put("12msdloc" + i, Mapped.mapStraightThrough(dsd));
 			i++;
 		}
 		dsd.setHtmlBreakdownPatientRowClassname(getBreakdownRenderer());
@@ -124,8 +124,8 @@ public class SetupGenericMissedAppointment {
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
 		int i = 1;
 		for (Location location : locations) {
-			m.put("noapploc" + i, new Mapped<DataSetDefinition>(dsd, null));
-			m.put("2msdloc" + i, new Mapped<DataSetDefinition>(dsd, null));
+			m.put("noapploc" + i, Mapped.mapStraightThrough(dsd));
+			m.put("2msdloc" + i, Mapped.mapStraightThrough(dsd));
 			i++;
 		}
 		dsd.setHtmlBreakdownPatientRowClassname(getBreakdownRenderer());

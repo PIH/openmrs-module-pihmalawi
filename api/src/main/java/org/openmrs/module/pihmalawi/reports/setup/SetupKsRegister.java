@@ -49,7 +49,7 @@ public class SetupKsRegister {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("KS Number"));
 		dsd.setHtmlBreakdownPatientRowClassname(KsRegisterBreakdownRenderer.class.getName());
 

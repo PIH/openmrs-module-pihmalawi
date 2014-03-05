@@ -50,7 +50,7 @@ public class SetupTbRegister {
 		Map<String, Mapped<? extends DataSetDefinition>> m = new LinkedHashMap<String, Mapped<? extends DataSetDefinition>>();
 
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("District TB Number"));
 		dsd.setHtmlBreakdownPatientRowClassname(TbRegisterBreakdownRenderer.class.getName());
 

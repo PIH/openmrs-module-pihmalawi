@@ -27,10 +27,13 @@ import java.util.Map;
 public class SetupChronicCareRegister {
 
 	ReportHelper h = new ReportHelper();
-	ChronicCareMetadata ccMetadata = new ChronicCareMetadata();
+	ChronicCareMetadata ccMetadata;
+	ReportDefinition reportDefinition;
+	ReportDesign reportDesign;
 
 	public SetupChronicCareRegister(ReportHelper helper) {
 		h = helper;
+		ccMetadata = Context.getRegisteredComponents(ChronicCareMetadata.class).get(0);
 	}
 
 	public ReportDefinition[] setup() throws Exception {
@@ -38,7 +41,9 @@ public class SetupChronicCareRegister {
 
 		ReportDefinition rd = createReportDefinition();
 		h.replaceReportDefinition(rd);
-		createHtmlBreakdown(rd);
+		reportDefinition = rd;
+
+		reportDesign = createHtmlBreakdown(rd);
 
 		return new ReportDefinition[] { rd };
 	}
@@ -51,7 +56,7 @@ public class SetupChronicCareRegister {
 		HtmlBreakdownDataSetDefinition dsd = new HtmlBreakdownDataSetDefinition();
 		dsd.setPatientIdentifierType(Context.getPatientService().getPatientIdentifierTypeByName("National id"));
 		dsd.setHtmlBreakdownPatientRowClassname(ChronicCareRegisterBreakdownRenderer.class.getName());
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 
 		return h.createHtmlBreakdown(rd, "Chronic Care Register_", m);
 	}

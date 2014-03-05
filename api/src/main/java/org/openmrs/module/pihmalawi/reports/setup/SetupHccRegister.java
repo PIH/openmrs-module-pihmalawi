@@ -57,7 +57,7 @@ public class SetupHccRegister {
 		dsd.setHtmlBreakdownPatientRowClassname(HccRegisterBreakdownRenderer.class
 				.getName());
 
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 
 		return h.createHtmlBreakdown(rd, name, m);
 	}
@@ -72,7 +72,7 @@ public class SetupHccRegister {
 		dsd.setHtmlBreakdownPatientRowClassname(DemographicsOnlyBreakdownRenderer.class
 				.getName());
 
-		m.put("breakdown", new Mapped<DataSetDefinition>(dsd, null));
+		m.put("breakdown", Mapped.mapStraightThrough(dsd));
 
 		return h.createHtmlBreakdown(rd, "HCC Register Demographics only_", m);
 	}

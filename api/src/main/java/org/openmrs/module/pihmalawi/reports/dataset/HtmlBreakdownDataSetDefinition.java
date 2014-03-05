@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reports.dataset;
 
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
@@ -16,6 +17,9 @@ public class HtmlBreakdownDataSetDefinition extends BaseDataSetDefinition {
 	
 	public HtmlBreakdownDataSetDefinition() {
 		super();
+		addParameter(ReportingConstants.START_DATE_PARAMETER);
+		addParameter(ReportingConstants.END_DATE_PARAMETER);
+		addParameter(ReportingConstants.LOCATION_PARAMETER);
 	}
 	
 	public HtmlBreakdownDataSetDefinition(String name, String description) {
