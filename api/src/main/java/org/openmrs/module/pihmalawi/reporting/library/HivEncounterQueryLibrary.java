@@ -24,6 +24,7 @@ import org.openmrs.module.reporting.query.encounter.definition.MappedParametersE
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -46,6 +47,14 @@ public class HivEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQue
     public String getKeyPrefix() {
         return PREFIX;
     }
+
+	@DocumentedDefinition(value = "hivAndExposedChildEncountersByEndDate")
+	public EncounterQuery getHivAndExposedChildEncountersByEndDate() {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.setEncounterTypes(hivMetadata.getHivAndExposedChildEncounterTypes());
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
 
 	@DocumentedDefinition(value = "hivFollowupEncountersByEndDate")
 	public EncounterQuery getHivFollowupEncountersByEndDate() {

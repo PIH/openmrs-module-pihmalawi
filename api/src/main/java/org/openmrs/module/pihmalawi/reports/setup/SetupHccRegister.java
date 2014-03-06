@@ -24,6 +24,7 @@ import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
 import org.openmrs.serialization.SerializationException;
 
+@Deprecated // Replaced with HccRegister report
 public class SetupHccRegister {
 
 	ReportHelper h = new ReportHelper();

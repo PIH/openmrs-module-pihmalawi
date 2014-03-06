@@ -15,24 +15,30 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
@@ -60,6 +66,13 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getPreferredProgramIdentifierAtLocation(pit, hivProgram, new PatientIdentifierConverter());
 	}
 
+	@DocumentedDefinition("hccNumberAtLocation")
+	public PatientDataDefinition getHccNumberAtLocation() {
+		PatientIdentifierType pit = hivMetadata.getHccNumberIdentifierType();
+		Program hivProgram = hivMetadata.getHivProgram();
+		return pdf.getPreferredProgramIdentifierAtLocation(pit, hivProgram, new PatientIdentifierConverter());
+	}
+
 	@DocumentedDefinition("allHccNumbers")
 	public PatientDataDefinition getAllHccNumbers() {
 		PatientIdentifierType pit = hivMetadata.getHccNumberIdentifierType();
@@ -70,6 +83,26 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	public PatientDataDefinition getAllArvNumbers() {
 		PatientIdentifierType pit = hivMetadata.getArvNumberIdentifierType();
 		return pdf.getAllIdentifiersOfType(pit, pdf.getIdentifierCollectionConverter());
+	}
+
+	@DocumentedDefinition("firstPreArtInitialEncounter.date")
+	public PatientDataDefinition getFirstPreArtInitialEncounterDateByEndDate() {
+		return getFirstPreArtInitialEncounterByEndDate(pdf.getEncounterDatetimeConverter());
+	}
+
+	@DocumentedDefinition("firstPreArtInitialEncounter.location")
+	public PatientDataDefinition getFirstPreArtInitialEncounterLocationByEndDate() {
+		return getFirstPreArtInitialEncounterByEndDate(pdf.getEncounterLocationNameConverter());
+	}
+
+	@DocumentedDefinition("firstExposedChildInitialEncounter.date")
+	public PatientDataDefinition getFirstExposedChildInitialEncounterDateByEndDate() {
+		return getFirstExposedChildInitialEncounterByEndDate(pdf.getEncounterDatetimeConverter());
+	}
+
+	@DocumentedDefinition("firstExposedChildInitialEncounter.location")
+	public PatientDataDefinition getFirstExposedChildInitialEncounterLocationByEndDate() {
+		return getFirstExposedChildInitialEncounterByEndDate(pdf.getEncounterLocationNameConverter());
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.date")
@@ -126,7 +159,6 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	public PatientDataDefinition getLatestArtFollowupEncounterAppointmentDate() {
 		return getObsOnArtInitialEncounter(hivMetadata.getCd4CountConcept(), pdf.getObsValueNumericConverter());
 	}
-
 
 	@DocumentedDefinition("firstArtInitialEncounter.reasonForStartingArvs")
 	public PatientDataDefinition getFirstArtInitialReasonForStartingArvs() {
@@ -265,7 +297,27 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
 	}
 
+	@DocumentedDefinition("firstStateAfterExposedChildOrPreArtStateAtLocationByEndDate")
+	public PatientDataDefinition getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate() {
+		return getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(pdf.getStateNameConverter());
+	}
+
+	@DocumentedDefinition("firstStateAfterExposedChildOrPreArtStateAtLocationByEndDate.startDate")
+	public PatientDataDefinition getFirstStateStartDateAfterExposedChildOrPreArtStateAtLocationByEndDate() {
+		return getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(pdf.getStateStartDateConverter());
+	}
+
 	// ***** CONVENIENCE METHODS
+
+	protected PatientDataDefinition getFirstPreArtInitialEncounterByEndDate(DataConverter converter) {
+		EncounterType arvInitial = hivMetadata.getPreArtInitialEncounterType();
+		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
+	}
+
+	protected PatientDataDefinition getFirstExposedChildInitialEncounterByEndDate(DataConverter converter) {
+		EncounterType arvInitial = hivMetadata.getExposedChildInitialEncounterType();
+		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
+	}
 
 	protected PatientDataDefinition getFirstArtInitialEncounterByEndDate(DataConverter converter) {
 		EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
@@ -280,5 +332,13 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	protected PatientDataDefinition getLatestArtFollowupEncounterByEndDate(DataConverter converter) {
 		EncounterType arvFollowup = hivMetadata.getArtFollowupEncounterType();
 		return pdf.getMostRecentEncounterOfTypeByEndDate(arvFollowup, converter);
+	}
+
+	protected PatientDataDefinition getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(DataConverter converter) {
+		FirstStateAfterStatePatientDataDefinition def = new FirstStateAfterStatePatientDataDefinition();
+		def.addParameter(new Parameter("startedOnOrBefore", "Started On Or Before", Date.class));
+		def.addParameter(new Parameter("location", "Location", Location.class));
+		def.setPrecedingStates(Arrays.asList(hivMetadata.getExposedChildState(), hivMetadata.getPreArtState()));
+		return pdf.convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
 	}
 }

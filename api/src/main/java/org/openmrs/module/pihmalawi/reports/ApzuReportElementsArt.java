@@ -184,6 +184,7 @@ public class ApzuReportElementsArt {
 		return ccd;
 	}
 
+	@Deprecated // just do an OR condition on getStartedPreArtWithHccNumberAtLocationByEndDate and
 	public static CohortDefinition hccEverEnrolledAtLocationOnDate(
 			String prefix, CohortDefinition partEverEnrolled, CohortDefinition exposedEverEnrolled) {
 		CompositionCohortDefinition ccd = new CompositionCohortDefinition();

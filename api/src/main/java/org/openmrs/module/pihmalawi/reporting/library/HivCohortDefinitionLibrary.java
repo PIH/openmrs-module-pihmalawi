@@ -107,6 +107,13 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsInAll(inPreArt, hasHccNumber);
 	}
 
+	@DocumentedDefinition(value = "startedExposedChildWithHccNumberAtLocationByEndDate")
+	public CohortDefinition getStartedExposedChildWithHccNumberAtLocationByEndDate() {
+		CohortDefinition everPreArtState = df.getEverEnrolledInStateAtLocationByEndDate(hivMetadata.getExposedChildState());
+		CohortDefinition hasHccNumber = getPatientsWithAnHccNumberAtLocation();
+		return df.getPatientsInAll(everPreArtState, hasHccNumber);
+	}
+
 	@DocumentedDefinition(value = "everEnrolledInArtAtLocationByEndDate")
 	public CohortDefinition getEverEnrolledInArtAtLocationByEndDate() {
 		return df.getEverEnrolledInStateAtLocationByEndDate(hivMetadata.getOnArvsState());
