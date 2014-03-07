@@ -157,6 +157,14 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), null);
 	}
 
+	public PatientDataDefinition getAllObsByEndDate(Concept question, List<EncounterType> encounterTypes, DataConverter converter) {
+		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+		def.setQuestion(question);
+		def.setEncounterTypeList(encounterTypes);
+		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
+	}
+
 	public PatientDataDefinition getMostRecentStateForWorkflowByEndDate(ProgramWorkflow workflow, DataConverter converter) {
 		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
 		def.setWhich(TimeQualifier.LAST);
@@ -474,6 +482,14 @@ public class DataFactory {
 
 	public DataConverter getObsValueDatetimeConverter() {
 		return new PropertyConverter(Obs.class, "valueDatetime");
+	}
+
+	public DataConverter getObsValueCodedConverter() {
+		return new PropertyConverter(Obs.class, "valueCoded");
+	}
+
+	public DataConverter getObsValueCodedNameConverter() {
+		return new ChainedConverter(getObsValueCodedConverter(), new ObjectFormatter());
 	}
 
 	public DataConverter getStateNameConverter() {

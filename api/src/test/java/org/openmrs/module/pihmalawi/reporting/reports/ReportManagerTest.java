@@ -72,7 +72,7 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	@Override
 	public Properties getRuntimeProperties() {
 		Properties p = super.getRuntimeProperties();
-		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_19x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_nov_19x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
 		return p;
 	}
 

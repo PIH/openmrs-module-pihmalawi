@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Deprecated // ChronicCareRegister implemented as new report
 public class SetupChronicCareRegister {
 
 	ReportHelper h = new ReportHelper();

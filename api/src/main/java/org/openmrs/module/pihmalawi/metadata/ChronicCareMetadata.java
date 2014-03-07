@@ -13,7 +13,9 @@
  */
 package org.openmrs.module.pihmalawi.metadata;
 
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,12 @@ import java.util.List;
 
 @Component
 public class ChronicCareMetadata extends CommonMetadata {
+
+	public static String CHRONIC_CARE_NUMBER = "Chronic Care Number";
+
+	public PatientIdentifierType getChronicCareNumber() {
+		return getPatientIdentifierType(CHRONIC_CARE_NUMBER);
+	}
 
 	public static String CHRONIC_CARE_PROGRAM = "Chronic care program";
 	public static String CHRONIC_CARE_PROGRAM_TREATMENT_STATUS = "Chronic care treatment status";
@@ -50,6 +58,87 @@ public class ChronicCareMetadata extends CommonMetadata {
 		List<EncounterType> l = new ArrayList<EncounterType>();
 		l.add(getChronicCareInitialEncounterType());
 		l.add(getChronicCareFollowupEncounterType());
+		return l;
+	}
+
+	public static final String CHRONIC_CARE_DIAGNOSIS = "CHRONIC CARE DIAGNOSIS";
+	public static final String ASTHMA = "Asthma";
+	public static final String DIABETES = "Diabetes";
+	public static final String EPILEPSY = "Epilepsy";
+	public static final String HEART_FAILURE = "Heart failure";
+	public static final String HYPERTENSION = "Hypertension";
+	public static final String AGE_OF_ASTHMA_DIAGNOSIS_CONCEPT = "Age of asthma diagnosis";
+	public static final String AGE_OF_DIABETES_DIAGNOSIS_CONCEPT = "Age of diabetes diagnosis";
+	public static final String AGE_OF_EPILEPSY_DIAGNOSIS_CONCEPT = "Age of epilepsy diagnosis";
+	public static final String AGE_OF_HEART_FAILURE_DIAGNOSIS_CONCEPT = "Age of heart failure diagnosis";
+	public static final String AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT = "Age of hypertension diagnosis";
+
+	public Concept getChronicCareDiagnosisConcept() {
+		return getConcept(CHRONIC_CARE_DIAGNOSIS);
+	}
+
+	public Concept getAsthmaConcept() {
+		return getConcept(ASTHMA);
+	}
+
+	public Concept getDiabetesConcept() {
+		return getConcept(DIABETES);
+	}
+
+	public Concept getEpilepsyConcept() {
+		return getConcept(EPILEPSY);
+	}
+
+	public Concept getHeartFailureConcept() {
+		return getConcept(HEART_FAILURE);
+	}
+
+	public Concept getHypertensionConcept() {
+		return getConcept(HYPERTENSION);
+	}
+
+	public List<Concept> getChronicCareDiagnosisAnswerConcepts() {
+		List<Concept> l = new ArrayList<Concept>();
+		// TODO: Get this from answers? Or hard code?
+		l.add(getAsthmaConcept());
+		l.add(getDiabetesConcept());
+		l.add(getEpilepsyConcept());
+		l.add(getHeartFailureConcept());
+		l.add(getHypertensionConcept());
+		/*
+			TODO: Add CKD; Stroke; Mental Health: Acute Psychotic disorder; Mental Health: Depression;
+				  Mental Health: Substance Abuse;  Mental Health: Other; Other Diagnoses (with blank)
+		 */
+		return l;
+	}
+
+	public Concept getAgeOfAsthmaDiagnosisConcept() {
+		return getConcept(AGE_OF_ASTHMA_DIAGNOSIS_CONCEPT);
+	}
+
+	public Concept getAgeOfDiabetesDiagnosisConcept() {
+		return getConcept(AGE_OF_DIABETES_DIAGNOSIS_CONCEPT);
+	}
+
+	public Concept getAgeOfEpilepsyDiagnosisConcept() {
+		return getConcept(AGE_OF_EPILEPSY_DIAGNOSIS_CONCEPT);
+	}
+
+	public Concept getAgeOfHeartFailureDiagnosisConcept() {
+		return getConcept(AGE_OF_HEART_FAILURE_DIAGNOSIS_CONCEPT);
+	}
+
+	public Concept getAgeOfHypertensionDiagnosisConcept() {
+		return getConcept(AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT);
+	}
+
+	public List<Concept> getAgeOfDiagnosisConcepts() {
+		List<Concept> l = new ArrayList<Concept>();
+		l.add(getAgeOfAsthmaDiagnosisConcept());
+		l.add(getAgeOfDiabetesDiagnosisConcept());
+		l.add(getAgeOfEpilepsyDiagnosisConcept());
+		l.add(getAgeOfHeartFailureDiagnosisConcept());
+		l.add(getAgeOfHypertensionDiagnosisConcept());
 		return l;
 	}
 }

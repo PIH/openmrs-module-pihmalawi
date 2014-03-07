@@ -45,6 +45,7 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public static final String APPOINTMENT_DATE = "Appointment date";
+	public static final String HEIGHT = "Height (cm)";
 	public static final String WEIGHT = "Weight (kg)";
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
@@ -66,8 +67,32 @@ public class CommonMetadata extends Metadata {
 	public static final String POSITIVE = "Positive";
 	public static final String INDETERMINATE = "Indeterminate";
 
+	public static final String HIV_STATUS_CONCEPT = "HIV status";
+	public static final String ON_ART_CONCEPT = "On ART";
+	public static final String TB_HISTORY_CONCEPT = "Previous or current tuberculosis treatment";
+	public static final String CLINIC_TRAVEL_TIME_HOURS_CONCEPT = "Clinic travel time in hours";
+	public static final String CLINIC_TRAVEL_TIME_MINUTES_CONCEPT = "Clinic travel time in minutes";
+	public static final String HIGH_RISK_PATIENT_CONCEPT = "High risk patient";
+	public static final String WALL_MATERIAL_CONCEPT = "Wall material";
+	public static final String ROOF_MATERIAL_CONCEPT = "Roof material";
+	public static final String HOME_ELECTRICITY_CONCEPT = "Home electricity";
+	public static final String PATIENT_OWNS_RADIO_CONCEPT = "Patient owns radio";
+	public static final String ACCESS_TO_BICYCLE_CONCEPT = "Access to bicycle";
+	public static final String LOCATION_OF_COOKING_CONCEPT = "Location of cooking";
+	public static final String FUEL_SOUCE_CONCEPT = "Fuel source";
+	public static final String NUMBER_FRUIT_AND_VEGETABLES_CONCEPT = "Number of servings of fruits and vegetables consumed per day";
+	public static final String SMOKING_HISTORY_CONCEPT = "Smoking history";
+	public static final String NUMBER_CIGARRETES_PER_DAY_CONCEPT = "Number of cigarettes smoked per day";
+	public static final String HISTORY_OF_ALCOHOL_USE_CONCEPT = "History of alcohol use";
+	public static final String LITERS_ALCOHOL_PER_DAY_CONCEPT = "Liters per day";
+	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Source of referral";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
+	}
+
+	public Concept getHeightConcept() {
+		return getConcept(HEIGHT);
 	}
 
 	public Concept getWeightConcept() {
@@ -144,6 +169,82 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getIndeterminateConcept() {
 		return getConcept(INDETERMINATE);
+	}
+
+	public Concept getHivStatusConcept() {
+		return getConcept(HIV_STATUS_CONCEPT);
+	}
+
+	public Concept getOnArtConcept() {
+		return getConcept(ON_ART_CONCEPT);
+	}
+
+	public Concept getTbHistoryConcept() {
+		return getConcept(TB_HISTORY_CONCEPT);
+	}
+
+	public Concept getClinicTravelTimeInHoursConcept() {
+		return getConcept(CLINIC_TRAVEL_TIME_HOURS_CONCEPT);
+	}
+
+	public Concept getClinicTravelTimeInMinutesConcept() {
+		return getConcept(CLINIC_TRAVEL_TIME_MINUTES_CONCEPT);
+	}
+
+	public Concept getHighRiskPatientConcept() {
+		return getConcept(HIGH_RISK_PATIENT_CONCEPT);
+	}
+
+	public Concept getWallMaterialConcept() {
+		return getConcept(WALL_MATERIAL_CONCEPT);
+	}
+
+	public Concept getRoofMaterialConcept() {
+		return getConcept(ROOF_MATERIAL_CONCEPT);
+	}
+
+	public Concept getHomeElectricityConcept() {
+		return getConcept(HOME_ELECTRICITY_CONCEPT);
+	}
+
+	public Concept getPatientOwnsRadioConcept() {
+		return getConcept(PATIENT_OWNS_RADIO_CONCEPT);
+	}
+
+	public Concept getAccessToBicycleConcept() {
+		return getConcept(ACCESS_TO_BICYCLE_CONCEPT);
+	}
+
+	public Concept getLocationOfCookingConcept() {
+		return getConcept(LOCATION_OF_COOKING_CONCEPT);
+	}
+
+	public Concept getFuelSourceConcept() {
+		return getConcept(FUEL_SOUCE_CONCEPT);
+	}
+
+	public Concept getNumberOfFruitAndVegatablesConcept() {
+		return getConcept(NUMBER_FRUIT_AND_VEGETABLES_CONCEPT);
+	}
+
+	public Concept getSmokingHistoryConcept() {
+		return getConcept(SMOKING_HISTORY_CONCEPT);
+	}
+
+	public Concept getNumberOfCigarettesPerDayConcept() {
+		return getConcept(NUMBER_CIGARRETES_PER_DAY_CONCEPT);
+	}
+
+	public Concept getHistoryOfAlcoholUseConcept() {
+		return getConcept(HISTORY_OF_ALCOHOL_USE_CONCEPT);
+	}
+
+	public Concept getLitersOfAlcoholPerDayConcept() {
+		return getConcept(LITERS_ALCOHOL_PER_DAY_CONCEPT);
+	}
+
+	public Concept getSourceOfReferralConcept() {
+		return getConcept(SOURCE_OF_REFERRAL_CONCEPT);
 	}
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

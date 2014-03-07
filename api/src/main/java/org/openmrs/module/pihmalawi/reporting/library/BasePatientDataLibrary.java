@@ -100,4 +100,21 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
 		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
 	}
+
+	// Vitals
+
+	@DocumentedDefinition("latestHeight")
+	public PatientDataDefinition getLatestHeight() {
+		return df.convert(df.getMostRecentObsByEndDate(metadata.getHeightConcept()), df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition("latestWeight")
+	public PatientDataDefinition getLatestWeight() {
+		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition("latestWeight.date")
+	public PatientDataDefinition getLatestWeightDate() {
+		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsDatetimeConverter());
+	}
 }

@@ -111,6 +111,7 @@ public class ArtRegister extends BaseReportManager {
 		CohortDefinition everEnrolled = hivCohorts.getEverEnrolledInArtAtLocationByEndDate();
 		dsd.addRowFilter(Mapped.mapStraightThrough(everEnrolled));
 
+		addColumn(dsd, "PID", builtInPatientData.getPatientId());
 		addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
 		addColumn(dsd, "All HCC #s (not filtered)", hivPatientData.getAllHccNumbers());
 		addColumn(dsd, "All ARV #s (not filtered)", hivPatientData.getAllArvNumbers());

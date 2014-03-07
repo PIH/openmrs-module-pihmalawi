@@ -114,6 +114,7 @@ public class HccRegister extends BaseReportManager {
 
 		// Columns to include
 
+		addColumn(dsd, "PID", builtInPatientData.getPatientId());
 		addColumn(dsd, "HCC #", hivPatientData.getHccNumberAtLocation());
 		addColumn(dsd, "All HCC #s (not filtered)", hivPatientData.getAllHccNumbers());
 		addColumn(dsd, "All ARV #s (not filtered)", hivPatientData.getAllArvNumbers());
