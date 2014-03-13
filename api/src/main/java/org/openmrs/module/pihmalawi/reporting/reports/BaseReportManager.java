@@ -95,8 +95,9 @@ public abstract class BaseReportManager implements ReportManager {
         return design;
     }
 
-    protected ReportDesign createCsvReportDesign(ReportDefinition reportDefinition) {
+    protected ReportDesign createCsvReportDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
         ReportDesign design = new ReportDesign();
+		design.setUuid(reportDesignUuid);
         design.setName("CSV");
         design.setReportDefinition(reportDefinition);
         design.setRendererType(CsvReportRenderer.class);

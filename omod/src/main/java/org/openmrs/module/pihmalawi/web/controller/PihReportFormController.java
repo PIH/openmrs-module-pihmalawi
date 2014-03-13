@@ -4,7 +4,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
 import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArtEncounterReport;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvRegimen;
@@ -307,15 +306,5 @@ public class PihReportFormController {
 	public String removeKsRegister() {
 		new SetupKsRegister(new ReportHelper()).delete();
 		return "redirect:/module/reporting/dashboard/index.form";
-	}
-
-	@RequestMapping("/module/pihmalawi/registerArtEncounterExport.form")
-	public void registerArtEncounterExport() throws Exception {
-		new SetupArtEncounterReport().setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/removeArtEncounterExport.form")
-	public void removeArtEncounterExport() throws Exception {
-		new SetupArtEncounterReport().delete();
 	}
 }
