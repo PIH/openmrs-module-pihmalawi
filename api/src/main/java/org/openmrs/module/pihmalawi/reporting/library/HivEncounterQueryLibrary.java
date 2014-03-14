@@ -48,6 +48,13 @@ public class HivEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQue
         return PREFIX;
     }
 
+	@DocumentedDefinition(value = "artEncounters")
+	public EncounterQuery getArtEncounters() {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.setEncounterTypes(hivMetadata.getArtEncounterTypes());
+		return q;
+	}
+
 	@DocumentedDefinition(value = "hivAndExposedChildEncountersByEndDate")
 	public EncounterQuery getHivAndExposedChildEncountersByEndDate() {
 		BasicEncounterQuery q = new BasicEncounterQuery();
