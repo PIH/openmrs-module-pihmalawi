@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component // TODO: Enable once performance is adequate
 public class HccRegister extends BaseReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "ae928860-4a4e-48d4-bbc2-50902babcfc0";

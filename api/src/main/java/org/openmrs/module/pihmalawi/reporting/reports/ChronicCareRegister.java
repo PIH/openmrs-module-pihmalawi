@@ -43,7 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component // TODO: Enable once performance is adequate
 public class ChronicCareRegister extends BaseReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "5993f924-bd00-479e-b556-17ae77763bd1";
