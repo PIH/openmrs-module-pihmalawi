@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.PatientState;
 import org.openmrs.api.context.Context;
@@ -33,6 +34,7 @@ import java.util.Properties;
 /**
  * Tests the methods in the PatientDataFactory
  */
+@Ignore
 public class DataFactoryTest extends BaseModuleContextSensitiveTest {
 
 	@Autowired

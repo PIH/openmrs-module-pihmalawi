@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the Cross-site Indicator Report
  */
+@Ignore
 public class CrossSiteIndicatorReportTest extends ReportManagerTest {
 
 	@Autowired

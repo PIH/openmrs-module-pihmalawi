@@ -3,6 +3,7 @@ package org.openmrs.module.pihmalawi.reports.setup;
 
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.api.context.Context;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+@Ignore
 public class SetupChronicCareRegisterTest extends BaseModuleContextSensitiveTest {
 
 	@Autowired

@@ -15,6 +15,7 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
@@ -36,6 +37,7 @@ import java.util.Properties;
 /**
  * Tests the methods in the PatientDataFactory
  */
+@Ignore
 public class ArtAppointmentAdherenceTest extends ReportManagerTest {
 
 	@Autowired
