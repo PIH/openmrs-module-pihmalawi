@@ -198,7 +198,7 @@ function writeDefaultEncounterActions(patientId) {
 		document.write(" <a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/patientDashboard.form?patientId=" + patientId + ">Cancel</a>");
 
 		/* create openmrs url to edit demographics */ 
-		document.write(" <a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/newPatient.form?patientId=" + patientId + ">Edit demographics</a>");
+		document.write(" <a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/shortPatientForm.form?patientId=" + patientId + ">Edit demographics</a>");
 
 		/* create openmrs url to void encounter only if edit */
 		document.write(" <a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/encounters/encounter.form?encounterId=" + paramValue + ">Void encounter</a>");
