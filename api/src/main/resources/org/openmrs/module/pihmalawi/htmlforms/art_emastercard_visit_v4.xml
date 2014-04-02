@@ -22,7 +22,7 @@
     <table>
         <tr>
             <td>Visit Date</td>
-            <td>Next appointment</td>
+
             <td>Height</td>
             <td>Weight</td>
             <td>ART Regimen</td>
@@ -49,17 +49,8 @@
                     </tr>
                 </table>
             </td>
-            <td colspan="2" align="center">
-                Viral Load
-                <!--
-                <table>
-                    <tr>
-                        <td>Sample taken</td>
-                        <td>Result</td>
-                    </tr>
-                </table>
-                 -->
-            </td>
+
+            <td>Next appointment</td>
 
         </tr>
         <tr>
@@ -68,10 +59,7 @@
                 <encounterDate id="encounterDate" default="today" />
             </td>
 
-            <td>
-                <!-- Next appointment -->
-                <obs conceptId="5096" id="nextAppointmentDate" allowFutureDates="true" />
-            </td>
+
 
             <td>
                 <!-- Height -->
@@ -134,15 +122,10 @@
                 <!-- # condoms -->
                 <obs conceptId="8080"/>
             </td>
+
             <td>
-                <!-- Sample taken -->
-                <!-- <obs conceptId="3658" style="checkbox" answerConceptId="3658"
-                    answerLabel="Bled" /> -->
-            </td>
-            <td>
-                <!-- Viral load -->
-                ...
-                <!-- <obs conceptId="856" /> -->
+                <!-- Next appointment -->
+                <obs conceptId="5096" id="nextAppointmentDate" allowFutureDates="true" />
             </td>
         </tr>
         <tr>
@@ -171,7 +154,6 @@
         function validateEncounterLocation(){
             var validLocation = false;
             var enteredLocation =  getValue('encounterLocation.value');
-            console.log('enteredLocation= ' + enteredLocation);
             if ( 1 > enteredLocation.length ) {
                 return validLocation;
             } else {
@@ -183,25 +165,18 @@
         function validateNextAppointmentDate(){
             var validDate = false;
             var enteredDate =  getField('nextAppointmentDate.value')[0].value;
-            console.log('enteredDate= ' + enteredDate);
             if ( 1 > enteredDate.length ) {
                 return validDate;
             }
             var encounterDate =  getValue('encounterDate.value');
-            console.log('encounterDate= ' + encounterDate);
 
             try {
                 var dateFormat = getField('nextAppointmentDate.value').datepicker('option', 'dateFormat');
                 var dateObject = $j.datepicker.parseDate(dateFormat, enteredDate);
-                console.log("dateObject = " + dateObject);
 
                 var encounterDateFormat = getField('encounterDate.value').datepicker('option', 'dateFormat');
-                console.log("encounterDateFormat = " + encounterDateFormat);
                 var encounterDateObject = getField('encounterDate.value').datepicker('getDate');
-                console.log("encounterDateObject = " + encounterDateObject);
 
-                console.log("the dates are valid");
-                console.log("monthDiff =" + monthDiff(dateObject, encounterDateObject) );
                 validDate = monthDiff(dateObject, encounterDateObject) ;
             } catch (e) {
                 console.log("failed to parse date: " + e);
@@ -217,7 +192,6 @@
 
         var validateForm = function () {
             var isValid = false;
-            console.log("validateForm function");
             isValid = validateNextAppointmentDate();
             if ( isValid ){
                 isValid = validateEncounterLocation();
@@ -234,8 +208,17 @@
 
         $j(function() {
 
+            $j(document).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    console.log("ENTER key has been pressed");
+                    var disabled = $j('.submitButton').attr('disabled');
+                    if (!disabled) {
+                        $j('.submitButton').click();
+                    }
+                }
+            });
+
             getField('encounterLocation.value').change(function() {
-                console.log('Location is ' + getValue('encounterLocation.value'))
                 if ( validateEncounterLocation() ) {
                     getField('encounterLocation.error').html("").hide();
                 } else {
@@ -245,7 +228,6 @@
             });
 
             getField('nextAppointmentDate.value').change(function() {
-                console.log("nexAppointmentDate has changed");
                 validateNextAppointmentDate();
             });
 
