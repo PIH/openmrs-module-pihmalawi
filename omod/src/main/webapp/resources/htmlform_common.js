@@ -61,6 +61,58 @@ function dateCompare(date, minDate, maxDate){
   return 0;
 }
 
+function monthDiff(d1, d2) {
+    var diff = Math.floor(d1.getTime() - d2.getTime());
+    var day = 1000* 60 * 60 * 24;
+    var days = Math.floor(diff/day);
+    var months = Math.floor(days/31);
+
+    if ( months >= 0 ) {
+        if (7 > months ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function validateEncounterLocation(){
+    var validLocation = false;
+    var enteredLocation =  getValue('encounterLocation.value');
+    if ( 1 > enteredLocation.length ) {
+        return validLocation;
+    } else {
+        validLocation = true;
+    }
+    return validLocation;
+}
+
+function validateNextAppointmentDate(){
+    var validDate = false;
+    var enteredDate =  getField('nextAppointmentDate.value')[0].value;
+    if ( 1 > enteredDate.length ) {
+        return validDate;
+    }
+    var encounterDate =  getValue('encounterDate.value');
+
+    try {
+        var dateFormat = getField('nextAppointmentDate.value').datepicker('option', 'dateFormat');
+        var dateObject = $j.datepicker.parseDate(dateFormat, enteredDate);
+
+        var encounterDateFormat = getField('encounterDate.value').datepicker('option', 'dateFormat');
+        var encounterDateObject = getField('encounterDate.value').datepicker('getDate');
+
+        validDate = monthDiff(dateObject, encounterDateObject) ;
+    } catch (e) {
+        console.log("failed to parse date: " + e);
+    }
+    if ( validDate ) {
+        getField('nextAppointmentDate.error').html("").hide();
+    } else {
+        getField('nextAppointmentDate.error').html("Please enter a valid date").show();
+    }
+    return validDate;
+};
+
 function checkDate(newDateInputObj, minDateInputObj, maxBaseDateInputObj, addMonths, errorDivId){
   if(!newDateInputObj || !minDateInputObj || !maxBaseDateInputObj){
     return;
