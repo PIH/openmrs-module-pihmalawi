@@ -20,8 +20,8 @@
 		<appender-ref ref="CONSOLE" />
 	</logger>
 
-	<logger name="org.openmrs.module.reporting.data.encounter.service.EncounterDataServiceImpl">
-		<level value="INFO" />
+	<logger name="org.openmrs.module.reporting.evaluation.querybuilder">
+		<level value="DEBUG" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
 
