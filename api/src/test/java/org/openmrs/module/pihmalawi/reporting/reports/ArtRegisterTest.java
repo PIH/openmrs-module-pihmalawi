@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the methods in the PatientDataFactory
  */
+@Ignore
 public class ArtRegisterTest extends ReportManagerTest {
 
 	@Autowired

@@ -37,6 +37,7 @@ public class AppointmentAdherencePatientDataSetTest extends BaseModuleContextSen
 	}
 
 	@Test
+	@Ignore
 	public void testAdherenceDataSet() throws Exception {
 
 		HivMetadata hivMetadata = new HivMetadata();

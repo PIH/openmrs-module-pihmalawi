@@ -36,6 +36,7 @@ public class SetupChronicCareRegisterTest extends BaseModuleContextSensitiveTest
 	}
 
 	@Test
+	@Ignore
 	public void testReport() throws Exception {
 		SetupChronicCareRegister setup = new SetupChronicCareRegister(new ReportHelper());
 		setup.setup();

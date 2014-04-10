@@ -37,6 +37,7 @@ public class KsRegisterBreakdownTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
+	@Ignore
 	public void testKsRenderer() throws Exception {
 
 		Location location = Context.getLocationService().getLocation("Neno District Hospital");

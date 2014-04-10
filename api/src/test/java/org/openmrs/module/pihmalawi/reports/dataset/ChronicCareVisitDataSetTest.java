@@ -42,6 +42,7 @@ public class ChronicCareVisitDataSetTest extends BaseModuleContextSensitiveTest 
 	}
 
 	@Test
+	@Ignore
 	public void testDataSet() throws Exception {
 
 		ChronicCareMetadata ccMetadata = new ChronicCareMetadata();
