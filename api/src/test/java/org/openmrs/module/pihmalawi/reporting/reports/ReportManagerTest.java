@@ -15,11 +15,14 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.time.StopWatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.common.TestUtil;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
@@ -67,12 +70,13 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	public void setup() throws Exception {
 		authenticate();
 		reportInitializer.setupReport(getReportManager());
+		TestUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
 	@Override
 	public Properties getRuntimeProperties() {
 		Properties p = super.getRuntimeProperties();
-		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_nov_19x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
 		return p;
 	}
 
@@ -90,7 +94,12 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 		}
 
 		EvaluationContext context = getEvaluationContext();
+		System.out.println("Running report: " + rd.getName());
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 		ReportData data = reportDefinitionService.evaluate(rd, context);
+		stopWatch.stop();
+		System.out.println("Report completed: " + stopWatch.toString());
 		Assert.assertTrue(data.getDataSets().size() > 0);
 		for (RenderingMode renderingMode : reportService.getRenderingModes(rd)) {
 			ReportRenderer renderer = renderingMode.getRenderer();

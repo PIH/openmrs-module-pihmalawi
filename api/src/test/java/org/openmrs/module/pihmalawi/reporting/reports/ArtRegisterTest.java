@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the methods in the PatientDataFactory
  */
-@Ignore
 public class ArtRegisterTest extends ReportManagerTest {
 
 	@Autowired
@@ -41,9 +40,9 @@ public class ArtRegisterTest extends ReportManagerTest {
 	@Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.setBaseCohort(new Cohort("59342,61822,20684,16351"));
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014,2,1));
-		context.addParameterValue("location", null);
+		context.addParameterValue("location", hivMetadata.getNenoHospital());
+		//context.setBaseCohort(new Cohort("59342,61822,20684,16351"));
 		return context;
 	}
 }
