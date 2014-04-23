@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.evaluation.context.EncounterEvaluationContext;
 import org.openmrs.module.reporting.evaluation.querybuilder.HqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.openmrs.module.reporting.query.encounter.EncounterIdSet;
@@ -52,25 +53,24 @@ public class PerformanceTest extends BaseModuleContextSensitiveTest {
 		encounterQuery.from(Encounter.class, "e");
 		//encounterQuery.whereLessOrEqualTo("e.encounterId", 10000);
 
-		EncounterIdSet encounters = new EncounterIdSet();
-		Cohort patients = new Cohort();
+		EncounterEvaluationContext eec = new EncounterEvaluationContext();
+		eec.setBaseEncounters(new EncounterIdSet());
+		eec.setBaseCohort(new Cohort());
 
 		List<Object[]> l = evaluationService.evaluateToList(encounterQuery);
 		for (Object[] row : l) {
-			encounters.add((Integer)row[0]);
-			patients.addMember((Integer)row[1]);
+			eec.getBaseEncounters().add((Integer)row[0]);
+			eec.getBaseCohort().addMember((Integer)row[1]);
 		}
 
-		String encounterKey = evaluationService.startUsing(encounters.getMemberIds());
-		String patientKey = evaluationService.startUsing(patients.getMemberIds());
-		System.out.println("Running a query on " + encounters.getSize() + " encounters; " + patients.size() + " patients");
+		List<String> idKeys = evaluationService.startUsing(eec);
+		System.out.println("Running a query on " + eec.getBaseEncounters().getSize() + " encounters; " + eec.getBaseCohort().size() + " patients");
 
 		try {
 			HqlQueryBuilder q = new HqlQueryBuilder();
 			q.select("e.encounterDatetime");
 			q.from(Encounter.class, "e");
-			q.whereIdIn("e.encounterId", encounters);
-			//q.whereIdIn("e.patient.patientId", patients);
+			q.whereEncounterIn("e.encounterId", eec);
 
 			System.out.println("Starting evaluation...");
 			StopWatch sw = new StopWatch();
@@ -80,8 +80,9 @@ public class PerformanceTest extends BaseModuleContextSensitiveTest {
 			System.out.println("Evaluated in: " + sw.toString());
 		}
 		finally {
-			evaluationService.stopUsing(encounterKey);
-			evaluationService.stopUsing(patientKey);
+			for (String key : idKeys) {
+				evaluationService.stopUsing(key);
+			}
 		}
 	}
 
