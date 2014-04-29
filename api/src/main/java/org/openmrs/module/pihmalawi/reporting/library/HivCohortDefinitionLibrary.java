@@ -278,6 +278,15 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsInAny(cd4, clinicianReported);
 	}
 
+    @DocumentedDefinition(value = "hadCd4RecordedWithinMonthsOfEndDate")
+    public CohortDefinition getPatientsWithCd4RecordedWithinMonthsOfEndDate(int numMonths) {
+        List<EncounterType> encTypes = hivMetadata.getHivEncounterTypes();
+        encTypes.addAll(Arrays.asList(hivMetadata.getLabEncounterType()));
+        CohortDefinition cd4 = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), encTypes, numMonths);
+        CohortDefinition clinicianReported = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getClinicianReportedCd4Concept(), encTypes, numMonths);
+        return df.getPatientsInAny(cd4, clinicianReported);
+    }
+
 	@DocumentedDefinition(value = "hadCd4MeasuredInLabWithinMonthsOfEndDate")
 	public CohortDefinition getPatientsWithCd4MeasuredInLabWithinMonthsOfEndDate(int numMonths) {
 		List<EncounterType> encTypes = Arrays.asList(hivMetadata.getLabEncounterType());
