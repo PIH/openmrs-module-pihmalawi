@@ -166,7 +166,7 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 		addAdultChildIndicator(dsd, "hivq8", "Initiated ART during the quarter", hivQ8);
 
 		// HIV Q9
-		CohortDefinition hadCd4RecordedInLast6Months = hivCohorts.getPatientsWithCd4RecordedAtHivEncounterWithinMonthsOfEndDate(6);
+		CohortDefinition hadCd4RecordedInLast6Months = hivCohorts.getPatientsWithCd4RecordedWithinMonthsOfEndDate(6);
 		CohortDefinition hivQ9 = df.createComposition(hadCd4RecordedInLast6Months, "AND", inPreArtState);
 		addAdultChildIndicator(dsd, "hivq9", "Pre-ART patients with CD4 count recorded in the last two quarters", hivQ9);
 

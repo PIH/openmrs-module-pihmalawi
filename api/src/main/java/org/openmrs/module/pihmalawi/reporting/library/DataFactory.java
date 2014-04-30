@@ -388,11 +388,10 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
-	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, List<EncounterType> restrictToTypes, int numMonths) {
+	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, int numMonths) {
 		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
 		cd.setQuestion(question);
-		cd.setEncounterTypeList(restrictToTypes);
 		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
