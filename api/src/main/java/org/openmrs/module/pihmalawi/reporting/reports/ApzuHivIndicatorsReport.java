@@ -110,7 +110,7 @@ public class ApzuHivIndicatorsReport extends BaseReportManager {
 		CohortDefinition partActiveWithVisit = df.getPatientsInAll(partSixMonths, partActive);
 		CohortDefinition artThreeMonths = hivCohorts.getPatientsWithAnArtEncounterWithinMonthsOfEndDate(3);
 		CohortDefinition artActiveWithVisit = df.getPatientsInAll(artThreeMonths, artActive);
-		CohortDefinition cd4Reported = hivCohorts.getPatientsWithCd4RecordedAtHivEncounterWithinMonthsOfEndDate(6);
+		CohortDefinition cd4Reported = hivCohorts.getPatientsWithCd4RecordedWithinMonthsOfEndDate(6);
 		CohortDefinition partActiveWithCd4 = df.getPatientsInAll(partActive, cd4Reported);
 		CohortDefinition diedWithin3Months = hivCohorts.getDiedAtLocationWithinMonthsOfEndDate(3);
 		CohortDefinition artEverAndDiedWithin3Months = df.getPatientsInAll(artEver, diedWithin3Months);
