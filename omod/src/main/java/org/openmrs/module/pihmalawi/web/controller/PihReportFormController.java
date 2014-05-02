@@ -6,7 +6,6 @@ import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdhe
 import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
-import org.openmrs.module.pihmalawi.reports.setup.SetupArvRegimen;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
@@ -15,7 +14,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHivDnaPcrResults;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
@@ -30,16 +28,6 @@ import java.util.Arrays;
 
 @Controller
 public class PihReportFormController {
-
-	@RequestMapping("/module/pihmalawi/remove_exposed_dna.form")
-	public void removeExposedDna() {
-		new SetupHivDnaPcrResults(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_exposed_dna.form")
-	public void registerExposedDna() throws Exception {
-		new SetupHivDnaPcrResults(new ReportHelper()).setup();
-	}
 
 	@RequestMapping("/module/pihmalawi/remove_tb_register.form")
 	public void removeTbRegister() {
@@ -179,16 +167,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_arvquarterly.form")
 	public void removeArvQuarterly() {
 		new SetupArvQuarterly(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_arvregimen.form")
-	public void registerArvRegimen() throws Exception {
-		new SetupArvRegimen(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_arvregimen.form")
-	public void removeArvRegimen() {
-		new SetupArvRegimen(new ReportHelper()).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hccquarterly.form")

@@ -14,10 +14,6 @@ ARV Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/regi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_arvquarterly.form">Remove</a>
 <br/>
 
-ARV Regimen summary: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_arvregimen.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_arvregimen.form">Remove</a>
-<br/>
-
 ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artappadherence.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artappadherence.form">Remove</a>
 <br/>
@@ -32,10 +28,6 @@ Pre-ART Register (incl. old Pre-ART patients): <a href="${pageContext.request.co
 
 HCC Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccquarterly.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccquarterly.form">Remove</a>
-<br/>
-
-Exposed Child DNA-PCR results: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_exposed_dna.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_exposed_dna.form">Remove</a>
 <br/>
 
 <h4>Upper Neno</h4>
