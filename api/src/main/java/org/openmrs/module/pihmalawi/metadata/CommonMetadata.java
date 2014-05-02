@@ -53,7 +53,7 @@ public class CommonMetadata extends Metadata {
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
 	public static final String TB_TREATMENT_STATUS = "Tuberculosis treatment status";
 	public static final String WHO_STAGE = "WHO stage";
-	public static final String CD4_PERCENT = "Cd4%";
+	public static final String CD4_PERCENT = "CD4 percent";
 	public static final String PRESUMED_SEVERE_HIV_CRITERIA_PRESENT = "Presumed severe HIV criteria present";
 	public static final String FIRST_LINE_ARV_START_DATE = "Start date 1st line ARV";
 	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";

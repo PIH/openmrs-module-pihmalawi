@@ -282,7 +282,7 @@ public class PatientDataHelper {
 		obs = getLatestObs(p, "WHO stage", artInitialEncounter, endDate);
 		reasons.put("STAGE", formatValue(obs));
 
-		obs = getLatestObs(p, "730", artInitialEncounter, endDate); // CD4% Concept, was giving a duplicate concept warning by name
+		obs = getLatestObs(p, "CD4 percent", artInitialEncounter, endDate);
 		reasons.put("TLC", formatValue(obs));
 
 		obs = getLatestObs(p, "Presumed severe HIV criteria present", artInitialEncounter, endDate);

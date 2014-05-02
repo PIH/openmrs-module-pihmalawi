@@ -656,7 +656,7 @@ public abstract class BreakdownRowRenderer {
 				reasons += ", STAGE: " + o.getValueAsString(Context.getLocale());
 			}
 			obs = Context.getObsService().getObservations(
-					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("Cd4%")), null,
+					Arrays.asList((Person) p), es, Arrays.asList(lookupConcept("CD4 percent")), null,
 					null, null, null, 1, null, null, endDate, false);
 			if (obs.iterator().hasNext()) {
 				Obs o = obs.iterator().next();
