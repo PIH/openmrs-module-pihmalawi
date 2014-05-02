@@ -85,7 +85,7 @@ public class CommonMetadata extends Metadata {
 	public static final String NUMBER_CIGARRETES_PER_DAY_CONCEPT = "Number of cigarettes smoked per day";
 	public static final String HISTORY_OF_ALCOHOL_USE_CONCEPT = "History of alcohol use";
 	public static final String LITERS_ALCOHOL_PER_DAY_CONCEPT = "Liters per day";
-	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Source of referral";
+	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
