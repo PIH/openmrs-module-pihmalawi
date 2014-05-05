@@ -95,15 +95,16 @@ public class CrossSiteIndicatorReport extends BaseReportManager {
 
 		// Indicators
 
-		// HIV Q1 TODO: Why would we exclude anyone who was ever an exposed child?  Don't they get enrolled as patients?
+		// HIV Q1
 		CohortDefinition hasAnHccNumber = hivCohorts.getPatientsWithAnHccNumber();
 		CohortDefinition hasAnArvNumber = hivCohorts.getPatientsWithAnArvNumber();
-		CohortDefinition everEnrolledInHivProgram = hivCohorts.getEverEnrolledInHivProgramByEndDate();
-		CohortDefinition everExposedChild = hivCohorts.getPatientsEverInExposedChildStateByEndDate();
-		CohortDefinition hivQ1 = df.createComposition(everEnrolledInHivProgram, "AND NOT", everExposedChild, "AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
+		CohortDefinition everPreArtState = hivCohorts.getPatientsEverInPreArtStateByEndDate();
+		CohortDefinition everOnArvsState = hivCohorts.getPatientsEverInOnArvsStateByEndDate();
+		CohortDefinition hivQ1 = df.createComposition("(", everPreArtState, "OR", everOnArvsState, ") AND (", hasAnHccNumber, "OR", hasAnArvNumber, ")");
 		addAdultChildIndicator(dsd, "hivq1", "Ever registered in the HIV program", hivQ1);
 
 		// HIV Q2
+		CohortDefinition everEnrolledInHivProgram = hivCohorts.getEverEnrolledInHivProgramByEndDate();
 		CohortDefinition hadHivVisitBeforePeriod = hivCohorts.getPatientsWithAnHivEncounterBeforeStartDate();
 		CohortDefinition hadHivVisitDuringPeriod = hivCohorts.getPatientsWithAnHivEncounterDuringPeriod();
 		CohortDefinition hivQ2 = df.createComposition(everEnrolledInHivProgram, "AND", hadHivVisitDuringPeriod, "AND NOT", hadHivVisitBeforePeriod);

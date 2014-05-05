@@ -129,11 +129,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getOnArvsState());
 	}
 
-	@DocumentedDefinition(value = "inOnArtStateOnEndDate")
-	public CohortDefinition getInOnArtStateOnEndDate() {
-		return df.getCurrentlyInStateOnEndDate(hivMetadata.getOnArvsState());
-	}
-
 	@DocumentedDefinition(value = "inTransferredInternallyStateOnEndDate")
 	public CohortDefinition getTransferredInternallyStateOnEndDate() {
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getTransferredInternallyState());
@@ -250,6 +245,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getAnyEncounterOfTypesByEndDate(hivMetadata.getHivEncounterTypes());
 	}
 
+	@DocumentedDefinition(value = "inExposedChildStateOnEndDate")
+	public CohortDefinition getPatientsInExposedChildStateOnEndDate() {
+		return df.getCurrentlyInStateOnEndDate(hivMetadata.getExposedChildState());
+	}
+
 	@DocumentedDefinition(value = "inPreArtStateOnEndDate")
 	public CohortDefinition getPatientsInPreArtStateOnEndDate() {
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getPreArtState());
@@ -260,14 +260,19 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getOnArvsState());
 	}
 
-	@DocumentedDefinition(value = "everInOnArvsStateByEndDate")
-	public CohortDefinition getPatientsEverInOnArvsStateByEndDate() {
-		return df.getEverInStateByEndDate(hivMetadata.getOnArvsState());
-	}
-
 	@DocumentedDefinition(value = "everInExposedChildStateByEndDate")
 	public CohortDefinition getPatientsEverInExposedChildStateByEndDate() {
 		return df.getEverInStateByEndDate(hivMetadata.getExposedChildState());
+	}
+
+	@DocumentedDefinition(value = "everInPreArtStateByEndDate")
+	public CohortDefinition getPatientsEverInPreArtStateByEndDate() {
+		return df.getEverInStateByEndDate(hivMetadata.getPreArtState());
+	}
+
+	@DocumentedDefinition(value = "everInOnArvsStateByEndDate")
+	public CohortDefinition getPatientsEverInOnArvsStateByEndDate() {
+		return df.getEverInStateByEndDate(hivMetadata.getOnArvsState());
 	}
 
     @DocumentedDefinition(value = "hadCd4RecordedWithinMonthsOfEndDate")
