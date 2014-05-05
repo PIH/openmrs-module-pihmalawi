@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.definition.PatientToEncounterDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
@@ -60,6 +61,10 @@ public abstract class BaseReportManager implements ReportManager {
 
 	protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
 		dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
+	}
+
+	protected void addColumn(EncounterDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
+		addColumn(dsd, columnName, new PatientToEncounterDataDefinition(pdd));
 	}
 
 	protected void addColumn(EncounterDataSetDefinition dsd, String columnName, EncounterDataDefinition edd) {

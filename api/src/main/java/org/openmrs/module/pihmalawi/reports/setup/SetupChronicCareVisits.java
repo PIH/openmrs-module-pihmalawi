@@ -17,6 +17,7 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 
+@Deprecated
 public class SetupChronicCareVisits {
 
 	ReportHelper h = new ReportHelper();
