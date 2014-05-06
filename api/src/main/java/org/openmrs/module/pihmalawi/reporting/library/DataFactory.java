@@ -51,6 +51,7 @@ import org.openmrs.module.reporting.data.ConvertedDataDefinition;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
+import org.openmrs.module.reporting.data.converter.CollectionElementConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.DataSetRowConverter;
 import org.openmrs.module.reporting.data.converter.ListConverter;
@@ -217,11 +218,40 @@ public class DataFactory {
 		return convert(def, c);
 	}
 
+	// Encounter Data Definitions
+
 	public EncounterDataDefinition getSingleObsForEncounter(Concept concept) {
 		ObsForEncounterDataDefinition def = new ObsForEncounterDataDefinition();
 		def.setQuestion(concept);
 		def.setSingleObs(true);
 		return def;
+	}
+
+	public EncounterDataDefinition getListOfObsForEncounter(Concept concept) {
+		ObsForEncounterDataDefinition def = new ObsForEncounterDataDefinition();
+		def.setQuestion(concept);
+		def.setSingleObs(false);
+		return def;
+	}
+
+	public EncounterDataDefinition getObsValueCodedPresentInEncounter(Concept question, Concept answer) {
+		return convert(getListOfObsForEncounter(question), getObsValueCodedPresentConverter(answer));
+	}
+
+	public EncounterDataDefinition getSingleObsValueCodedNameForEncounter(Concept concept) {
+		return convert(getSingleObsForEncounter(concept), getObsValueCodedNameConverter());
+	}
+
+	public EncounterDataDefinition getSingleObsValueNumericForEncounter(Concept concept) {
+		return convert(getSingleObsForEncounter(concept), getObsValueNumericConverter());
+	}
+
+	public EncounterDataDefinition getSingleObsValueTextForEncounter(Concept concept) {
+		return convert(getSingleObsForEncounter(concept), getObsValueTextConverter());
+	}
+
+	public EncounterDataDefinition getSingleObsValueDatetimeForEncounter(Concept concept) {
+		return convert(getSingleObsForEncounter(concept), getObsValueDatetimeConverter());
 	}
 
 	// Cohort Definitions
@@ -491,6 +521,10 @@ public class DataFactory {
 		return new ChainedConverter(getObsValueCodedConverter(), new ObjectFormatter());
 	}
 
+	public DataConverter getObsValueTextConverter() {
+		return new PropertyConverter(Obs.class, "valueText");
+	}
+
 	public DataConverter getStateNameConverter() {
 		return new ChainedConverter(new PropertyConverter(PatientState.class, "state.concept"), getObjectFormatter());
 	}
@@ -515,6 +549,13 @@ public class DataFactory {
 		ChainedConverter converter = new ChainedConverter();
 		converter.addConverter(new CollectionConverter(getStateNameAndDateFormatter(), false, null));
 		converter.addConverter(new ObjectFormatter("; "));
+		return converter;
+	}
+
+	public DataConverter getObsValueCodedPresentConverter(Concept valueCoded) {
+		ChainedConverter converter = new ChainedConverter();
+		converter.addConverter(new CollectionConverter(getObsValueCodedConverter(), false, null));
+		converter.addConverter(new CollectionElementConverter(valueCoded, "true", ""));
 		return converter;
 	}
 

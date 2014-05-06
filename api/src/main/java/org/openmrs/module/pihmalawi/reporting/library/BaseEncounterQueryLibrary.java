@@ -13,7 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.EncounterType;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -24,34 +24,34 @@ import org.openmrs.module.reporting.query.encounter.definition.MappedParametersE
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
-/**
- * Defines all of the Cohort Definition instances we want to expose for Pih Malawi Chronic Care Program
- */
-@Component("pihMalawiChronicCareEncounterQueryLibrary")
-public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQuery> {
+@Component
+public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQuery> {
 
-    public static final String PREFIX = "pihmalawi.encounterQuery.chronicCare.";
-
-    @Autowired
-    private ChronicCareMetadata metadata;
-
-    @Override
-    public Class<? super EncounterQuery> getDefinitionType() {
-        return EncounterQuery.class;
-    }
+	@Autowired
+	private DataFactory df;
 
     @Override
     public String getKeyPrefix() {
-        return PREFIX;
+        return "pihmalawi.encounterQuery.";
     }
 
-	@DocumentedDefinition(value = "chronicCareFollowupEncountersByEndDate")
-	public EncounterQuery getChronicCareFollowupEncountersByEndDate() {
+	@Override
+	public Class<? super EncounterQuery> getDefinitionType() {
+		return EncounterQuery.class;
+	}
+
+	@DocumentedDefinition(value = "encountersAtLocationDuringPeriod")
+	public EncounterQuery getEncountersAtLocationDuringPeriod(EncounterType... types) {
 		BasicEncounterQuery q = new BasicEncounterQuery();
-		q.addEncounterType(metadata.getChronicCareFollowupEncounterType());
+		if (types != null && types.length > 0) {
+			q.setEncounterTypes(Arrays.asList(types));
+		}
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
-		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
+		q.addParameter(new Parameter("locationList", "Locations", Date.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 }

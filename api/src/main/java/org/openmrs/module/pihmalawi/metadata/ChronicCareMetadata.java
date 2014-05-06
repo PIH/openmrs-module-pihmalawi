@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
@@ -72,6 +73,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String AGE_OF_EPILEPSY_DIAGNOSIS_CONCEPT = "Age of epilepsy diagnosis";
 	public static final String AGE_OF_HEART_FAILURE_DIAGNOSIS_CONCEPT = "Age of heart failure diagnosis";
 	public static final String AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT = "Age of hypertension diagnosis";
+	public static final String CHRONIC_CARE_MEDICATION_CONCEPT_SET = "Chronic Care Medication Set";
 
 	public Concept getChronicCareDiagnosisConcept() {
 		return getConcept(CHRONIC_CARE_DIAGNOSIS);
@@ -99,16 +101,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public List<Concept> getChronicCareDiagnosisAnswerConcepts() {
 		List<Concept> l = new ArrayList<Concept>();
-		// TODO: Get this from answers? Or hard code?
-		l.add(getAsthmaConcept());
-		l.add(getDiabetesConcept());
-		l.add(getEpilepsyConcept());
-		l.add(getHeartFailureConcept());
-		l.add(getHypertensionConcept());
-		/*
-			TODO: Add CKD; Stroke; Mental Health: Acute Psychotic disorder; Mental Health: Depression;
-				  Mental Health: Substance Abuse;  Mental Health: Other; Other Diagnoses (with blank)
-		 */
+		Concept c = getConcept(CHRONIC_CARE_DIAGNOSIS);
+		for (ConceptAnswer ca : c.getAnswers()) {
+			l.add(ca.getAnswerConcept());
+		}
 		return l;
 	}
 
@@ -140,5 +136,14 @@ public class ChronicCareMetadata extends CommonMetadata {
 		l.add(getAgeOfHeartFailureDiagnosisConcept());
 		l.add(getAgeOfHypertensionDiagnosisConcept());
 		return l;
+	}
+
+	public List<Concept> getChronicCareMedicationConcepts() {
+		List<Concept> ret = new ArrayList<Concept>();
+		Concept set = getConcept(CHRONIC_CARE_MEDICATION_CONCEPT_SET);
+		for (Concept c : set.getSetMembers()) {
+			ret.add(c);
+		}
+		return ret;
 	}
 }

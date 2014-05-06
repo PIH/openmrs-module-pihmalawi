@@ -14,8 +14,9 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.encounter.definition.AgeAtEncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
-import org.openmrs.module.reporting.data.encounter.definition.ObsForEncounterDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,4 +45,15 @@ public class BaseEncounterDataLibrary extends BaseDefinitionLibrary<EncounterDat
 		return df.convert(def, df.getObsValueDatetimeConverter());
 	}
 
+	public EncounterDataDefinition getAgeAtEncounterDateInYears() {
+		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.YEARS));
+	}
+
+	public EncounterDataDefinition getAgeAtEncounterDateInMonths() {
+		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.MONTHS));
+	}
+
+	public EncounterDataDefinition getAgeAtEncounterDate() {
+		return new AgeAtEncounterDataDefinition();
+	}
 }

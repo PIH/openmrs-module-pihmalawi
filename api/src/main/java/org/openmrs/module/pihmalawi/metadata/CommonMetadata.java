@@ -87,6 +87,25 @@ public class CommonMetadata extends Metadata {
 	public static final String LITERS_ALCOHOL_PER_DAY_CONCEPT = "Liters per day";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
+	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
+	public static final String PREFERRED_TX_OUT_OF_STOCK_CONCEPT = "Preferred treatment out of stock";
+	public static final String CHANGE_IN_TREATMENT_CONCEPT = "Change in treatment";
+	public static final String HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT = "Patient hospitalized since last visit";
+	public static final String HOSPITALIZED_FOR_NCD_SINCE_LAST_VISIT_CONCEPT = "Hospitalized for non-communicable disease since last visit";
+	public static final String SYSTOLIC_BLOOD_PRESSURE_CONCEPT = "Systolic blood pressure";
+	public static final String DIASTOLIC_BLOOD_PRESSURE_CONCEPT = "Diastolic blood pressure";
+	public static final String NYHA_CLASS_CONCEPT = "Nyha class";
+	public static final String SERUM_GLUCOSE_CONCEPT = "Serum glucose";
+	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "Blood sugar test type";
+	public static final String NUMBER_OF_SEIZURES_CONCEPT = "NUMBER OF SEIZURES";
+	public static final String PEAK_FLOW_CONCEPT = "PEAK FLOW";
+	public static final String PEAK_FLOW_PREDICTED_CONCEPT = "PEAK FLOW PREDICTED";
+	public static final String ASTHMA_CLASSIFICATION_CONCEPT = "Asthma classification";
+	public static final String PATIENT_VISIT_COMPLETED_WITH_ALL_SERVICES_CONCEPT = "Patient visit completed with all services delivered";
+	public static final String DATA_CLERK_COMMENTS_CONCEPT = "Data clerk comments";
+
+
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -245,6 +264,70 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getSourceOfReferralConcept() {
 		return getConcept(SOURCE_OF_REFERRAL_CONCEPT);
+	}
+
+	public Concept getCurrentDrugsUsedConcept() {
+		return getConcept(CURRENT_DRUGS_USED_CONCEPT);
+	}
+
+	public Concept getPreferredTreatmentOutOfStockConcept() {
+		return getConcept(PREFERRED_TX_OUT_OF_STOCK_CONCEPT);
+	}
+
+	public Concept getChangeInTreatmentConcept() {
+		return getConcept(CHANGE_IN_TREATMENT_CONCEPT);
+	}
+
+	public Concept getHospitalizedSinceLastVisitConcept() {
+		return getConcept(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT);
+	}
+
+	public Concept getHospitalizedForNcdSinceLastVisitConcept() {
+		return getConcept(HOSPITALIZED_FOR_NCD_SINCE_LAST_VISIT_CONCEPT);
+	}
+
+	public Concept getSystolicBloodPressureConcept() {
+		return getConcept(SYSTOLIC_BLOOD_PRESSURE_CONCEPT);
+	}
+
+	public Concept getDiastolicBloodPressureConcept() {
+		return getConcept(DIASTOLIC_BLOOD_PRESSURE_CONCEPT);
+	}
+
+	public Concept getNyhaClassConcept() {
+		return getConcept(NYHA_CLASS_CONCEPT);
+	}
+
+	public Concept getSerumGlucoseConcept() {
+		return getConcept(SERUM_GLUCOSE_CONCEPT);
+	}
+
+	public Concept getBloodSugarTestTypeConcept() {
+		return getConcept(BLOOD_SUGAR_TEST_TYPE_CONCEPT);
+	}
+
+	public Concept getNumberOfSeizuresConcept() {
+		return getConcept(NUMBER_OF_SEIZURES_CONCEPT);
+	}
+
+	public Concept getPeakFlowConcept() {
+		return getConcept(PEAK_FLOW_CONCEPT);
+	}
+
+	public Concept getPeakFlowPredictedConcept() {
+		return getConcept(PEAK_FLOW_PREDICTED_CONCEPT);
+	}
+
+	public Concept getAsthmaClassificationConcept() {
+		return getConcept(ASTHMA_CLASSIFICATION_CONCEPT);
+	}
+
+	public Concept getPatientVisitCompletedWithAllServicesConcept() {
+		return getConcept(PATIENT_VISIT_COMPLETED_WITH_ALL_SERVICES_CONCEPT);
+	}
+
+	public Concept getDataClerkCommentsConcept() {
+		return getConcept(DATA_CLERK_COMMENTS_CONCEPT);
 	}
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

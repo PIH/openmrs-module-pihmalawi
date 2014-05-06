@@ -13,20 +13,22 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.Concept;
+import org.openmrs.EncounterType;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCareEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
-import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
-import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Component // TODO: Work in progress
+@Component
 public class ChronicCareVisitsReport extends BaseReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "22420fee-e069-4682-bb0d-c39f65103fac";
@@ -48,7 +50,7 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 	private ChronicCareMetadata metadata;
 
 	@Autowired
-	private ChronicCareEncounterQueryLibrary encounterQueries;
+	private BaseEncounterQueryLibrary encounterQueries;
 
 	@Autowired
 	private BuiltInPatientDataLibrary builtInPatientData ;
@@ -85,7 +87,6 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 	@Override
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
-		l.add(new Parameter("whichVisits", "Which Visits", TimeQualifier.class, null, TimeQualifier.ANY, null));
 		l.add(new Parameter("startDate", "From Date", Date.class));
 		l.add(new Parameter("endDate", "To Date", Date.class));
 		l.add(df.getLocationParameter());
@@ -101,38 +102,76 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
 
+		addDataSet(rd, "initials", metadata.getChronicCareInitialEncounterType());
+		addDataSet(rd, "followups", metadata.getChronicCareFollowupEncounterType());
+
+		return rd;
+	}
+
+	protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType) {
+
 		EncounterDataSetDefinition dsd = new EncounterDataSetDefinition();
 		dsd.setName(getName());
 		dsd.addParameters(getParameters());
 		dsd.addSortCriteria("ENCOUNTER_DATETIME", SortDirection.ASC);
-
-		rd.addDataSetDefinition("visits", Mapped.mapStraightThrough(dsd));
+		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 
 		// Row filters
 
-
+		EncounterQuery dateLocationTypeFilter = encounterQueries.getEncountersAtLocationDuringPeriod(encounterType);
+		dsd.addRowFilter(Mapped.mapStraightThrough(dateLocationTypeFilter));
 
 		// Columns to include
 
-		PatientDataSetDefinition pdsd = new PatientDataSetDefinition();
-		addColumn(pdsd, "PID", builtInPatientData.getPatientId());
-		addColumn(pdsd, "Chronic Care #", ccPatientData.getChronicCareNumberAtLocation());
-		addColumn(pdsd, "Chronic Care initial date", ccPatientData.getFirstChronicCareInitialEncounterDateByEndDate());
-		addColumn(pdsd, "Chronic Care initial location", ccPatientData.getFirstChronicCareInitialEncounterLocationByEndDate());
-		addColumn(pdsd, "Given name", builtInPatientData.getPreferredGivenName());
-		addColumn(pdsd, "Last name", builtInPatientData.getPreferredFamilyName());
-		addColumn(pdsd, "Birthdate", basePatientData.getBirthdate());
-		addColumn(pdsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
-		addColumn(pdsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
-		addColumn(pdsd, "M/F", builtInPatientData.getGender());
-		addColumn(pdsd, "Village", basePatientData.getVillage());
-		addColumn(pdsd, "TA", basePatientData.getTraditionalAuthority());
-		addColumn(pdsd, "District", basePatientData.getDistrict());
-		addColumn(pdsd, "Outcome", ccPatientData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
-		addColumn(pdsd, "Outcome change date", ccPatientData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
-		addColumn(pdsd, "Outcome location", ccPatientData.getMostRecentChronicCareTreatmentStatusStateLocationAtLocationByEndDate());
+		addColumn(dsd, "ENCOUNTER_ID", builtInEncounterData.getEncounterId());
+		addColumn(dsd, "ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime());
+		addColumn(dsd, "LOCATION", builtInEncounterData.getLocationName());
+		addColumn(dsd, "ENCOUNTER_TYPE", builtInEncounterData.getEncounterTypeName());
+		addColumn(dsd, "CHRONIC_CARE_NUMBER", ccPatientData.getChronicCareNumberAtLocation());
+		addColumn(dsd, "PID", builtInPatientData.getPatientId());
+		addColumn(dsd, "FIRST_NAME", builtInPatientData.getPreferredGivenName());
+		addColumn(dsd, "LAST_NAME", builtInPatientData.getPreferredFamilyName());
+		addColumn(dsd, "BIRTHDATE", basePatientData.getBirthdate());
+		addColumn(dsd, "AGE_AT_VISIT_YRS", baseEncounterData.getAgeAtEncounterDateInYears());
+		addColumn(dsd, "AGE_AT_VISIT_MTHS", baseEncounterData.getAgeAtEncounterDateInMonths());
+		addColumn(dsd, "M/F", builtInPatientData.getGender());
+		addColumn(dsd, "VILLAGE", basePatientData.getVillage());
+		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
+		addColumn(dsd, "DISTRICT", basePatientData.getDistrict());
 
-		return rd;
+		Concept currentDrugsUsed = metadata.getCurrentDrugsUsedConcept();
+		for (Concept medication : metadata.getChronicCareMedicationConcepts()) {
+			String medicationName = ObjectUtil.format(medication);
+			addColumn(dsd, "Taking " + medicationName, df.getObsValueCodedPresentInEncounter(currentDrugsUsed, medication));
+		}
+
+		addColumn(dsd, "PREFERRED TREATMENT UNAVAILABLE", df.getSingleObsValueCodedNameForEncounter(metadata.getPreferredTreatmentOutOfStockConcept()));
+		addColumn(dsd, "CHANGE IN TREATMENT", df.getSingleObsValueCodedNameForEncounter(metadata.getChangeInTreatmentConcept()));
+		addColumn(dsd, "HOSPITALIZED SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedSinceLastVisitConcept()));
+		addColumn(dsd, "HOSPITALIZED FOR NCD SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedForNcdSinceLastVisitConcept()));
+
+		Concept chronicCareDiagnosis = metadata.getChronicCareDiagnosisConcept();
+		for (Concept diagnosis : metadata.getChronicCareDiagnosisAnswerConcepts()) {
+			String diagnosisName = ObjectUtil.format(diagnosis);
+			addColumn(dsd, diagnosisName + " Diagnosis", df.getObsValueCodedPresentInEncounter(chronicCareDiagnosis, diagnosis));
+		}
+
+		addColumn(dsd, "HT", df.getSingleObsValueNumericForEncounter(metadata.getHeightConcept()));
+		addColumn(dsd, "WT", df.getSingleObsValueNumericForEncounter(metadata.getWeightConcept()));
+		addColumn(dsd, "SBP", df.getSingleObsValueNumericForEncounter(metadata.getSystolicBloodPressureConcept()));
+		addColumn(dsd, "DBP", df.getSingleObsValueNumericForEncounter(metadata.getDiastolicBloodPressureConcept()));
+		addColumn(dsd, "CHF CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getNyhaClassConcept()));
+		addColumn(dsd, "BLOOD SUGAR", df.getSingleObsValueNumericForEncounter(metadata.getSerumGlucoseConcept()));
+		addColumn(dsd, "BLOOD SUGAR TEST TYPE", df.getSingleObsValueCodedNameForEncounter(metadata.getBloodSugarTestTypeConcept()));
+		addColumn(dsd, "NUMBER OF SEIZURES", df.getSingleObsValueNumericForEncounter(metadata.getNumberOfSeizuresConcept()));
+		addColumn(dsd, "PEAK FLOW", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowConcept()));
+		addColumn(dsd, "PEAK FLOW PREDICTED", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowPredictedConcept()));
+		addColumn(dsd, "ASTHMA CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getAsthmaClassificationConcept()));
+		addColumn(dsd, "HIGH RISK PATIENT", df.getSingleObsValueCodedNameForEncounter(metadata.getHighRiskPatientConcept()));
+		addColumn(dsd, "VISIT FULLY COMPLETED", df.getSingleObsValueCodedNameForEncounter(metadata.getPatientVisitCompletedWithAllServicesConcept()));
+		addColumn(dsd, "DATA CLERK COMMENTS", df.getSingleObsValueTextForEncounter(metadata.getDataClerkCommentsConcept()));
+		addColumn(dsd, "NEXT APPOINTMENT DATE", df.getSingleObsValueDatetimeForEncounter(metadata.getAppointmentDateConcept()));
+		addColumn(dsd, "SOURCE OF REFERRAL", df.getSingleObsValueCodedNameForEncounter(metadata.getSourceOfReferralConcept()));
 	}
 
 	@Override
