@@ -7,12 +7,9 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHccRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
@@ -38,17 +35,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_tb_register.form")
 	public void registerTbRegister() throws Exception {
 		new SetupTbRegister(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_cc_visits.form")
-	public void removeCcVisits() {
-		new SetupChronicCareVisits(new ReportHelper())
-				.delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_cc_visits.form")
-	public void registerCcVisits() throws Exception {
-		new SetupChronicCareVisits(new ReportHelper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hiv_visits.form")
@@ -127,17 +113,6 @@ public class PihReportFormController {
 				.deleteReportElements();
 	}
 
-	@RequestMapping("/module/pihmalawi/remove_hccregister.form")
-	public void removeHccRegister() {
-		new SetupHccRegister(new ReportHelper())
-				.delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_hccregister.form")
-	public void registerHccRegister() throws Exception {
-		new SetupHccRegister(new ReportHelper()).setup();
-	}
-
 	@RequestMapping("/module/pihmalawi/remove_artmissedappointment.form")
 	public void removeArtMissedAppointment() {
 		new SetupArtMissedAppointment(new ReportHelper(), true)
@@ -209,16 +184,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_chroniccaremissedappointment.form")
 	public void registerChronicCareMissedAppointment() throws Exception {
 		new SetupChronicCareMissedAppointment(new ReportHelper()).setup(false);
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_chroniccareregister.form")
-	public void removeChronicCareRegister() {
-		new SetupChronicCareRegister(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_chroniccareregister.form")
-	public void registerChronicCareRegister() throws Exception {
-		new SetupChronicCareRegister(new ReportHelper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_chroniccareappadherence.form")

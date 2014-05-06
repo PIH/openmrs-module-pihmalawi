@@ -13,11 +13,6 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition;
 
-import java.io.FileOutputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,10 +21,8 @@ import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.AppointmentAdherenceCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
-import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareRegister;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -40,6 +33,11 @@ import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+
+import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Supports rendering a series of Cohorts with particular datasets
@@ -72,20 +70,7 @@ public class KitchenSinkTest extends BaseModuleContextSensitiveTest {
 			Cohort c = q.getPatientsAppointmentAdherence(d.getEncounterTypes(), d.getAppointmentConcept(), d.getFromDate(), d.getToDate(), d.getMinimumAdherence(), d.getMaximumAdherence());
 			System.out.println(c);
 	}
-	
-//	@Test
-	public void executeCohortDetailRendererReport() throws Exception {
-		ReportDefinition rds[] = new SetupChronicCareRegister(new ReportHelper()).setup();
-		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("startDate", new Date());
-		context.addParameterValue("endDate", new Date());
-		context.addParameterValue("location", Context.getLocationService()
-				.getLocation(2));
-		List<ReportDesign> designs = Context.getService(ReportService.class).getReportDesigns(rds[0], CohortDetailReportRenderer.class, false);
-		executeReportHtml(context, rds[0], designs.get(0), "/tmp/by_user", "html");
-	}
 
-	private final static int WEEKS_MISSED_bUT_STILL_CONSIDERED_IN_CARE = 3;
 	private final static long MILLISECONDS_PER_WEEK = (long) 7 * 24 * 60 * 60
 	* 1000;
 

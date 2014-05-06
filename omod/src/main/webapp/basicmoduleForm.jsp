@@ -18,10 +18,6 @@ ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artappadherence.form">Remove</a>
 <br/>
 
-HCC Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccregister.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccregister.form">Remove</a>
-<br/>
-
 Pre-ART Register (incl. old Pre-ART patients): <a href="${pageContext.request.contextPath}/module/pihmalawi/register_partregister.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partregister.form">Remove</a>
 <br/>
@@ -75,16 +71,8 @@ Chronic Care Missed Appointments: <a href="${pageContext.request.contextPath}/mo
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccaremissedappointment.form">Remove</a>
 <br/>
 
-Chronic Care Register: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccareregister.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareregister.form">Remove</a>
-<br/>
-
 Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccareappadherence.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccareappadherence.form">Remove</a>
-<br/>
-
-Chronic Care Visits Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_cc_visits.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_cc_visits.form">Remove</a>
 <br/>
 
 <h3>TB</h3>
