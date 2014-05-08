@@ -5,9 +5,8 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
-import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.EncounterAndObsDataSetDefinition.ColumnDisplayFormat;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
+import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -60,7 +59,7 @@ public class SetupHivVisits {
 		dsd.addParameter(new Parameter("patientIdentifierTypes",
 				"patientIdentifierTypes", PatientIdentifierType.class));
 		dsd.setColumnDisplayFormat(Arrays
-				.asList(ColumnDisplayFormat.BEST_SHORT_NAME));
+				.asList(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME));
 		h.replaceDataSetDefinition(dsd);
 
 		ReportDefinition rd = new ReportDefinition();

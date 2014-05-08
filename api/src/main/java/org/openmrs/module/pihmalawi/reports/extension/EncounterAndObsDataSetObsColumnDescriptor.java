@@ -20,6 +20,7 @@ import java.util.Map;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 
 /**
  * Keeps track of the column header names, storing Concept and occurrence 
