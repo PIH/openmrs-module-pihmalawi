@@ -102,8 +102,8 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
 
-		addDataSet(rd, "initials", metadata.getChronicCareInitialEncounterType());
-		addDataSet(rd, "followups", metadata.getChronicCareFollowupEncounterType());
+		addDataSet(rd, "initial", metadata.getChronicCareInitialEncounterType());
+		addDataSet(rd, "visits", metadata.getChronicCareFollowupEncounterType());
 
 		return rd;
 	}
@@ -123,6 +123,9 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 
 		// Columns to include
 
+		boolean isInitial = "initial".equals(key);
+		boolean isVisit = !isInitial;
+
 		addColumn(dsd, "ENCOUNTER_ID", builtInEncounterData.getEncounterId());
 		addColumn(dsd, "ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime());
 		addColumn(dsd, "LOCATION", builtInEncounterData.getLocationName());
@@ -139,16 +142,18 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
 		addColumn(dsd, "DISTRICT", basePatientData.getDistrict());
 
-		Concept currentDrugsUsed = metadata.getCurrentDrugsUsedConcept();
-		for (Concept medication : metadata.getChronicCareMedicationConcepts()) {
-			String medicationName = ObjectUtil.format(medication);
-			addColumn(dsd, "Taking " + medicationName, df.getObsValueCodedPresentInEncounter(currentDrugsUsed, medication));
-		}
+		if (isVisit) {
+			Concept currentDrugsUsed = metadata.getCurrentDrugsUsedConcept();
+			for (Concept medication : metadata.getChronicCareMedicationConcepts()) {
+				String medicationName = ObjectUtil.format(medication);
+				addColumn(dsd, "Taking " + medicationName, df.getObsValueCodedPresentInEncounter(currentDrugsUsed, medication));
+			}
 
-		addColumn(dsd, "PREFERRED TREATMENT UNAVAILABLE", df.getSingleObsValueCodedNameForEncounter(metadata.getPreferredTreatmentOutOfStockConcept()));
-		addColumn(dsd, "CHANGE IN TREATMENT", df.getSingleObsValueCodedNameForEncounter(metadata.getChangeInTreatmentConcept()));
-		addColumn(dsd, "HOSPITALIZED SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedSinceLastVisitConcept()));
-		addColumn(dsd, "HOSPITALIZED FOR NCD SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedForNcdSinceLastVisitConcept()));
+			addColumn(dsd, "PREFERRED TREATMENT UNAVAILABLE", df.getSingleObsValueCodedNameForEncounter(metadata.getPreferredTreatmentOutOfStockConcept()));
+			addColumn(dsd, "CHANGE IN TREATMENT", df.getSingleObsValueCodedNameForEncounter(metadata.getChangeInTreatmentConcept()));
+			addColumn(dsd, "HOSPITALIZED SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedSinceLastVisitConcept()));
+			addColumn(dsd, "HOSPITALIZED FOR NCD SINCE LAST VISIT", df.getSingleObsValueCodedNameForEncounter(metadata.getHospitalizedForNcdSinceLastVisitConcept()));
+		}
 
 		Concept chronicCareDiagnosis = metadata.getChronicCareDiagnosisConcept();
 		for (Concept diagnosis : metadata.getChronicCareDiagnosisAnswerConcepts()) {
@@ -156,22 +161,27 @@ public class ChronicCareVisitsReport extends BaseReportManager {
 			addColumn(dsd, diagnosisName + " Diagnosis", df.getObsValueCodedPresentInEncounter(chronicCareDiagnosis, diagnosis));
 		}
 
-		addColumn(dsd, "HT", df.getSingleObsValueNumericForEncounter(metadata.getHeightConcept()));
-		addColumn(dsd, "WT", df.getSingleObsValueNumericForEncounter(metadata.getWeightConcept()));
-		addColumn(dsd, "SBP", df.getSingleObsValueNumericForEncounter(metadata.getSystolicBloodPressureConcept()));
-		addColumn(dsd, "DBP", df.getSingleObsValueNumericForEncounter(metadata.getDiastolicBloodPressureConcept()));
-		addColumn(dsd, "CHF CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getNyhaClassConcept()));
-		addColumn(dsd, "BLOOD SUGAR", df.getSingleObsValueNumericForEncounter(metadata.getSerumGlucoseConcept()));
-		addColumn(dsd, "BLOOD SUGAR TEST TYPE", df.getSingleObsValueCodedNameForEncounter(metadata.getBloodSugarTestTypeConcept()));
-		addColumn(dsd, "NUMBER OF SEIZURES", df.getSingleObsValueNumericForEncounter(metadata.getNumberOfSeizuresConcept()));
-		addColumn(dsd, "PEAK FLOW", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowConcept()));
-		addColumn(dsd, "PEAK FLOW PREDICTED", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowPredictedConcept()));
-		addColumn(dsd, "ASTHMA CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getAsthmaClassificationConcept()));
-		addColumn(dsd, "HIGH RISK PATIENT", df.getSingleObsValueCodedNameForEncounter(metadata.getHighRiskPatientConcept()));
-		addColumn(dsd, "VISIT FULLY COMPLETED", df.getSingleObsValueCodedNameForEncounter(metadata.getPatientVisitCompletedWithAllServicesConcept()));
-		addColumn(dsd, "DATA CLERK COMMENTS", df.getSingleObsValueTextForEncounter(metadata.getDataClerkCommentsConcept()));
-		addColumn(dsd, "NEXT APPOINTMENT DATE", df.getSingleObsValueDatetimeForEncounter(metadata.getAppointmentDateConcept()));
-		addColumn(dsd, "SOURCE OF REFERRAL", df.getSingleObsValueCodedNameForEncounter(metadata.getSourceOfReferralConcept()));
+		if (isVisit) {
+			addColumn(dsd, "HT", df.getSingleObsValueNumericForEncounter(metadata.getHeightConcept()));
+			addColumn(dsd, "WT", df.getSingleObsValueNumericForEncounter(metadata.getWeightConcept()));
+			addColumn(dsd, "SBP", df.getSingleObsValueNumericForEncounter(metadata.getSystolicBloodPressureConcept()));
+			addColumn(dsd, "DBP", df.getSingleObsValueNumericForEncounter(metadata.getDiastolicBloodPressureConcept()));
+			addColumn(dsd, "CHF CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getNyhaClassConcept()));
+			addColumn(dsd, "BLOOD SUGAR", df.getSingleObsValueNumericForEncounter(metadata.getSerumGlucoseConcept()));
+			addColumn(dsd, "BLOOD SUGAR TEST TYPE", df.getSingleObsValueCodedNameForEncounter(metadata.getBloodSugarTestTypeConcept()));
+			addColumn(dsd, "NUMBER OF SEIZURES", df.getSingleObsValueNumericForEncounter(metadata.getNumberOfSeizuresConcept()));
+			addColumn(dsd, "PEAK FLOW", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowConcept()));
+			addColumn(dsd, "PEAK FLOW PREDICTED", df.getSingleObsValueNumericForEncounter(metadata.getPeakFlowPredictedConcept()));
+			addColumn(dsd, "ASTHMA CLASSIFICATION", df.getSingleObsValueCodedNameForEncounter(metadata.getAsthmaClassificationConcept()));
+			addColumn(dsd, "HIGH RISK PATIENT", df.getSingleObsValueCodedNameForEncounter(metadata.getHighRiskPatientConcept()));
+			addColumn(dsd, "VISIT FULLY COMPLETED", df.getSingleObsValueCodedNameForEncounter(metadata.getPatientVisitCompletedWithAllServicesConcept()));
+			addColumn(dsd, "DATA CLERK COMMENTS", df.getSingleObsValueTextForEncounter(metadata.getDataClerkCommentsConcept()));
+			addColumn(dsd, "NEXT APPOINTMENT DATE", df.getSingleObsValueDatetimeForEncounter(metadata.getAppointmentDateConcept()));
+		}
+
+		if (isInitial) {
+			addColumn(dsd, "SOURCE OF REFERRAL", df.getSingleObsValueCodedNameForEncounter(metadata.getSourceOfReferralConcept()));
+		}
 	}
 
 	@Override
