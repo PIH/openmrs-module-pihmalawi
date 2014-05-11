@@ -69,7 +69,7 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getFirstEncounterOfTypeByEndDate(metadata.getChronicCareInitialEncounterType(), df.getEncounterLocationNameConverter());
 	}
 
-	@DocumentedDefinition("latestCTreatmentStatusStateAtLocation")
+	@DocumentedDefinition("latestChronicCareTreatmentStatusStateAtLocation")
 	public PatientDataDefinition getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate() {
 		ProgramWorkflow wf = metadata.getChronicCareTreatmentStatusWorkflow();
 		return df.getMostRecentStateForWorkflowAtLocationByEndDate(wf, df.getStateNameConverter());

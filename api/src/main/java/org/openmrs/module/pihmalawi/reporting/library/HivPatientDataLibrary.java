@@ -208,7 +208,7 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), new ObjectFormatter());
 	}
 
-	@DocumentedDefinition("latestArvDrugsReceived.date")
+	@DocumentedDefinition("latestArtSideEffects.date")
 	public PatientDataDefinition getLatestArtSideEffectsDateByEndDate() {
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), pdf.getObsDatetimeConverter());
 	}

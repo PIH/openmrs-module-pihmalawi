@@ -18,6 +18,7 @@ import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.encounter.definition.AgeAtEncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
+import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,15 +41,18 @@ public class BaseEncounterDataLibrary extends BaseDefinitionLibrary<EncounterDat
 		return EncounterDataDefinition.class;
 	}
 
+	@DocumentedDefinition(value = "nextAppointmentDateObsValue")
 	public EncounterDataDefinition getNextAppointmentDateObsValue() {
 		EncounterDataDefinition def = df.getSingleObsForEncounter(hivMetadata.getAppointmentDateConcept());
 		return df.convert(def, df.getObsValueDatetimeConverter());
 	}
 
+	@DocumentedDefinition(value = "ageAtEncounterDateInYears")
 	public EncounterDataDefinition getAgeAtEncounterDateInYears() {
 		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.YEARS));
 	}
 
+	@DocumentedDefinition(value = "ageAtEncounterDateInMonths")
 	public EncounterDataDefinition getAgeAtEncounterDateInMonths() {
 		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.MONTHS));
 	}

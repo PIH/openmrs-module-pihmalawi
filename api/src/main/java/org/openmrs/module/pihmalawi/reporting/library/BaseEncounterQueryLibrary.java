@@ -43,7 +43,6 @@ public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQu
 		return EncounterQuery.class;
 	}
 
-	@DocumentedDefinition(value = "encountersAtLocationDuringPeriod")
 	public EncounterQuery getEncountersAtLocationDuringPeriod(EncounterType... types) {
 		BasicEncounterQuery q = new BasicEncounterQuery();
 		if (types != null && types.length > 0) {

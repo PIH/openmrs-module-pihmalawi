@@ -14,7 +14,6 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -129,11 +128,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getOnArvsState());
 	}
 
-	@DocumentedDefinition(value = "inTransferredInternallyStateOnEndDate")
-	public CohortDefinition getTransferredInternallyStateOnEndDate() {
-		return df.getCurrentlyInStateOnEndDate(hivMetadata.getTransferredInternallyState());
-	}
-
 	@DocumentedDefinition(value = "transitionedFromPreArtToArtAtLocationDuringPeriod")
 	public CohortDefinition getTransitionedFromPreArtToArtAtLocationDuringPeriod() {
 		CohortDefinition preArt = getStartedPreArtWithHccNumberAtLocationByEndDate();
@@ -183,13 +177,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getDiedState());
 	}
 
-	@DocumentedDefinition(value = "diedAtLocationWithinMonthsOfEndDate")
-	public CohortDefinition getDiedAtLocationWithinMonthsOfEndDate(int numMonths) {
-		CohortDefinition trueAtEnd = getInDiedStateAtLocationOnEndDate();
-		CohortDefinition trueMonthsBefore = df.getActiveInStateAtLocationNumMonthsBeforeEndDate(hivMetadata.getDiedState(), numMonths);
-		return df.createComposition(trueAtEnd, "AND NOT", trueMonthsBefore);
-	}
-
 	@DocumentedDefinition(value = "hadPreArtEncounterBeforeStartDate")
 	public CohortDefinition getPatientsWithAPreArtEncounterBeforeStartDate() {
 		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getPreArtEncounterTypes());
@@ -205,11 +192,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getAnyEncounterOfTypesByEndDate(hivMetadata.getPreArtEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "hadPreArtEncounterWithinMonthsOfEndDate")
-	public CohortDefinition getPatientsWithAPreArtEncounterWithinMonthsOfEndDate(int numMonths) {
-		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(hivMetadata.getPreArtEncounterTypes(), numMonths);
-	}
-
 	@DocumentedDefinition(value = "hadArtEncounterBeforeStartDate")
 	public CohortDefinition getPatientsWithAnArtEncounterBeforeStartDate() {
 		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getArtEncounterTypes());
@@ -223,11 +205,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	@DocumentedDefinition(value = "hadArtEncounterByEndDate")
 	public CohortDefinition getPatientsWithAnArtEncounterByEndDate() {
 		return df.getAnyEncounterOfTypesByEndDate(hivMetadata.getArtEncounterTypes());
-	}
-
-	@DocumentedDefinition(value = "hadArtEncounterWithinMonthsOfEndDate")
-	public CohortDefinition getPatientsWithAnArtEncounterWithinMonthsOfEndDate(int numMonths) {
-		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(hivMetadata.getArtEncounterTypes(), numMonths);
 	}
 
 	@DocumentedDefinition(value = "hadHivEncounterBeforeStartDate")
@@ -275,18 +252,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getEverInStateByEndDate(hivMetadata.getOnArvsState());
 	}
 
-    @DocumentedDefinition(value = "hadCd4RecordedWithinMonthsOfEndDate")
-    public CohortDefinition getPatientsWithCd4RecordedWithinMonthsOfEndDate(int numMonths) {
-        CohortDefinition cd4 = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
-        CohortDefinition clinicianReported = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getClinicianReportedCd4Concept(), numMonths);
-        return df.getPatientsInAny(cd4, clinicianReported);
-    }
-
-	@DocumentedDefinition(value = "hadCd4MeasuredInLabWithinMonthsOfEndDate")
-	public CohortDefinition getPatientsWithCd4MeasuredInLabWithinMonthsOfEndDate(int numMonths) {
-		return df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
-	}
-
 	@DocumentedDefinition(value = "hadWeightAtHivEncounterDuringPeriod")
 	public CohortDefinition getPatientsWithWeightAtHivEncounterDuringPeriod() {
 		return df.getPatientsWithAnyObsDuringPeriod(hivMetadata.getWeightConcept(), hivMetadata.getHivEncounterTypes());
@@ -302,7 +267,32 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsInAny(pcrTest, pcrResult, pcrResult2, pcrResult3);
 	}
 
-	@DocumentedDefinition(value= "patientsWhoseMostRecentArtFollowupAppointmentDateIsOlderThanValueAtLocationByEndDate")
+	// Convenience methods
+
+	public CohortDefinition getDiedAtLocationWithinMonthsOfEndDate(int numMonths) {
+		CohortDefinition trueAtEnd = getInDiedStateAtLocationOnEndDate();
+		CohortDefinition trueMonthsBefore = df.getActiveInStateAtLocationNumMonthsBeforeEndDate(hivMetadata.getDiedState(), numMonths);
+		return df.createComposition(trueAtEnd, "AND NOT", trueMonthsBefore);
+	}
+
+	public CohortDefinition getPatientsWithAPreArtEncounterWithinMonthsOfEndDate(int numMonths) {
+		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(hivMetadata.getPreArtEncounterTypes(), numMonths);
+	}
+
+	public CohortDefinition getPatientsWithAnArtEncounterWithinMonthsOfEndDate(int numMonths) {
+		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(hivMetadata.getArtEncounterTypes(), numMonths);
+	}
+
+    public CohortDefinition getPatientsWithCd4RecordedWithinMonthsOfEndDate(int numMonths) {
+        CohortDefinition cd4 = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
+        CohortDefinition clinicianReported = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getClinicianReportedCd4Concept(), numMonths);
+        return df.getPatientsInAny(cd4, clinicianReported);
+    }
+
+	public CohortDefinition getPatientsWithCd4MeasuredInLabWithinMonthsOfEndDate(int numMonths) {
+		return df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
+	}
+
 	public CohortDefinition getPatientsWhoseMostRecentArtFollowupAppointmentDateIsOlderThanValueAtLocationByEndDate(String value) {
 		DateObsCohortDefinition cd = new DateObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
