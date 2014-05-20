@@ -145,21 +145,6 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return getObsOnArtInitialEncounter(hivMetadata.getPresumedSevereHivCriteriaPresentConcept(), pdf.getObjectFormatter());
 	}
 
-	@DocumentedDefinition("latestArtFollowupEncounter.date")
-	public PatientDataDefinition getLatestArtFollowupEncounterDateByEndDate() {
-		return getLatestArtFollowupEncounterByEndDate(pdf.getEncounterDatetimeConverter());
-	}
-
-	@DocumentedDefinition("latestArtFollowupEncounter.location")
-	public PatientDataDefinition getLatestArtFollowupEncounterLocationByEndDate() {
-		return getLatestArtFollowupEncounterByEndDate(pdf.getEncounterLocationNameConverter());
-	}
-
-	@DocumentedDefinition("latestArtFollowupEncounter.appointmentDate")
-	public PatientDataDefinition getLatestArtFollowupEncounterAppointmentDate() {
-		return getObsOnArtInitialEncounter(hivMetadata.getCd4CountConcept(), pdf.getObsValueNumericConverter());
-	}
-
 	@DocumentedDefinition("firstArtInitialEncounter.reasonForStartingArvs")
 	public PatientDataDefinition getFirstArtInitialReasonForStartingArvs() {
 		ReasonForStartingArvsPatientDataDefinition def = new ReasonForStartingArvsPatientDataDefinition();

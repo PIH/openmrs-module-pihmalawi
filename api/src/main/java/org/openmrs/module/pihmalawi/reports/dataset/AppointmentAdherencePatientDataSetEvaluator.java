@@ -106,6 +106,7 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			pdh.addCol(row, "Identifier", pdh.preferredIdentifierAtLocation(p, patientIdentifierType, location));
 			pdh.addCol(row, "Birthdate", p.getBirthdate());
 			pdh.addCol(row, "M/F", pdh.getGender(p));
+			pdh.addCol(row, "TA", pdh.getTraditionalAuthority(p));
 			pdh.addCol(row, "Village", pdh.getVillage(p));
 			pdh.addCol(row, "VHW", pdh.vhwName(p, false));
 
