@@ -149,11 +149,10 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
 
-	public PatientDataDefinition getMostRecentObsByEndDate(Concept question, EncounterType...encounterType) {
+	public PatientDataDefinition getMostRecentObsByEndDate(Concept question) {
 		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
 		def.setWhich(TimeQualifier.LAST);
 		def.setQuestion(question);
-		def.setEncounterTypeList(Arrays.asList(encounterType));
 		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), null);
 	}
