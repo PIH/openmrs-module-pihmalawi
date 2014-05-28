@@ -22,6 +22,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -32,7 +33,6 @@ import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -160,12 +160,14 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 
 	@DocumentedDefinition("latestCd4Count")
 	public PatientDataDefinition getLatestCd4CountValueByEndDate() {
-		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getCd4CountConcept()), pdf.getObsValueNumericConverter());
+		Cd4DataDefinition cd4Def = new Cd4DataDefinition();
+		return pdf.convert(cd4Def, pdf.getLastListItemConverter(pdf.getObsValueNumericConverter()));
 	}
 
 	@DocumentedDefinition("latestCd4Count.date")
 	public PatientDataDefinition getLatestCd4CountDateByEndDate() {
-		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getCd4CountConcept()), pdf.getObsDatetimeConverter());
+		Cd4DataDefinition cd4Def = new Cd4DataDefinition();
+		return pdf.convert(cd4Def, pdf.getLastListItemConverter(pdf.getObsDatetimeConverter()));
 	}
 
 	@DocumentedDefinition("latestArvDrugsReceived.value")
