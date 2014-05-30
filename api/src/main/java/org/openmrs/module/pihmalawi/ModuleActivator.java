@@ -24,12 +24,15 @@ import org.openmrs.api.context.Context;
 import org.openmrs.layout.web.address.AddressSupport;
 import org.openmrs.layout.web.address.AddressTemplate;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -43,6 +46,7 @@ public class ModuleActivator extends BaseModuleActivator {
 		registerMalawiAddressTemplate();
 		installConcepts();
 		removeOldReports();
+		installReports();
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
@@ -137,6 +141,29 @@ public class ModuleActivator extends BaseModuleActivator {
 		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like 'HCC Register For All Locations_%');", false);
 		as.executeSQL("delete from serialized_object where name like 'hccreg%';", false);
 		as.executeSQL("delete from serialized_object where name like 'hccregcomplete%';", false);
+
+		log.warn("Removing old HCC Quarterly report");
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'HCC Quarterly (Excel)_');", false);
+		as.executeSQL("delete from reporting_report_design where name = 'HCC Quarterly (Excel)_';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'HCC Quarterly_');", false);
+		as.executeSQL("delete from serialized_object where name like 'hccquarterly%';", false);
+		as.executeSQL("delete from serialized_object where name like 'HCC Quarterly_%';", false);
+
+		log.warn("Removing old ARV Quarterly report");
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'ARV QUARTERLY (Excel)_');", false);
+		as.executeSQL("delete from reporting_report_design where name = 'ARV QUARTERLY (Excel)_';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'ARV Quarterly_');", false);
+		as.executeSQL("delete from serialized_object where name like 'arvquarterly%';", false);
+		as.executeSQL("delete from serialized_object where name like 'ARV Quarterly_%';", false);
+	}
+
+	private void installReports() {
+		List<ApzuReportManager> reportManagers = Context.getRegisteredComponents(ApzuReportManager.class);
+		for (ApzuReportManager reportManager : reportManagers) {
+			ReportManagerUtil.setupReport(reportManager);
+		}
 	}
 
 	private void registerMalawiAddressTemplate() {

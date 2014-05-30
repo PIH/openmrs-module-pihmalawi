@@ -24,11 +24,9 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameterizable;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.manager.BaseReportManager;
-import org.openmrs.module.reporting.report.renderer.CsvReportRenderer;
-import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
+import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
 /**
@@ -49,41 +47,16 @@ public abstract class ApzuReportManager extends BaseReportManager {
 	}
 
 	protected ReportDesign createExcelTemplateDesign(String reportDesignUuid, ReportDefinition reportDefinition, String templatePath) {
-		ReportDesign design = new ReportDesign();
-		design.setUuid(reportDesignUuid);
-		design.setName("Excel");
-		design.setReportDefinition(reportDefinition);
-		design.setRendererType(XlsReportRenderer.class);
-
 		String resourcePath = ReportUtil.getPackageAsPath(getClass()) + "/" + templatePath;
-		ReportDesignResource resource = new ReportDesignResource();
-		resource.setName("template");
-		resource.setExtension("xls");
-		resource.setContentType("application/vnd.ms-excel");
-		resource.setContents(ReportUtil.readByteArrayFromResource(resourcePath));
-		resource.setReportDesign(design);
-		design.addResource(resource);
-
-		return design;
+		return ReportManagerUtil.createExcelTemplateDesign(reportDesignUuid, reportDefinition, resourcePath);
 	}
 
     protected ReportDesign createExcelDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
-        ReportDesign design = new ReportDesign();
-		design.setUuid(reportDesignUuid);
-        design.setName("Excel");
-        design.setReportDefinition(reportDefinition);
-        design.setRendererType(XlsReportRenderer.class);
-		design.addPropertyValue(XlsReportRenderer.INCLUDE_DATASET_NAME_AND_PARAMETERS_PROPERTY, "true");
-        return design;
-    }
+		return ReportManagerUtil.createExcelDesign(reportDesignUuid, reportDefinition);
+	}
 
     protected ReportDesign createCsvReportDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
-        ReportDesign design = new ReportDesign();
-		design.setUuid(reportDesignUuid);
-        design.setName("CSV");
-        design.setReportDefinition(reportDefinition);
-        design.setRendererType(CsvReportRenderer.class);
-        return design;
+		return ReportManagerUtil.createCsvReportDesign(reportDesignUuid, reportDefinition);
     }
 
     public <T extends Parameterizable> Mapped<T> map(T parameterizable, String mappings) {

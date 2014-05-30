@@ -29,7 +29,7 @@ import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.manager.ReportManager;
-import org.openmrs.module.reporting.report.manager.ReportManagerInitializer;
+import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
@@ -51,9 +51,6 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	public abstract EvaluationContext getEvaluationContext();
 
 	@Autowired
-	ReportManagerInitializer reportInitializer;
-
-	@Autowired
 	ReportDefinitionService reportDefinitionService;
 
 	@Autowired
@@ -70,7 +67,7 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	@Before
 	public void setup() throws Exception {
 		authenticate();
-		reportInitializer.setupReport(getReportManager());
+		ReportManagerUtil.setupReport(getReportManager());
 		TestUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
