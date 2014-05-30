@@ -16,9 +16,9 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
-import org.openmrs.module.pihmalawi.reports.extension.HasAgeOnStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
@@ -27,6 +27,7 @@ import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCoho
 import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.*;
+import org.openmrs.module.reporting.common.Age;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
@@ -215,7 +216,7 @@ public class SetupArvQuarterly {
 		h.replaceCohortDefinition(pregnantoasscd);
 		
 		// age started ART
-		HasAgeOnStartedStateCohortDefinition ageAtARTInitiation = new HasAgeOnStartedStateCohortDefinition();
+		InAgeRangeAtStateStartCohortDefinition ageAtARTInitiation = new InAgeRangeAtStateStartCohortDefinition();
 		ageAtARTInitiation.setName("arvquarterly: Age at ART initiation_");
 		ageAtARTInitiation.setState(STATE_ON_ART);
 		ageAtARTInitiation.addParameter(new Parameter("startedOnOrAfter", "Started On Or After", Date.class));
@@ -224,8 +225,8 @@ public class SetupArvQuarterly {
 				Location.class));
 		ageAtARTInitiation.addParameter(new Parameter("minAge", "Min Age", Integer.class));
 		ageAtARTInitiation.addParameter(new Parameter("maxAge", "Max Age", Integer.class));
-		ageAtARTInitiation.addParameter(new Parameter("minAgeUnit", "Min Age Unit", DurationUnit.class));
-		ageAtARTInitiation.addParameter(new Parameter("maxAgeUnit", "max Age Unit", DurationUnit.class));
+		ageAtARTInitiation.addParameter(new Parameter("minAgeUnit", "Min Age Unit", Age.Unit.class));
+		ageAtARTInitiation.addParameter(new Parameter("maxAgeUnit", "max Age Unit", Age.Unit.class));
 		h.replaceCohortDefinition(ageAtARTInitiation);
 		
 		// reason for starting ARV
@@ -600,7 +601,7 @@ private void i13_infants_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 					"startedOnOrBefore", "${endDate}", 
 					"location", "${location}",
 					"maxAge", 23,
-					"maxAgeUnit", DurationUnit.MONTHS
+					"maxAgeUnit", Age.Unit.MONTHS
 					));
 	PeriodIndicatorReportUtil.addColumn(rd, "13_quarter", "Infant at ART initiation", i,
 			h.hashMap("registered", "quarter"));
@@ -617,9 +618,9 @@ private void i14_children_at_ART_initiation(PeriodIndicatorReportDefinition rd) 
 					"startedOnOrBefore", "${endDate}", 
 					"location", "${location}",
 					"minAge", 24,
-					"minAgeUnit", DurationUnit.MONTHS,
+					"minAgeUnit", Age.Unit.MONTHS,
 					"maxAge", 14,
-					"maxAgeUnit", DurationUnit.YEARS
+					"maxAgeUnit", Age.Unit.YEARS
 					));
 	PeriodIndicatorReportUtil.addColumn(rd, "14_quarter", "Child at ART initiation", i,
 			h.hashMap("registered", "quarter"));
@@ -636,7 +637,7 @@ private void i15_adults_at_ART_initiation(PeriodIndicatorReportDefinition rd) {
 					"startedOnOrBefore", "${endDate}", 
 					"location", "${location}",
 					"minAge", 15,
-					"minAgeUnit", DurationUnit.YEARS
+					"minAgeUnit", Age.Unit.YEARS
 					));
 	PeriodIndicatorReportUtil.addColumn(rd, "15_quarter", "Adult at ART initiation", i,
 			h.hashMap("registered", "quarter"));

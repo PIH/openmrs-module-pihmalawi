@@ -14,25 +14,12 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
-import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
-import org.openmrs.module.reporting.report.ReportData;
-import org.openmrs.module.reporting.report.ReportDesign;
-import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
-import org.openmrs.module.reporting.report.renderer.ReportRenderer;
-import org.openmrs.module.reporting.report.service.ReportService;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.FileOutputStream;
-import java.util.Properties;
 
 /**
  * Tests the methods in the PatientDataFactory

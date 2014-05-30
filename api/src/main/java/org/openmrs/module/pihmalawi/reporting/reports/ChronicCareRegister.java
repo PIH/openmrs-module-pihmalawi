@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ChronicCareRegister extends BaseReportManager {
+public class ChronicCareRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "5993f924-bd00-479e-b556-17ae77763bd1";
 

@@ -24,7 +24,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.layout.web.address.AddressSupport;
 import org.openmrs.layout.web.address.AddressTemplate;
 import org.openmrs.module.BaseModuleActivator;
-import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
@@ -44,8 +43,6 @@ public class ModuleActivator extends BaseModuleActivator {
 		registerMalawiAddressTemplate();
 		installConcepts();
 		removeOldReports();
-		ReportInitializer reportInitializer = Context.getRegisteredComponents(ReportInitializer.class).get(0);
-		reportInitializer.setupReports();
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 

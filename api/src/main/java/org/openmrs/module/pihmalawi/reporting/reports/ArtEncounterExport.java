@@ -14,9 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
-import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
-import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -29,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ArtEncounterExport extends BaseReportManager {
+public class ArtEncounterExport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "304f9500-e3b0-454e-80ca-a1be12112b47";
 

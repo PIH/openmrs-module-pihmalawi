@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class HccRegister extends BaseReportManager {
+public class HccRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "ae928860-4a4e-48d4-bbc2-50902babcfc0";
 

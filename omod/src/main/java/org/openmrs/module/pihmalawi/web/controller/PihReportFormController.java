@@ -9,7 +9,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHccQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
@@ -142,16 +141,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_arvquarterly.form")
 	public void removeArvQuarterly() {
 		new SetupArvQuarterly(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_hccquarterly.form")
-	public void registerHccQuarterly() throws Exception {
-		new SetupHccQuarterly(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_hccquarterly.form")
-	public void removeHccQuarterly() {
-		new SetupHccQuarterly(new ReportHelper()).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hivdataquality.form")

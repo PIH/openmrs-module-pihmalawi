@@ -24,8 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the Cross-site Indicator Report
  */
-@Ignore
-public class ApzuHivIndicatorsReportTest extends ReportManagerTest {
+public class HccQuarterlyReportTest extends ReportManagerTest {
 
 	@Autowired
 	HivMetadata metadata;
@@ -34,11 +33,11 @@ public class ApzuHivIndicatorsReportTest extends ReportManagerTest {
 	HivMetadata hivMetadata;
 
 	@Autowired
-	ApzuHivIndicatorsReport apzuHivIndicatorsReport;
+	HccQuarterlyReportManager hccQuarterlyReport;
 
 	@Override
 	public ReportManager getReportManager() {
-		return apzuHivIndicatorsReport;
+		return hccQuarterlyReport;
 	}
 
 	@Override
@@ -46,6 +45,7 @@ public class ApzuHivIndicatorsReportTest extends ReportManagerTest {
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("startDate", DateUtil.getDateTime(2013,1,1));
 		context.addParameterValue("endDate", DateUtil.getDateTime(2013,3,31));
+		context.addParameterValue("location", metadata.getNenoHospital());
 		return context;
 	}
 

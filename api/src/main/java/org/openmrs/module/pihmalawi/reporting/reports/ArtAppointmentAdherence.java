@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class ArtAppointmentAdherence extends BaseReportManager {
+public class ArtAppointmentAdherence extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "f2ba89b4-b6b7-4e69-91d7-68a5653ed1a6";
 

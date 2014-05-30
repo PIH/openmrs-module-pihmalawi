@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class ChronicCareVisitsReport extends BaseReportManager {
+public class ChronicCareVisitsReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "22420fee-e069-4682-bb0d-c39f65103fac";
 

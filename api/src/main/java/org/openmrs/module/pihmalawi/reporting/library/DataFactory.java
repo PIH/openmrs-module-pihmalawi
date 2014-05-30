@@ -27,6 +27,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.PatientSetService;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ProgramPatientIdentifierDataDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InProgramAtProgramLocationCohortDefinition;
@@ -44,6 +45,7 @@ import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition
 import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
+import org.openmrs.module.reporting.common.Age;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -434,6 +436,18 @@ public class DataFactory {
 		cd.setValueList(codedValues);
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(ProgramWorkflowState state, Integer minAge, Age.Unit minAgeUnit,  Integer maxAge, Age.Unit maxAgeUnit) {
+		InAgeRangeAtStateStartCohortDefinition cd = new InAgeRangeAtStateStartCohortDefinition();
+		cd.setState(state);
+		cd.setMinAge(minAge);
+		cd.setMinAgeUnit(minAgeUnit);
+		cd.setMaxAge(maxAge);
+		cd.setMaxAgeUnit(maxAgeUnit);
+		cd.addParameter(new Parameter("startedOnOrBefore","Started On Or Before", Date.class));
+		cd.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {

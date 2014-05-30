@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ArtRegister extends BaseReportManager {
+public class ArtRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "cea86583-9ca5-4ad9-94e4-e20081a57619";
 

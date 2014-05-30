@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.ReportInitializer;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.TestUtil;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
@@ -29,6 +28,8 @@ import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.manager.ReportManager;
+import org.openmrs.module.reporting.report.manager.ReportManagerInitializer;
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
@@ -50,7 +51,7 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	public abstract EvaluationContext getEvaluationContext();
 
 	@Autowired
-	ReportInitializer reportInitializer;
+	ReportManagerInitializer reportInitializer;
 
 	@Autowired
 	ReportDefinitionService reportDefinitionService;

@@ -20,44 +20,21 @@ import org.openmrs.module.reporting.data.encounter.definition.PatientToEncounter
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
-import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.Parameterizable;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportDesignResource;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.manager.BaseReportManager;
 import org.openmrs.module.reporting.report.renderer.CsvReportRenderer;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Base implementation of ReportManager that provides some common method implementations
  */
-public abstract class BaseReportManager implements ReportManager {
-
-	@Override
-	public List<Parameter> getParameters() {
-		return new ArrayList<Parameter>();
-	}
-
-	@Override
-	public String getRequiredPrivilege() {
-		return null;
-	}
-
-	@Override
-	public EvaluationContext initializeContext(Map<String, Object> parameters) {
-		EvaluationContext context = new EvaluationContext();
-		context.setParameterValues(parameters == null ? new HashMap<String, Object>() : parameters);
-		return context;
-	}
+public abstract class ApzuReportManager extends BaseReportManager {
 
 	protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
 		dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));

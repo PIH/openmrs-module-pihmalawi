@@ -22,10 +22,6 @@ Pre-ART Register (incl. old Pre-ART patients): <a href="${pageContext.request.co
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partregister.form">Remove</a>
 <br/>
 
-HCC Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hccquarterly.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccquarterly.form">Remove</a>
-<br/>
-
 <h4>Upper Neno</h4>
 ART Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment.form">Remove</a>
