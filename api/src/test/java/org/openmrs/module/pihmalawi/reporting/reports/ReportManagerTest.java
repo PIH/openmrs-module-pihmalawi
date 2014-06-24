@@ -16,14 +16,16 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.StopWatch;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.common.TestUtil;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.evaluation.EvaluationProfiler;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
@@ -33,6 +35,7 @@ import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.module.reporting.web.renderers.WebReportRenderer;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +71,17 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 	public void setup() throws Exception {
 		authenticate();
 		ReportManagerUtil.setupReport(getReportManager());
-		TestUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
+		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
+		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_EVALUATION_LOGGER_ENABLED, "true");
+		LogManager.getLogger("org.hibernate.hql.ast.HqlSqlWalker").setLevel(Level.WARN);
+		LogManager.getLogger(EvaluationProfiler.class).setLevel(Level.TRACE);
 	}
 
 	@Override
 	public Properties getRuntimeProperties() {
 		Properties p = super.getRuntimeProperties();
-		p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		//p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		p.setProperty("connection.url", "jdbc:mysql://localhost:5538/openmrs_neno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
 		return p;
 	}
 

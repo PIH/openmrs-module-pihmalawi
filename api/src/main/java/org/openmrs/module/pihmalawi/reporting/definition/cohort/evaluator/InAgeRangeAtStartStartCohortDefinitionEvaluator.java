@@ -55,7 +55,7 @@ public class InAgeRangeAtStartStartCohortDefinitionEvaluator implements CohortDe
 
 		AgeRange ageRange = new AgeRange(cd.getMinAge(), cd.getMinAgeUnit(), cd.getMaxAge(), cd.getMaxAgeUnit(), "");
 
-		for (Object[] row : evaluationService.evaluateToList(q)) {
+		for (Object[] row : evaluationService.evaluateToList(q, context)) {
 			Integer pId = (Integer) row[0];
 			Date bd = (Date) row[1];
 			Date sd = (Date) row[2];

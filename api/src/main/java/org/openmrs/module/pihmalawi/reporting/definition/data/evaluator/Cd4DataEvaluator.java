@@ -59,7 +59,7 @@ public class Cd4DataEvaluator implements PatientDataEvaluator {
 		q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
 		q.orderAsc("o.obsDatetime");
 
-		List<Object[]> results = evaluationService.evaluateToList(q);
+		List<Object[]> results = evaluationService.evaluateToList(q, context);
 		for (Object[] row : results) {
 			Integer pId = (Integer)row[0];
 			Obs o = (Obs)row[1];
