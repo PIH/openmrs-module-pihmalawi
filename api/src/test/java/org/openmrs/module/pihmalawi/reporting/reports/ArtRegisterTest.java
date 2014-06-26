@@ -14,8 +14,6 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
-import org.junit.Ignore;
-import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
