@@ -47,35 +47,37 @@ public class PerformanceTest extends BaseModuleContextSensitiveTest {
 
 	@Test
 	public void testPerformance() throws Exception {
+		if (getLoadCount() == 1) {
+			authenticate();
+			HqlQueryBuilder encounterQuery = new HqlQueryBuilder();
+			encounterQuery.select("e.encounterId", "e.patient.patientId");
+			encounterQuery.from(Encounter.class, "e");
+			//encounterQuery.whereLessOrEqualTo("e.encounterId", 10000);
 
-		HqlQueryBuilder encounterQuery = new HqlQueryBuilder();
-		encounterQuery.select("e.encounterId", "e.patient.patientId");
-		encounterQuery.from(Encounter.class, "e");
-		//encounterQuery.whereLessOrEqualTo("e.encounterId", 10000);
+			EncounterEvaluationContext eec = new EncounterEvaluationContext();
+			eec.setBaseEncounters(new EncounterIdSet());
+			eec.setBaseCohort(new Cohort());
 
-		EncounterEvaluationContext eec = new EncounterEvaluationContext();
-		eec.setBaseEncounters(new EncounterIdSet());
-		eec.setBaseCohort(new Cohort());
+			List<Object[]> l = evaluationService.evaluateToList(encounterQuery, eec);
+			for (Object[] row : l) {
+				eec.getBaseEncounters().add((Integer) row[0]);
+				eec.getBaseCohort().addMember((Integer) row[1]);
+			}
 
-		List<Object[]> l = evaluationService.evaluateToList(encounterQuery, eec);
-		for (Object[] row : l) {
-			eec.getBaseEncounters().add((Integer)row[0]);
-			eec.getBaseCohort().addMember((Integer)row[1]);
+			System.out.println("Running a query on " + eec.getBaseEncounters().getSize() + " encounters; " + eec.getBaseCohort().size() + " patients");
+
+			HqlQueryBuilder q = new HqlQueryBuilder();
+			q.select("e.encounterDatetime");
+			q.from(Encounter.class, "e");
+			q.whereEncounterIn("e.encounterId", eec);
+
+			System.out.println("Starting evaluation...");
+			StopWatch sw = new StopWatch();
+			sw.start();
+			evaluationService.evaluateToList(q, eec);
+			sw.stop();
+			System.out.println("Evaluated in: " + sw.toString());
 		}
-
-		System.out.println("Running a query on " + eec.getBaseEncounters().getSize() + " encounters; " + eec.getBaseCohort().size() + " patients");
-
-		HqlQueryBuilder q = new HqlQueryBuilder();
-		q.select("e.encounterDatetime");
-		q.from(Encounter.class, "e");
-		q.whereEncounterIn("e.encounterId", eec);
-
-		System.out.println("Starting evaluation...");
-		StopWatch sw = new StopWatch();
-		sw.start();
-		evaluationService.evaluateToList(q, eec);
-		sw.stop();
-		System.out.println("Evaluated in: " + sw.toString());
 	}
 
 	@Override
@@ -88,10 +90,5 @@ public class PerformanceTest extends BaseModuleContextSensitiveTest {
 	@Override
 	public Boolean useInMemoryDatabase() {
 		return false;
-	}
-
-	@Before
-	public void setup() throws Exception {
-		authenticate();
 	}
 }
