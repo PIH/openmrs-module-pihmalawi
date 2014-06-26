@@ -73,7 +73,6 @@ public abstract class ReportManagerTest extends BaseModuleContextSensitiveTest {
 		ReportManagerUtil.setupReport(getReportManager());
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_EVALUATION_LOGGER_ENABLED, "true");
-		LogManager.getLogger("org.hibernate.hql.ast.HqlSqlWalker").setLevel(Level.WARN);
 		LogManager.getLogger(EvaluationProfiler.class).setLevel(Level.TRACE);
 	}
 
