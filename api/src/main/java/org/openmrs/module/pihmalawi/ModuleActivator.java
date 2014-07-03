@@ -156,6 +156,14 @@ public class ModuleActivator extends BaseModuleActivator {
 		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'ARV Quarterly_');", false);
 		as.executeSQL("delete from serialized_object where name like 'arvquarterly%';", false);
 		as.executeSQL("delete from serialized_object where name like 'ARV Quarterly_%';", false);
+
+		// New after 3.7
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'HIV Visits_');", false);
+		as.executeSQL("delete from reporting_report_design where name = 'HIV Visits_';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'HIV Visits_');", false);
+		as.executeSQL("delete from serialized_object where name like 'hivvisits:%';", false);
+		as.executeSQL("delete from serialized_object where name like 'HIV Visits_%';", false);
 	}
 
 	private void registerMalawiAddressTemplate() {

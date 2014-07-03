@@ -6,10 +6,6 @@
 
 <h3>HIV Reports</h3>
 
-HIV Visits Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hiv_visits.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hiv_visits.form">Remove</a>
-<br/>
-
 ARV Quarterly: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_arvquarterly.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_arvquarterly.form">Remove</a>
 <br/>

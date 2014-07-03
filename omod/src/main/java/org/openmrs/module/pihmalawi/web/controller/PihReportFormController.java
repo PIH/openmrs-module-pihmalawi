@@ -10,7 +10,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointm
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reports.setup.SetupHivVisits;
 import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
@@ -34,17 +33,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_tb_register.form")
 	public void registerTbRegister() throws Exception {
 		new SetupTbRegister(new ReportHelper()).setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_hiv_visits.form")
-	public void removeHivVisits() {
-		new SetupHivVisits(new ReportHelper())
-				.delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_hiv_visits.form")
-	public void registerHivVisits() throws Exception {
-		new SetupHivVisits(new ReportHelper()).setup();
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment_lowerneno.form")
