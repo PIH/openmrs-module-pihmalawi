@@ -3,7 +3,6 @@ package org.openmrs.module.pihmalawi.web.controller;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
-import org.openmrs.module.pihmalawi.reports.setup.SetupAppointmentsForLocation;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
@@ -171,18 +170,6 @@ public class PihReportFormController {
 				.getStateByName("On antiretrovirals"), Arrays.asList(Context
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
-				.setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_appointments.form")
-	public void removeAppointments() {
-		new SetupAppointmentsForLocation(new ReportHelper())
-				.delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_appointments.form")
-	public void registerAppointments() throws Exception {
-		new SetupAppointmentsForLocation(new ReportHelper())
 				.setup();
 	}
 }

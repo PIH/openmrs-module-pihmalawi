@@ -64,9 +64,6 @@ Chronic Care Appointment Adherence: <a href="${pageContext.request.contextPath}/
 <br/>
 
 <h3>General</h3>
-Appointments for Location and Date: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_appointments.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_appointments.form">Remove</a>
-<br/>
 
 ART Encounter Export: <a href="${pageContext.request.contextPath}/module/pihmalawi/registerArtEncounterExport.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/removeArtEncounterExport.form">Remove</a>
