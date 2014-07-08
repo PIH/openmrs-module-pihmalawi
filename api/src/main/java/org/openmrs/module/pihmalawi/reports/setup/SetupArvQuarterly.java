@@ -23,7 +23,6 @@ import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao
 import org.openmrs.module.pihmalawi.reports.extension.InStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ObsAfterStateStartCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.*;
@@ -118,7 +117,7 @@ public class SetupArvQuarterly {
 		PeriodIndicatorReportDefinition rd = new PeriodIndicatorReportDefinition();
 		rd.setBaseCohortDefinition(h.cohortDefinition("arvquarterly: On ART at location_"), h.parameterMap("startedOnOrAfter",
 				MIN_DATE_PARAMETER, "startedOnOrBefore", "${endDate}",
-				"location", "${location}"));
+				"locationList", "${location}"));
 		rd.setName("ARV Quarterly_");
 		rd.setupDataSetDefinition();
 		rd.addDimension("registered", h.cohortDefinitionDimension("arvquarterly: Total registered by timeframe_"), ParameterizableUtil.createParameterMappings("startDate=${startDate},endDate=${endDate},location=${location}"));
@@ -134,7 +133,7 @@ public class SetupArvQuarterly {
 		totalRegisteredTimeframe.addCohortDefinition("quarter", h.cohortDefinition("arvquarterly: On ART at location_"), h.parameterMap(
 				"startedOnOrAfter", "${startDate}",
 				"startedOnOrBefore", "${endDate}", 
-				"location", "${location}"));
+				"locationList", "${location}"));
 		
 		h.replaceDefinition(totalRegisteredTimeframe);
 	}
@@ -145,14 +144,12 @@ public class SetupArvQuarterly {
 		artEncounterTypeList.add(ART_FOLLOWUP_ENCOUNTER);
 		
 		// on ART at location (used for base cohort, dimension, and registered numbers)
-		PatientStateAtLocationCohortDefinition pscd = new PatientStateAtLocationCohortDefinition();
+		PatientStateCohortDefinition pscd = new PatientStateCohortDefinition();
 		pscd.setName("arvquarterly: On ART at location_");
-		pscd.setState(STATE_ON_ART);
-		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter",
-				Date.class));
-		pscd.addParameter(new Parameter("startedOnOrBefore",
-				"startedOnOrBefore", Date.class));
-		pscd.addParameter(new Parameter("location", "location", Location.class));
+		pscd.addState(STATE_ON_ART);
+		pscd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
+		pscd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
+		pscd.addParameter(new Parameter("locationList", "locationList", Location.class));
 		h.replaceCohortDefinition(pscd);
 		
 		ReinitiatedCohortDefinition rcd = new ReinitiatedCohortDefinition();
@@ -469,7 +466,7 @@ public class SetupArvQuarterly {
 				"arvquarterly: Total registered in quarter_",
 				"arvquarterly: On ART at location_", h.parameterMap(
 						"startedOnOrAfter", "${startDate}",
-						"startedOnOrBefore", "${endDate}", "location",
+						"startedOnOrBefore", "${endDate}", "locationList",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "6_quarter",
 				"Total registered in quarter", i, null);
@@ -477,7 +474,7 @@ public class SetupArvQuarterly {
 		i = h.newCountIndicator("arvquarterly: Total registered ever_",
 				"arvquarterly: On ART at location_", h.parameterMap(
 						"startedOnOrAfter", MIN_DATE_PARAMETER,
-						"startedOnOrBefore", "${endDate}", "location",
+						"startedOnOrBefore", "${endDate}", "locationList",
 						"${location}"));
 		PeriodIndicatorReportUtil.addColumn(rd, "6_ever",
 				"Total registered ever", i, null);
@@ -489,7 +486,7 @@ public class SetupArvQuarterly {
 		baseCohortDefs.put("StartedART", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: On ART at location_"), h.parameterMap(
 				"startedOnOrAfter", MIN_DATE_PARAMETER, 
 				"startedOnOrBefore", "${endDate}", 
-				"location", "${location}")));
+				"locationList", "${location}")));
 		baseCohortDefs.put("Reinitiated", new Mapped<CohortDefinition>(h.cohortDefinition("arvquarterly: reinitiated_"), h.parameterMap(
 				"onOrAfter", "${startDate}",
 				"onOrBefore", "${endDate}",

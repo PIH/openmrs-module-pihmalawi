@@ -21,7 +21,6 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 
 	@Override
 	public Boolean useInMemoryDatabase() {
-		System.out.println("Is Enabled: " + isEnabled() + "; load count = " + getLoadCount());
 		return !isEnabled();
 	}
 

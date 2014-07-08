@@ -32,7 +32,6 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientI
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ProgramPatientIdentifierDataDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InProgramAtProgramLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.PatientStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -290,20 +289,20 @@ public class DataFactory {
 	}
 
 	public CohortDefinition getEverEnrolledInStateAtLocationByEndDate(ProgramWorkflowState state) {
-		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
-		cd.setState(state);
+		PatientStateCohortDefinition cd = new PatientStateCohortDefinition();
+		cd.addState(state);
 		cd.addParameter(new Parameter("startedOnOrBefore", "Started on or before", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
+		cd.addParameter(new Parameter("locationList", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate,locationList=location"));
 	}
 
 	public CohortDefinition getStartedInStateAtLocationDuringPeriod(ProgramWorkflowState state) {
-		PatientStateAtLocationCohortDefinition cd = new PatientStateAtLocationCohortDefinition();
-		cd.setState(state);
+		PatientStateCohortDefinition cd = new PatientStateCohortDefinition();
+		cd.addState(state);
 		cd.addParameter(new Parameter("startedOnOrAfter", "startedOnOrAfter", Date.class));
 		cd.addParameter(new Parameter("startedOnOrBefore", "startedOnOrBefore", Date.class));
-		cd.addParameter(new Parameter("location", "Location", Location.class));
-		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate"));
+		cd.addParameter(new Parameter("locationList", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("startedOnOrAfter=startDate,startedOnOrBefore=endDate,locationList=location"));
 	}
 
 	public CohortDefinition getActiveInStateAtLocationOnEndDate(ProgramWorkflowState state) {
