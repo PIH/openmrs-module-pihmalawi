@@ -99,7 +99,11 @@ public class DataFactory {
 		return new Parameter("endDate", "End Date", Date.class);
 	}
 
-	public Parameter getLocationParameter() {
+	public Parameter getRequiredLocationParameter() {
+		return new Parameter("location", "Location", Location.class);
+	}
+
+	public Parameter getOptionalLocationParameter() {
 		Parameter p = new Parameter("location", "Location", Location.class);
 		p.addToWidgetConfiguration("optionHeader", "All Locations");
 		p.setRequired(false);

@@ -10,12 +10,10 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointm
 import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reports.setup.SetupKsRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtMissedAppointment;
-import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -209,22 +207,5 @@ public class PihReportFormController {
 	public void registerAppointments() throws Exception {
 		new SetupAppointmentsForLocation(new ReportHelper())
 				.setup();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_ksregister.form")
-	public String registerKsRegister() throws Exception {
-		ReportDefinition[] rds = new SetupKsRegister(new ReportHelper()).setup();
-		if (rds.length == 1) {
-			return "redirect:/module/reporting/run/runReport.form?reportId=" + rds[0].getUuid();
-		}
-		else {
-			return "redirect:/module/reporting/dashboard/index.form";
-		}
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_ksregister.form")
-	public String removeKsRegister() {
-		new SetupKsRegister(new ReportHelper()).delete();
-		return "redirect:/module/reporting/dashboard/index.form";
 	}
 }

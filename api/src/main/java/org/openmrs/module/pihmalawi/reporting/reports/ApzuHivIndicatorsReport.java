@@ -92,7 +92,7 @@ public class ApzuHivIndicatorsReport extends ApzuReportManager {
 
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setParameters(getParameters());
-		dsd.addParameter(df.getLocationParameter());
+		dsd.addParameter(df.getOptionalLocationParameter());
 		multiPeriodDsd.setBaseDefinition(dsd);
 
 		// Underlying cohorts
@@ -137,7 +137,7 @@ public class ApzuHivIndicatorsReport extends ApzuReportManager {
 
 		for (Location location : hivMetadata.getHivStaticLocations()) {
 			Map<String, Object> iteration = Mapped.straightThroughMappings(dsd);
-			iteration.put(df.getLocationParameter().getName(), location);
+			iteration.put(df.getOptionalLocationParameter().getName(), location);
 			multiPeriodDsd.addIteration(iteration);
 		}
 

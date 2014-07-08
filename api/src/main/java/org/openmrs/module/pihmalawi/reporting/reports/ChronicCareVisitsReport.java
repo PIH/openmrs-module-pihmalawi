@@ -89,7 +89,7 @@ public class ChronicCareVisitsReport extends ApzuReportManager {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(new Parameter("startDate", "From Date", Date.class));
 		l.add(new Parameter("endDate", "To Date", Date.class));
-		l.add(df.getLocationParameter());
+		l.add(df.getOptionalLocationParameter());
 		return l;
 	}
 

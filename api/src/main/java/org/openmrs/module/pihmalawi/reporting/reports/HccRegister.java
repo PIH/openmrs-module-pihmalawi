@@ -86,7 +86,7 @@ public class HccRegister extends ApzuReportManager {
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(df.getEndDateParameter());
-		l.add(df.getLocationParameter());
+		l.add(df.getOptionalLocationParameter());
 		return l;
 	}
 

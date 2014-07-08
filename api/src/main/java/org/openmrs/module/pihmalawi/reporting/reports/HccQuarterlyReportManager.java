@@ -68,7 +68,7 @@ public class HccQuarterlyReportManager extends ApzuReportManager {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(new Parameter("startDate", "Start date (Start of quarter)", Date.class));
 		l.add(new Parameter("endDate", "End date (End of quarter)", Date.class));
-		l.add(df.getLocationParameter());
+		l.add(df.getOptionalLocationParameter());
 		return l;
 	}
 

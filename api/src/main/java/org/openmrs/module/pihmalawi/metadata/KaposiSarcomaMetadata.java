@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.EncounterType;
+import org.openmrs.PatientIdentifierType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class KaposiSarcomaMetadata extends CommonMetadata {
 
 	public static String PATIENT_EVALUATION_ENCOUNTER_TYPE = "PATIENT EVALUATION";
 	public static String CHEMOTHERAPY_ENCOUNTER_TYPE = "CHEMOTHERAPY";
+
+	public static String KS_NUMBER = "KS Number";
 
 	public EncounterType getPatientEvaluationEncounterType() {
 		return getEncounterType(PATIENT_EVALUATION_ENCOUNTER_TYPE);
@@ -38,5 +41,9 @@ public class KaposiSarcomaMetadata extends CommonMetadata {
 		l.add(getPatientEvaluationEncounterType());
 		l.add(getChemotherapyEncounterType());
 		return l;
+	}
+
+	public PatientIdentifierType getKsNumberIdentifierType() {
+		return getPatientIdentifierType(KS_NUMBER);
 	}
 }

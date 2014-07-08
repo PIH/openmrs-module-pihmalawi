@@ -159,11 +159,22 @@ public class ModuleActivator extends BaseModuleActivator {
 
 		// New after 3.7
 
+		log.warn("Removing old HIV Visits report");
+
 		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'HIV Visits_');", false);
 		as.executeSQL("delete from reporting_report_design where name = 'HIV Visits_';", false);
 		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'HIV Visits_');", false);
 		as.executeSQL("delete from serialized_object where name like 'hivvisits:%';", false);
 		as.executeSQL("delete from serialized_object where name like 'HIV Visits_%';", false);
+
+		log.warn("Removing old KS Register report");
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'KS Register_');", false);
+		as.executeSQL("delete from reporting_report_design where name = 'KS Register_';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'KS Register_');", false);
+		as.executeSQL("delete from serialized_object where name like 'ks:%';", false);
+		as.executeSQL("delete from serialized_object where name like 'KS Register_%';", false);
+
 	}
 
 	private void registerMalawiAddressTemplate() {

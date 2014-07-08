@@ -65,7 +65,7 @@ public class ArtAppointmentAdherence extends ApzuReportManager {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(df.getStartDateParameter());
 		l.add(df.getEndDateParameter());
-		l.add(df.getLocationParameter());
+		l.add(df.getOptionalLocationParameter());
 		return l;
 	}
 
