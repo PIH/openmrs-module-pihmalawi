@@ -202,6 +202,14 @@ public class ModuleActivator extends BaseModuleActivator {
 		as.executeSQL("delete from serialized_object where name like 'appt%';", false);
 		as.executeSQL("delete from serialized_object where name like 'Appointments_%';", false);
 
+		log.warn("Removing Find Patients To Merge report");
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Find patients to merge%');", false);
+		as.executeSQL("delete from reporting_report_design where name like 'Find patients to merge%';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Find patients to merge (SLOW)_');", false);
+		as.executeSQL("delete from serialized_object where name like 'merge:%';", false);
+		as.executeSQL("delete from serialized_object where name like 'Find patients to merge (SLOW)_%';", false);
+
 	}
 
 	private void registerMalawiAddressTemplate() {

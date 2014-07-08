@@ -45,10 +45,6 @@ HIV Data Quality: <a href="${pageContext.request.contextPath}/module/pihmalawi/r
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivdataquality.form">Remove</a>
 <br/>
 
-Find HIV Patients to merge: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_findpatientstomerge.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_findpatientstomerge.form">Remove</a>
-<br/>
-
 <h3>EMR Summary</h3>
 Weekly Encounter Report: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_weeklyencounter.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_weeklyencounter.form">Remove</a>

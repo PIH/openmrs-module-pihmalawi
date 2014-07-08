@@ -6,7 +6,6 @@ import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdhe
 import org.openmrs.module.pihmalawi.reports.setup.SetupArtMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
-import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSoundex;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
@@ -113,16 +112,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/remove_hivdataquality.form")
 	public void removeHivDataQuality() {
 		new SetupHivDataQuality(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_findpatientstomerge.form")
-	public void removeDuplicateHivPatients() {
-		new SetupFindPatientsToMergeSoundex(new ReportHelper()).delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_findpatientstomerge.form")
-	public void registerDuplicateHivPatients() throws Exception {
-		new SetupFindPatientsToMergeSoundex(new ReportHelper()).setup();
 	}
 
 	// Chronic Care
