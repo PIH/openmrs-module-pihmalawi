@@ -50,6 +50,7 @@ public class HivMetadata extends CommonMetadata {
 
 	public static String HCC_NUMBER = "HCC Number";
 	public static String ARV_NUMBER = "ARV Number";
+	public static String OLD_PART_NUMBER = "z_deprecated PART Number";
 
 	public Program getHivProgram() {
 		return getProgram(HIV_PROGRAM);
@@ -186,6 +187,10 @@ public class HivMetadata extends CommonMetadata {
 
 	public PatientIdentifierType getArvNumberIdentifierType() {
 		return getPatientIdentifierType(ARV_NUMBER);
+	}
+
+	public PatientIdentifierType getOldPartNumberIdentifierType() {
+		return getPatientIdentifierType(OLD_PART_NUMBER);
 	}
 
 	public List<Location> getHivLocations() {

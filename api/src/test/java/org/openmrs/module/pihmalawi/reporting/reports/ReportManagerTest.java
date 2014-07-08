@@ -25,8 +25,10 @@ import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationProfiler;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.manager.ReportManager;
@@ -88,7 +90,8 @@ public abstract class ReportManagerTest extends StandaloneContextSensitiveTest {
 			ReportRenderer renderer = renderingMode.getRenderer();
 			if (!(renderer instanceof WebReportRenderer)) {
 				String argument = renderingMode.getArgument();
-				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(rd, argument));
+				ReportRequest request = new ReportRequest(Mapped.mapStraightThrough(rd), null, renderingMode, ReportRequest.Priority.HIGHEST, null);
+				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(request, argument));
 				FileOutputStream fos = new FileOutputStream(outFile);
 				renderer.render(data, argument, fos);
 				fos.close();

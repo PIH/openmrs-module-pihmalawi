@@ -14,10 +14,6 @@ ART Appointment Adherence: <a href="${pageContext.request.contextPath}/module/pi
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artappadherence.form">Remove</a>
 <br/>
 
-Pre-ART Register (incl. old Pre-ART patients): <a href="${pageContext.request.contextPath}/module/pihmalawi/register_partregister.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_partregister.form">Remove</a>
-<br/>
-
 <h4>Upper Neno</h4>
 ART Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_artmissedappointment.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_artmissedappointment.form">Remove</a>
