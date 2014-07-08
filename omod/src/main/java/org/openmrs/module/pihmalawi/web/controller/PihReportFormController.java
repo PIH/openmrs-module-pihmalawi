@@ -11,7 +11,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupFindPatientsToMergeSounde
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
 import org.openmrs.module.pihmalawi.reports.setup.SetupPreArtRegister;
-import org.openmrs.module.pihmalawi.reports.setup.SetupTbRegister;
 import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtMissedAppointment;
 import org.springframework.stereotype.Controller;
@@ -21,17 +20,6 @@ import java.util.Arrays;
 
 @Controller
 public class PihReportFormController {
-
-	@RequestMapping("/module/pihmalawi/remove_tb_register.form")
-	public void removeTbRegister() {
-		new SetupTbRegister(new ReportHelper())
-				.delete();
-	}
-
-	@RequestMapping("/module/pihmalawi/register_tb_register.form")
-	public void registerTbRegister() throws Exception {
-		new SetupTbRegister(new ReportHelper()).setup();
-	}
 
 	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment_lowerneno.form")
 	public void removeHccMissedAppointmentLowerNeno() {

@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.EncounterType;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
@@ -27,6 +28,8 @@ public class TbMetadata extends CommonMetadata {
 	public static String TB_PROGRAM_TREATMENT_STATUS_ON_TREATMENT = "Currently in treatment";
 
 	public static String TB_INITIAL_ENCOUNTER_TYPE = "TB_INITIAL";
+
+	public static final String DISTRICT_TB_NUMBER = "District TB Number";
 
 	public Program getTbProgram() {
 		return getProgram(TB_PROGRAM);
@@ -42,5 +45,9 @@ public class TbMetadata extends CommonMetadata {
 
 	public EncounterType getTbInitialEncounterType() {
 		return getEncounterType(TB_INITIAL_ENCOUNTER_TYPE);
+	}
+
+	public PatientIdentifierType getDistrictTbNumberIdentifierType() {
+		return getPatientIdentifierType(DISTRICT_TB_NUMBER);
 	}
 }
