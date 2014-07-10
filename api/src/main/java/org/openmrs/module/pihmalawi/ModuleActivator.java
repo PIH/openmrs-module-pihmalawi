@@ -24,6 +24,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.layout.web.address.AddressSupport;
 import org.openmrs.layout.web.address.AddressTemplate;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.namephonetics.NamePhoneticsConstants;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
@@ -47,6 +48,9 @@ public class ModuleActivator extends BaseModuleActivator {
 		removeOldReports();
 		ReportManagerUtil.setupAllReports(ApzuReportManager.class);
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
+		ReportUtil.updateGlobalProperty(NamePhoneticsConstants.GIVEN_NAME_GLOBAL_PROPERTY, "Chichewa Soundex");
+		ReportUtil.updateGlobalProperty(NamePhoneticsConstants.FAMILY_NAME_GLOBAL_PROPERTY, "Chichewa Soundex");
+		ReportUtil.updateGlobalProperty(NamePhoneticsConstants.FAMILY_NAME2_GLOBAL_PROPERTY, "Chichewa Soundex");
 	}
 
 	@Override

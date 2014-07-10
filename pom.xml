@@ -40,6 +40,7 @@
 		<serializationVersion>0.2.7</serializationVersion>
 		<htmlwidgetsVersion>1.6.6</htmlwidgetsVersion>
 		<calculationVersion>1.0</calculationVersion>
+        <namephoneticsVersion>1.5-SNAPSHOT</namephoneticsVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
 		<MODULE_NAME>${project.parent.name}</MODULE_NAME>
@@ -99,6 +100,14 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>namephonetics-api</artifactId>
+            <version>${namephoneticsVersion}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
@@ -106,7 +115,6 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
@@ -115,7 +123,6 @@
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.web</groupId>
 			<artifactId>openmrs-web</artifactId>
@@ -123,7 +130,6 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.web</groupId>
 			<artifactId>openmrs-web</artifactId>
@@ -132,7 +138,6 @@
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.test</groupId>
 			<artifactId>openmrs-test</artifactId>
