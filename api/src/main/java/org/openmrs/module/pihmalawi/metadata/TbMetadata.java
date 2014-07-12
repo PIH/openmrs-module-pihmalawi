@@ -20,6 +20,9 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class TbMetadata extends CommonMetadata {
 
@@ -28,6 +31,7 @@ public class TbMetadata extends CommonMetadata {
 	public static String TB_PROGRAM_TREATMENT_STATUS_ON_TREATMENT = "Currently in treatment";
 
 	public static String TB_INITIAL_ENCOUNTER_TYPE = "TB_INITIAL";
+	public static String TB_FOLLOWUP_ENCOUNTER_TYPE = "TB_FOLLOWUP";
 
 	public static final String DISTRICT_TB_NUMBER = "District TB Number";
 
@@ -45,6 +49,17 @@ public class TbMetadata extends CommonMetadata {
 
 	public EncounterType getTbInitialEncounterType() {
 		return getEncounterType(TB_INITIAL_ENCOUNTER_TYPE);
+	}
+
+	public EncounterType getTbFollowupEncounterType() {
+		return getEncounterType(TB_FOLLOWUP_ENCOUNTER_TYPE);
+	}
+
+	public List<EncounterType> getTbEncounterTypes() {
+		List<EncounterType> l = new ArrayList<EncounterType>();
+		l.add(getTbInitialEncounterType());
+		l.add(getTbFollowupEncounterType());
+		return l;
 	}
 
 	public PatientIdentifierType getDistrictTbNumberIdentifierType() {

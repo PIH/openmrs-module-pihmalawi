@@ -8,7 +8,6 @@ import org.openmrs.module.pihmalawi.reports.setup.SetupArvQuarterly;
 import org.openmrs.module.pihmalawi.reports.setup.SetupChronicCareMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHccMissedAppointment;
 import org.openmrs.module.pihmalawi.reports.setup.SetupHivDataQuality;
-import org.openmrs.module.pihmalawi.reports.setup.SetupWeeklyEncounter;
 import org.openmrs.module.pihmalawi.reports.setup.outdated.SetupPreArtMissedAppointment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,16 +81,6 @@ public class PihReportFormController {
 	@RequestMapping("/module/pihmalawi/register_artmissedappointment.form")
 	public void registerArtMissedAppointment() throws Exception {
 		new SetupArtMissedAppointment(new ReportHelper(), true).setup(false);
-	}
-
-	@RequestMapping("/module/pihmalawi/register_weeklyencounter.form")
-	public void registerWeeklyEncounter() throws Exception {
-		new SetupWeeklyEncounter(new ReportHelper()).setup(false);
-	}
-
-	@RequestMapping("/module/pihmalawi/remove_weeklyencounter.form")
-	public void removeWeeklyEncounter() {
-		new SetupWeeklyEncounter(new ReportHelper()).delete();
 	}
 
 	@RequestMapping("/module/pihmalawi/register_arvquarterly.form")

@@ -214,6 +214,14 @@ public class ModuleActivator extends BaseModuleActivator {
 		as.executeSQL("delete from serialized_object where name like 'merge:%';", false);
 		as.executeSQL("delete from serialized_object where name like 'Find patients to merge (SLOW)_%';", false);
 
+		log.warn("Removing Weekly Encounter Reports");
+
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Weekly Encounter%');", false);
+		as.executeSQL("delete from reporting_report_design where name like 'Weekly Encounter%';", false);
+		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like 'Weekly Encounter%');", false);
+		as.executeSQL("delete from serialized_object where name like 'enc:%';", false);
+		as.executeSQL("delete from serialized_object where name like 'Weekly Encounter%';", false);
+
 	}
 
 	private void registerMalawiAddressTemplate() {

@@ -39,9 +39,29 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public static final String LAB_ENCOUNTER_TYPE = "LAB";
+	public static final String REGISTRATION_ENCOUNTER_TYPE = "REGISTRATION";
+	public static final String VITALS_ENCOUNTER_TYPE = "VITALS";
+	public static final String OPD_ENCOUNTER_TYPE = "OUTPATIENT DIAGNOSIS";
+	public static final String APPOINTMENT_ENCOUNTER_TYPE = "APPOINTMENT";
 
 	public EncounterType getLabEncounterType() {
 		return getEncounterType(LAB_ENCOUNTER_TYPE);
+	}
+
+	public EncounterType getRegistrationEncounterType() {
+		return getEncounterType(REGISTRATION_ENCOUNTER_TYPE);
+	}
+
+	public EncounterType getVitalsEncounterType() {
+		return getEncounterType(VITALS_ENCOUNTER_TYPE);
+	}
+
+	public EncounterType getOpdEncounterType() {
+		return getEncounterType(OPD_ENCOUNTER_TYPE);
+	}
+
+	public EncounterType getAppointmentEncounterType() {
+		return getEncounterType(APPOINTMENT_ENCOUNTER_TYPE);
 	}
 
 	public static final String APPOINTMENT_DATE = "Appointment date";
