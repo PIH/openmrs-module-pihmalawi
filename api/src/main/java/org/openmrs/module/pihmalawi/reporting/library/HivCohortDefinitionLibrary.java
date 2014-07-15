@@ -161,7 +161,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		CohortDefinition preArt = getStartedPreArtWithHccNumberAtLocationByEndDate();
 		CohortDefinition art = getEverEnrolledInArtAtLocationByEndDate();
 		CohortDefinition txOut = getTransferredOutAtLocationByEndDate();
-		return df.createComposition(preArt, "AND", txOut, "AND NOT", art);
+		return df.createPatientComposition(preArt, "AND", txOut, "AND NOT", art);
 	}
 
 	@DocumentedDefinition(value = "diedWhilePreArtAtLocationByEnd")
@@ -169,7 +169,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		CohortDefinition preArt = getStartedPreArtWithHccNumberAtLocationByEndDate();
 		CohortDefinition art = getEverEnrolledInArtAtLocationByEndDate();
 		CohortDefinition died = getInDiedStateAtLocationOnEndDate();
-		return df.createComposition(preArt, "AND", died, "AND NOT", art);
+		return df.createPatientComposition(preArt, "AND", died, "AND NOT", art);
 	}
 
 	@DocumentedDefinition(value = "inArtAndLastAppointmentDate3WeeksOrMoreByEndDate")
@@ -355,7 +355,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	public CohortDefinition getDiedAtLocationWithinMonthsOfEndDate(int numMonths) {
 		CohortDefinition trueAtEnd = getInDiedStateAtLocationOnEndDate();
 		CohortDefinition trueMonthsBefore = df.getActiveInStateAtLocationNumMonthsBeforeEndDate(hivMetadata.getDiedState(), numMonths);
-		return df.createComposition(trueAtEnd, "AND NOT", trueMonthsBefore);
+		return df.createPatientComposition(trueAtEnd, "AND NOT", trueMonthsBefore);
 	}
 
 	public CohortDefinition getPatientsWithAPreArtEncounterWithinMonthsOfEndDate(int numMonths) {

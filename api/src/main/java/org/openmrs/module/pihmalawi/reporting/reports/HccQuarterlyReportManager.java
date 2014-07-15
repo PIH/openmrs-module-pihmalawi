@@ -115,7 +115,7 @@ public class HccQuarterlyReportManager extends ApzuReportManager {
 
 		CohortDefinition partActive = hivCohorts.getInPreArtStateWithHccNumberAtLocationOnEndDate();
 		CohortDefinition hccMissingAppointment = hivCohorts.getLastPreArtOrExposedAppointmentDate8weeksOrMoreByEndDate();
-		CohortDefinition partActiveNoDefaulters = df.createComposition(partActive, "AND NOT", hccMissingAppointment);
+		CohortDefinition partActiveNoDefaulters = df.createPatientComposition(partActive, "AND NOT", hccMissingAppointment);
 		CohortDefinition partToArt = hivCohorts.getTransitionedFromPreArtToArtAtLocationByEnd();
 		CohortDefinition partDefaulted = df.getPatientsInAll(partActive, hccMissingAppointment);
 		CohortDefinition partTransferredOut = hivCohorts.getTransferredOutOfPreArtAtLocationByEnd();
@@ -145,7 +145,7 @@ public class HccQuarterlyReportManager extends ApzuReportManager {
 		addIndicator(dsd, "21", "Pre-ART transferred out", partTransferredOut);
 		addIndicator(dsd, "22", "Pre-ART defaulted", partDefaulted);
 		addIndicator(dsd, "23", "Pre-ART died", partDied);
-		addIndicator(dsd, "23_check", "Pre-ART any other outcome", df.createComposition(partEver, "AND NOT", partOutcomes));
+		addIndicator(dsd, "23_check", "Pre-ART any other outcome", df.createPatientComposition(partEver, "AND NOT", partOutcomes));
 
 		return rd;
 	}
