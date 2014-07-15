@@ -47,6 +47,15 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
         return PREFIX;
     }
 
+	@DocumentedDefinition(value = "chronicCareFollowupEncountersDuringPeriod")
+	public EncounterQuery getChronicCareFollowupEncountersDuringPeriod() {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.addEncounterType(metadata.getChronicCareFollowupEncounterType());
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
 	@DocumentedDefinition(value = "chronicCareFollowupEncountersByEndDate")
 	public EncounterQuery getChronicCareFollowupEncountersByEndDate() {
 		BasicEncounterQuery q = new BasicEncounterQuery();

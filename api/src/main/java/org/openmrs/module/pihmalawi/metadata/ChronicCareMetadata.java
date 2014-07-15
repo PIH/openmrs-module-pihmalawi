@@ -19,6 +19,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
+import org.openmrs.ProgramWorkflowState;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public static String CHRONIC_CARE_PROGRAM = "Chronic care program";
 	public static String CHRONIC_CARE_PROGRAM_TREATMENT_STATUS = "Chronic care treatment status";
+	public static String CHRONIC_CARE_STATUS_ON_TREATMENT = "On treatment";
 
 	public static String CHRONIC_CARE_INITIAL = "CHRONIC_CARE_INITIAL";
 	public static String CHRONIC_CARE_FOLLOWUP = "CHRONIC_CARE_FOLLOWUP";
@@ -45,6 +47,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public ProgramWorkflow getChronicCareTreatmentStatusWorkflow() {
 		return getProgramWorkflow(CHRONIC_CARE_PROGRAM, CHRONIC_CARE_PROGRAM_TREATMENT_STATUS);
+	}
+
+	public ProgramWorkflowState getChronicCareStatusOnTreatment() {
+		return getProgramWorkflowState(CHRONIC_CARE_PROGRAM, CHRONIC_CARE_PROGRAM_TREATMENT_STATUS, CHRONIC_CARE_STATUS_ON_TREATMENT);
 	}
 
 	public EncounterType getChronicCareInitialEncounterType() {

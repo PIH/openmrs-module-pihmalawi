@@ -45,6 +45,7 @@ import org.openmrs.module.reporting.cohort.definition.PatientIdentifierCohortDef
 import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.common.Age;
+import org.openmrs.module.reporting.common.BooleanOperator;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -77,6 +78,7 @@ import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
+import org.openmrs.module.reporting.query.encounter.definition.CompositionEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
 import org.springframework.stereotype.Component;
@@ -454,47 +456,38 @@ public class DataFactory {
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
-		List<Object> l = new ArrayList<Object>();
-		for (CohortDefinition cd : elements) {
-			if (!l.isEmpty()) {
-				l.add("AND");
-			}
-			l.add(cd);
-		}
-		return createComposition(l.toArray());
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.initializeFromQueries(BooleanOperator.AND, elements);
+		return cd;
 	}
 
 	public CompositionCohortDefinition getPatientsInAny(CohortDefinition...elements) {
-		List<Object> l = new ArrayList<Object>();
-		for (CohortDefinition cd : elements) {
-			if (!l.isEmpty()) {
-				l.add("OR");
-			}
-			l.add(cd);
-		}
-		return createComposition(l.toArray());
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.initializeFromQueries(BooleanOperator.OR, elements);
+		return cd;
 	}
 
-	public CompositionCohortDefinition createComposition(Object...elements) {
+	public CompositionCohortDefinition createPatientComposition(Object... elements) {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		StringBuilder s = new StringBuilder();
-		int definitionCount = 0;
-		for (Object o : elements) {
-			String key = o.toString();
-			if (o instanceof CohortDefinition) {
-				CohortDefinition cohortDefinition = (CohortDefinition)o;
-				definitionCount++;
-				key = Integer.toString(definitionCount);
-				for (Parameter p : cohortDefinition.getParameters()) {
-					if (cd.getParameter(p.getName()) == null) {
-						cd.addParameter(p);
-					}
-				}
-				cd.addSearch(key, Mapped.mapStraightThrough(cohortDefinition));
-			}
-			s.append(s.length() > 0 ? " " : "").append(key);
-		}
-		cd.setCompositionString(s.toString());
+		cd.initializeFromElements(elements);
+		return cd;
+	}
+
+	public CompositionEncounterQuery getEncountersInAll(EncounterQuery...elements) {
+		CompositionEncounterQuery cd = new CompositionEncounterQuery();
+		cd.initializeFromQueries(BooleanOperator.AND, elements);
+		return cd;
+	}
+
+	public CompositionEncounterQuery getEncountersInAny(EncounterQuery...elements) {
+		CompositionEncounterQuery cd = new CompositionEncounterQuery();
+		cd.initializeFromQueries(BooleanOperator.OR, elements);
+		return cd;
+	}
+
+	public CompositionEncounterQuery getEncounterComposition(Object...elements) {
+		CompositionEncounterQuery cd = new CompositionEncounterQuery();
+		cd.initializeFromElements(elements);
 		return cd;
 	}
 

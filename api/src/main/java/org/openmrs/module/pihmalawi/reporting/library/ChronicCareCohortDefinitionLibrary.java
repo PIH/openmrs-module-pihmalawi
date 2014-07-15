@@ -13,12 +13,15 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.Concept;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * Defines all of the Cohort Definition instances we want to expose for Pih Malawi
@@ -44,8 +47,65 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
         return PREFIX;
     }
 
+	// Encounters
+
+	@DocumentedDefinition(value = "hadChronicCareInitialVisitDuringPeriod")
+	public CohortDefinition getPatientsWithChronicCareInitialVisitDuringPeriod() {
+		return df.getAnyEncounterOfTypesDuringPeriod(Arrays.asList(metadata.getChronicCareInitialEncounterType()));
+	}
+
 	@DocumentedDefinition(value = "hadChronicCareEncounterByEndDate")
 	public CohortDefinition getPatientsWithAChronicCareEncounterByEndDate() {
 		return df.getAnyEncounterOfTypesByEndDate(metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadChronicCareEncounterWithin6MonthsOfEndDate")
+	public CohortDefinition getPatientsWithChronicCareEncounterWithin6MonthsOfEndDate() {
+		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 6);
+	}
+
+	// Obs
+
+	@DocumentedDefinition(value = "hasAsthmaDiagnosisByEndDate")
+	public CohortDefinition getPatientsWithAsthmaDiagnosisByEndDate() {
+		return hasDiagnosisByEndDate(metadata.getAsthmaConcept());
+	}
+
+	@DocumentedDefinition(value = "hasDiabetesDiagnosisByEndDate")
+	public CohortDefinition getPatientsWithDiabetesaDiagnosisByEndDate() {
+		return hasDiagnosisByEndDate(metadata.getDiabetesConcept());
+	}
+
+	@DocumentedDefinition(value = "hasEpilepsyDiagnosisByEndDate")
+	public CohortDefinition getPatientsWithEpilepsyDiagnosisByEndDate() {
+		return hasDiagnosisByEndDate(metadata.getEpilepsyConcept());
+	}
+
+	@DocumentedDefinition(value = "hasHeartFailureDiagnosisByEndDate")
+	public CohortDefinition getPatientsWithHeartFailureDiagnosisByEndDate() {
+		return hasDiagnosisByEndDate(metadata.getHeartFailureConcept());
+	}
+
+	@DocumentedDefinition(value = "hasHypertensionDiagnosisByEndDate")
+	public CohortDefinition getPatientsWithHypertensionDiagnosisByEndDate() {
+		return hasDiagnosisByEndDate(metadata.getHypertensionConcept());
+	}
+
+	// Programs
+
+	@DocumentedDefinition(value = "enrolledInChronicCareProgramDuringPeriod")
+	public CohortDefinition getPatientsEnrolledInChronicCareProgramDuringPeriod() {
+		return df.getEnrolledInProgramDuringPeriod(metadata.getChronicCareProgram());
+	}
+
+	@DocumentedDefinition(value = "inOnTreatmentStateAtLocationOnEndDate")
+	public CohortDefinition getPatientsInOnTreatmentStateAtLocationOnEndDate() {
+		return df.getActiveInStateAtLocationOnEndDate(metadata.getChronicCareStatusOnTreatment());
+	}
+
+	// Helper methods
+
+	protected CohortDefinition hasDiagnosisByEndDate(Concept diagnosis) {
+		return df.getPatientsWithCodedObsByEndDate(metadata.getChronicCareDiagnosisConcept(), Arrays.asList(diagnosis));
 	}
 }
