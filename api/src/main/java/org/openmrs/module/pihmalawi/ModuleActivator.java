@@ -111,6 +111,28 @@ public class ModuleActivator extends BaseModuleActivator {
 			c.addAnswer(new ConceptAnswer(cs.getConcept(5622)));
 			cs.saveConcept(c);
 		}
+		{
+			Integer id = 6872;
+			String name = "Hypertension Medication Set";
+			Concept c = cs.getConcept(id);
+			if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Hypertension medication")) {
+				log.warn("Updating " + name);
+				c.setConceptClass(cs.getConceptClassByName("MedSet"));
+				c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+				c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+				c.setSet(true);
+				c.getConceptSets().clear();
+				c.addSetMember(cs.getConceptByName("Hydrochlorothiazide"));
+				c.addSetMember(cs.getConceptByName("Captopril"));
+				c.addSetMember(cs.getConceptByName("Amlodipine"));
+				c.addSetMember(cs.getConceptByName("Enalapril"));
+				c.addSetMember(cs.getConceptByName("Nifedipine"));
+				c.addSetMember(cs.getConceptByName("Atenolol"));
+				c.addSetMember(cs.getConceptByName("Lisinopril"));
+				c.addSetMember(cs.getConceptByName("Propranolol"));
+				cs.saveConcept(c);
+			}
+		}
 	}
 
 	private void removeOldReports() {

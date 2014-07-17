@@ -124,7 +124,22 @@ public class CommonMetadata extends Metadata {
 	public static final String PATIENT_VISIT_COMPLETED_WITH_ALL_SERVICES_CONCEPT = "Patient visit completed with all services delivered";
 	public static final String DATA_CLERK_COMMENTS_CONCEPT = "Data clerk comments";
 
+	public static final String MODERATE_PERSISTENT_CONCEPT = "Moderate persistent";
+	public static final String SEVERE_PERSISTENT_CONCEPT = "Severe persistent";
+	public static final String SEVERE_UNCONTROLLED_CONCEPT = "Severe uncontrolled";
 
+	public static final String OTHER_NON_CODED_CONCEPT = "Other non-coded";
+	public static final String TRUE_CONCEPT = "True";
+	public static final String FALSE_CONCEPT = "False";
+	public static final String YES_CONCEPT = "Yes";
+	public static final String NO_CONCEPT = "No";
+
+	public static final String BECLOMETHASONE_CONCEPT = "Beclomethasone";
+	public static final String INSULIN_CONCEPT = "Insulin";
+
+	public static final String OUTPATIENT_CONSULTATION_CONCEPT = "Outpatient consultation";
+	public static final String INPATIENT_WARD_CONCEPT = "Ward";
+	public static final String HEALTH_CENTER_CONCEPT = "Health center";
 
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
@@ -348,6 +363,58 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getDataClerkCommentsConcept() {
 		return getConcept(DATA_CLERK_COMMENTS_CONCEPT);
+	}
+
+	public Concept getModeratePersistentConcept() {
+		return getConcept(MODERATE_PERSISTENT_CONCEPT);
+	}
+
+	public Concept getSeverePersistentConcept() {
+		return getConcept(SEVERE_PERSISTENT_CONCEPT);
+	}
+
+	public Concept getSevereUncontrolledConcept() {
+		return getConcept(SEVERE_UNCONTROLLED_CONCEPT);
+	}
+
+	public Concept getOtherNonCodedConcept() {
+		return getConcept(OTHER_NON_CODED_CONCEPT);
+	}
+
+	public Concept getTrueConcept() {
+		return getConcept(TRUE_CONCEPT);
+	}
+
+	public Concept getFalseConcept() {
+		return getConcept(FALSE_CONCEPT);
+	}
+
+	public Concept getYesConcept() {
+		return getConcept(YES_CONCEPT);
+	}
+
+	public Concept getNoConcept() {
+		return getConcept(NO_CONCEPT);
+	}
+
+	public Concept getBeclomethasoneConcept() {
+		return getConcept(BECLOMETHASONE_CONCEPT);
+	}
+
+	public Concept getInsulinConcept() {
+		return getConcept(INSULIN_CONCEPT);
+	}
+
+	public Concept getOutpatientConsultationConcept() {
+		return getConcept(OUTPATIENT_CONSULTATION_CONCEPT);
+	}
+
+	public Concept getInpatientWardConcept() {
+		return getConcept(INPATIENT_WARD_CONCEPT);
+	}
+
+	public Concept getHealthCenterConcept() {
+		return getConcept(HEALTH_CENTER_CONCEPT);
 	}
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

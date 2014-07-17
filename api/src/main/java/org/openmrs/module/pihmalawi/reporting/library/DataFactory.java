@@ -47,6 +47,7 @@ import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDef
 import org.openmrs.module.reporting.common.Age;
 import org.openmrs.module.reporting.common.BooleanOperator;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.ConvertedDataDefinition;
@@ -75,15 +76,16 @@ import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.RelationshipsForPersonDataDefinition;
 import org.openmrs.module.reporting.dataset.DataSetRow;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
+import org.openmrs.module.reporting.query.encounter.definition.CodedObsForEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.CompositionEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.NumericObsForEncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.ObsForEncounterQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -424,6 +426,18 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
+	public CohortDefinition getPatientsWithNumericObsDuringPeriod(Concept question, List<EncounterType> restrictToTypes, RangeComparator operator, Double value) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.setOperator1(operator);
+		cd.setValue1(value);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
 	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, int numMonths) {
 		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
@@ -431,6 +445,17 @@ public class DataFactory {
 		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWithCodedObsDuringPeriod(Concept question, List<Concept> codedValues) {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setOperator(SetComparator.IN);
+		cd.setValueList(codedValues);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
 	public CohortDefinition getPatientsWithCodedObsByEndDate(Concept question, List<Concept> codedValues) {
@@ -471,6 +496,38 @@ public class DataFactory {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.initializeFromElements(elements);
 		return cd;
+	}
+
+	// Encounter Queries
+
+	public EncounterQuery getEncountersWithObsRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes) {
+		ObsForEncounterQuery q = new ObsForEncounterQuery();
+		q.setQuestion(question);
+		q.setEncounterTypes(encounterTypes);
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
+	public EncounterQuery getEncountersWithNumericObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, RangeComparator operator, Double value) {
+		NumericObsForEncounterQuery q = new NumericObsForEncounterQuery();
+		q.setQuestion(question);
+		q.setEncounterTypes(encounterTypes);
+		q.setOperator1(operator);
+		q.setValue1(value);
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+	}
+
+	public EncounterQuery getEncountersWithCodedObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, Concept... valuesToInclude) {
+		CodedObsForEncounterQuery q = new CodedObsForEncounterQuery();
+		q.setQuestion(question);
+		q.setEncounterTypes(encounterTypes);
+		q.setConceptsToInclude(Arrays.asList(valuesToInclude));
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
 	public CompositionEncounterQuery getEncountersInAll(EncounterQuery...elements) {

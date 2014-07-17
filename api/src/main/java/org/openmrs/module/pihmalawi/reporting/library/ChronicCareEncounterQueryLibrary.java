@@ -15,6 +15,7 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -36,6 +37,9 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
 
     @Autowired
     private ChronicCareMetadata metadata;
+
+	@Autowired
+	private DataFactory df;
 
     @Override
     public Class<? super EncounterQuery> getDefinitionType() {
@@ -62,5 +66,50 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
 		q.addEncounterType(metadata.getChronicCareFollowupEncounterType());
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
 		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithPeakFlowRecordedDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithPeakFlowRecordedDuringPeriod() {
+		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getPeakFlowConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithWeightRecordedDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithWeightRecordedDuringPeriod() {
+		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getWeightConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseRecordedDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSerumGlucoseRecordedDuringPeriod() {
+		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseGreaterThan200DuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSerumGlucoseGreaterThan200DuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 200.0);
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithSeizuresRecordedDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSeizuresRecordedDuringPeriod() {
+		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureRecordedDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureRecordedDuringPeriod() {
+		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 180.0);
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
+	}
+
+	@DocumentedDefinition(value = "chronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod() {
+		return df.getEncountersWithCodedObsValuesRecordedDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), metadata.getYesConcept());
 	}
 }

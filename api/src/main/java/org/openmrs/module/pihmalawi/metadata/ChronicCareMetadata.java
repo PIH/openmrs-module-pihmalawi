@@ -80,6 +80,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String AGE_OF_HEART_FAILURE_DIAGNOSIS_CONCEPT = "Age of heart failure diagnosis";
 	public static final String AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT = "Age of hypertension diagnosis";
 	public static final String CHRONIC_CARE_MEDICATION_CONCEPT_SET = "Chronic Care Medication Set";
+	public static final String HYPERTENSION_MEDICATION_CONCEPT_SET = "Hypertension Medication Set";
 
 	public Concept getChronicCareDiagnosisConcept() {
 		return getConcept(CHRONIC_CARE_DIAGNOSIS);
@@ -145,11 +146,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 	}
 
 	public List<Concept> getChronicCareMedicationConcepts() {
-		List<Concept> ret = new ArrayList<Concept>();
-		Concept set = getConcept(CHRONIC_CARE_MEDICATION_CONCEPT_SET);
-		for (Concept c : set.getSetMembers()) {
-			ret.add(c);
-		}
-		return ret;
+		return getConceptsInSet(CHRONIC_CARE_MEDICATION_CONCEPT_SET);
+	}
+
+	public List<Concept> getHypertensionMedicationConcepts() {
+		return getConceptsInSet(HYPERTENSION_MEDICATION_CONCEPT_SET);
 	}
 }

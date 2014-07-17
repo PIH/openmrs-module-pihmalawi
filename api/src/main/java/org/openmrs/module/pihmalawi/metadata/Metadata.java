@@ -212,6 +212,18 @@ public abstract class Metadata {
 	}
 
 	/**
+	 * @return the List of Concepts that matches the passed comma-separated list of concept lookups
+	 */
+	public List<Concept> getConceptsInSet(String lookup) {
+		List<Concept> ret = new ArrayList<Concept>();
+		Concept set = getConcept(lookup);
+		for (Concept c : set.getSetMembers()) {
+			ret.add(c);
+		}
+		return ret;
+	}
+
+	/**
 	 * @return the Form that matches the passed uuid, name, or primary key id
 	 */
 	public Form getForm(String lookup) {
