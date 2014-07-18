@@ -110,6 +110,6 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
 
 	@DocumentedDefinition(value = "chronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod")
 	public EncounterQuery getChronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod() {
-		return df.getEncountersWithCodedObsValuesRecordedDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), metadata.getYesConcept());
+		return df.getEncountersWithCodedObsValuesRecordedDuringPeriod(metadata.getPreferredTreatmentOutOfStockConcept(), metadata.getChronicCareEncounterTypes(), metadata.getYesConcept());
 	}
 }
