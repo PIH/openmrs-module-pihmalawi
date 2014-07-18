@@ -37,6 +37,7 @@ import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinit
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateOfPatientDataCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
@@ -46,6 +47,7 @@ import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefiniti
 import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDefinition;
 import org.openmrs.module.reporting.common.Age;
 import org.openmrs.module.reporting.common.BooleanOperator;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
@@ -76,6 +78,8 @@ import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.RelationshipsForPersonDataDefinition;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.query.encounter.definition.CodedObsForEncounterQuery;
@@ -478,6 +482,15 @@ public class DataFactory {
 		cd.addParameter(new Parameter("startedOnOrBefore","Started On Or Before", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWhoseLatestDateIsOlderThanTimeByEndDate(PatientDataDefinition data, int sinceTime, DurationUnit sinceTimeUnits) {
+		DateOfPatientDataCohortDefinition cd = new DateOfPatientDataCohortDefinition();
+		cd.setPatientDataDefinition(Mapped.mapStraightThrough(data));
+		cd.setMinTimeInPast(sinceTime);
+		cd.setMinTimeInPastUnits(sinceTimeUnits);
+		cd.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
+		return convert(cd, ObjectUtil.toMap("effectiveDate=endDate"));
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {

@@ -17,7 +17,9 @@ import org.openmrs.Concept;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PresenceOrAbsenceCohortDefinition;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
+import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -37,6 +39,9 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 
 	@Autowired
 	private DataFactory df;
+
+	@Autowired
+	private ChronicCarePatientDataLibrary ccPatientData;
 
     @Autowired
     private ChronicCareMetadata metadata;
@@ -66,6 +71,11 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	@DocumentedDefinition(value = "hadChronicCareEncounterWithin3MonthsOfEndDate")
 	public CohortDefinition getPatientsWithChronicCareEncounterWithin3MonthsOfEndDate() {
 		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 3);
+	}
+
+	@DocumentedDefinition(value = "hadChronicCareEncounterWithin1MonthOfEndDate")
+	public CohortDefinition getPatientsWithNoChronicCareEncounterWithin1MonthOfEndDate() {
+		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 1);
 	}
 
 	// Obs
@@ -175,6 +185,12 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	@DocumentedDefinition(value = "newPatientsReferredDuringPeriod")
 	public CohortDefinition getNewPatientsReferredDuringPeriod() {
 		return df.getPatientsWithAnyObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getChronicCareInitialEncounterType()));
+	}
+
+	@DocumentedDefinition(value = "patientsWhoseMostRecentAppointmentDateIsMoreThanOneMonthBeforeEndDate")
+	public CohortDefinition getPatientsWhoseMostRecentAppointmentDateIsMoreThanOneMonthBeforeEndDate() {
+		PatientDataDefinition data = ccPatientData.getMostRecentChronicCareAppointmentDateByEndDate();
+		return df.getPatientsWhoseLatestDateIsOlderThanTimeByEndDate(data, 1, DurationUnit.MONTHS);
 	}
 
 	// Programs

@@ -87,6 +87,11 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getMostRecentStateForWorkflowAtLocationByEndDate(wf, df.getStateLocationConverter());
 	}
 
+	@DocumentedDefinition("latestChronicCareAppointmentDate")
+	public PatientDataDefinition getMostRecentChronicCareAppointmentDateByEndDate() {
+		return df.convert(df.getMostRecentObsByEndDate(metadata.getAppointmentDateConcept()), df.getObsValueDatetimeConverter());
+	}
+
 	// Helper methods
 
 	public PatientDataDefinition getSingleObsFromChronicCareInitialVisitByEndDate(Concept question, DataConverter converter) {
