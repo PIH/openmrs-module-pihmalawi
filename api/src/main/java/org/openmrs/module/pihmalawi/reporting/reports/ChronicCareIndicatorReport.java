@@ -41,9 +41,18 @@ import java.util.Map;
 public class ChronicCareIndicatorReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "27c5d192-75b6-493b-86c2-f9347f1442b3";
+	public static final String EXCEL_REPORT_RESOURCE_NAME = "ChronicCareIndicatorReport.xls";
 
 	protected enum ColumnKey {
-		Total, Asthma, CHF, CKD, Diabetes, Epilepsy, Hypertension, Mental_Health, Other
+		Total,
+		Asthma,
+		CHF,
+		// CKD,
+		Diabetes,
+		Epilepsy,
+		Hypertension,
+		// Mental_Health,
+		Other
 	}
 
 	@Autowired
@@ -170,7 +179,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "9D", "Diabetes visits", "3", ColumnKey.Diabetes);
 		addIndicatorForDiagnosisColumns(dsd, "10N", "Diabetes patients on insulin", df.getPatientsInAll(activeOnTx, onInsulin), ColumnKey.Diabetes);
 		addIndicatorForDiagnosisColumns(dsd, "10D", "Active diabetes patients", "1", ColumnKey.Diabetes);
-		addIndicatorForDiagnosisColumns(dsd, "11N", "Diabetes visits with fingerstick value > 200", visitsWithFingerstickOver200, ColumnKey.Diabetes);
+		addIndicatorForDiagnosisColumns(dsd, "11N", "Diabetes visits with fingerstick value > 200", df.getEncountersInAll(visits, visitsWithFingerstickOver200), ColumnKey.Diabetes);
 		addIndicatorForDiagnosisColumns(dsd, "11D", "Diabetes visits with fingerstick recorded", "9N", ColumnKey.Diabetes);
 		addIndicatorForDiagnosisColumns(dsd, "12N", "Epilepsy visits with seizures recorded", df.getEncountersInAll(visits, visitsWithSeizures), ColumnKey.Epilepsy);
 		addIndicatorForDiagnosisColumns(dsd, "12D", "Epilepsy visits", "3", ColumnKey.Epilepsy);
@@ -220,9 +229,12 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 			String columnLabel = label + " - " + diagnosisColumn;
 			Query columnQuery = query;
 			CohortDefinition diagnosisCohortDefinition = getColumnDimensions().get(diagnosisColumn);
-			if (diagnosisCohortDefinition != null) {
+			if (diagnosisColumn != ColumnKey.Total) {
+				if (diagnosisCohortDefinition == null) {
+					throw new IllegalArgumentException("No Cohort Definition found for " + diagnosisColumn);
+				}
 				if (query instanceof CohortDefinition) {
-					columnQuery = df.getPatientsInAll((CohortDefinition)query, diagnosisCohortDefinition);
+					columnQuery = df.getPatientsInAll((CohortDefinition) query, diagnosisCohortDefinition);
 				}
 				else if (query instanceof EncounterQuery) {
 					columnQuery = df.getEncountersInAll((EncounterQuery) query, new PatientEncounterQuery(diagnosisCohortDefinition));
@@ -259,7 +271,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 	@Override
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
+		l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME));
 		return l;
 	}
 

@@ -118,12 +118,12 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	@DocumentedDefinition(value = "patientsWithMoreThanMildPersistentAsthmaDuringPeriod")
 	public CohortDefinition getPatientsWithMoreThanMildPersistentAsthmaDuringPeriod() {
 		List<Concept> answers = Arrays.asList(metadata.getModeratePersistentConcept(), metadata.getSeverePersistentConcept(), metadata.getSevereUncontrolledConcept());
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getCurrentDrugsUsedConcept(), answers);
+		return df.getPatientsWithCodedObsDuringPeriod(metadata.getAsthmaClassificationConcept(), answers);
 	}
 
 	@DocumentedDefinition(value = "patientsOnInsulinDuringPeriod")
 	public CohortDefinition getPatientsOnInsulinDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getAsthmaClassificationConcept(), Arrays.asList(metadata.getInsulinConcept()));
+		return df.getPatientsWithCodedObsDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getInsulinConcept()));
 	}
 
 	@DocumentedDefinition(value = "patientsWithNumberOfSeizuresRecordedDuringPeriod")
