@@ -517,9 +517,9 @@ public class DataFactory {
 		ObsForEncounterQuery q = new ObsForEncounterQuery();
 		q.setQuestion(question);
 		q.setEncounterTypes(encounterTypes);
-		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
-		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
 	}
 
 	public EncounterQuery getEncountersWithNumericObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, RangeComparator operator, Double value) {
@@ -528,9 +528,9 @@ public class DataFactory {
 		q.setEncounterTypes(encounterTypes);
 		q.setOperator1(operator);
 		q.setValue1(value);
-		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
-		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
 	}
 
 	public EncounterQuery getEncountersWithCodedObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, Concept... valuesToInclude) {
@@ -538,9 +538,9 @@ public class DataFactory {
 		q.setQuestion(question);
 		q.setEncounterTypes(encounterTypes);
 		q.setConceptsToInclude(Arrays.asList(valuesToInclude));
-		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
-		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
 	}
 
 	public CompositionEncounterQuery getEncountersInAll(EncounterQuery...elements) {

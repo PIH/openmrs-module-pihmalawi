@@ -157,7 +157,6 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
-		rd.setBaseCohortDefinition(Mapped.mapStraightThrough(activeOnTx));
 
 		SimpleIndicatorDataSetDefinition dsd = new SimpleIndicatorDataSetDefinition();
 		dsd.setParameters(getParameters());
@@ -168,9 +167,9 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "1", "Patients active in CCC", activeOnTx);
 		addIndicatorForDiagnosisColumns(dsd, "2", "Total new patient visits", initialEncountersDuringPeriod);
 		addIndicatorForDiagnosisColumns(dsd, "3", "Total number of visits", visits);
-		addIndicatorForDiagnosisColumns(dsd, "4N", "Number of patients with documented hospitalization", hospitalizedDuringPeriod);
+		addIndicatorForDiagnosisColumns(dsd, "4N", "Number of patients with documented hospitalization", df.getPatientsInAll(activeOnTx, hospitalizedDuringPeriod));
 		addIndicatorForDiagnosisColumns(dsd, "4D", "Number of active patients", "1");
-		addIndicatorForDiagnosisColumns(dsd, "5N", "Number of patients with documented hospitalizations that are secondary to NCD", hospitalizedForNcdDuringPeriod);
+		addIndicatorForDiagnosisColumns(dsd, "5N", "Number of patients with documented hospitalizations that are secondary to NCD", df.getPatientsInAll(activeOnTx, hospitalizedForNcdDuringPeriod));
 		addIndicatorForDiagnosisColumns(dsd, "5D", "Number of patients with documented hospitalization", "4N");
 		addIndicatorForDiagnosisColumns(dsd, "6N", "Asthma visits with PF recorded", df.getEncountersInAll(visits, visitsWithPeakFlow), ColumnKey.Asthma);
 		addIndicatorForDiagnosisColumns(dsd, "6D", "Total asthma visits", "3", ColumnKey.Asthma);
@@ -199,8 +198,8 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", referredFromInpatient);
 		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", referredFromHealthCenter);
 		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", referredFromOther);
-		addIndicatorForDiagnosisColumns(dsd, "21N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", lateAndNoRecentVisit);
-		addIndicatorForDiagnosisColumns(dsd, "21D", "Number currently enrolled", "1");
+		addIndicatorForDiagnosisColumns(dsd, "21N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, lateAndNoRecentVisit));
+		addIndicatorForDiagnosisColumns(dsd, "21D", "Number currently enrolled", onTreatmentAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
 
 		return rd;
