@@ -198,8 +198,8 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", referredFromInpatient);
 		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", referredFromHealthCenter);
 		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", referredFromOther);
-		addIndicatorForDiagnosisColumns(dsd, "21N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, lateAndNoRecentVisit));
-		addIndicatorForDiagnosisColumns(dsd, "21D", "Number currently enrolled", onTreatmentAtEnd);
+		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, lateAndNoRecentVisit));
+		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", onTreatmentAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
 
 		return rd;
