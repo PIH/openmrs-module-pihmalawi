@@ -44,15 +44,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 	public static final String EXCEL_REPORT_RESOURCE_NAME = "ChronicCareIndicatorReport.xls";
 
 	protected enum ColumnKey {
-		Total,
-		Asthma,
-		CHF,
-		// CKD,
-		Diabetes,
-		Epilepsy,
-		Hypertension,
-		// Mental_Health,
-		Other
+		Total, Asthma, CHF, Diabetes, Epilepsy, Hypertension, Other
 	}
 
 	@Autowired
@@ -113,7 +105,9 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 
 		// Underlying cohorts and queries
 
+		CohortDefinition visitByEnd = ccCohorts.getPatientsWithAChronicCareEncounterByEndDate();
 		CohortDefinition onTreatmentAtEnd = ccCohorts.getPatientsInOnTreatmentStateAtLocationOnEndDate();
+		CohortDefinition enrolledAtEnd = df.getPatientsInAll(visitByEnd, onTreatmentAtEnd);
 		CohortDefinition visitWithin3Months = ccCohorts.getPatientsWithChronicCareEncounterWithin3MonthsOfEndDate();
 		CohortDefinition activeOnTx = df.getPatientsInAll(onTreatmentAtEnd, visitWithin3Months);
 		CohortDefinition initialEncountersDuringPeriod = ccCohorts.getPatientsWithChronicCareInitialVisitDuringPeriod();
@@ -134,7 +128,6 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		CohortDefinition referredFromInpatient = ccCohorts.getNewPatientsReferredFromInpatientWardDuringPeriod();
 		CohortDefinition referredFromHealthCenter = ccCohorts.getNewPatientsReferredFromHealthCenterDuringPeriod();
 		CohortDefinition referredFromOther = df.createPatientComposition(referredDuringPeriod, "AND NOT (", referredFromOpd, "OR", referredFromInpatient, "OR", referredFromHealthCenter, ")");
-		CohortDefinition hadVisitInLastMonth = ccCohorts.getPatientsWithNoChronicCareEncounterWithin1MonthOfEndDate();
 		CohortDefinition overAMonthLate = ccCohorts.getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate();
 
 		EncounterQuery visits = ccEncounterQueries.getChronicCareFollowupEncountersDuringPeriod();
@@ -197,8 +190,8 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", referredFromInpatient);
 		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", referredFromHealthCenter);
 		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", referredFromOther);
-		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, overAMonthLate));
-		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", onTreatmentAtEnd);
+		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(enrolledAtEnd, overAMonthLate));
+		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", enrolledAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
 
 		return rd;
