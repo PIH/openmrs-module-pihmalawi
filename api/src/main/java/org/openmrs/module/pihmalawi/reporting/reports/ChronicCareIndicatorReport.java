@@ -135,8 +135,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		CohortDefinition referredFromHealthCenter = ccCohorts.getNewPatientsReferredFromHealthCenterDuringPeriod();
 		CohortDefinition referredFromOther = df.createPatientComposition(referredDuringPeriod, "AND NOT (", referredFromOpd, "OR", referredFromInpatient, "OR", referredFromHealthCenter, ")");
 		CohortDefinition hadVisitInLastMonth = ccCohorts.getPatientsWithNoChronicCareEncounterWithin1MonthOfEndDate();
-		CohortDefinition overAMonthLate = ccCohorts.getPatientsWhoseMostRecentAppointmentDateIsMoreThanOneMonthBeforeEndDate();
-		CohortDefinition lateAndNoRecentVisit = df.createPatientComposition(overAMonthLate, "AND NOT", hadVisitInLastMonth);
+		CohortDefinition overAMonthLate = ccCohorts.getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate();
 
 		EncounterQuery visits = ccEncounterQueries.getChronicCareFollowupEncountersDuringPeriod();
 		EncounterQuery visitsWithPeakFlow = ccEncounterQueries.getChronicCareEncountersWithPeakFlowRecordedDuringPeriod();
@@ -198,7 +197,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", referredFromInpatient);
 		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", referredFromHealthCenter);
 		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", referredFromOther);
-		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, lateAndNoRecentVisit));
+		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(onTreatmentAtEnd, overAMonthLate));
 		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", onTreatmentAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
 

@@ -16,17 +16,20 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.ObsInEncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PresenceOrAbsenceCohortDefinition;
-import org.openmrs.module.reporting.common.DurationUnit;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.RangeComparator;
-import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -187,10 +190,16 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		return df.getPatientsWithAnyObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getChronicCareInitialEncounterType()));
 	}
 
-	@DocumentedDefinition(value = "patientsWhoseMostRecentAppointmentDateIsMoreThanOneMonthBeforeEndDate")
-	public CohortDefinition getPatientsWhoseMostRecentAppointmentDateIsMoreThanOneMonthBeforeEndDate() {
-		PatientDataDefinition data = ccPatientData.getMostRecentChronicCareAppointmentDateByEndDate();
-		return df.getPatientsWhoseLatestDateIsOlderThanTimeByEndDate(data, 1, DurationUnit.MONTHS);
+	@DocumentedDefinition(value = "patientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate")
+	public CohortDefinition getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate() {
+		ObsInEncounterCohortDefinition cd = new ObsInEncounterCohortDefinition();
+		cd.setWhichEncounter(TimeQualifier.LAST);
+		cd.setEncounterTypes(Arrays.asList(metadata.getChronicCareFollowupEncounterType()));
+		cd.addParameter(new Parameter("encounterOnOrBefore", "Encounter On Or Before", Date.class));
+		cd.setQuestion(metadata.getAppointmentDateConcept());
+		cd.setValueOperator1(RangeComparator.LESS_EQUAL);
+		cd.addParameter(new Parameter("valueDatetime1", "Date value", Date.class));
+		return df.convert(cd, ObjectUtil.toMap("encounterOnOrBefore=endDate,valueDatetime1=${endDate-1m}"));
 	}
 
 	// Programs
