@@ -74,6 +74,9 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String EPILEPSY = "Epilepsy";
 	public static final String HEART_FAILURE = "Heart failure";
 	public static final String HYPERTENSION = "Hypertension";
+	public static final String CHRONIC_KIDNEY_DISEASE = "Chronic kidney disease";
+	public static final String STROKE = "Stroke";
+	public static final String DEPRESSION = "Depression";
 	public static final String AGE_OF_ASTHMA_DIAGNOSIS_CONCEPT = "Age of asthma diagnosis";
 	public static final String AGE_OF_DIABETES_DIAGNOSIS_CONCEPT = "Age of diabetes diagnosis";
 	public static final String AGE_OF_EPILEPSY_DIAGNOSIS_CONCEPT = "Age of epilepsy diagnosis";
@@ -104,6 +107,18 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public Concept getHypertensionConcept() {
 		return getConcept(HYPERTENSION);
+	}
+
+	public Concept getChronicKidneyDiseaseConcept() {
+		return getConcept(CHRONIC_KIDNEY_DISEASE);
+	}
+
+	public Concept getStrokeConcept() {
+		return getConcept(STROKE);
+	}
+
+	public Concept getDepressionConcept() {
+		return getConcept(DEPRESSION);
 	}
 
 	public List<Concept> getChronicCareDiagnosisAnswerConcepts() {

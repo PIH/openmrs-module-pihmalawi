@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
@@ -24,15 +25,20 @@ import org.openmrs.api.context.Context;
 import org.openmrs.layout.web.address.AddressSupport;
 import org.openmrs.layout.web.address.AddressTemplate;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.htmlformentry.HtmlForm;
+import org.openmrs.module.htmlformentry.HtmlFormEntryService;
 import org.openmrs.module.namephonetics.NamePhoneticsConstants;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
+import org.openmrs.util.OpenmrsClassLoader;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,6 +52,7 @@ public class ModuleActivator extends BaseModuleActivator {
 		registerMalawiAddressTemplate();
 		installConcepts();
 		removeOldReports();
+		loadHtmlForms();
 		ReportManagerUtil.setupAllReports(ApzuReportManager.class);
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 		ReportUtil.updateGlobalProperty(NamePhoneticsConstants.GIVEN_NAME_GLOBAL_PROPERTY, "Chichewa Soundex");
@@ -97,21 +104,6 @@ public class ModuleActivator extends BaseModuleActivator {
 			}
 		}
 		{
-			Integer id = 3683;
-			Concept c = cs.getConcept(id);
-			log.warn("Updating answers for Chronic Care Diagnosis");
-			c.getAnswers().clear();
-			c.addAnswer(new ConceptAnswer(cs.getConcept(5)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(903)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(155)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(3720)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(3468)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(7623)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(6421)));
-			c.addAnswer(new ConceptAnswer(cs.getConcept(5622)));
-			cs.saveConcept(c);
-		}
-		{
 			Integer id = 6872;
 			String name = "Hypertension Medication Set";
 			Concept c = cs.getConcept(id);
@@ -132,6 +124,104 @@ public class ModuleActivator extends BaseModuleActivator {
 				c.addSetMember(cs.getConceptByName("Propranolol"));
 				cs.saveConcept(c);
 			}
+		}
+		{
+			{
+				Integer id = 8418;
+				String uuid = "5ea979aa-1369-11e4-a125-54ee7513a7ff";
+				String name = "Substance abuse";
+				Concept c = cs.getConcept(id);
+				if (c == null) {
+					log.warn("Creating " + name);
+					c = new Concept();
+					c.setConceptId(id);
+					c.setUuid(uuid);
+					c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+					c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+					c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+					cs.saveConcept(c);
+				}
+			}
+		}
+		{
+			{
+				Integer id = 8419;
+				String uuid = "93e9be37-1369-11e4-a125-54ee7513a7ff";
+				String name = "Acute Psychotic disorder";
+				Concept c = cs.getConcept(id);
+				if (c == null) {
+					log.warn("Creating " + name);
+					c = new Concept();
+					c.setConceptId(id);
+					c.setUuid(uuid);
+					c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+					c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+					c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+					cs.saveConcept(c);
+				}
+			}
+		}
+		{
+			{
+				Integer id = 8420;
+				String uuid = "aad4c0e9-1369-11e4-a125-54ee7513a7ff";
+				String name = "Other Mental Health Diagnosis non-coded";
+				Concept c = cs.getConcept(id);
+				if (c == null) {
+					log.warn("Creating " + name);
+					c = new Concept();
+					c.setConceptId(id);
+					c.setUuid(uuid);
+					c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+					c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+					c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+					cs.saveConcept(c);
+				}
+			}
+		}
+		{
+			Integer id = 3683;
+			Concept c = cs.getConcept(id);
+			log.warn("Updating answers for Chronic Care Diagnosis");
+			c.getAnswers().clear();
+			c.addAnswer(new ConceptAnswer(cs.getConcept(5)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(903)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(155)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(3720)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(3468)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(7623)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(6421)));
+			c.addAnswer(new ConceptAnswer(cs.getConcept(207))); // Depression
+			c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse
+			c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute psychotic disorder
+			c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other mental health diagnosis
+			c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded
+			cs.saveConcept(c);
+		}
+	}
+
+	private void loadHtmlForms() {
+		Map<Integer, String> forms = new LinkedHashMap<Integer, String>();
+		forms.put(14, "chronic_care_emastercard_initial.xml");
+		forms.put(15, "chronic_care_emastercard_visit.xml");
+
+		HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
+		for (Integer formId : forms.keySet()) {
+			HtmlForm form = hfes.getHtmlForm(formId);
+			String formResourcePath = "org/openmrs/module/pihmalawi/htmlforms/"+forms.get(formId);
+			log.warn("Updating form: " + forms.get(formId));
+			InputStream is = null;
+			try {
+				is = OpenmrsClassLoader.getInstance().getResourceAsStream(formResourcePath);
+				form.setXmlData(IOUtils.toString(is, "UTF-8"));
+			}
+			catch (Exception e) {
+				throw new IllegalArgumentException("Error reading resource from the classpath", e);
+			}
+			finally {
+				IOUtils.closeQuietly(is);
+			}
+			hfes.saveHtmlForm(form);
 		}
 	}
 
