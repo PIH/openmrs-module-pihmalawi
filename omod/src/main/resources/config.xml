@@ -8,7 +8,7 @@
 	<package>@MODULE_PACKAGE@</package>
 	<author>Partners In Health</author>
 	<description>PIH Malawi Implementation Module</description>
-	<activator>org.openmrs.module.pihmalawi.ModuleActivator</activator>
+	<activator>org.openmrs.module.pihmalawi.activator.PihMalawiModuleActivator</activator>
 	<require_version>1.9.7</require_version>
 
 	<require_modules>

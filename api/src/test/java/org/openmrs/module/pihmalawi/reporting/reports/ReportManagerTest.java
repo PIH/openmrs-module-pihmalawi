@@ -106,6 +106,11 @@ public abstract class ReportManagerTest extends StandaloneContextSensitiveTest {
 		}
 	}
 
+	@Override
+	protected boolean isEnabled() {
+		return false;
+	}
+
 	/**
 	 * @return true if a subclass wants to print out the report contents to System.out
 	 */

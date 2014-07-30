@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
-@Ignore
 public class QuickTest extends StandaloneContextSensitiveTest {
 
 	@Autowired
@@ -30,7 +29,7 @@ public class QuickTest extends StandaloneContextSensitiveTest {
 
 	@Override
 	protected boolean isEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
