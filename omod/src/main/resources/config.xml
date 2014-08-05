@@ -17,11 +17,6 @@
         <require_module>org.openmrs.module.htmlformentry</require_module>
 	</require_modules>
 
-    <advice>
-        <point>org.openmrs.api.PatientService</point>
-        <class>org.openmrs.module.pihmalawi.soundex.FindPatientSoundexAdvisor</class>
-    </advice>
-
 	<globalProperty>
 		<property>pihmalawi.systemLocationsTag</property>
 		<defaultValue>Upper Neno</defaultValue>
