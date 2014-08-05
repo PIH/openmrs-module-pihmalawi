@@ -41,9 +41,14 @@ public class ChronicCareVisitsReportTest extends ReportManagerTest {
 	@Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("startDate", DateUtil.getDateTime(2013,1,1));
-		context.addParameterValue("endDate", DateUtil.getDateTime(2013,12,31));
+		context.addParameterValue("startDate", DateUtil.getDateTime(2014,1,1));
+		context.addParameterValue("endDate", DateUtil.getDateTime(2014,3,31));
 		context.addParameterValue("location", hivMetadata.getNenoHospital());
 		return context;
+	}
+
+	@Override
+	protected boolean isEnabled() {
+		return false;
 	}
 }

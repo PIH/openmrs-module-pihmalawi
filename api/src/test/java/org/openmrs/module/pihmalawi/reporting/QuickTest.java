@@ -1,16 +1,23 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import org.junit.Ignore;
+import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.query.encounter.EncounterQueryResult;
+import org.openmrs.module.reporting.query.encounter.definition.CompositionEncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.PatientEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.service.EncounterQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class QuickTest extends StandaloneContextSensitiveTest {
@@ -27,6 +34,9 @@ public class QuickTest extends StandaloneContextSensitiveTest {
 	@Autowired
 	EncounterQueryService encounterQueryService;
 
+	@Autowired
+	CohortDefinitionService cohortDefinitionService;
+
 	@Override
 	protected boolean isEnabled() {
 		return false;
@@ -38,17 +48,24 @@ public class QuickTest extends StandaloneContextSensitiveTest {
 		context.addParameterValue(df.getStartDateParameter().getName(), DateUtil.getDateTime(2014,1,1));
 		context.addParameterValue(df.getEndDateParameter().getName(), DateUtil.getDateTime(2014,3,31));
 
-		EncounterQueryResult baseEncounters = encounterQueryService.evaluate(ccEncounterQueries.getChronicCareFollowupEncountersDuringPeriod(), context);
-		System.out.println("Found " + baseEncounters.getSize() + " base encounters");
+		Cohort hypertensionPats = cohortDefinitionService.evaluate(ccCohorts.getPatientsWithHypertensionDiagnosisByEndDate(), context);
+		System.out.println("Found " + hypertensionPats.getSize() + " hypertension pats");
 
-		EncounterQueryResult r1 = encounterQueryService.evaluate(ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod(), context);
-		System.out.println("Found " + r1.getSize() + " with high sbp");
+		PatientEncounterQuery encountersForPatients = new PatientEncounterQuery(ccCohorts.getPatientsWithHypertensionDiagnosisByEndDate());
+		EncounterQueryResult hypertensionEncounters = encounterQueryService.evaluate(encountersForPatients, context);
+		System.out.println("Found " + hypertensionEncounters.getSize() + " encounters of any type in any date range for hypertension pats");
 
-		EncounterQueryResult r2 = encounterQueryService.evaluate(ccEncounterQueries.getChronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod(), context);
-		System.out.println("Found " + r2.getSize() + " with high dbp");
+		EncounterQuery followupEncounterQuery = ccEncounterQueries.getChronicCareFollowupEncountersDuringPeriod();
+		EncounterQueryResult ccFollowupEncounters = encounterQueryService.evaluate(followupEncounterQuery, context);
+		System.out.println("Found " + ccFollowupEncounters.getSize() + " chronic care followup encounters");
 
-		Set<Integer> all = r1.getMemberIds();
-		all.addAll(r2.getMemberIds());
-		System.out.println("Found " + all.size() + " with high bp");
+		CompositionEncounterQuery composition = df.getEncountersInAll(encountersForPatients, followupEncounterQuery);
+		EncounterQueryResult q3Composite = encounterQueryService.evaluate(composition, context);
+		System.out.println("Found " + q3Composite.getSize() + " chronic care followup encounters for hypertension patients with composition");
+
+		Set<Integer> q3 = new HashSet<Integer>(hypertensionEncounters.getMemberIds());
+		q3.retainAll(ccFollowupEncounters.getMemberIds());
+
+		System.out.println("Found " + q3.size() + " chronic care followup encounters for hypertension patients");
 	}
 }

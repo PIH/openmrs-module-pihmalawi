@@ -17,10 +17,13 @@ import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +73,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 		return df.getPreferredAddress("stateProvince");
 	}
 
+	@DocumentedDefinition("addressFull")
+	public PatientDataDefinition getAddressFull() {
+		PreferredAddressDataDefinition pdd = new PreferredAddressDataDefinition();
+		return df.convert(pdd, new ConcatenatedPropertyConverter(", ", "district", "traditionalAuthority", "village"));
+	}
+
 	// Relationship Data
 
 	@DocumentedDefinition("chw")
@@ -99,6 +108,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public PatientDataDefinition getAgeAtEndInMonths() {
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
 		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
+	}
+
+	@DocumentedDefinition("preferredFamilyNames")
+	public PatientDataDefinition getPreferredFamilyNames() {
+		PreferredNameDataDefinition pdd = new PreferredNameDataDefinition();
+		return df.convert(pdd, new ConcatenatedPropertyConverter(" ", "familyName", "familyName2"));
 	}
 
 	// Vitals
