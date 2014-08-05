@@ -62,6 +62,8 @@
 
             clearPatientSearchResults();
 
+            jQuery("#patientSearchSpinner").show();
+
             if (queryParams.phrase) {
                 jQuery.ajax({
                     url: url,
@@ -82,6 +84,7 @@
                                 patSearchTable.fnSetColumnVis(0, false);
                                 patSearchTable.fnDraw();
                                 jQuery("#patientSearchResultsSection").show();
+                                jQuery("#patientSearchSpinner").hide();
                             }
                         }
                     }
@@ -104,6 +107,7 @@
             <div class="searchWidgetContainer">
                 <openmrs:message code="Patient.searchBox" />
                 <input type="text" id="patientSearchPhrase" name="phrase" size="35" placeholder="<spring:message code="Patient.searchBox.placeholder"/>"/>
+                <img id="patientSearchSpinner" src="${pageContext.request.contextPath}/images/loading.gif" style="display:none;" />
                 <input type="button" id="patientSearchButton" value="<openmrs:message code="general.searchButton" />" />
                 &nbsp;&nbsp;
                 <input type="checkbox" id="soundexEnabledCheckbox" name="soundexEnabled" value="true"/> Enable Soundex Search
