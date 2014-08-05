@@ -18,6 +18,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
+import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
@@ -131,6 +132,15 @@ public class DataFactory {
 		PatientIdentifierDataDefinition def = new PatientIdentifierDataDefinition();
 		def.setTypes(Arrays.asList(pit));
 		return new ConvertedPatientDataDefinition(def, converter);
+	}
+
+	public PatientDataDefinition getPreferredIdentifierOfTypes(PatientIdentifierType... types) {
+		PatientIdentifierDataDefinition cd = new PatientIdentifierDataDefinition();
+		for (PatientIdentifierType type : types) {
+			cd.addType(type);
+		}
+		cd.setIncludeFirstNonNullOnly(true);
+		return cd;
 	}
 
 	public PatientDataDefinition getFirstEncounterOfTypeByEndDate(EncounterType type, DataConverter converter) {
@@ -562,6 +572,10 @@ public class DataFactory {
 	public DataConverter getIdentifierCollectionConverter() {
 		CollectionConverter collectionConverter = new CollectionConverter(new PatientIdentifierConverter(), true, null);
 		return new ChainedConverter(collectionConverter, new ObjectFormatter(" "));
+	}
+
+	public DataConverter getIdentifierConverter() {
+		return new PropertyConverter(PatientIdentifier.class, "identifier");
 	}
 
 	public DataConverter getEncounterDatetimeConverter() {
