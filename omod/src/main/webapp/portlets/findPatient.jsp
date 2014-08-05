@@ -29,7 +29,7 @@
             jQuery('#openmrsSearchTable').delegate('tbody > tr', 'click', function(event) {
                 var rowNum = patSearchTable.fnGetPosition(this);
                 var pId = patSearchTable.fnGetData(rowNum)[0];
-                document.location.href = "${pageContext.request.contextPath}/patientDashboard.form?patientId="+pId;
+                goToPatientDashboard(pId);
             });
 
             jQuery("#patientSearchPhrase").keydown(function(event) {
@@ -50,6 +50,10 @@
             jQuery("#patientSearchResultsSection").hide();
         }
 
+        function goToPatientDashboard(pId) {
+            document.location.href = "${pageContext.request.contextPath}/patientDashboard.form?patientId="+pId;
+        }
+
         function performSearch() {
             var url = "${pageContext.request.contextPath}/module/pihmalawi/findMatchingPatients.form";
             var queryParams = new Object();
@@ -64,18 +68,22 @@
                     data: queryParams,
                     dataType: "json",
                     success: function (data) {
-
-                        var dataRows = [];
                         if (data) {
-                            for (rowNum in data) {
-                                var p = data[rowNum];
-                                dataRows.push([p.patientId, p.identifier, p.givenName, p.familyName, p.familyName2, p.age, p.gender, p.birthdateDisplay]);
+                            if (data.length == 1 && false) {  // If we decide to enable this, we can just remove this false check
+                                goToPatientDashboard(data[0].patientId);
+                            }
+                            else {
+                                var dataRows = [];
+                                for (rowNum in data) {
+                                    var p = data[rowNum];
+                                    dataRows.push([p.patientId, p.identifier, p.givenName, p.familyName, p.familyName2, p.age, p.gender, p.birthdateDisplay]);
+                                }
+                                patSearchTable.fnAddData(dataRows);
+                                patSearchTable.fnSetColumnVis(0, false);
+                                patSearchTable.fnDraw();
+                                jQuery("#patientSearchResultsSection").show();
                             }
                         }
-                        patSearchTable.fnAddData(dataRows);
-                        patSearchTable.fnSetColumnVis(0, false);
-                        patSearchTable.fnDraw();
-                        jQuery("#patientSearchResultsSection").show();
                     }
                 });
             }

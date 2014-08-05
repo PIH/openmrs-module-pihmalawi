@@ -83,6 +83,7 @@ public class FindPatientPortletController {
 		PatientSearchCohortDefinition cd = new PatientSearchCohortDefinition();
 		cd.setSearchPhrase(phrase);
 		cd.setSoundexEnabled(soundexEnabled);
+		cd.setIdentifierMatchMode(PatientSearchCohortDefinition.MatchMode.START);
 		dsd.addRowFilter(Mapped.noMappings(cd));
 
 		DataConverter defaultConverter = new NullValueConverter("");

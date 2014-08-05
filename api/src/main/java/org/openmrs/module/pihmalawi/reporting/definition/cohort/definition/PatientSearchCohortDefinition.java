@@ -25,8 +25,18 @@ public class PatientSearchCohortDefinition extends BaseCohortDefinition {
 
 	private static final long serialVersionUID = 1L;
 
+	public enum MatchMode {
+		START, END, ANYWHERE, EXACT
+	}
+
 	@ConfigurationProperty(required = true)
 	private String searchPhrase;
+
+	@ConfigurationProperty
+	private MatchMode nameMatchMode = MatchMode.ANYWHERE;
+
+	@ConfigurationProperty
+	private MatchMode identifierMatchMode = MatchMode.ANYWHERE;
 
 	@ConfigurationProperty
 	private Boolean soundexEnabled = Boolean.FALSE;
@@ -49,5 +59,21 @@ public class PatientSearchCohortDefinition extends BaseCohortDefinition {
 
 	public void setSoundexEnabled(Boolean soundexEnabled) {
 		this.soundexEnabled = soundexEnabled;
+	}
+
+	public MatchMode getNameMatchMode() {
+		return nameMatchMode;
+	}
+
+	public void setNameMatchMode(MatchMode nameMatchMode) {
+		this.nameMatchMode = nameMatchMode;
+	}
+
+	public MatchMode getIdentifierMatchMode() {
+		return identifierMatchMode;
+	}
+
+	public void setIdentifierMatchMode(MatchMode identifierMatchMode) {
+		this.identifierMatchMode = identifierMatchMode;
 	}
 }

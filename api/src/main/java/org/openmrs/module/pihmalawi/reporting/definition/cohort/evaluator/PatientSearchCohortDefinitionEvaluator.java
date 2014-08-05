@@ -34,6 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.PatientSearchCohortDefinition.MatchMode;
+
 @Handler(supports = { PatientSearchCohortDefinition.class })
 public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 
@@ -43,14 +45,15 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
 		PatientSearchCohortDefinition cd = (PatientSearchCohortDefinition) cohortDefinition;
 		Cohort c = new Cohort();
-		c.getMemberIds().addAll(getPatientsMatchingIdentifier(cd.getSearchPhrase(), context));
+		c.getMemberIds().addAll(getPatientsMatchingIdentifier(cd.getSearchPhrase(), cd.getIdentifierMatchMode(), context));
 		if (c.getMemberIds().isEmpty()) {
-			c.getMemberIds().addAll(getPatientsMatchingName(cd.getSearchPhrase(), cd.getSoundexEnabled() == Boolean.TRUE, context));
+			boolean isSoundex = cd.getSoundexEnabled() == Boolean.TRUE;
+			c.getMemberIds().addAll(getPatientsMatchingName(cd.getSearchPhrase(), isSoundex, cd.getNameMatchMode(), context));
 		}
 		return new EvaluatedCohort(c, cd, context);
 	}
 
-	protected Set<Integer> getPatientsMatchingIdentifier(String searchString, EvaluationContext context) {
+	protected Set<Integer> getPatientsMatchingIdentifier(String searchString, MatchMode matchMode, EvaluationContext context) {
 		if (ObjectUtil.isNull(searchString)) {
 			return new HashSet<Integer>();
 		}
@@ -58,14 +61,26 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 		q.select("distinct pi.patient.patientId");
 		q.from(PatientIdentifier.class, "pi");
 		q.whereEqual("pi.patient.voided", false);
-		for (String searchComponent : searchString.replace("  ", " ").trim().split(" ")) {
-			q.whereLike("pi.identifier", searchComponent);
+
+		searchString = searchString.replace("  ", " ").trim();
+		if (matchMode == MatchMode.EXACT) {
+			q.whereEqual("pi.identifier", searchString);
 		}
+		else {
+			if (matchMode == MatchMode.ANYWHERE || matchMode == MatchMode.END) {
+				searchString = "%" + searchString;
+			}
+			if (matchMode == MatchMode.ANYWHERE || matchMode == MatchMode.START) {
+				searchString = searchString + "%";
+			}
+			q.whereLike("pi.identifier", searchString);
+		}
+
 		List<Integer> l = evaluationService.evaluateToList(q, Integer.class, context);
 		return new HashSet<Integer>(l);
 	}
 
-	protected Set<Integer> getPatientsMatchingName(String searchString, boolean isSoundex, EvaluationContext context) {
+	protected Set<Integer> getPatientsMatchingName(String searchString, boolean isSoundex, MatchMode matchMode, EvaluationContext context) {
 		Set<Integer> ret = new HashSet<Integer>();
 		if (ObjectUtil.notNull(searchString)) {
 			Set<Integer> personIds = new HashSet<Integer>();
@@ -80,13 +95,30 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 				q.select("pn.person.personId");
 				q.from(PersonName.class, "pn");
 				for (String searchComponent : searchString.replace("  ", " ").trim().split(" ")) {
-					q.startGroup();
-					q.whereLike("pn.givenName", searchComponent);
-					q.or();
-					q.whereLike("pn.familyName", searchComponent);
-					q.or();
-					q.whereLike("pn.familyName2", searchComponent);
-					q.endGroup();
+					if (matchMode == MatchMode.EXACT) {
+						q.startGroup();
+						q.whereEqual("pn.givenName", searchComponent);
+						q.or();
+						q.whereEqual("pn.familyName", searchComponent);
+						q.or();
+						q.whereEqual("pn.familyName2", searchComponent);
+						q.endGroup();
+					}
+					else {
+						if (matchMode == MatchMode.ANYWHERE || matchMode == MatchMode.END) {
+							searchComponent = "%" + searchComponent;
+						}
+						if (matchMode == MatchMode.ANYWHERE || matchMode == MatchMode.START) {
+							searchComponent = searchComponent + "%";
+						}
+						q.startGroup();
+						q.whereLike("pn.givenName", searchComponent);
+						q.or();
+						q.whereLike("pn.familyName", searchComponent);
+						q.or();
+						q.whereLike("pn.familyName2", searchComponent);
+						q.endGroup();
+					}
 				}
 				List<Integer> l = evaluationService.evaluateToList(q, Integer.class, context);
 				personIds.addAll(l);
