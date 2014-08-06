@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openmrs.module.Extension;
+import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 /**
@@ -37,7 +38,7 @@ public class AdminList extends AdministrationSectionExt {
 	 * @see org.openmrs.module.web.extension.AdministrationSectionExt#getTitle()
 	 */
 	public String getTitle() {
-		return "PIH Malawi Customization";
+		return "PIH Malawi";
 	}
 	
 	/**
@@ -46,8 +47,13 @@ public class AdminList extends AdministrationSectionExt {
 	public Map<String, String> getLinks() {
 		
 		Map<String, String> map = new HashMap<String, String>();
+
+
 		
-		map.put("module/pihmalawi/basicmoduleLink.form", "PIH Malawi Customization");
+		map.put("module/pihmalawi/registerReports.form", "Register/Remove Reports");
+		if (ModuleFactory.isModuleStarted("reportingui")) {
+			map.put("/reportingui/adHocManage.page", "Ad-Hoc Query Tool");
+		}
 		
 		return map;
 	}

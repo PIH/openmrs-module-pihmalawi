@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.web.controller;
 
+import org.openmrs.EncounterType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.experimental.historicAppointmentAdherence.SetupAppointmentAdherence;
@@ -13,124 +14,141 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class PihReportFormController {
 
+	@RequestMapping("/module/pihmalawi/registerReports.form")
+	public void registerReports() {
+
+	}
+
 	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment_lowerneno.form")
-	public void removeHccMissedAppointmentLowerNeno() {
-		new SetupHccMissedAppointment(new ReportHelper(), false)
-				.deleteReportElements();
+	public String removeHccMissedAppointmentLowerNeno() {
+		new SetupHccMissedAppointment(new ReportHelper(), false).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hccmissedappointment_lowerneno.form")
-	public void registerHccMissedAppointmentLowerNeno() throws Exception {
+	public String registerHccMissedAppointmentLowerNeno() throws Exception {
 		new SetupHccMissedAppointment(new ReportHelper(), false).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_partmissedappointment_lowerneno.form")
-	public void removePreArtMissedAppointmentLowerNeno() {
-		new SetupPreArtMissedAppointment(new ReportHelper(), false)
-				.deleteReportElements();
+	public String removePreArtMissedAppointmentLowerNeno() {
+		new SetupPreArtMissedAppointment(new ReportHelper(), false).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_partmissedappointment_lowerneno.form")
-	public void registerPreArtMissedAppointmentLowerNeno() throws Exception {
+	public String registerPreArtMissedAppointmentLowerNeno() throws Exception {
 		new SetupPreArtMissedAppointment(new ReportHelper(), false).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artmissedappointment_lowerneno.form")
-	public void removeArtMissedAppointmentLowerNeno() {
-		new SetupArtMissedAppointment(new ReportHelper(), false)
-				.deleteReportElements();
+	public String removeArtMissedAppointmentLowerNeno() {
+		new SetupArtMissedAppointment(new ReportHelper(), false).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_artmissedappointment_lowerneno.form")
-	public void registerArtMissedAppointmentLowerNeno() throws Exception {
+	public String registerArtMissedAppointmentLowerNeno() throws Exception {
 		new SetupArtMissedAppointment(new ReportHelper(), false).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_partmissedappointment.form")
-	public void removePreArtMissedAppointment() {
-		new SetupPreArtMissedAppointment(new ReportHelper(), true)
-				.deleteReportElements();
+	public String removePreArtMissedAppointment() {
+		new SetupPreArtMissedAppointment(new ReportHelper(), true).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_partmissedappointment.form")
-	public void registerPreArtMissedAppointment() throws Exception {
+	public String registerPreArtMissedAppointment() throws Exception {
 		new SetupPreArtMissedAppointment(new ReportHelper(), true).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hccmissedappointment.form")
-	public void registerHccMissedAppointment() throws Exception {
+	public String registerHccMissedAppointment() throws Exception {
 		new SetupHccMissedAppointment(new ReportHelper(), true).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hccmissedappointment.form")
-	public void removeHccMissedAppointment() {
-		new SetupHccMissedAppointment(new ReportHelper(), true)
-				.deleteReportElements();
+	public String removeHccMissedAppointment() {
+		new SetupHccMissedAppointment(new ReportHelper(), true).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artmissedappointment.form")
-	public void removeArtMissedAppointment() {
-		new SetupArtMissedAppointment(new ReportHelper(), true)
-				.deleteReportElements();
+	public String removeArtMissedAppointment() {
+		new SetupArtMissedAppointment(new ReportHelper(), true).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_artmissedappointment.form")
-	public void registerArtMissedAppointment() throws Exception {
+	public String registerArtMissedAppointment() throws Exception {
 		new SetupArtMissedAppointment(new ReportHelper(), true).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_arvquarterly.form")
-	public void registerArvQuarterly() throws Exception {
+	public String registerArvQuarterly() throws Exception {
 		new SetupArvQuarterly(new ReportHelper()).setup();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_arvquarterly.form")
-	public void removeArvQuarterly() {
+	public String removeArvQuarterly() {
 		new SetupArvQuarterly(new ReportHelper()).delete();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_hivdataquality.form")
-	public void registerHivDataQuality() throws Exception {
+	public String registerHivDataQuality() throws Exception {
 		new SetupHivDataQuality(new ReportHelper()).setup();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_hivdataquality.form")
-	public void removeHivDataQuality() {
+	public String removeHivDataQuality() {
 		new SetupHivDataQuality(new ReportHelper()).delete();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	// Chronic Care
 	@RequestMapping("/module/pihmalawi/remove_chroniccaremissedappointment.form")
-	public void removeChronicCareMissedAppointment() {
-		new SetupChronicCareMissedAppointment(new ReportHelper())
-				.deleteReportElements();
+	public String removeChronicCareMissedAppointment() {
+		new SetupChronicCareMissedAppointment(new ReportHelper()).deleteReportElements();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_chroniccaremissedappointment.form")
-	public void registerChronicCareMissedAppointment() throws Exception {
+	public String registerChronicCareMissedAppointment() throws Exception {
 		new SetupChronicCareMissedAppointment(new ReportHelper()).setup(false);
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_chroniccareappadherence.form")
-	public void removeChronicCareAppAdherence() {
-		new SetupAppointmentAdherence(new ReportHelper(), "adcc", "Chronic Care", null,
-				Arrays.asList(Context.getEncounterService().getEncounterType(
-						"CHRONIC_CARE_FOLLOWUP")), false).delete();
+	public String removeChronicCareAppAdherence() {
+		List<EncounterType> l = Arrays.asList(Context.getEncounterService().getEncounterType("CHRONIC_CARE_FOLLOWUP"));
+		new SetupAppointmentAdherence(new ReportHelper(), "adcc", "Chronic Care", null, l, false).delete();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_chroniccareappadherence.form")
-	public void registerChronicCareAppAdherence() throws Exception {
-		new SetupAppointmentAdherence(new ReportHelper(), "adcc", "Chronic Care", null,
-				Arrays.asList(Context.getEncounterService().getEncounterType(
-						"CHRONIC_CARE_FOLLOWUP")), false).setup();
+	public String registerChronicCareAppAdherence() throws Exception {
+		List<EncounterType> l = Arrays.asList(Context.getEncounterService().getEncounterType("CHRONIC_CARE_FOLLOWUP"));
+		new SetupAppointmentAdherence(new ReportHelper(), "adcc", "Chronic Care", null, l, false).setup();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/remove_artappadherence.form")
-	public void removeArtAppAdherence() {
+	public String removeArtAppAdherence() {
 		new SetupAppointmentAdherence(new ReportHelper(), "adart", "ART", Context
 				.getProgramWorkflowService().getProgramByName("HIV program")
 				.getWorkflowByName("Treatment status")
@@ -138,10 +156,11 @@ public class PihReportFormController {
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.delete();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 
 	@RequestMapping("/module/pihmalawi/register_artappadherence.form")
-	public void registerArtAppAdherence() throws Exception {
+	public String registerArtAppAdherence() throws Exception {
 		new SetupAppointmentAdherence(new ReportHelper(), "adart", "ART", Context
 				.getProgramWorkflowService().getProgramByName("HIV program")
 				.getWorkflowByName("Treatment status")
@@ -149,5 +168,6 @@ public class PihReportFormController {
 				.getEncounterService().getEncounterType("ART_INITIAL"), Context
 				.getEncounterService().getEncounterType("ART_FOLLOWUP")), false)
 				.setup();
+		return "redirect:/module/pihmalawi/registerReports.form";
 	}
 }
