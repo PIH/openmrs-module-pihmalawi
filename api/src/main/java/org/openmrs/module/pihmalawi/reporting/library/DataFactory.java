@@ -413,6 +413,15 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
+	public CohortDefinition getAnyEncounterOfTypesAtLocationDuringPeriod(List<EncounterType> types) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	}
+
 	public CohortDefinition getAnyEncounterOfTypesBeforeStartDate(List<EncounterType> types) {
 		EncounterCohortDefinition cd = new EncounterCohortDefinition();
 		cd.setEncounterTypeList(types);
@@ -435,6 +444,23 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
 	}
 
+	public CohortDefinition getAnyEncounterOfTypesAtLocationByEndDate(List<EncounterType> types) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
+
+	public CohortDefinition getAnyEncounterOfTypesAtLocationWithinMonthsByEndDate(List<EncounterType> types, int numMonths) {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate,locationList=location"));
+	}
+
 	public CohortDefinition getPatientsWithAnyObsDuringPeriod(Concept question, List<EncounterType> restrictToTypes) {
 		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
@@ -445,7 +471,18 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 	}
 
-	public CohortDefinition getPatientsWithNumericObsDuringPeriod(Concept question, List<EncounterType> restrictToTypes, RangeComparator operator, Double value) {
+	public CohortDefinition getPatientsWithAnyObsAtLocationDuringPeriod(Concept question, List<EncounterType> restrictToTypes) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	}
+
+	public CohortDefinition getPatientsWithNumericObsAtLocationDuringPeriod(Concept question, List<EncounterType> restrictToTypes, RangeComparator operator, Double value) {
 		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
 		cd.setQuestion(question);
@@ -454,7 +491,8 @@ public class DataFactory {
 		cd.setValue1(value);
 		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
-		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 
 	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, int numMonths) {
@@ -466,7 +504,7 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=endDate-"+numMonths+"m+1d,onOrBefore=endDate"));
 	}
 
-	public CohortDefinition getPatientsWithCodedObsDuringPeriod(Concept question, List<Concept> codedValues) {
+	public CohortDefinition getPatientsWithCodedObsAtLocationDuringPeriod(Concept question, List<Concept> codedValues) {
 		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
 		cd.setQuestion(question);
@@ -474,7 +512,8 @@ public class DataFactory {
 		cd.setValueList(codedValues);
 		cd.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
-		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 
 	public CohortDefinition getPatientsWithCodedObsByEndDate(Concept question, List<Concept> codedValues) {
@@ -519,16 +558,17 @@ public class DataFactory {
 
 	// Encounter Queries
 
-	public EncounterQuery getEncountersWithObsRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes) {
+	public EncounterQuery getEncountersWithObsRecordedAtLocationDuringPeriod(Concept question, List<EncounterType> encounterTypes) {
 		ObsForEncounterQuery q = new ObsForEncounterQuery();
 		q.setQuestion(question);
 		q.setEncounterTypes(encounterTypes);
 		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterLocations", "Locations", Location.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate,encounterLocations=location"));
 	}
 
-	public EncounterQuery getEncountersWithNumericObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, RangeComparator operator, Double value) {
+	public EncounterQuery getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(Concept question, List<EncounterType> encounterTypes, RangeComparator operator, Double value) {
 		NumericObsForEncounterQuery q = new NumericObsForEncounterQuery();
 		q.setQuestion(question);
 		q.setEncounterTypes(encounterTypes);
@@ -536,17 +576,19 @@ public class DataFactory {
 		q.setValue1(value);
 		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterLocations", "Locations", Location.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate,encounterLocations=location"));
 	}
 
-	public EncounterQuery getEncountersWithCodedObsValuesRecordedDuringPeriod(Concept question, List<EncounterType> encounterTypes, Concept... valuesToInclude) {
+	public EncounterQuery getEncountersWithCodedObsValuesRecordedAtLocationDuringPeriod(Concept question, List<EncounterType> encounterTypes, Concept... valuesToInclude) {
 		CodedObsForEncounterQuery q = new CodedObsForEncounterQuery();
 		q.setQuestion(question);
 		q.setEncounterTypes(encounterTypes);
 		q.setConceptsToInclude(Arrays.asList(valuesToInclude));
 		q.addParameter(new Parameter("encounterOnOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("encounterOnOrBefore", "On or before", Date.class));
-		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate"));
+		q.addParameter(new Parameter("encounterLocations", "Locations", Location.class));
+		return convert(q, ObjectUtil.toMap("encounterOnOrAfter=startDate,encounterOnOrBefore=endDate,encounterLocations=location"));
 	}
 
 	public CompositionEncounterQuery getEncountersInAll(EncounterQuery...elements) {

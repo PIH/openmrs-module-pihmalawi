@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
+import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.ObsInEncounterCohortDefinition;
@@ -61,24 +62,24 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 
 	// Encounters
 
-	@DocumentedDefinition(value = "hadChronicCareInitialVisitDuringPeriod")
-	public CohortDefinition getPatientsWithChronicCareInitialVisitDuringPeriod() {
-		return df.getAnyEncounterOfTypesDuringPeriod(Arrays.asList(metadata.getChronicCareInitialEncounterType()));
+	@DocumentedDefinition(value = "hadChronicCareInitialVisitAtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithChronicCareInitialVisitAtLocationDuringPeriod() {
+		return df.getAnyEncounterOfTypesAtLocationDuringPeriod(Arrays.asList(metadata.getChronicCareInitialEncounterType()));
 	}
 
-	@DocumentedDefinition(value = "hadChronicCareEncounterByEndDate")
-	public CohortDefinition getPatientsWithAChronicCareEncounterByEndDate() {
-		return df.getAnyEncounterOfTypesByEndDate(metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "hadChronicCareEncounterAtLocationByEndDate")
+	public CohortDefinition getPatientsWithAChronicCareEncounterAtLocationByEndDate() {
+		return df.getAnyEncounterOfTypesAtLocationByEndDate(metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "hadChronicCareEncounterWithin3MonthsOfEndDate")
-	public CohortDefinition getPatientsWithChronicCareEncounterWithin3MonthsOfEndDate() {
-		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 3);
+	@DocumentedDefinition(value = "hadChronicCareEncounterAtLocationWithin3MonthsOfEndDate")
+	public CohortDefinition getPatientsWithChronicCareEncounterAtLocationWithin3MonthsOfEndDate() {
+		return df.getAnyEncounterOfTypesAtLocationWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 3);
 	}
 
-	@DocumentedDefinition(value = "hadChronicCareEncounterWithin1MonthOfEndDate")
-	public CohortDefinition getPatientsWithNoChronicCareEncounterWithin1MonthOfEndDate() {
-		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 1);
+	@DocumentedDefinition(value = "hadChronicCareEncounterAtLocationWithin1MonthOfEndDate")
+	public CohortDefinition getPatientsWithNoChronicCareEncounterAtLocationWithin1MonthOfEndDate() {
+		return df.getAnyEncounterOfTypesAtLocationWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 1);
 	}
 
 	// Obs
@@ -113,93 +114,94 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		return hasDiagnosisByEndDate(metadata.getOtherNonCodedConcept());
 	}
 
-	@DocumentedDefinition(value = "hospitalizedDuringPeriod")
-	public CohortDefinition getPatientsHospitalizedDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getHospitalizedSinceLastVisitConcept(), Arrays.asList(metadata.getTrueConcept()));
+	@DocumentedDefinition(value = "hospitalizedAtLocationDuringPeriod")
+	public CohortDefinition getPatientsHospitalizedAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getHospitalizedSinceLastVisitConcept(), Arrays.asList(metadata.getTrueConcept()));
 	}
 
-	@DocumentedDefinition(value = "hospitalizedForNcdDuringPeriod")
-	public CohortDefinition getPatientsHospitalizedForNcdDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getHospitalizedForNcdSinceLastVisitConcept(), Arrays.asList(metadata.getYesConcept()));
+	@DocumentedDefinition(value = "hospitalizedForNcdAtLocationDuringPeriod")
+	public CohortDefinition getPatientsHospitalizedForNcdAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getHospitalizedForNcdSinceLastVisitConcept(), Arrays.asList(metadata.getYesConcept()));
 	}
 
-	@DocumentedDefinition(value = "patientsOnBeclomethasoneDuringPeriod")
-	public CohortDefinition getPatientsOnBeclomethasoneDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getBeclomethasoneConcept()));
+	@DocumentedDefinition(value = "patientsOnBeclomethasoneAtLocationDuringPeriod")
+	public CohortDefinition getPatientsOnBeclomethasoneAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getBeclomethasoneConcept()));
 	}
 
-	@DocumentedDefinition(value = "patientsWithMoreThanMildPersistentAsthmaDuringPeriod")
-	public CohortDefinition getPatientsWithMoreThanMildPersistentAsthmaDuringPeriod() {
+	@DocumentedDefinition(value = "patientsWithMoreThanMildPersistentAsthmaAtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithMoreThanMildPersistentAsthmaAtLocationDuringPeriod() {
 		List<Concept> answers = Arrays.asList(metadata.getModeratePersistentConcept(), metadata.getSeverePersistentConcept(), metadata.getSevereUncontrolledConcept());
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getAsthmaClassificationConcept(), answers);
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getAsthmaClassificationConcept(), answers);
 	}
 
-	@DocumentedDefinition(value = "patientsOnInsulinDuringPeriod")
-	public CohortDefinition getPatientsOnInsulinDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getInsulinConcept()));
+	@DocumentedDefinition(value = "patientsOnInsulinAtLocationDuringPeriod")
+	public CohortDefinition getPatientsOnInsulinAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getInsulinConcept()));
 	}
 
-	@DocumentedDefinition(value = "patientsWithNumberOfSeizuresRecordedDuringPeriod")
-	public CohortDefinition getPatientsWithNumberOfSeizuresRecordedDuringPeriod() {
-		return df.getPatientsWithAnyObsDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "patientsWithNumberOfSeizuresRecordedAtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithNumberOfSeizuresRecordedAtLocationDuringPeriod() {
+		return df.getPatientsWithAnyObsAtLocationDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "patientsWithMoreThanTwoSeizuresPerMonthRecordedDuringPeriod")
-	public CohortDefinition getPatientsWithMoreThanTwoSeizuresPerMonthRecordedDuringPeriod() {
-		return df.getPatientsWithNumericObsDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 2.0);
+	@DocumentedDefinition(value = "patientsWithMoreThanTwoSeizuresPerMonthRecordedAtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithMoreThanTwoSeizuresPerMonthRecordedAtLocationDuringPeriod() {
+		return df.getPatientsWithNumericObsAtLocationDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 2.0);
 	}
 
-	@DocumentedDefinition(value = "patientsWithSystolicBloodPressureOver180DuringPeriod")
-	public CohortDefinition getPatientsWithSystolicBloodPressureOver180DuringPeriod() {
-		return df.getPatientsWithNumericObsDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 180.0);
+	@DocumentedDefinition(value = "patientsWithSystolicBloodPressureOver180AtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithSystolicBloodPressureOver180AtLocationDuringPeriod() {
+		return df.getPatientsWithNumericObsAtLocationDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 180.0);
 	}
 
-	@DocumentedDefinition(value = "patientsWithDiastolicBloodPressureOver110DuringPeriod")
-	public CohortDefinition getPatientsWithDiastolicBloodPressureOver110DuringPeriod() {
-		return df.getPatientsWithNumericObsDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
+	@DocumentedDefinition(value = "patientsWithDiastolicBloodPressureOver110AtLocationDuringPeriod")
+	public CohortDefinition getPatientsWithDiastolicBloodPressureOver110AtLocationDuringPeriod() {
+		return df.getPatientsWithNumericObsAtLocationDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
 	}
 
-	@DocumentedDefinition(value = "patientsOnMoreThanOneHypertensionMedicationDuringPeriod")
-	public CohortDefinition getPatientsOnMoreThanOneHypertensionMedicationDuringPeriod() {
+	@DocumentedDefinition(value = "patientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod")
+	public CohortDefinition getPatientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod() {
 		PresenceOrAbsenceCohortDefinition cd = new PresenceOrAbsenceCohortDefinition();
 		for (Concept med : metadata.getHypertensionMedicationConcepts()) {
-			CohortDefinition onDrug = df.getPatientsWithCodedObsDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(med));
+			CohortDefinition onDrug = df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(med));
 			cd.addCohortToCheck(Mapped.mapStraightThrough(onDrug));
 		}
 		cd.setPresentInAtLeast(2);
 		return cd;
 	}
 
-	@DocumentedDefinition(value = "newPatientsReferredFromOPDDuringPeriod")
-	public CohortDefinition getNewPatientsReferredFromOPDDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getOutpatientConsultationConcept()));
+	@DocumentedDefinition(value = "newPatientsReferredFromOPDAtLocationDuringPeriod")
+	public CohortDefinition getNewPatientsReferredFromOPDAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getOutpatientConsultationConcept()));
 	}
 
-	@DocumentedDefinition(value = "newPatientsReferredFromInpatientWardDuringPeriod")
-	public CohortDefinition getNewPatientsReferredFromInpatientWardDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getInpatientWardConcept()));
+	@DocumentedDefinition(value = "newPatientsReferredFromInpatientWardAtLocationDuringPeriod")
+	public CohortDefinition getNewPatientsReferredFromInpatientWardAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getInpatientWardConcept()));
 	}
 
-	@DocumentedDefinition(value = "newPatientsReferredFromHealthCenterDuringPeriod")
-	public CohortDefinition getNewPatientsReferredFromHealthCenterDuringPeriod() {
-		return df.getPatientsWithCodedObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getHealthCenterConcept()));
+	@DocumentedDefinition(value = "newPatientsReferredFromHealthCenterAtLocationDuringPeriod")
+	public CohortDefinition getNewPatientsReferredFromHealthCenterAtLocationDuringPeriod() {
+		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getHealthCenterConcept()));
 	}
 
-	@DocumentedDefinition(value = "newPatientsReferredDuringPeriod")
-	public CohortDefinition getNewPatientsReferredDuringPeriod() {
-		return df.getPatientsWithAnyObsDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getChronicCareInitialEncounterType()));
+	@DocumentedDefinition(value = "newPatientsReferredAtLocationDuringPeriod")
+	public CohortDefinition getNewPatientsReferredAtLocationDuringPeriod() {
+		return df.getPatientsWithAnyObsAtLocationDuringPeriod(metadata.getSourceOfReferralConcept(), Arrays.asList(metadata.getChronicCareInitialEncounterType()));
 	}
 
-	@DocumentedDefinition(value = "patientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate")
-	public CohortDefinition getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate() {
+	@DocumentedDefinition(value = "patientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentAtLocationByEndDate")
+	public CohortDefinition getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentAtLocationByEndDate() {
 		ObsInEncounterCohortDefinition cd = new ObsInEncounterCohortDefinition();
 		cd.setWhichEncounter(TimeQualifier.LAST);
 		cd.setEncounterTypes(Arrays.asList(metadata.getChronicCareFollowupEncounterType()));
 		cd.addParameter(new Parameter("encounterOnOrBefore", "Encounter On Or Before", Date.class));
+		cd.addParameter(new Parameter("encounterLocations", "Encounter Locations", Location.class));
 		cd.setQuestion(metadata.getAppointmentDateConcept());
 		cd.setValueOperator1(RangeComparator.LESS_EQUAL);
 		cd.addParameter(new Parameter("valueDatetime1", "Date value", Date.class));
-		return df.convert(cd, ObjectUtil.toMap("encounterOnOrBefore=endDate,valueDatetime1=${endDate-1m}"));
+		return df.convert(cd, ObjectUtil.toMap("encounterOnOrBefore=endDate,encounterLocations=location,valueDatetime1=${endDate-1m}"));
 	}
 
 	// Programs

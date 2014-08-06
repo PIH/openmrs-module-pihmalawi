@@ -117,7 +117,7 @@ public class ChronicCareRegister extends ApzuReportManager {
 		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
 		// Rows are defined as all patients who have ever had a Chronic Care Encounter at the location by the end date
-		CohortDefinition haveChronicCareEncounter = chronicCareCohorts.getPatientsWithAChronicCareEncounterByEndDate();
+		CohortDefinition haveChronicCareEncounter = chronicCareCohorts.getPatientsWithAChronicCareEncounterAtLocationByEndDate();
 		dsd.addRowFilter(Mapped.mapStraightThrough(haveChronicCareEncounter));
 
 		// Columns to include

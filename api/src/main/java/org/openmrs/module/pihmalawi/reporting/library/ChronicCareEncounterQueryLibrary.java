@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.RangeComparator;
@@ -51,13 +52,14 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
         return PREFIX;
     }
 
-	@DocumentedDefinition(value = "chronicCareFollowupEncountersDuringPeriod")
-	public EncounterQuery getChronicCareFollowupEncountersDuringPeriod() {
+	@DocumentedDefinition(value = "chronicCareFollowupEncountersAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareFollowupEncountersAtLocationDuringPeriod() {
 		BasicEncounterQuery q = new BasicEncounterQuery();
 		q.addEncounterType(metadata.getChronicCareFollowupEncounterType());
 		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
-		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		q.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 
 	@DocumentedDefinition(value = "chronicCareFollowupEncountersByEndDate")
@@ -68,48 +70,48 @@ public class ChronicCareEncounterQueryLibrary extends BaseDefinitionLibrary<Enco
 		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrBefore=endDate"));
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithPeakFlowRecordedDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithPeakFlowRecordedDuringPeriod() {
-		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getPeakFlowConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "chronicCareEncountersWithPeakFlowRecordedAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithPeakFlowRecordedAtLocationDuringPeriod() {
+		return df.getEncountersWithObsRecordedAtLocationDuringPeriod(metadata.getPeakFlowConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithWeightRecordedDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithWeightRecordedDuringPeriod() {
-		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getWeightConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "chronicCareEncountersWithWeightRecordedAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithWeightRecordedAtLocationDuringPeriod() {
+		return df.getEncountersWithObsRecordedAtLocationDuringPeriod(metadata.getWeightConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseRecordedDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithSerumGlucoseRecordedDuringPeriod() {
-		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseRecordedAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSerumGlucoseRecordedAtLocationDuringPeriod() {
+		return df.getEncountersWithObsRecordedAtLocationDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseGreaterThan200DuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithSerumGlucoseGreaterThan200DuringPeriod() {
-		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 200.0);
+	@DocumentedDefinition(value = "chronicCareEncountersWithSerumGlucoseGreaterThan200AtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSerumGlucoseGreaterThan200AtLocationDuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(metadata.getSerumGlucoseConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 200.0);
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithSeizuresRecordedDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithSeizuresRecordedDuringPeriod() {
-		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "chronicCareEncountersWithSeizuresRecordedAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSeizuresRecordedAtLocationDuringPeriod() {
+		return df.getEncountersWithObsRecordedAtLocationDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureRecordedDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureRecordedDuringPeriod() {
-		return df.getEncountersWithObsRecordedDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes());
+	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureRecordedAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureRecordedAtLocationDuringPeriod() {
+		return df.getEncountersWithObsRecordedAtLocationDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod() {
-		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 180.0);
+	@DocumentedDefinition(value = "chronicCareEncountersWithSystolicBloodPressureOver180AtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithSystolicBloodPressureOver180AtLocationDuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 180.0);
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod() {
-		return df.getEncountersWithNumericObsValuesRecordedDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
+	@DocumentedDefinition(value = "chronicCareEncountersWithDiastolicBloodPressureOver110AtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithDiastolicBloodPressureOver110AtLocationDuringPeriod() {
+		return df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
 	}
 
-	@DocumentedDefinition(value = "chronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod")
-	public EncounterQuery getChronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod() {
-		return df.getEncountersWithCodedObsValuesRecordedDuringPeriod(metadata.getPreferredTreatmentOutOfStockConcept(), metadata.getChronicCareEncounterTypes(), metadata.getYesConcept());
+	@DocumentedDefinition(value = "chronicCareEncountersWithPreferredTreatmentStockedOutAtLocationDuringPeriod")
+	public EncounterQuery getChronicCareEncountersWithPreferredTreatmentStockedOutAtLocationDuringPeriod() {
+		return df.getEncountersWithCodedObsValuesRecordedAtLocationDuringPeriod(metadata.getPreferredTreatmentOutOfStockConcept(), metadata.getChronicCareEncounterTypes(), metadata.getYesConcept());
 	}
 }

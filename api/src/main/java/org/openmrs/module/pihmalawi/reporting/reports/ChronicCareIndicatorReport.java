@@ -105,42 +105,42 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 
 		// Underlying cohorts and queries
 
-		CohortDefinition visitByEnd = ccCohorts.getPatientsWithAChronicCareEncounterByEndDate();
+		CohortDefinition visitByEnd = ccCohorts.getPatientsWithAChronicCareEncounterAtLocationByEndDate();
 		CohortDefinition onTreatmentAtEnd = ccCohorts.getPatientsInOnTreatmentStateAtLocationOnEndDate();
 		CohortDefinition enrolledAtEnd = df.getPatientsInAll(visitByEnd, onTreatmentAtEnd);
-		CohortDefinition visitWithin3Months = ccCohorts.getPatientsWithChronicCareEncounterWithin3MonthsOfEndDate();
+		CohortDefinition visitWithin3Months = ccCohorts.getPatientsWithChronicCareEncounterAtLocationWithin3MonthsOfEndDate();
 		CohortDefinition activeOnTx = df.getPatientsInAll(onTreatmentAtEnd, visitWithin3Months);
-		CohortDefinition initialEncountersDuringPeriod = ccCohorts.getPatientsWithChronicCareInitialVisitDuringPeriod();
-		CohortDefinition hospitalizedDuringPeriod = ccCohorts.getPatientsHospitalizedDuringPeriod();
-		CohortDefinition hospitalizedForNcdDuringPeriod = ccCohorts.getPatientsHospitalizedForNcdDuringPeriod();
-		CohortDefinition hasMoreThanMildAsthma = ccCohorts.getPatientsWithMoreThanMildPersistentAsthmaDuringPeriod();
-		CohortDefinition onBeclomethasone = ccCohorts.getPatientsOnBeclomethasoneDuringPeriod();
-		CohortDefinition onInsulin = ccCohorts.getPatientsOnInsulinDuringPeriod();
-		CohortDefinition hadSeizuresRecorded = ccCohorts.getPatientsWithNumberOfSeizuresRecordedDuringPeriod();
-		CohortDefinition hadMoreThanTwoSeizures = ccCohorts.getPatientsWithMoreThanTwoSeizuresPerMonthRecordedDuringPeriod();
-		CohortDefinition hadSbpOver180 = ccCohorts.getPatientsWithSystolicBloodPressureOver180DuringPeriod();
-		CohortDefinition hadDbpOver110 = ccCohorts.getPatientsWithDiastolicBloodPressureOver110DuringPeriod();
+		CohortDefinition initialEncountersDuringPeriod = ccCohorts.getPatientsWithChronicCareInitialVisitAtLocationDuringPeriod();
+		CohortDefinition hospitalizedDuringPeriod = ccCohorts.getPatientsHospitalizedAtLocationDuringPeriod();
+		CohortDefinition hospitalizedForNcdDuringPeriod = ccCohorts.getPatientsHospitalizedForNcdAtLocationDuringPeriod();
+		CohortDefinition hasMoreThanMildAsthma = ccCohorts.getPatientsWithMoreThanMildPersistentAsthmaAtLocationDuringPeriod();
+		CohortDefinition onBeclomethasone = ccCohorts.getPatientsOnBeclomethasoneAtLocationDuringPeriod();
+		CohortDefinition onInsulin = ccCohorts.getPatientsOnInsulinAtLocationDuringPeriod();
+		CohortDefinition hadSeizuresRecorded = ccCohorts.getPatientsWithNumberOfSeizuresRecordedAtLocationDuringPeriod();
+		CohortDefinition hadMoreThanTwoSeizures = ccCohorts.getPatientsWithMoreThanTwoSeizuresPerMonthRecordedAtLocationDuringPeriod();
+		CohortDefinition hadSbpOver180 = ccCohorts.getPatientsWithSystolicBloodPressureOver180AtLocationDuringPeriod();
+		CohortDefinition hadDbpOver110 = ccCohorts.getPatientsWithDiastolicBloodPressureOver110AtLocationDuringPeriod();
 		CohortDefinition hadHighBp = df.getPatientsInAny(hadSbpOver180, hadDbpOver110);
-		CohortDefinition onMultipleHypertensionMeds = ccCohorts.getPatientsOnMoreThanOneHypertensionMedicationDuringPeriod();
+		CohortDefinition onMultipleHypertensionMeds = ccCohorts.getPatientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod();
 		CohortDefinition male = coreCohorts.getMales();
-		CohortDefinition referredDuringPeriod = ccCohorts.getNewPatientsReferredDuringPeriod();
-		CohortDefinition referredFromOpd = ccCohorts.getNewPatientsReferredFromOPDDuringPeriod();
-		CohortDefinition referredFromInpatient = ccCohorts.getNewPatientsReferredFromInpatientWardDuringPeriod();
-		CohortDefinition referredFromHealthCenter = ccCohorts.getNewPatientsReferredFromHealthCenterDuringPeriod();
+		CohortDefinition referredDuringPeriod = ccCohorts.getNewPatientsReferredAtLocationDuringPeriod();
+		CohortDefinition referredFromOpd = ccCohorts.getNewPatientsReferredFromOPDAtLocationDuringPeriod();
+		CohortDefinition referredFromInpatient = ccCohorts.getNewPatientsReferredFromInpatientWardAtLocationDuringPeriod();
+		CohortDefinition referredFromHealthCenter = ccCohorts.getNewPatientsReferredFromHealthCenterAtLocationDuringPeriod();
 		CohortDefinition referredFromOther = df.createPatientComposition(referredDuringPeriod, "AND NOT (", referredFromOpd, "OR", referredFromInpatient, "OR", referredFromHealthCenter, ")");
-		CohortDefinition overAMonthLate = ccCohorts.getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentByEndDate();
+		CohortDefinition overAMonthLate = ccCohorts.getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentAtLocationByEndDate();
 
-		EncounterQuery visits = ccEncounterQueries.getChronicCareFollowupEncountersDuringPeriod();
-		EncounterQuery visitsWithPeakFlow = ccEncounterQueries.getChronicCareEncountersWithPeakFlowRecordedDuringPeriod();
-		EncounterQuery visitsWithWeight = ccEncounterQueries.getChronicCareEncountersWithWeightRecordedDuringPeriod();
-		EncounterQuery visitsWithFingerstick = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseRecordedDuringPeriod();
-		EncounterQuery visitsWithFingerstickOver200 = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseGreaterThan200DuringPeriod();
-		EncounterQuery visitsWithSeizures = ccEncounterQueries.getChronicCareEncountersWithSeizuresRecordedDuringPeriod();
-		EncounterQuery visitsWithSbp = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureRecordedDuringPeriod();
-		EncounterQuery visitsWithSbpOver180 = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureOver180DuringPeriod();
-		EncounterQuery visitsWithDbpOver110 = ccEncounterQueries.getChronicCareEncountersWithDiastolicBloodPressureOver110DuringPeriod();
+		EncounterQuery visits = ccEncounterQueries.getChronicCareFollowupEncountersAtLocationDuringPeriod();
+		EncounterQuery visitsWithPeakFlow = ccEncounterQueries.getChronicCareEncountersWithPeakFlowRecordedAtLocationDuringPeriod();
+		EncounterQuery visitsWithWeight = ccEncounterQueries.getChronicCareEncountersWithWeightRecordedAtLocationDuringPeriod();
+		EncounterQuery visitsWithFingerstick = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseRecordedAtLocationDuringPeriod();
+		EncounterQuery visitsWithFingerstickOver200 = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseGreaterThan200AtLocationDuringPeriod();
+		EncounterQuery visitsWithSeizures = ccEncounterQueries.getChronicCareEncountersWithSeizuresRecordedAtLocationDuringPeriod();
+		EncounterQuery visitsWithSbp = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureRecordedAtLocationDuringPeriod();
+		EncounterQuery visitsWithSbpOver180 = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureOver180AtLocationDuringPeriod();
+		EncounterQuery visitsWithDbpOver110 = ccEncounterQueries.getChronicCareEncountersWithDiastolicBloodPressureOver110AtLocationDuringPeriod();
 		EncounterQuery visitsWithHighBp = df.getEncountersInAny(visitsWithSbpOver180, visitsWithDbpOver110);
-		EncounterQuery visitsWithTxOutOfStock = ccEncounterQueries.getChronicCareEncountersWithPreferredTreatmentStockedOutDuringPeriod();
+		EncounterQuery visitsWithTxOutOfStock = ccEncounterQueries.getChronicCareEncountersWithPreferredTreatmentStockedOutAtLocationDuringPeriod();
 
 		// Construct Report Definition
 
@@ -186,10 +186,10 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "16N", "Hypertension visits with SBP > 180 or DBP > 110", visitsWithHighBp, ColumnKey.Hypertension);
 		addIndicatorForDiagnosisColumns(dsd, "16D", "Hypertension visits", "3", ColumnKey.Hypertension);
 		addIndicatorForDiagnosisColumns(dsd, "17", "Number of new patients enrolled who are male", df.getPatientsInAll(initialEncountersDuringPeriod, male));
-		addIndicatorForDiagnosisColumns(dsd, "18", "Number of new patients referred from OPD", referredFromOpd);
-		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", referredFromInpatient);
-		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", referredFromHealthCenter);
-		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", referredFromOther);
+		addIndicatorForDiagnosisColumns(dsd, "18", "Number of new patients referred from OPD", df.getPatientsInAll(initialEncountersDuringPeriod, referredFromOpd));
+		addIndicatorForDiagnosisColumns(dsd, "19", "Number of new patients referred from inpatient ward", df.getPatientsInAll(initialEncountersDuringPeriod, referredFromInpatient));
+		addIndicatorForDiagnosisColumns(dsd, "20", "Number of new patients referred from health center", df.getPatientsInAll(initialEncountersDuringPeriod, referredFromHealthCenter));
+		addIndicatorForDiagnosisColumns(dsd, "21", "Number of new patients referred from other (community event, ANC, other)", df.getPatientsInAll(initialEncountersDuringPeriod, referredFromOther));
 		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(enrolledAtEnd, overAMonthLate));
 		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", enrolledAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
