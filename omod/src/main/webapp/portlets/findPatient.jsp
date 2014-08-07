@@ -43,6 +43,7 @@
             });
 
             clearPatientSearchResults();
+            jQuery("#patientSearchPhrase").focus();
         });
 
         function clearPatientSearchResults() {
@@ -78,7 +79,7 @@
                                 var dataRows = [];
                                 for (rowNum in data) {
                                     var p = data[rowNum];
-                                    dataRows.push([p.patientId, p.identifier, p.givenName, p.familyName, p.familyName2, p.age, p.gender, p.birthdateDisplay]);
+                                    dataRows.push([p.patientId, p.identifier, p.givenName, p.familyName, p.age, p.gender, p.birthdateDisplay]);
                                 }
                                 patSearchTable.fnAddData(dataRows);
                                 patSearchTable.fnSetColumnVis(0, false);
@@ -119,7 +120,6 @@
                         <th>Identifier</th>
                         <th>Given Name</th>
                         <th>Family Name</th>
-                        <th>Family Name 2</th>
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Birthdate</th>
