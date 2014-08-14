@@ -51,6 +51,7 @@ public class HivMetadata extends CommonMetadata {
 	public static String HCC_NUMBER = "HCC Number";
 	public static String ARV_NUMBER = "ARV Number";
 	public static String OLD_PART_NUMBER = "z_deprecated PART Number";
+	public static String OLD_PRE_ART_NUMBER_OLD_FORMAT = "z_deprecated Pre ART Number (Old format)";
 
 	public Program getHivProgram() {
 		return getProgram(HIV_PROGRAM);
@@ -121,7 +122,6 @@ public class HivMetadata extends CommonMetadata {
 		return l;
 	}
 
-
 	public EncounterType getPreArtInitialEncounterType() {
 		return getEncounterType(PRE_ART_INITIAL);
 	}
@@ -191,6 +191,10 @@ public class HivMetadata extends CommonMetadata {
 
 	public PatientIdentifierType getOldPartNumberIdentifierType() {
 		return getPatientIdentifierType(OLD_PART_NUMBER);
+	}
+
+	public PatientIdentifierType getOldPreArtNumberOldFormatIdentifierType() {
+		return getPatientIdentifierType(OLD_PRE_ART_NUMBER_OLD_FORMAT);
 	}
 
 	public List<Location> getHivLocations() {

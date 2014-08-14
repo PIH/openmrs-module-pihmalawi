@@ -21,7 +21,6 @@ import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAfterStartedStateCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ObsAfterStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -263,13 +262,15 @@ public class SetupArvQuarterly {
 		h.replaceCohortDefinition(i_stage_conditions_cocd);
 		
 		// in state at location (used for primary outcomes)
-		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
-		islcd.setName("arvquarterly: In state at location_");
-		islcd.addParameter(new Parameter("state", "State",
-				ProgramWorkflowState.class));
-		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
-		islcd.addParameter(new Parameter("location", "location", Location.class));
-		h.replaceCohortDefinition(islcd);
+		{
+			InStateCohortDefinition islcd = new InStateCohortDefinition();
+			islcd.addParameter(new Parameter("states", "State", ProgramWorkflowState.class));
+			islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
+			islcd.addParameter(new Parameter("locations", "location", Location.class));
+			MappedParametersCohortDefinition cd = new MappedParametersCohortDefinition(islcd, "states=state,locations=location");
+			cd.setName("arvquarterly: In state at location_");
+			h.replaceCohortDefinition(cd);
+		}
 		
 		// Defaulters (used for primary outcomes)
 		// todo: only take appointment dates from art clinic. not sure how to

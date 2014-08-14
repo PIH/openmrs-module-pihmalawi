@@ -40,11 +40,6 @@ HCC Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihm
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hccmissedappointment_lowerneno.form">Remove</a>
 <br/>
 
-<h3>HIV Data cleanup</h3>
-HIV Data Quality: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_hivdataquality.form">(Re) register</a>
-<a href="${pageContext.request.contextPath}/module/pihmalawi/remove_hivdataquality.form">Remove</a>
-<br/>
-
 <h3>Chronic Care</h3>
 Chronic Care Missed Appointments: <a href="${pageContext.request.contextPath}/module/pihmalawi/register_chroniccaremissedappointment.form">(Re) register</a>
 <a href="${pageContext.request.contextPath}/module/pihmalawi/remove_chroniccaremissedappointment.form">Remove</a>

@@ -13,11 +13,21 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.User;
+import org.openmrs.api.FormService;
+import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
+import org.openmrs.module.reporting.common.DurationUnit;
+import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 /**
  * Defines all of the General Cohort Definition instances we want to expose for Pih Malawi
@@ -29,6 +39,9 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 
 	@Autowired
 	private DataFactory df;
+
+	@Autowired
+	FormService formService;
 
     @Override
     public Class<? super CohortDefinition> getDefinitionType() {
@@ -53,5 +66,23 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 	@DocumentedDefinition(value = "turned13WeeksOldDuringPeriod")
 	public CohortDefinition getPatientsWhoTurned13WeeksDuringPeriod() {
 		return df.getPatientsWhoTurnedWeeksOldDuringPeriod(13);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMoreThan25MonthsOldByEndDate() {
+		AgeCohortDefinition cd = new AgeCohortDefinition();
+		cd.setMinAge(26);
+		cd.setMinAgeUnit(DurationUnit.MONTHS);
+		cd.addParameter(new Parameter("effectiveDate", "Effective Date", Date.class));
+		return df.convert(cd, ObjectUtil.toMap("effectiveDate=endDate"));
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsForWhomUserWasMostRecentToEnterAForm() {
+		EncounterCohortDefinition cd = new EncounterCohortDefinition();
+		cd.setTimeQualifier(TimeQualifier.LAST);
+		cd.setFormList(formService.getAllForms());
+		cd.addParameter(new Parameter("createdBy", "Created By", User.class));
+		return df.convert(cd, ObjectUtil.toMap("createdBy=user"));
 	}
 }

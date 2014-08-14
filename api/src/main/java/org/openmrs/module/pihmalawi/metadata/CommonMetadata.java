@@ -20,7 +20,9 @@ import org.openmrs.RelationshipType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class CommonMetadata extends Metadata {
@@ -140,6 +142,9 @@ public class CommonMetadata extends Metadata {
 	public static final String OUTPATIENT_CONSULTATION_CONCEPT = "Outpatient consultation";
 	public static final String INPATIENT_WARD_CONCEPT = "Ward";
 	public static final String HEALTH_CENTER_CONCEPT = "Health center";
+
+	public static final String REASON_FOR_EXITING_CARE_CONCEPT = "REASON FOR EXITING CARE";
+	public static final String DIED_CONCEPT = "Patient died";
 
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
@@ -417,6 +422,14 @@ public class CommonMetadata extends Metadata {
 		return getConcept(HEALTH_CENTER_CONCEPT);
 	}
 
+	public Concept getReasonForExitingCareConcept() {
+		return getConcept(REASON_FOR_EXITING_CARE_CONCEPT);
+	}
+
+	public Concept getDiedConcept() {
+		return getConcept(DIED_CONCEPT);
+	}
+
 	public static String NENO_HOSPITAL = "Neno District Hospital";
 	public static String OUTPATIENT_LOCATION = "Outpatient";
 	public static String REGISTRATION_LOCATION = "Registration";
@@ -559,5 +572,23 @@ public class CommonMetadata extends Metadata {
 			return getPrimaryFacilities();
 		}
 		return getLocationsForTag(tagName);
+	}
+
+	// TODO: Replace with location attribute
+	public Map<Location, String> getLocationShortNames() {
+		Map<Location, String> locationShortNames = new HashMap<Location, String>();
+		locationShortNames.put(getLisungwiHospital(), "LSI");
+		locationShortNames.put(getMatopeHc(), "MTE");
+		locationShortNames.put(getChifungaHc(), "CFGA");
+		locationShortNames.put(getZalewaHc(), "ZLA");
+		locationShortNames.put(getNkhulaFallsHc(), "NKA");
+		locationShortNames.put(getLuwaniHc(), "LWAN");
+		locationShortNames.put(getNenoHospital(), "NNO");
+		locationShortNames.put(getMatandaniHc(), "MTDN");
+		locationShortNames.put(getLigoweHc(), "LGWE");
+		locationShortNames.put(getMagaletaHc(), "MGT");
+		locationShortNames.put(getNenoMissionHc(), "NOP");
+		locationShortNames.put(getNsambeHc(), "NSM");
+		return locationShortNames;
 	}
 }

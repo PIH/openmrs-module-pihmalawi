@@ -72,6 +72,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsWithIdentifierOfType(hivMetadata.getArvNumberIdentifierType());
 	}
 
+	@DocumentedDefinition(value = "hasAnyPreArvNumber")
+	public CohortDefinition getPatientsWithAnyPreArvNumber() {
+		return df.getPatientsWithIdentifierOfType(hivMetadata.getHccNumberIdentifierType(), hivMetadata.getOldPartNumberIdentifierType(), hivMetadata.getOldPreArtNumberOldFormatIdentifierType());
+	}
+
 	@DocumentedDefinition(value = "enrolledInHivProgramByEndDate")
 	public CohortDefinition getEverEnrolledInHivProgramByEndDate() {
 		return df.getEverEnrolledInProgramByEndDate(hivMetadata.getHivProgram());
@@ -235,6 +240,16 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getAnyEncounterOfTypesByEndDate(hivMetadata.getPreArtEncounterTypes());
 	}
 
+	@DocumentedDefinition(value = "hadPreArtInitialEncounterByEndDate")
+	public CohortDefinition getPatientsWithAPreArtInitialEncounterByEndDate() {
+		return df.getAnyEncounterOfTypesByEndDate(Arrays.asList(hivMetadata.getPreArtInitialEncounterType()));
+	}
+
+	@DocumentedDefinition(value = "hadPreArtFollowupEncounterByEndDate")
+	public CohortDefinition getPatientsWithAPreArtFollowupEncounterByEndDate() {
+		return df.getAnyEncounterOfTypesByEndDate(Arrays.asList(hivMetadata.getPreArtFollowupEncounterType()));
+	}
+
 	@DocumentedDefinition(value = "hadArtEncounterBeforeStartDate")
 	public CohortDefinition getPatientsWithAnArtEncounterBeforeStartDate() {
 		return df.getAnyEncounterOfTypesBeforeStartDate(hivMetadata.getArtEncounterTypes());
@@ -248,6 +263,16 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	@DocumentedDefinition(value = "hadArtEncounterByEndDate")
 	public CohortDefinition getPatientsWithAnArtEncounterByEndDate() {
 		return df.getAnyEncounterOfTypesByEndDate(hivMetadata.getArtEncounterTypes());
+	}
+
+	@DocumentedDefinition(value = "hadArtInitialEncounterByEndDate")
+	public CohortDefinition getPatientsWithAnArtInitialEncounterByEndDate() {
+		return df.getAnyEncounterOfTypesByEndDate(Arrays.asList(hivMetadata.getArtInitialEncounterType()));
+	}
+
+	@DocumentedDefinition(value = "hadArtFollowupEncounterByEndDate")
+	public CohortDefinition getPatientsWithAnArtFollowupEncounterByEndDate() {
+		return df.getAnyEncounterOfTypesByEndDate(Arrays.asList(hivMetadata.getArtFollowupEncounterType()));
 	}
 
 	@DocumentedDefinition(value = "hadHivEncounterBeforeStartDate")

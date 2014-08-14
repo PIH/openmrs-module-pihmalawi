@@ -5,10 +5,10 @@ import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reports.extension.InStateAtLocationCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.SqlCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -68,12 +68,13 @@ public class ApzuReportElementsArt {
 
 	@Deprecated
 	public static CohortDefinition hivDefaultedAtLocationOnDate(String prefix) {
-		InStateAtLocationCohortDefinition islcd = new InStateAtLocationCohortDefinition();
-		islcd.setName(prefix + ": Defaulted at location_");
+		InStateCohortDefinition islcd = new InStateCohortDefinition();
 		islcd.addParameter(new Parameter("onDate", "onDate", Date.class));
-		islcd.addParameter(new Parameter("location", "location", Location.class));
-		islcd.setState(hivMetadata.getDefaultedState());
-		h.replaceCohortDefinition(islcd);
+		islcd.addParameter(new Parameter("locations", "location", Location.class));
+		islcd.addState(hivMetadata.getDefaultedState());
+		MappedParametersCohortDefinition cd = new MappedParametersCohortDefinition(islcd, "locations=location");
+		cd.setName(prefix + ": Defaulted at location_");
+		h.replaceCohortDefinition(cd);
 		return islcd;
 	}
 

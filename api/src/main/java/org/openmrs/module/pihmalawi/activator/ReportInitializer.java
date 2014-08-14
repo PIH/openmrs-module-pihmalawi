@@ -159,5 +159,23 @@ public class ReportInitializer implements Initializer {
 		as.executeSQL("delete from serialized_object where name like 'enc:%';", false);
 		as.executeSQL("delete from serialized_object where name like 'Weekly Encounter%';", false);
 
+		log.warn("Removing HIV Data Quality Reports");
+		deleteAll("HIV Data Quality For All Users.xls (Excel)_", "HIV Data Quality_", "HIV Data Quality By User_", "HIV Data Quality For All Users (SLOW)_", "hivdq:");
 	}
+
+	protected void deleteAll(String... prefixes) {
+		AdministrationService as = Context.getAdministrationService();
+		for (String prefix : prefixes) {
+			deleteReportDesigns(prefix);
+			as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like '"+prefix+"%');", false);
+			as.executeSQL("delete from serialized_object where name like '"+prefix+"%';", false);
+		}
+	}
+
+	protected void deleteReportDesigns(String prefix) {
+		AdministrationService as = Context.getAdministrationService();
+		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like '"+prefix+"%');", false);
+		as.executeSQL("delete from reporting_report_design where name like '"+prefix+"%';", false);
+	}
+
 }
