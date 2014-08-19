@@ -16,9 +16,17 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
+import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
@@ -26,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +43,22 @@ public class HivVisitsReport extends ApzuReportManager {
 	public static final String EXCEL_REPORT_DESIGN_UUID = "6c5fcaf3-02d1-11e4-a73c-54ee7513a7ff";
 
 	@Autowired
+	private DataFactory df;
+
+	@Autowired
 	private HivMetadata metadata;
+
+	@Autowired
+	private BuiltInEncounterDataLibrary builtInEncounterData;
+
+	@Autowired
+	private BaseEncounterDataLibrary baseEncounterData;
+
+	@Autowired
+	private BuiltInPatientDataLibrary builtInPatientData;
+
+	@Autowired
+	private BasePatientDataLibrary basePatientData;
 
 	public HivVisitsReport() {}
 
@@ -81,12 +103,29 @@ public class HivVisitsReport extends ApzuReportManager {
 
 	protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType, PatientIdentifierType identifierType) {
 		EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
-		dsd.setEncounterTypes(Arrays.asList(encounterType));
-		dsd.setPatientIdentifierTypes(Arrays.asList(identifierType));
-		dsd.setColumnDisplayFormat(Arrays.asList(EncounterAndObsDataSetDefinition.ColumnDisplayFormat.BEST_SHORT_NAME));
-		dsd.addParameter(new Parameter("encounterDatetimeOnOrAfter", "encounterDatetimeOnOrAfter", Date.class));
-		dsd.addParameter(new Parameter("encounterDatetimeOnOrBefore", "encounterDatetimeOnOrBefore", Date.class));
-		rd.addDataSetDefinition(key, Mapped.map(dsd, "encounterDatetimeOnOrBefore=${endDate},encounterDatetimeOnOrAfter=${startDate}"));
+		dsd.setParameters(getParameters());
+
+		BasicEncounterQuery rowFilter = new BasicEncounterQuery();
+		rowFilter.addEncounterType(encounterType);
+		rowFilter.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+		rowFilter.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		MappedParametersEncounterQuery q = new MappedParametersEncounterQuery(rowFilter, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		dsd.addRowFilter(Mapped.mapStraightThrough(q));
+
+		dsd.addColumn("ENCOUNTER_ID", builtInEncounterData.getEncounterId(), "");
+		dsd.addColumn("ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime(), "");
+		dsd.addColumn("LOCATION", builtInEncounterData.getLocationName(), "");
+		dsd.addColumn("INTERNAL_PATIENT_ID", builtInEncounterData.getPatientId(), "");
+		dsd.addColumn(identifierType.getName(), df.getAllIdentifiersOfType(identifierType, df.getIdentifierCollectionConverter()), "");
+		dsd.addColumn("Birthdate", basePatientData.getBirthdate(), "");
+		dsd.addColumn("Age at encounter (yr)", baseEncounterData.getAgeAtEncounterDateInYears(), "");
+		dsd.addColumn("Age at encounter (mth)", baseEncounterData.getAgeAtEncounterDateInMonths(), "");
+		dsd.addColumn("M/F", builtInPatientData.getGender(), "");
+		dsd.addColumn("District", basePatientData.getDistrict(), "");
+		dsd.addColumn("T/A", basePatientData.getTraditionalAuthority(), "");
+		dsd.addColumn("Village", basePatientData.getVillage(), "");
+
+		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 	}
 
 	@Override

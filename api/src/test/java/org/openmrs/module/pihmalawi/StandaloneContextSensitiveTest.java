@@ -46,6 +46,9 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 			authenticate();
 			performTest();
 		}
+		else {
+			System.out.println("TEST NOT ENABLED");
+		}
 	}
 
 	protected abstract void performTest() throws Exception;

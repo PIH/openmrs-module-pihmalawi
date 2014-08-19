@@ -123,12 +123,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>uiframework-omod</artifactId>
-			<version>${uiframeworkVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
 			<version>${openMRSVersion}</version>
