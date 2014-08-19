@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class HccQuarterlyReportManager extends ApzuReportManager {
+public class HccQuarterlyReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "59b45872-e6aa-11e3-89c9-0023156365e4";
 	public static final String EXCEL_REPORT_RESOURCE_NAME = "HccQuarterlyReport.xls";
@@ -46,7 +46,7 @@ public class HccQuarterlyReportManager extends ApzuReportManager {
 	@Autowired
 	private HivCohortDefinitionLibrary hivCohorts;
 
-	public HccQuarterlyReportManager() {}
+	public HccQuarterlyReport() {}
 
 	@Override
 	public String getUuid() {

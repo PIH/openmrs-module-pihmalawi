@@ -14,7 +14,6 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
-import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -33,7 +32,7 @@ public class HccQuarterlyReportTest extends ReportManagerTest {
 	HivMetadata hivMetadata;
 
 	@Autowired
-	HccQuarterlyReportManager hccQuarterlyReport;
+	HccQuarterlyReport hccQuarterlyReport;
 
 	@Override
 	public ReportManager getReportManager() {
