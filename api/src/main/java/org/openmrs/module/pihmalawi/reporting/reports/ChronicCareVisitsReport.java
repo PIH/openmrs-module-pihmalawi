@@ -28,7 +28,7 @@ import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibra
 import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
+import org.openmrs.module.reporting.query.encounter.definition.ConditionalParameterEncounterQuery;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +90,7 @@ public class ChronicCareVisitsReport extends ApzuReportManager {
 		l.add(new Parameter("startDate", "From Date", Date.class));
 		l.add(new Parameter("endDate", "To Date", Date.class));
 		l.add(df.getOptionalLocationParameter());
+		l.add(new Parameter("latestOnly", "Include most recent visit only?", Boolean.class, null, Boolean.FALSE, null));
 		return l;
 	}
 
@@ -117,9 +118,12 @@ public class ChronicCareVisitsReport extends ApzuReportManager {
 		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 
 		// Row filters
-
-		EncounterQuery dateLocationTypeFilter = encounterQueries.getEncountersAtLocationDuringPeriod(encounterType);
-		dsd.addRowFilter(Mapped.mapStraightThrough(dateLocationTypeFilter));
+		ConditionalParameterEncounterQuery filter = new ConditionalParameterEncounterQuery();
+		filter.setParameters(getParameters());
+		filter.setParameterToCheck("latestOnly");
+		filter.addConditionalQuery(Boolean.TRUE, Mapped.mapStraightThrough(encounterQueries.getMostRecentEncountersAtLocationDuringPeriod(encounterType)));
+		filter.setDefaultQuery(Mapped.mapStraightThrough(encounterQueries.getEncountersAtLocationDuringPeriod(encounterType)));
+		dsd.addRowFilter(Mapped.mapStraightThrough(filter));
 
 		// Columns to include
 

@@ -15,8 +15,8 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.EncounterType;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
-import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
@@ -48,6 +48,19 @@ public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQu
 		if (types != null && types.length > 0) {
 			q.setEncounterTypes(Arrays.asList(types));
 		}
+		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		q.addParameter(new Parameter("locationList", "Locations", Date.class));
+		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	}
+
+	public EncounterQuery getMostRecentEncountersAtLocationDuringPeriod(EncounterType... types) {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		if (types != null && types.length > 0) {
+			q.setEncounterTypes(Arrays.asList(types));
+		}
+		q.setWhich(TimeQualifier.LAST);
+		q.setWhichNumber(1);
 		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
 		q.addParameter(new Parameter("locationList", "Locations", Date.class));
