@@ -36,6 +36,7 @@ import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinit
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
@@ -78,6 +79,7 @@ import org.openmrs.module.reporting.data.person.definition.RelationshipsForPerso
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
+import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.CodedObsForEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.CompositionEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
@@ -337,6 +339,14 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
 	}
 
+	public CohortDefinition getActiveInStatesAtLocationOnEndDate(List<ProgramWorkflowState> states) {
+		InStateCohortDefinition cd = new InStateCohortDefinition();
+		cd.setStates(states);
+		cd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+		cd.addParameter(new Parameter("locations", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
+	}
+
 	public CohortDefinition getActiveInStateAtLocationNumMonthsBeforeEndDate(ProgramWorkflowState state, int numMonths) {
 		InStateCohortDefinition cd = new InStateCohortDefinition();
 		cd.addState(state);
@@ -527,6 +537,15 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
 	}
 
+	public CohortDefinition getPatientsWhoNeverHadObsAtLocationByEndDate(Concept question, List<EncounterType> encounterTypes) {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.NO);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(encounterTypes);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
+
 	public CohortDefinition getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(ProgramWorkflowState state, Integer minAge, Age.Unit minAgeUnit,  Integer maxAge, Age.Unit maxAgeUnit) {
 		InAgeRangeAtStateStartCohortDefinition cd = new InAgeRangeAtStateStartCohortDefinition();
 		cd.setState(state);
@@ -537,6 +556,31 @@ public class DataFactory {
 		cd.addParameter(new Parameter("startedOnOrBefore","Started On Or Before", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
+	}
+
+	public CohortDefinition getPatientsWhoseMostRecentObsDateIsOlderThanValueAtLocationByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan) {
+		return getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(dateConcept, types, olderThan, null);
+	}
+
+	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
+		DateObsCohortDefinition cd = new DateObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
+		cd.setQuestion(dateConcept);
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		cd.addParameter(new Parameter("locationList", "Location", Location.class));
+		Map<String, String> params = ObjectUtil.toMap("locationList=location,onOrBefore=endDate");
+		if (olderThan != null) {
+			cd.setOperator1(RangeComparator.LESS_THAN);
+			cd.addParameter(new Parameter("value1", "value1", Date.class));
+			params.put("value1", "endDate-"+olderThan);
+		}
+		if (onOrPriorTo != null) {
+			cd.setOperator2(RangeComparator.GREATER_EQUAL);
+			cd.addParameter(new Parameter("value2", "value2", Date.class));
+			params.put("value2", "endDate-"+onOrPriorTo);
+		}
+		return convert(cd, params);
 	}
 
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
@@ -558,6 +602,21 @@ public class DataFactory {
 	}
 
 	// Encounter Queries
+
+	public EncounterQuery getEncountersOfTypeAtLocationByEndDate(List<EncounterType> encounterTypes) {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.setEncounterTypes(encounterTypes);
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		q.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(q, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
+
+	public EncounterQuery getEncountersOfTypeByEndDate(List<EncounterType> encounterTypes) {
+		BasicEncounterQuery q = new BasicEncounterQuery();
+		q.setEncounterTypes(encounterTypes);
+		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+		return convert(q, ObjectUtil.toMap("onOrBefore=endDate"));
+	}
 
 	public EncounterQuery getEncountersWithObsRecordedAtLocationDuringPeriod(Concept question, List<EncounterType> encounterTypes) {
 		ObsForEncounterQuery q = new ObsForEncounterQuery();

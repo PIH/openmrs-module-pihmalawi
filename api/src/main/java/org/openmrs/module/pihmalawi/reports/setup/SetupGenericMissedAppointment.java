@@ -15,7 +15,6 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -71,7 +70,7 @@ public class SetupGenericMissedAppointment {
 		createIndicators();
 		createDimension();
 		ReportDefinition rd = createReportDefinition();
-		h.createXlsOverview(rd, "generic_missed_appointment_overview.xls",
+		h.createXlsOverview(rd, "org/openmrs/module/pihmalawi/reporting/reports/ApzuMissedAppointmentReport.xls",
 				reportName + " Overview (Excel)_", excelOverviewProperties());
 		ReportDesign rdes = createHtmlBreakdownExternal(rd);
 		// h.render(rdes, rd);

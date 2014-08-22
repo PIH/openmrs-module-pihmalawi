@@ -15,22 +15,15 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
-import org.openmrs.Location;
-import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.common.Age;
-import org.openmrs.module.reporting.common.ObjectUtil;
-import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -142,9 +135,14 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getOnArvsState());
 	}
 
-	@DocumentedDefinition(value = "transferredOutAtLocationByEndDate")
-	public CohortDefinition getTransferredOutAtLocationByEndDate() {
+	@DocumentedDefinition(value = "inTransferredOutAtLocationOnEndDate")
+	public CohortDefinition getInTransferredOutAtLocationOnEndDate() {
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getTransferredOutState());
+	}
+
+	@DocumentedDefinition("inTransferredInternallyAtLocationOnEndDate")
+	public CohortDefinition getInTransferredInternallyAtLocationOnEndDate() {
+		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getTransferredInternallyState());
 	}
 
 	@DocumentedDefinition(value = "transitionedFromPreArtToArtAtLocationDuringPeriod")
@@ -165,7 +163,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	public CohortDefinition getTransferredOutOfPreArtAtLocationByEnd() {
 		CohortDefinition preArt = getStartedPreArtWithHccNumberAtLocationByEndDate();
 		CohortDefinition art = getEverEnrolledInArtAtLocationByEndDate();
-		CohortDefinition txOut = getTransferredOutAtLocationByEndDate();
+		CohortDefinition txOut = getInTransferredOutAtLocationOnEndDate();
 		return df.createPatientComposition(preArt, "AND", txOut, "AND NOT", art);
 	}
 
@@ -180,21 +178,21 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	@DocumentedDefinition(value = "inArtAndLastAppointmentDate3WeeksOrMoreByEndDate")
 	public CohortDefinition getInArtAndLastAppointmentDate3WeeksOrMoreByEndDate() {
 		CohortDefinition onArt = getInOnArtStateAtLocationOnEndDate();
-		CohortDefinition missing = getPatientsWhoseMostRecentAppointmentDateIsOlderThanValueAtLocationByEndDate(Arrays.asList(hivMetadata.getArtFollowupEncounterType()), "3w");
+		CohortDefinition missing = df.getPatientsWhoseMostRecentObsDateIsOlderThanValueAtLocationByEndDate(hivMetadata.getAppointmentDateConcept(), Arrays.asList(hivMetadata.getArtFollowupEncounterType()), "3w");
 		return df.getPatientsInAll(onArt, missing);
 	}
 
 	@DocumentedDefinition(value = "inArtAndLastAppointmentDate2MonthsOrMoreByEndDate")
 	public CohortDefinition getInArtAndLastAppointmentDate2MonthsOrMoreByEndDate() {
 		CohortDefinition onArt = getInOnArtStateAtLocationOnEndDate();
-		CohortDefinition missing = getPatientsWhoseMostRecentAppointmentDateIsOlderThanValueAtLocationByEndDate(Arrays.asList(hivMetadata.getArtFollowupEncounterType()), "2m");
+		CohortDefinition missing = df.getPatientsWhoseMostRecentObsDateIsOlderThanValueAtLocationByEndDate(hivMetadata.getAppointmentDateConcept(), Arrays.asList(hivMetadata.getArtFollowupEncounterType()), "2m");
 		return df.getPatientsInAll(onArt, missing);
 	}
 
 	@DocumentedDefinition(value = "lastPreArtOrExposedAppointmentDate8weeksOrMoreByEndDate")
 	public CohortDefinition getLastPreArtOrExposedAppointmentDate8weeksOrMoreByEndDate() {
 		List<EncounterType> types = Arrays.asList(hivMetadata.getPreArtFollowupEncounterType(), hivMetadata.getExposedChildFollowupEncounterType());
-		return getPatientsWhoseMostRecentAppointmentDateIsOlderThanValueAtLocationByEndDate(types, "8w");
+		return df.getPatientsWhoseMostRecentObsDateIsOlderThanValueAtLocationByEndDate(hivMetadata.getAppointmentDateConcept(), types, "8w");
 	}
 
 	@DocumentedDefinition(value = "startedDefaultedStateAtLocationDuringPeriod")
@@ -401,15 +399,5 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
 	}
 
-	public CohortDefinition getPatientsWhoseMostRecentAppointmentDateIsOlderThanValueAtLocationByEndDate(List<EncounterType> types, String value) {
-		DateObsCohortDefinition cd = new DateObsCohortDefinition();
-		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
-		cd.setQuestion(hivMetadata.getAppointmentDateConcept());
-		cd.setEncounterTypeList(types);
-		cd.setOperator1(RangeComparator.LESS_THAN);
-		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
-		cd.addParameter(new Parameter("locationList", "Location", Location.class));
-		cd.addParameter(new Parameter("value1", "value1", Date.class));
-		return df.convert(cd, ObjectUtil.toMap("locationList=location,onOrBefore=endDate,value1=endDate-" + value));
-	}
+
 }

@@ -567,11 +567,7 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public List<Location> getSystemLocations() {
-		String tagName = getGlobalProperty(CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY, null);
-		if (tagName == null) {
-			return getPrimaryFacilities();
-		}
-		return getLocationsForTag(tagName);
+		return getUpperNenoFacilities(); // TODO: Fix this so it returns correct for upper or lower neno
 	}
 
 	// TODO: Replace with location attribute
