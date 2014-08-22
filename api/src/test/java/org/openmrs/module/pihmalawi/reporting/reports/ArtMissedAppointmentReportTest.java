@@ -44,13 +44,13 @@ public class ArtMissedAppointmentReportTest extends ReportManagerTest {
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014,6,8));
-		context.addParameterValue("mode", MissedAppointmentDataSetDefinition.Mode.BETWEEN_2_AND_3_WEEKS_LATE);
+		context.addParameterValue("mode", MissedAppointmentDataSetDefinition.Mode.OVERVIEW);
 		return context;
 	}
 
 	@Override
 	protected boolean isEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override

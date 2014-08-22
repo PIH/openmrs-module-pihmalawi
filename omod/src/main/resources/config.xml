@@ -19,13 +19,9 @@
 	</require_modules>
 
 	<globalProperty>
-		<property>pihmalawi.systemLocationsTag</property>
-		<defaultValue>Upper Neno</defaultValue>
-		<description>
-			This should reflect the name of the Location Tag that describes which
-			Locations are those in which patient data is captured for this system.
-			Examples would be the tags for Upper Neno or Lower Neno to distinguish these.
-		</description>
+		<property>pihmalawi.upperOrLowerNeno</property>
+		<defaultValue>UPPER_NENO</defaultValue>
+		<description>Valid values are UPPER_NENO or LOWER_NENO</description>
 	</globalProperty>
 
 	<messages>

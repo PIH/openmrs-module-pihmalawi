@@ -27,7 +27,9 @@ import java.util.Map;
 @Component
 public class CommonMetadata extends Metadata {
 
-	public static final String CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY = "pihmalawi.systemLocationsTag";
+	public static final String CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY = "pihmalawi.upperOrLowerNeno";
+	public static final String UPPER_NENO = "UPPER_NENO";
+	public static final String LOWER_NENO = "LOWER_NENO";
 
 	public static final String CHW_RELATIONSHIP_TYPE = "Patient/Village Health Worker";
 	public static final String GUARDIAN_RELATIONSHIP_TYPE = "Patient/Guardian";
@@ -567,7 +569,14 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public List<Location> getSystemLocations() {
-		return getUpperNenoFacilities(); // TODO: Fix this so it returns correct for upper or lower neno
+		String upperOrLower = getGlobalProperty(CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY, null);
+		if (UPPER_NENO.equals(upperOrLower)) {
+			return getUpperNenoFacilities();
+		}
+		else if (LOWER_NENO.equals(upperOrLower)) {
+			return getLowerNenoFacilities();
+		}
+		return getPrimaryFacilities();
 	}
 
 	// TODO: Replace with location attribute
