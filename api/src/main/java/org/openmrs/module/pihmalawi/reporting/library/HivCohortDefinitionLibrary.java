@@ -15,6 +15,7 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.Age;
@@ -97,6 +98,14 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		CohortDefinition everPreArtState = df.getEverEnrolledInStateAtLocationByEndDate(hivMetadata.getPreArtState());
 		CohortDefinition hasHccNumber = getPatientsWithAnHccNumberAtLocation();
 		return df.getPatientsInAll(everPreArtState, hasHccNumber);
+	}
+
+	@DocumentedDefinition(value = "inPreArtOrExposedChildStateWithHccNumberAtLocationOnEndDate")
+	public CohortDefinition getInPreArtOrExposedChildStateWithHccNumberAtLocationOnEndDate() {
+		List<ProgramWorkflowState> l = Arrays.asList(hivMetadata.getPreArtState(), hivMetadata.getExposedChildState());
+		CohortDefinition inPreArtOrExposedChild = df.getActiveInStatesAtLocationOnEndDate(l);
+		CohortDefinition hasHccNumber = getPatientsWithAnHccNumberAtLocation();
+		return df.getPatientsInAll(inPreArtOrExposedChild, hasHccNumber);
 	}
 
 	@DocumentedDefinition(value = "inPreArtStateWithHccNumberAtLocationOnEndDate")

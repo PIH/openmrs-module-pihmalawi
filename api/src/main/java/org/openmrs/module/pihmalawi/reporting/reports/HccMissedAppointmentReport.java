@@ -15,7 +15,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
+import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ArtMissedAppointmentReport extends ApzuMissedAppointmentReport {
+public class HccMissedAppointmentReport extends ApzuMissedAppointmentReport {
 
 	@Autowired
 	private DataFactory df;
@@ -38,33 +38,33 @@ public class ArtMissedAppointmentReport extends ApzuMissedAppointmentReport {
 	private HivCohortDefinitionLibrary hivCohorts;
 
 	@Autowired
-	ArtTreatmentGroup artTreatmentGroup;
+	HccTreatmentGroup hccTreatmentGroup;
 
 	@Override
 	public String getUuid() {
-		return "08c63059-9017-4767-8bf3-c16d0ace92a8";
+		return "19fdad06-2a3d-11e4-8981-e82aea237783";
 	}
 
 	@Override
 	public String getName() {
-		return "ART Missed Appointment";
+		return "HCC Missed Appointment";
 	}
 
 	@Override
 	public String getReportDesignUuid() {
-		return "96b3abec-3d5a-4d46-80a4-777e60ec92e6";
+		return "2ef7a230-2a3d-11e4-8c21-0800200c9a66";
 	}
 
 	/**
-	 * The whole report should be filtered on only those patients actively on ART
+	 * The whole report should be filtered on only those patients actively in HCC
 	 */
 	@Override
 	public CohortDefinition getBaseCohort() {
 		CohortDefinition inHivProgram = df.getActivelyEnrolledInProgramAtLocationOnEndDate(hivMetadata.getHivProgram());
-		CohortDefinition onArt = hivCohorts.getInOnArtStateAtLocationOnEndDate();
+		CohortDefinition inHcc = hivCohorts.getInPreArtOrExposedChildStateWithHccNumberAtLocationOnEndDate();
 		CohortDefinition transferredIn = hivCohorts.getInTransferredInternallyAtLocationOnEndDate();
-		CohortDefinition cd = df.createPatientComposition(inHivProgram, "AND (", onArt, "OR", transferredIn, ")");
-		cd.setName("On ART");
+		CohortDefinition cd = df.createPatientComposition(inHivProgram, "AND (", inHcc, "OR", transferredIn, ")");
+		cd.setName("In HCC");
 		return cd;
 	}
 
@@ -75,7 +75,7 @@ public class ArtMissedAppointmentReport extends ApzuMissedAppointmentReport {
 
 	@Override
 	public TreatmentGroup getTreatmentGroup() {
-		return artTreatmentGroup;
+		return hccTreatmentGroup;
 	}
 
 	@Override

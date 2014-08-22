@@ -100,7 +100,7 @@ public abstract class ApzuMissedAppointmentReport extends ApzuReportManager {
 		design.setReportDefinition(reportDefinition);
 		design.setRendererType(MissedAppointmentReportRenderer.class);
 		design.addPropertyValue("reportName", getName());
-		design.addPropertyValue("baseCohort", "On ART");
+		design.addPropertyValue("baseCohort", getBaseCohort().getName());
 		l.add(design);
 		return l;
 	}

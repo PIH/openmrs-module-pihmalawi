@@ -9,6 +9,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 
+@Deprecated
 public class HccMissedAppointmentBreakdownRenderer extends BreakdownRowRenderer {
 
 	public DataSetRow renderRow(Patient p,
