@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.metadata;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
@@ -65,6 +66,13 @@ public class ChronicCareMetadata extends CommonMetadata {
 		List<EncounterType> l = new ArrayList<EncounterType>();
 		l.add(getChronicCareInitialEncounterType());
 		l.add(getChronicCareFollowupEncounterType());
+		return l;
+	}
+
+	public List<Location> getChronicCareLocations() {
+		List<Location> l = new ArrayList<Location>();
+		l.add(getNenoHospital());
+		l.add(getLisungwiHospital());
 		return l;
 	}
 
