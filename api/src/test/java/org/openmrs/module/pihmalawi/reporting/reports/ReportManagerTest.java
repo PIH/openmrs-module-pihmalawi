@@ -90,7 +90,7 @@ public abstract class ReportManagerTest extends StandaloneContextSensitiveTest {
 			ReportRenderer renderer = renderingMode.getRenderer();
 			if (!(renderer instanceof WebReportRenderer)) {
 				String argument = renderingMode.getArgument();
-				ReportRequest request = new ReportRequest(Mapped.mapStraightThrough(rd), null, renderingMode, ReportRequest.Priority.HIGHEST, null);
+				ReportRequest request = new ReportRequest(new Mapped<ReportDefinition>(rd, context.getParameterValues()), null, renderingMode, ReportRequest.Priority.HIGHEST, null);
 				File outFile = new File(SystemUtils.getJavaIoTmpDir(), renderer.getFilename(request));
 				FileOutputStream fos = new FileOutputStream(outFile);
 				renderer.render(data, argument, fos);
