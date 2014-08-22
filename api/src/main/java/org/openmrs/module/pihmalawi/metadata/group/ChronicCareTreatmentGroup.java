@@ -60,4 +60,9 @@ public class ChronicCareTreatmentGroup extends TreatmentGroup {
 	public List<EncounterType> getEncounterTypes() {
 		return ccMetadata.getChronicCareEncounterTypes();
 	}
+
+	@Override
+	public String getIdentifierTypeShortName() {
+		return "CCC ID";
+	}
 }

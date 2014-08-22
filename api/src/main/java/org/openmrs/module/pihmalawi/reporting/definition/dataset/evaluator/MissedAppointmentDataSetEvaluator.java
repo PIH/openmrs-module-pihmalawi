@@ -18,12 +18,14 @@ import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientSetService;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MissedAppointmentDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MissedAppointmentDataSetDefinition.Mode;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -67,7 +69,10 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 	private DataFactory df;
 
 	@Autowired
-	private HivMetadata metadata;
+	private ChronicCareMetadata metadata;
+
+	@Autowired
+	private ChronicCarePatientDataLibrary ccPatientData;
 
 	@Autowired
 	private CohortDefinitionService cohortDefinitionService;
@@ -200,38 +205,55 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 		addColumn(dsd, treatmentGroup.getIdentifierTypeShortName(), treatmentGroup.getPreferredIdentifierDefinition());
 		addColumn(dsd, "All " + treatmentGroup.getIdentifierTypeShortName() + "s", treatmentGroup.getAllIdentifiersDefinition());
 
-		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
-		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
-		addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
-		addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
-		addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
-		addColumn(dsd, "M/F", builtInPatientData.getGender());
-		addColumn(dsd, "Village", basePatientData.getVillage());
-		addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
-		addColumn(dsd, "District", basePatientData.getDistrict());
-		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
+		if (treatmentGroup instanceof ChronicCareTreatmentGroup) {
+			addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
+			addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
+			addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
+			addColumn(dsd, "Village", basePatientData.getVillage());
+			addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
+			addColumn(dsd, "District", basePatientData.getDistrict());
+			addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
+			addColumn(dsd, "Diagnosis", ccPatientData.getAllChronicCareDiagnosesByEndDate());
+			addColumn(dsd, "High risk", ccPatientData.getIsPatientHighRisk());
+			addColumn(dsd, "Time to clinic in hours", ccPatientData.getTimeSpentTravelingToClinicInHours());
+			addColumn(dsd, "Time to clinic in minutes", ccPatientData.getTimeSpentTravelingToClinicInMinutes());
+			addColumn(dsd, "Last visit date", ccPatientData.getMostRecentEncounterDateByEndDate());
+			addColumn(dsd, "Last recorded 'next appt date'", ccPatientData.getMostRecentAppointmentDateByEndDate());
+		}
+		else {
+			addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
+			addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
+			addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
+			addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
+			addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
+			addColumn(dsd, "M/F", builtInPatientData.getGender());
+			addColumn(dsd, "Village", basePatientData.getVillage());
+			addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
+			addColumn(dsd, "District", basePatientData.getDistrict());
+			addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
-		addColumn(dsd, "Outcome", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateNameConverter()));
-		addColumn(dsd, "Outcome change date", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateStartDateConverter()));
-		addColumn(dsd, "Outcome location", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateLocationConverter()));
-		addColumn(dsd, "Last Outcome in DB (not filtered)", treatmentGroup.getCurrentStateDefinition(df.getStateNameConverter()));
-		addColumn(dsd, "Last Outcome change date", treatmentGroup.getCurrentStateDefinition(df.getStateStartDateConverter()));
-		addColumn(dsd, "Last Outcome change loc", treatmentGroup.getCurrentStateDefinition(df.getStateLocationConverter()));
+			addColumn(dsd, "Outcome", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateNameConverter()));
+			addColumn(dsd, "Outcome change date", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateStartDateConverter()));
+			addColumn(dsd, "Outcome location", treatmentGroup.getCurrentStateAtLocationDefinition(df.getStateLocationConverter()));
+			addColumn(dsd, "Last Outcome in DB (not filtered)", treatmentGroup.getCurrentStateDefinition(df.getStateNameConverter()));
+			addColumn(dsd, "Last Outcome change date", treatmentGroup.getCurrentStateDefinition(df.getStateStartDateConverter()));
+			addColumn(dsd, "Last Outcome change loc", treatmentGroup.getCurrentStateDefinition(df.getStateLocationConverter()));
 
-		EncounterDataSetDefinition encDsd = new EncounterDataSetDefinition();
-		encDsd.addParameters(dsd.getParameters());
-		encDsd.addRowFilter(Mapped.mapStraightThrough(treatmentGroup.getAllEncountersDefinition()));
-		addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
-		addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
-		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
-		addColumn(encDsd, "encounterTypeName", builtInEncounterData.getEncounterTypeName());
-		encDsd.addSortCriteria("encounterDate", SortDirection.ASC);
+			EncounterDataSetDefinition encDsd = new EncounterDataSetDefinition();
+			encDsd.addParameters(dsd.getParameters());
+			encDsd.addRowFilter(Mapped.mapStraightThrough(treatmentGroup.getAllEncountersDefinition()));
+			addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
+			addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
+			addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
+			addColumn(encDsd, "encounterTypeName", builtInEncounterData.getEncounterTypeName());
+			encDsd.addSortCriteria("encounterDate", SortDirection.ASC);
 
-		PatientDataSetDataDefinition followups = new PatientDataSetDataDefinition(encDsd);
-		addColumn(dsd, "Last Visit date in " + treatmentGroup.getName() + " (not filtered)", df.convert(followups, df.getLastDataSetItemConverter("encounterDate", "(no encounter found)")));
-		addColumn(dsd, "Last Visit loc", df.convert(followups, df.getLastDataSetItemConverter("locationName", "")));
-		addColumn(dsd, "Last Visit appt date", df.convert(followups, df.getLastDataSetItemConverter("appointmentDate", "")));
-		addColumn(dsd, "Last Visit type", df.convert(followups, df.getLastDataSetItemConverter("encounterTypeName", "")));
+			PatientDataSetDataDefinition followups = new PatientDataSetDataDefinition(encDsd);
+			addColumn(dsd, "Last Visit date in " + treatmentGroup.getName() + " (not filtered)", df.convert(followups, df.getLastDataSetItemConverter("encounterDate", "(no encounter found)")));
+			addColumn(dsd, "Last Visit loc", df.convert(followups, df.getLastDataSetItemConverter("locationName", "")));
+			addColumn(dsd, "Last Visit appt date", df.convert(followups, df.getLastDataSetItemConverter("appointmentDate", "")));
+			addColumn(dsd, "Last Visit type", df.convert(followups, df.getLastDataSetItemConverter("encounterTypeName", "")));
+		}
 
 		addColumn(dsd, "Confirmed Missed Appt", new StaticValuePatientDataDefinition(""));
 		addColumn(dsd, "Unable to Verify", new StaticValuePatientDataDefinition(""));

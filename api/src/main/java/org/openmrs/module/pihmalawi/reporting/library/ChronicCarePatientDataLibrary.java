@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.apache.commons.collections.comparators.ComparableComparator;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
@@ -87,6 +88,37 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getMostRecentStateForWorkflowAtLocationByEndDate(wf, df.getStateLocationConverter());
 	}
 
+	@DocumentedDefinition
+	public PatientDataDefinition getAllChronicCareDiagnosesByEndDate() {
+		CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());
+		return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), c);
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getIsPatientHighRisk() {
+		return df.getCodedObsPresentByEndDate(metadata.getHighRiskPatientConcept(), metadata.getYesConcept(), metadata.getChronicCareEncounterTypes());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getTimeSpentTravelingToClinicInHours() {
+		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInHoursConcept());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getTimeSpentTravelingToClinicInMinutes() {
+		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInMinutesConcept());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getMostRecentEncounterDateByEndDate() {
+		return df.getMostRecentEncounterOfTypesByEndDate(metadata.getChronicCareEncounterTypes(), df.getEncounterDatetimeConverter());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getMostRecentAppointmentDateByEndDate() {
+		return df.getMostRecentObsByEndDate(metadata.getAppointmentDateConcept(), metadata.getChronicCareEncounterTypes(), df.getObsValueDatetimeConverter());
+	}
+
 	// Helper methods
 
 	public PatientDataDefinition getSingleObsFromChronicCareInitialVisitByEndDate(Concept question, DataConverter converter) {
@@ -101,5 +133,4 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		c.addConverter(new CollectionElementConverter(diagnosis, "TRUE", ""));
 		return df.getAllObsByEndDate(question, ccInitialEncounters, c);
 	}
-
 }
