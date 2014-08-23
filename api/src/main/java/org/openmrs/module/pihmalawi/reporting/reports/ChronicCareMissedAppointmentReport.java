@@ -55,6 +55,11 @@ public class ChronicCareMissedAppointmentReport extends ApzuMissedAppointmentRep
 		return "86751b61-2a41-11e4-8c21-0800200c9a66";
 	}
 
+	@Override
+	public String getModes() {
+		return "OVERVIEW,MORE_THAN_A_WEEK_LATE";
+	}
+
 	/**
 	 * The whole report should be filtered on only those patients actively in CC
 	 */

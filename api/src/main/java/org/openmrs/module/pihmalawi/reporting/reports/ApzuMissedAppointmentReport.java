@@ -45,8 +45,18 @@ public abstract class ApzuMissedAppointmentReport extends ApzuReportManager {
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(new Parameter("endDate", "End date (Sunday)", Date.class));
-		l.add(new Parameter("mode", "Mode", Mode.class));
+		Parameter modeParam = new Parameter("mode", "Mode", Mode.class);
+		modeParam.addToWidgetConfiguration("optionValues", getModes());
+		modeParam.addToWidgetConfiguration("sortOptions", "false");
+		l.add(modeParam);
 		return l;
+	}
+
+	/**
+	 * @return the possible modes
+	 */
+	public String getModes() {
+		return "OVERVIEW,BETWEEN_2_AND_3_WEEKS_LATE,MORE_THAN_3_WEEKS_LATE";
 	}
 
 	/**
