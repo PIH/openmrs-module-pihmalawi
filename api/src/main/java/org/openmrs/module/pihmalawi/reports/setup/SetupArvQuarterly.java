@@ -1,12 +1,5 @@
 package org.openmrs.module.pihmalawi.reports.setup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
@@ -16,15 +9,24 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
-import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.extension.InStateAfterStartedStateCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ObsAfterStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.cohort.definition.*;
+import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.GenderCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InverseCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.PatientStateCohortDefinition;
 import org.openmrs.module.reporting.common.Age;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.RangeComparator;
@@ -40,6 +42,13 @@ import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefin
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.service.ReportService;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SetupArvQuarterly {
 	
@@ -297,7 +306,13 @@ public class SetupArvQuarterly {
 		dod.addParameter(new Parameter("value2", "from", Date.class));
 		h.replaceCohortDefinition(dod);
 
-		CohortDefinition confirmedDefaultersOnDate = ApzuReportElementsArt.hivDefaultedAtLocationOnDate("arvquarterly");
+		InStateCohortDefinition confirmedDefaultersOnDate = new InStateCohortDefinition();
+		confirmedDefaultersOnDate.addParameter(new Parameter("onDate", "onDate", Date.class));
+		confirmedDefaultersOnDate.addParameter(new Parameter("locations", "location", Location.class));
+		confirmedDefaultersOnDate.addState(getHivMetadata().getDefaultedState());
+		MappedParametersCohortDefinition cd = new MappedParametersCohortDefinition(confirmedDefaultersOnDate, "locations=location");
+		cd.setName("arvquarterly: Defaulted at location_");
+		h.replaceCohortDefinition(cd);
 
 		CompositionCohortDefinition defaultedByEnd = new CompositionCohortDefinition();
 		defaultedByEnd.setName("arvquarterly: Defaulted By End_");
@@ -1204,5 +1219,9 @@ private void i55_current_tb_status_confirmed_treatment(PeriodIndicatorReportDefi
 		
 		PeriodIndicatorReportUtil.addColumn(rd, "55", "TB confirmed On TB treatment", i,
 				null);
+	}
+
+	private HivMetadata getHivMetadata() {
+		return Context.getRegisteredComponents(HivMetadata.class).get(0);
 	}
 }

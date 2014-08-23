@@ -1,16 +1,16 @@
-package org.openmrs.module.pihmalawi.reports.setup.outdated;
-
-import java.util.Arrays;
-import java.util.Date;
+package org.openmrs.module.pihmalawi.reports.setup;
 
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.ApzuReportElementsArt;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.ReportHelper;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.definition.PeriodIndicatorReportDefinition;
 import org.openmrs.module.reporting.report.util.PeriodIndicatorReportUtil;
+
+import java.util.Arrays;
+import java.util.Date;
 
 public class SetupHivWeeklyVisits {
 
@@ -20,8 +20,12 @@ public class SetupHivWeeklyVisits {
 		h = helper;
 	}
 
+	private HivMetadata getHivMetadata() {
+		return Context.getRegisteredComponents(HivMetadata.class).get(0);
+	}
+
 	public void newCountIndicatorForVisits(String namePrefix, String cohort) {
-		for (Location loc : ApzuReportElementsArt.hivLocations()) {
+		for (Location loc : getHivMetadata().getHivLocations()) {
 			h.newCountIndicator(namePrefix + " (" + loc.getName() + ")_",
 					cohort, h.parameterMap("onOrAfter", "${endDate-1w}",
 							"locationList", Arrays.asList(loc), "onOrBefore",
@@ -78,13 +82,43 @@ public class SetupHivWeeklyVisits {
 	public void addColumnForLocationsForVisits(
 			PeriodIndicatorReportDefinition rd, String displayNamePrefix,
 			String indicatorFragment, String indicatorKey) {
-		for (Location loc : ApzuReportElementsArt.hivLocations()) {
+		for (Location loc : getHivMetadata().getHivLocations()) {
 			PeriodIndicatorReportUtil.addColumn(
 					rd,
-					indicatorKey + ApzuReportElementsArt.hivSiteCode(loc),
+					indicatorKey + hivSiteCode(loc),
 					displayNamePrefix + " (" + loc.getName() + ")",
 					h.cohortIndicator("hiv: " + indicatorFragment + " ("
 							+ loc.getName() + ")_"), null);
 		}
+	}
+
+	public static String hivSiteCode(Location l) {
+		if ("Neno District Hospital".equals(l.getName()))
+			return "ndh";
+		if ("Magaleta HC".equals(l.getName()))
+			return "mgt";
+		if ("Nsambe HC".equals(l.getName()))
+			return "nsm";
+		if ("Neno Mission HC".equals(l.getName()))
+			return "nop";
+		if ("Ligowe HC".equals(l.getName()))
+			return "lgwe";
+		if ("Matandani Rural Health Center".equals(l.getName()))
+			return "mtdn";
+		if ("Lisungwi Community Hospital".equals(l.getName()))
+			return "lsi";
+		if ("Matope HC".equals(l.getName()))
+			return "mte";
+		if ("Chifunga HC".equals(l.getName()))
+			return "cfga";
+		if ("Zalewa HC".equals(l.getName()))
+			return "zla";
+		if ("Midzemba HC".equals(l.getName()))
+			return "mid";
+		if ("Nkhula Falls RHC".equals(l.getName()))
+			return "nka";
+		if ("Luwani RHC".equals(l.getName()))
+			return "lwan";
+		return null;
 	}
 }
