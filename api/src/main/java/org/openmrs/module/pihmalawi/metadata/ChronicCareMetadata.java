@@ -76,6 +76,12 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return l;
 	}
 
+	public List<Location> getChronicCareSystemLocations() {
+		List<Location> l = getChronicCareLocations();
+		l.retainAll(getSystemLocations());
+		return l;
+	}
+
 	public static final String CHRONIC_CARE_DIAGNOSIS = "CHRONIC CARE DIAGNOSIS";
 	public static final String ASTHMA = "Asthma";
 	public static final String DIABETES = "Diabetes";

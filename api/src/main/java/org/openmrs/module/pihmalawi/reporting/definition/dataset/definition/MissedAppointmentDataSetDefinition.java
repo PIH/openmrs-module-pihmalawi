@@ -25,7 +25,7 @@ import java.util.List;
 public class MissedAppointmentDataSetDefinition extends BaseDataSetDefinition {
 
 	public enum Mode {
-		OVERVIEW, BETWEEN_2_AND_3_WEEKS_LATE, MORE_THAN_3_WEEKS_LATE
+		OVERVIEW, MORE_THAN_A_WEEK_LATE, BETWEEN_2_AND_3_WEEKS_LATE, MORE_THAN_3_WEEKS_LATE
 	}
 
 	@ConfigurationProperty

@@ -70,7 +70,7 @@ public class ArtMissedAppointmentReport extends ApzuMissedAppointmentReport {
 
 	@Override
 	public List<Location> getLocations() {
-		return hivMetadata.getSupportedHivStaticLocations();
+		return hivMetadata.getHivStaticSystemLocations();
 	}
 
 	@Override

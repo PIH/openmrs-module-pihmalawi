@@ -44,7 +44,7 @@ public class ChronicCareMissedAppointmentReportTest extends ReportManagerTest {
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
 		context.addParameterValue("endDate", DateUtil.getDateTime(2014,6,8));
-		context.addParameterValue("mode", MissedAppointmentDataSetDefinition.Mode.MORE_THAN_3_WEEKS_LATE);
+		context.addParameterValue("mode", MissedAppointmentDataSetDefinition.Mode.MORE_THAN_A_WEEK_LATE);
 		return context;
 	}
 

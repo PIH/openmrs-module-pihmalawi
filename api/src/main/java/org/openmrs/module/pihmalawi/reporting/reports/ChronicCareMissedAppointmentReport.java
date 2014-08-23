@@ -67,7 +67,7 @@ public class ChronicCareMissedAppointmentReport extends ApzuMissedAppointmentRep
 
 	@Override
 	public List<Location> getLocations() {
-		return ccMetadata.getChronicCareLocations();
+		return ccMetadata.getChronicCareSystemLocations();
 	}
 
 	@Override

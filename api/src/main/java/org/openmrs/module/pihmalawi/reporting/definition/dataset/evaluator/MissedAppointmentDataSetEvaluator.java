@@ -146,6 +146,9 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 			if (dsd.getMode() == Mode.OVERVIEW || dsd.getMode() == Mode.BETWEEN_2_AND_3_WEEKS_LATE) {
 				weekRangesToInclude.add(new Integer[]{2, 3});
 			}
+			if (dsd.getMode() == Mode.MORE_THAN_A_WEEK_LATE) {
+				weekRangesToInclude.add(new Integer[]{1, null});
+			}
 			if (dsd.getMode() == Mode.OVERVIEW || dsd.getMode() == Mode.MORE_THAN_3_WEEKS_LATE) {
 				weekRangesToInclude.add(new Integer[]{3, 8});
 				weekRangesToInclude.add(new Integer[]{8, 12});

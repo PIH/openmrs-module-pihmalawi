@@ -207,7 +207,7 @@ public class HivMetadata extends CommonMetadata {
 		return l;
 	}
 
-	public List<Location> getSupportedHivStaticLocations() {
+	public List<Location> getHivStaticSystemLocations() {
 		List<Location> l = getHivStaticLocations();
 		l.retainAll(getSystemLocations());
 		return l;
