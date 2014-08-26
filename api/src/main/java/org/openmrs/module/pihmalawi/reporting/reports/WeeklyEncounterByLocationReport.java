@@ -86,14 +86,16 @@ public class WeeklyEncounterByLocationReport extends ApzuReportManager {
 		dsd.setGrouping(EncounterBreakdownDataSetDefinition.Grouping.Location);
 
 		List<EncounterType> types = new ArrayList<EncounterType>();
-		types.addAll(hivMetadata.getHivAndExposedChildEncounterTypes());
-		types.add(hivMetadata.getLabEncounterType());
-		types.addAll(tbMetadata.getTbEncounterTypes());
-		types.add(hivMetadata.getRegistrationEncounterType());
-		types.add(hivMetadata.getVitalsEncounterType());
-		types.add(hivMetadata.getOpdEncounterType());
+		types.add(hivMetadata.getArtInitialEncounterType());
+		types.add(hivMetadata.getArtFollowupEncounterType());
+		types.add(hivMetadata.getPreArtInitialEncounterType());
+		types.add(hivMetadata.getPreArtFollowupEncounterType());
+		types.add(hivMetadata.getExposedChildInitialEncounterType());
+		types.add(hivMetadata.getExposedChildFollowupEncounterType());
 		types.add(hivMetadata.getAppointmentEncounterType());
-		types.addAll(chronicCareMetadata.getChronicCareEncounterTypes());
+		types.add(hivMetadata.getLabEncounterType());
+		types.add(chronicCareMetadata.getChronicCareInitialEncounterType());
+		types.add(chronicCareMetadata.getChronicCareFollowupEncounterType());
 		dsd.setTypes(types);
 
 		rd.addDataSetDefinition("dataset", Mapped.mapStraightThrough(dsd));

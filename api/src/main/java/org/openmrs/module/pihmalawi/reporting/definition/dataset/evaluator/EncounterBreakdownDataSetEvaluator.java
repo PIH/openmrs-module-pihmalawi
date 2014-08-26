@@ -100,17 +100,14 @@ public class EncounterBreakdownDataSetEvaluator implements DataSetEvaluator {
 		}
 		else {
 
-			List<Location> locations = new ArrayList<Location>();
-			for (Location l : metadata.getPrimaryFacilities()) {
-				locations.addAll(metadata.getAllLocations(l));
-			}
-
+			List<Location> locations = metadata.getSystemLocations();
 			List<Location> otherLocations = Context.getLocationService().getAllLocations();
 			for (int locationNum=1; locationNum<=locations.size(); locationNum++) {
 				Location location = locations.get(locationNum - 1);
 				String locationKey = "loc"+locationNum;
-				locationFilters.put(locationKey, Arrays.asList(location));
-				otherLocations.remove(location);
+				List<Location> locList = metadata.getAllLocations(location);
+				locationFilters.put(locationKey, locList);
+				otherLocations.removeAll(locList);
 				data.addData(new DataSetColumn(locationKey+"name", locationKey+"name", String.class), location.getName());
 			}
 			locationFilters.put("locother", otherLocations);
