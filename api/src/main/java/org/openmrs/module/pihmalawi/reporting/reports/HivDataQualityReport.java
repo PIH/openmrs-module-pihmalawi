@@ -85,7 +85,7 @@ public class HivDataQualityReport extends ApzuReportManager {
 	public List<Parameter> getParameters() {
 		List<Parameter> l = new ArrayList<Parameter>();
 		Parameter userParam = new Parameter("user", "User (optional)", User.class);
-		userParam.addToWidgetConfiguration("maxYearsSinceLastEncounter", "3");
+		userParam.addToWidgetConfiguration("maxYearsSinceLastEncounter", "1");
 		userParam.setRequired(false);
 		l.add(userParam);
 		return l;
