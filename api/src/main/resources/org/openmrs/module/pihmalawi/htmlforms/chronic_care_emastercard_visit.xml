@@ -34,24 +34,12 @@
     <table>
         <tr>
             <td align="left">Diagnosis: </td>
-            <td align="left"><obs conceptId="3683" answerConceptId="5" answerLabel="Asthma" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="903" answerLabel="Hypertension" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="155" answerLabel="Epilepsy" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="3720" answerLabel="Diabetes" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="3468" answerLabel="Heart Failure" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="7623" answerLabel="Chronic kidney disease" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="6421" answerLabel="Stroke" style="checkbox" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td align="left" colspan="2"><obs conceptId="3683" answerConceptId="8419" answerLabel="Acute Psychotic disorder" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="207" answerLabel="Depression" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="8418" answerLabel="Substance Abuse" style="checkbox" /></td>
-            <td align="left"><obs conceptId="3683" answerConceptId="8420" answerLabel="Other Mental Health" style="checkbox" /></td>
-            <td align="left" colspan="3">
-                <obs conceptId="3683" answerConceptId="5622" answerLabel="Other" style="checkbox" />
-                <obs conceptId="3106" size="50"/>
-            </td>
+            <td><obs conceptId="3683" answerConceptId="5" answerLabel="Asthma" style="checkbox" /></td>
+            <td><obs conceptId="3683" answerConceptId="903" answerLabel="Hypertension" style="checkbox" /></td>
+            <td><obs conceptId="3683" answerConceptId="155" answerLabel="Epilepsy" style="checkbox" /></td>
+            <td><obs conceptId="3683" answerConceptId="3720" answerLabel="Diabetes" style="checkbox" /></td>
+            <td><obs conceptId="3683" answerConceptId="3468" answerLabel="Heart Failure" style="checkbox" /></td>
+            <td><obs conceptId="3683" answerConceptId="5622" answerLabel="Other" style="checkbox" /></td>
         </tr>
     </table>
     <hr/>
@@ -150,63 +138,63 @@
     <script type="text/javascript">
 
         var validateForm = function () {
-            var isValid = false;
-            isValid = validateNextAppointmentDate();
-            if ( isValid ){
-                isValid = validateEncounterLocation();
-            }
+        var isValid = false;
+        isValid = validateNextAppointmentDate();
+        if ( isValid ){
+        isValid = validateEncounterLocation();
+        }
 
-            if (isValid) {
-                $j('.submitButton').removeAttr('disabled');
-                $j('.submitButton').removeClass('disabled');
-                $j('div.error').text("");
-                $j('div.error').hide();
-            } else {
-                $j('.submitButton').attr('disabled', 'disabled');
-                $j('.submitButton').addClass('disabled');
-            }
+        if (isValid) {
+        $j('.submitButton').removeAttr('disabled');
+        $j('.submitButton').removeClass('disabled');
+        $j('div.error').text("");
+        $j('div.error').hide();
+        } else {
+        $j('.submitButton').attr('disabled', 'disabled');
+        $j('.submitButton').addClass('disabled');
+        }
         };
 
         $j(function() {
 
-            $j(document).keydown(function(event) {
-                if (event.keyCode == 13) {
-                    console.log("ENTER key has been pressed");
-                    validateForm();
-                    var disabled = $j('.submitButton').attr('disabled');
-                    if (!disabled) {
-                        $j('.submitButton').click();
-                    }
-                }
-            });
+        $j(document).keydown(function(event) {
+        if (event.keyCode == 13) {
+        console.log("ENTER key has been pressed");
+        validateForm();
+        var disabled = $j('.submitButton').attr('disabled');
+        if (!disabled) {
+        $j('.submitButton').click();
+        }
+        }
+        });
 
-            getField('encounterLocation.value').change(function() {
-                if ( validateEncounterLocation() ) {
-                    getField('encounterLocation.error').html("").hide();
-                } else {
-                    getField('encounterLocation.error').html("Please select a valid Location").show();
-                }
-            });
+        getField('encounterLocation.value').change(function() {
+        if ( validateEncounterLocation() ) {
+        getField('encounterLocation.error').html("").hide();
+        } else {
+        getField('encounterLocation.error').html("Please select a valid Location").show();
+        }
+        });
 
-            getField('nextAppointmentDate.value').change(function() {
-                validateNextAppointmentDate();
-            });
+        getField('nextAppointmentDate.value').change(function() {
+        validateNextAppointmentDate();
+        });
 
-            getField('nextAppointmentDate.value').attr( 'autocomplete' , 'off' );
+        getField('nextAppointmentDate.value').attr( 'autocomplete' , 'off' );
 
-            if(!document.getElementById("xmlData")) {
-                if (getHttpGetParam('mode') != "EDIT") {
-                    // only show for new encounters
-                    var presentTime = new Date();
-                    getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
-                    var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
-                    getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
-                    checkEnGbLocale("<lookup expression="locale" />");
-                }
-            }
+        if(!document.getElementById("xmlData")) {
+        if (getHttpGetParam('mode') != "EDIT") {
+        // only show for new encounters
+        var presentTime = new Date();
+        getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
+        var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
+        getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
+        checkEnGbLocale("<lookup expression="locale" />");
+        }
+        }
 
-            $j(document).change(validateForm);
-            $j(document).click(validateForm);
+        $j(document).change(validateForm);
+        $j(document).click(validateForm);
 
 
         });
