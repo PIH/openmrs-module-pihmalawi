@@ -48,6 +48,7 @@ public abstract class ApzuMissedAppointmentReport extends ApzuReportManager {
 		Parameter modeParam = new Parameter("mode", "Mode", Mode.class);
 		modeParam.addToWidgetConfiguration("optionValues", getModes());
 		modeParam.addToWidgetConfiguration("sortOptions", "false");
+		modeParam.addToWidgetConfiguration("optionLabelCodePrefix", "pihmalawi.missedAppointmentMode.");
 		l.add(modeParam);
 		return l;
 	}
