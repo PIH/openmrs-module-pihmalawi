@@ -120,7 +120,6 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 						noAppt.setTimeModifier(PatientSetService.TimeModifier.NO);
 						noAppt.setQuestion(metadata.getAppointmentDateConcept());
 						noAppt.setEncounterTypeList(treatmentGroup.getEncounterTypes());
-						noAppt.setLocationList(Arrays.asList(location));
 						noAppt.setOnOrBefore(endDate);
 
 						CohortDefinition indicatorCohort = df.getPatientsInAll(dsd.getBaseCohort(), noAppt);
@@ -168,7 +167,7 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 						Concept apptDate = metadata.getAppointmentDateConcept();
 						String olderThan = weekRange[0] + "w";
 						String onOrPriorTo = weekRange[1] == null ? null : (weekRange[1] + "w");
-						CohortDefinition lastApptInRange = df.getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(apptDate, treatmentGroup.getEncounterTypes(), olderThan, onOrPriorTo);
+						CohortDefinition lastApptInRange = df.getPatientsWhoseMostRecentObsDateIsBetweenValuesByEndDate(apptDate, treatmentGroup.getEncounterTypes(), olderThan, onOrPriorTo);
 
 						CohortDefinition indicatorCohort = df.getPatientsInAll(dsd.getBaseCohort(), lastApptInRange);
 

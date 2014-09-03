@@ -591,6 +591,26 @@ public class DataFactory {
 		return convert(cd, params);
 	}
 
+	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
+		DateObsCohortDefinition cd = new DateObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
+		cd.setQuestion(dateConcept);
+		cd.setEncounterTypeList(types);
+		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		Map<String, String> params = ObjectUtil.toMap("onOrBefore=endDate");
+		if (olderThan != null) {
+			cd.setOperator1(RangeComparator.LESS_THAN);
+			cd.addParameter(new Parameter("value1", "value1", Date.class));
+			params.put("value1", "endDate-"+olderThan);
+		}
+		if (onOrPriorTo != null) {
+			cd.setOperator2(RangeComparator.GREATER_EQUAL);
+			cd.addParameter(new Parameter("value2", "value2", Date.class));
+			params.put("value2", "endDate-"+onOrPriorTo);
+		}
+		return convert(cd, params);
+	}
+
 	public CompositionCohortDefinition getPatientsInAll(CohortDefinition...elements) {
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.initializeFromQueries(BooleanOperator.AND, elements);
