@@ -58,13 +58,16 @@ public class FindPatientPortletController {
 							   @RequestParam(value = "soundexEnabled", required = false) String soundexEnabled,
 							   HttpServletResponse response) throws Exception {
 
-		List patientRows = findMatchingPatients(phrase, Boolean.parseBoolean(soundexEnabled));
+		List patientRows = findMatchingPatients(phrase, PatientSearchCohortDefinition.MatchMode.EXACT, Boolean.parseBoolean(soundexEnabled));
+		if (patientRows.isEmpty()) {
+			patientRows = findMatchingPatients(phrase, PatientSearchCohortDefinition.MatchMode.START, Boolean.parseBoolean(soundexEnabled));
+		}
 		response.setContentType("text/json");
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(response.getOutputStream(), patientRows);
 	}
 
-	public List findMatchingPatients(String phrase, boolean soundexEnabled) throws Exception {
+	public List findMatchingPatients(String phrase, PatientSearchCohortDefinition.MatchMode matchMode, boolean soundexEnabled) throws Exception {
 		if (phrase != null) {
 			phrase = phrase.trim();
 			if (phrase.toLowerCase().startsWith(SOUNDEX_PREFIX)) {
@@ -83,7 +86,7 @@ public class FindPatientPortletController {
 		PatientSearchCohortDefinition cd = new PatientSearchCohortDefinition();
 		cd.setSearchPhrase(phrase);
 		cd.setSoundexEnabled(soundexEnabled);
-		cd.setIdentifierMatchMode(PatientSearchCohortDefinition.MatchMode.START);
+		cd.setIdentifierMatchMode(matchMode);
 		dsd.addRowFilter(Mapped.noMappings(cd));
 
 		DataConverter defaultConverter = new NullValueConverter("");
