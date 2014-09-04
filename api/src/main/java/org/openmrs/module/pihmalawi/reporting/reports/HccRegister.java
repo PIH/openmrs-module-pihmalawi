@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.HccCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
@@ -87,6 +88,7 @@ public class HccRegister extends ApzuReportManager {
 		List<Parameter> l = new ArrayList<Parameter>();
 		l.add(df.getEndDateParameter());
 		l.add(df.getOptionalLocationParameter());
+		l.add(new Parameter("includeOldPreArtPatients", "Include Old Pre-ART Patients?", Boolean.class, null, Boolean.FALSE));
 		return l;
 	}
 
@@ -106,11 +108,10 @@ public class HccRegister extends ApzuReportManager {
 
 		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
-		// Rows are defined as all patients who ever have been in the On Antiretrovirals state at the given location
-		CohortDefinition everPreArt = hivCohorts.getStartedPreArtWithHccNumberAtLocationByEndDate();
-		CohortDefinition everExposedChild = hivCohorts.getStartedExposedChildWithHccNumberAtLocationByEndDate();
-		CohortDefinition baseRowFilter = df.getPatientsInAny(everPreArt, everExposedChild);
-		dsd.addRowFilter(Mapped.mapStraightThrough(baseRowFilter));
+		// Rows are defined as all patients who ever have been in PRE-ART or Exposed Child
+		CohortDefinition hccCohort = new HccCohortDefinition();
+		hccCohort.getParameters().addAll(getParameters());
+		dsd.addRowFilter(Mapped.mapStraightThrough(hccCohort));
 
 		// Columns to include
 
