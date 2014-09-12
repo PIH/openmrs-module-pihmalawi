@@ -20,6 +20,7 @@ import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.PersonAddress;
 import org.openmrs.Program;
@@ -71,6 +72,7 @@ import org.openmrs.module.reporting.data.patient.definition.EncountersForPatient
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PersonToPatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.ProgramEnrollmentsForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.ProgramStatesForPatientDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
@@ -210,6 +212,14 @@ public class DataFactory {
 		def.setEncounterTypeList(encounterTypes);
 		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), getObsValueCodedPresentConverter(answer));
+	}
+
+	public PatientDataDefinition getEarliestProgramEnrollmentByEndDate(Program program, DataConverter converter) {
+		ProgramEnrollmentsForPatientDataDefinition def = new ProgramEnrollmentsForPatientDataDefinition();
+		def.setWhichEnrollment(TimeQualifier.FIRST);
+		def.setProgram(program);
+		def.addParameter(new Parameter("enrolledOnOrBefore", "On or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("enrolledOnOrBefore=endDate"), converter);
 	}
 
 	public PatientDataDefinition getMostRecentStateForWorkflowByEndDate(ProgramWorkflow workflow, DataConverter converter) {
@@ -805,6 +815,10 @@ public class DataFactory {
 
 	public DataConverter getObsValueTextConverter() {
 		return new PropertyConverter(Obs.class, "valueText");
+	}
+
+	public DataConverter getProgramEnrollmentDateConverter() {
+		return new PropertyConverter(PatientProgram.class, "dateEnrolled");
 	}
 
 	public DataConverter getStateNameConverter() {

@@ -18,7 +18,8 @@ import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RelativeDateCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
@@ -30,6 +31,7 @@ import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,6 +53,9 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 
     @Autowired
     private HivMetadata hivMetadata;
+
+	@Autowired
+	private HivPatientDataLibrary hivPatientData;
 
     @Override
     public Class<? super CohortDefinition> getDefinitionType() {
@@ -428,30 +433,65 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsInAny(pcrTest, pcrResult, pcrResult2, pcrResult3);
 	}
 
-	//***** TODO: WE MAY WANT / NEED TO RE-IMPLEMENT THESE AFTER REVIEW
-
 	@DocumentedDefinition
-	public CohortDefinition getPatientsWhoReinitiatedArvTreatmentAtLocationDuringPeriod() {
-		ReinitiatedCohortDefinition cd = new ReinitiatedCohortDefinition();
-		cd.setEncounterTypeList(hivMetadata.getArtEncounterTypes());
-		cd.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
-		cd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
-		cd.addParameter(new Parameter("locationList", "Location List", List.class));
-		return df.convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	public CohortDefinition getPatientsWhoStartedArtAtLocationAfterPreviousDefaultByEnd() {
+		RelativeDateCohortDefinition cd = new RelativeDateCohortDefinition();
+		cd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		cd.setEarlierDateDefinition(Mapped.mapStraightThrough(hivPatientData.getEarliestDefaultedStateStartDateByEndDate()));
+		cd.setLaterDateDefinition(Mapped.mapStraightThrough(hivPatientData.getMostRecentOnArvsStateStartDateAtLocationByEndDate()));
+		cd.setDifferenceOperator(RangeComparator.LESS_THAN);
+		return cd;
 	}
 
 	@DocumentedDefinition
-	public CohortDefinition getPatientsWhoTransferredInOnArtAtLocationDuringPeriod() {
+	public CohortDefinition getPatientsWhoStartedArtAtLocationAfterPreviousTreatmentStopByEnd() {
+		RelativeDateCohortDefinition cd = new RelativeDateCohortDefinition();
+		cd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		cd.setEarlierDateDefinition(Mapped.mapStraightThrough(hivPatientData.getEarliestTreatmentStoppedStateStartDateByEndDate()));
+		cd.setLaterDateDefinition(Mapped.mapStraightThrough(hivPatientData.getMostRecentOnArvsStateStartDateAtLocationByEndDate()));
+		cd.setDifferenceOperator(RangeComparator.LESS_THAN);
+		return cd;
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoReinitiatedArvTreatmentAtLocationByEnd() {
+		CohortDefinition c1 = getPatientsWhoStartedArtAtLocationAfterPreviousDefaultByEnd();
+		CohortDefinition c2 = getPatientsWhoStartedArtAtLocationAfterPreviousTreatmentStopByEnd();
+		return df.getPatientsInAny(c1, c2);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoStartedArtAtLocationAfterPreviousOnArvsByEnd() {
+		RelativeDateCohortDefinition cd = new RelativeDateCohortDefinition();
+		cd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+		cd.setEarlierDateDefinition(Mapped.mapStraightThrough(hivPatientData.getEarliestOnArvsStateStartDateByEndDate()));
+		cd.setLaterDateDefinition(Mapped.mapStraightThrough(hivPatientData.getMostRecentOnArvsStateStartDateAtLocationByEndDate()));
+		cd.setDifferenceOperator(RangeComparator.LESS_THAN);
+		return cd;
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoEverReceivedArtOnArtInitialAtLocationByEnd() {
 		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
 		cd.addEncounterType(hivMetadata.getArtInitialEncounterType());
 		cd.setQuestion(hivMetadata.getEverReceivedArtConcept());
 		cd.setTimeModifier(PatientSetService.TimeModifier.LAST);
 		cd.setOperator(SetComparator.IN);
 		cd.addValue(hivMetadata.getYesConcept());
-		cd.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
 		cd.addParameter(new Parameter("locationList", "Location List", List.class));
-		return df.convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+		return df.convert(cd, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoTransferredInOnArtAtLocationByEnd() {
+		CohortDefinition c1 = getPatientsWhoStartedArtAtLocationAfterPreviousOnArvsByEnd();
+		CohortDefinition c2 = getPatientsWhoEverReceivedArtOnArtInitialAtLocationByEnd();
+		CohortDefinition c3 = getPatientsWhoReinitiatedArvTreatmentAtLocationByEnd();
+		return df.createPatientComposition("(", c1, "OR", c2, ") AND NOT", c3);
 	}
 
 	@DocumentedDefinition

@@ -101,16 +101,22 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 
 		// Underlying Cohorts
 
-		CohortDefinition reInitiatedDuring = hivCohorts.getPatientsWhoReinitiatedArvTreatmentAtLocationDuringPeriod();
-		CohortDefinition transferredInDuring = hivCohorts.getPatientsWhoTransferredInOnArtAtLocationDuringPeriod();
-		CohortDefinition firstTimeDuring = df.createPatientComposition(getRegisteredEver(), "AND NOT", reInitiatedDuring, "AND NOT", transferredInDuring);
+		CohortDefinition reInitiated = hivCohorts.getPatientsWhoReinitiatedArvTreatmentAtLocationByEnd();
+		CohortDefinition transferredIn = hivCohorts.getPatientsWhoTransferredInOnArtAtLocationByEnd();
+		CohortDefinition firstTime = df.createPatientComposition(getRegisteredEver(), "AND NOT", reInitiated, "AND NOT", transferredIn);
 
-		// TODO: SPC calculations are:
+		// TODO: Review re-initiated/transferred/firsttime calculations
+		// What I have done is:
+		// * re-initiated is anyone who had a defaulted or tx out state prior to their latest on arvs state
+		// * transferred in is anyone who had an on arvs state prior to latest on arvs state or had Ever on ARVS true on art mastercard, and who is not re-initiated
+		// * first time is anyone not in these 2 categories
+		//
+		// SPC calculations are:
 		//  reInitiated:  Has defaulted or treatment stopped states before latest on arvs start date AND initiation date on art mastercard <= 7 days before first HIV program enrollment date
 		//  transferredIn:  No defaulted or treatment stopped states before latest on arvs start date AND initiation date on art mastercard > 7 days before first HIV program enrollment date
 		//  firstTime:  No defaulted or treatment stopped states before latest on arvs start date AND initiation date on art mastercard <= 7 days before first HIV program enrollment date
-		// TODO: What if has defaulted or tx stopped states before, but initiation date is <= 7 days before.  This case doesn't seem to be covered here (though is likely a data issue)...
-		// TODO: Since art initiation date is the art initial encounter date, not sure if the way things are done are to make this earlier than program enrollment date on txfer in
+		// What if has defaulted or tx stopped states before, but initiation date is <= 7 days before.  This case doesn't seem to be covered here (though is likely a data issue)...
+		// Since art initiation date is the art initial encounter date, not sure if the way things are done are to make this earlier than program enrollment date on txfer in
 
 		CohortDefinition males = builtInCohorts.getMales();
 		CohortDefinition pregnantFemales = df.getPatientsInAll(builtInCohorts.getFemales(), hivCohorts.getPatientsPregnantOnArtInitialAtLocationByEnd());
@@ -167,7 +173,7 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 		CohortDefinition diedAfterMonth3 = df.createPatientComposition(died, "AND NOT", diedInFirst3);
 		CohortDefinition defaulted = hivCohorts.getInDefaultedStateAtLocationOnEndDate();
 		CohortDefinition stoppedTx = hivCohorts.getInTreatmentStoppedStateAtLocationOnEndDate();
-		CohortDefinition transferred = hivCohorts.getInTransferredOutAtLocationOnEndDate();
+		CohortDefinition transferredOut = hivCohorts.getInTransferredOutAtLocationOnEndDate();
 
 		// TODO: Review Outcome Calculations
 		// What about transferred internally, do we need to factor this in anywhere?
@@ -190,9 +196,9 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 
 		addIndicator(dsd, "19_quarter", "Total registered in quarter", getRegisteredInPeriod());
 		addIndicator(dsd, "19_ever", "Total registered ever", getRegisteredEver());
-		//addRegisteredSubsetIndicator(dsd, "20", "[FT] Patients initiated on ART first time", firstTimeDuring);
-		//addRegisteredSubsetIndicator(dsd, "21", "[Re] Patients re-initiated on ART", reInitiatedDuring);
-		//addRegisteredSubsetIndicator(dsd, "22", "[TI] Patients transferred in on ART", transferredInDuring);
+		addRegisteredSubsetIndicator(dsd, "20", "[FT] Patients initiated on ART first time", firstTime);
+		addRegisteredSubsetIndicator(dsd, "21", "[Re] Patients re-initiated on ART", reInitiated);
+		addRegisteredSubsetIndicator(dsd, "22", "[TI] Patients transferred in on ART", transferredIn);
 		addRegisteredSubsetIndicator(dsd, "23", "[M] Males (all ages)", males);
 		addRegisteredSubsetIndicator(dsd, "24", "[FNP] Non-pregnant Females (all ages)", notPregnantFemales);
 		addRegisteredSubsetIndicator(dsd, "25", "[FP] Pregnant Females (all ages)", pregnantFemales);
@@ -221,7 +227,7 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 		addIndicator(dsd, "44d", "Died after the end of the 3rd month after ART initiation", diedAfterMonth3);
 		addIndicator(dsd, "45", "Defaulted", defaulted);
 		addIndicator(dsd, "46", "Stopped taking ARVs", stoppedTx);
-		addIndicator(dsd, "47", "Transferred out", transferred);
+		addIndicator(dsd, "47", "Transferred out", transferredOut);
 		addIndicator(dsd, "48_adult", "Regimen 1a", hivCohorts.getPatientsTakingRegimenAtLocationAtEndDate(hivMetadata.getArvRegimen1aConcept()));
 		addIndicator(dsd, "49_adult", "Regimen 2a", hivCohorts.getPatientsTakingRegimenAtLocationAtEndDate(hivMetadata.getArvRegimen2aConcept()));
 		addIndicator(dsd, "50_adult", "Regimen 3a", hivCohorts.getPatientsTakingRegimenAtLocationAtEndDate(hivMetadata.getArvRegimen3aConcept()));

@@ -13,8 +13,6 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.cohort.evaluator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RelativeDateCohortDefinition;
@@ -23,7 +21,6 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.DurationUnit;
-import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.data.patient.PatientData;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
@@ -37,8 +34,6 @@ import java.util.Set;
 
 @Handler(supports = { RelativeDateCohortDefinition.class })
 public class RelativeDateCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
-
-	private static Log log = LogFactory.getLog(RelativeDateCohortDefinitionEvaluator.class);
 
 	@Autowired
 	PatientDataService patientDataService;
@@ -59,8 +54,6 @@ public class RelativeDateCohortDefinitionEvaluator implements CohortDefinitionEv
 		for (Integer pId : allPats) {
 			Date d1 = (Date) data1.getData().get(pId);
 			Date d2 = (Date) data2.getData().get(pId);
-
-			log.warn("Patient: " + pId + ", d1: " + d1 + ", d2: " + d2);
 
 			boolean includePatient = false;
 			if (d1 == null) {

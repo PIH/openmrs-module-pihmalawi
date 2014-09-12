@@ -21,7 +21,7 @@ import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Tests the Cross-site Indicator Report
+ * Tests the ARV Quarterly Report
  */
 public class ArvQuarterlyReportTest extends ReportManagerTest {
 
