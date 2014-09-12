@@ -68,7 +68,7 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "ARV Quarterly";
+		return "ARV Quarterly (NOT YET READY FOR USE)";
 	}
 
 	@Override

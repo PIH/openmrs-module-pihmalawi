@@ -18,8 +18,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.ModuleFactory;
+import org.openmrs.module.ModuleUtil;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 
@@ -47,138 +50,16 @@ public class ReportInitializer implements Initializer {
 	public void stopped() {
 	}
 
-	/**
-	 * TODO: Clean this up
-	 */
 	private void removeOldReports() {
-
-		AdministrationService as = Context.getAdministrationService();
-
-		log.warn("Removing old Chronic Care Register_ report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'Chronic Care Register_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'Chronic Care Register_';", false);
-		as.executeSQL("delete from serialized_object where name = 'Chronic Care Register_ Data Set';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'Chronic Care Register_');", false);
-		as.executeSQL("delete from serialized_object where name = 'Chronic Care Register_';", false);
-		as.executeSQL("delete from serialized_object where name like 'chronic:%';", false);
-
-		log.warn("Removing old Chronic Care Visits_ report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'Chronic Care Visits_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'Chronic Care Visits_';", false);
-		as.executeSQL("delete from serialized_object where name = 'chronicvisits: encounters';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'Chronic Care Visits_');", false);
-		as.executeSQL("delete from serialized_object where name = 'Chronic Care Visits_';", false);
-
-		log.warn("Removing old HCC Register report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name like 'HCC Register_%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'HCC Register_%';", false);
-		as.executeSQL("delete from serialized_object where name like 'HCC Register_%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like 'HCC Register_%');", false);
-		as.executeSQL("delete from serialized_object where name like 'HCC Register For All Locations_%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like 'HCC Register For All Locations_%');", false);
-		as.executeSQL("delete from serialized_object where name like 'hccreg%';", false);
-		as.executeSQL("delete from serialized_object where name like 'hccregcomplete%';", false);
-
-		log.warn("Removing old HCC Quarterly report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'HCC Quarterly (Excel)_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'HCC Quarterly (Excel)_';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'HCC Quarterly_');", false);
-		as.executeSQL("delete from serialized_object where name like 'hccquarterly%';", false);
-		as.executeSQL("delete from serialized_object where name like 'HCC Quarterly_%';", false);
-
-		log.warn("Removing old ARV Quarterly report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'ARV QUARTERLY (Excel)_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'ARV QUARTERLY (Excel)_';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid = (select uuid from serialized_object where name = 'ARV Quarterly_');", false);
-		as.executeSQL("delete from serialized_object where name like 'arvquarterly%';", false);
-		as.executeSQL("delete from serialized_object where name like 'ARV Quarterly_%';", false);
-
-		// New after 3.7
-
-		log.warn("Removing old HIV Visits report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'HIV Visits_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'HIV Visits_';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'HIV Visits_');", false);
-		as.executeSQL("delete from serialized_object where name like 'hivvisits:%';", false);
-		as.executeSQL("delete from serialized_object where name like 'HIV Visits_%';", false);
-
-		log.warn("Removing old KS Register report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id = (select report_design_id from reporting_report_design where name = 'KS Register_');", false);
-		as.executeSQL("delete from reporting_report_design where name = 'KS Register_';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'KS Register_');", false);
-		as.executeSQL("delete from serialized_object where name like 'ks:%';", false);
-		as.executeSQL("delete from serialized_object where name like 'KS Register_%';", false);
-
-		log.warn("Removing old TB Register report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Tuberculosis Register%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'Tuberculosis Register%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Tuberculosis Register_');", false);
-		as.executeSQL("delete from serialized_object where name like 'tb:%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Tuberculosis Register_%';", false);
-
-		log.warn("Removing old Pre-ART Register");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Pre-ART Register%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'Pre-ART Register%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Pre-ART Register (incl. old patients)_');", false);
-		as.executeSQL("delete from serialized_object where name like 'partregcomplete%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Pre-ART Register (incl. old patients)_%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Pre-ART Register For All Locations (incl. old patients) (SLOW)_');", false);
-		as.executeSQL("delete from serialized_object where name like 'partreg%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Pre-ART Register For All Locations (incl. old patients) (SLOW)_%';", false);
-
-		log.warn("Removing Appointments report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Appointments%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'Appointments%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Appointments_');", false);
-		as.executeSQL("delete from serialized_object where name like 'appt%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Appointments_%';", false);
-
-		log.warn("Removing Find Patients To Merge report");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Find patients to merge%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'Find patients to merge%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name = 'Find patients to merge (SLOW)_');", false);
-		as.executeSQL("delete from serialized_object where name like 'merge:%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Find patients to merge (SLOW)_%';", false);
-
-		log.warn("Removing Weekly Encounter Reports");
-
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like 'Weekly Encounter%');", false);
-		as.executeSQL("delete from reporting_report_design where name like 'Weekly Encounter%';", false);
-		as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like 'Weekly Encounter%');", false);
-		as.executeSQL("delete from serialized_object where name like 'enc:%';", false);
-		as.executeSQL("delete from serialized_object where name like 'Weekly Encounter%';", false);
-
-		log.warn("Removing HIV Data Quality Reports");
-		deleteAll("HIV Data Quality For All Users.xls (Excel)_", "HIV Data Quality_", "HIV Data Quality By User_", "HIV Data Quality For All Users (SLOW)_", "hivdq:");
-
-		log.warn("Removing ARV Quarterly");
-		deleteAll("ARV QUARTERLY (Excel)_", "ARV Quarterly_", "arvquarterly");
-	}
-
-	protected void deleteAll(String... prefixes) {
-		AdministrationService as = Context.getAdministrationService();
-		for (String prefix : prefixes) {
-			deleteReportDesigns(prefix);
-			as.executeSQL("delete from reporting_report_request where report_definition_uuid in (select uuid from serialized_object where name like '"+prefix+"%');", false);
-			as.executeSQL("delete from serialized_object where name like '"+prefix+"%';", false);
+		String gpVal = Context.getAdministrationService().getGlobalProperty("pihmalawi.oldReportsRemoved");
+		if (ObjectUtil.isNull(gpVal)) {
+			AdministrationService as = Context.getAdministrationService();
+			log.warn("Removing all reports");
+			as.executeSQL("delete from reporting_report_design_resource;", false);
+			as.executeSQL("delete from reporting_report_design;", false);
+			as.executeSQL("delete from reporting_report_request;", false);
+			as.executeSQL("delete from serialized_object;", false);
+			ReportUtil.updateGlobalProperty("pihmalawi.oldReportsRemoved", "true");
 		}
 	}
-
-	protected void deleteReportDesigns(String prefix) {
-		AdministrationService as = Context.getAdministrationService();
-		as.executeSQL("delete from reporting_report_design_resource where report_design_id in (select report_design_id from reporting_report_design where name like '"+prefix+"%');", false);
-		as.executeSQL("delete from reporting_report_design where name like '"+prefix+"%';", false);
-	}
-
 }
