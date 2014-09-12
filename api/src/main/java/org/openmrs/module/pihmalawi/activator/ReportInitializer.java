@@ -161,6 +161,9 @@ public class ReportInitializer implements Initializer {
 
 		log.warn("Removing HIV Data Quality Reports");
 		deleteAll("HIV Data Quality For All Users.xls (Excel)_", "HIV Data Quality_", "HIV Data Quality By User_", "HIV Data Quality For All Users (SLOW)_", "hivdq:");
+
+		log.warn("Removing ARV Quarterly");
+		deleteAll("ARV QUARTERLY (Excel)_", "ARV Quarterly_", "arvquarterly");
 	}
 
 	protected void deleteAll(String... prefixes) {

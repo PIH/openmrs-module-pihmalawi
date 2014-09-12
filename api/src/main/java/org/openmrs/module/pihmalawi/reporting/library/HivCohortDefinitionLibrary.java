@@ -16,15 +16,26 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reports.extension.ReinitiatedCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.NumericObsCohortDefinition;
 import org.openmrs.module.reporting.common.Age;
+import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.RangeComparator;
+import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -219,6 +230,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getDefaultedState());
 	}
 
+	@DocumentedDefinition
+	public CohortDefinition getInTreatmentStoppedStateAtLocationOnEndDate() {
+		return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getTreatmentStoppedState());
+	}
+
 	@DocumentedDefinition(value = "everArtDefaultedDuringPeriodAndStillDefaultedOnEndDate")
 	public CohortDefinition getEverArtDefaultedDuringPeriodAndStillDefaultedOnEndDate() {
 		CohortDefinition artEver = getEverEnrolledInArtAtLocationByEndDate();
@@ -372,6 +388,31 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getExposedChildState(), 15, Age.Unit.YEARS, null, null);
 	}
 
+	@DocumentedDefinition
+	public CohortDefinition getPatientsUnder1YearsOldAtArtStateStartAtLocationByEndDate() {
+		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getOnArvsState(), null, null, 0, Age.Unit.YEARS);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatients0to1YearsOldAtArtStateStartAtLocationByEndDate() {
+		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getOnArvsState(), null, null, 1, Age.Unit.YEARS);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMoreThan1LessThan2YearsOldAtArtStateStartAtLocationByEndDate() {
+		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getOnArvsState(), 1, Age.Unit.YEARS, 1, Age.Unit.YEARS);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatients2to14YearsOldAtArtStateStartAtLocationByEndDate() {
+		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getOnArvsState(), 2, Age.Unit.YEARS, 14, Age.Unit.YEARS);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatients15OrMoreYearsOldAtArtStateStartAtLocationByEndDate() {
+		return df.getPatientsWhoStartedStateWhenInAgeRangeAtLocationByEndDate(hivMetadata.getOnArvsState(), 15, Age.Unit.YEARS, null, null);
+	}
+
 	@DocumentedDefinition(value = "hadWeightAtHivEncounterDuringPeriod")
 	public CohortDefinition getPatientsWithWeightAtHivEncounterDuringPeriod() {
 		return df.getPatientsWithAnyObsDuringPeriod(hivMetadata.getWeightConcept(), hivMetadata.getHivEncounterTypes());
@@ -387,7 +428,91 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsInAny(pcrTest, pcrResult, pcrResult2, pcrResult3);
 	}
 
+	//***** TODO: WE MAY WANT / NEED TO RE-IMPLEMENT THESE AFTER REVIEW
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoReinitiatedArvTreatmentAtLocationDuringPeriod() {
+		ReinitiatedCohortDefinition cd = new ReinitiatedCohortDefinition();
+		cd.setEncounterTypeList(hivMetadata.getArtEncounterTypes());
+		cd.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
+		cd.addParameter(new Parameter("locationList", "Location List", List.class));
+		return df.convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWhoTransferredInOnArtAtLocationDuringPeriod() {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.addEncounterType(hivMetadata.getArtInitialEncounterType());
+		cd.setQuestion(hivMetadata.getEverReceivedArtConcept());
+		cd.setTimeModifier(PatientSetService.TimeModifier.LAST);
+		cd.setOperator(SetComparator.IN);
+		cd.addValue(hivMetadata.getYesConcept());
+		cd.addParameter(new Parameter("onOrAfter", "startDate", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
+		cd.addParameter(new Parameter("locationList", "Location List", List.class));
+		return df.convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsPregnantOnArtInitialAtLocationByEnd() {
+		return getPatientsWithObsValueAtArtInitiationAtLocationByEnd(hivMetadata.getPregnantOrLactatingConcept(), hivMetadata.getPatientPregnantConcept());
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWithCd4BelowThresholdForArtEligibilityAtLocationByEnd() {
+		List<EncounterType> encounterTypes = Arrays.asList(hivMetadata.getArtInitialEncounterType());
+		CohortDefinition under350 = df.getPatientsWithNumericObsAtLocationByEnd(hivMetadata.getCd4CountConcept(), encounterTypes, RangeComparator.LESS_THAN, 350.0);
+		CohortDefinition under500 = df.getPatientsWithNumericObsAtLocationByEnd(hivMetadata.getCd4CountConcept(), encounterTypes, RangeComparator.LESS_THAN, 500.0);
+		MappedParametersCohortDefinition mpcd = (MappedParametersCohortDefinition)under500;
+		NumericObsCohortDefinition nocd = (NumericObsCohortDefinition)mpcd.getWrapped().getParameterizable();
+		nocd.setOnOrAfter(DateUtil.getDateTime(2014, 6, 1)); // As of June 1, 2014, CD4 < 500 is the new norm for eligibility criteria
+		return df.getPatientsInAny(under350, under500);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWithSideEffectsAtMostRecentVisitAtLocationByEnd() {
+		Concept[] answers = {hivMetadata.getPeripheralNeuropathyConcept(), hivMetadata.getHepatitisConcept(), hivMetadata.getSkinRashConcept(), hivMetadata.getLipodystrophyyConcept(), hivMetadata.getOtherConcept()};
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getArtSideEffectsConcept(), hivMetadata.getArtEncounterTypes(), answers);
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMostRecentTbStatusNotSuspectedAtLocationByEndDate() {
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getTbStatusConcept(), hivMetadata.getArtEncounterTypes(), hivMetadata.getTbNotSuspectedConcept());
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMostRecentTbStatusSuspectedAtLocationByEndDate() {
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getTbStatusConcept(), hivMetadata.getArtEncounterTypes(), hivMetadata.getTbSuspectedConcept());
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMostRecentTbStatusConfirmedNotOnTreatmentAtLocationByEndDate() {
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getTbStatusConcept(), hivMetadata.getArtEncounterTypes(), hivMetadata.getTbConfirmedNotOnTreatmentConcept());
+	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsMostRecentTbStatusConfirmedOnTreatmentAtLocationByEndDate() {
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getTbStatusConcept(), hivMetadata.getArtEncounterTypes(), hivMetadata.getTbConfirmedOnTreatmentConcept());
+	}
+
 	// Convenience methods
+
+	public CohortDefinition getPatientsTakingRegimenAtLocationAtEndDate(Concept regimen) {
+		return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(hivMetadata.getArvDrugsReceivedConcept(), hivMetadata.getArtEncounterTypes(), regimen);
+	}
+
+	public CohortDefinition getPatientsWithObsValueAtArtInitiationAtLocationByEnd(Concept question, Concept...values) {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.addEncounterType(hivMetadata.getArtInitialEncounterType());
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setOperator(SetComparator.IN);
+		cd.setValueList(Arrays.asList(values));
+		cd.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Location List", List.class));
+		return df.convert(cd, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
 
 	public CohortDefinition getDiedAtLocationWithinMonthsOfEndDate(int numMonths) {
 		CohortDefinition trueAtEnd = getInDiedStateAtLocationOnEndDate();

@@ -284,6 +284,17 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getEarliestStateByEndDate(state, pdf.getStateLocationConverter());
 	}
 
+
+	@DocumentedDefinition
+	public PatientDataDefinition getEarliestDefaultedStateStartDateByEndDate() {
+		return pdf.getEarliestStateByEndDate(hivMetadata.getDefaultedState(), pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getEarliestTreatmentStoppedStateStartDateByEndDate() {
+		return pdf.getEarliestStateByEndDate(hivMetadata.getTreatmentStoppedState(), pdf.getStateStartDateConverter());
+	}
+
 	@DocumentedDefinition("firstStateAfterExposedChildOrPreArtStateAtLocationByEndDate")
 	public PatientDataDefinition getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate() {
 		return getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(pdf.getStateNameConverter());
@@ -292,6 +303,21 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	@DocumentedDefinition("firstStateAfterExposedChildOrPreArtStateAtLocationByEndDate.startDate")
 	public PatientDataDefinition getFirstStateStartDateAfterExposedChildOrPreArtStateAtLocationByEndDate() {
 		return getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getMostRecentOnArvsStateStartDateByEndDate() {
+		return pdf.getMostRecentStateByEndDate(hivMetadata.getOnArvsState(), pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getMostRecentOnArvsStateStartDateAtLocationByEndDate() {
+		return pdf.getMostRecentStateAtLocationByEndDate(hivMetadata.getOnArvsState(), pdf.getStateStartDateConverter());
+	}
+
+	@DocumentedDefinition
+	public PatientDataDefinition getMostRecentDiedStateStartDateAtLocationByEndDate() {
+		return pdf.getMostRecentStateAtLocationByEndDate(hivMetadata.getDiedState(), pdf.getStateStartDateConverter());
 	}
 
 	// ***** CONVENIENCE METHODS
