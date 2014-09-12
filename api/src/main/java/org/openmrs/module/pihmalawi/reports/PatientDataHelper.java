@@ -28,7 +28,6 @@ import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
-import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.util.OpenmrsUtil;
@@ -855,10 +854,6 @@ public class PatientDataHelper {
 
 	private String h(String s) {
 		return ("".equals(s) || s == null ? "&nbsp;" : s);
-	}
-
-	private SessionFactory sessionFactory() {
-		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
 	}
 }
 

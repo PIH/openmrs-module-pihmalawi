@@ -25,9 +25,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
-import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.cohort.CohortUtil;
-import org.openmrs.module.reporting.cohort.query.db.hibernate.HibernateCohortQueryDAO;
 import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -170,8 +168,7 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 	}
 
 	private SessionFactory sessionFactory() {
-		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
-				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
+		return Context.getRegisteredComponents(SessionFactory.class).get(0);
 	}
 
 	private String linkifyId(Patient p, List<EncounterType> encounterTypes, ProgramWorkflow pw) {

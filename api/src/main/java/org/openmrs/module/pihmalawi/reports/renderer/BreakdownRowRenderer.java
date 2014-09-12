@@ -2,7 +2,6 @@ package org.openmrs.module.pihmalawi.reports.renderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.SessionFactory;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -21,7 +20,6 @@ import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
-import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.web.WebConstants;
@@ -208,11 +206,6 @@ public abstract class BreakdownRowRenderer {
 			}
 		}
 		return arvs;
-	}
-
-	protected SessionFactory sessionFactory() {
-		return ((HibernatePihMalawiQueryDao) Context.getRegisteredComponents(
-				HibernatePihMalawiQueryDao.class).get(0)).getSessionFactory();
 	}
 
 	protected void addVhwCol(DataSetRow row, Patient p) {

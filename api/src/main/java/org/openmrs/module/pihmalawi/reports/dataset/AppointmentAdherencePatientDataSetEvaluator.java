@@ -24,7 +24,6 @@ import org.openmrs.module.pihmalawi.ProgramHelper;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
-import org.openmrs.module.pihmalawi.reports.extension.HibernatePihMalawiQueryDao;
 import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -364,6 +363,6 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 	}
 
 	private SessionFactory sessionFactory() {
-		return Context.getRegisteredComponents(HibernatePihMalawiQueryDao.class).get(0).getSessionFactory();
+		return Context.getRegisteredComponents(SessionFactory.class).get(0);
 	}
 }
