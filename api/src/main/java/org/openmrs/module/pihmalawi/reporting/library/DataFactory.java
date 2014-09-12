@@ -186,6 +186,16 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
 
+	public PatientDataDefinition getMostRecentObsAtLocationByEndDate(Concept question, List<EncounterType> encounterTypes, DataConverter converter) {
+		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setQuestion(question);
+		def.setEncounterTypeList(encounterTypes);
+		def.addParameter(new Parameter("locationList", "Locations", Location.class));
+		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"), converter);
+	}
+
 	public PatientDataDefinition getAllObsByEndDate(Concept question, List<EncounterType> encounterTypes, DataConverter converter) {
 		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
 		def.setQuestion(question);
@@ -216,6 +226,23 @@ public class DataFactory {
 		def.setWorkflow(workflow);
 		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
 		def.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
+	public PatientDataDefinition getMostRecentStateAtLocationByEndDate(ProgramWorkflowState state, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setState(state);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
+		def.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
+	}
+
+	public PatientDataDefinition getMostRecentStateByEndDate(ProgramWorkflowState state, DataConverter converter) {
+		ProgramStatesForPatientDataDefinition def = new ProgramStatesForPatientDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setState(state);
+		def.addParameter(new Parameter("startedOnOrBefore", "Started on or Before", Date.class));
 		return convert(def, ObjectUtil.toMap("startedOnOrBefore=endDate"), converter);
 	}
 
@@ -514,6 +541,30 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 
+	public CohortDefinition getPatientsWithNumericObsAtLocationByEnd(Concept question, List<EncounterType> restrictToTypes, RangeComparator operator, Double value) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.setOperator1(operator);
+		cd.setValue1(value);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
+
+	public CohortDefinition getPatientsWithMostRecentNumericObsAtLocationByEnd(Concept question, List<EncounterType> restrictToTypes, RangeComparator operator, Double value) {
+		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.LAST);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(restrictToTypes);
+		cd.setOperator1(operator);
+		cd.setValue1(value);
+		cd.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		cd.addParameter(new Parameter("locationList", "Locations", Location.class));
+		return convert(cd, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
+	}
+
 	public CohortDefinition getPatientsWithAnyObsWithinMonthsByEndDate(Concept question, int numMonths) {
 		NumericObsCohortDefinition cd = new NumericObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
@@ -568,6 +619,18 @@ public class DataFactory {
 
 	public CohortDefinition getPatientsWhoseMostRecentObsDateIsOlderThanValueAtLocationByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan) {
 		return getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(dateConcept, types, olderThan, null);
+	}
+
+	public CohortDefinition getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(Concept question, List<EncounterType> types, Concept...values) {
+		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
+		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
+		cd.setQuestion(question);
+		cd.setEncounterTypeList(types);
+		cd.setOperator(SetComparator.IN);
+		cd.setValueList(Arrays.asList(values));
+		cd.addParameter(new Parameter("onOrBefore", "onOrBefore", Date.class));
+		cd.addParameter(new Parameter("locationList", "Location", Location.class));
+		return convert(cd, ObjectUtil.toMap("locationList=location,onOrBefore=endDate"));
 	}
 
 	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
