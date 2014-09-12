@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.definition;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.renderer;
+package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 
 import java.util.Arrays;
 import java.util.Date;

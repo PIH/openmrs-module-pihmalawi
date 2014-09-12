@@ -1,9 +1,5 @@
-package org.openmrs.module.pihmalawi;
+package org.openmrs.module.pihmalawi.common;
 
-import java.util.*;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
@@ -13,6 +9,16 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.util.OpenmrsUtil;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class ProgramHelper {
 	
@@ -40,39 +46,6 @@ public class ProgramHelper {
 			return validPatientStates.values().iterator().next();
 		}
 		return null;
-	}
-
-	public PatientState getMostRecentStateAtLocation(Patient p, List<ProgramWorkflowState> programWorkflowStates, Location enrollmentLocation) {
-		PatientState state = null;
-		List<PatientProgram> pps = Context.getProgramWorkflowService().getPatientPrograms(p,programWorkflowStates.get(0).getProgramWorkflow().getProgram(),null, null, null, null, false);
-		List<Integer> programWorkflowStateIds = new ArrayList<Integer>();
-		for (ProgramWorkflowState pws : programWorkflowStates) {
-			programWorkflowStateIds.add(pws.getId());
-		}
-		for (PatientProgram pp : pps) {
-			// hope that the first found pp is also first in time
-			Location location = getEnrollmentLocation(pp);
-			if (!pp.isVoided() && location != null
-					&& location.getId().equals(enrollmentLocation.getId())) {
-				HashMap<Long, PatientState> validPatientStates = new HashMap<Long, PatientState>();
-				ArrayList<Long> stupidListConverter = new ArrayList<Long>();
-				for (PatientState ps : pp.getStates()) {
-					if (!ps.isVoided()
-							&& programWorkflowStateIds.contains(ps.getState().getId())
-							&& ps.getStartDate() != null) {
-						validPatientStates.put(ps.getStartDate().getTime(), ps);
-						stupidListConverter.add(ps.getStartDate().getTime());
-					}
-				}
-				Collections.<Long> sort(stupidListConverter);
-
-				for (Long key : stupidListConverter) {
-					// just take the last one and hope it is the most recent one
-					state = (PatientState) validPatientStates.get(key);
-				}
-			}
-		}
-		return state;
 	}
 
 	public PatientProgram getMostRecentProgramEnrollment(Patient p, Program program, Date asOfDate) {
@@ -170,7 +143,7 @@ public class ProgramHelper {
 
 		for (PatientProgram pp : pps) {
 			Location programLocation = getEnrollmentLocation(pp);
-			if ((enrollmentLocation == null) || (programLocation != null && enrollmentLocation != null && programLocation.getId().equals(enrollmentLocation.getId()))) {
+			if ((enrollmentLocation == null) || (programLocation != null && programLocation.getId().equals(enrollmentLocation.getId()))) {
 				List<PatientState> states = statesInWorkflow(pp, programWorkflow);
 				for (PatientState state : states) {
 					if (containedIn(state.getState(), referenceStates) && state.getStartDate().getTime() <= endDate.getTime()) {
@@ -214,7 +187,7 @@ public class ProgramHelper {
 	
 	private boolean containedIn(ProgramWorkflowState state, List<ProgramWorkflowState> referenceStates) {
 		for(ProgramWorkflowState pws : referenceStates) {
-			if (pws.getId() == state.getId()) {
+			if (pws.equals(state)) {
 				return true;
 			}
 		}

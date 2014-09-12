@@ -1,10 +1,11 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.definition;
 
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
+// TODO: We want to remove the usage of this
 public class HtmlBreakdownDataSetDefinition extends BaseDataSetDefinition {
 	
 	private static final long serialVersionUID = 6405584324151111487L;
@@ -21,17 +22,12 @@ public class HtmlBreakdownDataSetDefinition extends BaseDataSetDefinition {
 		addParameter(ReportingConstants.END_DATE_PARAMETER);
 		addParameter(ReportingConstants.LOCATION_PARAMETER);
 	}
-	
-	public HtmlBreakdownDataSetDefinition(String name, String description) {
-		super(name, description);
-	}
 
 	public String getHtmlBreakdownPatientRowClassname() {
 		return htmlBreakdownPatientRowClassname;
 	}
 
-	public void setHtmlBreakdownPatientRowClassname(
-			String htmlBreakdownPatientRowClassname) {
+	public void setHtmlBreakdownPatientRowClassname(String htmlBreakdownPatientRowClassname) {
 		this.htmlBreakdownPatientRowClassname = htmlBreakdownPatientRowClassname;
 	}
 

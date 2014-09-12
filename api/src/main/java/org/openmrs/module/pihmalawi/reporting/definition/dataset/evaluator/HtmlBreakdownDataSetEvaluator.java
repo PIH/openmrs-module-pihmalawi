@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
@@ -15,7 +15,8 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.reports.renderer.BreakdownRowRenderer;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.HtmlBreakdownDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.renderer.BreakdownRowRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -23,32 +24,23 @@ import org.openmrs.module.reporting.dataset.SimpleDataSet;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.evaluation.EvaluationException;
 
 @Handler(supports = { HtmlBreakdownDataSetDefinition.class })
 public class HtmlBreakdownDataSetEvaluator implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	public HtmlBreakdownDataSetEvaluator() {
-	}
-
-	public DataSet evaluate(DataSetDefinition dataSetDefinition,
-			EvaluationContext context) {
+	public DataSet evaluate(DataSetDefinition dataSetDefinition, EvaluationContext context) throws EvaluationException {
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
+		HtmlBreakdownDataSetDefinition dsd = (HtmlBreakdownDataSetDefinition)dataSetDefinition;
 
-		PatientIdentifierType patientIdentifierType = ((HtmlBreakdownDataSetDefinition) dataSetDefinition).getPatientIdentifierType();
-		String breakdownRowRendererClassname = ((HtmlBreakdownDataSetDefinition) dataSetDefinition).getHtmlBreakdownPatientRowClassname();
-		BreakdownRowRenderer renderer = null;
+		BreakdownRowRenderer renderer;
 		try {
-			Class myClass = Class.forName(breakdownRowRendererClassname);
-			Object newInstance = myClass.newInstance();
-			renderer = (BreakdownRowRenderer) newInstance;
-		} catch (ClassNotFoundException e) {
-			log.error(e);
-		} catch (InstantiationException e) {
-			log.error(e);
-		} catch (IllegalAccessException e) {
-			log.error(e);
+			renderer = (BreakdownRowRenderer) Context.loadClass(dsd.getHtmlBreakdownPatientRowClassname()).newInstance();
+		}
+		catch (Exception e) {
+			throw new EvaluationException("Unable to instantiate class of type " + dsd.getHtmlBreakdownPatientRowClassname(), e);
 		}
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
@@ -73,14 +65,10 @@ public class HtmlBreakdownDataSetEvaluator implements DataSetEvaluator {
 
 		// sorting like this is expensive and should be somehow provided by the
 		// framework!
-		sortByIdentifier(patients, patientIdentifierType, locationParameter);
+		sortByIdentifier(patients, dsd.getPatientIdentifierType(), locationParameter);
 
 		for (Patient p : patients) {
-			try {
-				dataSet.addRow(renderer.renderRow(p, patientIdentifierType, locationParameter, startDateParameter, endDateParameter));
-			} catch (Throwable t) {
-				log.error(t);
-			}
+			dataSet.addRow(renderer.renderRow(p, dsd.getPatientIdentifierType(), locationParameter, startDateParameter, endDateParameter));
 		}
 		return dataSet;
 	}

@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,11 +20,12 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.common.ProgramHelper;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
-import org.openmrs.module.pihmalawi.reports.renderer.ArtRegisterBreakdownRenderer;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
+import org.openmrs.module.pihmalawi.common.PatientDataHelper;
+import org.openmrs.module.pihmalawi.reporting.definition.renderer.ArtRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -49,7 +50,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-// todo, should/could be migrated to the HtmlBreakdownDataSet
+// TODO: Convert to use Data Definitions
 @Handler(supports = { AppointmentAdherencePatientDataSetDefinition.class })
 public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvaluator {
 

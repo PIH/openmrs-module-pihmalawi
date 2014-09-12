@@ -16,7 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reports.dataset.FindPatientsToMergeSoundexDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.FindPatientsToMergeSoundexDataSetDefinition;
 import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
@@ -29,7 +29,6 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.renderer.CohortDetailReportRenderer;
 import org.openmrs.module.reporting.serializer.ReportingSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

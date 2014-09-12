@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.definition;
 
 import java.util.List;
 
@@ -7,8 +7,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.reporting.dataset.definition.BaseDataSetDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
-public class AppointmentAdherencePatientDataSetDefinition extends
-		BaseDataSetDefinition {
+public class AppointmentAdherencePatientDataSetDefinition extends BaseDataSetDefinition {
 
 	private static final long serialVersionUID = 6405583324151111487L;
 

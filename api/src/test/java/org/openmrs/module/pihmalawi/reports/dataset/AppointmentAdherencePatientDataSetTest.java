@@ -4,6 +4,7 @@ import org.openmrs.Cohort;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetUtil;

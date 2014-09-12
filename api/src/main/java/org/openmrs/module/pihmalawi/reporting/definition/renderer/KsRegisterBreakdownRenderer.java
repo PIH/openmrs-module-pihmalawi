@@ -1,11 +1,11 @@
-package org.openmrs.module.pihmalawi.reports.renderer;
+package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 
 import java.util.*;
 
 import org.openmrs.*;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.ProgramHelper;
-import org.openmrs.module.pihmalawi.reports.PatientDataHelper;
+import org.openmrs.module.pihmalawi.common.ProgramHelper;
+import org.openmrs.module.pihmalawi.common.PatientDataHelper;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 

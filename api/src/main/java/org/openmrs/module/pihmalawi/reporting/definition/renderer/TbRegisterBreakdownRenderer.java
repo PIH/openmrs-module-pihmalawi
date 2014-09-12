@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.renderer;
+package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 
 import org.openmrs.Concept;
 import org.openmrs.Encounter;

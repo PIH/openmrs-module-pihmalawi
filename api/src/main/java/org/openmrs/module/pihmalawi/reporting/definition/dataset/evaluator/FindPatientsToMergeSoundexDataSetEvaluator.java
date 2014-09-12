@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.reports.dataset;
+package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -24,7 +24,8 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.common.ProgramHelper;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.FindPatientsToMergeSoundexDataSetDefinition;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
 import org.openmrs.module.reporting.common.ObjectUtil;

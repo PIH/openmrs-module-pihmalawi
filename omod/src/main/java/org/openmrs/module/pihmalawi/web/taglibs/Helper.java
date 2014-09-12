@@ -21,7 +21,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.ProgramHelper;
+import org.openmrs.module.pihmalawi.common.ProgramHelper;
 import org.openmrs.util.OpenmrsUtil;
 
 /**

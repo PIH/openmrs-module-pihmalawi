@@ -14,13 +14,10 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.Location;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.metadata.KaposiSarcomaMetadata;
 import org.openmrs.module.pihmalawi.metadata.TbMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.pihmalawi.reports.dataset.HtmlBreakdownDataSetDefinition;
-import org.openmrs.module.pihmalawi.reports.renderer.KsRegisterBreakdownRenderer;
-import org.openmrs.module.pihmalawi.reports.renderer.TbRegisterBreakdownRenderer;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.HtmlBreakdownDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.renderer.TbRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;

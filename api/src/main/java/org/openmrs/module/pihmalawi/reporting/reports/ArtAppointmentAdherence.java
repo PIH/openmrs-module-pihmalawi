@@ -16,7 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
-import org.openmrs.module.pihmalawi.reports.dataset.AppointmentAdherencePatientDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
