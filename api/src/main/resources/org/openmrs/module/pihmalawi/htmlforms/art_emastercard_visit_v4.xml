@@ -138,11 +138,7 @@
     <script type="text/javascript">
 
         beforeSubmit.push( function(){
-
-            console.log("beforeSubmit push");
             return validateForm();
-
-
         });
 
         var validateForm = function () {
