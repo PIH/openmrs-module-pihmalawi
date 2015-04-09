@@ -156,7 +156,9 @@ public class MetadataInitializer implements Initializer {
 			}
 		}
 		{
-			Integer id = 3683;
+
+            Integer id = 3683;
+
 			Concept c = cs.getConcept(id);
 			log.warn("Updating answers for Chronic Care Diagnosis");
 			c.getAnswers().clear();
@@ -173,6 +175,7 @@ public class MetadataInitializer implements Initializer {
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other mental health diagnosis
 			c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded
 			cs.saveConcept(c);
+
 		}
 	}
 
