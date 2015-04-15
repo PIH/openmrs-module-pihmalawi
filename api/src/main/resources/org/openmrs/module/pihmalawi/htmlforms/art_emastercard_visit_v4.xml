@@ -162,6 +162,8 @@
 
         $j(function() {
 
+            validateForm();
+
             $j(document).keydown(function(event) {
                 if (event.keyCode == 13) {
                     validateForm();
@@ -202,7 +204,7 @@
 
 
             $j(document).change(validateForm);
-            $j(document).click(validateForm);
+            // $j(document).click(validateForm);
 
 
         });
