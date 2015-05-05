@@ -63,11 +63,11 @@
 
             <td>
                 <!-- Height -->
-                <obs conceptId="5090" />
+                <obs conceptId="5090" id="heightInput" />
             </td>
             <td>
                 <!-- Weight -->
-                <obs conceptId="5089" />
+                <obs conceptId="5089" id="weightInput" />
             </td>
             <td>
                 <!-- ART Regimen -->
@@ -137,6 +137,9 @@
     <script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js" type="text/javascript"></script>
     <script type="text/javascript">
 
+        var ENTER_KEY = 13;
+        var TAB_KEY = 9;
+
         beforeSubmit.push( function(){
             return validateForm();
         });
@@ -165,7 +168,7 @@
             validateForm();
 
             $j(document).keydown(function(event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode == ENTER_KEY) {
                     validateForm();
                     var disabled = $j('.submitButton').attr('disabled');
                     if (!disabled) {
@@ -183,12 +186,32 @@
 
             });
 
+            getField('encounterLocation.value').keydown(function(event) {
+                if (event.keyCode == TAB_KEY) {
+                    getField('encounterDate.value').focus();
+                }
+            });
+
+            getField('encounterDate.value').change(function() {
+                console.log("encounterDate.value changed");
+                getField('encounterDate.value').focus();
+
+            });
+
+            getField('encounterDate.value').keydown(function(event) {
+
+                if (event.keyCode == TAB_KEY) {
+                    console.log("encounterDate.value keydown: " + event.keyCode);
+                    // getField('heightInput.value').focus();
+                }
+            });
+
+
             getField('nextAppointmentDate.value').change(function() {
                 validateNextAppointmentDate();
             });
 
             getField('nextAppointmentDate.value').attr( 'autocomplete' , 'off' );
-                //getField('nextAppointmentDate.value').datepicker("destroy");
 
             if(!document.getElementById("xmlData")) {
                 if (getHttpGetParam('mode') != "EDIT") {
@@ -204,8 +227,6 @@
 
 
             $j(document).change(validateForm);
-            // $j(document).click(validateForm);
-
 
         });
 
