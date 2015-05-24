@@ -38,39 +38,30 @@ public class PatientIdentifierConverter implements DataConverter  {
 	 */
 	public Object convert(Object original) {
 		PatientIdentifier pi = (PatientIdentifier)original;
-		if (pi == null) {
-			return "(none)";
-		}
-		String id = pi.getIdentifier();
-
-		if (id.endsWith(" HCC")) {
-			int firstSpace = id.indexOf(" ");
-			int lastSpace = id.lastIndexOf(" ");
-			String number = id.substring(firstSpace + 1, lastSpace);
+		String id = "(none)";
+		if (pi != null) {
+			id = pi.getIdentifier();
 			try {
 				DecimalFormat f = new java.text.DecimalFormat("0000");
-				number = f.format(new Integer(number));
+				if (id.endsWith(" HCC")) {
+					int firstSpace = id.indexOf(" ");
+					int lastSpace = id.lastIndexOf(" ");
+					String number = f.format(new Integer(id.substring(firstSpace + 1, lastSpace)));
+					id = id.substring(0, firstSpace) + "-" + number + "-HCC";
+				}
+				else {
+					if (id.lastIndexOf(" ") > 0) {
+						// For now assume that an id without leading zeros is there when there is a space
+						String number = f.format(new Integer(id.substring(id.lastIndexOf(" ") + 1)));
+						id = id.substring(0, id.lastIndexOf(" ")) + "-" + number;
+					}
+				}
 			}
 			catch (Exception e) {
-				return id; // Error while converting
+				// If something unexpected happens, just return the identifier as is
 			}
-			return id.substring(0, firstSpace) + "-" + number + "-HCC";
 		}
-		else {
-			if (id.lastIndexOf(" ") > 0) {
-				// For now assume that an id without leading zeros is there when there is a space
-				String number = id.substring(id.lastIndexOf(" ") + 1);
-				try {
-					DecimalFormat f = new java.text.DecimalFormat("0000");
-					number = f.format(new Integer(number));
-				}
-				catch (Exception e) {
-					return id; // Error while converting
-				}
-				return id.substring(0, id.lastIndexOf(" ")) + "-" + number;
-			}
-			return id;
-		}
+		return id;
 	}
 
 	/**
