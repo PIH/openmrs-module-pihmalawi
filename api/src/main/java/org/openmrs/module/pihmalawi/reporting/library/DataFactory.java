@@ -643,6 +643,19 @@ public class DataFactory {
 		return convert(cd, ObjectUtil.toMap("locationList=location,onOrBefore=endDate"));
 	}
 
+    public CohortDefinition getPatientsWhoseObsValueDateIsBetweenStartDateAndEndDateAtLocation(Concept dateConcept, List<EncounterType> types) {
+        DateObsCohortDefinition cd = new DateObsCohortDefinition();
+        cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+        cd.setQuestion(dateConcept);
+        cd.setEncounterTypeList(types);
+        cd.addParameter(new Parameter("locationList", "Location", Location.class));
+        cd.setOperator1(RangeComparator.GREATER_EQUAL);
+        cd.addParameter(new Parameter("value1", "value1", Date.class));
+        cd.setOperator2(RangeComparator.LESS_EQUAL);
+        cd.addParameter(new Parameter("value2", "value2", Date.class));
+        return convert(cd, ObjectUtil.toMap("locationList=location,value1=startDate,value2=endDate"));
+    }
+
 	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesAtLocationByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
 		DateObsCohortDefinition cd = new DateObsCohortDefinition();
 		cd.setTimeModifier(PatientSetService.TimeModifier.MAX);
