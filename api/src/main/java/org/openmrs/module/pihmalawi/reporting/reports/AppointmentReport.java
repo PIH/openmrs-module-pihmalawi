@@ -18,20 +18,17 @@ import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
-import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.HccCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
-import org.openmrs.module.reporting.data.patient.definition.PatientDataSetDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
-import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -71,13 +68,16 @@ public class AppointmentReport extends ApzuReportManager {
     private HivEncounterQueryLibrary encounterQueries;
 
     @Autowired
-    private BuiltInPatientDataLibrary builtInPatientData ;
+    private BuiltInPatientDataLibrary builtInPatientData;
 
     @Autowired
-    private BasePatientDataLibrary basePatientData ;
+    private BasePatientDataLibrary basePatientData;
 
     @Autowired
-    private HivPatientDataLibrary hivPatientData ;
+    private HivPatientDataLibrary hivPatientData;
+
+    @Autowired
+    private ChronicCarePatientDataLibrary chronicCarePatientData;
 
     @Autowired
     private BuiltInEncounterDataLibrary builtInEncounterData;
@@ -130,35 +130,34 @@ public class AppointmentReport extends ApzuReportManager {
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
-        for (TreatmentGroup treatmentGroup : getTreatmentGroups() ) {
+        PatientDataSetDefinition dsd = new PatientDataSetDefinition();
+        dsd.setName(getName());
+        dsd.setParameters(getParameters());
+        rd.addDataSetDefinition(getName(), Mapped.mapStraightThrough(dsd));
 
-            PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-            dsd.setName(treatmentGroup.getName());
-            dsd.addParameters(getParameters());
-            dsd.addSortCriteria(treatmentGroup.getIdentifierTypeShortName(), SortDirection.ASC);
+        dsd.addSortCriteria("PID", SortDirection.ASC);
 
-            rd.addDataSetDefinition(treatmentGroup.getName(), Mapped.mapStraightThrough(dsd));
+        // Rows are patients who have a next appointment date obs date in the given date range, associated with the given location
+        CohortDefinition rowFilter = df.getPatientsWhoseObsValueDateIsBetweenStartDateAndEndDateAtLocation(commonMetadata.getAppointmentDateConcept(), null);
+        dsd.addRowFilter(Mapped.mapStraightThrough(rowFilter));
 
-            // Rows are defined as all patients who ever have been in PRE-ART or Exposed Child
-            CohortDefinition rowFilter = df.getPatientsWhoseObsValueDateIsBetweenStartDateAndEndDateAtLocation(commonMetadata.getAppointmentDateConcept(), treatmentGroup.getEncounterTypes());
-            dsd.addRowFilter(Mapped.mapStraightThrough(rowFilter));
+        // Columns to include
 
-            // Columns to include
+        addColumn(dsd, "PID", builtInPatientData.getPatientId());
+        addColumn(dsd, "Arv Number", hivPatientData.getArvNumberAtLocation());
+        addColumn(dsd, "Chronic Care Number", chronicCarePatientData.getChronicCareNumberAtLocation());
+        addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
+        addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
+        addColumn(dsd, "M/F", builtInPatientData.getGender());
+        addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
+        addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
+        addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
+        addColumn(dsd, "Village", basePatientData.getVillage());
+        addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
+        addColumn(dsd, "District", basePatientData.getDistrict());
+        addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
+        addColumn(dsd, "Appointment Date", basePatientData.getAppointmentDatesAtLocationDuringPeriod());
 
-            addColumn(dsd, "PID", builtInPatientData.getPatientId());
-            addColumn(dsd, treatmentGroup.getIdentifierTypeShortName(), treatmentGroup.getPreferredIdentifierDefinition());
-            addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
-            addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
-            addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
-            addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
-            addColumn(dsd, "Current Age (mth)", basePatientData.getAgeAtEndInMonths());
-            addColumn(dsd, "M/F", builtInPatientData.getGender());
-            addColumn(dsd, "Village", basePatientData.getVillage());
-            addColumn(dsd, "TA", basePatientData.getTraditionalAuthority());
-            addColumn(dsd, "District", basePatientData.getDistrict());
-            addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
-
-        }
         return rd;
     }
 

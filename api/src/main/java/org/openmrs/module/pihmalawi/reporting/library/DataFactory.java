@@ -214,6 +214,16 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), getObsValueCodedPresentConverter(answer));
 	}
 
+    public PatientDataDefinition getObsWhoseValueDatetimeIsDuringPeriodAtLocation(Concept question, List<EncounterType> encounterTypes, DataConverter converter) {
+        ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+        def.setQuestion(question);
+        def.setEncounterTypeList(encounterTypes);
+        def.addParameter(new Parameter("valueDatetimeOrAfter", "Value On Or After", Date.class));
+        def.addParameter(new Parameter("valueDatetimeOnOrBefore", "Value On Or Before", Date.class));
+        def.addParameter(new Parameter("locationList", "Locations", Location.class));
+        return convert(def, ObjectUtil.toMap("valueDatetimeOrAfter=startDate,valueDatetimeOnOrBefore=endDate,locationList=location"), converter);
+    }
+
 	public PatientDataDefinition getEarliestProgramEnrollmentByEndDate(Program program, DataConverter converter) {
 		ProgramEnrollmentsForPatientDataDefinition def = new ProgramEnrollmentsForPatientDataDefinition();
 		def.setWhichEnrollment(TimeQualifier.FIRST);
@@ -341,7 +351,7 @@ public class DataFactory {
 		BirthAndDeathCohortDefinition cd = new BirthAndDeathCohortDefinition();
 		cd.addParameter(new Parameter("bornOnOrAfter", "Born On Or After", Date.class));
 		cd.addParameter(new Parameter("bornOnOrBefore", "Born On Or Before", Date.class));
-		return convert(cd, ObjectUtil.toMap("bornOnOrAfter=startDate-"+numWeeks+"w,bornOnOrBefore=endDate-"+numWeeks+"w"));
+		return convert(cd, ObjectUtil.toMap("bornOnOrAfter=startDate-" + numWeeks + "w,bornOnOrBefore=endDate-" + numWeeks + "w"));
 	}
 
 	public CohortDefinition getPatientsWithIdentifierOfType(PatientIdentifierType... types) {
@@ -622,7 +632,7 @@ public class DataFactory {
 		cd.setMinAgeUnit(minAgeUnit);
 		cd.setMaxAge(maxAge);
 		cd.setMaxAgeUnit(maxAgeUnit);
-		cd.addParameter(new Parameter("startedOnOrBefore","Started On Or Before", Date.class));
+		cd.addParameter(new Parameter("startedOnOrBefore", "Started On Or Before", Date.class));
 		cd.addParameter(new Parameter("location", "Location", Location.class));
 		return convert(cd, ObjectUtil.toMap("startedOnOrBefore=endDate"));
 	}
@@ -817,6 +827,12 @@ public class DataFactory {
 	public DataConverter getObsValueDatetimeConverter() {
 		return new PropertyConverter(Obs.class, "valueDatetime");
 	}
+
+    public DataConverter getObsValueDatetimeCollectionConverter() {
+        ChainedConverter itemConverter = new ChainedConverter(getObsValueDatetimeConverter(), getObjectFormatter());
+        CollectionConverter collectionConverter = new CollectionConverter(itemConverter, true, null);
+        return new ChainedConverter(collectionConverter, new ObjectFormatter(" "));
+    }
 
 	public DataConverter getObsValueCodedConverter() {
 		return new PropertyConverter(Obs.class, "valueCoded");

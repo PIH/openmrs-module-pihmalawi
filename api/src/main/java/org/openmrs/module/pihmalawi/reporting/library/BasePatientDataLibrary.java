@@ -132,4 +132,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public PatientDataDefinition getLatestWeightDate() {
 		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsDatetimeConverter());
 	}
+
+    // Obs
+
+    @DocumentedDefinition("appointmentDatesAtLocationDuringPeriod")
+    public PatientDataDefinition getAppointmentDatesAtLocationDuringPeriod() {
+        return df.getObsWhoseValueDatetimeIsDuringPeriodAtLocation(metadata.getAppointmentDateConcept(), null, df.getObsValueDatetimeCollectionConverter());
+    }
+
 }
