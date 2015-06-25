@@ -144,7 +144,8 @@ public class AppointmentReport extends ApzuReportManager {
         // Columns to include
 
         addColumn(dsd, "PID", builtInPatientData.getPatientId());
-        addColumn(dsd, "Arv Number", hivPatientData.getArvNumberAtLocation());
+        addColumn(dsd, "HCC Number", hivPatientData.getHccNumberAtLocation());
+        addColumn(dsd, "ARV Number", hivPatientData.getArvNumberAtLocation());
         addColumn(dsd, "Chronic Care Number", chronicCarePatientData.getChronicCareNumberAtLocation());
         addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
         addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
