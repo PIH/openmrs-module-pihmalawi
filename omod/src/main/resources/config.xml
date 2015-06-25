@@ -12,10 +12,10 @@
 	<require_version>1.9.7</require_version>
 
 	<require_modules>
-		<require_module>org.openmrs.module.reporting</require_module>
-        <require_module>org.openmrs.module.namephonetics</require_module>
-        <require_module>org.openmrs.module.htmlformentry</require_module>
-        <require_module>org.openmrs.module.uiframework</require_module>
+		<require_module version="${reportingVersion}">org.openmrs.module.reporting</require_module>
+        <require_module version="${namephoneticsVersion}">org.openmrs.module.namephonetics</require_module>
+        <require_module version="${htmlformentryVersion}">org.openmrs.module.htmlformentry</require_module>
+        <require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
 	</require_modules>
 
 	<globalProperty>
