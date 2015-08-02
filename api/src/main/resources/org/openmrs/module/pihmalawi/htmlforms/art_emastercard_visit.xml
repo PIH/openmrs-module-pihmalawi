@@ -40,6 +40,8 @@
                 </table>
             </td>
             <td>CPT # tablets</td>
+            <td>Viral Load Sample</td>
+            <td>Viral load</td>
             <td colspan="2" align="center">
                 Family Plan.
                 <table>
@@ -71,7 +73,7 @@
             </td>
             <td>
                 <!-- ART Regimen -->
-                <obs conceptId="8169" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8168,8156,8158,8160,8163,6408"/>
+                <obs conceptId="8169" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408"/>
             </td>
             <td>
                 <!-- Side Effects -->
@@ -113,6 +115,12 @@
                 <!-- CPT # tablets -->
                 <obs conceptId="6319"/>
             </td>
+            <!-- Viral load sample -->
+            <td><obs conceptId="8421" style="checkbox" answerConceptId="8421" answerLabel="Bled" /></td>
+            <td>
+                <!-- Viral load -->
+                <obs conceptId="856"/>
+            </td>
             <td>
                 <!-- depo given -->
                 <obs conceptId="8029" style="checkbox" answerConceptId="1065"
@@ -141,92 +149,92 @@
         var TAB_KEY = 9;
 
         beforeSubmit.push( function(){
-            return validateForm();
+        return validateForm();
         });
 
         var validateForm = function () {
-            var isValid = false;
-            isValid = validateNextAppointmentDate();
-            if ( isValid ){
-                isValid = validateEncounterLocation();
-            }
+        var isValid = false;
+        isValid = validateNextAppointmentDate();
+        if ( isValid ){
+        isValid = validateEncounterLocation();
+        }
 
-            if (isValid) {
-                $j('.submitButton').removeAttr('disabled');
-                $j('.submitButton').removeClass('disabled');
-                $j('div.error').text("");
-                $j('div.error').hide();
-            } else {
-                $j('.submitButton').attr('disabled', 'disabled');
-                $j('.submitButton').addClass('disabled');
-            }
-            return isValid;
+        if (isValid) {
+        $j('.submitButton').removeAttr('disabled');
+        $j('.submitButton').removeClass('disabled');
+        $j('div.error').text("");
+        $j('div.error').hide();
+        } else {
+        $j('.submitButton').attr('disabled', 'disabled');
+        $j('.submitButton').addClass('disabled');
+        }
+        return isValid;
         };
 
         $j(function() {
 
-            validateForm();
+        validateForm();
 
-            $j(document).keydown(function(event) {
-                if (event.keyCode == ENTER_KEY) {
-                    validateForm();
-                    var disabled = $j('.submitButton').attr('disabled');
-                    if (!disabled) {
-                        $j('.submitButton').click();
-                    }
-                }
-            });
+        $j(document).keydown(function(event) {
+        if (event.keyCode == ENTER_KEY) {
+        validateForm();
+        var disabled = $j('.submitButton').attr('disabled');
+        if (!disabled) {
+        $j('.submitButton').click();
+        }
+        }
+        });
 
-            getField('encounterLocation.value').change(function() {
-                if ( validateEncounterLocation() ) {
-                    getField('encounterLocation.error').html("").hide();
-                } else {
-                    getField('encounterLocation.error').html("Please select a valid Location").show();
-                }
+        getField('encounterLocation.value').change(function() {
+        if ( validateEncounterLocation() ) {
+        getField('encounterLocation.error').html("").hide();
+        } else {
+        getField('encounterLocation.error').html("Please select a valid Location").show();
+        }
 
-            });
+        });
 
-            getField('encounterLocation.value').keydown(function(event) {
-                if (event.keyCode == TAB_KEY) {
-                    getField('encounterDate.value').focus();
-                }
-            });
+        getField('encounterLocation.value').keydown(function(event) {
+        if (event.keyCode == TAB_KEY) {
+        getField('encounterDate.value').focus();
+        }
+        });
 
-            getField('encounterDate.value').change(function() {
-                console.log("encounterDate.value changed");
-                getField('encounterDate.value').focus();
+        getField('encounterDate.value').change(function() {
+        console.log("encounterDate.value changed");
+        getField('encounterDate.value').focus();
 
-            });
+        });
 
-            getField('encounterDate.value').keydown(function(event) {
+        getField('encounterDate.value').keydown(function(event) {
 
-                if (event.keyCode == TAB_KEY) {
-                    console.log("encounterDate.value keydown: " + event.keyCode);
-                    // getField('heightInput.value').focus();
-                }
-            });
-
-
-            getField('nextAppointmentDate.value').change(function() {
-                validateNextAppointmentDate();
-            });
-
-            getField('nextAppointmentDate.value').attr( 'autocomplete' , 'off' );
-
-            if(!document.getElementById("xmlData")) {
-                if (getHttpGetParam('mode') != "EDIT") {
-                    // only show for new encounters
-                    setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)"/>");
-                    var presentTime = new Date();
-                    getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
-                    var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
-                    getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
-                    checkEnGbLocale("<lookup expression="locale"/>");
-                }
-            }
+        if (event.keyCode == TAB_KEY) {
+        console.log("encounterDate.value keydown: " + event.keyCode);
+        // getField('heightInput.value').focus();
+        }
+        });
 
 
-            $j(document).change(validateForm);
+        getField('nextAppointmentDate.value').change(function() {
+        validateNextAppointmentDate();
+        });
+
+        getField('nextAppointmentDate.value').attr( 'autocomplete' , 'off' );
+
+        if(!document.getElementById("xmlData")) {
+        if (getHttpGetParam('mode') != "EDIT") {
+        // only show for new encounters
+        setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)"/>");
+        var presentTime = new Date();
+        getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
+        var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
+        getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
+        checkEnGbLocale("<lookup expression="locale"/>");
+        }
+        }
+
+
+        $j(document).change(validateForm);
 
         });
 

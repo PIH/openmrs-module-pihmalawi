@@ -204,21 +204,21 @@
         //getField('nextAppointmentDate.value').datepicker("destroy");
 
         if(!document.getElementById("xmlData")) {
-            if (getHttpGetParam('mode') != "EDIT") {
-                // only show for new encounters
-                setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)" />");
-                var presentTime = new Date();
-                getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
-                var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
-                getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
-                checkEnGbLocale("<lookup expression="locale"/>");
-            }
+        if (getHttpGetParam('mode') != "EDIT") {
+        // only show for new encounters
+        setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)" />");
+        var presentTime = new Date();
+        getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
+        var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
+        getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
+        checkEnGbLocale("<lookup expression="locale"/>");
+        }
         }
 
         $j(document).change(validateForm);
         $j(document).click(validateForm);
 
 
-});
-</script>
+        });
+    </script>
 </htmlform>

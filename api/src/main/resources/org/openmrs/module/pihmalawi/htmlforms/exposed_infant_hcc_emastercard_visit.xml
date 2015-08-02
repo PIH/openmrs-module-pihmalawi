@@ -82,8 +82,7 @@
             </td>
             <td>
                 <!-- CPT -->
-                ...
-                <!-- <obs conceptId="6319" /> -->
+                <obs conceptId="6319" />
             </td>
             <td>
                 <!-- Next appointment date -->
@@ -147,15 +146,15 @@
 
 
         if(!document.getElementById("xmlData")) {
-            if (getHttpGetParam('mode') != "EDIT") {
-                // only show for new encounters
-                setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)" />");
-                var presentTime = new Date();
-                getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
-                var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
-                getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
-                checkEnGbLocale("<lookup expression="locale" />");
-            }
+        if (getHttpGetParam('mode') != "EDIT") {
+        // only show for new encounters
+        setEncounterLocation(getElement('w3'), "<lookup expression="patient.getAttribute(7)" />");
+        var presentTime = new Date();
+        getField('nextAppointmentDate.value').datepicker('option', 'minDate', new Date());
+        var sixMonthsFromNow = new Date(presentTime.setMonth(presentTime.getMonth()+6));
+        getField('nextAppointmentDate.value').datepicker('option', 'maxDate', sixMonthsFromNow);
+        checkEnGbLocale("<lookup expression="locale" />");
+        }
         }
 
 
