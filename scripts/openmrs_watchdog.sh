@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Beware: mailx is a bitch to set up, in particular with gmail, check README.TXT for some hints
+# Beware: mailx is a bitch to set up, in particular with gmail, check mail.txt for some hints
 
 MAIL=apzu-emr@apzu.pih.org
 PATH=$PATH:/bin:/usr/bin # make sure wget and mailx commands are in the crontab path
