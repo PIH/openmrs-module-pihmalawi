@@ -96,17 +96,6 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
-                    <artifactId>sync-omod</artifactId>
-                    <version>${syncVersion}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.openmrs.module</groupId>
-                    <artifactId>webservices.rest-omod</artifactId>
-                    <version>${webservicesRestVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.openmrs.module</groupId>
                     <artifactId>serialization.xstream-omod</artifactId>
                     <version>${serializationVersion}</version>
                     <scope>provided</scope>
@@ -114,8 +103,19 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>sync-omod</artifactId>
+                    <version>${syncVersion}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>uiframework-omod</artifactId>
                     <version>${uiframeworkVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>webservices.rest-omod</artifactId>
+                    <version>${webservicesRestVersion}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
