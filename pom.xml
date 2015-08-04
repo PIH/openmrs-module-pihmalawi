@@ -32,20 +32,30 @@
 	<modules>
 		<module>api</module>
 		<module>omod</module>
+        <module>distro</module>
 	</modules>
 
 	<properties>
 		<openMRSVersion>1.9.7</openMRSVersion>
-		<reportingVersion>0.9.5-SNAPSHOT</reportingVersion>
-		<serializationVersion>0.2.7</serializationVersion>
-		<htmlwidgetsVersion>1.6.6</htmlwidgetsVersion>
-		<calculationVersion>1.0</calculationVersion>
-        <namephoneticsVersion>1.5</namephoneticsVersion>
+        <addresshierarchyVersion>2.7</addresshierarchyVersion>
+        <calculationVersion>1.1</calculationVersion>
+        <facilitydataVersion>2.3</facilitydataVersion>
         <htmlformentryVersion>2.5</htmlformentryVersion>
+        <htmlformflowsheetVersion>1.3</htmlformflowsheetVersion>
+        <htmlwidgetsVersion>1.6.9</htmlwidgetsVersion>
+        <groovyVersion>2.2.4</groovyVersion>
+        <logicVersion>0.5.2</logicVersion>
+        <namephoneticsVersion>1.5</namephoneticsVersion>
+        <reportingVersion>0.9.5</reportingVersion>
+        <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
+        <serializationVersion>0.2.7</serializationVersion>
+        <syncVersion>1.2</syncVersion>
 		<uiframeworkVersion>3.3.1</uiframeworkVersion>
+        <validationVersion>1.0.1</validationVersion>
+        <webservicesRestVersion>2.11</webservicesRestVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
-		<MODULE_NAME>${project.parent.name}</MODULE_NAME>
+		<MODULE_NAME>PIH Malawi</MODULE_NAME>
 		<MODULE_VERSION>${project.parent.version}</MODULE_VERSION>
 		<MODULE_PACKAGE>${project.parent.groupId}.${project.parent.artifactId}</MODULE_PACKAGE>
 	</properties>
