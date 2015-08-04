@@ -48,9 +48,6 @@ public class AdminList extends AdministrationSectionExt {
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-
-		
-		map.put("module/pihmalawi/registerReports.form", "Register/Remove Reports");
 		if (ModuleFactory.isModuleStarted("reportingui")) {
 			map.put("/reportingui/adHocManage.page", "Ad-Hoc Query Tool");
 		}
