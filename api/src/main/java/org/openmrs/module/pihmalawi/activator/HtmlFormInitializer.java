@@ -17,6 +17,9 @@ package org.openmrs.module.pihmalawi.activator;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
+import org.openmrs.Form;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
@@ -42,15 +45,23 @@ public class HtmlFormInitializer implements Initializer {
 		forms.put(14, "chronic_care_emastercard_initial.xml");
 		forms.put(15, "chronic_care_emastercard_visit.xml");
 
-		HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
+        HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
 		for (Integer formId : forms.keySet()) {
-			HtmlForm form = hfes.getHtmlForm(formId);
-			String formResourcePath = "org/openmrs/module/pihmalawi/htmlforms/"+forms.get(formId);
+			HtmlForm htmlForm = hfes.getHtmlForm(formId);
+
+            Form form = htmlForm.getForm();
+            Hibernate.initialize(form);
+            if (form instanceof HibernateProxy) {
+                form = (Form)((HibernateProxy) form).getHibernateLazyInitializer().getImplementation();
+            }
+            htmlForm.setForm(form);
+
+            String formResourcePath = "org/openmrs/module/pihmalawi/htmlforms/"+forms.get(formId);
 			log.warn("Updating form: " + forms.get(formId));
 			InputStream is = null;
 			try {
 				is = OpenmrsClassLoader.getInstance().getResourceAsStream(formResourcePath);
-				form.setXmlData(IOUtils.toString(is, "UTF-8"));
+                htmlForm.setXmlData(IOUtils.toString(is, "UTF-8"));
 			}
 			catch (Exception e) {
 				throw new IllegalArgumentException("Error reading resource from the classpath", e);
@@ -58,7 +69,7 @@ public class HtmlFormInitializer implements Initializer {
 			finally {
 				IOUtils.closeQuietly(is);
 			}
-			hfes.saveHtmlForm(form);
+			hfes.saveHtmlForm(htmlForm);
 		}
 	}
 
