@@ -177,7 +177,27 @@ public class MetadataInitializer implements Initializer {
 			cs.saveConcept(c);
 
 		}
-	}
+
+        {
+            {
+                Integer id = 8421;
+                String uuid = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
+                String name = "Sample taken for Viral Load";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+    }
 
 	@Override
 	public void stopped() {
