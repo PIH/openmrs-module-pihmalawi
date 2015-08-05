@@ -162,11 +162,7 @@ public class Helper {
 	public static Location currentEnrollmentLocation(Patient p, ProgramWorkflow programWorkflow) {
 		PatientState ps = getMostRecentStateAtDate(p, programWorkflow, new Date());
 		if (ps != null) {
-			PatientProgram pp = (PatientProgram) ps.getPatientProgram();
-			if (pp != null) {
-				ProgramHelper h = new ProgramHelper();
-				return h.getEnrollmentLocation(pp);
-			}
+            return ps.getPatientProgram().getLocation();
 		}
 		return null;
 	}

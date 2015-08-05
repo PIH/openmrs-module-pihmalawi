@@ -360,8 +360,7 @@ public abstract class BreakdownRowRenderer {
 					String.class);
 			if (ps != null && locationParameter == null) {
 				// register for all locations
-				row.addColumnValue(c, h.getEnrollmentLocation(ps
-						.getPatientProgram()));
+				row.addColumnValue(c, ps.getPatientProgram().getLocation());
 			} else if (ps != null && locationParameter != null) {
 				row.addColumnValue(c, locationParameter);
 			}
@@ -385,7 +384,7 @@ public abstract class BreakdownRowRenderer {
 			if (ps != null) {
 				row.addColumnValue(c1, ps.getState().getConcept().getName().getName());
 				row.addColumnValue(c2, ps.getStartDate());
-				row.addColumnValue(c3, h.getEnrollmentLocation(ps.getPatientProgram()));
+				row.addColumnValue(c3, ps.getPatientProgram().getLocation());
 			} else {
 				row.addColumnValue(c1, h(""));
 				row.addColumnValue(c2, h(""));
@@ -669,35 +668,10 @@ public abstract class BreakdownRowRenderer {
 		}
 	}
 
-	private Location firstTimeInStateAtLocation(Patient p, Program program,
-			ProgramWorkflowState firstTimeInState, Date endDate) {
+	private Location firstTimeInStateAtLocation(Patient p, Program program, ProgramWorkflowState firstTimeInState, Date endDate) {
 		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
 		if (ps != null) {
-			return h.getEnrollmentLocation(ps.getPatientProgram()
-			);
-		}
-		return null;
-	}
-/*
-	private PatientState firstTimeInState(Patient p, Program program,
-			ProgramWorkflowState firstTimeInState) {
-		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState);
-		return ps;
-	}
-
-	private PatientState firstTimeInState(Patient p, Program program,
-			ProgramWorkflowState firstTimeInState, Date endDate) {
-		PatientState ps = h.getFirstTimeInState(p, program, firstTimeInState, endDate);
-		return ps;
-	}
-*/
-	protected PatientProgram currentPatientProgram(Program program,
-			Patient patient) {
-		List<org.openmrs.PatientProgram> pps = Context.getProgramWorkflowService()
-				.getPatientPrograms(patient, program, null, null, new Date(),
-						null, false);
-		if (pps.size() == 1) {
-			return (PatientProgram) pps.get(0);
+			return ps.getPatientProgram().getLocation();
 		}
 		return null;
 	}
