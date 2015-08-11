@@ -52,6 +52,7 @@
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
         <serializationVersion>0.2.7</serializationVersion>
         <syncVersion>1.2</syncVersion>
+        <testutilsVersion>1.5</testutilsVersion>
         <uicommonsVersion>1.6</uicommonsVersion>
 		<uiframeworkVersion>3.3.1</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
@@ -170,6 +171,13 @@
 			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>org.openmrs.contrib</groupId>
+            <artifactId>testutils</artifactId>
+            <version>${testutilsVersion}</version>
+            <scope>test</scope>
+        </dependency>
 
 	</dependencies>
 
