@@ -13,6 +13,8 @@
 
 	<require_modules>
         <require_module version="${addresshierarchyVersion}">org.openmrs.module.addresshierarchy</require_module>
+        <require_module version="${appframeworkVersion}">org.openmrs.module.appframework</require_module>
+        <require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
         <require_module version="${calculationVersion}">org.openmrs.calculation</require_module>
         <require_module version="${facilitydataVersion}">org.openmrs.module.facilitydata</require_module>
         <require_module version="${htmlformentryVersion}">org.openmrs.module.htmlformentry</require_module>
@@ -25,7 +27,9 @@
         <require_module version="${reportingcompatibilityVersion}">org.openmrs.module.reportingcompatibility</require_module>
         <require_module version="${serializationVersion}">org.openmrs.module.serialization.xstream</require_module>
         <require_module version="${syncVersion}">org.openmrs.module.sync</require_module>
+        <require_module version="${uicommonsVersion}">org.openmrs.module.uicommons</require_module>
         <require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
+        <require_module version="${uilibraryVersion}">org.openmrs.module.uilibrary</require_module>
         <require_module version="${webservicesRestVersion}">org.openmrs.module.webservices.rest</require_module>
 	</require_modules>
 

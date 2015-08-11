@@ -31,6 +31,18 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>appframework-omod</artifactId>
+                    <version>${appframeworkVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>appui-omod</artifactId>
+                    <version>${appuiVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>calculation-omod</artifactId>
                     <version>${calculationVersion}</version>
                     <scope>provided</scope>
@@ -108,8 +120,20 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>uicommons-omod</artifactId>
+                    <version>${uicommonsVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>uiframework-omod</artifactId>
                     <version>${uiframeworkVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>uilibrary-omod</artifactId>
+                    <version>${uilibraryVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
