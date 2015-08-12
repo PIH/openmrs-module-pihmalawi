@@ -170,6 +170,16 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(cd4Def, pdf.getLastListItemConverter(pdf.getObsDatetimeConverter()));
 	}
 
+    @DocumentedDefinition("latestViralLoad")
+    public PatientDataDefinition getLatestViralLoadValueByEndDate() {
+        return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsValueNumericConverter());
+    }
+
+    @DocumentedDefinition("latestViralLoad.date")
+    public PatientDataDefinition getLatestViralLoadDateByEndDate() {
+        return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsDatetimeConverter());
+    }
+
 	@DocumentedDefinition("latestArvDrugsReceived.value")
 	public PatientDataDefinition getLatestArvDrugsReceivedByEndDate() {
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArvDrugsReceivedConcept()), new ObjectFormatter());

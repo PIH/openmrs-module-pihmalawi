@@ -151,6 +151,8 @@ public class ArtRegister extends ApzuReportManager {
 		addColumn(dsd, "Last Date of starting first line antiretroviral regimen", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
 		addColumn(dsd, "Last CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
 		addColumn(dsd, "Last CD4 count Date", hivPatientData.getLatestCd4CountDateByEndDate());
+        addColumn(dsd, "Last Viral Load", hivPatientData.getLatestViralLoadValueByEndDate());
+        addColumn(dsd, "Last Viral Load Date", hivPatientData.getLatestViralLoadDateByEndDate());
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 

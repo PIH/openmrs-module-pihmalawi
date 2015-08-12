@@ -73,6 +73,7 @@ public class CommonMetadata extends Metadata {
 	public static final String WEIGHT = "Weight (kg)";
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
+    public static final String HIV_VIRAL_LOAD = "HIV viral load";
 
 	public static final String EVER_RECEIVED_ART_CONCEPT = "Ever received ART?";
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
@@ -210,6 +211,10 @@ public class CommonMetadata extends Metadata {
 	public Concept getClinicianReportedCd4Concept() {
 		return getConcept(CLINICIAN_REPORTED_CD4);
 	}
+
+    public Concept getHivViralLoadConcept() {
+        return getConcept(HIV_VIRAL_LOAD);
+    }
 
 	public Concept getEverReceivedArtConcept() {
 		return getConcept(EVER_RECEIVED_ART_CONCEPT);
