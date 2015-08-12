@@ -48,14 +48,32 @@
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
+                    <groupId>org.openmrs</groupId>
+                    <artifactId>event-omod</artifactId>
+                    <version>${eventVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>facilitydata-omod</artifactId>
                     <version>${facilitydataVersion}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>groovy-omod</artifactId>
+                    <version>${groovyVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>htmlformentry-omod</artifactId>
                     <version>${htmlformentryVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>htmlformentry19ext-omod</artifactId>
+                    <version>${htmlformentry19extVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -72,8 +90,8 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
-                    <artifactId>groovy-omod</artifactId>
-                    <version>${groovyVersion}</version>
+                    <artifactId>idgen-omod</artifactId>
+                    <version>${idgenVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -81,6 +99,24 @@
                     <artifactId>logic-omod</artifactId>
                     <version>${logicVersion}</version>
                     <type>omod</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>metadatadeploy-omod</artifactId>
+                    <version>${metadatadeployVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>metadatamapping-omod</artifactId>
+                    <version>${metadatamappingVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>metadatasharing-omod</artifactId>
+                    <version>${metadatasharingVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -93,6 +129,11 @@
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>pihmalawi-omod</artifactId>
                     <version>${project.parent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>providermanagement-omod</artifactId>
+                    <version>${providermanagementVersion}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
