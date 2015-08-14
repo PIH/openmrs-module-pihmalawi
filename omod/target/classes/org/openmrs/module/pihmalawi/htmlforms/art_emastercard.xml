@@ -1,0 +1,274 @@
+<htmlform>
+    <br />
+    <b>
+        <big>Initiation</big>
+    </b>
+    <submit />
+    <script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        writeDefaultEncounterActions(<lookup expression="patient.patientId"/>);
+    </script>
+    <hr />
+    <table>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2" align="left">
+                            Patient Details
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>Patient</td>
+                        <td>
+                            <lookup expression="patient.personName" />
+                            (<lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sex, Birthdate</td>
+                        <td>
+                            <lookup expression="patient.gender" />, <lookup expression="patient.birthdate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Addresses</td>
+                        <td>
+                            <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                        </td>
+                    </tr>
+                    <!-- deactivated for now
+                    <tr>
+                        <td>Guardian</td>
+                        <td>
+                            <obs conceptId="1824" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>
+                            Patient <obs conceptId="6194" size="10" />
+                            Guardian <obs conceptId="3294" size="10" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agrees to FUP</td>
+                        <td>
+                            <obs conceptId="2552" style="radio" answerLabels="N,Y" answerConceptIds="1066, 1065" />
+                            Guardian Relation <obs conceptId="1826" size="10" />
+                        </td>
+                    </tr>
+                    -->
+                    <tr>
+                        <th colspan="2" align="left">
+                            <hr />
+                            Initiation Details
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>Initiation Location</td>
+                        <td>
+                            <encounterLocation />
+                            <br />
+                            (For Transfer-In: Location of Initial Encounter)
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <!-- Provider is close to useless for us, so just hide it -->
+                        <td>Provider</td>
+                        <td>
+                            <encounterProvider default="16576" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Initiation Date</td>
+                        <td>
+                            <encounterDate />
+                            <br />
+                            (For Transfer-In: Date of Initial Encounter at Initiation Location)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Current outcome</td>
+                        <td>
+                            '<lookup expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />'
+                            (since <lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />)
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2" align="left">
+                            Status at ART Initiation
+                        </th>
+                    </tr>
+                    <td>WHO clinical conditions</td>
+                    <td>
+                        <obs conceptId="8081" />
+                    </td>
+                    <tr>
+                        <td>Clin Stage</td>
+                        <td>
+                            <obs conceptId="7562" style="radio" answerConceptIds="7041,7042,7043,7044"
+                                 answerLabels="1,2,3,4" />
+                            <obs conceptId="7036" style="checkbox" answerConceptId="1065"
+                                 answerLabel="Pres" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CD4/TLC</td>
+                        <td>
+                            <obs conceptId="5497" labelText="" />
+                            <obs conceptId="730" labelText="" /> %
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CD4/TLC Date</td>
+                        <td>
+                            <obs conceptId="3461" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Height, Wt.</td>
+                        <td>
+                            <obs conceptId="5090" />
+                            <obs conceptId="5089" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Age at Init. (yrs)</td>
+                        <td>
+                            <obs conceptId="3467" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TB Status at Init.</td>
+                        <td>
+                            <obs conceptId="1568" style="radio" answerConceptIds="1067,1714,1432"
+                                 answerLabels="Never,Last,Curr" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>KS</td>
+                        <td>
+                            <obs conceptId="3599" style="no_yes" noLabel="N" yesLabel="Y" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pregnant/Lactating</td>
+                        <td>
+                            <obs conceptId="8027" style="radio" answerLabels="N,Preg,Lact"
+                                 answerConceptIds="1066,1755,5632" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="white-space: nowrap;">Ever taken ARVs</td>
+                        <td>
+                            <obs conceptId="7754" style="radio" answerLabels="N,Y"
+                                 answerConceptIds="1066, 1065" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last ARVs Drug</td>
+                        <td>
+                            <obs conceptId="7753" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last ARVs Date</td>
+                        <td>
+                            <obs conceptId="7751" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2" align="left">
+                            Confirmatory HIV Test before ART Start
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>Site, HTC Serial No.</td>
+                        <td>
+                            <obs conceptId="7881" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Test Date</td>
+                        <td>
+                            <obs conceptId="2515" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Test Type</td>
+                        <td>
+                            <obs conceptId="6982" style="radio" answerConceptIds="1040,844"
+                                 answerLabels="Rapid,PCR" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ART educat. done</td>
+                        <td>
+                            <obs conceptId="1571" style="radio" answerLabels="N,Y"
+                                 answerConceptIds="1066,1065" />
+                            <obs conceptId="8028" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th align="left">TB treatm.</th>
+                        <td>
+
+                            <obs conceptId="7930" /> /
+                            <obs conceptId="1113" />
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th align="left">ART Regimens</th>
+                        <!-- continue to use old definition of 1st line, alt 1st line, and
+                            2nd line ARVs -->
+                        <td>
+                            <obs conceptId="8170" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8168,8156,8158,8160,8163,6408"/>
+                            <obs conceptId="6132" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <obs conceptId="8171" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8168,8156,8158,8160,8163,6408"/>
+                            <obs conceptId="2528" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <obs conceptId="8172" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8168,8156,8158,8160,8163,6408"/>
+                            <obs conceptId="2529" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <br />
+
+    <b>
+        <big>Visits</big>
+    </b>
+    <htmlformflowsheet formId="65" />
+
+    <hr/>
+    <b>
+        <big>Comments</big>
+    </b>
+    <ul>
+        <li>
+            The previous ART encounters before the new guidelines have been migrated to the new forms.
+        </li>
+    </ul>
+</htmlform>

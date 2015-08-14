@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.0">
+
+	<!-- Base Module Properties -->
+	<id>pihmalawi</id>
+	<name>PIH Malawi Customizations</name>
+	<version>4.0-SNAPSHOT</version>
+	<package>org.openmrs.module.pihmalawi</package>
+	<author>Partners In Health</author>
+	<description>PIH Malawi Implementation Module</description>
+	<activator>org.openmrs.module.pihmalawi.activator.PihMalawiModuleActivator</activator>
+	<require_version>1.9.7</require_version>
+
+	<require_modules>
+		<require_module version="0.9.5-SNAPSHOT">org.openmrs.module.reporting</require_module>
+        <require_module version="1.5">org.openmrs.module.namephonetics</require_module>
+        <require_module version="2.5">org.openmrs.module.htmlformentry</require_module>
+        <require_module version="3.3.1">org.openmrs.module.uiframework</require_module>
+	</require_modules>
+
+	<globalProperty>
+		<property>pihmalawi.upperOrLowerNeno</property>
+		<defaultValue>UPPER_NENO</defaultValue>
+		<description>Valid values are UPPER_NENO or LOWER_NENO</description>
+	</globalProperty>
+
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>org.openmrs.module.pihmalawi.web.extension.AdminList</class>
+	</extension>
+
+    <extension>
+        <point>org.openmrs.patientDashboard.overviewBox</point>
+        <class>org.openmrs.module.pihmalawi.web.extension.MalawiPatientDashboardBoxExt</class>
+    </extension>
+
+</module>
