@@ -32,6 +32,8 @@
         <require_module version="${providermanagementVersion}">org.openmrs.module.providermanagement</require_module>
 		<require_module version="${reportingVersion}">org.openmrs.module.reporting</require_module>
         <require_module version="${reportingcompatibilityVersion}">org.openmrs.module.reportingcompatibility</require_module>
+        <require_module version="${reportingrestVersion}">org.openmrs.module.reportingrest</require_module>
+        <require_module version="${reportinguiVersion}">org.openmrs.module.reportingui</require_module>
         <require_module version="${serializationVersion}">org.openmrs.module.serialization.xstream</require_module>
         <require_module version="${syncVersion}">org.openmrs.module.sync</require_module>
         <require_module version="${uicommonsVersion}">org.openmrs.module.uicommons</require_module>

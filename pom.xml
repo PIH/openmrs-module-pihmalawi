@@ -57,6 +57,8 @@
         <providermanagementVersion>2.2</providermanagementVersion>
         <reportingVersion>0.9.6</reportingVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
+        <reportingrestVersion>1.4</reportingrestVersion>
+        <reportinguiVersion>1.0</reportinguiVersion>
         <serializationVersion>0.2.7</serializationVersion>
         <syncVersion>1.2</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
