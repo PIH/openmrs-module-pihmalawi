@@ -28,10 +28,15 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameterizable;
 import org.openmrs.module.reporting.evaluation.parameter.ParameterizableUtil;
 import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.manager.BaseReportManager;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
+import org.openmrs.module.reporting.report.renderer.RenderingMode;
+import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.util.ReportUtil;
+
+import java.util.Map;
 
 /**
  * Base implementation of ReportManager that provides some common method implementations
@@ -59,7 +64,7 @@ public abstract class ApzuReportManager extends BaseReportManager {
     }
 
     protected void addColumn(ObsDataSetDefinition dsd, String columnName, ObsDataDefinition odd) {
-        dsd.addColumn(columnName, odd, ObjectUtil.toString(Mapped.straightThroughMappings(odd), "=",","));
+        dsd.addColumn(columnName, odd, ObjectUtil.toString(Mapped.straightThroughMappings(odd), "=", ","));
     }
 
 	protected ReportDesign createExcelTemplateDesign(String reportDesignUuid, ReportDefinition reportDefinition, String templatePath) {
@@ -73,6 +78,22 @@ public abstract class ApzuReportManager extends BaseReportManager {
 
     protected ReportDesign createCsvReportDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
 		return ReportManagerUtil.createCsvReportDesign(reportDesignUuid, reportDefinition);
+    }
+
+    protected ReportRequest createMonthlyScheduledReportRequest(String requestUuid, String reportDesignUuid, Map<String, Object> parameters, ReportDefinition reportDefinition) {
+        try {
+            ReportRequest rr = new ReportRequest();
+            rr.setUuid(requestUuid);
+            rr.setReportDefinition(new Mapped<ReportDefinition>(reportDefinition, parameters));
+            rr.setPriority(ReportRequest.Priority.NORMAL);
+            rr.setProcessAutomatically(true);
+            rr.setRenderingMode(new RenderingMode(XlsReportRenderer.class.newInstance(), "Excel", reportDesignUuid, Integer.MAX_VALUE));
+            rr.setSchedule("0 0 4 1 * ?"); // Run monthly on the first of the month at 4:00am
+            return rr;
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Error constructing scheduled report", e);
+        }
     }
 
     public <T extends Parameterizable> Mapped<T> map(T parameterizable, String mappings) {

@@ -34,11 +34,13 @@ import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ import java.util.Map;
 public class ChronicCareRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "5993f924-bd00-479e-b556-17ae77763bd1";
+    public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "8ad333aa-5c71-11e5-a151-e82aea237783";
 
 	@Autowired
 	private DataFactory df;
@@ -209,6 +212,15 @@ public class ChronicCareRegister extends ApzuReportManager {
 		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
 		return l;
 	}
+
+    @Override
+    public List<ReportRequest> constructScheduledRequests(ReportDefinition reportDefinition) {
+        List<ReportRequest> l = super.constructScheduledRequests(reportDefinition);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(df.getEndDateParameter().getName(), "${now}");
+        l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, EXCEL_REPORT_DESIGN_UUID, parameters, reportDefinition));
+        return l;
+    }
 
 	@Override
 	public String getVersion() {
