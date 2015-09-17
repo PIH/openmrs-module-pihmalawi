@@ -86,6 +86,7 @@ public class MysqlRunner {
 
             FileUtils.writeStringToFile(toExecute, sqlToWrite.toString());
             log.debug("Wrote SQL file for execution: " + toExecute.getAbsolutePath());
+            log.debug("Contents:\n" + sqlToWrite);
 
             // Constructing command line elements to execute
             List<String> commands = new ArrayList<String>();
