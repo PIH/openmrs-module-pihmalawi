@@ -15,7 +15,9 @@ import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.OpenmrsObject;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.DatabaseUpdater;
 import org.openmrs.util.OpenmrsUtil;
@@ -23,6 +25,7 @@ import org.openmrs.util.OpenmrsUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -68,7 +71,20 @@ public class MysqlRunner {
         try {
             // Writing SQL to temporary file for execution
             toExecute = File.createTempFile("mysqlrunner", ".sql");
-            FileUtils.writeStringToFile(toExecute, sql);
+
+            StringBuilder sqlToWrite = new StringBuilder();
+
+            if (parameterValues != null) {
+                for (String paramName : parameterValues.keySet()) {
+                    Object paramValue = parameterValues.get(paramName);
+                    sqlToWrite.append("set @").append(paramName);
+                    sqlToWrite.append("=").append(getParameterAssignmentString(paramValue)).append(";");
+                    sqlToWrite.append(System.getProperty("line.separator"));
+                }
+            }
+            sqlToWrite.append(sql);
+
+            FileUtils.writeStringToFile(toExecute, sqlToWrite.toString());
             log.debug("Wrote SQL file for execution: " + toExecute.getAbsolutePath());
 
             // Constructing command line elements to execute
@@ -77,6 +93,7 @@ public class MysqlRunner {
             commands.add("-u" + Context.getRuntimeProperties().getProperty("connection.username"));
             commands.add("-p" + Context.getRuntimeProperties().getProperty("connection.password"));
             commands.add("-esource " + toExecute.getAbsolutePath());
+
             commands.add(DatabaseUpdater.getConnection().getCatalog()); // Database Name
             log.debug("Constructed command to execute: \n" + OpenmrsUtil.join(commands, " "));
 
@@ -132,4 +149,24 @@ public class MysqlRunner {
             FileUtils.deleteQuietly(toExecute);
         }
 	}
+
+    public static String getParameterAssignmentString(Object paramValue) {
+        if (paramValue == null) {
+            return "'null'";
+        }
+        else {
+            if (paramValue instanceof Date) {
+                return "'" + DateUtil.formatDate((Date)paramValue, "yyyy-MM-dd") + "'";
+            }
+            else if (paramValue instanceof Number) {
+                return paramValue.toString();
+            }
+            else if (paramValue instanceof OpenmrsObject) {
+                return ((OpenmrsObject)paramValue).getId().toString();
+            }
+            else {
+                return  "'" + paramValue.toString() + "'";
+            }
+        }
+    }
 }
