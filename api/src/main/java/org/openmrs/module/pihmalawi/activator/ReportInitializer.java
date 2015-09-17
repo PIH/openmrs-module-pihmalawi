@@ -14,17 +14,27 @@
 
 package org.openmrs.module.pihmalawi.activator;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.ModuleFactory;
-import org.openmrs.module.ModuleUtil;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MysqlCmdDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Initializes reports
@@ -40,6 +50,7 @@ public class ReportInitializer implements Initializer {
 	public synchronized void started() {
 		removeOldReports();
 		ReportManagerUtil.setupAllReports(ApzuReportManager.class);
+        loadSqlReports();
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
@@ -62,4 +73,68 @@ public class ReportInitializer implements Initializer {
 			ReportUtil.updateGlobalProperty("pihmalawi.oldReportsRemoved", "true");
 		}
 	}
+
+    public static void loadSqlReports() {
+        PathMatchingResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
+        try {
+            Resource[] resources = resourceResolver.getResources("classpath*:/org/openmrs/module/pihmalawi/reporting/reports/sql/*");
+            if (resources != null) {
+                for (Resource r : resources) {
+                    log.info("Loading " + r.getFilename());
+                    List<String> lineByLineContents = IOUtils.readLines(r.getInputStream(), "UTF-8");
+
+                    ReportDefinition rd = new ReportDefinition();
+                    String designUuid = null;
+                    StringBuilder sql = new StringBuilder();
+
+                    for (String line : lineByLineContents) {
+                        if (line.startsWith("-- ##")) {
+                            String[] keyValue = StringUtils.splitByWholeSeparator(line.substring(5, line.length()), "=");
+                            String key = keyValue[0].trim().toLowerCase();
+                            String value = keyValue[1].trim();
+                            if (key.equals("report_uuid")) {
+                                rd.setUuid(value);
+                            }
+                            else if (key.equals("report_name")) {
+                                rd.setName(value);
+                            }
+                            else if (key.equals("report_description")) {
+                                rd.setDescription(value);
+                            }
+                            else if (key.equals("parameter")) {
+                                String[] paramElements = StringUtils.splitByWholeSeparator(value, "|");
+                                Parameter p = new Parameter();
+                                p.setName(paramElements[0]);
+                                p.setLabel(paramElements[1]);
+                                p.setType(Context.loadClass(paramElements[2]));
+                                rd.addParameter(p);
+                            }
+                            else if (key.equals("design_uuid")) {
+                                designUuid = value;
+                            }
+                        }
+                        sql.append(line).append(System.getProperty("line.separator"));
+                    }
+
+                    if (rd.getUuid() == null || rd.getName() == null || designUuid == null) {
+                        throw new IllegalArgumentException("SQL resource" + r.getFilename() + " must define a report_name, report_uuid and design_uuid at minimum");
+                    }
+
+                    MysqlCmdDataSetDefinition dsd = new MysqlCmdDataSetDefinition();
+                    dsd.setSql(sql.toString());
+                    dsd.setParameters(rd.getParameters());
+
+                    rd.addDataSetDefinition(r.getFilename(), Mapped.mapStraightThrough(dsd));
+
+                    List<ReportDesign> designs = new ArrayList<ReportDesign>();
+                    designs.add(ReportManagerUtil.createExcelDesign(designUuid, rd));
+
+                    ReportManagerUtil.setupReportDefinition(rd, designs, null);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Unable to load SQL reports from classpath", e);
+        }
+    }
 }

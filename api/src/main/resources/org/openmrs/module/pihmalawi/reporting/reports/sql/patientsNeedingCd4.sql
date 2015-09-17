@@ -1,3 +1,11 @@
+-- ## report_uuid = 56dce9c9-5d4b-11e5-a151-e82aea237783
+-- ## design_uuid = e15c1a59-5d50-11e5-a151-e82aea237783
+-- ## report_name = Patients Needing CD4
+-- ## report_description = Report indicating which patients need a CD4 done
+-- ## parameter = endDate|End Date|java.util.Date
+-- ## parameter = location|Location|org.openmrs.Location
+
+-- TODO: Utilize the endDate and location parameters passed in above
 -- Define Variables
 set @endDate=date_add(curdate(),interval 0 day); -- endDate for ARV status, CD4 count, Pre-ART status, and encounter cutoff dates
 
