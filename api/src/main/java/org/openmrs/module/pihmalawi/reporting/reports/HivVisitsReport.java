@@ -27,10 +27,8 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
-import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,9 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class HivVisitsReport extends ApzuReportManager {
+public class HivVisitsReport extends ApzuDataExportManager {
 
-	public static final String EXCEL_REPORT_DESIGN_UUID = "6c5fcaf3-02d1-11e4-a73c-54ee7513a7ff";
     public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "8c123e90-5c71-11e5-a151-e82aea237783";
 
 	@Autowired
@@ -132,14 +129,10 @@ public class HivVisitsReport extends ApzuReportManager {
 		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 	}
 
-	@Override
-	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		ReportDesign reportDesign = createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition);
-		reportDesign.getProperties().setProperty(XlsReportRenderer.INCLUDE_DATASET_NAME_AND_PARAMETERS_PROPERTY, "false");
-		l.add(reportDesign);
-		return l;
-	}
+    @Override
+    public String getExcelDesignUuid() {
+        return "6c5fcaf3-02d1-11e4-a73c-54ee7513a7ff";
+    }
 
     @Override
     public List<ReportRequest> constructScheduledRequests(ReportDefinition reportDefinition) {
@@ -147,7 +140,7 @@ public class HivVisitsReport extends ApzuReportManager {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(df.getStartDateParameter().getName(), "${start_of_last_month}");
         parameters.put(df.getEndDateParameter().getName(), "${end_of_last_month}");
-        l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, EXCEL_REPORT_DESIGN_UUID, parameters, reportDefinition));
+        l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, getExcelDesignUuid(), parameters, reportDefinition));
         return l;
     }
 

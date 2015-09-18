@@ -18,7 +18,6 @@ import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataL
 import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,9 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ArtEncounterExport extends ApzuReportManager {
-
-	public static final String EXCEL_REPORT_DESIGN_UUID = "304f9500-e3b0-454e-80ca-a1be12112b47";
+public class ArtEncounterExport extends ApzuDataExportManager {
 
 	@Autowired
 	private HivEncounterQueryLibrary encounterQueries;
@@ -102,12 +99,10 @@ public class ArtEncounterExport extends ApzuReportManager {
 		return rd;
 	}
 
-	@Override
-	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createCsvReportDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-		return l;
-	}
+    @Override
+    public String getExcelDesignUuid() {
+        return "304f9500-e3b0-454e-80ca-a1be12112b47";
+    }
 
 	@Override
 	public String getVersion() {
