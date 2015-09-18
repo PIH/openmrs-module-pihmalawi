@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 
 import org.openmrs.annotation.Handler;
+import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MissedAppointmentDataSetDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -83,7 +84,11 @@ public class MissedAppointmentReportRenderer extends ReportDesignRenderer {
 				}
 			}
 			XlsReportRenderer xlsReportRenderer = new XlsReportRenderer() {
-				public boolean getIncludeDataSetNameAndParameters(ReportDesign design) {
+                public String getPassword(ReportDesign design) {
+                    return ApzuReportUtil.getExcelPassword();
+                }
+
+                public boolean getIncludeDataSetNameAndParameters(ReportDesign design) {
 					return true;
 				}
 			};

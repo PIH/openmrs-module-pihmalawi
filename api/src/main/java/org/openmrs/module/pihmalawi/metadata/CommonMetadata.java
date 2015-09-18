@@ -808,8 +808,4 @@ public class CommonMetadata extends Metadata {
 		locationShortNames.put(getNsambeHc(), "NSM");
 		return locationShortNames;
 	}
-
-    public String getExcelPassword() {
-        return getGlobalProperty("pihmalawi.excelPassword", "");
-    }
 }

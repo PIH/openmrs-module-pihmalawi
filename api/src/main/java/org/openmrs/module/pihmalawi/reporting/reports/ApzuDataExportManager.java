@@ -17,7 +17,6 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -42,7 +41,6 @@ public abstract class ApzuDataExportManager extends ApzuReportManager {
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
         ReportDesign excelDesign = createExcelDesign(getExcelDesignUuid(), reportDefinition);
-        excelDesign.addPropertyValue(XlsReportRenderer.PASSWORD_PROPERTY, metadata.getExcelPassword());
         l.add(excelDesign);
         return l;
     }

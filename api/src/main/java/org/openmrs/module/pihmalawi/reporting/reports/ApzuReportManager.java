@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.PatientToEncounterDataDefinition;
@@ -73,12 +74,8 @@ public abstract class ApzuReportManager extends BaseReportManager {
 	}
 
     protected ReportDesign createExcelDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
-		return ReportManagerUtil.createExcelDesign(reportDesignUuid, reportDefinition);
+		return ApzuReportUtil.createExcelDesign(reportDesignUuid, reportDefinition);
 	}
-
-    protected ReportDesign createCsvReportDesign(String reportDesignUuid, ReportDefinition reportDefinition) {
-		return ReportManagerUtil.createCsvReportDesign(reportDesignUuid, reportDefinition);
-    }
 
     protected ReportRequest createMonthlyScheduledReportRequest(String requestUuid, String reportDesignUuid, Map<String, Object> parameters, ReportDefinition reportDefinition) {
         try {

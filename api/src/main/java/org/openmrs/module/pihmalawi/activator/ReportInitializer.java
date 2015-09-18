@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MysqlCmdDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -127,7 +128,7 @@ public class ReportInitializer implements Initializer {
                     rd.addDataSetDefinition(r.getFilename(), Mapped.mapStraightThrough(dsd));
 
                     List<ReportDesign> designs = new ArrayList<ReportDesign>();
-                    designs.add(ReportManagerUtil.createExcelDesign(designUuid, rd));
+                    designs.add(ApzuReportUtil.createExcelDesign(designUuid, rd));
 
                     ReportManagerUtil.setupReportDefinition(rd, designs, null);
                 }
