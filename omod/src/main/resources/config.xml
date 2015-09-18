@@ -48,6 +48,12 @@
 		<description>Valid values are UPPER_NENO or LOWER_NENO</description>
 	</globalProperty>
 
+    <globalProperty>
+        <property>pihmalawi.excelPassword</property>
+        <defaultValue></defaultValue>
+        <description>Password that is used to encrypt patient data export reports</description>
+    </globalProperty>
+
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>

@@ -14,9 +14,12 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,10 @@ import java.util.List;
  * Base implementation of ReportManager that provides some common method implementations
  */
 public abstract class ApzuDataExportManager extends ApzuReportManager {
+
+    @Qualifier("commonMetadata")
+    @Autowired
+    CommonMetadata metadata;
 
     /**
      * @return the uuid for the report design for exporting to Excel
@@ -35,7 +42,7 @@ public abstract class ApzuDataExportManager extends ApzuReportManager {
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
         ReportDesign excelDesign = createExcelDesign(getExcelDesignUuid(), reportDefinition);
-        excelDesign.addPropertyValue(XlsReportRenderer.PASSWORD_PROPERTY, "apzu123");
+        excelDesign.addPropertyValue(XlsReportRenderer.PASSWORD_PROPERTY, metadata.getExcelPassword());
         l.add(excelDesign);
         return l;
     }
