@@ -48,6 +48,12 @@
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>emrapi-omod</artifactId>
+                    <version>${emrapiVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
                     <groupId>org.openmrs</groupId>
                     <artifactId>event-omod</artifactId>
                     <version>${eventVersion}</version>
@@ -68,6 +74,12 @@
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>htmlformentry-omod</artifactId>
                     <version>${htmlformentryVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>htmlformentryui-omod</artifactId>
+                    <version>${htmlformentryuiVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>

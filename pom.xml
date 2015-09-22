@@ -41,9 +41,11 @@
         <appframeworkVersion>2.3</appframeworkVersion>
         <appuiVersion>1.3</appuiVersion>
         <calculationVersion>1.1</calculationVersion>
+        <emrapiVersion>1.11-SNAPSHOT</emrapiVersion>
         <eventVersion>2.2.1</eventVersion>
         <facilitydataVersion>2.3</facilitydataVersion>
-        <htmlformentryVersion>2.5</htmlformentryVersion>
+        <htmlformentryVersion>2.6-SNAPSHOT</htmlformentryVersion>
+        <htmlformentryuiVersion>1.3-SNAPSHOT</htmlformentryuiVersion>
         <htmlformentry19extVersion>1.5</htmlformentry19extVersion>
         <htmlformflowsheetVersion>1.3</htmlformflowsheetVersion>
         <htmlwidgetsVersion>1.7.0</htmlwidgetsVersion>
@@ -89,6 +91,25 @@
             <version>${calculationVersion}</version>
             <type>jar</type>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api</artifactId>
+            <version>${emrapiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api-1.9</artifactId>
+            <version>${emrapiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api</artifactId>
+            <version>${emrapiVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.openmrs</groupId>
