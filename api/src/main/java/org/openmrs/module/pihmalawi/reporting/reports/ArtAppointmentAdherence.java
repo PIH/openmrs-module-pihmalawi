@@ -14,13 +14,12 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
-import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,9 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class ArtAppointmentAdherence extends ApzuReportManager {
-
-	public static final String EXCEL_REPORT_DESIGN_UUID = "f2ba89b4-b6b7-4e69-91d7-68a5653ed1a6";
+public class ArtAppointmentAdherence extends ApzuDataExportManager {
 
 	@Autowired
 	private DataFactory df;
@@ -89,12 +86,10 @@ public class ArtAppointmentAdherence extends ApzuReportManager {
 		return rd;
 	}
 
-	@Override
-	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-		return l;
-	}
+    @Override
+    public String getExcelDesignUuid() {
+        return "f2ba89b4-b6b7-4e69-91d7-68a5653ed1a6";
+    }
 
 	@Override
 	public String getVersion() {

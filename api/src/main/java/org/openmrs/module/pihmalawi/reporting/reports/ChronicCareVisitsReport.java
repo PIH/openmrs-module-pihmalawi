@@ -29,19 +29,21 @@ import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinitio
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.query.encounter.definition.ConditionalParameterEncounterQuery;
-import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
-public class ChronicCareVisitsReport extends ApzuReportManager {
+public class ChronicCareVisitsReport extends ApzuDataExportManager {
 
-	public static final String EXCEL_REPORT_DESIGN_UUID = "22420fee-e069-4682-bb0d-c39f65103fac";
+    public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "8b70c61f-5c71-11e5-a151-e82aea237783";
 
 	@Autowired
 	private DataFactory df;
@@ -188,12 +190,20 @@ public class ChronicCareVisitsReport extends ApzuReportManager {
 		}
 	}
 
-	@Override
-	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-		return l;
-	}
+    @Override
+    public String getExcelDesignUuid() {
+        return "22420fee-e069-4682-bb0d-c39f65103fac";
+    }
+
+    @Override
+    public List<ReportRequest> constructScheduledRequests(ReportDefinition reportDefinition) {
+        List<ReportRequest> l = super.constructScheduledRequests(reportDefinition);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(df.getStartDateParameter().getName(), "${start_of_last_month}");
+        parameters.put(df.getEndDateParameter().getName(), "${end_of_last_month}");
+        l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, getExcelDesignUuid(), parameters, reportDefinition));
+        return l;
+    }
 
 	@Override
 	public String getVersion() {

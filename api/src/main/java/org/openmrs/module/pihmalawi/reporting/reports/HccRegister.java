@@ -17,7 +17,6 @@ import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.HccCo
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -29,24 +28,23 @@ import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinitio
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
-public class HccRegister extends ApzuReportManager {
+public class HccRegister extends ApzuDataExportManager {
 
-	public static final String EXCEL_REPORT_DESIGN_UUID = "ae928860-4a4e-48d4-bbc2-50902babcfc0";
+    public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "8bc5d836-5c71-11e5-a151-e82aea237783";
 
 	@Autowired
 	private DataFactory df;
-
-	@Autowired
-	private HivCohortDefinitionLibrary hivCohorts;
 
 	@Autowired
 	private HivEncounterQueryLibrary encounterQueries;
@@ -178,12 +176,20 @@ public class HccRegister extends ApzuReportManager {
 		return rd;
 	}
 
-	@Override
-	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-		List<ReportDesign> l = new ArrayList<ReportDesign>();
-		l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-		return l;
-	}
+    @Override
+    public String getExcelDesignUuid() {
+        return "ae928860-4a4e-48d4-bbc2-50902babcfc0";
+    }
+
+    @Override
+    public List<ReportRequest> constructScheduledRequests(ReportDefinition reportDefinition) {
+        List<ReportRequest> l = super.constructScheduledRequests(reportDefinition);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(df.getEndDateParameter().getName(), "${now}");
+        parameters.put("includeOldPreArtPatients", Boolean.FALSE);
+        l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, getExcelDesignUuid(), parameters, reportDefinition));
+        return l;
+    }
 
 	@Override
 	public String getVersion() {

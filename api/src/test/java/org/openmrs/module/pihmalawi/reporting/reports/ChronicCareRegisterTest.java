@@ -14,7 +14,6 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
-import org.junit.Ignore;
 import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -23,9 +22,8 @@ import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Tests the methods in the PatientDataFactory
+ * Tests the Chronic Care Register
  */
-@Ignore
 public class ChronicCareRegisterTest extends ReportManagerTest {
 
 	@Autowired
@@ -39,7 +37,7 @@ public class ChronicCareRegisterTest extends ReportManagerTest {
 		return chronicCareRegister;
 	}
 
-	@Override
+    @Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
 		context.setBaseCohort(new Cohort("62462"));

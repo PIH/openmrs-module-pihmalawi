@@ -32,7 +32,6 @@ import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibra
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,9 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AppointmentReport extends ApzuReportManager {
-
-    public static final String EXCEL_REPORT_DESIGN_UUID = "27ED6505-AC31-4D13-AEAC-8D06143BB348";
+public class AppointmentReport extends ApzuDataExportManager {
 
     @Autowired
     private DataFactory df;
@@ -163,10 +160,8 @@ public class AppointmentReport extends ApzuReportManager {
     }
 
     @Override
-    public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-        List<ReportDesign> l = new ArrayList<ReportDesign>();
-        l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-        return l;
+    public String getExcelDesignUuid() {
+        return "27ED6505-AC31-4D13-AEAC-8D06143BB348";
     }
 
     @Override

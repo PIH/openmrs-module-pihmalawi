@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Component("commonMetadata")
 public class CommonMetadata extends Metadata {
 
 	public static final String CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY = "pihmalawi.upperOrLowerNeno";
