@@ -56,7 +56,7 @@
         <metadatamappingVersion>1.0.2</metadatamappingVersion>
         <metadatasharingVersion>1.1.9</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>
-        <providermanagementVersion>2.2</providermanagementVersion>
+        <providermanagementVersion>2.3</providermanagementVersion>
         <reportingVersion>0.9.7-SNAPSHOT</reportingVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
         <reportingrestVersion>1.4</reportingrestVersion>
@@ -65,7 +65,7 @@
         <syncVersion>1.2</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
         <uicommonsVersion>1.6</uicommonsVersion>
-		<uiframeworkVersion>3.3.1</uiframeworkVersion>
+		<uiframeworkVersion>3.4</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <validationVersion>1.0.1</validationVersion>
         <webservicesRestVersion>2.11</webservicesRestVersion>

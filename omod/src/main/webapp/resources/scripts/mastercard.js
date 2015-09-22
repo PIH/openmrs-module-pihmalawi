@@ -20,11 +20,10 @@ angular.module('mastercard', [ 'ui.bootstrap' ])
 
         $scope.reloadPageInNewMode = function(mode) {
             emr.navigateTo({"provider": "pihmalawi", "page": "mastercard", "query": {
-                "patient": $scope.patientId,
-                "encounter": $scope.encounterId,
+                "patientId": $scope.patientId,
+                "encounterId": $scope.encounterId,
                 "mode": mode
-            }
-            });
+            }});
         }
 
     }])

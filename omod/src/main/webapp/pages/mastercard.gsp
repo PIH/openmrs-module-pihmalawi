@@ -8,6 +8,12 @@
     ui.includeJavascript("pihmalawi", "mastercard.js")
 %>
 
+<script type="text/javascript">
+    jq(document).ready( function() {
+        jq(".obs-field:first").children()[0].focus(); // Put focus on first obs element
+    } );
+</script>
+
 <style>
     body {
         width: 99%;

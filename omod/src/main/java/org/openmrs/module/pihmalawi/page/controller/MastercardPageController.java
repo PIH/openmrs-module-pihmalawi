@@ -26,8 +26,8 @@ public class MastercardPageController {
 
     public static final String EDIT_HEADER_MODE = "editHeader";
 	
-	public void controller(@RequestParam(value="patient", required=false) Patient patient,
-                           @RequestParam(value="encounter", required=false) Encounter encounter,
+	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
+                           @RequestParam(value="encounterId", required=false) Encounter encounter,
                            @RequestParam(value="mode", required=false) String mode,
                            UiUtils ui, PageModel model,
 	                       @InjectBeans PatientDomainWrapper patientDomainWrapper) {
@@ -52,6 +52,6 @@ public class MastercardPageController {
 
         model.addAttribute("headerFragmentName", headerFragmentName);
 
-        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patient", patient.getId(), "encounter", encounter.getId())));
+        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard"));
 	}
 }
