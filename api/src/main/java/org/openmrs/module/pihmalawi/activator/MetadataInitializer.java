@@ -20,6 +20,8 @@ import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
+import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
 
 import java.util.Locale;
 
@@ -32,6 +34,9 @@ public class MetadataInitializer implements Initializer {
 	 */
 	@Override
 	public synchronized void started() {
+
+        MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
+        deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
 
 		// TODO: Clean this up.  One option:
 		// Create some scripts that:
