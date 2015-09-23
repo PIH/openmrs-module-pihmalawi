@@ -19,8 +19,7 @@
                 </b>
             </span>
         </h4>
-        <script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js" type="text/javascript"></script>
-        <table style="border: none;">
+        <table style="border: none; width:100%;">
             <tr style="border: none;">
                 <td style="vertical-align:top;">
                     <h5>Patient / Guardian Details</h5>
@@ -89,7 +88,7 @@
                         </tr>
                         <tr>
                             <td>Clin Stage</td>
-                            <td>
+                            <td class="nowrap">
                                 <obs conceptId="7562" style="radio" answerConceptIds="7041,7042,7043,7044" answerLabels="1,2,3,4" />
                                 <obs conceptId="7036" style="checkbox" answerConceptId="1065" answerLabel="Pres" />
                             </td>
@@ -125,7 +124,7 @@
                         </tr>
                         <tr>
                             <td>Height, Wt.</td>
-                            <td>
+                            <td class="nowrap">
                                 <span class="left-cell">
                                     <obs conceptId="5090" /> cm
                                 </span>
@@ -153,7 +152,7 @@
                     </table>
                 </td>
                 <td style="vertical-align:top;">
-                    <h5>Confirmatory HIV Test before ART Start</h5>
+                    <h5><span style="text-decoration:underline;">Confirmatory</span> HIV Test before ART Start</h5>
                     <table>
                         <tr>
                             <td>Site, HTC Serial No.</td>
@@ -166,7 +165,7 @@
                             <td>
                                 <obs conceptId="2515" />
                             </td>
-                            <td>
+                            <td class="nowrap">
                                 <obs conceptId="6982" style="radio" answerConceptIds="1040,844" answerLabels="Rapid,PCR" />
                             </td>
                         </tr>

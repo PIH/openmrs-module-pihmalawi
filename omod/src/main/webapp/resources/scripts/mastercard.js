@@ -3,14 +3,16 @@ angular.module('mastercard', [ 'ui.bootstrap' ])
     .controller('MastercardCtrl', [ '$scope', '$http', function($scope, $http) {
 
         $scope.patientId = null;
-        $scope.encounterId = null;
         $scope.mode = null;
+        $scope.headerForm = null;
+        $scope.visitForm = null;
         $scope.editingHeader = false;
 
-        $scope.init = function(patientId, encounterId, mode) {
+        $scope.init = function(patientId, mode, headerForm, visitForm) {
             $scope.patientId = patientId;
-            $scope.encounterId = encounterId;
             $scope.mode = mode;
+            $scope.headerForm = headerForm;
+            $scope.visitForm = visitForm;
             $scope.editingHeader = (mode == 'editHeader');
         };
 
@@ -21,8 +23,9 @@ angular.module('mastercard', [ 'ui.bootstrap' ])
         $scope.reloadPageInNewMode = function(mode) {
             emr.navigateTo({"provider": "pihmalawi", "page": "mastercard", "query": {
                 "patientId": $scope.patientId,
-                "encounterId": $scope.encounterId,
-                "mode": mode
+                "mode": mode,
+                "headerForm": $scope.headerForm,
+                "visitForm": $scope.visitForm
             }});
         }
 
