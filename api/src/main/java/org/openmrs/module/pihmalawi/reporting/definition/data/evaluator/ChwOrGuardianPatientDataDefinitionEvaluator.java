@@ -47,7 +47,7 @@ public class ChwOrGuardianPatientDataDefinitionEvaluator implements PatientDataE
 		PatientData chwData = patientDataService.evaluate(Mapped.mapStraightThrough(baseLibrary.getChw()), context);
 		pd.getData().putAll(chwData.getData());
 
-		PatientData guardianData = patientDataService.evaluate(Mapped.mapStraightThrough(baseLibrary.getChw()), context);
+		PatientData guardianData = patientDataService.evaluate(Mapped.mapStraightThrough(baseLibrary.getParentOrGuardian()), context);
 		for (Integer pId : guardianData.getData().keySet()) {
 			if (!pd.getData().containsKey(pId)) {
 				pd.getData().put(pId, guardianData.getData().get(pId) + " (Guardian)");
