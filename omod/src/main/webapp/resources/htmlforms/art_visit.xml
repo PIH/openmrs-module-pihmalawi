@@ -1,0 +1,139 @@
+<htmlform formUuid="76d9aec0-e78f-11e0-baeb-445f1136dfb9" formName="ART Visit" formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1" formVersion="4.1">
+    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+    <table class="visit-table">
+        <thead class="visit-table-header">
+            <tr>
+                <td rowspan="2">Visit Date</td>
+                <td rowspan="2">Hgt</td>
+                <td rowspan="2">Wt</td>
+                <td rowspan="3">Adverse<br/>Outcome</td>
+                <td rowspan="3">Outcome<br/>Date</td>
+                <td rowspan="3">ART Regimen<br/><i>Adult Formulations</i></td>
+                <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
+                <td colspan="4">TB Status (Curr.)*</td>
+                <td rowspan="3">Pill<br/>Count</td>
+                <td rowspan="3">Doses<br/>Missed</td>
+                <td colspan="2">ARVs given</td>
+                <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
+                <td colspan="2">Family Plan.</td>
+                <td rowspan="3">Months<br/>on<br/>ART</td>
+                <td colspan="2">Viral load</td>
+                <td rowspan="3">Next appointment</td>
+            </tr>
+            <tr>
+                <td colspan="2">Suspected</td>
+                <td colspan="2">Confirmed</td>
+                <td rowspan="2">No. of<br/>tablets</td>
+                <td rowspan="2"><br/>To</td>
+                <td rowspan="2">Depo<br/>Given</td>
+                <td rowspan="2">No. of<br/>condom</td>
+                <td rowspan="2">Sample<br/>Taken</td>
+                <td rowspan="2">Result</td>
+            </tr>
+            <tr>
+                <td><i style="font-size:.7em;">day month year</i></td>
+                <td><i>cm</i></td>
+                <td><i>kg</i></td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>noRx</td>
+                <td>Rx</td>
+            </tr>
+        </thead>
+        <tbody class="visit-table-body">
+            <tr class="visit-table-row">
+                <td class="nowrap">
+                    <!-- Visit date -->
+                    <encounterDate id="encounterDate" default="today" />
+                </td>
+                <td>
+                    <!-- Height -->
+                    <obs conceptId="5090" id="heightInput" />
+                </td>
+                <td>
+                    <!-- Weight -->
+                    <obs conceptId="5089" id="weightInput" />
+                </td>
+                <td>
+                    <!-- Adverse Outcome -->
+                   TODO: Outcome
+                </td>
+                <td>
+                    <!-- Outcome Date -->
+                    TODO: Date
+                </td>
+                <td>
+                    <!-- ART Regimen -->
+                    <obs conceptId="8169" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408"/>
+                </td>
+                <td class="nowrap">
+                    <!-- Side Effects -->
+                    <obs conceptId="7755" style="checkbox" answerConceptId="1066" answerLabel="No" />
+                    <obs conceptId="7755" style="checkbox" answerConceptId="821" answerLabel="PN" />
+                    <obs conceptId="7755" style="checkbox" answerConceptId="29" answerLabel="HP" />
+                    <obs conceptId="7755" style="checkbox" answerConceptId="512" answerLabel="SK" />
+                    <obs conceptId="7755" style="checkbox" answerConceptId="2148" answerLabel="Lip" />
+                    <obs conceptId="7755" style="checkbox" answerConceptId="6408" answerLabel="Oth" />
+                </td>
+                <!-- TB Status (curr) -->
+                <td>
+                    <obs conceptId="7459" style="radio" answerConceptId="7454" answerLabel="N" />
+                </td>
+                <td>
+                    <obs conceptId="7459" style="radio" answerConceptId="7455" answerLabel="Y" />
+                </td>
+                <td>
+                    <obs conceptId="7459" style="radio" answerConceptId="7456" answerLabel="C" />
+                </td>
+                <td>
+                    <obs conceptId="7459" style="radio" answerConceptId="7458" answerLabel="Rx" />
+                </td>
+                <td>
+                    <!-- Pill count -->
+                    <obs conceptId="2540" />
+                </td>
+                <td>
+                    <!-- Doses missed -->
+                    <obs conceptId="2973" />
+                </td>
+                <td>
+                    <!-- # ARVs -->
+                    <obs conceptId="2929" />
+                </td>
+                <td style="white-space: nowrap;">
+                    <!-- # ARVs given to -->
+                    <obs conceptId="2122" style="no_yes" noLabel="P" yesLabel="G" />
+                </td>
+                <td>
+                    <!-- CPT # tablets -->
+                    <obs conceptId="6319"/>
+                </td>
+                <td>
+                    <!-- depo given -->
+                    <obs conceptId="8029" style="checkbox" answerConceptId="1065" answerLabel="" />
+                </td>
+                <td>
+                    <!-- # condoms -->
+                    <obs conceptId="8080"/>
+                </td>
+                <td>
+                    <!-- months on ART -->
+                    TODO
+                </td>
+                <!-- Viral load sample -->
+                <td>
+                    <obs conceptId="8421" style="checkbox" answerConceptId="8421" answerLabel="Bled" />
+                </td>
+                <td>
+                    <!-- Viral load -->
+                    <obs conceptId="856"/>
+                </td>
+                <td>
+                    <!-- Next appointment -->
+                    <obs conceptId="5096" id="nextAppointmentDate" allowFutureDates="true" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlform>
