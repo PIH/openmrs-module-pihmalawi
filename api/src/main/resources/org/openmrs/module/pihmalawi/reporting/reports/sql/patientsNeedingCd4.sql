@@ -7,7 +7,6 @@
 
 -- TODO: Utilize the endDate and location parameters passed in above
 -- Define Variables
-set @endDate=date_add(curdate(),interval 0 day); -- endDate for ARV status, CD4 count, Pre-ART status, and encounter cutoff dates
 
 drop table if exists PS; -- Create a temporary table to store cohort with state Pre-ART (continue)
 create temporary table PS as
@@ -22,6 +21,7 @@ and patient_program.program_id in (1,9)
 and patient_program.voided = 0
 and (patient_program.date_completed > @endDate or patient_program.date_completed is NULL)
 and state=1
+and patient_program.location_id = @location
 and patient_state.voided = 0
 order by patient_program.date_created desc) PSi
 group by PSi.patient_id;
