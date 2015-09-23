@@ -44,7 +44,7 @@
         <emrapiVersion>1.11-SNAPSHOT</emrapiVersion>
         <eventVersion>2.2.1</eventVersion>
         <facilitydataVersion>2.3</facilitydataVersion>
-        <htmlformentryVersion>2.6-SNAPSHOT</htmlformentryVersion>
+        <htmlformentryVersion>2.6</htmlformentryVersion>
         <htmlformentryuiVersion>1.3-SNAPSHOT</htmlformentryuiVersion>
         <htmlformentry19extVersion>1.5</htmlformentry19extVersion>
         <htmlformflowsheetVersion>1.3</htmlformflowsheetVersion>
