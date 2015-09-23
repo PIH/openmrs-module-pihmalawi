@@ -13,7 +13,6 @@
  */
 package org.openmrs.module.pihmalawi.page.controller;
 
-import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.api.FormService;
@@ -21,11 +20,9 @@ import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
 import org.openmrs.module.htmlformentryui.HtmlFormUtil;
-import org.openmrs.module.reporting.data.patient.PatientData;
+import org.openmrs.module.reporting.data.DataUtil;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
-import org.openmrs.module.reporting.evaluation.EvaluationContext;
-import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
@@ -42,7 +39,7 @@ import java.util.List;
 public class MastercardPageController {
 
     public static final String EDIT_HEADER_MODE = "editHeader";
-	
+
 	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
                            @RequestParam(value="mode", required=false) String mode,
                            @RequestParam(value="headerForm") String headerForm,
@@ -53,7 +50,7 @@ public class MastercardPageController {
                            @SpringBean("coreResourceFactory") ResourceFactory resourceFactory,
                            @SpringBean("reportingPatientDataService") PatientDataService patientDataService,
 	                       @InjectBeans PatientDomainWrapper patientDomainWrapper) {
-        
+
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("mode", mode);
@@ -82,10 +79,10 @@ public class MastercardPageController {
         List<String> alerts = new ArrayList<String>();
 
         HtmlForm headerHtmlForm = getHtmlFormFromResource(headerFormResource, resourceFactory, formService, htmlFormEntryService);
-        List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm, patientDataService);
+        List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm);
 
         HtmlForm visitHtmlForm = getHtmlFormFromResource(visitFormResource, resourceFactory, formService, htmlFormEntryService);
-        List<Encounter> visitEncounters = getEncountersForForm(patient, visitHtmlForm, patientDataService);
+        List<Encounter> visitEncounters = getEncountersForForm(patient, visitHtmlForm);
         Collections.reverse(visitEncounters);
         model.addAttribute("visitEncounters", visitEncounters);
 
@@ -117,19 +114,12 @@ public class MastercardPageController {
         }
     }
 
-    protected List<Encounter> getEncountersForForm(Patient p, HtmlForm form, PatientDataService dataService) {
-        try {
-            EncountersForPatientDataDefinition edd = new EncountersForPatientDataDefinition();
-            edd.addType(form.getForm().getEncounterType());
-            EvaluationContext context = new EvaluationContext();
-            Cohort c = new Cohort();
-            c.addMember(p.getId());
-            context.setBaseCohort(c);
-            PatientData data = dataService.evaluate(edd, context);
-            return (List<Encounter>)data.getData().get(p.getId());
-        }
-        catch (EvaluationException e) {
-            throw new IllegalArgumentException("Unable to get encounters for form: " + form.getName() + " and patient " + p.getId());
-        }
+    /**
+     * @return all encounters for the given patient that have the same encounter type as the given form
+     */
+    protected List<Encounter> getEncountersForForm(Patient p, HtmlForm form) {
+        EncountersForPatientDataDefinition edd = new EncountersForPatientDataDefinition();
+        edd.addType(form.getForm().getEncounterType());
+        return DataUtil.evaluateForPatient(edd, p.getPatientId(), List.class);
     }
 }
