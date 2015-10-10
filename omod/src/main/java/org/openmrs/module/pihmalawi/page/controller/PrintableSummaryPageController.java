@@ -16,12 +16,14 @@ package org.openmrs.module.pihmalawi.page.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
@@ -37,6 +39,7 @@ import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PrintableSummaryPageController {
@@ -87,16 +90,37 @@ public class PrintableSummaryPageController {
             Map<String, Object> values = dataSet.getRows().get(0).getColumnValuesByKey();
             model.putAll(values);
 
+            Obs ht = getValue(dataSet, "height", Obs.class);
+            Obs wt = getLastValue(dataSet, "weights", Obs.class);
+            model.put("lastWeight", wt);
+
+            if (ht != null && wt != null) {
+                double bmi = wt.getValueNumeric()/Math.pow(ht.getValueNumeric()/100, 2);
+                model.put("bmi", ObjectUtil.format(bmi, "1"));
+            }
+
             Map<String, AppointmentInfo> appointmentStatuses = new LinkedHashMap<String, AppointmentInfo>();
-            appointmentStatuses.put("HCC", (AppointmentInfo)dataSet.getRows().get(0).getColumnValue("hccAppointmentStatus"));
-            appointmentStatuses.put("ART", (AppointmentInfo)dataSet.getRows().get(0).getColumnValue("artAppointmentStatus"));
-            appointmentStatuses.put("CCC", (AppointmentInfo)dataSet.getRows().get(0).getColumnValue("ccAppointmentStatus"));
+            appointmentStatuses.put("HCC", getValue(dataSet, "hccAppointmentStatus", AppointmentInfo.class));
+            appointmentStatuses.put("ART", getValue(dataSet,"artAppointmentStatus", AppointmentInfo.class));
+            appointmentStatuses.put("CCC", getValue(dataSet,"ccAppointmentStatus", AppointmentInfo.class));
             model.put("appointmentStatuses", appointmentStatuses);
         }
         catch (Exception e) {
             model.addAttribute("errors", e.getMessage());
             log.error("An error occured while evaluating data for patient " + patient.getId() + " for printable summary", e);
         }
+    }
+
+    protected <T> T getValue(SimpleDataSet dataSet, String column, Class<T> type) {
+        return (T)dataSet.getRows().get(0).getColumnValue(column);
+    }
+
+    protected <T> T getLastValue(SimpleDataSet dataSet, String column, Class<T> type) {
+        List l = (List)dataSet.getRows().get(0).getColumnValue(column);
+        if (l != null) {
+            return (T)l.get(l.size()-1);
+        }
+        return null;
     }
 
     protected EvaluationContext getSinglePatientEvaluationContext(Integer patientId) {

@@ -60,9 +60,6 @@
     .form-action-link {
         padding-left: 10px; padding-right:10px;
     }
-    .section {
-        border-bottom: 2px solid black; padding:10px;
-    }
     #weight-graph {
         width:500px; height:250px;
     }
@@ -77,21 +74,79 @@
     .nowrap {
         white-space: nowrap;
     }
+    .header-section {
+        width:100%; padding:10px;
+    }
+    .section-divider-top {
+        border-bottom: 2px solid black; padding-bottom:10px;
+    }
+    .section-divider-bottom {
+        padding-top:10px;
+    }
+    .first-column {
+        padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top;
+    }
+    .second-column {
+        padding:0px 75px 0px 25px; white-space:nowrap; vertical-align:top;
+    }
+    .third-column {
+        padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top; width:100%;
+    }
+    #weightsTable {
+        white-space: nowrap;
+        float: left;
+        width: 350px
+    }
+    #weightsTable thead {
+        display: block
+    }
+    #weightsTable thead th {
+        background: #f3f3f3;
+        text-align: left
+    }
+    #weightsTable tbody {
+        display: block;
+        height: 262px;
+        overflow: auto;
+        width: 100%
+    }
+    #weightsTable tbody td {
+        background: #FFF;
+        border: 1px solid #f3f3f3;
+    }
+    #weightsTable thead th {
+        width: 175px
+    }
+    #weightsTable thead th + th {
+        width: 137px
+    }
+    #weightsTable tbody td {
+        width: 175px
+    }
+    #weightsTable tbody td + td {
+        width: 191px
+    }
 </style>
 
 <style type="text/css" media="print">
     @page {
-        size: landscape;
+        size: portrait;
         margin:.2in;
     }
     .hide-when-printing {
         display: none;
     }
     body {
-        font-size: .6em;
+        font-size: 1em;
     }
-    #weight-graph {
-
+    .header-section {
+        padding:20px;
+    }
+    .section-divider-top {
+        padding-bottom:20px;
+    }
+    .section-divider-bottom {
+        padding-top:20px;
     }
 </style>
 
@@ -104,75 +159,62 @@
         </a>
     </div>
 
-    <table class="section">
-        <tr>
-            <td>
-                <table id="header-table">
-                    <tr>
-                        <td colspan="3" style="width:70%;">
-                            <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
-                            <span id="identifier-section">( ${arvNumber ? arvNumber : hccNumber ? hccNumber : ccNumber ? ccNumber : "?"} )
-                        </td>
-                        <td rowspan="2" style="width:20%; vertical-align: bottom;">
-                            ARV Regimens:
-                            <% if (artRegimens.size() > 0) { %>
-                                <%  artRegimens.each { regimenObs -> %>
-                                    <br/>
-                                    ${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }
-                                <% } %>
-                            <% } else { %>
-                                <br/>
-                                None
-                            <% } %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td class="question">Age:</td>
-                                    <td class="value"><% if (ageYears > 0) { %>${ ageYears } years<% } else { %>${ ageMonths } months <% } %></td>
-                                </tr>
-                                <tr>
-                                    <td class="question">Gender:</td>
-                                    <td class="value">${ gender == 'M' ? "Male" : gender == 'F' ? "Female" : ""}</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td class="question">HIV Program Status:</td>
-                                    <td class="value">
-                                        <% if (hivTxStatus) { %>
-                                        ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } ( ${ arvNumber ? arvNumber : hccNumber } )
-                                        <% } else { %>
-                                        Never Enrolled
-                                        <% } %>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="question">NCD Program Status:</td>
-                                    <td class="value">
-                                        <% if (ccTxStatus) { %>
-                                        ${ ccTxStatus } on ${ ui.format(ccTxStatusDate) } ( ${ ccNumber } )
-                                        <% } else { %>
-                                        Never Enrolled
-                                        <% } %>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-    </table>
+    <div class="header-section">
+        <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
+        <span id="identifier-section">( ${arvNumber ? arvNumber : hccNumber ? hccNumber : ccNumber ? ccNumber : "?"} )
+    </div>
 
-    <table class="section">
+    <table>
+
+        <tr>
+            <td class="first-column">
+                <b>Demographics</b><br/>
+                <span class="question">Age:</span>
+                <span class="value"><% if (ageYears > 0) { %>${ ageYears } years<% } else { %>${ ageMonths } months <% } %></span>
+                <br/>
+                <span class="question">Gender:</span>
+                <span class="value">${ gender == 'M' ? "Male" : gender == 'F' ? "Female" : ""}</span>
+            </td>
+            <td class="second-column">
+                <b>Program Enrollments</b><br/>
+                <span class="question">HIV:</span>
+                <span class="value">
+                    <% if (hivTxStatus) { %>
+                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } ( ${ arvNumber ? arvNumber : hccNumber } )
+                    <% } else { %>
+                    Never Enrolled
+                    <% } %>
+                </span>
+                <br/>
+                <span class="question">NCD:</span>
+                <span class="value">
+                    <% if (ccTxStatus) { %>
+                    ${ ccTxStatus } on ${ ui.format(ccTxStatusDate) } ( ${ ccNumber } )
+                    <% } else { %>
+                    Never Enrolled
+                    <% } %>
+                </span>
+            </td>
+            <td class="third-column">
+                <b>ARV Regimens:</b>
+                <% if (artRegimens.size() > 0) { %>
+                    <%  artRegimens.each { regimenObs -> %>
+                        <br/>
+                        ${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }
+                    <% } %>
+                <% } else { %>
+                    <br/>
+                    None
+                <% } %>
+            </td>
+        </tr>
+
+        <tr><td colspan="3" class="section-divider-top"></td></tr>
+        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
 
         <tr id="encounters-section">
-            <td class="question">Last 4 Encounters:</td>
-            <td class="value" style="width:100%;">
+            <td class="first-column">Last 4 Encounters:</td>
+            <td class="second-column">
             <%
                 Collections.reverse(encounters);
                 def numToShow = encounters.size() > 4 ? 4 : encounters.size();
@@ -182,11 +224,14 @@
                 ${ ui.format(encounter.encounterDatetime) } - ${ ui.format(encounter.encounterType) }<br/>
             <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts if patient has not been seen in X months?</i></b></td>
         </tr>
-        <tr id="appointments-section">
 
-            <td class="question">Appointments:</td>
-            <td class="value" style="width:100%;">
+        <tr><td colspan="3"></td></tr>
+
+        <tr id="appointments-section">
+            <td class="first-column">Appointments:</td>
+            <td class="second-column">
 
             <% for (def programName : appointmentStatuses.keySet()) { %>
                 <% if (appointmentStatuses[programName].currentlyEnrolled) { %>
@@ -202,76 +247,90 @@
                 <% } %>
             <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts if patient is overdue or has no appointment?</i></b></td>
         </tr>
-    </table>
 
-    <table class="section">
+        <tr><td colspan="3" class="section-divider-top"></td></tr>
+        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
 
         <tr>
-            <td class="question">Last CD4:</td>
-            <td class="value" style="width:100%;">
+            <td class="first-column">Last CD4:</td>
+            <td class="second-column">
                 <% if (cd4s && cd4s.size() > 0) { %>
                     ${ cd4s.get(cd4s.size()-1).valueNumeric } on ${ui.format(cd4s.get(cd4s.size()-1).obsDatetime)}
                 <% } else { %>
                     <span class="alert">No CD4 Recorded</span>
                 <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Low or change to CD4?</i></b></td>
         </tr>
 
         <tr>
-            <td class="question">Last Viral Load:</td>
-            <td class="value" style="width:100%;">
+            <td class="first-column">Last Viral Load:</td>
+            <td class="second-column">
                 <% if (viralLoads && viralLoads.size() > 0) { %>
                 ${ viralLoads.get(viralLoads.size()-1).valueNumeric } on ${ui.format(viralLoads.get(viralLoads.size()-1).obsDatetime)}
                 <% } else { %>
                 <span class="alert">No Viral Load Recorded</span>
                 <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Viral Load Increase / Threshold</i></b></td>
         </tr>
 
         <tr>
-            <td class="question">TB Status:</td>
-            <td class="value" style="width:100%;">
+            <td class="first-column">TB Status:</td>
+            <td class="second-column">
                 <% if (tbStatus) { %>
                 ${ ui.format(tbStatus.valueCoded) } on ${ ui.format(tbStatus.obsDatetime) }
                 <% } else { %>
                 <span class="alert">No TB Status Recorded</span>
                 <% } %>
             </td>
+            <td class="third-column"></td>
         </tr>
 
         <tr>
-            <td class="question">Last Height:</td>
-            <td class="value" style="width:100%;">
+            <td class="first-column">Last Height:</td>
+            <td class="second-column">
                 <% if (height) { %>
                 ${ ui.format(height.valueNumeric) } cm on ${ ui.format(height.obsDatetime) }
                 <% } else { %>
                 <span class="alert">No Height Recorded</span>
                 <% } %>
             </td>
+            <td class="third-column"></td>
         </tr>
 
         <tr>
-            <td class="question">Last Weight:</td>
-            <td class="value" style="width:100%;">
-                <% if (weights && weights.size() > 0) { %>
-                ${ weights.get(weights.size()-1).valueNumeric } kg on ${ui.format(weights.get(weights.size()-1).obsDatetime)}
+            <td class="first-column">Last Weight:</td>
+            <td class="second-column">
+                <% if (lastWeight) { %>
+                ${ lastWeight.valueNumeric } kg on ${ui.format(lastWeight.obsDatetime)}
                 <% } else { %>
                 <span class="alert">No Weight Recorded</span>
                 <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts around significant weight change?</i></b></td>
         </tr>
 
         <tr>
-            <td class="question">Current BMI:</td>
-            <td class="value" style="width:100%;">
-
+            <td class="first-column">Last BMI:</td>
+            <td class="second-column">
+                <% if (bmi) { %>
+                ${ bmi } kg/m<sup>2</sup>
+                <% } else { %>
+                <span class="alert">N/A</span>
+                <% } %>
             </td>
+            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Low BMI?</i></b></td>
         </tr>
+
+        <tr><td colspan="3" class="section-divider-top"></td></tr>
+        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
 
     </table>
 
-    <div class="section">
+    <div>
 
         <table>
             <tr>
@@ -294,26 +353,31 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width:100%;">
-                    This is where the table of weights will go...
+                <td>
+                    <table id="weightsTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <thead>
+                            <tr><th>Date</th><th>Weight (kg)</th></tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            Collections.reverse(weights);
+                            if (weights.size() > 0) { %>
+                            <%  weights.each { weight -> %>
+                                <tr>
+                                    <td>${ ui.format(weight.obsDatetime) }</td>
+                                    <td>${ ui.format(weight.valueNumeric) }</td>
+                                </tr>
+                            <% } %>
+                        <% } else { %>
+                            <tr><td colspan="2">None</td></tr>
+                        <% } %>
+                        </tbody>
+                    </table>
                 </td>
+                <td style="width:100%;"></td>
             </tr>
         </table>
 
     </div>
 
-    <h2>TODO</h2>
-    <div id="items-to-do">
-        <ul class="list">
-            <li>BMI</li>
-            <li>Record weight change</li>
-            <li>Record CD4 change</li>
-            <li>
-                Hightlight alerts prominently around things like:
-                Weight change, BMI, CD4 Decrease / Threshold, Viral Load Increase / Threshold
-            </li>
-        </ul>
-
-    </div>
-
-</table>
+</div>
