@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("chronicCareMetadata")
 public class ChronicCareMetadata extends CommonMetadata {
 
 	public static String CHRONIC_CARE_NUMBER = "Chronic Care Number";

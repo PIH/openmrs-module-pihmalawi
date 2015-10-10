@@ -19,6 +19,7 @@ import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
+import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
@@ -118,10 +119,20 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	// Vitals
 
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestHeightObs() {
+        return df.getMostRecentObsByEndDate(metadata.getHeightConcept());
+    }
+
 	@DocumentedDefinition("latestHeight")
 	public PatientDataDefinition getLatestHeight() {
 		return df.convert(df.getMostRecentObsByEndDate(metadata.getHeightConcept()), df.getObsValueNumericConverter());
 	}
+
+    @DocumentedDefinition
+    public PatientDataDefinition getAllWeightObservations() {
+        return df.getAllObsByEndDate(metadata.getWeightConcept(), null, null);
+    }
 
 	@DocumentedDefinition("latestWeight")
 	public PatientDataDefinition getLatestWeight() {
@@ -132,6 +143,13 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public PatientDataDefinition getLatestWeightDate() {
 		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsDatetimeConverter());
 	}
+
+    // Encounters
+
+    @DocumentedDefinition("allEncounters")
+    public PatientDataDefinition getAllEncounters() {
+        return new EncountersForPatientDataDefinition();
+    }
 
     // Obs
 

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("hivMetadata")
 public class HivMetadata extends CommonMetadata {
 
 	public static String HIV_PROGRAM = "HIV program";

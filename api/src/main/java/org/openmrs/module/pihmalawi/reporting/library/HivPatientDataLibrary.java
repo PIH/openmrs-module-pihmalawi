@@ -21,12 +21,15 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
+import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.data.converter.ChangeInValueConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
@@ -48,6 +51,12 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 
 	@Autowired
 	private HivMetadata hivMetadata;
+
+    @Autowired
+    private ArtTreatmentGroup artTreatmentGroup;
+
+    @Autowired
+    private HccTreatmentGroup hccTreatmentGroup;
 
     @Override
     public String getKeyPrefix() {
@@ -158,6 +167,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getFirstLineArvStartDateConcept()), pdf.getObsValueDatetimeConverter());
 	}
 
+    @DocumentedDefinition
+    public PatientDataDefinition getCd4CountObservations() {
+        return new Cd4DataDefinition();
+    }
+
 	@DocumentedDefinition("latestCd4Count")
 	public PatientDataDefinition getLatestCd4CountValueByEndDate() {
 		Cd4DataDefinition cd4Def = new Cd4DataDefinition();
@@ -170,6 +184,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(cd4Def, pdf.getLastListItemConverter(pdf.getObsDatetimeConverter()));
 	}
 
+    @DocumentedDefinition
+    public PatientDataDefinition getViralLoadObservations() {
+        return pdf.getAllObsByEndDate(hivMetadata.getHivViralLoadConcept(), null, null);
+    }
+
     @DocumentedDefinition("latestViralLoad")
     public PatientDataDefinition getLatestViralLoadValueByEndDate() {
         return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsValueNumericConverter());
@@ -178,6 +197,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
     @DocumentedDefinition("latestViralLoad.date")
     public PatientDataDefinition getLatestViralLoadDateByEndDate() {
         return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsDatetimeConverter());
+    }
+
+    @DocumentedDefinition("arvRegimenChanges")
+    public PatientDataDefinition getArvRegimenChanges() {
+        return pdf.getAllObsByEndDate(hivMetadata.getArvDrugsReceivedConcept(), null, new ChangeInValueConverter(pdf.getObsValueCodedNameConverter()));
     }
 
 	@DocumentedDefinition("latestArvDrugsReceived.value")
@@ -189,6 +213,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	public PatientDataDefinition getLatestArvDrugsReceivedDateByEndDate() {
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArvDrugsReceivedConcept()), pdf.getObsDatetimeConverter());
 	}
+
+    @DocumentedDefinition("latestTbStatus")
+    public PatientDataDefinition getLatestTbStatusObs() {
+        return pdf.getMostRecentObsByEndDate(hivMetadata.getTbStatusConcept());
+    }
 
 	@DocumentedDefinition("latestTbStatus.value")
 	public PatientDataDefinition getLatestTbStatusByEndDate() {
@@ -209,6 +238,16 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	public PatientDataDefinition getLatestArtSideEffectsDateByEndDate() {
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), pdf.getObsDatetimeConverter());
 	}
+
+    @DocumentedDefinition("hccAppointmentStatus")
+    public PatientDataDefinition getHccAppointmentStatus() {
+        return pdf.getAppointmentStatus(hccTreatmentGroup);
+    }
+
+    @DocumentedDefinition("artAppointmentStatus")
+    public PatientDataDefinition getArtAppointmentStatus() {
+        return pdf.getAppointmentStatus(artTreatmentGroup);
+    }
 
 	@DocumentedDefinition
 	public PatientDataDefinition getEarliestHivProgramEnrollmentDateByEndDate() {

@@ -20,6 +20,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
@@ -42,6 +43,9 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 
 	@Autowired
 	private ChronicCareMetadata metadata;
+
+    @Autowired
+    private ChronicCareTreatmentGroup treatmentGroup;
 
     @Override
     public String getKeyPrefix() {
@@ -118,6 +122,11 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 	public PatientDataDefinition getMostRecentAppointmentDateByEndDate() {
 		return df.getMostRecentObsByEndDate(metadata.getAppointmentDateConcept(), metadata.getChronicCareEncounterTypes(), df.getObsValueDatetimeConverter());
 	}
+
+    @DocumentedDefinition
+    public PatientDataDefinition getChronicCareAppointmentStatus() {
+        return df.getAppointmentStatus(treatmentGroup);
+    }
 
 	// Helper methods
 

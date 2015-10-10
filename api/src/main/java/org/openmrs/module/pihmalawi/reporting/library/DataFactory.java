@@ -29,8 +29,10 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.PatientSetService;
+import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.AppointmentStatusDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ProgramPatientIdentifierDataDefinition;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.BirthAndDeathCohortDefinition;
@@ -222,6 +224,13 @@ public class DataFactory {
         def.addParameter(new Parameter("valueDatetimeOnOrBefore", "Value On Or Before", Date.class));
         def.addParameter(new Parameter("locationList", "Locations", Location.class));
         return convert(def, ObjectUtil.toMap("valueDatetimeOrAfter=startDate,valueDatetimeOnOrBefore=endDate,locationList=location"), converter);
+    }
+
+    public PatientDataDefinition getAppointmentStatus(TreatmentGroup treatmentGroup) {
+        AppointmentStatusDataDefinition def = new AppointmentStatusDataDefinition();
+        def.setProgram(treatmentGroup.getProgram());
+        def.setEncounterTypes(treatmentGroup.getEncounterTypes());
+        return def;
     }
 
 	public PatientDataDefinition getEarliestProgramEnrollmentByEndDate(Program program, DataConverter converter) {
