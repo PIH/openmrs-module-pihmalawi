@@ -5,9 +5,6 @@
 -- ## parameter = endDate|End Date|java.util.Date
 -- ## parameter = location|Location|org.openmrs.Location
 
--- TODO: Utilize the endDate and location parameters passed in above
--- Define Variables
-
 drop table if exists PS; -- Create a temporary table to store cohort with state Pre-ART (continue)
 create temporary table PS as
 select * from
