@@ -6,28 +6,68 @@
     ui.includeJavascript("uicommons", "angular-common.js")
     ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.11.2.min.js")
     ui.includeJavascript("pihmalawi", "mastercard.js")
+    ui.includeJavascript("htmlformentryui", "htmlForm.js")
 %>
 
 <!-- TODO: Move this into the scripts folder and load like the above -->
 <script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js" type="text/javascript"></script>
 
 <script type="text/javascript">
+
+    function loadHtmlFormForEncounter(section, encounterId, mode) {
+        jq.get(emr.pageLink('pihmalawi', 'htmlForm', {
+            "patient": ${patient.id},
+            "encounter": encounterId,
+            "editMode": mode == 'edit',
+            "formName": section == 'header' ? '${ headerForm }' : '${ visitForm }',
+            "returnUrl": '${ ui.thisUrl() }'
+        }), function(data) {
+            if (section == 'header') {
+                jq('#header-section').html(data);
+            }
+            else {
+                var existingVisitTable = jq(".visit-table-body");
+                if (existingVisitTable.length > 0) {
+                    jq(existingVisitTable).append(jq(data).find(".visit-table-row"));
+                }
+                else {
+                    jq('#visit-flowsheet-section').append(data);
+                }
+            }
+        });
+    };
+
+    function viewHeader() {
+        loadHtmlFormForEncounter('header', '${ headerEncounter.encounterId }', 'view');
+        jq(".form-action-link").show();
+        jq("#delete-button").hide();
+        jq("#cancel-button").hide();
+    }
+
+    function editHeader() {
+        loadHtmlFormForEncounter('header', '${ headerEncounter.encounterId }', 'edit');
+        jq(".form-action-link").hide();
+        jq("#delete-button").show();
+        jq("#cancel-button").show();
+    }
+
     jq(document).ready( function() {
 
-        // In edit mode, make sure that focus is on the first obs element to enter
-        jq(".obs-field:first").children()[0].focus();
+        <% if (headerEncounter == null) { %>
+            loadHtmlFormForEncounter('header', null, 'edit');
+        <% } else { %>
+            viewHeader();
+        <% } %>
 
-        // In view mode, convert all of the visit htmlform tables into a single table
-        var visitTables = jq(".visit-table").detach();
-        if (visitTables && visitTables.length > 0) {
-            var firstTable = visitTables[0];
-            var firstTableBody = jq(firstTable).find(".visit-table-body :first");
-            for (var i=1; i<visitTables.length; i++) {
-                jq(visitTables[i]).find(".visit-table-row").appendTo(firstTableBody);
-            }
+        <% visitEncounters.each { visitEncounter -> %>
+            loadHtmlFormForEncounter('visit-flowsheet', ${ visitEncounter.encounterId }, 'view');
+        <% } %>
+
+        // In edit mode, make sure that focus is on the first obs element to enter
+        var firstObsField = jq(".obs-field:first");
+        if (firstObsField > 0) {
+            firstObsField.children()[0].focus();
         }
-        jq("#visit-flowsheet-section").children().remove();
-        jq("#visit-flowsheet-section").append(firstTable).show();
 
     } );
 </script>
@@ -75,7 +115,6 @@
     #visit-flowsheet-section {
         width:100%;
         padding-top:5px;
-        display: none;
     }
     .visit-table-header {
         border: 2px solid #DDD;
@@ -109,7 +148,7 @@
     }
 </style>
 
-<div id="mastercard-app" ng-controller="MastercardCtrl" ng-init="init(${patient.id}, '${mode}', '${headerForm}', '${visitForm}')">
+<div id="mastercard-app" ng-controller="MastercardCtrl" ng-init="init(${patient.id}, '${headerForm}', '${visitForm}')">
 
     <% if (!alerts.empty) { %>
         <div id="alert-section" class="hide-when-printing">
@@ -124,7 +163,7 @@
     <% } %>
 
     <div id="form-actions" class="hide-when-printing">
-        <a class="form-action-link" id="edit-header-link" ng-click="reloadPageInNewMode('editHeader')" ng-hide="editingHeader">
+        <a class="form-action-link" id="edit-header-link" onclick="editHeader();">
             <i class="icon-pencil"></i>
             ${ ui.message("uicommons.edit") }
         </a>
@@ -132,37 +171,19 @@
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
         </a>
-        <a class="form-action-link" id="cancel-button" ng-click="reloadPageInNewMode('')" ng-show="editingHeader">
+        <a class="form-action-link" id="cancel-button" onclick="viewHeader();">
             <i class="icon-circle-arrow-left"></i>
             ${ ui.message("uicommons.cancel") }
         </a>
-        <a class="form-action-link" id="delete-button" ng-show="editingHeader">
+        <a class="form-action-link" id="delete-button">
             <i class="icon-remove"></i>
             ${ ui.message("uicommons.delete") }
         </a>
     </div>
 
-    <div id="header-section">
-        ${ ui.includeFragment(headerFragmentProvider, headerFragmentName, [
-                patient: patient.patient,
-                encounter: headerEncounter,
-                definitionUiResource: headerFormResource,
-                returnUrl: returnUrl
-        ]) }
-    </div>
+    <div id="header-section"></div>
 
-    <div id="visit-flowsheet-section">
-        <% visitEncounters.each { visitEncounter -> %>
-        <tr>
-            ${ ui.includeFragment(visitFragmentProvider, visitFragmentName, [
-                    patient: patient.patient,
-                    encounter: visitEncounter,
-                    definitionUiResource: visitFormResource,
-                    returnUrl: returnUrl
-            ]) }
-        </tr>
-        <% } %>
-    </div>
+    <div id="visit-flowsheet-section"></div>
 
     <br/>
 </div>
