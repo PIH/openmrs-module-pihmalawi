@@ -1,5 +1,5 @@
 -- ## report_uuid = 5d445530-63c5-11e5-a9f6-d60697e5b5db
--- ## design_uuid = e15c1a59-5d50-11e5-a151-e82aea237783
+-- ## design_uuid = d69619a5-faf9-48cf-80e4-57ad1e7c047c
 -- ## report_name = EID HIV Testing Report
 -- ## report_description = Report indicating EID patients in need of HIV testing
 -- ## parameter = endDate|End Date|java.util.Date

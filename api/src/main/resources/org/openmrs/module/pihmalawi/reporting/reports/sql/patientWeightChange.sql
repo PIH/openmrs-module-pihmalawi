@@ -1,5 +1,5 @@
 -- ## report_uuid = a222543e-63c2-11e5-a9f6-d60697e5b5db
--- ## design_uuid = e15c1a59-5d50-11e5-a151-e82aea237783
+-- ## design_uuid = 483b5cee-2eeb-4df3-b685-befcf2658daa
 -- ## report_name = Weight Loss Report
 -- ## report_description = Report indicating patient weight loss
 -- ## parameter = endDate|End Date|java.util.Date
