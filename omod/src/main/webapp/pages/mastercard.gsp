@@ -20,6 +20,7 @@
     <% } %>
 
     htmlForm.setSuccessFunction(function(result) {
+        mastercard.setHeaderEncounterId(result.encounterId);
         mastercard.viewHeader();
         mastercard.viewVisitTable();
         return false;
