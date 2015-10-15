@@ -38,10 +38,7 @@ import java.util.List;
 
 public class MastercardPageController {
 
-    public static final String EDIT_HEADER_MODE = "editHeader";
-
 	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
-                           @RequestParam(value="mode", required=false) String mode,
                            @RequestParam(value="headerForm") String headerForm,
                            @RequestParam(value="visitForm") String visitForm,
                            UiUtils ui, PageModel model,
@@ -53,45 +50,29 @@ public class MastercardPageController {
 
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
-        model.addAttribute("mode", mode);
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("visitForm", visitForm);
+
+        List<String> alerts = new ArrayList<String>();
 
         String headerFormResource = "pihmalawi:htmlforms/" + headerForm + ".xml";
         String visitFormResource = "pihmalawi:htmlforms/" + visitForm + ".xml";
 
-        model.addAttribute("headerFormResource", headerFormResource);
-        model.addAttribute("visitFormResource", visitFormResource);
-
-        model.addAttribute("headerFragmentProvider", "htmlformentryui");
-        model.addAttribute("visitFragmentProvider", "htmlformentryui");
-
-        String headerFragmentName = "htmlform/viewEncounterWithHtmlForm";
-        String visitFragmentName = "htmlform/viewEncounterWithHtmlForm";
-
-        if (EDIT_HEADER_MODE.equals(mode)) {
-            headerFragmentName = "htmlform/enterHtmlForm";
-        }
-
-        model.addAttribute("headerFragmentName", headerFragmentName);
-        model.addAttribute("visitFragmentName", visitFragmentName);
-
-        List<String> alerts = new ArrayList<String>();
-
         HtmlForm headerHtmlForm = getHtmlFormFromResource(headerFormResource, resourceFactory, formService, htmlFormEntryService);
+        Encounter headerEncounter = null;
         List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm);
+        if (headerEncounters.size() > 0) {
+            headerEncounter = headerEncounters.get(headerEncounters.size() - 1); // Most recent
+            if (headerEncounters.size() > 1) {
+                alerts.add("WARNING:  More than one " + headerHtmlForm.getName() + " encounters exist for this patient.  Displaying the most recent only.");
+            }
+        }
+        model.addAttribute("headerEncounter", headerEncounter);
 
         HtmlForm visitHtmlForm = getHtmlFormFromResource(visitFormResource, resourceFactory, formService, htmlFormEntryService);
         List<Encounter> visitEncounters = getEncountersForForm(patient, visitHtmlForm);
         Collections.reverse(visitEncounters);
         model.addAttribute("visitEncounters", visitEncounters);
-
-        if (headerEncounters.size() > 0) {
-            model.addAttribute("headerEncounter", headerEncounters.get(headerEncounters.size() - 1)); // Most recent
-            if (headerEncounters.size() > 1) {
-                alerts.add("WARNING:  More than one " + headerHtmlForm.getName() + " encounters exist for this patient.  Displaying the most recent only.");
-            }
-        }
 
         model.addAttribute("alerts", alerts);
 
@@ -120,6 +101,7 @@ public class MastercardPageController {
     protected List<Encounter> getEncountersForForm(Patient p, HtmlForm form) {
         EncountersForPatientDataDefinition edd = new EncountersForPatientDataDefinition();
         edd.addType(form.getForm().getEncounterType());
-        return DataUtil.evaluateForPatient(edd, p.getPatientId(), List.class);
+        List<Encounter> ret = DataUtil.evaluateForPatient(edd, p.getPatientId(), List.class);
+        return ret == null ? new ArrayList<Encounter>() : ret;
     }
 }
