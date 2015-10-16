@@ -22,7 +22,6 @@
     htmlForm.setSuccessFunction(function(result) {
         mastercard.setHeaderEncounterId(result.encounterId);
         mastercard.viewHeader();
-        mastercard.viewVisitTable();
         return false;
     });
 
@@ -32,7 +31,7 @@
             mastercard.enterHeader();
         <% } else { %>
             mastercard.viewHeader();
-            mastercard.viewVisitTable();
+            mastercard.loadVisitTable();
         <% } %>
 
         // In edit mode, make sure that focus is on the first obs element to enter
@@ -141,6 +140,10 @@
             <i class="icon-pencil"></i>
             ${ ui.message("uicommons.edit") }
         </a>
+        <a class="form-action-link" id="new-visit-link" onclick="mastercard.enterVisit();">
+            <i class="icon-pencil"></i>
+            New Visit
+        </a>
         <a class="form-action-link" id="print-form-link" ng-click="printForm()" ng-hide="editingHeader">
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
@@ -167,6 +170,8 @@
             </tbody>
         </table>
     </div>
+
+    <div id="visit-edit-section"></div>
 
     <br/>
 </div>

@@ -38,6 +38,7 @@
             jq(".form-action-link").show();
             jq("#delete-button").hide();
             jq("#cancel-button").hide();
+            jq("#visit-flowsheet-section").show();
         });
     };
 
@@ -45,6 +46,7 @@
         loadHtmlFormForEncounter(headerForm, null, true, function(data) {
             jq('#header-section').html(data);
             jq(".form-action-link").hide();
+            jq("#visit-flowsheet-section").hide();
         });
     };
 
@@ -54,10 +56,40 @@
             jq(".form-action-link").hide();
             jq("#delete-button").show();
             jq("#cancel-button").show();
+            jq("#visit-flowsheet-section").hide();
         });
     };
 
-    mastercard.viewVisitTable = function() {
+    mastercard.enterVisit = function() {
+        loadHtmlFormForEncounter(visitForm, null, true, function(data) {
+            $hf = jq(data);
+            $hf.find(".visit-table-header").remove();
+            var $body = $hf.find(".visit-table-body").detach();
+            var questions = $body.find(".visit-question");
+
+            var newTableBody = jq("<tbody>");
+            $hf.find(".visit-table").append(newTableBody);
+            jq.each( questions, function( i, question ) {
+                var label = jq(question).find(".visit-question-label");
+                var field = jq(question).find(".visit-question-field");
+                var unit = jq(question).find(".visit-question-unit");
+                var row = jq("<tr>");
+                jq(row).append(jq("<td>").append(label));
+                jq(row).append(jq("<td>").append(field).append(unit));
+                jq(newTableBody).append(row);
+                label.show();
+                unit.show();
+            });
+            jq('#visit-edit-section').append($hf);
+            jq(".form-action-link").hide();
+            jq("#header-section").hide();
+            jq("#visit-flowsheet-section").hide();
+        });
+    };
+
+    mastercard.loadVisitTable = function() {
+        jq("#header-section").show();
+
         // First load the header
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
             jq('.visit-table-header').replaceWith(jq(data).find(".visit-table-header"));
@@ -80,7 +112,10 @@
 
     var loadVisitFormRow = function(encId) {
         loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
-            jq('#visit-table-row-'+encId).replaceWith(jq(data).find(".visit-table-row"));
+            var newRow = jq(data).find(".visit-table-row");
+            newRow.find('.visit-question-label').hide();
+            newRow.find('.visit-question-unit').hide();
+            jq('#visit-table-row-'+encId).replaceWith(newRow);
         });
     }
 

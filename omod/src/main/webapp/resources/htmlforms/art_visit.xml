@@ -43,17 +43,25 @@
         </thead>
         <tbody class="visit-table-body">
             <tr class="visit-table-row">
-                <td class="nowrap">
-                    <!-- Visit date -->
-                    <encounterDate id="encounterDate" default="today" />
+                <td class="visit-question nowrap">
+                    <span class="visit-question-label">Visit Date</span>
+                    <span class="visit-question-field">
+                        <encounterDate id="encounterDate" default="today" />
+                    </span>
                 </td>
-                <td>
-                    <!-- Height -->
-                    <obs conceptId="5090" id="heightInput" />
+                <td class="visit-question">
+                    <span class="visit-question-label">Height</span>
+                    <span class="visit-question-field">
+                        <obs conceptId="5090" id="heightInput" />
+                    </span>
+                    <span class="visit-question-unit">cm</span>
                 </td>
-                <td>
-                    <!-- Weight -->
-                    <obs conceptId="5089" id="weightInput" />
+                <td class="visit-question">
+                    <span class="visit-question-label">Weight</span>
+                    <span class="visit-question-field">
+                        <obs conceptId="5089" id="weightInput" />
+                    </span>
+                    <span class="visit-question-unit">kg</span>
                 </td>
                 <td>
                     <!-- Adverse Outcome -->
@@ -121,8 +129,8 @@
                     <!-- months on ART -->
                     TODO
                 </td>
-                <!-- Viral load sample -->
                 <td>
+                    <!-- Viral load sample -->
                     <obs conceptId="8421" style="checkbox" answerConceptId="8421" answerLabel="Bled" />
                 </td>
                 <td>
