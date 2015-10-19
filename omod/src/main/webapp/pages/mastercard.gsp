@@ -22,6 +22,7 @@
     htmlForm.setSuccessFunction(function(result) {
         mastercard.setHeaderEncounterId(result.encounterId);
         mastercard.viewHeader();
+        mastercard.loadVisitTable();
         return false;
     });
 
@@ -33,12 +34,7 @@
             mastercard.viewHeader();
             mastercard.loadVisitTable();
         <% } %>
-
-        // In edit mode, make sure that focus is on the first obs element to enter
-        var firstObsField = jq(".obs-field:first");
-        if (firstObsField > 0) {
-            firstObsField.children()[0].focus();
-        }
+        mastercard.focusFirstObs();
     } );
 </script>
 
@@ -105,6 +101,19 @@
     }
     .value {
         font-weight:bold;
+    }
+    .units {
+        padding-left:10px;
+    }
+    .visit-edit-table th {
+        text-align: left;
+        white-space: nowrap;
+        padding:10px;
+    }
+    .visit-edit-table td {
+        text-align: left;
+        width: 100%;
+        padding:10px;
     }
 </style>
 

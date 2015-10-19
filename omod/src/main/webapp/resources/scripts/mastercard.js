@@ -32,15 +32,28 @@
         visitEncounterIds.unshift(eId);
     };
 
+    mastercard.focusFirstObs = function() {
+        var firstObsField = jq(".obs-field:first");
+        if (firstObsField > 0) {
+            firstObsField.children()[0].focus();
+        }
+    };
+
     mastercard.viewHeader = function() {
         loadHtmlFormForEncounter(headerForm, headerEncounterId, false, function(data) {
             jq('#header-section').html(data);
-            jq(".form-action-link").show();
-            jq("#delete-button").hide();
-            jq("#cancel-button").hide();
-            jq("#visit-flowsheet-section").show();
+            mastercard.toggleViewFlowsheet();
         });
     };
+
+    mastercard.toggleViewFlowsheet = function() {
+        jq('#header-section').show();
+        jq(".form-action-link").show();
+        jq("#delete-button").hide();
+        jq("#cancel-button").hide();
+        jq("#visit-flowsheet-section").show();
+        jq('#visit-edit-section').hide();
+    }
 
     mastercard.enterHeader = function() {
         loadHtmlFormForEncounter(headerForm, null, true, function(data) {
@@ -62,42 +75,28 @@
 
     mastercard.enterVisit = function() {
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
-            $hf = jq(data);
-            $hf.find(".visit-table-header").remove();
-            var $body = $hf.find(".visit-table-body").detach();
-            var questions = $body.find(".visit-question");
-
-            var newTableBody = jq("<tbody>");
-            $hf.find(".visit-table").append(newTableBody);
-            jq.each( questions, function( i, question ) {
-                var label = jq(question).find(".visit-question-label");
-                var field = jq(question).find(".visit-question-field");
-                var unit = jq(question).find(".visit-question-unit");
-                var row = jq("<tr>");
-                jq(row).append(jq("<td>").append(label));
-                jq(row).append(jq("<td>").append(field).append(unit));
-                jq(newTableBody).append(row);
-                label.show();
-                unit.show();
-            });
-            jq('#visit-edit-section').append($hf);
+            jq('#visit-edit-section').html(data).show();
             jq(".form-action-link").hide();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
+            mastercard.focusFirstObs();
         });
+    };
+
+    mastercard.cancelVisitEdit = function() {
+        jq('#visit-edit-section').hide();
+        mastercard.toggleViewFlowsheet();
+    }
+
+    mastercard.showVisitTable = function() {
+        jq("#visit-flowsheet-section").show();
     };
 
     mastercard.loadVisitTable = function() {
         jq("#header-section").show();
 
-        // First load the header
-        loadHtmlFormForEncounter(visitForm, null, true, function(data) {
-            jq('.visit-table-header').replaceWith(jq(data).find(".visit-table-header"));
-        });
-
-        // Now load all the rows
         for (var i=0; i<visitEncounterIds.length; i++) {
-            loadVisitFormRow(visitEncounterIds[i]);
+            loadVisitFormRow(i, visitEncounterIds[i]);
         }
     };
 
@@ -110,8 +109,11 @@
         }), action);
     };
 
-    var loadVisitFormRow = function(encId) {
+    var loadVisitFormRow = function(index, encId) {
         loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
+            if (index == 0) {
+                jq('.visit-table-header').replaceWith(jq(data).find(".visit-table-header"));
+            }
             var newRow = jq(data).find(".visit-table-row");
             newRow.find('.visit-question-label').hide();
             newRow.find('.visit-question-unit').hide();

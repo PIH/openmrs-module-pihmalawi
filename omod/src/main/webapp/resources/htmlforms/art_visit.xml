@@ -1,147 +1,270 @@
 <htmlform formUuid="76d9aec0-e78f-11e0-baeb-445f1136dfb9" formName="ART Visit" formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1" formVersion="4.1">
-    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
 
-    <table class="visit-table">
-        <thead class="visit-table-header">
+    <macros>
+        height=5090
+        weight=5089
+        artRegimen=8169
+        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
+        sideEffect=7755
+        no=1066
+        yes=1065
+        pn=821
+        hp=29
+        sk=512
+        lip=2148
+        other=6408
+        tbStatus=7459
+        tbNotSuspected=7454
+        tbSuspected=7455
+        tbConfirmedNoTx=7456
+        tbConfirmedTx=7458
+        pillCount=2540
+        dosesMissed=2973
+        numArvsGiven=2929
+        arvsGivenTo=2122
+        numCptGiven=6319
+        depoGiven=8029
+        numCondoms=8080
+        viralLoadTaken=8421
+        viralLoad=856
+        nextAppt=5096
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td rowspan="2">Visit Date</td>
+                    <td rowspan="2">Hgt</td>
+                    <td rowspan="2">Wt</td>
+                    <td rowspan="3">Adverse<br/>Outcome</td>
+                    <td rowspan="3">Outcome<br/>Date</td>
+                    <td rowspan="3">ART Regimen<br/><i>Adult Formulations</i></td>
+                    <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
+                    <td colspan="4">TB Status (Curr.)*</td>
+                    <td rowspan="3">Pill<br/>Count</td>
+                    <td rowspan="3">Doses<br/>Missed</td>
+                    <td colspan="2">ARVs given</td>
+                    <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
+                    <td colspan="2">Family Plan.</td>
+                    <td rowspan="3">Months<br/>on<br/>ART</td>
+                    <td colspan="2">Viral load</td>
+                    <td rowspan="3">Next appointment</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Suspected</td>
+                    <td colspan="2">Confirmed</td>
+                    <td rowspan="2">No. of<br/>tablets</td>
+                    <td rowspan="2"><br/>To</td>
+                    <td rowspan="2">Depo<br/>Given</td>
+                    <td rowspan="2">No. of<br/>condom</td>
+                    <td rowspan="2">Sample<br/>Taken</td>
+                    <td rowspan="2">Result</td>
+                </tr>
+                <tr>
+                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>noRx</td>
+                    <td>Rx</td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap">
+                        <!-- Encounter Date -->
+                        <encounterDate default="today" />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightInput" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" id="weightInput" />
+                    </td>
+                    <td>
+                        <!-- Adverse Outcome -->
+                       TODO: Outcome
+                    </td>
+                    <td>
+                        <!-- Outcome Date -->
+                        TODO: Date
+                    </td>
+                    <td>
+                        <!-- ART Regimen -->
+                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/>
+                    </td>
+                    <td class="nowrap">
+                        <!-- Side Effects -->
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    </td>
+                    <!-- TB Status (curr) -->
+                    <td>
+                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="" />
+                    </td>
+                    <td>
+                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="" />
+                    </td>
+                    <td>
+                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="" />
+                    </td>
+                    <td>
+                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="" />
+                    </td>
+                    <td>
+                        <!-- Pill count -->
+                        <obs conceptId="$pillCount" />
+                    </td>
+                    <td>
+                        <!-- Doses missed -->
+                        <obs conceptId="$dosesMissed" />
+                    </td>
+                    <td>
+                        <!-- # ARVs -->
+                        <obs conceptId="$numArvsGiven" />
+                    </td>
+                    <td style="white-space: nowrap;">
+                        <!-- # ARVs given to -->
+                        <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
+                    </td>
+                    <td>
+                        <!-- CPT # tablets -->
+                        <obs conceptId="$numCptGiven"/>
+                    </td>
+                    <td>
+                        <!-- depo given -->
+                        <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                    </td>
+                    <td>
+                        <!-- # condoms -->
+                        <obs conceptId="$numCondoms"/>
+                    </td>
+                    <td>
+                        <!-- months on ART -->
+                        TODO
+                    </td>
+                    <td>
+                        <!-- Viral load sample -->
+                        <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" answerLabel="Bled" />
+                    </td>
+                    <td>
+                        <!-- Viral load -->
+                        <obs conceptId="$viralLoad"/>
+                    </td>
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
             <tr>
-                <td rowspan="2">Visit Date</td>
-                <td rowspan="2">Hgt</td>
-                <td rowspan="2">Wt</td>
-                <td rowspan="3">Adverse<br/>Outcome</td>
-                <td rowspan="3">Outcome<br/>Date</td>
-                <td rowspan="3">ART Regimen<br/><i>Adult Formulations</i></td>
-                <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
-                <td colspan="4">TB Status (Curr.)*</td>
-                <td rowspan="3">Pill<br/>Count</td>
-                <td rowspan="3">Doses<br/>Missed</td>
-                <td colspan="2">ARVs given</td>
-                <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
-                <td colspan="2">Family Plan.</td>
-                <td rowspan="3">Months<br/>on<br/>ART</td>
-                <td colspan="2">Viral load</td>
-                <td rowspan="3">Next appointment</td>
+                <th>Visit Date</th>
+                <td><encounterDate id="encounterDate" default="today" /></td>
             </tr>
             <tr>
-                <td colspan="2">Suspected</td>
-                <td colspan="2">Confirmed</td>
-                <td rowspan="2">No. of<br/>tablets</td>
-                <td rowspan="2"><br/>To</td>
-                <td rowspan="2">Depo<br/>Given</td>
-                <td rowspan="2">No. of<br/>condom</td>
-                <td rowspan="2">Sample<br/>Taken</td>
-                <td rowspan="2">Result</td>
+                <th>Visit Location</th>
+                <td><encounterLocation /></td>
             </tr>
             <tr>
-                <td><i style="font-size:.7em;">day month year</i></td>
-                <td><i>cm</i></td>
-                <td><i>kg</i></td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>noRx</td>
-                <td>Rx</td>
+                <th>Height</th>
+                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
             </tr>
-        </thead>
-        <tbody class="visit-table-body">
-            <tr class="visit-table-row">
-                <td class="visit-question nowrap">
-                    <span class="visit-question-label">Visit Date</span>
-                    <span class="visit-question-field">
-                        <encounterDate id="encounterDate" default="today" />
-                    </span>
-                </td>
-                <td class="visit-question">
-                    <span class="visit-question-label">Height</span>
-                    <span class="visit-question-field">
-                        <obs conceptId="5090" id="heightInput" />
-                    </span>
-                    <span class="visit-question-unit">cm</span>
-                </td>
-                <td class="visit-question">
-                    <span class="visit-question-label">Weight</span>
-                    <span class="visit-question-field">
-                        <obs conceptId="5089" id="weightInput" />
-                    </span>
-                    <span class="visit-question-unit">kg</span>
-                </td>
+            <tr>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <th>ART Regimen<br/><i>Adult Formulations</i></th>
+                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/></td>
+            </tr>
+            <tr>
+                <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
                 <td>
-                    <!-- Adverse Outcome -->
-                   TODO: Outcome
-                </td>
-                <td>
-                    <!-- Outcome Date -->
-                    TODO: Date
-                </td>
-                <td>
-                    <!-- ART Regimen -->
-                    <obs conceptId="8169" answerConceptIds="8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408"/>
-                </td>
-                <td class="nowrap">
-                    <!-- Side Effects -->
-                    <obs conceptId="7755" style="checkbox" answerConceptId="1066" answerLabel="No" />
-                    <obs conceptId="7755" style="checkbox" answerConceptId="821" answerLabel="PN" />
-                    <obs conceptId="7755" style="checkbox" answerConceptId="29" answerLabel="HP" />
-                    <obs conceptId="7755" style="checkbox" answerConceptId="512" answerLabel="SK" />
-                    <obs conceptId="7755" style="checkbox" answerConceptId="2148" answerLabel="Lip" />
-                    <obs conceptId="7755" style="checkbox" answerConceptId="6408" answerLabel="Oth" />
-                </td>
-                <!-- TB Status (curr) -->
-                <td>
-                    <obs conceptId="7459" style="radio" answerConceptId="7454" answerLabel="N" />
-                </td>
-                <td>
-                    <obs conceptId="7459" style="radio" answerConceptId="7455" answerLabel="Y" />
-                </td>
-                <td>
-                    <obs conceptId="7459" style="radio" answerConceptId="7456" answerLabel="C" />
-                </td>
-                <td>
-                    <obs conceptId="7459" style="radio" answerConceptId="7458" answerLabel="Rx" />
-                </td>
-                <td>
-                    <!-- Pill count -->
-                    <obs conceptId="2540" />
-                </td>
-                <td>
-                    <!-- Doses missed -->
-                    <obs conceptId="2973" />
-                </td>
-                <td>
-                    <!-- # ARVs -->
-                    <obs conceptId="2929" />
-                </td>
-                <td style="white-space: nowrap;">
-                    <!-- # ARVs given to -->
-                    <obs conceptId="2122" style="no_yes" noLabel="P" yesLabel="G" />
-                </td>
-                <td>
-                    <!-- CPT # tablets -->
-                    <obs conceptId="6319"/>
-                </td>
-                <td>
-                    <!-- depo given -->
-                    <obs conceptId="8029" style="checkbox" answerConceptId="1065" answerLabel="" />
-                </td>
-                <td>
-                    <!-- # condoms -->
-                    <obs conceptId="8080"/>
-                </td>
-                <td>
-                    <!-- months on ART -->
-                    TODO
-                </td>
-                <td>
-                    <!-- Viral load sample -->
-                    <obs conceptId="8421" style="checkbox" answerConceptId="8421" answerLabel="Bled" />
-                </td>
-                <td>
-                    <!-- Viral load -->
-                    <obs conceptId="856"/>
-                </td>
-                <td>
-                    <!-- Next appointment -->
-                    <obs conceptId="5096" id="nextAppointmentDate" allowFutureDates="true" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
                 </td>
             </tr>
-        </tbody>
-    </table>
+            <tr>
+                <th>TB Status (Curr.)*</th>
+                <td>
+                    <b>Suspected</b>
+                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
+                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes" />
+                    <b style="padding-left:10px;">Confirmed</b>
+                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx" />
+                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
+                </td>
+            </tr>
+            <tr>
+                <th>Pill Count</th>
+                <td><obs conceptId="$pillCount" /></td>
+            </tr>
+            <tr>
+                <th>Doses Missed</th>
+                <td><obs conceptId="$dosesMissed" /></td>
+            </tr>
+            <tr>
+                <th>ARVs given</th>
+                <td>
+                    No. of tablets: <obs conceptId="$numArvsGiven" />
+                    <span style="padding-left:10px">To: </span>
+                    <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
+                </td>
+            </tr>
+            <tr>
+                <th>CPT No. of tablets</th>
+                <td><obs conceptId="$numCptGiven" /></td>
+            </tr>
+            <tr>
+                <th>Family Plan.</th>
+                <td>
+                    Depo Given: <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                    <span style="padding-left:10px">No. of condom</span>
+                    <obs conceptId="$numCondoms"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Viral load</th>
+                <td>
+                    <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" answerLabel="Bled" />
+                    <span style="padding-left:10px">Result</span>
+                    <obs conceptId="$viralLoad"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+        </table>
+
+        <submit/>
+        <button id="visit-cancel-button" onclick="mastercard.cancelVisitEdit();">Cancel</button>
+
+    </ifMode>
+
 </htmlform>
