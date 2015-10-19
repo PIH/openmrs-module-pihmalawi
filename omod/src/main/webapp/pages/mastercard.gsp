@@ -16,7 +16,7 @@
     mastercard.setVisitForm('${ visitForm }');
 
     <% visitEncounters.each { visitEncounter -> %>
-        mastercard.appendVisitEncounterId(${ visitEncounter.encounterId });
+        mastercard.addVisitEncounterId(${ visitEncounter.encounterId });
     <% } %>
 
     htmlForm.setSuccessFunction(function(result) {
@@ -166,16 +166,7 @@
 
     <div id="header-section"></div>
 
-    <div id="visit-flowsheet-section">
-        <table class="visit-table">
-            <thead class="visit-table-header"></thead>
-            <tbody class="visit-table-body">
-                <% visitEncounters.each { visitEncounter -> %>
-                    <tr id="visit-table-row-${ visitEncounter.encounterId }" class="visit-table-row"></tr>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+    <div id="visit-flowsheet-section"></div>
 
     <div id="visit-edit-section"></div>
 

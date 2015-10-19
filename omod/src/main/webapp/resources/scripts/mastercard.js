@@ -25,12 +25,8 @@
         visitForm = formName;
     };
 
-    mastercard.appendVisitEncounterId = function(eId) {
+    mastercard.addVisitEncounterId = function(eId) {
         visitEncounterIds.push(eId);
-    };
-
-    mastercard.prependVisitEncounterId = function(eId) {
-        visitEncounterIds.unshift(eId);
     };
 
     mastercard.setMode = function(m) {
@@ -50,6 +46,7 @@
             mastercard.viewHeader();
         }
         else {
+            mastercard.addVisitEncounterId(result.encounterId);
             mastercard.loadVisitIntoFlowsheet(result.encounterId);
             mastercard.toggleViewFlowsheet();
         }
@@ -107,12 +104,60 @@
 
     mastercard.loadVisitTable = function() {
         jq("#header-section").show();
-
         for (var i=0; i<visitEncounterIds.length; i++) {
-            loadVisitFormRow(i, visitEncounterIds[i]);
+            mastercard.loadVisitIntoFlowsheet(visitEncounterIds[i]);
         }
     };
 
+    /**
+     * Loads a row into the visit table
+     * This will insert the row based on the encounter date such that it is in date descending order
+     * This relies upon the htmlform having the following structure:
+     *  The entire form structured as a table with class visit-table
+     *  The data entry form in a single row with class visit-table-row
+     *  The encounter date tag in a cell with class .visit-date
+     */
+    mastercard.loadVisitIntoFlowsheet = function(encId) {
+        loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
+            var section = jq("#visit-flowsheet-section");
+            var table = section.find(".visit-table");
+            if (table && table.length > 0) {
+                var newRow = jq(data).find(".visit-table-row");
+                var newVisitMoment = extractVisitMoment(newRow);
+                var existingRows = table.find(".visit-table-row")
+                var inserted = false;
+                jq.each(existingRows, function(index, currentRow) {
+                    var currentMoment = extractVisitMoment(currentRow);
+                    if (currentMoment.isBefore(newVisitMoment) && !inserted) {
+                        newRow.insertBefore(currentRow);
+                        inserted = true;
+                    }
+                    else {
+                        if (index == (existingRows.length-1) && !inserted) {
+                            newRow.insertAfter(currentRow);
+                        }
+                    }
+                });
+            }
+            else {
+                table = jq(data).find(".visit-table");
+                section.append(table);
+            }
+        });
+    }
+
+    /**
+     * Takes in a table row, expecting a td of class .visit-date with a view-mode encounter date div of class .value
+     * Extracts this into a moment in order to compare with other rows.
+     */
+    var extractVisitMoment = function(row) {
+        var dateStr = jq(row).find(".visit-date .value").html();
+        return moment(dateStr, "DD MMM YYYY");
+    };
+
+    /**
+     * Loads the htmlform for a given encounter, calling the function passed in as 'action' with the htmlform results
+     */
     var loadHtmlFormForEncounter = function(formName, encounterId, editMode, action) {
         jq.get(emr.pageLink('pihmalawi', 'htmlForm', {
             "patient": patientId,
@@ -121,17 +166,5 @@
             "formName": formName
         }), action);
     };
-
-    var loadVisitFormRow = function(index, encId) {
-        loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
-            if (index == 0) {
-                jq('.visit-table-header').replaceWith(jq(data).find(".visit-table-header"));
-            }
-            var newRow = jq(data).find(".visit-table-row");
-            newRow.find('.visit-question-label').hide();
-            newRow.find('.visit-question-unit').hide();
-            jq('#visit-table-row-'+encId).replaceWith(newRow);
-        });
-    }
 
 }( window.mastercard = window.mastercard || {}, jQuery ));

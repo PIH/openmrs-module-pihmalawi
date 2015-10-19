@@ -75,9 +75,9 @@
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
-                    <td class="nowrap">
+                    <td class="nowrap visit-date">
                         <!-- Encounter Date -->
-                        <encounterDate default="today" />
+                        <encounterDate />
                     </td>
                     <td>
                         <!-- Height -->
