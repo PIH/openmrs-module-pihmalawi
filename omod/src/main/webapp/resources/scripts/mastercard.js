@@ -7,6 +7,7 @@
     var headerEncounterId = null;
     var visitForm = null;
     var visitEncounterIds = [];
+    var mode = '';
 
     mastercard.setPatientId = function(pId) {
         patientId = pId;
@@ -32,12 +33,28 @@
         visitEncounterIds.unshift(eId);
     };
 
+    mastercard.setMode = function(m) {
+        mode = m;
+    };
+
     mastercard.focusFirstObs = function() {
         var firstObsField = jq(".obs-field:first");
         if (firstObsField > 0) {
             firstObsField.children()[0].focus();
         }
     };
+
+    mastercard.successFunction = function(result) {
+        if (mode == 'enterHeader') {
+            mastercard.setHeaderEncounterId(result.encounterId);
+            mastercard.viewHeader();
+        }
+        else {
+            mastercard.loadVisitIntoFlowsheet(result.encounterId);
+            mastercard.toggleViewFlowsheet();
+        }
+        return false;
+    }
 
     mastercard.viewHeader = function() {
         loadHtmlFormForEncounter(headerForm, headerEncounterId, false, function(data) {
@@ -51,19 +68,13 @@
         jq(".form-action-link").show();
         jq("#delete-button").hide();
         jq("#cancel-button").hide();
-        jq("#visit-flowsheet-section").show();
         jq('#visit-edit-section').hide();
+        mastercard.setMode('view');
+        mastercard.showVisitTable();
     }
 
     mastercard.enterHeader = function() {
-        loadHtmlFormForEncounter(headerForm, null, true, function(data) {
-            jq('#header-section').html(data);
-            jq(".form-action-link").hide();
-            jq("#visit-flowsheet-section").hide();
-        });
-    };
-
-    mastercard.editHeader = function() {
+        mastercard.setMode('enterHeader');
         loadHtmlFormForEncounter(headerForm, headerEncounterId, true, function(data) {
             jq('#header-section').html(data);
             jq(".form-action-link").hide();
@@ -74,6 +85,7 @@
     };
 
     mastercard.enterVisit = function() {
+        mastercard.setMode("enterVisit");
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
             jq('#visit-edit-section').html(data).show();
             jq(".form-action-link").hide();
@@ -84,8 +96,9 @@
     };
 
     mastercard.cancelVisitEdit = function() {
-        jq('#visit-edit-section').hide();
+        jq('#visit-edit-section').empty();
         mastercard.toggleViewFlowsheet();
+        return false;
     }
 
     mastercard.showVisitTable = function() {

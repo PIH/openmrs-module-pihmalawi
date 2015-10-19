@@ -20,10 +20,7 @@
     <% } %>
 
     htmlForm.setSuccessFunction(function(result) {
-        mastercard.setHeaderEncounterId(result.encounterId);
-        mastercard.viewHeader();
-        mastercard.loadVisitTable();
-        return false;
+        mastercard.successFunction(result);
     });
 
     jq(document).ready( function() {
@@ -145,7 +142,7 @@
     <% } %>
 
     <div id="form-actions" class="hide-when-printing">
-        <a class="form-action-link" id="edit-header-link" onclick="mastercard.editHeader();">
+        <a class="form-action-link" id="edit-header-link" onclick="mastercard.enterHeader();">
             <i class="icon-pencil"></i>
             ${ ui.message("uicommons.edit") }
         </a>
@@ -157,7 +154,7 @@
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
         </a>
-        <a class="form-action-link" id="cancel-button" onclick="viewHeader();">
+        <a class="form-action-link" id="cancel-button" onclick="mastercard.viewHeader();">
             <i class="icon-circle-arrow-left"></i>
             ${ ui.message("uicommons.cancel") }
         </a>

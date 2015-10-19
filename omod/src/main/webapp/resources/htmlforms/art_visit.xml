@@ -183,7 +183,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation /></td>
+                <td><encounterLocation id="visitLocation" /></td>
             </tr>
             <tr>
                 <th>Height</th>
@@ -263,7 +263,7 @@
         </table>
 
         <submit/>
-        <button id="visit-cancel-button" onclick="mastercard.cancelVisitEdit();">Cancel</button>
+        <button id="visit-cancel-button" type="button" onclick="mastercard.cancelVisitEdit();">Cancel</button>
 
     </ifMode>
 
