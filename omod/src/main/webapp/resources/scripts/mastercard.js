@@ -92,6 +92,17 @@
         });
     };
 
+    mastercard.editVisit = function(encId) {
+        mastercard.setMode("enterVisit");
+        loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
+            jq('#visit-edit-section').html(data).show();
+            jq(".form-action-link").hide();
+            jq("#header-section").hide();
+            jq("#visit-flowsheet-section").hide();
+            mastercard.focusFirstObs();
+        });
+    }
+
     mastercard.cancelVisitEdit = function() {
         jq('#visit-edit-section').empty();
         mastercard.toggleViewFlowsheet();
@@ -123,6 +134,7 @@
             var table = section.find(".visit-table");
             if (table && table.length > 0) {
                 var newRow = jq(data).find(".visit-table-row");
+                addLinksToVisitRow(newRow, encId);
                 var newVisitMoment = extractVisitMoment(newRow);
                 var existingRows = table.find(".visit-table-row")
                 var inserted = false;
@@ -141,9 +153,18 @@
             }
             else {
                 table = jq(data).find(".visit-table");
+                addLinksToVisitRow(table, encId);
                 section.append(table);
             }
         });
+    }
+
+    var addLinksToVisitRow = function(row, encId) {
+        var visitDateCell = jq(row).find(".visit-date");
+        var existingDateCell = visitDateCell.html();
+        var editLink = jq('<a href="#" onclick="mastercard.editVisit('+encId+');">' + existingDateCell + '</a>');
+        visitDateCell.empty().append(editLink);
+        console.log(visitDateCell.html());
     }
 
     /**
