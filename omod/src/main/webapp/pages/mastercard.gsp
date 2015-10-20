@@ -102,6 +102,11 @@
     .units {
         padding-left:10px;
     }
+    .error {
+        padding:5px;
+        font-weight: bold;
+        color:red;
+    }
     .visit-edit-table th {
         text-align: left;
         white-space: nowrap;
@@ -111,6 +116,9 @@
         text-align: left;
         width: 100%;
         padding:10px;
+    }
+    .toast-container {
+        display:none;
     }
 </style>
 
@@ -144,17 +152,17 @@
     <div id="form-actions" class="hide-when-printing">
         <a class="form-action-link" id="edit-header-link" onclick="mastercard.enterHeader();">
             <i class="icon-pencil"></i>
-            ${ ui.message("uicommons.edit") }
+            Edit Header
         </a>
         <a class="form-action-link" id="new-visit-link" onclick="mastercard.enterVisit();">
             <i class="icon-pencil"></i>
-            New Visit
+            Enter New Visit
         </a>
-        <a class="form-action-link" id="print-form-link" ng-click="printForm()" ng-hide="editingHeader">
+        <a class="form-action-link" id="print-form-link" onclick="mastercard.printForm();">
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
         </a>
-        <a class="form-action-link" id="cancel-button" onclick="mastercard.viewHeader();">
+        <a class="form-action-link" id="cancel-button" onclick="mastercard.cancelEdit();">
             <i class="icon-circle-arrow-left"></i>
             ${ ui.message("uicommons.cancel") }
         </a>

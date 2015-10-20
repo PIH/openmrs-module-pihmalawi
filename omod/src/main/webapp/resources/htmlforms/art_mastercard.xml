@@ -8,7 +8,10 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />:  <encounterDate />
+                    <encounterLocation id="mastercardLocation" />
+                    <span style="padding-left:20px;">
+                        Date: <encounterDate />
+                    </span>
                 </b>
             </span>
 

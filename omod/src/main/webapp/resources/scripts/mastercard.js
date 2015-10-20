@@ -26,7 +26,9 @@
     };
 
     mastercard.addVisitEncounterId = function(eId) {
-        visitEncounterIds.push(eId);
+        if (visitEncounterIds.indexOf(eId) < 0) {
+            visitEncounterIds.push(eId);
+        }
     };
 
     mastercard.setMode = function(m) {
@@ -40,14 +42,19 @@
         }
     };
 
+    mastercard.printForm = function() {
+        window.print();
+    }
+
     mastercard.successFunction = function(result) {
         if (mode == 'enterHeader') {
             mastercard.setHeaderEncounterId(result.encounterId);
             mastercard.viewHeader();
         }
         else {
+            jq("#visit-table-row-"+result.encounterId).remove(); // Remove old row for this encounter
             mastercard.addVisitEncounterId(result.encounterId);
-            mastercard.loadVisitIntoFlowsheet(result.encounterId);
+            mastercard.loadVisitIntoFlowsheet(result.encounterId); // Add new row for this encounter
             mastercard.toggleViewFlowsheet();
         }
         return false;
@@ -74,18 +81,22 @@
         mastercard.setMode('enterHeader');
         loadHtmlFormForEncounter(headerForm, headerEncounterId, true, function(data) {
             jq('#header-section').html(data);
-            jq(".form-action-link").hide();
-            jq("#delete-button").show();
-            jq("#cancel-button").show();
+            showLinksForEditMode();
             jq("#visit-flowsheet-section").hide();
         });
+    };
+
+    var showLinksForEditMode = function() {
+        jq(".form-action-link").hide();
+        jq("#delete-button").show();
+        jq("#cancel-button").show();
     };
 
     mastercard.enterVisit = function() {
         mastercard.setMode("enterVisit");
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
             jq('#visit-edit-section').html(data).show();
-            jq(".form-action-link").hide();
+            showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
             mastercard.focusFirstObs();
@@ -96,18 +107,23 @@
         mastercard.setMode("enterVisit");
         loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
             jq('#visit-edit-section').html(data).show();
-            jq(".form-action-link").hide();
+            showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
             mastercard.focusFirstObs();
         });
-    }
+    };
 
-    mastercard.cancelVisitEdit = function() {
-        jq('#visit-edit-section').empty();
-        mastercard.toggleViewFlowsheet();
+    mastercard.cancelEdit = function() {
+        if (mode == 'enterHeader') {
+            mastercard.viewHeader();
+        }
+        else {
+            jq('#visit-edit-section').empty();
+            mastercard.toggleViewFlowsheet();
+        }
         return false;
-    }
+    };
 
     mastercard.showVisitTable = function() {
         jq("#visit-flowsheet-section").show();
@@ -153,18 +169,23 @@
             }
             else {
                 table = jq(data).find(".visit-table");
-                addLinksToVisitRow(table, encId);
+                addLinksToVisitRow(table.find(".visit-table-row"), encId);
                 section.append(table);
             }
         });
     }
 
     var addLinksToVisitRow = function(row, encId) {
+        var rowId = row.attr("id");
+        if (!rowId || rowId.length == 0) {
+            rowId = "visit-table-row"
+        }
+        row.attr("id", rowId + "-" + encId);
+
         var visitDateCell = jq(row).find(".visit-date");
         var existingDateCell = visitDateCell.html();
         var editLink = jq('<a href="#" onclick="mastercard.editVisit('+encId+');">' + existingDateCell + '</a>');
         visitDateCell.empty().append(editLink);
-        console.log(visitDateCell.html());
     }
 
     /**

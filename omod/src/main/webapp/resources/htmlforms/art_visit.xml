@@ -155,7 +155,7 @@
                     </td>
                     <td>
                         <!-- Viral load sample -->
-                        <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" answerLabel="Bled" />
+                        <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
                     </td>
                     <td>
                         <!-- Viral load -->
@@ -173,6 +173,19 @@
 
     <!-- Data entry view -->
     <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>ART Patient Card</b>
+            <b style="padding-left:50px;">Adult ARV Formulations</b>
+            <span style="padding-left:50px;">Version 4</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">ART Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
 
         <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
 
@@ -250,7 +263,7 @@
             <tr>
                 <th>Viral load</th>
                 <td>
-                    <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" answerLabel="Bled" />
+                    <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
                     <span style="padding-left:10px">Result</span>
                     <obs conceptId="$viralLoad"/>
                 </td>
@@ -263,7 +276,6 @@
         </table>
 
         <submit/>
-        <button id="visit-cancel-button" type="button" onclick="mastercard.cancelVisitEdit();">Cancel</button>
 
     </ifMode>
 
