@@ -161,6 +161,6 @@ public class ApzuHivIndicatorsReport extends ApzuReportManager {
 
 	@Override
 	public String getVersion() {
-		return "1.0-SNAPSHOT";
+		return "1.0";
 	}
 }

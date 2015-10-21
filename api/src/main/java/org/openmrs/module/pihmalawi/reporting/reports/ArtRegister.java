@@ -210,6 +210,6 @@ public class ArtRegister extends ApzuDataExportManager {
 
     @Override
 	public String getVersion() {
-		return "1.0-SNAPSHOT";
+		return "1.0";
 	}
 }
