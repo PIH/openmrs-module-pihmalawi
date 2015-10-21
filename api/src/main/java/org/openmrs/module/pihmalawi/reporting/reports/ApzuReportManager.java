@@ -86,6 +86,7 @@ public abstract class ApzuReportManager extends BaseReportManager {
             rr.setProcessAutomatically(true);
             rr.setRenderingMode(new RenderingMode(XlsReportRenderer.class.newInstance(), "Excel", reportDesignUuid, Integer.MAX_VALUE));
             rr.setSchedule("0 0 4 1 * ?"); // Run monthly on the first of the month at 4:00am
+            rr.setMinimumDaysToPreserve(45);
             return rr;
         }
         catch (Exception e) {
