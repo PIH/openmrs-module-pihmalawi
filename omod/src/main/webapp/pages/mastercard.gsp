@@ -75,6 +75,14 @@
     table .visit-table-body td {
         text-align: center;
     }
+    #error-message-section {
+        display:none;
+        padding:10px;
+        font-weight:bold;
+        color:red;
+        border: 1px dotted red;
+        width:75%;
+    }
     #header-section {
         width:100%;
     }
@@ -166,11 +174,13 @@
             <i class="icon-circle-arrow-left"></i>
             ${ ui.message("uicommons.cancel") }
         </a>
-        <a class="form-action-link" id="delete-button">
+        <a class="form-action-link" id="delete-button" onclick="mastercard.deleteCurrentEncounter();">
             <i class="icon-remove"></i>
             ${ ui.message("uicommons.delete") }
         </a>
     </div>
+
+    <div id="error-message-section"></div>
 
     <div id="header-section"></div>
 

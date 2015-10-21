@@ -7,6 +7,7 @@
     var headerEncounterId = null;
     var visitForm = null;
     var visitEncounterIds = [];
+    var visitEncounterEdit = null;
     var mode = '';
 
     mastercard.setPatientId = function(pId) {
@@ -31,6 +32,13 @@
         }
     };
 
+    mastercard.removeVisitEncounterId = function(eId) {
+        var index = visitEncounterIds.indexOf(eId);
+        if (index >= 0) {
+            visitEncounterIds.splice( index, 1 );
+        }
+    };
+
     mastercard.setMode = function(m) {
         mode = m;
     };
@@ -44,7 +52,15 @@
 
     mastercard.printForm = function() {
         window.print();
-    }
+    };
+
+    mastercard.showErrorMessage = function(msg) {
+        jq("#error-message-section").show().html(msg + '<a href="#" style="padding-left:20px;" onclick="mastercard.clearErrorMessage();">Clear<span >');
+    };
+
+    mastercard.clearErrorMessage = function(msg) {
+        jq("#error-message-section").empty().hide();
+    };
 
     mastercard.successFunction = function(result) {
         if (mode == 'enterHeader') {
@@ -58,7 +74,7 @@
             mastercard.toggleViewFlowsheet();
         }
         return false;
-    }
+    };
 
     mastercard.viewHeader = function() {
         loadHtmlFormForEncounter(headerForm, headerEncounterId, false, function(data) {
@@ -75,6 +91,7 @@
         jq('#visit-edit-section').hide();
         mastercard.setMode('view');
         mastercard.showVisitTable();
+        visitEncounterEdit = null;
     }
 
     mastercard.enterHeader = function() {
@@ -86,11 +103,47 @@
         });
     };
 
-    var showLinksForEditMode = function() {
-        jq(".form-action-link").hide();
-        jq("#delete-button").show();
-        jq("#cancel-button").show();
+    mastercard.deleteCurrentEncounter = function() {
+        if (mode == 'enterHeader') {
+            if (visitEncounterIds.length > 0) {
+                mastercard.showErrorMessage('You cannot delete a mastercard that has recorded visits');
+            }
+            else {
+                deleteEncounter(headerEncounterId, function(data) {
+                    if (data.success) {
+                        document.location.href = '/'+OPENMRS_CONTEXT_PATH+'/patientDashboard.form?patientId='+patientId;
+                    }
+                    else {
+                        mastercard.showErrorMessage(data.message);
+                    }
+                });
+            }
+        }
+        else {
+            if (confirm('Are you sure you wish to delete this visit?')) {
+                deleteEncounter(visitEncounterEdit, function(data) {
+                    if (data.success) {
+                        jq("#visit-table-row-" + visitEncounterEdit).remove(); // Remove old row for this encounter
+                        mastercard.removeVisitEncounterId(visitEncounterEdit);
+                        mastercard.toggleViewFlowsheet();
+                    }
+                    else {
+                        mastercard.showErrorMessage(data.message);
+                    }
+                });
+            }
+        }
     };
+
+    var deleteEncounter = function(encId, callback) {
+        var deleteUrl = emr.fragmentActionLink('pihmalawi', 'encounterAction', 'delete', {
+            "encounter": encId,
+            "reason": 'Deleted on mastercard'
+        });
+        jq.getJSON(deleteUrl, function(data) {
+            callback(data);
+        });
+    }
 
     mastercard.enterVisit = function() {
         mastercard.setMode("enterVisit");
@@ -104,7 +157,8 @@
     };
 
     mastercard.editVisit = function(encId) {
-        mastercard.setMode("enterVisit");
+        mastercard.setMode("editVisit");
+        visitEncounterEdit = encId;
         loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
             jq('#visit-edit-section').html(data).show();
             showLinksForEditMode();
@@ -116,7 +170,12 @@
 
     mastercard.cancelEdit = function() {
         if (mode == 'enterHeader') {
-            mastercard.viewHeader();
+            if (headerEncounterId == null) {
+                document.location.href = '/'+OPENMRS_CONTEXT_PATH+'/patientDashboard.form?patientId='+patientId;
+            }
+            else {
+                mastercard.viewHeader();
+            }
         }
         else {
             jq('#visit-edit-section').empty();
@@ -207,6 +266,14 @@
             "editMode": editMode,
             "formName": formName
         }), action);
+    };
+
+    var showLinksForEditMode = function() {
+        jq(".form-action-link").hide();
+        if ((mode == 'enterHeader' && headerEncounterId != null) || mode == 'editVisit') {
+            jq("#delete-button").show();
+        }
+        jq("#cancel-button").show();
     };
 
 }( window.mastercard = window.mastercard || {}, jQuery ));
