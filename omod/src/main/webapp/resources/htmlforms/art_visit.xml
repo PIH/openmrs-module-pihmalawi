@@ -39,8 +39,6 @@
                     <td rowspan="2">Visit Date</td>
                     <td rowspan="2">Hgt</td>
                     <td rowspan="2">Wt</td>
-                    <td rowspan="3">Adverse<br/>Outcome</td>
-                    <td rowspan="3">Outcome<br/>Date</td>
                     <td rowspan="3">ART Regimen<br/><i>Adult Formulations</i></td>
                     <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
                     <td colspan="4">TB Status (Curr.)*</td>
@@ -49,7 +47,6 @@
                     <td colspan="2">ARVs given</td>
                     <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
                     <td colspan="2">Family Plan.</td>
-                    <td rowspan="3">Months<br/>on<br/>ART</td>
                     <td colspan="2">Viral load</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
@@ -86,14 +83,6 @@
                     <td>
                         <!-- Weight -->
                         <obs conceptId="$weight" id="weightInput" />
-                    </td>
-                    <td>
-                        <!-- Adverse Outcome -->
-                       TODO: Outcome
-                    </td>
-                    <td>
-                        <!-- Outcome Date -->
-                        TODO: Date
                     </td>
                     <td>
                         <!-- ART Regimen -->
@@ -148,10 +137,6 @@
                     <td>
                         <!-- # condoms -->
                         <obs conceptId="$numCondoms"/>
-                    </td>
-                    <td>
-                        <!-- months on ART -->
-                        TODO
                     </td>
                     <td>
                         <!-- Viral load sample -->
