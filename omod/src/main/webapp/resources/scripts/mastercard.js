@@ -299,6 +299,7 @@
     };
 
     var setupFormValidations = function(html) {
+        validationErrors = {};
         var apptDateInput = jq(html).find("#appointmentDate :first-child");
         var visitDateInput = jq(html).find("#visitDate :first-child");
         if (apptDateInput && visitDateInput) {
