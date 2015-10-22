@@ -78,11 +78,11 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightInput" />
+                        <obs conceptId="$height" />
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" id="weightInput" />
+                        <obs conceptId="$weight" />
                     </td>
                     <td>
                         <!-- ART Regimen -->
@@ -184,7 +184,7 @@
             </tr>
             <tr>
                 <th>Height</th>
-                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
             </tr>
             <tr>
                 <th>Weight</th>

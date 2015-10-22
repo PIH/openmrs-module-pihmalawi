@@ -10,6 +10,7 @@
     var visitEncounterEdit = null;
     var htmlformJs = null;
     var mode = '';
+    var defaultLocationId = null;
     var validationErrors = {};
 
     mastercard.setPatientId = function(pId) {
@@ -53,14 +54,24 @@
         mode = m;
     };
 
+    mastercard.setDefaultLocationId = function(locationId) {
+        defaultLocationId = locationId;
+    }
+
     var isValidForSubmission = function() {
         return jq.isEmptyObject(validationErrors);
     }
 
     mastercard.focusFirstObs = function() {
-        var firstObsField = jq(".obs-field:first");
-        if (firstObsField > 0) {
-            firstObsField.children()[0].focus();
+        var firstObsField = jq(".focus-field :input:visible:enabled:first");
+        if (firstObsField && firstObsField.length > 0) {
+            firstObsField.focus();
+        }
+        else {
+            var firstField = jq(":input:visible:enabled:first");
+            if (firstField && firstField.length > 0) {
+                firstField.focus();
+            }
         }
     };
 
@@ -112,8 +123,10 @@
         mastercard.setMode('enterHeader');
         loadHtmlFormForEncounter(headerForm, headerEncounterId, true, function(data) {
             jq('#header-section').html(data);
+            setupFormCustomizations(jq('#header-section'));
             showLinksForEditMode();
             jq("#visit-flowsheet-section").hide();
+            mastercard.focusFirstObs();
         });
     };
 
@@ -163,7 +176,7 @@
         mastercard.setMode("enterVisit");
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
             jq('#visit-edit-section').html(data).show();
-            setupFormValidations(jq('#visit-edit-section'));
+            setupFormCustomizations(jq('#visit-edit-section'));
             showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
@@ -176,7 +189,7 @@
         visitEncounterEdit = encId;
         loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
             jq('#visit-edit-section').html(data).show();
-            setupFormValidations(jq('#visit-edit-section'));
+            setupFormCustomizations(jq('#visit-edit-section'));
             showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
@@ -298,7 +311,15 @@
         jq("#cancel-button").show();
     };
 
-    var setupFormValidations = function(html) {
+    var setupFormCustomizations = function(html) {
+
+        // Configure defaults we want to apply across any suitable form
+        var locationInput = jq(html).find("#visitLocation :first-child");
+        if (!locationInput.val() || locationInput.val().length == 0) {
+            locationInput.val(defaultLocationId);
+        }
+
+        // Configure validations we want to apply across any suitable form
         validationErrors = {};
         var apptDateInput = jq(html).find("#appointmentDate :first-child");
         var visitDateInput = jq(html).find("#visitDate :first-child");

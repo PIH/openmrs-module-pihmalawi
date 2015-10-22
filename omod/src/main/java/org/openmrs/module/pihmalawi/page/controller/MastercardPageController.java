@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.page.controller;
 
 import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.api.FormService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
@@ -29,6 +30,7 @@ import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.resource.ResourceFactory;
+import org.openmrs.util.LocationUtility;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -52,6 +54,9 @@ public class MastercardPageController {
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("visitForm", visitForm);
+
+        Location defaultLocation = LocationUtility.getUserDefaultLocation();
+        model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
 
         List<String> alerts = new ArrayList<String>();
 

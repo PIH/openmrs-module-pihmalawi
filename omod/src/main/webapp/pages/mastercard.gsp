@@ -15,6 +15,7 @@
     mastercard.setHeaderEncounterId(${ headerEncounter == null ? null : headerEncounter.encounterId });
     mastercard.setVisitForm('${ visitForm }');
     mastercard.setHtmlFormJs(htmlForm); // This is the htmlform object added to the page by htmlformentryui htmlform.js
+    mastercard.setDefaultLocationId(${ defaultLocationId });
 
     <% visitEncounters.each { visitEncounter -> %>
         mastercard.addVisitEncounterId(${ visitEncounter.encounterId });
