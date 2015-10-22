@@ -39,7 +39,7 @@
                     <td rowspan="2">Visit Date</td>
                     <td rowspan="2">Hgt</td>
                     <td rowspan="2">Wt</td>
-                    <td rowspan="3">ART Regimen<br/><i>Adult Formulations</i></td>
+                    <td rowspan="3">ART<br/>Regimen</td>
                     <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
                     <td colspan="4">TB Status (Curr.)*</td>
                     <td rowspan="3">Pill<br/>Count</td>
@@ -88,7 +88,7 @@
                         <!-- ART Regimen -->
                         <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/>
                     </td>
-                    <td class="nowrap">
+                    <td>
                         <!-- Side Effects -->
                         <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
                         <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
@@ -148,7 +148,7 @@
                     </td>
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                        <obs conceptId="$nextAppt" />
                     </td>
                 </tr>
             </tbody>
@@ -192,7 +192,7 @@
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
             <tr>
-                <th>ART Regimen<br/><i>Adult Formulations</i></th>
+                <th>ART Regimen</th>
                 <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/></td>
             </tr>
             <tr>
@@ -255,7 +255,7 @@
             </tr>
             <tr>
                 <th>Next appointment</th>
-                <td><obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" /></td>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
             </tr>
 
         </table>

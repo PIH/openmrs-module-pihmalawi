@@ -39,7 +39,7 @@
     body {
         width: 99%;
         max-width: none;
-        font-size: smaller;
+        font-size: 9pt;
     }
     td {
         vertical-align: middle;
