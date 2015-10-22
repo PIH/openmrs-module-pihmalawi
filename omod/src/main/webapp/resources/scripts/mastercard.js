@@ -8,7 +8,9 @@
     var visitForm = null;
     var visitEncounterIds = [];
     var visitEncounterEdit = null;
+    var htmlformJs = null;
     var mode = '';
+    var validationErrors = {};
 
     mastercard.setPatientId = function(pId) {
         patientId = pId;
@@ -39,9 +41,21 @@
         }
     };
 
+    mastercard.setHtmlFormJs = function(htmlform) {
+        htmlformJs = htmlform;
+        htmlForm.setSuccessFunction(function(result) {
+            mastercard.successFunction(result);
+        });
+        htmlform.getBeforeSubmit().push(isValidForSubmission);
+    }
+
     mastercard.setMode = function(m) {
         mode = m;
     };
+
+    var isValidForSubmission = function() {
+        return jq.isEmptyObject(validationErrors);
+    }
 
     mastercard.focusFirstObs = function() {
         var firstObsField = jq(".obs-field:first");
@@ -149,6 +163,7 @@
         mastercard.setMode("enterVisit");
         loadHtmlFormForEncounter(visitForm, null, true, function(data) {
             jq('#visit-edit-section').html(data).show();
+            setupFormValidations(jq('#visit-edit-section'));
             showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
@@ -161,6 +176,7 @@
         visitEncounterEdit = encId;
         loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
             jq('#visit-edit-section').html(data).show();
+            setupFormValidations(jq('#visit-edit-section'));
             showLinksForEditMode();
             jq("#header-section").hide();
             jq("#visit-flowsheet-section").hide();
@@ -253,7 +269,13 @@
      */
     var extractVisitMoment = function(row) {
         var dateStr = jq(row).find(".visit-date .value").html();
-        return moment(dateStr, "DD MMM YYYY");
+        return parseDateField(dateStr);
+    };
+
+    var parseDateField = function(strVal) {
+        if (strVal && strVal.length > 0) {
+            return moment(strVal, "DD MMM YYYY");
+        }
     };
 
     /**
@@ -275,5 +297,52 @@
         }
         jq("#cancel-button").show();
     };
+
+    var setupFormValidations = function(html) {
+        var apptDateInput = jq(html).find("#appointmentDate :first-child");
+        var visitDateInput = jq(html).find("#visitDate :first-child");
+        if (apptDateInput && visitDateInput) {
+            apptDateInput.change(function () {
+                validateAppointmentDate(apptDateInput, visitDateInput);
+            });
+            visitDateInput.change(function () {
+                validateAppointmentDate(apptDateInput, visitDateInput);
+            });
+        }
+    };
+
+    var validateAppointmentDate = function(apptDateField, visitDateField) {
+        var apptMoment = parseDateField(apptDateField.val());
+        var visitMoment = parseDateField(visitDateField.val());
+        var err = null;
+        if (apptMoment && visitMoment) {
+            var monthDiff = apptMoment.diff(visitMoment, 'months', true);
+            if (monthDiff < 0) {
+                err = 'Cannot be in the past';
+            }
+            else if (monthDiff > 6) {
+                err = 'Must be within 6 months of visit date';
+            }
+        }
+        return toggleError(apptDateField, err)
+    }
+
+    var toggleError = function(field, errorMessage) {
+        var errorDiv = field.siblings(".field-error");
+        if (errorMessage) {
+            errorDiv.html(errorMessage).show();
+            validationErrors[field.attr("id")] = errorMessage;
+        }
+        else {
+            errorDiv.html("").hide();
+            delete validationErrors[field.attr("id")];
+        }
+        if (isValidForSubmission()) {
+            jq(".submitButton").removeAttr("disabled");
+        }
+        else {
+            jq(".submitButton").attr("disabled","disabled");
+        }
+    }
 
 }( window.mastercard = window.mastercard || {}, jQuery ));

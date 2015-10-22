@@ -14,14 +14,11 @@
     mastercard.setHeaderForm('${ headerForm }');
     mastercard.setHeaderEncounterId(${ headerEncounter == null ? null : headerEncounter.encounterId });
     mastercard.setVisitForm('${ visitForm }');
+    mastercard.setHtmlFormJs(htmlForm); // This is the htmlform object added to the page by htmlformentryui htmlform.js
 
     <% visitEncounters.each { visitEncounter -> %>
         mastercard.addVisitEncounterId(${ visitEncounter.encounterId });
     <% } %>
-
-    htmlForm.setSuccessFunction(function(result) {
-        mastercard.successFunction(result);
-    });
 
     jq(document).ready( function() {
 

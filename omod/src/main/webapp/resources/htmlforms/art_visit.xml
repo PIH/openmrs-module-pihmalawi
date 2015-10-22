@@ -161,7 +161,6 @@
 
         <h4 style="font-style: italic;">
             <b>ART Patient Card</b>
-            <b style="padding-left:50px;">Adult ARV Formulations</b>
             <span style="padding-left:50px;">Version 4</span>
 
             <span style="padding-left:50px;">
@@ -177,7 +176,7 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="encounterDate" default="today" /></td>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
             </tr>
             <tr>
                 <th>Visit Location</th>
