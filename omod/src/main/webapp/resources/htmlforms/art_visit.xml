@@ -5,6 +5,7 @@
         weight=5089
         artRegimen=8169
         regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
+        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
         sideEffect=7755
         no=1066
         yes=1065
@@ -86,7 +87,7 @@
                     </td>
                     <td>
                         <!-- ART Regimen -->
-                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/>
+                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
                     </td>
                     <td>
                         <!-- Side Effects -->
@@ -192,7 +193,7 @@
             </tr>
             <tr>
                 <th>ART Regimen</th>
-                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions"/></td>
+                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
             </tr>
             <tr>
                 <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
