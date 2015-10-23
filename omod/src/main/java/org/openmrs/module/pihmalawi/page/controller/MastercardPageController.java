@@ -55,9 +55,6 @@ public class MastercardPageController {
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("visitForm", visitForm);
 
-        Location defaultLocation = LocationUtility.getUserDefaultLocation();
-        model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
-
         List<String> alerts = new ArrayList<String>();
 
         String headerFormResource = "pihmalawi:htmlforms/" + headerForm + ".xml";
@@ -80,6 +77,17 @@ public class MastercardPageController {
         model.addAttribute("visitEncounters", visitEncounters);
 
         model.addAttribute("alerts", alerts);
+
+        Location defaultLocation = LocationUtility.getUserDefaultLocation();
+        if (defaultLocation == null) {
+            if (visitEncounters.size() > 0) {
+                defaultLocation = visitEncounters.get(0).getLocation();
+            }
+            else if (headerEncounter != null) {
+                defaultLocation = headerEncounter.getLocation();
+            }
+        }
+        model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
 
         model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "visitForm", visitForm)));
 	}
