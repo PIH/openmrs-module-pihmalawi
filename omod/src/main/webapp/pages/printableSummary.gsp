@@ -92,6 +92,9 @@
     .third-column {
         padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top; width:100%;
     }
+    .detail-table td {
+        padding: 0px 20px 0px 0px;
+    }
     #weightsTable {
         white-space: nowrap;
         float: left;
@@ -125,6 +128,10 @@
     }
     #weightsTable tbody td + td {
         width: 191px
+    }
+    .alert {
+        font-weight:bold;
+        color:red;
     }
 </style>
 
@@ -197,7 +204,8 @@
             </td>
             <td class="third-column">
                 <b>ARV Regimens:</b>
-                <% if (artRegimens.size() > 0) { %>
+                <%  Collections.reverse(artRegimens);
+                    if (artRegimens.size() > 0) { %>
                     <%  artRegimens.each { regimenObs -> %>
                         <br/>
                         ${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }
@@ -215,16 +223,18 @@
         <tr id="encounters-section">
             <td class="first-column">Last 4 Encounters:</td>
             <td class="second-column">
+                <table class="detail-table">
             <%
                 Collections.reverse(encounters);
                 def numToShow = encounters.size() > 4 ? 4 : encounters.size();
                 for (def i=0; i<numToShow; i++) {
                     def encounter = encounters.get(i);
             %>
-                ${ ui.format(encounter.encounterDatetime) } - ${ ui.format(encounter.encounterType) }<br/>
+                <tr><td>${ ui.format(encounter.encounterDatetime) }</td><td style="width:100%;">${ ui.format(encounter.encounterType) }</td></tr>
             <% } %>
+                </table>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts if patient has not been seen in X months?</i></b></td>
+            <td class="third-column"></td>
         </tr>
 
         <tr><td colspan="3"></td></tr>
@@ -232,22 +242,25 @@
         <tr id="appointments-section">
             <td class="first-column">Appointments:</td>
             <td class="second-column">
+                <table class="detail-table">
 
-            <% for (def programName : appointmentStatuses.keySet()) { %>
-                <% if (appointmentStatuses[programName].currentlyEnrolled) { %>
-                    ${ programName }:
-                    <% if (appointmentStatuses[programName].daysToAppointment == null) { %>
-                    <span class="alert">No appointments scheduled</span>
-                    <% } else if (appointmentStatuses[programName].daysToAppointment >= 0) { %>
-                    ${ ui.format(appointmentStatuses[programName].nextScheduledDate) } ( in ${ appointmentStatuses[programName].daysToAppointment } days )
-                    <% } else { %>
-                    <span class="alert">Overdue. Expected on ${ ui.format(appointmentStatuses[programName].nextScheduledDate) } ( in ${ appointmentStatuses[programName].daysToAppointment*-1 } days ago</span>
+                <% for (def programName : appointmentStatuses.keySet()) {
+                    def appStatus = appointmentStatuses[programName];
+                     if (appStatus.currentlyEnrolled) {
+                        def appDate = appStatus.nextScheduledDate;
+                        def daysToApp = appStatus.daysToAppointment;
+                        def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
+                    %>
+                        <tr>
+                            <td>${ programName }:</td>
+                            <td>${ ui.format(appDate) }</td>
+                            <td class="alert third-column">${ appAlert }</td>
+                        </tr>
                     <% } %>
-                    <br/>
                 <% } %>
-            <% } %>
+                </table>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts if patient is overdue or has no appointment?</i></b></td>
+            <td class="third-column"></td>
         </tr>
 
         <tr><td colspan="3" class="section-divider-top"></td></tr>
@@ -262,7 +275,7 @@
                     <span class="alert">No CD4 Recorded</span>
                 <% } %>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Low or change to CD4?</i></b></td>
+            <td class="third-column"></td>
         </tr>
 
         <tr>
@@ -274,11 +287,11 @@
                 <span class="alert">No Viral Load Recorded</span>
                 <% } %>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Viral Load Increase / Threshold</i></b></td>
+            <td class="third-column"></td>
         </tr>
 
         <tr>
-            <td class="first-column">TB Status:</td>
+            <td class="first-column">Last TB Status:</td>
             <td class="second-column">
                 <% if (tbStatus) { %>
                 ${ ui.format(tbStatus.valueCoded) } on ${ ui.format(tbStatus.obsDatetime) }
@@ -310,7 +323,17 @@
                 <span class="alert">No Weight Recorded</span>
                 <% } %>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts around significant weight change?</i></b></td>
+            <td class="third-column alert">
+                <%
+                    if (lastWeight && oneYearWeight && lastWeight.valueNumeric && oneYearWeight.valueNumeric) {
+                        def weightChange = lastWeight.valueNumeric - oneYearWeight.valueNumeric;
+                        def percentChange = weightChange * 100 / oneYearWeight.valueNumeric;
+                        if (weightChange < 0 && percentChange <= 0.1) { %>
+                            Alert:  One year weight loss of ${ Math.round(Math.abs(percentChange)) }%
+                <%      }
+                    }
+                %>
+            </td>
         </tr>
 
         <tr>
@@ -322,7 +345,11 @@
                 <span class="alert">N/A</span>
                 <% } %>
             </td>
-            <td class="third-column"><b><i style="color:green;">TODO: Alerts around Low BMI?</i></b></td>
+            <td class="third-column alert">
+                <% if (bmiValue < 19) { %>
+                    Alert:  BMI &lt; 19
+                <% } %>
+            </td>
         </tr>
 
         <tr><td colspan="3" class="section-divider-top"></td></tr>

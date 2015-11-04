@@ -23,6 +23,7 @@ import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -94,9 +95,13 @@ public class PrintableSummaryPageController {
             Obs wt = getLastValue(dataSet, "weights", Obs.class);
             model.put("lastWeight", wt);
 
+            Obs oneYearWt = getValueAtLeastXMonthsBeforeLastValue(dataSet, "weights", 12);
+            model.put("oneYearWeight", oneYearWt);
+
             if (ht != null && wt != null) {
                 double bmi = wt.getValueNumeric()/Math.pow(ht.getValueNumeric()/100, 2);
                 model.put("bmi", ObjectUtil.format(bmi, "1"));
+                model.put("bmiValue", bmi);
             }
 
             Map<String, AppointmentInfo> appointmentStatuses = new LinkedHashMap<String, AppointmentInfo>();
@@ -119,6 +124,20 @@ public class PrintableSummaryPageController {
         List l = (List)dataSet.getRows().get(0).getColumnValue(column);
         if (l != null) {
             return (T)l.get(l.size()-1);
+        }
+        return null;
+    }
+
+    protected Obs getValueAtLeastXMonthsBeforeLastValue(SimpleDataSet dataSet, String column, int numMonths) {
+        List<Obs> values = (List<Obs>)dataSet.getRows().get(0).getColumnValue(column);
+        if (values != null && values.size() > 1) {
+            Obs latestValue = values.get(values.size()-1);
+            for (int i=values.size()-2; i>=0; i--) {
+                Obs previousValue = values.get(i);
+                if (DateUtil.monthsBetween(previousValue.getObsDatetime(), latestValue.getObsDatetime()) >= numMonths) {
+                    return previousValue;
+                }
+            }
         }
         return null;
     }
