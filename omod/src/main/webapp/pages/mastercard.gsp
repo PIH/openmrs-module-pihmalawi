@@ -156,6 +156,10 @@
     <% } %>
 
     <div id="form-actions" class="hide-when-printing">
+        <a class="form-action-link" id="back-link" onclick="mastercard.backToPatientDashboard();">
+            <i class="icon-chevron-left"></i>
+            Back to Dashboard
+        </a>
         <a class="form-action-link" id="edit-header-link" onclick="mastercard.enterHeader();">
             <i class="icon-pencil"></i>
             Edit Header

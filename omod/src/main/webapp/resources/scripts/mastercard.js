@@ -79,6 +79,10 @@
         window.print();
     };
 
+    mastercard.backToPatientDashboard = function() {
+        document.location.href='/'+OPENMRS_CONTEXT_PATH+'/patientDashboard.form?patientId='+patientId;
+    }
+
     mastercard.showErrorMessage = function(msg) {
         jq("#error-message-section").show().html(msg + '<a href="#" style="padding-left:20px;" onclick="mastercard.clearErrorMessage();">Clear<span >');
     };
