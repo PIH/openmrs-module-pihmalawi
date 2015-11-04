@@ -1,13 +1,5 @@
 package org.openmrs.module.pihmalawi.web.taglibs;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
@@ -20,6 +12,16 @@ import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EMastercardAccessTag extends BodyTagSupport {
 
@@ -44,23 +46,24 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		try {
 			Patient p = Context.getPatientService().getPatient(getPatientId());
 			Form f = Context.getFormService().getForm(getFormId());
-			EncounterType initialEncounterType = Context.getEncounterService()
-					.getEncounterType(getInitialEncounterTypeId());
+			EncounterType initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
 
+            // Ensure valid form and initial encounter type passed in
 			if (f == null || initialEncounterType == null) {
 				o.write("Not available: Wrong configuration");
 				release();
 				return SKIP_BODY;
 			}
-			List<Encounter> initials = Context.getEncounterService()
-					.getEncounters(p, null, null, null, Arrays.asList(f),
-							Arrays.asList(initialEncounterType), null, false);
+
+            // Ensure no more than one initial encounter is found
+			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, Arrays.asList(f), Arrays.asList(initialEncounterType), null, false);
 			if (initials.size() > 1) {
-				o.write("Not available: Multiple " + f.getName()
-						+ " forms found");
+				o.write("Not available: Multiple " + f.getName() + " forms found");
 				release();
 				return SKIP_BODY;
 			}
+
+            // Ensure that the patient has a valid program enrollment, identifier, and state
 			List<ProgramWorkflowState> stateList = Helper.getProgramWorkflowStatesFromCsvIds(programWorkflowStates);
 			ProgramWorkflow workflow = (stateList == null || stateList.isEmpty() ? null : stateList.get(0).getProgramWorkflow());
 			if (initials.size() == 0) {
@@ -88,23 +91,20 @@ public class EMastercardAccessTag extends BodyTagSupport {
 				release();
 				return SKIP_BODY;
 			}
+
 			if (initials.size() == 1) {
 				if (!Helper.isInProgramWorkflowState(p, stateList)) {
-					o.write(createViewCardHtmlTag(p, f, initials.get(0),
-							"Readonly: Inactive program state"));
+					o.write(createViewCardHtmlTag(p, f, initials.get(0), "Readonly: Inactive program state"));
 					release();
 					return SKIP_BODY;
 				}
 				if (!Helper.hasIdentifierType(p, getPatientIdentifierType())) {
-					o.write(createViewCardHtmlTag(p, f, initials.get(0),
-							"Readonly: No identifier"));
+					o.write(createViewCardHtmlTag(p, f, initials.get(0), "Readonly: No identifier"));
 					release();
 					return SKIP_BODY;
 				}
-				if (!Helper.hasIdentifierForEnrollmentLocation(p,
-						getPatientIdentifierType(), workflow)) {
-					o.write(createViewCardHtmlTag(p, f, initials.get(0),
-							"Readonly: No identifier for current enrollment location"));
+				if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
+					o.write(createViewCardHtmlTag(p, f, initials.get(0), "Readonly: No identifier for current enrollment location"));
 					release();
 					return SKIP_BODY;
 				}
@@ -122,10 +122,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
 				release();
 				return SKIP_BODY;
 			}
-		} catch (Throwable e) {
+		}
+        catch (Throwable e) {
 			try {
 				o.write("Unknown error, call help!");
-			} catch (IOException e1) {
+			}
+            catch (IOException e1) {
 			}
 			log.error("Could not write to pageContext", e);
 		}
@@ -133,106 +135,85 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		return SKIP_BODY;
 	}
 
-	protected String createViewCardHtmlTag(Patient p, Form f,
-			Encounter initialEncounter, String additionalMessage) {
-		EncounterType followupEncounterType = Context.getEncounterService()
-				.getEncounterType(getFollowupEncounterTypeId());
-		List<Encounter> followups = Context.getEncounterService()
-				.getEncounters(p, null, null, null, null,
-						Arrays.asList(followupEncounterType), null, false);
-		String created = "Created: "
-				+ Helper.formatDate(initialEncounter.getEncounterDatetime());
-		String visited = "Visited: no";
-		String rvd = "Appointment: none";
-		if (!followups.isEmpty()) {
-			Encounter lastFollowup = followups.get(followups.size() - 1);
-			visited = "Visited: "
-					+ Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at "
-					+ lastFollowup.getLocation().getName();
-			Concept appt = Context.getConceptService().getConcept(
-					APPOINTMENT_DATE);
-			List<Obs> os = Context.getObsService().getObservations(
-					Arrays.asList((Person) p), Arrays.asList(lastFollowup),
-					Arrays.asList(appt), null, null, null, null, 1, null, null,
-					null, false);
-			if (!os.isEmpty()) {
-				rvd = "Appointment: "
-						+ Helper.formatDate(os.get(0).getValueDatetime());
-			}
-		}
-		Integer encounterId = initialEncounter.getId();
-		String details = created + ", " + visited + ", " + rvd;
-			String encounterType = initialEncounter.getEncounterType()
-					.getName();
-			String location = initialEncounter.getLocation().getName();
-			String encounterDate = Helper.formatDate(initialEncounter
-					.getEncounterDatetime());
-			// TODO: clash in OpenMRS 1.7?
-			String provider = ""; // encounter.getProvider().getGivenName() +
-									// " " +
-									// encounter.getProvider().getFamilyName();
-			return "<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('"
-					+ encounterType
-					+ "@"
-					+ location
-					+ " | "
-					+ encounterDate
-					+ " | "
-					+ provider
-					+ "', '/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId="
-					+ encounterId
-					+ "&inPopup=true'); return false;\">View "
-					+ f.getName()
-					+ "</a><br/>"
-					+ (includeAppointmentInfo ? details + "<br/>" : "")
-					+ "(" + additionalMessage + ")";
+    protected String getNewMasterCardConfiguration(Form f) {
+        Map<String, String> m = new HashMap<String, String>();
+
+        m.put(HivMetadata.ART_INITIAL, "headerForm=art_mastercard&visitForm=art_visit");
+
+        return m.get(f.getEncounterType().getName());
+    }
+
+	protected String createViewCardHtmlTag(Patient p, Form f, Encounter initialEncounter, String additionalMessage) {
+        String link = "";
+        String newMasterCardConfig = getNewMasterCardConfiguration(f);
+        if (newMasterCardConfig != null) {
+            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+        }
+        else {
+            link = "<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('"
+                    + initialEncounter.getEncounterType().getName()
+                    + "@"
+                    + initialEncounter.getLocation().getName()
+                    + " | "
+                    + Helper.formatDate(initialEncounter.getEncounterDatetime())
+                    + " | "
+                    + ""
+                    + "', '/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId="
+                    + initialEncounter.getId()
+                    + "&inPopup=true'); return false;\">";
+        }
+        return link + "View " + f.getName() + "</a><br/>"
+                + (includeAppointmentInfo ? getDetails(p, initialEncounter) + "<br/>" : "")
+                + "(" + additionalMessage + ")";
 	}
 
-	protected String createEditCardHtmlTag(Patient p, Form f,
-			Encounter initialEncounter) {
-		EncounterType followupEncounterType = Context.getEncounterService()
-				.getEncounterType(getFollowupEncounterTypeId());
-		List<Encounter> followups = Context.getEncounterService()
-				.getEncounters(p, null, null, null, null,
-						Arrays.asList(followupEncounterType), null, false);
-		String created = "Created: "
-				+ Helper.formatDate(initialEncounter.getEncounterDatetime());
-		String visited = "Visited: no";
-		String rvd = "Appointment: none";
-		if (!followups.isEmpty()) {
-			Encounter lastFollowup = followups.get(followups.size() - 1);
-			visited = "Visited: "
-					+ Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at "
-					+ lastFollowup.getLocation().getName();
-			Concept appt = Context.getConceptService().getConcept(
-					APPOINTMENT_DATE);
-			List<Obs> os = Context.getObsService().getObservations(
-					Arrays.asList((Person) p), Arrays.asList(lastFollowup),
-					Arrays.asList(appt), null, null, null, null, 1, null, null,
-					null, false);
-			if (!os.isEmpty()) {
-				rvd = "Appointment: "
-						+ Helper.formatDate(os.get(0).getValueDatetime());
-			}
-		}
-		Integer encounterId = initialEncounter.getId();
-		String details = created + ", " + visited + ", " + rvd;
-		return "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId="
-				+ encounterId
-				+ "&mode=EDIT\">Edit "
-				+ f.getName()
-				+ "</a><br/>"
-				+ (includeAppointmentInfo ? details + "<br/>" : "");
+	protected String createEditCardHtmlTag(Patient p, Form f, Encounter initialEncounter) {
+        String link = "";
+        String newMasterCardConfig = getNewMasterCardConfiguration(f);
+        if (newMasterCardConfig != null) {
+            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+        }
+        else {
+            link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + initialEncounter.getId() + "&mode=EDIT\">";
+        }
+		return link + "Edit " + f.getName() + "</a><br/>" + (includeAppointmentInfo ? getDetails(p, initialEncounter) + "<br/>" : "");
 	}
 
-	protected String createNewCardHtmlTag(Patient p, Form f) {
-		return "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
-				+ p.getPersonId()
-				+ "&patientId="
-				+ p.getPatientId()
-				+ "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId="
-				+ f.getFormId() + "\">Create new " + f.getName() + "</a>";
-	}
+    protected String createNewCardHtmlTag(Patient p, Form f) {
+        String link = "";
+        String newMasterCardConfig = getNewMasterCardConfiguration(f);
+        if (newMasterCardConfig != null) {
+            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+        }
+        else {
+            link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
+                    + p.getPersonId()
+                    + "&patientId="
+                    + p.getPatientId()
+                    + "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId="
+                    + f.getFormId() + "\">";
+        }
+        return link + "Create new " + f.getName() + "</a>";
+    }
+
+    protected String getDetails(Patient p, Encounter initialEncounter) {
+        EncounterType followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
+        List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
+        String created = "Created: " + Helper.formatDate(initialEncounter.getEncounterDatetime());
+        String visited = "Visited: no";
+        String rvd = "Appointment: none";
+        if (!followups.isEmpty()) {
+            Encounter lastFollowup = followups.get(followups.size() - 1);
+            visited = "Visited: " + Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
+            Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
+            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, null, 1, null, null, null, false);
+            if (!os.isEmpty()) {
+                rvd = "Appointment: " + Helper.formatDate(os.get(0).getValueDatetime());
+            }
+        }
+        String details = created + ", " + visited + ", " + rvd;
+        return details;
+    }
 
 	public int doEndTag() {
 		patientId = null;
