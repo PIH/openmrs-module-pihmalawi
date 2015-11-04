@@ -71,4 +71,9 @@
         <class>org.openmrs.module.pihmalawi.web.extension.MalawiPatientDashboardBoxExt</class>
     </extension>
 
+    <extension>
+        <point>org.openmrs.patientDashboard.Header</point>
+        <class>org.openmrs.module.pihmalawi.web.extension.PrintableSummaryExtension</class>
+    </extension>
+
 </module>

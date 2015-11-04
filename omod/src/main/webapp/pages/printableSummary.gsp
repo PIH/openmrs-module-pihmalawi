@@ -160,6 +160,10 @@
 <div id="printable-summary">
 
     <div id="form-actions" class="hide-when-printing">
+        <a class="form-action-link" id="back-link" href="/${ ui.contextPath() }/patientDashboard.form?patientId=${ patient.id }">
+            <i class="icon-chevron-left"></i>
+            Return to Patient Dashboard
+        </a>
         <a class="form-action-link" id="print-form-link">
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
