@@ -19,12 +19,12 @@
             maxWeight = (maxWeight == null || maxWeight < wt ? wt : maxWeight);
         <% } %>
 
-        jq.plot("#weight-graph", [ weightData ], {
+        jq.plot("#weight-graph", [ { data: weightData, color: "#333" } ], {
             xaxis: { mode: "time" },
             yaxis: { min: minWeight*0.75, max: maxWeight*1.25 },
             series: {
                 lines: { show: true },
-                points: { show: true },
+                points: { show: true }
             },
             grid: { hoverable: true }
         });
