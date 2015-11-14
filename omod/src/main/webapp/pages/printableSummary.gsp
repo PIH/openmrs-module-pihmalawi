@@ -172,7 +172,7 @@
 
     <div class="header-section">
         <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
-        <span id="identifier-section">( ${arvNumber ? arvNumber : hccNumber ? hccNumber : ccNumber ? ccNumber : "?"} )
+        <span id="identifier-section">(${arvNumber ? arvNumber : hccNumber ? hccNumber : ccNumber ? ccNumber : "?"})
     </div>
 
     <table>
@@ -191,7 +191,7 @@
                 <span class="question">HIV:</span>
                 <span class="value">
                     <% if (hivTxStatus) { %>
-                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } ( ${ arvNumber ? arvNumber : hccNumber } )
+                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } (${ arvNumber ? arvNumber : hccNumber })
                     <% } else { %>
                     Never Enrolled
                     <% } %>
@@ -332,7 +332,7 @@
                     if (lastWeight && oneYearWeight && lastWeight.valueNumeric && oneYearWeight.valueNumeric) {
                         def weightChange = lastWeight.valueNumeric - oneYearWeight.valueNumeric;
                         def percentChange = weightChange * 100 / oneYearWeight.valueNumeric;
-                        if (weightChange < 0 && percentChange <= 0.1) { %>
+                        if (percentChange <= -10) { %>
                             Alert:  One year weight loss of ${ Math.round(Math.abs(percentChange)) }%
                 <%      }
                     }
