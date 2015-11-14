@@ -191,7 +191,11 @@
                 <span class="question">HIV:</span>
                 <span class="value">
                     <% if (hivTxStatus) { %>
-                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } (${ arvNumber ? arvNumber : hccNumber } )
+                    ${ hivTxStatus }
+                        <% if (hivTxStatusDate) { %>
+                            on ${ ui.format(hivTxStatusDate) }
+                        <% } %>
+                        (${ arvNumber ? arvNumber : hccNumber })
                     <% } else { %>
                     Never Enrolled
                     <% } %>
@@ -208,8 +212,8 @@
             </td>
             <td class="third-column">
                 <b>ARV Regimens:</b>
-                <%  Collections.reverse(artRegimens);
-                    if (artRegimens.size() > 0) { %>
+                <%  if (artRegimens != null && artRegimens.size() > 0) {
+                    Collections.reverse(artRegimens); %>
                     <%  artRegimens.each { regimenObs -> %>
                         <br/>
                         ${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }
@@ -229,13 +233,15 @@
             <td class="second-column">
                 <table class="detail-table">
             <%
-                Collections.reverse(encounters);
-                def numToShow = encounters.size() > 4 ? 4 : encounters.size();
-                for (def i=0; i<numToShow; i++) {
-                    def encounter = encounters.get(i);
-            %>
-                <tr><td>${ ui.format(encounter.encounterDatetime) }</td><td style="width:100%;">${ ui.format(encounter.encounterType) }</td></tr>
-            <% } %>
+                    if (encounters != null) {
+                    Collections.reverse(encounters);
+                    def numToShow = encounters.size() > 4 ? 4 : encounters.size();
+                    for (def i=0; i<numToShow; i++) {
+                        def encounter = encounters.get(i);
+                %>
+                    <tr><td>${ ui.format(encounter.encounterDatetime) }</td><td style="width:100%;">${ ui.format(encounter.encounterType) }</td></tr>
+            <% }
+            } %>
                 </table>
             </td>
             <td class="third-column"></td>
@@ -391,8 +397,8 @@
                         </thead>
                         <tbody>
                         <%
-                            Collections.reverse(weights);
-                            if (weights.size() > 0) { %>
+                            if (weights != null && weights.size() > 0) {
+                            Collections.reverse(weights);  %>
                             <%  weights.each { weight -> %>
                                 <tr>
                                     <td>${ ui.format(weight.obsDatetime) }</td>
