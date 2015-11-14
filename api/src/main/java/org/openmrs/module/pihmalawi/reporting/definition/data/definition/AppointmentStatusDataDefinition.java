@@ -14,7 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
 import org.openmrs.EncounterType;
-import org.openmrs.Program;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.reporting.common.Localized;
 import org.openmrs.module.reporting.data.BaseDataDefinition;
@@ -30,7 +30,7 @@ import java.util.List;
 public class AppointmentStatusDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
 
     @ConfigurationProperty
-    private Program program;
+    private List<ProgramWorkflowState> activeStates;
 
     @ConfigurationProperty
     private List<EncounterType> encounterTypes;
@@ -53,12 +53,12 @@ public class AppointmentStatusDataDefinition extends BaseDataDefinition implemen
 		return AppointmentInfo.class;
 	}
 
-    public Program getProgram() {
-        return program;
+    public List<ProgramWorkflowState> getActiveStates() {
+        return activeStates;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
+    public void setActiveStates(List<ProgramWorkflowState> activeStates) {
+        this.activeStates = activeStates;
     }
 
     public List<EncounterType> getEncounterTypes() {

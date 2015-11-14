@@ -17,7 +17,7 @@ import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
-import org.openmrs.Program;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -69,14 +69,14 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
             return c;
         }
 
-        Program program = def.getProgram();
+        List<ProgramWorkflowState> activeStates = def.getActiveStates();
         List<Integer> encounterTypes = new ArrayList<Integer>();
         for (EncounterType et : def.getEncounterTypes()) {
             encounterTypes.add(et.getEncounterTypeId());
         }
 
         // First, only those patients who are actively enrolled will have an appointment status
-        Cohort enrolled = getPatientsActivelyEnrolled(program, context);
+        Cohort enrolled = getPatientsActivelyEnrolled(activeStates, context);
 
         // Of these patients, keep those who have their latest scheduled appointment obs in the past, and no subsequent encounter
 
@@ -115,8 +115,8 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
 		return c;
 	}
 
-    protected Cohort getPatientsActivelyEnrolled(Program program, EvaluationContext context) throws EvaluationException {
-        CohortDefinition cd = df.getActivelyEnrolledInProgramAtLocationOnEndDate(program);
+    protected Cohort getPatientsActivelyEnrolled(List<ProgramWorkflowState> activeStates, EvaluationContext context) throws EvaluationException {
+        CohortDefinition cd = df.getActiveInStatesAtLocationOnEndDate(activeStates);
         return cohortDefinitionService.evaluate(cd, context);
     }
 }

@@ -191,7 +191,7 @@
                 <span class="question">HIV:</span>
                 <span class="value">
                     <% if (hivTxStatus) { %>
-                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } (${ arvNumber ? arvNumber : hccNumber })
+                    ${ hivTxStatus } on ${ ui.format(hivTxStatusDate) } (${ arvNumber ? arvNumber : hccNumber } )
                     <% } else { %>
                     Never Enrolled
                     <% } %>

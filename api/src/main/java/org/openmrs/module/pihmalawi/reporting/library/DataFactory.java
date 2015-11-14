@@ -228,7 +228,7 @@ public class DataFactory {
 
     public PatientDataDefinition getAppointmentStatus(TreatmentGroup treatmentGroup) {
         AppointmentStatusDataDefinition def = new AppointmentStatusDataDefinition();
-        def.setProgram(treatmentGroup.getProgram());
+        def.setActiveStates(treatmentGroup.getActiveStates());
         def.setEncounterTypes(treatmentGroup.getEncounterTypes());
         return def;
     }
