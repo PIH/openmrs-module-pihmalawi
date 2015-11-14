@@ -212,7 +212,7 @@
                     <b>Suspected</b>
                     <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
                     <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes" />
-                    <b style="padding-left:10px;">Confirmed</b>
+                    <b style="padding-left:30px;">Confirmed</b>
                     <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx" />
                     <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
                 </td>
