@@ -1,0 +1,189 @@
+<htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="8d5b2be0-c2cc-11de-8d13-0010c6dffd0f" formVersion="1.0">
+
+    <macros>
+        plannedVisit=8435
+        no=1066
+        yes=1065
+        height=5090
+        weight=5089
+        daysx=8436
+        nightsx=8437
+        baDay=8438
+        baWk=8439
+        baMo=8440
+        baYr=8441
+        steroidUse=8442
+        smoking=6161
+        secondHandSmoke=8443
+        cookingLocation=8404
+        indoor=2437
+        outdoor=2438
+        exacerbation=8444
+        asthmaClass=8410
+        intermittent=8405
+        mild=8406
+        moderatePersistent=8407
+        severePersistent=8408
+        severeUncontrolled=8409
+        copdDx=3716
+        newDx=7605
+        comments=2880
+        nextAppt=5096
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table">
+            <thead class="visit-table-header">
+                <tr> <!-- Label row -->
+            <td height="80">Visit Date</td>
+            <td><font class="rotate">Planned Visit?</font></td>
+            <td>Height</td>
+            <td>Weight</td>
+            <td>Daysx</td>
+            <td>Nightsx</td>
+            <td colspan="4">Beta-agonist inhaler use: frequency</td>
+            <td><font class="rotate">Steroid inhaler daily?</font></td>
+            <td>Smoking</td>
+            <td><font class="rotate">Passive smoking</font></td>
+            <td><font class="rotate">Indoor cooking</font></td>
+            <td>Exacerbation today?</td>
+            <td>Asthma severity</td>
+            <td rowspan="2">COPD</td>
+            <td rowspan="2">Other dx</td>
+            <td colspan="4">Treatment</td>
+            <td rowspan="2">Comments</td>
+            <td rowspan="2">Next appointment</td>
+        </tr>
+        <tr> <!-- Units row -->
+            <td height="120"></td>
+            <td>Y/N</td>
+            <td>cm</td>
+            <td>kg</td>
+            <td>#/week</td>
+            <td>#/week</td>
+            <td><font class="rotate">#/day</font></td>
+            <td><font class="rotate">#/wk</font></td>
+            <td><font class="rotate">#/mo</font></td>
+            <td><font class="rotate">#/yr</font></td>
+            <td>Y/N</td>
+            <td>#cig/day</td>
+            <td>Y/N</td>
+            <td>Y/N</td>
+            <td>Y/N</td>
+            <td></td>
+            <td><font class="rotate">Inhaled B-agonist</font></td>
+            <td><font class="rotate">Inhaled steroid</font></td>
+            <td><font class="rotate">Oral steroid</font></td>
+            <td><font class="rotate">Other</font></td>
+        </tr>
+    </thead>
+        <tr> <!-- Concepts row -->
+            <td>
+                <!-- Visit date -->
+                <encounterDate id="encounterDate" default="today" />
+            </td>
+
+
+            <td>
+                <!-- Planned Visit -->
+                <obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" />
+            </td>
+            <td>
+                <!-- Height -->
+                <obs conceptId="$height" id="heightInput" size="3"/>
+            </td>
+            <td>
+                <!-- Weight -->
+                <obs conceptId="$weight" id="weightInput" size="3"/>
+            </td>
+            <td>
+                <!-- Daysx -->
+                <obs conceptId="$daysx" size="2"/>
+            </td>
+            <td>
+                <!-- Nightsx -->
+                <obs conceptId="$nightsx" size="2"/>
+            </td>
+            <td>
+                <!-- BA Use Day -->
+                <obs conceptId="$baDay" size="2"/>
+            </td>
+            <td>
+                <!-- BA Use Wk -->
+                <obs conceptId="$baWk" size="2"/>
+            </td>
+            <td>
+                <!-- BA Use Mo -->
+                <obs conceptId="$baMo" size="2"/>
+            </td>
+            <td>
+                <!-- BA Use Yr -->
+                <obs conceptId="$baYr" size="2"/>
+            </td>
+            <td>
+                <!-- Steroid use -->
+                <obs conceptId="$steroidUse" style="radio"/>
+            </td>
+            <td>
+                <!-- Smoking -->
+                <obs conceptId="$smoking" size="2"/>
+            </td>
+            <td>
+                <!-- Passive smoking -->
+                <obs conceptId="$secondHandSmoke" style="radio"/>
+            </td>
+            <td>
+                <!-- Indoor cooking -->
+                <obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" style="radio" answerLabels="Y,N" /> 
+            </td>
+            <td>
+                <!-- Exacerbation today -->
+                <obs conceptId="$exacerbation" style="radio" /> 
+            </td>
+            <td>
+                <!-- Intermittent -->
+                <obs conceptId="$asthmaClass" answerConceptIds="$intermittent,$mild,$moderatePersistent,$severePersistent,$severeUncontrolled" answerLabels="Intermittent,Mild persistent,Moderate persistent,Severe persistent,Severe Uncontrolled"/>
+            </td>
+            <td>
+                <!-- COPD -->
+                <obs conceptId="$copdDx" style="checkbox" answerConceptId="$newDx" answerLabel="" />
+            </td>
+            <td>
+                <!-- Other dx -->
+            </td>
+            <td>
+                <!-- Inhaled B-agonist -->
+            </td>
+            <td>
+                <!-- Inhaled steroid -->
+            </td>
+            <td>
+                <!-- Oral steroid -->
+            </td>
+            <td>
+                <!-- Other -->
+            </td>
+            <td>
+                <!-- Comments -->
+                <obs conceptId="$comments" />
+            </td>
+
+            <td>
+                <!-- Next appointment -->
+                <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="28" align="left">
+                <submit />
+            </td>
+        </tr>
+    </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>

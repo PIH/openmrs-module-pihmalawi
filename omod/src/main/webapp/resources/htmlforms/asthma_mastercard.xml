@@ -1,0 +1,158 @@
+<htmlform formUuid="08f273c2-8c38-11e5-80a3-c0430f805837" formName="Asthma eMastercard" formEncounterType="8d5b27bc-c2cc-11de-8d13-0010c6dffd0f" formVersion="4.1">
+
+    <macros>
+        asthmaDx=5
+        newDiagnosis=7605
+        asthmadxDate=6774
+        asthmaFamilyHistory=8426
+        positive=703
+        negative=664
+        unknown=1067
+        copdDx=3716
+        copddxDate=6774
+        copdFamilyHistory=8427
+        hivStatus=3753
+        reactive=1228
+        nonReactive=1229
+        hivTestDate=1837
+        artStartDate=2516
+        tbStatus=7459
+        smearPos=2185
+        smearNeg=2186
+        eptb=1547
+        tbYear=2182
+        patientPhone=1426
+        symptom=1293
+        dryCough=2128
+        duration=2161
+        ageAtOnset=8428
+        tbContact=2133
+        tbcontactDate=8429
+        guardianName=1824
+        cookingLocation=8404
+        indoor=2437
+        outdoor=2438
+        smokingHistory=1551
+        inPast=1548
+        lastTimeSmoking=8432
+        guardianPhone=2616
+        occupation=1304
+        relationToPatient=1328
+        secondHandSmoke=8444
+        yes=1065
+        no=1066
+        lastTimeSecondHandSmoke=8433
+        agreesToFollowup=2552
+        vhwName=8431
+        occupationalExposure=8430
+        lastOccupationalExposure=8434
+    </macros>
+
+    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <div>
+        <h4 style="font-style: italic;">
+            <b>Asthma Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">
+                    <encounterLocation id="mastercardLocation" />
+                    <span style="padding-left:20px;">
+                        Date: <encounterDate />
+                    </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">NCD Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+        <table style="border: none; width:100%;">
+        <!-- <table border="2" style="border-collapse: collapse;"> -->
+    <tr>
+      <td colspan="3"><strong>Parent / Guardian Details</strong></td>
+      <td colspan="5"><strong>Patient Overview</strong></td>
+    </tr>
+    <tr>
+      <td colspan="2">Patient Name</td>
+      <td>
+        <lookup expression="patient.personName" />
+      </td>
+      <td rowspan="2">Diagnoses</td>
+      <td>Asthma <obs conceptId="$asthmaDx" style="checkbox" answerConceptId="$newDiagnosis" answerLabel="" /></td>
+      <td>Date <obs conceptId="$asthmadxDate"/></td>
+      <td rowspan="2">Family History</td>
+      <td>Asthma <obs conceptId="$asthmaFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+    </tr>
+    <tr>
+      <td>Sex, DOB</td>
+      <td>
+        <lookup expression="patient.gender" />
+      </td>
+      <td>
+        <lookup expression="patient.birthdate" />
+      </td>
+      <td>COPD <obs conceptId="$copdDx" style="checkbox" answerConceptId="$newDiagnosis" answerLabel="" /></td>
+      <td>Date <obs conceptId="$copddxDate"/></td>
+      <td>COPD <obs conceptId="$copdFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+    </tr>
+    <tr>
+      <td rowspan="2">Physical Address</td>
+      <td colspan="2" rowspan="2">
+        <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+      </td>
+      <td colspan="5"><font color="white">|</font></td> <!-- Just giving this row height.-->
+    </tr>
+    <tr>
+      <td rowspan="5">Patient<br/>History &#38;<br/>Exposures</td>
+      <td>HIV <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nonReactive,$unknown"/><br/>Date Test: <obs conceptId="$hivTestDate" /></td>
+      <td>ART Start Date:<br/><obs conceptId="$artStartDate" /></td>
+      <td colspan="2">TB: <obs conceptId="$tbStatus" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown" answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>Year: <obs conceptId="$tbYear"/></td>
+    </tr>
+    <tr>
+      <td>Patient Phone</td>
+      <td colspan="2"><obs conceptId="$patientPhone"/></td>
+      <td>Chronic dry cough <obs conceptId="$symptom" answerConceptId="$dryCough" style="checkbox" answerLabel=""/></td>
+      <td>Duration (months): <obs conceptId="$duration"/><br/>Age at onset: <obs conceptId="$ageAtOnset"/></td>
+      <td>TB contact <obs conceptId="$tbContact" style="checkbox"/></td>
+      <td>Date: <obs conceptId="$tbcontactDate" /></td>
+    </tr>
+    <tr>
+      <td>Guardian Name</td>
+      <td colspan="2"><obs conceptId="$guardianName"/></td>
+      <td>Cooking</td>
+      <td>Indoor <obs conceptId="$cookingLocation" answerConceptId="$indoor" style="checkbox" answerLabel="" /> Outdoor <obs conceptId="$cookingLocation" answerConceptId="$outdoor" style="checkbox" answerLabel="" /></td>
+      <td>Smoking <obs conceptId="$smokingHistory" answerConceptId="$inPast" style="checkbox" answerLabel=""/></td>
+      <td>Date <obs conceptId="$lastTimeSmoking"/></td>
+    </tr>
+    <tr>
+      <td>Guardian Phone</td>
+      <td><obs conceptId="$guardianPhone"/></td>
+      <td>Relation to patient <obs conceptId="$relationToPatient"/></td>
+      <td colspan="2">Occupation: <obs conceptId="$occupation"/></td>
+      <td>Second hand smoking: <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yes" answerLabel="" /></td>
+      <td>Date: <obs conceptId="$lastTimeSecondHandSmoke"/></td>
+    </tr>
+    <tr>
+      <td>Agrees to FUP</td>
+      <td><obs conceptId="$agreesToFollowup" style="radio" answerConceptIds="$yes,$no"/></td>
+      <td>VHW Name <obs conceptId="$vhwName"/></td>
+      <td>Occupational<br/>Exposure <obs conceptId="$occupationalExposure" style="checkbox"/></td>
+      <td>Date: <obs conceptId="$lastOccupationalExposure"/></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons" style="margin-top:10px;">
+                <button class="submitButton confirm" onclick="submitHtmlForm()">
+                    <uimessage code="uicommons.save"/>
+                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                </button>
+            </div>
+        </ifMode>
+    </div>
+</htmlform>
