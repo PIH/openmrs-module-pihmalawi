@@ -174,6 +174,7 @@ public class MetadataInitializer implements Initializer {
 			c.addAnswer(new ConceptAnswer(cs.getConcept(3468)));
 			c.addAnswer(new ConceptAnswer(cs.getConcept(7623)));
 			c.addAnswer(new ConceptAnswer(cs.getConcept(6421)));
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // COPD
 			c.addAnswer(new ConceptAnswer(cs.getConcept(207))); // Depression
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute psychotic disorder
@@ -182,6 +183,30 @@ public class MetadataInitializer implements Initializer {
 			cs.saveConcept(c);
 
 		}
+
+        {
+            {
+                Integer id = 8445;
+                String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
+                String name = "Chronic Care Diagnosis Construct";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                    c.addSetMember(cs.getConcept(3683));
+                    c.addSetMember(cs.getConcept(6774));
+
+                    cs.saveConcept(c);
+                }
+            }
+        }
 
         {
             {

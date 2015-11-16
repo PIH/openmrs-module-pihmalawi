@@ -1,15 +1,15 @@
 <htmlform formUuid="08f273c2-8c38-11e5-80a3-c0430f805837" formName="Asthma eMastercard" formEncounterType="8d5b27bc-c2cc-11de-8d13-0010c6dffd0f" formVersion="4.1">
 
     <macros>
+        diagnosisSet=8445
+        chronicCareDiagnosis=3683
+        diagnosisDate=6774
         asthmaDx=5
-        newDiagnosis=7605
-        asthmadxDate=6774
         asthmaFamilyHistory=8426
         positive=703
         negative=664
         unknown=1067
         copdDx=3716
-        copddxDate=6774
         copdFamilyHistory=8427
         hivStatus=3753
         reactive=1228
@@ -82,9 +82,11 @@
         <lookup expression="patient.personName" />
       </td>
       <td rowspan="2">Diagnoses</td>
-      <td>Asthma <obs conceptId="$asthmaDx" style="checkbox" answerConceptId="$newDiagnosis" answerLabel="" /></td>
-      <td>Date <obs conceptId="$asthmadxDate"/></td>
-      <td rowspan="2">Family History</td>
+      <obsgroup groupingConceptId="$diagnosisSet">
+          <td>Asthma <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="" /></td>
+          <td>Date <obs conceptId="$diagnosisDate"/></td>
+      </obsgroup>
+        <td rowspan="2">Family History</td>
       <td>Asthma <obs conceptId="$asthmaFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
     </tr>
     <tr>
@@ -95,8 +97,10 @@
       <td>
         <lookup expression="patient.birthdate" />
       </td>
-      <td>COPD <obs conceptId="$copdDx" style="checkbox" answerConceptId="$newDiagnosis" answerLabel="" /></td>
-      <td>Date <obs conceptId="$copddxDate"/></td>
+      <obsgroup groupingConceptId="$diagnosisSet">
+          <td>COPD <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="" /></td>
+          <td>Date <obs conceptId="$diagnosisDate"/></td>
+      </obsgroup>
       <td>COPD <obs conceptId="$copdFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
     </tr>
     <tr>

@@ -1,6 +1,7 @@
 <htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="8d5b2be0-c2cc-11de-8d13-0010c6dffd0f" formVersion="1.0">
 
     <macros>
+        chronicCareDiagnosis=3683
         plannedVisit=8435
         no=1066
         yes=1065
@@ -26,7 +27,6 @@
         severePersistent=8408
         severeUncontrolled=8409
         copdDx=3716
-        newDx=7605
         comments=2880
         nextAppt=5096
     </macros>
@@ -148,7 +148,7 @@
             </td>
             <td>
                 <!-- COPD -->
-                <obs conceptId="$copdDx" style="checkbox" answerConceptId="$newDx" answerLabel="" />
+                <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="" />
             </td>
             <td>
                 <!-- Other dx -->
@@ -181,8 +181,6 @@
             </td>
         </tr>
     </table>
-
-        <submit/>
 
     </ifMode>
 
