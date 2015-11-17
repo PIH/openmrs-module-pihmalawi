@@ -13,5 +13,10 @@
     "OTHER_NON_CODED",
     "STROKE",
     "SUBSTANCE_ABUSE"
+  ],
+  "POS_NEG_UNKOWN_ANSWERS": [
+    "POSITIVE",
+    "NEGATIVE",
+    "UNKNOWN"
   ]
 }
