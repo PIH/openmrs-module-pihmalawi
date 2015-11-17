@@ -1,0 +1,5 @@
+{
+  "CHRONIC_CARE_DIAGNOSIS": { "ID": 3683, "UUID": "65671c9a-977f-11e1-8993-905e29aff6c1", "NAME": "Chronic care diagnosis", "TYPE": "CodedQuestion", "ANSWERS": "CHRONIC_CARE_DIAGNOSIS_ANSWERS" },
+  "DIAGNOSIS_DATE": { "ID": 6774, "UUID": "65732bf2-977f-11e1-8993-905e29aff6c1", "NAME": "Diagnosis date", "TYPE": "DateQuestion" },
+  "SAMPLE_TAKEN_FOR_VIRAL_LOAD": { "ID": 8421, "UUID": "f792f2f9-9c24-4d6e-98fd-caffa8f2383f", "NAME": "Sample taken for Viral Load", "TYPE": "BooleanQuestion" }
+}
