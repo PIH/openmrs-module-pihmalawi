@@ -82,10 +82,8 @@
         <tr> <!-- Concepts row -->
             <td>
                 <!-- Visit date -->
-                <encounterDate id="encounterDate" default="today" />
+                <encounterDate id="visitDate" size="20" default="today" />
             </td>
-
-
             <td>
                 <!-- Planned Visit -->
                 <obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" />
@@ -182,6 +180,127 @@
         </tr>
     </table>
 
+    </ifMode>
+
+        <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Asthma Patient Card</b>
+            <span style="padding-left:50px;">Version 4</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Chronic Care no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+            <tr>
+                <!-- Planned Visit -->
+                <th><font>Planned Visit?</font></th>
+                <td><obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" /></td>
+            </tr>
+            <tr>
+                <!-- Height -->
+                <th>Height (cm)</th>
+                <td><obs conceptId="$height" id="heightInput" size="3"/></td>
+            </tr>
+            <tr>
+                <!-- Weight -->
+                <th>Weight (kg)</th>
+                <td><obs conceptId="$weight" id="weightInput" size="3"/></td>
+            </tr>
+            <tr>
+                <!-- Daysx -->
+                <th>Daysx (#/week)</th>
+                <td><obs conceptId="$daysx" size="2"/></td>
+            </tr>
+            <tr>
+                <!-- Nightsx -->
+                <th>Nightsx (#/week)</th>
+                <td><obs conceptId="$nightsx" size="2"/></td>
+            </tr>
+            <tr>
+                <!-- BA Use Day -->
+                <th>Beta-agonist inhaler use: frequency</th>
+                <td>
+                    Daily (#/day): <obs conceptId="$baDay" size="2"/>
+                    <span style="padding-left:10px">Weekly (#/week): </span>
+                    <obs conceptId="$baWk" size="2"/>
+                    <span style="padding-left:10px">Monthly (#/month): </span>
+                    <obs conceptId="$baMo" size="2"/>
+                    <span style="padding-left:10px">Yearly (#/year): </span>
+                    <obs conceptId="$baYr" size="2"/>
+                </td>
+            </tr>
+            <tr>
+                <!-- Steroid use -->
+                <th>Steroid inhaler daily?</th>
+                <td><obs conceptId="$steroidUse" style="radio"/></td>
+            </tr>
+            <tr>
+                <!-- Smoking -->
+                <th>Smoking (#cig/day)</th>
+                <td><obs conceptId="$smoking" size="2"/></td>
+            </tr>
+            <tr>
+                <!-- Passive smoking -->
+                <th><font class="rotate">Passive smoking</font></th>
+                <td><obs conceptId="$secondHandSmoke" style="radio"/></td>
+            </tr>
+            <tr>
+                <!-- Indoor cooking -->
+                <th><font>Indoor cooking</font></th>
+                <td><obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" style="radio" answerLabels="Y,N" /> </td>
+            </tr>
+            <tr>
+                <!-- Exacerbation today -->
+                <th>Exacerbation today?</th>
+                <td><obs conceptId="$exacerbation" style="radio" /> </td>
+            </tr>
+            <tr>
+                <!-- Intermittent -->
+                <th>Asthma severity</th>
+                <td><obs conceptId="$asthmaClass" answerConceptIds="$intermittent,$mild,$moderatePersistent,$severePersistent,$severeUncontrolled" answerLabels="Intermittent,Mild persistent,Moderate persistent,Severe persistent,Severe Uncontrolled"/></td>
+            </tr>
+            <tr>
+                <!-- COPD -->
+                <th>COPD</th>
+                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="" /></td>
+            </tr>
+            <tr>
+                <!-- Other dx -->
+                <th>Other dx</th>
+            </tr>
+            <tr>
+                <th>Treatment</th>
+                <!-- Inhaled B-agonist -->
+            </tr>
+            <tr>
+                <!-- Comments -->
+                <th>Comments</th>
+                <td><obs conceptId="$comments" /></td>
+            </tr>
+            <tr>
+                <!-- Next appointment -->
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" /></td>
+            </tr>
+        </table>
+        <submit />
     </ifMode>
 
 </htmlform>

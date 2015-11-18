@@ -527,7 +527,7 @@ public class MetadataInitializer implements Initializer {
             {
                 Integer id = 8442;
                 String uuid = "359808c6-8c36-11e5-80a3-c0430f805837";
-                String name = "Number of times steroid inhaler is used in a day";
+                String name = "Is inhaled steroid used daily?";
                 Concept c = cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
@@ -535,8 +535,10 @@ public class MetadataInitializer implements Initializer {
                     c.setConceptId(id);
                     c.setUuid(uuid);
                     c.setConceptClass(cs.getConceptClassByName("Question"));
-                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));                 
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));   
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no              
                     cs.saveConcept(c);
                 }
             }
