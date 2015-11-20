@@ -157,6 +157,9 @@
                         jq("#visit-table-row-" + visitEncounterEdit).remove(); // Remove old row for this encounter
                         mastercard.removeVisitEncounterId(visitEncounterEdit);
                         mastercard.toggleViewFlowsheet();
+                        if (visitEncounterIds.length == 0) {
+                            jq("#visit-flowsheet-section").children().remove();
+                        }
                     }
                     else {
                         mastercard.showErrorMessage(data.message);
@@ -240,12 +243,12 @@
         loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
             var section = jq("#visit-flowsheet-section");
             var table = section.find(".visit-table");
+            var inserted = false;
             if (table && table.length > 0) {
                 var newRow = jq(data).find(".visit-table-row");
                 addLinksToVisitRow(newRow, encId);
                 var newVisitMoment = extractVisitMoment(newRow);
                 var existingRows = table.find(".visit-table-row")
-                var inserted = false;
                 jq.each(existingRows, function(index, currentRow) {
                     var currentMoment = extractVisitMoment(currentRow);
                     if (currentMoment.isBefore(newVisitMoment) && !inserted) {
@@ -259,7 +262,7 @@
                     }
                 });
             }
-            else {
+            if (!inserted) {
                 table = jq(data).find(".visit-table");
                 addLinksToVisitRow(table.find(".visit-table-row"), encId);
                 section.append(table);
@@ -318,7 +321,7 @@
     var setupFormCustomizations = function(html) {
 
         // Configure defaults we want to apply across any suitable form
-        var locationInput = jq(html).find("#visitLocation :first-child");
+        var locationInput = jq(html).find("#visitLocation").children().first();
         if (!locationInput.val() || locationInput.val().length == 0) {
             locationInput.val(defaultLocationId);
         }

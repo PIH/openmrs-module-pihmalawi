@@ -61,6 +61,9 @@
     .right-cell {
         padding-left:5px;
     }
+    .hasDatepicker {
+        width: 100px;
+    }
     table .visit-table {
         width:100%;
     }
