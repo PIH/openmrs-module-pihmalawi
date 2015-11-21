@@ -258,6 +258,7 @@
                     else {
                         if (index == (existingRows.length-1) && !inserted) {
                             newRow.insertAfter(currentRow);
+                            inserted = true;
                         }
                     }
                 });
