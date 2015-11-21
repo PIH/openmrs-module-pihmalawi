@@ -15,7 +15,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.module.emrapi.EmrApiConstants;
-import org.openmrs.module.pihmalawi.metadata.descriptor.LocationTagDescriptor;
+import org.openmrs.module.metadatadeploy.descriptor.LocationTagDescriptor;
 
 /**
  * Constants for all defined location tags

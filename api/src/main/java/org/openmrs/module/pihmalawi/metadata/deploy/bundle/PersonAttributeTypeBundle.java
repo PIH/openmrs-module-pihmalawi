@@ -1,12 +1,13 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
+import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.metadatadeploy.bundle.CoreConstructors;
+import org.openmrs.module.metadatadeploy.descriptor.PersonAttributeTypeDescriptor;
 import org.openmrs.module.pihmalawi.metadata.PersonAttributeTypes;
-import org.openmrs.module.pihmalawi.metadata.descriptor.PersonAttributeTypeDescriptor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PersonAttributeTypeBundle extends PihMetadataBundle {
+public class PersonAttributeTypeBundle extends AbstractMetadataBundle {
 
     @Override
     public void install() throws Exception {

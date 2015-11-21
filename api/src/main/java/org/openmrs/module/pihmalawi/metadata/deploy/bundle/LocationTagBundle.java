@@ -1,12 +1,13 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
+import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.metadatadeploy.bundle.CoreConstructors;
+import org.openmrs.module.metadatadeploy.descriptor.LocationTagDescriptor;
 import org.openmrs.module.pihmalawi.metadata.LocationTags;
-import org.openmrs.module.pihmalawi.metadata.descriptor.LocationTagDescriptor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationTagBundle extends PihMetadataBundle {
+public class LocationTagBundle extends AbstractMetadataBundle {
 
     @Override
     public void install() throws Exception {

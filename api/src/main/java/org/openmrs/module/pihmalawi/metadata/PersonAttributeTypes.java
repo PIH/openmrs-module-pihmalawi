@@ -15,7 +15,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.module.emrapi.EmrApiConstants;
-import org.openmrs.module.pihmalawi.metadata.descriptor.PersonAttributeTypeDescriptor;
+import org.openmrs.module.metadatadeploy.descriptor.PersonAttributeTypeDescriptor;
 
 /**
  * Constants for all defined person attribute types

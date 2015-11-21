@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.htmlformentry.HtmlFormEntryConstants;
+import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.pihmalawi.metadata.Concepts;
 import org.openmrs.module.pihmalawi.metadata.Locations;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -12,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
-public class CoreConfigurationBundle extends PihMetadataBundle {
+public class CoreConfigurationBundle extends AbstractMetadataBundle {
 
     public static final String DEFAULT_DATE_FORMAT = "dd MMM yyyy";
     public static final String DEFAULT_TIME_FORMAT = "h:mm aa";

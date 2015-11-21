@@ -52,7 +52,7 @@
         <idgenVersion>4.0</idgenVersion>
         <groovyVersion>2.2.4</groovyVersion>
         <logicVersion>0.5.2</logicVersion>
-        <metadatadeployVersion>1.5</metadatadeployVersion>
+        <metadatadeployVersion>1.6</metadatadeployVersion>
         <metadatamappingVersion>1.0.2</metadatamappingVersion>
         <metadatasharingVersion>1.1.9</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>

@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
+import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounterRole;
@@ -8,7 +9,7 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.encounte
  * This was copied from pihcore on 2015-Sep-21.
  */
 @Component
-public class EncounterRoleBundle extends PihMetadataBundle {
+public class EncounterRoleBundle extends AbstractMetadataBundle {
 
     public static final class EncounterRoles {
         // note that there is an UNKNOWN role defined in core

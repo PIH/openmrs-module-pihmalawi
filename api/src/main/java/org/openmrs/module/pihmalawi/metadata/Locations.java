@@ -1,6 +1,6 @@
 package org.openmrs.module.pihmalawi.metadata;
 
-import org.openmrs.module.pihmalawi.metadata.descriptor.LocationDescriptor;
+import org.openmrs.module.metadatadeploy.descriptor.LocationDescriptor;
 
 public class Locations {
 
