@@ -1,4 +1,4 @@
-<htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="8d5b2be0-c2cc-11de-8d13-0010c6dffd0f" formVersion="1.0">
+<htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="f4596df5-925c-11e5-a1de-e82aea237783" formVersion="1.0">
 
     <macros>
         chronicCareDiagnosis=3683
