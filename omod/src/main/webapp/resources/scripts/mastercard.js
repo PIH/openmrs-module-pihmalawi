@@ -5,13 +5,30 @@
     var patientId = null;
     var headerForm = null;
     var headerEncounterId = null;
-    var visitForm = null;
-    var visitEncounterIds = [];
-    var visitEncounterEdit = null;
+    var flowsheets = [];
+    var currentlyEditingFormName = null;
+    var currentlyEditingEncounterId = null;
     var htmlformJs = null;
-    var mode = '';
     var defaultLocationId = null;
     var validationErrors = {};
+
+    function Flowsheet(formName, encounterIds) {
+        this.formName = formName;
+        this.encounterIds = encounterIds;
+
+        this.addEncounterId = function(eId) {
+            if (this.encounterIds.indexOf(eId) < 0) {
+                this.encounterIds.push(eId);
+            }
+        };
+
+        this.removeEncounterId = function(eId) {
+            var index = this.encounterIds.indexOf(eId);
+            if (index >= 0) {
+                this.encounterIds.splice( index, 1 );
+            }
+        };
+    }
 
     mastercard.setPatientId = function(pId) {
         patientId = pId;
@@ -25,21 +42,39 @@
         headerEncounterId = eId;
     };
 
-    mastercard.setVisitForm = function(formName) {
-        visitForm = formName;
+    mastercard.addFlowsheet = function(formName, encounterIds) {
+        flowsheets.push(new Flowsheet(formName, encounterIds));
     };
 
-    mastercard.addVisitEncounterId = function(eId) {
-        if (visitEncounterIds.indexOf(eId) < 0) {
-            visitEncounterIds.push(eId);
+    mastercard.getFlowsheet = function(formName) {
+        for (var i=0; i<flowsheets.length; i++) {
+            if (flowsheets[i].formName == formName) {
+                return flowsheets[i];
+            }
         }
     };
 
-    mastercard.removeVisitEncounterId = function(eId) {
-        var index = visitEncounterIds.indexOf(eId);
-        if (index >= 0) {
-            visitEncounterIds.splice( index, 1 );
+    mastercard.hasFlowsheetEncounters = function() {
+        for (var i=0; i<flowsheets.length; i++) {
+            if (flowsheets[i].encounterIds.length > 0) {
+                return true;
+            }
         }
+        return false
+    };
+
+    mastercard.removeEncounterId = function(eId) {
+        for (var i=0; i<flowsheets.length; i++) {
+            flowsheets[i].removeEncounterId(eId);
+        }
+    }
+
+    mastercard.setCurrentlyEditingFormName = function(formName) {
+        currentlyEditingFormName = formName;
+    };
+
+    mastercard.setCurrentlyEditingEncounterId = function(encId) {
+        currentlyEditingEncounterId = encId;
     };
 
     mastercard.setHtmlFormJs = function(htmlform) {
@@ -48,19 +83,15 @@
             mastercard.successFunction(result);
         });
         htmlform.getBeforeSubmit().push(isValidForSubmission);
-    }
-
-    mastercard.setMode = function(m) {
-        mode = m;
     };
 
     mastercard.setDefaultLocationId = function(locationId) {
         defaultLocationId = locationId;
-    }
+    };
 
     var isValidForSubmission = function() {
         return jq.isEmptyObject(validationErrors);
-    }
+    };
 
     mastercard.focusFirstObs = function() {
         var firstObsField = jq(".focus-field :input:visible:enabled:first");
@@ -91,20 +122,6 @@
         jq("#error-message-section").empty().hide();
     };
 
-    mastercard.successFunction = function(result) {
-        if (mode == 'enterHeader') {
-            mastercard.setHeaderEncounterId(result.encounterId);
-            mastercard.viewHeader();
-        }
-        else {
-            jq("#visit-table-row-"+result.encounterId).remove(); // Remove old row for this encounter
-            mastercard.addVisitEncounterId(result.encounterId);
-            mastercard.loadVisitIntoFlowsheet(result.encounterId); // Add new row for this encounter
-            mastercard.toggleViewFlowsheet();
-        }
-        return false;
-    };
-
     mastercard.viewHeader = function() {
         loadHtmlFormForEncounter(headerForm, headerEncounterId, false, function(data) {
             jq('#header-section').html(data);
@@ -118,25 +135,26 @@
         jq("#delete-button").hide();
         jq("#cancel-button").hide();
         jq('#visit-edit-section').hide();
-        mastercard.setMode('view');
+        mastercard.setCurrentlyEditingFormName(null);
+        mastercard.setCurrentlyEditingEncounterId(null);
         mastercard.showVisitTable();
-        visitEncounterEdit = null;
     }
 
     mastercard.enterHeader = function() {
-        mastercard.setMode('enterHeader');
+        mastercard.setCurrentlyEditingFormName(headerForm);
+        mastercard.setCurrentlyEditingEncounterId(headerEncounterId);
         loadHtmlFormForEncounter(headerForm, headerEncounterId, true, function(data) {
             jq('#header-section').html(data);
             setupFormCustomizations(jq('#header-section'));
             showLinksForEditMode();
-            jq("#visit-flowsheet-section").hide();
+            jq(".flowsheet-section").hide(); // TODO: Change mastercard.gsp so that it has .flowsheet-section classes on all flowsheets
             mastercard.focusFirstObs();
         });
     };
 
     mastercard.deleteCurrentEncounter = function() {
-        if (mode == 'enterHeader') {
-            if (visitEncounterIds.length > 0) {
+        if (currentlyEditingFormName == headerForm) {
+            if (mastercard.hasFlowsheetEncounters()) {
                 mastercard.showErrorMessage('You cannot delete a mastercard that has recorded visits');
             }
             else {
@@ -151,61 +169,64 @@
             }
         }
         else {
-            if (confirm('Are you sure you wish to delete this visit?')) {
-                deleteEncounter(visitEncounterEdit, function(data) {
-                    if (data.success) {
-                        jq("#visit-table-row-" + visitEncounterEdit).remove(); // Remove old row for this encounter
-                        mastercard.removeVisitEncounterId(visitEncounterEdit);
-                        mastercard.toggleViewFlowsheet();
-                        if (visitEncounterIds.length == 0) {
-                            jq("#visit-flowsheet-section").children().remove();
+            deleteEncounter(currentlyEditingEncounterId, function(data) {
+                if (data.success) {
+                    jq("#visit-table-row-" + currentlyEditingEncounterId).remove(); // Remove old row for this encounter
+                    mastercard.removeEncounterId(currentlyEditingEncounterId);
+                    mastercard.toggleViewFlowsheet();
+                    for (var i=0; i<flowsheets.length; i++) {
+                        var flowsheet = flowsheets[i];
+                        if (flowsheet.length == 0) {
+                            jq("#flowsheet-section-"+currentlyEditingFormName).children().remove();
                         }
                     }
-                    else {
-                        mastercard.showErrorMessage(data.message);
-                    }
-                });
-            }
+                }
+                else {
+                    mastercard.showErrorMessage(data.message);
+                }
+            });
         }
     };
 
     var deleteEncounter = function(encId, callback) {
-        var deleteUrl = emr.fragmentActionLink('pihmalawi', 'encounterAction', 'delete', {
-            "encounter": encId,
-            "reason": 'Deleted on mastercard'
-        });
-        jq.getJSON(deleteUrl, function(data) {
-            callback(data);
-        });
+        if (confirm('Are you sure you wish to delete this?')) {
+            var deleteUrl = emr.fragmentActionLink('pihmalawi', 'encounterAction', 'delete', {
+                "encounter": encId,
+                "reason": 'Deleted on mastercard'
+            });
+            jq.getJSON(deleteUrl, function (data) {
+                callback(data);
+            });
+        }
     }
 
-    mastercard.enterVisit = function() {
-        mastercard.setMode("enterVisit");
-        loadHtmlFormForEncounter(visitForm, null, true, function(data) {
-            jq('#visit-edit-section').html(data).show();
-            setupFormCustomizations(jq('#visit-edit-section'));
+    mastercard.enterVisit = function(formName) {
+        mastercard.setCurrentlyEditingFormName(formName);
+        loadHtmlFormForEncounter(formName, null, true, function(data) {
+            jq('#flowsheet-edit-section-'+formName).html(data).show();
+            setupFormCustomizations(jq('#flowsheet-edit-section-'+formName));
             showLinksForEditMode();
             jq("#header-section").hide();
-            jq("#visit-flowsheet-section").hide();
+            jq(".flowsheet-section").hide();
             mastercard.focusFirstObs();
         });
     };
 
-    mastercard.editVisit = function(encId) {
-        mastercard.setMode("editVisit");
-        visitEncounterEdit = encId;
-        loadHtmlFormForEncounter(visitForm, encId, true, function(data) {
-            jq('#visit-edit-section').html(data).show();
-            setupFormCustomizations(jq('#visit-edit-section'));
+    mastercard.editVisit = function(formName, encId) {
+        mastercard.setCurrentlyEditingFormName(formName);
+        mastercard.setCurrentlyEditingEncounterId(encId);
+        loadHtmlFormForEncounter(formName, encId, true, function(data) {
+            jq('#flowsheet-edit-section-'+formName).html(data).show();
+            setupFormCustomizations(jq('#flowsheet-edit-section-'+formName));
             showLinksForEditMode();
             jq("#header-section").hide();
-            jq("#visit-flowsheet-section").hide();
+            jq(".flowsheet-section").hide();
             mastercard.focusFirstObs();
         });
     };
 
     mastercard.cancelEdit = function() {
-        if (mode == 'enterHeader') {
+        if (currentlyEditingFormName == headerForm) {
             if (headerEncounterId == null) {
                 document.location.href = '/'+OPENMRS_CONTEXT_PATH+'/patientDashboard.form?patientId='+patientId;
             }
@@ -214,20 +235,39 @@
             }
         }
         else {
-            jq('#visit-edit-section').empty();
+            jq('.flowsheet-edit-section').empty();
+            mastercard.toggleViewFlowsheet();
+        }
+        return false;
+    };
+
+    mastercard.successFunction = function(result) {
+        if (currentlyEditingFormName == headerForm) {
+            mastercard.setHeaderEncounterId(result.encounterId);
+            mastercard.viewHeader();
+        }
+        else {
+            jq("#visit-table-row-"+result.encounterId).remove(); // Remove old row for this encounter
+            var currentFlowsheet = mastercard.getFlowsheet(currentlyEditingFormName);
+            currentFlowsheet.addEncounterId(result.encounterId);
+            mastercard.loadIntoFlowsheet(currentlyEditingFormName, result.encounterId); // Add new row for this encounter
             mastercard.toggleViewFlowsheet();
         }
         return false;
     };
 
     mastercard.showVisitTable = function() {
-        jq("#visit-flowsheet-section").show();
+        jq(".flowsheet-edit-section").hide();
+        jq(".flowsheet-section").show();
     };
 
     mastercard.loadVisitTable = function() {
         jq("#header-section").show();
-        for (var i=0; i<visitEncounterIds.length; i++) {
-            mastercard.loadVisitIntoFlowsheet(visitEncounterIds[i]);
+        for (var i=0; i<flowsheets.length; i++) {
+            var fs = flowsheets[i];
+            for (var j=0; j<fs.encounterIds.length; j++) {
+                mastercard.loadIntoFlowsheet(fs.formName, fs.encounterIds[j]);
+            }
         }
     };
 
@@ -239,14 +279,14 @@
      *  The data entry form in a single row with class visit-table-row
      *  The encounter date tag in a cell with class .visit-date
      */
-    mastercard.loadVisitIntoFlowsheet = function(encId) {
-        loadHtmlFormForEncounter(visitForm, encId, false, function(data) {
-            var section = jq("#visit-flowsheet-section");
+    mastercard.loadIntoFlowsheet = function(formName, encId) {
+        loadHtmlFormForEncounter(formName, encId, false, function(data) {
+            var section = jq("#flowsheet-section-"+formName);
             var table = section.find(".visit-table");
             var inserted = false;
             if (table && table.length > 0) {
                 var newRow = jq(data).find(".visit-table-row");
-                addLinksToVisitRow(newRow, encId);
+                addLinksToVisitRow(newRow, formName, encId);
                 var newVisitMoment = extractVisitMoment(newRow);
                 var existingRows = table.find(".visit-table-row")
                 jq.each(existingRows, function(index, currentRow) {
@@ -265,13 +305,13 @@
             }
             if (!inserted) {
                 table = jq(data).find(".visit-table");
-                addLinksToVisitRow(table.find(".visit-table-row"), encId);
+                addLinksToVisitRow(table.find(".visit-table-row"), formName, encId);
                 section.append(table);
             }
         });
     }
 
-    var addLinksToVisitRow = function(row, encId) {
+    var addLinksToVisitRow = function(row, formName, encId) {
         var rowId = row.attr("id");
         if (!rowId || rowId.length == 0) {
             rowId = "visit-table-row"
@@ -280,7 +320,7 @@
 
         var visitDateCell = jq(row).find(".visit-date");
         var existingDateCell = visitDateCell.html();
-        var editLink = jq('<a href="#" onclick="mastercard.editVisit('+encId+');">' + existingDateCell + '</a>');
+        var editLink = jq('<a href="#" onclick="mastercard.editVisit(\''+formName+'\', '+encId+');">' + existingDateCell + '</a>');
         visitDateCell.empty().append(editLink);
     }
 
@@ -313,7 +353,7 @@
 
     var showLinksForEditMode = function() {
         jq(".form-action-link").hide();
-        if ((mode == 'enterHeader' && headerEncounterId != null) || mode == 'editVisit') {
+        if (currentlyEditingEncounterId != null) { // TODO
             jq("#delete-button").show();
         }
         jq("#cancel-button").show();

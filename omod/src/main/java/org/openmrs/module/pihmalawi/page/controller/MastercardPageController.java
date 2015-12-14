@@ -35,14 +35,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MastercardPageController {
 
 	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
                            @RequestParam(value="headerForm") String headerForm,
-                           @RequestParam(value="visitForm") String visitForm,
+                           @RequestParam(value="flowsheets") String[] flowsheets,
                            UiUtils ui, PageModel model,
                            @SpringBean("htmlFormEntryService") HtmlFormEntryService htmlFormEntryService,
                            @SpringBean("formService") FormService formService,
@@ -53,12 +55,15 @@ public class MastercardPageController {
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("headerForm", headerForm);
-        model.addAttribute("visitForm", visitForm);
+        model.addAttribute("flowsheets", flowsheets);
+
+        Location defaultLocation = LocationUtility.getUserDefaultLocation();
+
+        List<Encounter> allEncounters = new ArrayList<Encounter>();
 
         List<String> alerts = new ArrayList<String>();
 
         String headerFormResource = "pihmalawi:htmlforms/" + headerForm + ".xml";
-        String visitFormResource = "pihmalawi:htmlforms/" + visitForm + ".xml";
 
         HtmlForm headerHtmlForm = getHtmlFormFromResource(headerFormResource, resourceFactory, formService, htmlFormEntryService);
         Encounter headerEncounter = null;
@@ -68,28 +73,42 @@ public class MastercardPageController {
             if (headerEncounters.size() > 1) {
                 alerts.add("WARNING:  More than one " + headerHtmlForm.getName() + " encounters exist for this patient.  Displaying the most recent only.");
             }
+            allEncounters.add(headerEncounter);
         }
         model.addAttribute("headerEncounter", headerEncounter);
 
-        HtmlForm visitHtmlForm = getHtmlFormFromResource(visitFormResource, resourceFactory, formService, htmlFormEntryService);
-        List<Encounter> visitEncounters = getEncountersForForm(patient, visitHtmlForm);
-        Collections.reverse(visitEncounters);
-        model.addAttribute("visitEncounters", visitEncounters);
+        Map<String, List<Integer>> flowsheetEncounters = new LinkedHashMap<String, List<Integer>>();
+        if (flowsheets != null) {
+            for (String flowsheet : flowsheets) {
+                String flowsheetResource = "pihmalawi:htmlforms/" + flowsheet + ".xml";
+                HtmlForm htmlForm = getHtmlFormFromResource(flowsheetResource, resourceFactory, formService, htmlFormEntryService);
+                List<Integer> encIds = new ArrayList<Integer>();
+                List<Encounter> encounters = getEncountersForForm(patient, htmlForm);
+                for (Encounter e : encounters) {
+                    encIds.add(e.getEncounterId());
+                    allEncounters.add(e);
+                }
+                flowsheetEncounters.put(flowsheet, encIds);
+            }
+        }
+        model.addAttribute("flowsheetEncounters", flowsheetEncounters);
 
         model.addAttribute("alerts", alerts);
 
-        Location defaultLocation = LocationUtility.getUserDefaultLocation();
         if (defaultLocation == null) {
-            if (visitEncounters.size() > 0) {
-                defaultLocation = visitEncounters.get(0).getLocation();
-            }
-            else if (headerEncounter != null) {
-                defaultLocation = headerEncounter.getLocation();
+            Date maxDate = null;
+            if (allEncounters.size() > 0) {
+                for (Encounter e : allEncounters) {
+                    if (maxDate == null || maxDate.compareTo(e.getEncounterDatetime()) < 0) {
+                        maxDate = e.getEncounterDatetime();
+                        defaultLocation = e.getLocation();
+                    }
+                }
             }
         }
         model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
 
-        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "visitForm", visitForm)));
+        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "flowsheets", flowsheets)));
 	}
 
     /**

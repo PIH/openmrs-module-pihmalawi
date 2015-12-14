@@ -5,20 +5,16 @@
     ui.includeJavascript("htmlformentryui", "htmlForm.js")
 %>
 
-<!-- TODO: Move this into the scripts folder and load like the above -->
-<script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js" type="text/javascript"></script>
-
 <script type="text/javascript">
 
     mastercard.setPatientId(${ patient.patient.patientId });
     mastercard.setHeaderForm('${ headerForm }');
     mastercard.setHeaderEncounterId(${ headerEncounter == null ? null : headerEncounter.encounterId });
-    mastercard.setVisitForm('${ visitForm }');
     mastercard.setHtmlFormJs(htmlForm); // This is the htmlform object added to the page by htmlformentryui htmlform.js
     mastercard.setDefaultLocationId(${ defaultLocationId });
 
-    <% visitEncounters.each { visitEncounter -> %>
-        mastercard.addVisitEncounterId(${ visitEncounter.encounterId });
+    <% for (String formName : flowsheetEncounters.keySet()) { %>
+        mastercard.addFlowsheet('${formName}', ${flowsheetEncounters.get(formName)});
     <% } %>
 
     jq(document).ready( function() {
@@ -30,6 +26,7 @@
             mastercard.loadVisitTable();
         <% } %>
         mastercard.focusFirstObs();
+
     } );
 </script>
 
@@ -129,6 +126,13 @@
     .toast-container {
         display:none;
     }
+    .visit-section {
+        border:1px solid lightgray;;
+        margin-top:10px;
+    }
+    .add-another-flowsheet-section {
+        padding:10px;
+    }
 </style>
 
 <style type="text/css" media="print">
@@ -167,10 +171,6 @@
             <i class="icon-pencil"></i>
             Edit Header
         </a>
-        <a class="form-action-link" id="new-visit-link" onclick="mastercard.enterVisit();">
-            <i class="icon-pencil"></i>
-            Enter New Visit
-        </a>
         <a class="form-action-link" id="print-form-link" onclick="mastercard.printForm();">
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
@@ -189,9 +189,23 @@
 
     <div id="header-section"></div>
 
-    <div id="visit-flowsheet-section"></div>
+    <% for (String formName : flowsheetEncounters.keySet()) { %>
 
-    <div id="visit-edit-section"></div>
+        <div class="visit-section">
+
+            <div class="add-another-flowsheet-section flowsheet-section">
+                <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
+                    <i class="icon-pencil"></i>
+                    Enter New Visit
+                </a>
+            </div>
+
+            <div id="flowsheet-section-${formName}" class="flowsheet-section"></div>
+
+            <div id="flowsheet-edit-section-${formName}" class="flowsheet-edit-section"></div>
+
+        </div>
+    <% } %>
 
     <br/>
 </div>
