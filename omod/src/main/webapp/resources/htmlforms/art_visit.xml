@@ -34,7 +34,7 @@
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
 
-        <table class="visit-table">
+        <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
                     <td rowspan="2">Visit Date</td>

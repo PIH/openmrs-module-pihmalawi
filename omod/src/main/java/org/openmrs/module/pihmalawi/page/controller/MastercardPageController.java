@@ -66,6 +66,8 @@ public class MastercardPageController {
         String headerFormResource = "pihmalawi:htmlforms/" + headerForm + ".xml";
 
         HtmlForm headerHtmlForm = getHtmlFormFromResource(headerFormResource, resourceFactory, formService, htmlFormEntryService);
+        model.addAttribute("headerForm", headerForm);
+
         Encounter headerEncounter = null;
         List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm);
         if (headerEncounters.size() > 0) {
@@ -77,11 +79,13 @@ public class MastercardPageController {
         }
         model.addAttribute("headerEncounter", headerEncounter);
 
+        Map<String, HtmlForm> flowsheetForms = new LinkedHashMap<String, HtmlForm>();
         Map<String, List<Integer>> flowsheetEncounters = new LinkedHashMap<String, List<Integer>>();
         if (flowsheets != null) {
             for (String flowsheet : flowsheets) {
                 String flowsheetResource = "pihmalawi:htmlforms/" + flowsheet + ".xml";
                 HtmlForm htmlForm = getHtmlFormFromResource(flowsheetResource, resourceFactory, formService, htmlFormEntryService);
+                flowsheetForms.put(flowsheet, htmlForm);
                 List<Integer> encIds = new ArrayList<Integer>();
                 List<Encounter> encounters = getEncountersForForm(patient, htmlForm);
                 for (Encounter e : encounters) {
@@ -91,6 +95,7 @@ public class MastercardPageController {
                 flowsheetEncounters.put(flowsheet, encIds);
             }
         }
+        model.addAttribute("flowsheetForms", flowsheetForms);
         model.addAttribute("flowsheetEncounters", flowsheetEncounters);
 
         model.addAttribute("alerts", alerts);

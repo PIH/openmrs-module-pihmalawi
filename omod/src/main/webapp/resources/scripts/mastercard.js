@@ -394,6 +394,9 @@
                 err = 'Must be within 6 months of visit date';
             }
         }
+        else if (!apptMoment) {
+            err = "Required"
+        }
         return toggleError(apptDateField, err)
     }
 

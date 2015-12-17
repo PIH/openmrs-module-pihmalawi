@@ -36,6 +36,11 @@
         max-width: none;
         font-size: 9pt;
     }
+    @media (max-width: 1024px) {
+        body {
+            font-size: 9px;
+        }
+    }
     td {
         vertical-align: middle;
     }
@@ -127,11 +132,16 @@
         display:none;
     }
     .visit-section {
-        border:1px solid lightgray;;
         margin-top:10px;
     }
     .add-another-flowsheet-section {
         padding:10px;
+    }
+    .data-entry-table {
+        border: none;
+        width:100%;
+        overflow-x:auto;
+        display: block;
     }
 </style>
 
@@ -196,7 +206,7 @@
             <div class="add-another-flowsheet-section flowsheet-section">
                 <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
                     <i class="icon-pencil"></i>
-                    Enter New Visit
+                    Enter New ${flowsheetForms.get(formName).name}
                 </a>
             </div>
 

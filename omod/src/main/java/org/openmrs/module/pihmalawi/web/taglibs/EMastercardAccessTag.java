@@ -138,7 +138,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
     protected String getNewMasterCardConfiguration(Form f) {
         Map<String, String> m = new HashMap<String, String>();
 
-        m.put(HivMetadata.ART_INITIAL, "headerForm=art_mastercard&visitForm=art_visit");
+        m.put(HivMetadata.ART_INITIAL, "headerForm=art_mastercard&flowsheets=art_visit");
 
         return m.get(f.getEncounterType().getName());
     }
