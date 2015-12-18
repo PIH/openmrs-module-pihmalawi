@@ -45,6 +45,7 @@ public class MastercardPageController {
 	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
                            @RequestParam(value="headerForm") String headerForm,
                            @RequestParam(value="flowsheets") String[] flowsheets,
+                           @RequestParam(value="viewOnly", required = false) Boolean viewOnly,
                            UiUtils ui, PageModel model,
                            @SpringBean("htmlFormEntryService") HtmlFormEntryService htmlFormEntryService,
                            @SpringBean("formService") FormService formService,
@@ -112,8 +113,9 @@ public class MastercardPageController {
             }
         }
         model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
+        model.addAttribute("viewOnly", viewOnly == Boolean.TRUE);
 
-        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "flowsheets", flowsheets)));
+        model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "flowsheets", flowsheets, "viewOnly", viewOnly)));
 	}
 
     /**

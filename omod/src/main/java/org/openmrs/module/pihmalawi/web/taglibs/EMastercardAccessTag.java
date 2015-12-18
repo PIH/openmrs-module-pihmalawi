@@ -56,7 +56,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			}
 
             // Ensure no more than one initial encounter is found
-			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, Arrays.asList(f), Arrays.asList(initialEncounterType), null, false);
+			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(initialEncounterType), null, false);
 			if (initials.size() > 1) {
 				o.write("Not available: Multiple " + f.getName() + " forms found");
 				release();
@@ -147,7 +147,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&viewOnly=true&patientId="+p.getPatientId()+"\">";
         }
         else {
             link = "<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('"

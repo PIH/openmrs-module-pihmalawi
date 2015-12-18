@@ -6,6 +6,7 @@
     var headerForm = null;
     var headerEncounterId = null;
     var flowsheets = [];
+    var viewOnly = false;
     var currentlyEditingFormName = null;
     var currentlyEditingEncounterId = null;
     var htmlformJs = null;
@@ -129,9 +130,16 @@
         });
     };
 
+    mastercard.enableViewOnly = function() {
+        viewOnly = true;
+    };
+
     mastercard.toggleViewFlowsheet = function() {
         jq('#header-section').show();
         jq(".form-action-link").show();
+        if (viewOnly) {
+            jq("#edit-header-link").hide();
+        }
         jq("#delete-button").hide();
         jq("#cancel-button").hide();
         jq('#visit-edit-section').hide();
@@ -312,16 +320,18 @@
     }
 
     var addLinksToVisitRow = function(row, formName, encId) {
-        var rowId = row.attr("id");
-        if (!rowId || rowId.length == 0) {
-            rowId = "visit-table-row"
-        }
-        row.attr("id", rowId + "-" + encId);
+        if (!viewOnly) {
+            var rowId = row.attr("id");
+            if (!rowId || rowId.length == 0) {
+                rowId = "visit-table-row"
+            }
+            row.attr("id", rowId + "-" + encId);
 
-        var visitDateCell = jq(row).find(".visit-date");
-        var existingDateCell = visitDateCell.html();
-        var editLink = jq('<a href="#" onclick="mastercard.editVisit(\''+formName+'\', '+encId+');">' + existingDateCell + '</a>');
-        visitDateCell.empty().append(editLink);
+            var visitDateCell = jq(row).find(".visit-date");
+            var existingDateCell = visitDateCell.html();
+            var editLink = jq('<a href="#" onclick="mastercard.editVisit(\'' + formName + '\', ' + encId + ');">' + existingDateCell + '</a>');
+            visitDateCell.empty().append(editLink);
+        }
     }
 
     /**

@@ -27,6 +27,10 @@
         <% } %>
         mastercard.focusFirstObs();
 
+        <% if (viewOnly) { %>
+            mastercard.enableViewOnly();
+        <% } %>
+
     } );
 </script>
 
@@ -40,6 +44,9 @@
         body {
             font-size: 9px;
         }
+    }
+    a {
+        cursor: pointer;
     }
     td {
         vertical-align: middle;
@@ -203,12 +210,14 @@
 
         <div class="visit-section">
 
-            <div class="add-another-flowsheet-section flowsheet-section">
-                <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
-                    <i class="icon-pencil"></i>
-                    Enter New ${flowsheetForms.get(formName).name}
-                </a>
-            </div>
+            <% if (!viewOnly) { %>
+                <div class="add-another-flowsheet-section flowsheet-section">
+                    <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
+                        <i class="icon-pencil"></i>
+                        Enter New ${flowsheetForms.get(formName).name}
+                    </a>
+                </div>
+            <% } %>
 
             <div id="flowsheet-section-${formName}" class="flowsheet-section"></div>
 

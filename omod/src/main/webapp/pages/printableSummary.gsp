@@ -133,6 +133,9 @@
         font-weight:bold;
         color:red;
     }
+    .toast-container {
+        display:none;
+    }
 </style>
 
 <style type="text/css" media="print">
