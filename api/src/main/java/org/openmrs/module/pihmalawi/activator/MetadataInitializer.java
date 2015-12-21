@@ -175,10 +175,12 @@ public class MetadataInitializer implements Initializer {
 			c.addAnswer(new ConceptAnswer(cs.getConcept(7623)));
 			c.addAnswer(new ConceptAnswer(cs.getConcept(6421)));
             c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // COPD
-			c.addAnswer(new ConceptAnswer(cs.getConcept(207))); // Depression
+			c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute psychotic disorder
 			c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other mental health diagnosis
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 Diabetes
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 Diabetes
 			c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded
 			cs.saveConcept(c);
 
