@@ -336,7 +336,7 @@ public class MetadataInitializer implements Initializer {
                     c = new Concept();
                     c.setConceptId(id);
                     c.setUuid(uuid);
-                    c.setConceptClass(cs.getConceptClassByName("Misc"));
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
                     c.setDatatype(cs.getConceptDatatypeByName("Text"));
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                     cs.saveConcept(c);
