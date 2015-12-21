@@ -1,0 +1,123 @@
+<htmlform formUuid="55ee4b76-1985-456e-8536-0958e7056b6b" formName="Hypertension and Diabetes Visit" formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
+
+    <macros>
+        height=5090
+        weight=5089
+        artRegimen=8169
+        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
+        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
+        sideEffect=7755
+        no=1066
+        yes=1065
+        pn=821
+        hp=29
+        sk=512
+        lip=2148
+        other=6408
+        tbStatus=7459
+        tbNotSuspected=7454
+        tbSuspected=7455
+        tbConfirmedNoTx=7456
+        tbConfirmedTx=7458
+        pillCount=2540
+        dosesMissed=2973
+        numArvsGiven=2929
+        arvsGivenTo=2122
+        numCptGiven=6319
+        depoGiven=8029
+        numCondoms=8080
+        viralLoadTaken=8421
+        viralLoad=856
+        nextAppt=5096
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td rowspan="2">Visit Date</td>
+                    <td rowspan="2">Hgt</td>
+                    <td rowspan="2">Wt</td>
+                    <td rowspan="3">Next appointment</td>
+                </tr>
+                <tr>
+                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" />
+                    </td>
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>ART Patient Card</b>
+            <span style="padding-left:50px;">Version 4</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">ART Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>
