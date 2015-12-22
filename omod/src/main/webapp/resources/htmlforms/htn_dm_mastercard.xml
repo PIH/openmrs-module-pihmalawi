@@ -4,17 +4,22 @@
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
-        asthmaDx=5
-        asthmaFamilyHistory=8426
+        diabetesType1Dx=6409
+        diabetesType2Dx=6410
+        hypertensionDx=6740
+        <!--
+        diabetesFamilyHistory=
+        hypertensionFamilyHistory=
+        -->
         positive=703
         negative=664
+        yes=1065
+        no=1066
         unknown=1067
-        copdDx=3716
-        copdFamilyHistory=8427
         hivStatus=3753
-        reactive=1228
-        nonReactive=1229
         hivTestDate=1837
+        reactive=1228
+        nReactive=1229
         artStartDate=2516
         tbStatus=7459
         smearPos=2185
@@ -23,29 +28,14 @@
         tbYear=2182
         patientPhone=1426
         symptom=1293
-        dryCough=2128
-        duration=2161
-        ageAtOnset=8428
-        tbContact=2133
-        tbcontactDate=8429
         guardianName=1824
-        cookingLocation=8404
-        indoor=2437
-        outdoor=2438
         smokingHistory=1551
         inPast=1548
         lastTimeSmoking=8432
         guardianPhone=2616
-        occupation=1304
         relationToPatient=1328
-        secondHandSmoke=8444
-        yes=1065
-        no=1066
-        lastTimeSecondHandSmoke=8433
         agreesToFollowup=2552
         chwName=8431
-        occupationalExposure=8430
-        lastOccupationalExposure=8434
     </macros>
 
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
@@ -138,49 +128,63 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <td rowspan="2">Diagnoses</td>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>Asthma <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="" /></td>
-                                <td>Date <obs conceptId="$diagnosisDate"/></td>
-                            </obsgroup>
-                            <td rowspan="2">Family History</td>
-                            <td>Asthma <obs conceptId="$asthmaFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>COPD <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="" /></td>
-                                <td>Date <obs conceptId="$diagnosisDate"/></td>
-                            </obsgroup>
-                            <td>COPD <obs conceptId="$copdFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="5">Patient<br/>History &#38;<br/>Exposures</td>
-                            <td>HIV <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nonReactive,$unknown"/><br/>Date Test: <obs conceptId="$hivTestDate" /></td>
-                            <td>ART Start Date:<br/><obs conceptId="$artStartDate" /></td>
-                            <td colspan="2">TB: <obs conceptId="$tbStatus" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown" answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>Year: <obs conceptId="$tbYear"/></td>
-                        </tr>
-                        <tr>
-                            <td>Chronic dry cough <obs conceptId="$symptom" answerConceptId="$dryCough" style="checkbox" answerLabel=""/></td>
-                            <td>Duration (months): <obs conceptId="$duration"/><br/>Age at onset: <obs conceptId="$ageAtOnset"/></td>
-                            <td>TB contact <obs conceptId="$tbContact" style="checkbox"/></td>
-                            <td>Date: <obs conceptId="$tbcontactDate" /></td>
-                        </tr>
-                        <tr>
-                            <td>Cooking</td>
-                            <td>Indoor <obs conceptId="$cookingLocation" answerConceptId="$indoor" style="checkbox" answerLabel="" /> Outdoor <obs conceptId="$cookingLocation" answerConceptId="$outdoor" style="checkbox" answerLabel="" /></td>
-                            <td>Smoking <obs conceptId="$smokingHistory" answerConceptId="$inPast" style="checkbox" answerLabel=""/></td>
-                            <td>Date <obs conceptId="$lastTimeSmoking"/></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Occupation: <obs conceptId="$occupation"/></td>
-                            <td>Second hand smoking: <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yes" answerLabel="" /></td>
-                            <td>Date: <obs conceptId="$lastTimeSecondHandSmoke"/></td>
-                        </tr>
-                        <tr>
-                            <td>Occupational<br/>Exposure <obs conceptId="$occupationalExposure" style="checkbox"/></td>
-                            <td>Date: <obs conceptId="$lastOccupationalExposure"/></td>
+                            <td><h5>Diagnoses</h5></td>
+                            <td>
+                                <table border="0">
+                                    <tr>
+                                        <obsgroup groupingConceptId="$diagnosisSet">
+                                            <td>
+                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                            </td>
+                                            <td>
+                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                            </td>
+                                        </obsgroup>
+                                    </tr>
+                                    <tr>
+                                        <obsgroup groupingConceptId="$diagnosisSet">
+                                            <td>
+                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                            </td>
+                                            <td>
+                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                            </td>
+                                        </obsgroup>
+                                    </tr>
+                                    <tr>
+                                        <obsgroup groupingConceptId="$diagnosisSet">
+                                            <td>
+                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                            </td>
+                                            <td>
+                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                            </td>
+                                        </obsgroup>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td><h5>Family History</h5></td>
                             <td></td>
-                            <td></td>
+                        </tr>
+                        <!-- Need CIEL convSet for family history
+                        <tr>
+                            <td><obs conceptId="$asthmaFamilyHistory" labelText="Diabetes" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+
+                            <td><obs conceptId="$diabetesFamilyHistory" labelText="Hypertension" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+                        </tr>
+                        -->
+                        <tr>
+                            <td><h5>Patient<br/>History &#38;<br/>Complications</h5></td>
+                            <td>
+                                <obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
+                                <obs conceptId="$hivTestDate" labelText="Date test:"/></td>
+                            <td>ART Start Date:<obs conceptId="$artStartDate" /></td>
+                            <td colspan="2"><obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                                 answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>
+                                <obs conceptId="$tbYear" labelText="Year:"/></td>
                         </tr>
                     </table>
                 </td>

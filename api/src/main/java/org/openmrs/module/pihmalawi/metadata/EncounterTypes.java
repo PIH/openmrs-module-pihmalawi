@@ -23,6 +23,30 @@ public class EncounterTypes {
 
     // TODO: Add the others currently defined in here, and to the bundle
 
+    public static EncounterTypeDescriptor HTN_DIABETES_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b9442-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "DIABETES HYPERTENSION INITIAL VISIT"; }
+        public String description() { return "Diabetes hypertension initial visit"; }
+    };
+
+    public static EncounterTypeDescriptor HTN_DIABETES_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "66079de4-a8df-11e5-bf7f-feff819cdc9f"; }
+        public String name() { return "DIABETES HYPERTENSION FOLLOWUP"; }
+        public String description() { return "Visit rows on the Hypertension and Diabetes card"; }
+    };
+
+    public static EncounterTypeDescriptor HTN_DIABETES_TESTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "6607a082-a8df-11e5-bf7f-feff819cdc9f"; }
+        public String name() { return "DIABETES HYPERTENSION LAB TESTS"; }
+        public String description() { return "Lab tests for Hypertension and Diabetes patients"; }
+    };
+
+    public static EncounterTypeDescriptor HTN_DIABETES_HOSPITALIZATIONS = new EncounterTypeDescriptor() {
+        public String uuid() { return "6607a186-a8df-11e5-bf7f-feff819cdc9f"; }
+        public String name() { return "DIABETES HYPERTENSION HOSPITALIZATIONS"; }
+        public String description() { return "Hospitalizations for Hypertension and Diabetes patients"; }
+    };
+
 	public static EncounterTypeDescriptor ASTHMA_INITIAL = new EncounterTypeDescriptor() {
 		public String uuid() { return "a95dc43f-925c-11e5-a1de-e82aea237783"; }
 		public String name() { return "ASTHMA_INITIAL"; }

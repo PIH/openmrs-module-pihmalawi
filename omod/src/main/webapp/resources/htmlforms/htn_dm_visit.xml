@@ -1,33 +1,12 @@
-<htmlform formUuid="55ee4b76-1985-456e-8536-0958e7056b6b" formName="Hypertension and Diabetes Visit" formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
+<htmlform formUuid="55ee4b76-1985-456e-8536-0958e7056b6b" formName="Hypertension and Diabetes Visit" formEncounterType="66079de4-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.0">
 
     <macros>
         height=5090
         weight=5089
-        artRegimen=8169
-        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
-        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
-        sideEffect=7755
         no=1066
         yes=1065
-        pn=821
-        hp=29
-        sk=512
-        lip=2148
         other=6408
-        tbStatus=7459
-        tbNotSuspected=7454
-        tbSuspected=7455
-        tbConfirmedNoTx=7456
-        tbConfirmedTx=7458
-        pillCount=2540
-        dosesMissed=2973
-        numArvsGiven=2929
-        arvsGivenTo=2122
-        numCptGiven=6319
-        depoGiven=8029
-        numCondoms=8080
-        viralLoadTaken=8421
-        viralLoad=856
+        pn=821
         nextAppt=5096
     </macros>
 
@@ -37,10 +16,10 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <td rowspan="2">Visit Date</td>
-                    <td rowspan="2">Hgt</td>
-                    <td rowspan="2">Wt</td>
-                    <td rowspan="3">Next appointment</td>
+                    <td>Visit Date</td>
+                    <td>Hgt</td>
+                    <td>Wt</td>
+                    <td>Next appointment</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
@@ -78,13 +57,13 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>ART Patient Card</b>
-            <span style="padding-left:50px;">Version 4</span>
+            <b>Hypertension and Diabetes Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">ART Reg no: </b>
+                <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
                 </b>
             </span>
         </h4>

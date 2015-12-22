@@ -13,6 +13,14 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
     public void install() throws Exception {
 
         log.info("Installing EncounterTypes");
+
+        // Hypertension and Diabetes
+        install(EncounterTypes.HTN_DIABETES_INITIAL);
+        install(EncounterTypes.HTN_DIABETES_FOLLOWUP);
+        install(EncounterTypes.HTN_DIABETES_TESTS);
+        install(EncounterTypes.HTN_DIABETES_HOSPITALIZATIONS);
+
+        // ToDo: Chronic lung disease?  Reuse Asthma?
         install(EncounterTypes.ASTHMA_INITIAL);
         install(EncounterTypes.ASTHMA_FOLLOWUP);
     }
