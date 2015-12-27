@@ -7,6 +7,13 @@
         diabetesType1Dx=6409
         diabetesType2Dx=6410
         hypertensionDx=6740
+        strokeDx=8455
+        cardioDx=996
+        pvdDx=7586
+        retinopathyDx=8452
+        neuropathyDx=8450
+        renalDx=6033
+        sexdysfxDx=8449
         <!--
         diabetesFamilyHistory=
         hypertensionFamilyHistory=
@@ -61,6 +68,10 @@
                 </b>
             </span>
         </h4>
+
+        <br/>
+        <hr/>
+
         <table style="border: none; width:100%;">
             <tr style="border: none;">
                 <td style="vertical-align:top;">
@@ -128,65 +139,88 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <td><h5>Diagnoses</h5></td>
-                            <td>
-                                <table border="0">
-                                    <tr>
-                                        <obsgroup groupingConceptId="$diagnosisSet">
-                                            <td>
-                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
-                                            </td>
-                                            <td>
-                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
-                                            </td>
-                                        </obsgroup>
-                                    </tr>
-                                    <tr>
-                                        <obsgroup groupingConceptId="$diagnosisSet">
-                                            <td>
-                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
-                                            </td>
-                                            <td>
-                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
-                                            </td>
-                                        </obsgroup>
-                                    </tr>
-                                    <tr>
-                                        <obsgroup groupingConceptId="$diagnosisSet">
-                                            <td>
-                                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
-                                            </td>
-                                            <td>
-                                                <obs conceptId="$diagnosisDate" labelText="Date"/>
-                                            </td>
-                                        </obsgroup>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td><h5>Family History</h5></td>
-                            <td></td>
-                        </tr>
-                        <!-- Need CIEL convSet for family history
-                        <tr>
+                            <td rowspan="2">Diagnoses</td>
+                            <!-- DM 1 -->
+                            <td><obsgroup groupingConceptId="$diagnosisSet">
+                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/><br/>Date: <obs conceptId="$diagnosisDate"/></obsgroup></td>
+                            <!-- DM 2 -->
+                            <td><obsgroup groupingConceptId="$diagnosisSet">
+                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/><br/>Date: <obs conceptId="$diagnosisDate"/></obsgroup></td>
+                            <td rowspan="2">Family History</td>
+                            <!-- Ellen's Family History Example
+                            <tr>
                             <td><obs conceptId="$asthmaFamilyHistory" labelText="Diabetes" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
 
                             <td><obs conceptId="$diabetesFamilyHistory" labelText="Hypertension" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+                            </tr>-->
+                            <td>Diabetes <strong>[Not Done]</strong></td>
                         </tr>
-                        -->
                         <tr>
-                            <td><h5>Patient<br/>History &#38;<br/>Complications</h5></td>
-                            <td>
-                                <obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test:"/></td>
-                            <td>ART Start Date:<obs conceptId="$artStartDate" /></td>
-                            <td colspan="2"><obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
-                                                 answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>
-                                <obs conceptId="$tbYear" labelText="Year:"/></td>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$hypertensionDx" answerLabel="Hypertension"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                            <td>Hypertension <strong>[Not Done]</strong></td>
                         </tr>
+                        <tr>
+                            <td rowspan="5">Patient<br/>History &#38;<br/>Complications</td>
+                            <td rowspan="2"><obs conceptId="$hivStatus" labelText="HIV"         answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
+                                    <obs conceptId="$hivTestDate" labelText="Date test:"/></td>
+                            <td rowspan="2">ART Start Date:<obs conceptId="$artStartDate" /></td>
+                            <td><obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                                 answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
+                            <td><obs conceptId="$tbYear" labelText="Year:"/></td>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td>
+                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$pvdDx" answerLabel="PVD"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                        </tr> 
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                        </tr>  
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$renalDx" answerLabel="Renal Disease"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                     answerConceptId="$sexdysfxDx" answerLabel="Sexual Dysfunction"/></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                            </obsgroup>
+                        </tr>     
+                        <tr><td colspan="5">Outcome: Discharge / Default / Stop Tx / Transfer Out      Date: <strong>[Not Done]</strong></td></tr>                  
                     </table>
+
                 </td>
             </tr>
         </table>
