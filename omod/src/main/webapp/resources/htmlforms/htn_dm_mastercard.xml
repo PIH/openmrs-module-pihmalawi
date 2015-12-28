@@ -14,12 +14,8 @@
         neuropathyDx=8450
         renalDx=6033
         sexdysfxDx=8449
-        <!--
-        diabetesFamilyHistory=
-        hypertensionFamilyHistory=
-        -->
-        positive=703
-        negative=664
+        diabetesFamilyHistory=6740
+        hypertensionFamilyHistory=8458
         yes=1065
         no=1066
         unknown=1067
@@ -32,7 +28,7 @@
         smearPos=2185
         smearNeg=2186
         eptb=1547
-        tbYear=2182
+        tbYear=8453
         patientPhone=1426
         symptom=1293
         guardianName=1824
@@ -139,7 +135,7 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <td rowspan="2">Diagnoses</td>
+                            <th rowspan="2">Diagnoses</th>
                             <!-- DM 1 -->
                             <td><obsgroup groupingConceptId="$diagnosisSet">
                                 <obs conceptId="$chronicCareDiagnosis" style="checkbox"
@@ -148,14 +144,9 @@
                             <td><obsgroup groupingConceptId="$diagnosisSet">
                                 <obs conceptId="$chronicCareDiagnosis" style="checkbox"
                                                      answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/><br/>Date: <obs conceptId="$diagnosisDate"/></obsgroup></td>
-                            <td rowspan="2">Family History</td>
-                            <!-- Ellen's Family History Example
-                            <tr>
-                            <td><obs conceptId="$asthmaFamilyHistory" labelText="Diabetes" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
-
-                            <td><obs conceptId="$diabetesFamilyHistory" labelText="Hypertension" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
-                            </tr>-->
-                            <td>Diabetes <strong>[Not Done]</strong></td>
+                            <th rowspan="2">Family History</th>
+                            <td><obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
+                                     answerConceptIds="$yes,$no,$unknown" answerLabels="Y,N,UNK" /></td>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -163,10 +154,11 @@
                                                      answerConceptId="$hypertensionDx" answerLabel="Hypertension"/></td>
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
-                            <td>Hypertension <strong>[Not Done]</strong></td>
+                            <td><obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
+                                     answerConceptIds="$yes,$no,$unknown" answerLabels="Y,N,UNK" /></td>
                         </tr>
                         <tr>
-                            <td rowspan="5">Patient<br/>History &#38;<br/>Complications</td>
+                            <th rowspan="5">Patient<br/>History &#38;<br/>Complications</th>
                             <td rowspan="2"><obs conceptId="$hivStatus" labelText="HIV"         answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
                                     <obs conceptId="$hivTestDate" labelText="Date test:"/></td>
                             <td rowspan="2">ART Start Date:<obs conceptId="$artStartDate" /></td>
@@ -218,7 +210,7 @@
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
                         </tr>     
-                        <tr><td colspan="5">Outcome: Discharge / Default / Stop Tx / Transfer Out      Date: <strong>[Not Done]</strong></td></tr>                  
+                        <tr><td colspan="5">Outcome: Discharge / Default / Stop Tx / Transfer Out / Death     Date: <strong>[Not Done]</strong></td></tr>
                     </table>
 
                 </td>

@@ -162,7 +162,6 @@ public class MetadataInitializer implements Initializer {
             }
         }
         {
-
             Integer id = 3683;
 
             Concept c = cs.getConcept(id);
@@ -184,7 +183,6 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 Diabetes
             c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded
             cs.saveConcept(c);
-
         }
 
         {
@@ -329,13 +327,12 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
-        /* Use 7586
         {
             {
                 Integer id = 8451;
-                String uuid = "114212AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                String name = "Peripheral Vascular Disease";
-                String shortName = "PVD";
+                String uuid = "3237c804-ada3-11e5-bf7f-feff819cdc9f";
+                String name = "Neuropathy and Peripheral Vascular Disease";
+                String synonym_1 = "Neuropathy and/or PVD";
                 Concept c = cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
@@ -346,12 +343,11 @@ public class MetadataInitializer implements Initializer {
                     c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                    c.setShortName(new ConceptName(shortName, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
                     cs.saveConcept(c);
                 }
             }
         }
-        */
 
         {
             {
@@ -368,6 +364,28 @@ public class MetadataInitializer implements Initializer {
                     c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8453;
+                String uuid = "3237c2a0-ada3-11e5-bf7f-feff819cdc9f";
+                String name = "Year of Tuberculosis diagnosis";
+                String synonym_1 = "TB diagnosis year";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
                     cs.saveConcept(c);
                 }
             }
@@ -395,34 +413,31 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
-        /* Use another and clean up year vs date
         {
             {
-                Integer id = 8453;
-                String uuid = "159948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                String name = "Diagnosis date";
+                Integer id = 8456;
+                String uuid = "142677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Deformity of foot";
                 Concept c = cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
                     c = new Concept();
                     c.setConceptId(id);
                     c.setUuid(uuid);
-                    c.setConceptClass(cs.getConceptClassByName("Question"));
-                    c.setDatatype(cs.getConceptDatatypeByName("Date"));
+                    c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                     cs.saveConcept(c);
                 }
             }
         }
-        */
 
-        /* Fix 6178
         {
             {
-                Integer id = 8454;
-                String uuid = "1628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                String name = "Past medical history";
+                Integer id = 8457;
+                String uuid = "53377988-ada7-11e5-bf7f-feff819cdc9f";
+                String name = "Foot exam findings";
                 Concept c = cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
@@ -433,6 +448,57 @@ public class MetadataInitializer implements Initializer {
                     c.setDatatype(cs.getConceptDatatypeByName("Coded"));
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8451))); // Neuropathy/PVD
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8456))); // Deformity of foot
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(6566))); // Foot ulcer
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8458;
+                String uuid = "53377d8e-ada7-11e5-bf7f-feff819cdc9f";
+                String name = "Family history of hypertension";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8454;
+                String uuid = "1628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Past medical history, coded";
+                String synonym_1 = "Past medical history";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+
                     c.addAnswer(new ConceptAnswer(cs.getConcept(8455))); // Stroke and tia
                     c.addAnswer(new ConceptAnswer(cs.getConcept(996)));  // Cardiovascular disease
                     c.addAnswer(new ConceptAnswer(cs.getConcept(8452))); // Retinopathy
@@ -443,7 +509,7 @@ public class MetadataInitializer implements Initializer {
                     cs.saveConcept(c);
                 }
             }
-            */
+        }
 
             {
                 {
@@ -822,7 +888,7 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
-    @Override
-    public void stopped() {
+        @Override
+        public void stopped () {
+        }
     }
-}
