@@ -382,6 +382,7 @@
         var apptDateInput = jq(html).find("#appointmentDate :first-child");
         var visitDateInput = jq(html).find("#visitDate :first-child");
         if (apptDateInput && visitDateInput) {
+            validateAppointmentDate(apptDateInput, visitDateInput);
             apptDateInput.change(function () {
                 validateAppointmentDate(apptDateInput, visitDateInput);
             });
