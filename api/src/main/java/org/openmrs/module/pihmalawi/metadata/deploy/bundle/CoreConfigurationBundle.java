@@ -15,7 +15,7 @@ import java.util.Map;
 @Component
 public class CoreConfigurationBundle extends AbstractMetadataBundle {
 
-    public static final String DEFAULT_DATE_FORMAT = "dd MMM yyyy";
+    public static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
     public static final String DEFAULT_TIME_FORMAT = "h:mm aa";
     public static final String DEFAULT_DATETIME_FORMAT = DEFAULT_DATE_FORMAT + " " + DEFAULT_TIME_FORMAT;
 

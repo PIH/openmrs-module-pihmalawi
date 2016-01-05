@@ -345,7 +345,7 @@
 
     var parseDateField = function(strVal) {
         if (strVal && strVal.length > 0) {
-            return moment(strVal, "DD MMM YYYY");
+            return moment(strVal, "DD/MM/YYYY");
         }
     };
 
