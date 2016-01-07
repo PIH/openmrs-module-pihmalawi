@@ -6,6 +6,26 @@
         no=1066
         yes=1065
         other=6408
+        bmiCoded=8467
+        typical=1115
+        underWeight=3812
+        overWeight=8459
+        systolicBP=5085
+        diastolicBP=5086
+        pulse=5087
+        fastingGlucose=8448
+        randomGlucose=8447
+        fruitVeggies=8396
+        tobacco=2545
+        alcohol=1552
+        current=1550
+        exercise=8446
+        cvRisk=8460
+        visualAcuityText=8468
+        footExam=8457
+        neuroPVD=8451
+        footDeform=8456
+        footUlcer=6566
         pn=821
         nextAppt=5096
     </macros>

@@ -210,7 +210,10 @@
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
                         </tr>     
-                        <tr><td colspan="5">Outcome: Discharge / Default / Stop Tx / Transfer Out / Death     Date: <strong>[Not Done]</strong></td></tr>
+                        <tr>
+                            <th>Outcome</th>
+                            <td colspan="4"><i>Enter Program enrollment on patient dashboard</i>
+                            </td></tr>
                     </table>
 
                 </td>

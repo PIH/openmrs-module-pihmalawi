@@ -1063,6 +1063,49 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
+        {
+            {
+                Integer id = 8467;
+                String uuid = "484499f2-b58b-11e5-9f22-ba0be0483c18";
+                String name = "Body Mass Index, coded";
+                String synonym_1 = "BMI, coded";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(3812))); // Low BMI
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1115))); // Normal
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8459))); // High BMI
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8468;
+                String uuid = "48449ca4-b58b-11e5-9f22-ba0be0483c18";
+                String name = "Visual acuity (text)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Finding"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
         }
 
         @Override
