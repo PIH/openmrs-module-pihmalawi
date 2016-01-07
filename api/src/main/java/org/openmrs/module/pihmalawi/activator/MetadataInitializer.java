@@ -886,6 +886,183 @@ public class MetadataInitializer implements Initializer {
                     }
                 }
             }
+
+        {
+            {
+                Integer id = 8459;
+                String uuid = "158204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Overweight (BMI 25.0-29.9)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8460;
+                String uuid = "163214AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Cardiovascular risk score";
+                String synonym_1 = "CV risk score";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Finding"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8461;
+                String uuid = "162879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Reason for admission (text)";
+                String synonym_1 = "Reason for hospitalization (text)";
+                String synonym_2 = "Reason for hospital admission (text)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                    c.setSet(false);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8462;
+                String uuid = "162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Statins";
+                String synonym_1 = "Hydroxymethylglutaryl-coenzyme A reductase inhibitors";
+                String synonym_2 = "HMG CoA reductase inhibitors";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8463;
+                String uuid = "163211AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Beta blockers";
+                String synonym_1 = "Beta-Adrenergic antagonists";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8464;
+                String uuid = "162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "ACE inhibitors";
+                String synonym_1 = "Angiotensin-converting enzyme inhibitors drug class";
+                String synonym_2 = "ACE-inhibitors";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                    c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8465;
+                String uuid = "163213AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Calcium channel blockers";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8466;
+                String uuid = "163212AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                String name = "Diuretics";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
         }
 
         @Override
