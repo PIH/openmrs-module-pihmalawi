@@ -405,11 +405,11 @@
                 err = 'Must be within 6 months of visit date';
             }
         }
-        else if (!apptMoment) {
+        else if (apptDateField[0] && !apptMoment) {
             err = "Required"
         }
         return toggleError(apptDateField, err)
-    }
+    };
 
     var toggleError = function(field, errorMessage) {
         var errorDiv = field.siblings(".field-error");
@@ -427,6 +427,6 @@
         else {
             jq(".submitButton").attr("disabled","disabled");
         }
-    }
+    };
 
 }( window.mastercard = window.mastercard || {}, jQuery ));
