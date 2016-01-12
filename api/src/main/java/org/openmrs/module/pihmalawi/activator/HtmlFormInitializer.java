@@ -20,13 +20,19 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
 import org.openmrs.Form;
+import org.openmrs.api.FormService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
+import org.openmrs.module.htmlformentryui.HtmlFormUtil;
+import org.openmrs.ui.framework.resource.ResourceFactory;
 import org.openmrs.util.OpenmrsClassLoader;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +83,23 @@ public class HtmlFormInitializer implements Initializer {
 			}
 			hfes.saveHtmlForm(htmlForm);
 		}
+
+        List<String> uiHtmlForms = Arrays.asList(
+                "pihmalawi:htmlforms/htn_dm_mastercard.xml",
+                "pihmalawi:htmlforms/htn_dm_visit.xml");
+
+        if (uiHtmlForms != null) {
+            ResourceFactory resourceFactory = ResourceFactory.getInstance();
+            FormService formService = Context.getFormService();
+            for (String htmlform : uiHtmlForms) {
+                try {
+                    HtmlFormUtil.getHtmlFormFromUiResource(resourceFactory, formService, hfes, htmlform);
+                } catch (IOException e) {
+                    log.error("Unable to load HTML forms");
+                }
+            }
+        }
+
 	}
 
 	/**
