@@ -58,5 +58,15 @@ public class EncounterTypes {
         public String name() { return "ASTHMA_FOLLOWUP"; }
         public String description() { return "Visit rows in the Asthma Mastercard"; }
     };
+    public static EncounterTypeDescriptor EPILEPSY_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "D8CBF1B9-EC74-4858-8764-2350E2A9925B"; }
+        public String name() { return "EPILEPSY_INITIAL"; }
+        public String description() { return "Top section of the Epilepsy Mastercard"; }
+    };
 
+    public static EncounterTypeDescriptor EPILEPSY_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72"; }
+        public String name() { return "EPILEPSY_FOLLOWUP"; }
+        public String description() { return "Visit rows in the Epilepsy Mastercard"; }
+    };
 }

@@ -103,7 +103,11 @@
     </tr>
     <tr>
         <td>Chronic Care Record:</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="83"/></td>
+    </tr>
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Asthma eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83"/></td>
     </tr>
     <tr>
         <td><br /></td>
