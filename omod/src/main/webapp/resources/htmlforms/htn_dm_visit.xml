@@ -15,10 +15,10 @@
         pulse=5087
         fastingGlucose=8448
         randomGlucose=8447
-        fruitVeggies=8396
         tobacco=2545
         alcohol=1552
         current=1550
+        fruitVeggies=8396
         exercise=8446
         cvRisk=8460
         visualAcuityText=8468
@@ -26,7 +26,7 @@
         neuroPVD=8451
         footDeform=8456
         footUlcer=6566
-        pn=821
+        clinicalImpression=1364
         nextAppt=5096
     </macros>
 
@@ -37,15 +37,37 @@
             <thead class="visit-table-header">
                 <tr>
                     <td>Visit Date</td>
-                    <td>Hgt</td>
+                    <td>Ht</td>
                     <td>Wt</td>
-                    <td>Next appointment</td>
+                    <td>BMI</td>
+                    <td>BP</td>
+                    <td>PR</td>
+                    <td colspan="2">Blood sugar<br/>(mg/dL)</td>
+                    <td colspan="4">Risk assessment</td>
+                    <td>CV risk</td>
+                    <td>Visual<br/>acuity</td>
+                    <td>Foot check</td>
+                    <td>Comment</td>
+                    <td>Next appt</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Fasting</td>
+                    <td>Random</td>
+                    <td>Tobacco</td>
+                    <td>Alcohol</td>
+                    <td>F/V</td>
+                    <td>Exercise<br/>days</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><i style="font-size:.7em;">day month year</i></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -61,6 +83,73 @@
                     <td>
                         <!-- Weight -->
                         <obs conceptId="$weight" />
+                    </td>
+
+                    <td>
+                        <!-- BMI -->
+                        <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                    </td>
+
+                    <td>
+                        <!-- Blood pressure -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                    </td>
+
+                    <td>
+                        <!--  Pulse rate -->
+                        <obs conceptId="$pulse"/>
+                    </td>
+
+                    <td>
+                        <!-- Fasting blood sugar -->
+                        <obs conceptId="$fastingGlucose"/>
+                    </td>
+
+                    <td>
+                        <!-- Random blood sugar -->
+                        <obs conceptId="$randomGlucose"/>
+                    </td>
+
+                    <td>
+                        <!-- Tobacco -->
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="T" style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Alcohol -->
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="A" style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Number of fruit and veggie portions -->
+                        <obs conceptId="$fruitVeggies" />
+                    </td>
+
+                    <td>
+                        <!-- Days per week with 30 minutes of exercise  -->
+                        <obs conceptId="$exercise" />
+                    </td>
+
+                    <td>
+                        <!-- CV risk -->
+                        <obs conceptId="$cvRisk" />
+                    </td>
+
+                    <td>
+                        <!-- Visual acuity -->
+                        <obs conceptId="$visualAcuityText" />
+                    </td>
+
+                    <td>
+                        <!-- Foot check -->
+                        <obs conceptId="$footExam" answerConceptId="$neuroPVD" answerLabel="Ne" style="checkbox" />
+                        <obs conceptId="$footExam" answerConceptId="$footDeform" answerLabel="De" style="checkbox" />
+                        <obs conceptId="$footExam" answerConceptId="$footUlcer" answerLabel="Ul" style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Clinical impression -->
+                        <obs conceptId="$clinicalImpression" />
                     </td>
 
                     <td>
@@ -106,6 +195,79 @@
             <tr>
                 <th>Weight</th>
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Body Mass Index (BMI)</th>
+                <td>
+                    <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Blood pressure</th>
+                <td><obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" /></td>
+            </tr>
+
+            <tr>
+                <th>Pulse rate</th>
+                <td><obs conceptId="$pulse" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Fasting blood sugar</th>
+                <td><obs conceptId="$fastingGlucose" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Random blood sugar</th>
+                <td><obs conceptId="$randomGlucose" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Tobacco</th>
+                <td>
+                    <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="currently" style="checkbox" /></td>
+            </tr>
+
+            <tr>
+                <th>Alcohol</th>
+                <td>
+                    <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="currently" style="checkbox" /></td>
+            </tr>
+
+            <tr>
+                <th>Days per week with 30 minutes of exercise</th>
+                <td><obs conceptId="$exercise" /></td>
+            </tr>
+
+            <tr>
+                <th>Number of fruit and veggie portions</th>
+                <td><obs conceptId="$fruitVeggies" /></td>
+            </tr>
+
+            <tr>
+                <th>Cardiovascular risk</th>
+                <td><obs conceptId="$cvRisk" /></td>
+            </tr>
+
+            <tr>
+                <th>Visual acuity</th>
+                <td><obs conceptId="$visualAcuityText" /></td>
+            </tr>
+
+            <tr>
+                <th>Foot check</th>
+                <td>
+                    <obs conceptId="$footExam" answerConceptId="$neuroPVD" style="checkbox" />
+                    <obs conceptId="$footExam" answerConceptId="$footDeform" style="checkbox" />
+                    <obs conceptId="$footExam" answerConceptId="$footUlcer" style="checkbox" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Comment</th>
+                <td><obs conceptId="$clinicalImpression" /></td>
             </tr>
 
             <tr>
