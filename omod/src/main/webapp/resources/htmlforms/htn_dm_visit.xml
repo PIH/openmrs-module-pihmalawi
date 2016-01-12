@@ -26,6 +26,19 @@
         neuroPVD=8451
         footDeform=8456
         footUlcer=6566
+        drugsNow=1193
+        drugDoseUnit=text
+        drugFreq=3320
+        longActingInsulin=6750
+        shortActingRegularInsulin=282
+        metformin=4052
+        glibenclamide=4046
+        diuretic=8466
+        ccBlocker=8465
+        aceInhibit=8464
+        betaBlocker=8463
+        aspirin=88
+        statin=8462
         clinicalImpression=1364
         nextAppt=5096
     </macros>
@@ -47,11 +60,15 @@
                     <td>CV risk</td>
                     <td>Visual<br/>acuity</td>
                     <td>Foot check</td>
+                    <td>Insulin</td>
+                    <td>Diabetes<br/>medications</td>
+                    <td>Anti-hypertensives</td>
+                    <td>Other<br/>medications</td>
                     <td>Comment</td>
                     <td>Next appt</td>
                 </tr>
                 <tr>
-                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i style="font-size:.5em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
                     <td></td>
@@ -66,6 +83,25 @@
                     <td></td>
                     <td></td>
                     <td></td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <!--
+                    <td>Long acting</td>
+                    <td>Short acting</td>
+                    <td>Metformin</td>
+                    <td>Glibenclamide</td>
+                    <td>Diuretic</td>
+                    <td>CCB</td>
+                    <td>ACE-I</td>
+                    <td>BB</td>
+                    <td>ASA</td>
+                    <td>Statin</td>
+                    -->
+
                     <td></td>
                     <td><i style="font-size:.7em;">day month year</i></td>
                 </tr>
@@ -141,10 +177,43 @@
                     </td>
 
                     <td>
-                        <!-- Foot check -->
-                        <obs conceptId="$footExam" answerConceptId="$neuroPVD" answerLabel="Ne" style="checkbox" />
-                        <obs conceptId="$footExam" answerConceptId="$footDeform" answerLabel="De" style="checkbox" />
-                        <obs conceptId="$footExam" answerConceptId="$footUlcer" answerLabel="Ul" style="checkbox" />
+                        <repeat with="['$neuroPVD','Ne'],['$footDeform','De'],['$footUlcer','Ul']">
+                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <br/>
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- Insulin -->
+                        <!-- ToDo:  Add construct with dose and frequency -->
+                        <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
+                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <br/>
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- Diabetes -->
+                        <repeat with="['$metformin'],['$glibenclamide']">
+                            <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                            <br/>
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- Anti-hypertensives -->
+                        <repeat with="['$diuretic','Diuretic'],['$ccBlocker','CCB'],['$aceInhibit','ACE-I'],['$betaBlocker','BB']">
+                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <br/>
+                        </repeat>
+                   </td>
+
+                    <td>
+                        <!-- Other medications -->
+                        <repeat with="['$aspirin','ASA],['$statin','Statin']">
+                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <br/>
+                        </repeat>
                     </td>
 
                     <td>
@@ -259,15 +328,57 @@
             <tr>
                 <th>Foot check</th>
                 <td>
-                    <obs conceptId="$footExam" answerConceptId="$neuroPVD" style="checkbox" />
-                    <obs conceptId="$footExam" answerConceptId="$footDeform" style="checkbox" />
-                    <obs conceptId="$footExam" answerConceptId="$footUlcer" style="checkbox" />
+                    <repeat with="['$neuroPVD','Neuropathy/PVD'],['$footDeform','Deformities'],['$footUlcer','Ulcer']">
+                        <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <br/>
+                    </repeat>
                 </td>
             </tr>
 
             <tr>
+                <th>Insulin medications</th>
+                <td>
+                    <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
+                        <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Diabetes medications</th>
+                <td>
+                    <repeat with="['$metformin'],['$glibenclamide']">
+                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Anti-hypertensives</th>
+                <td>
+                    <repeat with="['$diuretic'],['$ccBlocker'],['$aceInhibit'],['$betaBlocker']">
+                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Other medications</th>
+                <td>
+                    <repeat with="['$aspirin'],['$statin']">
+                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+
+            
+            <tr>
                 <th>Comment</th>
-                <td><obs conceptId="$clinicalImpression" /></td>
+                <td><obs conceptId="$clinicalImpression" style="textarea" cols="60" /></td>
             </tr>
 
             <tr>
