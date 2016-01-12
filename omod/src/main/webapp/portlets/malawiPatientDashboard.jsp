@@ -110,6 +110,10 @@
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Asthma eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83"/></td>
     </tr>
     <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="83"/></td>
+    </tr>
+    <tr>
         <td><br /></td>
     </tr>
     <tr>
