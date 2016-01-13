@@ -36,7 +36,7 @@
 
                     <td>ECG</td>
                     <td>Creatinine</td>
-                    <td>Lipid profile</td>
+                    <td>Lipid profile<br/>(mg/dl)</td>
                     <td>Fundoscopy</td>
                 </tr>
             </thead>
@@ -70,7 +70,7 @@
                     <td align="left">
                         <!-- Lipid profile -->
                         <repeat with="['$totalCholesterol','Total cholesterol'],['$ldl','LDL'],['$hdl','HDL'],['$triglyc','Triglycerides']">
-                            <obs conceptId="{0}" labelText="{1}" showUnits="true"/>
+                            <obs conceptId="{0}" labelText="{1}" />
                             <br/>
                         </repeat>
                     </td>
@@ -119,7 +119,7 @@
 
             <tr>
                 <th>HbA1C</th>
-                <td>
+                <td class="focus-field">
                     <obs conceptId="$hbA1C" showUnits="true"/>
                 </td>
             </tr>

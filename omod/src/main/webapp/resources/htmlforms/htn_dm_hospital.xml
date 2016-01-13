@@ -90,7 +90,7 @@
 
             <tr>
                 <th>Length of stay</th>
-                <td>
+                <td class="focus-field">
                     <obs conceptId="$hospitalDays" />days
                 </td>
             </tr>

@@ -257,7 +257,7 @@
                 <th>Visit Location</th>
                 <td><encounterLocation id="visitLocation" /></td>
             </tr>
-            <tr>
+            <tr class="focus-field">
                 <th>Height</th>
                 <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
             </tr>
