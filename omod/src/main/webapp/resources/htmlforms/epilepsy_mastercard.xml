@@ -1,5 +1,18 @@
 <htmlform formUuid="7B54FBEE-240F-430C-B751-D5ED5DEA6E5E" formName="Epilepsy eMastercard" formEncounterType="D8CBF1B9-EC74-4858-8764-2350E2A9925B" formVersion="1.0">
 
+    <style type="text/css">
+
+        .todo td{
+            background-color: #F2A0A0;
+        }
+
+        .removePadding td {
+            vertical-align:top;
+            padding:0px;
+        }
+
+    </style>
+
     <macros>
         diagnosisSet=8445
         chronicCareDiagnosis=3683
@@ -131,91 +144,60 @@
                     </table>
                 </td>
 
-                <td style="vertical-align:top;">
+                <td class="removePadding" style="vertical-align:top;">
                     <h5><b>Seizure Type</b></h5>
-                    <table>
+                    <table class="todo">
                         <tr>
-                            <th rowspan="2">Diagnoses</th>
-                            <!-- DM 1 -->
-                            <td><obsgroup groupingConceptId="$diagnosisSet">
-                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                     answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/><br/>Date: <obs conceptId="$diagnosisDate"/></obsgroup></td>
-                            <!-- DM 2 -->
-                            <td><obsgroup groupingConceptId="$diagnosisSet">
-                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                     answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/><br/>Date: <obs conceptId="$diagnosisDate"/></obsgroup></td>
-                            <th rowspan="2">Family History</th>
-                            <td><obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
-                                     answerConceptIds="$yes,$no,$unknown" answerLabels="Y,N,UNK" /></td>
+                            <td>
+                                <table class="todo">
+                                    <tr><td>Y</td><td>N</td><td>Tonic Clonic</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Absence</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Myoclonic</td></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tr><td>Y</td><td>N</td><td>Clonic</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Tonic</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Atonic</td></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tr><td>Y</td><td>N</td><td>Simple</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Complex</td></tr>
+                                    <tr><td>Y</td><td>N</td><td>Unclassified</td></tr>
+                                </table>
+                            </td>
                         </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$hypertensionDx" answerLabel="Hypertension"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                            <td><obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
-                                     answerConceptIds="$yes,$no,$unknown" answerLabels="Y,N,UNK" /></td>
-                        </tr>
-                        <tr>
-                            <th rowspan="5">Patient<br/>History &#38;<br/>Complications</th>
-                            <td rowspan="2"><obs conceptId="$hivStatus" labelText="HIV"         answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test:"/></td>
-                            <td rowspan="2">ART Start Date:<obs conceptId="$artStartDate" /></td>
-                            <td><obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
-                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
-                            <td><obs conceptId="$tbYear" labelText="Year:"/></td>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$pvdDx" answerLabel="PVD"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$renalDx" answerLabel="Renal Disease"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$sexdysfxDx" answerLabel="Sexual Dysfunction"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <th>Outcome</th>
-                            <td colspan="4"><i>Enter Program enrollment on patient dashboard</i>
-                            </td></tr>
                     </table>
 
+                    <table>
+                        <tr>
+                            <td>
+                                <table class="todo">
+                                    <th><h5><b>Family History</b></h5></th>
+                                    <tr><td>Epilepsy</td></tr>
+                                    <tr><td>Mental Illness</td></tr>
+                                    <tr><td>Behaviour Problems</td></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="$hivStatus" labelText="HIV Status" answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
+                                        </td>
+                                        <td>ART Start Date:<obs conceptId="$artStartDate" />
+                                        </td>
+                                    </tr>
+                                    <tr class="todo">
+                                        <td colspan="2"><b>VDRL</b></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>

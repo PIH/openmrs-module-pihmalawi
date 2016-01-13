@@ -3,31 +3,30 @@
     <macros>
         height=5090
         weight=5089
-        artRegimen=8169
-        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
-        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
-        sideEffect=7755
         no=1066
         yes=1065
-        pn=821
-        hp=29
-        sk=512
-        lip=2148
         other=6408
-        tbStatus=7459
-        tbNotSuspected=7454
-        tbSuspected=7455
-        tbConfirmedNoTx=7456
-        tbConfirmedTx=7458
-        pillCount=2540
-        dosesMissed=2973
-        numArvsGiven=2929
-        arvsGivenTo=2122
-        numCptGiven=6319
-        depoGiven=8029
-        numCondoms=8080
-        viralLoadTaken=8421
-        viralLoad=856
+        bmiCoded=8467
+        typical=1115
+        underWeight=3812
+        overWeight=8459
+        systolicBP=5085
+        diastolicBP=5086
+        pulse=5087
+        fastingGlucose=8448
+        randomGlucose=8447
+        tobacco=2545
+        alcohol=1552
+        current=1550
+        fruitVeggies=8396
+        exercise=8446
+        cvRisk=8460
+        visualAcuityText=8468
+        footExam=8457
+        neuroPVD=8451
+        footDeform=8456
+        footUlcer=6566
+        clinicalImpression=1364
         nextAppt=5096
     </macros>
 
@@ -37,38 +36,38 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <td rowspan="2">Visit Date</td>
-                    <td rowspan="2">Hgt</td>
-                    <td rowspan="2">Wt</td>
-                    <td rowspan="3">ART<br/>Regimen</td>
-                    <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
-                    <td colspan="4">TB Status (Curr.)*</td>
-                    <td rowspan="3">Pill<br/>Count</td>
-                    <td rowspan="3">Doses<br/>Missed</td>
-                    <td colspan="2">ARVs given</td>
-                    <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
-                    <td colspan="2">Family Plan.</td>
-                    <td colspan="2">Viral load</td>
-                    <td rowspan="3">Next appointment</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Suspected</td>
-                    <td colspan="2">Confirmed</td>
-                    <td rowspan="2">No. of<br/>tablets</td>
-                    <td rowspan="2"><br/>To</td>
-                    <td rowspan="2">Depo<br/>Given</td>
-                    <td rowspan="2">No. of<br/>condom</td>
-                    <td rowspan="2">Sample<br/>Taken</td>
-                    <td rowspan="2">Result</td>
+                    <td>Visit Date</td>
+                    <td>Ht</td>
+                    <td>Wt</td>
+                    <td>BMI</td>
+                    <td>BP</td>
+                    <td>PR</td>
+                    <td colspan="2">Blood sugar<br/>(mg/dL)</td>
+                    <td colspan="4">Risk assessment</td>
+                    <td>CV risk</td>
+                    <td>Visual<br/>acuity</td>
+                    <td>Foot check</td>
+                    <td>Comment</td>
+                    <td>Next appt</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
-                    <td>No</td>
-                    <td>Yes</td>
-                    <td>noRx</td>
-                    <td>Rx</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Fasting</td>
+                    <td>Random</td>
+                    <td>Tobacco</td>
+                    <td>Alcohol</td>
+                    <td>F/V</td>
+                    <td>Exercise<br/>days</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><i style="font-size:.7em;">day month year</i></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -85,68 +84,74 @@
                         <!-- Weight -->
                         <obs conceptId="$weight" />
                     </td>
+
                     <td>
-                        <!-- ART Regimen -->
-                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
+                        <!-- BMI -->
+                        <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
                     </td>
+
                     <td>
-                        <!-- Side Effects -->
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                        <!-- Blood pressure -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
                     </td>
-                    <!-- TB Status (curr) -->
+
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="" />
+                        <!--  Pulse rate -->
+                        <obs conceptId="$pulse"/>
                     </td>
+
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="" />
+                        <!-- Fasting blood sugar -->
+                        <obs conceptId="$fastingGlucose"/>
                     </td>
+
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="" />
+                        <!-- Random blood sugar -->
+                        <obs conceptId="$randomGlucose"/>
                     </td>
+
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="" />
+                        <!-- Tobacco -->
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="T" style="checkbox" />
                     </td>
+
                     <td>
-                        <!-- Pill count -->
-                        <obs conceptId="$pillCount" />
+                        <!-- Alcohol -->
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="A" style="checkbox" />
                     </td>
+
                     <td>
-                        <!-- Doses missed -->
-                        <obs conceptId="$dosesMissed" />
+                        <!-- Number of fruit and veggie portions -->
+                        <obs conceptId="$fruitVeggies" />
                     </td>
+
                     <td>
-                        <!-- # ARVs -->
-                        <obs conceptId="$numArvsGiven" />
+                        <!-- Days per week with 30 minutes of exercise  -->
+                        <obs conceptId="$exercise" />
                     </td>
-                    <td style="white-space: nowrap;">
-                        <!-- # ARVs given to -->
-                        <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
-                    </td>
+
                     <td>
-                        <!-- CPT # tablets -->
-                        <obs conceptId="$numCptGiven"/>
+                        <!-- CV risk -->
+                        <obs conceptId="$cvRisk" />
                     </td>
+
                     <td>
-                        <!-- depo given -->
-                        <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                        <!-- Visual acuity -->
+                        <obs conceptId="$visualAcuityText" />
                     </td>
+
                     <td>
-                        <!-- # condoms -->
-                        <obs conceptId="$numCondoms"/>
+                        <!-- Foot check -->
+                        <obs conceptId="$footExam" answerConceptId="$neuroPVD" answerLabel="Ne" style="checkbox" />
+                        <obs conceptId="$footExam" answerConceptId="$footDeform" answerLabel="De" style="checkbox" />
+                        <obs conceptId="$footExam" answerConceptId="$footUlcer" answerLabel="Ul" style="checkbox" />
                     </td>
+
                     <td>
-                        <!-- Viral load sample -->
-                        <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
+                        <!-- Clinical impression -->
+                        <obs conceptId="$clinicalImpression" />
                     </td>
-                    <td>
-                        <!-- Viral load -->
-                        <obs conceptId="$viralLoad"/>
-                    </td>
+
                     <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" />
@@ -161,13 +166,13 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>ART Patient Card</b>
-            <span style="padding-left:50px;">Version 4</span>
+            <b>Epilepsy Card</b>
+            <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">ART Reg no: </b>
+                <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
                 </b>
             </span>
         </h4>
@@ -191,68 +196,20 @@
                 <th>Weight</th>
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
+
             <tr>
-                <th>ART Regimen</th>
-                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
-            </tr>
-            <tr>
-                <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
+                <th>Body Mass Index (BMI)</th>
                 <td>
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
                 </td>
             </tr>
+
+
             <tr>
-                <th>TB Status (Curr.)*</th>
-                <td>
-                    <b>Suspected</b>
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes" />
-                    <b style="padding-left:30px;">Confirmed</b>
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx" />
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
-                </td>
+                <th>Comment</th>
+                <td><obs conceptId="$clinicalImpression" /></td>
             </tr>
-            <tr>
-                <th>Pill Count</th>
-                <td><obs conceptId="$pillCount" /></td>
-            </tr>
-            <tr>
-                <th>Doses Missed</th>
-                <td><obs conceptId="$dosesMissed" /></td>
-            </tr>
-            <tr>
-                <th>ARVs given</th>
-                <td>
-                    No. of tablets: <obs conceptId="$numArvsGiven" />
-                    <span style="padding-left:10px">To: </span>
-                    <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
-                </td>
-            </tr>
-            <tr>
-                <th>CPT No. of tablets</th>
-                <td><obs conceptId="$numCptGiven" /></td>
-            </tr>
-            <tr>
-                <th>Family Plan.</th>
-                <td>
-                    Depo Given: <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
-                    <span style="padding-left:10px">No. of condom</span>
-                    <obs conceptId="$numCondoms"/>
-                </td>
-            </tr>
-            <tr>
-                <th>Viral load</th>
-                <td>
-                    <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
-                    <span style="padding-left:10px">Result</span>
-                    <obs conceptId="$viralLoad"/>
-                </td>
-            </tr>
+
             <tr>
                 <th>Next appointment</th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
