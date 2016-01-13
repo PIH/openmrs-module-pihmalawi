@@ -1106,6 +1106,44 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
+        {
+            {
+                Integer id = 8469;
+                String uuid = "0ed9abe4-b982-11e5-9912-ba0be0483c18";
+                String name = "Discharge diagnosis (text)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8470;
+                String uuid = "316bc014-ba1f-11e5-9912-ba0be0483c18";
+                String name = "Discharge medications (text)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
         }
 
         @Override

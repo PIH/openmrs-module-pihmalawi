@@ -4,8 +4,8 @@
     <macros>
         hospitalDays=2872
         admissionReason=8461
-        dischargeDiagnosis=y
-        dischargeMeds=z
+        dischargeDiagnosis=8469
+        dischargeMeds=8470
     </macros>
 
     <!-- Flowsheet table view -->
@@ -32,21 +32,21 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- Days in the hospital
-                        <obs conceptId="$hospitalDays"/>-->
+                        <!-- Days in the hospital -->
+                        <obs conceptId="$hospitalDays"/>
                     </td>
                     <td>
                         <!-- Reason for admission -->
                         <obs conceptId="$admissionReason"/>
                     </td>
                     <td>
-                        <!-- Discharge diagnosis
-                        <obs conceptId="$dischargeDiagnosis"/>-->
+                        <!-- Discharge diagnosis -->
+                        <obs conceptId="$dischargeDiagnosis"/>
                     </td>
 
                     <td>
-                        <!-- Medications
-                        <obs conceptId="$dischargeMeds"/> -->
+                        <!-- Medications -->
+                        <obs conceptId="$dischargeMeds"/>
                     </td>
 
                 </tr>
@@ -105,15 +105,14 @@
             <tr>
                 <th>Discharge diagnosis</th>
                 <td>
-                    <!--
-                    <obs conceptId="$dischargeDiagnosis"/>-->
+                    <obs conceptId="$dischargeDiagnosis"/>
                 </td>
             </tr>
 
             <tr>
                 <th>Discharge medications</th>
                 <td>
-                    <!--<obs conceptId="$dischargeMeds"/>-->
+                    <obs conceptId="$dischargeMeds"/>
                 </td>
             </tr>
 
