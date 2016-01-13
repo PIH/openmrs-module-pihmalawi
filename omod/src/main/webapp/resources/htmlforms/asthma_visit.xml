@@ -39,16 +39,16 @@
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td>Visit Date</td>
-                    <td><font class="rotate">Planned Visit?</font></td>
+                    <td class="rotate"><span>Planned Visit?</span></td>
                     <td>Height</td>
                     <td>Weight</td>
                     <td>Daysx</td>
                     <td>Nightsx</td>
                     <td colspan="4">Beta-agonist inhaler use: frequency</td>
-                    <td><font class="rotate">Steroid inhaler daily?</font></td>
+                    <td class="rotate"><span>Steroid inhaler daily?</span></td>
                     <td>Smoking</td>
-                    <td><font class="rotate">Passive smoking</font></td>
-                    <td><font class="rotate">Indoor cooking</font></td>
+                    <td class="rotate"><span>Passive smoking</span></td>
+                    <td class="rotate"><span>Indoor cooking</span></td>
                     <td>Exacerbation today?</td>
                     <td>Asthma severity</td>
                     <td rowspan="2">COPD</td>
@@ -64,20 +64,20 @@
                     <td>kg</td>
                     <td>#/week</td>
                     <td>#/week</td>
-                    <td><font class="rotate">#/day</font></td>
-                    <td><font class="rotate">#/wk</font></td>
-                    <td><font class="rotate">#/mo</font></td>
-                    <td><font class="rotate">#/yr</font></td>
+                    <td class="rotate"><span>#/day</span></td>
+                    <td class="rotate"><span>#/wk</span></td>
+                    <td class="rotate"><span>#/mo</span></td>
+                    <td class="rotate"><span>#/yr</span></td>
                     <td>Y/N</td>
                     <td>#cig/day</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
                     <td></td>
-                    <td><font class="rotate">Inhaled B-agonist</font></td>
-                    <td><font class="rotate">Inhaled steroid</font></td>
-                    <td><font class="rotate">Oral steroid</font></td>
-                    <td><font class="rotate">Other</font></td>
+                    <td class="rotate"><span>Inhaled B-agonist</span></td>
+                    <td class="rotate"><span>Inhaled steroid</span></td>
+                    <td class="rotate"><span>Oral steroid</span></td>
+                    <td class="rotate"><span>Other</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -261,7 +261,7 @@
             </tr>
             <tr>
                 <!-- Passive smoking -->
-                <th><font class="rotate">Passive smoking</font></th>
+                <th><span class="rotate">Passive smoking</span></th>
                 <td><obs conceptId="$secondHandSmoke" style="radio"/></td>
             </tr>
             <tr>

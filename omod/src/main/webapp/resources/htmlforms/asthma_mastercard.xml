@@ -39,8 +39,8 @@
         occupation=1304
         relationToPatient=1328
         secondHandSmoke=8444
-        yes=1065
-        no=1066
+        yesAnswer=1065
+        noAnswer=1066
         lastTimeSecondHandSmoke=8433
         agreesToFollowup=2552
         vhwName=8431
@@ -124,7 +124,7 @@
                             <td>Agrees to FUP</td>
                             <td>
                                 <span class="left-cell">
-                                    <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$no,$yes" />
+                                    <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
                                 </span>
                                 <span class="right-cell">
                                     <obs conceptId="$vhwName" labelText="VHW Name" />
@@ -172,7 +172,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">Occupation: <obs conceptId="$occupation"/></td>
-                            <td>Second hand smoking: <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yes" answerLabel="" /></td>
+                            <td>Second hand smoking: <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" /></td>
                             <td>Date: <obs conceptId="$lastTimeSecondHandSmoke"/></td>
                         </tr>
                         <tr>
