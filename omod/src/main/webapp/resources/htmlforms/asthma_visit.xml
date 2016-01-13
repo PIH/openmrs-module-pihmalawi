@@ -1,4 +1,4 @@
-<htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="f4596df5-925c-11e5-a1de-e82aea237783" formVersion="1.0">
+<htmlform formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837" formName="Asthma Visit" formEncounterType="f4596df5-925c-11e5-a1de-e82aea237783" formVersion="1.1">
 
     <macros>
         chronicCareDiagnosis=3683
@@ -27,6 +27,7 @@
         severePersistent=8408
         severeUncontrolled=8409
         copdDx=3716
+        otherDx=7685
         comments=2880
         nextAppt=5096
     </macros>
@@ -150,6 +151,7 @@
                     </td>
                     <td>
                         <!-- Other dx -->
+                        <obs conceptId="$otherDx" />
                     </td>
                     <td>
                         <!-- Inhaled B-agonist -->
@@ -285,6 +287,7 @@
             <tr>
                 <!-- Other dx -->
                 <th>Other dx</th>
+                <td><obs conceptId="$otherDx" /></td>
             </tr>
             <tr>
                 <th>Treatment</th>
