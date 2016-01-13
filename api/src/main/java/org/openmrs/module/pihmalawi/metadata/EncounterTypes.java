@@ -58,6 +58,13 @@ public class EncounterTypes {
         public String name() { return "ASTHMA_FOLLOWUP"; }
         public String description() { return "Visit rows in the Asthma Mastercard"; }
     };
+
+    public static EncounterTypeDescriptor ASTHMA_HOSPITALIZATION = new EncounterTypeDescriptor() {
+        public String uuid() { return "2478C35B-9A71-4BD5-86B6-E8CCE594E934"; }
+        public String name() { return "ASTHMA HOSPITALIZATION"; }
+        public String description() { return "Hospitalization for Lung Disease"; }
+    };
+
     public static EncounterTypeDescriptor EPILEPSY_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "D8CBF1B9-EC74-4858-8764-2350E2A9925B"; }
         public String name() { return "EPILEPSY_INITIAL"; }
