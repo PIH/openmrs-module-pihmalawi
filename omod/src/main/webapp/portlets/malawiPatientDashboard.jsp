@@ -161,7 +161,7 @@
     </tr>
     <tr>
         <td>Chronic Care Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,85,140" defaultLocation="2"/></td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,85,86,140,141" defaultLocation="2"/></td>
     </tr>
     <tr>
         <td>TB Program:</td>
