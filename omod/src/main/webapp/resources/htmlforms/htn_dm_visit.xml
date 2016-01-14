@@ -68,7 +68,7 @@
                     <td>Next appt</td>
                 </tr>
                 <tr>
-                    <td><i style="font-size:.5em;">day/month/year</i></td>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
                     <td></td>
@@ -103,7 +103,7 @@
                     -->
 
                     <td></td>
-                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">

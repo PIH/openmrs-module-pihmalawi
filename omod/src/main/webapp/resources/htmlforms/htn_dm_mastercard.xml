@@ -177,12 +177,22 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/></td>
+                                                     answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. heart attack, ischemic heart disease, CCF)
+                                    </i>
+                                </td>
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$pvdDx" answerLabel="PVD"/></td>
+                                                     answerConceptId="$pvdDx" answerLabel="PVD"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. ulcers, gangrene)
+                                    </i>
+                                </td>
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
                         </tr> 
@@ -201,7 +211,12 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$renalDx" answerLabel="Renal Disease"/></td>
+                                                     answerConceptId="$renalDx" answerLabel="Renal Disease"/>
+                                    <br/>
+                                    <i style="font-size:.7em;">
+                                        (e.g. elevated creatinine)
+                                    </i>
+                                </td>
                                 <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
