@@ -28,6 +28,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // Epilepsy
         install(EncounterTypes.EPILEPSY_INITIAL);
         install(EncounterTypes.EPILEPSY_FOLLOWUP);
+
+        // Mental Health
+        install(EncounterTypes.MENTAL_HEALTH_INITIAL);
+        install(EncounterTypes.MENTAL_HEALTH_FOLLOWUP);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

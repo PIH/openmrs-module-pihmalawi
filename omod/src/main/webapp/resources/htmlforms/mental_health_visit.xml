@@ -1,0 +1,209 @@
+<htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit" formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.1">
+
+    <macros>
+        chronicCareDiagnosis=3683
+        plannedVisit=8435
+        no=1066
+        yes=1065
+        height=5090
+        weight=5089
+        daysx=8436
+        nightsx=8437
+        baDay=8438
+        baWk=8439
+        baMo=8440
+        baYr=8441
+        steroidUse=8442
+        smoking=6161
+        secondHandSmoke=8443
+        cookingLocation=8404
+        indoor=2437
+        outdoor=2438
+        exacerbation=8444
+        asthmaClass=8410
+        intermittent=8405
+        mild=8406
+        moderatePersistent=8407
+        severePersistent=8408
+        severeUncontrolled=8409
+        copdDx=3716
+        otherDx=7685
+        comments=2880
+        nextAppt=5096
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table">
+            <thead class="visit-table-header">
+                <tr> <!-- Label row -->
+                    <td>Visit Date</td>
+                    <td>Weight</td>
+                    <td rowspan="2">History</td>
+                    <td rowspan="2">Mental status examination</td>
+                    <td>Suicide risk</td>
+                    <td>Medication side effect</td>
+                    <td colspan="8">Treatment Details</td>
+                    <td rowspan="2">Comments</td>
+                    <td>Next appointment</td>
+                </tr>
+                <tr> <!-- Units row -->
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                    <td>kg</td>
+                    <td>Y/N</td>
+                    <td>Y/N</td>
+                    <td class="rotate"><span>Chbrpromazine(CPZ)</span></td>
+                    <td class="rotate"><span>Habperidol</span></td>
+                    <td class="rotate"><span>Fluphenazine</span></td>
+                    <td class="rotate"><span>Carbamazepine</span></td>
+                    <td class="rotate"><span>Sodium Valproate</span></td>
+                    <td class="rotate"><span>Risperidone</span></td>
+                    <td class="rotate"><span>Fluoxetine</span></td>
+                    <td class="rotate"><span>others</span></td>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <encounterDate/>
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+                    <td>
+                        <!-- History -->
+                    </td>
+                    <td>
+                        <!-- Mental status examination -->
+                    </td>
+                    <td>
+                        <!-- Suicide risk -->
+                    </td>
+                    <td>
+                        <!-- Medication side effects -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Treatment Details -->
+                    </td>
+                    <td>
+                        <!-- Comments -->
+                        <obs conceptId="$comments" />
+                    </td>
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="28" align="left">
+                        <submit />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Mental Health Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Chronic Care no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+            <tr>
+                <!-- Planned Visit -->
+                <th><font>Planned Visit?</font></th>
+                <td class="focus-field"><obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" /></td>
+            </tr>
+            <tr>
+                <!-- Weight -->
+                <th>Weight (kg)</th>
+                <td><obs conceptId="$weight" id="weightInput" size="3"/></td>
+            </tr>
+            <tr>
+                <!-- History -->
+                <th>History</th>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- Mental status examination -->
+                <th>Mental status examination</th>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- Suicide risk -->
+                <th>Suicide risk</th>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <!-- Medication side effects -->
+                <th>Medication side effects</th>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- Treatment Details -->
+                <th>Treatment Details</th>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- Comments -->
+                <th>Comments</th>
+                <td><obs conceptId="$comments" /></td>
+            </tr>
+            <tr>
+                <!-- Next appointment -->
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+        </table>
+        <submit />
+    </ifMode>
+
+</htmlform>

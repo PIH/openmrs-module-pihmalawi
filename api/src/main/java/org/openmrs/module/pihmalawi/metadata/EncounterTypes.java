@@ -76,4 +76,16 @@ public class EncounterTypes {
         public String name() { return "EPILEPSY_FOLLOWUP"; }
         public String description() { return "Visit rows in the Epilepsy Mastercard"; }
     };
+
+    public static EncounterTypeDescriptor MENTAL_HEALTH_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "3F94849C-F245-4593-BCC8-879EAEA29168"; }
+        public String name() { return "MENTAL_HEALTH_INITIAL"; }
+        public String description() { return "Top section of the Mental Health Mastercard"; }
+    };
+
+    public static EncounterTypeDescriptor MENTAL_HEALTH_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1"; }
+        public String name() { return "MENTAL_HEALTH_FOLLOWUP"; }
+        public String description() { return "Visit rows in the Mental Health Mastercard"; }
+    };
 }
