@@ -38,8 +38,9 @@
         <table class="visit-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td>Visit Date</td>
-                    <td class="rotate"><span>Planned Visit?</span></td>
+                    <td rowspan="2">Visit Date</td>
+                    <td rowspan="2">Visit Location</td>
+                    <td><span>Planned Visit?</span></td>
                     <td>Height</td>
                     <td>Weight</td>
                     <td>Daysx</td>
@@ -50,7 +51,7 @@
                     <td class="rotate"><span>Passive smoking</span></td>
                     <td class="rotate"><span>Indoor cooking</span></td>
                     <td>Exacerbation today?</td>
-                    <td>Asthma severity</td>
+                    <td rowspan="2">Asthma severity</td>
                     <td rowspan="2">COPD</td>
                     <td rowspan="2">Other dx</td>
                     <td colspan="4">Treatment</td>
@@ -58,7 +59,6 @@
                     <td rowspan="2">Next appointment</td>
                 </tr>
                 <tr> <!-- Units row -->
-                    <td></td>
                     <td>Y/N</td>
                     <td>cm</td>
                     <td>kg</td>
@@ -73,7 +73,6 @@
                     <td>Y/N</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
-                    <td></td>
                     <td class="rotate"><span>Inhaled B-agonist</span></td>
                     <td class="rotate"><span>Inhaled steroid</span></td>
                     <td class="rotate"><span>Oral steroid</span></td>
@@ -84,6 +83,9 @@
                 <tr class="visit-table-row">
                     <td class="nowrap visit-date">
                         <encounterDate/>
+                    </td>
+                    <td>
+                        <encounterLocation/>
                     </td>
                     <td>
                         <!-- Planned Visit -->
