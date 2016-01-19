@@ -80,7 +80,7 @@
                     <td>Alcohol</td>
                     <td>F/V</td>
                     <td>Exercise<br/>days</td>
-                    <td></td>
+                    <td><i>%</i></td>
                     <td></td>
                     <td></td>
 
@@ -307,17 +307,17 @@
 
             <tr>
                 <th>Days per week with 30 minutes of exercise</th>
-                <td><obs conceptId="$exercise" /></td>
+                <td><obs conceptId="$exercise" showUnits="true" /></td>
             </tr>
 
             <tr>
-                <th>Number of fruit and veggie portions</th>
-                <td><obs conceptId="$fruitVeggies" /></td>
+                <th>Number of fruit and vegetable portions</th>
+                <td><obs conceptId="$fruitVeggies" showUnits="true" /></td>
             </tr>
 
             <tr>
                 <th>Cardiovascular risk</th>
-                <td><obs conceptId="$cvRisk" /></td>
+                <td><obs conceptId="$cvRisk" showUnits="true"/></td>
             </tr>
 
             <tr>

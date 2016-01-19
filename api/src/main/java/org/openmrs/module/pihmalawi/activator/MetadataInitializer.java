@@ -162,7 +162,7 @@ public class MetadataInitializer implements Initializer {
             }
         }
         {
-            Integer id = 3683;
+            Integer id = 8396;
 
             Concept c = cs.getConcept(id);
             log.warn("Updating answers for Chronic Care Diagnosis");
@@ -183,6 +183,17 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 Diabetes
             c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded
             cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8396;
+            String units = "servings per day";
+            ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Number of servings of fruits and vegetables consumed per day")) {
+                log.warn("Add units for Number of servings of fruits and vegetables consumed per day");
+                c.setUnits(units);
+                cs.saveConcept(c);
+            }
         }
 
         {
@@ -216,6 +227,7 @@ public class MetadataInitializer implements Initializer {
                 String name = "Days per week of moderate exercise";
                 Double hiAb = 7.0;
                 Double lowAb = 0.0;
+                String units = "days per week";
                 ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
@@ -227,6 +239,7 @@ public class MetadataInitializer implements Initializer {
                     c.setSet(false);
                     c.setHiAbsolute(hiAb);
                     c.setLowAbsolute(lowAb);
+                    c.setUnits(units);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                     cs.saveConcept(c);
                 }
@@ -700,9 +713,10 @@ public class MetadataInitializer implements Initializer {
             }
             {
                 {
+                    // Use Scheduled visit (1246)?
                     Integer id = 8435;
                     String uuid = "0bea98a6-8c34-11e5-80a3-c0430f805837";
-                    String name = "Is the visit planned?";
+                    String name = "Planned visit";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -758,7 +772,7 @@ public class MetadataInitializer implements Initializer {
                 {
                     Integer id = 8438;
                     String uuid = "79a37b88-8c34-11e5-80a3-c0430f805837";
-                    String name = "Number of times inhaler is used in a day";
+                    String name = "Inhaler use per day";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -776,7 +790,7 @@ public class MetadataInitializer implements Initializer {
                 {
                     Integer id = 8439;
                     String uuid = "baf99a7c-8c34-11e5-80a3-c0430f805837";
-                    String name = "Number of times inhaler is used in a week";
+                    String name = "Inhaler use per week";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -794,7 +808,7 @@ public class MetadataInitializer implements Initializer {
                 {
                     Integer id = 8440;
                     String uuid = "b60d8d98-8c34-11e5-80a3-c0430f805837";
-                    String name = "Number of times inhaler is used in a month";
+                    String name = "Inhaler use per month";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -830,7 +844,7 @@ public class MetadataInitializer implements Initializer {
                 {
                     Integer id = 8442;
                     String uuid = "359808c6-8c36-11e5-80a3-c0430f805837";
-                    String name = "Is inhaled steroid used daily?";
+                    String name = "Daily inhaled steroid use";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -870,7 +884,7 @@ public class MetadataInitializer implements Initializer {
                 {
                     Integer id = 8444;
                     String uuid = "2198f6d8-8c35-11e5-80a3-c0430f805837";
-                    String name = "Asthma exacerbation today?";
+                    String name = "Asthma exacerbation today";
                     Concept c = cs.getConcept(id);
                     if (c == null) {
                         log.warn("Creating " + name);
@@ -913,14 +927,20 @@ public class MetadataInitializer implements Initializer {
                 String uuid = "163214AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
                 String name = "Cardiovascular risk score";
                 String synonym_1 = "CV risk score";
-                Concept c = cs.getConcept(id);
+                Double lowAb = 0.0;
+                Double hiAb = 100.0;
+                String units = "%";
+                ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
-                    c = new Concept();
+                    c = new ConceptNumeric();
                     c.setConceptId(id);
                     c.setUuid(uuid);
                     c.setConceptClass(cs.getConceptClassByName("Finding"));
                     c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setLowAbsolute(lowAb);
+                    c.setHiAbsolute(hiAb);
+                    c.setUnits(units);
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                     c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
