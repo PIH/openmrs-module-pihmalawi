@@ -310,8 +310,10 @@
                         }
                     }
                 });
-            }
-            if (!inserted) {
+                if (!inserted) {
+                    table.find(".visit-table-body").append(newRow);
+                }
+            } else {
                 table = jq(data).find(".visit-table");
                 addLinksToVisitRow(table.find(".visit-table-row"), formName, encId);
                 section.append(table);
