@@ -218,35 +218,35 @@
             </tr>
             <tr>
                 <!-- Height -->
-                <th>Height (cm)</th>
-                <td><obs conceptId="$height" id="heightInput" size="3"/></td>
+                <th>Height</th>
+                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
             </tr>
             <tr>
                 <!-- Weight -->
-                <th>Weight (kg)</th>
-                <td><obs conceptId="$weight" id="weightInput" size="3"/></td>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
             <tr>
                 <!-- Daysx -->
-                <th>Daysx (#/week)</th>
-                <td><obs conceptId="$daysx" size="2"/></td>
+                <th>Daysx</th>
+                <td><obs conceptId="$daysx" size="2"/>#/week</td>
             </tr>
             <tr>
                 <!-- Nightsx -->
-                <th>Nightsx (#/week)</th>
-                <td><obs conceptId="$nightsx" size="2"/></td>
+                <th>Nightsx</th>
+                <td><obs conceptId="$nightsx" size="2"/>#/week</td>
             </tr>
             <tr>
                 <!-- BA Use Day -->
                 <th>Beta-agonist inhaler use: frequency</th>
                 <td>
-                    Daily (#/day): <obs conceptId="$baDay" size="2"/>
-                    <span style="padding-left:10px">Weekly (#/week): </span>
-                    <obs conceptId="$baWk" size="2"/>
-                    <span style="padding-left:10px">Monthly (#/month): </span>
-                    <obs conceptId="$baMo" size="2"/>
-                    <span style="padding-left:10px">Yearly (#/year): </span>
-                    <obs conceptId="$baYr" size="2"/>
+                    Daily: <obs conceptId="$baDay" size="2"/>#/day
+                    <span style="padding-left:10px">Weekly: </span>
+                    <obs conceptId="$baWk" size="2"/>#/week
+                    <span style="padding-left:10px">Monthly:</span>
+                    <obs conceptId="$baMo" size="2"/>#/month
+                    <span style="padding-left:10px">Yearly: </span>
+                    <obs conceptId="$baYr" size="2"/>#/year
                 </td>
             </tr>
             <tr>
@@ -256,8 +256,8 @@
             </tr>
             <tr>
                 <!-- Smoking -->
-                <th>Smoking (#cig/day)</th>
-                <td><obs conceptId="$smoking" size="2"/></td>
+                <th>Smoking</th>
+                <td><obs conceptId="$smoking" size="2"/>#cig/day</td>
             </tr>
             <tr>
                 <!-- Passive smoking -->
