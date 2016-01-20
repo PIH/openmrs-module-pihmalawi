@@ -43,8 +43,8 @@
                     <td><span>Planned Visit?</span></td>
                     <td>Height</td>
                     <td>Weight</td>
-                    <td>Daysx</td>
-                    <td>Nightsx</td>
+                    <td>Day<br/>sx</td>
+                    <td>Night<br/>sx</td>
                     <td colspan="4">Beta-agonist inhaler use: frequency</td>
                     <td class="rotate"><span>Steroid inhaler daily?</span></td>
                     <td>Smoking</td>
@@ -89,7 +89,7 @@
                     </td>
                     <td>
                         <!-- Planned Visit -->
-                        <obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" />
+                        <obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Height -->
@@ -100,11 +100,11 @@
                         <obs conceptId="$weight" id="weightInput" size="3"/>
                     </td>
                     <td>
-                        <!-- Daysx -->
+                        <!-- Day sx -->
                         <obs conceptId="$daysx" size="2"/>
                     </td>
                     <td>
-                        <!-- Nightsx -->
+                        <!-- Night sx -->
                         <obs conceptId="$nightsx" size="2"/>
                     </td>
                     <td>
@@ -125,7 +125,7 @@
                     </td>
                     <td>
                         <!-- Steroid use -->
-                        <obs conceptId="$steroidUse" style="radio"/>
+                        <obs conceptId="$steroidUse" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio"/>
                     </td>
                     <td>
                         <!-- Smoking -->
@@ -133,15 +133,15 @@
                     </td>
                     <td>
                         <!-- Passive smoking -->
-                        <obs conceptId="$secondHandSmoke" style="radio"/>
+                        <obs conceptId="$secondHandSmoke" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio"/>
                     </td>
                     <td>
                         <!-- Indoor cooking -->
-                        <obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" style="radio" answerLabels="Y,N" />
+                        <obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Exacerbation today -->
-                        <obs conceptId="$exacerbation" style="radio" />
+                        <obs conceptId="$exacerbation" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Intermittent -->
@@ -207,7 +207,7 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+                <td><encounterDate id="visitDate" default="today" /></td>
             </tr>
             <tr>
                 <th>Visit Location</th>
@@ -229,14 +229,14 @@
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
             <tr>
-                <!-- Daysx -->
-                <th>Daysx</th>
-                <td><obs conceptId="$daysx" size="2"/>#/week</td>
+                <!-- Day sx -->
+                <th>Day symptoms</th>
+                <td><obs conceptId="$daysx" size="2"/># per week</td>
             </tr>
             <tr>
                 <!-- Nightsx -->
-                <th>Nightsx</th>
-                <td><obs conceptId="$nightsx" size="2"/>#/week</td>
+                <th>Night symptoms</th>
+                <td><obs conceptId="$nightsx" size="2"/># per week</td>
             </tr>
             <tr>
                 <!-- BA Use Day -->
@@ -254,27 +254,27 @@
             <tr>
                 <!-- Steroid use -->
                 <th>Steroid inhaler daily?</th>
-                <td><obs conceptId="$steroidUse" style="radio"/></td>
+                <td><obs conceptId="$steroidUse" answerConceptIds="$yes,$no" style="radio"/></td>
             </tr>
             <tr>
                 <!-- Smoking -->
                 <th>Smoking</th>
-                <td><obs conceptId="$smoking" size="2"/>#cig/day</td>
+                <td><obs conceptId="$smoking" size="2"/># of cigarettes per day</td>
             </tr>
             <tr>
                 <!-- Passive smoking -->
                 <th><span class="rotate">Passive smoking</span></th>
-                <td><obs conceptId="$secondHandSmoke" style="radio"/></td>
+                <td><obs conceptId="$secondHandSmoke" answerConceptIds="$yes,$no" style="radio"/></td>
             </tr>
             <tr>
                 <!-- Indoor cooking -->
                 <th><font>Indoor cooking</font></th>
-                <td><obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" style="radio" answerLabels="Y,N" /> </td>
+                <td><obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" style="radio" answerLabels="Yes,No" /> </td>
             </tr>
             <tr>
                 <!-- Exacerbation today -->
                 <th>Exacerbation today?</th>
-                <td><obs conceptId="$exacerbation" style="radio" /> </td>
+                <td><obs conceptId="$exacerbation" answerConceptIds="$yes,$no" style="radio" /> </td>
             </tr>
             <tr>
                 <!-- Intermittent -->
