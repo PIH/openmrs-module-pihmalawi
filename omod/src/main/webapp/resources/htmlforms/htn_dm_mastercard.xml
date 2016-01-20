@@ -109,12 +109,13 @@
                         <tr>
                             <td>Guardian Phone</td>
                             <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$guardianPhone" size="10"/>
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$relationToPatient" labelText="Relation to patient" size="10" />
-                                </span>
+                                <obs conceptId="$guardianPhone" size="10"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$relationToPatient" size="10" />
                             </td>
                         </tr>
                         <tr>
