@@ -41,8 +41,8 @@
                     <td rowspan="2">Visit Date</td>
                     <td rowspan="2">Visit Location</td>
                     <td><span>Planned Visit?</span></td>
-                    <td>Height</td>
-                    <td>Weight</td>
+                    <td>Ht</td>
+                    <td>Wt</td>
                     <td>Day<br/>sx</td>
                     <td>Night<br/>sx</td>
                     <td colspan="4">Beta-agonist inhaler use: frequency</td>
@@ -53,7 +53,7 @@
                     <td>Exacerbation today?</td>
                     <td rowspan="2">Asthma severity</td>
                     <td rowspan="2">COPD</td>
-                    <td rowspan="2">Other dx</td>
+                    <td rowspan="2">Other</td>
                     <td colspan="4">Treatment</td>
                     <td rowspan="2">Comments</td>
                     <td rowspan="2">Next appointment</td>

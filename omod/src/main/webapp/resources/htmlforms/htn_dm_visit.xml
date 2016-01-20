@@ -52,57 +52,46 @@
                     <td>Visit Date</td>
                     <td>Ht</td>
                     <td>Wt</td>
-                    <td>BMI</td>
-                    <td>BP</td>
-                    <td>PR</td>
+                    <td rowspan="2">BMI</td>
+                    <td rowspan="2" span="2">BP</td>
+                    <td rowspan="2">PR</td>
                     <td colspan="2">Blood sugar<br/>(mg/dL)</td>
                     <td colspan="4">Risk assessment</td>
-                    <td>CV risk</td>
-                    <td>Visual<br/>acuity</td>
-                    <td>Foot check</td>
-                    <td>Insulin</td>
-                    <td>Diabetes<br/>medications</td>
-                    <td>Anti-hypertensives</td>
-                    <td>Other<br/>medications</td>
-                    <td>Comment</td>
+                    <td rowspan="2" class="rotate">CV risk %</td>
+                    <td rowspan="2" class="rotate">Visual acuity</td>
+
+                    <td rowspan="2">Foot<br/>check</td>
+                    <td rowspan="2">Insulin</td>
+                    <td rowspan="2">Diabetes<br/>meds</td>
+                    <td rowspan="2" class="rotate">Anti-hypertensives</td>
+                    <td rowspan="2">Other<br/>meds</td>
+                    <td rowspan="2">Comment</td>
                     <td>Next appt</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Fasting</td>
-                    <td>Random</td>
-                    <td>Tobacco</td>
-                    <td>Alcohol</td>
-                    <td>F/V</td>
-                    <td>Exercise<br/>days</td>
-                    <td><i>%</i></td>
-                    <td></td>
-                    <td></td>
-
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="rotate">Fasting</td>
+                    <td class="rotate">Random</td>
+                    <td class="rotate">Tobacco</td>
+                    <td class="rotate">Alcohol</td>
+                    <td class="rotate">F/V portions</td>
+                    <td class="rotate">Exercise days</td>
 
                     <!--
-                    <td>Long acting</td>
-                    <td>Short acting</td>
-                    <td>Metformin</td>
-                    <td>Glibenclamide</td>
-                    <td>Diuretic</td>
-                    <td>CCB</td>
-                    <td>ACE-I</td>
-                    <td>BB</td>
-                    <td>ASA</td>
-                    <td>Statin</td>
+                    <td class="rotate">Long acting</td>
+                    <td class="rotate">Short acting</td>
+                    <td class="rotate">Metformin</td>
+                    <td class="rotate">Glibenclamide</td>
+                    <td class="rotate">Diuretic</td>
+                    <td class="rotate">CCB</td>
+                    <td class="rotate">ACE-I</td>
+                    <td class="rotate">BB</td>
+                    <td class="rotate">ASA</td>
+                    <td class="rotate">Statin</td>
                     -->
 
-                    <td></td>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
             </thead>
@@ -148,12 +137,12 @@
 
                     <td>
                         <!-- Tobacco -->
-                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="T" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="" style="checkbox" />
                     </td>
 
                     <td>
                         <!-- Alcohol -->
-                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="A" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="" style="checkbox" />
                     </td>
 
                     <td>
@@ -187,7 +176,7 @@
                         <!-- Insulin -->
                         <!-- ToDo:  Add construct with dose and frequency -->
                         <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
-                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             <br/>
                         </repeat>
                     </td>
@@ -195,7 +184,7 @@
                     <td>
                         <!-- Diabetes -->
                         <repeat with="['$metformin'],['$glibenclamide']">
-                            <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
                             <br/>
                         </repeat>
                     </td>
@@ -203,7 +192,7 @@
                     <td>
                         <!-- Anti-hypertensives -->
                         <repeat with="['$diuretic','Diuretic'],['$ccBlocker','CCB'],['$aceInhibit','ACE-I'],['$betaBlocker','BB']">
-                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             <br/>
                         </repeat>
                    </td>
@@ -211,7 +200,7 @@
                     <td>
                         <!-- Other medications -->
                         <repeat with="['$aspirin','ASA],['$statin','Statin']">
-                            <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             <br/>
                         </repeat>
                     </td>
@@ -382,7 +371,7 @@
             </tr>
 
             <tr>
-                <th>Next appointment</th>
+                <th>Next appointment<br/><i>(future date)</i></th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
             </tr>
 
