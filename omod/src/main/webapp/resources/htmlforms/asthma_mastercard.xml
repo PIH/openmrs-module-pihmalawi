@@ -20,7 +20,7 @@
         smearPos=2185
         smearNeg=2186
         eptb=1547
-        tbYear=2182
+        tbYear=8453
         patientPhone=1426
         symptom=1293
         dryCough=2128
@@ -157,7 +157,8 @@
                             <td rowspan="5">Patient<br/>History &#38;<br/>Exposures</td>
                             <td>HIV <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nonReactive,$unknown"/><br/>Date Test: <obs conceptId="$hivTestDate" /></td>
                             <td>ART Start Date:<br/><obs conceptId="$artStartDate" /></td>
-                            <td colspan="2">TB: <obs conceptId="$tbStatus" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown" answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>Year: <obs conceptId="$tbYear"/></td>
+                            <td colspan="2">TB: <obs conceptId="$tbStatus" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown" answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>
+                                <obs conceptId="$tbYear" labelText="Year:"/></td>
                         </tr>
                         <tr>
                             <td>Chronic dry cough <obs conceptId="$symptom" answerConceptId="$dryCough" style="checkbox" answerLabel=""/></td>
