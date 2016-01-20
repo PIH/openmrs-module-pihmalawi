@@ -1084,6 +1084,45 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            Integer id = 1193;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Current Drugs Used"); // For NCD
+            c.getAnswers().clear();
+            
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(92)));   // Dapsone (92)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(438)));  // Streptomycin (438)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(656)));  // Isoniazid (656)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(745)));  // Ethambutol (745)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(747)));  // Fluconazole (747)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1131))); // Rifampicin Isoniazid Pyrazinamide Ethambutol (1131)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1194))); // Rifampicin and isoniazid (1194)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(768)));  // Rifampicin isoniazid and pyrazinamide (768)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(916)));  // Trimethoprim and sulfamethoxazole (916)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(919)));  // Nystatin (919)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1195))); // Antibiotics (1195)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5839))); // Antimalarial medications (5839)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5841))); // Herbal traditional medications (5841)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(461)));  // Multivitamin (461)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5843))); // Minerals iron supplements (5843)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown (1067)
+
+            // Adding new answers for Hypertension and Diabetes
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6750))); // longActingInsulin=6750
+            c.addAnswer(new ConceptAnswer(cs.getConcept(282)));  // shortActingRegularInsulin=282
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4052))); // metformin=4052
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4046))); // glibenclamide=4046
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8466))); // diuretic=8466
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8465))); // ccBlocker=8465
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8464))); // aceInhibit=8464
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8463))); // betaBlocker=8463
+            c.addAnswer(new ConceptAnswer(cs.getConcept(88)));   // aspirin=88
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8462))); // statin=8462
+            cs.saveConcept(c);
+        }
+
+        {
             {
                 Integer id = 8467;
                 String uuid = "484499f2-b58b-11e5-9f22-ba0be0483c18";

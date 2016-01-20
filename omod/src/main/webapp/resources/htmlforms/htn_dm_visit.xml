@@ -27,7 +27,6 @@
         footDeform=8456
         footUlcer=6566
         drugsNow=1193
-        drugDoseUnit=text
         drugFreq=3320
         longActingInsulin=6750
         shortActingRegularInsulin=282
@@ -328,7 +327,7 @@
                 <th>Insulin medications</th>
                 <td>
                     <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
-                        <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         <br/>
                     </repeat>
                 </td>
@@ -338,7 +337,7 @@
                 <th>Diabetes medications</th>
                 <td>
                     <repeat with="['$metformin'],['$glibenclamide']">
-                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
                         <br/>
                     </repeat>
                 </td>
@@ -348,7 +347,7 @@
                 <th>Anti-hypertensives</th>
                 <td>
                     <repeat with="['$diuretic'],['$ccBlocker'],['$aceInhibit'],['$betaBlocker']">
-                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
                         <br/>
                     </repeat>
                 </td>
@@ -358,7 +357,7 @@
                 <th>Other medications</th>
                 <td>
                     <repeat with="['$aspirin'],['$statin']">
-                        <obs conceptId="$footExam" answerConceptId="{0}" style="checkbox" />
+                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
                         <br/>
                     </repeat>
                 </td>
