@@ -259,6 +259,7 @@
             var currentFlowsheet = mastercard.getFlowsheet(currentlyEditingFormName);
             currentFlowsheet.addEncounterId(result.encounterId);
             mastercard.loadIntoFlowsheet(currentlyEditingFormName, result.encounterId); // Add new row for this encounter
+            jq('.flowsheet-edit-section').empty();
             mastercard.toggleViewFlowsheet();
         }
         return false;

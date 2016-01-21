@@ -78,7 +78,7 @@
             <tr>
                 <th>Date</th>
                 <td>
-                    <encounterDate id="visitDate" size="20" default="today"/>
+                    <encounterDate id="visitDate" default="today"/>
                 </td>
             </tr>
             <tr>
@@ -90,7 +90,7 @@
 
             <tr>
                 <th>Length of stay</th>
-                <td>
+                <td class="focus-field">
                     <obs conceptId="$hospitalDays" />days
                 </td>
             </tr>
