@@ -103,19 +103,19 @@
     </tr>
     <tr>
         <td>Chronic Care Record:</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="83"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Asthma eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Asthma eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="83"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="83"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td><br /></td>

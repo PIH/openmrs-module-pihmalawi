@@ -77,7 +77,7 @@
 	</tr>
 	<tr>
 		<td>Chronic Care Record:</td>
-		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"/></td>
+		<td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"  patientIdentifierType="21"/></td>
 	</tr>
 	<tr>
 		<td><br /></td>
