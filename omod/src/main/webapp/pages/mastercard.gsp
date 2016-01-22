@@ -57,6 +57,10 @@
     .form-action-link {
         padding-left: 10px; padding-right:10px;
     }
+    
+    #htmlform {
+        width: 100%;
+    }
     form input, form select, form textarea, form ul.select, form label, .form input, .form select, .form textarea, .form ul.select .form label {
         display: inline;
         min-width: inherit;
