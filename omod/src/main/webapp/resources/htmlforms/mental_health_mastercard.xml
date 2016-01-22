@@ -94,8 +94,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Physical<br/>Address</td>
-                            <td style="height:60px;">
+                            <td>Physical Address</td>
+                            <td><!-- style="height:60px;" -->
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
                         </tr>
@@ -124,12 +124,13 @@
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$vhwName" labelText="VHW Name" />
-                                </span>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHW Name</td>
+                            <td>
+                                <obs conceptId="$chwName"  />
                             </td>
                         </tr>
                     </table>

@@ -6,8 +6,8 @@
         guardianPhone=3294
         guardianRelation=1826
         agreesToFup=2552
-        no=1066
-        yes=1065
+        noAnswer=1066
+        yesAnswer=1065
         whoClinicalConditions=8081
         whoStage=7562
         stage1=7041
@@ -96,7 +96,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Physical<br/>Address</td>
+                            <td>Physical Address</td>
                             <td>
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
@@ -108,25 +108,27 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Phone</td>
+                            <td>Guardian Phone</td>
                             <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$patientPhone" labelText="Patient" size="10"/>
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$guardianPhone" labelText="Guardian" size="10" />
-                                </span>
+                                <obs conceptId="$guardianPhone" size="10"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$relationToPatient" size="10" />
                             </td>
                         </tr>
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$agreesToFup" style="radio" answerLabels="N,Y" answerConceptIds="$no,$yes" />
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$guardianRelation" labelText="Guardian Relation" />
-                                </span>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHW Name</td>
+                            <td>
+                                <obs conceptId="$chwName"  />
                             </td>
                         </tr>
                     </table>
@@ -144,7 +146,7 @@
                             <td>Clin Stage</td>
                             <td class="nowrap">
                                 <obs conceptId="$whoStage" style="radio" answerConceptIds="$stage1,$stage2,$stage3,$stage4" answerLabels="1,2,3,4" />
-                                <obs conceptId="$presumedSevereHiv" style="checkbox" answerConceptId="$yes" answerLabel="Pres" />
+                                <obs conceptId="$presumedSevereHiv" style="checkbox" answerConceptId="$yesAnswer" answerLabel="Pres" />
                             </td>
                             <td>TB Status at Init.</td>
                             <td>
@@ -173,7 +175,7 @@
                             </td>
                             <td>Pregnant/Lactating</td>
                             <td>
-                                <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$no,$currentlyPregnant,$currentlyLactating" />
+                                <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
                             </td>
                         </tr>
                         <tr>
@@ -188,7 +190,7 @@
                             </td>
                             <td style="white-space: nowrap;">Ever taken ARVs</td>
                             <td>
-                                <obs conceptId="$everTakenArvs" style="radio" answerLabels="N,Y" answerConceptIds="$no,$yes" />
+                                <obs conceptId="$everTakenArvs" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
                             </td>
                         </tr>
                         <tr>
@@ -225,7 +227,7 @@
                         <tr>
                             <td><b>ART</b> educat. done</td>
                             <td>
-                                <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$no,$yes" />
+                                <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
                             </td>
                             <td>
                                 <obs conceptId="$artEducationDate" />

@@ -60,8 +60,8 @@
                     <td rowspan="2" class="rotate">Visual acuity</td>
 
                     <td rowspan="2">Foot<br/>check</td>
-                    <td rowspan="2">Insulin</td>
-                    <td rowspan="2">Diabetes<br/>meds</td>
+                    <td>Insulin</td>
+                    <td>Diabetes<br/>meds</td>
                     <td rowspan="2" class="rotate">Anti-hypertensives</td>
                     <td rowspan="2">Other<br/>meds</td>
                     <td rowspan="2">Comment</td>
@@ -78,6 +78,12 @@
                     <td class="rotate">F/V portions</td>
                     <td class="rotate">Exercise days</td>
 
+                    <td><font style="font-size:.7em;">
+                        <b>L</b>ong or
+                        <b>S</b>hort acting</font></td>
+                    <td><font style="font-size:.7em;">
+                        <b>MET</b>formin or
+                        <b>GLIB</b>enclamide</font></td>
                     <!--
                     <td class="rotate">Long acting</td>
                     <td class="rotate">Short acting</td>
@@ -171,24 +177,22 @@
                         </repeat>
                     </td>
 
+                    <!-- Insulin -->
                     <td>
-                        <!-- Insulin -->
                         <!-- ToDo:  Add construct with dose and frequency -->
-                        <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
+                        <repeat with="['$longActingInsulin','L'],['$shortActingRegularInsulin','S']">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                            <br/>
                         </repeat>
                     </td>
 
-                    <td>
+                    <td style="text-align: left;">
                         <!-- Diabetes -->
-                        <repeat with="['$metformin'],['$glibenclamide']">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
-                            <br/>
+                        <repeat with="['$metformin','MET'],['$glibenclamide','GLIB']">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </repeat>
                     </td>
 
-                    <td>
+                    <td style="text-align: left;">
                         <!-- Anti-hypertensives -->
                         <repeat with="['$diuretic','Diuretic'],['$ccBlocker','CCB'],['$aceInhibit','ACE-I'],['$betaBlocker','BB']">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
@@ -196,7 +200,7 @@
                         </repeat>
                    </td>
 
-                    <td>
+                    <td style="text-align: left;">
                         <!-- Other medications -->
                         <repeat with="['$aspirin','ASA],['$statin','Statin']">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
@@ -284,13 +288,13 @@
             <tr>
                 <th>Tobacco</th>
                 <td>
-                    <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="currently" style="checkbox" /></td>
+                    <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="" style="checkbox" /></td>
             </tr>
 
             <tr>
                 <th>Alcohol</th>
                 <td>
-                    <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="currently" style="checkbox" /></td>
+                    <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="" style="checkbox" /></td>
             </tr>
 
             <tr>
@@ -370,7 +374,7 @@
             </tr>
 
             <tr>
-                <th>Next appointment<br/><i>(future date)</i></th>
+                <th>Next appointment<br/></th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
             </tr>
 

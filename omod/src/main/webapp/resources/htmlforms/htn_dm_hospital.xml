@@ -19,9 +19,9 @@
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td>Length of Stay (days)</td>
-                    <td>Reason for Admission</td>
-                    <td>Discharge Diagnosis</td>
+                    <td>Length of Stay<br/><i style="font-size:.7em;">days</i></td>
+                    <td>Reason for<br/>Admission</td>
+                    <td>Discharge<br/>Diagnosis</td>
                     <td>Discharge Medications</td>
                 </tr>
             </thead>

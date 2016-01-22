@@ -29,8 +29,8 @@
         sexdysfxDx=8449
         diabetesFamilyHistory=6740
         hypertensionFamilyHistory=8458
-        yes=1065
-        no=1066
+        yesAnswer=1065
+        noAnswer=1066
         unknown=1067
         hivStatus=3753
         hivTestDate=1837
@@ -104,8 +104,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Physical<br/>Address</td>
-                            <td style="height:60px;">
+                            <td>Physical Address</td>
+                            <td><!-- style="height:60px;"-->
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
                         </tr>
@@ -134,12 +134,13 @@
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$no,$yes" />
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$chwName" labelText="CHW Name" />
-                                </span>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHW Name</td>
+                            <td>
+                                <obs conceptId="$chwName"  />
                             </td>
                         </tr>
                     </table>
