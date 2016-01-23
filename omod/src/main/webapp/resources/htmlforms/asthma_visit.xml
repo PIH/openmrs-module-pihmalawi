@@ -3,8 +3,8 @@
     <macros>
         chronicCareDiagnosis=3683
         plannedVisit=8435
-        no=1066
-        yes=1065
+        noAnswer=1066
+        yesAnswer=1065
         height=5090
         weight=5089
         daysx=8436
@@ -28,6 +28,11 @@
         severeUncontrolled=8409
         copdDx=3716
         otherDx=7685
+        lungTreatment=8474
+        bAgonistInhaled=8471
+        steroidInhaled=8472
+        steroidOral=8473
+        otherCoded=5622
         comments=2880
         nextAppt=5096
     </macros>
@@ -35,11 +40,10 @@
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
 
-        <table class="visit-table">
+        <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td rowspan="2">Visit Date</td>
-                    <td rowspan="2">Visit Location</td>
                     <td><span>Planned Visit?</span></td>
                     <td>Ht</td>
                     <td>Wt</td>
@@ -53,30 +57,30 @@
                     <td>Exacerbation today?</td>
                     <td rowspan="2">Asthma severity</td>
                     <td rowspan="2">COPD</td>
-                    <td rowspan="2">Other</td>
+                    <td rowspan="2">Other<br/>dx</td>
                     <td colspan="4">Treatment</td>
                     <td rowspan="2">Comments</td>
-                    <td rowspan="2">Next appointment</td>
+                    <td rowspan="2">Next appt date</td>
                 </tr>
                 <tr> <!-- Units row -->
                     <td>Y/N</td>
                     <td>cm</td>
                     <td>kg</td>
-                    <td>#/week</td>
-                    <td>#/week</td>
-                    <td class="rotate"><span>#/day</span></td>
-                    <td class="rotate"><span>#/wk</span></td>
-                    <td class="rotate"><span>#/mo</span></td>
-                    <td class="rotate"><span>#/yr</span></td>
+                    <td>#/w</td>
+                    <td>#/w</td>
+                    <td class="rotate"><span>#/d</span></td>
+                    <td class="rotate"><span>#/w</span></td>
+                    <td class="rotate"><span>#/m</span></td>
+                    <td class="rotate"><span>#/y</span></td>
                     <td>Y/N</td>
                     <td>#cig/day</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
-                    <td class="rotate"><span>Inhaled B-agonist</span></td>
-                    <td class="rotate"><span>Inhaled steroid</span></td>
-                    <td class="rotate"><span>Oral steroid</span></td>
-                    <td class="rotate"><span>Other</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Inhaled B-agonist</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Inhaled steroid</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Oral steroid</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Other</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -85,11 +89,8 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <encounterLocation/>
-                    </td>
-                    <td>
                         <!-- Planned Visit -->
-                        <obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio" />
+                        <obs conceptId="$plannedVisit" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Height -->
@@ -125,7 +126,7 @@
                     </td>
                     <td>
                         <!-- Steroid use -->
-                        <obs conceptId="$steroidUse" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio"/>
+                        <obs conceptId="$steroidUse" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio"/>
                     </td>
                     <td>
                         <!-- Smoking -->
@@ -133,15 +134,15 @@
                     </td>
                     <td>
                         <!-- Passive smoking -->
-                        <obs conceptId="$secondHandSmoke" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio"/>
+                        <obs conceptId="$secondHandSmoke" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Indoor cooking -->
-                        <obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" answerLabels="Y,N" style="radio" />
+                        <obs conceptId="$cookingLocation" answerConceptIds="$indoor,$outdoor" answerLabels="Y,N" style="radio"/>
                     </td>
                     <td>
                         <!-- Exacerbation today -->
-                        <obs conceptId="$exacerbation" answerConceptIds="$yes,$no" answerLabels="Y,N" style="radio" />
+                        <obs conceptId="$exacerbation" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Intermittent -->
@@ -155,18 +156,13 @@
                         <!-- Other dx -->
                         <obs conceptId="$otherDx" />
                     </td>
-                    <td>
-                        <!-- Inhaled B-agonist -->
-                    </td>
-                    <td>
-                        <!-- Inhaled steroid -->
-                    </td>
-                    <td>
-                        <!-- Oral steroid -->
-                    </td>
-                    <td>
-                        <!-- Other -->
-                    </td>
+
+                    <repeat with="['$bAgonistInhaled'],['$steroidInhaled'],['$steroidOral'],['$otherCoded']">
+                        <td>
+                            <obs conceptId="$lungTreatment" answerConceptId="{0}" answerLabel=""/>
+                        </td>
+                    </repeat>
+
                     <td>
                         <!-- Comments -->
                         <obs conceptId="$comments" />
@@ -216,7 +212,7 @@
             <tr>
                 <!-- Planned Visit -->
                 <th><font>Planned Visit?</font></th>
-                <td class="focus-field"><obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" /></td>
+                <td class="focus-field"><obs conceptId="$plannedVisit" answerConceptIds="$yesAnswer,$noAnswer" style="radio" /></td>
             </tr>
             <tr>
                 <!-- Height -->
@@ -254,7 +250,7 @@
             <tr>
                 <!-- Steroid use -->
                 <th>Steroid inhaler daily?</th>
-                <td><obs conceptId="$steroidUse" answerConceptIds="$yes,$no" style="radio"/></td>
+                <td><obs conceptId="$steroidUse" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
             </tr>
             <tr>
                 <!-- Smoking -->
@@ -264,7 +260,7 @@
             <tr>
                 <!-- Passive smoking -->
                 <th><span class="rotate">Passive smoking</span></th>
-                <td><obs conceptId="$secondHandSmoke" answerConceptIds="$yes,$no" style="radio"/></td>
+                <td><obs conceptId="$secondHandSmoke" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
             </tr>
             <tr>
                 <!-- Indoor cooking -->
@@ -274,7 +270,7 @@
             <tr>
                 <!-- Exacerbation today -->
                 <th>Exacerbation today?</th>
-                <td><obs conceptId="$exacerbation" answerConceptIds="$yes,$no" style="radio" /> </td>
+                <td><obs conceptId="$exacerbation" answerConceptIds="$yesAnswer,$noAnswer" style="radio" /> </td>
             </tr>
             <tr>
                 <!-- Intermittent -->
@@ -293,7 +289,11 @@
             </tr>
             <tr>
                 <th>Treatment</th>
-                <!-- Inhaled B-agonist -->
+                <td>
+                <repeat with="['$bAgonistInhaled','Inhaled B-agonist'],['$steroidInhaled','Inhaled steroid'],['$steroidOral','Oral steroid'],['$otherCoded','Other']">
+                    <obs conceptId="$lungTreatment" answerConceptId="{0}" answerLabel="{1}"/>
+                </repeat>
+                </td>
             </tr>
             <tr>
                 <!-- Comments -->

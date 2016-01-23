@@ -1203,6 +1203,89 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
+        {
+            {
+                Integer id = 8471;
+                String uuid = "60ae316c-c15f-11e5-9912-ba0be0483c18";
+                String name = "Beta-agonists (inhaled)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8472;
+                String uuid = "60ae3554-c15f-11e5-9912-ba0be0483c18";
+                String name = "Steroid (oral)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8473;
+                String uuid = "60ae373e-c15f-11e5-9912-ba0be0483c18";
+                String name = "Steroid (inhaled)";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Pharmacologic Drug Class"));
+                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                    c.setSet(true);
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
+        {
+            {
+                Integer id = 8474;
+                String uuid = "60ae390a-c15f-11e5-9912-ba0be0483c18";
+                String name = "Chronic lung disease treatment";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8471))); // B-agonist
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8472))); // Steroid (inhaled)
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(8473))); // Steroid (oral)
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other
+                    cs.saveConcept(c);
+                }
+            }
+        }
+
         }
 
         @Override

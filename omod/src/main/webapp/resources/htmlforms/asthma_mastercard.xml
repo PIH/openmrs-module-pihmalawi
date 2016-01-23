@@ -139,50 +139,84 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <td rowspan="2">Diagnoses</td>
+                        <th style="vertical-align:top;" align="left" rowspan="2">Diagnoses</th>
+                            <!-- Asthma -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>Asthma <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="" /></td>
-                                <td>Date <obs conceptId="$diagnosisDate"/></td>
+                                <td>
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
+                                </td>
+                                <td>
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
-                            <td rowspan="2">Family History</td>
-                            <td>Asthma <obs conceptId="$asthmaFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+                            <th style="vertical-align:top;" align="left" rowspan="2">Family History</th>
+                            <td class="nowrap">
+                                <obs conceptId="$asthmaFamilyHistory" labelText="Asthma"
+                                     answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" />
+                            </td>
                         </tr>
                         <tr>
+                            <!-- COPD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>COPD <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="" /></td>
-                                <td>Date <obs conceptId="$diagnosisDate"/></td>
+                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" /></td>
+                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
                             </obsgroup>
-                            <td>COPD <obs conceptId="$copdFamilyHistory" answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" /></td>
+                            <td class="nowrap">
+                                <obs conceptId="$copdFamilyHistory" labelText="COPD"
+                                     answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" />
+                            </td>
                         </tr>
                         <tr>
-                            <td rowspan="5">Patient<br/>History &#38;<br/>Exposures</td>
-                            <td>HIV <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nonReactive,$unknown"/><br/>Date Test: <obs conceptId="$hivTestDate" /></td>
-                            <td>ART Start Date:<br/><obs conceptId="$artStartDate" /></td>
-                            <td colspan="2">TB: <obs conceptId="$tbStatus" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown" answerLabels="smear pos,smear neg,EPTB,never had TB"/><br/>
-                                <obs conceptId="$tbYear" labelText="Year:"/></td>
+                            <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>Exposures</th>
+                            <td><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive,$unknown"/>
+                                <br/>
+                                <obs conceptId="$hivTestDate" labelText="Date Test"/></td>
+                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                            <td class="nowrap">
+                                <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
+                            <td class="nowrap">
+                                <obs conceptId="$tbYear" labelText="Year"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Chronic dry cough <obs conceptId="$symptom" answerConceptId="$dryCough" style="checkbox" answerLabel=""/></td>
-                            <td>Duration (months): <obs conceptId="$duration"/><br/>Age at onset: <obs conceptId="$ageAtOnset"/></td>
-                            <td>TB contact <obs conceptId="$tbContact" style="checkbox"/></td>
-                            <td>Date: <obs conceptId="$tbcontactDate" /></td>
+                            <td><obs conceptId="$symptom" answerConceptId="$dryCough" style="checkbox" answerLabel="Chronic dry cough"/></td>
+                            <td>
+                                <!-- ToDo: Fix duration.  Ask Malawi.  Do we want units (days, weeks, months or free text)? -->
+                                <obs conceptId="$duration" labelText="Duration"/>mo<br/>
+                                <obs conceptId="$ageAtOnset" labelText="Age at onset"/></td>
+                            <td><obs conceptId="$tbContact" style="checkbox" labelText="TB contact"/></td>
+                            <td><obs conceptId="$tbcontactDate" labelText="Date" /></td>
                         </tr>
                         <tr>
                             <td>Cooking</td>
-                            <td>Indoor <obs conceptId="$cookingLocation" answerConceptId="$indoor" style="checkbox" answerLabel="" /> Outdoor <obs conceptId="$cookingLocation" answerConceptId="$outdoor" style="checkbox" answerLabel="" /></td>
-                            <td>Smoking <obs conceptId="$smokingHistory" answerConceptId="$inPast" style="checkbox" answerLabel=""/></td>
-                            <td>Date <obs conceptId="$lastTimeSmoking"/></td>
+                            <td>
+                                <obs conceptId="$cookingLocation" answerConceptId="$indoor" style="checkbox" answerLabel="Indoor" />
+                                <obs conceptId="$cookingLocation" answerConceptId="$outdoor" style="checkbox" answerLabel="Outdoor" />
+                            </td>
+                            <td>
+                                <obs conceptId="$smokingHistory" answerConceptId="$inPast" style="checkbox" answerLabel="Smoking"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$lastTimeSmoking" labelText="Date"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2">Occupation: <obs conceptId="$occupation"/></td>
-                            <td>Second hand smoking: <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" /></td>
-                            <td>Date: <obs conceptId="$lastTimeSecondHandSmoke"/></td>
+                            <td colspan="2">
+                                <obs conceptId="$occupation" labelText="Occupation"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yesAnswer" answerLabel="Second hand smoking" />
+                            </td>
+                            <td>
+                                <obs conceptId="$lastTimeSecondHandSmoke" labelText="Date"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Occupational<br/>Exposure <obs conceptId="$occupationalExposure" style="checkbox"/></td>
-                            <td>Date: <obs conceptId="$lastOccupationalExposure"/></td>
-                            <td></td>
-                            <td></td>
+                            <td><obs conceptId="$occupationalExposure" style="checkbox" labelText="Occupational Exposure"/></td>
+                            <td><obs conceptId="$lastOccupationalExposure" labelText="Date"/></td>
+                            <td/>
+                            <td/>
                         </tr>
                     </table>
                 </td>

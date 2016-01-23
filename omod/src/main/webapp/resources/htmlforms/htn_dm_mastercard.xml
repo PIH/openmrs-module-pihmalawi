@@ -245,7 +245,9 @@
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>
                             <!-- ToDo:  Lookup/Display outcome and date -->
-                            <td colspan="4"><i>Enter outcome on patient dashboard</i>
+                            <td colspan="4">
+                                <!-- State:<lookup expression="patient.getPatientState(10)" /> -->
+                                <i>Change on patient dashboard</i>
                             </td></tr>
                     </table>
 
