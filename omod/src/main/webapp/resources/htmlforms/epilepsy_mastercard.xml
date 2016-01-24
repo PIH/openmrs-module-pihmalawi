@@ -81,7 +81,7 @@
         <br/>
         <hr/>
 
-        <table style="border: none; width:100%;">
+        <table class="data-entry-table">
             <tr style="border: none;">
                 <td style="vertical-align:top;">
                     <h5><b>Patient / Guardian Details</b></h5>
