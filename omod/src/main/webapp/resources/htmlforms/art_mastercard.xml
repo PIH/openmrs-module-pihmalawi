@@ -5,7 +5,8 @@
         patientPhone=6194
         guardianPhone=3294
         guardianRelation=1826
-        agreesToFup=2552
+        relationToPatient=1328
+        agreesToFollowup=2552
         noAnswer=1066
         yesAnswer=1065
         whoClinicalConditions=8081
@@ -49,6 +50,7 @@
         firstLineArvStartDate=6132
         alternativeFirstLineArvStartDate=2528
         secondLineArvStartDate=2529
+        chwName=8431
     </macros>
 
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
