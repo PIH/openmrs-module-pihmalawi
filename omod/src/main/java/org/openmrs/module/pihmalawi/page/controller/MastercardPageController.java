@@ -58,7 +58,7 @@ public class MastercardPageController {
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("flowsheets", flowsheets);
 
-        Location defaultLocation = LocationUtility.getUserDefaultLocation();
+        Location defaultLocation = null;
 
         List<Encounter> allEncounters = new ArrayList<Encounter>();
 
