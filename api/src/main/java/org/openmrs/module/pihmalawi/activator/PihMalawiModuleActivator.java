@@ -24,7 +24,27 @@ public class PihMalawiModuleActivator extends BaseModuleActivator {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	public List<Initializer> getInitializers() {
+    @Override
+    public void contextRefreshed() {
+        log.info("PIH Malawi Module refreshed");
+    }
+
+    @Override
+    public void willRefreshContext() {
+        log.info("Refreshing PIH Malawi Module");
+    }
+
+    @Override
+    public void willStart() {
+        log.info("Starting PIH Malawi Module");
+    }
+
+    @Override
+    public void willStop() {
+        log.info("Stopping PIH Malawi Module");
+    }
+
+    public List<Initializer> getInitializers() {
 		List<Initializer> l = new ArrayList<Initializer>();
 		l.add(new MetadataInitializer());
 		l.add(new SoundexInitializer());
