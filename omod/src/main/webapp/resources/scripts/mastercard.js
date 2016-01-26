@@ -379,6 +379,11 @@
         if (!locationInput.val() || locationInput.val().length == 0) {
             locationInput.val(defaultLocationId);
         }
+        // set mastercard default location
+        locationInput = jq(html).find("#mastercardLocation").children().first();
+        if (!locationInput.val() || locationInput.val().length == 0) {
+            locationInput.val(defaultLocationId);
+        }
 
         // Configure validations we want to apply across any suitable form
         validationErrors = {};

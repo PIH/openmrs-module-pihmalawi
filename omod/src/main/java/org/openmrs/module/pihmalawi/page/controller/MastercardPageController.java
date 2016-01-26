@@ -17,6 +17,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.api.FormService;
+import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
@@ -51,14 +52,15 @@ public class MastercardPageController {
                            @SpringBean("formService") FormService formService,
                            @SpringBean("coreResourceFactory") ResourceFactory resourceFactory,
                            @SpringBean("reportingPatientDataService") PatientDataService patientDataService,
-	                       @InjectBeans PatientDomainWrapper patientDomainWrapper) {
+	                       @InjectBeans PatientDomainWrapper patientDomainWrapper,
+                           UiSessionContext sessionContext) {
 
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("flowsheets", flowsheets);
 
-        Location defaultLocation = null;
+        Location defaultLocation = sessionContext.getSessionLocation();
 
         List<Encounter> allEncounters = new ArrayList<Encounter>();
 
