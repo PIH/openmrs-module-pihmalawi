@@ -16,12 +16,15 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
+import org.openmrs.ui.framework.session.Session;
 import org.openmrs.util.PrivilegeConstants;
+import org.openmrs.web.WebConstants;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginPageController {
@@ -128,8 +131,10 @@ public class LoginPageController {
             Context.authenticate(username, password);
 
             if (Context.isAuthenticated()) {
-                if (log.isDebugEnabled())
+                pageRequest.getRequest().getSession().removeAttribute(WebConstants.OPENMRS_MSG_ATTR);
+                if (log.isDebugEnabled()) {
                     log.debug("User has successfully authenticated");
+                }
 
                 if (sessionLocation != null ) {
                     sessionContext.setSessionLocation(sessionLocation);
