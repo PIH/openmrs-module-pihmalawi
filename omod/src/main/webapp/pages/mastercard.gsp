@@ -154,6 +154,14 @@
         overflow-x:auto;
         display: block;
     }
+    /* This is an attempt at rotating the table headers to appear vertical, but this isn't used yet */
+    .rotate-attempt {
+        -moz-transform: rotate(-90.0deg);  /* FF3.5+ */
+        -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
+        -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
+        filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+        -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+    }
 </style>
 
 <style type="text/css" media="print">
