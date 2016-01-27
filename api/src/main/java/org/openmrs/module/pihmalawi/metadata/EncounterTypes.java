@@ -65,6 +65,12 @@ public class EncounterTypes {
         public String description() { return "Hospitalization for Lung Disease"; }
     };
 
+    public static EncounterTypeDescriptor ASTHMA_PEAKFLOW = new EncounterTypeDescriptor() {
+        public String uuid() { return "46028b88-c538-11e5-9912-ba0be0483c18"; }
+        public String name() { return "ASTHMA PEAK FLOW"; }
+        public String description() { return "Peak flow / Spirometry for Lung Disease"; }
+    };
+
     public static EncounterTypeDescriptor EPILEPSY_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "D8CBF1B9-EC74-4858-8764-2350E2A9925B"; }
         public String name() { return "EPILEPSY_INITIAL"; }

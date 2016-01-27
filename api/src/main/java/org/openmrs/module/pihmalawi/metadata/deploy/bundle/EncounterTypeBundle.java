@@ -20,10 +20,11 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.HTN_DIABETES_TESTS);
         install(EncounterTypes.HTN_DIABETES_HOSPITALIZATIONS);
 
-        // ToDo: Chronic lung disease?  Reuse Asthma?
+        // Chronic lung disease (Reuse Asthma encounter types)
         install(EncounterTypes.ASTHMA_INITIAL);
         install(EncounterTypes.ASTHMA_FOLLOWUP);
         install(EncounterTypes.ASTHMA_HOSPITALIZATION);
+        install(EncounterTypes.ASTHMA_PEAKFLOW);
 
         // Epilepsy
         install(EncounterTypes.EPILEPSY_INITIAL);

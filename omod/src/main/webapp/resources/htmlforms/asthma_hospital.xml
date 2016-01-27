@@ -1,4 +1,4 @@
-<htmlform formUuid="46CA88E9-F0AB-4B07-9EA9-291FD1F45A3E" formName="Asthma Hospitalization"
+<htmlform formName="Chronic Lung Disease Hospitalization" formUuid="46CA88E9-F0AB-4B07-9EA9-291FD1F45A3E"
           formEncounterType="2478C35B-9A71-4BD5-86B6-E8CCE594E934" formVersion="1.0">
 
     <macros>
@@ -14,7 +14,7 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th></th>
+                    <th/>
                     <th colspan="4">Hospitalization History for Lung Disease</th>
                 </tr>
                 <tr>
