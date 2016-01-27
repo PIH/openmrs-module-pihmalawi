@@ -19,6 +19,7 @@ import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.User;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.common.ProgramHelper;
@@ -76,7 +77,10 @@ public class Helper {
 		}
 		return false;
 	}
-	
+
+    public static boolean userHasEditPrivilege(){
+        return Context.getAuthenticatedUser().hasRole("Edit Patients");
+    }
 	/**
 	 * @return the most recent state in the given ProgramWorkflow for the given Patient as of the passed endDate
 	 */

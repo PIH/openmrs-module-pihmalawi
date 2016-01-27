@@ -139,16 +139,21 @@
             </c:if>
         </openmrs:forEachEncounter>
         <td>Kaposis Sarcoma Flowsheet:</td>
-        <c:choose>
-            <c:when test="${ evaluationEncounter || ctEncounter }">
-                <c:set var="eMastercardFormId" value="62" />
-                <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Edit KS file</a></td>
-            </c:when>
-            <c:otherwise>
-                <c:set var="eMastercardFormId" value="62" />
-                <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Create new KS file</a></td>
-            </c:otherwise>
-        </c:choose>
+        <openmrs:hasPrivilege privilege="Edit Patients">
+            <c:choose>
+                <c:when test="${ evaluationEncounter || ctEncounter }">
+                    <c:set var="eMastercardFormId" value="62" />
+                    <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Edit KS file</a></td>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="eMastercardFormId" value="62" />
+                    <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Create new KS file</a></td>
+                </c:otherwise>
+            </c:choose>
+        </openmrs:hasPrivilege>
+        <openmrs:hasPrivilege privilege="Edit Patients" inverse="true">
+            <td>HELLO</td>
+        </openmrs:hasPrivilege>
     </tr>
 </table>
 </div> <!-- end <div class="portlet" id="pihmalawi.malawiPatientDashboard">-->

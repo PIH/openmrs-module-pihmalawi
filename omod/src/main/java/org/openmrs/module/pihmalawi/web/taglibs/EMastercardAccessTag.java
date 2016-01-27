@@ -12,6 +12,7 @@ import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -84,7 +85,9 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			List<ProgramWorkflowState> stateList = Helper.getProgramWorkflowStatesFromCsvIds(programWorkflowStates);
 			ProgramWorkflow workflow = (stateList == null || stateList.isEmpty() ? null : stateList.get(0).getProgramWorkflow());
 			if (initials.size() == 0) {
-				if (!Helper.isInProgramWorkflowState(p, stateList)) {
+                if (!Helper.userHasEditPrivilege()) {
+                    o.write("Not available: User does not have privileges to edit patient");
+                } else if (!Helper.isInProgramWorkflowState(p, stateList)) {
 					o.write("Not available: Inactive program state (" + f.getName() + ")");
 				} else {
 					if (!Helper.hasIdentifierType(p, getPatientIdentifierType())) {
@@ -109,7 +112,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
 				return SKIP_BODY;
 			}
 
-			if (initials.size() == 1) {
+            if (initials.size() == 1) {
+                if (!Helper.userHasEditPrivilege()) {
+                    o.write(createViewCardHtmlTag(p, f, initials.get(0), null));
+                    release();
+                    return SKIP_BODY;
+                }
 				if (!Helper.isInProgramWorkflowState(p, stateList)) {
 					o.write(createViewCardHtmlTag(p, f, initials.get(0), "Readonly: Inactive program state"));
 					release();
