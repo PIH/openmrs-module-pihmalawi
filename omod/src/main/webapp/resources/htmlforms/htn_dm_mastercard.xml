@@ -244,11 +244,13 @@
                         </tr>     
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>
-                            <!-- ToDo:  Lookup/Display outcome and date -->
                             <td colspan="4">
-                                <!-- State:<lookup expression="patient.getPatientState(10)" /> -->
-                                <i>Change on patient dashboard</i>
-                            </td></tr>
+                                <b>
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                                </b>
+                            </td>
+                        </tr>
                     </table>
 
                 </td>
