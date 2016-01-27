@@ -8,7 +8,6 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.appframework.service.AppFrameworkService;
-import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
@@ -16,11 +15,9 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
-import org.openmrs.ui.framework.session.Session;
 import org.openmrs.util.PrivilegeConstants;
 import org.openmrs.web.WebConstants;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,7 +90,6 @@ public class LoginPageController {
      * @param locationService
      * @param ui {@link UiUtils} object
      * @param pageRequest {@link PageRequest} object
-     * @param sessionContext
      * @return
      * @should redirect the user back to the redirectUrl if any
      * @should redirect the user to the home page if the redirectUrl is the login page
@@ -103,11 +99,13 @@ public class LoginPageController {
     public String post(@RequestParam(value = "username", required = false) String username,
                        @RequestParam(value = "password", required = false) String password,
                        @RequestParam(value = "sessionLocation", required = false) Integer sessionLocationId,
-                       @SpringBean("locationService") LocationService locationService, UiUtils ui, PageRequest pageRequest,
-                       UiSessionContext sessionContext) {
+                       @SpringBean("locationService") LocationService locationService, UiUtils ui,
+                       PageRequest pageRequest
+                       ) {
 
         String redirectUrl = pageRequest.getRequest().getParameter(PihMalawiWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL);
         redirectUrl = getRelativeUrl(redirectUrl, pageRequest);
+        HttpSession httpSession = pageRequest.getRequest().getSession();
         Location sessionLocation = null;
         if (sessionLocationId != null && (sessionLocationId != null && sessionLocationId.intValue() > 0)) {
             try {
@@ -136,8 +134,8 @@ public class LoginPageController {
                     log.debug("User has successfully authenticated");
                 }
 
-                if (sessionLocation != null && sessionContext!=null) {
-                    sessionContext.setSessionLocation(sessionLocation);
+                if (sessionLocation != null && httpSession!=null) {
+                    httpSession.setAttribute(PihMalawiWebConstants.SESSION_LOCATION_ID, sessionLocation.getId());
                 }
 
                 if (StringUtils.isNotBlank(redirectUrl)) {

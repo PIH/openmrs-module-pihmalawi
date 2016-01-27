@@ -17,11 +17,12 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.api.FormService;
-import org.openmrs.module.appui.UiSessionContext;
+import org.openmrs.api.LocationService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
 import org.openmrs.module.htmlformentryui.HtmlFormUtil;
+import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.module.reporting.data.DataUtil;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
@@ -30,8 +31,8 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.page.PageRequest;
 import org.openmrs.ui.framework.resource.ResourceFactory;
-import org.openmrs.util.LocationUtility;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -50,17 +51,22 @@ public class MastercardPageController {
                            UiUtils ui, PageModel model,
                            @SpringBean("htmlFormEntryService") HtmlFormEntryService htmlFormEntryService,
                            @SpringBean("formService") FormService formService,
+                           @SpringBean("locationService") LocationService locationService,
                            @SpringBean("coreResourceFactory") ResourceFactory resourceFactory,
                            @SpringBean("reportingPatientDataService") PatientDataService patientDataService,
 	                       @InjectBeans PatientDomainWrapper patientDomainWrapper,
-                           UiSessionContext sessionContext) {
+                           PageRequest pageRequest) {
 
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("flowsheets", flowsheets);
 
-        Location defaultLocation = sessionContext.getSessionLocation();
+        Location defaultLocation = null;
+        Integer locationId = pageRequest.getSession().getAttribute(PihMalawiWebConstants.SESSION_LOCATION_ID, Integer.TYPE);
+        if (locationId != null ) {
+            defaultLocation = locationService.getLocation(locationId);
+        }
 
         List<Encounter> allEncounters = new ArrayList<Encounter>();
 
