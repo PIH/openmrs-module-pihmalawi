@@ -152,7 +152,7 @@
             </c:choose>
         </openmrs:hasPrivilege>
         <openmrs:hasPrivilege privilege="Edit Patients" inverse="true">
-            <td>HELLO</td>
+            <td>Not available: User does not have privileges to edit patient</td>
         </openmrs:hasPrivilege>
     </tr>
 </table>
