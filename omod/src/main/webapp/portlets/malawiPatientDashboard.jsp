@@ -107,7 +107,7 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Asthma eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Lung Disease eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>

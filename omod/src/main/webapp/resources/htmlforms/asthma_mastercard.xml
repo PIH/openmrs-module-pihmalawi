@@ -1,4 +1,5 @@
-<htmlform formUuid="08f273c2-8c38-11e5-80a3-c0430f805837" formName="Asthma eMastercard" formEncounterType="a95dc43f-925c-11e5-a1de-e82aea237783" formVersion="4.1">
+<htmlform formName="Chronic Lung Disease eMastercard" formUuid="08f273c2-8c38-11e5-80a3-c0430f805837"
+          formEncounterType="a95dc43f-925c-11e5-a1de-e82aea237783" formVersion="4.1">
 
     <macros>
         diagnosisSet=8445
@@ -218,10 +219,20 @@
                             <td/>
                             <td/>
                         </tr>
+                        <tr>
+                            <th style="vertical-align:top;" align="left">Outcome</th>
+                            <td colspan="4">
+                                <b>
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                                </b>
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
         </table>
+
         <ifMode mode="VIEW" include="false">
             <div id="buttons" style="margin-top:10px;">
                 <button class="submitButton confirm" onclick="submitHtmlForm()">
