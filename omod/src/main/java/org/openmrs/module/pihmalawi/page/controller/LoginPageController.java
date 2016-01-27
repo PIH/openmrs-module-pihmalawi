@@ -136,7 +136,7 @@ public class LoginPageController {
                     log.debug("User has successfully authenticated");
                 }
 
-                if (sessionLocation != null ) {
+                if (sessionLocation != null && sessionContext!=null) {
                     sessionContext.setSessionLocation(sessionLocation);
                 }
 
