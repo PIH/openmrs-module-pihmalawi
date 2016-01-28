@@ -91,6 +91,7 @@
                                 </span>
                                 <span class="right-cell">
                                     <lookup expression="patient.birthdate" />
+                                    (Age: <lookup expression="patient.age"/>)
                                 </span>
                             </td>
                         </tr>

@@ -211,10 +211,8 @@ public class MetadataInitializer implements Initializer {
                     c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                     c.setSet(true);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-
                     c.addSetMember(cs.getConcept(3683));
                     c.addSetMember(cs.getConcept(6774));
-
                     cs.saveConcept(c);
                 }
             }
@@ -1284,6 +1282,467 @@ public class MetadataInitializer implements Initializer {
                     cs.saveConcept(c);
                 }
             }
+        }
+
+        {
+            Integer id = 8475;
+            String uuid = "163125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Other Christianity";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8476;
+            String uuid = "127116BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+            String name = "Catholic";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8477;
+            String uuid = "7057c894-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Presbyterian ";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8478;
+            String uuid = "163124AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Hinduism";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8479;
+            String uuid = "162935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Seventh Day Adventist";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8480;
+            String uuid = "162933AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Muslim";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8481;
+            String uuid = "162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Baptist";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8482;
+            String uuid = "162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Religious affiliation";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8476))); // Catholic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8477))); // Presbyterian
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8478))); // Hinduism
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8479))); // Adventist
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8480))); // Muslim
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8481))); // Baptist
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8475))); // Other Christianity (non-Catholic)
+                c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8483;
+            String uuid = "7057cc90-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Psychiatry history (text)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8484;
+            String uuid = "152450AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Family history of epilepsy";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8485;
+            String uuid = "7057d000-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Family history of mental illness";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8486;
+            String uuid = "7057d3ac-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Family history of behavioral problems";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8487;
+            String uuid = "127132AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Schizoaffective Disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8488;
+            String uuid = "7057d712-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Organic mental disorder (acute)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8489;
+            String uuid = "7057d8b6-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Organic mental disorder (chronic)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8490;
+            String uuid = "160200AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Mental disorder due to alcohol or illicit drug use";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8491;
+            String uuid = "115924AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Bipolar Affective Disorder, Manic";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8492;
+            String uuid = "7057de06-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Smoking";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8493;
+            String uuid = "7057dfb4-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Cannabis";
+            String synonym_1 = "Marijuana";
+            String synonym_2 = "Chamba"; // Nickname used in Malawi
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setPreferredName(new ConceptName(synonym_1, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8494;
+            String uuid = "7057e27a-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Traditional medicine";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8495;
+            String uuid = "7057db5e-c5dd-11e5-9912-ba0be0483c18";
+            String name = "Exposure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8492))); // Smoking
+                c.addAnswer(new ConceptAnswer(cs.getConcept(6958))); // Alcohol
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8493))); // Marijuana
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8494))); // Traditional meds
+                c.addAnswer(new ConceptAnswer(cs.getConcept(7633))); // Other medications
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8496;
+            String uuid = "163044AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Mental status examination (text)";
+            String synonym_1 = "MSE (text)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1,Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 3683;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
+            c.getAnswers().clear();
+
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
+            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+
+            // Adding new answers for Mental Health
+            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8490))); // Mental disorder from drug use
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
+
+            cs.saveConcept(c);
         }
 
         }
