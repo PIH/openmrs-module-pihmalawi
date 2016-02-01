@@ -5,7 +5,6 @@
         weight=5089
         no=1066
         yes=1065
-        other=6408
         bmiCoded=8467
         typical=1115
         underWeight=3812
@@ -298,13 +297,13 @@
             </tr>
 
             <tr>
-                <th>Days per week with 30 minutes of exercise</th>
-                <td><obs conceptId="$exercise" showUnits="true" /></td>
+                <th>Number of fruit and vegetable portions</th>
+                <td><obs conceptId="$fruitVeggies" showUnits="true" /></td>
             </tr>
 
             <tr>
-                <th>Number of fruit and vegetable portions</th>
-                <td><obs conceptId="$fruitVeggies" showUnits="true" /></td>
+                <th>Days per week with 30 minutes of exercise</th>
+                <td><obs conceptId="$exercise" showUnits="true" /></td>
             </tr>
 
             <tr>

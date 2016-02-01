@@ -50,41 +50,7 @@ public class MetadataInitializer implements Initializer {
         // Associate with versions and
 
         ConceptService cs = Context.getConceptService();
-        {
-            Integer id = 8417;
-            String uuid = "521f8e75-4113-4870-bcbb-9ec1d727c627";
-            String name = "Chronic Care Medication Set";
-            Concept c = cs.getConceptByUuid(uuid);
-            if (c == null) {
-                log.warn("Creating Chronic Care Medication Set");
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
-                c.setConceptClass(cs.getConceptClassByName("MedSet"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.setSet(true);
-                c.addSetMember(cs.getConceptByName("Salbutamol"));
-                c.addSetMember(cs.getConceptByName("Beclomethasone"));
-                c.addSetMember(cs.getConceptByName("Hydrochlorothiazide"));
-                c.addSetMember(cs.getConceptByName("Captopril"));
-                c.addSetMember(cs.getConceptByName("Amlodipine"));
-                c.addSetMember(cs.getConceptByName("Enalapril"));
-                c.addSetMember(cs.getConceptByName("Nifedipine"));
-                c.addSetMember(cs.getConceptByName("Atenolol"));
-                c.addSetMember(cs.getConceptByName("Lisinopril"));
-                c.addSetMember(cs.getConceptByName("Propranolol"));
-                c.addSetMember(cs.getConceptByName("Phenobarbital"));
-                c.addSetMember(cs.getConceptByName("Phenytoin"));
-                c.addSetMember(cs.getConceptByName("Carbamazepine"));
-                c.addSetMember(cs.getConceptByName("Insulin"));
-                c.addSetMember(cs.getConceptByName("Metformin"));
-                c.addSetMember(cs.getConceptByName("Glibenclamide"));
-                c.addSetMember(cs.getConceptByName("Furosemide"));
-                c.addSetMember(cs.getConceptByName("Spironolactone"));
-                cs.saveConcept(c);
-            }
-        }
+
         {
             Integer id = 6872;
             String name = "Hypertension Medication Set";
@@ -386,14 +352,18 @@ public class MetadataInitializer implements Initializer {
                 String uuid = "3237c2a0-ada3-11e5-bf7f-feff819cdc9f";
                 String name = "Year of Tuberculosis diagnosis";
                 String synonym_1 = "TB diagnosis year";
-                Concept c = cs.getConcept(id);
+                Double lowAb = 1950.0;
+                Double hiAb = 2050.0;
+                ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
                 if (c == null) {
                     log.warn("Creating " + name);
-                    c = new Concept();
+                    c = new ConceptNumeric(id);
                     c.setConceptId(id);
                     c.setUuid(uuid);
                     c.setConceptClass(cs.getConceptClassByName("Question"));
                     c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setLowAbsolute(lowAb);
+                    c.setHiAbsolute(hiAb);
                     c.setSet(false);
                     c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                     c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
@@ -1082,45 +1052,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 1193;
-            Concept c = cs.getConcept(id);
-            log.warn("Updating answers for Current Drugs Used"); // For NCD
-            c.getAnswers().clear();
-            
-            // Replacing existing answers
-            c.addAnswer(new ConceptAnswer(cs.getConcept(92)));   // Dapsone (92)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(438)));  // Streptomycin (438)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(656)));  // Isoniazid (656)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(745)));  // Ethambutol (745)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(747)));  // Fluconazole (747)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(1131))); // Rifampicin Isoniazid Pyrazinamide Ethambutol (1131)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(1194))); // Rifampicin and isoniazid (1194)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(768)));  // Rifampicin isoniazid and pyrazinamide (768)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(916)));  // Trimethoprim and sulfamethoxazole (916)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(919)));  // Nystatin (919)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(1195))); // Antibiotics (1195)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5839))); // Antimalarial medications (5839)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5841))); // Herbal traditional medications (5841)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(461)));  // Multivitamin (461)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5843))); // Minerals iron supplements (5843)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown (1067)
-
-            // Adding new answers for Hypertension and Diabetes
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6750))); // longActingInsulin=6750
-            c.addAnswer(new ConceptAnswer(cs.getConcept(282)));  // shortActingRegularInsulin=282
-            c.addAnswer(new ConceptAnswer(cs.getConcept(4052))); // metformin=4052
-            c.addAnswer(new ConceptAnswer(cs.getConcept(4046))); // glibenclamide=4046
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8466))); // diuretic=8466
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8465))); // ccBlocker=8465
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8464))); // aceInhibit=8464
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8463))); // betaBlocker=8463
-            c.addAnswer(new ConceptAnswer(cs.getConcept(88)));   // aspirin=88
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8462))); // statin=8462
-            cs.saveConcept(c);
-        }
-
-        {
             {
                 Integer id = 8467;
                 String uuid = "484499f2-b58b-11e5-9f22-ba0be0483c18";
@@ -1707,6 +1638,131 @@ public class MetadataInitializer implements Initializer {
                 c.setSet(false);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 c.addName(new ConceptName(synonym_1,Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8497;
+            String uuid = "112411AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Suicide risk";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8498;
+            String uuid = "83405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Risperidone";
+            String shortName = "RIS";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setShortName(new ConceptName(shortName, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 1193;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Current Drugs Used"); // For NCD
+            c.getAnswers().clear();
+
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(92)));   // Dapsone (92)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(438)));  // Streptomycin (438)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(656)));  // Isoniazid (656)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(745)));  // Ethambutol (745)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(747)));  // Fluconazole (747)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1131))); // Rifampicin Isoniazid Pyrazinamide Ethambutol (1131)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1194))); // Rifampicin and isoniazid (1194)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(768)));  // Rifampicin isoniazid and pyrazinamide (768)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(916)));  // Trimethoprim and sulfamethoxazole (916)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(919)));  // Nystatin (919)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1195))); // Antibiotics (1195)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5839))); // Antimalarial medications (5839)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5841))); // Herbal traditional medications (5841)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(461)));  // Multivitamin (461)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5843))); // Minerals iron supplements (5843)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown (1067)
+
+            // Adding new answers for Hypertension and Diabetes
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6750))); // longActingInsulin=6750
+            c.addAnswer(new ConceptAnswer(cs.getConcept(282)));  // shortActingRegularInsulin=282
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4052))); // metformin=4052
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4046))); // glibenclamide=4046
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8466))); // diuretic=8466
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8465))); // ccBlocker=8465
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8464))); // aceInhibit=8464
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8463))); // betaBlocker=8463
+            c.addAnswer(new ConceptAnswer(cs.getConcept(88)));   // aspirin=88
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8462))); // statin=8462
+
+            // Adding new answers for Mental Health
+            c.addAnswer(new ConceptAnswer(cs.getConcept(914)));  // Chlorpromazine (CPZ)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4047))); // Haloperidol (HLP)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(927)));  // Fluphenazine (FPZ)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(920)));  // Carbamazepine (CBZ)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4020))); // Sodium Valproate (SV)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8498))); // Risperidone (RIS)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4045))); // Fluoxetine (FLX)
+            cs.saveConcept(c);
+        }
+        
+        {
+            Integer id = 8417;
+            String uuid = "521f8e75-4113-4870-bcbb-9ec1d727c627";
+            String name = "Chronic Care Medication Set";
+            Concept c = cs.getConceptByUuid(uuid);
+            if (c == null) {
+                log.warn("Creating Chronic Care Medication Set");
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("MedSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setSet(true);
+                c.addSetMember(cs.getConceptByName("Salbutamol"));
+                c.addSetMember(cs.getConceptByName("Beclomethasone"));
+                c.addSetMember(cs.getConceptByName("Hydrochlorothiazide"));
+                c.addSetMember(cs.getConceptByName("Captopril"));
+                c.addSetMember(cs.getConceptByName("Amlodipine"));
+                c.addSetMember(cs.getConceptByName("Enalapril"));
+                c.addSetMember(cs.getConceptByName("Nifedipine"));
+                c.addSetMember(cs.getConceptByName("Atenolol"));
+                c.addSetMember(cs.getConceptByName("Lisinopril"));
+                c.addSetMember(cs.getConceptByName("Propranolol"));
+                c.addSetMember(cs.getConceptByName("Phenobarbital"));
+                c.addSetMember(cs.getConceptByName("Phenytoin"));
+                c.addSetMember(cs.getConceptByName("Carbamazepine"));
+                c.addSetMember(cs.getConceptByName("Insulin"));
+                c.addSetMember(cs.getConceptByName("Metformin"));
+                c.addSetMember(cs.getConceptByName("Glibenclamide"));
+                c.addSetMember(cs.getConceptByName("Furosemide"));
+                c.addSetMember(cs.getConceptByName("Spironolactone"));
+                c.addSetMember(cs.getConceptByName("Risperidone"));
                 cs.saveConcept(c);
             }
         }

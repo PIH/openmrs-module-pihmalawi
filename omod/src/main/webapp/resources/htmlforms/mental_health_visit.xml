@@ -2,32 +2,25 @@
 
     <macros>
         chronicCareDiagnosis=3683
-        plannedVisit=8435
-        no=1066
-        yes=1065
-        height=5090
+        noAnswer=1066
+        yesAnswer=1065
+        other=6408
         weight=5089
-        daysx=8436
-        nightsx=8437
-        baDay=8438
-        baWk=8439
-        baMo=8440
-        baYr=8441
-        steroidUse=8442
-        smoking=6161
-        secondHandSmoke=8443
-        cookingLocation=8404
-        indoor=2437
-        outdoor=2438
-        exacerbation=8444
-        asthmaClass=8410
-        intermittent=8405
-        mild=8406
-        moderatePersistent=8407
-        severePersistent=8408
-        severeUncontrolled=8409
-        copdDx=3716
-        otherDx=7685
+        hpc=974
+        psychHistory=8483
+        mse=8496
+        symptomPresent=1293
+        symptomAbsent=1734
+        suicideRisk=8497
+        sideEffects=2146
+        drugsNow=1193
+        cpz=914
+        hlp=4047
+        fpz=927
+        cbz=920
+        sv=4020
+        ris=8498
+        flx=4045
         comments=2880
         nextAppt=5096
     </macros>
@@ -35,32 +28,33 @@
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
 
-        <table class="visit-table">
+        <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td>Visit Date</td>
                     <td>Weight</td>
                     <td rowspan="2">History</td>
-                    <td rowspan="2">Mental status examination</td>
+                    <td rowspan="2">MSE</td>
                     <td>Suicide risk</td>
-                    <td>Medication side effect</td>
+                    <td>Medication<br/>side effect</td>
                     <td colspan="8">Treatment Details</td>
                     <td rowspan="2">Comments</td>
-                    <td>Next appointment</td>
+                    <td>Next<br/>appointment</td>
                 </tr>
-                <tr> <!-- Units row -->
+                <tr>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td>kg</td>
                     <td>Y/N</td>
                     <td>Y/N</td>
-                    <td class="rotate"><span>Chbrpromazine(CPZ)</span></td>
-                    <td class="rotate"><span>Habperidol</span></td>
-                    <td class="rotate"><span>Fluphenazine</span></td>
-                    <td class="rotate"><span>Carbamazepine</span></td>
-                    <td class="rotate"><span>Sodium Valproate</span></td>
-                    <td class="rotate"><span>Risperidone</span></td>
-                    <td class="rotate"><span>Fluoxetine</span></td>
-                    <td class="rotate"><span>others</span></td>
+                    <!-- Using abbreviations for meds so it will fit -->
+                    <td>CPZ</td>
+                    <td>HLP</td>
+                    <td>FPZ</td>
+                    <td>CBZ</td>
+                    <td>SV</td>
+                    <td>RIS</td>
+                    <td>FLX</td>
+                    <td>others</td>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
             </thead>
@@ -74,41 +68,38 @@
                         <obs conceptId="$weight" id="weightInput" size="3"/>
                     </td>
                     <td>
-                        <!-- History -->
+                        <!-- History:
+                            This is the same concept as "History of presenting complaint" on the mastercard -->
+                        <obs conceptId="$hpc" />
                     </td>
                     <td>
                         <!-- Mental status examination -->
+                        <obs conceptId="$mse" />
                     </td>
                     <td>
                         <!-- Suicide risk -->
+                        <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Medication side effects -->
+                        <obs conceptId="$sideEffects" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
-                    <td>
-                        <!-- Treatment Details -->
-                    </td>
+
+                    <!-- Treatment Details -->
+                    <!-- ToDo:  Add construct with dose and frequency? -->
+                    <repeat with="['$cpz','Chloropromazine (CPZ)'],
+                                  ['$hlp','Haloperidol (HLP)'],
+                                  ['$fpz','Fluphenazine (FPZ)'],
+                                  ['$cbz','Carbamazepine (CBZ)'],
+                                  ['$sv','Sodium Valproate (SV)'],
+                                  ['$ris','Risperidone (RIS)'],
+                                  ['$flx','Fluoxetine (FLX)'],
+                                  ['$other','others']">
+                        <td>
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                        </td>
+                    </repeat>
+
                     <td>
                         <!-- Comments -->
                         <obs conceptId="$comments" />
@@ -137,7 +128,7 @@
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">Chronic Care no: </b>
+                <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>
                     <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
                 </b>
@@ -155,52 +146,62 @@
                 <th>Visit Location</th>
                 <td><encounterLocation id="visitLocation" /></td>
             </tr>
-            <tr>
-                <!-- Planned Visit -->
-                <th><font>Planned Visit?</font></th>
-                <td class="focus-field"><obs conceptId="$plannedVisit" answerConceptIds="$yes,$no" style="radio" /></td>
-            </tr>
-            <tr>
+            <tr class="focus-field">
                 <!-- Weight -->
-                <th>Weight (kg)</th>
-                <td><obs conceptId="$weight" id="weightInput" size="3"/></td>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
             </tr>
             <tr>
                 <!-- History -->
                 <th>History</th>
-                <td></td>
+                <td><obs conceptId="$hpc" style="textarea" cols="60"/></td>
             </tr>
             <tr>
                 <!-- Mental status examination -->
-                <th>Mental status examination</th>
-                <td></td>
+                <th>Mental status examination (MSE)</th>
+                <td><obs conceptId="$mse" style="textarea" cols="60"/></td>
             </tr>
             <tr>
                 <!-- Suicide risk -->
                 <th>Suicide risk</th>
                 <td>
-
+                    <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer" style="radio" />
                 </td>
             </tr>
             <tr>
                 <!-- Medication side effects -->
                 <th>Medication side effects</th>
-                <td></td>
+                <td><obs conceptId="$sideEffects" style="yes_no" /></td>
             </tr>
             <tr>
                 <!-- Treatment Details -->
                 <th>Treatment Details</th>
-                <td></td>
+                <td>
+                    <!-- ToDo:  Add construct with dose and frequency -->
+                    <repeat with="['$cpz','Chloropromazine (CPZ)'],
+                                  ['$hlp','Haloperidol (HLP)'],
+                                  ['$fpz','Fluphenazine (FPZ)'],
+                                  ['$cbz','Carbamazepine (CBZ)'],
+                                  ['$sv','Sodium Valproate (SV)'],
+                                  ['$ris','Risperidone (RIS)'],
+                                  ['$flx','Fluoxetine (FLX)'],
+                                  ['$other','others']">
+                        <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                    </repeat>
+
+                </td>
             </tr>
             <tr>
                 <!-- Comments -->
                 <th>Comments</th>
-                <td><obs conceptId="$comments" /></td>
+                <td><obs conceptId="$comments" style="textarea" cols="60"/></td>
             </tr>
             <tr>
                 <!-- Next appointment -->
                 <th>Next appointment</th>
-                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+                <td>
+                    <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" />
+                </td>
             </tr>
         </table>
         <submit />

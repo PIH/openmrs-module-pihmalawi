@@ -70,9 +70,9 @@
                     <td>#/w</td>
                     <td>#/w</td>
                     <td class="rotate"><span>#/d</span></td>
-                    <td class="rotate"><span>#/w</span></td>
-                    <td class="rotate"><span>#/m</span></td>
-                    <td class="rotate"><span>#/y</span></td>
+                    <td class="rotate"><span>#/wk</span></td>
+                    <td class="rotate"><span>#/mo</span></td>
+                    <td class="rotate"><span>#/yr</span></td>
                     <td>Y/N</td>
                     <td>#cig/day</td>
                     <td>Y/N</td>
