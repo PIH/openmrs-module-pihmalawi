@@ -219,11 +219,10 @@
 
                         <tr>
                             <th style="vertical-align:top;" align="left">Patient<br/>History &#38;<br/>Complications</th>
-                            <td>
+                            <td class="nowrap" colspan="2">
                                 <obs conceptId="$hivStatus" labelText="HIV"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
                                 <obs conceptId="$hivTestDate" labelText="Date test"/></td>
-                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
                             <td class="nowrap" colspan="2">
                                 <obs conceptId="$vdrlTest" labelText="VDRL" answerConceptIds="$reactive,$nReactive,$unknown"/>
                             </td>
