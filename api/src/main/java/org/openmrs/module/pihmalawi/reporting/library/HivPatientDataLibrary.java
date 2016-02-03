@@ -23,7 +23,11 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ObsValueBooleanYesNoConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PregnantLactatingConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.TbStatusConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.WhoStageConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
@@ -129,30 +133,45 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return getObsOnArtInitialEncounter(hivMetadata.getCd4CountConcept(), pdf.getObsValueNumericConverter());
 	}
 
+    @DocumentedDefinition("firstArtInitialEncounter.cd4Percent")
+    public PatientDataDefinition getFirstArtInitialCd4Percent() {
+        return getObsOnArtInitialEncounter(hivMetadata.getCd4PercentConcept(), pdf.getObjectFormatter());
+    }
+
+    @DocumentedDefinition("firstArtInitialEncounter.cd4Date")
+    public PatientDataDefinition getFirstArtInitialCd4Date() {
+        return getObsOnArtInitialEncounter(hivMetadata.getCd4DateConcept(), pdf.getObsValueDatetimeConverter());
+    }
+
 	@DocumentedDefinition("firstArtInitialEncounter.ksSideEffectsWorseningOnArvs")
 	public PatientDataDefinition getFirstArtInitialKsSideEffectsWorsening() {
-		return getObsOnArtInitialEncounter(hivMetadata.getKsSideEffectsWorseningOnArvsConcept(), pdf.getObjectFormatter());
+		return getObsOnArtInitialEncounter(hivMetadata.getKsSideEffectsWorseningOnArvsConcept(), new ObsValueBooleanYesNoConverter());
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.tbTreatmentStatus")
 	public PatientDataDefinition getFirstArtInitialTbTreatmentStatus() {
-		return getObsOnArtInitialEncounter(hivMetadata.getTbTreatmentStatusConcept(), pdf.getObjectFormatter());
+		return getObsOnArtInitialEncounter(hivMetadata.getTbTreatmentStatusConcept(), new TbStatusConverter());
 	}
 
 	@DocumentedDefinition("firstArtInitialEncounter.whoStage")
 	public PatientDataDefinition getFirstArtInitialWhoStage() {
-		return getObsOnArtInitialEncounter(hivMetadata.getWhoStageConcept(), pdf.getObjectFormatter());
+		return getObsOnArtInitialEncounter(hivMetadata.getWhoStageConcept(), new WhoStageConverter());
 	}
 
-	@DocumentedDefinition("firstArtInitialEncounter.cd4Percent")
-	public PatientDataDefinition getFirstArtInitialCd4Percent() {
-		return getObsOnArtInitialEncounter(hivMetadata.getCd4PercentConcept(), pdf.getObjectFormatter());
-	}
+    @DocumentedDefinition("firstArtInitialEncounter.whoClinicalConditions")
+    public PatientDataDefinition getFirstArtInitialWhoClinicalConditions() {
+        return getObsOnArtInitialEncounter(hivMetadata.getWhoClinicalConditionsConcept(), pdf.getObsValueTextConverter());
+    }
 
 	@DocumentedDefinition("firstArtInitialEncounter.presumedSevereHivPresent")
 	public PatientDataDefinition getFirstArtInitialPresumedSevereHivPresent() {
 		return getObsOnArtInitialEncounter(hivMetadata.getPresumedSevereHivCriteriaPresentConcept(), pdf.getObjectFormatter());
 	}
+
+    @DocumentedDefinition("firstArtInitialEncounter.pregnantLactating")
+    public PatientDataDefinition getFirstArtInitialPregnantLactating() {
+        return getObsOnArtInitialEncounter(hivMetadata.getPregnantOrLactatingConcept(), new PregnantLactatingConverter());
+    }
 
 	@DocumentedDefinition("firstArtInitialEncounter.reasonForStartingArvs")
 	public PatientDataDefinition getFirstArtInitialReasonForStartingArvs() {
@@ -394,6 +413,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
 		return pdf.getFirstObsByEndDate(question, Arrays.asList(arvInitial), converter);
 	}
+
+    protected PatientDataDefinition getObsValuePresentOnArtInitialEncounter(Concept question, Concept answer) {
+        EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
+        return pdf.getCodedObsPresentByEndDate(question, answer, Arrays.asList(arvInitial));
+    }
 
 	protected PatientDataDefinition getLatestArtFollowupEncounterByEndDate(DataConverter converter) {
 		EncounterType arvFollowup = hivMetadata.getArtFollowupEncounterType();

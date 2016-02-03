@@ -71,9 +71,10 @@ public class PrintableSummaryPageController {
         add(dsd, "arvNumber", hivData.getArvNumberAtLocation());
         add(dsd, "ccNumber", ccData.getChronicCareNumberAtLocation());
         add(dsd, "hivTxStatus", hivData.getMostRecentHivTreatmentStatusStateByEndDate());
-        add(dsd, "hivTxStatusDate", hivData.getMostRecentOnArvsStateStartDateByEndDate());
+        add(dsd, "hivTxStatusDate", hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate());
         add(dsd, "ccTxStatus", ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
         add(dsd, "ccTxStatusDate", ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
+        add(dsd, "artStartDate", hivData.getEarliestOnArvsStateStartDateByEndDate());
         add(dsd, "artRegimens", hivData.getArvRegimenChanges());
         add(dsd, "encounters", baseData.getAllEncounters());
         add(dsd, "hccAppointmentStatus", hivData.getHccAppointmentStatus());
@@ -84,6 +85,15 @@ public class PrintableSummaryPageController {
         add(dsd, "tbStatus", hivData.getLatestTbStatusObs());
         add(dsd, "height", baseData.getLatestHeightObs());
         add(dsd, "weights", baseData.getAllWeightObservations());
+        add(dsd, "reasonCd4", hivData.getFirstArtInitialCd4Count());
+        add(dsd, "reasonCd4Pct", hivData.getFirstArtInitialCd4Percent());
+        add(dsd, "reasonCd4Date", hivData.getFirstArtInitialCd4Date());
+        add(dsd, "reasonKs", hivData.getFirstArtInitialKsSideEffectsWorsening());
+        add(dsd, "reasonTb", hivData.getFirstArtInitialTbTreatmentStatus());
+        add(dsd, "reasonStage", hivData.getFirstArtInitialWhoStage());
+        add(dsd, "reasonPshd", hivData.getFirstArtInitialPresumedSevereHivPresent());
+        add(dsd, "reasonConditions", hivData.getFirstArtInitialWhoClinicalConditions());
+        add(dsd, "reasonPregnantLactating", hivData.getFirstArtInitialPregnantLactating());
 
         try {
             EvaluationContext context = getSinglePatientEvaluationContext(patient.getPatientId());

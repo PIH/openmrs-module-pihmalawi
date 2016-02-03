@@ -73,12 +73,14 @@ public class CommonMetadata extends Metadata {
 	public static final String WEIGHT = "Weight (kg)";
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
+    public static final String CD4_DATE = "Date of CD4 count";
     public static final String HIV_VIRAL_LOAD = "HIV viral load";
 
 	public static final String EVER_RECEIVED_ART_CONCEPT = "Ever received ART?";
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
 	public static final String TB_TREATMENT_STATUS = "Tuberculosis treatment status";
 	public static final String WHO_STAGE = "WHO stage";
+    public static final String WHO_CLINICAL_CONDITIONS = "Clinical Conditions Text";
 	public static final String CD4_PERCENT = "CD4 percent";
 	public static final String REASON_FOR_STARTING_ART = "Reason for ART eligibility";
 	public static final String UNKNOWN = "Unknown";
@@ -208,6 +210,10 @@ public class CommonMetadata extends Metadata {
 		return getConcept(CD4_COUNT);
 	}
 
+    public Concept getCd4DateConcept() {
+        return getConcept(CD4_DATE);
+    }
+
 	public Concept getClinicianReportedCd4Concept() {
 		return getConcept(CLINICIAN_REPORTED_CD4);
 	}
@@ -231,6 +237,10 @@ public class CommonMetadata extends Metadata {
 	public Concept getWhoStageConcept() {
 		return getConcept(WHO_STAGE);
 	}
+
+    public Concept getWhoClinicalConditionsConcept() {
+        return getConcept(WHO_CLINICAL_CONDITIONS);
+    }
 
 	public Concept getCd4PercentConcept() {
 		return getConcept(CD4_PERCENT);

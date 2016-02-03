@@ -35,6 +35,7 @@
     body {
         width: 99%;
         max-width: none;
+        font-size: 9pt;
     }
     table td {
         border: none;
@@ -82,6 +83,10 @@
     }
     .section-divider-bottom {
         padding-top:10px;
+    }
+    .section-title {
+        font-weight: bold;
+        padding:0px 10px 10px 10px;
     }
     .first-column {
         padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top;
@@ -230,6 +235,7 @@
 
         <tr><td colspan="3" class="section-divider-top"></td></tr>
         <tr><td colspan="3" class="section-divider-bottom"></td></tr>
+        <tr><td colspan="3" class="section-title">Past visits and appointments</td></tr>
 
         <tr id="encounters-section">
             <td class="first-column">Last 4 Encounters:</td>
@@ -257,20 +263,20 @@
             <td class="second-column">
                 <table class="detail-table">
 
-                <% for (def programName : appointmentStatuses.keySet()) {
-                    def appStatus = appointmentStatuses[programName];
-                     if (appStatus.currentlyEnrolled) {
-                        def appDate = appStatus.nextScheduledDate;
-                        def daysToApp = appStatus.daysToAppointment;
-                        def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
+                    <% for (def programName : appointmentStatuses.keySet()) {
+                        def appStatus = appointmentStatuses[programName];
+                        if (appStatus.currentlyEnrolled) {
+                            def appDate = appStatus.nextScheduledDate;
+                            def daysToApp = appStatus.daysToAppointment;
+                            def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
                     %>
-                        <tr>
-                            <td>${ programName }:</td>
-                            <td>${ ui.format(appDate) }</td>
-                            <td class="alert third-column">${ appAlert }</td>
-                        </tr>
+                    <tr>
+                        <td>${ programName }:</td>
+                        <td>${ ui.format(appDate) }</td>
+                        <td class="alert third-column">${ appAlert }</td>
+                    </tr>
                     <% } %>
-                <% } %>
+                    <% } %>
                 </table>
             </td>
             <td class="third-column"></td>
@@ -278,6 +284,45 @@
 
         <tr><td colspan="3" class="section-divider-top"></td></tr>
         <tr><td colspan="3" class="section-divider-bottom"></td></tr>
+
+        <% if (artStartDate != null) { %>
+            <tr><td class="section-title">ART Status at Initiation</td></tr>
+            <tr>
+                <td class="first-column">WHO clinical conditions</td>
+                <td class="second-column" colspan="2">${reasonConditions ? reasonConditions : '_____'}</td>
+            </tr>
+            <tr>
+                <td class="first-column">Clinical stage</td>
+                <td class="second-column" colspan="2">
+                    ${reasonStage ? reasonStage : ''}
+                    ${reasonPshd ? (reasonStage ? ' / PSHD' : 'PSHD') : ''}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-column">TB Status at Initiation</td>
+                <td class="second-column" colspan="2">${reasonTb ? reasonTb : '_____'}</td>
+            </tr>
+            <tr>
+                <td class="first-column">CD4/TLC</td>
+                <td class="second-column" colspan="2">
+                    ${reasonCd4 ? reasonCd4 : '_____'} / ${reasonCd4Pct ? reasonCd4Pct : '_____'}%
+                    &nbsp;&nbsp;
+                    Date: ${reasonCd4Date ? ui.format(reasonCd4Date) : '_____'}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-column">KS</td>
+                <td class="second-column" colspan="2">${reasonKs ? reasonKs : '_____'}</td>
+            </tr>
+            <tr>
+                <td class="first-column">Pregnant/Lactating</td>
+                <td class="second-column" colspan="2">${reasonPregnantLactating ? reasonPregnantLactating : '_____'}</td>
+            </tr>
+            <tr><td colspan="3" class="section-divider-top"></td></tr>
+            <tr><td colspan="3" class="section-divider-bottom"></td></tr>
+        <% } %>
+
+        <tr><td colspan="3" class="section-title">Most recent clinical data</td></tr>
 
         <tr>
             <td class="first-column">Last CD4:</td>

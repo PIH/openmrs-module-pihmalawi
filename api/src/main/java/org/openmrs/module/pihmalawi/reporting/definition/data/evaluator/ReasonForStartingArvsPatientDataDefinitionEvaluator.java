@@ -53,6 +53,8 @@ public class ReasonForStartingArvsPatientDataDefinitionEvaluator implements Pati
 		m.put("STAGE", hivLibrary.getFirstArtInitialWhoStage());
 		m.put("TLC", hivLibrary.getFirstArtInitialCd4Percent());
 		m.put("PSHD", hivLibrary.getFirstArtInitialPresumedSevereHivPresent());
+        m.put("CONDITIONS", hivLibrary.getFirstArtInitialWhoClinicalConditions());
+        m.put("PREG", hivLibrary.getFirstArtInitialPregnantLactating());
 
 		for (String questionKey : m.keySet()) {
 			PatientDataDefinition def = m.get(questionKey);
