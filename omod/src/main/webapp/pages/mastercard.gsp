@@ -31,6 +31,13 @@
             mastercard.enableViewOnly();
         <% } %>
 
+        // warn user about changes before leaving page
+        jq(window).bind('beforeunload', function(){
+            if (mastercard.isDirty()) {
+                return "If you leave this page you will lose unsaved changes";
+            }
+        });
+
     } );
 </script>
 

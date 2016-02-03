@@ -12,6 +12,7 @@
     var htmlformJs = null;
     var defaultLocationId = null;
     var validationErrors = {};
+    var dirty = false;
 
     function Flowsheet(formName, encounterIds) {
         this.formName = formName;
@@ -72,10 +73,12 @@
 
     mastercard.setCurrentlyEditingFormName = function(formName) {
         currentlyEditingFormName = formName;
+        mastercard.clearDirty();
     };
 
     mastercard.setCurrentlyEditingEncounterId = function(encId) {
         currentlyEditingEncounterId = encId;
+        mastercard.clearDirty();
     };
 
     mastercard.setHtmlFormJs = function(htmlform) {
@@ -88,6 +91,18 @@
 
     mastercard.setDefaultLocationId = function(locationId) {
         defaultLocationId = locationId;
+    };
+
+    mastercard.isDirty = function() {
+        return dirty;
+    };
+
+    mastercard.setDirty = function() {
+        dirty = true;
+    };
+
+    mastercard.clearDirty = function() {
+        dirty = false;
     };
 
     var isValidForSubmission = function() {
@@ -398,6 +413,11 @@
                 validateAppointmentDate(apptDateInput, visitDateInput);
             });
         }
+
+        // Configure warning if navigating away from form
+        jq(html).find(':input').change(function () {
+            mastercard.setDirty();
+        });
     };
 
     var validateAppointmentDate = function(apptDateField, visitDateField) {
