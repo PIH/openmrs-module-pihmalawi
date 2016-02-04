@@ -1,4 +1,7 @@
-<htmlform formUuid="55ee4b76-1985-456e-8536-0958e7056b6b" formName="Hypertension and Diabetes Visit" formEncounterType="66079de4-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.0">
+<htmlform formUuid="8cfedcc4-cacb-11e5-9956-625662870761"
+          formName="Hypertension and Diabetes Visit"
+          formEncounterType="66079de4-a8df-11e5-bf7f-feff819cdc9f"
+          formVersion="1.0">
 
     <macros>
         height=5090

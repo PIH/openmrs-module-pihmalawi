@@ -188,7 +188,6 @@
                                   ['$other','others']">
                         <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                     </repeat>
-
                 </td>
             </tr>
             <tr>
