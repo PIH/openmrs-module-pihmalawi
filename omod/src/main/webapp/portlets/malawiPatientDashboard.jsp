@@ -29,7 +29,7 @@
 
 <c:set var="personId" value="${model.personId}" />
 <c:set var="patientId" value="${model.patientId}" />
-
+<openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 
 <table cellspacing="0" cellpadding="2">
     <tr>
@@ -103,6 +103,15 @@
     </tr>
     <tr>
         <td>Chronic Care Record:</td>
+        <c:if test="${showOldChronicCareCard == 'true'}">
+            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"/></td
+        </c:if>
+        <c:if test="${showOldChronicCareCard != 'true'}">
+            <td>&NonBreakingSpace;</td
+        </c:if>
+    </tr>
+    <tr>
+        <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
     <tr>

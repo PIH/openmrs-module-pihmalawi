@@ -59,6 +59,12 @@
         <description>Password that is used to encrypt patient data export reports</description>
     </globalProperty>
 
+    <globalProperty>
+        <property>pihmalawi.showOldChronicCareCard</property>
+        <defaultValue>true</defaultValue>
+        <description>Inidicates whether or not to enable the link to the previous version of the CCC Mastercard</description>
+    </globalProperty>
+
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
