@@ -1,4 +1,7 @@
-<htmlform formUuid="76d9ac68-e78f-11e0-baeb-445f1136dfb9" formName="ART eMastercard" formEncounterType="664b8574-977f-11e1-8993-905e29aff6c1" formVersion="4.1">
+<htmlform formUuid="76d9ac68-e78f-11e0-baeb-445f1136dfb9"
+          formName="ART eMastercard"
+          formEncounterType="664b8574-977f-11e1-8993-905e29aff6c1"
+          formVersion="4.0">
 
     <macros>
         guardianName=1824
@@ -45,8 +48,8 @@
         artRegimen1=8170
         artRegimen2=8171
         artRegimen3=8172
-        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
-        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
+        regimenOptions=8499,8155,8157,8159,8162,8164,8165,8166,8167,8500,8156,8158,8160,8163,8168,6408
+        regimenLabels=0A,1A,2A,3A,4A,5A,6A,7A,8A,0P,1P,2P,3P,4P,9P,Other
         firstLineArvStartDate=6132
         alternativeFirstLineArvStartDate=2528
         secondLineArvStartDate=2529

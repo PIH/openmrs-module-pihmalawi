@@ -1801,6 +1801,146 @@ public class MetadataInitializer implements Initializer {
             cs.saveConcept(c);
         }
 
+        {
+            Integer id = 8499;
+            String uuid = "d5930c3a-cb57-11e5-9956-625662870761";
+            String name = "0A: ABC/3TC + NVP";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8500;
+            String uuid = "d59315a4-cb57-11e5-9956-625662870761";
+            String name = "0P: ABC/3TC + NVP";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8169;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for ART Regimen");
+            c.getAnswers().clear();
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8499))); // 0A: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8500))); // 0P: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8155))); // 1A: d4T / 3TC / NVP (previous 1L) (8155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8156))); // 1P: d4T / 3TC / NVP (8156)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8157))); // 2A: AZT / 3TC / NVP (previous AZT) (8157)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8158))); // 2P: AZT / 3TC / NVP (8158)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8159))); // 3A: d4T / 3TC + EFV (previous EFV) (8159)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8160))); // 3P: d4T / 3TC + EFV (8160)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8162))); // 4A: AZT / 3TC + EFV (previous AZTEFV) (8162)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8163))); // 4P: AZT / 3TC + EFV (8163)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8164))); // 5A: TDF + 3TC + EFV (8164)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
+
+            cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8170;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for ART Regimen 1");
+            c.getAnswers().clear();
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8499))); // 0A: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8500))); // 0P: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8155))); // 1A: d4T / 3TC / NVP (previous 1L) (8155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8156))); // 1P: d4T / 3TC / NVP (8156)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8157))); // 2A: AZT / 3TC / NVP (previous AZT) (8157)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8158))); // 2P: AZT / 3TC / NVP (8158)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8159))); // 3A: d4T / 3TC + EFV (previous EFV) (8159)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8160))); // 3P: d4T / 3TC + EFV (8160)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8162))); // 4A: AZT / 3TC + EFV (previous AZTEFV) (8162)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8163))); // 4P: AZT / 3TC + EFV (8163)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8164))); // 5A: TDF + 3TC + EFV (8164)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
+
+            cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8171;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for ART Regimen 2");
+            c.getAnswers().clear();
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8499))); // 0A: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8500))); // 0P: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8155))); // 1A: d4T / 3TC / NVP (previous 1L) (8155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8156))); // 1P: d4T / 3TC / NVP (8156)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8157))); // 2A: AZT / 3TC / NVP (previous AZT) (8157)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8158))); // 2P: AZT / 3TC / NVP (8158)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8159))); // 3A: d4T / 3TC + EFV (previous EFV) (8159)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8160))); // 3P: d4T / 3TC + EFV (8160)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8162))); // 4A: AZT / 3TC + EFV (previous AZTEFV) (8162)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8163))); // 4P: AZT / 3TC + EFV (8163)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8164))); // 5A: TDF + 3TC + EFV (8164)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
+
+            cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8172;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for ART Regimen 3");
+            c.getAnswers().clear();
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8499))); // 0A: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8500))); // 0P: ABC/3TC + NVP
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8155))); // 1A: d4T / 3TC / NVP (previous 1L) (8155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8156))); // 1P: d4T / 3TC / NVP (8156)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8157))); // 2A: AZT / 3TC / NVP (previous AZT) (8157)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8158))); // 2P: AZT / 3TC / NVP (8158)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8159))); // 3A: d4T / 3TC + EFV (previous EFV) (8159)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8160))); // 3P: d4T / 3TC + EFV (8160)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8162))); // 4A: AZT / 3TC + EFV (previous AZTEFV) (8162)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8163))); // 4P: AZT / 3TC + EFV (8163)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8164))); // 5A: TDF + 3TC + EFV (8164)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
+
+            cs.saveConcept(c);
+        }
+
         }
 
         @Override

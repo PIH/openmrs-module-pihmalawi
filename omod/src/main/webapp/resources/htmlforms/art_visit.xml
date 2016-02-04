@@ -7,8 +7,8 @@
         height=5090
         weight=5089
         artRegimen=8169
-        regimenOptions=8155,8157,8159,8162,8164,8165,8166,8167,8156,8158,8160,8163,8168,6408
-        regimenLabels=1A,2A,3A,4A,5A,6A,7A,8A,1P,2P,3P,4P,9P,Other
+        regimenOptions=8499,8155,8157,8159,8162,8164,8165,8166,8167,8500,8156,8158,8160,8163,8168,6408
+        regimenLabels=0A,1A,2A,3A,4A,5A,6A,7A,8A,0P,1P,2P,3P,4P,9P,Other
         sideEffect=7755
         no=1066
         yes=1065
