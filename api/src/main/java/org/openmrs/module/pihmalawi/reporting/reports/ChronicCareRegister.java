@@ -21,6 +21,7 @@ import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitio
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SortCriteria;
@@ -66,6 +67,9 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 
 	@Autowired
 	private BasePatientDataLibrary basePatientData ;
+
+    @Autowired
+    private HivPatientDataLibrary hivPatientData;
 
 	@Autowired
 	private ChronicCarePatientDataLibrary ccPatientData ;
@@ -125,9 +129,17 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 
 		addColumn(dsd, "PID", builtInPatientData.getPatientId());
 		addColumn(dsd, "Chronic Care #", ccPatientData.getChronicCareNumberAtLocation());
+        addColumn(dsd, "HCC #", hivPatientData.getHccNumberAtLocation());
+        addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
 		addColumn(dsd, "Chronic Care initial date", ccPatientData.getFirstChronicCareInitialEncounterDateByEndDate());
 		addColumn(dsd, "Chronic Care initial location", ccPatientData.getFirstChronicCareInitialEncounterLocationByEndDate());
-		addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
+        addColumn(dsd, "1st time in Pre-ART date", hivPatientData.getEarliestPreArtStateStartDateByEndDate());
+        addColumn(dsd, "1st time in Pre-ART location", hivPatientData.getEarliestPreArtStateLocationByEndDate());
+        addColumn(dsd, "1st time in Exposed Child date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
+        addColumn(dsd, "1st time in Exposed Child location", hivPatientData.getEarliestExposedChildStateLocationByEndDate());
+        addColumn(dsd, "1st time in ART date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
+        addColumn(dsd, "1st time in ART location", hivPatientData.getEarliestOnArvsStateLocationByEndDate());
+        addColumn(dsd, "Given name", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "Last name", builtInPatientData.getPreferredFamilyName());
 		addColumn(dsd, "Birthdate", basePatientData.getBirthdate());
 		addColumn(dsd, "Current Age (yr)", basePatientData.getAgeAtEndInYears());
@@ -220,6 +232,6 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1-SNAPSHOT";
 	}
 }
