@@ -104,7 +104,7 @@
     <tr>
         <td>Chronic Care Record:</td>
         <c:if test="${showOldChronicCareCard == 'true'}">
-            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" programWorkflowStates="83"/></td
+            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" patientIdentifierType="21" programWorkflowStates="83"/></td
         </c:if>
         <c:if test="${showOldChronicCareCard != 'true'}">
             <td>&NonBreakingSpace;</td
