@@ -14,11 +14,12 @@
         suicideRisk=8497
         sideEffects=2146
         drugsNow=1193
+        drugSet=8501
         cpz=914
         hlp=4047
         fpz=927
         cbz=920
-        sv=4020
+        sv=4060
         ris=8498
         flx=4045
         comments=2880
@@ -96,7 +97,9 @@
                                   ['$flx','Fluoxetine (FLX)'],
                                   ['$other','others']">
                         <td>
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                            </obsgroup>
                         </td>
                     </repeat>
 
@@ -186,7 +189,9 @@
                                   ['$ris','Risperidone (RIS)'],
                                   ['$flx','Fluoxetine (FLX)'],
                                   ['$other','others']">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
                     </repeat>
                 </td>
             </tr>

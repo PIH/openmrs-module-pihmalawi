@@ -1724,13 +1724,34 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(4047))); // Haloperidol (HLP)
             c.addAnswer(new ConceptAnswer(cs.getConcept(927)));  // Fluphenazine (FPZ)
             c.addAnswer(new ConceptAnswer(cs.getConcept(920)));  // Carbamazepine (CBZ)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(4020))); // Sodium Valproate (SV)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(4060))); // Sodium Valproate (SV)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8498))); // Risperidone (RIS)
             c.addAnswer(new ConceptAnswer(cs.getConcept(4045))); // Fluoxetine (FLX)
             cs.saveConcept(c);
         }
-        
+
         {
+            // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
+            Integer id = 8501;
+            String uuid = "447aaa7a-cd03-11e5-9956-625662870761";
+            String name = "Current Chronic Care Medication Construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(1193)); // Current drugs used
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            // Not sure if this is used (Ellen)
             Integer id = 8417;
             String uuid = "521f8e75-4113-4870-bcbb-9ec1d727c627";
             String name = "Chronic Care Medication Set";

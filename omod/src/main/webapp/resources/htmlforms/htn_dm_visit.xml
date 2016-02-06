@@ -29,7 +29,7 @@
         footDeform=8456
         footUlcer=6566
         drugsNow=1193
-        drugFreq=3320
+        drugSet=8501
         longActingInsulin=6750
         shortActingRegularInsulin=282
         metformin=4052
@@ -183,21 +183,27 @@
                     <td>
                         <!-- ToDo:  Add construct with dose and frequency -->
                         <repeat with="['$longActingInsulin','L'],['$shortActingRegularInsulin','S']">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
                         </repeat>
                     </td>
 
                     <td style="text-align: left;">
                         <!-- Diabetes -->
                         <repeat with="['$metformin','MET'],['$glibenclamide','GLIB']">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
                         </repeat>
                     </td>
 
                     <td style="text-align: left;">
                         <!-- Anti-hypertensives -->
                         <repeat with="['$diuretic','Diuretic'],['$ccBlocker','CCB'],['$aceInhibit','ACE-I'],['$betaBlocker','BB']">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
                             <br/>
                         </repeat>
                    </td>
@@ -205,7 +211,9 @@
                     <td style="text-align: left;">
                         <!-- Other medications -->
                         <repeat with="['$aspirin','ASA],['$statin','Statin']">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
                             <br/>
                         </repeat>
                     </td>
@@ -333,7 +341,9 @@
                 <th>Insulin medications</th>
                 <td>
                     <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
                         <br/>
                     </repeat>
                 </td>
@@ -343,7 +353,9 @@
                 <th>Diabetes medications</th>
                 <td>
                     <repeat with="['$metformin'],['$glibenclamide']">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        </obsgroup>
                         <br/>
                     </repeat>
                 </td>
@@ -353,7 +365,9 @@
                 <th>Anti-hypertensives</th>
                 <td>
                     <repeat with="['$diuretic'],['$ccBlocker'],['$aceInhibit'],['$betaBlocker']">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        </obsgroup>
                         <br/>
                     </repeat>
                 </td>
@@ -363,7 +377,9 @@
                 <th>Other medications</th>
                 <td>
                     <repeat with="['$aspirin'],['$statin']">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        </obsgroup>
                         <br/>
                     </repeat>
                 </td>
