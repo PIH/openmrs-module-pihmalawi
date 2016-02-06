@@ -1,4 +1,4 @@
-<htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit" formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.1">
+<htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit" formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.0">
 
     <macros>
         chronicCareDiagnosis=3683
