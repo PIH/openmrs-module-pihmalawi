@@ -33,7 +33,7 @@ public class RelativeDateCohortDefinitionEvaluatorTest extends StandaloneContext
 
 	@Override
 	protected boolean isEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
