@@ -151,6 +151,10 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Outcome", ccPatientData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
 		addColumn(dsd, "Outcome change date", ccPatientData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
 		addColumn(dsd, "Outcome location", ccPatientData.getMostRecentChronicCareTreatmentStatusStateLocationAtLocationByEndDate());
+        addColumn(dsd, "HIV Outcome", hivPatientData.getMostRecentHivTreatmentStatusStateAtLocationByEndDate());
+        addColumn(dsd, "HIV Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusStateStartDateAtLocationByEndDate());
+        addColumn(dsd, "HIV Outcome location", hivPatientData.getMostRecentHivTreatmentStatusStateLocationAtLocationByEndDate());
+        addColumn(dsd, "Last ART Visit Date", hivPatientData.getMostRecentArtEncounterDateByEndDate());
 
 		for (Concept c : metadata.getChronicCareDiagnosisAnswerConcepts()) {
 			String columnName = ObjectUtil.format(c) + " Diagnosis from Initial Visit";

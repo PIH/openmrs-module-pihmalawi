@@ -21,6 +21,7 @@ import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
@@ -59,6 +60,9 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 
 	@Autowired
 	private BasePatientDataLibrary basePatientData ;
+
+    @Autowired
+    private HivPatientDataLibrary hivPatientData ;
 
 	@Autowired
 	private ChronicCarePatientDataLibrary ccPatientData ;
@@ -137,6 +141,8 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 		addColumn(dsd, "LOCATION", builtInEncounterData.getLocationName());
 		addColumn(dsd, "ENCOUNTER_TYPE", builtInEncounterData.getEncounterTypeName());
 		addColumn(dsd, "CHRONIC_CARE_NUMBER", ccPatientData.getChronicCareNumberAtLocation());
+        addColumn(dsd, "HCC_NUMBER", hivPatientData.getHccNumberAtLocation());
+        addColumn(dsd, "ARV_NUMBER", hivPatientData.getArvNumberAtLocation());
 		addColumn(dsd, "PID", builtInPatientData.getPatientId());
 		addColumn(dsd, "FIRST_NAME", builtInPatientData.getPreferredGivenName());
 		addColumn(dsd, "LAST_NAME", builtInPatientData.getPreferredFamilyName());
@@ -207,6 +213,6 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1-SNAPSHOT";
 	}
 }
