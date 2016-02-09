@@ -108,6 +108,8 @@ public class PrintableSummaryPageController {
             Obs oneYearWt = getValueAtLeastXMonthsBeforeLastValue(dataSet, "weights", 12);
             model.put("oneYearWeight", oneYearWt);
 
+            model.put("bmi", "");
+            model.put("bmiValue", null);
             if (ht != null && wt != null) {
                 double bmi = wt.getValueNumeric()/Math.pow(ht.getValueNumeric()/100, 2);
                 model.put("bmi", ObjectUtil.format(bmi, "1"));

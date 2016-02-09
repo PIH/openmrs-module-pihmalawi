@@ -84,8 +84,14 @@
     .section-divider-bottom {
         padding-top:10px;
     }
+    .top-section-title {
+        font-weight: bold;
+        font-size: 1.2em;
+        padding-bottom: 5px;
+    }
     .section-title {
         font-weight: bold;
+        font-size: 1.2em;
         padding:0px 10px 10px 10px;
     }
     .first-column {
@@ -155,7 +161,7 @@
         font-size: 1em;
     }
     .header-section {
-        padding:20px;
+        padding-top:20px; padding-bottom: 20px;
     }
     .section-divider-top {
         padding-bottom:20px;
@@ -187,7 +193,7 @@
 
         <tr>
             <td class="first-column">
-                <b>Demographics</b><br/>
+                <div class="top-section-title">Demographics</div>
                 <span class="question">Age:</span>
                 <span class="value"><% if (ageYears > 0) { %>${ ageYears } years<% } else { %>${ ageMonths } months <% } %></span>
                 <br/>
@@ -195,7 +201,7 @@
                 <span class="value">${ gender == 'M' ? "Male" : gender == 'F' ? "Female" : ""}</span>
             </td>
             <td class="second-column">
-                <b>Program Enrollments</b><br/>
+                <div class="top-section-title">Program Enrollments</div>
                 <span class="question">HIV:</span>
                 <span class="value">
                     <% if (hivTxStatus) { %>
@@ -219,12 +225,11 @@
                 </span>
             </td>
             <td class="third-column">
-                <b>ARV Regimens:</b>
+                <div class="top-section-title">ARV Regimens:</div>
                 <%  if (artRegimens != null && artRegimens.size() > 0) {
                     Collections.reverse(artRegimens); %>
                     <%  artRegimens.each { regimenObs -> %>
-                        <br/>
-                        ${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }
+                        <div>${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }</div>
                     <% } %>
                 <% } else { %>
                     <br/>
@@ -286,7 +291,7 @@
         <tr><td colspan="3" class="section-divider-bottom"></td></tr>
 
         <% if (artStartDate != null) { %>
-            <tr><td class="section-title">ART Status at Initiation</td></tr>
+            <tr><td class="section-title" colspan="2">ART Status at Initiation</td></tr>
             <tr>
                 <td class="first-column">WHO clinical conditions</td>
                 <td class="second-column" colspan="2">${reasonConditions ? reasonConditions : '_____'}</td>
@@ -404,7 +409,7 @@
                 <% } %>
             </td>
             <td class="third-column alert">
-                <% if (bmiValue < 19) { %>
+                <% if (bmiValue && bmiValue < 19) { %>
                     Alert:  BMI &lt; 19
                 <% } %>
             </td>
