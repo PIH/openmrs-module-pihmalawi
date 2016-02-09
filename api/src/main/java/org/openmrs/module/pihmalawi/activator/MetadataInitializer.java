@@ -1617,7 +1617,9 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(6958))); // Alcohol
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8493))); // Marijuana
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8494))); // Traditional meds
+                c.addAnswer(new ConceptAnswer(cs.getConcept(3675))); // Pig/pork
                 c.addAnswer(new ConceptAnswer(cs.getConcept(7633))); // Other medications
+
                 cs.saveConcept(c);
             }
         }
@@ -1727,6 +1729,10 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(4060))); // Sodium Valproate (SV)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8498))); // Risperidone (RIS)
             c.addAnswer(new ConceptAnswer(cs.getConcept(4045))); // Fluoxetine (FLX)
+
+            // Adding new answers for Epilepsy
+            c.addAnswer(new ConceptAnswer(cs.getConcept(238)));  // Phenobarbital (PB)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(273)));  // Phenytoin (PHT)
             cs.saveConcept(c);
         }
 
@@ -1962,7 +1968,853 @@ public class MetadataInitializer implements Initializer {
             cs.saveConcept(c);
         }
 
+        {
+            Integer id = 8502;
+            String uuid = "b2fafcfa-ce9f-11e5-ab30-625662870761";
+            String name = "Medication history (text)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
         }
+
+
+        {
+            Integer id = 8503;
+            String uuid = "145044AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Clonic seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8504;
+            String uuid = "150525AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Absence seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8505;
+            String uuid = "112356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Tonic seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8506;
+            String uuid = "115424AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Myoclonic seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8507;
+            String uuid = "148223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Atonic seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8508;
+            String uuid = "b2faee68-ce9f-11e5-ab30-625662870761";
+            String name = "Simple partial seizure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8509;
+            String uuid = "b2faf2c8-ce9f-11e5-ab30-625662870761";
+            String name = "Complex partial seizure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8510;
+            String uuid = "123826AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Unclassified epileptic seizures";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8511;
+            String uuid = "161249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Seizure type";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(7100))); // Tonic-clonic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8503))); // Clonic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8504))); // Absence
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8505))); // Tonic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8506))); // Myoclonic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8507))); // Atonic
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8508))); // Simple
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8509))); // Complex
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8510))); // Unclassified
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8512;
+            String uuid = "b2faf9a8-ce9f-11e5-ab30-625662870761";
+            String name = "Year of onset";
+            Double lowAb = 1950.0;
+            Double hiAb = 2050.0;
+            ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new ConceptNumeric(id);
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setLowAbsolute(lowAb);
+                c.setHiAbsolute(hiAb);
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8513;
+            String uuid = "b2fafb7e-ce9f-11e5-ab30-625662870761";
+            String name = "Month of onset";
+            Double lowAb = 1.0;
+            Double hiAb = 12.0;
+            ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new ConceptNumeric(id);
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setLowAbsolute(lowAb);
+                c.setHiAbsolute(hiAb);
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8514;
+            String uuid = "b2fafe94-ce9f-11e5-ab30-625662870761";
+            String name = "Epilepsy complications";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(148)));  // Injury
+                c.addAnswer(new ConceptAnswer(cs.getConcept(135)));  // Burn
+                c.addAnswer(new ConceptAnswer(cs.getConcept(7721))); // Status epilepticus
+                c.addAnswer(new ConceptAnswer(cs.getConcept(219)));  // Psychosis
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1581))); // Drug related
+                c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8515;
+            String uuid = "b2fb002e-ce9f-11e5-ab30-625662870761";
+            String name = "Injury, trauma, surgery of head";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8516;
+            String uuid = "b2fb01f0-ce9f-11e5-ab30-625662870761";
+            String name = "History of seizure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8517;
+            String uuid = "b2fb06dc-ce9f-11e5-ab30-625662870761";
+            String name = "Complications at birth";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8518;
+            String uuid = "82b4827e-cf4d-11e5-ab30-625662870761";
+            String name = "Neonatal infection, Cerebral Malaria, and/or Meningitis";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8519;
+            String uuid = "82b48760-cf4d-11e5-ab30-625662870761";
+            String name = "Medical and surgical history (coded)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8515))); // Head injury/trauma/surgery
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8516))); // History of seizure
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8517))); // Complications at birth
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8518))); // Neonatal infection/cerebral malaria/meningitis
+                c.addAnswer(new ConceptAnswer(cs.getConcept(6022))); // Delayed milestones
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8520;
+            String uuid = "82b48d50-cf4d-11e5-ab30-625662870761";
+            String name = "Pre-ictal warning";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8521;
+            String uuid = "82b48f4e-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal headache";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8522;
+            String uuid = "82b49106-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal drowsiness";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8523;
+            String uuid = "82b4926e-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal poor concentration";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8524;
+            String uuid = "82b4944e-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal poor verbal or cognition";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8525;
+            String uuid = "82b495d4-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal paralysis";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8526;
+            String uuid = "82b49b7e-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal disorientation";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8527;
+            String uuid = "82b49d4a-cf4d-11e5-ab30-625662870761";
+            String name = "Post-ictal nausea";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8528;
+            String uuid = "7e8aa840-cf5c-11e5-ab30-625662870761";
+            String name = "Post-ictal memory loss";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8529;
+            String uuid = "7e8aabb0-cf5c-11e5-ab30-625662870761";
+            String name = "Post-ictal hyperactivity";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8530;
+            String uuid = "7e8ab07e-cf5c-11e5-ab30-625662870761";
+            String name = "Post-ictal feature";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8521))); // headache
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8522))); // drowsy
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8523))); // poor concentation
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8524))); // poor verbal
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8525))); // paralysis
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8526))); // disorientation
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8527))); // nausea
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8528))); // memory loss
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8529))); // hyperactivity
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8531;
+            String uuid = "7e8ab286-cf5c-11e5-ab30-625662870761";
+            String name = "Alcohol trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8532;
+            String uuid = "7e8ab5b0-cf5c-11e5-ab30-625662870761";
+            String name = "Fever trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8533;
+            String uuid = "7e8ab740-cf5c-11e5-ab30-625662870761";
+            String name = "Sound, light, and touch";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8534;
+            String uuid = "7e8abbdc-cf5c-11e5-ab30-625662870761";
+            String name = "Emotional stress, anger, boredom";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8535;
+            String uuid = "7e8abdbc-cf5c-11e5-ab30-625662870761";
+            String name = "Sleep deprivation and overtired";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8536;
+            String uuid = "7e8abefc-cf5c-11e5-ab30-625662870761";
+            String name = "Missed medication trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8537;
+            String uuid = "7e8abfd8-cf5c-11e5-ab30-625662870761";
+            String name = "Menstruation trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8538;
+            String uuid = "5f51fecc-cf63-11e5-ab30-625662870761";
+            String name = "Epilepsy trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8531))); // Alcohol
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8532))); // Fever
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8533))); // Sound/light
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8534))); // Stress
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8535))); // Sleep
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8536))); // Missed meds
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8537))); // Menstruation
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8539;
+            String uuid = "5f52025a-cf63-11e5-ab30-625662870761";
+            String name = "Seizure since last visit";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8540;
+            String uuid = "5f520476-cf63-11e5-ab30-625662870761";
+            String name = "Any seizure trigger";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8541;
+            String uuid = "5f520642-cf63-11e5-ab30-625662870761";
+            String name = "Seizure activity";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8539))); // Seizure since last visit
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8540))); // Any trigger
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+    }
 
         @Override
         public void stopped () {

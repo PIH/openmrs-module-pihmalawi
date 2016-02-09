@@ -34,7 +34,7 @@
         steroidInhaled=8472
         steroidOral=8473
         otherCoded=5622
-        comments=2880
+        clinicalImpression=1364
         nextAppt=5096
     </macros>
 
@@ -166,7 +166,7 @@
 
                     <td>
                         <!-- Comments -->
-                        <obs conceptId="$comments" />
+                        <obs conceptId="$clinicalImpression" />
                     </td>
 
                     <td>
@@ -299,7 +299,7 @@
             <tr>
                 <!-- Comments -->
                 <th>Comments</th>
-                <td><obs conceptId="$comments" /></td>
+                <td><obs conceptId="$clinicalImpression" /></td>
             </tr>
             <tr>
                 <!-- Next appointment -->

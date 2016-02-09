@@ -18,30 +18,35 @@
         chronicCareDiagnosis=3683
         diagnosisDate=6774
         diabetesType1Dx=6409
-        diabetesType2Dx=6410
-        hypertensionDx=6740
-        strokeDx=8455
-        cardioDx=996
-        pvdDx=7586
-        retinopathyDx=8452
-        neuropathyDx=8450
-        renalDx=6033
-        sexdysfxDx=8449
-        diabetesFamilyHistory=6740
-        hypertensionFamilyHistory=8458
+        epilepsyFamilyHistory=8484
+        mentalIllFamilyHistory=8485
+        behaviorFamilyHistory=8486
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
         hivStatus=3753
         hivTestDate=1837
+        vdrlTest=299
         reactive=1228
         nReactive=1229
         artStartDate=2516
-        tbStatus=7459
-        smearPos=2185
-        smearNeg=2186
-        eptb=1547
-        tbYear=8453
+
+        tonicClonic=7100
+        clonic=8503
+        absenceSeiz=8504
+        tonicSeiz=8505
+        myoclonic=8506
+        atonic=8507
+        simplePartial=8508
+        complexPartial=8509
+        unclassifiedSeiz=8510
+
+        headTrauma=8515
+        seizureHistory=8516
+        birthComplicate=8517
+        neonatalInfect=8518
+        delayedMile=6022
+
         patientPhone=1426
         symptom=1293
         guardianName=1824
@@ -52,6 +57,47 @@
         relationToPatient=1328
         agreesToFollowup=2552
         chwName=8431
+
+        ageOnset=8403
+        onsetMonth=8513
+        onsetYear=8512
+        occupation=1304
+        civilStatus=1054
+        educationLevel=1688
+        medHistory=8502
+        exposure=8495
+        smoking=8492
+        alcohol=6958
+        pig=3675
+        tradMeds=8494
+        medsOther=7633
+        complication=8514
+        injury=148
+        burn=135
+        statusEpil=7721
+        psychosis=219
+        drugRelated=1581
+        other=6408
+
+        preIctalWarn=8520
+        postIcHeadache=8521
+        postIcDrows=8522
+        postIcPoorConcentr=8523
+        postIcPoorVerbal=8524
+        postIcParal=8525
+        postIcDisorient=8526
+        postIcNausea=8527
+        postIcMemLoss=8528
+        postIcHyper=8528
+
+        trigAlc=8531
+        trigFever=8532
+        trigSound=8533
+        trigStress=8534
+        trigSleep=8535
+        trigMeds=8536
+        trigMenst=8537
+
     </macros>
 
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
@@ -78,40 +124,42 @@
             </span>
         </h4>
 
-        <br/>
-        <hr/>
-
         <table class="data-entry-table">
             <tr style="border: none;">
                 <td style="vertical-align:top;">
-                    <h5><b>Patient / Guardian Details</b></h5>
+                    <h5>
+                        <b>Patient / Guardian Details</b>
+                    </h5>
                     <table>
                         <tr>
                             <td>Patient Name</td>
                             <td>
-                                <lookup expression="patient.personName" />
+                                <lookup expression="patient.personName"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Sex, DOB</td>
                             <td>
                                 <span class="left-cell">
-                                    <lookup expression="patient.gender" />
+                                    <lookup expression="patient.gender"/>
                                 </span>
                                 <span class="right-cell">
-                                    <lookup expression="patient.birthdate" />
+                                    <lookup expression="patient.birthdate"/>
+                                    (Age:<lookup expression="patient.age"/>)
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td>Physical Address</td>
                             <td><!-- style="height:60px;"-->
-                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Patient Phone</td>
-                            <td><obs conceptId="$patientPhone" size="10"/></td>
+                            <td>
+                                <obs conceptId="$patientPhone" size="10"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Guardian Name</td>
@@ -128,81 +176,279 @@
                         <tr>
                             <td>Guardian relation to patient</td>
                             <td>
-                                <obs conceptId="$relationToPatient" size="10" />
+                                <obs conceptId="$relationToPatient" size="10"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y"
+                                     answerConceptIds="$noAnswer,$yesAnswer"/>
                             </td>
                         </tr>
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                                <obs conceptId="$chwName"/>
                             </td>
                         </tr>
                     </table>
                 </td>
 
                 <td class="removePadding" style="vertical-align:top;">
-                    <h5><b>Seizure Type</b></h5>
-                    <table class="todo">
+                    <h5>
+                        <b>Seizure Type</b>
+                    </h5>
+                    <table>
                         <tr>
-                            <td>
-                                <table class="todo">
-                                    <tr><td>Y</td><td>N</td><td>Tonic Clonic</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Absence</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Myoclonic</td></tr>
-                                </table>
-                            </td>
-                            <td>
-                                <table>
-                                    <tr><td>Y</td><td>N</td><td>Clonic</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Tonic</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Atonic</td></tr>
-                                </table>
-                            </td>
-                            <td>
-                                <table>
-                                    <tr><td>Y</td><td>N</td><td>Simple</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Complex</td></tr>
-                                    <tr><td>Y</td><td>N</td><td>Unclassified</td></tr>
-                                </table>
-                            </td>
+                            <repeat with="['$tonicClonic','Tonic Clonic'],
+                                ['$clonic','Clonic'],
+                                ['$simplePartial','Simple']">
+                                <td>
+                                    <obs conceptId="{0}" labelText=""
+                                         style="radio" answerConceptIds="$yesAnswer,$noAnswer"
+                                         answerLabels="Y,N"/>{1}
+                                </td>
+                            </repeat>
+                        </tr>
+                        <tr>
+                            <repeat with="['$absenceSeiz','Absence'],
+                                ['$tonicSeiz','Tonic'],
+                                ['$complexPartial','Complex']">
+                                <td>
+                                    <obs conceptId="{0}" labelText=""
+                                         style="radio" answerConceptIds="$yesAnswer,$noAnswer"
+                                         answerLabels="Y,N"/>{1}
+                                </td>
+                            </repeat>
+                        </tr>
+                        <tr>
+                            <repeat with="['$myoclonic','Myoclonic'],
+                                ['$atonic','Atonic'],
+                                ['$unclassifiedSeiz','Unclassified']">
+                                <td>
+                                    <obs conceptId="{0}" labelText=""
+                                         style="radio" answerConceptIds="$yesAnswer,$noAnswer"
+                                         answerLabels="Y,N"/>{1}
+                                </td>
+                            </repeat>
                         </tr>
                     </table>
 
                     <table>
                         <tr>
-                            <td>
-                                <table class="todo">
-                                    <th><h5><b>Family History</b></h5></th>
-                                    <tr><td>Epilepsy</td></tr>
-                                    <tr><td>Mental Illness</td></tr>
-                                    <tr><td>Behaviour Problems</td></tr>
-                                </table>
+                            <!-- Family History -->
+                            <td style="vertical-align:top;">
+                                <h5>
+                                    <b>Family History</b>
+                                </h5>
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr class="nowrap">
+                            <td rowspan="2">
+                                <obs conceptId="$epilepsyFamilyHistory" labelText="Epilepsy"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                                <br/>
+                                <obs conceptId="$mentalIllFamilyHistory" labelText="Mental illness"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                                <br/>
+                                <obs conceptId="$behaviorFamilyHistory" labelText="Behavioral problems"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                            </td>
+                            <td class="nowrap">
+                                <obs conceptId="$hivStatus" labelText="HIV"
+                                     answerConceptIds="$reactive,$nReactive,$unknown"/>
+                                <br/>
+                                <obs conceptId="$hivTestDate" labelText="Date test"/>
                             </td>
                             <td>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <obs conceptId="$hivStatus" labelText="HIV Status" answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
-                                        </td>
-                                        <td>ART Start Date:<obs conceptId="$artStartDate" />
-                                        </td>
-                                    </tr>
-                                    <tr class="todo">
-                                        <td colspan="2"><b>VDRL</b></td>
-                                    </tr>
-                                </table>
+                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <obs conceptId="$vdrlTest" labelText="VDRL"
+                                     answerConceptIds="$reactive,$nReactive,$unknown"/>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
+
+        <table class="data-entry-table">
+            <tr style="border: none;">
+                <td style="vertical-align:top;" colspan="3">
+                    <h5>
+                        <b>Patient History at Enrollment</b>
+                    </h5>
+                </td>
+                <td style="vertical-align:top;">
+                    <h5>
+                        <b>Patient Overview</b>
+                    </h5>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Date of onset</td>
+                <td>
+                    <obs conceptId="$onsetMonth" placeholder="mm"/>/<obs conceptId="$onsetYear" placeholder="yyyy"/>
+                    mm / yyyy
+                </td>
+
+                <td style="vertical-align:top;">
+                    <h5>
+                        <b>Medical &amp; Surgical History</b>
+                    </h5>
+                </td>
+
+                <td style="vertical-align:top;">
+                    <h5>
+                        <b>Exposures</b>
+                    </h5>
+                </td>
+            </tr>
+            <tr>
+                <td>Age at onset</td>
+                <td><obs conceptId="$ageOnset"/>in years</td>
+                <td style="vertical-align:top;" rowspan="5">
+                <repeat with="['$headTrauma','Head injury, trauma, surgery'],
+                ['$seizureHistory','History of seizure'],
+                ['$birthComplicate','Complications at birth'],
+                ['$neonatalInfect','Neonatal infection, Cerebral Malaria, Meningitis'],
+                ['$delayedMile','Delayed milestone']">
+
+                    <obs conceptId="{0}" labelText=""
+                         style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                         answerLabels="Y,N,Unk"/>
+                    {1}
+                <br/>
+                </repeat>
+                </td>
+                <td rowspan="5">
+                    <!-- ToDo:  Add free-text for other -->
+                    <repeat with="['$smoking','Smoking'],
+                                ['$alcohol','Alcohol'],
+                                ['$pig','Pigs/Pork'],
+                                ['$tradMeds','Traditional medicine'],
+                                ['$medsOther','Other']">
+
+                        <obs conceptId="$exposure" style="checkbox"
+                             answerConceptId="{0}" answerLabel="{1}"
+                             showDate="true"/>
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+            <tr>
+                <td>Marital status</td>
+                <td><obs conceptId="$civilStatus"/></td>
+            </tr>
+            <tr>
+                <td>Occupation</td>
+                <td><obs conceptId="$occupation"/></td>
+            </tr>
+            <tr>
+                <td>Education level</td>
+                <td><obs conceptId="$educationLevel"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" rowspan="2">
+                    <obs conceptId="$medHistory" labelText="Medication history"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td><h5><b>Triggers</b></h5></td>
+                <td><h5><b>Complications</b></h5></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <obs conceptId="$preIctalWarn" labelText=""
+                         style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                         answerLabels="Y,N,Unk"/>
+                    Pre-ictal warning
+                </td>
+                <td style="vertical-align:top;" rowspan="3">
+                    <repeat with="['$trigAlc','Alcohol'],
+                                  ['$trigFever','Fever'],
+                                  ['$trigSound','Sound, light, touch'],
+                                  ['$trigStress','Emotional stress, anger, boredom'],
+                                  ['$trigSleep','Sleep deprivation, overtired'],
+                                  ['$trigMeds','Missed medication'],
+                                  ['$trigMenst','Menstruation']">
+                        <obs conceptId="{0}" labelText=""
+                             style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                             answerLabels="Y,N,Unk"  />
+                        {1}
+                        <br/>
+                    </repeat>
+
+                </td>
+                <td rowspan="3">
+                    <repeat with="['$injury','Injuries'],
+                                 ['$burn','Burns'],
+                                 ['$statusEpil','Status epilepticus'],
+                                 ['$psychosis','Psychosis'],
+                                 ['$drugRelated','Drug related'],
+                                 ['$other','Other']">
+                        <obs conceptId="$complication" labelText=""
+                             style="checkbox" answerConceptId="{0}"
+                             answerLabel="{1}" showDate="true" />
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Pre-ictal features</b></td>
+                <td>
+                    <obs conceptId="$postIcParal" labelText=""
+                         style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                         answerLabels="Y,N,Unk"/>
+                    Paralysis
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align:top;" >
+                    <repeat with="['$postIcHeadache','Headache'],
+                                  ['$postIcDrows','Drowsiness'],
+                                  ['$postIcPoorConcentr','Poor concentation'],
+                                  ['$postIcPoorVerbal','Poor verbal or cognitive skill']">
+                        <obs conceptId="{0}" labelText=""
+                             style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                             answerLabels="Y,N,Unk"  />
+                        {1}
+                        <br/>
+                    </repeat>
+                </td>
+                <td style="vertical-align:top;" >
+                    <repeat with="['$postIcDisorient','Disorientation'],
+                                  ['$postIcNausea','Nausea'],
+                                  ['$postIcMemLoss','Memory loss'],
+                                  ['$postIcHyper','Hyperactivity']">
+                        <obs conceptId="{0}" labelText=""
+                             style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown"
+                             answerLabels="Y,N,Unk"  />
+                        {1}
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+            <tr>
+                <th style="vertical-align:top;" align="left">Outcome</th>
+                <td colspan="3">
+                    <b>
+                        <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
+                        (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                    </b>
+                </td>
+            </tr>
+        </table>
+
         <ifMode mode="VIEW" include="false">
             <div id="buttons" style="margin-top:10px;">
                 <button class="submitButton confirm" onclick="submitHtmlForm()">

@@ -9,8 +9,6 @@
         hpc=974
         psychHistory=8483
         mse=8496
-        symptomPresent=1293
-        symptomAbsent=1734
         suicideRisk=8497
         sideEffects=2146
         drugsNow=1193
@@ -22,7 +20,7 @@
         sv=4060
         ris=8498
         flx=4045
-        comments=2880
+        clinicalImpression=1364
         nextAppt=5096
     </macros>
 
@@ -105,7 +103,7 @@
 
                     <td>
                         <!-- Comments -->
-                        <obs conceptId="$comments" />
+                        <obs conceptId="$clinicalImpression" />
                     </td>
 
                     <td>
@@ -198,7 +196,7 @@
             <tr>
                 <!-- Comments -->
                 <th>Comments</th>
-                <td><obs conceptId="$comments" style="textarea" cols="60"/></td>
+                <td><obs conceptId="$clinicalImpression" style="textarea" cols="60"/></td>
             </tr>
             <tr>
                 <!-- Next appointment -->
