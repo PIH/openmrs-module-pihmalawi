@@ -268,7 +268,7 @@
                         </tr>
 
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="6"></td>
                         </tr>
 
                         <tr>
@@ -439,18 +439,18 @@
                                  ['$psychosis','Psychosis'],
                                  ['$drugRelated','Drug related'],
                                  ['$other','Other']">
-                                        <obsgroup groupingConceptId="$complicationGroup">
-                                            <tr>
-                                                <td>
+                                        <tr class="togglable">
+                                            <obsgroup groupingConceptId="$complicationGroup">
+                                                <td class="toggle-control">
                                                     <obs conceptId="$complicationAns" labelText=""
                                                          style="checkbox" answerConceptId="{0}"
                                                          answerLabel="{1}"/>
                                                 </td>
-                                                <td>
+                                                <td class="toggle-target">
                                                     <obs conceptId="$complicationDate"/>
                                                 </td>
-                                            </tr>
-                                        </obsgroup>
+                                            </obsgroup>
+                                        </tr>
                                     </repeat>
                                 </table>
                             </td>
