@@ -1548,6 +1548,7 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(7633))); // Other medications
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8430))); // Occupational exposure
                 c.addAnswer(new ConceptAnswer(cs.getConcept(2133))); // Contact with TB
+                c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other
 
                 cs.saveConcept(c);
             }

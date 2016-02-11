@@ -1,20 +1,10 @@
 <htmlform formUuid="7B54FBEE-240F-430C-B751-D5ED5DEA6E5E" formName="Epilepsy eMastercard"
           formEncounterType="D8CBF1B9-EC74-4858-8764-2350E2A9925B" formVersion="1.0">
 
-    <style type="text/css">
-
-        .removePadding td {
-        vertical-align:top;
-        padding:0px;
-        }
-
-    </style>
-
     <macros>
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
-        diabetesType1Dx=6409
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
         behaviorFamilyHistory=8486
@@ -65,7 +55,6 @@
         alcohol=6958
         pig=3675
         tradMeds=8494
-        medsOther=7633
         complicationGroup=8548
         complicationAns=8514
         complicationDate=8547
@@ -84,7 +73,7 @@
         postIcDisorient=8526
         postIcNausea=8527
         postIcMemLoss=8528
-        postIcHyper=8528
+        postIcHyper=8529
         trigAlc=8531
         trigFever=8532
         trigSound=8533
@@ -356,6 +345,7 @@
                                     </repeat>
                                 </table>
                             </td>
+
                             <td rowspan="5">
                                 <table>
                                     <!-- ToDo:  Add free-text for other -->
@@ -363,17 +353,17 @@
                                 ['$alcohol','Alcohol'],
                                 ['$pig','Pigs/Pork'],
                                 ['$tradMeds','Traditional medicine'],
-                                ['$medsOther','Other']">
-                                        <tr>
-                                            <obsgroup groupingConceptId="8546">
-                                                <td>
+                                ['$other','Other']">
+                                        <tr class="togglable">
+                                            <obsgroup groupingConceptId="$exposureGroup">
+                                                <td class="toggle-control">
                                                     <obs conceptId="$exposureAns" style="checkbox"
                                                          answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
-                                                <td>
-                                                    <obs conceptId="$exposureDate"/>
+                                                <td class="toggle-target">
+                                                        <obs conceptId="$exposureDate"/>
                                                 </td>
-                                            </obsgroup>
+                                           </obsgroup>
                                         </tr>
                                     </repeat>
                                 </table>
