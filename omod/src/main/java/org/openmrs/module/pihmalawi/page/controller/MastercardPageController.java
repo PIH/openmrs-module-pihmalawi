@@ -53,7 +53,6 @@ public class MastercardPageController {
                            @SpringBean("formService") FormService formService,
                            @SpringBean("locationService") LocationService locationService,
                            @SpringBean("coreResourceFactory") ResourceFactory resourceFactory,
-                           @SpringBean("reportingPatientDataService") PatientDataService patientDataService,
 	                       @InjectBeans PatientDomainWrapper patientDomainWrapper,
                            PageRequest pageRequest) {
 
