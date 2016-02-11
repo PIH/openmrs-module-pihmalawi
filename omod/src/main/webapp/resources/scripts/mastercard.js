@@ -424,21 +424,9 @@
             var toggleCheckbox = jq(this).find(".toggle-control input:checkbox");
             var toggleTarget = jq(this).find(".toggle-target");
             jq(toggleCheckbox).change(function() {
-                var showTarget = jq(this).prop("checked");
-                if (showTarget) {
-                    jq(toggleTarget).show();
-                }
-                else {
-                    jq(toggleTarget).hide();
-                }
+                jq(toggleTarget).find(":input").prop("disabled", !jq(this).prop("checked"));
             });
-            var showTarget = jq(toggleCheckbox).prop("checked");
-            if (showTarget) {
-                jq(toggleTarget).show();
-            }
-            else {
-                jq(toggleTarget).hide();
-            }
+            jq(toggleTarget).find(":input").prop("disabled", !jq(toggleCheckbox).prop("checked"));
         });
     };
 

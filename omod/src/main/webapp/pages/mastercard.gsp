@@ -169,6 +169,10 @@
         filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
         -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
     }
+
+    form input[disabled], .form input[disabled] {
+        background-color: rgb(235, 235, 228);
+    }
 </style>
 
 <style type="text/css" media="print">
