@@ -2,14 +2,16 @@
           formEncounterType="a95dc43f-925c-11e5-a1de-e82aea237783" formVersion="1.0">
 
     <macros>
+        yesAnswer=1065
+        noAnswer=1066
+        unknown=1067
+        positive=703
+        negative=664
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
         asthmaDx=5
         asthmaFamilyHistory=8426
-        positive=703
-        negative=664
-        unknown=1067
         copdDx=3716
         copdFamilyHistory=8427
         hivStatus=3753
@@ -27,8 +29,12 @@
         dryCough=2128
         duration=2161
         ageAtOnset=8428
+        exposureGroup=8546
+        exposureAns=8495
+        exposureDate=8545
         tbContact=2133
-        tbcontactDate=8429
+        secondHandSmoke=8443
+        occupationalExposure=8430
         guardianName=1824
         cookingLocation=8404
         indoor=2437
@@ -39,14 +45,8 @@
         guardianPhone=2616
         occupation=1304
         relationToPatient=1328
-        secondHandSmoke=8444
-        yesAnswer=1065
-        noAnswer=1066
-        lastTimeSecondHandSmoke=8433
         agreesToFollowup=2552
         chwName=8431
-        occupationalExposure=8430
-        lastOccupationalExposure=8434
     </macros>
 
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
@@ -187,8 +187,16 @@
                                 <!-- ToDo: Fix duration.  Ask Malawi.  Do we want units (days, weeks, months or free text)? -->
                                 <obs conceptId="$duration" labelText="Duration"/>mo<br/>
                                 <obs conceptId="$ageAtOnset" labelText="Age at onset"/></td>
-                            <td><obs conceptId="$tbContact" style="checkbox" labelText="TB contact"/></td>
-                            <td><obs conceptId="$tbcontactDate" labelText="Date" /></td>
+                    <obsgroup groupingConceptId="$exposureGroup">
+                        <td>
+                                <obs conceptId="$exposureAns"
+                                     answerConceptId="$tbContact"
+                                     style="checkbox" answerLabel="TB contact"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$exposureDate" labelText="Date" />
+                            </td>
+                    </obsgroup>
                         </tr>
                         <tr>
                             <td>Cooking</td>
@@ -207,18 +215,29 @@
                             <td colspan="2">
                                 <obs conceptId="$occupation" labelText="Occupation"/>
                             </td>
+                            <obsgroup groupingConceptId="$exposureGroup">
                             <td>
-                                <obs conceptId="$secondHandSmoke" style="checkbox" answerConceptId="$yesAnswer" answerLabel="Second hand smoking" />
+                                <obs conceptId="$exposureAns" style="checkbox"
+                                     answerConceptId="$secondHandSmoke" answerLabels=""
+                                     answerLabel="Second hand smoking" />
                             </td>
                             <td>
-                                <obs conceptId="$lastTimeSecondHandSmoke" labelText="Date"/>
+                                <obs conceptId="$exposureDate" labelText="Date" />
                             </td>
+                            </obsgroup>
                         </tr>
                         <tr>
-                            <td><obs conceptId="$occupationalExposure" style="checkbox" labelText="Occupational Exposure"/></td>
-                            <td><obs conceptId="$lastOccupationalExposure" labelText="Date"/></td>
-                            <td/>
-                            <td/>
+                            <obsgroup groupingConceptId="$exposureGroup">
+                            <td>
+                                <obs conceptId="$exposureAns" style="checkbox"
+                                     answerConceptId="$occupationalExposure"
+                                     answerLabels="Occupational Exposure"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$exposureDate" labelText="Date" />
+                            </td>
+                            </obsgroup>
+                            <td colspan="2"></td>
                         </tr>
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>

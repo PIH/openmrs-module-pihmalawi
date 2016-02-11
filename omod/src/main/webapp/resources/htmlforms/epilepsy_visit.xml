@@ -1,4 +1,5 @@
-<htmlform formUuid="11FF7E89-BCB4-4947-BDF0-5ABA4A963E85" formName="Epilepsy Visit" formEncounterType="1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72" formVersion="1.0">
+<htmlform formUuid="11FF7E89-BCB4-4947-BDF0-5ABA4A963E85" formName="Epilepsy Visit"
+          formEncounterType="1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72" formVersion="1.0">
 
     <macros>
         noAnswer=1066
@@ -22,6 +23,12 @@
         trigSleep=8535
         trigMeds=8536
         trigMenst=8537
+        seizureSymp=8544
+        tongueBite=8542
+        incontinent=8543
+        pregnant=6131
+        familyPlan=5271
+        hospitalSinceLast=1715
         drugsNow=1193
         drugSet=8501
         cbz=920
@@ -45,24 +52,30 @@
                     <td colspan="3">Seizure activity</td>
                     <td colspan="7">Seizure trigger</td>
                     <td colspan="2">Silent markers</td>
-                    <td rowspan="2">Hospitalization since last visit</td>
-                    <td rowspan="2">Pregnant</td>
-                    <td rowspan="2">Family planning</td>
+                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
+                    <td rowspan="2" style="font-size:.7em;">Pregnant</td>
+                    <td rowspan="2" style="font-size:.7em;">Family planning</td>
                     <td colspan="5">Treatment</td>
                     <td rowspan="2">Comment</td>
                     <td>Next appt</td>
                 </tr>
-                <tr>
-                    <td><i style="font-size:.7em;">day month year</i></td>
-                    <td><i>cm</i></td>
-                    <td><i>kg</i></td>
+                <tr style="font-size:.7em;">
+                    <td>
+                        <i style="font-size:.7em;">day month year</i>
+                    </td>
+                    <td>
+                        <i>cm</i>
+                    </td>
+                    <td>
+                        <i>kg</i>
+                    </td>
                     <td>Seizure since last visit</td>
                     <td>Number of seizures</td>
                     <td>Any triggers</td>
                     <td>Alcohol</td>
                     <td>Sleep deprivation</td>
                     <td>Missed medication</td>
-                    <td>Sounds/Light/Touch</td>
+                    <td>Sounds, Light, Touch</td>
                     <td>Fever</td>
                     <td>Stress</td>
                     <td>Menstruation</td>
@@ -74,34 +87,37 @@
                     <td>SV</td>
                     <td>other</td>
 
-                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td>
+                        <i style="font-size:.7em;">day month year</i>
+                    </td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
-                        <encounterDate />
+                        <encounterDate/>
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" />
+                        <obs conceptId="$height"/>
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" />
+                        <obs conceptId="$weight"/>
                     </td>
 
                     <td>
                         <!-- BMI -->
-                        <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                        <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight"
+                             answerLabels="Below 19,19-24.9,Above 25"/>
                     </td>
 
                     <!-- Seizure activity -->
                     <td>
                         <obs conceptId="$seizActivity" style="checkbox"
                              answerConceptId="$seizSinceVisit"
-                             answerLabel="" />
+                             answerLabel=""/>
                     </td>
                     <td>
                         <obs conceptId="$numSeizures"/>
@@ -109,7 +125,7 @@
                     <td>
                         <obs conceptId="$seizActivity" style="checkbox"
                              answerConceptId="$anyTrig"
-                             answerLabel="" />
+                             answerLabel=""/>
                     </td>
 
                     <!-- Triggers -->
@@ -122,38 +138,52 @@
                           ['$trigMenst','Menstruation']">
                         <td>
                             <obsgroup groupingConceptId="$drugSet">
-                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox"/>
                             </obsgroup>
                         </td>
                     </repeat>
 
-                    <td>TBD</td>
-                    <td>TBD</td>
-                    <td>TBD</td>
-                    <td>TBD</td>
-                    <td>TBD</td>
+                    <td>
+                        <obs conceptId="$seizureSymp" answerConceptId="$tongueBite" answerLabel="" style="checkbox"/>
+                    </td>
+                    <td>
+                        <obs conceptId="$seizureSymp" answerConceptId="$incontinent" answerLabel="" style="checkbox"/>
+                    </td>
+                    <td>
+                        <!-- Hospitalized since last visit -->
+                        <obs conceptId="$hospitalSinceLast" style="checkbox"/>
+                    </td>
+                    <td>
+                        <!-- Pregnant -->
+                        <obs conceptId="$pregnant" answerConceptId="$yesAnswer"
+                             answerLabel="" style="checkbox"/>
+                    </td>
+                    <td>
+                        <!-- Family planning -->
+                        <obs conceptId="$familyPlan" style="checkbox"/>
+                    </td>
                     <!-- Treatment Details -->
                     <!-- ToDo:  Add construct with dose and frequency? -->
                     <repeat with="['$cbz','Carbamazepine (CBZ)'],
                           ['$pb','Phenobarbitone (PB)'],
                           ['$pht','Phenytoin (PHT)'],
                           ['$sv','Sodium Valproate (SV)'],
-                          ['$other','others']">
+                          ['$other','other']">
                         <td>
                             <obsgroup groupingConceptId="$drugSet">
-                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox"/>
                             </obsgroup>
                         </td>
                     </repeat>
 
                     <td>
                         <!-- Clinical impression -->
-                        <obs conceptId="$clinicalImpression" />
+                        <obs conceptId="$clinicalImpression"/>
                     </td>
 
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" />
+                        <obs conceptId="$nextAppt"/>
                     </td>
                 </tr>
             </tbody>
@@ -169,37 +199,48 @@
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">NCD Reg no: </b>
+                <b style="padding-right:10px;">NCD Reg no:</b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end"/>
                 </b>
             </span>
         </h4>
 
-        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+        <span style="display:none">
+            <encounterProvider default="16576"/>
+        </span> <!-- Set provider to a default as not used -->
 
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+                <td>
+                    <encounterDate id="visitDate" size="20" default="today"/>
+                </td>
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td>
+                    <encounterLocation id="visitLocation"/>
+                </td>
             </tr>
             <tr>
                 <th>Height</th>
-                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+                <td class="focus-field">
+                    <obs conceptId="$height" id="heightInput" showUnits="true"/>
+                </td>
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+                <td>
+                    <obs conceptId="$weight" id="weightInput" showUnits="true"/>
+                </td>
             </tr>
 
             <tr>
                 <th>Body Mass Index (BMI)</th>
                 <td>
-                    <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                    <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight"
+                         answerLabels="Below 19,19-24.9,Above 25"/>
                 </td>
             </tr>
 
@@ -222,7 +263,7 @@
                 <th>Any triggers</th>
                 <td>
                     <obs conceptId="$seizActivity" style="checkbox"
-                         answerConceptId="$anyTrig" answerLabel="" />
+                         answerConceptId="$anyTrig" answerLabel=""/>
                 </td>
             </tr>
 
@@ -237,38 +278,69 @@
                           ['$trigFever','Fever'],
                           ['$trigStress','Stress'],
                           ['$trigMenst','Menstruation']">
-                            <obsgroup groupingConceptId="$drugSet">
-                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                            </obsgroup>
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
+                        </obsgroup>
                     </repeat>
                 </td>
             </tr>
+
             <tr>
-            <!-- Treatment Details -->
+                <th>Silent markers</th>
+                <td>
+                    <obs conceptId="$seizureSymp" answerConceptId="$tongueBite" style="checkbox"/>
+                    <obs conceptId="$seizureSymp" answerConceptId="$incontinent" style="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Hospitalized since last visit</th>
+                <td>
+                    <obs conceptId="$hospitalSinceLast" style="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Pregnant</th>
+                <td>
+                    <obs conceptId="$pregnant" answerConceptId="$yesAnswer"
+                         answerLabel="" style="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <th>On family planning</th>
+                <td>
+                    <obs conceptId="$familyPlan" style="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <!-- Treatment Details -->
                 <th>Treatment Details</th>
                 <td>
 
-            <!-- ToDo:  Add construct with dose and frequency? -->
-            <repeat with="['$cbz','Carbamazepine (CBZ)'],
+                    <!-- ToDo:  Add construct with dose and frequency? -->
+                    <repeat with="['$cbz','Carbamazepine (CBZ)'],
                           ['$pb','Phenobarbitone (PB)'],
                           ['$pht','Phenytoin (PHT)'],
                           ['$sv','Sodium Valproate (SV)'],
-                          ['$other','others']">
-                    <obsgroup groupingConceptId="$drugSet">
-                        <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                    </obsgroup>
-            </repeat>
-            </td>
+                          ['$other','other']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
+                        </obsgroup>
+                    </repeat>
+                </td>
             </tr>
 
             <tr>
                 <th>Comment</th>
-                <td><obs conceptId="$clinicalImpression" style="textarea" cols="60" /></td>
+                <td>
+                    <obs conceptId="$clinicalImpression" style="textarea" cols="60"/>
+                </td>
             </tr>
 
             <tr>
                 <th>Next appointment</th>
-                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+                <td>
+                    <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/>
+                </td>
             </tr>
 
         </table>

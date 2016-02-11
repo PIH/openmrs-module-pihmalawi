@@ -492,382 +492,308 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
+        {
             {
-                {
-                    Integer id = 8421;
-                    String uuid = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
-                    String name = "Sample taken for Viral Load";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8421;
+                String uuid = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
+                String name = "Sample taken for Viral Load";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
 
+        {
             {
-                {
-                    Integer id = 8426;
-                    String uuid = "37519f36-8c2e-11e5-80a3-c0430f805837";
-                    String name = "Asthma family history";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(703))); // positive
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(664))); // negative
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // unknown
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8426;
+                String uuid = "37519f36-8c2e-11e5-80a3-c0430f805837";
+                String name = "Asthma family history";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(703))); // positive
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(664))); // negative
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // unknown
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8427;
-                    String uuid = "41afdae4-8c31-11e5-80a3-c0430f805837";
-                    String name = "COPD family history";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(703))); // positive
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(664))); // negative
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // unknown
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8427;
+                String uuid = "41afdae4-8c31-11e5-80a3-c0430f805837";
+                String name = "COPD family history";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(703))); // positive
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(664))); // negative
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // unknown
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8428;
-                    String uuid = "6df61adc-8c31-11e5-80a3-c0430f805837";
-                    String name = "Age at cough onset";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8428;
+                String uuid = "6df61adc-8c31-11e5-80a3-c0430f805837";
+                String name = "Age at cough onset";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+
+        {
             {
-                {
-                    Integer id = 8429;
-                    String uuid = "fd9e5898-8c31-11e5-80a3-c0430f805837";
-                    String name = "Date of contact with TB+ person";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Date"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8430;
+                String uuid = "6780fd96-8c33-11e5-80a3-c0430f805837";
+                String name = "Occupational exposure";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Misc"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8430;
-                    String uuid = "6780fd96-8c33-11e5-80a3-c0430f805837";
-                    String name = "Occupational exposure";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Misc"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8431;
+                String uuid = "941bc17e-8c33-11e5-80a3-c0430f805837";
+                String name = "Name of community health worker";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8431;
-                    String uuid = "941bc17e-8c33-11e5-80a3-c0430f805837";
-                    String name = "Name of community health worker";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Text"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8432;
+                String uuid = "af397d66-8c33-11e5-80a3-c0430f805837";
+                String name = "Last time person used tobacco";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Date"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+
+        {
+            Integer id = 8436;
+            String uuid = "257fb56c-8c34-11e5-80a3-c0430f805837";
+            String name = "Daytime symptom frequency";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
             {
-                {
-                    Integer id = 8432;
-                    String uuid = "af397d66-8c33-11e5-80a3-c0430f805837";
-                    String name = "Last time person used tobacco";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Date"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8437;
+                String uuid = "53e5e188-8c34-11e5-80a3-c0430f805837";
+                String name = "Nighttime symptom frequency";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8433;
-                    String uuid = "cf066e56-8c33-11e5-80a3-c0430f805837";
-                    String name = "Last time person was exposed to second hand smoke";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Date"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8438;
+                String uuid = "79a37b88-8c34-11e5-80a3-c0430f805837";
+                String name = "Inhaler use per day";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8434;
-                    String uuid = "ec4c3db0-8c33-11e5-80a3-c0430f805837";
-                    String name = "Date of last exposure to occupational hazard";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Date"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8439;
+                String uuid = "baf99a7c-8c34-11e5-80a3-c0430f805837";
+                String name = "Inhaler use per week";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    // Use Scheduled visit (1246)?
-                    Integer id = 8435;
-                    String uuid = "0bea98a6-8c34-11e5-80a3-c0430f805837";
-                    String name = "Planned visit";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8440;
+                String uuid = "b60d8d98-8c34-11e5-80a3-c0430f805837";
+                String name = "Inhaler use per month";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8436;
-                    String uuid = "257fb56c-8c34-11e5-80a3-c0430f805837";
-                    String name = "Daytime symptom frequency";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8441;
+                String uuid = "af73fa84-8c35-11e5-80a3-c0430f805837";
+                String name = "Number of times inhaler is used in a year";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8437;
-                    String uuid = "53e5e188-8c34-11e5-80a3-c0430f805837";
-                    String name = "Nighttime symptom frequency";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8442;
+                String uuid = "359808c6-8c36-11e5-80a3-c0430f805837";
+                String name = "Daily inhaled steroid use";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8438;
-                    String uuid = "79a37b88-8c34-11e5-80a3-c0430f805837";
-                    String name = "Inhaler use per day";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8443;
+                String uuid = "e51be8fa-8c34-11e5-80a3-c0430f805837";
+                String name = "Exposed to second hand smoke?";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
+                    cs.saveConcept(c);
                 }
             }
+        }
+        {
             {
-                {
-                    Integer id = 8439;
-                    String uuid = "baf99a7c-8c34-11e5-80a3-c0430f805837";
-                    String name = "Inhaler use per week";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
+                Integer id = 8444;
+                String uuid = "2198f6d8-8c35-11e5-80a3-c0430f805837";
+                String name = "Asthma exacerbation today";
+                Concept c = cs.getConcept(id);
+                if (c == null) {
+                    log.warn("Creating " + name);
+                    c = new Concept();
+                    c.setConceptId(id);
+                    c.setUuid(uuid);
+                    c.setConceptClass(cs.getConceptClassByName("Question"));
+                    c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
+                    c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
+                    cs.saveConcept(c);
                 }
             }
-            {
-                {
-                    Integer id = 8440;
-                    String uuid = "b60d8d98-8c34-11e5-80a3-c0430f805837";
-                    String name = "Inhaler use per month";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
-                }
-            }
-            {
-                {
-                    Integer id = 8441;
-                    String uuid = "af73fa84-8c35-11e5-80a3-c0430f805837";
-                    String name = "Number of times inhaler is used in a year";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        cs.saveConcept(c);
-                    }
-                }
-            }
-            {
-                {
-                    Integer id = 8442;
-                    String uuid = "359808c6-8c36-11e5-80a3-c0430f805837";
-                    String name = "Daily inhaled steroid use";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
-                        cs.saveConcept(c);
-                    }
-                }
-            }
-            {
-                {
-                    Integer id = 8443;
-                    String uuid = "e51be8fa-8c34-11e5-80a3-c0430f805837";
-                    String name = "Exposed to second hand smoke?";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
-                        cs.saveConcept(c);
-                    }
-                }
-            }
-            {
-                {
-                    Integer id = 8444;
-                    String uuid = "2198f6d8-8c35-11e5-80a3-c0430f805837";
-                    String name = "Asthma exacerbation today";
-                    Concept c = cs.getConcept(id);
-                    if (c == null) {
-                        log.warn("Creating " + name);
-                        c = new Concept();
-                        c.setConceptId(id);
-                        c.setUuid(uuid);
-                        c.setConceptClass(cs.getConceptClassByName("Question"));
-                        c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                        c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // yes
-                        c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // no
-                        cs.saveConcept(c);
-                    }
-                }
-            }
+        }
 
         {
             {
@@ -1614,11 +1540,14 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
 
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8492))); // Smoking
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8443))); // Second-hand smoke
                 c.addAnswer(new ConceptAnswer(cs.getConcept(6958))); // Alcohol
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8493))); // Marijuana
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8494))); // Traditional meds
                 c.addAnswer(new ConceptAnswer(cs.getConcept(3675))); // Pig/pork
                 c.addAnswer(new ConceptAnswer(cs.getConcept(7633))); // Other medications
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8430))); // Occupational exposure
+                c.addAnswer(new ConceptAnswer(cs.getConcept(2133))); // Contact with TB
 
                 cs.saveConcept(c);
             }
@@ -1639,7 +1568,7 @@ public class MetadataInitializer implements Initializer {
                 c.setDatatype(cs.getConceptDatatypeByName("Text"));
                 c.setSet(false);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addName(new ConceptName(synonym_1,Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
         }
@@ -2814,9 +2743,147 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
-    }
+        {
+            Integer id = 8542;
+            String uuid = "159506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Tongue biting";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
 
-        @Override
-        public void stopped () {
+        {
+            Integer id = 8543;
+            String uuid = "117211AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Incontinence";
+            String synonym_1 = "Loss of bladder or bowel control";
+            String synonym_2 = "Incontinent";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8544;
+            String uuid = "159502AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Symptoms during seizure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8542))); // Tongue biting
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8543))); // Incontinent
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8545;
+            String uuid = "5f521038-cf63-11e5-ab30-625662870761";
+            String name = "Date of exposure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Date"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+
+            }
+        }
+
+        {
+            Integer id = 8546;
+            String uuid = "5f52124a-cf63-11e5-ab30-625662870761";
+            String name = "Exposure construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(8495)); // Exposure
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8547;
+            String uuid = "5f5213e4-cf63-11e5-ab30-625662870761";
+            String name = "Date of complication";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Date"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+
+            }
+        }
+
+        {
+            Integer id = 8548;
+            String uuid = "5f52156a-cf63-11e5-ab30-625662870761";
+            String name = "Epilepsy complication construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(8514)); // Complication
+                c.addSetMember(cs.getConcept(8547)); // Date of complication
+                cs.saveConcept(c);
+            }
         }
     }
+
+    @Override
+    public void stopped() {
+    }
+}

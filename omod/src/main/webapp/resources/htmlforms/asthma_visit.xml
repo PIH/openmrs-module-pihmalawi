@@ -1,9 +1,11 @@
-<htmlform formName="Chronic Lung Disease Visit" formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837"
-          formEncounterType="f4596df5-925c-11e5-a1de-e82aea237783" formVersion="1.0">
+<htmlform formName="Chronic Lung Disease Visit"
+          formUuid="fcf29c1a-8c45-11e5-80a3-c0430f805837"
+          formEncounterType="f4596df5-925c-11e5-a1de-e82aea237783"
+          formVersion="1.0">
 
     <macros>
         chronicCareDiagnosis=3683
-        plannedVisit=8435
+        plannedVisit=1246
         noAnswer=1066
         yesAnswer=1065
         height=5090
@@ -91,7 +93,8 @@
                     </td>
                     <td>
                         <!-- Planned Visit -->
-                        <obs conceptId="$plannedVisit" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                        <obs conceptId="$plannedVisit"
+                             style="yes_no" noLabel="N" yesLabel="Y" />
                     </td>
                     <td>
                         <!-- Height -->
@@ -213,7 +216,10 @@
             <tr>
                 <!-- Planned Visit -->
                 <th><font>Planned Visit?</font></th>
-                <td class="focus-field"><obs conceptId="$plannedVisit" answerConceptIds="$yesAnswer,$noAnswer" style="radio" /></td>
+                <td class="focus-field">
+                    <obs conceptId="$plannedVisit"
+                         style="yes_no" noLabel="No" yesLabel="Yes" />
+                </td>
             </tr>
             <tr>
                 <!-- Height -->
