@@ -418,6 +418,28 @@
         jq(html).find(':input').change(function () {
             mastercard.setDirty();
         });
+
+        // Set up togglable fields
+        jq(html).find(".togglable").each(function() {
+            var toggleCheckbox = jq(this).find(".toggle-control input:checkbox");
+            var toggleTarget = jq(this).find(".toggle-target");
+            jq(toggleCheckbox).change(function() {
+                var showTarget = jq(this).prop("checked");
+                if (showTarget) {
+                    jq(toggleTarget).show();
+                }
+                else {
+                    jq(toggleTarget).hide();
+                }
+            });
+            var showTarget = jq(toggleCheckbox).prop("checked");
+            if (showTarget) {
+                jq(toggleTarget).show();
+            }
+            else {
+                jq(toggleTarget).hide();
+            }
+        });
     };
 
     var validateAppointmentDate = function(apptDateField, visitDateField) {
