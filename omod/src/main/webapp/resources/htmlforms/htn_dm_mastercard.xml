@@ -44,7 +44,9 @@
         chwName=8431
     </macros>
 
-    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <span style="display:none">
+        <encounterProvider default="16576"/>
+    </span> <!-- Set provider to a default as not used -->
     <div>
         <h4 style="font-style: italic;">
             <b>NCD Patient Card</b>
@@ -53,17 +55,18 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation"/>
                     <span style="padding-left:20px;">
-                        Date <encounterDate />
+                        Date
+                        <encounterDate/>
                     </span>
                 </b>
             </span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">NCD Reg no </b>
+                <b style="padding-right:10px;">NCD Reg no</b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end"/>
                 </b>
             </span>
         </h4>
@@ -79,30 +82,32 @@
                         <tr>
                             <td>Patient Name</td>
                             <td>
-                                <lookup expression="patient.personName" />
+                                <lookup expression="patient.personName"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Sex, DOB</td>
                             <td>
                                 <span class="left-cell">
-                                    <lookup expression="patient.gender" />
+                                    <lookup expression="patient.gender"/>
                                 </span>
                                 <span class="right-cell">
-                                    <lookup expression="patient.birthdate" />
-                                    (Age: <lookup expression="patient.age"/>)
+                                    <lookup expression="patient.birthdate"/>
+                                    (Age:<lookup expression="patient.age"/>)
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td>Physical Address</td>
                             <td><!-- style="height:60px;"-->
-                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Patient Phone</td>
-                            <td><obs conceptId="$patientPhone" size="10"/></td>
+                            <td>
+                                <obs conceptId="$patientPhone" size="10"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Guardian Name</td>
@@ -119,19 +124,20 @@
                         <tr>
                             <td>Guardian relation to patient</td>
                             <td>
-                                <obs conceptId="$relationToPatient" size="10" />
+                                <obs conceptId="$relationToPatient" size="10"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y"
+                                     answerConceptIds="$noAnswer,$yesAnswer"/>
                             </td>
                         </tr>
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                                <obs conceptId="$chwName"/>
                             </td>
                         </tr>
                     </table>
@@ -140,115 +146,165 @@
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
                     <table>
-                        <tr>
+                        <tr class="togglable">
                             <th style="vertical-align:top;" align="left" rowspan="3">Diagnoses</th>
                             <!-- DM 1 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date" /></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
 
                             <!-- Family History -->
                             <th style="vertical-align:top;" align="left" rowspan="3">Family History</th>
-                            <td rowspan="2"><obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK" /></td>
+                            <td rowspan="2">
+                                <obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                            </td>
                         </tr>
-                        <tr>
+                        <tr class="togglable">
                             <!-- DM 2 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                     answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                         </tr>
-                        <tr>
+                        <tr class="togglable">
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$hypertensionDx" answerLabel="Hypertension"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
-                            <td class="nowrap"><obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK" /></td>
+                            <td class="nowrap">
+                                <obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                            </td>
                         </tr>
 
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>Complications</th>
+                            <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>
+                                Complications
+                            </th>
                             <td rowspan="2">
                                 <obs conceptId="$hivStatus" labelText="HIV"
-                                     answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test"/></td>
-                            <td rowspan="2"><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                                     answerConceptIds="$reactive,$nReactive,$unknown"/>
+                                <br/>
+                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                            </td>
+                            <td rowspan="2">
+                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                            </td>
                             <td class="nowrap">
-                                <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
-                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
-                            <td><obs conceptId="$tbYear" labelText="Year"/></td>
+                                <obs conceptId="$tbStatus" labelText="TB"
+                                     answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$tbYear" labelText="Year"/>
+                            </td>
                         </tr>
-                        <tr>
+                        <tr class="togglable">
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
-                                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/></td>
-                                <td class="nowrap"><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                         </tr>
-                        <tr>
+                        <tr class="togglable">
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="nowrap"><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. heart attack, ischemic heart disease, CCF)
                                     </i>
                                 </td>
-                                <td class="nowrap"><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$pvdDx" answerLabel="PVD"/>
+                                <td>
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$pvdDx" answerLabel="PVD"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. ulcers, gangrene)
                                     </i>
                                 </td>
-                                <td class="nowrap"><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td>
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
-                        </tr> 
-                        <tr>
+                        </tr>
+                        <tr class="togglable">
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/></td>
-                                <td class="nowrap"><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td>
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
+                                </td>
+                                <td class="nowrap">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
-                        </tr>  
-                        <tr>
+                        </tr>
+                        <tr class="togglable">
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$renalDx" answerLabel="Renal Disease"/>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$renalDx" answerLabel="Renal Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. elevated creatinine)
                                     </i>
                                 </td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="nowrap"><obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                     answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/></td>
-                                <td class="nowrap"><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="nowrap">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
+                                </td>
+                                <td class="nowrap">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
-                        </tr>     
+                        </tr>
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>
                             <td colspan="4">
                                 <b>
-                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
-                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name"/>
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate"/>)
                                 </b>
                             </td>
                         </tr>

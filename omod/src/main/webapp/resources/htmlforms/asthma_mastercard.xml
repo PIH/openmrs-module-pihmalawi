@@ -140,14 +140,14 @@
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
                     <table>
-                        <tr>
+                        <tr class="togglable">
                         <th style="vertical-align:top;" align="left" rowspan="2">Diagnoses</th>
                             <!-- Asthma -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
+                                <td class="toggle-control">
                                     <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
                                 </td>
-                                <td>
+                                <td class="toggle-target">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
@@ -157,11 +157,15 @@
                                      answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="togglable">
                             <!-- COPD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td><obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" /></td>
-                                <td><obs conceptId="$diagnosisDate" labelText="Date"/></td>
+                                <td class="toggle-control">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" />
+                                </td>
+                                <td class="toggle-target">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
                             </obsgroup>
                             <td class="nowrap">
                                 <obs conceptId="$copdFamilyHistory" labelText="COPD"
