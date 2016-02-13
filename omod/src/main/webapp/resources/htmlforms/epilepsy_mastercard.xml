@@ -350,18 +350,17 @@
                                 <table>
                                     <!-- ToDo:  Add free-text for other -->
                                     <repeat with="['$smoking','Smoking'],
-                                ['$alcohol','Alcohol'],
-                                ['$pig','Pigs/Pork'],
-                                ['$tradMeds','Traditional medicine'],
-                                ['$other','Other']">
-                                        <tr class="togglable">
+                                                  ['$alcohol','Alcohol'],
+                                                  ['$pig','Pigs/Pork'],
+                                                  ['$tradMeds','Traditional medicine'],
+                                                  ['$other','Other']">
+                                        <tr>
                                             <obsgroup groupingConceptId="$exposureGroup">
-                                                <td class="toggle-control">
-                                                    <obs conceptId="$exposureAns" style="checkbox"
-                                                         answerConceptId="{0}" answerLabel="{1}"/>
+                                                <td data-toggle-source="exposure-{0}" data-toggle-target="exposure-{0}-date">
+                                                    <obs id="exposure-{0}" conceptId="$exposureAns" style="checkbox" answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
-                                                <td class="toggle-target">
-                                                        <obs conceptId="$exposureDate"/>
+                                                <td>
+                                                    <obs id="exposure-{0}-date" conceptId="$exposureDate"/>
                                                 </td>
                                            </obsgroup>
                                         </tr>
@@ -434,20 +433,18 @@
                             <td rowspan="2">
                                 <table>
                                     <repeat with="['$injury','Injuries'],
-                                 ['$burn','Burns'],
-                                 ['$statusEpil','Status epilepticus'],
-                                 ['$psychosis','Psychosis'],
-                                 ['$drugRelated','Drug related'],
-                                 ['$other','Other']">
-                                        <tr class="togglable">
+                                                  ['$burn','Burns'],
+                                                  ['$statusEpil','Status epilepticus'],
+                                                  ['$psychosis','Psychosis'],
+                                                  ['$drugRelated','Drug related'],
+                                                  ['$other','Other']">
+                                        <tr>
                                             <obsgroup groupingConceptId="$complicationGroup">
-                                                <td class="toggle-control">
-                                                    <obs conceptId="$complicationAns" labelText=""
-                                                         style="checkbox" answerConceptId="{0}"
-                                                         answerLabel="{1}"/>
+                                                <td data-toggle-source="complication-{0}" data-toggle-target="complication-{0}-date">
+                                                    <obs id="complication-{0}" conceptId="$complicationAns" labelText="" style="checkbox" answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
-                                                <td class="toggle-target">
-                                                    <obs conceptId="$complicationDate"/>
+                                                <td>
+                                                    <obs id="complication-{0}-date" conceptId="$complicationDate"/>
                                                 </td>
                                             </obsgroup>
                                         </tr>

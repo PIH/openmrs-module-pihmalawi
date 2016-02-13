@@ -420,14 +420,24 @@
         });
 
         // Set up togglable fields
-        jq(html).find(".togglable").each(function() {
-            var toggleCheckbox = jq(this).find(".toggle-control input:checkbox");
-            var toggleTarget = jq(this).find(".toggle-target");
+        jq(html).find("[data-toggle-source]").each(function() {
+            var toggleCheckbox = jq(this).find("input:checkbox");
+            var toggleTargetId = jq(this).data("toggle-target");
+            var toggleTarget = jq("#"+toggleTargetId);
             jq(toggleCheckbox).change(function() {
-                jq(toggleTarget).find(":input").prop("disabled", !jq(this).prop("checked"));
+                toggleEnabledDisabled(toggleTarget, jq(this).prop("checked"));
             });
-            jq(toggleTarget).find(":input").prop("disabled", !jq(toggleCheckbox).prop("checked"));
+            toggleEnabledDisabled(toggleTarget, jq(toggleCheckbox).prop("checked"));
         });
+    };
+
+    var toggleEnabledDisabled = function(toggleTarget, enable) {
+        if (enable) {
+            jq(toggleTarget).find(":input").prop("disabled", false);
+        }
+        else {
+            jq(toggleTarget).find(":input").prop("disabled", true).val("");
+        }
     };
 
     var validateAppointmentDate = function(apptDateField, visitDateField) {

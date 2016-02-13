@@ -140,15 +140,15 @@
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
                     <table>
-                        <tr class="togglable">
-                        <th style="vertical-align:top;" align="left" rowspan="2">Diagnoses</th>
+                        <tr>
+                            <th style="vertical-align:top;" align="left" rowspan="2">Diagnoses</th>
                             <!-- Asthma -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
+                                <td data-toggle-source="asthma-dx" data-toggle-target="asthma-dx-date">
+                                    <obs id="asthma-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="asthma-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <th style="vertical-align:top;" align="left" rowspan="2">Family History</th>
@@ -157,14 +157,14 @@
                                      answerConceptIds="$positive,$negative,$unknown" answerLabels="Y,N,UNK" />
                             </td>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <!-- COPD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" />
+                                <td data-toggle-source="copd-dx" data-toggle-target="copd-dx-date">
+                                    <obs id="copd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="copd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <td class="nowrap">

@@ -146,16 +146,15 @@
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
                     <table>
-                        <tr class="togglable">
+                        <tr>
                             <th style="vertical-align:top;" align="left" rowspan="3">Diagnoses</th>
                             <!-- DM 1 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                <td data-toggle-source="diabetes-type-1-dx" data-toggle-target="diabetes-type-1-dx-date">
+                                    <obs id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
 
@@ -166,26 +165,24 @@
                                      answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
                             </td>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <!-- DM 2 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                <td data-toggle-source="diabetes-type-2-dx" data-toggle-target="diabetes-type-2-dx-date">
+                                    <obs id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                <td data-toggle-source="hypertension-dx" data-toggle-target="hypertension-dx-date">
+                                    <obs id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <td class="nowrap">
@@ -216,86 +213,79 @@
                                 <obs conceptId="$tbYear" labelText="Year"/>
                             </td>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
+                                <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date">
+                                    <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
+                                <td data-toggle-source="cardio-dx" data-toggle-target="cardio-dx-date">
+                                    <obs id="cardio-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. heart attack, ischemic heart disease, CCF)
                                     </i>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="cardio-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$pvdDx" answerLabel="PVD"/>
+                                <td data-toggle-source="pvd-dx" data-toggle-target="pvd-dx-date">
+                                    <obs id="pvd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$pvdDx" answerLabel="PVD"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. ulcers, gangrene)
                                     </i>
                                 </td>
                                 <td>
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
+                                <td data-toggle-source="retinopathy-dx" data-toggle-target="retinopathy-dx-date">
+                                    <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
+                                <td data-toggle-source="neuropathy-dx" data-toggle-target="neuropathy-dx-date">
+                                    <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
-                        <tr class="togglable">
+                        <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="toggle-control">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$renalDx" answerLabel="Renal Disease"/>
+                                <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
+                                    <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$renalDx" answerLabel="Renal Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. elevated creatinine)
                                     </i>
                                 </td>
-                                <td class="toggle-target">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                <td>
+                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="nowrap">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
+                                <td class="nowrap" data-toggle-source="sexdysfx-dx" data-toggle-target="sexdysfx-dx-date">
+                                    <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
