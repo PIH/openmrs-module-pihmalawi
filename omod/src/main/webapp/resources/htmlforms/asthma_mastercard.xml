@@ -161,7 +161,8 @@
                             <!-- COPD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="copd-dx" data-toggle-target="copd-dx-date">
-                                    <obs id="copd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$copdDx" answerLabel="COPD" />
+                                    <obs id="copd-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$copdDx" answerLabel="COPD" />
                                 </td>
                                 <td class="toggle-target">
                                     <obs id="copd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -192,13 +193,13 @@
                                 <obs conceptId="$duration" labelText="Duration"/>mo<br/>
                                 <obs conceptId="$ageAtOnset" labelText="Age at onset"/></td>
                     <obsgroup groupingConceptId="$exposureGroup">
-                        <td>
-                                <obs conceptId="$exposureAns"
+                        <td data-toggle-source="tb-expo" data-toggle-target="tb-expo-date">
+                                <obs id="tb-expo" conceptId="$exposureAns"
                                      answerConceptId="$tbContact"
                                      style="checkbox" answerLabel="TB contact"/>
                             </td>
-                            <td>
-                                <obs conceptId="$exposureDate" labelText="Date" />
+                            <td class="toggle-target">
+                                <obs id="tb-expo-date" conceptId="$exposureDate" labelText="Date" />
                             </td>
                     </obsgroup>
                         </tr>
@@ -220,25 +221,25 @@
                                 <obs conceptId="$occupation" labelText="Occupation"/>
                             </td>
                             <obsgroup groupingConceptId="$exposureGroup">
-                            <td>
-                                <obs conceptId="$exposureAns" style="checkbox"
+                            <td data-toggle-source="shsmoke-expo" data-toggle-target="shsmoke-expo-date">
+                                <obs id="shsmoke-expo" conceptId="$exposureAns" style="checkbox"
                                      answerConceptId="$secondHandSmoke" answerLabels=""
                                      answerLabel="Second hand smoking" />
                             </td>
-                            <td>
-                                <obs conceptId="$exposureDate" labelText="Date" />
+                            <td class="toggle-target">
+                                <obs id="shsmoke-expo-date" conceptId="$exposureDate" labelText="Date" />
                             </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$exposureGroup">
-                            <td>
-                                <obs conceptId="$exposureAns" style="checkbox"
+                            <td data-toggle-source="occ-expo" data-toggle-target="occ-expo-date">
+                                <obs id="occ-expo" conceptId="$exposureAns" style="checkbox"
                                      answerConceptId="$occupationalExposure"
                                      answerLabels="Occupational Exposure"/>
                             </td>
-                            <td>
-                                <obs conceptId="$exposureDate" labelText="Date" />
+                            <td class="toggle-target">
+                                <obs id="occ-expo-date" conceptId="$exposureDate" labelText="Date" />
                             </td>
                             </obsgroup>
                             <td colspan="2"></td>
