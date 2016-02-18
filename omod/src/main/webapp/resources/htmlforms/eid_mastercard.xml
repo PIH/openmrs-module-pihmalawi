@@ -1,0 +1,284 @@
+<htmlform formUuid="f341dc7a-f06f-4d0c-b9d5-fddf147ae1ed" 
+          formName="Exposed Child eMastercard"
+          formEncounterType="664bcbb0-977f-11e1-8993-905e29aff6c1"
+          formVersion="4.0">
+
+    <macros>
+        birthWeight=5916
+        arvsInPreg=8169
+        none=1107
+        azt03=8173
+        azt4p=8174
+        art03=8175
+        art4p=8176
+        unknown=1067
+        arvsInLabour=8182
+        sdNVP=8178
+        AZT3TC=8179
+        NVPAZT3TC=8180
+        ART=8181
+        arvsAtBirth=8186
+        Nevirapine=631
+        NVPAZT2=8184
+        Zidovudine=797
+        arvsContd=8187     
+        adherence=2681   
+        deliveryLocation=3452
+        age=3467
+        hivRapid=1040
+        notDone=1118
+        negative=664
+        positive=703
+        inconclusive=1138
+        hivPCR=844
+        hivStatus=5303
+        notConfirmed=8045
+        confirmed=6250
+        motherHIVStatus=8036
+        aliveNotOnART=8037
+        aliveOnART=8038
+        patientDied=1742
+        suspectedHIVExposure=1062
+        motherRegNo=8046
+        rapidSampleDateEnrolment=8068
+        rapidSampleDateOne=8069
+        rapidSampleDateTwo=8070
+        rapidAgeEnrolment=8071
+        rapidAgeOne=8072
+        rapidAgeTwo=8073
+        rapidHTCEnrolment=8074
+        rapidHTCOne=8075
+        rapidHTCTwo=8076
+        rapidResultEnrolment=8077
+        rapidResultOne=8078
+        rapidResultTwo=8079
+        dnaSampleDateEnrolment=8047
+        dnaSampleDateOne=8048
+        dnaSampleDateTwo=8049
+        dnaSampleIDEnrolment=8050
+        dnaSampleIDOne=8051
+        dnaSampleIDTwo=8052
+        dnaResultRcdDateEnrolment=8053
+        dnaResultRcdDateOne=8054
+        dnaResultRcdDateTwo=8055
+        dnaResultEnrolment=8056
+        dnaResultOne=8057
+        dnaResultTwo=8058
+        dnaResultGivenDateEnrolment=8059
+        dnaResultGivenDateOne=8060
+        dnaResultGivenDateTwo=8061
+        dnaAgeEnrolment=8062
+        dnaAgeOne=8063
+        dnaAgeTwo=8064
+    </macros>
+
+    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <div>
+        <h4 style="font-style: italic;">
+            <b>EID Patient Card</b>
+            <span style="padding-left:50px;">Version 4</span>
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">HCC no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+        <table class="data-entry-table">
+            <tr style="border: none;">
+                <td style="vertical-align:top;">
+                    <h5>Child and Guardian Details</h5>
+                    <table>
+                        <tr>    
+                            <td>Child Name</td>
+                            <td><lookup expression="patient.personName" /></td>
+                        </tr>
+                        <tr>
+                            <td>Sex, Birthdate</td>
+                            <td>
+                                <span class="left-cell">
+                                    <lookup expression="patient.gender" />
+                                </span>
+                                <span class="right-cell">
+                                    <lookup expression="patient.birthdate" />
+                                </span>                            
+                            </td>                    
+                        </tr>
+                        <tr>
+                            <td>Birth Weight</td>
+                            <td><obs conceptId="$birthWeight" /></td>                   
+                        </tr>
+                        <tr>
+                            <td>Addresses</td>    
+                            <td>
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="vertical-align:top;">
+                    <h5>PMTCT History at Enrolment</h5>
+                    <table>
+                        <tr>    
+                            <td>ARVs in<br/>Pregnancy</td>
+                            <td><obs conceptId="$arvsInPreg" answerConceptIds="$none,$azt03,$azt4p,$art03,$art4p,$unknown"/></td>
+                        </tr>
+                        <tr>
+                            <td>ARVs in Labour</td>
+                            <td><obs conceptId="$arvsInLabour" answerConceptIds="$none,$sdNVP,$AZT3TC,$NVPAZT3TC,$ART,$unknown"/></td>                    
+                        </tr>
+                        <tr>
+                            <td>Baby ARVs at<br/>Birth</td>
+                            <td><obs conceptId="$arvsAtBirth" answerConceptIds="$none,$Nevirapine,$NVPAZT2,$Zidovudine,$unknown"/></td>                        
+                        </tr>
+                        <tr>
+                            <td>Baby ARVs<br/>cont'd</td>    
+                            <td><obs conceptId="$arvsContd" answerConceptIds="$none,$Nevirapine,$Zidovudine,$unknown"/></td>
+                        </tr>
+                        <tr>    
+                            <td>Baby ARVs<br/>Adherence</td>
+                            <td>No. of weeks ARVs taken<br/><obs conceptId="$adherence" /></td>
+                        </tr>
+                        <tr>
+                            <td>Delivery Place</td>
+                            <td><obs conceptId="$deliveryLocation" /></td>                    
+                        </tr>
+                    </table>
+                </td>
+                <td style="vertical-align:top;">
+                    <h5>Status at Enrolment</h5>
+                    <table>
+                        <tr>    
+                            <td>Age at Enrolment<br/>(wks)</td>
+                            <td><obs conceptId="$age" /></td>
+                        </tr>
+                        <tr>
+                            <td>Child rapid test</td>
+                            <td><obs conceptId="$hivRapid" style="radio" answerConceptIds="$notDone,$negative,$positive,$inconclusive"
+                                 answerLabels="Not done,Neg,Pos,Inc" />, Age: (todo)</td>                    
+                        </tr>
+                        <tr>
+                            <td>Child PCR</td>
+                            <td><obs conceptId="$hivPCR" style="radio" answerConceptIds="$notDone,$negative,$positive"
+                                 answerLabels="Not done,Neg,Pos" />, Age: (todo)</td>                        
+                        </tr>
+                        <tr>
+                            <td>Conclusion: HIV<br/>infection</td>    
+                            <td><obs conceptId="$hivStatus" style="radio" answerConceptIds="$notConfirmed,$confirmed"
+                                 answerLabels="Not Confirmed,Confirmed" /></td>
+                        </tr>
+                        <tr>    
+                            <td>Mother Status</td>
+                            <td><obs conceptId="$motherHIVStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$patientDied,$suspectedHIVExposure"
+                                 answerLabels="No ART,On ART,Died,Unk" /></td>
+                        </tr>
+                        <tr>
+                            <td>Mother ART Reg.<br/>no.</td>
+                            <td><obs conceptId="$motherRegNo" /></td>
+                        </tr>                    
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <hr/>
+        <h2>Initiation Details</h2>
+        <h5 style="font-style: italic;">Initiation Location: <encounterLocation id="mastercardLocation" /><span style="padding-left:50px;"></span>(For Transfer-In: Location of Initial Encounter)
+        </h5>
+        <h5 style="font-style: italic;">Initiation Date: <encounterDate /><span style="padding-left:50px;"></span>(For Transfer-In: Date of Initial Encounter at Initiation Location)
+        </h5>
+        <h5 style="font-style: italic;">Current outcome:
+            <lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name"/>
+            (<lookup expression="fn.currentProgramWorkflowStatus(1).startDate"/>)
+        </h5>
+        <hr/>
+        <table class="data-entry-table">
+            <tr>
+                <td>
+                    <table>
+                        <b>Rapid Antibody Testing</b>
+                        <tr>
+                            <td></td>
+                            <td>Sample<br/>Date</td>
+                            <td>Age<br/>(mth)</td>
+                            <td>HTC Serial No</td>
+                            <td>Result</td>
+                        </tr>
+                        <tr>
+                            <td>Enrolment</td>
+                            <td><obs conceptId="$rapidSampleDateEnrolment" /></td>
+                            <td><obs conceptId="$rapidAgeEnrolment" /></td>
+                            <td><obs conceptId="$rapidHTCEnrolment" /></td>
+                            <td><obs conceptId="$rapidResultEnrolment" /></td>
+                        </tr>
+                        <tr>
+                            <td>From 12 months</td>
+                            <td><obs conceptId="$rapidSampleDateOne" /></td>
+                            <td><obs conceptId="$rapidAgeOne" /></td>
+                            <td><obs conceptId="$rapidHTCOne" /></td>
+                            <td><obs conceptId="$rapidResultOne" /></td>
+                        </tr>
+                        <tr>
+                            <td>From 24 months</td>
+                            <td><obs conceptId="$rapidSampleDateTwo" /></td>
+                            <td><obs conceptId="$rapidAgeTwo" /></td>
+                            <td><obs conceptId="$rapidHTCTwo" /></td>
+                            <td><obs conceptId="$rapidResultTwo" /></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <b>DNA-PCR Testing</b>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">Result received from lab</td>
+                            <td colspan="2">Result given to guardian</td>
+                        </tr>
+                        <tr>
+                            <td>Sample<br/>Date</td>
+                            <td>Sample ID</td>
+                            <td>Date</td>
+                            <td>Result</td>
+                            <td>Date</td>
+                            <td>Age<br/>(mth)</td>
+                        </tr>
+                        <tr>
+                            <td><obs conceptId="$dnaSampleDateEnrolment" /></td>
+                            <td><obs conceptId="$dnaSampleIDEnrolment" /></td>
+                            <td><obs conceptId="$dnaResultRcdDateEnrolment" /></td>
+                            <td><obs conceptId="$dnaResultEnrolment" /></td>
+                            <td><obs conceptId="$dnaResultGivenDateEnrolment" /></td>
+                            <td><obs conceptId="$dnaAgeEnrolment" /></td>
+                        </tr>
+                        <tr>
+                            <td><obs conceptId="$dnaSampleDateOne" /></td>
+                            <td><obs conceptId="$dnaSampleIDOne" /></td>
+                            <td><obs conceptId="$dnaResultRcdDateOne" /></td>
+                            <td><obs conceptId="$dnaResultOne" /></td>
+                            <td><obs conceptId="$dnaResultGivenDateOne" /></td>
+                            <td><obs conceptId="$dnaAgeOne" /></td>
+                        </tr>
+                        <tr>
+                            <td><obs conceptId="$dnaSampleDateTwo" /></td>
+                            <td><obs conceptId="$dnaSampleIDTwo" /></td>
+                            <td><obs conceptId="$dnaResultRcdDateTwo" /></td>
+                            <td><obs conceptId="$dnaResultTwo" /></td>
+                            <td><obs conceptId="$dnaResultGivenDateTwo" /></td>
+                            <td><obs conceptId="$dnaAgeTwo" /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons" style="margin-top:10px;">
+                <button class="submitButton confirm" onclick="submitHtmlForm()">
+                    <uimessage code="uicommons.save"/>
+                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                </button>
+            </div>
+        </ifMode>
+    </div>
+</htmlform>
