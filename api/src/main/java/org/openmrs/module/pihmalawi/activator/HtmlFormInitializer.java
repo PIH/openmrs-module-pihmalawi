@@ -52,8 +52,6 @@ public class HtmlFormInitializer implements Initializer {
 		forms.put(15, "chronic_care_emastercard_visit.xml");
         forms.put(26, "pre_art_hcc_emastercard.xml");
         forms.put(27, "pre_art_hcc_emastercard_visit.xml");
-        forms.put(28, "exposed_infant_hcc_emastercard.xml");
-        forms.put(29, "exposed_infant_hcc_emastercard_visit.xml");
 
         HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
 		for (Integer formId : forms.keySet()) {
@@ -85,6 +83,8 @@ public class HtmlFormInitializer implements Initializer {
         List<String> uiHtmlForms = Arrays.asList(
                 "pihmalawi:htmlforms/art_mastercard.xml",
                 "pihmalawi:htmlforms/art_visit.xml",
+								"pihmalawi:htmlforms/eid_mastercard.xml",
+								"pihmalawi:htmlforms/eid_visit.xml",
                 "pihmalawi:htmlforms/asthma_hospital.xml",
                 "pihmalawi:htmlforms/asthma_mastercard.xml",
                 "pihmalawi:htmlforms/asthma_peak_flow.xml",
