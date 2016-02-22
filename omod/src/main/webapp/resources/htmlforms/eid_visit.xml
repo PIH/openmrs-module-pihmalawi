@@ -1,0 +1,220 @@
+<htmlform formUuid="37a9cde8-4909-4821-b760-aa19dbce6b28"
+          formName="Exposed Child Visit"
+          formEncounterType="664bcc8c-977f-11e1-8993-905e29aff6c1"
+          formVersion="4.0">
+
+    <macros>
+        height=5090
+        weight=5089
+        artRegimen=8169
+        muac=1290
+        wasting=8033
+        normal=1115
+        moderate=1900
+        severe=1903
+        breast=8039
+        exclusive=5526
+        mixed=6046
+        complimentary=8040
+        stoppedPastSix=8041
+        stoppedOverSix=8042
+        motherStatus=8036
+        aliveNotOnART=8037
+        aliveOnART=8038
+        died=1742
+        hivSuspected=1062
+        tbStatus=7459
+        tbNotSuspected=7454
+        tbSuspected=7455
+        tbConfirmedNoTx=7456
+        tbConfirmedTx=7458
+        clinMon=8035
+        nothingAbnormal=7920
+        anySickness=8034
+        childHIVStatus=5303
+        notHIVInfected=8043
+        hivInfected=1169
+        notARTEligible=8044
+        PSHD=7036
+        CPT=6319
+        nextAppt=5096
+    </macros>
+
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                  <td>Visit Date</td>
+                  <td>Weight</td>
+                  <td>Height</td>
+                  <td>MUAC</td>
+                  <td rowspan="2">Wasting/Malnutrition</td>
+                  <td rowspan="2">Breastfeeding</td>
+                  <td rowspan="2">Mother Status</td>
+                  <td rowspan="2">TB Status (Current)</td>
+                  <td rowspan="2">Clin. Monit.</td>
+                  <td rowspan="2">HIV infection</td>
+                  <td>CPT given</td>
+                  <td>Next appointment</td>
+                </tr>
+                <tr>
+                  <td><i style="font-size:.7em;">day/month/year</i></td>
+                  <td>kg</td>
+                  <td>cm</td>
+                  <td>cm</td>
+                  <td>ml/tabs</td>
+                  <td><i style="font-size:.7em;">day/month/year</i></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" />
+                    </td>
+                    <td>
+                        <!-- MUAC -->
+                        <obs conceptId="$muac"/>
+                    </td>
+                    <td>
+                        <!-- Wasting/malnutrition -->
+                        <obs conceptId="$wasting" style="radio" answerConceptIds="$normal,$moderate,$severe"
+                             answerLabels="No,Mod,Sev" />
+                    </td>
+                    <td>
+                        <!-- Breast feeding -->
+                        <obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
+                             answerLabels="Exc,M,C,-6,6+" />
+                    </td>
+                    <td>
+                        <!-- Mother Status -->
+                        <obs conceptId="8036" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$died,$hivSuspected"
+                             answerLabels="No ART,On ART,Died,Unk" />
+                    </td>
+                    <td>
+                    <!-- <td style="white-space: nowrap;"> -->
+                        <!-- TB status -->
+                        <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx"
+                             answerLabels="N,Y,C,Rx" />
+                    </td>
+                    <td>
+                        <!-- Clin Monit. -->
+                        <obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
+                             answerLabels="NAD,Sick" />
+                    </td>
+                    <td>
+                        <!-- HIV infection -->
+                        <obs conceptId="$childHIVStatus" style="radio" answerConceptIds="$notHIVInfected,$hivInfected,$notARTEligible,$PSHD"
+                             answerLabels="A,B,C,D" />
+                    </td>
+                    <td>
+                        <!-- CPT -->
+                        <obs conceptId="$CPT" />
+                    </td>
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>EID Patient Card</b>
+            <span style="padding-left:50px;">Version 4</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">ART Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+
+
+
+          <tr>
+              <th>Visit Date</th>
+              <td><encounterDate id="visitDate" size="20" default="today" /></td>
+          </tr>
+          <tr>
+              <th>Visit Location</th>
+              <td><encounterLocation id="visitLocation" /></td>
+          </tr>
+          <tr>
+              <th>Height</th>
+              <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+          </tr>
+          <tr>
+              <th>Weight</th>
+              <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+          </tr>
+          <tr>
+              <th>MUAC</th>
+              <td><obs conceptId="$muac"/></td>
+          </tr>
+          <tr>
+              <th>Wasting/Malnutrition</th>
+              <td><obs conceptId="$wasting" style="radio" answerConceptIds="$normal,$moderate,$severe"
+                   answerLabels="No,Mod,Sev" /></td>
+          </tr>
+          <tr>
+              <th>Breast feeding</th>
+              <td><obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
+                   answerLabels="Exc,M,C,-6,6+" /></td>
+          </tr>
+          <tr>
+              <th>Mother Status</th>
+              <td><obs conceptId="8036" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$died,$hivSuspected"
+                   answerLabels="No ART,On ART,Died,Unk" /></td>
+          </tr>
+          <tr>
+              <th>TB Status (Curr.)</th>
+              <td><obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx"
+                   answerLabels="N,Y,C,Rx" /></td>
+          </tr>
+          <tr>
+              <th>Clin. Monit.</th>
+              <td><obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
+                   answerLabels="NAD,Sick" /></td>
+          </tr>
+          <tr>
+              <th>HIV Infection</th>
+              <td><obs conceptId="$childHIVStatus" style="radio" answerConceptIds="$notHIVInfected,$hivInfected,$notARTEligible,$PSHD"
+                   answerLabels="A,B,C,D" /></td>
+          </tr>
+          <tr>
+              <th>CPT</th>
+              <td><obs conceptId="$CPT" /></td>
+          </tr>
+          <tr>
+              <th>Next appointment</th>
+              <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+          </tr>
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>
