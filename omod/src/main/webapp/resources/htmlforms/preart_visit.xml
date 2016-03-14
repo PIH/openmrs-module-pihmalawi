@@ -1,0 +1,242 @@
+<htmlform formUuid="468a01c2-c39d-4dc2-b142-04052a09e869"
+          formName="Pre-ART Visit"
+          formEncounterType="664b8812-977f-11e1-8993-905e29aff6c1"
+          formVersion="4.0">
+          
+    <macros>
+        height=5090
+        weight=5089
+        tbStatus=7459
+        tbNotSuspected=7454
+        tbSuspected=7455
+        tbConfirmedNoTx=7456
+        tbConfirmedTx=7458
+        nextAppt=5096
+        wasting=8033
+        mod=1900
+        severe=1903
+        whoStageQuestion=7562
+        whoStage1=7041
+        whoStage2=7042
+        whoStage3=7043
+        whoStage4=7044
+        dnaPcrDone=3658
+        pregnant=6131
+        ipt=8032
+        numCptGiven=6319
+        depoGiven=8029
+        numCondoms=8080
+        sideEffect=7755
+        no=1066
+        yes=1065
+        pn=821
+        hp=29
+        sk=512
+        lip=2148
+        other=6408
+        cd4Value=3434
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td>Visit Date</td>
+                    <td>HT</td>
+                    <td>WT</td>
+                    <td rowspan="2">Wasting/malnutrition</td>
+                    <td rowspan="2">TB status</td>
+                    <td rowspan="2">WHO stage</td>
+                    <td rowspan="2">DNA PCR done</td>
+                    <td rowspan="2">CD4 reported to clinician</td>
+                    <td rowspan="2">Pregnant?</td>
+                    <td rowspan="2">Number of IPT tablets dispensed</td>
+                    <td rowspan="2">Num CPT given</td>
+                    <td rowspan="2">Depo-Provera given</td>
+                    <td rowspan="2">Number of Condoms dispensed</td>
+                    <td rowspan="2">MLW ART side effects</td>
+                    <td rowspan="2">Appointment date</td>
+                </tr>
+                <tr>
+                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" />
+                    </td>
+                    <td>
+                        <!-- Wasting/malnutrition -->
+                        <obs conceptId="$wasting" style="radio" answerConceptIds="$no,$mod,$severe" answerLabels="No,Mod,Sev" />
+                    </td>
+                    <td>
+                        <!-- TB status -->                
+                        <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx" answerLabels="N,Y,C,Rx" />
+                    </td>
+                    <td>
+                        <!-- WHO stage -->                
+                        <obs conceptId="$whoStageQuestion" style="radio" answerConceptIds="$whoStage1,$whoStage2,$whoStage3,$whoStage4" answerLabels="1,2,3,4" />
+                    </td>
+                    <td>
+                        <!-- CD4 sample taken -->
+                        <!-- taken from DNA/PCR bleeding; not 100% correct for CD4, but at least consistent to ART -->                
+                        <obs conceptId="$dnaPcrDone" style="checkbox" answerConceptId="$dnaPcrDone" answerLabel="Bled" />
+                    </td>
+                    <td>
+                        <!-- CD4 result -->                
+                        <lookup complexExpression="#set ($obs = false)#set ($obs = $fn.latestObs(3434))#if (!$obs)#set ($obsResult = 'N/A')#set ($obsDate = 'N/A')#else#set ($obsdate = $obs.obsDatetime.toString())#set ($year = $obsdate.substring(0,4))#set ($month = $obsdate.substring(5,7))#set ($date = $obsdate.substring(8,10))#set ($obsResult = $obs.valueNumeric)#set ($obsDate = &quot;${date}/${month}/${year}&quot;)#end&lt;input type='text' value='$obsResult' size='5' disabled='true' id='$prevCd4Value' /&gt; at &lt;input type='text' value='$obsDate' size='10' disabled='true' id='$prevCd4Date' /&gt;" />
+                        <obs conceptId="$cd4Value" />
+                    </td>
+                    <td>
+                        <!-- pregnant -->                
+                        <obs conceptId="$pregnant" style="radio" answerConceptIds="$no,$yes" answerLabels="N,Y" />
+                    </td>
+                    <td>
+                        <!-- IPT -->                
+                        <obs conceptId="$ipt" />
+                    </td>
+                    <td>
+                        <!-- CPT -->                
+                        <obs conceptId="$numCptGiven" />
+                    </td>
+                    <td>
+                        <!-- depo given -->                
+                        <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                    </td>
+                    <td>
+                        <!-- # condoms -->                
+                        <obs conceptId="$numCondoms" />
+                    </td>
+                    <td>
+                        <!-- side effects -->                
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    </td>
+                    <td>
+                        <!-- Next appointment date -->                
+                         <obs conceptId="$nextAppt" allowFutureDates="true" id="nextAppointmentDate"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Pre-ART Patient Card</b>
+            <span style="padding-left:50px;">Version 4</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">HCC Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Location</th>
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterLocation />
+                    </td>
+                </tr>
+            <tr>
+                <th>Visit Date</th>
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Height</th>
+                    <td><obs conceptId="$height" /></td>
+                </tr>
+                <tr>
+                    <th>Weight</th>
+                    <td><obs conceptId="$weight" /></td>
+                </tr>
+                <tr>
+                    <th>Wasting/malnutrition</th>
+                    <td><obs conceptId="$wasting" style="radio" answerConceptIds="$no,$mod,$severe" answerLabels="No,Mod,Sev" /></td>
+                </tr>
+                <tr><th>TB Status</th>    
+                    <td><obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx" answerLabels="N,Y,C,Rx" /></td>
+                </tr>
+                <tr>
+                    <th>WHO Stage</th> 
+                    <td><obs conceptId="$whoStageQuestion" style="radio" answerConceptIds="$whoStage1,$whoStage2,$whoStage3,$whoStage4" answerLabels="1,2,3,4" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Bled</th>   
+                    <td><obs conceptId="$dnaPcrDone" style="checkbox" answerConceptId="$dnaPcrDone" answerLabel="Bled" /></td>
+                </tr>
+                <tr>
+                    <th>CD4 Value</th>    
+                    <td><lookup complexExpression="#set ($obs = false)#set ($obs = $fn.latestObs(3434))#if (!$obs)#set ($obsResult = 'N/A')#set ($obsDate = 'N/A')#else#set ($obsdate = $obs.obsDatetime.toString())#set ($year = $obsdate.substring(0,4))#set ($month = $obsdate.substring(5,7))#set ($date = $obsdate.substring(8,10))#set ($obsResult = $obs.valueNumeric)#set ($obsDate = &quot;${date}/${month}/${year}&quot;)#end&lt;input type='text' value='$obsResult' size='5' disabled='true' id='$prevCd4Value' /&gt; at &lt;input type='text' value='$obsDate' size='10' disabled='true' id='$prevCd4Date' /&gt;" />
+                        <obs conceptId="$cd4Value" /></td>
+                </tr>
+                <tr>
+                    <th>Pregnant?</th> 
+                    <td><obs conceptId="$pregnant" style="radio" answerConceptIds="$no,$yes" answerLabels="N,Y" /></td>
+                </tr>
+                <tr>
+                    <th>Number IPT</th>     
+                    <td><obs conceptId="$ipt" /></td>
+                </tr>
+                <tr>
+                    <th>Number CPT</th>      
+                    <td><obs conceptId="$numCptGiven" /></td>
+                </tr>
+                <tr>
+                    <th>Depo-Provera Given</th>
+                    <td><obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" /></td>
+                </tr>
+                <tr>
+                    <th>Number of Condoms</th>
+                    <td><obs conceptId="$numCondoms" /></td>
+                </tr>
+                <tr>
+                    <th>Side Effects</th>
+                    <td><obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no"     answerLabel="No" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Next Appointment</th>     
+                    <td><obs conceptId="$nextAppt" allowFutureDates="true" id=" nextAppointmentDate"/></td>
+                </tr>
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>
