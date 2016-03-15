@@ -46,23 +46,31 @@
                     <td>Visit Date</td>
                     <td>HT</td>
                     <td>WT</td>
-                    <td rowspan="2">Wasting/malnutrition</td>
+                    <td>Wasting/malnutr.</td>
                     <td rowspan="2">TB status</td>
-                    <td rowspan="2">WHO stage</td>
-                    <td rowspan="2">DNA PCR done</td>
-                    <td rowspan="2">CD4 reported to clinician</td>
-                    <td rowspan="2">Pregnant?</td>
-                    <td rowspan="2">Number of IPT tablets dispensed</td>
-                    <td rowspan="2">Num CPT given</td>
-                    <td rowspan="2">Depo-Provera given</td>
-                    <td rowspan="2">Number of Condoms dispensed</td>
-                    <td rowspan="2">MLW ART side effects</td>
-                    <td rowspan="2">Appointment date</td>
+                    <td>WHO stage</td>
+                    <td colspan="2">CD4</td>
+                    <td>Pregnant?</td>
+                    <td>IPT</td>
+                    <td>CPT</td>
+                    <td colspan="2">Family Plan</td>
+                    <td>MLW ART side effects</td>
+                    <td>Appointment date</td>
                 </tr>
                 <tr>
-                    <td><i style="font-size:.7em;">day month year</i></td>
+                    <td><i style="font-size:.7em;">day / month / year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
+                    <td>Based on either Wt4Hgt BMI MUAC</td>
+                    <td>Specify new conditions in Notes</td>
+                    <td>Sample taken</td>
+                    <td>Result</td>
+                    <td>&#8594; start ART!</td>
+                    <td colspan="2">No. of tablets</td>
+                    <td>Depo given</td>
+                    <td>No. of con<br/>doms</td>
+                    <td>Specify "Other" in Notes</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">

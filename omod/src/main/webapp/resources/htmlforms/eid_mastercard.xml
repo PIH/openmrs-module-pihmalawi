@@ -1,9 +1,14 @@
 <htmlform formUuid="f341dc7a-f06f-4d0c-b9d5-fddf147ae1ed" 
           formName="Exposed Child eMastercard"
           formEncounterType="664bcbb0-977f-11e1-8993-905e29aff6c1"
-          formVersion="4.0">
+          formVersion="1.0">
 
     <macros>
+        agreesToFollowup=2552
+        noAnswer=1066
+        yesAnswer=1065
+        guardianPhone=3294
+        guardianRelation=1826                            
         birthWeight=5916
         arvsInPreg=8169
         none=1107
@@ -75,8 +80,8 @@
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
     <div>
         <h4 style="font-style: italic;">
-            <b>EID Patient Card</b>
-            <span style="padding-left:50px;">Version 4</span>
+            <b>Exposed Child Under 24 Months</b>
+            <span style="padding-left:50px;">Version 1</span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">HCC no: </b>
                 <b>
@@ -114,6 +119,24 @@
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
                         </tr>
+                        <tr>
+                            <td>Agrees to FUP</td>
+                            <td>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                            </td>
+                        </tr>                       
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$guardianRelation" size="10" />
+                            </td>
+                        </tr>                           
+                        <tr>
+                            <td>Guardian Phone</td>
+                            <td>
+                                <obs conceptId="$guardianPhone" size="10"/>
+                            </td>
+                        </tr>                       
                     </table>
                 </td>
                 <td style="vertical-align:top;">

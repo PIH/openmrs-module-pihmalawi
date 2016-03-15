@@ -1,7 +1,7 @@
 <htmlform formUuid="cd78175b-e390-4378-9903-df1aaa5da02e"
           formName="Pre-ART eMastercard"
           formEncounterType="664b8736-977f-11e1-8993-905e29aff6c1"
-          formVersion="4.0">
+          formVersion="1.0">
 
     <macros>
         guardianName=1824
@@ -40,8 +40,9 @@
     <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
     <div>
         <h4 style="font-style: italic;">
-            <b>Pre-ART Patient Card</b>
-            <span style="padding-left:50px;">Version 4</span>
+            <b>HIV Patient Card</b>
+            <span style="padding-left:50px;">Pre-ART Child/Adult</span>
+            <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -100,17 +101,23 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Guardian relation to patient</td>
+                            <td>Patient Phone</td>
                             <td>
-                                <obs conceptId="$relationToPatient" size="10" />
+                                <obs conceptId="$patientPhone" size="10"/>
                             </td>
-                        </tr>
+                        </tr>                        
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
                                 <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
                             </td>
                         </tr>
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$relationToPatient" size="10" />
+                            </td>
+                        </tr>                        
                         <tr>
                             <td>CHW Name</td>
                             <td>
@@ -123,53 +130,54 @@
                     <h5>Status at Enrolment</h5>
                     <table>
                         <tr>
-                            <td>Site/HTC Serial No.</td>
-                            <td>
-                                <obs conceptId="$site" />
-                            </td>
-                        </tr>
-                        <tr>
+                            <td></td>
+                            <td colspan="2">Testing Site / HTC Serial No</td>
                             <td>Test Date</td>
-                            <td><obs conceptId="$testDate" /></td>
+                            <td>Test Type</td>
                         </tr>
                         <tr>
-                            <td>Test Type</td>
+                            <td>Confirmatory HIV Test</td>
+                            <td colspan="2"><obs conceptId="$site" /></td>
+                            <td><obs conceptId="$testDate" /></td>
                             <td><obs conceptId="$testTypeQuestion" style="radio" answerLabels="$testTypeLabelRapid,$testTypeLabelDNAPCR" answerConceptIds="$hivRapidTest,$hivDnaPcr" /></td>
                         </tr>
                         <tr>
-                            <td>Clinical Conditions</td>
-                            <td>
-                                <obs conceptId="$whoClinicalConditions" />
-                            </td>
-                        </tr>
-                        <tr>
+                            <td rowspan="2">Clinical Conditions</td>
+                            <td colspan="2" rowspan="2"><obs conceptId="$whoClinicalConditions" /></td>
                             <td>WHO Stage</td>
-                            <td><obs conceptId="$whoStage" style="radio" answerConceptIds="$stage1,$stage2" answerLabels="1,2" />                            </td>
+                            <td><obs conceptId="$whoStage" style="radio" answerConceptIds="$stage1,$stage2" answerLabels="1,2" /></td>
                         </tr>
                         <tr>
                             <td>Age (yrs)</td>
-                            <td>
-                                <obs conceptId="$ageAtInitiation" />
-                            </td>
+                            <td><obs conceptId="$ageAtInitiation" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td>Date last taken</td>
+                            <td rowspan="2" colspan="2"></td>
                         </tr>
                         <tr>
                             <td>Ever taken IPT</td>
-                            <td><obs conceptId="$iptTreatment" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" />, Date last taken <obs conceptId="$iptDate" />
-                            </td>
+                            <td><obs conceptId="$iptTreatment" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" /></td>
+                            <td><obs conceptId="$iptDate" /></td>
                         </tr>
                         <tr>
                             <td>Ever taken TB treatm.</td>
-                            <td>
-                             <!-- note that 1113 for 'Date last taken' is actually stored as 'Start date'; using this here as it is at least consistent with ART, but an analysis needs to differentiate -->
-                            <obs conceptId="$tbTreatmentQuestion" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" />, Date last taken <obs conceptId="$tbTreatmentStartDate" />, TB Reg. No. <obs conceptId="$tbRegistrationNumber" />
-                            </td>
+                            <td><obs conceptId="$tbTreatmentQuestion" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" /></td>
+                            <td><obs conceptId="$tbTreatmentStartDate" /></td>
+                            <td>TB Reg. No.</td>
+                            <td><obs conceptId="$tbRegistrationNumber" /></td>
                         </tr>
                         <tr>
                             <td>Ever taken any ARVs</td>
-                            <td><obs conceptId="$everTakenArvs" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" />, Date last taken <obs conceptId="$lastArvsDate" />, ARV type <obs conceptId="$lastArvsTaken" />
-                            </td>
+                            <td><obs conceptId="$everTakenArvs" style="radio" answerLabels="$noLabel,$yesLabel" answerConceptIds="$noAnswer,$yesAnswer" /></td>
+                            <td><obs conceptId="$lastArvsDate" /></td>
+                            <td>ARV type</td>
+                            <td><obs conceptId="$lastArvsTaken" /></td>
                         </tr>
                     </table>
+
+                    
                 </td>
             </tr>
         </table>
