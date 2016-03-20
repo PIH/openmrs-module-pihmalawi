@@ -2,8 +2,6 @@ package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -20,11 +18,11 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.common.PatientDataHelper;
 import org.openmrs.module.pihmalawi.common.ProgramHelper;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.AppointmentAdherencePatientDataSetDefinition;
-import org.openmrs.module.pihmalawi.common.PatientDataHelper;
 import org.openmrs.module.pihmalawi.reporting.definition.renderer.ArtRegisterBreakdownRenderer;
 import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -64,7 +62,6 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 		AppointmentAdherencePatientDataSetDefinition definition = (AppointmentAdherencePatientDataSetDefinition) dataSetDefinition;
 		PatientIdentifierType patientIdentifierType = definition.getPatientIdentifierType();
 		List<EncounterType> ets = definition.getEncounterTypes();
-		Session session = sessionFactory().getCurrentSession();
 
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		Cohort cohort = context.getBaseCohort();
@@ -361,9 +358,5 @@ public class AppointmentAdherencePatientDataSetEvaluator implements DataSetEvalu
 			}
 		}
 		return false;
-	}
-
-	private SessionFactory sessionFactory() {
-		return Context.getRegisteredComponents(SessionFactory.class).get(0);
 	}
 }

@@ -1,20 +1,8 @@
 package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.ObjectNotFoundException;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -22,7 +10,6 @@ import org.openmrs.Patient;
 import org.openmrs.PatientState;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.annotation.Handler;
-import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.common.ProgramHelper;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.FindPatientsToMergeSoundexDataSetDefinition;
@@ -36,20 +23,26 @@ import org.openmrs.module.reporting.dataset.SimpleDataSet;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
+import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
+import org.openmrs.module.reporting.evaluation.service.EvaluationService;
+
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Handler(supports = { FindPatientsToMergeSoundexDataSetDefinition.class })
-public class FindPatientsToMergeSoundexDataSetEvaluator implements
-		DataSetEvaluator {
+public class FindPatientsToMergeSoundexDataSetEvaluator implements DataSetEvaluator {
 
 	private final static String OPENMRS_SERVER = "http://emr:8080";
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	public FindPatientsToMergeSoundexDataSetEvaluator() {
-	}
-
-	public DataSet evaluate(DataSetDefinition dataSetDefinition,
-			EvaluationContext context) {
+	public DataSet evaluate(DataSetDefinition dataSetDefinition, EvaluationContext context) {
 		FindPatientsToMergeSoundexDataSetDefinition dsds = (FindPatientsToMergeSoundexDataSetDefinition) dataSetDefinition;
 		SimpleDataSet dataSet = new SimpleDataSet(dataSetDefinition, context);
 
@@ -65,14 +58,27 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 			CohortUtil.limitCohort(cohort, context.getLimit());
 		}
 
-		Query query = prepareQueryStatement(dsds.isSwapFirstLastName());
+        StringBuilder sb = new StringBuilder();
+        sb.append(" select pn2.person_id, person2.gender ");
+        sb.append(" from person_name_code p1, person_name_code p2, person_name pn1, person_name pn2, person person2, patient patient2 ");
+        sb.append(" where pn1.person_id <> pn2.person_id and ");
+        sb.append(" and pn2.person_id = person2.person_id"); // This allows us to get gender in sql, rather than getting the full object later
+        sb.append(" and person2.person_id = patient2.person_id"); // This allows us to ensure the person is a patient
+        if (dsds.isSwapFirstLastName()) {
+            sb.append("p1.family_name_code = p2.given_name_code and p1.given_name_code = p2.family_name_code ");
+        } else {
+            sb.append("p1.given_name_code = p2.given_name_code and p1.family_name_code = p2.family_name_code ");
+        }
+        sb.append(" and pn1.person_id not in (select user_id from users) and pn2.person_id not in (select user_id from users) ");
+        sb.append(" and pn2.person_id in (:personIds)");
+        sb.append(" and pn1.person_name_id=p1.person_name_id and pn2.person_name_id=p2.person_name_id and pn1.person_id=:referenceId ;");
+        String query = sb.toString();
 
 		Set<Integer> memberIds = cohort.getMemberIds();
 		if (dsds.getEncounterTypesToLookForDuplicates() != null) {
+
 			CohortQueryService cqs = Context.getService(CohortQueryService.class);
-			memberIds = cqs.getPatientsHavingEncounters(null,
-					null, null, dsds.getEncounterTypesToLookForDuplicates(),
-					null, null, null).getMemberIds();
+			memberIds = cqs.getPatientsHavingEncounters(null, null, null, dsds.getEncounterTypesToLookForDuplicates(), null, null, null).getMemberIds();
 			Set<Integer> memberIdsWithoutIdentifierType = new HashSet<Integer>();
 			
 			if (dsds.getPatientIdentifierTypeRequiredToLookForDuplicates() != null) {
@@ -88,31 +94,27 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 			memberIds.removeAll(cohort.getMemberIds());
 		}
 
-		List<Patient> patients = Context.getPatientSetService().getPatients(
-				cohort.getMemberIds());
+		List<Patient> patients = Context.getPatientSetService().getPatients(cohort.getMemberIds());
 
 		for (Patient p : patients) {
 			DataSetRow row = new DataSetRow();
-			DataSetColumn col = null;
-
+			DataSetColumn col;
 			try {
-				Collection<Patient> ps = soundexMatches(query, p, memberIds,
-						dsds.isSwapFirstLastName());
-				if (ps != null && !ps.isEmpty()) {
+				Collection<Patient> ps = soundexMatches(query, p, memberIds);
+				if (!ps.isEmpty()) {
 					col = new DataSetColumn("#", "#", String.class);
 					row.addColumnValue(col, linkifyId(p, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
 					int i = 1;
 					for (Patient potential : ps) {
-						col = new DataSetColumn("potential match_" + i,
-								"potential match_" + i, String.class);
+						col = new DataSetColumn("potential match_" + i, "potential match_" + i, String.class);
 						row.addColumnValue(col, linkifyMerge(p, potential, dsds.getEncounterTypesForSummary(), dsds.getProgramWorkflowForSummary()));
 						i++;
 					}
 					dataSet.addRow(row);
 				}
-			} catch (Throwable t) {
-				col = new DataSetColumn("Error",
-						"Error", String.class);
+			}
+            catch (Throwable t) {
+				col = new DataSetColumn("Error", "Error", String.class);
 				row.addColumnValue(col, "Error while loading patient " + p.getId());
 				dataSet.addRow(row);
 			}
@@ -121,55 +123,25 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 		return dataSet;
 	}
 
-	private Query prepareQueryStatement(boolean swapFirstLastName) {
-		String nameMatch = "";
-		if (swapFirstLastName) {
-			nameMatch = "p1.family_name_code = p2.given_name_code and p1.given_name_code = p2.family_name_code";
-		} else {
-			nameMatch = "p1.given_name_code = p2.given_name_code and p1.family_name_code = p2.family_name_code";
-		}
-		StringBuffer sql = new StringBuffer();
-		sql.append("select pn2.person_id from person_name_code p1, person_name_code p2, person_name pn1, person_name pn2 ");
-		sql.append(" where pn1.person_id <> pn2.person_id and ").append(
-				nameMatch);
-		sql.append(" and pn1.person_id not in (select user_id from users) and pn2.person_id not in (select user_id from users) ");
-		sql.append(" and pn2.person_id in (:personIds)");
-		sql.append(" and pn1.person_name_id=p1.person_name_id and pn2.person_name_id=p2.person_name_id and pn1.person_id=:referenceId ;");
-		Query query = sessionFactory().getCurrentSession().createSQLQuery(
-				sql.toString());
-		return query;
-	}
+	private Collection<Patient> soundexMatches(String query, Patient referencePatient, Set<Integer> cohortOfPatients) {
+        Map<Integer, Patient> potentialDuplicates = new HashMap<Integer, Patient>();
 
-	private Collection<Patient> soundexMatches(Query query,
-			Patient referencePatient, Set<Integer> cohortOfPatients,
-			boolean swapFirstLastName) {
-		Map<Integer, Patient> potentialDuplicates = new HashMap<Integer, Patient>();
-		PatientService ps = Context.getPatientService();
+        SqlQueryBuilder qb = new SqlQueryBuilder(query);
+        qb.addParameter("referenceId", referencePatient.getId());
+        qb.addParameter("personIds", cohortOfPatients);
 
-		query.setInteger("referenceId", referencePatient.getId())
-				.setParameterList("personIds", cohortOfPatients);
-		Iterator i = query.list().iterator();
-		while (i.hasNext()) {
-			try {
-				Patient p = ps.getPatient((Integer) i.next());
-				if (p != null
-						&& (p.getGender() == null
-								|| referencePatient.getGender() == null || p
-								.getGender().equals(
-										referencePatient.getGender()))) {
-					potentialDuplicates.put(p.getId(), p);
-				}
-			} catch (ObjectNotFoundException onfe) {
-				// sic, seems to be a user, maybe better filter them in the
-				// first place in sql
-			}
-		}
+        EvaluationService evaluationService = Context.getService(EvaluationService.class);
+        Map<Integer, String> m = evaluationService.evaluateToMap(qb, Integer.class, String.class, new EvaluationContext());
+
+        for (Integer pId : m.keySet()) {
+            String gender = m.get(pId);
+            String referenceGender= referencePatient.getGender();
+            if (StringUtils.isEmpty(gender) || StringUtils.isEmpty(referenceGender) || gender.equalsIgnoreCase(referenceGender)) {
+                potentialDuplicates.put(pId, Context.getPatientService().getPatient(pId));
+            }
+        }
 
 		return potentialDuplicates.values();
-	}
-
-	private SessionFactory sessionFactory() {
-		return Context.getRegisteredComponents(SessionFactory.class).get(0);
 	}
 
 	private String linkifyId(Patient p, List<EncounterType> encounterTypes, ProgramWorkflow pw) {
@@ -205,7 +177,7 @@ public class FindPatientsToMergeSoundexDataSetEvaluator implements
 
 	private String firstLastEncounter(Patient p, List<EncounterType> encounterTypes) {
 		String e = "";
-		List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, null, null, encounterTypes, null, false);
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(p, null, null, null, null, encounterTypes, null, null, null, false);
 		if (!encounters.isEmpty()) {
 			Encounter firstEncounter = encounters.get(0);
 			e = firstEncounter.getEncounterType().getName() + "@" + formatDate(firstEncounter.getEncounterDatetime());
