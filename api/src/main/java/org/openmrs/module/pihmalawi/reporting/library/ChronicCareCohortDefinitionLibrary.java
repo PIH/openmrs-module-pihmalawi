@@ -160,6 +160,16 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		return df.getPatientsWithNumericObsAtLocationDuringPeriod(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 110.0);
 	}
 
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithMostRecentSystolicBloodPressureUnder180AtLocation() {
+        return df.getPatientsWithMostRecentNumericObsAtLocationByEnd(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.LESS_THAN, 180.0);
+    }
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithMostRecentDiastolicBloodPressureUnder110AtLocation() {
+        return df.getPatientsWithMostRecentNumericObsAtLocationByEnd(metadata.getDiastolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.LESS_THAN, 110.0);
+    }
+
 	@DocumentedDefinition(value = "patientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod")
 	public CohortDefinition getPatientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod() {
 		PresenceOrAbsenceCohortDefinition cd = new PresenceOrAbsenceCohortDefinition();

@@ -121,6 +121,9 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		CohortDefinition hadSbpOver180 = ccCohorts.getPatientsWithSystolicBloodPressureOver180AtLocationDuringPeriod();
 		CohortDefinition hadDbpOver110 = ccCohorts.getPatientsWithDiastolicBloodPressureOver110AtLocationDuringPeriod();
 		CohortDefinition hadHighBp = df.getPatientsInAny(hadSbpOver180, hadDbpOver110);
+        CohortDefinition lastSbpUnder180 = ccCohorts.getPatientsWithMostRecentSystolicBloodPressureUnder180AtLocation();
+        CohortDefinition lastDbpUnder110 = ccCohorts.getPatientsWithMostRecentDiastolicBloodPressureUnder110AtLocation();
+        CohortDefinition activeOnTxWithLastBpUnder180and110 = df.getPatientsInAll(activeOnTx, lastSbpUnder180, lastDbpUnder110);
 		CohortDefinition onMultipleHypertensionMeds = ccCohorts.getPatientsOnMoreThanOneHypertensionMedicationAtLocationDuringPeriod();
 		CohortDefinition male = coreCohorts.getMales();
 		CohortDefinition referredDuringPeriod = ccCohorts.getNewPatientsReferredAtLocationDuringPeriod();
@@ -193,6 +196,7 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		addIndicatorForDiagnosisColumns(dsd, "22N", "Number of currently enrolled patients without a visit > 1 month past their last scheduled appointment", df.getPatientsInAll(enrolledAtEnd, overAMonthLate));
 		addIndicatorForDiagnosisColumns(dsd, "22D", "Number currently enrolled", enrolledAtEnd);
 		addIndicatorForDiagnosisColumns(dsd, "23", "Number of total visits with 'preferred treatment stocked out'", visitsWithTxOutOfStock);
+        addIndicatorForDiagnosisColumns(dsd, "EXTRA1", "Active Hypertension patients with most recent SBP < 180 and DBP < 110", activeOnTxWithLastBpUnder180and110, ColumnKey.Hypertension);
 
 		return rd;
 	}
@@ -267,6 +271,6 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1-SNAPSHOT";
 	}
 }
