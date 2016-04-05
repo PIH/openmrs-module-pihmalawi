@@ -48,7 +48,7 @@
         <htmlformentryuiVersion>1.4</htmlformentryuiVersion>
         <htmlformentry19extVersion>1.6.1</htmlformentry19extVersion>
         <htmlformflowsheetVersion>1.4.1</htmlformflowsheetVersion>
-        <htmlwidgetsVersion>1.7.0</htmlwidgetsVersion>
+        <htmlwidgetsVersion>1.7.1</htmlwidgetsVersion>
         <idgenVersion>4.0</idgenVersion>
         <groovyVersion>2.2.4</groovyVersion>
         <logicVersion>0.5.2</logicVersion>
@@ -57,11 +57,11 @@
         <metadatasharingVersion>1.1.9</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>
         <providermanagementVersion>2.3</providermanagementVersion>
-        <reportingVersion>0.9.8.1</reportingVersion>
+        <reportingVersion>0.9.9</reportingVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
-        <reportingrestVersion>1.4</reportingrestVersion>
+        <reportingrestVersion>1.6</reportingrestVersion>
         <reportinguiVersion>1.0</reportinguiVersion>
-        <serializationVersion>0.2.7</serializationVersion>
+        <serializationVersion>0.2.11</serializationVersion>
         <syncVersion>1.2</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
         <uicommonsVersion>1.7</uicommonsVersion>
@@ -193,6 +193,12 @@
 			<version>${reportingVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>reporting-api-1.9</artifactId>
+            <version>${reportingVersion}</version>
+            <type>jar</type>
+        </dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>reporting-api</artifactId>
