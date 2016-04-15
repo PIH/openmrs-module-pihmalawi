@@ -184,7 +184,7 @@
         display: none;
     }
     body {
-        font-size: .3em;
+        font-size: .5em;
     }
 </style>
 
