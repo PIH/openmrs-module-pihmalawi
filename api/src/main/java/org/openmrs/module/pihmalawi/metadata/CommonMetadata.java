@@ -16,7 +16,10 @@ package org.openmrs.module.pihmalawi.metadata;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.LocationAttribute;
+import org.openmrs.LocationAttributeType;
 import org.openmrs.RelationshipType;
+import org.openmrs.api.context.Context;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -774,21 +777,17 @@ public class CommonMetadata extends Metadata {
 		return getPrimaryFacilities();
 	}
 
-	// TODO: Replace with location attribute
 	public Map<Location, String> getLocationShortNames() {
 		Map<Location, String> locationShortNames = new HashMap<Location, String>();
-		locationShortNames.put(getLisungwiHospital(), "LSI");
-		locationShortNames.put(getMatopeHc(), "MTE");
-		locationShortNames.put(getChifungaHc(), "CFGA");
-		locationShortNames.put(getZalewaHc(), "ZLA");
-		locationShortNames.put(getNkhulaFallsHc(), "NKA");
-		locationShortNames.put(getLuwaniHc(), "LWAN");
-		locationShortNames.put(getNenoHospital(), "NNO");
-		locationShortNames.put(getMatandaniHc(), "MTDN");
-		locationShortNames.put(getLigoweHc(), "LGWE");
-		locationShortNames.put(getMagaletaHc(), "MGT");
-		locationShortNames.put(getNenoMissionHc(), "NOP");
-		locationShortNames.put(getNsambeHc(), "NSM");
-		return locationShortNames;
+        LocationAttributeType locationCode = getLocationAttributeType(LocationAttributeTypes.LOCATION_CODE.uuid());
+        for (Location l : Context.getLocationService().getAllLocations()) {
+            String code = l.getName();
+            List<LocationAttribute> codes = l.getActiveAttributes(locationCode);
+            if (codes != null && codes.size() > 0) {
+                code = codes.get(0).getValueReference();
+            }
+            locationShortNames.put(l, code);
+        }
+        return locationShortNames;
 	}
 }

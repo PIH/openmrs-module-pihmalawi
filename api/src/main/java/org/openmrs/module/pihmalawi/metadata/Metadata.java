@@ -19,6 +19,7 @@ import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Form;
 import org.openmrs.Location;
+import org.openmrs.LocationAttributeType;
 import org.openmrs.LocationTag;
 import org.openmrs.OrderType;
 import org.openmrs.PatientIdentifierType;
@@ -419,6 +420,31 @@ public abstract class Metadata {
 		LocationTag tag = getLocationTag(lookup);
 		return Context.getLocationService().getLocationsByTag(tag);
 	}
+
+    /**
+     * @return the Location Tag that matches the passed uuid, name, or primary key id
+     */
+    public LocationAttributeType getLocationAttributeType(String lookup) {
+        LocationAttributeType t = Context.getLocationService().getLocationAttributeTypeByUuid(lookup);
+        if (t == null) {
+            for (LocationAttributeType possible : Context.getLocationService().getAllLocationAttributeTypes()) {
+                if (possible.getName().equalsIgnoreCase(lookup)) {
+                    return possible;
+                }
+            }
+        }
+        if (t == null) {
+            try {
+                t = Context.getLocationService().getLocationAttributeType(Integer.parseInt(lookup));
+            }
+            catch(Exception e) {}
+        }
+        if (t == null) {
+            throw new IllegalArgumentException("Unable to find Location Attribute Type using key: " + lookup);
+        }
+
+        return t;
+    }
 
 	/**
 	 * @return the PersonAttributeType that matches the passed uuid, name, or primary key id

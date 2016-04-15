@@ -19,12 +19,20 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
+import org.openmrs.Location;
+import org.openmrs.LocationAttribute;
+import org.openmrs.LocationAttributeType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.ModuleException;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
+import org.openmrs.module.pihmalawi.metadata.LocationAttributeTypes;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MetadataInitializer implements Initializer {
 
@@ -38,6 +46,42 @@ public class MetadataInitializer implements Initializer {
 
         MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
         deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
+
+        // TODO: This is a one-off, and can be deleted once this is installed into both production servers.  MS 4/15/06
+        Map<String, String> locationCodes = new HashMap<String, String>();
+
+        locationCodes.put("Lisungwi Community Hospital", "LSI");
+        locationCodes.put("Matope HC", "MTE");
+        locationCodes.put("Chifunga HC", "CFGA");
+        locationCodes.put("Zalewa HC", "ZLA");
+        locationCodes.put("Nkhula Falls RHC", "NKA");
+        locationCodes.put("Luwani RHC", "LWAN");
+        locationCodes.put("Neno District Hospital", "NNO");
+        locationCodes.put("Matandani Rural Health Center", "MTDN");
+        locationCodes.put("Ligowe HC", "LGWE");
+        locationCodes.put("Magaleta HC", "MGT");
+        locationCodes.put("Neno Mission HC", "NOP");
+        locationCodes.put("Nsambe HC", "NSM");
+
+        for (String locationName : locationCodes.keySet()) {
+            Location location = Context.getLocationService().getLocation(locationName);
+            String code = locationCodes.get(locationName);
+            if (location == null) {
+                throw new ModuleException("Cannot find location with name: " + locationName);
+            }
+            LocationAttributeType type = Context.getLocationService().getLocationAttributeTypeByUuid(LocationAttributeTypes.LOCATION_CODE.uuid());
+            List<LocationAttribute> existingAttributes = location.getActiveAttributes(type);
+            if (existingAttributes.isEmpty()) {
+                LocationAttribute att = new LocationAttribute();
+                att.setLocation(location);
+                att.setAttributeType(type);
+                att.setValue(code);
+                location.addAttribute(att);
+                Context.getLocationService().saveLocation(location);
+                log.warn("Added location code of " + code + " to " + locationName);
+            }
+        }
+
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
