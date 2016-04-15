@@ -197,18 +197,8 @@ public class HivMetadata extends CommonMetadata {
 		return getPatientIdentifierType(OLD_PRE_ART_NUMBER_OLD_FORMAT);
 	}
 
-	public List<Location> getHivLocations() {
-		return getPrimaryFacilities();
-	}
-
-	public List<Location> getHivStaticLocations() {
-		List<Location> l = getHivLocations();
-		l.remove(getMidzembaHc());
-		return l;
-	}
-
 	public List<Location> getHivStaticSystemLocations() {
-		List<Location> l = getHivStaticLocations();
+		List<Location> l = getLocationsForTag(LocationTags.HIV_STATIC.name());
 		l.retainAll(getSystemLocations());
 		return l;
 	}

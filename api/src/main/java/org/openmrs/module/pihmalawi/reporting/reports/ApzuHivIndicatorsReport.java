@@ -135,7 +135,7 @@ public class ApzuHivIndicatorsReport extends ApzuReportManager {
 
 		// Iterations - for each HIV static location, create an indicator data set for that location
 
-		for (Location location : hivMetadata.getHivStaticLocations()) {
+		for (Location location : hivMetadata.getHivStaticSystemLocations()) {
 			Map<String, Object> iteration = Mapped.straightThroughMappings(dsd);
 			iteration.put(df.getOptionalLocationParameter().getName(), location);
 			multiPeriodDsd.addIteration(iteration);

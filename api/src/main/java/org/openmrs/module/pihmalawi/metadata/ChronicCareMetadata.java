@@ -69,15 +69,8 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return l;
 	}
 
-	public List<Location> getChronicCareLocations() {
-		List<Location> l = new ArrayList<Location>();
-		l.add(getNenoHospital());
-		l.add(getLisungwiHospital());
-		return l;
-	}
-
 	public List<Location> getChronicCareSystemLocations() {
-		List<Location> l = getChronicCareLocations();
+		List<Location> l = getLocationsForTag(LocationTags.CHRONIC_CARE_LOCATION.name());
 		l.retainAll(getSystemLocations());
 		return l;
 	}

@@ -146,7 +146,7 @@ public class HivDataQualityReport extends ApzuReportManager {
 		dsd.setParameters(getParameters());
 		rd.addDataSetDefinition("indicators", Mapped.mapStraightThrough(dsd));
 
-		List<Location> locations = hivMetadata.getHivStaticLocations();
+		List<Location> locations = hivMetadata.getHivStaticSystemLocations();
 		Map<Location, String> locationCodes = hivMetadata.getLocationShortNames();
 
 		// Gap in ARV number sequence
