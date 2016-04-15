@@ -3,6 +3,7 @@
 (function( mastercard, jq, undefined) {
 
     var patientId = null;
+    var patientBirthdate = null;
     var headerForm = null;
     var headerEncounterId = null;
     var flowsheets = [];
@@ -13,6 +14,8 @@
     var defaultLocationId = null;
     var validationErrors = {};
     var dirty = false;
+    var heightMap = null;
+    var adultHeightThreshold = 2; // The threshold in height change for an adult (older than 20 years)
 
     function Flowsheet(formName, encounterIds) {
         this.formName = formName;
@@ -287,6 +290,7 @@
 
     mastercard.loadVisitTable = function() {
         jq("#header-section").show();
+        heightMap = new Object();
         for (var i=0; i<flowsheets.length; i++) {
             var fs = flowsheets[i];
             for (var j=0; j<fs.encounterIds.length; j++) {
@@ -294,6 +298,29 @@
             }
         }
     };
+
+    var recordHeightInfo = function (heightField, newVisitMoment, formName) {
+        if (heightMap ==  null ) {
+            heightMap = new Object();
+        }
+        if (heightField) {
+            var currentHeight = parseInt(heightField.text());
+            if (currentHeight > 0 ) {
+                var formHeight = heightMap[formName];
+                if (formHeight == null) {
+                    formHeight = [];
+                }
+                var heightInfo = {
+                    encounterDateTime: newVisitMoment,
+                    height: currentHeight
+                };
+
+                formHeight.push(heightInfo);
+                heightMap[formName] = formHeight;
+            }
+        }
+        return true;
+    }
 
     /**
      * Loads a row into the visit table
@@ -305,13 +332,15 @@
      */
     mastercard.loadIntoFlowsheet = function(formName, encId) {
         loadHtmlFormForEncounter(formName, encId, false, function(data) {
+            var newRow = jq(data).find(".visit-table-row");
+            var newVisitMoment = extractVisitMoment(newRow);
+            var heightField = jq(data).find("#heightEntered :first-child");
+            recordHeightInfo(heightField, newVisitMoment, formName);
             var section = jq("#flowsheet-section-"+formName);
             var table = section.find(".visit-table");
             var inserted = false;
             if (table && table.length > 0) {
-                var newRow = jq(data).find(".visit-table-row");
                 addLinksToVisitRow(newRow, formName, encId);
-                var newVisitMoment = extractVisitMoment(newRow);
                 var existingRows = table.find(".visit-table-row")
                 jq.each(existingRows, function(index, currentRow) {
                     var currentMoment = extractVisitMoment(currentRow);
@@ -414,6 +443,19 @@
             });
         }
 
+        var heightInput = jq(html).find("#heightInput :first-child");
+        if (heightInput) {
+            validateHeight(heightInput, visitDateInput);
+            heightInput.change( function () {
+                event.stopImmediatePropagation();
+                validateHeight(heightInput, visitDateInput);
+            });
+            heightInput.blur (function (event) {
+                event.stopImmediatePropagation();
+                validateHeight(heightInput, visitDateInput);
+            });
+        }
+
         // Configure warning if navigating away from form
         jq(html).find(':input').change(function () {
             mastercard.setDirty();
@@ -439,6 +481,112 @@
             jq(toggleTarget).find(":input").prop("disabled", true).val("");
         }
     };
+
+    function compare(a,b) {
+        if ( a.encounterDateTime.isBefore(b.encounterDateTime) ) {
+            return -1;
+        } else if ( a.encounterDateTime.isAfter(b.encounterDateTime) ) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    function averageHeight(heightArray) {
+        var avg = -1;
+        if (heightArray) {
+            var sum = 0;
+            var arrayLength = heightArray.length;
+            for (i = 0; i < heightArray.length; i++) {
+                var heightInfo = heightArray[i];
+                sum += parseInt(heightInfo.height, 10);
+            }
+            var avg = sum/arrayLength;
+        }
+        return avg;
+    }
+
+    function validateAdultHeight(patientHeight) {
+        var error = null;
+        if ( patientHeight > 0 && heightMap) {
+            if (currentlyEditingFormName ) {
+                var heightArray = heightMap[currentlyEditingFormName];
+                if (heightArray) {
+                    var avg = averageHeight(heightArray);
+                    if ( avg > 0 ) {
+                        for (i = 0; i < heightArray.length; i++) {
+                            var heightInfo = heightArray[i];
+                            if (Math.abs(patientHeight - avg) > adultHeightThreshold) {
+                                // the patient height for this visit looks "abnormal"
+                                error = 'Adult height is beyond the allowed ' + adultHeightThreshold + ' cm threshold';
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return error;
+    }
+
+    function validateChildHeight(patientHeight, visitMoment) {
+        var error = null;
+        if ( patientHeight > 0 && heightMap) {
+            if (currentlyEditingFormName ) {
+                var heightArray = heightMap[currentlyEditingFormName];
+                if (heightArray) {
+                    heightArray.sort(compare);
+                    for (i = 0; i < heightArray.length; i++) {
+                        var heightInfo = heightArray[i];
+                        if ( visitMoment.isAfter(heightInfo.encounterDateTime) ) {
+                            if ( patientHeight < heightInfo.height ) {
+                                // the child height cannot have a smaller value than a previous visit
+                                error = 'Child height should not decrease overtime. On a previous visit ('
+                                    + heightInfo.encounterDateTime.format("MMM Do YY")
+                                    + ") we had a recorded height of: " + heightInfo.height + " cm";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return error;
+    }
+
+
+    var validateHeight = function(heightField, visitDateField) {
+        var patientHeight = parseInt(heightField.val());
+
+        if ( patientHeight ) {
+            var validationError = null;
+            var visitMoment = parseDateField(visitDateField.val());
+            var patientBirthdate = jq("#patientBirthdate");
+            var birthdateMoment = null;
+            var ageAtVisitTime = null;
+            if (patientBirthdate) {
+                birthdateMoment = moment(patientBirthdate.text(), "DD/MMM/YYYY");
+            }
+            if (birthdateMoment) {
+                ageAtVisitTime = visitMoment.diff(birthdateMoment, 'years');
+            }
+            if (ageAtVisitTime >= 20) {
+                validationError = validateAdultHeight(patientHeight);
+            } else {
+                validationError = validateChildHeight(patientHeight, visitMoment);
+            }
+            mastercard.clearErrorMessage();
+            if (validationError) {
+                var errorField = heightField.siblings(".field-error");
+                if (errorField) {
+                    errorField.show();
+                    errorField.text(validationError);
+                }
+                mastercard.showErrorMessage(validationError);
+                heightField.className = 'illegalValue';
+            }
+        }
+    }
 
     var validateAppointmentDate = function(apptDateField, visitDateField) {
         var apptMoment = parseDateField(apptDateField.val());
