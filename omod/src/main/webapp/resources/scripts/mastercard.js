@@ -444,15 +444,23 @@
         }
 
         var heightInput = jq(html).find("#heightInput :first-child");
+        var weightInput = jq(html).find("#weightInput :first-child");
         if (heightInput) {
             validateHeight(heightInput, visitDateInput);
             heightInput.change( function () {
                 event.stopImmediatePropagation();
+                validateHeightAndWeight(heightInput, weightInput);
                 validateHeight(heightInput, visitDateInput);
             });
             heightInput.blur (function (event) {
                 event.stopImmediatePropagation();
                 validateHeight(heightInput, visitDateInput);
+            });
+        }
+        if (weightInput) {
+            weightInput.change( function () {
+                event.stopImmediatePropagation();
+                validateHeightAndWeight(heightInput, weightInput);
             });
         }
 
@@ -554,10 +562,28 @@
         return error;
     }
 
+    function validateHeightAndWeight(heightField, weightField) {
+        var error = null;
+        var patientHeight = parseInt(heightField.val());
+        var patientWeight = parseInt(weightField.val());
+        var errorField = heightField.siblings(".field-error");
+        if (errorField) {
+            errorField.text("");
+        }
+        mastercard.clearErrorMessage();
+        if ( patientHeight > 0 && patientWeight > 0 && patientHeight < patientWeight) {
+            error = "The height should be larger than the weight";
+            if (errorField) {
+                errorField.show();
+                errorField.text(error);
+            }
+            mastercard.showErrorMessage(error);
+        }
+        return error;
+    }
 
     var validateHeight = function(heightField, visitDateField) {
         var patientHeight = parseInt(heightField.val());
-
         if ( patientHeight ) {
             var validationError = null;
             var visitMoment = parseDateField(visitDateField.val());
