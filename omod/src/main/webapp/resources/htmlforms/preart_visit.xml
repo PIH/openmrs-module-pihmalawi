@@ -106,9 +106,27 @@
                     </td>
                     <td>
                         <!-- CD4 result -->                
-                        <lookup complexExpression="#set ($obs = false)#set ($obs = $fn.latestObs(3434))#if (!$obs)#set ($obsResult = 'N/A')#set ($obsDate = 'N/A')#else#set ($obsdate = $obs.obsDatetime.toString())#set ($year = $obsdate.substring(0,4))#set ($month = $obsdate.substring(5,7))#set ($date = $obsdate.substring(8,10))#set ($obsResult = $obs.valueNumeric)#set ($obsDate = &quot;${date}/${month}/${year}&quot;)#end&lt;input type='text' value='$obsResult' size='5' disabled='true' id='$prevCd4Value' /&gt; at &lt;input type='text' value='$obsDate' size='10' disabled='true' id='$prevCd4Date' /&gt;" />
+                        <lookup complexExpression="
+                            #set ($obs = false)
+                            #set ($obs = $fn.latestObs($cd4Value))
+                            #if (!$obs)
+                                #set ($obsResult = 'N/A')
+                                #set ($obsDate = 'N/A')
+                            #else
+                                #set ($obsdate = $obs.obsDatetime.toString())
+                                #set ($year = $obsdate.substring(0,4))
+                                #set ($month = $obsdate.substring(5,7))
+                                #set ($date = $obsdate.substring(8,10))
+                                #set ($obsResult = $obs.valueNumeric)
+                                #set ($obsDate = &quot;${date}/${month}/${year}&quot;)
+                            #end" />
+
                         <obs conceptId="$cd4Value" />
                     </td>
+
+
+                        <obs conceptId="$cd4Value" />
+
                     <td>
                         <!-- pregnant -->                
                         <obs conceptId="$pregnant" style="radio" answerConceptIds="$no,$yes" answerLabels="N,Y" />
@@ -205,7 +223,21 @@
                 </tr>
                 <tr>
                     <th>CD4 Value</th>    
-                    <td><lookup complexExpression="#set ($obs = false)#set ($obs = $fn.latestObs(3434))#if (!$obs)#set ($obsResult = 'N/A')#set ($obsDate = 'N/A')#else#set ($obsdate = $obs.obsDatetime.toString())#set ($year = $obsdate.substring(0,4))#set ($month = $obsdate.substring(5,7))#set ($date = $obsdate.substring(8,10))#set ($obsResult = $obs.valueNumeric)#set ($obsDate = &quot;${date}/${month}/${year}&quot;)#end&lt;input type='text' value='$obsResult' size='5' disabled='true' id='$prevCd4Value' /&gt; at &lt;input type='text' value='$obsDate' size='10' disabled='true' id='$prevCd4Date' /&gt;" />
+                    <td><lookup complexExpression="
+                        #set ($obs = false)
+                        #set ($obs = $fn.latestObs(3434))
+                        #if (!$obs)
+                            #set ($obsResult = 'N/A')
+                            #set ($obsDate = 'N/A')
+                        #else
+                            #set ($obsdate = $obs.obsDatetime.toString())
+                            #set ($year = $obsdate.substring(0,4))
+                            #set ($month = $obsdate.substring(5,7))
+                            #set ($date = $obsdate.substring(8,10))
+                            #set ($obsResult = $obs.valueNumeric)
+                            #set ($obsDate = &quot;${date}/${month}/${year}&quot;)
+                        #end
+                        &lt;input type='text' value='$obsResult' size='5' disabled='true' id='$prevCd4Value' /&gt; on &lt;input type='text' value='$obsDate' size='10' disabled='true' id='$prevCd4Date' /&gt;" />
                         <obs conceptId="$cd4Value" /></td>
                 </tr>
                 <tr>
