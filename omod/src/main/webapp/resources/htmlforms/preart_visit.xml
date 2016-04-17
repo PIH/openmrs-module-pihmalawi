@@ -187,7 +187,7 @@
                 <th>Visit Location</th>
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
-                        <encounterLocation />
+                        <encounterLocation id="visitLocation"/>
                     </td>
                 </tr>
             <tr>
@@ -271,7 +271,7 @@
                 </tr>
                 <tr>
                     <th>Next Appointment</th>     
-                    <td><obs conceptId="$nextAppt" allowFutureDates="true" id=" nextAppointmentDate"/></td>
+                    <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
                 </tr>
         </table>
 
