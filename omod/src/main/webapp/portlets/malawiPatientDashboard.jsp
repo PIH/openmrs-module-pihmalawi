@@ -75,8 +75,6 @@
         <td>HIV Tests:</td>
         <td>
             <!-- 'Creative' way in using the eMastercards; Followups are not used here, just make sure that there is one and only one DNA-PCR testing form -->
-            <pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="70" initialEncounterTypeId="13" followupEncounterTypeId="13" patientIdentifierType="19" programWorkflowStates="120" includeAppointmentInfo="false"/>
-            <br/>
             <openmrs:forEachEncounter encounters="${model.patientEncounters}" type="12" num="1" var="enc">
                 <c:if test="${ not empty enc }">
                     <c:set var="partEncounter" value="true" />
