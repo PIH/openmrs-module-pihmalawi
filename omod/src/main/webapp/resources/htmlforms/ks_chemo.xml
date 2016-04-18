@@ -1,0 +1,165 @@
+<htmlform formUuid="b536964e-2695-102d-b4c2-001d929acb54"
+          formName="KS Chemotherapy Form"
+          formEncounterType="664b8fe2-977f-11e1-8993-905e29aff6c1"
+          formVersion="1">
+          
+    <macros>
+        <!-- not used yet -->
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td>Visit Date</td>             
+                    <td>Cycle number</td>
+                    <td>Height</td>
+                    <td>Weight</td>
+                    <td>BSA (m<sup>2</sup>)</td>
+                    <td>Hgb</td>
+                    <td>WBC</td>
+                    <td>ANC</td>
+                    <td>Platelets</td>
+                    <td>Vincristine Sulphate dose</td>
+                    <td>Bleomycin dose</td>
+                    <td>Paclitaxel (taxol) dose</td>
+                    <td>Next appointment</td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <encounterDate />
+                    </td>             
+                    <td>
+                        <obs conceptId="3648" />
+                    </td>
+                    <td>
+                        <obs conceptId="5090" />
+                    </td>
+                    <td>
+                        <obs conceptId="5089" />
+                    </td>
+                    <td>
+                        <obs conceptId="848" />
+                    </td>
+                    <obsgroup groupingConceptId="1337">
+                    <td>
+                        <obs conceptId="21" />
+                    </td>
+                    <td>
+                        <obs conceptId="678" />
+                    </td>
+                    <td>
+                        <obs conceptId="1022" />
+                    </td>
+                    <td>
+                        <obs conceptId="729" />
+                    </td>
+                    </obsgroup>
+                    <td>
+                        <obs conceptId="3651" />
+                    </td>
+                    <td>
+                        <obs conceptId="3652" />
+                    </td>
+                    <td>
+                        <obs conceptId="3653" />
+                    </td>
+                    <td>
+                        <obs conceptId="5096" allowFutureDates="true" id="nextAppointmentDate"/>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>KS Chemotherapy Form</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">KS Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;KS Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+
+        <table class="visit-edit-table">
+        <tr>
+                    <td>Provider</td>
+                    <td>Visit Location</td>   
+                    <td>Visit Date</td>        
+                    <td>Cycle number</td>
+                    <td>Height</td>
+                    <td>Weight</td>
+                    <td>BSA (m<sup>2</sup>)</td>
+                    <td>Hgb</td>
+                    <td>WBC</td>
+                    <td>ANC</td>
+                    <td>Platelets</td>
+                    <td>Vincristine Sulphate dose</td>
+                    <td>Bleomycin dose</td>
+                    <td>Paclitaxel (taxol) dose</td>
+                    <td>Next appointment</td>
+                </tr>
+                <tr>
+                    <td><encounterProvider default="16576" /></td>
+                    <td><encounterLocation id="visitLocation"/></td>   
+                    <td class="nowrap visit-date">
+                        <encounterDate />
+                    </td>                
+                    <td>
+                        <obs conceptId="3648" />
+                    </td>
+                    <td>
+                        <obs conceptId="5090" />
+                    </td>
+                    <td>
+                        <obs conceptId="5089" />
+                    </td>
+                    <td>
+                        <obs conceptId="848" />
+                    </td>
+                    <obsgroup groupingConceptId="1337">
+                        <td>
+                            <obs conceptId="21" />
+                        </td>
+                        <td>
+                            <obs conceptId="678" />
+                        </td>
+                        <td>
+                            <obs conceptId="1022" />
+                        </td>
+                        <td>
+                            <obs conceptId="729" />
+                        </td>
+                    </obsgroup>
+                    <td>
+                        <obs conceptId="3651" />
+                    </td>
+                    <td>
+                        <obs conceptId="3652" />
+                    </td>
+                    <td>
+                        <obs conceptId="3653" />
+                    </td>
+                    <td>
+                        <obs conceptId="5096" allowFutureDates="true" />
+                    </td>
+                </tr>
+
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>

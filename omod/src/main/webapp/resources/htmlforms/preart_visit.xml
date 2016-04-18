@@ -123,10 +123,6 @@
 
                         <obs conceptId="$cd4Value" />
                     </td>
-
-
-                        <obs conceptId="$cd4Value" />
-
                     <td>
                         <!-- pregnant -->                
                         <obs conceptId="$pregnant" style="radio" answerConceptIds="$no,$yes" answerLabels="N,Y" />
