@@ -1,0 +1,31 @@
+<htmlform formUuid="cdfdebe6-dc6b-4843-93a0-4b4935813f24"
+          formName="Kaposis Sarcoma eMastercard"
+          formVersion="1.0">
+
+    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <div>
+        <h4 style="font-style: italic;">
+            <b>HIV Patient Card</b>
+            <span style="padding-left:50px;">Kaposis Sarcoma eMastercard</span>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">KS Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;KS Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+        <h4>Name: <lookup expression="patient.personName" /></h4>
+        <h4>Gender: <lookup expression="patient.gender" /></h4>
+        <h4>Birthdate: <lookup expression="patient.birthdate" /></h4>
+        <h4>Address: <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" /></h4>
+        <h4>Outcome: <lookup expression="fn.currentProgramWorkflowStatus(9).getState().getConcept().getName().getName()" /> (since <lookup expression="fn.currentProgramWorkflowStatus(9).getStartDate()" />)</h4>
+
+    </div>
+</htmlform>
