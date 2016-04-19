@@ -2,6 +2,7 @@
     ui.decorateWith("appui", "standardEmrPage")
     ui.includeJavascript("uicommons", "moment.min.js")
     ui.includeJavascript("pihmalawi", "mastercard.js")
+    ui.includeJavascript("pihmalawi", "jstat.min.js")
     ui.includeJavascript("htmlformentryui", "htmlForm.js")
 %>
 

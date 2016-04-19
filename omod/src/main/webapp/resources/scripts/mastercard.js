@@ -15,7 +15,6 @@
     var validationErrors = {};
     var dirty = false;
     var heightMap = null;
-    var adultHeightThreshold = 2; // The threshold in height change for an adult (older than 20 years)
     var loadingEncounters = [];
 
     function Flowsheet(formName, encounterIds) {
@@ -166,24 +165,22 @@
                 if (heightMap.hasOwnProperty(key)) {
                     var heightArray = heightMap[key];
                     if (heightArray) {
-                        var avg = averageHeight(heightArray);
-                        if ( avg > 0 ) {
+                           var values = extractHeightValues(heightArray);
                             for (i = 0; i < heightArray.length; i++) {
                                 var heightInfo = heightArray[i];
-                                if (Math.abs(heightInfo.height - avg) > adultHeightThreshold) {
+                                if ( isHeightOutsideOfStandardDeviation(values, heightInfo.height) )  {
                                     // this height obs looks "abnormal"
                                     var encounterId = heightInfo.encounterId;
                                     jq("#visit-table-row-" + encounterId).find("#heightEntered").closest('td').addClass("td-error");
                                     var error = 'Adult height captured on '
                                         + heightInfo.encounterDateTime.format("MMM Do YYYY")
-                                        + ' is beyond the allowed '
-                                        + adultHeightThreshold
-                                        + ' cm threshold';
+                                        + ' is beyond the calculated standard deviation of '
+                                        + standardDeviation(values)
+                                        + ' cm';
                                     console.log(error);
                                     mastercard.showErrorMessage(error);
                                 }
                             }
-                        }
                     }
                 }
             }
@@ -567,12 +564,49 @@
         }
     }
 
+    function extractHeightValues(heightArray) {
+        var heightValues = null;
+        if (heightArray && heightArray.length > 0) {
+            heightValues = [];
+            for (i = 0; i < heightArray.length; i++) {
+                var heightInfo = heightArray[i];
+                heightValues.push(heightInfo.height);
+            }
+        }
+
+        return heightValues;
+    }
+
+    function isHeightOutsideOfStandardDeviation(values, height) {
+        var outside = false;
+        if ( values.length > 0 ) {
+            var mean = jStat.mean(values);
+            var stDev = jStat.stdev(values);
+            console.log("height = " + height + ";  mean= " + mean + "; stDev= " + stDev);
+            if (Math.abs(height - mean) >= stDev ) {
+                outside = true;
+            }
+        }
+        return outside;
+    }
+
+    function standardDeviation(values) {
+        var stdDev = -1;
+
+        if ( values && values.length > 0 ) {
+            stdDev = jStat.stdev(values);
+        }
+
+        return stdDev;
+    }
+
     function averageHeight(heightArray) {
         var avg = -1;
         if (heightArray) {
+            var jstat = this.jStat(heightArray);
             var sum = 0;
             var arrayLength = heightArray.length;
-            for (i = 0; i < heightArray.length; i++) {
+            for (i = 0; i < arrayLength; i++) {
                 var heightInfo = heightArray[i];
                 sum += parseInt(heightInfo.height, 10);
             }
@@ -587,12 +621,10 @@
             if (currentlyEditingFormName ) {
                 var heightArray = heightMap[currentlyEditingFormName];
                 if (heightArray) {
-                    var avg = averageHeight(heightArray);
-                    if ( avg > 0 ) {
-                        if (Math.abs(patientHeight - avg) > adultHeightThreshold) {
-                            // the patient height for this visit looks "abnormal"
-                            error = 'Adult height is beyond the allowed ' + adultHeightThreshold + ' cm threshold';
-                        }
+                    var values = extractHeightValues(heightArray);
+                    if (isHeightOutsideOfStandardDeviation(values, patientHeight)) {
+                        // the patient height for this visit looks "abnormal"
+                        error = 'Adult height is beyond the calculated standard deviation of ' + standardDeviation(values) + ' cm';
                     }
                 }
             }
