@@ -93,69 +93,68 @@
 
 
         <table class="visit-edit-table">
-        <tr>
-                    <td>Provider</td>
-                    <td>Visit Location</td>   
-                    <td>Visit Date</td>        
-                    <td>Cycle number</td>
-                    <td>Height</td>
-                    <td>Weight</td>
-                    <td>BSA (m<sup>2</sup>)</td>
-                    <td>Hgb</td>
-                    <td>WBC</td>
-                    <td>ANC</td>
-                    <td>Platelets</td>
-                    <td>Vincristine Sulphate dose</td>
-                    <td>Bleomycin dose</td>
-                    <td>Paclitaxel (taxol) dose</td>
-                    <td>Next appointment</td>
-                </tr>
-                <tr>
-                    <td><encounterProvider default="16576" /></td>
-                    <td><encounterLocation id="visitLocation"/></td>   
-                    <td class="nowrap visit-date">
-                        <encounterDate />
-                    </td>                
-                    <td>
-                        <obs conceptId="3648" />
-                    </td>
-                    <td>
-                        <obs conceptId="5090" />
-                    </td>
-                    <td>
-                        <obs conceptId="5089" />
-                    </td>
-                    <td>
-                        <obs conceptId="848" />
-                    </td>
-                    <obsgroup groupingConceptId="1337">
-                        <td>
-                            <obs conceptId="21" />
-                        </td>
-                        <td>
-                            <obs conceptId="678" />
-                        </td>
-                        <td>
-                            <obs conceptId="1022" />
-                        </td>
-                        <td>
-                            <obs conceptId="729" />
-                        </td>
-                    </obsgroup>
-                    <td>
-                        <obs conceptId="3651" />
-                    </td>
-                    <td>
-                        <obs conceptId="3652" />
-                    </td>
-                    <td>
-                        <obs conceptId="3653" />
-                    </td>
-                    <td>
-                        <obs conceptId="5096" allowFutureDates="true" />
-                    </td>
-                </tr>
-
+            <tr>
+                <th>Provider</th>
+                <td><encounterProvider default="16576" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation"/></td>   
+            </tr>
+            <tr>
+                <th>Visit Date</th>
+                <td class="nowrap visit-date"><encounterDate /></td>        
+            </tr>
+            <tr>
+                <th>Cycle number</th>
+                <td><obs conceptId="3648" /></td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td><obs conceptId="5090" /></td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td><obs conceptId="5089" /></td>
+            </tr>
+            <tr>
+                <th>BSA (m<sup>2</sup>)</th>
+                <td><obs conceptId="848" /></td>
+            </tr>
+            <obsgroup groupingConceptId="1337">
+            <tr>
+                <th>Hgb</th>
+                <td><obs conceptId="21" /></td>
+            </tr>
+            <tr>
+                <th>WBC</th>
+                <td><obs conceptId="678" /></td>
+            </tr>
+            <tr>
+                <th>ANC</th>
+                <td><obs conceptId="1022" /></td>
+            </tr>
+            <tr>
+                <th>Platelets</th>
+                <td><obs conceptId="729" /></td>
+            </tr>
+            </obsgroup>
+            <tr>
+                <th>Vincristine Sulphate dose</th>
+                <td><obs conceptId="3651" /></td>
+            </tr>
+            <tr>
+                <th>Bleomycin dose</th>
+                <td><obs conceptId="3652" /></td>
+            </tr>
+            <tr>
+                <th>Paclitaxel (taxol) dose</th>
+                <td><obs conceptId="3653" /></td>
+            </tr>
+            <tr>
+                <th>Next appointment</th>
+                <td><obs conceptId="5096" allowFutureDates="true" /></td>
+            </tr>
         </table>
 
         <submit/>
