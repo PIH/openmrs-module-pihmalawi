@@ -2903,7 +2903,6 @@ public class MetadataInitializer implements Initializer {
                 c.setSet(false);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
-
             }
         }
 
@@ -2923,6 +2922,150 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 c.addSetMember(cs.getConcept(8514)); // Complication
                 c.addSetMember(cs.getConcept(8547)); // Date of complication
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8549;
+            String uuid = "365a3434-f226-40fa-beb6-a503be77d8bf";
+            String name = "Date result to guardian";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Date"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8550;
+            String uuid = "27baf9f0-eae3-4d98-a1ad-258e82b91285";
+            String name = "Patient age when result to guardian";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8551;
+            String uuid = "d72fc9c8-b95f-44a5-95a5-233c43849819";
+            String name = "At enrollment";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8552;
+            String uuid = "5c4367e3-64d8-4242-b016-1447f7da830d";
+            String name = "From 12 months";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8553;
+            String uuid = "a33786e4-930c-452c-9d8e-4ec0e744c891";
+            String name = "From 24 months";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8554;
+            String uuid = "7f5721be-2803-4b09-bfd0-cd4f07cf226a";
+            String name = "HIV test time period";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8551))); // Enrollment
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8552))); // From 12 months
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8553))); // From 24 months
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 2168;
+            String name = "Child HIV serology construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Child HIV serology construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConceptByName("HIV test type"));           // Rapid test or DNA PCR
+                c.addSetMember(cs.getConceptByName("Result of HIV test"));      // Neg, pos, indeterminate
+                c.addSetMember(cs.getConceptByName("Date of blood draw"));      // Sample Date
+                c.addSetMember(cs.getConceptByName("Lab test serial number"));  // Sample ID or HTC serial no
+                c.addSetMember(cs.getConceptByName("Date of returned result")); // Date received from lab
+
+                // Not used for EID
+                c.addSetMember(cs.getConceptByName("HIV test date"));
+                c.addSetMember(cs.getConceptByName("Location where test took place"));
+
+                // Historical information from EID (Version 1)
+                c.addSetMember(cs.getConceptByName("HIV test time period"));
+                c.addSetMember(cs.getConceptByName("Age"));
+                c.addSetMember(cs.getConceptByName("Units of age of child"));
+                c.addSetMember(cs.getConceptByName("Date result to guardian"));
+                c.addSetMember(cs.getConceptByName("Patient age when result to guardian"));
+
                 cs.saveConcept(c);
             }
         }

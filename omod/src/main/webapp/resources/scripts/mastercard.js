@@ -16,6 +16,7 @@
     var dirty = false;
     var heightMap = null;
     var adultHeightThreshold = 2; // The threshold in height change for an adult (older than 20 years)
+    var loadingEncounters = [];
 
     function Flowsheet(formName, encounterIds) {
         this.formName = formName;
@@ -152,6 +153,43 @@
         viewOnly = true;
     };
 
+    mastercard.validateFlowsheetHeight = function() {
+        if (heightMap) {
+            if ( loadingEncounters.length > 0 ) {
+                // encounters are still loading, give it another second
+                setTimeout(mastercard.validateFlowsheetHeight, 1000);
+                return true;
+            }
+            mastercard.clearErrorMessage();
+            jq(".visit-table").find(".td-error").removeClass("td-error");
+            for (var key in heightMap) {
+                if (heightMap.hasOwnProperty(key)) {
+                    var heightArray = heightMap[key];
+                    if (heightArray) {
+                        var avg = averageHeight(heightArray);
+                        if ( avg > 0 ) {
+                            for (i = 0; i < heightArray.length; i++) {
+                                var heightInfo = heightArray[i];
+                                if (Math.abs(heightInfo.height - avg) > adultHeightThreshold) {
+                                    // this height obs looks "abnormal"
+                                    var encounterId = heightInfo.encounterId;
+                                    jq("#visit-table-row-" + encounterId).find("#heightEntered").closest('td').addClass("td-error");
+                                    var error = 'Adult height captured on '
+                                        + heightInfo.encounterDateTime.format("MMM Do YYYY")
+                                        + ' is beyond the allowed '
+                                        + adultHeightThreshold
+                                        + ' cm threshold';
+                                    console.log(error);
+                                    mastercard.showErrorMessage(error);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     mastercard.toggleViewFlowsheet = function() {
         jq('#header-section').show();
         jq(".form-action-link").show();
@@ -276,9 +314,7 @@
             jq("#visit-table-row-"+result.encounterId).remove(); // Remove old row for this encounter
             var currentFlowsheet = mastercard.getFlowsheet(currentlyEditingFormName);
             currentFlowsheet.addEncounterId(result.encounterId);
-            mastercard.loadIntoFlowsheet(currentlyEditingFormName, result.encounterId); // Add new row for this encounter
-            jq('.flowsheet-edit-section').empty();
-            mastercard.toggleViewFlowsheet();
+            mastercard.loadIntoFlowsheet(currentlyEditingFormName, result.encounterId, true); // Add new row for this encounter
         }
         return false;
     };
@@ -286,6 +322,7 @@
     mastercard.showVisitTable = function() {
         jq(".flowsheet-edit-section").hide();
         jq(".flowsheet-section").show();
+        mastercard.validateFlowsheetHeight();
     };
 
     mastercard.loadVisitTable = function() {
@@ -294,28 +331,46 @@
         for (var i=0; i<flowsheets.length; i++) {
             var fs = flowsheets[i];
             for (var j=0; j<fs.encounterIds.length; j++) {
+                loadingEncounters.push(fs.encounterIds[j]);
                 mastercard.loadIntoFlowsheet(fs.formName, fs.encounterIds[j]);
             }
         }
     };
 
-    var recordHeightInfo = function (heightField, newVisitMoment, formName) {
+    function findEncounterInArray(array, encounterId) {
+        var item = null;
+        if (array && array.length > 0 ) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].encounterId == encounterId ) {
+                    item = array[i];
+                    break;
+                }
+            }
+        }
+        return item;
+    }
+    var recordHeightInfo = function (heightField, newVisitMoment, encounterId, formName) {
         if (heightMap ==  null ) {
             heightMap = new Object();
         }
         if (heightField) {
-            var currentHeight = parseInt(heightField.text());
+            var currentHeight = parseInt(heightField.text(), 10);
             if (currentHeight > 0 ) {
+                var heightInfo = null;
                 var formHeight = heightMap[formName];
                 if (formHeight == null) {
                     formHeight = [];
+                } else {
+                    heightInfo = findEncounterInArray(formHeight, encounterId);
                 }
-                var heightInfo = {
-                    encounterDateTime: newVisitMoment,
-                    height: currentHeight
-                };
+                if (heightInfo == null) {
+                    heightInfo = new Object();
+                    heightInfo.encounterId = encounterId;
+                    formHeight.push(heightInfo);
+                }
+                heightInfo.encounterDateTime = newVisitMoment;
+                heightInfo.height = currentHeight;
 
-                formHeight.push(heightInfo);
                 heightMap[formName] = formHeight;
             }
         }
@@ -330,12 +385,13 @@
      *  The data entry form in a single row with class visit-table-row
      *  The encounter date tag in a cell with class .visit-date
      */
-    mastercard.loadIntoFlowsheet = function(formName, encId) {
+    mastercard.loadIntoFlowsheet = function(formName, encId, showVisitTable) {
         loadHtmlFormForEncounter(formName, encId, false, function(data) {
+            showVisitTable = showVisitTable || false;
             var newRow = jq(data).find(".visit-table-row");
             var newVisitMoment = extractVisitMoment(newRow);
             var heightField = jq(data).find("#heightEntered :first-child");
-            recordHeightInfo(heightField, newVisitMoment, formName);
+            recordHeightInfo(heightField, newVisitMoment, encId, formName);
             var section = jq("#flowsheet-section-"+formName);
             var table = section.find(".visit-table");
             var inserted = false;
@@ -362,6 +418,11 @@
                 table = jq(data).find(".visit-table");
                 addLinksToVisitRow(table.find(".visit-table-row"), formName, encId);
                 section.append(table);
+            }
+
+            if (showVisitTable) {
+                jq('.flowsheet-edit-section').empty();
+                mastercard.toggleViewFlowsheet();
             }
         });
     }
@@ -405,7 +466,13 @@
             "encounter": encounterId,
             "editMode": editMode,
             "formName": formName
-        }), action);
+        }), action).always( function() {
+            var index = loadingEncounters.indexOf(encounterId);
+            if (index > -1) {
+                // the encounter visit was successfully loaded into the table
+                loadingEncounters.splice(index, 1);
+            }
+        });
     };
 
     var showLinksForEditMode = function() {
@@ -522,13 +589,9 @@
                 if (heightArray) {
                     var avg = averageHeight(heightArray);
                     if ( avg > 0 ) {
-                        for (i = 0; i < heightArray.length; i++) {
-                            var heightInfo = heightArray[i];
-                            if (Math.abs(patientHeight - avg) > adultHeightThreshold) {
-                                // the patient height for this visit looks "abnormal"
-                                error = 'Adult height is beyond the allowed ' + adultHeightThreshold + ' cm threshold';
-                                break;
-                            }
+                        if (Math.abs(patientHeight - avg) > adultHeightThreshold) {
+                            // the patient height for this visit looks "abnormal"
+                            error = 'Adult height is beyond the allowed ' + adultHeightThreshold + ' cm threshold';
                         }
                     }
                 }

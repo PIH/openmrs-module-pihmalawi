@@ -136,6 +136,13 @@
         font-weight: bold;
         color:red;
     }
+
+    .td-error {
+        padding:5px;
+        font-weight: bold;
+        color:red;
+        border: 2px dotted red;
+    }
     .visit-edit-table th {
         text-align: left;
         white-space: nowrap;
