@@ -20,7 +20,7 @@
         whoStage2=7042
         whoStage3=7043
         whoStage4=7044
-        dnaPcrDone=3658
+        cd4SampleTaken=8555
         pregnant=6131
         ipt=8032
         numCptGiven=6319
@@ -102,7 +102,7 @@
                     <td>
                         <!-- CD4 sample taken -->
                         <!-- taken from DNA/PCR bleeding; not 100% correct for CD4, but at least consistent to ART -->                
-                        <obs conceptId="$dnaPcrDone" style="checkbox" answerConceptId="$dnaPcrDone" answerLabel="Bled" />
+                        <obs conceptId="$cd4SampleTaken" style="checkbox" answerConceptId="$yes" answerLabel="Bled" />
                     </td>
                     <td>
                         <!-- CD4 result -->                
@@ -214,8 +214,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Bled</th>   
-                    <td><obs conceptId="$dnaPcrDone" style="checkbox" answerConceptId="$dnaPcrDone" answerLabel="Bled" /></td>
+                    <th>CD4 sample taken</th>
+                    <td><obs conceptId="$cd4SampleTaken" style="checkbox" answerConceptId="$yes" answerLabel="Bled" /></td>
                 </tr>
                 <tr>
                     <th>CD4 Value</th>    

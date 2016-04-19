@@ -3069,6 +3069,28 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+        {
+            Integer id = 8555;
+            String uuid = "5ff3ca52-0651-11e6-b512-3e1d05defe78";
+            String name = "Sample taken for CD4 count (coded)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                // Migrate data from 3658
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }
     }
 
     @Override
