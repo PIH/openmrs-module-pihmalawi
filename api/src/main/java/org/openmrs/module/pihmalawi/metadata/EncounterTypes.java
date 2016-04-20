@@ -17,11 +17,17 @@ package org.openmrs.module.pihmalawi.metadata;
 import org.openmrs.module.metadatadeploy.descriptor.EncounterTypeDescriptor;
 
 /**
- * Constants for all defined person attribute types
+ * Constants for all defined encounter types
  */
 public class EncounterTypes {
 
     // TODO: Add the others currently defined in here, and to the bundle
+
+    public static EncounterTypeDescriptor ADMINISTRATION = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b9280-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "ADMINISTRATION"; }
+        public String description() { return "An administration encounter"; }
+    };
 
     public static EncounterTypeDescriptor HTN_DIABETES_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "664b9442-977f-11e1-8993-905e29aff6c1"; }
