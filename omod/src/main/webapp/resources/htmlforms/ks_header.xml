@@ -3,20 +3,16 @@
           formEncounterType="664b9280-977f-11e1-8993-905e29aff6c1"
           formVersion="1.0">
 
-    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <style>
+        .patient-header-table td, .patient-header-table th {
+            font-weight: bold;
+            border: none;
+        }
+    </style>
+
     <div>
         <h4 style="font-style: italic;">
-            <b>HIV Patient Card</b>
-            <span style="padding-left:50px;">Kaposis Sarcoma eMastercard</span>
-            <span style="padding-left:50px;">Version 1</span>
-
-            <span style="padding-left:50px;">
-                <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
-                </b>
-                Date: <encounterDate />
-            </span>
-
+            <b>Kaposis Sarcoma eMastercard</b>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">KS Reg no: </b>
                 <b>
@@ -24,20 +20,13 @@
                 </b>
             </span>
         </h4>
-        <h4>Name: <lookup expression="patient.personName" /></h4>
-        <h4>Gender: <lookup expression="patient.gender" /></h4>
-        <h4>Birthdate: <lookup expression="patient.birthdate" /></h4>
-        <h4>Address: <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" /></h4>
-        <h4>Outcome: <lookup expression="fn.currentProgramWorkflowStatus(9).getState().getConcept().getName().getName()" /> (since <lookup expression="fn.currentProgramWorkflowStatus(9).getStartDate()" />)</h4>
-
-        <ifMode mode="VIEW" include="false">
-            <div id="buttons" style="margin-top:10px;">
-                <button class="submitButton confirm" onclick="submitHtmlForm()">
-                    <uimessage code="uicommons.save"/>
-                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
-                </button>
-            </div>
-        </ifMode>
-
+        <table class="patient-header-table">
+            <tr><td>Patient:</td><td><lookup expression="patient.personName" /></td></tr>
+            <tr><td>Gender:</td><td><lookup expression="patient.gender" /></td></tr>
+            <tr><td>Birthdate:</td><td><lookup expression="patient.birthdate" /></td></tr>
+            <tr><td>Address:</td><td><lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" /></td></tr>
+            <tr><td>Outcome:</td><td><lookup expression="fn.currentProgramWorkflowStatus(9).getState().getConcept().getName().getName()" /> (since <lookup expression="fn.currentProgramWorkflowStatus(9).getStartDate()" />)</td></tr>
+        </table>
     </div>
+
 </htmlform>

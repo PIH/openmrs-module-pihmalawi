@@ -6,6 +6,7 @@
     var patientBirthdate = null;
     var headerForm = null;
     var headerEncounterId = null;
+    var requireEncounter = true;
     var flowsheets = [];
     var viewOnly = false;
     var currentlyEditingFormName = null;
@@ -45,6 +46,10 @@
 
     mastercard.setHeaderEncounterId = function(eId) {
         headerEncounterId = eId;
+    };
+
+    mastercard.setRequireEncounter = function(reqEnc) {
+        requireEncounter = reqEnc;
     };
 
     mastercard.addFlowsheet = function(formName, encounterIds) {
@@ -142,7 +147,8 @@
     };
 
     mastercard.viewHeader = function() {
-        loadHtmlFormForEncounter(headerForm, headerEncounterId, false, function(data) {
+        var editMode = !requireEncounter;
+        loadHtmlFormForEncounter(headerForm, headerEncounterId, editMode, function(data) {
             jq('#header-section').html(data);
             mastercard.toggleViewFlowsheet();
         });
@@ -187,7 +193,7 @@
     mastercard.toggleViewFlowsheet = function() {
         jq('#header-section').show();
         jq(".form-action-link").show();
-        if (viewOnly) {
+        if (viewOnly || !requireEncounter) {
             jq("#edit-header-link").hide();
         }
         jq("#delete-button").hide();

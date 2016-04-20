@@ -25,7 +25,6 @@ import org.openmrs.module.htmlformentryui.HtmlFormUtil;
 import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.module.reporting.data.DataUtil;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
-import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
@@ -48,6 +47,7 @@ public class MastercardPageController {
                            @RequestParam(value="headerForm") String headerForm,
                            @RequestParam(value="flowsheets") String[] flowsheets,
                            @RequestParam(value="viewOnly", required = false) Boolean viewOnly,
+                           @RequestParam(value="requireEncounter", required = false) Boolean requireEncounter,
                            UiUtils ui, PageModel model,
                            @SpringBean("htmlFormEntryService") HtmlFormEntryService htmlFormEntryService,
                            @SpringBean("formService") FormService formService,
@@ -60,6 +60,7 @@ public class MastercardPageController {
         model.addAttribute("patient", patientDomainWrapper);
         model.addAttribute("headerForm", headerForm);
         model.addAttribute("flowsheets", flowsheets);
+        model.addAttribute("requireEncounter", (requireEncounter == null || requireEncounter));
 
         Location defaultLocation = null;
         Integer locationId = pageRequest.getSession().getAttribute(PihMalawiWebConstants.SESSION_LOCATION_ID, Integer.TYPE);
