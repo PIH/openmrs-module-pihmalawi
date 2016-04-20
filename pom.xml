@@ -213,6 +213,13 @@
 			<version>${serializationVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api-1.9</artifactId>
+            <version>${serializationVersion}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>uiframework-api</artifactId>
