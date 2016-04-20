@@ -172,11 +172,8 @@
                                     // this height obs looks "abnormal"
                                     var encounterId = heightInfo.encounterId;
                                     jq("#visit-table-row-" + encounterId).find("#heightEntered").closest('td').addClass("td-error");
-                                    var error = 'Adult height captured on '
-                                        + heightInfo.encounterDateTime.format("MMM Do YYYY")
-                                        + ' is beyond the calculated standard deviation of '
-                                        + ( Math.round(standardDeviation(values) * 100 ) / 100)
-                                        + ' cm';
+                                    var error = 'Please check height for '
+                                        + heightInfo.encounterDateTime.format("MMM Do YYYY");
                                     console.log(error);
                                     mastercard.showErrorMessage(error);
                                 }
@@ -624,7 +621,7 @@
                     var values = extractHeightValues(heightArray);
                     if (isHeightOutsideOfStandardDeviation(values, patientHeight)) {
                         // the patient height for this visit looks "abnormal"
-                        error = 'Adult height is beyond the calculated standard deviation of ' + ( Math.round(standardDeviation(values) * 100 ) / 100 ) + ' cm';
+                        error = 'Adult height is an outlier please check!';
                     }
                 }
             }
