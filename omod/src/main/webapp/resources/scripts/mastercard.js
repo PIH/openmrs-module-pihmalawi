@@ -175,7 +175,7 @@
                                     var error = 'Adult height captured on '
                                         + heightInfo.encounterDateTime.format("MMM Do YYYY")
                                         + ' is beyond the calculated standard deviation of '
-                                        + standardDeviation(values)
+                                        + ( Math.round(standardDeviation(values) * 100 ) / 100)
                                         + ' cm';
                                     console.log(error);
                                     mastercard.showErrorMessage(error);
@@ -583,7 +583,7 @@
             var mean = jStat.mean(values);
             var stDev = jStat.stdev(values);
             console.log("height = " + height + ";  mean= " + mean + "; stDev= " + stDev);
-            if (Math.abs(height - mean) >= stDev ) {
+            if (Math.abs(height - mean) > stDev ) {
                 outside = true;
             }
         }
@@ -624,7 +624,7 @@
                     var values = extractHeightValues(heightArray);
                     if (isHeightOutsideOfStandardDeviation(values, patientHeight)) {
                         // the patient height for this visit looks "abnormal"
-                        error = 'Adult height is beyond the calculated standard deviation of ' + standardDeviation(values) + ' cm';
+                        error = 'Adult height is beyond the calculated standard deviation of ' + ( Math.round(standardDeviation(values) * 100 ) / 100 ) + ' cm';
                     }
                 }
             }

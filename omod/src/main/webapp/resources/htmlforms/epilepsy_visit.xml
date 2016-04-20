@@ -100,7 +100,7 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height"/>
+                        <obs conceptId="$height" id="heightEntered" />
                     </td>
                     <td>
                         <!-- Weight -->

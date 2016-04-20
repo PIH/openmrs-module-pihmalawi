@@ -51,7 +51,10 @@
         chwName=8431
     </macros>
 
-    <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+    <span style="display:none">
+        <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
+        <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+    </span>
     <div>
         <h4 style="font-style: italic;">
             <b>NCD Patient Card</b>
