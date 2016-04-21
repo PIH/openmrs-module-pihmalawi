@@ -48,8 +48,8 @@
             <thead class="visit-table-header">
                 <tr>
                   <td>Visit Date</td>
-                  <td>Weight</td>
                   <td>Height</td>
+                  <td>Weight</td>
                   <td>MUAC</td>
                   <td rowspan="2">Wasting/Malnutrition</td>
                   <td rowspan="2">Breastfeeding</td>
@@ -62,8 +62,8 @@
                 </tr>
                 <tr>
                   <td><i style="font-size:.7em;">day/month/year</i></td>
-                  <td>kg</td>
                   <td>cm</td>
+                  <td>kg</td>
                   <td>cm</td>
                   <td>ml/tabs</td>
                   <td><i style="font-size:.7em;">day/month/year</i></td>
