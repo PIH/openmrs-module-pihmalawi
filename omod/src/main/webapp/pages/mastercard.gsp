@@ -13,6 +13,7 @@
     mastercard.setHeaderEncounterId(${ headerEncounter == null ? null : headerEncounter.encounterId });
     mastercard.setHtmlFormJs(htmlForm); // This is the htmlform object added to the page by htmlformentryui htmlform.js
     mastercard.setDefaultLocationId(${ defaultLocationId });
+    mastercard.setRequireEncounter(${ requireEncounter });
 
     <% for (String formName : flowsheetEncounters.keySet()) { %>
         mastercard.addFlowsheet('${formName}', ${flowsheetEncounters.get(formName)});
@@ -20,7 +21,7 @@
 
     jq(document).ready( function() {
 
-        <% if (headerEncounter == null) { %>
+        <% if (headerEncounter == null && requireEncounter) { %>
             mastercard.enterHeader();
         <% } else { %>
             mastercard.viewHeader();
