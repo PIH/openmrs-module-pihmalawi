@@ -2945,24 +2945,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 8550;
-            String uuid = "27baf9f0-eae3-4d98-a1ad-258e82b91285";
-            String name = "Patient age when result to guardian";
-            Concept c = cs.getConcept(id);
-            if (c == null) {
-                log.warn("Creating " + name);
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
-                c.setConceptClass(cs.getConceptClassByName("Question"));
-                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
-                c.setSet(false);
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                cs.saveConcept(c);
-            }
-        }
-
-        {
             Integer id = 8551;
             String uuid = "d72fc9c8-b95f-44a5-95a5-233c43849819";
             String name = "At enrollment";
@@ -3064,7 +3046,6 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConceptByName("Age"));
                 c.addSetMember(cs.getConceptByName("Units of age of child"));
                 c.addSetMember(cs.getConceptByName("Date result to guardian"));
-                c.addSetMember(cs.getConceptByName("Patient age when result to guardian"));
 
                 cs.saveConcept(c);
             }
