@@ -48,6 +48,8 @@ public class HtmlFormInitializer implements Initializer {
 	@Override
 	public synchronized void started() {
 		Map<Integer, String> forms = new LinkedHashMap<Integer, String>();
+            forms.put(14, "chronic_care_emastercard_initial.xml");
+            forms.put(15, "chronic_care_emastercard_visit.xml");
 
         HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
 		for (Integer formId : forms.keySet()) {
