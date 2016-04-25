@@ -150,11 +150,11 @@
             <c:choose>
                 <c:when test="${ evaluationEncounter || ctEncounter }">
                     <c:set var="eMastercardFormId" value="62" />
-                    <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Edit KS file</a></td>
+                    <td><a href="${pageContext.request.contextPath}/pihmalawi/mastercard.page?headerForm=ks_header&flowsheets=ks_eval&flowsheets=ks_chemo&patientId=${patientId}&requireEncounter=false">Edit KS file</a></td>
                 </c:when>
                 <c:otherwise>
                     <c:set var="eMastercardFormId" value="62" />
-                    <td><a href="${pageContext.request.contextPath}/module/htmlformentry/htmlFormEntry.form?personId=${personId}&patientId=${patientId}&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId=${eMastercardFormId}">Create new KS file</a></td>
+                    <td><a href="${pageContext.request.contextPath}/pihmalawi/mastercard.page?headerForm=ks_header&flowsheets=ks_eval&flowsheets=ks_chemo&patientId=${patientId}&requireEncounter=false">Create new KS file</a></td>
                 </c:otherwise>
             </c:choose>
         </openmrs:hasPrivilege>
