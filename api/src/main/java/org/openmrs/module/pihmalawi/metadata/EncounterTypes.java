@@ -100,4 +100,17 @@ public class EncounterTypes {
         public String name() { return "MENTAL_HEALTH_FOLLOWUP"; }
         public String description() { return "Visit rows in the Mental Health Mastercard"; }
     };
+
+    public static EncounterTypeDescriptor CHRONIC_CARE_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "664bb6de-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "CHRONIC_CARE_INITIAL"; }
+        public String description() { return "Top section of the Chronic Care Mastercard"; }
+    };  
+
+    public static EncounterTypeDescriptor CHRONIC_CARE_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "664bb896-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "CHRONIC_CARE_FOLLOWUP"; }
+        public String description() { return "Visit rows in the Chronic Care Mastercard"; }
+    };  
+
 }

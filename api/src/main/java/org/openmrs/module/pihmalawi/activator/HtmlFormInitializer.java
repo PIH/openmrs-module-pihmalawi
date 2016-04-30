@@ -48,8 +48,6 @@ public class HtmlFormInitializer implements Initializer {
 	@Override
 	public synchronized void started() {
 		Map<Integer, String> forms = new LinkedHashMap<Integer, String>();
-            forms.put(14, "chronic_care_emastercard_initial.xml");
-            forms.put(15, "chronic_care_emastercard_visit.xml");
 
         HtmlFormEntryService hfes = Context.getService(HtmlFormEntryService.class);
 		for (Integer formId : forms.keySet()) {
@@ -99,7 +97,9 @@ public class HtmlFormInitializer implements Initializer {
                 "pihmalawi:htmlforms/mental_health_visit.xml",
                 "pihmalawi:htmlforms/ks_header.xml",
                 "pihmalawi:htmlforms/ks_chemo.xml",
-                "pihmalawi:htmlforms/ks_eval.xml");
+                "pihmalawi:htmlforms/ks_eval.xml",
+                "pihmalawi:htmlforms/ncd_mastercard.xml",
+                "pihmalawi:htmlforms/ncd_visit.xml");
 
         if (uiHtmlForms != null) {
             ResourceFactory resourceFactory = ResourceFactory.getInstance();
