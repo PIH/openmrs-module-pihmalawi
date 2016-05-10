@@ -3072,6 +3072,145 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+        {
+            Integer id = 8556;
+            String uuid = "fd9f79ec-0a23-11e6-b512-3e1d05defe78";
+            String name = "Age at start of Neviripine construct";
+            String synonym = "Age starting NVP construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(3467)); // Age
+                c.addSetMember(cs.getConcept(2286)); // Age units
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8557;
+            String uuid = "f1904502-319d-4681-9030-e642111e7ce2";
+            String name = "Time units";
+            String synonym_1 = "Duration units";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1072))); // Days
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1073))); // Weeks
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1074))); // Months
+                c.addAnswer(new ConceptAnswer(cs.getConcept(2287))); // Years
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8558;
+            String uuid = "159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Medication duration";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8559;
+            String uuid = "fd9f7d52-0a23-11e6-b512-3e1d05defe78";
+            String name = "Duration of NVP construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(8557));  // Duration units
+                c.addSetMember(cs.getConcept(8558));  // Medication Duration
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8560;
+            String uuid = "07a0190e-10b1-11e6-a148-3e1d05defe78";
+            String name = "HIV testing completion (coded)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1118))); // Not done
+                c.addAnswer(new ConceptAnswer(cs.getConcept(3658))); // DBS taken (PCR)
+                c.addAnswer(new ConceptAnswer(cs.getConcept(3657))); // Rapid test done
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 2286;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Units of age of child");
+            c.getAnswers().clear();
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2287))); // Years
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1074))); // Months
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1073))); // Weeks
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1072))); // Days
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2416))); // Did not answer
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // Unknown
+            cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8561;
+            String uuid = "e97b36a2-16f5-11e6-b6ba-3e1d05defe78";
+            String name = "Enrollment age construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(3467)); // Age
+                c.addSetMember(cs.getConcept(2286)); // Age units
+                cs.saveConcept(c);
+            }
+        }
     }
 
     @Override
