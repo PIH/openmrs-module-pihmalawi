@@ -7,28 +7,44 @@
         agreesToFollowup=2552
         noAnswer=1066
         yesAnswer=1065
-        guardianPhone=3294
-        guardianRelation=1826                            
-        birthWeight=5916
-        arvsInPreg=8169
         none=1107
+        guardianName=PIH Malawi:1824
+        guardianPhone=3294
+        guardianRelation=1826
+
+        <!-- Version 1
+        arvsInPreg=8169
+        arvsInLabour=8182
+        arvsAtBirth=8186
+        arvsContd=8187
+        adherence=2681
+        deliveryLocation=3452
+        hivStatus=5303
+        -->
+
         azt03=8173
         azt4p=8174
         art03=8175
         art4p=8176
         unknown=1067
-        arvsInLabour=8182
         sdNVP=8178
         AZT3TC=8179
         NVPAZT3TC=8180
         ART=8181
-        arvsAtBirth=8186
         Nevirapine=631
         NVPAZT2=8184
         Zidovudine=797
-        arvsContd=8187     
-        adherence=2681   
-        deliveryLocation=3452
+
+        startAgeNVP=8556
+        enrollmentAge=8561
+        nvpDuration=8559
+        durationUnits=8557
+        medDuration=8558
+        days=1072
+        weeks=1073
+        months=1074
+        years=2287
+
         age=3467
         hivRapid=1040
         notDone=1118
@@ -36,7 +52,6 @@
         positive=703
         inconclusive=1138
         hivPCR=844
-        hivStatus=5303
         notConfirmed=8045
         confirmed=6250
         motherHIVStatus=8036
@@ -45,6 +60,15 @@
         patientDied=1742
         suspectedHIVExposure=1062
         motherRegNo=8046
+        motherARTstart=3586
+        hivTestConstruct=PIH Malawi:2168
+        hivTestType=PIH Malawi:1867
+        hivResult=PIH Malawi:2169
+        hivSampleDate=PIH Malawi:6108
+        labTestNumber=PIH Malawi:3564
+        hivResultDate=PIH Malawi:6110
+
+        <!-- Remove these after migration -->
         rapidSampleDateEnrolment=8068
         rapidSampleDateOne=8069
         rapidSampleDateTwo=8070
@@ -75,6 +99,11 @@
         dnaAgeEnrolment=8062
         dnaAgeOne=8063
         dnaAgeTwo=8064
+
+        period=8554
+        unitAge=2286
+        dateToGuardian=8549
+        birthWeight=5916
     </macros>
 
     <span style="display:none">
@@ -99,25 +128,23 @@
                     <table>
                         <tr>    
                             <td>Child Name</td>
-                            <td><lookup expression="patient.personName" /></td>
-                        </tr>
-                        <tr>
-                            <td>Sex, Birthdate</td>
                             <td>
+                                <span class="left-cell">
+                                    <lookup expression="patient.personName" />
+                                </span>
                                 <span class="left-cell">
                                     <lookup expression="patient.gender" />
                                 </span>
-                                <span class="right-cell">
-                                    <lookup expression="patient.birthdate" />
-                                </span>                            
-                            </td>                    
+                            </td>
                         </tr>
                         <tr>
-                            <td>Birth Weight</td>
-                            <td><obs conceptId="$birthWeight" /></td>                   
+                            <td>Guardian Name</td>
+                            <td>
+                                <obs id="guardianNameField" conceptId="$guardianName" size="40"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Addresses</td>    
+                            <td>Physical Address</td>
                             <td>
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
@@ -129,7 +156,7 @@
                             </td>
                         </tr>                       
                         <tr>
-                            <td>Guardian relation to patient</td>
+                            <td>Guardian Relation</td>
                             <td>
                                 <obs conceptId="$guardianRelation" size="10" />
                             </td>
@@ -142,82 +169,149 @@
                         </tr>                       
                     </table>
                 </td>
-                <td style="vertical-align:top;">
-                    <h5>PMTCT History at Enrolment</h5>
-                    <table>
-                        <tr>    
-                            <td>ARVs in<br/>Pregnancy</td>
-                            <td><obs conceptId="$arvsInPreg" answerConceptIds="$none,$azt03,$azt4p,$art03,$art4p,$unknown"/></td>
-                        </tr>
-                        <tr>
-                            <td>ARVs in Labour</td>
-                            <td><obs conceptId="$arvsInLabour" answerConceptIds="$none,$sdNVP,$AZT3TC,$NVPAZT3TC,$ART,$unknown"/></td>                    
-                        </tr>
-                        <tr>
-                            <td>Baby ARVs at<br/>Birth</td>
-                            <td><obs conceptId="$arvsAtBirth" answerConceptIds="$none,$Nevirapine,$NVPAZT2,$Zidovudine,$unknown"/></td>                        
-                        </tr>
-                        <tr>
-                            <td>Baby ARVs<br/>cont'd</td>    
-                            <td><obs conceptId="$arvsContd" answerConceptIds="$none,$Nevirapine,$Zidovudine,$unknown"/></td>
-                        </tr>
-                        <tr>    
-                            <td>Baby ARVs<br/>Adherence</td>
-                            <td>No. of weeks ARVs taken<br/><obs conceptId="$adherence" /></td>
-                        </tr>
-                        <tr>
-                            <td>Delivery Place</td>
-                            <td><obs conceptId="$deliveryLocation" /></td>                    
-                        </tr>
-                    </table>
-                </td>
+
                 <td style="vertical-align:top;">
                     <h5>Status at Enrolment</h5>
                     <table>
-                        <tr>    
-                            <td>Age at Enrolment<br/>(wks)</td>
-                            <td><obs conceptId="$age" /></td>
+                        <tr>
+                            <td rowspan="2">Mother</td>
+                            <td>Status</td>
+                            <td colspan="2">
+                                <obs conceptId="$motherHIVStatus"
+                                     style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$patientDied,$suspectedHIVExposure"
+                                     answerLabels="NoART, OnART, Died, Unk" />
+                            </td>
                         </tr>
                         <tr>
-                            <td>Child rapid test</td>
-                            <td><obs conceptId="$hivRapid" style="radio" answerConceptIds="$notDone,$negative,$positive,$inconclusive"
-                                 answerLabels="Not done,Neg,Pos,Inc" />, Age: (todo)</td>                    
+                            <td>ART</td>
+                            <td><obs conceptId="$motherRegNo" labelText="RegNo" /></td>
+                            <td><obs conceptId="$motherARTstart" labelText="Start date"/></td>
                         </tr>
                         <tr>
-                            <td>Child PCR</td>
-                            <td><obs conceptId="$hivPCR" style="radio" answerConceptIds="$notDone,$negative,$positive"
-                                 answerLabels="Not done,Neg,Pos" />, Age: (todo)</td>                        
+                            <td rowspan="2">Child</td>
+                            <td>Age</td>
+                            <td>
+                                At Enrolment<br/>
+                                <obsgroup groupingConceptId="$enrollmentAge">
+                                    <obs conceptId="$age"/>
+                                    <obs conceptId="$unitAge" defaultValue="$days" answerConceptIds="$days,$weeks,$months,$years"/>
+                                </obsgroup>
+                            </td>
+                            <td>
+                                When starting NVP<br/>
+                                <obsgroup groupingConceptId="$startAgeNVP">
+                                    <obs conceptId="$age"/>
+                                    <obs conceptId="$unitAge" defaultValue="$days" answerConceptIds="$days,$weeks,$months,$years"/>
+                                </obsgroup>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Conclusion: HIV<br/>infection</td>    
-                            <td><obs conceptId="$hivStatus" style="radio" answerConceptIds="$notConfirmed,$confirmed"
-                                 answerLabels="Not Confirmed,Confirmed" /></td>
-                        </tr>
-                        <tr>    
-                            <td>Mother Status</td>
-                            <td><obs conceptId="$motherHIVStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$patientDied,$suspectedHIVExposure"
-                                 answerLabels="No ART,On ART,Died,Unk" /></td>
-                        </tr>
-                        <tr>
-                            <td>Mother ART Reg.<br/>no.</td>
-                            <td><obs conceptId="$motherRegNo" /></td>
-                        </tr>                    
+                            <td>
+                                NVP duration
+                            </td>
+                            <td colspan="2">
+                                <obsgroup groupingConceptId="$nvpDuration">
+                                    <obs conceptId="$medDuration"/>
+                                    <!-- TBD:
+                                         What are the duration units?
+                                         Mastercard doesn't allow defaultValue.
+                                         We should we set a default duration unit -->
+                                    <obs conceptId="$durationUnits" defaultValue="$months" />
+                                </obsgroup>
 
+                            </td>
+                        </tr>
                     </table>
+                </td>
+
+                <td style="vertical-align:top;">
+                <h5>HIV Testing</h5>
+                <table>
+                    <tr>
+                        <td>Sample Date</td>
+                        <td>Type</td>
+                        <td>Sample ID /<br/>HTC Serial No</td>
+                        <td>Result</td>
+                        <td>Date received<br/>from lab</td>
+                        <!-- For migration data testing -->
+                        <td><i>Period</i></td>
+                        <td><i>Age</i></td>
+                        <td><i>Date to<br/>guardian</i></td>
+                    </tr>
+                    <tr>
+                        <obsgroup groupingConceptId="$hivTestConstruct">
+                            <td><obs conceptId="$hivSampleDate"/></td>
+                            <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
+                                     answerLabels="DBS,RT" style="radio"/></td>
+                            <td><obs conceptId="$labTestNumber" /></td>
+                            <td><obs conceptId="$hivResult"
+                                     answerConceptIds="$negative,$positive,$inconclusive"
+                                     answerLabels="Neg,Pos,Inc"
+                                     style="radio" /></td>
+                            <td><obs conceptId="$hivResultDate" /></td>
+
+                            <td><obs conceptId="$period"/></td>
+                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
+                            <td><obs conceptId="$dateToGuardian"/></td>
+                        </obsgroup>
+                    </tr>
+                    <tr>
+                        <obsgroup groupingConceptId="$hivTestConstruct">
+                            <td><obs conceptId="$hivSampleDate"/></td>
+                            <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
+                                     answerLabels="DBS,RT" style="radio"/></td>
+                            <td><obs conceptId="$labTestNumber" /></td>
+                            <td><obs conceptId="$hivResult"
+                                     answerConceptIds="$negative,$positive,$inconclusive"
+                                     answerLabels="Neg,Pos,Inc"
+                                     style="radio" /></td>
+                            <td><obs conceptId="$hivResultDate" /></td>
+
+                            <td><obs conceptId="$period"/></td>
+                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
+                            <td><obs conceptId="$dateToGuardian"/></td>
+                        </obsgroup>
+                    </tr>
+                    <tr>
+                        <obsgroup groupingConceptId="$hivTestConstruct">
+                            <td><obs conceptId="$hivSampleDate"/></td>
+                            <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
+                                     answerLabels="DBS,RT" style="radio"/></td>
+                            <td><obs conceptId="$labTestNumber" /></td>
+                            <td><obs conceptId="$hivResult"
+                                     answerConceptIds="$negative,$positive,$inconclusive"
+                                     answerLabels="Neg,Pos,Inc"
+                                     style="radio" /></td>
+                            <td><obs conceptId="$hivResultDate" /></td>
+
+                            <td><obs conceptId="$period"/></td>
+                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
+                            <td><obs conceptId="$dateToGuardian"/></td>
+                        </obsgroup>
+                    </tr>
+                    <tr>
+                        <obsgroup groupingConceptId="$hivTestConstruct">
+                            <td><obs conceptId="$hivSampleDate"/></td>
+                            <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
+                                     answerLabels="DBS,RT" style="radio"/></td>
+                            <td><obs conceptId="$labTestNumber" /></td>
+                            <td><obs conceptId="$hivResult"
+                                     answerConceptIds="$negative,$positive,$inconclusive"
+                                     answerLabels="Neg,Pos,Inc"
+                                     style="radio" /></td>
+                            <td><obs conceptId="$hivResultDate" /></td>
+
+                            <td><obs conceptId="$period"/></td>
+                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
+                            <td><obs conceptId="$dateToGuardian"/></td>
+                        </obsgroup>
+                    </tr>
+                </table>
                 </td>
             </tr>
         </table>
-        <hr/>
-        <h2>Initiation Details</h2>
-        <h5 style="font-style: italic;">Initiation Location: <encounterLocation id="mastercardLocation" /><span style="padding-left:50px;"></span>(For Transfer-In: Location of Initial Encounter)
-        </h5>
-        <h5 style="font-style: italic;">Initiation Date: <encounterDate /><span style="padding-left:50px;"></span>(For Transfer-In: Date of Initial Encounter at Initiation Location)
-        </h5>
-        <h5 style="font-style: italic;">Current outcome:
-            <lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name"/>
-            (<lookup expression="fn.currentProgramWorkflowStatus(1).startDate"/>)
-        </h5>
-        <hr/>
+
+        <!-- Remove these after migration -->
         <table class="data-entry-table">
             <tr>
                 <td>
@@ -297,6 +391,52 @@
                 </td>
             </tr>
         </table>
+
+        <hr/>
+        <h2>Initiation and outcome</h2>
+        <table class="data-entry-table">
+        <tr>
+            <td>
+                Initiation Location<br/>
+                <i>For Transfer-In, location of initial encounter</i>
+            </td>
+            <td>
+                <encounterLocation id="mastercardLocation" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Initiation Date<br/>
+                <i>For Transfer-In, date of initial encounter at initiation location</i>
+            </td>
+            <td>
+                <encounterDate />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Birth Date
+            </td>
+            <td>
+                <lookup expression="patient.birthdate"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Birth Wgt
+            </td>
+            <td>
+                <obs conceptId="$birthWeight" showUnits="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>Current outcome</td>
+            <td>
+                <lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name"/>
+                (<lookup expression="fn.currentProgramWorkflowStatus(1).startDate"/>)
+            </td>
+        </tr>
+    </table>
 
         <ifMode mode="VIEW" include="false">
             <div id="buttons" style="margin-top:10px;">

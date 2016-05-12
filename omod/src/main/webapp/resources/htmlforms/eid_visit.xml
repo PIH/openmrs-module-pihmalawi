@@ -23,14 +23,13 @@
         aliveOnART=8038
         died=1742
         hivSuspected=1062
-        tbStatus=7459
-        tbNotSuspected=7454
-        tbSuspected=7455
-        tbConfirmedNoTx=7456
-        tbConfirmedTx=7458
         clinMon=8035
         nothingAbnormal=7920
         anySickness=8034
+        hivTestCompl=8560
+        notDone=1118
+        dbsDone=3658
+        rtDone=3657
         childHIVStatus=5303
         notHIVInfected=8043
         hivInfected=1169
@@ -46,6 +45,7 @@
 
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
+
                 <tr>
                   <td>Visit Date</td>
                   <td>Height</td>
@@ -54,11 +54,11 @@
                   <td rowspan="2">Wasting/Malnutrition</td>
                   <td rowspan="2">Breastfeeding</td>
                   <td rowspan="2">Mother Status</td>
-                  <td rowspan="2">TB Status (Current)</td>
                   <td rowspan="2">Clin. Monit.</td>
+                  <td rowspan="2">HIV testing</td>
                   <td rowspan="2">HIV infection</td>
-                  <td>CPT given</td>
-                  <td>Next appointment</td>
+                  <td>CPT<br/>given</td>
+                  <td>Next<br/>appointment</td>
                 </tr>
                 <tr>
                   <td><i style="font-size:.7em;">day/month/year</i></td>
@@ -66,7 +66,11 @@
                   <td>kg</td>
                   <td>cm</td>
                   <td>ml/tabs</td>
-                  <td><i style="font-size:.7em;">day/month/year</i></td>
+                  <td>
+                      <i style="font-size:.7em;">
+                          day/month/year
+                      </i>
+                  </td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -95,23 +99,26 @@
                     <td>
                         <!-- Breast feeding -->
                         <obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
-                             answerLabels="Exc,M,C,-6,6+" />
+                             answerLabels="Exc,M,C,&lt;6,6+" />
                     </td>
                     <td>
                         <!-- Mother Status -->
                         <obs conceptId="8036" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$died,$hivSuspected"
-                             answerLabels="No ART,On ART,Died,Unk" />
-                    </td>
-                    <td>
-                    <!-- <td style="white-space: nowrap;"> -->
-                        <!-- TB status -->
-                        <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx"
-                             answerLabels="N,Y,C,Rx" />
+                             answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Died, Unk" />
                     </td>
                     <td>
                         <!-- Clin Monit. -->
                         <obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
                              answerLabels="NAD,Sick" />
+                    </td>
+                    <td>
+                        <!-- HIV testing -->
+                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$notDone"
+                             answerLabel="No" />
+                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$dbsDone"
+                             answerLabel="Dbs" />
+                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$rtDone"
+                             answerLabel="Rt" />
                     </td>
                     <td>
                         <!-- HIV infection -->
@@ -150,9 +157,6 @@
         <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
 
         <table class="visit-edit-table">
-
-
-
           <tr>
               <th>Visit Date</th>
               <td><encounterDate id="visitDate" size="20" default="today" /></td>
@@ -181,7 +185,7 @@
           <tr>
               <th>Breast feeding</th>
               <td><obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
-                   answerLabels="Exc,M,C,-6,6+" /></td>
+                   answerLabels="Exc,M,C,&lt;6,6+" /></td>
           </tr>
           <tr>
               <th>Mother Status</th>
@@ -189,17 +193,23 @@
                    answerLabels="No ART,On ART,Died,Unk" /></td>
           </tr>
           <tr>
-              <th>TB Status (Curr.)</th>
-              <td><obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbNotSuspected,$tbSuspected,$tbConfirmedNoTx,$tbConfirmedTx"
-                   answerLabels="N,Y,C,Rx" /></td>
-          </tr>
-          <tr>
-              <th>Clin. Monit.</th>
+              <th>Clinical Monitoring</th>
               <td><obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
                    answerLabels="NAD,Sick" /></td>
           </tr>
           <tr>
-              <th>HIV Infection</th>
+              <th>HIV testing</th>
+              <td>
+                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$notDone"
+                       answerLabel="Not done" />
+                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$dbsDone"
+                       answerLabel="DBS taken (PCR)" />
+                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$rtDone"
+                       answerLabel="Rapid test done" />
+              </td>
+          </tr>
+          <tr>
+              <th>HIV infection</th>
               <td><obs conceptId="$childHIVStatus" style="radio" answerConceptIds="$notHIVInfected,$hivInfected,$notARTEligible,$PSHD"
                    answerLabels="A,B,C,D" /></td>
           </tr>
