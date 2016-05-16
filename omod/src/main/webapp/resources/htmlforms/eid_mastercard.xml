@@ -67,39 +67,6 @@
         hivSampleDate=PIH Malawi:6108
         labTestNumber=PIH Malawi:3564
         hivResultDate=PIH Malawi:6110
-
-        <!-- Remove these after migration -->
-        rapidSampleDateEnrolment=8068
-        rapidSampleDateOne=8069
-        rapidSampleDateTwo=8070
-        rapidAgeEnrolment=8071
-        rapidAgeOne=8072
-        rapidAgeTwo=8073
-        rapidHTCEnrolment=8074
-        rapidHTCOne=8075
-        rapidHTCTwo=8076
-        rapidResultEnrolment=8077
-        rapidResultOne=8078
-        rapidResultTwo=8079
-        dnaSampleDateEnrolment=8047
-        dnaSampleDateOne=8048
-        dnaSampleDateTwo=8049
-        dnaSampleIDEnrolment=8050
-        dnaSampleIDOne=8051
-        dnaSampleIDTwo=8052
-        dnaResultRcdDateEnrolment=8053
-        dnaResultRcdDateOne=8054
-        dnaResultRcdDateTwo=8055
-        dnaResultEnrolment=8056
-        dnaResultOne=8057
-        dnaResultTwo=8058
-        dnaResultGivenDateEnrolment=8059
-        dnaResultGivenDateOne=8060
-        dnaResultGivenDateTwo=8061
-        dnaAgeEnrolment=8062
-        dnaAgeOne=8063
-        dnaAgeTwo=8064
-
         period=8554
         unitAge=2286
         dateToGuardian=8549
@@ -233,10 +200,6 @@
                         <td>Sample ID /<br/>HTC Serial No</td>
                         <td>Result</td>
                         <td>Date received<br/>from lab</td>
-                        <!-- For migration data testing -->
-                        <td><i>Period</i></td>
-                        <td><i>Age</i></td>
-                        <td><i>Date to<br/>guardian</i></td>
                     </tr>
                     <tr>
                         <obsgroup groupingConceptId="$hivTestConstruct">
@@ -249,10 +212,6 @@
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
                             <td><obs conceptId="$hivResultDate" /></td>
-
-                            <td><obs conceptId="$period"/></td>
-                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
-                            <td><obs conceptId="$dateToGuardian"/></td>
                         </obsgroup>
                     </tr>
                     <tr>
@@ -266,10 +225,6 @@
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
                             <td><obs conceptId="$hivResultDate" /></td>
-
-                            <td><obs conceptId="$period"/></td>
-                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
-                            <td><obs conceptId="$dateToGuardian"/></td>
                         </obsgroup>
                     </tr>
                     <tr>
@@ -283,10 +238,6 @@
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
                             <td><obs conceptId="$hivResultDate" /></td>
-
-                            <td><obs conceptId="$period"/></td>
-                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
-                            <td><obs conceptId="$dateToGuardian"/></td>
                         </obsgroup>
                     </tr>
                     <tr>
@@ -300,94 +251,9 @@
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
                             <td><obs conceptId="$hivResultDate" /></td>
-
-                            <td><obs conceptId="$period"/></td>
-                            <td><obs conceptId="$age"/> <obs conceptId="$unitAge"/> </td>
-                            <td><obs conceptId="$dateToGuardian"/></td>
                         </obsgroup>
                     </tr>
                 </table>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Remove these after migration -->
-        <table class="data-entry-table">
-            <tr>
-                <td>
-                    <table>
-                        <b>Rapid Antibody Testing</b>
-                        <tr>
-                            <td></td>
-                            <td>Sample<br/>Date</td>
-                            <td>Age<br/>(mth)</td>
-                            <td>HTC Serial No</td>
-                            <td>Result</td>
-                        </tr>
-                        <tr>
-                            <td>Enrolment</td>
-                            <td><obs conceptId="$rapidSampleDateEnrolment" /></td>
-                            <td><obs conceptId="$rapidAgeEnrolment" /></td>
-                            <td><obs conceptId="$rapidHTCEnrolment" /></td>
-                            <td><obs conceptId="$rapidResultEnrolment" /></td>
-                        </tr>
-                        <tr>
-                            <td>From 12 months</td>
-                            <td><obs conceptId="$rapidSampleDateOne" /></td>
-                            <td><obs conceptId="$rapidAgeOne" /></td>
-                            <td><obs conceptId="$rapidHTCOne" /></td>
-                            <td><obs conceptId="$rapidResultOne" /></td>
-                        </tr>
-                        <tr>
-                            <td>From 24 months</td>
-                            <td><obs conceptId="$rapidSampleDateTwo" /></td>
-                            <td><obs conceptId="$rapidAgeTwo" /></td>
-                            <td><obs conceptId="$rapidHTCTwo" /></td>
-                            <td><obs conceptId="$rapidResultTwo" /></td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <table>
-                        <b>DNA-PCR Testing</b>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">Result received from lab</td>
-                            <td colspan="2">Result given to guardian</td>
-                        </tr>
-                        <tr>
-                            <td>Sample<br/>Date</td>
-                            <td>Sample ID</td>
-                            <td>Date</td>
-                            <td>Result</td>
-                            <td>Date</td>
-                            <td>Age<br/>(mth)</td>
-                        </tr>
-                        <tr>
-                            <td><obs conceptId="$dnaSampleDateEnrolment" /></td>
-                            <td><obs conceptId="$dnaSampleIDEnrolment" /></td>
-                            <td><obs conceptId="$dnaResultRcdDateEnrolment" /></td>
-                            <td><obs conceptId="$dnaResultEnrolment" /></td>
-                            <td><obs conceptId="$dnaResultGivenDateEnrolment" /></td>
-                            <td><obs conceptId="$dnaAgeEnrolment" /></td>
-                        </tr>
-                        <tr>
-                            <td><obs conceptId="$dnaSampleDateOne" /></td>
-                            <td><obs conceptId="$dnaSampleIDOne" /></td>
-                            <td><obs conceptId="$dnaResultRcdDateOne" /></td>
-                            <td><obs conceptId="$dnaResultOne" /></td>
-                            <td><obs conceptId="$dnaResultGivenDateOne" /></td>
-                            <td><obs conceptId="$dnaAgeOne" /></td>
-                        </tr>
-                        <tr>
-                            <td><obs conceptId="$dnaSampleDateTwo" /></td>
-                            <td><obs conceptId="$dnaSampleIDTwo" /></td>
-                            <td><obs conceptId="$dnaResultRcdDateTwo" /></td>
-                            <td><obs conceptId="$dnaResultTwo" /></td>
-                            <td><obs conceptId="$dnaResultGivenDateTwo" /></td>
-                            <td><obs conceptId="$dnaAgeTwo" /></td>
-                        </tr>
-                    </table>
                 </td>
             </tr>
         </table>

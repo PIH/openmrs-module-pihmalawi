@@ -86,12 +86,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Enrollment Date</td>
-                        <td>
-                            <encounterDate default="today" />
-                        </td>
-                    </tr>
-                    <tr>
                         <td valign="top">Enrollment Diagnosis</td>
                         <td>
                             <!-- DELETE HERE -->
