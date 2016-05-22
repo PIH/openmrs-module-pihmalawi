@@ -2945,6 +2945,24 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            Integer id = 8550;
+            String uuid = "7ba090ee-1d2d-11e6-b6ba-3e1d05defe78";
+            String name = "Age (convenience set)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Numeric"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
             Integer id = 8551;
             String uuid = "d72fc9c8-b95f-44a5-95a5-233c43849819";
             String name = "At enrollment";
@@ -3089,7 +3107,7 @@ public class MetadataInitializer implements Initializer {
                 c.setSet(true);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 c.addName(new ConceptName(synonym, Locale.ENGLISH));
-                c.addSetMember(cs.getConcept(3467)); // Age
+                c.addSetMember(cs.getConcept(8550)); // Age from set
                 c.addSetMember(cs.getConcept(2286)); // Age units
                 cs.saveConcept(c);
             }
@@ -3192,6 +3210,8 @@ public class MetadataInitializer implements Initializer {
             cs.saveConcept(c);
         }
 
+        /* Not using this since we'll use the previous concept
+            "Age" in weeks without units
         {
             Integer id = 8561;
             String uuid = "e97b36a2-16f5-11e6-b6ba-3e1d05defe78";
@@ -3206,11 +3226,12 @@ public class MetadataInitializer implements Initializer {
                 c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                 c.setSet(true);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addSetMember(cs.getConcept(3467)); // Age
+                c.addSetMember(cs.getConcept(8550)); // Age from set
                 c.addSetMember(cs.getConcept(2286)); // Age units
                 cs.saveConcept(c);
             }
         }
+        */
     }
 
     @Override
