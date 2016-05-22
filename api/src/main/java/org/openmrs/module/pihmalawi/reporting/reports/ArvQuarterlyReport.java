@@ -243,7 +243,7 @@ public class ArvQuarterlyReport extends ApzuReportManager {
 		addIndicator(dsd, "56_pediatric", "Regimen 9p", hivCohorts.getPatientsTakingRegimenAtLocationAtEndDate(hivMetadata.getArvRegimen9pConcept()));
 		addIndicator(dsd, "57", "Other Regimen", hivCohorts.getPatientsTakingRegimenAtLocationAtEndDate(hivMetadata.getOtherConcept()));
 		addIndicator(dsd, "58", "Total patients with any side effects", hivCohorts.getPatientsWithSideEffectsAtMostRecentVisitAtLocationByEnd());
-		addIndicator(dsd, "59", "Patients with 0 – 6 doses missed at their last visit", under7MissedDoses);
+		addIndicator(dsd, "59", "Patients with 0 - 6 doses missed at their last visit", under7MissedDoses);
 		addIndicator(dsd, "60", "Patients with 7+ doses missed at their last visit", over6MissedDoses);
 		addIndicator(dsd, "61", "TB not suspected", hivCohorts.getPatientsMostRecentTbStatusNotSuspectedAtLocationByEndDate());
 		addIndicator(dsd, "62", "TB suspected", hivCohorts.getPatientsMostRecentTbStatusSuspectedAtLocationByEndDate());
