@@ -31,6 +31,7 @@
         numCondoms=8080
         viralLoadTaken=8421
         viralLoad=856
+        LDL=8561
         nextAppt=5096
     </macros>
 
@@ -52,6 +53,7 @@
                     <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
                     <td colspan="2">Family Plan.</td>
                     <td colspan="2">Viral load</td>
+                    <td rowspan="3">LDL?</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
@@ -149,6 +151,10 @@
                     <td>
                         <!-- Viral load -->
                         <obs conceptId="$viralLoad"/>
+                    </td>
+                    <td>
+                        <!-- LDL -->
+                        <obs conceptId="$LDL" style="checkbox" answerConceptId="$LDL" />
                     </td>
                     <td>
                         <!-- Next appointment -->
@@ -253,7 +259,7 @@
                 <td>
                     <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
                     <span style="padding-left:10px">Result</span>
-                    <obs conceptId="$viralLoad"/>
+                    <obs conceptId="$viralLoad"/> <obs conceptId="$LDL" style="checkbox" answerConceptId="$LDL" labelText="LDL" />
                 </td>
             </tr>
             <tr>
