@@ -52,8 +52,7 @@
                     <td colspan="2">ARVs given</td>
                     <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
                     <td colspan="2">Family Plan.</td>
-                    <td colspan="2">Viral load</td>
-                    <td rowspan="3">LDL?</td>
+                    <td colspan="3">Viral load</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
@@ -65,6 +64,7 @@
                     <td rowspan="2">No. of<br/>condom</td>
                     <td rowspan="2">Sample<br/>Taken</td>
                     <td rowspan="2">Result</td>
+                    <td rowspan="2">LDL</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
