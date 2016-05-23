@@ -3210,11 +3210,30 @@ public class MetadataInitializer implements Initializer {
             cs.saveConcept(c);
         }
 
-        /* Not using this since we'll use the previous concept
-            "Age" in weeks without units
         {
             Integer id = 8561;
             String uuid = "e97b36a2-16f5-11e6-b6ba-3e1d05defe78";
+            String name = "Lower than Detection Limit";
+            String shortName = "LDL";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Boolean"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setShortName(new ConceptName(shortName, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        /* Not using this since we'll use the previous concept
+            "Age" in weeks without units
+        {
+            Integer id = ;
+            String uuid = "";
             String name = "Enrollment age construct";
             Concept c = cs.getConcept(id);
             if (c == null) {
