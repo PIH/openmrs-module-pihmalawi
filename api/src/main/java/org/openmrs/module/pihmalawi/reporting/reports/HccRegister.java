@@ -171,6 +171,10 @@ public class HccRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Last TB status Date", hivPatientData.getLatestTbStatusDateByEndDate());
 		addColumn(dsd, "Last Malawi ART side effects", hivPatientData.getLatestArtSideEffectsByEndDate());
 		addColumn(dsd, "Last Malawi ART side effects Date", hivPatientData.getLatestArtSideEffectsDateByEndDate());
+        addColumn(dsd, "Last Height (cm)", basePatientData.getLatestHeight());
+        addColumn(dsd, "Last Weight (kg)", basePatientData.getLatestWeight());
+        addColumn(dsd, "Last Weight date", basePatientData.getLatestWeightDate());
+        
 		addColumn(dsd, "All Enrollments (not filtered)", df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()));
 
 		return rd;
@@ -193,6 +197,6 @@ public class HccRegister extends ApzuDataExportManager {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1-SNAPSHOT";
 	}
 }
