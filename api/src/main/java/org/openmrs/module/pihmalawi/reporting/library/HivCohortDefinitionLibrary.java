@@ -16,10 +16,10 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
-import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RelativeDateCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.BaseObsCohortDefinition.TimeModifier;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.MappedParametersCohortDefinition;
@@ -338,6 +338,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getOnArvsState());
 	}
 
+    @DocumentedDefinition
+    public CohortDefinition getPatientsInPreArtOrOnArvsStateOnEndDate() {
+        return df.getCurrentlyInStateOnEndDate(hivMetadata.getPreArtState(), hivMetadata.getOnArvsState());
+    }
+
 	@DocumentedDefinition(value = "everInExposedChildStateByEndDate")
 	public CohortDefinition getPatientsEverInExposedChildStateByEndDate() {
 		return df.getEverInStateByEndDate(hivMetadata.getExposedChildState());
@@ -478,7 +483,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
 		cd.addEncounterType(hivMetadata.getArtInitialEncounterType());
 		cd.setQuestion(hivMetadata.getEverReceivedArtConcept());
-		cd.setTimeModifier(PatientSetService.TimeModifier.LAST);
+		cd.setTimeModifier(TimeModifier.LAST);
 		cd.setOperator(SetComparator.IN);
 		cd.addValue(hivMetadata.getYesConcept());
 		cd.addParameter(new Parameter("onOrBefore", "endDate", Date.class));
@@ -545,7 +550,7 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	public CohortDefinition getPatientsWithObsValueAtArtInitiationAtLocationByEnd(Concept question, Concept...values) {
 		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
 		cd.addEncounterType(hivMetadata.getArtInitialEncounterType());
-		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setTimeModifier(TimeModifier.ANY);
 		cd.setQuestion(question);
 		cd.setOperator(SetComparator.IN);
 		cd.setValueList(Arrays.asList(values));
@@ -568,6 +573,10 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getAnyEncounterOfTypesWithinMonthsByEndDate(hivMetadata.getArtEncounterTypes(), numMonths);
 	}
 
+    public CohortDefinition getPatientsWithViralLoadRecordedByEndDate() {
+        return df.getPatientsWithAnyObsByEndDate(hivMetadata.getHivViralLoadConcept());
+    }
+
     public CohortDefinition getPatientsWithCd4RecordedWithinMonthsOfEndDate(int numMonths) {
         CohortDefinition cd4 = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
         CohortDefinition clinicianReported = df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getClinicianReportedCd4Concept(), numMonths);
@@ -577,6 +586,4 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 	public CohortDefinition getPatientsWithCd4MeasuredInLabWithinMonthsOfEndDate(int numMonths) {
 		return df.getPatientsWithAnyObsWithinMonthsByEndDate(hivMetadata.getCd4CountConcept(), numMonths);
 	}
-
-
 }

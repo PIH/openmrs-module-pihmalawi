@@ -17,7 +17,6 @@ import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.annotation.Handler;
-import org.openmrs.api.PatientSetService;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
@@ -28,6 +27,7 @@ import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.definition.BaseObsCohortDefinition.TimeModifier;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
@@ -57,7 +57,6 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +116,7 @@ public class MissedAppointmentDataSetEvaluator implements DataSetEvaluator {
 						childContext.addParameterValue(ReportingConstants.LOCATION_PARAMETER.getName(), location);
 
 						CodedObsCohortDefinition noAppt = new CodedObsCohortDefinition();
-						noAppt.setTimeModifier(PatientSetService.TimeModifier.NO);
+						noAppt.setTimeModifier(TimeModifier.NO);
 						noAppt.setQuestion(metadata.getAppointmentDateConcept());
 						noAppt.setEncounterTypeList(treatmentGroup.getEncounterTypes());
 						noAppt.setOnOrBefore(endDate);

@@ -397,6 +397,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
         return pdf.getMostRecentEncounterOfTypesByEndDate(hivMetadata.getArtEncounterTypes(), pdf.getEncounterDatetimeConverter());
     }
 
+    @DocumentedDefinition
+    public PatientDataDefinition getMostRecentHivEncounterDateByEndDate() {
+        return pdf.getMostRecentEncounterOfTypesByEndDate(hivMetadata.getHivEncounterTypes(), pdf.getEncounterDatetimeConverter());
+    }
+
 	// ***** CONVENIENCE METHODS
 
 	protected PatientDataDefinition getFirstPreArtInitialEncounterByEndDate(DataConverter converter) {
