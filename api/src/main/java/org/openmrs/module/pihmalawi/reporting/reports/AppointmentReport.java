@@ -163,9 +163,4 @@ public class AppointmentReport extends ApzuDataExportManager {
     public String getExcelDesignUuid() {
         return "27ED6505-AC31-4D13-AEAC-8D06143BB348";
     }
-
-    @Override
-    public String getVersion() {
-        return "1.0";
-    }
 }

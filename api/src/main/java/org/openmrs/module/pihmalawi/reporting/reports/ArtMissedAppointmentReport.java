@@ -77,9 +77,4 @@ public class ArtMissedAppointmentReport extends ApzuMissedAppointmentReport {
 	public TreatmentGroup getTreatmentGroup() {
 		return artTreatmentGroup;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

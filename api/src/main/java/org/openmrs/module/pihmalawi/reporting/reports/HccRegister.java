@@ -194,9 +194,4 @@ public class HccRegister extends ApzuDataExportManager {
         l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, getExcelDesignUuid(), parameters, reportDefinition));
         return l;
     }
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

@@ -139,9 +139,4 @@ public class HivIndicatorReport extends ApzuReportManager {
 		ReportDesign design = createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition);
 		return Arrays.asList(design);
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

@@ -77,9 +77,4 @@ public class HccMissedAppointmentReport extends ApzuMissedAppointmentReport {
 	public TreatmentGroup getTreatmentGroup() {
 		return hccTreatmentGroup;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

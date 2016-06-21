@@ -143,9 +143,4 @@ public class HivVisitsReport extends ApzuDataExportManager {
         l.add(createMonthlyScheduledReportRequest(MONTHLY_SCHEDULED_REQUEST_UUID, getExcelDesignUuid(), parameters, reportDefinition));
         return l;
     }
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

@@ -230,9 +230,4 @@ public class CrossSiteIndicatorReport extends ApzuReportManager {
 		l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, EXCEL_REPORT_RESOURCE_NAME));
 		return l;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

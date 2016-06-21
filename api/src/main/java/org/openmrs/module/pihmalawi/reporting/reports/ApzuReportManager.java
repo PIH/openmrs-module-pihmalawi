@@ -103,4 +103,9 @@ public abstract class ApzuReportManager extends BaseReportManager {
         }
         return new Mapped<T>(parameterizable, ParameterizableUtil.createParameterMappings(mappings));
     }
+
+    @Override
+    public String getVersion() {
+        return "1.2-SNAPSHOT";
+    }
 }

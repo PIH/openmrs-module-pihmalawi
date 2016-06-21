@@ -124,9 +124,4 @@ public class FindPatientsToMergeReport extends ApzuReportManager {
 		}
 		return design;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

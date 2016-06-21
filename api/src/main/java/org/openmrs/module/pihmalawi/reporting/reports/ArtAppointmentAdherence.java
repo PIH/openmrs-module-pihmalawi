@@ -90,9 +90,4 @@ public class ArtAppointmentAdherence extends ApzuDataExportManager {
     public String getExcelDesignUuid() {
         return "f2ba89b4-b6b7-4e69-91d7-68a5653ed1a6";
     }
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

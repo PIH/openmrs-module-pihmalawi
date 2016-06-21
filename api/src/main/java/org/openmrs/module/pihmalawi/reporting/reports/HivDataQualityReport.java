@@ -458,9 +458,4 @@ public class HivDataQualityReport extends ApzuReportManager {
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
 		return l;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

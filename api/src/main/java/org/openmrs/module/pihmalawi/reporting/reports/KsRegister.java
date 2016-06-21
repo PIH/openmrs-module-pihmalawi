@@ -136,9 +136,4 @@ public class KsRegister extends ApzuReportManager {
 
 		return l;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

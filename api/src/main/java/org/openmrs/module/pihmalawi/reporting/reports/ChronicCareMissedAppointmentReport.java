@@ -79,9 +79,4 @@ public class ChronicCareMissedAppointmentReport extends ApzuMissedAppointmentRep
 	public TreatmentGroup getTreatmentGroup() {
 		return chronicCareTreatmentGroup;
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }

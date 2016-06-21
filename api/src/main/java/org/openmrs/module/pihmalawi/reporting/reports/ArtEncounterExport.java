@@ -103,9 +103,4 @@ public class ArtEncounterExport extends ApzuDataExportManager {
     public String getExcelDesignUuid() {
         return "304f9500-e3b0-454e-80ca-a1be12112b47";
     }
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

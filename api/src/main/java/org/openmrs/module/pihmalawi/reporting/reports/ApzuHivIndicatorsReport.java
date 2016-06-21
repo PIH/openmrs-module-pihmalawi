@@ -158,9 +158,4 @@ public class ApzuHivIndicatorsReport extends ApzuReportManager {
 		design.addPropertyValue("repeatingSections", "sheet:1,column:5,dataset:Apzu_Hiv_Indicators");
 		return Arrays.asList(design);
 	}
-
-	@Override
-	public String getVersion() {
-		return "1.1-SNAPSHOT";
-	}
 }
