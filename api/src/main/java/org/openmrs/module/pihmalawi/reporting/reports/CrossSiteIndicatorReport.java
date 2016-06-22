@@ -198,15 +198,6 @@ public class CrossSiteIndicatorReport extends ApzuReportManager {
 		CohortDefinition hivQ11b = df.createPatientComposition(hivQ11Den, "AND NOT", weighedDuringPeriod);
 		addAdultChildIndicator(dsd, "hivq11b", "Patients without weight recorded", hivQ11b);
 
-		// EID Q1
-		CohortDefinition turned13Weeks = baseCohorts.getPatientsWhoTurned13WeeksDuringPeriod();
-		CohortDefinition eidq1den = df.createPatientComposition(everEnrolledInHivProgram, "AND", turned13Weeks);
-		addIndicator(dsd, "eidq1den", "Infants who turned thirteen weeks old during the review quarter", eidq1den, "");
-
-		CohortDefinition hadPcrTest = hivCohorts.getPatientsWithPcrTestResultByEndDate();
-		CohortDefinition eidq1 = df.createPatientComposition(eidq1den, "AND", hadPcrTest);
-		addIndicator(dsd, "eidq1", "Infants who turned thirteen weeks during the review quarter with DNA PCR", eidq1, "");
-
 		return rd;
 	}
 

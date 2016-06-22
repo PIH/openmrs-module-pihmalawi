@@ -428,16 +428,6 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getPatientsWithAnyObsDuringPeriod(hivMetadata.getWeightConcept(), hivMetadata.getHivEncounterTypes());
 	}
 
-	@DocumentedDefinition(value = "hasPcrTestResultByEndDate")
-	public CohortDefinition getPatientsWithPcrTestResultByEndDate() {
-		List<Concept> validValues = Arrays.asList(hivMetadata.getPositiveConcept(), hivMetadata.getNegativeConcept(), hivMetadata.getIndeterminateConcept());
-		CohortDefinition pcrTest = df.getPatientsWithCodedObsByEndDate(hivMetadata.getHivDnaPcrTestConcept(), validValues);
-		CohortDefinition pcrResult = df.getPatientsWithCodedObsByEndDate(hivMetadata.getDnaPcrResultConcept(), validValues);
-		CohortDefinition pcrResult2 = df.getPatientsWithCodedObsByEndDate(hivMetadata.getDnaPcrResult2Concept(), validValues);
-		CohortDefinition pcrResult3 = df.getPatientsWithCodedObsByEndDate(hivMetadata.getDnaPcrResult3Concept(), validValues);
-		return df.getPatientsInAny(pcrTest, pcrResult, pcrResult2, pcrResult3);
-	}
-
 	@DocumentedDefinition
 	public CohortDefinition getPatientsWhoStartedArtAtLocationAfterPreviousDefaultByEnd() {
 		RelativeDateCohortDefinition cd = new RelativeDateCohortDefinition();
