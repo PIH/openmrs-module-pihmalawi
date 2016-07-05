@@ -106,7 +106,7 @@ public class MysqlRunner {
                 successIterator = IOUtils.lineIterator(process.getInputStream(), "UTF-8");
                 while (successIterator.hasNext()) {
                     String line = successIterator.nextLine();
-                    String[] elements = StringUtils.split(line, '\t');
+                    String[] elements = StringUtils.splitPreserveAllTokens(line, '\t');
                     if (result.getColumns().isEmpty()) {
                         result.setColumns(Arrays.asList(elements));
                     }
