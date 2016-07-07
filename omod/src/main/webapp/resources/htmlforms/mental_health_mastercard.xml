@@ -1,6 +1,12 @@
 <htmlform formName="Mental Health eMastercard" formUuid="38A60208-3227-4CE7-AB2A-5802F8866BD4"
           formEncounterType="3F94849C-F245-4593-BCC8-879EAEA29168" formVersion="1.0">
 
+    <style>
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+    </style>
     <macros>
         yesAnswer=1065
         noAnswer=1066
@@ -15,30 +21,36 @@
         depression=207
         acutePsychotic=8419
         schizoaffectiveDisorder=8487
+        anxiety=2719
         acuteOrganicMentalDisorder=8488
         chronicOrganicMentalDisorder=8489
-        drugUseMentalDisorder=8490
+        alcoholUseMentalDisorder=8562
+        drugUseMentalDisorder=8563
         manic=8491
         mentalFamilyHistory=8458
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
         behaviorFamilyHistory=8486
-        currentComplaint=2310
-        hpc=974
-        psychHistory=8483
-        mse=8496
+
         hivStatus=3753
         reactive=1228
         nReactive=1229
         hivTestDate=1837
         artStartDate=2516
-        vdrlTest=299
-        exposure=8495
-        smoking=8492
-        alcohol=6958
-        marijuana=8493
-        tradMeds=8494
-        medsOther=7633
+        tbStatus=7459
+        smearPos=2185
+        smearNeg=2186
+        eptb=1547
+        tbYear=8453
+
+        chiefCompAnswer=8569
+        chiefCompConstruct=8570
+        hallucinate=8564
+        delusion=8565
+        disrupt=8566
+        abSpeech=8567
+        depressive=8568
+
         patientPhone=1426
         guardianName=1824
         guardianPhone=2616
@@ -49,13 +61,25 @@
         educationLevel=1688
         agreesToFollowup=2552
         chwName=8431
+
+        exposure=8495
+        expoConstruct=8546
+        expoYears=2241
+        expoDate=8545
+        alcoholDrug=6958
+        marijuanaDrug=8493
+        tradMeds=8494
+        medsOther=7633
+
     </macros>
 
     <span style="display:none">
-        <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
-        <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+        <encounterProvider default="16576"/><!-- Set provider to a default as not used -->
+        <span id="patientBirthdate">
+            <lookup expression="patient.birthdate"/>
+        </span>
     </span>
-    <div>
+    <div class="section-container">
         <h4 style="font-style: italic;">
             <b>NCD Patient Card</b>
             <b style="padding-left:50px;">Mental Health</b>
@@ -63,17 +87,18 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation"/>
                     <span style="padding-left:20px;">
-                        Date: <encounterDate />
+                        Date:
+                        <encounterDate/>
                     </span>
                 </b>
             </span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">NCD Reg no: </b>
+                <b style="padding-right:10px;">NCD Reg no:</b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end"/>
                 </b>
             </span>
         </h4>
@@ -85,28 +110,32 @@
                         <tr>
                             <td>Patient Name</td>
                             <td>
-                                <lookup expression="patient.personName" />
+                                <lookup expression="patient.personName"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Sex, DOB</td>
                             <td>
                                 <span class="left-cell">
-                                    <lookup expression="patient.gender" />
+                                    <lookup expression="patient.gender"/>
                                 </span>
                                 <span class="right-cell">
-                                    <lookup expression="patient.birthdate" />
-                                    (Age: <lookup expression="patient.age"/>)
+                                    <lookup expression="patient.birthdate"/>
+                                    (Age:<lookup expression="patient.age"/>)
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td>Occupation</td>
-                            <td><obs conceptId="$occupation"/></td>
+                            <td>
+                                <obs conceptId="$occupation"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Marital status</td>
-                            <td><obs conceptId="$civilStatus"/></td>
+                            <td>
+                                <obs conceptId="$civilStatus"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Religion</td>
@@ -117,17 +146,21 @@
                         </tr>
                         <tr>
                             <td>Education level</td>
-                            <td><obs conceptId="$educationLevel"/></td>
+                            <td>
+                                <obs conceptId="$educationLevel"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Physical Address</td>
                             <td><!-- style="height:60px;" -->
-                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Patient Phone</td>
-                            <td><obs conceptId="$patientPhone" size="10"/></td>
+                            <td>
+                                <obs conceptId="$patientPhone" size="10"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Guardian Name</td>
@@ -144,19 +177,20 @@
                         <tr>
                             <td>Guardian relation to patient</td>
                             <td>
-                                <obs conceptId="$relationToPatient" size="10" />
+                                <obs conceptId="$relationToPatient" size="10"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Agrees to FUP</td>
                             <td>
-                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y"
+                                     answerConceptIds="$noAnswer,$yesAnswer"/>
                             </td>
                         </tr>
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                                <obs conceptId="$chwName"/>
                             </td>
                         </tr>
                     </table>
@@ -166,93 +200,197 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <th style="vertical-align:top;" align="left">Diagnoses</th>
-                            <!-- Mental Health diagnoses -->
-                            <td colspan="2">
-                                <repeat with="['$schizo','Schizophrenia'],
-                                ['$manic','Mood affective disorder (manic)'],
-                                ['$depression','Mood affective disorder (depression)'],
-                                ['$acutePsychotic','Acute &#38; transient psychotic disorder'],
-                                ['$schizoaffectiveDisorder','Schizoaffective Disorder'],
-                                ['$acuteOrganicMentalDisorder','Organic mental disorder (acute)'],
-                                ['$chronicOrganicMentalDisorder','Organic mental disorder (chronic)'],
-                                ['$drugUseMentalDisorder','Drug use mental disorder'],
-                                ['$other','Other']">
+                            <th style="vertical-align:top;" align="left" rowspan="13">Diagnoses</th>
 
-                                    <obsgroup groupingConceptId="$diagnosisSet">
-                                            <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                                 answerConceptId="{0}" answerLabel="{1}"/><br/>
-                                        <!--
-                                            <obs conceptId="$diagnosisDate" labelText="Date" />
-                                        -->
-                                    </obsgroup>
-
-                                </repeat>
-                            </td>
+                                <obsgroup groupingConceptId="$diagnosisSet">
+                                    <td style="border-right: 1px solid #ffffff;">
+                                        <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                             answerConceptId="$schizo" answerLabel="Schizophrenia"/>
+                                    </td>
+                                    <td style="border-left: 1px solid #ffffff;">
+                                        <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    </td>
+                                </obsgroup>
 
                             <!-- Family History -->
-                            <td style="vertical-align:top;">
-                                <b>Family History</b><br/><br/>
-                                <obs conceptId="$epilepsyFamilyHistory" labelText="Epilepsy"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK" />
-                                <br/>
-                                <obs conceptId="$mentalIllFamilyHistory" labelText="Mental illness"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK" />
-                                <br/>
-                                <obs conceptId="$behaviorFamilyHistory" labelText="Behavioral problems"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK" />
+                            <th style="vertical-align:top;" align="left" rowspan="13">
+                                Family<br/>History
+                            </th>
+                            <td style="vertical-align:top;" rowspan="13">
+                                <obs conceptId="$epilepsyFamilyHistory" answerLabel="Epilepsy"
+                                     answerConceptId="$yesAnswer" style="checkbox"/>
+                                <br/><br/>
+                                <obs conceptId="$mentalIllFamilyHistory" answerLabel="Mental illness"
+                                     answerConceptId="$yesAnswer" style="checkbox"/>
+                                <br/><br/>
+                                <obs conceptId="$behaviorFamilyHistory" answerLabel="Behavioral problems"
+                                     answerConceptId="$yesAnswer" style="checkbox"/>
                             </td>
                         </tr>
+                                    <!-- Mental Health diagnoses -->
+                                    <repeat with="['$manic','Mood affective disorder (manic)'],
+                                        ['$depression','Mood affective disorder (depression)'],
+                                        ['$acutePsychotic','Acute &#38; transient psychotic disorder'],
+                                        ['$schizoaffectiveDisorder','Schizoaffective Disorder'],
+                                        ['$anxiety','Anxiety disorder'],
+                                        ['$acuteOrganicMentalDisorder','Organic mental disorder (acute)'],
+                                        ['$chronicOrganicMentalDisorder','Organic mental disorder (chronic)'],
+                                        ['$drugUseMentalDisorder','Drug use mental disorder'],
+                                        ['$alcoholUseMentalDisorder','Alcohol use mental disorder']">
+
+                                        <tr>
+                                            <obsgroup groupingConceptId="$diagnosisSet">
+                                                <td style="border-right: 1px solid #ffffff;">
+                                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                         answerConceptId="{0}" answerLabel="{1}"/>
+                                                </td>
+                                                <td style="border-left: 1px solid #ffffff;">
+                                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                                </td>
+                                            </obsgroup>
+                                        </tr>
+                                    </repeat>
+
+                                    <!-- todo: Add other diagnoses-->
+                        <repeat with="['$other','Other,'],
+                                      ['$other','Other,'],
+                                      ['$other','Other,']">
+
+                            <tr>
+                                <obsgroup groupingConceptId="$diagnosisSet">
+                                    <td style="border-right: 1px solid #ffffff;">
+                                        <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                             answerConceptId="{0}" answerLabel="{1}"
+                                             commentFieldLabel="specify" />
+                                    </td>
+                                    <td style="border-left: 1px solid #ffffff;">
+                                        <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    </td>
+                                </obsgroup>
+                            </tr>
+                        </repeat>
 
                         <tr>
-                            <!-- Exposures -->
-                            <th style="vertical-align:top;" align="left">Exposures</th>
-                            <td colspan="3">
-                                <repeat with="['$smoking','Smoking'],
-                                ['$alcohol','Alcohol'],
-                                ['$marijuana','Chamba'],
-                                ['$tradMeds','Traditional medicine'],
-                                ['$medsOther','Other medications']">
-
-                                    <obs conceptId="$exposure" style="checkbox"
-                                         answerConceptId="{0}" answerLabel="{1}"/>
-                                </repeat>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th style="vertical-align:top;" align="left">Patient<br/>History &#38;<br/>Complications</th>
-                            <td class="nowrap" colspan="2">
+                            <th style="vertical-align:top;" align="left" rowspan="8">Patient<br/>History &#38;<br/>
+                                Exposures
+                            </th>
+                            <td class="nowrap">
                                 <obs conceptId="$hivStatus" labelText="HIV"
-                                     answerConceptIds="$reactive,$nReactive,$unknown"/><br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test"/></td>
-                            <td class="nowrap" colspan="2">
-                                <obs conceptId="$vdrlTest" labelText="VDRL" answerConceptIds="$reactive,$nReactive,$unknown"/>
+                                     answerConceptIds="$reactive,$nReactive,$unknown"/>
+                                <br/>
+                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                            </td>
+                            <td class="nowrap" style="border-right: 1px solid #ffffff;">
+                                <obs conceptId="$tbStatus" labelText="TB"
+                                     answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/>
+                            </td>
+                            <td style="border-left: 1px solid #ffffff;">
+                                <obs conceptId="$tbYear" labelText="Year"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th style="vertical-align:top;" align="left" colspan="2">
+                                Presenting Features
+                            </th>
+                            <td rowspan="2" colspan="2"><b>Alcohol:</b>
+                                <obsgroup groupingConceptId="$expoConstruct">
+                                    <obs conceptId="$exposure" style="checkbox"
+                                             answerConceptId="$alcoholDrug" answerLabel="Current"/>
+                                    <br/>
+                                    <obs conceptId="$expoYears" labelText="years"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date last used"/>
+                                </obsgroup>
                             </td>
                         </tr>
                         <tr>
-                            <th style="vertical-align:top;" align="left">Presenting complaint</th>
-                            <td><obs conceptId="$currentComplaint" /></td>
-
-                            <th style="vertical-align:top;" align="left">History of<br/>presenting complaint</th>
-                            <td><obs conceptId="$hpc" /></td>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$hallucinate" answerLabel="Hallucinations"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
                         </tr>
                         <tr>
-                            <th style="vertical-align:top;" align="left">Past psychiatry history</th>
-                            <td><obs conceptId="$psychHistory" /></td>
-
-                            <th style="vertical-align:top;" align="left">Mental status <br/>examination (MSE)</th>
-                            <td><obs conceptId="$mse" /></td>
-                        </tr>
-
-                        <tr>
-                            <th style="vertical-align:top;" align="left">Outcome</th>
-                            <td colspan="3">
-                                <b>
-                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
-                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
-                                </b>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$delusion" answerLabel="Delusions"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <td rowspan="2" colspan="2">
+                                Chamba
                             </td>
+                        </tr>
+
+                        <tr>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$disrupt" answerLabel="Disorganised/disruptive behaviour"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$abSpeech" answerLabel="Disorganised speech"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <td rowspan="2" colspan="2">
+                                Other drugs...
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$depressive" answerLabel="Depressive symptoms"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <td style="border-right: 1px solid #ffffff;">
+                                    <obs conceptId="$chiefCompAnswer" style="checkbox"
+                                         answerConceptId="$other" answerLabel="Other,"
+                                         commentFieldLabel="specify" />
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                            <td rowspan="2" colspan="2">
+                                Traditional meds...
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th style="vertical-align:top;" align="left" colspan="3">Outcome:
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name"/>
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate"/>)
+                            </th>
                         </tr>
                     </table>
                 </td>
