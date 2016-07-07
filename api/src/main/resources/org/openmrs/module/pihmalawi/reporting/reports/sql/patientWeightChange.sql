@@ -8,7 +8,7 @@
 
 -- REPORT PARAMETERS
 -- @endDate defines report reference end date
--- @obsWithin requites that a patient has had an encounter/observation within this many months of @endDate
+-- @obsWithin requires that a patient has had an encounter/observation within this many months of @endDate
 -- @monthsBack requires comparison weight be at least this many months before @endDate
 
 -- REPORT DESCRIPTION

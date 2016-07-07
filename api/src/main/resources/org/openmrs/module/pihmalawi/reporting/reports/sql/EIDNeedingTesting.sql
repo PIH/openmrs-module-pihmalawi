@@ -116,8 +116,8 @@ join location on location.location_id = PS.location_id
 left join 
 	(select * from 
 		(select temp_obs_enc_initial.value_datetime, patient_id 
-			from temp_obs_enc_initial join temp_hiv_test_group 
-			on temp_hiv_test_group.obs_group_id = temp_obs_enc_initial.obs_group_id 
+			from temp_obs_enc_initial 
+			join temp_hiv_test_group on temp_hiv_test_group.obs_group_id = temp_obs_enc_initial.obs_group_id 
 			where concept_id = 6108 
 			and temp_hiv_test_group.value_datetime < @endDate
 			order by temp_hiv_test_group.value_datetime desc) obs1i 
@@ -125,8 +125,8 @@ left join
 left join 
 	(select * from 
 		(select temp_obs_enc_initial.value_coded, patient_id 
-		from temp_obs_enc_initial join temp_hiv_test_group 
-		on temp_hiv_test_group.obs_group_id = temp_obs_enc_initial.obs_group_id 
+		from temp_obs_enc_initial 
+		join temp_hiv_test_group on temp_hiv_test_group.obs_group_id = temp_obs_enc_initial.obs_group_id 
 		where concept_id = 2169 
 		and temp_hiv_test_group.value_datetime < @endDate
 		order by temp_hiv_test_group.value_datetime desc) obs2i 
