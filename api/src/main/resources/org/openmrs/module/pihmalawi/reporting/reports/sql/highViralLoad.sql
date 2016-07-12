@@ -1,9 +1,12 @@
 -- ## report_uuid = 2fe281be-3ff4-11e6-9d69-0f1641034c73
 -- ## design_uuid = 3ed8dbbe-3ff4-11e6-9d69-0f1641034c73
 -- ## report_name = High Viral Load Report
--- ## report_description = Report listing patients with a high viral load
+-- ## report_description = Report listing patients with a high viral load from last laboratory test. 
 -- ## parameter = endDate|End Date|java.util.Date
--- ## parameter = min_vl|Minimum CD4|java.lang.Integer
+-- ## parameter = min_vl|Minimum Viral Load|java.lang.Integer
+
+-- Report lists patients who have a high viral load based on the last available 
+-- viral load observation (simply searches obs and joins demographic information). 
 
 select o.person_id as PID, -- Fields to show 
 identifier as Identifer, 
@@ -18,7 +21,7 @@ l.name as "Viral Load Location",
 o.value_numeric as "Viral Load"
 
 -- Base search (on viral load observations)
-from (select * from (select value_numeric, encounter_id, obs_datetime, person_id from obs where concept_id = 856 and obs_datetime <= @endDate and voided=0 order by obs_datetime desc) oi where value_numeric > @min_vl group by oi.person_id) o
+from (select * from (select * from (select value_numeric, encounter_id, obs_datetime, person_id from obs where concept_id = 856 and obs_datetime <= @endDate and voided=0 order by obs_datetime desc) oii group by oii.person_id) oi where value_numeric > @min_vl) o
 -- Get identifier
 left join (select * from (select patient_identifier.patient_id, identifier from patient_identifier where identifier_type in (19,4) and voided=0 order by patient_identifier.identifier_type asc) pii group by patient_id) PI on PI.patient_id = o.person_id
 -- Get name
