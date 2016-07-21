@@ -216,6 +216,11 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 
 	// Programs
 
+    @DocumentedDefinition
+    public CohortDefinition getActivelyEnrolledInChronicCareProgramAtLocationOnEndDate() {
+        return df.getActivelyEnrolledInProgramAtLocationOnEndDate(metadata.getChronicCareProgram());
+    }
+
 	@DocumentedDefinition(value = "enrolledInChronicCareProgramDuringPeriod")
 	public CohortDefinition getPatientsEnrolledInChronicCareProgramDuringPeriod() {
 		return df.getEnrolledInProgramDuringPeriod(metadata.getChronicCareProgram());
