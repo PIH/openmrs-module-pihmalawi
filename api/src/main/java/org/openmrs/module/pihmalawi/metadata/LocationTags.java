@@ -81,4 +81,10 @@ public class LocationTags {
         public String name() { return EmrApiConstants.LOCATION_TAG_SUPPORTS_DISPENSING; }
         public String description() { return "A location where a pharmacist or pharmacist aide can dispensed medication."; }
     };
+
+    public static LocationTagDescriptor TRACE_PHASE_1_LOCATION = new LocationTagDescriptor() {
+        public String uuid() { return "8c572a12-5379-11e6-8bd4-54ee7513a7ff"; }
+        public String name() { return "TRACE PHASE 1"; }
+        public String description() { return "Indicates that this location is TRACE phase 1"; }
+    };
 }
