@@ -19,12 +19,16 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.openmrs.Location;
 import org.openmrs.annotation.Handler;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
+import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetMetaData;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
 import org.openmrs.module.reporting.dataset.SimpleDataSet;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportData;
 import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
@@ -34,13 +38,17 @@ import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+
+import static org.openmrs.module.pihmalawi.reporting.reports.IC3TraceReport.*;
 
 /**
  * Renderer for the TraceMissedAppointmentReport
  */
 @Handler
-public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer {
+public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
 
     private Log log = LogFactory.getLog(this.getClass());
 
@@ -55,40 +63,54 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
             if (ds.getRows().size() > 0) {
 
                 DataSetMetaData metaData = ds.getMetaData();
+                Location location = getParameterValue(ds, ReportingConstants.LOCATION_PARAMETER, Location.class);
+                Integer minWk = getParameterValue(ds, MIN_WEEKS_PARAM, Integer.class);
+                Integer maxWk = getParameterValue(ds, MAX_WEEKS_PARAM, Integer.class);
+                Boolean isPhase1 = ObjectUtil.nvl(getParameterValue(ds, PHASE_1_ONLY_PARAM, Boolean.class), false);
 
-                Location location = (Location) ds.getContext().getParameterValue("location");
-                Integer numWeeks = (Integer) ds.getContext().getParameterValue("numWeeks");
-                Integer phase = (Integer) ds.getContext().getParameterValue("phase");
-
-                builder.newSheet(location.getName() + " - " + numWeeks + " weeks");
+                builder.newSheet(key);
 
                 builder.hideGridlinesInCurrentSheet();
                 builder.setLandscape();
                 builder.fitColumnsToPage();
 
+                Map<String, Object> headerCellValues = getHeaderCellValues(minWk, isPhase1);
+                int lastColMerge = isPhase1 ? 9 : location != null ? 12 : 13;
+
                 String topRowStyle = "bold,size=18,color=" + HSSFColor.WHITE.index + ",background-color=" + HSSFColor.BLACK.index;
-                builder.addCell("TRACE" + (phase == 0 ? "" : phase == 1 ? " PHASE I" : " PHASE II"), topRowStyle).merge(5, 0);
-                builder.addCell(numWeeks == 2 ? "2w Report -  VHW Site Supervisor" : "6w Report -  LPT", topRowStyle).merge(9, 0);
+                builder.addCell(headerCellValues.get("traceLabel"), topRowStyle).merge(5, 0);
+                builder.addCell(headerCellValues.get("reportLabel"), topRowStyle).merge(lastColMerge, 0);
                 builder.nextRow();
 
-                builder.addCell(location.getName(), "bold,size=22,color=" + HSSFColor.BLUE.index).merge(5, 0);
-                builder.addCell(builder.createRichTextString(
-                        "Instructions: ", "bold",
-                        "For each patient listed here, verify using the mastercards whether they have truly missed an appointment. If they have really missed the appointment, please find the patient and record the outcome.If they have not missed an appointment, add client name and visit details to \"Mastercard Update\" report. ", null,
-                        "Upper Neno: ", "bold",
-                        "Return all findings to Chisomo (0884784429). ", null,
-                        "Lower Neno: ", "bold",
-                        "Return all findings to Maxwell (0884784429).", "size=12,wraptext"), "size=12,wraptext,valign=center").merge(9, 5);
-                builder.nextRow();
+                if (location != null) {
+                    builder.addCell(location.getName(), "bold,size=22,color=" + HSSFColor.BLUE.index).merge(5, 0);
+                    builder.addCell(builder.createRichTextString(
+                            "Instructions: ", "bold",
+                            "For each patient listed here, verify using the mastercards whether they have truly missed an appointment. If they have really missed the appointment, please find the patient and record the outcome.If they have not missed an appointment, add client name and visit details to \"Mastercard Update\" report. ", null,
+                            "Upper Neno: ", "bold",
+                            "Return all findings to Chisomo (0884784429). ", null,
+                            "Lower Neno: ", "bold",
+                            "Return all findings to Maxwell (0884784429).", null), "size=12,wraptext,valign=center").merge(lastColMerge, 5);
+                    builder.nextRow();
 
-                builder.addCell(numWeeks == 2 ? "2- <6 weeks missed appointment" : "6- <12 weeks missed appointment", "bold");
-                builder.nextRow();
+                    builder.addCell(minWk + "- <" + maxWk + " weeks missed appointment", "bold");
+                    builder.nextRow();
 
-                builder.addCell(builder.createRichTextString("Patient tracking for week of ", "bold", "Monday following the date below", "color=" + HSSFColor.BLUE.index), null);
-                builder.nextRow();
-                builder.addCell(builder.createRichTextString("Date Report Printed: ", "bold", DateUtil.formatDate(reportDate, "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null);
-                builder.nextRow();
-                builder.addCell(builder.createRichTextString("Date Report due back to Chisomo/Maxwell:  ", "bold", "2nd Wednesday after report is printed", "color=" + HSSFColor.BLUE.index + ",size=8,italic" + ",bold"), null);
+                    builder.addCell(builder.createRichTextString("Patient tracking for week of ", "bold", "Monday following the date below", "color=" + HSSFColor.BLUE.index), null);
+                    builder.nextRow();
+                    builder.addCell(builder.createRichTextString("Date Report Printed: ", "bold", DateUtil.formatDate(reportDate, "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null);
+                    builder.nextRow();
+                    builder.addCell(builder.createRichTextString("Date Report due back to Chisomo/Maxwell:  ", "bold", "2nd Wednesday after report is printed", "color=" + HSSFColor.BLUE.index + ",size=8,italic" + ",bold"), null);
+                }
+                else {
+                    builder.nextRow();
+                    builder.addCell("12 weeks missed appointment", "bold").merge(5, 0);
+                    builder.addCell(builder.createRichTextString(
+                            "Instructions: ", "bold",
+                            "When complete, return all findings to Chisomo (0884784429) in Upper Neno and Maxwell (0884784429) in Lower Neno", null), "size=12,wraptext,valign=center").merge(lastColMerge, 2);
+                    builder.nextRow();
+                    builder.addCell(builder.createRichTextString("Date Report Printed: ", "bold", DateUtil.formatDate(reportDate, "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null).merge(5, 0);
+                }
                 builder.nextRow();
                 builder.nextRow();
 
@@ -97,7 +119,13 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
                 String headerStyle3 = headerStyle2 + ",size=8";
 
                 builder.addCell("", null, 6);
-                builder.addCell("ARV#", headerStyle1 + ",border=left", 12);
+                if (metaData.getColumn("parameter.location") != null) {
+                    builder.addCell("Facility", headerStyle1 + ",border=left", 20);
+                    builder.addCell("ARV#", headerStyle1);
+                }
+                else {
+                    builder.addCell("ARV#", headerStyle1 + ",border=left", 12);
+                }
                 if (metaData.getColumn("NCD_NUMBER") != null) {
                     builder.addCell("NCD#", headerStyle1, 12);
                 }
@@ -138,7 +166,15 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
                     if (i + 1 == rows.size()) {
                         rowStyle += ",border=bottom";
                     }
-                    builder.addCell(row.getColumnValue("ARV_NUMBER"), rowStyle + ",border=left");
+                    if (metaData.getColumn("parameter.location") != null) {
+                        Location facility = (Location)row.getColumnValue("parameter.location");
+                        builder.addCell(facility.getName(), rowStyle + ",border=left");
+                        builder.addCell(row.getColumnValue("ARV_NUMBER"), rowStyle);
+                    }
+                    else {
+                        builder.addCell(row.getColumnValue("ARV_NUMBER"), rowStyle + ",border=left");
+                    }
+
                     if (metaData.getColumn("NCD_NUMBER") != null) {
                         builder.addCell(row.getColumnValue("NCD_NUMBER"), rowStyle);
                     }
@@ -166,6 +202,23 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
         }
 
         builder.write(out);
+    }
+
+    public Map<String, Object> getHeaderCellValues(Integer minWeeks, Boolean isPhase1) {
+        Map<String, Object> m = new HashMap<String, Object>();
+        if (minWeeks == null || minWeeks == 12) {
+            m.put("traceLabel", "TRACE");
+            m.put("reportLabel", "12w Report - Clinical Team / POSER");
+        }
+        else {
+            m.put("traceLabel", "TRACE" + (minWeeks == 2 ? " PHASE " + (isPhase1 ? "I" : "II") : ""));
+            m.put("reportLabel", (minWeeks == 2 ? "2w Report -  VHW Site Supervisor" : "6w Report -  LPT"));
+        }
+        return m;
+    }
+
+    public <T> T getParameterValue(DataSet ds, Parameter p, Class<T> type) {
+        return (T) ds.getContext().getParameterValue(p.getName());
     }
 
     /**

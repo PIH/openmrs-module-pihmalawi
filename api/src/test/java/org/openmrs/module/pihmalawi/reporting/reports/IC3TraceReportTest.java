@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the HccMissedAppointmentReport
  */
-public class TraceMissedAppointmentReportTest extends ReportManagerTest {
+public class IC3TraceReportTest extends ReportManagerTest {
 
 	@Autowired
 	HivMetadata metadata;
@@ -32,7 +32,7 @@ public class TraceMissedAppointmentReportTest extends ReportManagerTest {
 	HivMetadata hivMetadata;
 
 	@Autowired
-    TraceMissedAppointmentReport report;
+    IC3TraceReport report;
 
 	@Override
 	public ReportManager getReportManager() {
