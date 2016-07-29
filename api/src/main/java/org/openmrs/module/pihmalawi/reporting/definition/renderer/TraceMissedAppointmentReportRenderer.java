@@ -16,10 +16,12 @@ package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.openmrs.Location;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
+import org.openmrs.module.reporting.dataset.DataSetMetaData;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
 import org.openmrs.module.reporting.dataset.SimpleDataSet;
@@ -52,12 +54,17 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
             SimpleDataSet ds = (SimpleDataSet)reportData.getDataSets().get(key);
             if (ds.getRows().size() > 0) {
 
+                DataSetMetaData metaData = ds.getMetaData();
+
                 Location location = (Location) ds.getContext().getParameterValue("location");
                 Integer numWeeks = (Integer) ds.getContext().getParameterValue("numWeeks");
                 Integer phase = (Integer) ds.getContext().getParameterValue("phase");
 
                 builder.newSheet(location.getName() + " - " + numWeeks + " weeks");
+
                 builder.hideGridlinesInCurrentSheet();
+                builder.setLandscape();
+                builder.fitColumnsToPage();
 
                 String topRowStyle = "bold,size=18,color=" + HSSFColor.WHITE.index + ",background-color=" + HSSFColor.BLACK.index;
                 builder.addCell("TRACE" + (phase == 0 ? "" : phase == 1 ? " PHASE I" : " PHASE II"), topRowStyle).merge(5, 0);
@@ -91,20 +98,20 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
 
                 builder.addCell("", null, 6);
                 builder.addCell("ARV#", headerStyle1 + ",border=left", 12);
-                if (ds.getMetaData().getColumn("NCD_NUMBER") != null) {
+                if (metaData.getColumn("NCD_NUMBER") != null) {
                     builder.addCell("NCD#", headerStyle1, 12);
                 }
                 builder.addCell("First", headerStyle1, 12);
                 builder.addCell("Last", headerStyle1, 15);
                 builder.addCell("Village", headerStyle1, 30);
                 builder.addCell("VHW", headerStyle1, 20);
-                if (ds.getMetaData().getColumn("DIAGNOSES") != null) {
+                if (metaData.getColumn("DIAGNOSES") != null) {
                     builder.addCell("Diagnoses", headerStyle1, 20);
                 }
                 builder.addCell("Last IC3 Visit Date", headerStyle1, 18);
                 builder.addCell("Last Visit Appt Date", headerStyle1, 18);
                 builder.addCell("Weeks out of Care", headerStyle1, 8);
-                if (ds.getMetaData().getColumn("PRIORITY_PATIENT") != null) {
+                if (metaData.getColumn("PRIORITY_PATIENT") != null) {
                     builder.addCell("Priority Patient", headerStyle1, 8);
                 }
                 builder.addCell(builder.createRichTextString("Patient actually\nvisited clinic.", headerStyle2, "\nComplete Mastercard Update", headerStyle3), headerStyle2, 8);
@@ -114,6 +121,12 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
                 builder.addCell("Missed Appt", headerStyle2, 4);
                 builder.addCell("Patient Not Found", headerStyle2, 4);
                 builder.addCell("Remarks", headerStyle1 + ",border=right", 25);
+
+                // Set this row to repeat when printing on subsequent pages
+                int rowNum = builder.getCurrentRowNum();
+                int colNum = builder.getCurrentColNum();
+                builder.getCurrentSheet().setRepeatingRows(new CellRangeAddress(rowNum, rowNum, 0, colNum));
+
                 builder.nextRow();
 
                 String rowStyle = "border=top";
@@ -126,20 +139,20 @@ public class TraceMissedAppointmentReportRenderer extends ExcelTemplateRenderer 
                         rowStyle += ",border=bottom";
                     }
                     builder.addCell(row.getColumnValue("ARV_NUMBER"), rowStyle + ",border=left");
-                    if (ds.getMetaData().getColumn("NCD_NUMBER") != null) {
+                    if (metaData.getColumn("NCD_NUMBER") != null) {
                         builder.addCell(row.getColumnValue("NCD_NUMBER"), rowStyle);
                     }
                     builder.addCell(row.getColumnValue("FIRST_NAME"), rowStyle);
                     builder.addCell(row.getColumnValue("LAST_NAME"), rowStyle);
                     builder.addCell(row.getColumnValue("VILLAGE"), rowStyle);
                     builder.addCell(row.getColumnValue("VHW"), rowStyle);
-                    if (ds.getMetaData().getColumn("DIAGNOSES") != null) {
+                    if (metaData.getColumn("DIAGNOSES") != null) {
                         builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
                     }
                     builder.addCell(row.getColumnValue("LAST_VISIT_DATE"), rowStyle + ",date");
                     builder.addCell(row.getColumnValue("NEXT_APPT_DATE"), rowStyle + ",date");
                     builder.addCell(row.getColumnValue("WEEKS_OUT_OF_CARE"), rowStyle + ",format=0.0");
-                    if (ds.getMetaData().getColumn("PRIORITY_PATIENT") != null) {
+                    if (metaData.getColumn("PRIORITY_PATIENT") != null) {
                         Set<String> s = (Set<String>) row.getColumnValue("PRIORITY_PATIENT");
                         builder.addCell(s != null && !s.isEmpty() ? "!!!" : "", rowStyle+",color=" + HSSFColor.RED.index+",align=center");
                     }
