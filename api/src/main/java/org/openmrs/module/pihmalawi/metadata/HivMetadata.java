@@ -122,6 +122,13 @@ public class HivMetadata extends CommonMetadata {
 		return l;
 	}
 
+    public List<ProgramWorkflowState> getActiveHivStates() {
+        List<ProgramWorkflowState> l = new ArrayList<ProgramWorkflowState>();
+        l.add(getPreArtState());
+        l.add(getOnArvsState());
+        return l;
+    }
+
 	public EncounterType getPreArtInitialEncounterType() {
 		return getEncounterType(PRE_ART_INITIAL);
 	}

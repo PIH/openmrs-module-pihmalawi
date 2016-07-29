@@ -92,6 +92,11 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getMostRecentStateForWorkflowAtLocationByEndDate(wf, df.getStateLocationConverter());
 	}
 
+    @DocumentedDefinition
+    public PatientDataDefinition getAllChronicCareDiagnosisObsByEndDate() {
+        return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), null);
+    }
+
 	@DocumentedDefinition
 	public PatientDataDefinition getAllChronicCareDiagnosesByEndDate() {
 		CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());

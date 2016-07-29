@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
@@ -23,7 +24,7 @@ import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.AppointmentStatusDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InStateCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -74,9 +75,16 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
         for (EncounterType et : def.getEncounterTypes()) {
             encounterTypes.add(et.getEncounterTypeId());
         }
+        List<Integer> locationIds = null;
+        if (def.getLocations() != null) {
+            locationIds = new ArrayList<Integer>();
+            for (Location l : def.getLocations()) {
+                locationIds.add(l.getLocationId());
+            }
+        }
 
         // First, only those patients who are actively enrolled will have an appointment status
-        Cohort enrolled = getPatientsActivelyEnrolled(activeStates, context);
+        Cohort enrolled = getPatientsActivelyEnrolled(activeStates, def.getLocations(), def.getOnDate(), context);
 
         // Of these patients, keep those who have their latest scheduled appointment obs in the past, and no subsequent encounter
 
@@ -85,6 +93,8 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
         lastEncounterBuilder.from(Encounter.class, "e");
         lastEncounterBuilder.wherePatientIn("e.patient.patientId", context);
         lastEncounterBuilder.where("e.encounterType.encounterTypeId in (" + OpenmrsUtil.join(encounterTypes, ",") + ")");
+        lastEncounterBuilder.whereLessOrEqualTo("e.encounterDatetime", def.getOnDate());
+        lastEncounterBuilder.whereIn("e.location.locationId", locationIds);
         lastEncounterBuilder.groupBy("e.patient.patientId");
         Map<Integer, Date> lastEncounterDates = evaluationService.evaluateToMap(lastEncounterBuilder, Integer.class, Date.class, context);
 
@@ -92,22 +102,26 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
         nextScheduledBuilder.select("o.personId", "max(o.valueDatetime) as lastPlannedDate");
         nextScheduledBuilder.from(Obs.class, "o");
         nextScheduledBuilder.where("o.encounter.encounterType.encounterTypeId in (" + OpenmrsUtil.join(encounterTypes, ",") + ")");
+        lastEncounterBuilder.whereLessOrEqualTo("o.encounter.encounterDatetime", def.getOnDate());
+        lastEncounterBuilder.whereIn("o.encounter.location.locationId", locationIds);
         nextScheduledBuilder.wherePersonIn("o.personId", context);
         nextScheduledBuilder.whereInAny("o.concept", metadata.getAppointmentDateConcept());
         nextScheduledBuilder.groupBy("o.personId");
         Map<Integer, Date> nextScheduledDates = evaluationService.evaluateToMap(nextScheduledBuilder, Integer.class, Date.class, context);
 
+        Date effectiveDate = (def.getOnDate() == null ? new Date() : def.getOnDate());
+
 		for (Integer pId : nextScheduledDates.keySet()) {
             Date nextScheduledDate = enrolled.contains(pId) ? nextScheduledDates.get(pId) : null;
             Date lastEncounterDate = lastEncounterDates.get(pId);
-            c.addData(pId, new AppointmentInfo(enrolled.contains(pId), lastEncounterDate, nextScheduledDate));
+            c.addData(pId, new AppointmentInfo(effectiveDate, enrolled.contains(pId), lastEncounterDate, nextScheduledDate));
 		}
 
         // Ensure that any members of the original base cohort are in the return data, even if they have no data found
         if (context.getBaseCohort() != null) {
             for (Integer pId : context.getBaseCohort().getMemberIds()) {
                 if (!c.getData().containsKey(pId)) {
-                    c.addData(pId, new AppointmentInfo());
+                    c.addData(pId, new AppointmentInfo(effectiveDate));
                 }
             }
         }
@@ -115,8 +129,11 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
 		return c;
 	}
 
-    protected Cohort getPatientsActivelyEnrolled(List<ProgramWorkflowState> activeStates, EvaluationContext context) throws EvaluationException {
-        CohortDefinition cd = df.getActiveInStatesAtLocationOnEndDate(activeStates);
+    protected Cohort getPatientsActivelyEnrolled(List<ProgramWorkflowState> activeStates, List<Location> locations, Date endDate, EvaluationContext context) throws EvaluationException {
+        InStateCohortDefinition cd = new InStateCohortDefinition();
+        cd.setStates(activeStates);
+        cd.setLocations(locations);
+        cd.setOnDate(endDate);
         return cohortDefinitionService.evaluate(cd, context);
     }
 }

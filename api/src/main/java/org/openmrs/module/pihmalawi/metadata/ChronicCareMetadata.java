@@ -54,6 +54,12 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return getProgramWorkflowState(CHRONIC_CARE_PROGRAM, CHRONIC_CARE_PROGRAM_TREATMENT_STATUS, CHRONIC_CARE_STATUS_ON_TREATMENT);
 	}
 
+    public List<ProgramWorkflowState> getActiveChronicCareStates() {
+        List<ProgramWorkflowState> l = new ArrayList<ProgramWorkflowState>();
+        l.add(getChronicCareStatusOnTreatment());
+        return l;
+    }
+
 	public EncounterType getChronicCareInitialEncounterType() {
 		return getEncounterType(CHRONIC_CARE_INITIAL);
 	}
@@ -62,12 +68,109 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return getEncounterType(CHRONIC_CARE_FOLLOWUP);
 	}
 
-	public List<EncounterType> getChronicCareEncounterTypes() {
+	public EncounterType getHtnDiabetesInitialEncounterType() {
+	    return getEncounterType(EncounterTypes.HTN_DIABETES_INITIAL.uuid());
+    }
+
+    public EncounterType getHtnDiabetesFollowupEncounterType() {
+        return getEncounterType(EncounterTypes.HTN_DIABETES_FOLLOWUP.uuid());
+    }
+
+    public EncounterType getHtnDiabetesTestsEncounterType() {
+        return getEncounterType(EncounterTypes.HTN_DIABETES_TESTS.uuid());
+    }
+
+    public EncounterType getHtnDiabetesHospitalizationsEncounterType() {
+        return getEncounterType(EncounterTypes.HTN_DIABETES_HOSPITALIZATIONS.uuid());
+    }
+
+    public List<EncounterType> getHtnDiabetesEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getHtnDiabetesInitialEncounterType());
+        l.add(getHtnDiabetesFollowupEncounterType());
+        l.add(getHtnDiabetesHospitalizationsEncounterType());
+        l.add(getHtnDiabetesTestsEncounterType());
+        return l;
+    }
+
+    public EncounterType getAsthmaInitialEncounterType() {
+        return getEncounterType(EncounterTypes.ASTHMA_INITIAL.uuid());
+    }
+
+    public EncounterType getAsthmaFollowupEncounterType() {
+        return getEncounterType(EncounterTypes.ASTHMA_FOLLOWUP.uuid());
+    }
+
+    public EncounterType getAsthmaPeakFlowEncounterType() {
+        return getEncounterType(EncounterTypes.ASTHMA_PEAKFLOW.uuid());
+    }
+
+    public EncounterType getAsthmaHospitalizationsEncounterType() {
+        return getEncounterType(EncounterTypes.ASTHMA_HOSPITALIZATION.uuid());
+    }
+
+    public List<EncounterType> getAsthmaEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getAsthmaInitialEncounterType());
+        l.add(getAsthmaFollowupEncounterType());
+        l.add(getAsthmaPeakFlowEncounterType());
+        l.add(getAsthmaHospitalizationsEncounterType());
+        return l;
+    }
+
+    public EncounterType getEpilepsyInitialEncounterType() {
+        return getEncounterType(EncounterTypes.EPILEPSY_INITIAL.uuid());
+    }
+
+    public EncounterType getEpilepsyFollowupEncounterType() {
+        return getEncounterType(EncounterTypes.EPILEPSY_FOLLOWUP.uuid());
+    }
+
+    public List<EncounterType> getEpilepsyEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getEpilepsyInitialEncounterType());
+        l.add(getEpilepsyFollowupEncounterType());
+        return l;
+    }
+
+    public EncounterType getMentalHealthInitialEncounterType() {
+        return getEncounterType(EncounterTypes.MENTAL_HEALTH_INITIAL.uuid());
+    }
+
+    public EncounterType getMentalHealthFollowupEncounterType() {
+        return getEncounterType(EncounterTypes.MENTAL_HEALTH_FOLLOWUP.uuid());
+    }
+
+    public List<EncounterType> getMentalHealthEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getMentalHealthInitialEncounterType());
+        l.add(getMentalHealthFollowupEncounterType());
+        return l;
+    }
+
+	public List<EncounterType> getChronicCareScheduledVisitEncounterTypes() {
 		List<EncounterType> l = new ArrayList<EncounterType>();
 		l.add(getChronicCareInitialEncounterType());
 		l.add(getChronicCareFollowupEncounterType());
+        l.add(getHtnDiabetesInitialEncounterType());
+        l.add(getHtnDiabetesFollowupEncounterType());
+        l.add(getAsthmaInitialEncounterType());
+        l.add(getAsthmaFollowupEncounterType());
+        l.add(getEpilepsyInitialEncounterType());
+        l.add(getEpilepsyFollowupEncounterType());
+        l.add(getMentalHealthInitialEncounterType());
+        l.add(getMentalHealthFollowupEncounterType());
 		return l;
 	}
+
+    public List<EncounterType> getChronicCareEncounterTypes() {
+        List<EncounterType> l = getChronicCareScheduledVisitEncounterTypes();
+        l.add(getHtnDiabetesTestsEncounterType());
+        l.add(getHtnDiabetesHospitalizationsEncounterType());
+        l.add(getAsthmaPeakFlowEncounterType());
+        l.add(getAsthmaHospitalizationsEncounterType());
+        return l;
+    }
 
 	public List<Location> getChronicCareSystemLocations() {
 		List<Location> l = getLocationsForTag(LocationTags.CHRONIC_CARE_LOCATION.name());
@@ -77,7 +180,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public static final String CHRONIC_CARE_DIAGNOSIS = "CHRONIC CARE DIAGNOSIS";
 	public static final String ASTHMA = "Asthma";
+    public static final String COPD = "Chronic obstructive pulmonary disease";
 	public static final String DIABETES = "Diabetes";
+    public static final String TYPE_1_DIABETES = "Type 1 diabetes";
+    public static final String TYPE_2_DIABETES = "Type 2 diabetes";
 	public static final String EPILEPSY = "Epilepsy";
 	public static final String HEART_FAILURE = "Heart failure";
 	public static final String HYPERTENSION = "Hypertension";
@@ -100,11 +206,23 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return getConcept(ASTHMA);
 	}
 
+	public Concept getCopdConcept() {
+	    return getConcept(COPD);
+    }
+
 	public Concept getDiabetesConcept() {
 		return getConcept(DIABETES);
 	}
 
-	public Concept getEpilepsyConcept() {
+	public Concept getType1DiabetesConcept() {
+	    return getConcept(TYPE_1_DIABETES);
+    }
+
+    public Concept getType2DiabetesConcept() {
+        return getConcept(TYPE_2_DIABETES);
+    }
+
+    public Concept getEpilepsyConcept() {
 		return getConcept(EPILEPSY);
 	}
 

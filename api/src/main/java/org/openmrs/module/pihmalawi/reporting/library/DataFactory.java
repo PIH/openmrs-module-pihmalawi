@@ -29,6 +29,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.AppointmentStatusCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.AppointmentStatusDataDefinition;
@@ -224,6 +225,13 @@ public class DataFactory {
         def.addParameter(new Parameter("valueDatetimeOnOrBefore", "Value On Or Before", Date.class));
         def.addParameter(new Parameter("locationList", "Locations", Location.class));
         return convert(def, ObjectUtil.toMap("valueDatetimeOrAfter=startDate,valueDatetimeOnOrBefore=endDate,locationList=location"), converter);
+    }
+
+    public PatientDataDefinition getAppointmentStatus(List<ProgramWorkflowState> states, List<EncounterType> encounterTypes) {
+        AppointmentStatusDataDefinition def = new AppointmentStatusDataDefinition();
+        def.setActiveStates(states);
+        def.setEncounterTypes(encounterTypes);
+        return def;
     }
 
     public PatientDataDefinition getAppointmentStatus(TreatmentGroup treatmentGroup) {
@@ -711,6 +719,18 @@ public class DataFactory {
 		}
 		return convert(cd, params);
 	}
+
+	public CohortDefinition getPatientsLateForAppointment(List<ProgramWorkflowState> states, List<EncounterType> encounterTypes, Integer minDaysOverdue, Integer maxDaysOverdue) {
+        AppointmentStatusCohortDefinition cd = new AppointmentStatusCohortDefinition();
+        cd.setActiveStates(states);
+        cd.setEncounterTypes(encounterTypes);
+        cd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+        cd.addParameter(new Parameter("locations", "Locations", Location.class));
+        cd.setNoAppointmentIncluded(false);
+        cd.setMinDaysOverdue(minDaysOverdue);
+        cd.setMaxDaysOverdue(maxDaysOverdue);
+        return convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
+    }
 
 	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
 		DateObsCohortDefinition cd = new DateObsCohortDefinition();

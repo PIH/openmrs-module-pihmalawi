@@ -197,6 +197,11 @@ public class CommonMetadata extends Metadata {
 	public static final String SKIN_RASH_CONCEPT = "Skin rash";
 	public static final String LIPODYSTROPHY_CONCEPT = "Lipodystrophy";
 
+    public static final String SICKLE_CELL_DISEASE_CONCEPT = "Sickle cell disease";
+    public static final String CHRONIC_KIDNEY_DISEASE_CONCEPT = "Chronic kidney disease";
+    public static final String RHEUMATIC_HEART_DISEASE_CONCEPT = "Rheumatic heart disease";
+    public static final String CONGESTIVE_HEART_FAILURE_CONCEPT = "Congestive heart failure";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -656,6 +661,22 @@ public class CommonMetadata extends Metadata {
 	public Concept getLipodystrophyyConcept() {
 		return getConcept(LIPODYSTROPHY_CONCEPT);
 	}
+
+    public Concept getSickleCellDiseaseConcept() {
+        return getConcept(SICKLE_CELL_DISEASE_CONCEPT);
+    }
+
+    public Concept getChronicKidneyDiseaseConcept() {
+        return getConcept(CHRONIC_KIDNEY_DISEASE_CONCEPT);
+    }
+
+    public Concept getRheumaticHeartDiseaseConcept() {
+        return getConcept(RHEUMATIC_HEART_DISEASE_CONCEPT);
+    }
+
+    public Concept getCongestiveHeartFailureConcept() {
+        return getConcept(CONGESTIVE_HEART_FAILURE_CONCEPT);
+    }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";
 	public static String OUTPATIENT_LOCATION = "Outpatient";

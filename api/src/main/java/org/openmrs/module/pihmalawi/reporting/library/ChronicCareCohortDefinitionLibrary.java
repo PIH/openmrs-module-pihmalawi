@@ -44,9 +44,6 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	@Autowired
 	private DataFactory df;
 
-	@Autowired
-	private ChronicCarePatientDataLibrary ccPatientData;
-
     @Autowired
     private ChronicCareMetadata metadata;
 
@@ -81,6 +78,16 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	public CohortDefinition getPatientsWithNoChronicCareEncounterAtLocationWithin1MonthOfEndDate() {
 		return df.getAnyEncounterOfTypesAtLocationWithinMonthsByEndDate(metadata.getChronicCareEncounterTypes(), 1);
 	}
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithEpilepsyEncounterByEndDate() {
+        return df.getAnyEncounterOfTypesByEndDate(metadata.getEpilepsyEncounterTypes());
+    }
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithMentalHealthEncounterByEndDate() {
+        return df.getAnyEncounterOfTypesByEndDate(metadata.getMentalHealthEncounterTypes());
+    }
 
 	// Obs
 
@@ -135,6 +142,11 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getAsthmaClassificationConcept(), answers);
 	}
 
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithMostRecentSeverePersistentAsthmaByEndDate() {
+        return df.getPatientsWhoseMostRecentCodedObsInValuesAtLocationByEndDate(metadata.getAsthmaClassificationConcept(), null, metadata.getSeverePersistentConcept(), metadata.getSevereUncontrolledConcept());
+    }
+
 	@DocumentedDefinition(value = "patientsOnInsulinAtLocationDuringPeriod")
 	public CohortDefinition getPatientsOnInsulinAtLocationDuringPeriod() {
 		return df.getPatientsWithCodedObsAtLocationDuringPeriod(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getInsulinConcept()));
@@ -149,6 +161,11 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	public CohortDefinition getPatientsWithMoreThanTwoSeizuresPerMonthRecordedAtLocationDuringPeriod() {
 		return df.getPatientsWithNumericObsAtLocationDuringPeriod(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 2.0);
 	}
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithMoreThanFiveSeizuresPerMonthRecordedInLastVisitByEndDate() {
+        return df.getPatientsWithMostRecentNumericObsAtLocationByEnd(metadata.getNumberOfSeizuresConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.GREATER_THAN, 5.0);
+    }
 
 	@DocumentedDefinition(value = "patientsWithSystolicBloodPressureOver180AtLocationDuringPeriod")
 	public CohortDefinition getPatientsWithSystolicBloodPressureOver180AtLocationDuringPeriod() {

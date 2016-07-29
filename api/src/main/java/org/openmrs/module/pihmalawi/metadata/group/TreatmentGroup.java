@@ -20,13 +20,11 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TreatmentGroup {
@@ -61,16 +59,6 @@ public abstract class TreatmentGroup {
 
 	public PatientDataDefinition getCurrentStateDefinition(DataConverter converter) {
 		return df.getMostRecentStateForWorkflowByEndDate(getStatusWorkflow(), converter);
-	}
-
-	public CohortDefinition getActiveAtLocationDefinition() {
-		CohortDefinition inProgram = df.getActivelyEnrolledInProgramAtLocationOnEndDate(getProgram());
-		CohortDefinition inState = df.getActiveInStatesAtLocationOnEndDate(getActiveStates());
-		return df.getPatientsInAll(inProgram, inState);
-	}
-
-	public EncounterQuery getAllEncountersAtLocationDefinition() {
-		return df.getEncountersOfTypeAtLocationByEndDate(getEncounterTypes());
 	}
 
 	public EncounterQuery getAllEncountersDefinition() {

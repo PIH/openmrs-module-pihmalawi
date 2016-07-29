@@ -11,25 +11,21 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
+package org.openmrs.module.pihmalawi.reporting.definition.cohort.definition;
 
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
-import org.openmrs.module.pihmalawi.common.AppointmentInfo;
-import org.openmrs.module.reporting.common.Localized;
-import org.openmrs.module.reporting.data.BaseDataDefinition;
-import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Returns the status of a patients appointment for a given encounter type
+ * Return patients whose appointment status matches the given criteria
  */
-@Localized("pihmalawi.AppointmentDataDefinition")
-public class AppointmentStatusDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
+public class AppointmentStatusCohortDefinition extends BaseCohortDefinition {
 
     @ConfigurationProperty
     private List<ProgramWorkflowState> activeStates;
@@ -37,28 +33,23 @@ public class AppointmentStatusDataDefinition extends BaseDataDefinition implemen
     @ConfigurationProperty
     private List<EncounterType> encounterTypes;
 
-    @ConfigurationProperty
-    private List<Location> locations;
+	@ConfigurationProperty
+	private List<Location> locations;
+
+	@ConfigurationProperty
+	private Date onDate;
 
     @ConfigurationProperty
-    private Date onDate;
+    private Boolean noAppointmentIncluded;
 
-	//****** CONSTRUCTORS ******
+    @ConfigurationProperty
+    private Integer minDaysOverdue;
 
-	/**
-	 * Default Constructor
-	 */
-	public AppointmentStatusDataDefinition() {
+    @ConfigurationProperty
+    private Integer maxDaysOverdue;
+
+	public AppointmentStatusCohortDefinition() {
 		super();
-	}
-
-	//***** INSTANCE METHODS *****
-
-	/**
-	 * @see org.openmrs.module.reporting.data.DataDefinition#getDataType()
-	 */
-	public Class<?> getDataType() {
-		return AppointmentInfo.class;
 	}
 
     public List<ProgramWorkflowState> getActiveStates() {
@@ -91,5 +82,29 @@ public class AppointmentStatusDataDefinition extends BaseDataDefinition implemen
 
     public void setOnDate(Date onDate) {
         this.onDate = onDate;
+    }
+
+    public Boolean getNoAppointmentIncluded() {
+        return noAppointmentIncluded;
+    }
+
+    public void setNoAppointmentIncluded(Boolean noAppointmentIncluded) {
+        this.noAppointmentIncluded = noAppointmentIncluded;
+    }
+
+    public Integer getMinDaysOverdue() {
+        return minDaysOverdue;
+    }
+
+    public void setMinDaysOverdue(Integer minDaysOverdue) {
+        this.minDaysOverdue = minDaysOverdue;
+    }
+
+    public Integer getMaxDaysOverdue() {
+        return maxDaysOverdue;
+    }
+
+    public void setMaxDaysOverdue(Integer maxDaysOverdue) {
+        this.maxDaysOverdue = maxDaysOverdue;
     }
 }
