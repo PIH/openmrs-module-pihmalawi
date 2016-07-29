@@ -87,7 +87,7 @@ public class TraceMissedAppointmentReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "TRACE Missed Appointment Report";
+		return "IC3 TRACE Report";
 	}
 
     @Override
