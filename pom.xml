@@ -86,6 +86,13 @@
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
+            <artifactId>appui-api</artifactId>
+            <version>${appuiVersion}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
             <artifactId>calculation-api</artifactId>
             <version>${calculationVersion}</version>
             <type>jar</type>

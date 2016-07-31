@@ -15,10 +15,16 @@ package org.openmrs.module.pihmalawi.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.appframework.domain.Extension;
+import org.openmrs.module.appframework.repository.AllFreeStandingExtensions;
+import org.openmrs.module.appui.AppUiExtensions;
+import org.openmrs.module.reporting.common.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PihMalawiModuleActivator extends BaseModuleActivator {
 
@@ -60,7 +66,16 @@ public class PihMalawiModuleActivator extends BaseModuleActivator {
 		for (Initializer initializer : getInitializers()) {
 			initializer.started();
 		}
-	}
+
+		// New bug/feature in Chrome/IE/Safari causes system to log out user with default logo link url.  Update this here.
+        List<AllFreeStandingExtensions> l = Context.getRegisteredComponents(AllFreeStandingExtensions.class);
+        if (l != null && l.size() > 0) {
+            AllFreeStandingExtensions extensions = l.get(0);
+            Map<String, Object> extensionParams = ObjectUtil.toMap("logo-link-url", "/index.htm");
+            Extension e = new Extension("pihmalawi.headerExtension", null, AppUiExtensions.HEADER_CONFIG_EXTENSION, null, null, null, 100, null, extensionParams);
+            extensions.add(e);
+        }
+    }
 
 	@Override
 	public void stopped() {
