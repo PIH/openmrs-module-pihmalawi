@@ -2835,25 +2835,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 8546;
-            String uuid = "5f52124a-cf63-11e5-ab30-625662870761";
-            String name = "Exposure construct";
-            Concept c = cs.getConcept(id);
-            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Exposure construct")) {
-                log.warn("Updating " + name);
-                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
-                c.setSet(true);
-                c.getConceptSets().clear();
-                c.addSetMember(cs.getConcept(8495)); // Exposure
-                c.addSetMember(cs.getConcept(8545)); // Date of exposure
-                c.addSetMember(cs.getConcept(2241)); // Duration (years)
-                cs.saveConcept(c);
-            }
-        }
-
-        {
             Integer id = 8547;
             String uuid = "5f5213e4-cf63-11e5-ab30-625662870761";
             String name = "Date of complication";
@@ -3235,41 +3216,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 3683;
-            Concept c = cs.getConcept(id);
-            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
-            c.getAnswers().clear();
-
-            // Replacing existing answers
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
-            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
-
-            // Adding new answers for Mental Health
-            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
-            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
-            cs.saveConcept(c);
-        }
-
-        {
             Integer id = 8564;
             String uuid = "139146AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             String name = "Hallucinations";
@@ -3398,6 +3344,187 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+        {
+            Integer id = 8571;
+            String uuid = "625afe8c-5377-11e6-beb8-9e71128cae77";
+            String name = "History of exposure";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1550))); // Current
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1548))); // Past
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 2242;
+            String uuid = "";
+            String name = "Alcohol use construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Alcohol use construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(1552)); // History of alcohol use
+                c.addSetMember(cs.getConcept(3342)); // Type of alcohol
+                c.addSetMember(cs.getConcept(2318)); // Does the patient drink alcohol?
+                c.addSetMember(cs.getConcept(2243)); // Number of days per week alcohol is used
+                c.addSetMember(cs.getConcept(2244)); // Glasses of wine per day
+                c.addSetMember(cs.getConcept(2245)); // Bottles of beer per day
+                c.addSetMember(cs.getConcept(2246)); // Drinks per day
+                c.addSetMember(cs.getConcept(6135)); // Liters of traditional alcohol consumed per day
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                c.addSetMember(cs.getConcept(2241)); // Duration (years)
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8573;
+            String uuid = "625b081e-5377-11e6-beb8-9e71128cae77";
+            String name = "Traditional medicine use construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(8571)); // History of exposure
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                c.addSetMember(cs.getConcept(2241)); // Duration (years)
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8546;
+            String uuid = "5f52124a-cf63-11e5-ab30-625662870761";
+            String name = "Exposure construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Exposure construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(8495)); // Exposure
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8574;
+            String uuid = "59d876a4-5444-11e6-beb8-9e71128cae77";
+            String name = "Marijuana use construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setSet(true);
+                c.addSetMember(cs.getConcept(8571)); // History of exposure
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                c.addSetMember(cs.getConcept(2241)); // Duration (years)
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8575;
+            String uuid = "d57e3a20-5802-11e6-8b77-86f30ca893d3";
+            String name = "Other non-coded (text)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8576;
+            String uuid = "625b029c-5377-11e6-beb8-9e71128cae77";
+            String name = "Drug use construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(8571)); // History of exposure
+                c.addSetMember(cs.getConcept(8545)); // Date of exposure
+                c.addSetMember(cs.getConcept(2241)); // Duration (years)
+                c.addSetMember(cs.getConcept(8575)); // Other non-coded
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 3683;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
+            c.getAnswers().clear();
+
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
+            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+
+            // Adding new answers for Mental Health
+            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
+            cs.saveConcept(c);
+        }
+
         /* Not using this since we'll use the previous concept
             "Age" in weeks without units
         {

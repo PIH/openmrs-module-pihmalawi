@@ -5,6 +5,7 @@
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
+        epilepsyDiagnosis=155
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
         behaviorFamilyHistory=8486
@@ -86,6 +87,12 @@
     <span style="display:none">
         <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+        <obsgroup groupingConceptId="$diagnosisSet">
+                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                     answerConceptId="$epilepsyDiagnosis"
+                     defaultValue="$epilepsyDiagnosis"/>
+                <obs conceptId="$diagnosisDate" defaultValue="now" />
+        </obsgroup>
     </span>
     <div>
         <h4 style="font-style: italic;">

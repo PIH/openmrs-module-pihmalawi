@@ -27,6 +27,7 @@
         alcoholUseMentalDisorder=8562
         drugUseMentalDisorder=8563
         manic=8491
+        mentalHealthOther=8420
         mentalFamilyHistory=8458
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
@@ -63,13 +64,18 @@
         chwName=8431
 
         exposure=8495
-        expoConstruct=8546
+        exposeHistory=8571
+        alcoholHistory=1552
+        past=1548
+        current=1550
         expoYears=2241
         expoDate=8545
-        alcoholDrug=6958
-        marijuanaDrug=8493
-        tradMeds=8494
-        medsOther=7633
+        alcoholConstruct=2242
+        mjConstruct=8574
+        medsOtherConstruct=8576
+        medsOtherName=8575
+        tradMedsConstruct=8573
+
 
     </macros>
 
@@ -203,11 +209,11 @@
                             <th style="vertical-align:top;" align="left" rowspan="13">Diagnoses</th>
 
                                 <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td style="border-right: 1px solid #ffffff;">
+                                    <td data-toggle-source="schizo" data-toggle-target="schizo-date" style="border-right: 1px solid #ffffff;">
                                         <obs conceptId="$chronicCareDiagnosis" style="checkbox"
                                              answerConceptId="$schizo" answerLabel="Schizophrenia"/>
                                     </td>
-                                    <td style="border-left: 1px solid #ffffff;">
+                                    <td id="schizo-date" style="border-left: 1px solid #ffffff;">
                                         <obs conceptId="$diagnosisDate" labelText="Date"/>
                                     </td>
                                 </obsgroup>
@@ -228,23 +234,23 @@
                             </td>
                         </tr>
                                     <!-- Mental Health diagnoses -->
-                                    <repeat with="['$manic','Mood affective disorder (manic)'],
-                                        ['$depression','Mood affective disorder (depression)'],
-                                        ['$acutePsychotic','Acute &#38; transient psychotic disorder'],
-                                        ['$schizoaffectiveDisorder','Schizoaffective Disorder'],
-                                        ['$anxiety','Anxiety disorder'],
-                                        ['$acuteOrganicMentalDisorder','Organic mental disorder (acute)'],
-                                        ['$chronicOrganicMentalDisorder','Organic mental disorder (chronic)'],
-                                        ['$drugUseMentalDisorder','Drug use mental disorder'],
-                                        ['$alcoholUseMentalDisorder','Alcohol use mental disorder']">
+                                    <repeat with="['$manic','Mood affective disorder (manic)','manic'],
+                                        ['$depression','Mood affective disorder (depression)','depress'],
+                                        ['$acutePsychotic','Acute &#38; transient psychotic disorder','transient'],
+                                        ['$schizoaffectiveDisorder','Schizoaffective Disorder','schizoaff'],
+                                        ['$anxiety','Anxiety disorder','anxiety'],
+                                        ['$acuteOrganicMentalDisorder','Organic mental disorder (acute)','organic-acute'],
+                                        ['$chronicOrganicMentalDisorder','Organic mental disorder (chronic)','organic-chronic'],
+                                        ['$drugUseMentalDisorder','Drug use mental disorder','drug'],
+                                        ['$alcoholUseMentalDisorder','Alcohol use mental disorder','booze']">
 
                                         <tr>
                                             <obsgroup groupingConceptId="$diagnosisSet">
-                                                <td style="border-right: 1px solid #ffffff;">
+                                                <td data-toggle-source="{2}" data-toggle-target="{2}-date" style="border-right: 1px solid #ffffff;">
                                                     <obs conceptId="$chronicCareDiagnosis" style="checkbox"
                                                          answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
-                                                <td style="border-left: 1px solid #ffffff;">
+                                                <td id="{2}-date" style="border-left: 1px solid #ffffff;">
                                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                                 </td>
                                             </obsgroup>
@@ -252,18 +258,18 @@
                                     </repeat>
 
                                     <!-- todo: Add other diagnoses-->
-                        <repeat with="['$other','Other,'],
-                                      ['$other','Other,'],
-                                      ['$other','Other,']">
+                        <repeat with="['$mentalHealthOther','Other,','other1'],
+                                      ['$mentalHealthOther','Other,','other2'],
+                                      ['$mentalHealthOther','Other,','other3']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td style="border-right: 1px solid #ffffff;">
+                                    <td data-toggle-source="{2}" data-toggle-target="{2}-date" style="border-right: 1px solid #ffffff;">
                                         <obs conceptId="$chronicCareDiagnosis" style="checkbox"
                                              answerConceptId="{0}" answerLabel="{1}"
                                              commentFieldLabel="specify" />
                                     </td>
-                                    <td style="border-left: 1px solid #ffffff;">
+                                    <td id="{2}-date" style="border-left: 1px solid #ffffff;">
                                         <obs conceptId="$diagnosisDate" labelText="Date"/>
                                     </td>
                                 </obsgroup>
@@ -275,16 +281,19 @@
                                 Exposures
                             </th>
                             <td class="nowrap">
-                                <obs conceptId="$hivStatus" labelText="HIV"
+                                <strong>HIV</strong>
+                                <obs conceptId="$hivStatus"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/>
                                 <br/>
                                 <obs conceptId="$hivTestDate" labelText="Date test"/>
                             </td>
                             <td>
-                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                                <strong>ART</strong><br/>
+                                <obs conceptId="$artStartDate" labelText="Start Date"/>
                             </td>
                             <td class="nowrap" style="border-right: 1px solid #ffffff;">
-                                <obs conceptId="$tbStatus" labelText="TB"
+                                <strong>TB</strong>
+                                <obs conceptId="$tbStatus"
                                      answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/>
                             </td>
@@ -297,92 +306,177 @@
                             <th style="vertical-align:top;" align="left" colspan="2">
                                 Presenting Features
                             </th>
-                            <td rowspan="2" colspan="2"><b>Alcohol:</b>
-                                <obsgroup groupingConceptId="$expoConstruct">
-                                    <obs conceptId="$exposure" style="checkbox"
-                                             answerConceptId="$alcoholDrug" answerLabel="Current"/>
-                                    <br/>
-                                    <obs conceptId="$expoYears" labelText="years"/>
-                                    <obs conceptId="$diagnosisDate" labelText="Date last used"/>
+                            <td rowspan="2" colspan="2" style="padding: 0px;">
+                                <obsgroup groupingConceptId="$alcoholConstruct">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td style="border: 1px solid #ffffff;">
+                                            <strong>Alcohol</strong>
+                                        </td>
+                                        <td data-toggle-source="alcohol-history" data-toggle-target="alcohol-time" style="border: 1px solid #ffffff;">
+                                            <obs conceptId="$alcoholHistory" style="checkbox"
+                                                 answerConceptId="$current" answerLabel="Current"/>
+                                            <obs conceptId="$alcoholHistory" style="checkbox"
+                                                 answerConceptId="$past" answerLabel="Past"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="alcohol-time" style="border: 1px solid #ffffff;">
+                                            <obs conceptId="$expoYears" labelText="# years"/>
+                                            &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                            <obs conceptId="$expoDate" labelText="Date last use"/>
+                                        </td>
+                                    </tr>
+                                </table>
                                 </obsgroup>
                             </td>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="hallu" data-toggle-target="hallu-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$hallucinate" answerLabel="Hallucinations"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="hallu-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="delu" data-toggle-target="delu-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$delusion" answerLabel="Delusions"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="delu-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
-                            <td rowspan="2" colspan="2">
-                                Chamba
+                            <td rowspan="2" colspan="2" style="padding: 0px;">
+                                <obsgroup groupingConceptId="$mjConstruct">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="border: 1px solid #ffffff;">
+                                                <strong>Chamba</strong><br/>
+                                                <small>(Marijuana)</small>
+                                            </td>
+                                            <td data-toggle-source="mj-history" data-toggle-target="mj-time"
+                                                style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$current" answerLabel="Current"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$past" answerLabel="Past"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" id="mj-time" style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$expoYears" labelText="# years"/>
+                                                &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </obsgroup>
                             </td>
                         </tr>
 
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="disrupt" data-toggle-target="disrupt-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$disrupt" answerLabel="Disorganised/disruptive behaviour"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="disrupt-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="abspeech" data-toggle-target="abspeech-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$abSpeech" answerLabel="Disorganised speech"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="abspeech-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
-                            <td rowspan="2" colspan="2">
-                                Other drugs...
+
+                            <td rowspan="2" colspan="2" style="padding: 0px;">
+                                <obsgroup groupingConceptId="$medsOtherConstruct">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="border: 1px solid #ffffff;">
+                                                <strong>Other drugs</strong>
+                                                <br/>
+                                                <obs conceptId="$medsOtherName" />
+                                            </td>
+                                            <td data-toggle-source="other-meds-history" data-toggle-target="other-meds-time"
+                                                style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$current" answerLabel="Current"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$past" answerLabel="Past"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" id="other-meds-time" style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$expoYears" labelText="# years"/>
+                                                &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </obsgroup>
                             </td>
                         </tr>
 
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="depr" data-toggle-target="depr-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$depressive" answerLabel="Depressive symptoms"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="depr-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="other-chief" data-toggle-target="o-date" style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$other" answerLabel="Other,"
                                          commentFieldLabel="specify" />
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
+                                <td id="o-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
-                            <td rowspan="2" colspan="2">
-                                Traditional meds...
+                            <td rowspan="2" colspan="2" style="padding: 0px;">
+                                <obsgroup groupingConceptId="$tradMedsConstruct">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="border: 1px solid #ffffff;">
+                                                <strong>Traditional<br/>medicine</strong>
+                                            </td>
+                                            <td data-toggle-source="trad-history" data-toggle-target="trad-time"
+                                                style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$current" answerLabel="Current"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$past" answerLabel="Past"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" id="trad-time" style="border: 1px solid #ffffff;">
+                                                <obs conceptId="$expoYears" labelText="# years"/>
+                                                &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </obsgroup>
                             </td>
                         </tr>
 
