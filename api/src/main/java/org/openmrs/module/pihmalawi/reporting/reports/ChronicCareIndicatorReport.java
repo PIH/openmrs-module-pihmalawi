@@ -13,11 +13,13 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.EncounterType;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCareEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.library.BuiltInCohortDefinitionLibrary;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.dataset.definition.SimpleIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -50,14 +52,14 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 	@Autowired
 	private DataFactory df;
 
+    @Autowired
+    private ChronicCareMetadata ccMetadata;
+
 	@Autowired
 	private BuiltInCohortDefinitionLibrary coreCohorts;
 
 	@Autowired
 	private ChronicCareCohortDefinitionLibrary ccCohorts;
-
-	@Autowired
-	private ChronicCareEncounterQueryLibrary ccEncounterQueries;
 
 	public ChronicCareIndicatorReport() { }
 
@@ -90,11 +92,9 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		ret.put(ColumnKey.Total, null);
 		ret.put(ColumnKey.Asthma, ccCohorts.getPatientsWithAsthmaDiagnosisByEndDate());
 		ret.put(ColumnKey.CHF, ccCohorts.getPatientsWithHeartFailureDiagnosisByEndDate());
-		//ret.put(ColumnKey.CKD, );
 		ret.put(ColumnKey.Diabetes, ccCohorts.getPatientsWithDiabetesDiagnosisByEndDate());
 		ret.put(ColumnKey.Epilepsy, ccCohorts.getPatientsWithEpilepsyDiagnosisByEndDate());
 		ret.put(ColumnKey.Hypertension, ccCohorts.getPatientsWithHypertensionDiagnosisByEndDate());
-		//ret.put(ColumnKey.Mental_Health, );
 		ret.put(ColumnKey.Other, ccCohorts.getPatientsWithOtherNonCodedDiagnosisByEndDate());
 		return ret;
 	}
@@ -103,14 +103,16 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 	@Override
 	public ReportDefinition constructReportDefinition() {
 
+	    List<EncounterType> ccEncTypes = ccMetadata.getChronicCareEncounterTypes();
+
 		// Underlying cohorts and queries
 
-		CohortDefinition visitByEnd = ccCohorts.getPatientsWithAChronicCareEncounterAtLocationByEndDate();
+		CohortDefinition visitByEnd = df.getAnyEncounterOfTypesAtLocationByEndDate(ccEncTypes);
 		CohortDefinition onTreatmentAtEnd = ccCohorts.getPatientsInOnTreatmentStateAtLocationOnEndDate();
 		CohortDefinition enrolledAtEnd = df.getPatientsInAll(visitByEnd, onTreatmentAtEnd);
-		CohortDefinition visitWithin3Months = ccCohorts.getPatientsWithChronicCareEncounterAtLocationWithin3MonthsOfEndDate();
+		CohortDefinition visitWithin3Months = df.getAnyEncounterOfTypesAtLocationWithinMonthsByEndDate(ccEncTypes, 3);
 		CohortDefinition activeOnTx = df.getPatientsInAll(onTreatmentAtEnd, visitWithin3Months);
-		CohortDefinition initialEncountersDuringPeriod = ccCohorts.getPatientsWithChronicCareInitialVisitAtLocationDuringPeriod();
+		CohortDefinition initialEncountersDuringPeriod = df.getAnyEncounterOfTypesAtLocationDuringPeriod(ccMetadata.getChronicCareInitialEncounterTypes()); // TODO: New Mastercards, is this right?
 		CohortDefinition hospitalizedDuringPeriod = ccCohorts.getPatientsHospitalizedAtLocationDuringPeriod();
 		CohortDefinition hospitalizedForNcdDuringPeriod = ccCohorts.getPatientsHospitalizedForNcdAtLocationDuringPeriod();
 		CohortDefinition hasMoreThanMildAsthma = ccCohorts.getPatientsWithMoreThanMildPersistentAsthmaAtLocationDuringPeriod();
@@ -131,19 +133,19 @@ public class ChronicCareIndicatorReport extends ApzuReportManager {
 		CohortDefinition referredFromInpatient = ccCohorts.getNewPatientsReferredFromInpatientWardAtLocationDuringPeriod();
 		CohortDefinition referredFromHealthCenter = ccCohorts.getNewPatientsReferredFromHealthCenterAtLocationDuringPeriod();
 		CohortDefinition referredFromOther = df.createPatientComposition(referredDuringPeriod, "AND NOT (", referredFromOpd, "OR", referredFromInpatient, "OR", referredFromHealthCenter, ")");
-		CohortDefinition overAMonthLate = ccCohorts.getPatientsWithoutAChronicCareVisitMoreThanOneMonthPastTheirLastScheduleAppointmentAtLocationByEndDate();
+		CohortDefinition overAMonthLate = df.getPatientsLateForAppointment(ccMetadata.getActiveChronicCareStates(), ccMetadata.getChronicCareScheduledVisitEncounterTypes(), 30, null);
 
-		EncounterQuery visits = ccEncounterQueries.getChronicCareFollowupEncountersAtLocationDuringPeriod();
-		EncounterQuery visitsWithPeakFlow = ccEncounterQueries.getChronicCareEncountersWithPeakFlowRecordedAtLocationDuringPeriod();
-		EncounterQuery visitsWithWeight = ccEncounterQueries.getChronicCareEncountersWithWeightRecordedAtLocationDuringPeriod();
-		EncounterQuery visitsWithFingerstick = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseRecordedAtLocationDuringPeriod();
-		EncounterQuery visitsWithFingerstickOver200 = ccEncounterQueries.getChronicCareEncountersWithSerumGlucoseGreaterThan200AtLocationDuringPeriod();
-		EncounterQuery visitsWithSeizures = ccEncounterQueries.getChronicCareEncountersWithSeizuresRecordedAtLocationDuringPeriod();
-		EncounterQuery visitsWithSbp = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureRecordedAtLocationDuringPeriod();
-		EncounterQuery visitsWithSbpOver180 = ccEncounterQueries.getChronicCareEncountersWithSystolicBloodPressureOver180AtLocationDuringPeriod();
-		EncounterQuery visitsWithDbpOver110 = ccEncounterQueries.getChronicCareEncountersWithDiastolicBloodPressureOver110AtLocationDuringPeriod();
+		EncounterQuery visits = df.getEncountersOfTypeAtLocationDuringPeriod(ccMetadata.getChronicCareFollowupEncounterTypes());
+		EncounterQuery visitsWithPeakFlow = df.getEncountersWithObsRecordedAtLocationDuringPeriod(ccMetadata.getPeakFlowConcept(), ccEncTypes);
+		EncounterQuery visitsWithWeight = df.getEncountersWithObsRecordedAtLocationDuringPeriod(ccMetadata.getWeightConcept(), ccEncTypes);
+		EncounterQuery visitsWithFingerstick = df.getEncountersWithObsRecordedAtLocationDuringPeriod(ccMetadata.getSerumGlucoseConcept(), ccEncTypes);
+		EncounterQuery visitsWithFingerstickOver200 = df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(ccMetadata.getSerumGlucoseConcept(), ccEncTypes, RangeComparator.GREATER_THAN, 200.0);
+		EncounterQuery visitsWithSeizures = df.getEncountersWithObsRecordedAtLocationDuringPeriod(ccMetadata.getNumberOfSeizuresConcept(), ccEncTypes);
+		EncounterQuery visitsWithSbp = df.getEncountersWithObsRecordedAtLocationDuringPeriod(ccMetadata.getSystolicBloodPressureConcept(), ccEncTypes);
+		EncounterQuery visitsWithSbpOver180 = df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(ccMetadata.getSystolicBloodPressureConcept(), ccEncTypes, RangeComparator.GREATER_THAN, 180.0);
+		EncounterQuery visitsWithDbpOver110 = df.getEncountersWithNumericObsValuesRecordedAtLocationDuringPeriod(ccMetadata.getDiastolicBloodPressureConcept(), ccEncTypes, RangeComparator.GREATER_THAN, 110.0);
 		EncounterQuery visitsWithHighBp = df.getEncountersInAny(visitsWithSbpOver180, visitsWithDbpOver110);
-		EncounterQuery visitsWithTxOutOfStock = ccEncounterQueries.getChronicCareEncountersWithPreferredTreatmentStockedOutAtLocationDuringPeriod();
+		EncounterQuery visitsWithTxOutOfStock = df.getEncountersWithCodedObsValuesRecordedAtLocationDuringPeriod(ccMetadata.getPreferredTreatmentOutOfStockConcept(), ccEncTypes, ccMetadata.getYesConcept());
 
 		// Construct Report Definition
 

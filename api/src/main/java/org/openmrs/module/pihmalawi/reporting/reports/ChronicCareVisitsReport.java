@@ -109,8 +109,8 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
 
-		addDataSet(rd, "initial", metadata.getChronicCareInitialEncounterType());
-		addDataSet(rd, "visits", metadata.getChronicCareFollowupEncounterType());
+		addDataSet(rd, "initial", metadata.getOldChronicCareInitialEncounterType());
+		addDataSet(rd, "visits", metadata.getOldChronicCareFollowupEncounterType());
 
 		return rd;
 	}

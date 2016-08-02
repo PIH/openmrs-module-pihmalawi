@@ -14,26 +14,18 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
-import org.openmrs.Concept;
-import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
-import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
-import org.openmrs.module.reporting.data.converter.CollectionElementConverter;
-import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
@@ -62,16 +54,6 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		PatientIdentifierType pit = metadata.getChronicCareNumber();
 		Program program = metadata.getChronicCareProgram();
 		return df.getPreferredProgramIdentifierAtLocation(pit, program, new PatientIdentifierConverter());
-	}
-
-	@DocumentedDefinition("firstChronicCareInitialEncounter.date")
-	public PatientDataDefinition getFirstChronicCareInitialEncounterDateByEndDate() {
-		return df.getFirstEncounterOfTypeByEndDate(metadata.getChronicCareInitialEncounterType(), df.getEncounterDatetimeConverter());
-	}
-
-	@DocumentedDefinition("firstChronicCareInitialEncounter.location")
-	public PatientDataDefinition getFirstChronicCareInitialEncounterLocationByEndDate() {
-		return df.getFirstEncounterOfTypeByEndDate(metadata.getChronicCareInitialEncounterType(), df.getEncounterLocationNameConverter());
 	}
 
 	@DocumentedDefinition("latestChronicCareTreatmentStatusStateAtLocation")
@@ -132,19 +114,4 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
     public PatientDataDefinition getChronicCareAppointmentStatus() {
         return df.getAppointmentStatus(treatmentGroup);
     }
-
-	// Helper methods
-
-	public PatientDataDefinition getSingleObsFromChronicCareInitialVisitByEndDate(Concept question, DataConverter converter) {
-		return df.getFirstObsByEndDate(question, Arrays.asList(metadata.getChronicCareInitialEncounterType()), converter);
-	}
-
-	public PatientDataDefinition getChronicCareInitialDiagnosisPresentByEndDate(Concept diagnosis) {
-		Concept question = metadata.getChronicCareDiagnosisConcept();
-		List<EncounterType> ccInitialEncounters = Arrays.asList(metadata.getChronicCareInitialEncounterType());
-		ChainedConverter c = new ChainedConverter();
-		c.addConverter(new CollectionConverter(df.getObsValueCodedConverter(), true, null));
-		c.addConverter(new CollectionElementConverter(diagnosis, "TRUE", ""));
-		return df.getAllObsByEndDate(question, ccInitialEncounters, c);
-	}
 }

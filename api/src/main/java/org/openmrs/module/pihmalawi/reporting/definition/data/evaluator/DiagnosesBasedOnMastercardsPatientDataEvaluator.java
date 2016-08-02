@@ -21,6 +21,7 @@ import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.DiagnosesBasedOnMastercardsPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
@@ -47,6 +48,9 @@ import java.util.TreeSet;
 public class DiagnosesBasedOnMastercardsPatientDataEvaluator implements PatientDataEvaluator {
 
     @Autowired
+    private DataFactory df;
+
+    @Autowired
     private HivCohortDefinitionLibrary hivCohorts;
 
     @Autowired
@@ -70,8 +74,8 @@ public class DiagnosesBasedOnMastercardsPatientDataEvaluator implements PatientD
 		EvaluatedPatientData pd = new EvaluatedPatientData(definition, context);
 
         add(pd, "ART", hivCohorts.getPatientsWithAnArtEncounterByEndDate(), context);
-        add(pd, "Epilepsy", ccCohorts.getPatientsWithEpilepsyEncounterByEndDate(), context);
-        add(pd, "Mental Health", ccCohorts.getPatientsWithMentalHealthEncounterByEndDate(), context);
+        add(pd, "Epilepsy", df.getAnyEncounterOfTypesByEndDate(ccMetadata.getEpilepsyEncounterTypes()), context);
+        add(pd, "Mental Health", df.getAnyEncounterOfTypesByEndDate(ccMetadata.getMentalHealthEncounterTypes()), context);
 
         Map<Concept, String> diagnosesDisplay = new LinkedHashMap<Concept, String>();
         diagnosesDisplay.put(ccMetadata.getCopdConcept(), "COPD");

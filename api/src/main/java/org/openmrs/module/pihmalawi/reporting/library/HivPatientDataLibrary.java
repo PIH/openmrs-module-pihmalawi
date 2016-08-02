@@ -405,18 +405,15 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	// ***** CONVENIENCE METHODS
 
 	protected PatientDataDefinition getFirstPreArtInitialEncounterByEndDate(DataConverter converter) {
-		EncounterType arvInitial = hivMetadata.getPreArtInitialEncounterType();
-		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
+		return pdf.getFirstEncounterOfTypeByEndDate(Arrays.asList(hivMetadata.getPreArtInitialEncounterType()), converter);
 	}
 
 	protected PatientDataDefinition getFirstExposedChildInitialEncounterByEndDate(DataConverter converter) {
-		EncounterType arvInitial = hivMetadata.getExposedChildInitialEncounterType();
-		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
+		return pdf.getFirstEncounterOfTypeByEndDate(Arrays.asList(hivMetadata.getExposedChildInitialEncounterType()), converter);
 	}
 
 	protected PatientDataDefinition getFirstArtInitialEncounterByEndDate(DataConverter converter) {
-		EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
-		return pdf.getFirstEncounterOfTypeByEndDate(arvInitial, converter);
+		return pdf.getFirstEncounterOfTypeByEndDate(Arrays.asList(hivMetadata.getArtInitialEncounterType()), converter);
 	}
 
 	protected PatientDataDefinition getObsOnArtInitialEncounter(Concept question, DataConverter converter) {

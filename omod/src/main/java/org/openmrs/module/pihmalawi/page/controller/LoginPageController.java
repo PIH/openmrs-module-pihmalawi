@@ -17,6 +17,7 @@ import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
 import org.openmrs.util.PrivilegeConstants;
 import org.openmrs.web.WebConstants;
+import org.openmrs.web.user.CurrentUsers;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -130,6 +131,9 @@ public class LoginPageController {
 
             if (Context.isAuthenticated()) {
                 pageRequest.getRequest().getSession().removeAttribute(WebConstants.OPENMRS_MSG_ATTR);
+
+                CurrentUsers.addUser(httpSession, Context.getAuthenticatedUser());
+                
                 if (log.isDebugEnabled()) {
                     log.debug("User has successfully authenticated");
                 }

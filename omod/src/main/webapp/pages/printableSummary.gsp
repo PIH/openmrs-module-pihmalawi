@@ -293,6 +293,10 @@
         <% if (artStartDate != null) { %>
             <tr><td class="section-title" colspan="2">ART Status at Initiation</td></tr>
             <tr>
+                <td class="first-column">ART Initiation date</td>
+                <td class="second-column" colspan="2">${artStartDate ? ui.format(artStartDate) : '_____'}</td>
+            </tr>
+            <tr>
                 <td class="first-column">WHO clinical conditions</td>
                 <td class="second-column" colspan="2">${reasonConditions ? reasonConditions : '_____'}</td>
             </tr>

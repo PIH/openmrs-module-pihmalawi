@@ -14,11 +14,11 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.Concept;
+import org.openmrs.EncounterType;
+import org.openmrs.Obs;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCareEncounterQueryLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
@@ -26,7 +26,12 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.common.SortCriteria.SortDirection;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
+import org.openmrs.module.reporting.data.converter.CollectionConverter;
+import org.openmrs.module.reporting.data.converter.CollectionElementConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
+import org.openmrs.module.reporting.data.converter.EarliestCreatedConverter;
+import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataSetDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
@@ -34,12 +39,14 @@ import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinitio
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
 import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -55,12 +62,6 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 
 	@Autowired
 	private ChronicCareMetadata metadata;
-
-	@Autowired
-	private ChronicCareCohortDefinitionLibrary chronicCareCohorts;
-
-	@Autowired
-	private ChronicCareEncounterQueryLibrary encounterQueries;
 
 	@Autowired
 	private BuiltInPatientDataLibrary builtInPatientData ;
@@ -122,7 +123,7 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
 		// Rows are defined as all patients who have ever had a Chronic Care Encounter at the location by the end date
-		CohortDefinition haveChronicCareEncounter = chronicCareCohorts.getPatientsWithAChronicCareEncounterAtLocationByEndDate();
+		CohortDefinition haveChronicCareEncounter = df.getAnyEncounterOfTypesAtLocationByEndDate(metadata.getChronicCareEncounterTypes());
 		dsd.addRowFilter(Mapped.mapStraightThrough(haveChronicCareEncounter));
 
 		// Columns to include
@@ -131,8 +132,8 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Chronic Care #", ccPatientData.getChronicCareNumberAtLocation());
         addColumn(dsd, "HCC #", hivPatientData.getHccNumberAtLocation());
         addColumn(dsd, "ARV #", hivPatientData.getArvNumberAtLocation());
-		addColumn(dsd, "Chronic Care initial date", ccPatientData.getFirstChronicCareInitialEncounterDateByEndDate());
-		addColumn(dsd, "Chronic Care initial location", ccPatientData.getFirstChronicCareInitialEncounterLocationByEndDate());
+		addColumn(dsd, "Chronic Care initial date", df.getFirstEncounterOfTypeByEndDate(metadata.getChronicCareInitialEncounterTypes(), df.getEncounterDatetimeConverter()));
+		addColumn(dsd, "Chronic Care initial location", df.getFirstEncounterOfTypeByEndDate(metadata.getChronicCareInitialEncounterTypes(), df.getEncounterLocationNameConverter()));
         addColumn(dsd, "1st time in Pre-ART date", hivPatientData.getEarliestPreArtStateStartDateByEndDate());
         addColumn(dsd, "1st time in Pre-ART location", hivPatientData.getEarliestPreArtStateLocationByEndDate());
         addColumn(dsd, "1st time in Exposed Child date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
@@ -156,22 +157,32 @@ public class ChronicCareRegister extends ApzuDataExportManager {
         addColumn(dsd, "HIV Outcome location", hivPatientData.getMostRecentHivTreatmentStatusStateLocationAtLocationByEndDate());
         addColumn(dsd, "Last ART Visit Date", hivPatientData.getMostRecentArtEncounterDateByEndDate());
 
-		for (Concept c : metadata.getChronicCareDiagnosisAnswerConcepts()) {
-			String columnName = ObjectUtil.format(c) + " Diagnosis from Initial Visit";
-			addColumn(dsd, columnName, ccPatientData.getChronicCareInitialDiagnosisPresentByEndDate(c));
+		for (Concept diagnosis : metadata.getChronicCareDiagnosisAnswerConcepts()) {
+			String columnName = ObjectUtil.format(diagnosis) + " Diagnosis from Initial Visit";
+            Concept question = metadata.getChronicCareDiagnosisConcept();
+            List<EncounterType> ccInitialEncounters = metadata.getChronicCareInitialEncounterTypes();
+            ChainedConverter c = new ChainedConverter();
+            c.addConverter(new CollectionConverter(df.getObsValueCodedConverter(), true, null));
+            c.addConverter(new CollectionElementConverter(diagnosis, "TRUE", ""));;
+			addColumn(dsd, columnName, df.getAllObsByEndDate(question, ccInitialEncounters, c));
 		}
 
 		for (Concept c : metadata.getAgeOfDiagnosisConcepts()) {
 			String columnName = ObjectUtil.format(c) + " from Initial Visit";
-			DataConverter avc = df.getObsValueNumericConverter();
-			addColumn(dsd, columnName, ccPatientData.getSingleObsFromChronicCareInitialVisitByEndDate(c, avc));
+			DataConverter dc = new ChainedConverter(new EarliestCreatedConverter(Obs.class), df.getObsValueNumericConverter());
+			addColumn(dsd, columnName, df.getAllObsByEndDate(c, metadata.getChronicCareInitialEncounterTypes(), dc));
 		}
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
 		EncounterDataSetDefinition encDsd = new EncounterDataSetDefinition();
 		encDsd.addParameters(getParameters());
-		encDsd.addRowFilter(Mapped.mapStraightThrough(encounterQueries.getChronicCareFollowupEncountersByEndDate()));
+
+        BasicEncounterQuery ccFollowupQuery = new BasicEncounterQuery();
+        ccFollowupQuery.setEncounterTypes(metadata.getChronicCareFollowupEncounterTypes());
+        ccFollowupQuery.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+
+		encDsd.addRowFilter(Mapped.map(ccFollowupQuery, "onOrBefore=${endDate}"));
 		addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
 		addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
 		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
@@ -214,7 +225,8 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 		for (Concept c : questionsToShow.keySet()) {
 			String columnName = ObjectUtil.format(c) + " at Initial Visit";
 			DataConverter converter = questionsToShow.get(c);
-			addColumn(dsd, columnName, ccPatientData.getSingleObsFromChronicCareInitialVisitByEndDate(c, converter));
+            DataConverter dc = new ChainedConverter(new CollectionConverter(converter, true, null), new ObjectFormatter());
+			addColumn(dsd, columnName, df.getAllObsByEndDate(c, metadata.getChronicCareInitialEncounterTypes(), dc));
 		}
 
 		return rd;

@@ -60,11 +60,11 @@ public class ChronicCareMetadata extends CommonMetadata {
         return l;
     }
 
-	public EncounterType getChronicCareInitialEncounterType() {
+	public EncounterType getOldChronicCareInitialEncounterType() {
 		return getEncounterType(CHRONIC_CARE_INITIAL);
 	}
 
-	public EncounterType getChronicCareFollowupEncounterType() {
+	public EncounterType getOldChronicCareFollowupEncounterType() {
 		return getEncounterType(CHRONIC_CARE_FOLLOWUP);
 	}
 
@@ -148,20 +148,32 @@ public class ChronicCareMetadata extends CommonMetadata {
         return l;
     }
 
-	public List<EncounterType> getChronicCareScheduledVisitEncounterTypes() {
-		List<EncounterType> l = new ArrayList<EncounterType>();
-		l.add(getChronicCareInitialEncounterType());
-		l.add(getChronicCareFollowupEncounterType());
+    public List<EncounterType> getChronicCareInitialEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getOldChronicCareInitialEncounterType());
         l.add(getHtnDiabetesInitialEncounterType());
-        l.add(getHtnDiabetesFollowupEncounterType());
         l.add(getAsthmaInitialEncounterType());
-        l.add(getAsthmaFollowupEncounterType());
         l.add(getEpilepsyInitialEncounterType());
-        l.add(getEpilepsyFollowupEncounterType());
         l.add(getMentalHealthInitialEncounterType());
+        return l;
+    }
+
+    public List<EncounterType> getChronicCareFollowupEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.add(getOldChronicCareFollowupEncounterType());
+        l.add(getHtnDiabetesFollowupEncounterType());
+        l.add(getAsthmaFollowupEncounterType());
+        l.add(getEpilepsyFollowupEncounterType());
         l.add(getMentalHealthFollowupEncounterType());
-		return l;
-	}
+        return l;
+    }
+
+    public List<EncounterType> getChronicCareScheduledVisitEncounterTypes() {
+        List<EncounterType> l = new ArrayList<EncounterType>();
+        l.addAll(getChronicCareInitialEncounterTypes());
+        l.addAll(getChronicCareFollowupEncounterTypes());
+        return l;
+    }
 
     public List<EncounterType> getChronicCareEncounterTypes() {
         List<EncounterType> l = getChronicCareScheduledVisitEncounterTypes();
