@@ -149,10 +149,10 @@ public class DataFactory {
 		return cd;
 	}
 
-	public PatientDataDefinition getFirstEncounterOfTypeByEndDate(EncounterType type, DataConverter converter) {
+	public PatientDataDefinition getFirstEncounterOfTypeByEndDate(List<EncounterType> types, DataConverter converter) {
 		EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
 		def.setWhich(TimeQualifier.FIRST);
-		def.setTypes(Arrays.asList(type));
+		def.setTypes(types);
 		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
@@ -779,6 +779,15 @@ public class DataFactory {
 		q.addParameter(new Parameter("locationList", "Locations", Location.class));
 		return convert(q, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"));
 	}
+
+    public EncounterQuery getEncountersOfTypeAtLocationDuringPeriod(List<EncounterType> encounterTypes) {
+        BasicEncounterQuery q = new BasicEncounterQuery();
+        q.setEncounterTypes(encounterTypes);
+        q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
+        q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
+        q.addParameter(new Parameter("locationList", "Locations", Location.class));
+        return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
+    }
 
 	public EncounterQuery getEncountersOfTypeByEndDate(List<EncounterType> encounterTypes) {
 		BasicEncounterQuery q = new BasicEncounterQuery();
