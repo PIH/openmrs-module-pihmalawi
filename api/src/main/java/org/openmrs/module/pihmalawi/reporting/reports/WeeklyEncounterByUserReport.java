@@ -94,8 +94,8 @@ public class WeeklyEncounterByUserReport extends ApzuReportManager {
 		types.add(hivMetadata.getExposedChildFollowupEncounterType());
 		types.add(hivMetadata.getAppointmentEncounterType());
 		types.add(hivMetadata.getLabEncounterType());
-		types.add(chronicCareMetadata.getChronicCareInitialEncounterType());
-		types.add(chronicCareMetadata.getChronicCareFollowupEncounterType());
+        types.add(chronicCareMetadata.getOldChronicCareInitialEncounterType());
+        types.add(chronicCareMetadata.getOldChronicCareFollowupEncounterType());
 		dsd.setTypes(types);
 
 		rd.addDataSetDefinition("dataset", Mapped.mapStraightThrough(dsd));
