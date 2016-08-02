@@ -182,7 +182,7 @@ public class ChronicCareRegister extends ApzuDataExportManager {
         ccFollowupQuery.setEncounterTypes(metadata.getChronicCareFollowupEncounterTypes());
         ccFollowupQuery.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
 
-		encDsd.addRowFilter(Mapped.map(ccFollowupQuery, "onOrBefore=endDate"));
+		encDsd.addRowFilter(Mapped.map(ccFollowupQuery, "onOrBefore=${endDate}"));
 		addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
 		addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
 		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
