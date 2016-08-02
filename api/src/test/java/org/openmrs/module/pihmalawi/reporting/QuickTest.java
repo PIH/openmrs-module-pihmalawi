@@ -2,13 +2,9 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.openmrs.Cohort;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InvalidIdentifierCohortDefinition;
-import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
@@ -17,16 +13,12 @@ import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionSe
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
-import org.openmrs.module.reporting.dataset.definition.CohortIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationProfiler;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.indicator.CohortIndicatorResult;
-import org.openmrs.module.reporting.indicator.service.IndicatorService;
 import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
-import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,7 +64,7 @@ public class QuickTest extends StandaloneContextSensitiveTest {
 
 		EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
 		BasicEncounterQuery q = new BasicEncounterQuery();
-		q.addEncounterType(chronicCareMetadata.getChronicCareFollowupEncounterType());
+		q.setEncounterTypes(hivMetadata.getExposedChildEncounterTypes());
 		q.setOnOrAfter(DateUtil.getDateTime(2014, 7, 1));
 		q.setOnOrBefore(DateUtil.getDateTime(2014, 7, 7));
 		q.addLocation(hivMetadata.getNenoHospital());
