@@ -14,11 +14,15 @@
 
 package org.openmrs.module.pihmalawi.common;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.util.OpenmrsUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple object that contains information about the status of an appointment
@@ -90,6 +94,18 @@ public class AppointmentInfo {
             return 0.0;
         }
         return daysToAppt/-7.0;
+    }
+
+    @Override
+    public String toString() {
+        List<String> l = new ArrayList<String>();
+        if (lastEncounterDate != null) {
+            l.add("Last Actual: " + DateFormatUtils.format(lastEncounterDate, "yyyy-MM-dd"));
+        }
+        if (nextScheduledDate != null) {
+            l.add("Next Scheduled: " + DateFormatUtils.format(nextScheduledDate, "yyyy-MM-dd"));
+        }
+        return OpenmrsUtil.join(l, ", ");
     }
 
     //***** ACCESSORS ******
