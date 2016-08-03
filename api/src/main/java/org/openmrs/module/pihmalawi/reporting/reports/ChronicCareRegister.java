@@ -118,7 +118,7 @@ public class ChronicCareRegister extends ApzuDataExportManager {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 		dsd.setName(getName());
 		dsd.addParameters(getParameters());
-		dsd.addSortCriteria("PID", SortDirection.ASC);
+		dsd.addSortCriteria("Chronic Care #", SortDirection.ASC);
 
 		rd.addDataSetDefinition("patients", Mapped.mapStraightThrough(dsd));
 
