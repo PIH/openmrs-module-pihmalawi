@@ -5,7 +5,7 @@
 -- ## parameter = endDate|End Date|java.util.Date
 -- ## parameter = location|Location|org.openmrs.Location
 
-drop table if exists PS; -- Create a temporary table to store cohort with state Pre-ART (continue)
+drop temporary table if exists PS; -- Create a temporary table to store cohort with state Pre-ART (continue)
 create temporary table PS as
 select * from
 (select state, end_date, patient_state.voided, patient_program.patient_id, patient_program.date_created, patient_state.patient_program_id, patient_program.location_id
@@ -100,3 +100,5 @@ and LastCD4Count > 500;
 
 -- Put all the temporaty tables together in order.
 (select * from CODE5)  UNION ALL (select * from CODE4)  UNION ALL (select * from CODE3)  UNION ALL (select * from CODE2)  UNION ALL (select * from CODE1)
+
+drop temporary table if exists PS;
