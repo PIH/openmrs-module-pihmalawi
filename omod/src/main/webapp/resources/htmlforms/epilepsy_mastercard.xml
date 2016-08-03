@@ -91,7 +91,10 @@
                 <obs conceptId="$chronicCareDiagnosis" style="checkbox"
                      answerConceptId="$epilepsyDiagnosis"
                      defaultValue="$epilepsyDiagnosis"/>
+                <!-- ToDo: Set this value explicitly to encounter_datetime
+                           which will make this easier for reporting.
                 <obs conceptId="$diagnosisDate" defaultValue="now" />
+                -->
         </obsgroup>
     </span>
     <div>
