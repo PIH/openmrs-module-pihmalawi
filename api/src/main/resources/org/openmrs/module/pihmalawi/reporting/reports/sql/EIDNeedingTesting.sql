@@ -132,3 +132,6 @@ left join
 		order by temp_hiv_test_group.value_datetime desc) obs2i 
 	group by patient_id) obs2 on encounter_initial.patient_id = obs2.patient_id 
  	
+
+ drop view temp_obs_enc_initial;
+ drop view temp_hiv_test_group;
