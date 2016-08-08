@@ -8,12 +8,48 @@
 -- Report lists patients who have a high viral load based on the last available 
 -- viral load observation (simply searches obs and joins demographic information). 
 
--- Avoid error by ensuring this table is not there
 drop temporary table if exists temp_recent_regimen;
 drop temporary table if exists temp_regimen_start;
 drop temporary table if exists temp_viral_loads;
+DROP FUNCTION IF EXISTS getPreviousVL;
+DROP FUNCTION IF EXISTS getPreviousVLDate;
+
+DELIMITER $$
+
+CREATE FUNCTION getPreviousVL(PID INT, endDate DATETIME)
+    RETURNS DOUBLE
+   DETERMINISTIC
+BEGIN
+	DECLARE returnVL DOUBLE;
+	select value_numeric into returnVL 
+	from 
+		(select * from obs where concept_id = 856 and person_id = PID and obs_datetime < endDate and voided = 0 order by 		obs_datetime desc) o
+	limit 1 
+	offset 1;
+	
+	return returnVL;
+END
+$$
+
+DELIMITER $$
+
+CREATE FUNCTION getPreviousVLDate(PID INT,endDate DATETIME)
+    RETURNS DATETIME
+   DETERMINISTIC
+BEGIN
+	DECLARE returnVLDate DATETIME;
+	select obs_datetime into returnVLDate 
+	from 
+		(select * from obs where concept_id = 856 and person_id = PID and obs_datetime < endDate and voided = 0 order by obs_datetime desc) o
+	limit 1 
+	offset 1;
+	
+	return returnVLDate;
+END
+$$
 
 -- Needed to create a temporary table to grab the most recent ART regimen
+-- You could probably encapsulate this in a function, which might perform better.
 create temporary table temp_recent_regimen as
 select o.person_id, o.obs_datetime, o.value_coded
 from obs o
@@ -22,21 +58,13 @@ where concept_id in (8169,8170,8171,8172)
 and voided = 0;
 
 -- Needed to create a temporary table to grab the start of ART regimen
+-- You could probably encapsulate this in a function, which might perform better.
 create temporary table temp_regimen_start as
 select trr.person_id, o.obs_datetime
 from temp_recent_regimen trr
 join obs o on o.value_coded = trr.value_coded and o.person_id = trr.person_id
 where o.voided = 0
 and o.obs_datetime < @endDate;
-
--- Needed to create a temporary table to grab the viral load history
-create temporary table temp_viral_loads as
-select trr.person_id, o.obs_datetime, o.value_numeric
-from temp_recent_regimen trr
-join obs o on o.person_id = trr.person_id
-where o.voided = 0
-and o.obs_datetime < @endDate
-and concept_id = 856;
 
 select o.person_id as PID, -- Fields to show 
 identifier as Identifer, 
@@ -48,6 +76,8 @@ pa.city_village as "Village",
 pa.county_district as "T/A",
 date_format(trs.obs_datetime,'%Y-%m-%d') as "Regimen Start Date",
 cn.name as "Current Regimen",
+date_format(getPreviousVLDate(o.person_id,@endDate),'%Y-%m-%d') as "Previous VL Date",
+getPreviousVL(o.person_id,@endDate) as "Previous VL",
 date_format(e.encounter_datetime,'%Y-%m-%d') as "Viral Load Date",
 l.name as "Viral Load Location",
 o.value_numeric as "Viral Load"
@@ -76,4 +106,5 @@ order by l.name;
 -- Clean up temporary tables
 drop temporary table if exists temp_recent_regimen;
 drop temporary table if exists temp_regimen_start;
-drop temporary table if exists temp_viral_loads;
+DROP FUNCTION IF EXISTS getPreviousVL;
+DROP FUNCTION IF EXISTS getPreviousVLDate;
