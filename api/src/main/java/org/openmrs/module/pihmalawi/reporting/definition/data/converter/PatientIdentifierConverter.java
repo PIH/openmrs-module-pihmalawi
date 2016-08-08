@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.data.converter;
 
+import org.apache.commons.lang.StringUtils;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 
@@ -33,7 +34,7 @@ public class PatientIdentifierConverter implements DataConverter  {
 	//***** INSTANCE METHODS *****
 
 	/**
-	 * @see org.openmrs.module.reporting.data.converter.DataConverter#convert(Object)
+     * Attempts to convert a patient identifier value into a String of consistent length with leading zeros for numeric component for easier sorting.
 	 * @should convert a PatientIdentifier to a PIH Malawi standard representation
 	 */
 	public Object convert(Object original) {
@@ -42,20 +43,14 @@ public class PatientIdentifierConverter implements DataConverter  {
 		if (pi != null) {
 			id = pi.getIdentifier();
 			try {
+                StringBuilder ret = new StringBuilder();
 				DecimalFormat f = new java.text.DecimalFormat("0000");
-				if (id.endsWith(" HCC")) {
-					int firstSpace = id.indexOf(" ");
-					int lastSpace = id.lastIndexOf(" ");
-					String number = f.format(new Integer(id.substring(firstSpace + 1, lastSpace)));
-					id = id.substring(0, firstSpace) + "-" + number + "-HCC";
-				}
-				else {
-					if (id.lastIndexOf(" ") > 0) {
-						// For now assume that an id without leading zeros is there when there is a space
-						String number = f.format(new Integer(id.substring(id.lastIndexOf(" ") + 1)));
-						id = id.substring(0, id.lastIndexOf(" ")) + "-" + number;
-					}
-				}
+                String[] split = StringUtils.splitByWholeSeparator(id, " ");
+                for (int i=0; i<split.length; i++) {
+                    ret.append(i == 0 ? "" : "-");
+                    ret.append(i == 1 ? f.format(Integer.valueOf(split[i])) : split[i]);
+                }
+                id = ret.toString();
 			}
 			catch (Exception e) {
 				// If something unexpected happens, just return the identifier as is

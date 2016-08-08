@@ -5,10 +5,12 @@
         noAnswer=1066
         yesAnswer=1065
         other=6408
+        height=5090
         weight=5089
         hpc=974
         psychHistory=8483
         mse=8496
+        pregnant=6131
         suicideRisk=8497
         sideEffects=2146
         drugsNow=1193
@@ -31,9 +33,12 @@
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td>Visit Date</td>
+                    <td>Height</td>
                     <td>Weight</td>
-                    <td rowspan="2">History</td>
-                    <td rowspan="2">MSE</td>
+                    <td rowspan="2" colspan="7">MSE</td>
+                    <td rowspan="2" colspan="3">Current use</td>
+                    <td>Pregnant</td>
+                    <td>Family<br/>Planning</td>
                     <td>Suicide risk</td>
                     <td>Medication<br/>side effect</td>
                     <td colspan="8">Treatment Details</td>
@@ -42,9 +47,20 @@
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
+                    <td>cm</td>
                     <td>kg</td>
-                    <td>Y/N</td>
-                    <td>Y/N</td>
+                    <td>Depressed mood</td>
+                    <td>Elevated mood</td>
+                    <td>Disrupted behavior</td>
+                    <td>Disorganized speech</td>
+                    <td>Delusions</td>
+                    <td>Hallucinations</td>
+                    <td>Insight</td>
+                    <td>Chamba</td>
+                    <td>Alcohol</td>
+                    <td>Other drugs</td>
+                    <td></td>
+                    <td></td>
                     <!-- Using abbreviations for meds so it will fit -->
                     <td>CPZ</td>
                     <td>HLP</td>
@@ -63,17 +79,27 @@
                         <encounterDate/>
                     </td>
                     <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightInput" size="3"/>
+                    </td>
+                    <td>
                         <!-- Weight -->
                         <obs conceptId="$weight" id="weightInput" size="3"/>
                     </td>
-                    <td>
-                        <!-- History:
-                            This is the same concept as "History of presenting complaint" on the mastercard -->
-                        <obs conceptId="$hpc" />
+                    <td colspan="7">
+                        <!-- ToDo: Mental status examination -->
+                        <obs conceptId="$mse" />
+                    </td>
+                    <td colspan="3">
+                        <!-- ToDo: Current use -->
                     </td>
                     <td>
-                        <!-- Mental status examination -->
-                        <obs conceptId="$mse" />
+                        <!-- pregnant -->
+                        <obs conceptId="$pregnant" style="checkbox"
+                             answerConceptId="$yesAnswer" answerLabel="Y" />
+                    </td>
+                    <td>
+                        <!-- ToDo:  Family planning -->
                     </td>
                     <td>
                         <!-- Suicide risk -->
@@ -85,7 +111,7 @@
                     </td>
 
                     <!-- Treatment Details -->
-                    <!-- ToDo:  Add construct with dose and frequency? -->
+                    <!-- ToDo:  Add comment for other -->
                     <repeat with="['$cpz','Chloropromazine (CPZ)'],
                                   ['$hlp','Haloperidol (HLP)'],
                                   ['$fpz','Fluphenazine (FPZ)'],
@@ -148,19 +174,49 @@
                 <td><encounterLocation id="visitLocation" /></td>
             </tr>
             <tr class="focus-field">
-                <!-- Weight -->
+                <th>Height</th>
+                <td><obs conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
+            </tr>
+            <tr class="focus-field">
                 <th>Weight</th>
                 <td><obs conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
             </tr>
             <tr>
-                <!-- History -->
-                <th>History</th>
-                <td><obs conceptId="$hpc" style="textarea" cols="60"/></td>
+                <!-- ToDo: Mental status examination -->
+                <th>Mental status examination (MSE)</th>
+                <td>
+                    <!-- Depressed mood -->
+                    <!-- Elevated mood -->
+                    <!-- Disrupted behavior -->
+                    <!-- Disorganized speech -->
+                    <!-- Delusions -->
+                    <!-- Hallucinations -->
+                    <!-- Insight -->
+                </td>
             </tr>
             <tr>
-                <!-- Mental status examination -->
-                <th>Mental status examination (MSE)</th>
-                <td><obs conceptId="$mse" style="textarea" cols="60"/></td>
+                <!-- ToDo: Add exposures -->
+                <th>Current use</th>
+                <td>
+                    <!-- Chamba -->
+                    <!-- Alcohol -->
+                    <!-- Other drugs -->
+                </td>
+            </tr>
+            <tr>
+                <th>Pregnant?</th>
+                <td>
+                    <obs conceptId="$pregnant" style="checkbox"
+                         answerConceptId="$yesAnswer" answerLabel="Yes" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    On Family Planning?
+                </th>
+                <td>
+                    <!-- ToDo:  Family planning -->
+                </td>
             </tr>
             <tr>
                 <!-- Suicide risk -->
