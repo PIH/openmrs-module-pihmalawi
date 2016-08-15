@@ -21,7 +21,7 @@ drop temporary table if exists temp_regimen_start;
 create temporary table temp_recent_regimen as
 select o.person_id, o.obs_datetime, o.value_coded
 from obs o
-join (select person_id, max(obs_datetime) as maxobsd from obs where concept_id in (8169,8170,8171,8172) and obs_datetime < @endDate group by person_id) om on o.obs_datetime = om.maxobsd and o.person_id =om.person_id
+join (select person_id, max(obs_datetime) as maxobsd from obs where concept_id in (8169,8170,8171,8172) and obs_datetime < @endDate and voided = 0 group by person_id) om on o.obs_datetime = om.maxobsd and o.person_id =om.person_id
 where concept_id in (8169,8170,8171,8172) 
 and voided = 0;
 
@@ -30,7 +30,8 @@ create temporary table temp_regimen_start as
 select trr.person_id, o.obs_datetime
 from temp_recent_regimen trr
 join obs o on o.value_coded = trr.value_coded and o.person_id = trr.person_id
-where o.voided = 0
+where concept_id in (8169,8170,8171,8172) 
+and o.voided = 0
 and o.obs_datetime < @endDate;
 
 
@@ -99,9 +100,9 @@ join (select * from (select person_name.family_name, person_name.given_name, per
 -- Get last encounter and next appointment
 left join (select * from (select patient_id, value_datetime, encounter_datetime from encounter join obs on obs.encounter_id = encounter.encounter_id where encounter.voided = 0 and obs.voided = 0 and concept_id = 5096 and encounter_datetime <= @endDate order by encounter_datetime desc) ei group by ei.patient_id) e on e.patient_id = PS.patient_id
 -- Get birthdate and gender
-join (select person_id, birthdate, gender from person where voided=0) p on p.person_id = PS.patient_id
+join (select * from (select person_id, birthdate, gender from person where voided=0 order by date_created desc) pi group by person_id) p on p.person_id = PS.patient_id
 -- Get most recent regimen
-left join temp_recent_regimen trr on trr.person_id = PS.patient_id
+left join (select * from (select * from temp_recent_regimen order by obs_datetime desc) trri group by person_id) trr on trr.person_id = PS.patient_id
 join concept_name cn on cn.concept_id = trr.value_coded
 -- Get Address Information
 left join (select * from (select person_id, city_village, county_district from person_address where voided = 0 order by date_created desc) pai group by pai.person_id) pa on pa.person_id = PS.patient_id

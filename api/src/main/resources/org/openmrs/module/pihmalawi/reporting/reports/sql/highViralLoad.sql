@@ -80,7 +80,13 @@ date_format(getPreviousVLDate(o.person_id,@endDate),'%Y-%m-%d') as "Previous VL 
 getPreviousVL(o.person_id,@endDate) as "Previous VL",
 date_format(e.encounter_datetime,'%Y-%m-%d') as "Viral Load Date",
 l.name as "Viral Load Location",
-o.value_numeric as "Viral Load"
+o.value_numeric as "Viral Load", 
+case 
+	when (datediff(@endDate,e.encounter_datetime) > 90) then
+		"[ ]"
+	else
+		"N/A"
+end as "Re-test Eligible"
 
 -- Base search (on viral load observations)
 from (select * from (select * from (select value_numeric, encounter_id, obs_datetime, person_id from obs where concept_id = 856 and obs_datetime <= @endDate and voided=0 order by obs_datetime desc) oii group by oii.person_id) oi where value_numeric > @min_vl) o
