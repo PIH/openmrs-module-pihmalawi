@@ -1,16 +1,30 @@
 <htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit" formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.0">
 
     <macros>
-        chronicCareDiagnosis=3683
         noAnswer=1066
         yesAnswer=1065
         other=6408
         height=5090
         weight=5089
-        hpc=974
-        psychHistory=8483
-        mse=8496
+
+        chiefCompAnswer=8569
+        depressive=8568
+        elevMood=8578
+        disrupt=8566
+        abSpeech=8567
+        delusion=8565
+        hallucinate=8564
+        insight=8579
+
+        alcoholConstruct=2242
+        mjConstruct=8574
+        medsOtherConstruct=8576
+        exposeHistory=8571
+        alcoholHistory=1552
+        current=1550
+
         pregnant=6131
+        familyPlan=5271
         suicideRisk=8497
         sideEffects=2146
         drugsNow=1193
@@ -22,9 +36,17 @@
         sv=4060
         ris=8498
         flx=4045
+        noncodedText=8575
         clinicalImpression=1364
         nextAppt=5096
     </macros>
+
+    <style>
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px;    /* changed values to vertical, horizontal */
+            top:5px;            /* added to offset the checkbox position to line up */
+        }
+    </style>
 
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
@@ -32,35 +54,34 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td>Visit Date</td>
-                    <td>Height</td>
-                    <td>Weight</td>
-                    <td rowspan="2" colspan="7">MSE</td>
-                    <td rowspan="2" colspan="3">Current use</td>
-                    <td>Pregnant</td>
-                    <td>Family<br/>Planning</td>
-                    <td>Suicide risk</td>
-                    <td>Medication<br/>side effect</td>
+                    <td>Date</td>
+                    <td>Ht</td>
+                    <td>Wt</td>
+                    <td colspan="7">Mental Status Examinations</td>
+                    <td colspan="3">Current use</td>
+                    <td rowspan="2">Pregnant</td>
+                    <td rowspan="2">Family<br/>Planning</td>
+                    <td rowspan="2">Suicide risk</td>
+                    <td rowspan="2">Medication<br/>side effect</td>
                     <td colspan="8">Treatment Details</td>
                     <td rowspan="2">Comments</td>
                     <td>Next<br/>appointment</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
-                    <td>cm</td>
-                    <td>kg</td>
-                    <td>Depressed mood</td>
-                    <td>Elevated mood</td>
-                    <td>Disrupted behavior</td>
-                    <td>Disorganized speech</td>
-                    <td>Delusions</td>
-                    <td>Hallucinations</td>
-                    <td>Insight</td>
-                    <td>Chamba</td>
-                    <td>Alcohol</td>
-                    <td>Other drugs</td>
-                    <td></td>
-                    <td></td>
+                    <td><small>cm</small></td>
+                    <td><small>kg</small></td>
+                    <td style="font-size:.7em;padding: 1px">Depressed mood</td>
+                    <td style="font-size:.7em;padding: 1px">Elevated mood</td>
+                    <td style="font-size:.7em;padding: 1px;">Disrupted behavior</td>
+                    <td style="font-size:.7em;padding: 1px;">Disorganized speech</td>
+                    <td style="font-size:.7em;padding: 1px;">Delusions</td>
+                    <td style="font-size:.7em;padding: 1px;">Halluci- nations</td>
+                    <td style="font-size:.7em;padding: 1px;">Insight</td>
+                    <td style="font-size:.7em;padding: 1px;">Chamba<br/><i>Marijuana</i></td>
+                    <td style="font-size:.7em;padding: 1px;">Alcohol</td>
+                    <td style="font-size:.7em;padding: 1px;">Other drugs</td>
+
                     <!-- Using abbreviations for meds so it will fit -->
                     <td>CPZ</td>
                     <td>HLP</td>
@@ -69,7 +90,7 @@
                     <td>SV</td>
                     <td>RIS</td>
                     <td>FLX</td>
-                    <td>others</td>
+                    <td>Other</td>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
             </thead>
@@ -86,24 +107,46 @@
                         <!-- Weight -->
                         <obs conceptId="$weight" id="weightInput" size="3"/>
                     </td>
-                    <td colspan="7">
-                        <!-- ToDo: Mental status examination -->
-                        <obs conceptId="$mse" />
-                    </td>
-                    <td colspan="3">
-                        <!-- ToDo: Current use -->
-                    </td>
+                    <!-- ToDo: Mental status examination -->
+                    <repeat with="['$depressive','Depressed mood'],
+                              ['$elevMood','Elevated mood'],
+                              ['$disrupt','Disruptive behavior'],
+                              ['$abSpeech','Disorganized speech'],
+                              ['$delusion','Delusions'],
+                              ['$hallucinate','Hallucinations'],
+                              ['$insight','Insight']">
+                        <td>
+                            <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
+                                 answerLabel="Y" style="radio" />
+                        </td>
+                    </repeat>
+
+                    <!-- Current use -->
+                    <repeat with="['$mjConstruct','$exposeHistory','Chamba (Marijuana)'],
+                                  ['$alcoholConstruct','$alcoholHistory','Alcohol'],
+                                  ['$medsOtherConstruct','$exposeHistory','Other drugs']">
+                        <td>
+                            <obsgroup groupingConceptId="{0}">
+                                <obs conceptId="{1}" style="checkbox"
+                                     answerConceptId="$current" answerLabel=""/>
+                            </obsgroup>
+                        </td>
+                    </repeat>
+
                     <td>
                         <!-- pregnant -->
                         <obs conceptId="$pregnant" style="checkbox"
                              answerConceptId="$yesAnswer" answerLabel="Y" />
                     </td>
                     <td>
-                        <!-- ToDo:  Family planning -->
+                        <!-- Family planning -->
+                        <obs conceptId="$familyPlan"
+                             style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
                     <td>
                         <!-- Suicide risk -->
-                        <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                        <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Medication side effects -->
@@ -111,21 +154,27 @@
                     </td>
 
                     <!-- Treatment Details -->
-                    <!-- ToDo:  Add comment for other -->
                     <repeat with="['$cpz','Chloropromazine (CPZ)'],
                                   ['$hlp','Haloperidol (HLP)'],
                                   ['$fpz','Fluphenazine (FPZ)'],
                                   ['$cbz','Carbamazepine (CBZ)'],
                                   ['$sv','Sodium Valproate (SV)'],
                                   ['$ris','Risperidone (RIS)'],
-                                  ['$flx','Fluoxetine (FLX)'],
-                                  ['$other','others']">
+                                  ['$flx','Fluoxetine (FLX)']">
                         <td>
                             <obsgroup groupingConceptId="$drugSet">
-                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox" />
+                                <obs conceptId="$drugsNow" answerConceptId="{0}"
+                                     answerLabel="" style="checkbox" />
                             </obsgroup>
                         </td>
                     </repeat>
+                    <td>
+                        <!-- ToDo:  Add comment for other -->
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="$other"
+                                 answerLabel="" style="checkbox" />
+                            <obs conceptId="$noncodedText" />                        </obsgroup>
+                    </td>
 
                     <td>
                         <!-- Comments -->
@@ -134,7 +183,8 @@
 
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                        <obs conceptId="$nextAppt" id="nextAppointmentDate"
+                             allowFutureDates="true" />
                     </td>
                 </tr>
                 <tr>
@@ -150,6 +200,7 @@
     <!-- Data entry view -->
     <ifMode mode="VIEW" include="false">
 
+        <div class="section-container">
         <h4 style="font-style: italic;">
             <b>Mental Health Patient Card</b>
             <span style="padding-left:50px;">Version 1</span>
@@ -185,22 +236,39 @@
                 <!-- ToDo: Mental status examination -->
                 <th>Mental status examination (MSE)</th>
                 <td>
-                    <!-- Depressed mood -->
-                    <!-- Elevated mood -->
-                    <!-- Disrupted behavior -->
-                    <!-- Disorganized speech -->
-                    <!-- Delusions -->
-                    <!-- Hallucinations -->
-                    <!-- Insight -->
+                    <repeat with="['$depressive','Depressed mood'],
+                                  ['$elevMood','Elevated mood'],
+                                  ['$disrupt','Disruptive behavior'],
+                                  ['$abSpeech','Disorganized speech'],
+                                  ['$delusion','Delusions'],
+                                  ['$hallucinate','Hallucinations'],
+                                  ['$insight','Insight']">
+                        <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
+                             answerLabel="{1}" style="checkbox" /><br/>
+                    </repeat>
                 </td>
             </tr>
             <tr>
-                <!-- ToDo: Add exposures -->
-                <th>Current use</th>
+                <th>
+                    Current use<br/>
+                    Tick if yes
+                </th>
                 <td>
-                    <!-- Chamba -->
-                    <!-- Alcohol -->
-                    <!-- Other drugs -->
+                    <repeat with="['$mjConstruct','$exposeHistory','Chamba (Marijuana)'],
+                                  ['$alcoholConstruct','$alcoholHistory','Alcohol']">
+
+                        <obsgroup groupingConceptId="{0}">
+                            <obs conceptId="{1}" style="checkbox"
+                                 answerConceptId="$current" answerLabel="{2}"/>
+                            <br/>
+                        </obsgroup>
+                    </repeat>
+                    <!-- Other med -->
+                    <obsgroup groupingConceptId="$medsOtherConstruct">
+                        <obs conceptId="$exposeHistory" style="checkbox"
+                             answerConceptId="$current" answerLabel="Other drugs"
+                             commentFieldLabel="(Please specify:" />)
+                    </obsgroup>
                 </td>
             </tr>
             <tr>
@@ -212,41 +280,47 @@
             </tr>
             <tr>
                 <th>
-                    On Family Planning?
+                    On family planning
                 </th>
                 <td>
-                    <!-- ToDo:  Family planning -->
+                    <obs conceptId="$familyPlan" answerConceptIds="$yesAnswer,$noAnswer"
+                        style="radio" />
                 </td>
             </tr>
             <tr>
-                <!-- Suicide risk -->
                 <th>Suicide risk</th>
                 <td>
-                    <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer" style="radio" />
+                    <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer"
+                         style="radio" />
                 </td>
             </tr>
             <tr>
-                <!-- Medication side effects -->
                 <th>Medication side effects</th>
                 <td><obs conceptId="$sideEffects" style="yes_no" /></td>
             </tr>
             <tr>
-                <!-- Treatment Details -->
                 <th>Treatment Details</th>
                 <td>
-                    <!-- ToDo:  Add construct with dose and frequency -->
+                    <!-- Only add drugname, not dose and frequency
+                         but leave construct so it can easily be added later -->
                     <repeat with="['$cpz','Chloropromazine (CPZ)'],
                                   ['$hlp','Haloperidol (HLP)'],
                                   ['$fpz','Fluphenazine (FPZ)'],
                                   ['$cbz','Carbamazepine (CBZ)'],
                                   ['$sv','Sodium Valproate (SV)'],
                                   ['$ris','Risperidone (RIS)'],
-                                  ['$flx','Fluoxetine (FLX)'],
-                                  ['$other','others']">
+                                  ['$flx','Fluoxetine (FLX)']">
                         <obsgroup groupingConceptId="$drugSet">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            <obs conceptId="$drugsNow" answerConceptId="{0}"
+                                 answerLabel="{1}" style="checkbox" /><br/>
                         </obsgroup>
                     </repeat>
+                    <obsgroup groupingConceptId="$drugSet">
+                        <obs conceptId="$drugsNow" answerConceptId="$other"
+                             answerLabel="Other, " style="checkbox" />
+                        <obs conceptId="$noncodedText"
+                            labelText="please specify:"/>
+                    </obsgroup>
                 </td>
             </tr>
             <tr>
@@ -263,6 +337,7 @@
             </tr>
         </table>
         <submit />
+        </div>
     </ifMode>
 
 </htmlform>

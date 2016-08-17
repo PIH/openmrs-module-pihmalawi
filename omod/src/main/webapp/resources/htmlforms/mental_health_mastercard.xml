@@ -3,8 +3,8 @@
 
     <style>
         .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
         }
     </style>
     <macros>
@@ -14,6 +14,7 @@
         negative=664
         unknown=1067
         other=5622
+        noncodedOtherName=8575
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
@@ -27,7 +28,10 @@
         alcoholUseMentalDisorder=8562
         drugUseMentalDisorder=8563
         manic=8491
-        mentalHealthOther=8420
+        mentalHealthOther0=8420
+        mentalHealthOther1=8580
+        mentalHealthOther2=8581
+
         mentalFamilyHistory=8458
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
@@ -73,7 +77,6 @@
         alcoholConstruct=2242
         mjConstruct=8574
         medsOtherConstruct=8576
-        medsOtherName=8575
         tradMedsConstruct=8573
 
 
@@ -257,17 +260,18 @@
                                         </tr>
                                     </repeat>
 
-                                    <!-- todo: Add other diagnoses-->
-                        <repeat with="['$mentalHealthOther','Other,','other1'],
-                                      ['$mentalHealthOther','Other,','other2'],
-                                      ['$mentalHealthOther','Other,','other3']">
+                        <!-- todo: Add other diagnoses -->
+                        <repeat with="['$mentalHealthOther0','Other,','other1'],
+                                      ['$mentalHealthOther1','Other,','other2'],
+                                      ['$mentalHealthOther2','Other,','other3']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="{2}" data-toggle-target="{2}-date" style="border-right: 1px solid #ffffff;">
+                                    <td data-toggle-source="{2}" data-toggle-target="{2}-date"
+                                        style="border-right: 1px solid #ffffff;">
                                         <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                             answerConceptId="{0}" answerLabel="{1}"
-                                             commentFieldLabel="specify" />
+                                             answerConceptId="{0}" answerLabel="{1}"/>
+                                        <obs conceptId="$noncodedOtherName" />
                                     </td>
                                     <td id="{2}-date" style="border-left: 1px solid #ffffff;">
                                         <obs conceptId="$diagnosisDate" labelText="Date"/>
@@ -409,7 +413,7 @@
                                             <td style="border: 1px solid #ffffff;">
                                                 <strong>Other drugs</strong>
                                                 <br/>
-                                                <obs conceptId="$medsOtherName" />
+                                                <obs conceptId="$noncodedOtherName" />
                                             </td>
                                             <td data-toggle-source="other-meds-history" data-toggle-target="other-meds-time"
                                                 style="border: 1px solid #ffffff;">

@@ -207,24 +207,22 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            {
-                Integer id = 8445;
-                String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
-                String name = "Chronic Care Diagnosis Construct";
-                Concept c = cs.getConcept(id);
-                if (c == null) {
-                    log.warn("Creating " + name);
-                    c = new Concept();
-                    c.setConceptId(id);
-                    c.setUuid(uuid);
-                    c.setConceptClass(cs.getConceptClassByName("ConvSet"));
-                    c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                    c.setSet(true);
-                    c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                    c.addSetMember(cs.getConcept(3683));
-                    c.addSetMember(cs.getConcept(6774));
-                    cs.saveConcept(c);
-                }
+            Integer id = 8445;
+            String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
+            String name = "Chronic Care Diagnosis Construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addSetMember(cs.getConcept(3683)); // Diagnosis
+                c.addSetMember(cs.getConcept(6774)); // Diagnosis date
+                cs.saveConcept(c);
             }
         }
 
@@ -1713,19 +1711,18 @@ public class MetadataInitializer implements Initializer {
         {
             // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
             Integer id = 8501;
-            String uuid = "447aaa7a-cd03-11e5-9956-625662870761";
+            // String uuid = "447aaa7a-cd03-11e5-9956-625662870761";
             String name = "Current Chronic Care Medication Construct";
             Concept c = cs.getConcept(id);
-            if (c == null) {
-                log.warn("Creating " + name);
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Current Chronic Care Medication Construct")) {
+                log.warn("Updating " + name);
                 c.setConceptClass(cs.getConceptClassByName("ConvSet"));
                 c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
                 c.setSet(true);
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.getConceptSets().clear();
                 c.addSetMember(cs.getConcept(1193)); // Current drugs used
+                c.addSetMember(cs.getConcept(8575)); // non-coded drug name
                 cs.saveConcept(c);
             }
         }
@@ -3431,6 +3428,25 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            Integer id = 8445;
+            String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
+            String name = "Chronic Care Diagnosis Construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Chronic Care Diagnosis Construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(3683)); // Diagnosis
+                c.addSetMember(cs.getConcept(6774)); // Diagnosis date
+                c.addSetMember(cs.getConcept(8575)); // Other non-coded diagnosis name
+                cs.saveConcept(c);
+            }
+        }
+
+        {
             Integer id = 8574;
             String uuid = "59d876a4-5444-11e6-beb8-9e71128cae77";
             String name = "Marijuana use construct";
@@ -3488,41 +3504,6 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConcept(8575)); // Other non-coded
                 cs.saveConcept(c);
             }
-        }
-
-        {
-            Integer id = 3683;
-            Concept c = cs.getConcept(id);
-            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
-            c.getAnswers().clear();
-
-            // Replacing existing answers
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
-            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
-            // c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
-
-            // Adding new answers for Mental Health
-            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
-            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
-            cs.saveConcept(c);
         }
 
         {
@@ -3594,6 +3575,140 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+
+        {
+            Integer id = 8578;
+            String uuid = "138045AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Hypomania";
+            String synonym_1 = "Elevated mood";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8579;
+            String uuid = "8e1006be-5a55-11e6-8b77-86f30ca893d3";
+            String name = "Judgement and Insight";
+            String synonym_1 = "Insight into their symptoms";
+            String synonym_2 = "Judgment to make good decisions";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_1, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym_2, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8580;
+            String uuid = "f97271c0-63ed-11e6-8b77-86f30ca893d3";
+            String name = "Other mental health diagnosis 1";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8581;
+            String uuid = "f972763e-63ed-11e6-8b77-86f30ca893d3";
+            String name = "Other mental health diagnosis 2";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 3683;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
+            c.getAnswers().clear();
+
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
+            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
+            // c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8580))); // Other Mental Health Diagnosis 1
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8581))); // Other Mental Health Diagnosis 2
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+
+            // Adding new answers for Mental Health
+            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
+            cs.saveConcept(c);
+        }
+
+        {
+            Integer id = 8569;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Mental health chief complaint");
+            c.getAnswers().clear();
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8564))); // Hallucinations
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8565))); // Delusions
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8566))); // Disruptive Behavior Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8567))); // Abnormal speech
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8568))); // Depressive Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8578))); // Elevated mood
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8579))); // Insight
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // other
+            cs.saveConcept(c);
+        }
+
         /* Not using this since we'll use the previous concept
             "Age" in weeks without units
         {
