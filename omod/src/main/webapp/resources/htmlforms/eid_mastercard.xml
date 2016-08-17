@@ -159,13 +159,16 @@
                             <td>Age</td>
                             <td>
                                 At Enrolment<br/>
-                                    <obs conceptId="$enrollmentAge"/>wks
+                                    <obs conceptId="$enrollmentAge"/> weeks
                             </td>
                             <td>
                                 When starting NVP<br/>
                                 <obsgroup groupingConceptId="$startAgeNVP">
                                     <obs conceptId="$setAge"/>
-                                    <obs conceptId="$unitAge" defaultValue="$days" answerConceptIds="$days,$weeks,$months,$years"/>
+                                    <!-- ToDo:  Checking with Malawi -->
+                                    <obs conceptId="$unitAge"
+                                         answerConceptIds="$weeks,$months"
+                                         defaultValue="$weeks" />
                                 </obsgroup>
                             </td>
                         </tr>
@@ -176,11 +179,11 @@
                             <td colspan="2">
                                 <obsgroup groupingConceptId="$nvpDuration">
                                     <obs conceptId="$medDuration"/>
-                                    <!-- TBD:
-                                         What are the duration units?
-                                         Mastercard doesn't allow defaultValue.
-                                         We should we set a default duration unit -->
-                                    <obs conceptId="$durationUnits" defaultValue="$months" />
+
+                                    <!-- ToDo: Duration units is weeks and months. -->
+                                    <obs conceptId="$durationUnits"
+                                         answerConceptIds="$weeks,$months"
+                                         defaultValue="$weeks" />
                                 </obsgroup>
 
                             </td>
