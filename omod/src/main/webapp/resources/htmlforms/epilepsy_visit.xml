@@ -160,7 +160,8 @@
                     </td>
                     <td>
                         <!-- Family planning -->
-                        <obs conceptId="$familyPlan" style="checkbox"/>
+                        <obs conceptId="$familyPlan" answerConceptId="$yesAnswer"
+                             answerLabel="" style="checkbox"/>
                     </td>
                     <!-- Treatment Details -->
                     <!-- ToDo:  Add construct with dose and frequency? -->
@@ -308,7 +309,8 @@
             <tr>
                 <th>On family planning</th>
                 <td>
-                    <obs conceptId="$familyPlan" style="checkbox"/>
+                    <obs conceptId="$familyPlan" answerConceptId="$yesAnswer"
+                         answerLabel="" style="checkbox"/>
                 </td>
             </tr>
             <tr>
