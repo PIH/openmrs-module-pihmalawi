@@ -100,6 +100,7 @@
                     <span style="padding-left:20px;">
                         Date:
                         <encounterDate/>
+                        <font color="red">*</font>
                     </span>
                 </b>
             </span>
@@ -317,7 +318,7 @@
                                         <td style="border: 1px solid #ffffff;">
                                             <strong>Alcohol</strong>
                                         </td>
-                                        <td data-toggle-source="alcohol-history" data-toggle-target="alcohol-time" style="border: 1px solid #ffffff;">
+                                        <td style="border: 1px solid #ffffff;">
                                             <obs conceptId="$alcoholHistory" style="checkbox"
                                                  answerConceptId="$current" answerLabel="Current"/>
                                             <obs conceptId="$alcoholHistory" style="checkbox"
@@ -325,7 +326,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" id="alcohol-time" style="border: 1px solid #ffffff;">
+                                        <td colspan="2" style="border: 1px solid #ffffff;">
                                             <obs conceptId="$expoYears" labelText="# years"/>
                                             &amp;nbsp;&amp;nbsp;&amp;nbsp;
                                             <obs conceptId="$expoDate" labelText="Date last use"/>
@@ -364,8 +365,7 @@
                                                 <strong>Chamba</strong><br/>
                                                 <small>(Marijuana)</small>
                                             </td>
-                                            <td data-toggle-source="mj-history" data-toggle-target="mj-time"
-                                                style="border: 1px solid #ffffff;">
+                                            <td style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
@@ -415,8 +415,7 @@
                                                 <br/>
                                                 <obs conceptId="$noncodedOtherName" />
                                             </td>
-                                            <td data-toggle-source="other-meds-history" data-toggle-target="other-meds-time"
-                                                style="border: 1px solid #ffffff;">
+                                            <td style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
@@ -437,7 +436,8 @@
 
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td data-toggle-source="depr" data-toggle-target="depr-date" style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="depr" data-toggle-target="depr-date"
+                                    style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$depressive" answerLabel="Depressive symptoms"/>
                                 </td>
@@ -448,7 +448,8 @@
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
-                                <td data-toggle-source="other-chief" data-toggle-target="o-date" style="border-right: 1px solid #ffffff;">
+                                <td data-toggle-source="other-chief" data-toggle-target="o-date"
+                                    style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"
                                          answerConceptId="$other" answerLabel="Other,"
                                          commentFieldLabel="specify" />
@@ -464,8 +465,7 @@
                                             <td style="border: 1px solid #ffffff;">
                                                 <strong>Traditional<br/>medicine</strong>
                                             </td>
-                                            <td data-toggle-source="trad-history" data-toggle-target="trad-time"
-                                                style="border: 1px solid #ffffff;">
+                                            <td style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"

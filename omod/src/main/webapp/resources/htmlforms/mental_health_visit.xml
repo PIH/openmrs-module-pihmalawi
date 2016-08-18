@@ -1,4 +1,5 @@
-<htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit" formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.0">
+<htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit"
+          formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.0">
 
     <macros>
         noAnswer=1066
@@ -54,43 +55,43 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td>Date</td>
-                    <td>Ht</td>
-                    <td>Wt</td>
+                    <td style="padding: 1px;">Date</td>
+                    <td style="padding: 1px;" >Ht</td>
+                    <td style="padding: 1px;" >Wt</td>
                     <td colspan="7">Mental Status Examinations</td>
                     <td colspan="3">Current use</td>
-                    <td rowspan="2">Pregnant</td>
-                    <td rowspan="2">Family<br/>Planning</td>
-                    <td rowspan="2">Suicide risk</td>
-                    <td rowspan="2">Medication<br/>side effect</td>
+                    <td rowspan="2" style="padding: 1px;"><small>Pregnant</small></td>
+                    <td rowspan="2"><small>Family<br/>Planning</small></td>
+                    <td rowspan="2"><small>Suicide risk</small></td>
+                    <td rowspan="2"><small>Medication<br/>side effect</small></td>
                     <td colspan="8">Treatment Details</td>
-                    <td rowspan="2">Comments</td>
-                    <td>Next<br/>appointment</td>
+                    <td rowspan="2"><small>Comments</small></td>
+                    <td style="padding: 1px"><small>Next<br/>appointment</small></td>
                 </tr>
                 <tr>
-                    <td><i style="font-size:.7em;">day/month/year</i></td>
-                    <td><small>cm</small></td>
-                    <td><small>kg</small></td>
-                    <td style="font-size:.7em;padding: 1px">Depressed mood</td>
-                    <td style="font-size:.7em;padding: 1px">Elevated mood</td>
-                    <td style="font-size:.7em;padding: 1px;">Disrupted behavior</td>
-                    <td style="font-size:.7em;padding: 1px;">Disorganized speech</td>
+                    <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
+                    <td style="padding: 1px"><small>cm</small></td>
+                    <td style="padding: 1px"><small>kg</small></td>
+                    <td style="font-size:.7em;padding: 1px">Depressed<br/>mood</td>
+                    <td style="font-size:.7em;padding: 1px">Elevated<br/>mood</td>
+                    <td style="font-size:.7em;padding: 1px;">Disrupted<br/>behavior</td>
+                    <td style="font-size:.7em;padding: 1px;">Disorganized<br/>speech</td>
                     <td style="font-size:.7em;padding: 1px;">Delusions</td>
-                    <td style="font-size:.7em;padding: 1px;">Halluci- nations</td>
+                    <td style="font-size:.7em;padding: 1px;">Halluci-<br/>nations</td>
                     <td style="font-size:.7em;padding: 1px;">Insight</td>
                     <td style="font-size:.7em;padding: 1px;">Chamba<br/><i>Marijuana</i></td>
                     <td style="font-size:.7em;padding: 1px;">Alcohol</td>
-                    <td style="font-size:.7em;padding: 1px;">Other drugs</td>
+                    <td style="font-size:.7em;padding: 1px;">Other<br/>drugs</td>
 
                     <!-- Using abbreviations for meds so it will fit -->
-                    <td>CPZ</td>
-                    <td>HLP</td>
-                    <td>FPZ</td>
-                    <td>CBZ</td>
-                    <td>SV</td>
-                    <td>RIS</td>
-                    <td>FLX</td>
-                    <td>Other</td>
+                    <td style="font-size:.7em;padding: 1px">CPZ</td>
+                    <td style="font-size:.7em;padding: 1px">HLP</td>
+                    <td style="font-size:.7em;padding: 1px">FPZ</td>
+                    <td style="font-size:.7em;padding: 1px">CBZ</td>
+                    <td style="font-size:.7em;padding: 1px">SV</td>
+                    <td style="font-size:.7em;padding: 1px">RIS</td>
+                    <td style="font-size:.7em;padding: 1px">FLX</td>
+                    <td style="font-size:.7em;padding: 1px">Other</td>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
             </thead>
@@ -99,11 +100,11 @@
                     <td class="nowrap visit-date">
                         <encounterDate/>
                     </td>
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Height -->
                         <obs conceptId="$height" id="heightInput" size="3"/>
                     </td>
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Weight -->
                         <obs conceptId="$weight" id="weightInput" size="3"/>
                     </td>
@@ -125,7 +126,7 @@
                     <repeat with="['$mjConstruct','$exposeHistory','Chamba (Marijuana)'],
                                   ['$alcoholConstruct','$alcoholHistory','Alcohol'],
                                   ['$medsOtherConstruct','$exposeHistory','Other drugs']">
-                        <td>
+                        <td >
                             <obsgroup groupingConceptId="{0}">
                                 <obs conceptId="{1}" style="checkbox"
                                      answerConceptId="$current" answerLabel=""/>
@@ -133,22 +134,23 @@
                         </td>
                     </repeat>
 
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- pregnant -->
                         <obs conceptId="$pregnant" style="checkbox"
                              answerConceptId="$yesAnswer" answerLabel="Y" />
                     </td>
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Family planning -->
                         <obs conceptId="$familyPlan"
-                             style="yes_no" yesLabel="Y" noLabel="N" />
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
                     </td>
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Suicide risk -->
                         <obs conceptId="$suicideRisk" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Medication side effects -->
                         <obs conceptId="$sideEffects" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
@@ -161,27 +163,27 @@
                                   ['$sv','Sodium Valproate (SV)'],
                                   ['$ris','Risperidone (RIS)'],
                                   ['$flx','Fluoxetine (FLX)']">
-                        <td>
+                        <td style="padding: 1px;" >
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}"
                                      answerLabel="" style="checkbox" />
                             </obsgroup>
                         </td>
                     </repeat>
-                    <td>
-                        <!-- ToDo:  Add comment for other -->
+                    <td style="padding: 1px;">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="$other"
                                  answerLabel="" style="checkbox" />
-                            <obs conceptId="$noncodedText" />                        </obsgroup>
+                            <obs conceptId="$noncodedText" />
+                        </obsgroup>
                     </td>
 
-                    <td>
+                    <td style="padding: 1px;">
                         <!-- Comments -->
                         <obs conceptId="$clinicalImpression" />
                     </td>
 
-                    <td>
+                    <td style="padding: 1px;" >
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" id="nextAppointmentDate"
                              allowFutureDates="true" />
