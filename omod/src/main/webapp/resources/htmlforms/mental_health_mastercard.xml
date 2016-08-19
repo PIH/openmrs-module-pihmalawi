@@ -69,10 +69,6 @@
         guardianName=1824
         guardianPhone=2616
         relationToPatient=1328
-        occupation=1304
-        civilStatus=1054
-        religion=8482
-        educationLevel=1688
         agreesToFollowup=2552
         chwName=8431
 
@@ -144,6 +140,11 @@
                                 </span>
                             </td>
                         </tr>
+                        <!-- Not on the latest version
+                            occupation=1304
+                            civilStatus=1054
+                            religion=8482
+                            educationLevel=1688
                         <tr>
                             <td>Occupation</td>
                             <td>
@@ -159,7 +160,6 @@
                         <tr>
                             <td>Religion</td>
                             <td>
-                                <!-- ToDo: Order by popularity not alphabet -->
                                 <obs conceptId="$religion"/>
                             </td>
                         </tr>
@@ -169,6 +169,7 @@
                                 <obs conceptId="$educationLevel"/>
                             </td>
                         </tr>
+                        -->
                         <tr>
                             <td>Physical Address</td>
                             <td><!-- style="height:60px;" -->

@@ -1709,25 +1709,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
-            Integer id = 8501;
-            // String uuid = "447aaa7a-cd03-11e5-9956-625662870761";
-            String name = "Current Chronic Care Medication Construct";
-            Concept c = cs.getConcept(id);
-            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Current Chronic Care Medication Construct")) {
-                log.warn("Updating " + name);
-                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
-                c.setSet(true);
-                c.getConceptSets().clear();
-                c.addSetMember(cs.getConcept(1193)); // Current drugs used
-                c.addSetMember(cs.getConcept(8575)); // non-coded drug name
-                cs.saveConcept(c);
-            }
-        }
-
-        {
             // Not sure if this is used (Ellen)
             Integer id = 8417;
             String uuid = "521f8e75-4113-4870-bcbb-9ec1d727c627";
@@ -3428,25 +3409,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 8445;
-            String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
-            String name = "Chronic Care Diagnosis Construct";
-            Concept c = cs.getConcept(id);
-            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Chronic Care Diagnosis Construct")) {
-                log.warn("Updating " + name);
-                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
-                c.setSet(true);
-                c.getConceptSets().clear();
-                c.addSetMember(cs.getConcept(3683)); // Diagnosis
-                c.addSetMember(cs.getConcept(6774)); // Diagnosis date
-                c.addSetMember(cs.getConcept(8575)); // Other non-coded diagnosis name
-                cs.saveConcept(c);
-            }
-        }
-
-        {
             Integer id = 8574;
             String uuid = "59d876a4-5444-11e6-beb8-9e71128cae77";
             String name = "Marijuana use construct";
@@ -3502,6 +3464,25 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConcept(8545)); // Date of exposure
                 c.addSetMember(cs.getConcept(2241)); // Duration (years)
                 c.addSetMember(cs.getConcept(8575)); // Other non-coded
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8445;
+            String uuid = "6db168f1-0f38-42d9-9f0e-90946a3d8e72";
+            String name = "Chronic Care Diagnosis Construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Chronic Care Diagnosis Construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(3683)); // Diagnosis
+                c.addSetMember(cs.getConcept(6774)); // Diagnosis date
+                c.addSetMember(cs.getConcept(8575)); // Other non-coded diagnosis name
                 cs.saveConcept(c);
             }
         }
@@ -3962,6 +3943,25 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8591))); // Psychological development disorder
             c.addAnswer(new ConceptAnswer(cs.getConcept(8592))); // Hyperkinetic behavior
             cs.saveConcept(c);
+        }
+
+        {
+            // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
+            Integer id = 8501;
+            // String uuid = "447aaa7a-cd03-11e5-9956-625662870761";
+            String name = "Current Chronic Care Medication Construct";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Current Chronic Care Medication Construct")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(1193)); // Current drugs used
+                c.addSetMember(cs.getConcept(8575)); // non-coded drug name
+                cs.saveConcept(c);
+            }
         }
     }
 
