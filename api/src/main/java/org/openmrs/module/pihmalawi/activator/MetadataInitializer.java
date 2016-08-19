@@ -3709,6 +3709,75 @@ public class MetadataInitializer implements Initializer {
             cs.saveConcept(c);
         }
 
+        /*
+
+
+
+        dae4ec94-659e-11e6-8b77-86f30ca893d3
+        dae4edb6-659e-11e6-8b77-86f30ca893d3
+        dae4eed8-659e-11e6-8b77-86f30ca893d3
+        dae4efe6-659e-11e6-8b77-86f30ca893d3
+        dae4f0f4-659e-11e6-8b77-86f30ca893d3
+        dae4f662-659e-11e6-8b77-86f30ca893d3
+        dae4f928-659e-11e6-8b77-86f30ca893d3
+        dae4fb80-659e-11e6-8b77-86f30ca893d3
+        dae4fda6-659e-11e6-8b77-86f30ca893d3
+                */
+
+        {
+            Integer id = 8582;
+            String uuid = "dae4e2e4-659e-11e6-8b77-86f30ca893d3";
+            String name = "Olanzapine";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8583;
+            String uuid = "dae4e5e6-659e-11e6-8b77-86f30ca893d3";
+            String name = "Clozapine";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8584;
+            String uuid = "dae4eb4a-659e-11e6-8b77-86f30ca893d3";
+            String name = "Clopixol";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
         /* Not using this since we'll use the previous concept
             "Age" in weeks without units
         {

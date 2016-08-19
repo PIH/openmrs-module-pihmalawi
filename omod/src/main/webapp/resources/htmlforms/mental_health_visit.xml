@@ -37,6 +37,10 @@
         sv=4060
         ris=8498
         flx=4045
+        olanzapine=8582
+        clozapine=8583
+        trifluo=8237
+        clopixol=8584
         noncodedText=8575
         clinicalImpression=1364
         nextAppt=5096
@@ -171,9 +175,29 @@
                         </td>
                     </repeat>
                     <td style="padding: 1px;">
+                        <!-- ToDo:  Display this section.  For now it only shows
+                             properly in the edit view.
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="$olanzapine"
+                                 answerLabel="" />
+                        </obsgroup>
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptIds="$clozapine"
+                                 answerLabel="" style="checkbox" />
+                        </obsgroup>
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptIds="$trifluo"
+                                 answerLabel="" style="checkbox" />
+                        </obsgroup>
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptIds="$clopixol"
+                                 answerLabel="" style="checkbox" />
+                        </obsgroup>
+                        <br/>
+                        -->
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="$other"
-                                 answerLabel="" style="checkbox" />
+                                 answerLabel="" />
                             <obs conceptId="$noncodedText" />
                         </obsgroup>
                     </td>
@@ -311,7 +335,11 @@
                                   ['$cbz','Carbamazepine (CBZ)'],
                                   ['$sv','Sodium Valproate (SV)'],
                                   ['$ris','Risperidone (RIS)'],
-                                  ['$flx','Fluoxetine (FLX)']">
+                                  ['$flx','Fluoxetine (FLX)'],
+                                  ['$olanzapine','Olanzapine'],
+                                  ['$clozapine','Clozapine'],
+                                  ['$trifluo','Trifluoperazine'],
+                                  ['$clopixol','Clopixol']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}"
                                  answerLabel="{1}" style="checkbox" /><br/>
