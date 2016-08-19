@@ -174,30 +174,33 @@
                             </obsgroup>
                         </td>
                     </repeat>
-                    <td style="padding: 1px;">
+                    <td style="padding: 1px;font-size:.5em;">
                         <!-- ToDo:  Display this section.  For now it only shows
-                             properly in the edit view.
+                             properly in the edit view. -->
                         <obsgroup groupingConceptId="$drugSet">
-                            <obs conceptId="$drugsNow" answerConceptId="$olanzapine"
-                                 answerLabel="" />
+                            <obs conceptId="$drugsNow" answerConceptIds="$olanzapine"
+                                 answerLabel="" style="checkbox" />
                         </obsgroup>
+                        <br/>
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptIds="$clozapine"
                                  answerLabel="" style="checkbox" />
                         </obsgroup>
+                        <br/>
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptIds="$trifluo"
                                  answerLabel="" style="checkbox" />
                         </obsgroup>
+                        <br/>
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptIds="$clopixol"
                                  answerLabel="" style="checkbox" />
                         </obsgroup>
                         <br/>
-                        -->
+
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="$other"
-                                 answerLabel="" />
+                                 answerLabel=""  />
                             <obs conceptId="$noncodedText" />
                         </obsgroup>
                     </td>

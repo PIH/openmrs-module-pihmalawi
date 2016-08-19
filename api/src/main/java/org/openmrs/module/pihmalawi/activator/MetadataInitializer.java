@@ -3548,36 +3548,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 8579;
-            String uuid = "f63a586c-58f1-11e6-8b77-86f30ca893d3";
-            String name = "Mental health diagnosis set";
-            Concept c = cs.getConcept(id);
-            if (c == null) {
-                log.warn("Creating " + name);
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
-                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.setSet(true);
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addSetMember(cs.getConcept(467));  // Schizophrenia (467)
-                c.addSetMember(cs.getConcept(8491)); // Bipolar Affective Disorder, Manic
-                c.addSetMember(cs.getConcept(207));  // Depression (207)
-                c.addSetMember(cs.getConcept(8419)); // Acute Psychotic disorder (8419)
-                c.addSetMember(cs.getConcept(8487)); // Schizoaffective Disorder
-                c.addSetMember(cs.getConcept(2719)); // Anxiety
-                c.addSetMember(cs.getConcept(8488)); // Organic mental disorder (acute)
-                c.addSetMember(cs.getConcept(8489)); // Organic mental disorder (chronic)
-                c.addSetMember(cs.getConcept(8563)); // Drug use mental disorder
-                c.addSetMember(cs.getConcept(8562)); // Alcohol use mental disorder
-                c.addSetMember(cs.getConcept(8420)); // Other Mental Health Diagnosis non-coded
-                cs.saveConcept(c);
-            }
-        }
-
-
-        {
             Integer id = 8578;
             String uuid = "138045AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             String name = "Hypomania";
@@ -3656,43 +3626,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 3683;
-            Concept c = cs.getConcept(id);
-            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
-            c.getAnswers().clear();
-
-            // Replacing existing answers
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
-            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
-            // c.addAnswer(new ConceptAnswer(cs.getConcept(8418))); // Substance abuse (8418)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8580))); // Other Mental Health Diagnosis 1
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8581))); // Other Mental Health Diagnosis 2
-            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
-
-            // Adding new answers for Mental Health
-            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
-            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
-            cs.saveConcept(c);
-        }
-
-        {
             Integer id = 8569;
             Concept c = cs.getConcept(id);
             log.warn("Updating answers for Mental health chief complaint");
@@ -3713,8 +3646,8 @@ public class MetadataInitializer implements Initializer {
 
 
 
-        dae4ec94-659e-11e6-8b77-86f30ca893d3
-        dae4edb6-659e-11e6-8b77-86f30ca893d3
+
+
         dae4eed8-659e-11e6-8b77-86f30ca893d3
         dae4efe6-659e-11e6-8b77-86f30ca893d3
         dae4f0f4-659e-11e6-8b77-86f30ca893d3
@@ -3778,12 +3711,182 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
-        /* Not using this since we'll use the previous concept
-            "Age" in weeks without units
         {
-            Integer id = ;
-            String uuid = "";
-            String name = "Enrollment age construct";
+            Integer id = 8585;
+            String uuid = "160196AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Reaction to severe stress, and adjustment disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8586;
+            String uuid = "115261AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Dissociative, Conversion and Factitious Disorders";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8587;
+            String uuid = "112874AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Somatoform Disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8588;
+            String uuid = "dae4ec94-659e-11e6-8b77-86f30ca893d3";
+            String name = "Puerperal disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8589;
+            String uuid = "114193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Personality Disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8590;
+            String uuid = "115809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Mental retardation";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8591;
+            String uuid = "159238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Psychological development disorder";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8592;
+            String uuid = "117468AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Hyperkinetic behavior";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        /*
+        {
+            Integer id = 8593;
+            String uuid = "dae4edb6-659e-11e6-8b77-86f30ca893d3";
+            String name = "Other mental health diagnoses (coded)";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8585))); // Stress, and adjustment disorder
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8586))); // Dissociative, Conversion and Factitious Disorders
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8587))); // Somatoform Disorder
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8588))); // Puerperal disorder
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8589))); // Personality Disorder
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8590))); // Mental retardation
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8591))); // Psychological development disorder
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8592))); // Hyperkinetic behavior
+                cs.saveConcept(c);
+            }
+        }
+        */
+
+        {
+            Integer id = 8594;
+            String uuid = "f63a586c-58f1-11e6-8b77-86f30ca893d3";
+            String name = "Mental health diagnosis set";
             Concept c = cs.getConcept(id);
             if (c == null) {
                 log.warn("Creating " + name);
@@ -3794,12 +3897,72 @@ public class MetadataInitializer implements Initializer {
                 c.setDatatype(cs.getConceptDatatypeByName("N/A"));
                 c.setSet(true);
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addSetMember(cs.getConcept(8550)); // Age from set
-                c.addSetMember(cs.getConcept(2286)); // Age units
+                c.addSetMember(cs.getConcept(467));  // Schizophrenia (467)
+                c.addSetMember(cs.getConcept(8491)); // Bipolar Affective Disorder, Manic
+                c.addSetMember(cs.getConcept(207));  // Depression (207)
+                c.addSetMember(cs.getConcept(8419)); // Acute Psychotic disorder (8419)
+                c.addSetMember(cs.getConcept(8487)); // Schizoaffective Disorder
+                c.addSetMember(cs.getConcept(2719)); // Anxiety
+                c.addSetMember(cs.getConcept(8488)); // Organic mental disorder (acute)
+                c.addSetMember(cs.getConcept(8489)); // Organic mental disorder (chronic)
+                c.addSetMember(cs.getConcept(8563)); // Drug use mental disorder
+                c.addSetMember(cs.getConcept(8562)); // Alcohol use mental disorder
+                c.addSetMember(cs.getConcept(8420)); // Other Mental Health Diagnosis non-coded
+                c.addSetMember(cs.getConcept(8585)); // Stress, and adjustment disorder
+                c.addSetMember(cs.getConcept(8586)); // Dissociative, Conversion and Factitious Disorders
+                c.addSetMember(cs.getConcept(8587)); // Somatoform Disorder
+                c.addSetMember(cs.getConcept(8588)); // Puerperal disorder
+                c.addSetMember(cs.getConcept(8589)); // Personality Disorder
+                c.addSetMember(cs.getConcept(8590)); // Mental retardation
+                c.addSetMember(cs.getConcept(8591)); // Psychological development disorder
+                c.addSetMember(cs.getConcept(8592)); // Hyperkinetic behavior
                 cs.saveConcept(c);
             }
         }
-        */
+
+        {
+            Integer id = 3683;
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for Chronic care diagnosis"); // For NCD
+            c.getAnswers().clear();
+
+            // Replacing existing answers
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5)));    // Asthma
+            c.addAnswer(new ConceptAnswer(cs.getConcept(903)));  // Hypertension (903)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(155)));  // Epilepsy (155)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3720))); // Diabetes (3720)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6409))); // Type 1 diabetes (6409)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6410))); // Type 2 diabetes (6410)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3468))); // Heart failure (3468)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic kidney disease (7623)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6421))); // Stroke (6421)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3716))); // Chronic obstructive pulmonary disease (3716)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(207)));  // Depression (207)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8419))); // Acute Psychotic disorder (8419)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8420))); // Other Mental Health Diagnosis non-coded (8420)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8580))); // Other Mental Health Diagnosis 1
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8581))); // Other Mental Health Diagnosis 2
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other non-coded (5622)
+
+            // Adding new answers for Mental Health
+            c.addAnswer(new ConceptAnswer(cs.getConcept(467)));  // Schizophrenia (467)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8487))); // Schizoaffective Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8488))); // Organic mental disorder (acute)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8489))); // Organic mental disorder (chronic)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8491))); // Bipolar Affective Disorder, Manic
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2719))); // Anxiety
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8562))); // Alcohol use mental disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8563))); // Drug use mental disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8585))); // Stress, and adjustment disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8586))); // Dissociative, Conversion and Factitious Disorders
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8587))); // Somatoform Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8588))); // Puerperal disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8589))); // Personality Disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8590))); // Mental retardation
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8591))); // Psychological development disorder
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8592))); // Hyperkinetic behavior
+            cs.saveConcept(c);
+        }
     }
 
     @Override

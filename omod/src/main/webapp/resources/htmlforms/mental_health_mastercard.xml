@@ -15,6 +15,7 @@
         unknown=1067
         other=5622
         noncodedOtherName=8575
+
         diagnosisSet=8445
         chronicCareDiagnosis=3683
         diagnosisDate=6774
@@ -31,6 +32,14 @@
         mentalHealthOther0=8420
         mentalHealthOther1=8580
         mentalHealthOther2=8581
+        stressReact=8585
+        dissoc=8586
+        somato=8587
+        puerp=8588
+        personality=8589
+        retardation=8590
+        psychDev=8591
+        hyper=8592
 
         mentalFamilyHistory=8458
         epilepsyFamilyHistory=8484
@@ -263,8 +272,7 @@
 
                         <!-- todo: Add other diagnoses -->
                         <repeat with="['$mentalHealthOther0','Other,','other1'],
-                                      ['$mentalHealthOther1','Other,','other2'],
-                                      ['$mentalHealthOther2','Other,','other3']">
+                                      ['$mentalHealthOther1','Other,','other2']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$diagnosisSet">
@@ -280,6 +288,25 @@
                                 </obsgroup>
                             </tr>
                         </repeat>
+
+                        <tr>
+                            <obsgroup groupingConceptId="$diagnosisSet">
+
+                                <td style="border-right: 1px solid #ffffff;">
+                                    Other:
+                                    <obs conceptId="$chronicCareDiagnosis"
+                                         answerConceptIds="$stressReact,$dissoc,$puerp,$personality,$retardation,$psychDev,$hyper"
+                                         answerLabels="Stress reaction disorder,Dissociative disorder,Somatoform disorder,Puerperal disorder,Mental retardation,Psych development disorder,Hyperkinetic behavior"/>
+                                </td>
+                                <td style="border-left: 1px solid #ffffff;">
+                                    <!-- ToDo:  Capture date but it doesn't work when there's no
+                                         other coded concept selected.  It shows up in the wrong
+                                         place.
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    -->
+                                </td>
+                            </obsgroup>
+                        </tr>
 
                         <tr>
                             <th style="vertical-align:top;" align="left" rowspan="8">Patient<br/>History &#38;<br/>
