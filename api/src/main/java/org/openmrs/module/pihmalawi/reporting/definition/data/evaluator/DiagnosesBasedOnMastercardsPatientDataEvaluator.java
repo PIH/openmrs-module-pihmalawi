@@ -81,6 +81,7 @@ public class DiagnosesBasedOnMastercardsPatientDataEvaluator implements PatientD
         diagnosesDisplay.put(ccMetadata.getCopdConcept(), "COPD");
         diagnosesDisplay.put(ccMetadata.getType1DiabetesConcept(), "Type 1 DM");
         diagnosesDisplay.put(ccMetadata.getType2DiabetesConcept(), "Type 2 DM");
+        diagnosesDisplay.put(ccMetadata.getHypertensionConcept(), "Hypertension");
 
         PatientData diagosisData = patientDataService.evaluate(ccPatientData.getAllChronicCareDiagnosisObsByEndDate(), context);
         for (Integer pId : diagosisData.getData().keySet()) {

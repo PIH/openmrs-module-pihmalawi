@@ -7,6 +7,9 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Utility classes that can be used for convenience
  */
@@ -20,6 +23,20 @@ public class ApzuReportUtil {
         return ObjectUtil.nvlStr(ret, "");
     }
 
+    public static Calendar nextDayOfWeek(Date fromDate, int dow) {
+        Calendar instance = Calendar.getInstance();
+        if ( fromDate != null ) {
+            instance.setTime(fromDate);
+        }
+        if (dow > 0 && dow < 8) {
+            int diff = dow - instance.get(Calendar.DAY_OF_WEEK);
+            if (!(diff >= 0)) {
+                diff += 7;
+            }
+            instance.add(Calendar.DAY_OF_MONTH, diff);
+        }
+        return instance;
+    }
     /**
      * @return a new ReportDesign for a standard Excel output
      */
