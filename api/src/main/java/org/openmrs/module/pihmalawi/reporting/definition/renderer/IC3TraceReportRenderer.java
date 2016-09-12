@@ -19,6 +19,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.openmrs.Location;
 import org.openmrs.annotation.Handler;
+import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
@@ -37,6 +38,7 @@ import org.openmrs.module.reporting.report.renderer.ReportRenderer;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,10 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
 
         ExcelBuilder builder = new ExcelBuilder();
         Date reportDate = reportData.getContext().getEvaluationDate();
+
+        Calendar nextMonday = ApzuReportUtil.nextDayOfWeek(reportDate, Calendar.MONDAY);
+        Calendar nextSecondWednesday = ApzuReportUtil.nextDayOfWeek(reportDate, Calendar.WEDNESDAY);
+        nextSecondWednesday.add(Calendar.DAY_OF_MONTH, 7);
 
         for (String key : reportData.getDataSets().keySet()) {
             SimpleDataSet ds = (SimpleDataSet)reportData.getDataSets().get(key);
@@ -96,11 +102,11 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell(minWk + "- <" + maxWk + " weeks missed appointment", "bold");
                     builder.nextRow();
 
-                    builder.addCell(builder.createRichTextString("Patient tracking for week of ", "bold", "Monday following the date below", "color=" + HSSFColor.BLUE.index), null);
+                    builder.addCell(builder.createRichTextString("Patient tracking for week of ", "bold", DateUtil.formatDate(nextMonday.getTime(), "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null);
                     builder.nextRow();
                     builder.addCell(builder.createRichTextString("Date Report Printed: ", "bold", DateUtil.formatDate(reportDate, "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null);
                     builder.nextRow();
-                    builder.addCell(builder.createRichTextString("Date Report due back to Chisomo/Maxwell:  ", "bold", "2nd Wednesday after report is printed", "color=" + HSSFColor.BLUE.index + ",size=8,italic" + ",bold"), null);
+                    builder.addCell(builder.createRichTextString("Date Report due back to Chisomo/Maxwell:  ", "bold", DateUtil.formatDate(nextSecondWednesday.getTime(), "EEEE, dd-MMM-yyyy"), "color=" + HSSFColor.BLUE.index + ",bold"), null);
                 }
                 else {
                     builder.nextRow();
@@ -193,7 +199,7 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(s != null && !s.isEmpty() ? "!!!" : "", rowStyle+",color=" + HSSFColor.RED.index+",align=center");
                     }
                     for (int j = 0; j < 6; j++) {
-                        builder.addCell("☐", rowStyle + ",align=center");
+                        builder.addCell("☐", rowStyle + ",align=center,size=18");
                     }
                     builder.addCell("", rowStyle + ",border=right");
                     builder.nextRow();
