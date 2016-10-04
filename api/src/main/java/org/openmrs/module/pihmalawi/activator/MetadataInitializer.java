@@ -3624,12 +3624,6 @@ public class MetadataInitializer implements Initializer {
         }
 
         /*
-
-
-
-
-
-        dae4eed8-659e-11e6-8b77-86f30ca893d3
         dae4efe6-659e-11e6-8b77-86f30ca893d3
         dae4f0f4-659e-11e6-8b77-86f30ca893d3
         dae4f662-659e-11e6-8b77-86f30ca893d3
@@ -3902,6 +3896,26 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            Integer id = 8595;
+            String uuid = "dae4eed8-659e-11e6-8b77-86f30ca893d3";
+            String name = "Polycystic kidney disease";
+            String synonym = "PKD";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Diagnosis"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
             Integer id = 3683;
             Concept c = cs.getConcept(id);
             log.warn("Updating answers for Chronic care diagnosis"); // For NCD
@@ -3942,6 +3956,18 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8590))); // Mental retardation
             c.addAnswer(new ConceptAnswer(cs.getConcept(8591))); // Psychological development disorder
             c.addAnswer(new ConceptAnswer(cs.getConcept(8592))); // Hyperkinetic behavior
+
+            // Adding new answers for "other" diagnoses
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7518))); // Sickle Cell Disease
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3779))); // Tropical Splenomegaly Syndrome (3779)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3714))); // Liver Cirrhosis (3714)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic Kidney Disease (7623)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(221)));  // Rheumatic Heart disease (221)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(3131))); // Congestive Heart Disease (3131)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8595))); // Polycystic kidney disease (PKD)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(202)));  // Rheumatoid arthritis (202)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(27)));   // Hepatitis B (27)
+
             cs.saveConcept(c);
         }
 
