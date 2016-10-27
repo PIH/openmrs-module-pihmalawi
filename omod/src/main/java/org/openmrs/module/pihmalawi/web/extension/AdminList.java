@@ -13,12 +13,12 @@
  */
 package org.openmrs.module.pihmalawi.web.extension;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openmrs.module.Extension;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class defines the links that will appear on the administration page under the
@@ -51,6 +51,7 @@ public class AdminList extends AdministrationSectionExt {
 		if (ModuleFactory.isModuleStarted("reportingui")) {
 			map.put("/reportingui/adHocManage.page", "Ad-Hoc Query Tool");
 		}
+		map.put("/pihmalawi/setupReports.page", "Re-build all Reports");
 		
 		return map;
 	}
