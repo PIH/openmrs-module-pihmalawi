@@ -61,7 +61,7 @@
         <reportingrestVersion>1.6</reportingrestVersion>
         <reportinguiVersion>1.0</reportinguiVersion>
         <serializationVersion>0.2.11</serializationVersion>
-        <syncVersion>1.2</syncVersion>
+        <syncVersion>1.3</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
 		<uiframeworkVersion>3.4</uiframeworkVersion>
