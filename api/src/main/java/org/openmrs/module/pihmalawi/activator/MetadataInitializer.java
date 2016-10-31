@@ -3963,7 +3963,7 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(3714))); // Liver Cirrhosis (3714)
             c.addAnswer(new ConceptAnswer(cs.getConcept(7623))); // Chronic Kidney Disease (7623)
             c.addAnswer(new ConceptAnswer(cs.getConcept(221)));  // Rheumatic Heart disease (221)
-            c.addAnswer(new ConceptAnswer(cs.getConcept(3131))); // Congestive Heart Disease (3131)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(2720))); // Congestive Heart Disease (2720)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8595))); // Polycystic kidney disease (PKD)
             c.addAnswer(new ConceptAnswer(cs.getConcept(202)));  // Rheumatoid arthritis (202)
             c.addAnswer(new ConceptAnswer(cs.getConcept(27)));   // Hepatitis B (27)

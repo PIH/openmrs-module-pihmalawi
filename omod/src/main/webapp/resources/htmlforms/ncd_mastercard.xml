@@ -143,7 +143,8 @@
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="221" answerLabel="Rheumatic heart disease"
+                                        <!-- ToDo:  This is a synonym as Heart Failure.  Checking with Beth  -->
+                                        <obs conceptId="3683" answerConceptId="2720" answerLabel="Congestive heart disease"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
@@ -153,7 +154,7 @@
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3131" answerLabel="Congestive heart disease"
+                                        <obs conceptId="3683" answerConceptId="221" answerLabel="Rheumatic heart disease"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
