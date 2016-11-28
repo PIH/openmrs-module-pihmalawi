@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQuery> {
@@ -43,10 +44,10 @@ public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQu
 		return EncounterQuery.class;
 	}
 
-	public EncounterQuery getEncountersAtLocationDuringPeriod(EncounterType... types) {
+	public EncounterQuery getEncountersAtLocationDuringPeriod(List<EncounterType> types) {
 		BasicEncounterQuery q = new BasicEncounterQuery();
-		if (types != null && types.length > 0) {
-			q.setEncounterTypes(Arrays.asList(types));
+		if (types != null && types.size() > 0) {
+			q.setEncounterTypes(types);
 		}
 		q.addParameter(new Parameter("onOrAfter", "On or after", Date.class));
 		q.addParameter(new Parameter("onOrBefore", "On or before", Date.class));
@@ -54,10 +55,10 @@ public class BaseEncounterQueryLibrary extends BaseDefinitionLibrary<EncounterQu
 		return new MappedParametersEncounterQuery(q, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate,locationList=location"));
 	}
 
-	public EncounterQuery getMostRecentEncountersAtLocationDuringPeriod(EncounterType... types) {
+	public EncounterQuery getMostRecentEncountersAtLocationDuringPeriod(List<EncounterType> types) {
 		BasicEncounterQuery q = new BasicEncounterQuery();
-		if (types != null && types.length > 0) {
-			q.setEncounterTypes(Arrays.asList(types));
+		if (types != null && types.size() > 0) {
+			q.setEncounterTypes(types);
 		}
 		q.setWhich(TimeQualifier.LAST);
 		q.setWhichNumber(1);
