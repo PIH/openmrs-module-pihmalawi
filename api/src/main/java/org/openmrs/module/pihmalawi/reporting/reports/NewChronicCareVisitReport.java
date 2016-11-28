@@ -90,10 +90,24 @@ public class NewChronicCareVisitReport extends ApzuDataExportManager{
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
+        addDataSet(rd, "oldccc_initial", metadata.getOldChronicCareInitialEncounterType());
+        addDataSet(rd, "oldccc_followup", metadata.getOldChronicCareFollowupEncounterType());
+
         addDataSet(rd, "diabetes_initial", metadata.getHtnDiabetesInitialEncounterType());
         addDataSet(rd, "diabetes_followup", metadata.getHtnDiabetesFollowupEncounterType());
         addDataSet(rd, "diabetes_hospitalization", metadata.getHtnDiabetesHospitalizationsEncounterType());
         addDataSet(rd, "diabetes_tests", metadata.getHtnDiabetesTestsEncounterType());
+
+        addDataSet(rd, "epilepsy_initial", metadata.getEpilepsyInitialEncounterType());
+        addDataSet(rd, "epilepsy_followup", metadata.getEpilepsyFollowupEncounterType());
+
+        addDataSet(rd, "asthma_initial", metadata.getAsthmaInitialEncounterType());
+        addDataSet(rd, "asthma_followup", metadata.getAsthmaFollowupEncounterType());
+        addDataSet(rd, "asthma_peakflow", metadata.getAsthmaPeakFlowEncounterType());
+        addDataSet(rd, "asthma_hospitalization", metadata.getAsthmaHospitalizationsEncounterType());
+
+        addDataSet(rd, "mentalhealth_initial", metadata.getMentalHealthInitialEncounterType());
+        addDataSet(rd, "mentalhealth_followup", metadata.getMentalHealthFollowupEncounterType());
 
         return rd;
     }
