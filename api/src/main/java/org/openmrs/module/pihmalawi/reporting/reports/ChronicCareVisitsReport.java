@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -109,13 +110,29 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 		rd.setDescription(getDescription());
 		rd.setParameters(getParameters());
 
-		addDataSet(rd, "initial", metadata.getOldChronicCareInitialEncounterType());
-		addDataSet(rd, "visits", metadata.getOldChronicCareFollowupEncounterType());
+		addDataSet(rd, "initial", Arrays.asList(
+				metadata.getOldChronicCareInitialEncounterType(),
+				metadata.getHtnDiabetesInitialEncounterType(),
+				metadata.getEpilepsyInitialEncounterType(),
+				metadata.getAsthmaInitialEncounterType(),
+				metadata.getMentalHealthInitialEncounterType()
+		));
+		addDataSet(rd, "visits", Arrays.asList(
+				metadata.getOldChronicCareFollowupEncounterType(),
+				metadata.getHtnDiabetesFollowupEncounterType(),
+				metadata.getHtnDiabetesHospitalizationsEncounterType(),
+				metadata.getHtnDiabetesTestsEncounterType(),
+				metadata.getEpilepsyFollowupEncounterType(),
+				metadata.getAsthmaFollowupEncounterType(),
+				metadata.getAsthmaPeakFlowEncounterType(),
+				metadata.getAsthmaHospitalizationsEncounterType(),
+				metadata.getMentalHealthFollowupEncounterType()
+		));
 
 		return rd;
 	}
 
-	protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType) {
+	protected void addDataSet(ReportDefinition rd, String key, List<EncounterType> encounterTypes) {
 
 		EncounterDataSetDefinition dsd = new EncounterDataSetDefinition();
 		dsd.setName(getName());
@@ -127,8 +144,8 @@ public class ChronicCareVisitsReport extends ApzuDataExportManager {
 		ConditionalParameterEncounterQuery filter = new ConditionalParameterEncounterQuery();
 		filter.setParameters(getParameters());
 		filter.setParameterToCheck("latestOnly");
-		filter.addConditionalQuery(Boolean.TRUE, Mapped.mapStraightThrough(encounterQueries.getMostRecentEncountersAtLocationDuringPeriod(encounterType)));
-		filter.setDefaultQuery(Mapped.mapStraightThrough(encounterQueries.getEncountersAtLocationDuringPeriod(encounterType)));
+		filter.addConditionalQuery(Boolean.TRUE, Mapped.mapStraightThrough(encounterQueries.getMostRecentEncountersAtLocationDuringPeriod(encounterTypes)));
+		filter.setDefaultQuery(Mapped.mapStraightThrough(encounterQueries.getEncountersAtLocationDuringPeriod(encounterTypes)));
 		dsd.addRowFilter(Mapped.mapStraightThrough(filter));
 
 		// Columns to include
