@@ -69,7 +69,7 @@ public class EncounterTypes {
         public String uuid() { return "2478C35B-9A71-4BD5-86B6-E8CCE594E934"; }
         public String name() { return "ASTHMA HOSPITALIZATION"; }
         public String description() { return "Hospitalization for Lung Disease"; }
-    };
+    };    
 
     public static EncounterTypeDescriptor ASTHMA_PEAKFLOW = new EncounterTypeDescriptor() {
         public String uuid() { return "46028b88-c538-11e5-9912-ba0be0483c18"; }
@@ -112,5 +112,11 @@ public class EncounterTypes {
         public String name() { return "CHRONIC_CARE_FOLLOWUP"; }
         public String description() { return "Visit rows in the Chronic Care Mastercard"; }
     };  
+
+    public static EncounterTypeDescriptor BP_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "ebaa2ad8-baaa-11e6-91a8-5622a9e78e10"; }
+        public String name() { return "BLOOD PRESSURE SCREENING"; }
+        public String description() { return "Annual blood pressure screening"; }
+    };    
 
 }

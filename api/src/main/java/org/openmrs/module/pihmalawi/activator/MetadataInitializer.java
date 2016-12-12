@@ -1828,7 +1828,11 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8601))); // 9A: ABC / 3TC + LPV/r (8601)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8602))); // 10A: TDF / 3TC + LPV/r (8602)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8603))); // 11A: AZT / 3TC + LPV/r (8603)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8604))); // 11P: AZT / 3TC + LPV/r (8604)
             c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
 
             cs.saveConcept(c);
@@ -1854,7 +1858,11 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8601))); // 9A: ABC / 3TC + LPV/r (8601)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8602))); // 10A: TDF / 3TC + LPV/r (8602)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8603))); // 11A: AZT / 3TC + LPV/r (8603)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8604))); // 11P: AZT / 3TC + LPV/r (8604)
             c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
 
             cs.saveConcept(c);
@@ -1880,7 +1888,12 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8165))); // 6A: TDF / 3TC + NVP (8165)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8166))); // 7A: TDF / 3TC + LPV/r (8166)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8167))); // 8A: AZT / 3TC + LPV/r (8167)
+
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8601))); // 9A: ABC / 3TC + LPV/r (8601)
             c.addAnswer(new ConceptAnswer(cs.getConcept(8168))); // 9P: ABC / 3TC + LPV/r (8168)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8602))); // 10A: TDF / 3TC + LPV/r (8602)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8603))); // 11A: AZT / 3TC + LPV/r (8603)
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8604))); // 11P: AZT / 3TC + LPV/r (8604)
             c.addAnswer(new ConceptAnswer(cs.getConcept(6408))); // Other (6408)
 
             cs.saveConcept(c);
@@ -3989,7 +4002,150 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
-    }
+        {
+            Integer id = 8600;
+            String uuid = "48964d18-ba37-11e6-91a8-5622a9e78e10";
+            String name = "Child HCC Registration Number";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }     
+
+        {
+            Integer id = 8601;
+            String uuid = "8a795372-ba39-11e6-91a8-5622a9e78e10";
+            String name = "9A: ABC / 3TC + LPV/r";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 8602;
+            String uuid = "7ebc782a-baa2-11e6-91a8-5622a9e78e10";
+            String name = "10A: TDF / 3TC + LPV/r";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 8603;
+            String uuid = "8bb7294e-baa2-11e6-91a8-5622a9e78e10";
+            String name = "11A: AZT / 3TC + LPV";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 8604;
+            String uuid = "91bcdad2-baa2-11e6-91a8-5622a9e78e10";
+            String name = "11P: AZT / 3TC + LPV";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }                                   
+        {
+            Integer id = 8605;
+            String uuid = "c8489048-c027-11e6-bb84-f5cb1a1f4e2a";
+            String name = "CPT + IPT: Cotrimoxazole and Isoniazid Preventive Therapy";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }          
+        {
+            // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
+            Integer id = 8606;
+            String uuid = "07b4909c-c028-11e6-bb84-f5cb1a1f4e2a";
+            String name = "HIV Preventive Therapy";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setSet(false);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(1193)); // Current drugs used
+                c.addSetMember(cs.getConcept(2834)); // pills dispensed
+                c.addAnswer(new ConceptAnswer(cs.getConcept(916)));  // CPT: Trimethoprim and sulfamethoxazole
+                c.addAnswer(new ConceptAnswer(cs.getConcept(656)));  // IPT: Isoniazid
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8605)));  // CPT + IPT
+                cs.saveConcept(c);
+            }
+        }           
+        {
+            Integer id = 8607;
+            String uuid = "07b4909c-c028-11e6-bb84-f5cb1a1f4e2a";
+            String name = "HIV Preventive Therapy Construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConcept(8606)); // Current drugs used
+                c.addSetMember(cs.getConcept(2834)); // pills dispensed
+                cs.saveConcept(c);
+            }
+        }           
+    } 
 
     @Override
     public void stopped() {

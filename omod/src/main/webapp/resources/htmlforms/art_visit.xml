@@ -7,8 +7,8 @@
         height=5090
         weight=5089
         artRegimen=8169
-        regimenOptions=8499,8155,8157,8159,8162,8164,8165,8166,8167,8500,8156,8158,8160,8163,8168,6408
-        regimenLabels=0A,1A,2A,3A,4A,5A,6A,7A,8A,0P,1P,2P,3P,4P,9P,Other
+        regimenOptions=8499,8155,8157,8159,8162,8164,8165,8166,8167,8601,8602,8603,8500,8156,8158,8160,8163,8168,8604,6408
+        regimenLabels=0A,1A,2A,3A,4A,5A,6A,7A,8A,9A,10A,11A,0P,1P,2P,3P,4P,9P,11P,Other
         sideEffect=7755
         no=1066
         yes=1065
@@ -26,12 +26,18 @@
         dosesMissed=2973
         numArvsGiven=2929
         arvsGivenTo=2122
-        numCptGiven=6319
+        hivPreventiveTherapyGroup=8607
+        hivPreventiveTherapy=8606
+        hivPreventiveTherapyPills=2834
+        hivPreventiveTherapyDrugs=916,656,8605
         depoGiven=8029
         numCondoms=8080
         viralLoadTaken=8421
         viralLoad=856
         LDL=8561
+        pregnantLactating=8027        
+        currentlyPregnant=1755
+        currentlyLactating=5632        
         nextAppt=5096
     </macros>
 
@@ -44,13 +50,14 @@
                     <td rowspan="2">Visit Date</td>
                     <td rowspan="2">Hgt</td>
                     <td rowspan="2">Wt</td>
-                    <td rowspan="3">ART<br/>Regimen</td>
-                    <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
+                    <td rowspan="2">Pregnant/<br/>Breastfeed.</td>
                     <td colspan="4">TB Status (Curr.)*</td>
+                    <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
                     <td rowspan="3">Pill<br/>Count</td>
                     <td rowspan="3">Doses<br/>Missed</td>
+                    <td rowspan="3">ART<br/>Regimen</td>
                     <td colspan="2">ARVs given</td>
-                    <td rowspan="3">CPT<br/>No. of<br/>tablets</td>
+                    <td colspan="2">CPT/IPT Given</td>
                     <td colspan="2">Family Plan.</td>
                     <td colspan="3">Viral load</td>
                     <td rowspan="3">Next appointment</td>
@@ -60,6 +67,8 @@
                     <td colspan="2">Confirmed</td>
                     <td rowspan="2">No. of<br/>tablets</td>
                     <td rowspan="2"><br/>To</td>
+                    <td rowspan="2">CPT/IPT</td>
+                    <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Depo<br/>Given</td>
                     <td rowspan="2">No. of<br/>condom</td>
                     <td rowspan="2">Sample<br/>Taken</td>
@@ -70,6 +79,7 @@
                     <td><i style="font-size:.7em;">day month year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
+                    <td><i>Write child<br/>HCC no. if Bf</i></td>
                     <td>No</td>
                     <td>Yes</td>
                     <td>noRx</td>
@@ -84,24 +94,14 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightEntered"/>
+                       <obs conceptId="$height" id="heightEntered"/>
                     </td>
                     <td>
                         <!-- Weight -->
                         <obs conceptId="$weight" />
                     </td>
-                    <td>
-                        <!-- ART Regimen -->
-                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
-                    </td>
-                    <td>
-                        <!-- Side Effects -->
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Preg" answerConceptId="$currentlyPregnant" />
+                    <obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Bf" answerConceptId="$currentlyLactating" />
                     </td>
                     <!-- TB Status (curr) -->
                     <td>
@@ -117,6 +117,15 @@
                         <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="" />
                     </td>
                     <td>
+                        <!-- Side Effects -->
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    </td>                    
+                    <td>
                         <!-- Pill count -->
                         <obs conceptId="$pillCount" />
                     </td>
@@ -125,6 +134,10 @@
                         <obs conceptId="$dosesMissed" />
                     </td>
                     <td>
+                        <!-- ART Regimen -->
+                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
+                    </td>                    
+                    <td>
                         <!-- # ARVs -->
                         <obs conceptId="$numArvsGiven" />
                     </td>
@@ -132,10 +145,16 @@
                         <!-- # ARVs given to -->
                         <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
                     </td>
-                    <td>
-                        <!-- CPT # tablets -->
-                        <obs conceptId="$numCptGiven"/>
-                    </td>
+                    <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
+                        <td>
+                            <!-- Regimen -->
+                            <obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
+                        </td>    
+                        <td>             
+                            <!-- # tablets -->
+                            <obs conceptId="$hivPreventiveTherapyPills"/>
+                        </td>
+                    </obsgroup>
                     <td>
                         <!-- depo given -->
                         <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
@@ -201,19 +220,8 @@
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
             <tr>
-                <th>ART Regimen</th>
-                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
-            </tr>
-            <tr>
-                <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
-                <td>
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
-                </td>
+                <th>Pregnant/Breastfeed.</th>
+                <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$currentlyPregnant,$currentlyLactating" /><span style="font-size:.8em;">Write child HCC no. if Bf</span></td>
             </tr>
             <tr>
                 <th>TB Status (Curr.)*</th>
@@ -227,6 +235,17 @@
                 </td>
             </tr>
             <tr>
+                <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
+                <td>
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                </td>
+            </tr>
+            <tr>
                 <th>Pill Count</th>
                 <td><obs conceptId="$pillCount" /></td>
             </tr>
@@ -235,6 +254,10 @@
                 <td><obs conceptId="$dosesMissed" /></td>
             </tr>
             <tr>
+                <th>ART Regimen</th>
+                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
+            </tr>            
+            <tr>
                 <th>ARVs given</th>
                 <td>
                     No. of tablets: <obs conceptId="$numArvsGiven" />
@@ -242,10 +265,15 @@
                     <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
                 </td>
             </tr>
-            <tr>
-                <th>CPT No. of tablets</th>
-                <td><obs conceptId="$numCptGiven" /></td>
-            </tr>
+            <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
+                <tr>
+                    <th>CPT/IPT Given</th>
+                    <!-- Regimen -->
+                    <td><obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
+                    <span style="padding-left:10px">No. of pills</span>
+                    <obs conceptId="$hivPreventiveTherapyPills"/></td>
+                </tr>                  
+            </obsgroup>
             <tr>
                 <th>Family Plan.</th>
                 <td>
