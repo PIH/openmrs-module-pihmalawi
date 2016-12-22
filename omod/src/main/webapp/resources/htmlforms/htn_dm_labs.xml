@@ -12,7 +12,7 @@
         hivTest=2169
         ecg=6672
         creatinine=6445
-        totalCholesterol=1006
+        lipidProfile=8611
         ldl=1008
         hdl=1007
         triglyc=1009
@@ -41,7 +41,7 @@
 
                     <td>ECG</td>
                     <td>Creatinine</td>
-                    <td>Lipid profile<br/><i style="font-size:.7em;">mg/dl</i></td>
+                    <td>Lipid profile<br/></td>
                     <td>Fundoscopy</td>
                 </tr>
             </thead>
@@ -70,8 +70,8 @@
                     </td>
                     <td style="text-align: left;">
                         <!-- Lipid profile -->
-                        <repeat with="['$totalCholesterol','Total cholesterol'],['$ldl','LDL'],['$hdl','HDL'],['$triglyc','Triglycerides']">
-                            <obs conceptId="{0}" labelText="{1}" />
+                        <repeat with="['1115','Normal'],['8609','High lipids'],['8610','High TGs']">
+                            <obs conceptId="$lipidProfile" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             <br/>
                         </repeat>
                     </td>
@@ -148,8 +148,9 @@
             <tr>
                 <th>Lipid profile</th>
                 <td style="text-align: left;">
-                    <repeat with="['$totalCholesterol','Total cholesterol'],['$ldl','LDL'],['$hdl','HDL'],['$triglyc','Triglycerides']">
-                            <obs conceptId="{0}" labelText="{1} :" showUnits="true"/><br/>
+                    <repeat with="['1115','Normal'],['8609','High lipids'],['8610','High TGs']">
+                        <obs conceptId="$lipidProfile" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        <br/>
                     </repeat>
                 </td>
             </tr>

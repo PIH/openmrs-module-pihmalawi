@@ -4207,6 +4207,60 @@ public class MetadataInitializer implements Initializer {
                 }
             }
         }
+
+        {
+            Integer id = 8609;
+            String uuid = "6623242A-F374-46C1-83D7-D17551E48A79";
+            String name = "High lipids";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8610;
+            String uuid = "F7A42154-66D8-41A9-97CD-C16DDE4C0F3B";
+            String name = "High TGs";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8611;
+            String uuid = "68CFA0A5-3BBC-4E7E-9CDE-9C2527385CF7";
+            String name = "Lipid profile";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1115))); // Normal
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8609))); // High lipids
+                c.addAnswer(new ConceptAnswer(cs.getConcept(8610))); // High TGs
+
+                cs.saveConcept(c);
+            }
+        }
     } 
 
     @Override
