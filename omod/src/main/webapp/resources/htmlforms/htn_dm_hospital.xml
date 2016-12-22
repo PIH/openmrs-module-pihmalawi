@@ -18,7 +18,7 @@
                     <th colspan="4">Hospitalization History for DM and/or HTN</th>
                 </tr>
                 <tr>
-                    <th>Date</th>
+                    <th>Date of dishcharge</th>
                     <td>Length of Stay<br/><i style="font-size:.7em;">days</i></td>
                     <td>Reason for<br/>Admission</td>
                     <td>Discharge<br/>Diagnosis</td>

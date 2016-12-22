@@ -162,8 +162,8 @@
                             <!-- Family History -->
                             <th style="vertical-align:top;" align="left" rowspan="3">Family History</th>
                             <td rowspan="2">
-                                <obs conceptId="$diabetesFamilyHistory" labelText="Diabetes"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                                <span>Diabetes: </span><br/>
+                                <obs conceptId="$diabetesFamilyHistory" style="radio" answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
                             </td>
                         </tr>
                         <tr>
@@ -186,9 +186,10 @@
                                     <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
+                            <!-- Family History -->
                             <td class="nowrap">
-                                <obs conceptId="$hypertensionFamilyHistory" labelText="Hypertension"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,UNK"/>
+                                <span>Hypertension: </span><br/>
+                                <obs conceptId="$hypertensionFamilyHistory" style="radio" answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
                             </td>
                         </tr>
 

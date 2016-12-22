@@ -4,6 +4,11 @@
     <macros>
         hbA1C=6422
         proteinuria=6447
+        proteinuriaNone=6698
+        proteinuria1Plus=1410
+        proteinuria2Plus=1408
+        proteinuria3Plus=1409
+        proteinuria4Plus=8608
         hivTest=2169
         ecg=6672
         creatinine=6445
@@ -25,14 +30,14 @@
             <thead class="visit-table-header">
                 <tr>
                     <th></th>
-                    <th colspan="3">Every 3 months</th>
+                    <th colspan="2">Every 3 months</th>
                     <th colspan="4">Annual monitoring</th>
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td>HbA1C</td>
+
                     <td>Proteinuria</td>
-                    <td>HIV test</td>
+                    <td>HIV test result</td>
 
                     <td>ECG</td>
                     <td>Creatinine</td>
@@ -47,16 +52,12 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- HbA1C -->
-                        <obs conceptId="$hbA1C"/>
-                    </td>
-                    <td>
                         <!-- Proteinuria -->
-                        <obs conceptId="$proteinuria"/>
+                        <obs conceptId="$proteinuria" style="radio" answerConceptIds="6698,1410,1408,1409,8608" answerLabels="None,1+,2+,3+,4+"/>
                     </td>
                     <td>
                         <!-- HIV test -->
-                        <obs conceptId="$hivTest"/>
+                        <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
                     </td>
 
                     <td>
@@ -118,23 +119,16 @@
             </tr>
 
             <tr>
-                <th>HbA1C</th>
-                <td class="focus-field">
-                    <obs conceptId="$hbA1C" showUnits="true"/>
-                </td>
-            </tr>
-
-            <tr>
                 <th>Proteinuria</th>
                 <td>
-                    <obs conceptId="$proteinuria"/>
+                    <obs conceptId="$proteinuria" style="radio" answerConceptIds="6698,1410,1408,1409,8608" answerLabels="None,1+,2+,3+,4+"/>
                 </td>
             </tr>
 
             <tr>
-                <th>HIV test</th>
+                <th>HIV test result</th>
                 <td>
-                    <obs conceptId="$hivTest"/>
+                    <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
                 </td>
             </tr>
 

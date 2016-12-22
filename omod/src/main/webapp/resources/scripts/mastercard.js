@@ -585,7 +585,6 @@
         if ( values.length > 0 ) {
             var mean = jStat.mean(values);
             var stDev = jStat.stdev(values);
-            console.log("height = " + height + ";  mean= " + mean + "; stDev= " + stDev);
             if (Math.abs(height - mean) > stDev ) {
                 outside = true;
             }

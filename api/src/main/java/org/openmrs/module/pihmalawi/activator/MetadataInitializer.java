@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.activator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
@@ -29,6 +30,7 @@ import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
 import org.openmrs.module.pihmalawi.metadata.LocationAttributeTypes;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +39,17 @@ import java.util.Map;
 public class MetadataInitializer implements Initializer {
 
     protected static final Log log = LogFactory.getLog(MetadataInitializer.class);
+
+    public boolean hasAnswer(Collection<ConceptAnswer> answers, Concept concept){
+        if ( answers != null && answers.size() > 0 ){
+            for (ConceptAnswer answer : answers) {
+                if (StringUtils.equals(answer.getAnswerConcept().getUuid(), concept.getUuid())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * @see Initializer#started()
@@ -2666,8 +2679,8 @@ public class MetadataInitializer implements Initializer {
 
         {
             Integer id = 8538;
-            String uuid = "5f51fecc-cf63-11e5-ab30-625662870761";
             String name = "Epilepsy trigger";
+            String uuid = "5f51fecc-cf63-11e5-ab30-625662870761";
             Concept c = cs.getConcept(id);
             if (c == null) {
                 log.warn("Creating " + name);
@@ -4144,7 +4157,56 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConcept(2834)); // pills dispensed
                 cs.saveConcept(c);
             }
-        }           
+        }
+        {
+            Integer id = 8608;
+            String uuid = "E1B2AF76-4B69-4BA4-9DDC-D801649BC212";
+            String name = "Proteinuria 4+ over 3000mg/24 hours";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+        {
+            Integer id = 6447; // Urine protein
+            Concept c = cs.getConcept(id);
+            if (c != null ) {
+                log.warn("Updating answers for Proteinuria");
+                Concept proteinuriaFourPlus = cs.getConcept(8608); // Proteinuria 4+ over 3000mg/24 hours
+                Collection<ConceptAnswer> answers = c.getAnswers();
+                if (!hasAnswer(answers, proteinuriaFourPlus)) {
+                    c.addAnswer(new ConceptAnswer(proteinuriaFourPlus));
+                    cs.saveConcept(c);
+                }
+
+            }
+        }
+
+        {
+            Integer id = 2169; //Result of HIV test
+            Concept c = cs.getConcept(id);
+            if (c != null ) {
+                log.warn("Updating answers for HIV Test result");
+                Collection<ConceptAnswer> answers = c.getAnswers();
+                Concept reactive = cs.getConcept(1228); // Reactive
+                Concept nonReactive = cs.getConcept(1229); // Non-Reactive
+                if ( !hasAnswer(answers, reactive) ) {
+                    c.addAnswer(new ConceptAnswer(reactive));
+                    cs.saveConcept(c);
+                }
+                if ( !hasAnswer(answers, nonReactive) ) {
+                    c.addAnswer(new ConceptAnswer(nonReactive));
+                    cs.saveConcept(c);
+                }
+            }
+        }
     } 
 
     @Override
