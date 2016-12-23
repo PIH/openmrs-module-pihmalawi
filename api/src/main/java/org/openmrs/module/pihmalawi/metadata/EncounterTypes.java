@@ -113,10 +113,10 @@ public class EncounterTypes {
         public String description() { return "Visit rows in the Chronic Care Mastercard"; }
     };  
 
-    public static EncounterTypeDescriptor BP_SCREENING = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor ART_ANNUAL_SCREENING = new EncounterTypeDescriptor() {
         public String uuid() { return "ebaa2ad8-baaa-11e6-91a8-5622a9e78e10"; }
-        public String name() { return "BLOOD PRESSURE SCREENING"; }
-        public String description() { return "Annual blood pressure screening"; }
+        public String name() { return "ANNUAL ART SCREENING"; }
+        public String description() { return "Annual ART Screening"; }
     };    
 
 }
