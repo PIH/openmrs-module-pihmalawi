@@ -15,6 +15,7 @@
         systolicBP=5085
         diastolicBP=5086
         pulse=5087
+        hbA1c=6422
         fastingGlucose=8448
         randomGlucose=8447
         tobacco=2545
@@ -56,7 +57,7 @@
                     <td rowspan="2">BMI</td>
                     <td rowspan="2" span="2">BP</td>
                     <td rowspan="2">PR</td>
-                    <td colspan="2">Blood sugar<br/>(mg/dL)</td>
+                    <td colspan="3">Glucose Monitoring</td>
                     <td colspan="4">Risk assessment</td>
                     <td rowspan="2" class="rotate">CV risk %</td>
                     <td rowspan="2" class="rotate">Visual acuity</td>
@@ -72,8 +73,9 @@
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
-                    <td class="rotate">Fasting</td>
-                    <td class="rotate">Random</td>
+                    <td class="rotate">HbA1C(%)</td>
+                    <td class="rotate">Fasting(mg/dL)</td>
+                    <td class="rotate">Random(mg/dL)</td>
                     <td class="rotate">Tobacco</td>
                     <td class="rotate">Alcohol</td>
                     <td class="rotate">F/V portions</td>
@@ -134,6 +136,10 @@
                         <obs conceptId="$pulse"/>
                     </td>
 
+                    <td>
+                        <!-- HbA1C -->
+                        <obs conceptId="$hbA1c"/>
+                    </td>
                     <td>
                         <!-- Fasting blood sugar -->
                         <obs conceptId="$fastingGlucose"/>
@@ -285,15 +291,24 @@
             </tr>
 
             <tr>
-                <th>Fasting blood sugar</th>
-                <td><obs conceptId="$fastingGlucose" showUnits="true" /></td>
+                <th>Glucose Monitoring</th>
+                <td>
+                    <table>
+                        <tr>
+                            <th>HbA1C</th>
+                            <td><obs conceptId="$hbA1c" showUnits="true" /></td>
+                        </tr>
+                        <tr>
+                            <th>Fasting blood sugar</th>
+                            <td><obs conceptId="$fastingGlucose" showUnits="true" /></td>
+                        </tr>
+                        <tr>
+                            <th>Random blood sugar</th>
+                            <td><obs conceptId="$randomGlucose" showUnits="true" /></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
-
-            <tr>
-                <th>Random blood sugar</th>
-                <td><obs conceptId="$randomGlucose" showUnits="true" /></td>
-            </tr>
-
             <tr>
                 <th>Tobacco</th>
                 <td>
