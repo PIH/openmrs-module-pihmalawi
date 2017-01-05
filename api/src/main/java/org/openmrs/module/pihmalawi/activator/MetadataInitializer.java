@@ -436,6 +436,21 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            // 	HbA1c, Glycated hemoglobin
+            Integer id = 6422;
+            // String uuid = "65714f76-977f-11e1-8993-905e29aff6c1";
+            ConceptNumeric c = (ConceptNumeric) cs.getConcept(id);
+            if (c != null) {
+                // the concept should already exist
+                String name = "Glycated hemoglobin";
+                log.warn("Updating " + name);
+                c.setUnits("%");
+                c.setPrecise(true);
+                cs.saveConcept(c);
+            }
+        }
+
+        {
             // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
             Integer id = 8501;
             // String uuid = "447aaa7a-cd03-11e5-9956-625662870761";

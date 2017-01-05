@@ -66,7 +66,6 @@
                     <td>Diabetes<br/>meds</td>
                     <td rowspan="2" class="rotate">Anti-hypertensives</td>
                     <td rowspan="2">Other<br/>meds</td>
-                    <td rowspan="2">Comment</td>
                     <td>Next appt</td>
                 </tr>
                 <tr>
@@ -119,7 +118,10 @@
 
                     <td>
                         <!-- BMI -->
-                        <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                        <repeat with="['$underWeight','U'],['$typical','N'],['$overWeight','O']">
+                            <obs conceptId="$bmiCoded" answerConceptId="{0}" answerLabel="{1}" style="radio" />
+                            <br/>
+                        </repeat>
                     </td>
 
                     <td>
@@ -219,11 +221,6 @@
                     </td>
 
                     <td>
-                        <!-- Clinical impression -->
-                        <obs conceptId="$clinicalImpression" />
-                    </td>
-
-                    <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" />
                     </td>
@@ -271,9 +268,11 @@
             <tr>
                 <th>Body Mass Index (BMI)</th>
                 <td>
-                    <obs conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25" />
+                    <!-- BMI -->
+                    <obs style="radio" conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25"  answerSeparator="&lt;br /&gt;&lt;br /&gt;" />
                 </td>
             </tr>
+
 
             <tr>
                 <th>Blood pressure</th>
@@ -383,12 +382,6 @@
                         <br/>
                     </repeat>
                 </td>
-            </tr>
-
-            
-            <tr>
-                <th>Comment</th>
-                <td><obs conceptId="$clinicalImpression" style="textarea" cols="60" /></td>
             </tr>
 
             <tr>
