@@ -19,7 +19,7 @@
                     <td>CHF NYHA<br/>Classification</td>
                     <td># of seizures</td>
                     <td>Peak Flow <br/>/ % of Predicted</td>
-                    <td>Astha<br/>Classification</td>
+                    <td>Asthma<br/>Classification</td>
                     <td>Diagnosis</td>
                     <td>Hospitalized<br/>since last visit?</td>
                     <td>For NCD?</td>
@@ -100,15 +100,15 @@
                     </td>
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="1715" style="yes_no"/>
+                        <obs conceptId="1715" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
                     <td>
                         <!-- For NCD? -->
-                        <obs conceptId="8411" style="radio"/>
+                        <obs conceptId="8411" style="radio" answerConceptIds="1066,1065" answerLabels="N,Y" />
                     </td>
                     <td>
                         <!-- Preferred out of stock -->
-                        <obs conceptId="8412" style="radio"/>
+                        <obs conceptId="8412" style="radio" answerConceptIds="1066,1065" answerLabels="N,Y" />
                     </td>
                     <td>
                         <!-- current meds -->
@@ -116,7 +116,7 @@
                     </td>    
                     <td>
                         <!-- meds changed? -->
-                        <obs conceptId="2432" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio"/>
+                        <obs conceptId="2432" answerConceptIds="1066,1065" answerLabels="N,Y" style="radio"/>
                     </td>              
                     <td>
                         <!-- next appt -->
@@ -128,7 +128,7 @@
                     </td>
                     <td>
                         <!-- fully completed --> 
-                        <obs conceptId="8082" style="radio" answerConceptIds="1065,1066,1067"/>
+                        <obs conceptId="8082" style="radio" answerConceptIds="1065,1066,1067" answerLabels="Y,N,Unk"/>
                     </td>
                     <td>
                         <!-- comments --> 

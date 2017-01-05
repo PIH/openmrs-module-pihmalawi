@@ -24,7 +24,7 @@
     </style>
 
     <macros>
-    <!-- Not used yet -->
+      otherDiagnosis=7685
     </macros>
 
     <span style="display:none">
@@ -186,6 +186,7 @@
                                     <td colspan="2" class="borderless">
                                         <obs conceptId="3683" answerConceptId="5622" answerLabel="Other"
                                              style="checkbox"/>
+                                        <obs conceptId="$otherDiagnosis" />
                                     </td>
                                 </tr>
                             </table>
@@ -217,13 +218,13 @@
                         <tr>
                             <td>Electricity:</td>
                             <td>
-                                <obs conceptId="5609" style="yes_no"/>
+                                <obs conceptId="5609" style="yes_no" />
                             </td>
                         </tr>
                         <tr>
                             <td>Radio:</td>
                             <td>
-                                <obs conceptId="1318" style="yes_no"/>
+                                <obs conceptId="1318" style="yes_no" />
                             </td>
                         </tr>
                         <tr>
@@ -308,12 +309,12 @@
                                 <obs conceptId="1552" answerConceptIds="1550,1090,1548"
                                      answerLabels="Yes,No,Past drinker"/>
                             </td>
-                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="3341"/>liters/day
+                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="3341" /> liters/day
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">Number of fruit and vegetable servings/day:</td>
-                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="8396"/>servings/day
+                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="8396"/> servings/day
                             </td>
                         </tr>
                     </table>
@@ -323,23 +324,23 @@
                     <table>
                         <tr>
                             <td>Diabetes</td>
-                            <td style="padding-right:10px;"><obs conceptId="8399" size="2"/>yrs
+                            <td style="padding-right:10px;"><obs conceptId="8399" size="2"/> yrs
                             </td>
                             <td>Hypertension</td>
-                            <td style="padding-right:10px;"><obs conceptId="8400" size="2"/>yrs
+                            <td style="padding-right:10px;"><obs conceptId="8400" size="2"/> yrs
                             </td>
                         </tr>
                         <tr>
                             <td>Epilepsy</td>
-                            <td style="padding-right:10px;"><obs conceptId="8403" size="2"/>yrs
+                            <td style="padding-right:10px;"><obs conceptId="8403" size="2"/> yrs
                             </td>
                             <td>Heart Failure</td>
-                            <td style="padding-right:10px;"><obs conceptId="8402" size="2"/>yrs
+                            <td style="padding-right:10px;"><obs conceptId="8402" size="2"/> yrs
                             </td>
                         </tr>
                         <tr>
                             <td>Asthma</td>
-                            <td style="padding-right:10px;"><obs conceptId="8401" size="2"/>yrs
+                            <td style="padding-right:10px;"><obs conceptId="8401" size="2"/> yrs
                             </td>
                             <td></td>
                         </tr>
