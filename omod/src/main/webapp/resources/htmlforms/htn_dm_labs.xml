@@ -2,7 +2,6 @@
           formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.0">
 
     <macros>
-        hbA1C=6422
         proteinuria=6447
         proteinuriaNone=6698
         proteinuria1Plus=1410
