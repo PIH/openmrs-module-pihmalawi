@@ -4,7 +4,49 @@
           formVersion="1">
           
     <macros>
-        <!-- not used yet -->
+        weight=PIH Malawi:5089
+        height=PIH Malawi:5090
+        bsa=PIH Malawi:3649
+        bmi=PIH Malawi:2137
+        diagnosis=PIH Malawi:3596
+        clinical=PIH Malawi:3592
+        biopsy=PIH Malawi:3593
+        results=PIH Malawi:3597
+        evalPeriod=PIH Malawi:3648
+        onARVs=PIH Malawi:1622
+        reasonARVs=PIH Malawi:1251
+        hivDxDate=PIH Malawi:2515
+        cd4AtDx=PIH Malawi:5497
+        arvs=PIH Malawi:2538
+        worsening=PIH Malawi:3599
+        historyOI=PIH Malawi:3600
+        ableWork=PIH Malawi:2064
+        ableEat=PIH Malawi:3602
+        ableWalk=PIH Malawi:3601
+        cough=PIH Malawi:3650
+        pain=PIH Malawi:3604
+        labExams=PIH Malawi:1337
+        cd4Lab=PIH Malawi:5497
+        wbcLab=PIH Malawi:678
+        ancLab=PIH Malawi:1022
+        tlcLab=PIH Malawi:1021
+        hgbLab=PIH Malawi:21
+        pltLab=PIH Malawi:729
+        sgotLab=PIH Malawi:653
+        sgptLab=PIH Malawi:654
+        stoolLab=PIH Malawi:3612
+        cxrLab=PIH Malawi:1342
+        lesions=PIH Malawi:3605
+        ksFindings=PIH Malawi:3610
+        findOralLesions=PIH Malawi:3606
+        findViscLoc=PIH Malawi:3607
+        findOedema=PIH Malawi:460
+        findUlc=PIH Malawi:3608
+        findLymph=PIH Malawi:161
+        locations=PIH Malawi:3358
+        class=PIH Malawi:3615
+        tsAtPres=PIH Malawi:3621
+        startDate=PIH Malawi:2516
     </macros>
 
     <!-- Flowsheet table view -->
@@ -59,86 +101,86 @@
                         <encounterDate />
                     </td>
                     <!-- Weight -->
-                    <td><obs conceptId="5089" /></td>
+                    <td><obs conceptId="$weight" /></td>
                     <!-- Height -->
-                    <td><obs conceptId="5090" /></td>
+                    <td><obs conceptId="$height" /></td>
                     <!-- BSA -->
-                    <td><obs conceptId="3649" /></td>
+                    <td><obs conceptId="$bsa" /></td>
                     <!-- BMI -->
-                    <td><obs conceptId="2137" /></td>
+                    <td><obs conceptId="$bmi" /></td>
                     <!-- Diagnosis -->
                     <td>
-                        <obs conceptId="3596" answerConceptId="3592" answerLabel="Clinical"
+                        <obs conceptId="$diagnosis" answerConceptId="$clinical" answerLabel="Clinical"
                     style="checkbox" />
-                        <obs conceptId="3596" answerConceptId="3593" answerLabel="Biopsy proven"
+                        <obs conceptId="$diagnosis" answerConceptId="$biopsy" answerLabel="Biopsy proven"
                     style="checkbox" />
-                        <obs conceptId="3596" answerConceptId="3597" answerLabel="Results" />
+                        <obs conceptId="$diagnosis" answerConceptId="$results" answerLabel="Results" />
                     </td>
                     <!-- Evaluation Period -->
-                    <td><obs conceptId="3648" /></td>
+                    <td><obs conceptId="$evalPeriod" /></td>
                     <!-- On ARVs -->
                     <td>
-                        <obs conceptId="1622"  style="yes_no"/>
-                        <obs conceptId="1251" />
+                        <obs conceptId="$onARVs"  style="yes_no"/>
+                        <obs conceptId="$reasonARVs" />
                     </td>
                     <!-- Date of HIV dx -->
-                    <td><obs conceptId="2515" /></td>
+                    <td><obs conceptId="$hivDxDate" /></td>
                     <!-- CD4 at HIV dx -->
-                    <td><obs conceptId="5497" showDate="true" /></td>
+                    <td><obs conceptId="$cd4AtDx" showDate="true" /></td>
                     <!-- ARV regimen -->
-                    <td><obs conceptId="2538" /></td>
+                    <td><obs conceptId="$arvs" /></td>
                     <!-- Worsening KS Sx on ARV? -->
-                    <td><obs conceptId="3599" style="yes_no" /></td>
+                    <td><obs conceptId="$worsening" style="yes_no" /></td>
                     <!-- History of OI's? -->
-                    <td><obs conceptId="3600" style="yes_no" /></td>
+                    <td><obs conceptId="$historyOI" style="yes_no" /></td>
                     <!-- Patient able to work or do daily activities: -->
-                    <td><obs conceptId="2064" style="yes_no" /></td>
+                    <td><obs conceptId="$ableWork" style="yes_no" /></td>
                     <!-- Patient able to eat (oral lesions): -->
-                    <td><obs conceptId="3602" style="yes_no" /></td>
+                    <td><obs conceptId="$ableEat" style="yes_no" /></td>
                     <!-- Patient able to walk: -->
-                    <td><obs conceptId="3601" style="yes_no" /></td>
+                    <td><obs conceptId="$ableWalk" style="yes_no" /></td>
                     <!-- Patient c/o cough: -->
-                    <td><obs conceptId="3650" style="yes_no" /></td>
+                    <td><obs conceptId="$cough" style="yes_no" /></td>
                     <!-- Pain (0-10) -->
-                    <td><obs conceptId="3604" /></td>
-                    <obsgroup groupingConceptId="1337">
+                    <td><obs conceptId="$pain" /></td>
+                    <obsgroup groupingConceptId="$labExams">
                         <repeat>
                             <template>
                                     <td><obs conceptId="{conceptId}" showDate="{date}" style="radio" /></td>
                             </template>
-                            <render conceptId="5497" label="Most recent CD4 and date"
+                            <render conceptId="$cd4Lab" label="Most recent CD4 and date"
                                 date="true" />
-                            <render conceptId="678" date="false"  />
-                            <render conceptId="1022" date="false"  />
-                            <render conceptId="1021" date="false"  />
-                            <render conceptId="21" date="false"  />
-                            <render conceptId="729" date="false" />
-                            <render conceptId="653" date="false"
+                            <render conceptId="$wbcLab" date="false"  />
+                            <render conceptId="$ancLab" date="false"  />
+                            <render conceptId="$tlcLab" date="false"  />
+                            <render conceptId="$hgbLab" date="false"  />
+                            <render conceptId="$pltLab" date="false" />
+                            <render conceptId="$sgotLab" date="false"
                                 answer="/L" />
-                            <render conceptId="654" date="false" />
-                            <render conceptId="3612" date="false" />
-                            <render conceptId="1342" date="false" />
+                            <render conceptId="$sgptLab" date="false" />
+                            <render conceptId="$stoolLab" date="false" />
+                            <render conceptId="$cxrLab" date="false" />
                         </repeat>
                     </obsgroup>
                     <!-- Number of Lesions -->
-                    <td><obs conceptId="3605" /></td>
+                    <td><obs conceptId="$lesions" /></td>
                         <repeat>
                             <template>
-                                <td><obs conceptId="3610" answerConceptId="{conceptId}" labelText="" style="yes_no" /></td>
+                                <td><obs conceptId="$ksFindings" answerConceptId="{conceptId}" labelText="" style="yes_no" /></td>
                             </template>
                                 <!-- oral lesions, visceral localizations, oedema, ulcerations, lymphadenopathy -->
-                            <render conceptId="3606" />
-                            <render conceptId="3607"  />
-                            <render conceptId="460"  />
-                            <render conceptId="3608" />
-                            <render conceptId="161"  />
+                            <render conceptId="$findOralLesions" />
+                            <render conceptId="$findViscLoc"  />
+                            <render conceptId="$findOedema"  />
+                            <render conceptId="$findUlc" />
+                            <render conceptId="$findLymph"  />
                         </repeat>
                     <!-- Location -->
-                    <td><obs conceptId="3358" /></td>
+                    <td><obs conceptId="$locations" /></td>
                     <!-- Classification TS at present -->
-                    <td><obs conceptId="3615" /><obs conceptId="3621" /></td>
+                    <td><obs conceptId="$class" /><obs conceptId="$tsAtPres" /></td>
                     <!-- HAART -->
-                    <td><obs conceptId="2516" /></td>
+                    <td><obs conceptId="$startDate" /></td>
                 </tr>
             </tbody>
             </table>
@@ -178,83 +220,83 @@
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obs conceptId="5089" /></td>
+                <td><obs conceptId="$weight" /></td>
             </tr>
             <tr>
                 <th>Height</th>
-                <td><obs conceptId="5090" /></td>
+                <td><obs conceptId="$height" /></td>
             </tr>
             <tr>
                 <th>BSA</th>
-                <td><obs conceptId="3649" /></td>
+                <td><obs conceptId="$bsa" /></td>
             </tr>
             <tr>
                 <th>BMI</th>
-                <td><obs conceptId="2137" /></td>
+                <td><obs conceptId="$bmi" /></td>
             </tr>
             <tr>
                 <th>Diagnosis</th>
                 <td>
-                    <obs conceptId="3596" answerConceptId="3592" answerLabel="Clinical"
+                    <obs conceptId="$diagnosis" answerConceptId="$clinical" answerLabel="Clinical"
                 style="checkbox" />
-                    <obs conceptId="3596" answerConceptId="3593" answerLabel="Biopsy proven"
+                    <obs conceptId="$diagnosis" answerConceptId="$biopsy" answerLabel="Biopsy proven"
                 style="checkbox" />
-                    <obs conceptId="3596" answerConceptId="3597" answerLabel="results:" />
+                    <obs conceptId="$diagnosis" answerConceptId="$results" answerLabel="results:" />
                 </td>
             </tr>
             <tr>
                 <th>Evaluation<br/>Period</th>
-                <td><obs conceptId="3648" /></td>
+                <td><obs conceptId="$evalPeriod" /></td>
             </tr>
             <tr>
                 <th>Patient <br/>on ARVs</th>
-                <td><obs conceptId="1622" style="yes_no" /><br/>
-                <obs conceptId="1251" /></td>
+                <td><obs conceptId="$onARVs" style="yes_no" /><br/>
+                <obs conceptId="$reasonARVs" /></td>
             </tr>
             <tr>
                 <th>Date of<br/> HIV Dx</th>
-                <td><obs conceptId="2515" /></td>
+                <td><obs conceptId="$hivDxDate" /></td>
             </tr>
             <tr>
                 <th>CD4 at<br/> HIV Dx</th>
-                <td><obs conceptId="5497" showDate="true" /></td>
+                <td><obs conceptId="$cd4AtDx" showDate="true" /></td>
             </tr>
             <tr>
                 <th>ARV Regimen</th>
-                <td><obs conceptId="2538" /></td>
+                <td><obs conceptId="$arvs" /></td>
             </tr>
             <tr>
                 <th>Worsening KS <br/> Sx on ARV</th>
-                <td><obs conceptId="3599" style="yes_no" /></td>
+                <td><obs conceptId="$worsening" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>History <br/>of OI's</th>
-                <td><obs conceptId="3600" style="yes_no" /></td>
+                <td><obs conceptId="$historyOI" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>Patient able to work<br/>or do daily activities</th>
-                <td><obs conceptId="2064" style="yes_no" /></td>
+                <td><obs conceptId="$ableWork" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>Patient able to<br/>eat (oral lesions)</th>
-                <td><obs conceptId="3602" style="yes_no" /></td>
+                <td><obs conceptId="$ableEat" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>Patient able<br/>to walk</th>
-                <td><obs conceptId="3601" style="yes_no" /></td>
+                <td><obs conceptId="$ableWalk" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>Patient<br/>c/o cough</th>
-                <td><obs conceptId="3650" style="yes_no" /></td>
+                <td><obs conceptId="$cough" style="yes_no" /></td>
             </tr>
             <tr>
                 <th>Pain (0-10)</th>
-                <td><obs conceptId="3604" /></td>
+                <td><obs conceptId="$pain" /></td>
             </tr>
             <tr>
                 <th colspan="2"><h3>Laboratory</h3></th>
             </tr>
-                <obsgroup groupingConceptId="1337">
+                <obsgroup groupingConceptId="$labExams">
                     <repeat>
                         <template>
                             <tr>
@@ -263,20 +305,20 @@
                                 style="radio" /> {answer}</td>
                             </tr>
                         </template>
-                        <render conceptId="5497" label="Most recent CD4 and date"
+                        <render conceptId="$cd4Lab" label="Most recent CD4 and date"
                             date="true" answer="" />
-                        <render conceptId="678" label="WBC" date="false" answer="[/uL]" />
-                        <render conceptId="1022" label="ANC" date="false" answer="[%]" />
-                        <render conceptId="1021" label="TLC" date="false" answer="[%]" />
-                        <render conceptId="21" label="HGB" date="false" answer="/[dL]" />
-                        <render conceptId="729" label="PLT" date="false" answer="[/ul]" />
-                        <render conceptId="653" label="SGOT (AST)" date="false"
+                        <render conceptId="$wbcLab" label="WBC" date="false" answer="[/uL]" />
+                        <render conceptId="$ancLab" label="ANC" date="false" answer="[%]" />
+                        <render conceptId="$tlcLab" label="TLC" date="false" answer="[%]" />
+                        <render conceptId="$hgbLab" label="HGB" date="false" answer="/[dL]" />
+                        <render conceptId="$pltLab" label="PLT" date="false" answer="[/ul]" />
+                        <render conceptId="$sgotLab" label="SGOT (AST)" date="false"
                             answer="[/L]" />
-                        <render conceptId="654" label="SGPT (ALT)" date="false"
+                        <render conceptId="$sgptLab" label="SGPT (ALT)" date="false"
                             answer="[/L]" />
-                        <render conceptId="3612" label="Stool Guaic Occult" date="false"
+                        <render conceptId="$stoolLab" label="Stool Guaic Occult" date="false"
                             answer="" />
-                        <render conceptId="1342" label="CXR (Comments)" date="false"
+                        <render conceptId="$cxrLab" label="CXR (Comments)" date="false"
                             answer="" />
                     </repeat>
                 </obsgroup>
@@ -285,32 +327,32 @@
             </tr>                
             <tr>
                 <th>Number <br/>of Lesions</th>
-                <td><obs conceptId="3605" /></td>
+                <td><obs conceptId="$lesions" /></td>
             </tr>
             <repeat>
                 <template>
                     <tr>
-                        <th>{label}</th><td><obs conceptId="3610" answerConceptId="{conceptId}"  style="yes_no" /></td>
+                        <th>{label}</th><td><obs conceptId="$ksFindings" answerConceptId="{conceptId}"  style="yes_no" /></td>
                     </tr>
                 </template>
                     <!-- oral lesions, visceral localizations, oedema, ulcerations, lymphadenopathy -->
-                <render conceptId="3606" label="Oral lesions:" />
-                <render conceptId="3607" label="Visceral localizations:" />
-                <render conceptId="460" label="Oedema:" />
-                <render conceptId="3608" label="Ulcerations:" />
-                <render conceptId="161" label="Lymphadenopathy:" />
+                <render conceptId="$findOralLesions" label="Oral lesions:" />
+                <render conceptId="$findViscLoc" label="Visceral localizations:" />
+                <render conceptId="$findOedema" label="Oedema:" />
+                <render conceptId="$findUlc" label="Ulcerations:" />
+                <render conceptId="$findLymph" label="Lymphadenopathy:" />
             </repeat>
             <tr>
                 <th>Location</th>
-                <td><obs conceptId="3358" /></td>
+                <td><obs conceptId="$locations" /></td>
             </tr>
             <tr>
                 <th>Classification<br/>TS at present</th>
-                <td><obs conceptId="3615" /><obs conceptId="3621" /></td>
+                <td><obs conceptId="$class" /><obs conceptId="$tsAtPres" /></td>
             </tr>
             <tr>
                 <th>HAART <br/>Start Date</th>
-                <td><obs conceptId="2516" /></td>
+                <td><obs conceptId="$startDate" /></td>
             </tr>
                
         </table>

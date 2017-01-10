@@ -4,7 +4,19 @@
           formVersion="1">
           
     <macros>
-        <!-- not used yet -->
+        cycle=PIH Malawi:3648
+        height=PIH Malawi:5090
+        weight=PIH Malawi:5089
+        bsa=PIH Malawi:848
+        labs=PIH Malawi:1337
+        hgb=PIH Malawi:21
+        wbc=PIH Malawi:678
+        anc=PIH Malawi:1022
+        platelets=PIH Malawi:729
+        vincristine=PIH Malawi:3651
+        bleomycin=PIH Malawi:3652
+        paclitaxel=PIH Malawi:3653
+        appt=PIH Malawi:5096
     </macros>
 
     <!-- Flowsheet table view -->
@@ -34,42 +46,42 @@
                         <encounterDate />
                     </td>             
                     <td>
-                        <obs conceptId="3648" />
+                        <obs conceptId="$cycle" />
                     </td>
                     <td>
-                        <obs conceptId="5090" />
+                        <obs conceptId="$height" />
                     </td>
                     <td>
-                        <obs conceptId="5089" />
+                        <obs conceptId="$weight" />
                     </td>
                     <td>
-                        <obs conceptId="848" />
+                        <obs conceptId="$bsa" />
                     </td>
-                    <obsgroup groupingConceptId="1337">
+                    <obsgroup groupingConceptId="$labs">
                     <td>
-                        <obs conceptId="21" />
-                    </td>
-                    <td>
-                        <obs conceptId="678" />
+                        <obs conceptId="$hgb" />
                     </td>
                     <td>
-                        <obs conceptId="1022" />
+                        <obs conceptId="$wbc" />
                     </td>
                     <td>
-                        <obs conceptId="729" />
+                        <obs conceptId="$anc" />
+                    </td>
+                    <td>
+                        <obs conceptId="$platelets" />
                     </td>
                     </obsgroup>
                     <td>
-                        <obs conceptId="3651" />
+                        <obs conceptId="$vincristine" />
                     </td>
                     <td>
-                        <obs conceptId="3652" />
+                        <obs conceptId="$bleomycin" />
                     </td>
                     <td>
-                        <obs conceptId="3653" />
+                        <obs conceptId="$paclitaxel" />
                     </td>
                     <td>
-                        <obs conceptId="5096" allowFutureDates="true" id="nextAppointmentDate"/>
+                        <obs conceptId="$appt" allowFutureDates="true" id="nextAppointmentDate"/>
                     </td>
                 </tr>
             </tbody>
@@ -107,53 +119,53 @@
             </tr>
             <tr>
                 <th>Cycle number</th>
-                <td><obs conceptId="3648" /></td>
+                <td><obs conceptId="$cycle" /></td>
             </tr>
             <tr>
                 <th>Height</th>
-                <td><obs conceptId="5090" /></td>
+                <td><obs conceptId="$height" /></td>
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obs conceptId="5089" /></td>
+                <td><obs conceptId="$weight" /></td>
             </tr>
             <tr>
                 <th>BSA (m<sup>2</sup>)</th>
-                <td><obs conceptId="848" /></td>
+                <td><obs conceptId="$bsa" /></td>
             </tr>
-            <obsgroup groupingConceptId="1337">
+            <obsgroup groupingConceptId="$labs">
             <tr>
                 <th>Hgb</th>
-                <td><obs conceptId="21" /></td>
+                <td><obs conceptId="$hgb" /></td>
             </tr>
             <tr>
                 <th>WBC</th>
-                <td><obs conceptId="678" /></td>
+                <td><obs conceptId="$wbc" /></td>
             </tr>
             <tr>
                 <th>ANC</th>
-                <td><obs conceptId="1022" /></td>
+                <td><obs conceptId="$anc" /></td>
             </tr>
             <tr>
                 <th>Platelets</th>
-                <td><obs conceptId="729" /></td>
+                <td><obs conceptId="$platelets" /></td>
             </tr>
             </obsgroup>
             <tr>
                 <th>Vincristine Sulphate dose</th>
-                <td><obs conceptId="3651" /></td>
+                <td><obs conceptId="$vincristine" /></td>
             </tr>
             <tr>
                 <th>Bleomycin dose</th>
-                <td><obs conceptId="3652" /></td>
+                <td><obs conceptId="$bleomycin" /></td>
             </tr>
             <tr>
                 <th>Paclitaxel (taxol) dose</th>
-                <td><obs conceptId="3653" /></td>
+                <td><obs conceptId="$paclitaxel" /></td>
             </tr>
             <tr>
                 <th>Next appointment</th>
-                <td><obs conceptId="5096" allowFutureDates="true" /></td>
+                <td><obs conceptId="$appt" allowFutureDates="true" /></td>
             </tr>
         </table>
 

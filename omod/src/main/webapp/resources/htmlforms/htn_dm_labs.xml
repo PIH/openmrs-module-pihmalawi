@@ -2,24 +2,24 @@
           formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.0">
 
     <macros>
-        proteinuria=6447
-        proteinuriaNone=6698
-        proteinuria1Plus=1410
-        proteinuria2Plus=1408
-        proteinuria3Plus=1409
-        proteinuria4Plus=8608
-        hivTest=2169
-        ecg=6672
-        creatinine=6445
-        lipidProfile=8611
-        ldl=1008
-        hdl=1007
-        triglyc=1009
-        fundoscopy=6449
-        no=1066
-        yes=1065
-        other=6408
-        typical=1115
+        proteinuria=PIH Malawi:6447
+        proteinuriaNone=PIH Malawi:6698
+        proteinuria1Plus=PIH Malawi:1410
+        proteinuria2Plus=PIH Malawi:1408
+        proteinuria3Plus=PIH Malawi:1409
+        proteinuria4Plus=PIH Malawi:8608
+        hivTest=PIH Malawi:2169
+        ecg=PIH Malawi:6672
+        creatinine=PIH Malawi:6445
+        lipidProfile=PIH Malawi:8611
+        ldl=PIH Malawi:1008
+        hdl=PIH Malawi:1007
+        triglyc=PIH Malawi:1009
+        fundoscopy=PIH Malawi:6449
+        no=PIH Malawi:1066
+        yes=PIH Malawi:1065
+        other=PIH Malawi:6408
+        typical=PIH Malawi:1115
     </macros>
 
     <!-- Flowsheet table view -->

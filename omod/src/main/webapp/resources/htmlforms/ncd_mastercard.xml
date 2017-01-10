@@ -24,7 +24,80 @@
     </style>
 
     <macros>
-      otherDiagnosis=7685
+        referredFrom=PIH Malawi:3509
+        referredAnswers=PIH Malawi:1651,PIH Malawi:7829,PIH Malawi:3566,PIH Malawi:2232,PIH Malawi:8397,PIH Malawi:6408
+        referredLabels=OPD,Inpatient Ward,Health Center,ANC,Community Event,Other
+        ncdDiagnosis=PIH Malawi:3683
+        asthmaDx=PIH Malawi:5
+        asthmaLabel=Asthma
+        htnDx=PIH Malawi:903
+        htnLabel=Hypertension
+        epilepsyDx=PIH Malawi:155
+        epilepsyLabel=Epilepsy
+        diabetesDx=PIH Malawi:3720
+        diabetesLabel=Diabetes
+        heartFailureDx=PIH Malawi:3468
+        heartFailureLabel=Heart Failure
+        cirrhosisDx=PIH Malawi:3714
+        cirrhosisLabel=Cirrhosis
+        congestiveHeartDx=PIH Malawi:2720
+        congestiveHeartLabel=CongestiveHeartDisease
+        hepatitisBDx=PIH Malawi:27
+        hepatitisBLabel=Hepatitis B
+        rheumaticHeartDiseaseDx=PIH Malawi:221
+        rheumaticHeartDiseaseLabel=Rheumatic heart disease
+        ckdDx=PIH Malawi:7623
+        ckdLabel=Chronic Kidney Disease
+        sickleCellDx=PIH Malawi:7518
+        sickleCellLabel=Sickle Cell Disease
+        polycysticDx=PIH Malawi:8595
+        polycysticLabel=Polycystic kidney disease
+        rheumatoidArthritisDx=PIH Malawi:202
+        rheumatoidArthritisLabel=Rheumatoid arthritis
+        tropicalSplenomegalyDx=PIH Malawi:3779
+        tropicalSplenomegalyLabel=Tropical splenomegaly
+        otherDx=PIH Malawi:5622
+        otherLabel=Other
+        otherDiagnosis=PIH Malawi:7685
+        buildingQuestion=PIH Malawi:1668
+        buildingAnswers=PIH Malawi:1671,PIH Malawi:8393
+        roofQuestion=PIH Malawi:1319
+        roofAnswers=PIH Malawi:1321,PIH Malawi:1320
+        electricity=PIH Malawi:5609
+        radio=PIH Malawi:1318
+        bicycle=PIH Malawi:8394
+        yes=PIH Malawi:1065
+        no=PIH Malawi:1066
+        hours=PIH Malawi:3463
+        minutes=PIH Malawi:2980
+        cookingSource=PIH Malawi:8404
+        fuelQuestion=PIH Malawi:2940
+        charcoal=PIH Malawi:2938
+        wood=PIH Malawi:2937
+        unknown=PIH Malawi:1067
+        hivStatus=PIH Malawi:3753
+        reactive=PIH Malawi:1228
+        nonreactive=PIH Malawi:1229
+        onART=PIH Malawi:7010
+        tbStatus=PIH Malawi:8395
+        never=PIH Malawi:1090
+        inPast=PIH Malawi:1548
+        currently=PIH Malawi:1550
+        tbLabel=Never had TB,Previous treatment,Currently on treatment
+        smokeQuestion=PIH Malawi:1551
+        smokeAnswers=PIH Malawi:1550,PIH Malawi:1090,PIH Malawi:1548
+        smokeLabels=Yes,No,Past smoker
+        cigarettes=PIH Malawi:6161
+        drinkQuestion=PIH Malawi:1552
+        drinkAnswers=PIH Malawi:1550,PIH Malawi:1090,PIH Malawi:1548
+        drinkLabels=Yes,No,Past drinker
+        liters=PIH Malawi:3341
+        fruitsVegetables=PIH Malawi:8396
+        ageDiabetes=PIH Malawi:8399
+        ageHtn=PIH Malawi:8400
+        ageEpilepsy=PIH Malawi:8403
+        ageHeartFailure=PIH Malawi:8402
+        ageAsthma=PIH Malawi:8401
     </macros>
 
     <span style="display:none">
@@ -102,7 +175,7 @@
                     <tr>
                         <td>Referred From</td>
                         <td>
-                            <obs conceptId="3509" answerConceptIds="1651,7829,3566,2232,8397,6408" answerLabels="OPD,Inpatient Ward,Health Center,ANC,Community Event,Other" />
+                            <obs conceptId="$referredFrom" answerConceptIds="$referredAnswers" answerLabels="$referredLabels" />
                         </td>
                     </tr>
                     <tr>
@@ -112,79 +185,79 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="5" answerLabel="Asthma"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$asthmaDx" answerLabel="$asthmaLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="903" answerLabel="Hypertension"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$htnDx" answerLabel="$htnLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="155" answerLabel="Epilepsy"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$epilepsyDx" answerLabel="$epilepsyLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="3720" answerLabel="Diabetes"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$diabetesDx" answerLabel="$diabetesLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <!-- TO HERE -->
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3468" answerLabel="Heart failure"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$heartFailureDx" answerLabel="$heartFailureLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3714" answerLabel="Cirrhosis"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$cirrhosisDx" answerLabel="$cirrhosisLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
                                         <!-- ToDo:  This is a synonym as Heart Failure.  Checking with Beth  -->
-                                        <obs conceptId="3683" answerConceptId="2720" answerLabel="Congestive heart disease"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$congestiveHeartDx" answerLabel="$congestiveHeartLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="27" answerLabel="Hepatitis B"
-                                             style="checkbox"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="221" answerLabel="Rheumatic heart disease"
-                                             style="checkbox"/>
-                                    </td>
-                                    <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="7623" answerLabel="Chronic kidney disease"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$hepatitisBDx" answerLabel="$hepatitisBLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="7518" answerLabel="Sickle cell disease"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$rheumaticHeartDiseaseDx" answerLabel="$rheumaticHeartDiseaseLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="8595" answerLabel="Polycystic kidney disease"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$ckdDx" answerLabel="$ckdLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="202" answerLabel="Rheumatoid arthritis"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$sickleCellDx" answerLabel="$sickleCellLabel"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3779" answerLabel="Tropical splenomegaly"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$polycysticDx" answerLabel="$polycysticLabel"
+                                             style="checkbox"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="borderless">
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$rheumatoidArthritisDx" answerLabel="$rheumatoidArthritisLabel"
+                                             style="checkbox"/>
+                                    </td>
+                                    <td class="borderless">
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$tropicalSplenomegalyDx" answerLabel="$tropicalSplenomegalyLabel"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="borderless">
-                                        <obs conceptId="3683" answerConceptId="5622" answerLabel="Other"
+                                        <obs conceptId="$ncdDiagnosis" answerConceptId="$otherDx" answerLabel="$otherLabel"
                                              style="checkbox"/>
                                         <obs conceptId="$otherDiagnosis" />
                                     </td>
@@ -203,13 +276,13 @@
                         <tr>
                             <td>Type of building where you sleep:</td>
                             <td>
-                                <obs conceptId="1668" answerConceptIds="1671,8393"/>
+                                <obs conceptId="$buildingQuestion" answerConceptIds="$buildingAnswers"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Type of roof:</td>
                             <td>
-                                <obs conceptId="1319" answerConceptIds="1321,1320" answerLabels="Thatch,Tin"/>
+                                <obs conceptId="$roofQuestion" answerConceptIds="$roofAnswers" answerLabels="Thatch,Tin"/>
                             </td>
                         </tr>
                         <tr>
@@ -218,34 +291,34 @@
                         <tr>
                             <td>Electricity:</td>
                             <td>
-                                <obs conceptId="5609" style="yes_no" />
+                                <obs conceptId="$electricity" style="yes_no" />
                             </td>
                         </tr>
                         <tr>
                             <td>Radio:</td>
                             <td>
-                                <obs conceptId="1318" style="yes_no" />
+                                <obs conceptId="$radio" style="yes_no" />
                             </td>
                         </tr>
                         <tr>
                             <td>Bicycle:</td>
                             <td>
-                                <obs conceptId="8394" style="radio" answerConceptIds="1065,1066"/>
+                                <obs conceptId="$bicycle" style="radio" answerConceptIds="$yes,$no"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding-top:10px;">Time spent traveling to clinic:</td>
                             <td style="padding-top:10px; white-space:nowrap;">
-                                <obs conceptId="3463" size="2"/>
+                                <obs conceptId="$hours" size="2"/>
                                 h
-                                <obs conceptId="2980" size="2"/>
+                                <obs conceptId="$minutes" size="2"/>
                                 m
                             </td>
                         </tr>
                         <tr>
                             <td>What is the patients cooking source?</td>
                             <td>
-                                <obs conceptId="8404"/>
+                                <obs conceptId="$cookingSource"/>
                             </td>
                         </tr>
                         <tr>
@@ -254,17 +327,17 @@
                                 <table>
                                     <tr>
                                         <td class="borderless">
-                                            <obs conceptId="2940" answerConceptId="2938" style="checkbox"/>
+                                            <obs conceptId="$fuelQuestion" answerConceptId="$charcoal" style="checkbox"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="borderless">
-                                            <obs conceptId="2940" answerConceptId="2937" style="checkbox"/>
+                                            <obs conceptId="$fuelQuestion" answerConceptId="$wood" style="checkbox"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="borderless">
-                                            <obs conceptId="2940" answerConceptId="1067" style="checkbox"/>
+                                            <obs conceptId="$fuelQuestion" answerConceptId="$unknown" style="checkbox"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -280,41 +353,41 @@
                         <tr>
                             <td>HIV status:</td>
                             <td>
-                                <obs conceptId="3753" answerConceptIds="1228,1229,1067"/>
+                                <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nonreactive,$unknown"/>
                             </td>
                             <td style="padding-left:20px;border-right: 1px solid #ffffff;">On ART?</td>
                             <td style="white-space:nowrap;border-left: 1px solid #ffffff;">
-                                <obs conceptId="7010" style="yes_no"/>
+                                <obs conceptId="$onART" style="yes_no"/>
                             </td>
                         </tr>
                         <tr>
                             <td>TB status:</td>
                             <td colspan="3">
-                                <obs conceptId="8395" answerConceptIds="1090,1548,1550"
-                                     answerLabels="Never had TB,Previous treatment,Currently on treatment"/>
+                                <obs conceptId="$tbStatus" answerConceptIds="$never,$inPast,$currently"
+                                     answerLabels="$tbLabel"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Does patient smoke?</td>
                             <td>
-                                <obs conceptId="1551" answerConceptIds="1550,1090,1548"
-                                     answerLabels="Yes,No,Past smoker"/>
+                                <obs conceptId="$smokeQuestion" answerConceptIds="$smokeAnswers"
+                                     answerLabels="$smokeLabels"/>
                             </td>
-                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="6161"/>cigarettes/day
+                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="$cigarettes"/>cigarettes/day
                             </td>
                         </tr>
                         <tr>
                             <td>Does patient drink alcohol?</td>
                             <td>
-                                <obs conceptId="1552" answerConceptIds="1550,1090,1548"
-                                     answerLabels="Yes,No,Past drinker"/>
+                                <obs conceptId="$drinkQuestion" answerConceptIds="$drinkAnswers"
+                                     answerLabels="$drinkLabels"/>
                             </td>
-                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="3341" /> liters/day
+                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="$liters" /> liters/day
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">Number of fruit and vegetable servings/day:</td>
-                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="8396"/> servings/day
+                            <td colspan="2" style="white-space:nowrap;"><obs conceptId="$fruitsVegetables"/> servings/day
                             </td>
                         </tr>
                     </table>
@@ -324,23 +397,23 @@
                     <table>
                         <tr>
                             <td>Diabetes</td>
-                            <td style="padding-right:10px;"><obs conceptId="8399" size="2"/> yrs
+                            <td style="padding-right:10px;"><obs conceptId="$ageDiabetes" size="2"/> yrs
                             </td>
                             <td>Hypertension</td>
-                            <td style="padding-right:10px;"><obs conceptId="8400" size="2"/> yrs
+                            <td style="padding-right:10px;"><obs conceptId="$ageHtn" size="2"/> yrs
                             </td>
                         </tr>
                         <tr>
                             <td>Epilepsy</td>
-                            <td style="padding-right:10px;"><obs conceptId="8403" size="2"/> yrs
+                            <td style="padding-right:10px;"><obs conceptId="$ageEpilepsy" size="2"/> yrs
                             </td>
                             <td>Heart Failure</td>
-                            <td style="padding-right:10px;"><obs conceptId="8402" size="2"/> yrs
+                            <td style="padding-right:10px;"><obs conceptId="$ageHeartFailure" size="2"/> yrs
                             </td>
                         </tr>
                         <tr>
                             <td>Asthma</td>
-                            <td style="padding-right:10px;"><obs conceptId="8401" size="2"/> yrs
+                            <td style="padding-right:10px;"><obs conceptId="$ageAsthma" size="2"/> yrs
                             </td>
                             <td></td>
                         </tr>

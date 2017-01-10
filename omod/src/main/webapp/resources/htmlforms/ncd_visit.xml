@@ -2,7 +2,78 @@
           formEncounterType="664bb896-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
 
     <macros>
-        <!-- Not used -->
+        height=PIH:5090
+        weight=PIH:5089
+        systolic=PIH:5085
+        diastolic=PIH:5086
+        serumGlucose=PIH:887
+        bloodSugarTestType=PIH:6381
+        fasting=PIH:6379
+        nyhaClass=PIH:3139
+        nyhaAnswers=PIH:3135,PIH:3136,PIH:3137,PIH:3138
+        nyhaLabels=I,II,III,IV
+        seizures=PIH:7924
+        peakFlowMeasured=PIH:7925
+        peakFlowPredicted=PIH:7926
+        asthmaQuestion=PIH:8410
+        asthmaAnswers=PIH:1905,PIH:8405,PIH:8406,PIH:8407,PIH:8408,PIH:8409
+        asthmaLabels=Not asthma,Intermittent,Mild persistent,Moderate persistent,Severe persistent,Severe Uncontrolled
+        ncdDx=PIH:3683
+        ncdAnswers=PIH:5,PIH:903,PIH:155,PIH:3720,PIH:3468,PIH:5622
+        ncdLabels=Asthma,Hypertension,Epilepsy,Diabetes,Heart Failure,Other
+        hospitalized=PIH:1715
+        ncdHospitalized=PIH:8411
+        preferredStockOut=PIH:8412
+        currentMedsQuestion=PIH:$currentMedsQuestion
+        currentMedsAnswers=PIH:798,PIH:1240,PIH:1243,PIH:3182,PIH:3187,PIH:1242,PIH:250,PIH:3186,PIH:3183,PIH:254,PIH:238,PIH:273,PIH:920,PIH:8413,PIH:4052,PIH:4046,PIH:99,PIH:4061
+        currentMedsLabels=Salbutamol inhaler,Beclomethasone inhaler,Hydrochlorothiazide,Captopril,Amlodipine,Enalapril,Nifedipine,Atenolol,Lisinopril,Propanolol,Phenobarbital,Phenytoin,Carbamazepine,Insulin,Metformin,Glibenclamide,Furosemide,Spironolactone
+        medsChanged=PIH:2432
+        no=1066
+        yes=1065
+        labelYes=Y
+        labelNo=N
+        nextAppt=PIH:5096
+        highRisk=PIH:8398
+        fullyCompleted=PIH:8082
+        unknown=PIH:1067
+        labelUnk=Unk
+        comments=PIH:2922
+        medSalbutabol=PIH:798
+        medLabelSalbutabol=Salbutabol inhaler
+        medBeclomethasone=PIH:1240
+        medLabelBeclomethasone=Beclomethasone
+        medHydrochlorothiazide=PIH:1243
+        medLabelHydrochlorothiazide=Hydrochlorothiazide
+        medCaptopril=PIH:3182
+        medLabelCaptopril=Captopril
+        medAmlodipine=PIH:3187
+        medLabelAmlodipine=Amlodipine
+        medEnalapril=PIH:1242
+        medLabelEnalapril=Enalapril
+        medNifedipine=PIH:250
+        medLabelNifedipine=Nifedipine
+        medAtenolol=PIH:3186
+        medLabelAtenolol=Atenolol
+        medLisinopril=PIH:3183
+        medLabelLisinopril=Lisinopril
+        medPropanolol=PIH:254
+        medLabelPropanolol=Propanolol
+        medPhenobarbital=PIH:238
+        medLabelPhenobarbital=Phenobarbital
+        medPhenytoin=PIH:273
+        medLabelPhenytoin=Phenytoin
+        medCarbamazepine=PIH:920
+        medLabelCarbamazepine=Carbamazepine
+        medInsulin=PIH:8413
+        medLabelInsulin=Insulin
+        medMetformin=PIH:4052
+        medLabelMetformin=Metformin
+        medGlibenclamide=PIH:4046
+        medLabelGlibenclamide=Glibenclamide
+        medFurosemide=PIH:99
+        medLabelFurosemide=Furosemide
+        medSpironolactone=PIH:4061
+        medLabelSpironolactone=Spironolactone
     </macros>
 
     <!-- Flowsheet table view -->
@@ -62,77 +133,77 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="5090" id="heightEntered" />
+                        <obs conceptId="$height" id="heightEntered" />
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="5089"/>
+                        <obs conceptId="$weight"/>
                     </td>
 
                     <td>
                         <!-- Blood Pressure -->
-                        <obs conceptId="5085" /> / <obs conceptId="5086" /> 
+                        <obs conceptId="$systolic" /> / <obs conceptId="$diastolic" /> 
                     </td>
 
                     <!-- Fingerstick -->
                     <td>
-                        <obs conceptId="887"/> <obs conceptId="6381" answerConceptId="6379" style="checkbox"/>
+                        <obs conceptId="$serumGlucose"/> <obs conceptId="$bloodSugarTestType" answerConceptId="$fasting" style="checkbox"/>
                     </td>
                     <td>
                         <!-- CHF NYHA Classification --> 
-                        <obs conceptId="3139" answerConceptIds="3135,3136,3137,3138" answerLabels="I,II,III,IV" style="radio"/>
+                        <obs conceptId="$nyhaClass" answerConceptIds="$nyhaAnswers" answerLabels="$nyhaLabels" style="radio"/>
                     </td>
                     <td>
                         <!-- # Seizures -->
-                        <obs conceptId="7924"/>
+                        <obs conceptId="$seizures"/>
                     </td>
 
                         <!-- Peak flow / percent predicted -->
-                    <td><obs conceptId="7925"/> / <obs conceptId="7926"/></td>
+                    <td><obs conceptId="$peakFlowMeasured"/> / <obs conceptId="$peakFlowPredicted"/></td>
 
                     <td>
                         <!-- Asthma class -->
-                        <obs conceptId="8410" answerConceptIds="1905,8405,8406,8407,8408,8409" answerLabels="Not asthma,Intermittent,Mild persistent,Moderate persistent,Severe persistent,Severe Uncontrolled"/>
+                        <obs conceptId="$asthmaQuestion" answerConceptIds="$asthmaAnswers" answerLabels="$asthmaLabels"/>
                     </td>
                     <td>
                         <!-- Diagnosis -->
-                        <obs conceptId="3683" answerConceptIds="5,903,155,3720,3468,5622" answerLabels="Asthma,Hypertension,Epilepsy,Diabetes,Heart Failure,Other" style="checkbox"/>
+                        <obs conceptId="$ncdDx" answerConceptIds="$ncdAnswers" answerLabels="$ncdLabels" style="checkbox"/>
                     </td>
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="1715" style="yes_no" yesLabel="Y" noLabel="N" />
+                        <obs conceptId="$hospitalized" style="yes_no" yesLabel="$labelYes" noLabel="$labelNo" />
                     </td>
                     <td>
                         <!-- For NCD? -->
-                        <obs conceptId="8411" style="radio" answerConceptIds="1066,1065" answerLabels="N,Y" />
+                        <obs conceptId="$ncdHospitalized" style="radio" answerConceptIds="$no,$yes" answerLabels="$labelNo,$labelYes" />
                     </td>
                     <td>
                         <!-- Preferred out of stock -->
-                        <obs conceptId="8412" style="radio" answerConceptIds="1066,1065" answerLabels="N,Y" />
+                        <obs conceptId="$preferredStockOut" style="radio" answerConceptIds="$no,$yes" answerLabels="$labelNo,$labelYes" />
                     </td>
                     <td>
                         <!-- current meds -->
-                        <obs conceptId="1193" answerConceptIds="798,1240,1243,3182,3187,1242,250,3186,3183,254,238,273,920,8413,4052,4046,99,4061" answerLabels="Salbutamol inhaler,Beclomethasone inhaler,Hydrochlorothiazide,Captopril,Amlodipine,Enalapril,Nifedipine,Atenolol,Lisinopril,Propanolol,Phenobarbital,Phenytoin,Carbamazepine,Insulin,Metformin,Glibenclamide,Furosemide,Spironolactone" style="checkbox"/>
+                        <obs conceptId="$currentMedsQuestion" answerConceptIds="$currentMedsAnswers" answerLabels="$currentMedsLabels" style="checkbox"/>
                     </td>    
                     <td>
                         <!-- meds changed? -->
-                        <obs conceptId="2432" answerConceptIds="1066,1065" answerLabels="N,Y" style="radio"/>
+                        <obs conceptId="$medsChanged" answerConceptIds="$no,$yes" answerLabels="$labelNo,$labelYes" style="radio"/>
                     </td>              
                     <td>
                         <!-- next appt -->
-                        <obs conceptId="5096"/>
+                        <obs conceptId="$nextAppt"/>
                     </td>
                     <td>
                         <!-- high risk --> 
-                        <obs conceptId="8398" answerConceptId="1065" answerLabel="Y"/>
+                        <obs conceptId="$highRisk" answerConceptId="$yes" answerLabel="$labelYes"/>
                     </td>
                     <td>
                         <!-- fully completed --> 
-                        <obs conceptId="8082" style="radio" answerConceptIds="1065,1066,1067" answerLabels="Y,N,Unk"/>
+                        <obs conceptId="$fullyCompleted" style="radio" answerConceptIds="$yes,$no,$unknown" answerLabels="$labelYes,$labelNo,$labelUnk"/>
                     </td>
                     <td>
                         <!-- comments --> 
-                        <obs conceptId="2922"/>
+                        <obs conceptId="$comments"/>
                     </td>                    
                 </tr>
             </tbody>
@@ -177,141 +248,141 @@
             <tr>
                 <th>Height</th>
                 <td class="focus-field">
-                    <obs conceptId="5090" id="heightInput" showUnits="true"/>
+                    <obs conceptId="$height" id="heightInput" showUnits="true"/>
                 </td>
             </tr>
             <tr>
                 <th>Weight</th>
                 <td>
-                    <obs conceptId="5089"/>
+                    <obs conceptId="$weight"/>
                 </td>
             </tr>
             <tr>
                 <th>Blood Pressure</th>
                 <td>
-                    <obs conceptId="5085" /> / <obs conceptId="5086" /> 
+                    <obs conceptId="$systolic" /> / <obs conceptId="$diastolic" /> 
                 </td>
             </tr>
             <tr>
                 <th>Fingerstick (fasting)</th>
                 <td>
-                    <obs conceptId="887"/> <obs conceptId="6381" answerConceptId="6379" style="checkbox" answerLabel=""/>
+                    <obs conceptId="$serumGlucose"/> <obs conceptId="$bloodSugarTestType" answerConceptId="$fasting" style="checkbox" answerLabel=""/>
                 </td>
             </tr>
             <tr>
                 <th>CHF NYHA Classification</th>
                 <td>
-                    <obs conceptId="3139" answerConceptIds="3135,3136,3137,3138" answerLabels="I,II,III,IV" style="radio"/>
+                    <obs conceptId="$nyhaClass" answerConceptIds="$nyhaAnswers" answerLabels="$nyhaLabels" style="radio"/>
                 </td>
             </tr>
             <tr>
                 <th>Number of seizures<br/>in the last month</th>
                 <td>
-                    <obs conceptId="7924"/>
+                    <obs conceptId="$seizures"/>
                 </td>
             </tr>
             <tr>
                 <th>Peak Flow (Percent of predicted)</th>
                 <td>
-                    <obs conceptId="7925"/> (<obs conceptId="7926"/>)
+                    <obs conceptId="$peakFlowMeasured"/> (<obs conceptId="$peakFlowPredicted"/>)
                 </td>
             </tr>
             <tr>
                 <th>Asthma Classification</th>
                 <td>
-                    <obs conceptId="8410" answerConceptIds="1905,8405,8406,8407,8408,8409" answerLabels="Not asthma,Intermittent,Mild persistent,Moderate persistent,Severe persistent,Severe Uncontrolled"/>  
+                    <obs conceptId="$asthmaQuestion" answerConceptIds="$asthmaAnswers" answerLabels="$asthmaLabels"/>  
                 </td>
             </tr>   
 
             <tr>
                 <th>Diagnosis</th>
                 <td>
-                    <obs conceptId="3683" answerConceptIds="5,903,155,3720,3468,5622" answerLabels="Asthma,Hypertension,Epilepsy,Diabetes,Heart Failure,Other" style="checkbox"/>
+                    <obs conceptId="$ncdDx" answerConceptIds="$ncdAnswers" answerLabels="$ncdLabels" style="checkbox"/>
                 </td>
             </tr>                                  
             <tr>
                 <th>Hospitalized since last visit?</th>
                 <td>
-                    <obs conceptId="1715" style="yes_no"/> 
+                    <obs conceptId="$hospitalized" style="yes_no"/> 
                 </td>
             </tr>   
             <tr>
                 <th>For NCD?</th>
                 <td>
-                    <obs conceptId="8411" style="radio"/> 
+                    <obs conceptId="$ncdHospitalized" style="radio"/> 
                 </td>
             </tr>   
             <tr>
                 <th>Preferred treatment out of stock?</th>
                 <td>
-                    <obs conceptId="8412" style="radio"/>
+                    <obs conceptId="$preferredStockOut" style="radio"/>
                 </td>
             </tr> 
             <tr>
                 <th>Asthma Medications</th>
                 <td>
-                    <obs conceptId="1193" answerConceptId="798" answerLabel="Salbutamol inhaler" style="checkbox"/>
-                    <obs conceptId="1193" answerConceptId="1240" answerLabel="Beclomethasone inhaler" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medSalbutabol" answerLabel="$medLabelSalbutabol" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medBeclomethasone" answerLabel="$medLabelBeclomethasone" style="checkbox"/>
                 </td>
             </tr>   
             <tr>
                 <th>Hypertension Medications</th>
                 <td>
-                    <obs conceptId="1193" answerConceptId="1243" answerLabel="Hydrochlorothiazide" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="3182" answerLabel="Captopril" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="3187" answerLabel="Amlodipine" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="1242" answerLabel="Enalapril" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="250" answerLabel="Nifedipine" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="3186" answerLabel="Atenolol" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="3183" answerLabel="Lisinopril" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="254" answerLabel="Propanolol" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medHydrochlorothiazide" answerLabel="$medLabelHydrochlorothiazide" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medCaptopril" answerLabel="$medLabelCaptopril" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medAmlodipine" answerLabel="$medLabelAmlodipine" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medEnalapril" answerLabel="$medLabelEnalapril" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medNifedipine" answerLabel="$medLabelNifedipine" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medAtenolol" answerLabel="$medLabelAtenolol" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medLisinopril" answerLabel="$medLabelLisinopril" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medPropanolol" answerLabel="$medLabelPropanolol" style="checkbox"/>
                 </td>
             </tr>  
             <tr>
                 <th>Epilepsy Medications</th>
                 <td>
-                    <obs conceptId="1193" answerConceptId="238" answerLabel="Phenobarbital" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="273" answerLabel="Phenytoin" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="920" answerLabel="Carbamazepine" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medPhenobarbital" answerLabel="$medLabelPhenobarbital" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medPhenytoin" answerLabel="$medLabelPhenytoin" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medCarbamazepine" answerLabel="$medLabelCarbamazepine" style="checkbox"/><br/>
                 </td>
             </tr>  
             <tr>
                 <th>Diabetes Medications</th>
                 <td>
-                    <obs conceptId="1193" answerConceptId="8413" answerLabel="Insulin" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="4052" answerLabel="Metformin" style="checkbox"/><br/>
-                    <obs conceptId="1193" answerConceptId="4046" answerLabel="Glibenclamide" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medInsulin" answerLabel="$medLabelInsulin" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medMetformin" answerLabel="$medLabelMetformin" style="checkbox"/><br/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medGlibenclamide" answerLabel="$medLabelGlibenclamide" style="checkbox"/>
                 </td>
             </tr>     
             <tr>
                 <th>Heart Failure Medications</th>
                 <td>
-                    <obs conceptId="1193" answerConceptId="99" answerLabel="Furosemide" style="checkbox"/>
-                    <obs conceptId="1193" answerConceptId="4061" answerLabel="Spironolactone" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medFurosemide" answerLabel="$medLabelFurosemide" style="checkbox"/>
+                    <obs conceptId="$currentMedsQuestion" answerConceptId="$medSpironolactone" answerLabel="$medLabelSpironolactone" style="checkbox"/>
                 </td>
             </tr>                                   
             <tr>
                 <th>Medications changed?</th>
                 <td>
-                    <obs conceptId="2432" answerConceptIds="1066,1065" answerLabels="No,Yes" style="radio"/>
+                    <obs conceptId="$medsChanged" answerConceptIds="$no,$yes" answerLabels="$labelNo,$labelYes" style="radio"/>
                 </td>
             </tr>            
             <tr>
                 <th>Next appointment</th>
                 <td>
-                    <obs conceptId="5096" id="appointmentDate" allowFutureDates="true"/>
+                    <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/>
                 </td>
             </tr>
             <tr>
                 <th>Visit fully completed?</th>
                 <td>
-                    <obs conceptId="8082" style="radio" answerConceptIds="1065,1066,1067"/>
+                    <obs conceptId="$fullyCompleted" style="radio" answerConceptIds="$yes,$no,$unknown"/>
                 </td>
             </tr>            
             <tr>
                 <th>Comment (if not fully completed)</th>
                 <td>
-                    <obs conceptId="2922"/>
+                    <obs conceptId="$comments"/>
                 </td>
             </tr>     
         </table>

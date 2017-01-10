@@ -2,10 +2,10 @@
           formEncounterType="2478C35B-9A71-4BD5-86B6-E8CCE594E934" formVersion="1.0">
 
     <macros>
-        hospitalDays=2872
-        admissionReason=8461
-        dischargeDiagnosis=8469
-        dischargeMeds=8470
+        hospitalDays=PIH Malawi:2872
+        admissionReason=PIH Malawi:8461
+        dischargeDiagnosis=PIH Malawi:8469
+        dischargeMeds=PIH Malawi:8470
     </macros>
 
     <!-- Flowsheet table view -->

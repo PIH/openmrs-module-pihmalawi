@@ -2,8 +2,8 @@
           formEncounterType="ebaa2ad8-baaa-11e6-91a8-5622a9e78e10" formVersion="1.0">
 
     <macros>
-        systolic=5085
-        diastolic=5086
+        systolic=PIH Malawi:5085
+        diastolic=PIH Malawi:5086
     </macros>
 
     <!-- Flowsheet table view -->
