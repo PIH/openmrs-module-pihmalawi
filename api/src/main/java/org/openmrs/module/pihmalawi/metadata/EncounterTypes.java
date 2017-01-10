@@ -47,6 +47,12 @@ public class EncounterTypes {
         public String description() { return "Lab tests for Hypertension and Diabetes patients"; }
     };
 
+    public static EncounterTypeDescriptor HTN_DIABETES_ANNUAL_TESTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "76f2759c-d729-11e6-8072-dce9fc320581"; }
+        public String name() { return "ANNUAL DIABETES HYPERTENSION LAB TESTS"; }
+        public String description() { return "Annual Lab tests for Hypertension and Diabetes patients"; }
+    };
+
     public static EncounterTypeDescriptor HTN_DIABETES_HOSPITALIZATIONS = new EncounterTypeDescriptor() {
         public String uuid() { return "6607a186-a8df-11e5-bf7f-feff819cdc9f"; }
         public String name() { return "DIABETES HYPERTENSION HOSPITALIZATIONS"; }

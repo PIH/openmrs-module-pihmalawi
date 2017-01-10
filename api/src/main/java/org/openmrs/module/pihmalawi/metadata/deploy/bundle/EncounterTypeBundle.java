@@ -21,6 +21,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.HTN_DIABETES_INITIAL);
         install(EncounterTypes.HTN_DIABETES_FOLLOWUP);
         install(EncounterTypes.HTN_DIABETES_TESTS);
+        install(EncounterTypes.HTN_DIABETES_ANNUAL_TESTS);
         install(EncounterTypes.HTN_DIABETES_HOSPITALIZATIONS);
 
         // Chronic lung disease (Reuse Asthma encounter types)

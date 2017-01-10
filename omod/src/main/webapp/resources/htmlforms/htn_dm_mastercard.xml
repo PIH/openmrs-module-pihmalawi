@@ -1,7 +1,7 @@
 <htmlform formUuid="8cfee016-cacb-11e5-9956-625662870761"
           formName="Hypertension and Diabetes eMastercard"
           formEncounterType="664b9442-977f-11e1-8993-905e29aff6c1"
-          formVersion="1.0">
+          formVersion="1.2">
 
     <macros>
         diagnosisSet=8445

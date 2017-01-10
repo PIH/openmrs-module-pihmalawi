@@ -1,5 +1,5 @@
 <htmlform formUuid="618e01cc-b96f-11e5-9912-ba0be0483c18" formName="Hypertension and Diabetes Laboratory tests"
-          formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.0">
+          formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.2">
 
     <macros>
         proteinuria=6447
@@ -9,17 +9,6 @@
         proteinuria3Plus=1409
         proteinuria4Plus=8608
         hivTest=2169
-        ecg=6672
-        creatinine=6445
-        lipidProfile=8611
-        ldl=1008
-        hdl=1007
-        triglyc=1009
-        fundoscopy=6449
-        no=1066
-        yes=1065
-        other=6408
-        typical=1115
     </macros>
 
     <!-- Flowsheet table view -->
@@ -30,7 +19,6 @@
                 <tr>
                     <th></th>
                     <th colspan="2">Every 3 months</th>
-                    <th colspan="4">Annual monitoring</th>
                 </tr>
                 <tr>
                     <th>Date</th>
@@ -38,10 +26,6 @@
                     <td>Proteinuria</td>
                     <td>HIV test result</td>
 
-                    <td>ECG</td>
-                    <td>Creatinine</td>
-                    <td>Lipid profile<br/></td>
-                    <td>Fundoscopy</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -57,26 +41,6 @@
                     <td>
                         <!-- HIV test -->
                         <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
-                    </td>
-
-                    <td>
-                        <!-- ECG -->
-                        <obs conceptId="$ecg"/>
-                    </td>
-                    <td>
-                        <!-- Creatinine -->
-                        <obs conceptId="$creatinine"/>
-                    </td>
-                    <td style="text-align: left;">
-                        <!-- Lipid profile -->
-                        <repeat with="['1115','Normal'],['8609','High lipids'],['8610','High TGs']">
-                            <obs conceptId="$lipidProfile" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                            <br/>
-                        </repeat>
-                    </td>
-                    <td>
-                        <!-- Fundoscopy -->
-                        <obs conceptId="$fundoscopy"/>
                     </td>
                 </tr>
             </tbody>
@@ -128,36 +92,6 @@
                 <th>HIV test result</th>
                 <td>
                     <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
-                </td>
-            </tr>
-
-            <tr>
-                <th>ECG</th>
-                <td>
-                    <obs conceptId="$ecg"/>
-                </td>
-            </tr>
-            <tr>
-                <th>Creatinine</th>
-                <td>
-                    <obs conceptId="$creatinine" showUnits="true"/>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Lipid profile</th>
-                <td style="text-align: left;">
-                    <repeat with="['1115','Normal'],['8609','High lipids'],['8610','High TGs']">
-                        <obs conceptId="$lipidProfile" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                        <br/>
-                    </repeat>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Fundoscopy</th>
-                <td colspan="8">
-                    <obs conceptId="$fundoscopy"/>
                 </td>
             </tr>
 
