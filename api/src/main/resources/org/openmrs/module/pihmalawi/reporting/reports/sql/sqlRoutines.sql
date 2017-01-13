@@ -6,7 +6,7 @@
 -- 				tempTableName - temporary table to write to
 -- Procedure provides a table of the last observation before end date for a cohort of patients.
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the tempCohort table. 
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
 
 DROP PROCEDURE IF EXISTS getLastNumericObsBeforeDate;
 
@@ -24,7 +24,7 @@ BEGIN
 	insert into temp_obs_vector
 			(PID, obs)
 	select  PID, value_numeric
-	from tempCohort tt
+	from warehouse_ic3_cohort tt
 	left join (select * from 
 				(select * from obs 
 				where concept_id = cid 
@@ -34,7 +34,7 @@ BEGIN
 				oi group by person_id) o 
 	on o.person_id = tt.PID; 
 
-	SET @s=CONCAT('UPDATE tempCohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
+	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
@@ -66,14 +66,14 @@ BEGIN
 	insert into temp_obs_vector
 			(PID, obs)
 			select  patient_id, group_concat(pi.identifier separator ', ') as id_string
-				from tempCohort tc
+				from warehouse_ic3_cohort tc
 				left join patient_identifier pi on tc.PID = pi.patient_id
 				where identifier_type in (4,19) 
 				and voided = 0 
 				and date_created <= @endDate 
 				group by patient_id;
 
-	SET @s=CONCAT('UPDATE tempCohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
+	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;

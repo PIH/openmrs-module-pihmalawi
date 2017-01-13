@@ -8,10 +8,10 @@
 CALL warehouseProgramEnrollment();
 
 -- Refresh temp table
-drop table if exists tempCohort;
+drop table if exists warehouse_ic3_cohort;
 
 -- Create Table in which to store cohort
-create table tempCohort (
+create table warehouse_ic3_cohort (
   id INT not null auto_increment primary key,
   PID INT(11) not NULL,
   identifier VARCHAR(50) default NULL,
@@ -26,7 +26,7 @@ create table tempCohort (
 );
 
 -- Create Initial Cohort With Basic Demographic Data
-insert into tempCohort
+insert into warehouse_ic3_cohort
 			(PID, identifier, birthdate, gender, outcome, age)
 select		pp.patient_id, pi.identifier, p.birthdate, p.gender, cn.name, floor(datediff(@endDate,birthdate)/365)
 from	 	(select * from 
@@ -75,10 +75,10 @@ SELECT
      `SERUM_GLUCOSE` as SERUM_GLUCOSE,
      `SYSTOLIC` as SYSTOLIC,
      `DIASTOLIC` as DIASTOLIC
-FROM `temp_cohort`;
+FROM `warehouse_ic3_cohort`;
 
 
-select * from tempCohort;
+select * from warehouse_ic3_cohort;
 
 
 
