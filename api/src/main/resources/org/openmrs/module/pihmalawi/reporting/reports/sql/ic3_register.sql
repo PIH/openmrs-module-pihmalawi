@@ -1,3 +1,11 @@
+-- ## report_uuid = 897C0E0A-1F8A-4ABD-AFE2-054146227668
+-- ## design_uuid = FFA51EA2-D483-43F2-9FE8-5B0AF619E8A0
+-- ## report_name = IC3 Register Report
+-- ## report_description = Report listing IC3 patients
+
+-- Report lists all patients who are in enlisted in any of the CC programs or ART program.
+
+
 drop table if exists temp_cohort;
 
 set @endDate = curdate();
@@ -51,7 +59,6 @@ order by 	pp.patient_id asc;
 
 
 -- Stored Procedures
-
 DROP PROCEDURE IF EXISTS getLastNumericObsBeforeDate;
 
 DELIMITER ;;
@@ -118,13 +125,23 @@ BEGIN
 END;;
 DELIMITER ;
 
-
 CALL getLastNumericObsBeforeDate(887, @endDate,'SERUM_GLUCOSE');
 CALL getLastNumericObsBeforeDate(5085, @endDate,'SYSTOLIC');
 CALL getLastNumericObsBeforeDate(5086, @endDate,'DIASTOLIC');
 CALL getAllARVNumbers(@endDate,'ALL_ARVs');
 
--- select * from temp_cohort;
+SELECT
+     `PID` as PID,
+     `identifier` as Identifier,
+     `birthdate` as Birthdate,
+     `gender` as Gender,
+     `outcome` as ProgramOutcome,
+     `age` as Age,
+     `SERUM_GLUCOSE` as SERUM_GLUCOSE,
+     `SYSTOLIC` as SYSTOLIC,
+     `DIASTOLIC` as DIASTOLIC
+FROM `temp_HCC_cohort`;
+
 
 -- select @obs_value;
 
