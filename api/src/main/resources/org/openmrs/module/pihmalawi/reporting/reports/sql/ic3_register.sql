@@ -5,6 +5,8 @@
 
 -- Report lists all patients who are in enlisted in any of the CC programs or ART program.
 
+CALL warehouseProgramEnrollment();
+
 -- Refresh temp table
 drop table if exists tempCohort;
 

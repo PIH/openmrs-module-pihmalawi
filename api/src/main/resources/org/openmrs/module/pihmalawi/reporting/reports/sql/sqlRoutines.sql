@@ -81,6 +81,67 @@ BEGIN
 END;;
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS warehouseProgramEnrollment;
+
+DELIMITER ;;
+CREATE PROCEDURE `warehouseProgramEnrollment`()
+BEGIN
+
+-- Refresh warehouse_program_enrollment
+drop table if exists warehouse_program_enrollment;
+
+-- Create Table in which to store patient program enrollment data
+create table warehouse_program_enrollment (
+	id INT not null auto_increment primary key,
+	PID INT(11) not NULL,
+	programId INT(11),
+	programName VARCHAR(50) default NULL,
+	dateEnrolled DATETIME,
+	birthdate DATE,
+	ageYearsAtEnrollment TINYINT,
+	locationId TINYINT,
+	locationName VARCHAR(255),
+	completionDate datetime,
+	ageYearsAtCompletion TINYINT,
+	patientState  VARCHAR(255),
+	stateStartDate DATE,
+	stateEndDate	DATE,
+	stateDateChanged DATETIME
+);
+
+insert into warehouse_program_enrollment(
+PID, programId, programName,
+dateEnrolled, birthdate, ageYearsAtEnrollment, locationId, locationName,
+completionDate, ageYearsAtCompletion, patientState, stateStartDate,
+stateEndDate, stateDateChanged)
+select
+			p.person_id as PID,
+            pg.program_id as programId,
+			pg.name as programName,
+            pp.date_enrolled as dateEnrolled,
+            p.birthdate as birthdate,
+			if (p.birthdate is null or pp.date_enrolled is null, null, TIMESTAMPDIFF(YEAR, p.birthdate, pp.date_enrolled)) as ageYearsAtEnrollment,
+			pp.location_id, l.name as locationName,
+			pp.date_completed as completionDate,
+			if (p.birthdate is null or pp.date_enrolled is null, null, TIMESTAMPDIFF(YEAR, p.birthdate, pp.date_completed)) as ageYearsAtCompletion,
+			get_concept_name(pws.concept_id) as patientState,
+			ps.start_date as stateStartDate,
+			ps.end_date as stateEndDate,
+			ps.date_changed stateDateChanged
+from        person p
+inner join  patient_program pp on p.person_id = pp.patient_id
+inner join  program pg on pp.program_id = pg.program_id
+inner  join patient_state ps on pp.patient_program_id = ps.patient_program_id
+inner  join program_workflow_state pws on ps.state=pws.program_workflow_state_id
+left outer join location l on pp.location_id = l.location_id
+where       pp.voided = 0 and p.voided = 0 and pg.program_id in (1,10) -- only HIV and CC programs
+			and ps.voided =0
+and			pp.date_enrolled is not null
+order by patient_id, ps.start_date ;
+
+END;;
+DELIMITER ;
+
 DROP FUNCTION IF EXISTS get_concept_name;
 
 DELIMITER $$
@@ -94,7 +155,7 @@ BEGIN
         where c.concept_id=cn.concept_id
             and c.concept_id = concept_id and cn.voided=0
             and cn.locale='en'
-            and cn.concept_name_type = 'FULLY_SPECIFIED' ;
+            and cn.concept_name_type = 'FULLY_SPECIFIED' limit 1;
 
 RETURN conceptName;
 END$$
