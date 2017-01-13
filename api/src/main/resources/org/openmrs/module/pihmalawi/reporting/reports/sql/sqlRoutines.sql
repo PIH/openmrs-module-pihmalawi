@@ -81,5 +81,22 @@ BEGIN
 END;;
 DELIMITER ;
 
+DROP FUNCTION IF EXISTS get_concept_name;
 
+DELIMITER $$
+CREATE FUNCTION `get_concept_name`(concept_id INT) RETURNS varchar(255) CHARSET utf8
+    DETERMINISTIC
+BEGIN
+
+	DECLARE conceptName VARCHAR(255);
+	select cn.name into conceptName
+        from concept c, concept_name cn
+        where c.concept_id=cn.concept_id
+            and c.concept_id = concept_id and cn.voided=0
+            and cn.locale='en'
+            and cn.concept_name_type = 'FULLY_SPECIFIED' ;
+
+RETURN conceptName;
+END$$
+DELIMITER ;
 

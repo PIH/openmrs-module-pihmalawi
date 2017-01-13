@@ -62,6 +62,20 @@ CALL getLastNumericObsBeforeDate(5086, @endDate,'DIASTOLIC');
 CALL getAllARVNumbers(@endDate,'ALL_ARVs');
 
 
+SELECT
+     `PID` as PID,
+     `identifier` as Identifier,
+     `ALL_ARVs` as ALL_ARVs,
+     `birthdate` as Birthdate,
+     `gender` as Gender,
+     `outcome` as ProgramOutcome,
+     `age` as Age,
+     `SERUM_GLUCOSE` as SERUM_GLUCOSE,
+     `SYSTOLIC` as SYSTOLIC,
+     `DIASTOLIC` as DIASTOLIC
+FROM `temp_cohort`;
+
+
 select * from tempCohort;
 
 
