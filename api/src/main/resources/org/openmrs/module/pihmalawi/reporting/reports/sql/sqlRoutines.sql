@@ -11,7 +11,7 @@
 DROP PROCEDURE IF EXISTS getLastNumericObsBeforeDate;
 
 DELIMITER ;;
-CREATE PROCEDURE getLastNumericObsBeforeDate(IN cid INT, IN endDate DATE, IN tempTableName VARCHAR(100))
+CREATE PROCEDURE getLastNumericObsBeforeDate(IN cid INT, IN endDate DATE, IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -32,10 +32,9 @@ BEGIN
 				and voided = 0 
 				order by obs_datetime desc) 
 				oi group by person_id) o 
-	on o.person_id = tt.PID
-	where o.person_id = tt.PID; 
+	on o.person_id = tt.PID; 
 
-	SET @s=CONCAT('ALTER TABLE temp_obs_vector RENAME ', tempTableName,';');
+	SET @s=CONCAT('UPDATE tempCohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
@@ -54,7 +53,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS getAllARVNumbers;
 
 DELIMITER ;;
-CREATE PROCEDURE getAllARVNumbers(IN endDate DATE, IN tempTableName VARCHAR(100))
+CREATE PROCEDURE getAllARVNumbers(IN endDate DATE, IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -66,18 +65,21 @@ BEGIN
 
 	insert into temp_obs_vector
 			(PID, obs)
-	select  patient_id, group_concat(pi.identifier separator ', ') as id_string
-			from patient_identifier pi 
-			join tempCohort tc on tc.PID = pi.patient_id
-			where identifier_type = 4
-			and voided = 0 
-			and date_created <= endDate 
-			group by patient_id;
+			select  patient_id, group_concat(pi.identifier separator ', ') as id_string
+				from tempCohort tc
+				left join patient_identifier pi on tc.PID = pi.patient_id
+				where identifier_type in (4,19) 
+				and voided = 0 
+				and date_created <= @endDate 
+				group by patient_id;
 
-	SET @s=CONCAT('ALTER TABLE temp_obs_vector RENAME ', tempTableName,';');
+	SET @s=CONCAT('UPDATE tempCohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
 END;;
 DELIMITER ;
+
+
+
