@@ -10,6 +10,7 @@
 set @endDate = "2017-01-01";
 -- SET @@group_concat_max_len = 15000;
 
+CALL warehouseProgramEnrollment();
 
 -- Refresh temp table
 drop table if exists warehouse_ic3_cohort;
@@ -26,6 +27,8 @@ create table warehouse_ic3_cohort (
   gender VARCHAR(50) not NULL,
   outcome VARCHAR(50) default NULL,
   age INT(11) not NULL,
+  artEnrollmentDate DATE,
+  ncdEnrollmentDate DATE,
   LAST_ART DATE default NULL,
   SERUM_GLUCOSE NUMERIC default NULL,
   SYSTOLIC NUMERIC default NULL,
@@ -52,7 +55,7 @@ join 		(select patient_program_id
 				and state in (1,7,83) 
 				and start_date < @endDate 
 				group by patient_program_id) xps 
-			on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs or Pre-ART (continue)
+			on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
 join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
 join 		(select * 
 				from encounter 
@@ -87,8 +90,9 @@ SELECT
      `ALL_ARVs` as ALL_ARVs,
      `birthdate` as Birthdate,
      `gender` as Gender,
-     `outcome` as ProgramOutcome,
      `age` as Age,
+     artEnrollmentDate,
+     ncdEnrollmentDate,
      `SERUM_GLUCOSE` as SERUM_GLUCOSE,
      `SYSTOLIC` as SYSTOLIC,
      `DIASTOLIC` as DIASTOLIC

@@ -150,7 +150,7 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS get_concept_name;
 
-DELIMITER $$
+DELIMITER ;;
 CREATE FUNCTION `get_concept_name`(concept_id INT) RETURNS varchar(255) CHARSET utf8
     DETERMINISTIC
 BEGIN
@@ -164,7 +164,7 @@ BEGIN
             and cn.concept_name_type = 'FULLY_SPECIFIED' limit 1;
 
 RETURN conceptName;
-END$$
+END;;
 DELIMITER ;
 
 
@@ -306,7 +306,40 @@ END;;
 DELIMITER ;
 
 
-CALL warehouseProgramEnrollment();
+-- updateProgramsEnrollmentDate()
+-- Procedure that retrieves ART and NCD enrollment dates from the warehouse_program_enrollment table
+
+DROP PROCEDURE IF EXISTS getLastEncounter;
+
+DELIMITER ;;
+CREATE PROCEDURE `updateProgramsEnrollmentDate`()
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+		programId INT(11),
+  		dateEnrolled DATE default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	insert into temp_obs_vector(PID, programId, dateEnrolled)
+		select PID, programId, Min(dateEnrolled)
+		from `warehouse_program_enrollment`
+		group by PID, programId;
+
+	-- update ART enrollment date
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	SET tc.artEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=1;
+
+	-- update NCD enrollment date
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	SET tc.ncdEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=10;
+
+END;;
+DELIMITER ;
+
 
 
 
