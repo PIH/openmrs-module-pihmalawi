@@ -23,20 +23,25 @@ create table warehouse_ic3_cohort (
   allPreArtIds VARCHAR(100) default NULL,
   allArtIds VARCHAR(100) default NULL,
   allCccIds VARCHAR(100) default NULL,
+  lastVisitDate DATE default NULL,
+  lastVisitLocation VARCHAR(50) default NULL,
   birthdate DATE not NULL,
   gender VARCHAR(50) not NULL,
   age INT(11) not NULL,
   artEnrollmentDate DATE,
-  firstARTVisit DATE default NULL,
+  firstARTVisitDate DATE default NULL,
   artInitialDate DATE default NULL,
-  lastArtVisit DATE default NULL,
+  lastArtVisitDate DATE default NULL,
   lastArtVisitLocation VARCHAR(50) default NULL,
+  lastTbValue VARCHAR(255) default NULL,
   firstViralLoadDate Date,
   firstViralLoadResult NUMERIC,
   lastViralLoadDate Date,
   lastViralLoadResult NUMERIC,
+  lastArtRegimenStart DATE default NULL,
+  lastArtRegimen VARCHAR(255) default NULL, 
   ncdEnrollmentDate DATE,
-  VIRAL_LOAD NUMERIC default NULL,
+
   SERUM_GLUCOSE NUMERIC default NULL,
   SYSTOLIC NUMERIC default NULL,
   DIASTOLIC NUMERIC default NULL
@@ -89,14 +94,17 @@ CALL updateLastViralLoad();
 CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
 CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
 CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
-CALL getNumericObsBeforeDate(856, @endDate, 'last','VIRAL_LOAD');
 CALL getAllIdentifiers(@endDate,'4','allArtIds');
 CALL getAllIdentifiers(@endDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@endDate,'21','allCccIds');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisit');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisit');
+CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitDate');
+CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitLocation');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
 
+CALL updateRecentRegimen();
+CALL getCodedObsBeforeDate(7459, @endDate, 'last', 'lastTbValue');
 CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
 
 
@@ -105,30 +113,30 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       identifier,
       allArtIds,
       allCccIds,
+      lastVisitDate,
+      lastVisitLocation,
       birthdate,
       gender,
       age,
       artEnrollmentDate,
-      firstARTVisit,
+      firstARTVisitDate,
       artInitialDate,
-      lastArtVisit,
-      ncdEnrollmentDate,
-      lastARTVisit,
+      lastARTVisitDate,
       lastArtVisitLocation,
+      lastTbValue,
       firstViralLoadDate,
       firstViralLoadResult,
       lastViralLoadDate,
       lastViralLoadResult,
-      ncdEnrollmentDate,
-      VIRAL_LOAD,
-      SERUM_GLUCOSE,
-      SYSTOLIC,
-      DIASTOLIC
+      lastArtRegimenStart,
+      lastArtRegimen,
+      ncdEnrollmentDate
+      -- SERUM_GLUCOSE,
+      -- SYSTOLIC,
+      -- DIASTOLIC
  FROM warehouse_ic3_cohort;
-
-
   
-
+  
 
 
 

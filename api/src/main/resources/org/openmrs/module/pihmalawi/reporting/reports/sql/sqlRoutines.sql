@@ -74,6 +74,59 @@ BEGIN
 END;;
 DELIMITER ;
 
+-- getCodedObsBeforeDate(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+
+DROP PROCEDURE IF EXISTS getCodedObsBeforeDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getCodedObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(255)
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getNumericObsBeforeDate!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select  PID, get_concept_name(value_coded)
+					from warehouse_ic3_cohort tt
+					left join (select * from 
+								(select * from obs 
+								where concept_id = ', CONCAT(cid),
+								' and obs_datetime <= \'', endDate,
+								'\' and voided = 0 
+								order by obs_datetime ', @upDown, 
+								') oi group by person_id) o 
+					on o.person_id = tt.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
 
 -- getDatetimeObsBeforeDate(cid, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id
@@ -129,47 +182,6 @@ END;;
 DELIMITER ;
 
 
-
--- getLastNumericObsBeforeDate(cid, endDate, colName)
--- INPUTS: 		cid - observation concept id
---				endDate - end Date of report
--- 				colName - temporary table to write to
--- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
--- table for cohort (one per patient).
--- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
-
-DROP PROCEDURE IF EXISTS getLastNumericObsBeforeDate;
-
-DELIMITER ;;
-CREATE PROCEDURE getLastNumericObsBeforeDate(IN cid INT, IN endDate DATE, IN colName VARCHAR(100))
-BEGIN
-
-	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
-	create temporary table temp_obs_vector (
-  		id INT not null auto_increment primary key,
-  		PID INT(11) not NULL,
-  		obs NUMERIC
-	);
-	CREATE INDEX PID_index ON temp_obs_vector (PID);
-
-	insert into temp_obs_vector
-			(PID, obs)
-	select  PID, value_numeric
-	from warehouse_ic3_cohort tt
-	left join (select * from 
-				(select * from obs 
-				where concept_id = cid 
-				and obs_datetime <= endDate 
-				and voided = 0 
-				order by obs_datetime desc) 
-				oi group by person_id) o 
-	on o.person_id = tt.PID; 
-
-	CALL updateReportTable(colName);
-
-END;;
-DELIMITER ;
 
 -- getAllIdentifiers(cid, endDate, idTypes, colName)
 -- INPUTS: 		endDate - end Date of report
@@ -446,6 +458,69 @@ BEGIN
 END;;
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS updateRecentRegimen;
+
+DELIMITER ;;
+CREATE PROCEDURE updateRecentRegimen()
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS recentRegimenObs;
+	create temporary table recentRegimenObs (
+  		id INT not null auto_increment primary key,
+  		pid INT(11) not NULL,
+  		cid INT(11) not NULL,
+  		recentRegimen INT(11)
+	);
+	CREATE INDEX PID_index ON recentRegimenObs (PID);
+	
+	insert into recentRegimenObs
+		(pid, cid, recentRegimen)
+	select pid, cid, recentRegimen
+	from (select * from 
+			(select person_id as pid, concept_id as cid, value_coded as recentRegimen
+			from obs 
+			where concept_id = 8169 
+			and obs_datetime < @endDate
+			and voided = 0 
+			order by obs_datetime desc) oi 
+			group by oi.pid) o
+	where pid in (select PID from warehouse_ic3_cohort);
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		pid INT(11) not NULL,
+  		recentRegimen VARCHAR(255) default NULL,
+  		recentRegimenStart DATE default NULL
+	);
+	
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+	
+	insert into temp_obs_vector 
+		(pid, recentRegimen, recentRegimenStart)
+	select pid, get_concept_name(recentRegimen) as recentRegimen, obs_datetime as recentRegimenStart
+		from (select * 
+				from obs o
+				join recentRegimenObs rro 
+				on rro.pid = o.person_id 
+				and rro.recentRegimen = o.value_coded 
+				where concept_id = 8169
+				order by obs_datetime asc) oi
+				group by oi.person_id;
+	
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 
+	SET tc.lastArtRegimenStart = tt.recentRegimenStart
+	WHERE tc.PID = tt.PID;
+	
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 	
+	SET tc.lastArtRegimen = tt.recentRegimen 
+	WHERE tc.PID = tt.PID;
+
+END;;
+DELIMITER ;
+
+
 -- updateFirstViralLoad()
 -- Procedure that retrieves First Viral Load for patients
 
@@ -507,7 +582,7 @@ BEGIN
 END$$
 DELIMITER ;
 
--- updateFirstViralLoad()
+-- updateLastViralLoad()
 -- Procedure that retrieves last Viral Load results for patients
 
 DROP PROCEDURE IF EXISTS updateLastViralLoad;
