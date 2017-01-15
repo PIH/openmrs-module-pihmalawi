@@ -507,6 +507,66 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- updateFirstViralLoad()
+-- Procedure that retrieves last Viral Load results for patients
+
+DROP PROCEDURE IF EXISTS updateLastViralLoad;
+
+DELIMITER $$
+CREATE PROCEDURE `updateLastViralLoad`()
+BEGIN
+	declare done INTEGER DEFAULT 0;
+	declare v_patientId int;
+	declare v_visitDate datetime;
+	declare v_numeric double;
+	declare insert_visitDate datetime;
+	declare insert_numeric double;
+	declare ldl_visitDate datetime;
+
+	DECLARE viralLoadCur CURSOR FOR
+		select  PID, obs_datetime, value_numeric
+		from warehouse_ic3_cohort tt
+		left join (
+		select * from
+		(select person_id,obs_datetime, value_numeric
+		from obs where concept_id = 856 and voided = 0 order by obs_datetime desc) oi
+		group by person_id) o on o.person_id = tt.PID ;
+	declare continue handler for not found set done=1;
+
+	set done = 0;
+    open viralLoadCur;
+    viralLoop: loop
+        fetch viralLoadCur into v_patientId, v_visitDate,v_numeric;
+        if done = 1 then leave viralLoop; end if;
+
+		select MAX(obs_datetime) into ldl_visitDate
+		from obs where concept_id=8561
+		and value_coded = 2257 and voided =0
+		and person_id = v_patientId;
+
+		if (ldl_visitDate is null ) then
+			set insert_visitDate = v_visitDate;
+			set insert_numeric = v_numeric;
+		elseif (v_visitDate is null) then
+			set insert_visitDate = ldl_visitDate;
+			set insert_numeric = 0;
+		elseif ( datediff(ldl_visitDate, v_visitDate) >= 0 ) then
+			set insert_visitDate = ldl_visitDate;
+			set insert_numeric = 0;
+		else
+			set insert_visitDate = v_visitDate;
+			set insert_numeric = v_numeric;
+		end if;
+
+		UPDATE warehouse_ic3_cohort tc
+		set lastViralLoadDate=insert_visitDate, lastViralLoadResult = insert_numeric
+		where PID = v_patientId;
+
+	end loop viralLoop;
+    close viralLoadCur;
+
+END$$
+DELIMITER ;
 
 
 

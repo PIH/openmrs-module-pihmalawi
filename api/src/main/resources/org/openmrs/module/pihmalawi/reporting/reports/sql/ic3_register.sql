@@ -33,6 +33,8 @@ create table warehouse_ic3_cohort (
   lastArtVisitLocation VARCHAR(50) default NULL,
   firstViralLoadDate Date,
   firstViralLoadResult NUMERIC,
+  lastViralLoadDate Date,
+  lastViralLoadResult NUMERIC,
   ncdEnrollmentDate DATE,
   VIRAL_LOAD NUMERIC default NULL,
   SERUM_GLUCOSE NUMERIC default NULL,
@@ -83,6 +85,7 @@ order by 	pp.patient_id asc;
 -- Call Routines
 CALL updateProgramsEnrollmentDate();
 CALL updateFirstViralLoad();
+CALL updateLastViralLoad();
 CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
 CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
 CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
@@ -114,6 +117,8 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       lastArtVisitLocation,
       firstViralLoadDate,
       firstViralLoadResult,
+      lastViralLoadDate,
+      lastViralLoadResult,
       ncdEnrollmentDate,
       VIRAL_LOAD,
       SERUM_GLUCOSE,
