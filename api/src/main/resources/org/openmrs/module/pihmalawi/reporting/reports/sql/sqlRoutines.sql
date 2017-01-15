@@ -1,3 +1,8 @@
+-- ## report_uuid = 17742B5A-CEBF-47F1-8D60-540DCF61A2A4
+-- ## design_uuid = 3425B69A-14C9-4AE6-AC05-FE78859D63C4
+-- ## report_name = IC3 Register Sql Routines
+-- ## report_description = Helper procedures and fucntions to produce IC3 report
+
 -- Stored Procedures
 
 
