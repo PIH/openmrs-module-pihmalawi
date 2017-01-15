@@ -31,7 +31,8 @@ create table warehouse_ic3_cohort (
   artInitialDate DATE default NULL,
   lastArtVisit DATE default NULL,
   lastArtVisitLocation VARCHAR(50) default NULL,
-
+  firstViralLoadDate Date,
+  firstViralLoadResult NUMERIC,
   ncdEnrollmentDate DATE,
   VIRAL_LOAD NUMERIC default NULL,
   SERUM_GLUCOSE NUMERIC default NULL,
@@ -39,6 +40,7 @@ create table warehouse_ic3_cohort (
   DIASTOLIC NUMERIC default NULL
 
 );
+CREATE INDEX PID_ic3_index ON warehouse_ic3_cohort(PID);
 
 -- Create Initial Cohort With Basic Demographic Data
 
@@ -80,6 +82,7 @@ order by 	pp.patient_id asc;
 
 -- Call Routines
 CALL updateProgramsEnrollmentDate();
+CALL updateFirstViralLoad();
 CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
 CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
 CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
