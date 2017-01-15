@@ -25,6 +25,7 @@ DELIMITER ;
 -- INPUTS: 		cid - observation concept id
 --				endDate - end Date of report
 -- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
@@ -54,6 +55,60 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select  PID, value_numeric
+					from warehouse_ic3_cohort tt
+					left join (select * from 
+								(select * from obs 
+								where concept_id = ', CONCAT(cid),
+								' and obs_datetime <= \'', endDate,
+								'\' and voided = 0 
+								order by obs_datetime ', @upDown, 
+								') oi group by person_id) o 
+					on o.person_id = tt.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
+
+-- getDatetimeObsBeforeDate(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+
+DROP PROCEDURE IF EXISTS getDatetimeObsBeforeDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getDatetimeObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs DATE
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getDatetimeObsBeforeDate!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select  PID, value_datetime
 					from warehouse_ic3_cohort tt
 					left join (select * from 
 								(select * from obs 
@@ -243,7 +298,7 @@ END;;
 DELIMITER ;
 
 
--- getEncounterBeforeEndDate(encounterTypes, endDate, firstLast, colName)
+-- getEncounterDatetimeBeforeEndDate(encounterTypes, endDate, firstLast, colName)
 -- INPUTS: 		encounterTypes - string of encounter types to consider (e.g., '1,2,3')
 --				endDate - end date of report
 --				colName - column to write data to
@@ -254,10 +309,10 @@ DELIMITER ;
 -- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
 -- end date. 
 
-DROP PROCEDURE IF EXISTS getEncounterBeforeEndDate;
+DROP PROCEDURE IF EXISTS getEncounterDatetimeBeforeEndDate;
 
 DELIMITER ;;
-CREATE PROCEDURE getEncounterBeforeEndDate(IN encounterTypes VARCHAR(100), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+CREATE PROCEDURE getEncounterDatetimeBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -272,7 +327,7 @@ BEGIN
 		       set @upDown = 'asc';
 	ELSEIF firstLast = 'last' THEN
 	       set @upDown = 'desc';
-	ELSE select 'Must specify first/last encounter in getEncounterBeforeEndDate!';
+	ELSE select 'Must specify first/last encounter in getEncounterDatetimeBeforeEndDate!';
 	END IF;
 
 
@@ -283,6 +338,63 @@ BEGIN
 					left join (select * from 
 								(select patient_id, encounter_datetime 
 								from encounter e
+								where encounter_type in (', encounterTypes,
+								') and encounter_datetime <= @endDate 
+								and voided = 0
+								order by encounter_datetime asc) ei
+					group by patient_id) e
+					on tc.PID = e.patient_id;');
+				
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
+-- getEncounterLocationBeforeEndDate(encounterTypes, endDate, firstLast, colName)
+-- INPUTS: 		encounterTypes - string of encounter types to consider (e.g., '1,2,3')
+--				endDate - end date of report
+--				colName - column to write data to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets the last encounter for given encounter types before end date and writes this 
+-- list to report table (one per patient). 
+-- Procedure assumes date_created is relevant last date and that internal patient identifiers 
+-- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
+-- end date. 
+
+DROP PROCEDURE IF EXISTS getEncounterLocationBeforeEndDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getEncounterLocationBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(50) default NULL 
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEncounterDatetimeBeforeEndDate!';
+	END IF;
+
+
+	SET @s=CONCAT('insert into temp_obs_vector
+					(PID, obs)
+					select PID, name 
+					from warehouse_ic3_cohort tc
+					left join (select * from 
+								(select patient_id, l.name 
+								from encounter e
+								join location l on l.location_id = e.location_id
 								where encounter_type in (', encounterTypes,
 								') and encounter_datetime <= @endDate 
 								and voided = 0

@@ -20,16 +20,19 @@ create table warehouse_ic3_cohort (
   id INT not null auto_increment primary key,
   PID INT(11) not NULL,
   identifier VARCHAR(50) default NULL,
-  ALL_PARTs VARCHAR(100) default NULL,
-  ALL_ARVs VARCHAR(100) default NULL,
-  ALL_CCCs VARCHAR(100) default NULL,
+  allPreArtIds VARCHAR(100) default NULL,
+  allArtIds VARCHAR(100) default NULL,
+  allCccIds VARCHAR(100) default NULL,
   birthdate DATE not NULL,
   gender VARCHAR(50) not NULL,
-  outcome VARCHAR(50) default NULL,
   age INT(11) not NULL,
   artEnrollmentDate DATE,
+  firstARTVisit DATE default NULL,
+  artInitialDate DATE default NULL,
+  lastArtVisit DATE default NULL,
+  lastArtVisitLocation VARCHAR(50) default NULL,
+
   ncdEnrollmentDate DATE,
-  LAST_ART DATE default NULL,
   VIRAL_LOAD NUMERIC default NULL,
   SERUM_GLUCOSE NUMERIC default NULL,
   SYSTOLIC NUMERIC default NULL,
@@ -81,29 +84,40 @@ CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
 CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
 CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
 CALL getNumericObsBeforeDate(856, @endDate, 'last','VIRAL_LOAD');
-CALL getAllIdentifiers(@endDate,'4','ALL_ARVs');
-CALL getAllIdentifiers(@endDate,'19','ALL_PARTs');
-CALL getAllIdentifiers(@endDate,'21','ALL_CCCs');
-CALL getEncounterBeforeEndDate('9,10', @endDate, 'last', 'LAST_ART');
+CALL getAllIdentifiers(@endDate,'4','allArtIds');
+CALL getAllIdentifiers(@endDate,'19','allPreArtIds');
+CALL getAllIdentifiers(@endDate,'21','allCccIds');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisit');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisit');
+CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
+
+CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
+
 
  SELECT
-      `PID` as PID,
-      `identifier` as Identifier,
-      `ALL_ARVs` as ALL_ARVs,
-      `birthdate` as Birthdate,
-      `gender` as Gender,
-      `age` as Age,
+      PID as PID,
+      identifier,
+      allArtIds,
+      allCccIds,
+      birthdate,
+      gender,
+      age,
       artEnrollmentDate,
+      firstARTVisit,
+      artInitialDate,
+      lastArtVisit,
       ncdEnrollmentDate,
-      LAST_ART,
+      lastARTVisit,
+      lastArtVisitLocation,
+      ncdEnrollmentDate,
       VIRAL_LOAD,
-      `SERUM_GLUCOSE` as SERUM_GLUCOSE,
-      `SYSTOLIC` as SYSTOLIC,
-      `DIASTOLIC` as DIASTOLIC
- FROM `warehouse_ic3_cohort`;
+      SERUM_GLUCOSE,
+      SYSTOLIC,
+      DIASTOLIC
+ FROM warehouse_ic3_cohort;
 
 
-
+  
 
 
 
