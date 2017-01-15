@@ -112,6 +112,8 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       ncdEnrollmentDate,
       lastARTVisit,
       lastArtVisitLocation,
+      firstViralLoadDate,
+      firstViralLoadResult,
       ncdEnrollmentDate,
       VIRAL_LOAD,
       SERUM_GLUCOSE,
