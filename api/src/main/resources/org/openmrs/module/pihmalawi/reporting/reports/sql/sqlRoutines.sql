@@ -1,5 +1,75 @@
 -- Stored Procedures
 
+
+-- Document this one. 
+DROP PROCEDURE IF EXISTS updateReportTable;
+
+DELIMITER ;;
+CREATE PROCEDURE updateReportTable(IN colName VARCHAR(50))
+BEGIN
+
+	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.PID = tt.PID;');
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+END;;
+DELIMITER ;
+
+-- getNumericObsBeforeDate(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+
+DROP PROCEDURE IF EXISTS getNumericObsBeforeDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getNumericObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs NUMERIC
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getNumericObsBeforeDate!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select  PID, value_numeric
+					from warehouse_ic3_cohort tt
+					left join (select * from 
+								(select * from obs 
+								where concept_id = ', CONCAT(cid),
+								' and obs_datetime <= \'', endDate,
+								'\' and voided = 0 
+								order by obs_datetime ', @upDown, 
+								') oi group by person_id) o 
+					on o.person_id = tt.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
+
+
 -- getLastNumericObsBeforeDate(cid, endDate, colName)
 -- INPUTS: 		cid - observation concept id
 --				endDate - end Date of report
@@ -21,6 +91,7 @@ BEGIN
   		PID INT(11) not NULL,
   		obs NUMERIC
 	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
 
 	insert into temp_obs_vector
 			(PID, obs)
@@ -35,27 +106,25 @@ BEGIN
 				oi group by person_id) o 
 	on o.person_id = tt.PID; 
 
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
-	PREPARE stmt1 FROM @s;
-	EXECUTE stmt1;
-	DEALLOCATE PREPARE stmt1;
+	CALL updateReportTable(colName);
 
 END;;
 DELIMITER ;
 
--- getAllARVNumbers(cid, endDate, colName)
+-- getAllIdentifiers(cid, endDate, idTypes, colName)
 -- INPUTS: 		endDate - end Date of report
 --				colName - column to write data to
+--				idTypes - string list of id types to consider (e.g., '1,2,3')
 -- Procedure gets a list of all ARV numbers before end date and writes this list to report
 -- table (one per patient). 
 -- Procedure assumes date_created is relevant last date and that internal patient identifiers 
 -- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
 -- end date. 
 
-DROP PROCEDURE IF EXISTS getAllARVNumbers;
+DROP PROCEDURE IF EXISTS getAllIdentifiers;
 
 DELIMITER ;;
-CREATE PROCEDURE getAllARVNumbers(IN endDate DATE, IN colName VARCHAR(100))
+CREATE PROCEDURE getAllIdentifiers(IN endDate DATE, IN idTypes VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -64,28 +133,29 @@ BEGIN
   		PID INT(11) not NULL,
   		obs VARCHAR(100) default NULL 
 	);
-
-	insert into temp_obs_vector
-			(PID, obs)
-			select  PID, 
-					group_concat(pi.identifier separator ', ') as id_string
-			from warehouse_ic3_cohort tc
-			left join (select patient_id, identifier 
-						from patient_identifier 
-						where identifier_type = 4
-						and date_created <= @endDate 
-						and voided = 0) pi
-			on tc.PID = pi.patient_id
-			group by PID;
-
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+	
+	SET @s=CONCAT('insert into temp_obs_vector
+					(PID, obs)
+					select  PID, 
+							group_concat(pi.identifier separator \', \') as id_string
+					from warehouse_ic3_cohort tc
+					left join (select patient_id, identifier 
+								from patient_identifier 
+								where identifier_type in (', idTypes,
+								') and date_created <= @endDate 
+								and voided = 0) pi
+					on tc.PID = pi.patient_id
+					group by PID;');
+				
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	CALL updateReportTable(colName);
+
 END;;
 DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS warehouseProgramEnrollment;
 
@@ -168,108 +238,21 @@ END;;
 DELIMITER ;
 
 
--- getAllCCCNumbers(cid, endDate, colName)
--- INPUTS: 		endDate - end Date of report
---				colName - column to write data to
--- Procedure gets a list of all CCC numbers before end date and writes this list to report
--- table (one per patient). 
--- Procedure assumes date_created is relevant last date and that internal patient identifiers 
--- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
--- end date. 
-
-DROP PROCEDURE IF EXISTS getAllCCCNumbers;
-
-DELIMITER ;;
-CREATE PROCEDURE getAllCCCNumbers(IN endDate DATE, IN colName VARCHAR(100))
-BEGIN
-	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
-	create temporary table temp_obs_vector (
-  		id INT not null auto_increment primary key,
-  		PID INT(11) not NULL,
-  		obs VARCHAR(100) default NULL 
-	);
-
-	insert into temp_obs_vector
-			(PID, obs)
-			select  PID, 
-					group_concat(pi.identifier separator ', ') as id_string
-			from warehouse_ic3_cohort tc
-			left join (select patient_id, identifier 
-						from patient_identifier 
-						where identifier_type = 21
-						and date_created <= @endDate 
-						and voided = 0) pi
-			on tc.PID = pi.patient_id
-			group by PID;
-				
-
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
-	PREPARE stmt1 FROM @s;
-	EXECUTE stmt1;
-	DEALLOCATE PREPARE stmt1;
-
-END;;
-DELIMITER ;
-
-
--- getAllPARTNumbers(cid, endDate, colName)
--- INPUTS: 		endDate - end Date of report
---				colName - column to write data to
--- Procedure gets a list of all Pre-ART numbers before end date and writes this list to report
--- table (one per patient). 
--- Procedure assumes date_created is relevant last date and that internal patient identifiers 
--- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
--- end date. 
-
-DROP PROCEDURE IF EXISTS getAllPARTNumbers;
-
-DELIMITER ;;
-CREATE PROCEDURE getAllPARTNumbers(IN endDate DATE, IN colName VARCHAR(100))
-BEGIN
-
-	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
-	create temporary table temp_obs_vector (
-  		id INT not null auto_increment primary key,
-  		PID INT(11) not NULL,
-  		obs VARCHAR(100) default NULL 
-	);
-
-	insert into temp_obs_vector
-			(PID, obs)
-			select  PID, 
-					group_concat(pi.identifier separator ', ') as id_string
-			from warehouse_ic3_cohort tc
-			left join (select patient_id, identifier 
-						from patient_identifier 
-						where identifier_type = 19
-						and date_created <= @endDate 
-						and voided = 0) pi
-			on tc.PID = pi.patient_id
-			group by PID;
-				
-
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
-	PREPARE stmt1 FROM @s;
-	EXECUTE stmt1;
-	DEALLOCATE PREPARE stmt1;
-
-END;;
-DELIMITER ;
-
--- getLastEncounter(encounterTypes, endDate, colName)
+-- getEncounterBeforeEndDate(encounterTypes, endDate, firstLast, colName)
 -- INPUTS: 		encounterTypes - string of encounter types to consider (e.g., '1,2,3')
 --				endDate - end date of report
 --				colName - column to write data to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
 -- Procedure gets the last encounter for given encounter types before end date and writes this 
 -- list to report table (one per patient). 
 -- Procedure assumes date_created is relevant last date and that internal patient identifiers 
 -- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
 -- end date. 
 
-DROP PROCEDURE IF EXISTS getLastEncounter;
+DROP PROCEDURE IF EXISTS getEncounterBeforeEndDate;
 
 DELIMITER ;;
-CREATE PROCEDURE getLastEncounter(IN encounterTypes VARCHAR(100), IN endDate DATE, IN colName VARCHAR(100))
+CREATE PROCEDURE getEncounterBeforeEndDate(IN encounterTypes VARCHAR(100), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -278,6 +261,15 @@ BEGIN
   		PID INT(11) not NULL,
   		obs DATE default NULL 
 	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEncounterBeforeEndDate!';
+	END IF;
+
 
 	SET @s=CONCAT('insert into temp_obs_vector
 					(PID, obs)
@@ -297,10 +289,7 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.id = tt.id;');
-	PREPARE stmt1 FROM @s;
-	EXECUTE stmt1;
-	DEALLOCATE PREPARE stmt1;
+	CALL updateReportTable(colName);
 
 END;;
 DELIMITER ;
@@ -309,7 +298,7 @@ DELIMITER ;
 -- updateProgramsEnrollmentDate()
 -- Procedure that retrieves ART and NCD enrollment dates from the warehouse_program_enrollment table
 
-DROP PROCEDURE IF EXISTS getLastEncounter;
+DROP PROCEDURE IF EXISTS updateProgramsEnrollmentDate;
 
 DELIMITER ;;
 CREATE PROCEDURE `updateProgramsEnrollmentDate`()
@@ -339,6 +328,11 @@ BEGIN
 
 END;;
 DELIMITER ;
+
+
+
+
+
 
 
 

@@ -10,7 +10,7 @@
 set @endDate = "2017-01-01";
 -- SET @@group_concat_max_len = 15000;
 
-CALL warehouseProgramEnrollment();
+-- CALL warehouseProgramEnrollment();
 
 -- Refresh temp table
 drop table if exists warehouse_ic3_cohort;
@@ -33,6 +33,7 @@ create table warehouse_ic3_cohort (
   SERUM_GLUCOSE NUMERIC default NULL,
   SYSTOLIC NUMERIC default NULL,
   DIASTOLIC NUMERIC default NULL,
+  VIRAL_LOAD2 NUMERIC default NULL,
   VIRAL_LOAD NUMERIC default NULL
 );
 
@@ -75,28 +76,29 @@ join 		(select patient_id, identifier from
 order by 	pp.patient_id asc;
 
 -- Call Routines
-CALL getLastNumericObsBeforeDate(887, @endDate,'SERUM_GLUCOSE');
-CALL getLastNumericObsBeforeDate(5085, @endDate,'SYSTOLIC');
-CALL getLastNumericObsBeforeDate(5086, @endDate,'DIASTOLIC');
-CALL getLastNumericObsBeforeDate(856, @endDate,'VIRAL_LOAD');
-CALL getAllARVNumbers(@endDate,'ALL_ARVs');
-CALL getAllPARTNumbers(@endDate,'ALL_PARTs');
-CALL getLastEncounter('9,10', @endDate, 'LAST_ART');
+CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
+CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
+CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
+CALL getNumericObsBeforeDate(856, @endDate, 'last','VIRAL_LOAD');
+CALL getNumericObsBeforeDate(856, @endDate, 'last', 'VIRAL_LOAD2');
+CALL getAllIdentifiers(@endDate,'4','ALL_ARVs');
+CALL getAllIdentifiers(@endDate,'19','ALL_PARTs');
+CALL getAllIdentifiers(@endDate,'21','ALL_CCCs');
+CALL getEncounterBeforeEndDate('9,10', @endDate, 'last', 'LAST_ART');
 
-
-SELECT
-     `PID` as PID,
-     `identifier` as Identifier,
-     `ALL_ARVs` as ALL_ARVs,
-     `birthdate` as Birthdate,
-     `gender` as Gender,
-     `age` as Age,
-     artEnrollmentDate,
-     ncdEnrollmentDate,
-     `SERUM_GLUCOSE` as SERUM_GLUCOSE,
-     `SYSTOLIC` as SYSTOLIC,
-     `DIASTOLIC` as DIASTOLIC
-FROM `warehouse_ic3_cohort`;
+-- SELECT
+--      `PID` as PID,
+--      `identifier` as Identifier,
+--      `ALL_ARVs` as ALL_ARVs,
+--      `birthdate` as Birthdate,
+--      `gender` as Gender,
+--      `age` as Age,
+--      artEnrollmentDate,
+--      ncdEnrollmentDate,
+--      `SERUM_GLUCOSE` as SERUM_GLUCOSE,
+--      `SYSTOLIC` as SYSTOLIC,
+--      `DIASTOLIC` as DIASTOLIC
+-- FROM `warehouse_ic3_cohort`;
 
 
 
