@@ -353,7 +353,7 @@ BEGIN
 								where encounter_type in (', encounterTypes,
 								') and encounter_datetime <= @endDate 
 								and voided = 0
-								order by encounter_datetime asc) ei
+								order by encounter_datetime ', @upDown,') ei
 					group by patient_id) e
 					on tc.PID = e.patient_id;');
 				
@@ -410,7 +410,7 @@ BEGIN
 								where encounter_type in (', encounterTypes,
 								') and encounter_datetime <= @endDate 
 								and voided = 0
-								order by encounter_datetime asc) ei
+								order by encounter_datetime ', @upDown,') ei
 					group by patient_id) e
 					on tc.PID = e.patient_id;');
 				
