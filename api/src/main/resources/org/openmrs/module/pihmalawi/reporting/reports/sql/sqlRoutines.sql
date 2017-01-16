@@ -756,6 +756,52 @@ BEGIN
 END;;
 DELIMITER ;
 
+-- getLastOutcomeForProgram(programId, endDate, colOutcomeName, colOutcomeDateName)
+-- INPUTS: 		programId - program ID, ART=1, NCD=10
+--				endDate - end Date of report
+-- 				colOutcomeName - column name in the cohort table where to store last outcome value
+--				colOutcomeNameDate - column name in the cohort table where to store the date of the last outcome
+-- Procedure gets last program outcome before (or on) end date and writes outcome and outcome date to 
+-- report table for cohort (one per patient).
+
+DROP PROCEDURE IF EXISTS getLastOutcomeForProgram;
+
+DELIMITER $$
+CREATE PROCEDURE `getLastOutcomeForProgram`(IN programId INT, IN endDate DATE, IN colOutcomeName VARCHAR(100), IN colOutcomeDateName VARCHAR(100))
+BEGIN
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		lastOutcomeDate DATE default NULL,
+		lastOutcome VARCHAR(255)
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	SET @s=CONCAT('insert into temp_obs_vector
+					(PID, lastOutcomeDate, lastOutcome)
+					select tc.PID, stateStartDate, patientState
+					from warehouse_ic3_cohort tc
+					left join (
+						select * from 
+								(select pid, stateStartDate, patientState
+								from warehouse_program_enrollment w
+								where programId=', programId, ' and stateStartDate <= @endDate		
+								order by stateStartDate desc) ei
+						group by pid) w 
+					on tc.PID = w.PID ; ');
+				
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	SET @u=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colOutcomeDateName,' = tt.lastOutcomeDate, tc.',colOutcomeName,' = tt.lastOutcome WHERE tc.PID = tt.PID;');
+	PREPARE stmt2 FROM @u;
+	EXECUTE stmt2;
+	DEALLOCATE PREPARE stmt2;
+END$$
+DELIMITER ;
+
 
 
 

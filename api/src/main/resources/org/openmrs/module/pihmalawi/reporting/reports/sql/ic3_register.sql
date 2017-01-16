@@ -29,6 +29,8 @@ create table warehouse_ic3_cohort (
   gender VARCHAR(50) not NULL,
   age INT(11) not NULL,
   artEnrollmentDate DATE,
+  lastArtOutcome VARCHAR(255),
+  lastArtOutcomeDate DATE, 
   firstARTVisitDate DATE default NULL,
   artInitialDate DATE default NULL,
   lastArtVisitDate DATE default NULL,
@@ -41,7 +43,8 @@ create table warehouse_ic3_cohort (
   lastArtRegimenStart DATE default NULL,
   lastArtRegimen VARCHAR(255) default NULL, 
   ncdEnrollmentDate DATE default NULL,
-
+  lastNcdOutcome VARCHAR(255),
+  lastNcdOutcomeDate DATE, 
   firstHtnDxDate DATE default NULL,
   firstHtnMedsDate DATE default NULL,
   lastHtnMedsDate DATE default NULL,
@@ -106,6 +109,10 @@ CALL getAllIdentifiers(@endDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@endDate,'21','allCccIds');
 CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitLocation');
+-- get ART last outcome
+CALL getLastOutcomeForProgram(1, curDate(), 'lastArtOutcome', 'lastArtOutcomeDate');
+-- get NCD last outcome
+CALL getLastOutcomeForProgram(10, curDate(), 'lastNcdOutcome', 'lastNcdOutcomeDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
