@@ -272,6 +272,66 @@ END;;
 DELIMITER ;
 
 
+-- getCodedObsWithValuesFromEncounterBeforeDate(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+
+DROP PROCEDURE IF EXISTS getCodedObsWithValuesFromEncounterBeforeDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getCodedObsWithValuesFromEncounterBeforeDate(IN cid INT, IN eids VARCHAR(50), IN vcid VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(255)
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getCodedObsWithValuesFromEncounterBeforeDate!';
+	END IF;
+
+
+	set @s=CONCAT('insert into temp_obs_vector
+						(PID, obs)
+					select  PID, get_concept_name(value_coded)
+					from warehouse_ic3_cohort tt
+					left join (select * from 
+								(select * from encounter 
+								where encounter_datetime <= \'', endDate,
+								'\' and encounter_type in (', eids,
+								') and voided = 0 
+								order by encounter_datetime asc) oi 
+							group by patient_id) e
+					left join (select * 
+								from obs 
+								where concept_id = ', CONCAT(cid),
+								' and value_coded in (', vcid,
+								') and voided = 0
+								group by person_id) o on o.encounter_id = e.encounter_id
+					on e.patient_id = tt.PID');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
 
 -- getCodedObsBeforeDate(cid, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id

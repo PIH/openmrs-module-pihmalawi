@@ -55,7 +55,13 @@ create table warehouse_ic3_cohort (
   firstBp VARCHAR(50) default NULL,
   firstBpDate DATE default NULL,
   lastBp VARCHAR(50) default NULL,  
-  lastBpDate DATE default NULL
+  lastBpDate DATE default NULL,
+  diuretic VARCHAR(50) default NULL,  
+  calciumChannelBlocker VARCHAR(50) default NULL,  
+  aceIInhibitor VARCHAR(50) default NULL,  
+  betaBlocker VARCHAR(50) default NULL,  
+  statin VARCHAR(50) default NULL,  
+  otherHtnMeds VARCHAR(50) default NULL
 
 );
 CREATE INDEX PID_ic3_index ON warehouse_ic3_cohort(PID);
@@ -116,7 +122,7 @@ CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitDa
 CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
 CALL getEncounterDateForCodedObs(3683, '903', @endDate, 'first', 'firstHtnDxDate');
-CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'first', 'firstHtnMedsDate');
+CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463,88,8462', @endDate, 'first', 'firstHtnMedsDate');
 CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsDate');
 CALL getEncounterLocationForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsLocation');
 
@@ -127,10 +133,16 @@ CALL updateRecentRegimen();
 CALL getCodedObsFromEncounterBeforeDate(7459, '10', @endDate, 'last', 'lastTbValue');
 CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
 
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3187,250,8466', @endDate, 'last', 'diuretic');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3182,1242,3183,8465', @endDate, 'last', 'calciumChannelBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3186,254,8464', @endDate, 'last', 'aceIInhibitor');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @endDate, 'last', 'betaBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @endDate, 'last', 'statin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '88', @endDate, 'last', 'otherHtnMeds');
 
 
  SELECT
-      PID as PID,
+      PID,
       identifier,
       allArtIds,
       allCccIds,
@@ -166,9 +178,17 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       firstBp,
       firstBpDate,
       lastBp,  
-      lastBpDate
+      lastBpDate,
+      diuretic,  
+      calciumChannelBlocker,  
+      aceIInhibitor,  
+      betaBlocker,  
+      statin,  
+      otherHtnMeds
+
  FROM warehouse_ic3_cohort;
   
+
   
 
 
