@@ -23,6 +23,8 @@ create table warehouse_ic3_cohort (
   allPreArtIds VARCHAR(100) default NULL,
   allArtIds VARCHAR(100) default NULL,
   allCccIds VARCHAR(100) default NULL,
+  ic3EnrollmentDate DATE,
+  ic3FirstProgramEnrolled VARCHAR(50),
   lastVisitDate DATE default NULL,
   lastVisitLocation VARCHAR(50) default NULL,
   birthdate DATE not NULL,
@@ -97,6 +99,7 @@ order by 	pp.patient_id asc;
 
 -- Call Routines
 CALL updateProgramsEnrollmentDate();
+CALL updateIc3EnrollmentInfo(@endDate);
 CALL updateFirstViralLoad();
 CALL updateLastViralLoad();
 CALL getAllIdentifiers(@endDate,'4','allArtIds');
@@ -130,6 +133,7 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       identifier,
       allArtIds,
       allCccIds,
+      IF(artEnrollmentDate IS NULL OR ncdEnrollmentDate IS NULL, COALESCE(artEnrollmentDate, ncdEnrollmentDate), LEAST(artEnrollmentDate,ncdEnrollmentDate)) as ic3EnrollmentDate, 
       lastVisitDate,
       lastVisitLocation,
       birthdate,

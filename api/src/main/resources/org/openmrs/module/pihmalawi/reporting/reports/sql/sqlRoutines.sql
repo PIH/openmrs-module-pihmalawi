@@ -657,6 +657,43 @@ BEGIN
 END;;
 DELIMITER ;
 
+-- updateIc3EnrollmentInfo()
+-- Procedure that calculates the first enrollment date across the IC3 programs
+
+DROP PROCEDURE IF EXISTS updateIc3EnrollmentInfo;
+
+DELIMITER ;;
+CREATE PROCEDURE `updateIc3EnrollmentInfo`(IN endDate DATE)
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+		programName VARCHAR(50),
+  		dateEnrolled DATE default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	insert into temp_obs_vector(PID, programName, dateEnrolled)
+		select PID, programName, dateEnrolled
+		from (select * from 
+		(select * from 
+			warehouse_program_enrollment 
+			where dateEnrolled < @endDate
+			order by dateEnrolled asc) wpei 
+		group by PID) wpe;
+
+	-- update ic3 enrollment date
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	SET tc.ic3EnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID ;
+
+	-- indicate the program in which a patient was first enrolled
+	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	SET tc.ic3FirstProgramEnrolled = tt.programName WHERE tc.PID = tt.PID;
+
+END;;
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS updateRecentRegimen;
 
