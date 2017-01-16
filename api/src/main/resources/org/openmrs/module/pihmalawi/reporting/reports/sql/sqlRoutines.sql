@@ -643,7 +643,118 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- getEncounterDateForCodedObs(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
 
+DROP PROCEDURE IF EXISTS getEncounterDateForCodedObs;
+
+DELIMITER ;;
+
+CREATE PROCEDURE getEncounterDateForCodedObs(IN cid INT, IN vcid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
+BEGIN
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs DATE
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEncounterDateForCodedObs!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select PID, encounter_datetime
+					from warehouse_ic3_cohort wc
+					left join (select * from 
+								(select person_id, e.encounter_datetime 
+									from obs 
+									join encounter e on e.encounter_id = obs.encounter_id
+									where concept_id = ', CONCAT(cid),
+									' and value_coded in (', vcid,
+									') and e.voided = 0
+									and obs.voided = 0				
+									order by obs_datetime ', @upDown,') oi
+								group by person_id) o 
+								on o.person_id = wc.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
+-- getEncounterLocationForCodedObs(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+
+DROP PROCEDURE IF EXISTS getEncounterLocationForCodedObs;
+
+DELIMITER ;;
+
+CREATE PROCEDURE getEncounterLocationForCodedObs(IN cid INT, IN vcid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
+BEGIN
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(50)
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEncounterLocationForCodedObs!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select PID, name
+					from warehouse_ic3_cohort wc
+					left join (select * from 
+								(select person_id, name 
+									from obs 
+									join encounter e on e.encounter_id = obs.encounter_id
+									join location l on l.location_id = e.location_id
+									where concept_id = ', CONCAT(cid),
+									' and value_coded in (', vcid,
+									') and e.voided = 0
+									and obs.voided = 0				
+									order by obs_datetime ', @upDown,') oi
+								group by person_id) o 
+								on o.person_id = wc.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
 
 
 

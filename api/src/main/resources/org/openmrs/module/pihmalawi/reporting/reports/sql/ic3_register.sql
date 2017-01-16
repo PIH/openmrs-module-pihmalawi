@@ -40,7 +40,14 @@ create table warehouse_ic3_cohort (
   lastViralLoadResult NUMERIC,
   lastArtRegimenStart DATE default NULL,
   lastArtRegimen VARCHAR(255) default NULL, 
-  ncdEnrollmentDate DATE,
+  ncdEnrollmentDate DATE default NULL,
+
+  firstHtnDxDate DATE default NULL,
+  firstHtnMedsDate DATE default NULL,
+  lastHtnMedsDate DATE default NULL,
+  lastHtnMedsLocation VARCHAR(50) default NULL,
+  systolicBp NUMERIC default NULL,
+  diastolicBp NUMERIC default NULL,
 
   SERUM_GLUCOSE NUMERIC default NULL,
   SYSTOLIC NUMERIC default NULL,
@@ -92,8 +99,8 @@ CALL updateProgramsEnrollmentDate();
 CALL updateFirstViralLoad();
 CALL updateLastViralLoad();
 CALL getNumericObsBeforeDate(887, @endDate, 'last','SERUM_GLUCOSE');
-CALL getNumericObsBeforeDate(5085, @endDate, 'last','SYSTOLIC');
-CALL getNumericObsBeforeDate(5086, @endDate, 'last','DIASTOLIC');
+CALL getNumericObsBeforeDate(5085, @endDate, 'first','systolicBp');
+CALL getNumericObsBeforeDate(5086, @endDate, 'first','diastolicBp');
 CALL getAllIdentifiers(@endDate,'4','allArtIds');
 CALL getAllIdentifiers(@endDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@endDate,'21','allCccIds');
@@ -102,10 +109,15 @@ CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,
 CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
+CALL getEncounterDateForCodedObs(3683, '903', @endDate, 'first', 'firstHtnDxDate');
+CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'first', 'firstHtnMedsDate');
+CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsDate');
+CALL getEncounterLocationForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsLocation');
 
 CALL updateRecentRegimen();
 CALL getCodedObsBeforeDate(7459, @endDate, 'last', 'lastTbValue');
 CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
+
 
 
  SELECT
@@ -130,10 +142,15 @@ CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
       lastViralLoadResult,
       lastArtRegimenStart,
       lastArtRegimen,
-      ncdEnrollmentDate
+      ncdEnrollmentDate,
+      firstHtnDxDate,
+      firstHtnMedsDate,
+      lastHtnMedsDate,
+      lastHtnMedsLocation
+      systolicBp,
+      diastolicBp,
+      concat_ws('/',systolicBp,diastolicBp) as bloodPressure
       -- SERUM_GLUCOSE,
-      -- SYSTOLIC,
-      -- DIASTOLIC
  FROM warehouse_ic3_cohort;
   
   
