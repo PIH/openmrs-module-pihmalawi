@@ -684,13 +684,12 @@ BEGIN
 			order by dateEnrolled asc) wpei 
 		group by PID) wpe;
 
-	-- update ic3 enrollment date
+	-- update ic3 enrollment info
 	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
-	SET tc.ic3EnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID ;
-
-	-- indicate the program in which a patient was first enrolled
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
-	SET tc.ic3FirstProgramEnrolled = tt.programName WHERE tc.PID = tt.PID;
+	SET tc.ic3EnrollmentDate = tt.dateEnrolled, 
+		tc.ic3FirstProgramEnrolled = tt.programName,
+		tc.ageAtFirstEnrollment=floor(datediff(tt.dateEnrolled,tc.birthdate)/365) 
+	WHERE tc.PID = tt.PID ;
 
 END;;
 DELIMITER ;
