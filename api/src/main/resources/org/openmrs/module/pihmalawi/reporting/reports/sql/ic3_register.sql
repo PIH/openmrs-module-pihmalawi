@@ -7,7 +7,7 @@
 
 
 -- Temporary variables for testing
-set @endDate = "2017-01-01";
+set @reportEndDate = "2017-01-01";
 -- SET @@group_concat_max_len = 15000;
 
 CALL warehouseProgramEnrollment();
@@ -70,30 +70,23 @@ CREATE INDEX PID_ic3_index ON warehouse_ic3_cohort(PID);
 
 insert into warehouse_ic3_cohort
 			(PID, identifier, birthdate, gender, age)
-select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(@endDate,birthdate)/365)
+select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(@reportEndDate,birthdate)/365)
 from	 	(select * from 
 				(select patient_id, patient_program_id 
 					from patient_program 
 					where voided = 0 
 					and program_id in (1,10) 
-					and (date_enrolled <= @endDate or date_enrolled is NULL)
+					and (date_enrolled <= @reportEndDate or date_enrolled is NULL)
 					order by date_enrolled DESC) 
 				ppi group by patient_id) pp -- Most recent Program Enrollment
 join 		(select patient_program_id 
 				from patient_state 
 				where voided = 0 
 				and state in (1,7,83) 
-				and start_date < @endDate 
+				and start_date < @reportEndDate 
 				group by patient_program_id) xps 
 			on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
 join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
-join 		(select * 
-				from encounter 
-				where encounter_datetime <= @endDate 
-				and encounter_type in (9,10,11,12,67,69,29,115,118,119,122,123,124,125) 
-				and voided = 0 
-				group by patient_id) e 
-			on e.patient_id = pp.patient_id
 join 		(select patient_id, identifier from 
 				(select * 
 				from patient_identifier 
@@ -106,39 +99,39 @@ order by 	pp.patient_id asc;
 
 -- Call Routines
 CALL updateProgramsEnrollmentDate();
-CALL updateIc3EnrollmentInfo(@endDate);
+CALL updateIc3EnrollmentInfo(@reportEndDate);
 CALL updateFirstViralLoad();
 CALL updateLastViralLoad();
-CALL getAllIdentifiers(@endDate,'4','allArtIds');
-CALL getAllIdentifiers(@endDate,'19','allPreArtIds');
-CALL getAllIdentifiers(@endDate,'21','allCccIds');
-CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitDate');
-CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @endDate, 'last', 'lastVisitLocation');
+CALL getAllIdentifiers(@reportEndDate,'4','allArtIds');
+CALL getAllIdentifiers(@reportEndDate,'19','allPreArtIds');
+CALL getAllIdentifiers(@reportEndDate,'21','allCccIds');
+CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitDate');
+CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitLocation');
 -- get ART last outcome
-CALL getLastOutcomeForProgram(1, curDate(), 'lastArtOutcome', 'lastArtOutcomeDate');
+CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastArtOutcome', 'lastArtOutcomeDate');
 -- get NCD last outcome
-CALL getLastOutcomeForProgram(10, curDate(), 'lastNcdOutcome', 'lastNcdOutcomeDate');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitDate');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @endDate, 'first', 'firstArtVisitDate');
-CALL getEncounterLocationBeforeEndDate('9,10', @endDate, 'last', 'lastArtVisitLocation');
-CALL getEncounterDateForCodedObs(3683, '903', @endDate, 'first', 'firstHtnDxDate');
-CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463,88,8462', @endDate, 'first', 'firstHtnMedsDate');
-CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsDate');
-CALL getEncounterLocationForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @endDate, 'last', 'lastHtnMedsLocation');
+CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'first', 'firstArtVisitDate');
+CALL getEncounterLocationBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitLocation');
+CALL getEncounterDateForCodedObs(3683, '903', @reportEndDate, 'first', 'firstHtnDxDate');
+CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463,88,8462', @reportEndDate, 'first', 'firstHtnMedsDate');
+CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @reportEndDate, 'last', 'lastHtnMedsDate');
+CALL getEncounterLocationForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @reportEndDate, 'last', 'lastHtnMedsLocation');
 
-CALL getBloodPressureBeforeDate(@endDate, 'first', 'firstBpDate', 'firstBp');
-CALL getBloodPressureBeforeDate(@endDate, 'last', 'lastBpDate', 'lastBp');
+CALL getBloodPressureBeforeDate(@reportEndDate, 'first', 'firstBpDate', 'firstBp');
+CALL getBloodPressureBeforeDate(@reportEndDate, 'last', 'lastBpDate', 'lastBp');
 
-CALL updateRecentRegimen();
-CALL getCodedObsFromEncounterBeforeDate(7459, '10', @endDate, 'last', 'lastTbValue');
-CALL getDatetimeObsBeforeDate(6132, @endDate, 'last', 'artInitialDate');
+CALL updateRecentRegimen(@reportEndDate);
+CALL getCodedObsFromEncounterBeforeDate(7459, '10', @reportEndDate, 'last', 'lastTbValue');
+CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
 
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3187,250,8466', @endDate, 'last', 'diuretic');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3182,1242,3183,8465', @endDate, 'last', 'calciumChannelBlocker');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3186,254,8464', @endDate, 'last', 'aceIInhibitor');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @endDate, 'last', 'betaBlocker');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @endDate, 'last', 'statin');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '88', @endDate, 'last', 'otherHtnMeds');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3187,250,8466', @reportEndDate, 'last', 'diuretic');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3182,1242,3183,8465', @reportEndDate, 'last', 'calciumChannelBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3186,254,8464', @reportEndDate, 'last', 'aceIInhibitor');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @reportEndDate, 'last', 'betaBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @reportEndDate, 'last', 'statin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '88', @reportEndDate, 'last', 'otherHtnMeds');
 
 
  SELECT

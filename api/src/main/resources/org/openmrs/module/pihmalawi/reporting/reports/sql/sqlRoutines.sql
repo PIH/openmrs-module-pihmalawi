@@ -474,10 +474,11 @@ BEGIN
 					left join (select patient_id, identifier 
 								from patient_identifier 
 								where identifier_type in (', idTypes,
-								') and date_created <= @endDate 
-								and voided = 0) pi
+								') and date_created <= \'', endDate, 
+								'\' and voided = 0) pi
 					on tc.PID = pi.patient_id
 					group by PID;');
+	select @s;
 				
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -610,8 +611,8 @@ BEGIN
 								(select patient_id, encounter_datetime 
 								from encounter e
 								where encounter_type in (', encounterTypes,
-								') and encounter_datetime <= @endDate 
-								and voided = 0
+								') and encounter_datetime <= \'', endDate, 
+								'\' and voided = 0
 								order by encounter_datetime ', @upDown,') ei
 					group by patient_id) e
 					on tc.PID = e.patient_id;');
@@ -667,8 +668,8 @@ BEGIN
 								from encounter e
 								join location l on l.location_id = e.location_id
 								where encounter_type in (', encounterTypes,
-								') and encounter_datetime <= @endDate 
-								and voided = 0
+								') and encounter_datetime <= \'', endDate, 
+								'\' and voided = 0
 								order by encounter_datetime ', @upDown,') ei
 					group by patient_id) e
 					on tc.PID = e.patient_id;');
@@ -740,7 +741,7 @@ BEGIN
 		from (select * from 
 		(select * from 
 			warehouse_program_enrollment 
-			where dateEnrolled < @endDate
+			where dateEnrolled < endDate
 			order by dateEnrolled asc) wpei 
 		group by PID) wpe;
 
@@ -757,7 +758,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS updateRecentRegimen;
 
 DELIMITER ;;
-CREATE PROCEDURE updateRecentRegimen()
+CREATE PROCEDURE updateRecentRegimen(IN endDate DATE)
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS recentRegimenObs;
@@ -776,7 +777,7 @@ BEGIN
 			(select person_id as pid, concept_id as cid, value_coded as recentRegimen
 			from obs 
 			where concept_id = 8169 
-			and obs_datetime < @endDate
+			and obs_datetime < endDate
 			and voided = 0 
 			order by obs_datetime desc) oi 
 			group by oi.pid) o
@@ -1081,8 +1082,8 @@ BEGIN
 						select * from 
 								(select pid, stateStartDate, patientState
 								from warehouse_program_enrollment w
-								where programId=', programId, ' and stateStartDate <= @endDate		
-								order by stateStartDate desc) ei
+								where programId=', programId, ' and stateStartDate <= \'', endDate, 
+								'\' order by stateStartDate desc) ei
 						group by pid) w 
 					on tc.PID = w.PID ; ');
 				
@@ -1098,5 +1099,6 @@ END$$
 DELIMITER ;
 
 
-
+-- Notes
+-- http://stackoverflow.com/questions/18277682/mysql-prepare-session-variables-vs-parameters-local-variables
 
