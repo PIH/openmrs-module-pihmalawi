@@ -137,9 +137,7 @@
                           ['$trigStress','Stress'],
                           ['$trigMenst','Menstruation']">
                         <td>
-                            <obsgroup groupingConceptId="$drugSet">
-                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="" style="checkbox"/>
-                            </obsgroup>
+                            <obs conceptId="$triggers" answerConceptId="{0}" answerLabel="" style="checkbox"/>
                         </td>
                     </repeat>
 
@@ -279,9 +277,7 @@
                           ['$trigFever','Fever'],
                           ['$trigStress','Stress'],
                           ['$trigMenst','Menstruation']">
-                        <obsgroup groupingConceptId="$drugSet">
-                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
-                        </obsgroup>
+                        <obs conceptId="$triggers" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
                     </repeat>
                 </td>
             </tr>
