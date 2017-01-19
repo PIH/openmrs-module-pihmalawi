@@ -13,7 +13,7 @@ DELIMITER ;;
 CREATE PROCEDURE updateReportTable(IN colName VARCHAR(50))
 BEGIN
 
-	SET @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.PID = tt.PID;');
+	SET @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt SET tc.',colName,' = tt.obs WHERE tc.PID = tt.PID;');
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
@@ -29,7 +29,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getNumericObsBeforeDate;
 
@@ -55,7 +55,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select  PID, value_numeric
-					from warehouse_ic3_cohort tt
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from obs 
 								where concept_id = ', CONCAT(cid),
@@ -82,7 +82,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getBloodPressureBeforeDate;
 
@@ -134,7 +134,7 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
-	set @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
 					SET tc.', colName1,' = tt.obs_datetime
 					WHERE tc.PID = tt.PID;');
 
@@ -142,13 +142,137 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
-	set @s=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
 					SET tc.', colName2,' = tt.obs
 					WHERE tc.PID = tt.PID;');
 
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;					
+
+END;;
+DELIMITER ;
+
+-- getBloodGlucoseBeforeDate(endDate, first/last, colName1, colName2)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
+
+DROP PROCEDURE IF EXISTS getBloodGlucoseBeforeDate;
+
+DELIMITER ;;
+CREATE PROCEDURE getBloodGlucoseBeforeDate(IN endDate DATE, IN firstLast VARCHAR(50), IN colName1 VARCHAR(100), IN colName2 VARCHAR(100), IN colName3 VARCHAR(100), IN colName4 VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obsDate DATE default NULL,
+  		hba1c NUMERIC default NULL,
+  		fasting NUMERIC default NULL,
+  		random NUMERIC default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getBloodGlucoseBeforeDate!';
+	END IF;
+
+	set @s=CONCAT('insert into temp_obs_vector
+						(PID, obsDate, hba1c, fasting, random)
+	select oAll.person_id as PID, 
+		oAll.obs_datetime as obsDate, 
+		oHba1c.value_numeric as hba1c,
+		CASE WHEN value_coded = 6379 
+			THEN oGen.value_numeric 
+		WHEN oFast.value_numeric is NOT NULL
+			THEN oFast.value_numeric
+		ELSE NULL
+		END AS fasting,
+		CASE WHEN value_coded IS NULL AND oGen.value_numeric IS NOT NULL
+			THEN oGen.value_numeric 
+		WHEN oRandom.value_numeric is NOT NULL
+			THEN oRandom.value_numeric
+		ELSE NULL		
+		END AS random
+	from (select * from 
+			(select person_id, encounter_id, obs_datetime, value_numeric 
+			from obs 
+			where concept_id in (887,8447,8448,6422) 
+			and obs_datetime <= \'', endDate, '\'
+			and voided = 0 order by obs_datetime ', @upDown,
+			') aAlli 
+			group by person_id) oAll 
+	left join (select person_id, encounter_id, value_coded 
+				from obs 
+				where concept_id = 6381 
+				and value_coded = 6379 
+				and voided = 0) oCheck 
+				on oCheck.encounter_id = oAll.encounter_id
+	left join (select person_id, encounter_id, value_numeric 
+				from obs 
+				where concept_id = 887 
+				and voided = 0) oGen on oGen.encounter_id = oAll.encounter_id
+	left join (select person_id, encounter_id, value_numeric 
+				from obs 
+				where concept_id = 8447 
+				and voided = 0) oRandom 
+				on oRandom.encounter_id = oAll.encounter_id
+	left join (select person_id, encounter_id, value_numeric 
+				from obs 
+				where concept_id = 8448 
+				and voided = 0) oFast 
+				on oFast.encounter_id = oAll.encounter_id
+	left join (select person_id, encounter_id, value_numeric 
+				from obs 
+				where concept_id = 6422 
+				and voided = 0) oHba1c 
+				on oHba1c.encounter_id = oAll.encounter_id;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
+					SET tc.', colName1,' = tt.obsDate
+					WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
+					SET tc.', colName2,' = tt.hba1c
+					WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;	
+
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
+					SET tc.', colName3,' = tt.random
+					WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;				
+
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt 
+					SET tc.', colName4,' = tt.fasting
+					WHERE tc.PID = tt.PID;');	
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;						
 
 END;;
 DELIMITER ;
@@ -161,7 +285,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getNumericObsFromEncounterBeforeDate;
 
@@ -188,20 +312,21 @@ BEGIN
 	set @s=CONCAT('insert into temp_obs_vector
 						(PID, obs)
 					select  PID, value_numeric
-					from warehouse_ic3_cohort tt
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from encounter 
 								where encounter_type in (', eids,
 								') and encounter_datetime <= \'', endDate,
 								'\' and voided = 0 
-								order by encounter_datetime asc) oi 
+								order by encounter_datetime ', @upDown,
+								') oi 
 							group by patient_id) e
 					left join (select * 
 								from obs 
 								where concept_id = ', CONCAT(cid),
 								' and voided = 0
 								group by person_id) o on o.encounter_id = e.encounter_id
-					on e.patient_id = tt.PID');
+					on e.patient_id = tt.PID;');
 	
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -220,7 +345,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getCodedObsFromEncounterBeforeDate;
 
@@ -247,7 +372,7 @@ BEGIN
 	set @s=CONCAT('insert into temp_obs_vector
 						(PID, obs)
 					select  PID, get_concept_name(value_coded)
-					from warehouse_ic3_cohort tt
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from encounter 
 								where encounter_type in (', eids,
@@ -260,7 +385,7 @@ BEGIN
 								where concept_id = ', CONCAT(cid),
 								' and voided = 0
 								group by person_id) o on o.encounter_id = e.encounter_id
-					on e.patient_id = tt.PID');
+					on e.patient_id = tt.PID;');
 	
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -280,7 +405,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getCodedObsWithValuesFromEncounterBeforeDate;
 
@@ -306,22 +431,23 @@ BEGIN
 
 	set @s=CONCAT('insert into temp_obs_vector
 						(PID, obs)
-					select  PID, get_concept_name(value_coded)
-					from warehouse_ic3_cohort tt
+					select  PID, valueList
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from encounter 
 								where encounter_datetime <= \'', endDate,
 								'\' and encounter_type in (', eids,
 								') and voided = 0 
-								order by encounter_datetime asc) oi 
+								order by encounter_datetime ', @upDown,
+								') oi 
 							group by patient_id) e
-					left join (select * 
+					left join (select encounter_id, group_concat(get_concept_name(value_coded) separator \', \') as valueList
 								from obs 
 								where concept_id = ', CONCAT(cid),
 								' and value_coded in (', vcid,
 								') and voided = 0
-								group by person_id) o on o.encounter_id = e.encounter_id
-					on e.patient_id = tt.PID');
+								group by encounter_id) o on o.encounter_id = e.encounter_id
+					on e.patient_id = tt.PID;');
 	
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -341,7 +467,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getCodedObsBeforeDate;
 
@@ -361,13 +487,13 @@ BEGIN
 		       set @upDown = 'asc';
 	ELSEIF firstLast = 'last' THEN
 	       set @upDown = 'desc';
-	ELSE select 'Must specify first/last encounter in getNumericObsBeforeDate!';
+	ELSE select 'Must specify first/last encounter in getCodedObsBeforeDate!';
 	END IF;
 
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select  PID, get_concept_name(value_coded)
-					from warehouse_ic3_cohort tt
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from obs 
 								where concept_id = ', CONCAT(cid),
@@ -395,7 +521,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getDatetimeObsBeforeDate;
 
@@ -421,7 +547,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select  PID, value_datetime
-					from warehouse_ic3_cohort tt
+					from warehouseCohortTable tt
 					left join (select * from 
 								(select * from obs 
 								where concept_id = ', CONCAT(cid),
@@ -449,7 +575,7 @@ DELIMITER ;
 -- Procedure gets a list of all ARV numbers before end date and writes this list to report
 -- table (one per patient). 
 -- Procedure assumes date_created is relevant last date and that internal patient identifiers 
--- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
+-- are supplied by the PID in the warehouseCohortTable table. Procedure gets IDs that were created before
 -- end date. 
 
 DROP PROCEDURE IF EXISTS getAllIdentifiers;
@@ -470,7 +596,7 @@ BEGIN
 					(PID, obs)
 					select  PID, 
 							group_concat(pi.identifier separator \', \') as id_string
-					from warehouse_ic3_cohort tc
+					from warehouseCohortTable tc
 					left join (select patient_id, identifier 
 								from patient_identifier 
 								where identifier_type in (', idTypes,
@@ -478,7 +604,6 @@ BEGIN
 								'\' and voided = 0) pi
 					on tc.PID = pi.patient_id
 					group by PID;');
-	select @s;
 				
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -578,7 +703,7 @@ DELIMITER ;
 -- Procedure gets the last encounter for given encounter types before end date and writes this 
 -- list to report table (one per patient). 
 -- Procedure assumes date_created is relevant last date and that internal patient identifiers 
--- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
+-- are supplied by the PID in the warehouseCohortTable table. Procedure gets IDs that were created before
 -- end date. 
 
 DROP PROCEDURE IF EXISTS getEncounterDatetimeBeforeEndDate;
@@ -606,7 +731,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 					(PID, obs)
 					select PID, encounter_datetime 
-					from warehouse_ic3_cohort tc
+					from warehouseCohortTable tc
 					left join (select * from 
 								(select patient_id, encounter_datetime 
 								from encounter e
@@ -634,7 +759,7 @@ DELIMITER ;
 -- Procedure gets the last encounter for given encounter types before end date and writes this 
 -- list to report table (one per patient). 
 -- Procedure assumes date_created is relevant last date and that internal patient identifiers 
--- are supplied by the PID in the warehouse_ic3_cohort table. Procedure gets IDs that were created before
+-- are supplied by the PID in the warehouseCohortTable table. Procedure gets IDs that were created before
 -- end date. 
 
 DROP PROCEDURE IF EXISTS getEncounterLocationBeforeEndDate;
@@ -662,7 +787,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 					(PID, obs)
 					select PID, name 
-					from warehouse_ic3_cohort tc
+					from warehouseCohortTable tc
 					left join (select * from 
 								(select patient_id, l.name 
 								from encounter e
@@ -708,11 +833,11 @@ BEGIN
 		group by PID, programId;
 
 	-- update ART enrollment date
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.artEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=1;
 
 	-- update NCD enrollment date
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.ncdEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=10;
 
 END;;
@@ -746,7 +871,7 @@ BEGIN
 		group by PID) wpe;
 
 	-- update ic3 enrollment info
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt
+	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.ic3EnrollmentDate = tt.dateEnrolled, 
 		tc.ic3FirstProgramEnrolled = tt.programName,
 		tc.ageAtFirstEnrollment=floor(datediff(tt.dateEnrolled,tc.birthdate)/365) 
@@ -781,7 +906,7 @@ BEGIN
 			and voided = 0 
 			order by obs_datetime desc) oi 
 			group by oi.pid) o
-	where pid in (select PID from warehouse_ic3_cohort);
+	where pid in (select PID from warehouseCohortTable);
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
 	create temporary table temp_obs_vector (
@@ -805,11 +930,11 @@ BEGIN
 				order by obs_datetime asc) oi
 				group by oi.person_id;
 	
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 
+	UPDATE warehouseCohortTable tc, temp_obs_vector tt 
 	SET tc.lastArtRegimenStart = tt.recentRegimenStart
 	WHERE tc.PID = tt.PID;
 	
-	UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt 	
+	UPDATE warehouseCohortTable tc, temp_obs_vector tt 	
 	SET tc.lastArtRegimen = tt.recentRegimen 
 	WHERE tc.PID = tt.PID;
 
@@ -835,7 +960,7 @@ BEGIN
 
 	DECLARE viralLoadCur CURSOR FOR
 		select  PID, obs_datetime, value_numeric
-		from warehouse_ic3_cohort tt
+		from warehouseCohortTable tt
 		left join (
 		select * from
 		(select person_id,obs_datetime, value_numeric
@@ -868,7 +993,7 @@ BEGIN
 			set insert_numeric = v_numeric;
 		end if;
 
-		UPDATE warehouse_ic3_cohort tc
+		UPDATE warehouseCohortTable tc
 		set firstViralLoadDate=insert_visitDate, firstViralLoadResult = insert_numeric
 		where PID = v_patientId;
 
@@ -896,7 +1021,7 @@ BEGIN
 
 	DECLARE viralLoadCur CURSOR FOR
 		select  PID, obs_datetime, value_numeric
-		from warehouse_ic3_cohort tt
+		from warehouseCohortTable tt
 		left join (
 		select * from
 		(select person_id,obs_datetime, value_numeric
@@ -929,7 +1054,7 @@ BEGIN
 			set insert_numeric = v_numeric;
 		end if;
 
-		UPDATE warehouse_ic3_cohort tc
+		UPDATE warehouseCohortTable tc
 		set lastViralLoadDate=insert_visitDate, lastViralLoadResult = insert_numeric
 		where PID = v_patientId;
 
@@ -937,6 +1062,7 @@ BEGIN
     close viralLoadCur;
 
 END$$
+
 DELIMITER ;
 
 -- getEncounterDateForCodedObs(cid, endDate, firstLast, colName)
@@ -947,7 +1073,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getEncounterDateForCodedObs;
 
@@ -973,13 +1099,70 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select PID, encounter_datetime
-					from warehouse_ic3_cohort wc
+					from warehouseCohortTable wc
 					left join (select * from 
 								(select person_id, e.encounter_datetime 
 									from obs 
 									join encounter e on e.encounter_id = obs.encounter_id
 									where concept_id = ', CONCAT(cid),
 									' and value_coded in (', vcid,
+									') and e.voided = 0
+									and obs.voided = 0				
+									order by obs_datetime ', @upDown,') oi
+								group by person_id) o 
+								on o.person_id = wc.PID;');
+	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	CALL updateReportTable(colName);
+
+END;;
+DELIMITER ;
+
+DELIMITER ;
+
+-- getEncounterDateForObs(cid, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				endDate - end Date of report
+-- 				colName - temporary table to write to
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
+-- table for cohort (one per patient).
+-- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
+
+DROP PROCEDURE IF EXISTS getEncounterDateForObs;
+
+DELIMITER ;;
+
+CREATE PROCEDURE getEncounterDateForObs(IN cid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
+BEGIN
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs DATE
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEncounterDateForObs!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, obs)
+					select PID, encounter_datetime
+					from warehouseCohortTable wc
+					left join (select * from 
+								(select person_id, e.encounter_datetime 
+									from obs 
+									join encounter e on e.encounter_id = obs.encounter_id
+									where concept_id in (', CONCAT(cid),
 									') and e.voided = 0
 									and obs.voided = 0				
 									order by obs_datetime ', @upDown,') oi
@@ -1003,7 +1186,7 @@ DELIMITER ;
 -- Procedure gets last obs for concept id before (or on) end date and writes observation to report 
 -- table for cohort (one per patient).
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
--- that internal patient identifiers are supplied by the PID in the warehouse_ic3_cohort table.
+-- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
 DROP PROCEDURE IF EXISTS getEncounterLocationForCodedObs;
 
@@ -1029,7 +1212,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 							(PID, obs)
 					select PID, name
-					from warehouse_ic3_cohort wc
+					from warehouseCohortTable wc
 					left join (select * from 
 								(select person_id, name 
 									from obs 
@@ -1077,7 +1260,7 @@ BEGIN
 	SET @s=CONCAT('insert into temp_obs_vector
 					(PID, lastOutcomeDate, lastOutcome)
 					select tc.PID, stateStartDate, patientState
-					from warehouse_ic3_cohort tc
+					from warehouseCohortTable tc
 					left join (
 						select * from 
 								(select pid, stateStartDate, patientState
@@ -1091,13 +1274,203 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
-	SET @u=CONCAT('UPDATE warehouse_ic3_cohort tc, temp_obs_vector tt SET tc.',colOutcomeDateName,' = tt.lastOutcomeDate, tc.',colOutcomeName,' = tt.lastOutcome WHERE tc.PID = tt.PID;');
+	SET @u=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt SET tc.',colOutcomeDateName,' = tt.lastOutcomeDate, tc.',colOutcomeName,' = tt.lastOutcome WHERE tc.PID = tt.PID;');
 	PREPARE stmt2 FROM @u;
 	EXECUTE stmt2;
 	DEALLOCATE PREPARE stmt2;
 END$$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS getDiagnosisDate;
+
+DELIMITER $$
+CREATE PROCEDURE getDiagnosisDate(IN dxQuestion INT, IN dxConcepts VARCHAR(100), IN dxDateConcept INT, IN endDate DATE, IN colName VARCHAR(255))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs DATE default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	SET @s = CONCAT('insert into temp_obs_vector
+						(PID,obs)
+					select od.person_id, od.value_datetime
+					from (select * from obs 
+							where concept_id = ', dxQuestion,
+							' and obs_group_id is NOT NULL 
+							and value_coded in (', dxConcepts,
+							') and voided = 0) o
+					join (select * 
+							from obs 
+							where concept_id = ', dxDateConcept,
+							' and obs_group_id is NOT NULL 
+							and value_datetime <= \'', endDate,
+							'\' and voided = 0) od 
+					on od.obs_group_id = o.obs_group_id;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	SET @u=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt SET tc.', colName,' = tt.obs WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt2 FROM @u;
+	EXECUTE stmt2;
+	DEALLOCATE PREPARE stmt2;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS createIc3RegisterTable;
+
+DELIMITER $$
+CREATE PROCEDURE createIc3RegisterTable()
+BEGIN
+
+	-- Refresh temp table
+	drop table if exists warehouseCohortTable;
+
+	-- Create Table in which to store cohort
+	create table warehouseCohortTable (
+	  id INT not null auto_increment primary key,
+	  PID INT(11) not NULL,
+	  identifier VARCHAR(255) default NULL,
+	  allPreArtIds VARCHAR(100) default NULL,
+	  allArtIds VARCHAR(100) default NULL,
+	  allCccIds VARCHAR(100) default NULL,
+	  ic3EnrollmentDate DATE,
+	  ic3FirstProgramEnrolled VARCHAR(255),
+	  lastVisitDate DATE default NULL,
+	  lastVisitLocation VARCHAR(255) default NULL,
+	  birthdate DATE not NULL,
+	  gender VARCHAR(255) not NULL,
+	  ageAtFirstEnrollment INT(11),
+	  age INT(11) not NULL,
+	  artEnrollmentDate DATE,
+	  lastArtOutcome VARCHAR(255),
+	  lastArtOutcomeDate DATE, 
+	  firstARTVisitDate DATE default NULL,
+	  artInitialDate DATE default NULL,
+	  lastArtVisitDate DATE default NULL,
+	  lastArtVisitLocation VARCHAR(255) default NULL,
+	  lastTbValue VARCHAR(255) default NULL,
+	  firstViralLoadDate Date,
+	  firstViralLoadResult NUMERIC,
+	  lastViralLoadDate Date,
+	  lastViralLoadResult NUMERIC,
+	  lastArtRegimenStart DATE default NULL,
+	  lastArtRegimen VARCHAR(255) default NULL, 
+	  ncdEnrollmentDate DATE default NULL,
+	  lastNcdOutcome VARCHAR(255),
+	  lastNcdOutcomeDate DATE, 
+	  firstHtnDxDate DATE default NULL,
+	  firstHtnMedsDate DATE default NULL,
+	  lastHtnMedsDate DATE default NULL,
+	  lastHtnMedsLocation VARCHAR(255) default NULL,
+	  firstBp VARCHAR(255) default NULL,
+	  firstBpDate DATE default NULL,
+	  lastBp VARCHAR(255) default NULL,  
+	  lastBpDate DATE default NULL,
+	  diuretic VARCHAR(255) default NULL,  
+	  calciumChannelBlocker VARCHAR(255) default NULL,  
+	  aceIInhibitor VARCHAR(255) default NULL,  
+	  betaBlocker VARCHAR(255) default NULL,  
+	  statin VARCHAR(255) default NULL,  
+	  otherHtnMeds VARCHAR(255) default NULL,
+	  firstDmDxDate DATE default NULL,
+	  diabetesType VARCHAR(255) default NULL,
+	  firstDmMedsDate DATE default NULL,
+	  lastDmMedsDate DATE default NULL,
+	  lastDmMedsLocation VARCHAR(255) default NULL,
+	  firstGlucoseMonitoringDate DATE default NULL,
+	  firstVisitHba1c NUMERIC default NULL,
+	  firstVisitRandomBloodSugar NUMERIC default NULL, 
+	  firstVisitFastingBloodSugar NUMERIC default NULL,
+	  lastGlucoseMonitoringDate DATE default NULL,
+	  lastVisitHba1c NUMERIC default NULL,
+	  lastVisitRandomBloodSugar NUMERIC default NULL, 
+	  lastVisitFastingBloodSugar NUMERIC default NULL,
+	  shortActingRegularInsulin VARCHAR(255) default NULL,
+	  longActingInsulin VARCHAR(255) default NULL,
+	  metformin VARCHAR(255) default NULL,
+	  glibenclamide VARCHAR(255) default NULL,
+	  firstEpilepsyDxDate DATE default NULL,
+	  firstEpilepsyMedsDate DATE default NULL,
+	  lastEpilepsyMedsDate DATE default NULL,
+	  lastEpilepsyMedsLocation VARCHAR(255) default NULL,
+	  firstSeizuresDate DATE default NULL,
+	  firstSeizures INT(11) default NULL,
+	  lastSeizuresDate DATE default NULL,
+	  lastSeizures INT(11) default NULL,
+	  seizureTriggers VARCHAR(255) default NULL,
+	  firstAsthmaDxDate DATE default NULL,
+	  firstAsthmaMedsDate DATE default NULL,
+	  lastAsthmaMedsDate DATE default NULL,
+	  lastAsthmaMedsLocation VARCHAR(255) default NULL,
+	  firstAsthmaSeverity VARCHAR(255) default NULL,
+	  firstAsthmaSeverityDate DATE default NULL,
+	  lastAsthmaSeverityDate DATE default NULL,
+	  lastAsthmaSeverity VARCHAR(255) default NULL,
+	  copdDiagnosisDate DATE default NULL,
+	  firstMentalHealthDxDate DATE default NULL,
+	  firstMentalHealthMedsDate DATE default NULL,
+	  lastMentalHealthMedsDate DATE default NULL,
+	  lastMentalHealthMedsLocation VARCHAR(255) default NULL,
+	  lastWeightDate DATE default NULL,
+	  lastHeight NUMERIC default NULL,
+	  lastWeight NUMERIC default NULL,
+	  BMI NUMERIC default NULL
+
+	);
+	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
+	
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS createIc3RegisterCohort;
+
+DELIMITER $$
+CREATE PROCEDURE createIc3RegisterCohort()
+BEGIN
+
+	-- Create Initial Cohort With Basic Demographic Data
+	insert into warehouseCohortTable
+				(PID, identifier, birthdate, gender, age)
+	select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(@reportEndDate,birthdate)/365)
+	from	 	(select * from 
+					(select patient_id, patient_program_id 
+						from patient_program 
+						where voided = 0 
+						and program_id in (1,10) 
+						and (date_enrolled <= @reportEndDate or date_enrolled is NULL)
+						order by date_enrolled DESC) 
+					ppi group by patient_id) pp -- Most recent Program Enrollment
+	join 		(select patient_program_id 
+					from patient_state 
+					where voided = 0 
+					and state in (1,7,83) 
+					and start_date < @reportEndDate 
+					group by patient_program_id) xps 
+				on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
+	join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
+	join 		(select patient_id, identifier from 
+					(select * 
+					from patient_identifier 
+					where voided = 0 
+					and identifier_type in (4, 19, 21) 
+					order by date_created desc) pii 
+				group by patient_id) pi 
+				on pi.patient_id = pp.patient_id -- Ensure HCC/ARV/NCD identifier
+	order by 	pp.patient_id asc;
+	
+
+END$$
+DELIMITER ;
 
 -- Notes
 -- http://stackoverflow.com/questions/18277682/mysql-prepare-session-variables-vs-parameters-local-variables

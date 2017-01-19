@@ -23,7 +23,7 @@ BEGIN
 	DECLARE returnVL DOUBLE;
 	select value_numeric into returnVL 
 	from 
-		(select * from obs where concept_id = 856 and person_id = PID and obs_datetime < endDate and voided = 0 order by 		obs_datetime desc) o
+		(select * from obs where concept_id = 856 and person_id = PID and obs_datetime < endDate and voided = 0 order by obs_datetime desc) o
 	limit 1 
 	offset 1;
 	

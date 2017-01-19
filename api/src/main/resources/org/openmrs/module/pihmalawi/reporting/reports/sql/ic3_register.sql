@@ -2,187 +2,193 @@
 -- ## design_uuid = FFA51EA2-D483-43F2-9FE8-5B0AF619E8A0
 -- ## report_name = IC3 Register Report
 -- ## report_description = Report listing IC3 patients
+-- ## parameter = reportEndDate|End Date|java.util.Date
 
 -- Report lists all patients who are in enlisted in any of the CC programs or ART program.
 
+-- Create an empty table
+CALL createIc3RegisterTable();
+-- Create cohort with demographic data
+CALL createIc3RegisterCohort();
 
--- Temporary variables for testing
-set @reportEndDate = "2017-01-01";
--- SET @@group_concat_max_len = 15000;
 
+-- Call Routines to fill columns
+-- ---------------------------
+-- Warehousing 
 CALL warehouseProgramEnrollment();
-
--- Refresh temp table
-drop table if exists warehouse_ic3_cohort;
-
--- Create Table in which to store cohort
-create table warehouse_ic3_cohort (
-  id INT not null auto_increment primary key,
-  PID INT(11) not NULL,
-  identifier VARCHAR(50) default NULL,
-  allPreArtIds VARCHAR(100) default NULL,
-  allArtIds VARCHAR(100) default NULL,
-  allCccIds VARCHAR(100) default NULL,
-  ic3EnrollmentDate DATE,
-  ic3FirstProgramEnrolled VARCHAR(50),
-  lastVisitDate DATE default NULL,
-  lastVisitLocation VARCHAR(50) default NULL,
-  birthdate DATE not NULL,
-  gender VARCHAR(50) not NULL,
-  ageAtFirstEnrollment INT(11),
-  age INT(11) not NULL,
-  artEnrollmentDate DATE,
-  lastArtOutcome VARCHAR(255),
-  lastArtOutcomeDate DATE, 
-  firstARTVisitDate DATE default NULL,
-  artInitialDate DATE default NULL,
-  lastArtVisitDate DATE default NULL,
-  lastArtVisitLocation VARCHAR(50) default NULL,
-  lastTbValue VARCHAR(255) default NULL,
-  firstViralLoadDate Date,
-  firstViralLoadResult NUMERIC,
-  lastViralLoadDate Date,
-  lastViralLoadResult NUMERIC,
-  lastArtRegimenStart DATE default NULL,
-  lastArtRegimen VARCHAR(255) default NULL, 
-  ncdEnrollmentDate DATE default NULL,
-  lastNcdOutcome VARCHAR(255),
-  lastNcdOutcomeDate DATE, 
-  firstHtnDxDate DATE default NULL,
-  firstHtnMedsDate DATE default NULL,
-  lastHtnMedsDate DATE default NULL,
-  lastHtnMedsLocation VARCHAR(50) default NULL,
-  firstBp VARCHAR(50) default NULL,
-  firstBpDate DATE default NULL,
-  lastBp VARCHAR(50) default NULL,  
-  lastBpDate DATE default NULL,
-  diuretic VARCHAR(50) default NULL,  
-  calciumChannelBlocker VARCHAR(50) default NULL,  
-  aceIInhibitor VARCHAR(50) default NULL,  
-  betaBlocker VARCHAR(50) default NULL,  
-  statin VARCHAR(50) default NULL,  
-  otherHtnMeds VARCHAR(50) default NULL
-
-);
-CREATE INDEX PID_ic3_index ON warehouse_ic3_cohort(PID);
-
--- Create Initial Cohort With Basic Demographic Data
-
-insert into warehouse_ic3_cohort
-			(PID, identifier, birthdate, gender, age)
-select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(@reportEndDate,birthdate)/365)
-from	 	(select * from 
-				(select patient_id, patient_program_id 
-					from patient_program 
-					where voided = 0 
-					and program_id in (1,10) 
-					and (date_enrolled <= @reportEndDate or date_enrolled is NULL)
-					order by date_enrolled DESC) 
-				ppi group by patient_id) pp -- Most recent Program Enrollment
-join 		(select patient_program_id 
-				from patient_state 
-				where voided = 0 
-				and state in (1,7,83) 
-				and start_date < @reportEndDate 
-				group by patient_program_id) xps 
-			on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
-join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
-join 		(select patient_id, identifier from 
-				(select * 
-				from patient_identifier 
-				where voided = 0 
-				and identifier_type in (4, 19, 21) 
-				order by date_created desc) pii 
-			group by patient_id) pi 
-			on pi.patient_id = pp.patient_id -- Ensure HCC/ARV/NCD identifier
-order by 	pp.patient_id asc;
-
--- Call Routines
-CALL updateProgramsEnrollmentDate();
-CALL updateIc3EnrollmentInfo(@reportEndDate);
-CALL updateFirstViralLoad();
-CALL updateLastViralLoad();
+-- Demographics
 CALL getAllIdentifiers(@reportEndDate,'4','allArtIds');
 CALL getAllIdentifiers(@reportEndDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@reportEndDate,'21','allCccIds');
+-- General Visits and outcomes
 CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitLocation');
--- get ART last outcome
+CALL updateIc3EnrollmentInfo(@reportEndDate);
+CALL updateProgramsEnrollmentDate();
+-- HIV Program Information
+CALL updateFirstViralLoad();
+CALL updateLastViralLoad();
 CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastArtOutcome', 'lastArtOutcomeDate');
--- get NCD last outcome
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'first', 'firstArtVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitLocation');
-CALL getEncounterDateForCodedObs(3683, '903', @reportEndDate, 'first', 'firstHtnDxDate');
+CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
+CALL updateRecentRegimen(@reportEndDate);
+CALL getCodedObsFromEncounterBeforeDate(7459, '10', @reportEndDate, 'last', 'lastTbValue');
+-- Hypertension Information
+CALL getDiagnosisDate(3683, '903', 6774, @reportEndDate, 'firstHtnDxDate');
 CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463,88,8462', @reportEndDate, 'first', 'firstHtnMedsDate');
 CALL getEncounterDateForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @reportEndDate, 'last', 'lastHtnMedsDate');
 CALL getEncounterLocationForCodedObs(1193, '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463', @reportEndDate, 'last', 'lastHtnMedsLocation');
-
 CALL getBloodPressureBeforeDate(@reportEndDate, 'first', 'firstBpDate', 'firstBp');
 CALL getBloodPressureBeforeDate(@reportEndDate, 'last', 'lastBpDate', 'lastBp');
-
-CALL updateRecentRegimen(@reportEndDate);
-CALL getCodedObsFromEncounterBeforeDate(7459, '10', @reportEndDate, 'last', 'lastTbValue');
-CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
-
+-- Hypertension Meds
 CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3187,250,8466', @reportEndDate, 'last', 'diuretic');
 CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3182,1242,3183,8465', @reportEndDate, 'last', 'calciumChannelBlocker');
 CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '3186,254,8464', @reportEndDate, 'last', 'aceIInhibitor');
 CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @reportEndDate, 'last', 'betaBlocker');
-CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8463', @reportEndDate, 'last', 'statin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '8462', @reportEndDate, 'last', 'statin');
 CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '88', @reportEndDate, 'last', 'otherHtnMeds');
+-- Diabetes Information
+CALL getDiagnosisDate(3683, '6409,6410,3720', 6774, @reportEndDate, 'firstDmDxDate');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(3683, '29', '6409,6410', @reportEndDate, 'last', 'diabetesType');
+CALL getEncounterDateForCodedObs(1193, '4052,8413,4046', @reportEndDate, 'first', 'firstDmMedsDate');
+CALL getEncounterDateForCodedObs(1193, '4052,8413,4046', @reportEndDate, 'last', 'lastDmMedsDate');
+CALL getEncounterLocationForCodedObs(1193, '4052,8413,4046', @reportEndDate, 'last', 'lastDmMedsLocation');
+CALL getBloodGlucoseBeforeDate(@reportEndDate, 'first', 'firstGlucoseMonitoringDate','firstVisitHba1c','firstVisitRandomBloodSugar','firstVisitFastingBloodSugar');
+CALL getBloodGlucoseBeforeDate(@reportEndDate, 'last', 'lastGlucoseMonitoringDate','lastVisitHba1c','lastVisitRandomBloodSugar','lastVisitFastingBloodSugar');
+-- Diabetes Meds
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '282', @reportEndDate, 'last', 'shortActingRegularInsulin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '6750', @reportEndDate, 'last', 'longActingInsulin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '4052', @reportEndDate, 'last', 'metformin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '69,115', '4046', @reportEndDate, 'last', 'glibenclamide');
+-- Epilepsy Information
+CALL getDiagnosisDate(3683, '155', 6774, @reportEndDate, 'firstEpilepsyDxDate');
+CALL getEncounterDateForCodedObs(1193, '238,273,920', @reportEndDate, 'first', 'firstEpilepsyMedsDate');
+CALL getEncounterDateForCodedObs(1193, '238,273,920', @reportEndDate, 'last', 'lastEpilepsyMedsDate');
+CALL getEncounterLocationForCodedObs(1193, '238,273,920', @reportEndDate, 'last', 'lastEpilepsyMedsLocation');
+CALL getEncounterDateForObs(7924, @reportEndDate, 'first', 'firstSeizuresDate');
+CALL getNumericObsBeforeDate(7924, @reportEndDate, 'first', 'firstSeizures');
+CALL getEncounterDateForObs(7924, @reportEndDate, 'last', 'lastSeizuresDate');
+CALL getNumericObsBeforeDate(7924, @reportEndDate, 'last', 'lastSeizures');
+CALL getCodedObsWithValuesFromEncounterBeforeDate(1193, '123', '8531,8532,8533,8534,8535,8536,8537', @reportEndDate, 'last', 'seizureTriggers');
+-- Asthma Information (added COPD)
+CALL getDiagnosisDate(3683, '5', 6774, @reportEndDate, 'firstAsthmaDxDate');
+-- CALL getEncounterDateForCodedObs(1193, '798,1240,8471,8472,8473,5622', @reportEndDate, 'first', 'firstAsthmaMedsDate');
+-- CALL getEncounterDateForCodedObs(1193, '798,1240,8471,8472,8473,5622', @reportEndDate, 'last', 'lastAsthmaMedsDate');
+-- CALL getEncounterLocationForCodedObs(1193, '798,1240,8471,8472,8473,5622', @reportEndDate, 'last', 'lastAsthmaMedsLocation');
+CALL getEncounterDateForCodedObs(8410, '1905,8405,8406,8407,8408,8409', @reportEndDate, 'first', 'firstAsthmaSeverityDate');
+CALL getCodedObsBeforeDate(8410, @reportEndDate, 'first', 'firstAsthmaSeverity');
+CALL getEncounterDateForCodedObs(8410, '1905,8405,8406,8407,8408,8409', @reportEndDate, 'last', 'lastAsthmaSeverityDate');
+CALL getCodedObsBeforeDate(8410, @reportEndDate, 'last', 'lastAsthmaSeverity');
+CALL getDiagnosisDate(3683, '3716', 6774, @reportEndDate, 'copdDiagnosisDate');
+-- Asthma Meds
+-- ...
+-- ...
+-- Mental Health Information
+CALL getDiagnosisDate(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', 6774, @reportEndDate, 'firstMentalHealthDxDate');
+CALL getEncounterDateForCodedObs(1193, '914,4047,927,920,920,4060,8498,4045,8582,8583,8237,8584,6408', @reportEndDate, 'first', 'firstMentalHealthMedsDate');
+CALL getEncounterDateForCodedObs(1193, '914,4047,927,920,920,4060,8498,4045,8582,8583,8237,8584,6408', @reportEndDate, 'last', 'lastMentalHealthMedsDate');        
+CALL getEncounterLocationForCodedObs(1193, '914,4047,927,920,920,4060,8498,4045,8582,8583,8237,8584,6408', @reportEndDate, 'last', 'lastMentalHealthMedsLocation');
+-- BMI Information
+CALL getEncounterDateForObs(5089, @reportEndDate, 'last', 'lastWeightDate');
+CALL getNumericObsBeforeDate(5090, @reportEndDate, 'last', 'lastHeight');
+CALL getNumericObsBeforeDate(5089, @reportEndDate, 'last', 'lastWeight');
 
 
- SELECT
-      PID,
-      identifier,
-      allArtIds,
-      allCccIds,
-      ic3EnrollmentDate,
-      ic3FirstProgramEnrolled,
-      lastVisitDate,
-      lastVisitLocation,
-      birthdate,
-      gender,
-      ageAtFirstEnrollment,
-      age,
-      artEnrollmentDate,
-      lastArtOutcome,
-      lastArtOutcomeDate,
-      firstARTVisitDate,
-      artInitialDate,
-      lastARTVisitDate,
-      lastArtVisitLocation,
-      lastTbValue,
-      firstViralLoadDate,
-      firstViralLoadResult,
-      lastViralLoadDate,
-      lastViralLoadResult,
-      lastArtRegimenStart,
-      lastArtRegimen,
-      ncdEnrollmentDate,
-      lastNcdOutcome,
-      lastNcdOutcomeDate,
-      firstHtnDxDate,
-      firstHtnMedsDate,
-      lastHtnMedsDate,
-      lastHtnMedsLocation,
-      firstBp,
-      firstBpDate,
-      lastBp,  
-      lastBpDate,
-      diuretic,  
-      calciumChannelBlocker,  
-      aceIInhibitor,  
-      betaBlocker,  
-      statin,  
-      otherHtnMeds
+-- Print report using select - update any column names or reorder here
+SELECT
+  PID,
+  identifier,
+  allArtIds,
+  allCccIds,
+  ic3EnrollmentDate,
+  ic3FirstProgramEnrolled,
+  lastVisitDate,
+  lastVisitLocation,
+  birthdate,
+  gender,
+  ageAtFirstEnrollment,
+  age,
+  artEnrollmentDate,
+  lastArtOutcome,
+  lastArtOutcomeDate,
+  firstARTVisitDate,
+  artInitialDate,
+  lastARTVisitDate,
+  lastArtVisitLocation,
+  lastTbValue,
+  firstViralLoadDate,
+  firstViralLoadResult,
+  lastViralLoadDate,
+  lastViralLoadResult,
+  lastArtRegimenStart,
+  lastArtRegimen,
+  ncdEnrollmentDate,
+  lastNcdOutcome,
+  lastNcdOutcomeDate,
+  firstHtnDxDate,
+  firstHtnMedsDate,
+  lastHtnMedsDate,
+  lastHtnMedsLocation,
+  firstBp,
+  firstBpDate,
+  lastBp,  
+  lastBpDate,
+  diuretic,  
+  calciumChannelBlocker,  
+  aceIInhibitor,  
+  betaBlocker,  
+  statin,  
+  otherHtnMeds,
+  firstDmDxDate,
+  diabetesType,
+  firstDmMedsDate,
+  lastDmMedsDate,
+  lastDmMedsLocation,
+  firstGlucoseMonitoringDate,
+  firstVisitHba1c,
+  firstVisitRandomBloodSugar,
+  firstVisitFastingBloodSugar,
+  lastGlucoseMonitoringDate,
+  lastVisitHba1c,
+  lastVisitRandomBloodSugar,
+  lastVisitFastingBloodSugar,
+  shortActingRegularInsulin,
+  longActingInsulin,
+  metformin,
+  glibenclamide,
+  firstEpilepsyDxDate,
+  firstEpilepsyMedsDate,
+  lastEpilepsyMedsDate,
+  lastEpilepsyMedsLocation,
+  firstSeizuresDate,
+  firstSeizures,
+  lastSeizuresDate,
+  lastSeizures,
+  seizureTriggers,
+  firstAsthmaDxDate,
+  firstAsthmaMedsDate,
+  lastAsthmaMedsDate,
+  lastAsthmaMedsLocation,
+  firstAsthmaSeverityDate,
+  firstAsthmaSeverity,
+  lastAsthmaSeverityDate,
+  lastAsthmaSeverity,
+  copdDiagnosisDate,
+  firstMentalHealthDxDate,
+  firstMentalHealthMedsDate,
+  lastMentalHealthMedsDate,
+  lastMentalHealthMedsLocation,
+  lastWeightDate,
+  lastHeight,
+  lastWeight,
+  round(lastWeight/POWER(lastHeight/100,2),1) as bmi
+FROM warehouseCohortTable;
 
- FROM warehouse_ic3_cohort;
-  
 
-  
+
 
 
 
