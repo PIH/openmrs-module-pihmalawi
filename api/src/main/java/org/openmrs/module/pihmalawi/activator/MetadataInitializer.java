@@ -484,7 +484,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }     
+        }
 
         {
             Integer id = 8601;
@@ -502,7 +502,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }    
+        }
         {
             Integer id = 8602;
             String uuid = "7ebc782a-baa2-11e6-91a8-5622a9e78e10";
@@ -519,7 +519,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }    
+        }
         {
             Integer id = 8603;
             String uuid = "8bb7294e-baa2-11e6-91a8-5622a9e78e10";
@@ -536,7 +536,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }    
+        }
         {
             Integer id = 8604;
             String uuid = "91bcdad2-baa2-11e6-91a8-5622a9e78e10";
@@ -553,7 +553,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }                                   
+        }
         {
             Integer id = 8605;
             String uuid = "c8489048-c027-11e6-bb84-f5cb1a1f4e2a";
@@ -570,7 +570,7 @@ public class MetadataInitializer implements Initializer {
                 c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
                 cs.saveConcept(c);
             }
-        }          
+        }
         {
             // ToDo:  Add the dose and frequency concepts to this when determined by Malawi
             Integer id = 8606;
@@ -592,7 +592,7 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8605)));  // CPT + IPT
                 cs.saveConcept(c);
             }
-        }           
+        }
         {
             Integer id = 8607;
             String uuid = "07b4909c-c028-11e6-bb84-f5cb1a1f4e2a";
@@ -632,7 +632,7 @@ public class MetadataInitializer implements Initializer {
         {
             Integer id = 6447; // Urine protein
             Concept c = cs.getConcept(id);
-            if (c != null ) {
+            if (c != null) {
                 log.warn("Updating answers for Proteinuria");
                 Concept proteinuriaFourPlus = cs.getConcept(8608); // Proteinuria 4+ over 3000mg/24 hours
                 Collection<ConceptAnswer> answers = c.getAnswers();
@@ -647,16 +647,16 @@ public class MetadataInitializer implements Initializer {
         {
             Integer id = 2169; //Result of HIV test
             Concept c = cs.getConcept(id);
-            if (c != null ) {
+            if (c != null) {
                 log.warn("Updating answers for HIV Test result");
                 Collection<ConceptAnswer> answers = c.getAnswers();
                 Concept reactive = cs.getConcept(1228); // Reactive
                 Concept nonReactive = cs.getConcept(1229); // Non-Reactive
-                if ( !hasAnswer(answers, reactive) ) {
+                if (!hasAnswer(answers, reactive)) {
                     c.addAnswer(new ConceptAnswer(reactive));
                     cs.saveConcept(c);
                 }
-                if ( !hasAnswer(answers, nonReactive) ) {
+                if (!hasAnswer(answers, nonReactive)) {
                     c.addAnswer(new ConceptAnswer(nonReactive));
                     cs.saveConcept(c);
                 }
@@ -716,7 +716,41 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
-    } 
+
+        {
+            Integer id = 8473;
+            Concept c = cs.getConcept(id);
+            String name = "Oral steroid";
+            String voidName = "Steroid (inhaled)";
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals(voidName)) {
+                log.warn("Replacing name and description for Steroid (inhaled) to Oral steroid");
+                ConceptName vcn = c.getFullySpecifiedName(Locale.ENGLISH);
+                vcn.setVoided(true);
+                vcn.setVoidReason("Swap name with oral");
+                ConceptName cn = new ConceptName(name, Locale.ENGLISH);
+                cn.setLocalePreferred(true);
+                c.setFullySpecifiedName(cn);
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8472;
+            Concept c = cs.getConcept(id);
+            String name = "Inhaled steroid";
+            String voidName = "Steroid (oral)";
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals(voidName)) {
+                log.warn("Replacing name and description for Steroid (oral) to Inhaled steroid");
+                ConceptName vcn = c.getFullySpecifiedName(Locale.ENGLISH);
+                vcn.setVoided(true);
+                vcn.setVoidReason("Swap name with inhaled");
+                ConceptName cn = new ConceptName(name, Locale.ENGLISH);
+                cn.setLocalePreferred(true);
+                c.setFullySpecifiedName(cn);
+                cs.saveConcept(c);
+            }
+        }
+    }
 
     @Override
     public void stopped() {
