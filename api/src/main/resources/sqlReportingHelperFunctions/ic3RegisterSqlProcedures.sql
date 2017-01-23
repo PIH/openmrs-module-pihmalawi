@@ -18,10 +18,9 @@
 --
 -- Procedure creates an empty table for IC3 register with columns and correct datatypes
 
-DELIMITER $$
+DROP PROCEDURE IF EXISTS createIc3RegisterTable;
 
-DROP PROCEDURE IF EXISTS createIc3RegisterTable$$
-
+#
 
 CREATE PROCEDURE createIc3RegisterTable()
 BEGIN
@@ -48,13 +47,13 @@ BEGIN
 	  atLeastTwoNcds VARCHAR(100) default NULL,
 	  htnAndDm VARCHAR(100) default NULL,
 	  hivAndDm VARCHAR(100) default NULL,
-	  artEnrollmentDate DATE,
-	  lastArtOutcome VARCHAR(255),
-	  lastArtOutcomeDate DATE, 
-	  firstARTVisitDate DATE default NULL,
+	  hivEnrollmentDate DATE,
+	  lastHivOutcome VARCHAR(255),
+	  lastHivOutcomeDate DATE, 
+	  firstHivVisitDate DATE default NULL,
 	  artInitialDate DATE default NULL,
-	  lastArtVisitDate DATE default NULL,
-	  lastArtVisitLocation VARCHAR(255) default NULL,
+	  lastHivVisitDate DATE default NULL,
+	  lastHivVisitLocation VARCHAR(255) default NULL,
 	  lastTbValue VARCHAR(255) default NULL,
 	  firstViralLoadDate Date,
 	  firstViralLoadResult NUMERIC,
@@ -85,13 +84,13 @@ BEGIN
 	  lastDmMedsDate DATE default NULL,
 	  lastDmMedsLocation VARCHAR(255) default NULL,
 	  firstGlucoseMonitoringDate DATE default NULL,
-	  firstVisitHba1c NUMERIC default NULL,
-	  firstVisitRandomBloodSugar NUMERIC default NULL, 
-	  firstVisitFastingBloodSugar NUMERIC default NULL,
+	  firstVisitHba1c DOUBLE default NULL,
+	  firstVisitRandomBloodSugar DOUBLE default NULL, 
+	  firstVisitFastingBloodSugar DOUBLE default NULL,
 	  lastGlucoseMonitoringDate DATE default NULL,
-	  lastVisitHba1c NUMERIC default NULL,
-	  lastVisitRandomBloodSugar NUMERIC default NULL, 
-	  lastVisitFastingBloodSugar NUMERIC default NULL,
+	  lastVisitHba1c DOUBLE default NULL,
+	  lastVisitRandomBloodSugar DOUBLE default NULL, 
+	  lastVisitFastingBloodSugar DOUBLE default NULL,
 	  shortActingRegularInsulin VARCHAR(255) default NULL,
 	  longActingInsulin VARCHAR(255) default NULL,
 	  metformin VARCHAR(255) default NULL,
@@ -101,9 +100,9 @@ BEGIN
 	  lastEpilepsyMedsDate DATE default NULL,
 	  lastEpilepsyMedsLocation VARCHAR(255) default NULL,
 	  firstSeizuresDate DATE default NULL,
-	  firstSeizures INT(11) default NULL,
+	  firstSeizures DOUBLE default NULL,
 	  lastSeizuresDate DATE default NULL,
-	  lastSeizures INT(11) default NULL,
+	  lastSeizures DOUBLE default NULL,
 	  seizureTriggers VARCHAR(255) default NULL,
 	  firstAsthmaDxDate DATE default NULL,
 	  firstAsthmaMedsDate DATE default NULL,
@@ -123,21 +122,25 @@ BEGIN
 	  lastMentalHealthMedsDate DATE default NULL,
 	  lastMentalHealthMedsLocation VARCHAR(255) default NULL,
 	  lastWeightDate DATE default NULL,
-	  lastHeight NUMERIC default NULL,
-	  lastWeight NUMERIC default NULL,
-	  BMI NUMERIC default NULL
+	  lastHeight DOUBLE default NULL,
+	  lastWeight DOUBLE default NULL,
+	  BMI DOUBLE default NULL
 
 	);
 	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
 	
 
-END$$
+END
+
+#
 
 -- createIc3RegisterCohort()
 --
 -- Procedure defines cohort and adds cohort (plus demographic data) to IC3 register table
 
-DROP PROCEDURE IF EXISTS createIc3RegisterCohort$$
+DROP PROCEDURE IF EXISTS createIc3RegisterCohort;
+
+#
 
 CREATE PROCEDURE createIc3RegisterCohort(IN reportEndDate DATE)
 BEGIN
@@ -173,12 +176,16 @@ BEGIN
 	order by 	pp.patient_id asc;
 	
 
-END$$
+END
+
+#
 
 -- warehouseProgramEnrollment()
 -- Creates a warehouse of program enrollment data
 
-DROP PROCEDURE IF EXISTS warehouseProgramEnrollment$$
+DROP PROCEDURE IF EXISTS warehouseProgramEnrollment;
+
+#
 
 CREATE PROCEDURE `warehouseProgramEnrollment`()
 BEGIN
@@ -235,13 +242,17 @@ BEGIN
 	and			pp.date_enrolled is not null
 	order by patient_id, ps.start_date ;
 
-END$$
+END
+
+#
 
 
 -- updateIc3EnrollmentInfo()
 -- Procedure that calculates the first enrollment date across the IC3 programs
 
-DROP PROCEDURE IF EXISTS updateIc3EnrollmentInfo$$
+DROP PROCEDURE IF EXISTS updateIc3EnrollmentInfo;
+
+#
 
 CREATE PROCEDURE `updateIc3EnrollmentInfo`(IN endDate DATE)
 BEGIN
@@ -271,12 +282,16 @@ BEGIN
 		tc.ageAtFirstEnrollment=floor(datediff(tt.dateEnrolled,tc.birthdate)/365) 
 	WHERE tc.PID = tt.PID ;
 
-END$$
+END
+
+#
 
 -- updateRecentRegimen()
 -- Updates most recent regimen and regimen start date on cohort table
 
-DROP PROCEDURE IF EXISTS updateRecentRegimen$$
+DROP PROCEDURE IF EXISTS updateRecentRegimen;
+
+#
 
 CREATE PROCEDURE updateRecentRegimen(IN endDate DATE)
 BEGIN
@@ -333,12 +348,16 @@ BEGIN
 	SET tc.lastArtRegimen = tt.recentRegimen 
 	WHERE tc.PID = tt.PID;
 
-END$$
+END
+
+#
 
 -- updateProgramsEnrollmentDate()
 -- Procedure that retrieves ART and NCD enrollment dates from the warehouse_program_enrollment table
 
-DROP PROCEDURE IF EXISTS updateProgramsEnrollmentDate$$
+DROP PROCEDURE IF EXISTS updateProgramsEnrollmentDate;
+
+#
 
 CREATE PROCEDURE `updateProgramsEnrollmentDate`()
 BEGIN
@@ -359,18 +378,22 @@ BEGIN
 
 	-- update ART enrollment date
 	UPDATE warehouseCohortTable tc, temp_obs_vector tt
-	SET tc.artEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=1;
+	SET tc.hivEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=1;
 
 	-- update NCD enrollment date
 	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.ncdEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=10;
 
-END$$
+END
+
+#
 
 -- updateFirstViralLoad()
 -- Procedure that retrieves First Viral Load for patients
 
-DROP PROCEDURE IF EXISTS updateFirstViralLoad$$
+DROP PROCEDURE IF EXISTS updateFirstViralLoad;
+
+#
 
 CREATE PROCEDURE `updateFirstViralLoad`()
 BEGIN
@@ -424,12 +447,16 @@ BEGIN
 	end loop viralLoop;
     close viralLoadCur;
 
-END$$
+END
+
+#
 
 -- updateLastViralLoad()
 -- Procedure that retrieves last Viral Load results for patients
 
-DROP PROCEDURE IF EXISTS updateLastViralLoad$$
+DROP PROCEDURE IF EXISTS updateLastViralLoad;
+
+#
 
 CREATE PROCEDURE `updateLastViralLoad`()
 BEGIN
@@ -483,7 +510,9 @@ BEGIN
 	end loop viralLoop;
     close viralLoadCur;
 
-END$$
+END
+
+#
 
 -- getLastOutcomeForProgram(programId, endDate, colOutcomeName, colOutcomeDateName)
 -- INPUTS: 		programId - program ID, ART=1, NCD=10
@@ -493,7 +522,9 @@ END$$
 -- Procedure gets last program outcome before (or on) end date and writes outcome and outcome date to 
 -- report table for cohort (one per patient).
 
-DROP PROCEDURE IF EXISTS getLastOutcomeForProgram$$
+DROP PROCEDURE IF EXISTS getLastOutcomeForProgram
+
+#
 
 CREATE PROCEDURE `getLastOutcomeForProgram`(IN programId INT, IN endDate DATE, IN colOutcomeName VARCHAR(100), IN colOutcomeDateName VARCHAR(100))
 BEGIN
@@ -530,7 +561,9 @@ BEGIN
 	DEALLOCATE PREPARE stmt2;
 	SET @u = NULL;
 
-END$$
+END
+
+#
 
 -- getBloodGlucoseBeforeDate(endDate, first/last, colName1, colName2, colName3, colName4)
 -- INPUTS:		endDate - end Date of report
@@ -543,7 +576,9 @@ END$$
 -- specialized function, because of some changes in the way blood glucose is recorded - this reports
 -- the observations back in a consistent way. 
 
-DROP PROCEDURE IF EXISTS getBloodGlucoseBeforeDate$$
+DROP PROCEDURE IF EXISTS getBloodGlucoseBeforeDate;
+
+#
 
 CREATE PROCEDURE getBloodGlucoseBeforeDate(IN endDate DATE, IN firstLast VARCHAR(50), IN colObsDate VARCHAR(100), IN colHba1c VARCHAR(100), IN colRandom VARCHAR(100), IN colFast VARCHAR(100))
 BEGIN
@@ -553,9 +588,9 @@ BEGIN
   		id INT not null auto_increment primary key,
   		PID INT(11) not NULL,
   		obsDate DATE default NULL,
-  		hba1c NUMERIC default NULL,
-  		fasting NUMERIC default NULL,
-  		random NUMERIC default NULL
+  		hba1c DOUBLE default NULL,
+  		fasting DOUBLE default NULL,
+  		random DOUBLE default NULL
 	);
 	CREATE INDEX PID_index ON temp_obs_vector (PID);
 
@@ -654,7 +689,9 @@ BEGIN
 	DEALLOCATE PREPARE stmt1;	
 	SET @s = NULL;					
 
-END$$
+END
+
+#
 
 -- getBloodPressureBeforeDate(endDate, first/last, colName1, colName2)
 -- INPUTS: 		cid - observation concept id
@@ -664,7 +701,9 @@ END$$
 -- Procedure gets last systolic and diastolic values (from same encounter) and puts them together
 -- in a string and writes out to the reporting table. 
 
-DROP PROCEDURE IF EXISTS getBloodPressureBeforeDate$$
+DROP PROCEDURE IF EXISTS getBloodPressureBeforeDate;
+
+#
 
 CREATE PROCEDURE getBloodPressureBeforeDate(IN endDate DATE, IN firstLast VARCHAR(50), IN bpDateCol VARCHAR(100), IN bpCol VARCHAR(100))
 BEGIN
@@ -729,13 +768,17 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;					
 
-END$$
+END
+
+#
 
 
 -- diagnosesLogic()
 -- 
 
-DROP PROCEDURE IF EXISTS diagnosesLogic$$
+DROP PROCEDURE IF EXISTS diagnosesLogic;
+
+#
 
 CREATE PROCEDURE diagnosesLogic()
 BEGIN
@@ -767,7 +810,7 @@ BEGIN
 				ELSE "no" 
 			END AS hivAndDm
 	from (select PID,
-			CASE WHEN artEnrollmentDate IS NOT NULL 
+			CASE WHEN hivEnrollmentDate IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END AS HIV,
@@ -810,6 +853,8 @@ BEGIN
 	WHERE tc.PID = tt.PID;	
 
 
-END$$
+END
+
+#
 
 

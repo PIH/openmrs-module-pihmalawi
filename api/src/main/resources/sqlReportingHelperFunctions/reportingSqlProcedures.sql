@@ -30,9 +30,10 @@
 -- a (hardcoded) temp_obs_vector table and write it out to the report table 
 -- (warehouseCohortTable) matched on warehouseCohortTable.PID = temp_obs_vector.PID. 
 
-DELIMITER $$
 
-DROP PROCEDURE IF EXISTS addReportColumn$$
+DROP PROCEDURE IF EXISTS addReportColumn;
+
+#
 
 CREATE PROCEDURE addReportColumn(IN colName VARCHAR(50))
 BEGIN
@@ -43,14 +44,18 @@ BEGIN
 	DEALLOCATE PREPARE stmt1;
 	SET @s = NULL;
 
-END$$
+END
+
+#
 
 -- getConceptName(concept_id)
 -- INPUTS: 		colName
 --
 -- This is a helper function that returns the concept name for a given concept id. 
 
-DROP FUNCTION IF EXISTS getConceptName$$
+DROP FUNCTION IF EXISTS getConceptName;
+
+#
 
 CREATE FUNCTION `getConceptName`(concept_id INT) RETURNS varchar(255) CHARSET utf8
     DETERMINISTIC
@@ -65,7 +70,9 @@ BEGIN
             and cn.concept_name_type = 'FULLY_SPECIFIED' limit 1;
 
 RETURN conceptName;
-END$$
+END
+
+#
 
 -- getAllIdentifiers(endDate, idTypes, colName)
 -- INPUTS: 		endDate - end Date of report
@@ -77,7 +84,9 @@ END$$
 -- are supplied by the PID in the warehouseCohortTable table. Procedure gets IDs that were created before
 -- end date. 
 
-DROP PROCEDURE IF EXISTS getAllIdentifiers$$
+DROP PROCEDURE IF EXISTS getAllIdentifiers;
+
+#
 
 CREATE PROCEDURE getAllIdentifiers(IN endDate DATE, IN idTypes VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -111,7 +120,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getEncounterDatetimeBeforeEndDate(encounterTypes, endDate, firstLast, colName)
 -- INPUTS: 		encounterTypes - string of encounter types to consider (e.g., '1,2,3')
@@ -121,7 +132,9 @@ END$$
 -- Procedure gets the last encounter for given encounter types before end date and writes this 
 -- list to report table (one per patient). 
 
-DROP PROCEDURE IF EXISTS getEncounterDatetimeBeforeEndDate$$
+DROP PROCEDURE IF EXISTS getEncounterDatetimeBeforeEndDate;
+
+#
 
 CREATE PROCEDURE getEncounterDatetimeBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -165,7 +178,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getEncounterLocationBeforeEndDate(encounterTypes, endDate, firstLast, colName)
 -- INPUTS: 		encounterTypes - string of encounter types to consider (e.g., '1,2,3')
@@ -178,7 +193,9 @@ END$$
 -- are supplied by the PID in the warehouseCohortTable table. Procedure gets IDs that were created before
 -- end date. 
 
-DROP PROCEDURE IF EXISTS getEncounterLocationBeforeEndDate$$
+DROP PROCEDURE IF EXISTS getEncounterLocationBeforeEndDate;
+
+#
 
 CREATE PROCEDURE getEncounterLocationBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -223,7 +240,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getDatetimeObsBeforeDate(cid, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id
@@ -235,7 +254,9 @@ END$$
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
-DROP PROCEDURE IF EXISTS getDatetimeObsBeforeDate$$
+DROP PROCEDURE IF EXISTS getDatetimeObsBeforeDate;
+
+#
 
 CREATE PROCEDURE getDatetimeObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -272,9 +293,13 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 
 -- getCodedObsFromEncounterBeforeDate(cid, eids, endDate, firstLast, colName)
@@ -289,7 +314,9 @@ END$$
 -- Procedure only looks in the last encounter and will return NULL if obs was not made at last 
 -- encounter.
 
-DROP PROCEDURE IF EXISTS getCodedObsFromEncounterBeforeDate$$
+DROP PROCEDURE IF EXISTS getCodedObsFromEncounterBeforeDate;
+
+#
 
 CREATE PROCEDURE getCodedObsFromEncounterBeforeDate(IN cid INT, IN eids VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -319,14 +346,13 @@ BEGIN
 								where encounter_type in (', eids,
 								') and encounter_datetime <= \'', endDate,
 								'\' and voided = 0 
-								order by encounter_datetime asc) oi 
-							group by patient_id) e
+								order by encounter_datetime ', @upDown, 
+								') oi 
+							group by patient_id) e on e.patient_id = tt.PID
 					left join (select * 
 								from obs 
 								where concept_id = ', CONCAT(cid),
-								' and voided = 0
-								group by person_id) o on o.encounter_id = e.encounter_id
-					on e.patient_id = tt.PID;');
+								' and voided = 0) o on o.encounter_id = e.encounter_id;');
 	
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -337,7 +363,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 
 -- getDiagnosisDate(dxQuestion, dxConcepts, dxDateConcept, endDate, firstLast, colName)
@@ -353,7 +381,9 @@ END$$
 -- This report currently works for one diagnosis, though the logic would need to change if there 
 -- were multiple diagnosis dates for a given set of diagnoses. 
 
-DROP PROCEDURE IF EXISTS getDiagnosisDate$$
+DROP PROCEDURE IF EXISTS getDiagnosisDate;
+
+#
 
 CREATE PROCEDURE getDiagnosisDate(IN dxQuestion INT, IN dxConcepts VARCHAR(100), IN dxDateConcept INT, IN endDate DATE, IN colName VARCHAR(255))
 BEGIN
@@ -394,7 +424,9 @@ BEGIN
 	DEALLOCATE PREPARE stmt2;
 	SET @u = NULL;
 
-END$$
+END
+
+#
 
 -- getEncounterDateForObs(cid, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id
@@ -404,8 +436,9 @@ END$$
 -- Procedure gets the first/last encounter date for a given observation. 
 -- Does not currently check if there is an answer. 
 
-DROP PROCEDURE IF EXISTS getEncounterDateForObs$$
+DROP PROCEDURE IF EXISTS getEncounterDateForObs;
 
+#
 
 CREATE PROCEDURE getEncounterDateForObs(IN cid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
 BEGIN
@@ -448,7 +481,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getNumericObsBeforeDate(cid, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id
@@ -460,7 +495,9 @@ END$$
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
-DROP PROCEDURE IF EXISTS getNumericObsBeforeDate$$
+DROP PROCEDURE IF EXISTS getNumericObsBeforeDate;
+
+#
 
 CREATE PROCEDURE getNumericObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -469,7 +506,7 @@ BEGIN
 	create temporary table temp_obs_vector (
   		id INT not null auto_increment primary key,
   		PID INT(11) not NULL,
-  		obs NUMERIC
+  		obs DOUBLE default NULL
 	);
 	CREATE INDEX PID_index ON temp_obs_vector (PID);
 
@@ -502,7 +539,9 @@ BEGIN
 
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getCodedObsWithValuesFromEncounterBeforeDate(cids, eids, vcid, endDate, firstLast, colName)
 -- INPUTS: 		cids - observation concept id
@@ -515,7 +554,9 @@ END$$
 -- encounter. If the observation was not taken at the last encounter, no result is returned. 
 -- Used for obs at last encounter type queries (for coded obs and a specified value).
 
-DROP PROCEDURE IF EXISTS getCodedObsWithValuesFromEncounterBeforeDate$$
+DROP PROCEDURE IF EXISTS getCodedObsWithValuesFromEncounterBeforeDate;
+
+#
 
 CREATE PROCEDURE getCodedObsWithValuesFromEncounterBeforeDate(IN cids VARCHAR(255), IN eids VARCHAR(50), IN vcid VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -560,9 +601,13 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 
 -- getCodedObsBeforeDate(cid, endDate, firstLast, colName)
@@ -575,7 +620,9 @@ END$$
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
-DROP PROCEDURE IF EXISTS getCodedObsBeforeDate$$
+DROP PROCEDURE IF EXISTS getCodedObsBeforeDate;
+
+#
 
 CREATE PROCEDURE getCodedObsBeforeDate(IN cid INT, IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -612,9 +659,13 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getEncounterLocationForCodedObs(cid, endDate, firstLast, colName)
 -- INPUTS: 		cids - observation concept id
@@ -627,7 +678,9 @@ END$$
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
-DROP PROCEDURE IF EXISTS getEncounterLocationForCodedObs$$
+DROP PROCEDURE IF EXISTS getEncounterLocationForCodedObs;
+
+#
 
 CREATE PROCEDURE getEncounterLocationForCodedObs(IN cids VARCHAR(255), IN vcid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
 BEGIN
@@ -667,9 +720,13 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getEncounterDateForCodedObs(cid, endDate, firstLast, colName)
 -- INPUTS: 		cids - list of observation concept ids (e.g., '1,2,3')
@@ -682,7 +739,9 @@ END$$
 -- Procedure assumes obs_datetime is relevant last date (may not be accurate for obs groups) and
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 
-DROP PROCEDURE IF EXISTS getEncounterDateForCodedObs$$
+DROP PROCEDURE IF EXISTS getEncounterDateForCodedObs;
+
+#
 
 CREATE PROCEDURE getEncounterDateForCodedObs(IN cids VARCHAR(255), IN vcid VARCHAR(255), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(50))
 BEGIN
@@ -721,9 +780,13 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 
 -- getNumericObsFromEncounterBeforeDate(cid, eids, endDate, firstLast, colName)
 -- INPUTS: 		cid - observation concept id
@@ -737,7 +800,9 @@ END$$
 -- Procedure only looks in the last encounter and will return NULL if obs was not made at last 
 -- encounter.
 
-DROP PROCEDURE IF EXISTS getNumericObsFromEncounterBeforeDate$$
+DROP PROCEDURE IF EXISTS getNumericObsFromEncounterBeforeDate;
+
+#
 
 CREATE PROCEDURE getNumericObsFromEncounterBeforeDate(IN cid INT, IN eids VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
@@ -774,14 +839,17 @@ BEGIN
 								from obs 
 								where concept_id = ', CONCAT(cid),
 								' and voided = 0
-								group by person_id) o on o.encounter_id = e.encounter_id
-					on e.patient_id = tt.PID;');
+								group by person_id) o on o.encounter_id = e.encounter_id;');
 	
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
+	SET @s = NULL;
+
 	CALL addReportColumn(colName);
 
-END$$
+END
+
+#
 

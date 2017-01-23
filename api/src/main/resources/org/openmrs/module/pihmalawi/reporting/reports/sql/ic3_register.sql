@@ -28,14 +28,14 @@ CALL updateProgramsEnrollmentDate();
 -- HIV Program Information
 CALL updateFirstViralLoad();
 CALL updateLastViralLoad();
-CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastArtOutcome', 'lastArtOutcomeDate');
+CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastHivOutcome', 'lastHivOutcomeDate');
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitDate');
-CALL getEncounterDatetimeBeforeEndDate('9,10', @reportEndDate, 'first', 'firstArtVisitDate');
-CALL getEncounterLocationBeforeEndDate('9,10', @reportEndDate, 'last', 'lastArtVisitLocation');
+CALL getEncounterDatetimeBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('9,10,11,12', @reportEndDate, 'first', 'firstHivVisitDate');
+CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
 CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
 CALL updateRecentRegimen(@reportEndDate);
-CALL getCodedObsFromEncounterBeforeDate(7459, '10', @reportEndDate, 'last', 'lastTbValue');
+CALL getCodedObsFromEncounterBeforeDate(7459, '10,12', @reportEndDate, 'last', 'lastTbValue');
 -- Hypertension Information
 CALL getDiagnosisDate(3683, '903', 6774, @reportEndDate, 'firstHtnDxDate');
 CALL getEncounterDateForCodedObs('1193', '3182,3187,1242,250,3186,3183,254,8466,8465,8464,8463,88,8462', @reportEndDate, 'first', 'firstHtnMedsDate');
@@ -106,6 +106,7 @@ CALL diagnosesLogic(); -- Must be last!
 SELECT
   PID,
   identifier,
+  allPreArtIds,
   allArtIds,
   allCccIds,
   ic3EnrollmentDate,
@@ -120,13 +121,13 @@ SELECT
   atLeastTwoNcds,
   htnAndDm,
   hivAndDm,
-  artEnrollmentDate,
-  lastArtOutcome,
-  lastArtOutcomeDate,
-  firstARTVisitDate,
+  hivEnrollmentDate,
+  lastHivOutcome,
+  lastHivOutcomeDate,
+  firstHivVisitDate,
   artInitialDate,
-  lastARTVisitDate,
-  lastArtVisitLocation,
+  lastHivVisitDate,
+  lastHivVisitLocation,
   lastTbValue,
   firstViralLoadDate,
   firstViralLoadResult,
