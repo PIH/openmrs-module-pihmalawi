@@ -18,9 +18,11 @@
 --
 -- Procedure creates an empty table for IC3 register with columns and correct datatypes
 
-DROP PROCEDURE IF EXISTS createIc3RegisterTable;
-
 DELIMITER $$
+
+DROP PROCEDURE IF EXISTS createIc3RegisterTable$$
+
+
 CREATE PROCEDURE createIc3RegisterTable()
 BEGIN
 	-- Refresh temp table
@@ -130,35 +132,33 @@ BEGIN
 	
 
 END$$
-DELIMITER ;
 
 -- createIc3RegisterCohort()
 --
 -- Procedure defines cohort and adds cohort (plus demographic data) to IC3 register table
 
-DROP PROCEDURE IF EXISTS createIc3RegisterCohort;
+DROP PROCEDURE IF EXISTS createIc3RegisterCohort$$
 
-DELIMITER $$
-CREATE PROCEDURE createIc3RegisterCohort()
+CREATE PROCEDURE createIc3RegisterCohort(IN reportEndDate DATE)
 BEGIN
 
 	-- Create Initial Cohort With Basic Demographic Data
 	insert into warehouseCohortTable
 				(PID, identifier, birthdate, gender, age)
-	select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(@reportEndDate,birthdate)/365)
+	select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(reportEndDate,birthdate)/365)
 	from	 	(select * from 
 					(select patient_id, patient_program_id 
 						from patient_program 
 						where voided = 0 
 						and program_id in (1,10) 
-						and (date_enrolled <= @reportEndDate or date_enrolled is NULL)
+						and (date_enrolled <= reportEndDate or date_enrolled is NULL)
 						order by date_enrolled DESC) 
 					ppi group by patient_id) pp -- Most recent Program Enrollment
 	join 		(select patient_program_id 
 					from patient_state 
 					where voided = 0 
 					and state in (1,7,83) 
-					and start_date < @reportEndDate 
+					and start_date < reportEndDate 
 					group by patient_program_id) xps 
 				on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
 	join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
@@ -174,14 +174,12 @@ BEGIN
 	
 
 END$$
-DELIMITER ;
 
 -- warehouseProgramEnrollment()
 -- Creates a warehouse of program enrollment data
 
-DROP PROCEDURE IF EXISTS warehouseProgramEnrollment;
+DROP PROCEDURE IF EXISTS warehouseProgramEnrollment$$
 
-DELIMITER ;;
 CREATE PROCEDURE `warehouseProgramEnrollment`()
 BEGIN
 
@@ -237,16 +235,14 @@ BEGIN
 	and			pp.date_enrolled is not null
 	order by patient_id, ps.start_date ;
 
-END;;
-DELIMITER ;
+END$$
 
 
 -- updateIc3EnrollmentInfo()
 -- Procedure that calculates the first enrollment date across the IC3 programs
 
-DROP PROCEDURE IF EXISTS updateIc3EnrollmentInfo;
+DROP PROCEDURE IF EXISTS updateIc3EnrollmentInfo$$
 
-DELIMITER ;;
 CREATE PROCEDURE `updateIc3EnrollmentInfo`(IN endDate DATE)
 BEGIN
 
@@ -275,15 +271,13 @@ BEGIN
 		tc.ageAtFirstEnrollment=floor(datediff(tt.dateEnrolled,tc.birthdate)/365) 
 	WHERE tc.PID = tt.PID ;
 
-END;;
-DELIMITER ;
+END$$
 
 -- updateRecentRegimen()
 -- Updates most recent regimen and regimen start date on cohort table
 
-DROP PROCEDURE IF EXISTS updateRecentRegimen;
+DROP PROCEDURE IF EXISTS updateRecentRegimen$$
 
-DELIMITER ;;
 CREATE PROCEDURE updateRecentRegimen(IN endDate DATE)
 BEGIN
 
@@ -339,15 +333,13 @@ BEGIN
 	SET tc.lastArtRegimen = tt.recentRegimen 
 	WHERE tc.PID = tt.PID;
 
-END;;
-DELIMITER ;
+END$$
 
 -- updateProgramsEnrollmentDate()
 -- Procedure that retrieves ART and NCD enrollment dates from the warehouse_program_enrollment table
 
-DROP PROCEDURE IF EXISTS updateProgramsEnrollmentDate;
+DROP PROCEDURE IF EXISTS updateProgramsEnrollmentDate$$
 
-DELIMITER ;;
 CREATE PROCEDURE `updateProgramsEnrollmentDate`()
 BEGIN
 
@@ -373,15 +365,13 @@ BEGIN
 	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.ncdEnrollmentDate = tt.dateEnrolled WHERE tc.PID = tt.PID and tt.programId=10;
 
-END;;
-DELIMITER ;
+END$$
 
 -- updateFirstViralLoad()
 -- Procedure that retrieves First Viral Load for patients
 
-DROP PROCEDURE IF EXISTS updateFirstViralLoad;
+DROP PROCEDURE IF EXISTS updateFirstViralLoad$$
 
-DELIMITER $$
 CREATE PROCEDURE `updateFirstViralLoad`()
 BEGIN
 	declare done INTEGER DEFAULT 0;
@@ -435,14 +425,12 @@ BEGIN
     close viralLoadCur;
 
 END$$
-DELIMITER ;
 
 -- updateLastViralLoad()
 -- Procedure that retrieves last Viral Load results for patients
 
-DROP PROCEDURE IF EXISTS updateLastViralLoad;
+DROP PROCEDURE IF EXISTS updateLastViralLoad$$
 
-DELIMITER $$
 CREATE PROCEDURE `updateLastViralLoad`()
 BEGIN
 	declare done INTEGER DEFAULT 0;
@@ -497,8 +485,6 @@ BEGIN
 
 END$$
 
-DELIMITER ;
-
 -- getLastOutcomeForProgram(programId, endDate, colOutcomeName, colOutcomeDateName)
 -- INPUTS: 		programId - program ID, ART=1, NCD=10
 --				endDate - end Date of report
@@ -507,9 +493,8 @@ DELIMITER ;
 -- Procedure gets last program outcome before (or on) end date and writes outcome and outcome date to 
 -- report table for cohort (one per patient).
 
-DROP PROCEDURE IF EXISTS getLastOutcomeForProgram;
+DROP PROCEDURE IF EXISTS getLastOutcomeForProgram$$
 
-DELIMITER $$
 CREATE PROCEDURE `getLastOutcomeForProgram`(IN programId INT, IN endDate DATE, IN colOutcomeName VARCHAR(100), IN colOutcomeDateName VARCHAR(100))
 BEGIN
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -546,7 +531,6 @@ BEGIN
 	SET @u = NULL;
 
 END$$
-DELIMITER ;
 
 -- getBloodGlucoseBeforeDate(endDate, first/last, colName1, colName2, colName3, colName4)
 -- INPUTS:		endDate - end Date of report
@@ -559,9 +543,8 @@ DELIMITER ;
 -- specialized function, because of some changes in the way blood glucose is recorded - this reports
 -- the observations back in a consistent way. 
 
-DROP PROCEDURE IF EXISTS getBloodGlucoseBeforeDate;
+DROP PROCEDURE IF EXISTS getBloodGlucoseBeforeDate$$
 
-DELIMITER ;;
 CREATE PROCEDURE getBloodGlucoseBeforeDate(IN endDate DATE, IN firstLast VARCHAR(50), IN colObsDate VARCHAR(100), IN colHba1c VARCHAR(100), IN colRandom VARCHAR(100), IN colFast VARCHAR(100))
 BEGIN
 
@@ -671,8 +654,7 @@ BEGIN
 	DEALLOCATE PREPARE stmt1;	
 	SET @s = NULL;					
 
-END;;
-DELIMITER ;
+END$$
 
 -- getBloodPressureBeforeDate(endDate, first/last, colName1, colName2)
 -- INPUTS: 		cid - observation concept id
@@ -682,9 +664,8 @@ DELIMITER ;
 -- Procedure gets last systolic and diastolic values (from same encounter) and puts them together
 -- in a string and writes out to the reporting table. 
 
-DROP PROCEDURE IF EXISTS getBloodPressureBeforeDate;
+DROP PROCEDURE IF EXISTS getBloodPressureBeforeDate$$
 
-DELIMITER ;;
 CREATE PROCEDURE getBloodPressureBeforeDate(IN endDate DATE, IN firstLast VARCHAR(50), IN bpDateCol VARCHAR(100), IN bpCol VARCHAR(100))
 BEGIN
 
@@ -748,16 +729,14 @@ BEGIN
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;					
 
-END;;
-DELIMITER ;
+END$$
 
 
 -- diagnosesLogic()
 -- 
 
-DROP PROCEDURE IF EXISTS diagnosesLogic;
+DROP PROCEDURE IF EXISTS diagnosesLogic$$
 
-DELIMITER ;;
 CREATE PROCEDURE diagnosesLogic()
 BEGIN
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -831,5 +810,6 @@ BEGIN
 	WHERE tc.PID = tt.PID;	
 
 
-END;;
-DELIMITER ;
+END$$
+
+

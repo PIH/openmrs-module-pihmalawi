@@ -9,7 +9,7 @@
 -- Create an empty table
 CALL createIc3RegisterTable();
 -- Create cohort with demographic data
-CALL createIc3RegisterCohort();
+CALL createIc3RegisterCohort(@reportEndDate);
 
 
 -- Call Routines to fill columns
@@ -199,9 +199,6 @@ SELECT
   lastWeight,
   round(lastWeight/POWER(lastHeight/100,2),1) as bmi
 FROM warehouseCohortTable;
-
-
-
 
 
 

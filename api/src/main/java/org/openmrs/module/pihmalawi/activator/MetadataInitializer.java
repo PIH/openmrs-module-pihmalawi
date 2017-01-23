@@ -716,6 +716,39 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+        {
+            Integer id = 2168;
+            String uuid = "00e28a34-e135-11e6-870b-54cf12eb663c";
+            String name = "Blood glucose construct";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getFullySpecifiedName(Locale.ENGLISH).setName(name);
+                c.setSet(true);
+                c.getConceptSets().clear();
+                
+                c.addSetMember(cs.getConceptByName("HIV test type"));           // Rapid test or DNA PCR
+                c.addSetMember(cs.getConceptByName("Result of HIV test"));      // Neg, pos, indeterminate
+                c.addSetMember(cs.getConceptByName("Date of blood draw"));      // Sample Date
+                c.addSetMember(cs.getConceptByName("Lab test serial number"));  // Sample ID or HTC serial no
+                c.addSetMember(cs.getConceptByName("Date of returned result")); // Date received from lab
+
+                // Not used for EID
+                c.addSetMember(cs.getConceptByName("HIV test date"));
+                c.addSetMember(cs.getConceptByName("Location where test took place"));
+
+                // Historical information from EID (Version 1)
+                c.addSetMember(cs.getConceptByName("HIV test time period"));
+                c.addSetMember(cs.getConceptByName("Age"));
+                c.addSetMember(cs.getConceptByName("Units of age of child"));
+                c.addSetMember(cs.getConceptByName("Date result to guardian"));
+
+                cs.saveConcept(c);
+            }
+        }
     } 
 
     @Override
