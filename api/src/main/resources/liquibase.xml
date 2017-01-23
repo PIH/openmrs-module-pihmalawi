@@ -5,4 +5,12 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+	<changeSet id="reporting-procedures" author="steve" runAlways="true" runOnChange="true">
+		<sqlFile path="sqlReportingHelperFunctions/reportingSqlProcedures.sql" />
+	</changeSet>
+
+	<changeSet id="ic3-register-procedures" author="steve" runAlways="true" runOnChange="true">
+		<sqlFile path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" />
+	</changeSet>
+
 </databaseChangeLog>
