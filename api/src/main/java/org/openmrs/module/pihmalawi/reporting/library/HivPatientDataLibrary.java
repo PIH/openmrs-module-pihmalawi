@@ -133,6 +133,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return getObsOnArtInitialEncounter(hivMetadata.getCd4CountConcept(), pdf.getObsValueNumericConverter());
 	}
 
+	@DocumentedDefinition("firstEidInitialEncounter.motherArtNumber")
+	public PatientDataDefinition getFirstEidInitialMotherArtNumber() {
+		return getObsOnEidInitialEncounter(hivMetadata.getMotherArtNumberConcept(), pdf.getObsValueTextConverter());
+	}
+
     @DocumentedDefinition("firstArtInitialEncounter.cd4Percent")
     public PatientDataDefinition getFirstArtInitialCd4Percent() {
         return getObsOnArtInitialEncounter(hivMetadata.getCd4PercentConcept(), pdf.getObjectFormatter());
@@ -419,6 +424,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	protected PatientDataDefinition getObsOnArtInitialEncounter(Concept question, DataConverter converter) {
 		EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
 		return pdf.getFirstObsByEndDate(question, Arrays.asList(arvInitial), converter);
+	}
+
+	protected PatientDataDefinition getObsOnEidInitialEncounter(Concept question, DataConverter converter) {
+		EncounterType eidInitial = hivMetadata.getEidInitialEncounterType();
+		return pdf.getFirstObsByEndDate(question, Arrays.asList(eidInitial), converter);
 	}
 
     protected PatientDataDefinition getObsValuePresentOnArtInitialEncounter(Concept question, Concept answer) {

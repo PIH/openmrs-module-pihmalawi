@@ -139,6 +139,7 @@ public class HccRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Last Outcome in DB (not filtered)", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
 		addColumn(dsd, "Last Outcome change date", hivPatientData.getMostRecentHivTreatmentStatusStateStartDateByEndDate());
 		addColumn(dsd, "Last Outcome change loc", hivPatientData.getMostRecentHivTreatmentStatusStateLocationByEndDate());
+		addColumn(dsd, "Mother ART Number", hivPatientData.getFirstEidInitialMotherArtNumber());
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
 		// Add encounter details for 1st, 2nd, 3rd, 4th, and most recent HIV encounters
