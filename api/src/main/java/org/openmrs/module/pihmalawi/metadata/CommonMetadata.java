@@ -99,6 +99,7 @@ public class CommonMetadata extends Metadata {
 	public static final String FIRST_LINE_ARV_START_DATE = "Start date 1st line ARV";
 	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";
 	public static final String TB_STATUS = "TB status";
+	public static final String MOTHER_ART_NUMBER = "Mother ART registration number";
 	public static final String TB_NOT_SUSPECTED_CONCEPT = "TB NOT suspected";
 	public static final String TB_SUSPECTED_CONCEPT = "TB suspected";
 	public static final String TB_CONFIRMED_NOT_ON_TX_CONCEPT = "Confirmed TB NOT on treatment";
@@ -268,6 +269,9 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getTbStatusConcept() {
 		return getConcept(TB_STATUS);
+	}
+	public Concept getMotherArtNumberConcept() {
+		return getConcept(MOTHER_ART_NUMBER);
 	}
 
 	public Concept getTbNotSuspectedConcept() {

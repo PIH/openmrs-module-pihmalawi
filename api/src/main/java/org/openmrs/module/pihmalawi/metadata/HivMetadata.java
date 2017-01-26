@@ -148,6 +148,10 @@ public class HivMetadata extends CommonMetadata {
 		return getEncounterType(ART_INITIAL);
 	}
 
+	public EncounterType getEidInitialEncounterType() {
+		return getEncounterType(EXPOSED_CHILD_INITIAL);
+	}
+
 	public EncounterType getArtFollowupEncounterType() {
 		return getEncounterType(ART_FOLLOWUP);
 	}
