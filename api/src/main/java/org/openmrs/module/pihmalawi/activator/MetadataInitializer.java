@@ -892,6 +892,32 @@ public class MetadataInitializer implements Initializer {
                 }
             }
         }
+        {
+            Integer id = 1551;
+            String name = "Smoking history";
+            String synonym = "  History of tobacco use";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Smoking history")) {
+                log.warn("Updating synonyms for " + name);
+                if (!c.hasName(synonym,Locale.ENGLISH)) {
+                    c.addName(new ConceptName(synonym, Locale.ENGLISH));
+                }
+                cs.saveConcept(c);
+            }
+        }
+        {
+            Integer id = 2545;
+            String name = "History of tobacco use";
+            Concept c = cs.getConcept(id);
+            if (c != null) {
+                log.warn("Deleting " + name);
+                try {
+                    cs.retireConcept(c, "Removing duplicate tobacco use concept");
+                } catch (Exception e) {
+                    log.error("Failed to retire concept TB Status (2545)", e);
+                }
+            }
+        }
     }
 
     @Override

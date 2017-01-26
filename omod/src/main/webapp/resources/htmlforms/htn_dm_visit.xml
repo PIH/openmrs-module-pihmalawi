@@ -20,9 +20,8 @@
         glucoseTestType=6381
         fastingTest=6379
         randomTest=6380
-        tobacco=2545
+        tobacco=1551
         alcohol=1552
-            <!-- ^^ These two changed -->
         current=1550
         never=1090
         stopped=1548
