@@ -20,8 +20,6 @@
         glucoseTestType=6381
         fastingTest=6379
         randomTest=6380
-            fastingGlucose=8448
-            randomGlucose=8447
         tobacco=2545
         alcohol=1552
             <!-- ^^ These two changed -->
@@ -32,7 +30,6 @@
         exercise=8446
         cvRisk=8460
         visualAcuityText=8468
-        footExam=8457
         neuroPVD=8451
         footDeform=8456
         footUlcer=6566
@@ -43,30 +40,37 @@
         metformin=4052
         glibenclamide=4046
         diuretic=8466
-            hydrochlorothiazide=1243
-            furosemide=99
-            spironolactone=4061
+        hydrochlorothiazide=1243
+        furosemide=99
+        spironolactone=4061
         ccBlocker=8465
-            amlodipine=3187
-            nifedipineModifiedRelease=250
+        amlodipine=3187
+        nifedipineModifiedRelease=250
         aceInhibit=8464
-            enalapril=1242
-            captopril=3182
-            lisinopril=3183
+        enalapril=1242
+        captopril=3182
+        lisinopril=3183
         betaBlocker=8463
-            atenolol=3186
-            bisoprolol=8612
-            propranolol=254
+        atenolol=3186
+        bisoprolol=8612
+        propranolol=254
         statin=8462
-            simvastatin=8613
-            pravastatin=8614
-            atorvastatin=8210
+        simvastatin=8613
+        pravastatin=8614
+        atorvastatin=8210
         aspirin=88
-            hydralazine=929
-            isosorbideMononitrate=7121
+        hydralazine=929
+        isosorbideMononitrate=7121
         clinicalImpression=1364
         nextAppt=5096
     </macros>
+
+    <!-- Notes
+        * Added diuretics (1243,99,4061), ccBlockers (3187,250), ACE-I (1242,3182,3183), betaBlockers (3186,8612,254), statins (8613,8614,8210), others (929,7121,1364)
+        * Migrated fasting/random glucose (8448,8447) to 887 and indicated test type (6381) for random (6380) and fasting (6379)
+        * Migrated foor check diagnosis question (8457) and answers (8451,8456,6566) so that each diagnosis accepts coded answers (yes/no) 
+        * pochedls on 26 Jan 2017
+    -->
 
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
@@ -413,12 +417,6 @@
                             </repeat>
                         </table>
                     </td>
-<!--                 <td>
-                    <repeat with="['$neuroPVD','Neuropathy/PVD'],['$footDeform','Deformities'],['$footUlcer','Ulcer']">
-                        <obs conceptId="$footExam" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                        <br/>
-                    </repeat>
-                </td> -->
             </tr>
 
             <tr>
