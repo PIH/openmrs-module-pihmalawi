@@ -290,7 +290,7 @@
                         <tr>
                             <td>TB status:</td>
                             <td colspan="3">
-                                <obs conceptId="8395" answerConceptIds="1090,1548,1550"
+                                <obs conceptId="7459" answerConceptIds="1090,1548,1550"
                                      answerLabels="Never had TB,Previous treatment,Currently on treatment"/>
                             </td>
                         </tr>

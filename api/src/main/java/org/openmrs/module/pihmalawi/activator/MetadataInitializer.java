@@ -852,7 +852,46 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
                 cs.saveConcept(c);
             }
-        }                            
+        }     
+        {
+            Integer id = 7459;
+            String name = "TB Status";
+            String synonym = "Previous or current tuberculosis treatment";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("TB status")) {
+                log.warn("Updating Answers for " + name);
+                Collection<ConceptAnswer> answers = c.getAnswers();
+                Concept never = cs.getConcept(1090); // Never
+                Concept inThePast = cs.getConcept(1548); // In the past
+                Concept currently = cs.getConcept(1550); // Currently
+                if (!hasAnswer(answers, never)) {
+                    c.addAnswer(new ConceptAnswer(never));
+                }
+                if (!hasAnswer(answers, inThePast)) {
+                    c.addAnswer(new ConceptAnswer(inThePast));
+                }
+                if (!hasAnswer(answers, currently)) {
+                    c.addAnswer(new ConceptAnswer(currently));
+                }
+                if (!c.hasName(synonym,Locale.ENGLISH)) {
+                    c.addName(new ConceptName(synonym, Locale.ENGLISH));
+                }
+                cs.saveConcept(c);
+            }
+        }
+        {
+            Integer id = 8395;
+            String name = "TB Status";
+            Concept c = cs.getConcept(id);
+            if (c != null) {
+                log.warn("Deleting " + name);
+                try {
+                    cs.retireConcept(c, "Removing duplicate TB Status concept");
+                } catch (Exception e) {
+                    log.error("Failed to retire concept TB Status (8395)", e);
+                }
+            }
+        }
     }
 
     @Override
