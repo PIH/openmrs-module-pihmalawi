@@ -750,6 +750,109 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+
+        {
+            Integer id = 8612;
+            String uuid = "72247AAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Bisoprolol";
+            Concept c = cs.getConcept(id);
+            String synonym1 = "Emcor";
+            String synonym2 = "Emcor LS";
+            String synonym3 = "Monocor";
+            String synonym4 = "Zebeta";
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym1, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym2, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym3, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym4, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8613;
+            String uuid = "83936AAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Simvastatin";
+            Concept c = cs.getConcept(id);
+            String synonym = "Zocor";
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }   
+        {
+            Integer id = 8614;
+            String uuid = "82411AAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            String name = "Pravastatin";
+            Concept c = cs.getConcept(id);
+            String synonym1 = "Pravachol";
+            String synonym2 = "Pravigard Pac";
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Drug"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym1, Locale.ENGLISH));
+                c.addName(new ConceptName(synonym2, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 8451;
+            String name = "Neuropathy and Peripheral Vascular Disease";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Neuropathy and Peripheral Vascular Disease")) {
+                log.warn("Updating " + name);
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 8456;
+            String name = "Deformity of foot";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Deformity of foot")) {
+                log.warn("Updating " + name);
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }    
+        {
+            Integer id = 6566;
+            String name = "Foot ulcer or infection";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Foot ulcer or infection")) {
+                log.warn("Updating " + name);
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }                            
     }
 
     @Override
