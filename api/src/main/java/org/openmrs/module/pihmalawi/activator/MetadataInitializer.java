@@ -895,7 +895,7 @@ public class MetadataInitializer implements Initializer {
         {
             Integer id = 1551;
             String name = "Smoking history";
-            String synonym = "  History of tobacco use";
+            String synonym = "History of tobacco use";
             Concept c = cs.getConcept(id);
             if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Smoking history")) {
                 log.warn("Updating synonyms for " + name);
