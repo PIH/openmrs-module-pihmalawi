@@ -38,36 +38,37 @@
 	<properties>
 		<openMRSVersion>1.9.9</openMRSVersion>
         <addresshierarchyVersion>2.7</addresshierarchyVersion>
-        <appframeworkVersion>2.8</appframeworkVersion>
-        <appuiVersion>1.3</appuiVersion>
-        <calculationVersion>1.1</calculationVersion>
-        <emrapiVersion>1.12</emrapiVersion>
-        <eventVersion>2.2.1</eventVersion>
+        <appframeworkVersion>2.9</appframeworkVersion>
+        <appuiVersion>1.8-SNAPSHOT</appuiVersion>
+        <calculationVersion>1.2</calculationVersion>
+		<coreappsVersion>1.11.2-SNAPSHOT</coreappsVersion>
+        <emrapiVersion>1.19</emrapiVersion>
+        <eventVersion>2.5</eventVersion>
         <facilitydataVersion>2.3</facilitydataVersion>
         <htmlformentryVersion>2.6</htmlformentryVersion>
         <htmlformentryuiVersion>1.4</htmlformentryuiVersion>
         <htmlformentry19extVersion>1.6.1</htmlformentry19extVersion>
-        <htmlwidgetsVersion>1.7.1</htmlwidgetsVersion>
-        <idgenVersion>4.0</idgenVersion>
+        <htmlwidgetsVersion>1.7.2</htmlwidgetsVersion>
+        <idgenVersion>4.4.0</idgenVersion>
         <groovyVersion>2.2.4</groovyVersion>
         <logicVersion>0.5.2</logicVersion>
         <metadatadeployVersion>1.6</metadatadeployVersion>
-        <metadatamappingVersion>1.0.2</metadatamappingVersion>
-        <metadatasharingVersion>1.1.9</metadatasharingVersion>
+        <metadatamappingVersion>1.2.0</metadatamappingVersion>
+        <metadatasharingVersion>1.2.2</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>
-        <providermanagementVersion>2.3</providermanagementVersion>
-        <reportingVersion>0.10.2</reportingVersion>
+        <providermanagementVersion>2.5.1-SNAPSHOT</providermanagementVersion>
+		<reportingVersion>0.11.0</reportingVersion>
+		<reportinguiVersion>1.3-SNAPSHOT</reportinguiVersion>
+		<reportingrestVersion>1.6</reportingrestVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
-        <reportingrestVersion>1.6</reportingrestVersion>
-        <reportinguiVersion>1.0</reportinguiVersion>
-        <serializationVersion>0.2.11</serializationVersion>
+        <serializationVersion>0.2.12</serializationVersion>
         <syncVersion>1.3</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
-        <uicommonsVersion>1.8</uicommonsVersion>
-		<uiframeworkVersion>3.4</uiframeworkVersion>
+        <uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
+		<uiframeworkVersion>3.10-SNAPSHOT</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <validationVersion>1.0.1</validationVersion>
-        <webservicesRestVersion>2.12</webservicesRestVersion>
+        <webservicesRestVersion>2.17-SNAPSHOT</webservicesRestVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
 		<MODULE_NAME>PIH Malawi</MODULE_NAME>
