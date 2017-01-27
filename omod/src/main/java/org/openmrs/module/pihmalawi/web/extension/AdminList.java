@@ -51,6 +51,10 @@ public class AdminList extends AdministrationSectionExt {
 		if (ModuleFactory.isModuleStarted("reportingui")) {
 			map.put("/reportingui/adHocManage.page", "Ad-Hoc Query Tool");
 		}
+		if (ModuleFactory.isModuleStarted("coreapps")) {
+			map.put("/coreapps/providermanagement/providerList.page", "List CHW");
+			map.put("/coreapps/providermanagement/editProvider.page", "Create CHW");
+		}
 		map.put("/pihmalawi/setupReports.page", "Re-build all Reports");
 		
 		return map;
