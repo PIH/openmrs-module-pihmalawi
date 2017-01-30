@@ -26,18 +26,12 @@ ${ ui.includeFragment("pihmalawi", "infoAndErrorMessages") }
 
     updateSelectedOption = function() {
         jQuery('#sessionLocation li').removeClass('selected');
-        jQuery('#sessionLocation li[value|=' + jQuery('#sessionLocationInput').val() + ']').addClass('selected');
-
-        var sessionLocationVal = jQuery('#sessionLocationInput').val();
-        /*
-        if(parseInt(sessionLocationVal, 10) > 0){
-            jQuery('#login-button').removeClass('disabled');
-            jQuery('#login-button').removeAttr('disabled');
-        }else{
-            jQuery('#login-button').addClass('disabled');
-            jQuery('#login-button').attr('disabled','disabled');
+        var hiddenLocationId = jQuery('#sessionLocationInput').val();
+        if ( hiddenLocationId && (parseInt(hiddenLocationId) >= 0) ) {
+            jQuery('#sessionLocation li[value|=' + hiddenLocationId + ']').addClass('selected');
         }
-        */
+
+
     };
 
     jQuery(function() {
