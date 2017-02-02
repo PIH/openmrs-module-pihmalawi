@@ -31,8 +31,6 @@
 -- a (hardcoded) temp_obs_vector table and write it out to the report table 
 -- (warehouseCohortTable) matched on warehouseCohortTable.PID = temp_obs_vector.PID. 
 
-DELIMITER #
-
 DROP PROCEDURE IF EXISTS addReportColumn;
 
 #

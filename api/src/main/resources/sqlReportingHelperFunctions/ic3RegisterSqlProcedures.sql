@@ -18,8 +18,6 @@
 --
 -- Procedure creates an empty table for IC3 register with columns and correct datatypes
 
-DELIMITER #
-
 DROP PROCEDURE IF EXISTS createIc3RegisterTable;
 
 #
