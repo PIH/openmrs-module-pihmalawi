@@ -6,6 +6,8 @@
 
 -- Report lists all patients who are in enlisted in any of the CC programs or ART program.
 
+set @reportEndDate = "2016-12-31";
+
 -- Create an empty table
 CALL createIc3RegisterTable();
 -- Create cohort with demographic data
@@ -234,7 +236,8 @@ SELECT
   CASE WHEN age >= 19 
     THEN round(lastWeight/POWER(lastHeight/100,2),1)
   END AS BMI
-FROM warehouseCohortTable;
+FROM warehouseCohortTable
+LIMIT 100;
 
 
 

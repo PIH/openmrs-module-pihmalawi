@@ -304,8 +304,6 @@ from (select * from encounter where encounter_type = 122 and voided = 0 group by
 left join (select * from obs where concept_id = 3683 and value_coded = 155) o on o.person_id = e.patient_id
 having value_coded is NULL;
 
-select * from temp_epilepsy_dx;
-
 INSERT INTO obs
   (person_id, concept_id, encounter_id, obs_datetime, location_id, value_coded, creator, date_created, uuid)
 select patient_id, conceptId, encounter_id, encounter_datetime, location_id, 155, user, now(), uuid()

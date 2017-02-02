@@ -13,6 +13,7 @@
 --			getBloodGlucoseBeforeDate
 --			getBloodPressureBeforeDate
 
+DELIMITER #
 
 -- createIc3RegisterTable()
 --
@@ -169,7 +170,7 @@ BEGIN
 				pi.identifier, 
 				p.birthdate, 
 				p.gender, 
-				floor(datediff(reportEndDate,birthdate)/365) as age, 
+				TIMESTAMPDIFF(YEAR, birthdate, reportEndDate) AS age,
 				given_name, family_name, 
 				city_village as village, 
 				county_district as ta, 
@@ -199,16 +200,33 @@ BEGIN
 				group by patient_id) pi 
 				on pi.patient_id = pp.patient_id -- Ensure HCC/ARV/NCD identifier
 	join 		(select * from 
-					(select * 
+					(select person_id,
+							given_name,
+							family_name,
+							CASE WHEN NOT ISNULL(date_changed) 
+								THEN 
+									CASE WHEN date_changed > date_created THEN date_changed ELSE date_created END
+								ELSE
+									date_created
+							END AS lastMod
 					from person_name
 					where voided = 0
-					order by date_created desc) pni 
+					order by preferred desc, lastMod desc, date_created desc) pni 
 				group by person_id) pn on pn.person_id = pp.patient_id
 	left join 		(select * from 
-					(select * 
+					(select person_id,
+							city_village,
+							county_district,
+							state_province,
+							CASE WHEN NOT ISNULL(date_changed) 
+								THEN 
+									CASE WHEN date_changed > date_created THEN date_changed ELSE date_created END
+								ELSE
+									date_created
+							END AS lastMod
 					from person_address
 					where voided = 0
-					order by date_created desc) pai 
+					order by preferred desc, lastMod desc, date_created desc) pai 
 				group by person_id) pa on pa.person_id = pp.patient_id				
 	order by 	pp.patient_id asc;
 	
@@ -350,7 +368,7 @@ BEGIN
 	UPDATE warehouseCohortTable tc, temp_obs_vector tt
 	SET tc.ic3EnrollmentDate = tt.dateEnrolled, 
 		tc.ic3FirstProgramEnrolled = tt.programName,
-		tc.ageAtFirstEnrollment=floor(datediff(tt.dateEnrolled,tc.birthdate)/365) 
+		tc.ageAtFirstEnrollment=TIMESTAMPDIFF(YEAR, tc.birthdate, tt.dateEnrolled)
 	WHERE tc.PID = tt.PID ;
 
 END
@@ -618,7 +636,7 @@ BEGIN
 								from warehouse_program_enrollment w
 								where programId=', programId, ' and stateStartDate <= \'', endDate, 
 								'\' and (stateEndDate > \'', endDate, '\' OR stateEndDate IS NULL)'
-								' order by stateStartDate desc) ei
+								' order by stateStartDate desc, dateEnrolled desc, completionDate desc) ei
 						group by pid) w 
 					on tc.PID = w.PID ; ');
 
