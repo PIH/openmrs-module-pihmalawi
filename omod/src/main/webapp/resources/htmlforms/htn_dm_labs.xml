@@ -1,5 +1,6 @@
-<htmlform formUuid="618e01cc-b96f-11e5-9912-ba0be0483c18" formName="Hypertension and Diabetes Laboratory tests"
-          formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.2">
+<htmlform   formUuid="618e01cc-b96f-11e5-9912-ba0be0483c18" 
+            formName="Hypertension and Diabetes Quarterly Laboratory tests"
+            formEncounterType="6607a082-a8df-11e5-bf7f-feff819cdc9f" formVersion="1.2">
 
     <macros>
         proteinuria=6447

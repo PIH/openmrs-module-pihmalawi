@@ -273,3 +273,51 @@ DROP TABLE IF EXISTS temp_foot_migration;
 -- 
 -- **************************************************
 
+-- **************************************************
+-- MLW-294 Remove Empty Obs
+-- **************************************************
+
+delete from obs
+where value_group_id is null 
+and value_boolean is null 
+and value_coded is null 
+and value_coded_name_id is null 
+and value_drug is null 
+and value_datetime is null 
+and value_numeric is null 
+and value_modifier is null 
+and value_text is null 
+and voided = 0
+and concept_id not in (8574, 2242, 8570, 8573, 8559, 8556, 8445, 8548, 8501, 8546, 8607, 2168, 6785, 2520, 1337, 8445, 8501, 3573, 1325, 991, 1292, 2220, 2171);
+
+-- **************************************************
+-- 
+-- **************************************************
+
+-- **************************************************
+-- MLW-481 Diagnosis Issues in Chronic Care - Epilepsy Diagnoses
+-- **************************************************
+
+CREATE TEMPORARY TABLE temp_epilepsy_dx AS 
+select patient_id, 3683 as conceptId, e.encounter_id, e.encounter_datetime, e.location_id, value_coded, 58324 as user, now() as obsDate, uuid() as uuid
+from (select * from encounter where encounter_type = 122 and voided = 0 group by patient_id) e
+left join (select * from obs where concept_id = 3683 and value_coded = 155) o on o.person_id = e.patient_id
+having value_coded is NULL;
+
+select * from temp_epilepsy_dx;
+
+INSERT INTO obs
+  (person_id, concept_id, encounter_id, obs_datetime, location_id, value_coded, creator, date_created, uuid)
+select patient_id, conceptId, encounter_id, encounter_datetime, location_id, 155, user, now(), uuid()
+from temp_epilepsy_dx;
+
+DROP TABLE IF EXISTS temp_epilepsy_dx;
+
+-- **************************************************
+-- 
+-- **************************************************
+
+
+
+
+

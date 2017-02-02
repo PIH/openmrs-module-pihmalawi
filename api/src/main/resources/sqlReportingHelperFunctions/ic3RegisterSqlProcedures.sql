@@ -18,6 +18,8 @@
 --
 -- Procedure creates an empty table for IC3 register with columns and correct datatypes
 
+DELIMITER #
+
 DROP PROCEDURE IF EXISTS createIc3RegisterTable;
 
 #
@@ -31,14 +33,25 @@ BEGIN
 	create table warehouseCohortTable (
 	  id INT not null auto_increment primary key,
 	  PID INT(11) not NULL,
+	  firstName VARCHAR(255) default NULL,
+	  lastName VARCHAR(255) default NULL,
+	  village VARCHAR(255) default NULL,
+	  ta VARCHAR(255) default NULL,
+	  district VARCHAR(255) default NULL,
 	  identifier VARCHAR(255) default NULL,
 	  allPreArtIds VARCHAR(100) default NULL,
 	  allArtIds VARCHAR(100) default NULL,
 	  allCccIds VARCHAR(100) default NULL,
 	  ic3EnrollmentDate DATE,
 	  ic3FirstProgramEnrolled VARCHAR(255),
+	  lastNcdVisitDate DATE default NULL,
+	  lastNcdVisitLocation VARCHAR(255) default NULL,
 	  lastVisitDate DATE default NULL,
 	  lastVisitLocation VARCHAR(255) default NULL,
+	  lastHtnDmVisitDate DATE default NULL,
+	  lastEpilepsyVisitDate DATE default NULL,
+	  lastChronicLungVisitDate DATE default NULL,
+	  lastMentalHealthVisitDate DATE default NULL,
 	  birthdate DATE not NULL,
 	  gender VARCHAR(255) not NULL,
 	  ageAtFirstEnrollment INT(11),
@@ -54,7 +67,8 @@ BEGIN
 	  artInitialDate DATE default NULL,
 	  lastHivVisitDate DATE default NULL,
 	  lastHivVisitLocation VARCHAR(255) default NULL,
-	  lastTbValue VARCHAR(255) default NULL,
+	  lastTbValueInHiv VARCHAR(255) default NULL,
+	  lastTbDateInHiv DATE default NULL,
 	  firstViralLoadDate Date,
 	  firstViralLoadResult NUMERIC,
 	  lastViralLoadDate Date,
@@ -64,6 +78,7 @@ BEGIN
 	  ncdEnrollmentDate DATE default NULL,
 	  lastNcdOutcome VARCHAR(255),
 	  lastNcdOutcomeDate DATE, 
+	  htnDx VARCHAR(255) default NULL,
 	  firstHtnDxDate DATE default NULL,
 	  firstHtnMedsDate DATE default NULL,
 	  lastHtnMedsDate DATE default NULL,
@@ -105,9 +120,9 @@ BEGIN
 	  lastSeizures DOUBLE default NULL,
 	  seizureTriggers VARCHAR(255) default NULL,
 	  firstAsthmaDxDate DATE default NULL,
-	  firstAsthmaMedsDate DATE default NULL,
-	  lastAsthmaMedsDate DATE default NULL,
-	  lastAsthmaMedsLocation VARCHAR(255) default NULL,
+	  firstChronicLungMedsDate DATE default NULL,
+	  lastChronicLungMedsDate DATE default NULL,
+	  lastChronicLungMedsLocation VARCHAR(255) default NULL,
 	  firstAsthmaSeverity VARCHAR(255) default NULL,
 	  firstAsthmaSeverityDate DATE default NULL,
 	  lastAsthmaSeverityDate DATE default NULL,
@@ -124,8 +139,12 @@ BEGIN
 	  lastWeightDate DATE default NULL,
 	  lastHeight DOUBLE default NULL,
 	  lastWeight DOUBLE default NULL,
-	  BMI DOUBLE default NULL
-
+	  BMI DOUBLE default NULL,
+	  dmDx VARCHAR(255) default NULL,
+	  epilepsyDx VARCHAR(255) default NULL,
+	  asthmaDx VARCHAR(255) default NULL,
+	  copdDx VARCHAR(255) default NULL,
+	  mentalDx  VARCHAR(255) default NULL
 	);
 	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
 	
@@ -147,8 +166,16 @@ BEGIN
 
 	-- Create Initial Cohort With Basic Demographic Data
 	insert into warehouseCohortTable
-				(PID, identifier, birthdate, gender, age)
-	select		pp.patient_id, pi.identifier, p.birthdate, p.gender, floor(datediff(reportEndDate,birthdate)/365)
+				(PID, identifier, birthdate, gender, age, firstName, lastName, village, ta, district)
+	select		pp.patient_id, 
+				pi.identifier, 
+				p.birthdate, 
+				p.gender, 
+				floor(datediff(reportEndDate,birthdate)/365) as age, 
+				given_name, family_name, 
+				city_village as village, 
+				county_district as ta, 
+				state_province as district
 	from	 	(select * from 
 					(select patient_id, patient_program_id 
 						from patient_program 
@@ -173,6 +200,18 @@ BEGIN
 					order by date_created desc) pii 
 				group by patient_id) pi 
 				on pi.patient_id = pp.patient_id -- Ensure HCC/ARV/NCD identifier
+	join 		(select * from 
+					(select * 
+					from person_name
+					where voided = 0
+					order by date_created desc) pni 
+				group by person_id) pn on pn.person_id = pp.patient_id
+	left join 		(select * from 
+					(select * 
+					from person_address
+					where voided = 0
+					order by date_created desc) pai 
+				group by person_id) pa on pa.person_id = pp.patient_id				
 	order by 	pp.patient_id asc;
 	
 
@@ -266,14 +305,48 @@ BEGIN
 	);
 	CREATE INDEX PID_index ON temp_obs_vector (PID);
 
-	insert into temp_obs_vector(PID, programName, dateEnrolled)
-		select PID, programName, dateEnrolled
-		from (select * from 
-		(select * from 
-			warehouse_program_enrollment 
-			where dateEnrolled < endDate
-			order by dateEnrolled asc) wpei 
-		group by PID) wpe;
+	insert into temp_obs_vector
+		(PID, programName, dateEnrolled)
+	select 	wpe.PID,
+		CASE WHEN ISNULL(wpe_ncd.dateEnrolled) AND ISNULL(wpe_hiv.dateEnrolled) 
+				THEN NULL
+			WHEN ISNULL(wpe_ncd.dateEnrolled) 
+				THEN "HIV"
+			WHEN ISNULL(wpe_hiv.dateEnrolled)
+				THEN "NCD"
+			WHEN wpe_hiv.dateEnrolled = wpe_ncd.dateEnrolled 
+				THEN "Dual" 
+			WHEN wpe_hiv.dateEnrolled < wpe_ncd.dateEnrolled 
+				THEN "HIV"
+			WHEN wpe_hiv.dateEnrolled > wpe_ncd.dateEnrolled 
+				THEN "NCD"				
+		END AS programName, 
+		CASE WHEN ISNULL(wpe_ncd.dateEnrolled) AND ISNULL(wpe_hiv.dateEnrolled) 
+						THEN NULL
+					WHEN ISNULL(wpe_ncd.dateEnrolled) 
+						THEN wpe_hiv.dateEnrolled
+					WHEN ISNULL(wpe_hiv.dateEnrolled)
+						THEN wpe_ncd.dateEnrolled
+					WHEN wpe_hiv.dateEnrolled = wpe_ncd.dateEnrolled 
+						THEN wpe_ncd.dateEnrolled 
+					WHEN wpe_hiv.dateEnrolled < wpe_ncd.dateEnrolled 
+						THEN wpe_hiv.dateEnrolled
+					WHEN wpe_hiv.dateEnrolled > wpe_ncd.dateEnrolled 
+						THEN wpe_ncd.dateEnrolled				
+				END AS dateEnrolled 		
+		FROM warehouse_program_enrollment wpe
+		LEFT JOIN (select * from (select PID, dateEnrolled
+				from warehouse_program_enrollment
+				where dateEnrolled < endDate
+				and programName = "HIV Program"
+				order by dateEnrolled asc) wpe_hivi 
+				group by PID) wpe_hiv on wpe_hiv.PID = wpe.PID
+		LEFT JOIN (select * from (select PID, dateEnrolled
+				from warehouse_program_enrollment
+				where dateEnrolled < endDate
+				and programName = "CHRONIC CARE PROGRAM"
+				order by dateEnrolled asc) wpe_ncdi 
+				group by PID) wpe_ncd on wpe_ncd.PID = wpe.PID;
 
 	-- update ic3 enrollment info
 	UPDATE warehouseCohortTable tc, temp_obs_vector tt
@@ -546,9 +619,11 @@ BEGIN
 								(select pid, stateStartDate, patientState
 								from warehouse_program_enrollment w
 								where programId=', programId, ' and stateStartDate <= \'', endDate, 
-								'\' order by stateStartDate desc) ei
+								'\' and (stateEndDate > \'', endDate, '\' OR stateEndDate IS NULL)'
+								' order by stateStartDate desc) ei
 						group by pid) w 
 					on tc.PID = w.PID ; ');
+
 				
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
@@ -792,12 +867,12 @@ BEGIN
 			EPILEPSY, 
 			ASTHMA, 
 			MENTAL, 
-			(HTN + DM + EPILEPSY + ASTHMA + MENTAL) AS totalNCDs,
-			CASE WHEN HIV=1 AND (HTN + DM + EPILEPSY + ASTHMA + MENTAL) > 0 
+			(HTN + DM + EPILEPSY + ASTHMA + COPD + MENTAL) AS totalNCDs,
+			CASE WHEN HIV=1 AND (HTN + DM + EPILEPSY + ASTHMA + COPD + MENTAL) > 0 
 				THEN "yes" 
 				ELSE "no" 
 			END AS hivAtLeastOneNcd,
-			CASE WHEN (HTN + DM + EPILEPSY + ASTHMA + MENTAL) > 1 
+			CASE WHEN (HTN + DM + EPILEPSY + ASTHMA + COPD + MENTAL) > 1 
 				THEN "yes" 
 				ELSE "no" 
 			END AS atLeastTwoNcds,
@@ -814,23 +889,27 @@ BEGIN
 				THEN 1 
 				ELSE 0 
 			END AS HIV,
-			CASE WHEN firstHtnMedsDate IS NOT NULL 
+			CASE WHEN htnDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END as HTN,
-			CASE WHEN firstDmDxDate IS NOT NULL 
+			CASE WHEN dmDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END as DM,
-			CASE WHEN firstEpilepsyMedsDate IS NOT NULL 
+			CASE WHEN epilepsyDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END as EPILEPSY,
-			CASE WHEN firstAsthmaMedsDate IS NOT NULL 
+			CASE WHEN asthmaDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END as ASTHMA,
-			CASE WHEN firstMentalHealthMedsDate IS NOT NULL 
+			CASE WHEN copdDx IS NOT NULL 
+				THEN 1 
+				ELSE 0 
+			END as COPD,			
+			CASE WHEN mentalDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 
 			END as MENTAL						
