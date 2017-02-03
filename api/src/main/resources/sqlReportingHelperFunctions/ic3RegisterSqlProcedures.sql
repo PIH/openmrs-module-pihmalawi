@@ -13,7 +13,6 @@
 --			getBloodGlucoseBeforeDate
 --			getBloodPressureBeforeDate
 
-DELIMITER #
 
 -- createIc3RegisterTable()
 --
@@ -53,8 +52,8 @@ BEGIN
 	  lastMentalHealthVisitDate DATE default NULL,
 	  birthdate DATE not NULL,
 	  gender VARCHAR(255) not NULL,
-	  ageAtFirstEnrollment INT(11),
-	  age INT(11) not NULL,
+	  ageAtFirstEnrollment NUMERIC,
+	  age NUMERIC not NULL,
 	  hivAtLeastOneNcd VARCHAR(100) default NULL,
 	  atLeastTwoNcds VARCHAR(100) default NULL,
 	  htnAndDm VARCHAR(100) default NULL,
@@ -164,32 +163,35 @@ CREATE PROCEDURE createIc3RegisterCohort(IN reportEndDate DATE)
 BEGIN
 
 	-- Create Initial Cohort With Basic Demographic Data
+
 	insert into warehouseCohortTable
 				(PID, identifier, birthdate, gender, age, firstName, lastName, village, ta, district)
 	select		pp.patient_id, 
 				pi.identifier, 
 				p.birthdate, 
 				p.gender, 
-				TIMESTAMPDIFF(YEAR, birthdate, reportEndDate) AS age,
+				CASE WHEN p.dead = 1 AND reportEndDate > death_date
+					THEN 
+						TIMESTAMPDIFF(YEAR, birthdate, death_date)
+					ELSE
+						TIMESTAMPDIFF(YEAR, birthdate, reportEndDate)
+				END AS age,
 				given_name, family_name, 
 				city_village as village, 
 				county_district as ta, 
 				state_province as district
 	from	 	(select * from 
-					(select patient_id, patient_program_id 
-						from patient_program 
-						where voided = 0 
+					(select patient_id, xps.patient_program_id 
+						from patient_program ppi
+						join (select * 
+							from patient_state where state in (1,7,83)
+							and start_date < reportEndDate
+							and voided = 0) xps on xps.patient_program_id = ppi.patient_program_id
+						where ppi.voided = 0 
 						and program_id in (1,10) 
 						and (date_enrolled <= reportEndDate or date_enrolled is NULL)
 						order by date_enrolled DESC) 
-					ppi group by patient_id) pp -- Most recent Program Enrollment
-	join 		(select patient_program_id 
-					from patient_state 
-					where voided = 0 
-					and state in (1,7,83) 
-					and start_date < reportEndDate 
-					group by patient_program_id) xps 
-				on xps.patient_program_id = pp.patient_program_id -- Ensure have been On ARVs, Pre-ART (continue), and CC continue
+					ppi group by patient_id) pp -- Most recent Program Enrollment - sub query ensures have been On ARVs, Pre-ART (continue), and CC continue
 	join 		(select * from person where voided = 0) p on p.person_id = pp.patient_id -- remove voided persons
 	join 		(select patient_id, identifier from 
 					(select * 

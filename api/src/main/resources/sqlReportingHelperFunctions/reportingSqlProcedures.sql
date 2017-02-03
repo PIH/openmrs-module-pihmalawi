@@ -23,7 +23,6 @@
 -- that internal patient identifiers are supplied by the PID in the warehouseCohortTable table.
 -- SET @s=NULL; ...
 
-DELIMITER #
 
 -- addReportColumn(colName)
 -- INPUTS: 		colName
