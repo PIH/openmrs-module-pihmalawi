@@ -163,6 +163,13 @@
         </dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
+            <artifactId>logic-api</artifactId>
+            <version>${logicVersion}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
             <artifactId>metadatadeploy-api</artifactId>
             <version>${metadatadeployVersion}</version>
             <type>jar</type>
