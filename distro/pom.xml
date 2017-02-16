@@ -48,6 +48,12 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>coreapps-omod</artifactId>
+                    <version>${coreappsVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>emrapi-omod</artifactId>
                     <version>${emrapiVersion}</version>
                     <scope>provided</scope>
@@ -139,6 +145,20 @@
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>providermanagement-omod</artifactId>
                     <version>${providermanagementVersion}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>registrationcore-omod</artifactId>
+                    <version>${registrationcoreVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>registrationapp-omod</artifactId>
+                    <version>${registrationappVersion}</version>
+                    <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
