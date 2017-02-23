@@ -65,14 +65,16 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
             providerAttributes.add(providerAttributeType);
         }
 
-        ProviderRole vhwSupervisor = install(providerRole("VHW Supervisor", null, relationshipTypes, providerAttributes, ProviderRoles.VHW_SUPERVISOR));
+        ProviderRole vhwSupervisee = install(providerRole("VHW", null, relationshipTypes, providerAttributes, ProviderRoles.VHW));
 
-        Set<ProviderRole> supervisorRoles = null;
-        if (vhwSupervisor != null ) {
-            supervisorRoles = new HashSet<ProviderRole>();
-            supervisorRoles.add(vhwSupervisor);
+        Set<ProviderRole> superviseeRoles = null;
+        if (vhwSupervisee != null ) {
+            superviseeRoles = new HashSet<ProviderRole>();
+            superviseeRoles.add(vhwSupervisee);
         }
-        install(providerRole("VHW", supervisorRoles, relationshipTypes, providerAttributes, ProviderRoles.VHW));
+
+        install(providerRole("VHW Supervisor", superviseeRoles, relationshipTypes, providerAttributes, ProviderRoles.VHW_SUPERVISOR));
+
 
     }
 }
