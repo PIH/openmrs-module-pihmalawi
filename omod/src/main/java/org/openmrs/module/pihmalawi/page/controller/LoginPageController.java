@@ -11,6 +11,7 @@ import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
@@ -48,17 +49,20 @@ public class LoginPageController {
             return "redirect:findPatient.htm";
         }
 
-        String redirectUrl = getStringSessionAttribute(PihMalawiWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL, pageRequest.getRequest());
-        if (StringUtils.isBlank(redirectUrl))
+        String redirectUrl = ObjectUtil.nvlStr(pageRequest.getRequest().getSession().getAttribute(PihMalawiWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL), "");
+        pageRequest.getRequest().getSession().removeAttribute(PihMalawiWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL);
+
+        if (StringUtils.isBlank(redirectUrl)) {
             redirectUrl = pageRequest.getRequest().getParameter(PihMalawiWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL);
-
-        if (StringUtils.isBlank(redirectUrl))
+        }
+        if (StringUtils.isBlank(redirectUrl)) {
             redirectUrl = pageRequest.getRequest().getHeader("Referer");
-
-        if (redirectUrl == null)
+        }
+        if (redirectUrl == null) {
             redirectUrl = "";
-
+        }
         model.addAttribute(PihMalawiWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL, redirectUrl);
+
         Location lastSessionLocation = null;
         List<Location> systemLocations = null;
         try {
@@ -174,12 +178,6 @@ public class LoginPageController {
         pageRequest.getSession().setAttribute(PihMalawiWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL, redirectUrl);
 
         return "redirect:" + ui.pageLink(PihMalawiConstants.MODULE_ID, "login");
-    }
-
-    private String getStringSessionAttribute(String attributeName, HttpServletRequest request) {
-        String attributeValue = (String) request.getSession().getAttribute(attributeName);
-        request.getSession().removeAttribute(attributeName);
-        return attributeValue;
     }
 
     public String getRelativeUrl(String url, PageRequest pageRequest) {
