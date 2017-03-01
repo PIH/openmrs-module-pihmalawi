@@ -15,6 +15,8 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Concept;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.HighBloodPressureCohortDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.PresenceOrAbsenceCohortDefinition;
 import org.openmrs.module.reporting.common.RangeComparator;
@@ -25,7 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.openmrs.module.pihmalawi.common.TraceConstants.HighPriorityCategory;
 
 /**
  * Defines all of the Cohort Definition instances we want to expose for Pih Malawi
@@ -37,6 +43,9 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 
 	@Autowired
 	private DataFactory df;
+
+    @Autowired
+    private HivCohortDefinitionLibrary hivCohorts;
 
     @Autowired
     private ChronicCareMetadata metadata;
@@ -140,6 +149,13 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 	}
 
     @DocumentedDefinition
+    public CohortDefinition getPatientsWithHighBloodPressureByEnd() {
+        HighBloodPressureCohortDefinition cd = new HighBloodPressureCohortDefinition();
+        cd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        return cd;
+    }
+
+    @DocumentedDefinition
     public CohortDefinition getPatientsWithMostRecentSystolicBloodPressureUnder180AtLocation() {
         return df.getPatientsWithMostRecentNumericObsAtLocationByEnd(metadata.getSystolicBloodPressureConcept(), metadata.getChronicCareEncounterTypes(), RangeComparator.LESS_THAN, 180.0);
     }
@@ -159,6 +175,21 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		cd.setPresentInAtLeast(2);
 		return cd;
 	}
+
+    @DocumentedDefinition
+	public Map<HighPriorityCategory, CohortDefinition> getHighPriorityForTraceCohortsAtEnd() {
+        Map<HighPriorityCategory, CohortDefinition> ret = new LinkedHashMap<HighPriorityCategory, CohortDefinition>();
+        ret.put(HighPriorityCategory.HIV, hivCohorts.getEverEnrolledInHivProgramByEndDate());  // 1. HIV patients (all)
+        ret.put(HighPriorityCategory.HIGH_BP, getPatientsWithHighBloodPressureByEnd()); // 2. Hypertension patients with BP ever greater than 180/110 (both systolic and diastolic should exceed threshold)
+        ret.put(HighPriorityCategory.ON_INSULIN, df.getPatientsWithCodedObsByEndDate(metadata.getCurrentDrugsUsedConcept(), Arrays.asList(metadata.getInsulinConcept()))); // 3. Diabetes patients on insulin
+        ret.put(HighPriorityCategory.SEVERE_ASTHMA, getPatientsWithMostRecentSeverePersistentAsthmaByEndDate()); // 4. Asthma patients with severity of “severe persistent” at last visit
+        ret.put(HighPriorityCategory.HIGH_SIEZURES, getPatientsWithMoreThanFiveSeizuresPerMonthRecordedInLastVisitByEndDate()); // 5. Epilepsy patients reporting over 5 seizures per month at last visit
+        ret.put(HighPriorityCategory.SICKLE_CELL, df.getPatientsWithAnyObsByEndDate(metadata.getSickleCellDiseaseConcept())); // 6. Sickle cell disease patients (all)
+        ret.put(HighPriorityCategory.CHRONIC_KIDNEY_DISEASE, df.getPatientsWithAnyObsByEndDate(metadata.getChronicKidneyDiseaseConcept())); // 7. Chronic kidney disease patients (all)
+        ret.put(HighPriorityCategory.RHEUMATIC_HEART_DISEASE, df.getPatientsWithAnyObsByEndDate(metadata.getRheumaticHeartDiseaseConcept())); // 8. Rheumatic Heart Disease patients (all)
+        ret.put(HighPriorityCategory.CONGESTIVE_HEART_FAILURE, df.getPatientsWithAnyObsByEndDate(metadata.getCongestiveHeartFailureConcept())); // 9. Congestive Heart Failure patients (all)
+        return ret;
+    }
 
 	@DocumentedDefinition(value = "newPatientsReferredFromOPDAtLocationDuringPeriod")
 	public CohortDefinition getNewPatientsReferredFromOPDAtLocationDuringPeriod() {

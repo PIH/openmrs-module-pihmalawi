@@ -15,13 +15,12 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Tests the HccMissedAppointmentReport
+ * Tests the IC3TraceReport
  */
 public class IC3TraceReportTest extends ReportManagerTest {
 
@@ -42,18 +41,16 @@ public class IC3TraceReportTest extends ReportManagerTest {
 	@Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("endDate", DateUtil.getDateTime(2016, 7, 1));
-		context.addParameterValue("location", metadata.getNenoHospital());
 		return context;
 	}
 
 	@Override
 	protected boolean isEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean enableReportOutput() {
-		return false;
+		return true;
 	}
 }
