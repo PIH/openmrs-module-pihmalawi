@@ -86,8 +86,6 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
         // First, only those patients who are actively enrolled will have an appointment status
         Cohort enrolled = getPatientsActivelyEnrolled(activeStates, def.getLocations(), def.getOnDate(), context);
 
-        // Of these patients, keep those who have their latest scheduled appointment obs in the past, and no subsequent encounter
-
         HqlQueryBuilder lastEncounterBuilder = new HqlQueryBuilder();
         lastEncounterBuilder.select("e.patient.patientId", "max(e.encounterDatetime) as lastActualDate");
         lastEncounterBuilder.from(Encounter.class, "e");
@@ -102,8 +100,8 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
         nextScheduledBuilder.select("o.personId", "max(o.valueDatetime) as lastPlannedDate");
         nextScheduledBuilder.from(Obs.class, "o");
         nextScheduledBuilder.where("o.encounter.encounterType.encounterTypeId in (" + OpenmrsUtil.join(encounterTypes, ",") + ")");
-        lastEncounterBuilder.whereLessOrEqualTo("o.encounter.encounterDatetime", def.getOnDate());
-        lastEncounterBuilder.whereIn("o.encounter.location.locationId", locationIds);
+        nextScheduledBuilder.whereLessOrEqualTo("o.encounter.encounterDatetime", def.getOnDate());
+        nextScheduledBuilder.whereIn("o.encounter.location.locationId", locationIds);
         nextScheduledBuilder.wherePersonIn("o.personId", context);
         nextScheduledBuilder.whereInAny("o.concept", metadata.getAppointmentDateConcept());
         nextScheduledBuilder.groupBy("o.personId");
