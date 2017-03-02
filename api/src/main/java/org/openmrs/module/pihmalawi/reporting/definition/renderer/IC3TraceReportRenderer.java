@@ -120,6 +120,7 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
                 String headerStyle1Centered = headerStyle1 + ",align=center";
                 String leftBorderedLight = ",border=left:grey_40_percent";
                 String rightBorderedLight = ",border=right:grey_40_percent";
+                String blackout = ",background-color=" + HSSFColor.BLACK.index;
 
                 builder.addCell("", null, 4);
 
@@ -194,7 +195,7 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
                     String dateToVisit = "";
                     if (traceCriteria != null) {
                         TraceConstants.ReturnVisitCategory category = traceCriteria.getReturnVisitCategory();
-                        dateToVisit = category.name();
+                        dateToVisit = category.getDescription();
                     }
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
 
@@ -205,13 +206,15 @@ public class IC3TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("DIAGNOSES"), centeredRowStyle);
                     }
 
-                    builder.addCell(row.getColumnValue("LAST_VISIT_DATE"), dateRowStyle + leftBorderedLight);
-                    builder.addCell(row.getColumnValue("NEXT_APPT_DATE"), dateRowStyle);
-                    builder.addCell(row.getColumnValue("WEEKS_OUT_OF_CARE"), centeredRowStyle + ",format=0.0");
+                    String redactIfNeeded = (traceCriteria == null || traceCriteria.hasMissedVisit() ? "" : blackout);
+
+                    builder.addCell(row.getColumnValue("LAST_VISIT_DATE"), dateRowStyle + leftBorderedLight + redactIfNeeded);
+                    builder.addCell(row.getColumnValue("NEXT_APPT_DATE"), dateRowStyle + redactIfNeeded);
+                    builder.addCell(row.getColumnValue("WEEKS_OUT_OF_CARE"), centeredRowStyle + ",format=0.0" + redactIfNeeded);
 
                     for (int j = 0; j < 6; j++) {
                         String border = (j == 0 ? leftBorderedLight : j == 5 ? ",border=right" : "");
-                        builder.addCell("☐", centeredRowStyle + ",size=18" + border);
+                        builder.addCell("☐", centeredRowStyle + ",size=18" + border + redactIfNeeded);
                     }
                     builder.nextRow();
                 }

@@ -165,6 +165,15 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
 
+    public PatientDataDefinition getMostRecentEncounterOfTypesAtLocationByEndDate(List<EncounterType> types, DataConverter converter) {
+        EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
+        def.setWhich(TimeQualifier.LAST);
+        def.setTypes(types);
+        def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+        def.addParameter(new Parameter("locationList", "Location List", List.class));
+        return convert(def, ObjectUtil.toMap("onOrBefore=endDate,locationList=location"), converter);
+    }
+
 	public PatientDataDefinition getMostRecentEncounterOfTypeByEndDate(EncounterType type, DataConverter converter) {
 		return getMostRecentEncounterOfTypesByEndDate(Arrays.asList(type), converter);
 	}

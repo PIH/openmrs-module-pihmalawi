@@ -99,7 +99,7 @@ public class IC3TraceReport extends ApzuReportManager {
         dsd6wk.setLocation(null);
         dsd6wk.setTraceType(TraceType.SIX_WEEK);
 
-        rd.addDataSetDefinition("6 weeks", Mapped.noMappings(dsd6wk));
+        //rd.addDataSetDefinition("6 weeks", Mapped.noMappings(dsd6wk));
 
         return rd;
     }

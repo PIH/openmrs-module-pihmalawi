@@ -20,17 +20,21 @@ import org.openmrs.module.pihmalawi.common.TraceConstants.HighPriorityCategory;
 import org.openmrs.module.pihmalawi.common.TraceCriteria;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.IC3Metadata;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.HighViralLoadNeedingTraceCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RepeatViralLoadNeedingTraceCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.TraceCriteriaPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.evaluator.PatientDataEvaluator;
-import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
+import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
@@ -61,6 +65,9 @@ public class TraceCriteriaDataEvaluator implements PatientDataEvaluator {
     private ChronicCareMetadata ccMetadata;
 
     @Autowired
+    private IC3Metadata ic3Metadata;
+
+    @Autowired
     private HivCohortDefinitionLibrary hivCohorts;
 
     @Autowired
@@ -69,8 +76,11 @@ public class TraceCriteriaDataEvaluator implements PatientDataEvaluator {
     @Autowired
     private CohortDefinitionService cohortDefinitionService;
 
+    @Autowired
+    private HivPatientDataLibrary hivData;
+
 	@Autowired
-	private DataSetDefinitionService dataSetDefinitionService;
+	private PatientDataService patientDataService;
 
 	@Override
 	public EvaluatedPatientData evaluate(PatientDataDefinition definition, EvaluationContext context) throws EvaluationException {
@@ -85,12 +95,15 @@ public class TraceCriteriaDataEvaluator implements PatientDataEvaluator {
 	    EvaluatedPatientData pd = new EvaluatedPatientData(definition, context);
 
 		add(pd, LATE_HIV_VISIT, getLateHiv(traceType), mappings, context);
-        //add(pd, HIGH_VIRAL_LOAD, getHighViralLoad(traceType), mappings, context);
-        //add(pd, REPEAT_VIRAL_LOAD, getRepeatViralLoad(traceType), mappings, context);
-        //add(pd, EID_12_MONTH_TEST, getEid12Month(traceType), mappings, context);
-        //add(pd, EID_24_MONTH_TEST, getEid24Month(traceType), mappings, context);
-        //add(pd, EID_POSITIVE_6_WK, getEidPositive6Week(traceType), mappings, context);
-        //add(pd, EID_NEGATIVE, getEidNegative(traceType), mappings, context);
+        add(pd, HIGH_VIRAL_LOAD, getHighViralLoad(traceType), mappings, context);
+
+        if (traceType.getMinWeeks() == 2) {
+            add(pd, REPEAT_VIRAL_LOAD, getRepeatViralLoad(traceType), mappings, context);
+            //add(pd, EID_12_MONTH_TEST, getEid12Month(traceType), mappings, context);
+            //add(pd, EID_24_MONTH_TEST, getEid24Month(traceType), mappings, context);
+            //add(pd, EID_POSITIVE_6_WK, getEidPositive6Week(traceType), mappings, context);
+            //add(pd, EID_NEGATIVE, getEidNegative(traceType), mappings, context);
+        }
 
         if (!traceType.isPhase1Only()) {
             add(pd, LATE_NCD_VISIT_NORMAL_PRIORITY, df.createPatientComposition(getLateNcd(traceType), "AND NOT ", getHighPriority()), mappings, context);
@@ -100,45 +113,40 @@ public class TraceCriteriaDataEvaluator implements PatientDataEvaluator {
 		return pd;
 	}
 
+    /**
+     * Late HIV:  Active in HIV program and late for a appointment by the specified range
+     */
 	public CohortDefinition getLateHiv(TraceType traceType) throws EvaluationException {
-
-	    // 2 wk report:  If patient has ART# AND today's date minus appointment date is greater than/equal to 14 days and less than 42 days
-        // 6 wk report:  If patient has ART# AND today's date minus appointment date is greater than/equal to 42 days and less than 84 days
-
         CohortDefinition activeInHivProgram = hivCohorts.getActivelyEnrolledInHivProgramAtLocationOnEndDate();
         CohortDefinition lateForHivVisit = df.getPatientsLateForAppointment(hivMetadata.getActiveHivStates(), hivMetadata.getHivEncounterTypes(), traceType.getMinDaysInclusive(), traceType.getMaxDaysInclusive());
         return df.getPatientsInAll(activeInHivProgram, lateForHivVisit);
     }
 
-    public CohortDefinition getHighViralLoad() throws EvaluationException {
-
-	    /*
-	        2 wk report:
-
-	        If today's date minus last viral load result data entry date (date modified time stamp) is less than/equal to 14 days AND
-	        viral load result is greater than 1,000 (anything less than 1,000 is reported as less than the detectable limit or "<LDL")
-
-	        NOTE: When the patient has a viral load test done, it is recorded on the mastercard with the visit date. When the result
-	        is entered into the EMR from the lab, they should enter the result to the corresponding visit date.
-
-	     */
-	    return null; // TODO:
+    /**
+     * 2 wk report:  Viral Load Obs DateCreated/DateChanged <= 14 days and viral load > 1000
+     * 6 wk report:  Viral Load Obs DateCreated/DateChanged <= 56 days and viral load > 1000 and no visit date > last viral load entry date
+     */
+    public CohortDefinition getHighViralLoad(TraceType traceType) throws EvaluationException {
+        HighViralLoadNeedingTraceCohortDefinition cd = new HighViralLoadNeedingTraceCohortDefinition();
+        cd.setTraceType(traceType);
+        cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+        return cd;
     }
 
-    public CohortDefinition getRepeatViralLoad() {
-        /*
-            Logic with stamp: If appointment date minus intensive adherence intervention date is greater than/equal to 70 days and less than 154 days AND
-            appointment date minus today's date is greater than/equal to 14 days and less than 28 days
-
-            Alternative logic until stamp finished: if last viral load was greater than 1,000 AND today's date minus  last viral load result
-            data entry date (date modified time stamp) is greater than/equal to 84 days and
-            less than 168 days AND last visit date minus last viral load result data entry date (date modified time stamp) is greater than 0 AND appointment date
-            minus today's date is greater than/equal to 14 days and less than 28 days
-
-            NOTE: I confirmed that Kondwani wants to create a stamp that will go on the mastercard to indicate that the intensive adherence intervention has taken place.
-            Can we add a tick box to the visit line so that the EMR has a place to enter if the intervention has taken place?
-        */
-        return null; // TODO
+    /**
+     * previous viral load was high, it was entered 84-168 days ago, patient hasn't visited since, and patient has appointment 2-4 weeks in the future
+     *  last viral load obs has (
+     *      valueNumeric > 1000 and
+     *      today-dateCreated between [84, 168) days and
+     *      lastVisitDate-dateCreated > 0
+     *  )
+     *  and appointmentDate-today [14, 28)
+     */
+    public CohortDefinition getRepeatViralLoad(TraceType traceType) throws EvaluationException {
+        RepeatViralLoadNeedingTraceCohortDefinition cd = new RepeatViralLoadNeedingTraceCohortDefinition();
+        cd.setTraceType(traceType);
+        cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+        return cd;
     }
 
     public CohortDefinition getEid12Month() {
@@ -211,4 +219,6 @@ public class TraceCriteriaDataEvaluator implements PatientDataEvaluator {
             c.addCategory(category);
         }
     }
+
+
 }

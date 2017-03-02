@@ -14,14 +14,12 @@
 package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
 import org.openmrs.Cohort;
-import org.openmrs.EncounterType;
-import org.openmrs.ProgramWorkflowState;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.common.TraceCriteria;
-import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.IC3Metadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.TraceCriteriaPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.TraceDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
@@ -45,10 +43,8 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Handler(supports={TraceDataSetDefinition.class})
@@ -61,7 +57,7 @@ public class TraceDataSetEvaluator implements DataSetEvaluator {
     private HivMetadata hivMetadata;
 
 	@Autowired
-	private ChronicCareMetadata ccMetadata;
+	private IC3Metadata ic3Metadata;
 
     @Autowired
     private HivPatientDataLibrary hivPatientData;
@@ -146,28 +142,10 @@ public class TraceDataSetEvaluator implements DataSetEvaluator {
      * If the phase1Only flag is set, limit this only to HIV enrolled patients and HIV visits
      */
     public PatientDataDefinition getAppointmentStatusData(boolean phase1Only, String property) {
-        PatientDataDefinition pdd = df.getAppointmentStatus(getIC3ActiveStates(), getIC3EncounterTypes());
+        PatientDataDefinition pdd = df.getAppointmentStatus(ic3Metadata.getActiveStates(), ic3Metadata.getEncounterTypes());
         if (phase1Only) {
             pdd = df.getAppointmentStatus(hivMetadata.getActiveHivStates(), hivMetadata.getHivEncounterTypes());
         }
         return df.convert(pdd, new PropertyConverter(AppointmentInfo.class, property));
-    }
-
-    /**
-     * @return list of all active states a patient could be in to be considered active in IC3
-     */
-    public List<ProgramWorkflowState> getIC3ActiveStates() {
-        List<ProgramWorkflowState> allStates = new ArrayList<ProgramWorkflowState>(hivMetadata.getActiveHivStates());
-        allStates.addAll(ccMetadata.getActiveChronicCareStates());
-        return allStates;
-    }
-
-    /**
-     * @return list of all encounter types a patient could make and attend scheduled IC3 visits
-     */
-    public List<EncounterType> getIC3EncounterTypes() {
-        List<EncounterType> allEncounterTypes = new ArrayList<EncounterType>(hivMetadata.getHivEncounterTypes());
-        allEncounterTypes.addAll(ccMetadata.getChronicCareScheduledVisitEncounterTypes());
-        return allEncounterTypes;
     }
 }

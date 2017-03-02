@@ -68,9 +68,13 @@ public class TraceConstants {
     }
 
     public enum ReturnVisitCategory {
-        TODAY,
-        NEXT_CLINIC_DAY,
-        APPOINTMENT_DATE
+        TODAY("TODAY"),
+        NEXT_CLINIC_DAY("NEXT CLINIC DAY"),
+        APPOINTMENT_DATE("APPOINTMENT DATE");
+
+        private String description;
+        ReturnVisitCategory(String description) { this.description = description; }
+        public String getDescription() { return description; }
     }
 
     public enum HighPriorityCategory {
