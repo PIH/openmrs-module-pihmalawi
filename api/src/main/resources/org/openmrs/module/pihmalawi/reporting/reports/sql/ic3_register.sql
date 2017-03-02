@@ -113,9 +113,7 @@ CALL getEncounterDateForObs(5089, @reportEndDate, 'last', 'lastWeightDate');
 CALL getNumericObsBeforeDate(5090, @reportEndDate, 'last', 'lastHeight');
 CALL getNumericObsBeforeDate(5089, @reportEndDate, 'last', 'lastWeight');
 -- Diagnoses Logic
-CALL diagnosesLogic(); -- Must be last!
-
-
+CALL diagnosesLogic();
 -- Print report using select - update any column names or reorder here
 SELECT
   PID,
@@ -235,7 +233,3 @@ SELECT
     THEN round(lastWeight/POWER(lastHeight/100,2),1)
   END AS BMI
 FROM warehouseCohortTable;
-
-
-
-

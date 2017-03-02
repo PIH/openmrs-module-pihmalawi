@@ -22,7 +22,10 @@ import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.DatabaseUpdater;
 import org.openmrs.util.OpenmrsUtil;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -88,58 +91,9 @@ public class MysqlRunner {
             log.debug("Wrote SQL file for execution: " + toExecute.getAbsolutePath());
             log.debug("Contents:\n" + sqlToWrite);
 
-            // Constructing command line elements to execute
-            List<String> commands = new ArrayList<String>();
-            commands.add("mysql");
-            commands.add("-u" + Context.getRuntimeProperties().getProperty("connection.username"));
-            commands.add("-p" + Context.getRuntimeProperties().getProperty("connection.password"));
-            commands.add("-esource " + toExecute.getAbsolutePath());
-
-            commands.add(DatabaseUpdater.getConnection().getCatalog()); // Database Name
-            log.debug("Constructed command to execute: \n" + OpenmrsUtil.join(commands, " "));
-
-            Process process = Runtime.getRuntime().exec(commands.toArray(new String[]{}));
-
-            MysqlResult result = new MysqlResult();
-            LineIterator successIterator = null;
-            try {
-                successIterator = IOUtils.lineIterator(process.getInputStream(), "UTF-8");
-                while (successIterator.hasNext()) {
-                    String line = successIterator.nextLine();
-                    String[] elements = StringUtils.splitPreserveAllTokens(line, '\t');
-                    if (result.getColumns().isEmpty()) {
-                        result.setColumns(Arrays.asList(elements));
-                    }
-                    else {
-                        Map<String, String> row = new LinkedHashMap<String, String>();
-                        for (int i=0; i<result.getColumns().size(); i++) {
-                            String value = elements[i].trim();
-                            if ("NULL".equals(value)) {
-                                value = null;
-                            }
-                            row.put(result.getColumns().get(i), value);
-                        }
-                        result.getData().add(row);
-                    }
-                }
-            }
-            finally {
-                successIterator.close();
-            }
-
-            LineIterator errorIterator = null;
-            try {
-                errorIterator = IOUtils.lineIterator(process.getErrorStream(), "UTF-8");
-                while (errorIterator.hasNext()) {
-                    String line = errorIterator.nextLine();
-                    if (!line.toLowerCase().startsWith("warning")) {
-                        result.getErrors().add(line);
-                    }
-                }
-            }
-            finally {
-                errorIterator.close();
-            }
+            Connection connection = DatabaseUpdater.getConnection();
+            MysqlScriptRunner mysqlScriptRunner = new MysqlScriptRunner(connection, true, false);
+            MysqlResult result = mysqlScriptRunner.runScript(new BufferedReader(new FileReader(toExecute.getAbsolutePath())));
 
             return result;
         }
