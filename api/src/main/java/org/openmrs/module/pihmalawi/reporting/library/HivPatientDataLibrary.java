@@ -32,12 +32,15 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4Data
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.ChangeInValueConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
@@ -46,6 +49,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
@@ -221,6 +225,20 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
     @DocumentedDefinition("latestViralLoad.date")
     public PatientDataDefinition getLatestViralLoadDateByEndDate() {
         return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsDatetimeConverter());
+    }
+
+    @DocumentedDefinition
+    public PatientDataDefinition getViralLoadsForTraceAtLocation(Double greaterThanValue, Integer minDaysInPast, Integer maxDaysInPast) {
+        Date today = DateUtil.getStartOfDay(new Date());
+        Date createdOnOrAfter = maxDaysInPast == null ? null : (DateUtil.adjustDate(today, -1*maxDaysInPast, DurationUnit.DAYS));
+        Date createdOnOrBefore = minDaysInPast == null ? null : (DateUtil.adjustDate(today, -1*minDaysInPast, DurationUnit.DAYS));
+        ObsForPersonDataDefinition viralLoads = new ObsForPersonDataDefinition();
+        viralLoads.setQuestion(hivMetadata.getHivViralLoadConcept());
+        viralLoads.setValueNumericGreaterThan(greaterThanValue);
+        viralLoads.addParameter(new Parameter("locationList", "Location List", List.class));
+        viralLoads.setCreatedOnOrAfter(createdOnOrAfter);
+        viralLoads.setCreatedOnOrBefore(createdOnOrBefore);
+        return pdf.convert(viralLoads, ObjectUtil.toMap("locationList=location"), null);
     }
 
     @DocumentedDefinition("arvRegimenChanges")

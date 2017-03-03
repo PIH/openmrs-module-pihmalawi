@@ -109,6 +109,7 @@ public class CommonMetadata extends Metadata {
 	public static final String DNA_PCR_RESULT = "DNA-PCR Testing Result";
 	public static final String DNA_PCR_RESULT_2 = "DNA-PCR Testing Result 2";
 	public static final String DNA_PCR_RESULT_3 = "DNA-PCR Testing Result 3";
+    public static final String RESULT_OF_HIV_TEST = "Result of HIV test";
 	public static final String NEGATIVE = "Negative";
 	public static final String POSITIVE = "Positive";
 	public static final String INDETERMINATE = "Indeterminate";
@@ -140,6 +141,10 @@ public class CommonMetadata extends Metadata {
 	public static final String HISTORY_OF_ALCOHOL_USE_CONCEPT = "History of alcohol use";
 	public static final String LITERS_ALCOHOL_PER_DAY_CONCEPT = "Liters per day";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
+
+	public static final String EID_BREASTFEEDING_STATUS = "Breast feeding";
+	public static final String EID_BREASTFEEDING_STOPPED_OVER_6_WEEKS_AGO = "Breastfeeding stopped over 6 weeks ago";
+	public static final String EID_HIV_TESTING_COMPLETED_CODED = "HIV testing completion (coded)";
 
 	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
 	public static final String PREFERRED_TX_OUT_OF_STOCK_CONCEPT = "Preferred treatment out of stock";
@@ -309,6 +314,10 @@ public class CommonMetadata extends Metadata {
 	public Concept getDnaPcrResult3Concept() {
 		return getConcept(DNA_PCR_RESULT_3);
 	}
+
+	public Concept getResultOfHivTestConcept() {
+	    return getConcept(RESULT_OF_HIV_TEST);
+    }
 
 	public Concept getNegativeConcept() {
 		return getConcept(NEGATIVE);
@@ -680,6 +689,18 @@ public class CommonMetadata extends Metadata {
 
     public Concept getCongestiveHeartFailureConcept() {
         return getConcept(CONGESTIVE_HEART_FAILURE_CONCEPT);
+    }
+
+    public Concept getEidBreastfeedingStatusConcept() {
+	    return getConcept(EID_BREASTFEEDING_STATUS);
+    }
+
+    public Concept getEidBreastfeedingStoppedOver6WeeksAgoConcept() {
+        return getConcept(EID_BREASTFEEDING_STOPPED_OVER_6_WEEKS_AGO);
+    }
+
+    public Concept getEidHivTestingCompletedCodedConcept() {
+        return getConcept(EID_HIV_TESTING_COMPLETED_CODED);
     }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

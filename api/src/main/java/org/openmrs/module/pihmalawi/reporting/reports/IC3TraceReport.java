@@ -90,7 +90,7 @@ public class IC3TraceReport extends ApzuReportManager {
             dsd.setLocation(location);
             dsd.setTraceType(traceType);
 
-            if (location.equals(hivMetadata.getLuwaniHc())) // TODO: Remove when testing is done
+            //if (location.equals(hivMetadata.getLuwaniHc())) // TODO: Remove when testing is done
             rd.addDataSetDefinition(location.getName() + " - " + traceType.getMinWeeks() + " weeks", Mapped.mapStraightThrough(dsd));
         }
 
@@ -99,7 +99,7 @@ public class IC3TraceReport extends ApzuReportManager {
         dsd6wk.setLocation(null);
         dsd6wk.setTraceType(TraceType.SIX_WEEK);
 
-        //rd.addDataSetDefinition("6 weeks", Mapped.noMappings(dsd6wk));
+        rd.addDataSetDefinition("6 weeks", Mapped.noMappings(dsd6wk));
 
         return rd;
     }

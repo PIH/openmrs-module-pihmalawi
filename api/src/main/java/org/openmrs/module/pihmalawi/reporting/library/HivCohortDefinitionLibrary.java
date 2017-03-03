@@ -16,8 +16,10 @@ package org.openmrs.module.pihmalawi.reporting.library;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.common.TraceConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RelativeDateCohortDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.ViralLoadNeedingTraceCohortDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.BaseObsCohortDefinition.TimeModifier;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -328,6 +330,11 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getExposedChildState());
 	}
 
+    @DocumentedDefinition
+    public CohortDefinition getPatientsInExposedChildStateAtLocationOnEndDate() {
+        return df.getActiveInStateAtLocationOnEndDate(hivMetadata.getExposedChildState());
+    }
+
 	@DocumentedDefinition(value = "inPreArtStateOnEndDate")
 	public CohortDefinition getPatientsInPreArtStateOnEndDate() {
 		return df.getCurrentlyInStateOnEndDate(hivMetadata.getPreArtState());
@@ -565,6 +572,16 @@ public class HivCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDefi
 
     public CohortDefinition getPatientsWithViralLoadRecordedByEndDate() {
         return df.getPatientsWithAnyObsByEndDate(hivMetadata.getHivViralLoadConcept());
+    }
+
+    public CohortDefinition getPatientsWithViralLoadNeedingTraceAtLocation(TraceConstants.TraceType traceType, Integer minDaysInPast, Integer maxDaysInPast, boolean ensureNoSubsequentVisit) {
+        ViralLoadNeedingTraceCohortDefinition cd = new ViralLoadNeedingTraceCohortDefinition();
+        cd.setTraceType(traceType);
+        cd.setMinDaysInPast(minDaysInPast);
+        cd.setMaxDaysInPast(maxDaysInPast);
+        cd.setEnsureNoSubsequentVisit(ensureNoSubsequentVisit);
+        cd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+        return cd;
     }
 
     public CohortDefinition getPatientsWithCd4RecordedWithinMonthsOfEndDate(int numMonths) {

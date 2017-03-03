@@ -15,6 +15,7 @@ package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.EncounterType;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.common.TraceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,4 +49,17 @@ public class IC3Metadata extends CommonMetadata {
         return allEncounterTypes;
     }
 
+    /**
+     * @return list of all active states a patient could be in to be considered active based on trace type
+     */
+    public List<ProgramWorkflowState> getActiveStatesForTrace(TraceConstants.TraceType traceType) {
+        return (traceType.isPhase1Only() ? hivMetadata.getActiveHivStates() : getActiveStates());
+    }
+
+    /**
+     * @return list of all encounter types a patient could make and attend scheduled IC3 visits based on trace type
+     */
+    public List<EncounterType> getEncounterTypesForTrace(TraceConstants.TraceType traceType) {
+        return (traceType.isPhase1Only() ? hivMetadata.getHivEncounterTypes() : getEncounterTypes());
+    }
 }

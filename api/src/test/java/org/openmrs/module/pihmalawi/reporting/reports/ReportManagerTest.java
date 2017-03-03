@@ -66,7 +66,7 @@ public abstract class ReportManagerTest extends StandaloneContextSensitiveTest {
 		ReportManagerUtil.setupReport(getReportManager());
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
         ReportUtil.updateGlobalProperty(ReportingConstants.DEFAULT_LOCALE_GP_NAME, "en");
-		LogManager.getLogger(EvaluationProfiler.class).setLevel(Level.TRACE);
+		//LogManager.getLogger(EvaluationProfiler.class).setLevel(Level.TRACE);
 
 		ReportManager rm = getReportManager();
 		ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(rm.getUuid());

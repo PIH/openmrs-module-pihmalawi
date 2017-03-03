@@ -18,15 +18,24 @@ import org.openmrs.module.pihmalawi.common.TraceConstants;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
-public class HighViralLoadNeedingTraceCohortDefinition extends BaseCohortDefinition {
+public class ViralLoadNeedingTraceCohortDefinition extends BaseCohortDefinition {
 
-	@ConfigurationProperty
-	private TraceConstants.TraceType traceType;
+    @ConfigurationProperty
+    private TraceConstants.TraceType traceType;
 
     @ConfigurationProperty
     private Location location;
 
-	public HighViralLoadNeedingTraceCohortDefinition() {
+    @ConfigurationProperty
+    private Integer minDaysInPast;
+
+    @ConfigurationProperty
+    private Integer maxDaysInPast;
+
+    @ConfigurationProperty
+    private boolean ensureNoSubsequentVisit;
+
+	public ViralLoadNeedingTraceCohortDefinition() {
 		super();
 	}
 
@@ -44,5 +53,29 @@ public class HighViralLoadNeedingTraceCohortDefinition extends BaseCohortDefinit
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Integer getMinDaysInPast() {
+        return minDaysInPast;
+    }
+
+    public void setMinDaysInPast(Integer minDaysInPast) {
+        this.minDaysInPast = minDaysInPast;
+    }
+
+    public Integer getMaxDaysInPast() {
+        return maxDaysInPast;
+    }
+
+    public void setMaxDaysInPast(Integer maxDaysInPast) {
+        this.maxDaysInPast = maxDaysInPast;
+    }
+
+    public boolean getEnsureNoSubsequentVisit() {
+        return ensureNoSubsequentVisit;
+    }
+
+    public void setEnsureNoSubsequentVisit(boolean ensureNoSubsequentVisit) {
+        this.ensureNoSubsequentVisit = ensureNoSubsequentVisit;
     }
 }

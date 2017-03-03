@@ -741,6 +741,18 @@ public class DataFactory {
         return convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
     }
 
+    public CohortDefinition getPatientsWithUpcomingAppointmentOnEndDateAtLocation(List<ProgramWorkflowState> states, List<EncounterType> encounterTypes, Integer minDaysToAppt, Integer maxDaysToAppt) {
+        AppointmentStatusCohortDefinition cd = new AppointmentStatusCohortDefinition();
+        cd.setActiveStates(states);
+        cd.setEncounterTypes(encounterTypes);
+        cd.addParameter(new Parameter("onDate", "OnDate", Date.class));
+        cd.addParameter(new Parameter("locations", "Locations", Location.class));
+        cd.setNoAppointmentIncluded(false);
+        cd.setMinDaysToAppointment(minDaysToAppt);
+        cd.setMaxDaysToAppointment(maxDaysToAppt);
+        return convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
+    }
+
 	public CohortDefinition getPatientsWhoseMostRecentObsDateIsBetweenValuesByEndDate(Concept dateConcept, List<EncounterType> types, String olderThan, String onOrPriorTo) {
 		DateObsCohortDefinition cd = new DateObsCohortDefinition();
 		cd.setTimeModifier(TimeModifier.MAX);

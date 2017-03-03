@@ -48,6 +48,12 @@ public class AppointmentStatusCohortDefinition extends BaseCohortDefinition {
     @ConfigurationProperty
     private Integer maxDaysOverdue;
 
+    @ConfigurationProperty
+    private Integer minDaysToAppointment;
+
+    @ConfigurationProperty
+    private Integer maxDaysToAppointment;
+
 	public AppointmentStatusCohortDefinition() {
 		super();
 	}
@@ -106,5 +112,21 @@ public class AppointmentStatusCohortDefinition extends BaseCohortDefinition {
 
     public void setMaxDaysOverdue(Integer maxDaysOverdue) {
         this.maxDaysOverdue = maxDaysOverdue;
+    }
+
+    public Integer getMinDaysToAppointment() {
+        return minDaysToAppointment;
+    }
+
+    public void setMinDaysToAppointment(Integer minDaysToAppointment) {
+        this.minDaysToAppointment = minDaysToAppointment;
+    }
+
+    public Integer getMaxDaysToAppointment() {
+        return maxDaysToAppointment;
+    }
+
+    public void setMaxDaysToAppointment(Integer maxDaysToAppointment) {
+        this.maxDaysToAppointment = maxDaysToAppointment;
     }
 }

@@ -56,10 +56,17 @@ public class AppointmentStatusCohortDefinitionEvaluator implements CohortDefinit
                     c.addMember(pId);
                 }
             }
-            else if (daysToAppointment < 0) {
+            else if (daysToAppointment < 0 && (cd.getMinDaysOverdue() != null || cd.getMaxDaysOverdue() != null)) {
                 int daysOverdue = daysToAppointment * -1;
                 boolean minOk = (cd.getMinDaysOverdue() == null || cd.getMinDaysOverdue() <= daysOverdue);
                 boolean maxOk = (cd.getMaxDaysOverdue() == null || cd.getMaxDaysOverdue() >= daysOverdue);
+                if (minOk && maxOk) {
+                    c.addMember(pId);
+                }
+            }
+            else if (daysToAppointment >= 0 && (cd.getMinDaysToAppointment() != null || cd.getMaxDaysToAppointment() != null)) {
+                boolean minOk = (cd.getMinDaysToAppointment() == null || cd.getMinDaysToAppointment() <= daysToAppointment);
+                boolean maxOk = (cd.getMaxDaysToAppointment() == null || cd.getMaxDaysToAppointment() >= daysToAppointment);
                 if (minOk && maxOk) {
                     c.addMember(pId);
                 }

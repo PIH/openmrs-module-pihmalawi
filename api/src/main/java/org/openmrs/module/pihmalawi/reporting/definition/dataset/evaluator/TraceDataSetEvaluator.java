@@ -17,6 +17,7 @@ import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
+import org.openmrs.module.pihmalawi.common.TraceConstants;
 import org.openmrs.module.pihmalawi.common.TraceCriteria;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.IC3Metadata;
@@ -101,9 +102,9 @@ public class TraceDataSetEvaluator implements DataSetEvaluator {
         columnData.put("LAST_NAME", builtInPatientData.getPreferredFamilyName());
         columnData.put("VILLAGE", basePatientData.getVillage());
         columnData.put("VHW", basePatientData.getChw());
-        columnData.put("LAST_VISIT_DATE", getAppointmentStatusData(phase1Only, "lastEncounterDate"));
-        columnData.put("NEXT_APPT_DATE", getAppointmentStatusData(phase1Only, "nextScheduledDate"));
-        columnData.put("WEEKS_OUT_OF_CARE", getAppointmentStatusData(phase1Only, "weeksOutOfCare"));
+        columnData.put("LAST_VISIT_DATE", getAppointmentStatusData(dsd.getTraceType(), "lastEncounterDate"));
+        columnData.put("NEXT_APPT_DATE", getAppointmentStatusData(dsd.getTraceType(), "nextScheduledDate"));
+        columnData.put("WEEKS_OUT_OF_CARE", getAppointmentStatusData(dsd.getTraceType(), "weeksOutOfCare"));
         columnData.put("TRACE_CRITERIA", pdd);
         columnData.put("PRIORITY_PATIENT", basePatientData.getPriorityPatientForTrace());
 
@@ -141,11 +142,8 @@ public class TraceDataSetEvaluator implements DataSetEvaluator {
      * Return a definition representing a property of the patient's appointment status in IC3
      * If the phase1Only flag is set, limit this only to HIV enrolled patients and HIV visits
      */
-    public PatientDataDefinition getAppointmentStatusData(boolean phase1Only, String property) {
-        PatientDataDefinition pdd = df.getAppointmentStatus(ic3Metadata.getActiveStates(), ic3Metadata.getEncounterTypes());
-        if (phase1Only) {
-            pdd = df.getAppointmentStatus(hivMetadata.getActiveHivStates(), hivMetadata.getHivEncounterTypes());
-        }
+    public PatientDataDefinition getAppointmentStatusData(TraceConstants.TraceType traceType, String property) {
+        PatientDataDefinition pdd = df.getAppointmentStatus(ic3Metadata.getActiveStatesForTrace(traceType), ic3Metadata.getEncounterTypesForTrace(traceType));
         return df.convert(pdd, new PropertyConverter(AppointmentInfo.class, property));
     }
 }

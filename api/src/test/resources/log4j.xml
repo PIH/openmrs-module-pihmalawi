@@ -16,7 +16,7 @@
 	</logger>
 
 	<logger name="org.openmrs.module.reporting.evaluation.querybuilder">
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
 
