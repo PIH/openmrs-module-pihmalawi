@@ -7,12 +7,9 @@ package org.openmrs.module.pihmalawi.sql;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -25,9 +22,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MysqlScriptRunner {
+public class SqlScriptRunner {
 
-    private static Log log = LogFactory.getLog(MysqlScriptRunner.class);
+    private static Log log = LogFactory.getLog(SqlScriptRunner.class);
 
     private static final String DEFAULT_DELIMITER = ";";
     /**
@@ -43,7 +40,7 @@ public class MysqlScriptRunner {
     private String delimiter = DEFAULT_DELIMITER;
     private boolean fullLineDelimiter = false;
 
-    public MysqlScriptRunner(Connection connection, boolean stopOnError, boolean autoCommit) {
+    public SqlScriptRunner(Connection connection, boolean stopOnError, boolean autoCommit) {
         this.connection = connection;
         this.stopOnError = stopOnError;
         this.autoCommit = autoCommit;
@@ -61,7 +58,7 @@ public class MysqlScriptRunner {
      *
      * @param reader - the source of the script
      */
-    public MysqlResult runScript(Reader reader) throws IOException, SQLException {
+    public SqlResult runScript(Reader reader) throws IOException, SQLException {
         try {
             boolean originalAutoCommit = connection.getAutoCommit();
             try {
@@ -72,11 +69,14 @@ public class MysqlScriptRunner {
             } finally {
                 connection.setAutoCommit(originalAutoCommit);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw e;
-        }  catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw e;
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("Error running script.  Cause: " + e, e);
         }
     }
@@ -90,9 +90,9 @@ public class MysqlScriptRunner {
      * @throws SQLException if any SQL errors occur
      * @throws IOException if there is an error reading from the Reader
      */
-    private MysqlResult runScript(Connection conn, Reader reader) throws IOException,
+    private SqlResult runScript(Connection conn, Reader reader) throws IOException,
             SQLException {
-        MysqlResult result = null;
+        SqlResult result = null;
         StringBuffer command = null;
         try {
             LineNumberReader lineReader = new LineNumberReader(reader);
@@ -143,16 +143,17 @@ public class MysqlScriptRunner {
         return result;
     }
 
-    private MysqlResult execCommand(Connection conn, StringBuffer command,
-                             LineNumberReader lineReader) throws SQLException {
+    private SqlResult execCommand(Connection conn, StringBuffer command,
+                                  LineNumberReader lineReader) throws SQLException {
         Statement statement = conn.createStatement();
 
-        MysqlResult result = new MysqlResult();
+        SqlResult result = new SqlResult();
 
         boolean hasResults = false;
         try {
             hasResults = statement.execute(command.toString());
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             final String errText = String.format("Error executing '%s' (line %d): %s",
                     command, lineReader.getLineNumber(), e.getMessage());
             log.error(errText);
@@ -198,7 +199,8 @@ public class MysqlScriptRunner {
 
         try {
             statement.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // Ignore to workaround a bug in Jakarta DBCP
         }
 

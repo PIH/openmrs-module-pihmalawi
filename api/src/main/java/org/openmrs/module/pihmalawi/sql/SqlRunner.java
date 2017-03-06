@@ -10,48 +10,40 @@
 package org.openmrs.module.pihmalawi.sql;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.OpenmrsObject;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.DatabaseUpdater;
-import org.openmrs.util.OpenmrsUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Executes a MySQL script using the native process and returns results
  */
-public class MysqlRunner {
+public class SqlRunner {
 
-	private static Log log = LogFactory.getLog(MysqlRunner.class);
+	private static Log log = LogFactory.getLog(SqlRunner.class);
 
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName) {
+    public static SqlResult executeSqlResource(String resourceName) {
         return executeSqlResource(resourceName, new HashMap<String, Object>());
     }
 
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
+    public static SqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
         String sql = ReportUtil.readStringFromResource(resourceName);
         return executeSql(sql, parameterValues);
     }
@@ -59,14 +51,14 @@ public class MysqlRunner {
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSql(String sql) {
+    public static SqlResult executeSql(String sql) {
         return executeSql(sql, new HashMap<String, Object>());
     }
 
 	/**
      * Executes a Sql Script
 	 */
-	public static MysqlResult executeSql(String sql, Map<String, Object> parameterValues) {
+	public static SqlResult executeSql(String sql, Map<String, Object> parameterValues) {
 
         log.info("Executing SQL...");
 
@@ -91,10 +83,34 @@ public class MysqlRunner {
             log.debug("Wrote SQL file for execution: " + toExecute.getAbsolutePath());
             log.debug("Contents:\n" + sqlToWrite);
 
+            SqlResult result = null;
             Connection connection = DatabaseUpdater.getConnection();
-            MysqlScriptRunner mysqlScriptRunner = new MysqlScriptRunner(connection, true, false);
-            MysqlResult result = mysqlScriptRunner.runScript(new BufferedReader(new FileReader(toExecute.getAbsolutePath())));
-
+            SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(connection, true, false);
+            FileReader fileReader = null;
+            BufferedReader bufferedReader = null;
+            try {
+                fileReader = new FileReader(toExecute.getAbsolutePath());
+                if (fileReader != null) {
+                    bufferedReader = new BufferedReader(fileReader);
+                }
+                if (bufferedReader != null) {
+                    result = sqlScriptRunner.runScript(bufferedReader);
+                }
+            }
+            catch (FileNotFoundException e){
+                log.error("File not found: " , e);
+            }
+            catch (Exception e){
+                log.error("Failed to read and/or execute sql script: " , e);
+            }
+            finally {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (fileReader != null) {
+                    fileReader.close();
+                }
+            }
             return result;
         }
         catch (Exception e) {
