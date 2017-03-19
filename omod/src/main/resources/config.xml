@@ -18,7 +18,6 @@
         <require_module version="${calculationVersion}">org.openmrs.calculation</require_module>
         <require_module version="${emrapiVersion}">org.openmrs.module.emrapi</require_module>
         <require_module version="${eventVersion}">org.openmrs.event</require_module>
-        <require_module version="${facilitydataVersion}">org.openmrs.module.facilitydata</require_module>
         <require_module version="${groovyVersion}">org.openmrs.module.groovy</require_module>
         <require_module version="${htmlformentryVersion}">org.openmrs.module.htmlformentry</require_module>
         <require_module version="${htmlformentryuiVersion}">org.openmrs.module.htmlformentryui</require_module>

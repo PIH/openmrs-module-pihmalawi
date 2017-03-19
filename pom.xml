@@ -44,7 +44,6 @@
 		<coreappsVersion>1.11.2-SNAPSHOT</coreappsVersion>
         <emrapiVersion>1.19</emrapiVersion>
         <eventVersion>2.5</eventVersion>
-        <facilitydataVersion>2.3</facilitydataVersion>
         <htmlformentryVersion>2.6</htmlformentryVersion>
         <htmlformentryuiVersion>1.4</htmlformentryuiVersion>
         <htmlformentry19extVersion>1.6.1</htmlformentry19extVersion>
