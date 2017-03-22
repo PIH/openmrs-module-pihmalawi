@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Tests the MysqlRunner class
  */
-public class MysqlRunnerTest extends StandaloneContextSensitiveTest {
+public class SqlRunnerTest extends StandaloneContextSensitiveTest {
 
 	@Autowired
     EvaluationService evaluationService;
@@ -41,7 +41,7 @@ public class MysqlRunnerTest extends StandaloneContextSensitiveTest {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("gender", "F");
 
-        MysqlResult result = MysqlRunner.executeSqlResource("org/openmrs/module/pihmalawi/sql/simpleScript.sql", parameters);
+        SqlResult result = SqlRunner.executeSqlResource("org/openmrs/module/pihmalawi/sql/simpleScript.sql", parameters);
 
         System.out.println(result.getData().size() + " results found");
         System.out.println("------ RESULTS -----");

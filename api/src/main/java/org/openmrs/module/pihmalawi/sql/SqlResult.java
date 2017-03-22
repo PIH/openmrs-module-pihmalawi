@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Encapsulates the result from executing a script with MysqlRunner
  */
-public class MysqlResult {
+public class SqlResult {
 
     private List<String> columns;
     private List<Map<String, String>> data;

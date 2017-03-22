@@ -10,45 +10,40 @@
 package org.openmrs.module.pihmalawi.sql;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.OpenmrsObject;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.DatabaseUpdater;
-import org.openmrs.util.OpenmrsUtil;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Executes a MySQL script using the native process and returns results
  */
-public class MysqlRunner {
+public class SqlRunner {
 
-	private static Log log = LogFactory.getLog(MysqlRunner.class);
+	private static Log log = LogFactory.getLog(SqlRunner.class);
 
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName) {
+    public static SqlResult executeSqlResource(String resourceName) {
         return executeSqlResource(resourceName, new HashMap<String, Object>());
     }
 
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
+    public static SqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
         String sql = ReportUtil.readStringFromResource(resourceName);
         return executeSql(sql, parameterValues);
     }
@@ -56,14 +51,14 @@ public class MysqlRunner {
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSql(String sql) {
+    public static SqlResult executeSql(String sql) {
         return executeSql(sql, new HashMap<String, Object>());
     }
 
 	/**
      * Executes a Sql Script
 	 */
-	public static MysqlResult executeSql(String sql, Map<String, Object> parameterValues) {
+	public static SqlResult executeSql(String sql, Map<String, Object> parameterValues) {
 
         log.info("Executing SQL...");
 
@@ -88,59 +83,34 @@ public class MysqlRunner {
             log.debug("Wrote SQL file for execution: " + toExecute.getAbsolutePath());
             log.debug("Contents:\n" + sqlToWrite);
 
-            // Constructing command line elements to execute
-            List<String> commands = new ArrayList<String>();
-            commands.add("mysql");
-            commands.add("-u" + Context.getRuntimeProperties().getProperty("connection.username"));
-            commands.add("-p" + Context.getRuntimeProperties().getProperty("connection.password"));
-            commands.add("-esource " + toExecute.getAbsolutePath());
-
-            commands.add(DatabaseUpdater.getConnection().getCatalog()); // Database Name
-            log.debug("Constructed command to execute: \n" + OpenmrsUtil.join(commands, " "));
-
-            Process process = Runtime.getRuntime().exec(commands.toArray(new String[]{}));
-
-            MysqlResult result = new MysqlResult();
-            LineIterator successIterator = null;
+            SqlResult result = null;
+            Connection connection = DatabaseUpdater.getConnection();
+            SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(connection, true, false);
+            FileReader fileReader = null;
+            BufferedReader bufferedReader = null;
             try {
-                successIterator = IOUtils.lineIterator(process.getInputStream(), "UTF-8");
-                while (successIterator.hasNext()) {
-                    String line = successIterator.nextLine();
-                    String[] elements = StringUtils.splitPreserveAllTokens(line, '\t');
-                    if (result.getColumns().isEmpty()) {
-                        result.setColumns(Arrays.asList(elements));
-                    }
-                    else {
-                        Map<String, String> row = new LinkedHashMap<String, String>();
-                        for (int i=0; i<result.getColumns().size(); i++) {
-                            String value = elements[i].trim();
-                            if ("NULL".equals(value)) {
-                                value = null;
-                            }
-                            row.put(result.getColumns().get(i), value);
-                        }
-                        result.getData().add(row);
-                    }
+                fileReader = new FileReader(toExecute.getAbsolutePath());
+                if (fileReader != null) {
+                    bufferedReader = new BufferedReader(fileReader);
+                }
+                if (bufferedReader != null) {
+                    result = sqlScriptRunner.runScript(bufferedReader);
                 }
             }
-            finally {
-                successIterator.close();
+            catch (FileNotFoundException e){
+                log.error("File not found: " , e);
             }
-
-            LineIterator errorIterator = null;
-            try {
-                errorIterator = IOUtils.lineIterator(process.getErrorStream(), "UTF-8");
-                while (errorIterator.hasNext()) {
-                    String line = errorIterator.nextLine();
-                    if (!line.toLowerCase().startsWith("warning")) {
-                        result.getErrors().add(line);
-                    }
+            catch (Exception e){
+                log.error("Failed to read and/or execute sql script: " , e);
+            }
+            finally {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (fileReader != null) {
+                    fileReader.close();
                 }
             }
-            finally {
-                errorIterator.close();
-            }
-
             return result;
         }
         catch (Exception e) {
