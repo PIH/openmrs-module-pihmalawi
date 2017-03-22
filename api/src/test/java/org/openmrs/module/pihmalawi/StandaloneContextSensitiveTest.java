@@ -31,11 +31,11 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 	public Properties getRuntimeProperties() {
 		Properties p = super.getRuntimeProperties();
 		if (isEnabled()) {
-			p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_neno_2x?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
-            p.setProperty("connection.username", "openmrs");
-            p.setProperty("connection.password", "openmrs");
-            p.setProperty("junit.username", "junit");
-            p.setProperty("junit.password", "Test123");
+			p.setProperty("connection.url", "jdbc:mysql://localhost:3308/openmrs?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+            p.setProperty("connection.username", "root");
+            p.setProperty("connection.password", "root");
+            p.setProperty("junit.username", "admin");
+            p.setProperty("junit.password", "Admin123");
         }
 		return p;
 	}

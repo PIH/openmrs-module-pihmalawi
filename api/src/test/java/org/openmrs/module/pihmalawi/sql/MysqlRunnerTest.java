@@ -15,9 +15,7 @@
 package org.openmrs.module.pihmalawi.sql;
 
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
-import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.openmrs.util.OpenmrsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +24,6 @@ import java.util.Map;
  * Tests the MysqlRunner class
  */
 public class MysqlRunnerTest extends StandaloneContextSensitiveTest {
-
-	@Autowired
-    EvaluationService evaluationService;
 
     @Override
     protected boolean isEnabled() {
@@ -41,12 +36,12 @@ public class MysqlRunnerTest extends StandaloneContextSensitiveTest {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("gender", "F");
 
-        MysqlResult result = MysqlRunner.executeSqlResource("org/openmrs/module/pihmalawi/sql/simpleScript.sql", parameters);
+        SqlResult result = MysqlRunner.executeSqlResource("org/openmrs/module/pihmalawi/sql/simpleScript.sql", parameters);
 
         System.out.println(result.getData().size() + " results found");
         System.out.println("------ RESULTS -----");
         System.out.println(OpenmrsUtil.join(result.getColumns(), "\t\t"));
-        for (Map<String, String> row : result.getData()) {
+        for (Map<String, Object> row : result.getData()) {
             System.out.println(OpenmrsUtil.join(row.values(), "\t\t"));
         }
         System.out.println("------ ERRORS -----");

@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Encapsulates the result from executing a script with MysqlRunner
+ * Encapsulates the result from executing a script with a SqlRunner
  */
-public class MysqlResult {
+public class SqlResult {
 
     private List<String> columns;
-    private List<Map<String, String>> data;
+    private List<Map<String, Object>> data;
     private List<String> errors;
 
     public List<String> getColumns() {
@@ -33,15 +33,23 @@ public class MysqlResult {
         this.columns = columns;
     }
 
-    public List<Map<String, String>> getData() {
+    public void addColumn(String column) {
+        getColumns().add(column);
+    }
+
+    public List<Map<String, Object>> getData() {
         if (data == null) {
-            data = new ArrayList<Map<String, String>>();
+            data = new ArrayList<Map<String, Object>>();
         }
         return data;
     }
 
-    public void setData(List<Map<String, String>> data) {
+    public void setData(List<Map<String, Object>> data) {
         this.data = data;
+    }
+
+    public void addData(Map<String, Object> row) {
+        getData().add(row);
     }
 
     public List<String> getErrors() {
@@ -53,5 +61,9 @@ public class MysqlResult {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
+    }
+
+    public void addError(String error) {
+        getErrors().add(error);
     }
 }

@@ -41,14 +41,14 @@ public class MysqlRunner {
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName) {
+    public static SqlResult executeSqlResource(String resourceName) {
         return executeSqlResource(resourceName, new HashMap<String, Object>());
     }
 
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
+    public static SqlResult executeSqlResource(String resourceName, Map<String, Object> parameterValues) {
         String sql = ReportUtil.readStringFromResource(resourceName);
         return executeSql(sql, parameterValues);
     }
@@ -56,14 +56,14 @@ public class MysqlRunner {
     /**
      * Executes a Sql Script located under resources
      */
-    public static MysqlResult executeSql(String sql) {
+    public static SqlResult executeSql(String sql) {
         return executeSql(sql, new HashMap<String, Object>());
     }
 
 	/**
      * Executes a Sql Script
 	 */
-	public static MysqlResult executeSql(String sql, Map<String, Object> parameterValues) {
+	public static SqlResult executeSql(String sql, Map<String, Object> parameterValues) {
 
         log.info("Executing SQL...");
 
@@ -100,7 +100,7 @@ public class MysqlRunner {
 
             Process process = Runtime.getRuntime().exec(commands.toArray(new String[]{}));
 
-            MysqlResult result = new MysqlResult();
+            SqlResult result = new SqlResult();
             LineIterator successIterator = null;
             try {
                 successIterator = IOUtils.lineIterator(process.getInputStream(), "UTF-8");
@@ -119,7 +119,6 @@ public class MysqlRunner {
                             }
                             row.put(result.getColumns().get(i), value);
                         }
-                        result.getData().add(row);
                     }
                 }
             }

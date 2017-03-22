@@ -17,8 +17,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MysqlCmdDataSetDefinition;
-import org.openmrs.module.pihmalawi.sql.MysqlResult;
 import org.openmrs.module.pihmalawi.sql.MysqlRunner;
+import org.openmrs.module.pihmalawi.sql.SqlResult;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
@@ -50,7 +50,7 @@ public class MysqlCmdDataSetEvaluator implements DataSetEvaluator {
         SimpleDataSet data = new SimpleDataSet(dataSetDefinition, context);
 
         MysqlCmdDataSetDefinition dsd = (MysqlCmdDataSetDefinition) dataSetDefinition;
-        MysqlResult resultData = MysqlRunner.executeSql(dsd.getSql(), context.getParameterValues());
+        SqlResult resultData = MysqlRunner.executeSql(dsd.getSql(), context.getParameterValues());
 
         if (resultData.getData().isEmpty() && !resultData.getErrors().isEmpty()) {
             throw new EvaluationException("Errors occurred during mysql execution: " + OpenmrsUtil.join(resultData.getErrors(), "; "));
@@ -62,7 +62,7 @@ public class MysqlCmdDataSetEvaluator implements DataSetEvaluator {
         }
         data.setMetaData(metaData);
 
-        for (Map<String, String> rowData : resultData.getData()) {
+        for (Map<String, Object> rowData : resultData.getData()) {
             DataSetRow row = new DataSetRow();
             for (DataSetColumn column : metaData.getColumns()) {
                 row.addColumnValue(column, rowData.get(column.getName()));
