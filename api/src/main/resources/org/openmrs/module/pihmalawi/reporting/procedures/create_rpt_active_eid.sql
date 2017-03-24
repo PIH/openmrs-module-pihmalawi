@@ -19,6 +19,7 @@ CREATE PROCEDURE create_rpt_active_eid(IN _endDate DATE, IN _location VARCHAR(25
     days_late_appt    INT,
     days_to_next_appt INT
   );
+  CREATE INDEX rpt_active_eid_patient_id_idx ON rpt_active_eid(patient_id);
 
   INSERT INTO rpt_active_eid (patient_id, eid_number)
   SELECT patient_id, eid_number FROM mw_eid_register WHERE location = _location and (end_date IS NULL OR end_date > _endDate);

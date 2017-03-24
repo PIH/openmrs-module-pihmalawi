@@ -17,6 +17,7 @@ CREATE PROCEDURE create_rpt_identifiers(IN _location VARCHAR(255)) BEGIN
     ncd_number        VARCHAR(50),
     all_ncd_numbers   VARCHAR(1000)
   );
+  CREATE INDEX rpt_identifiers_patient_id_idx ON rpt_identifiers(patient_id);
 
   INSERT INTO rpt_identifiers (patient_id, art_number)
     SELECT r.patient_id, r.art_number from mw_art_register r where r.location = _location
