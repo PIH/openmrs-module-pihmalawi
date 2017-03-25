@@ -48,6 +48,8 @@ BEGIN
 END
 $$
 
+DELIMITER ;
+
 -- Needed to create a temporary table to grab the most recent ART regimen
 -- You could probably encapsulate this in a function, which might perform better.
 create temporary table temp_recent_regimen as

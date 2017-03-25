@@ -99,6 +99,6 @@ and DaysSinceLastCD4 < 90
 and LastCD4Count > 500;
 
 -- Put all the temporaty tables together in order.
-(select * from CODE5)  UNION ALL (select * from CODE4)  UNION ALL (select * from CODE3)  UNION ALL (select * from CODE2)  UNION ALL (select * from CODE1)
+(select * from CODE5)  UNION ALL (select * from CODE4)  UNION ALL (select * from CODE3)  UNION ALL (select * from CODE2)  UNION ALL (select * from CODE1);
 
 drop temporary table if exists PS;
