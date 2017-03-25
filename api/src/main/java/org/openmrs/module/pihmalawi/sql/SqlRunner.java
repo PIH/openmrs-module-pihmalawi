@@ -92,9 +92,6 @@ public class SqlRunner {
 
         Boolean originalAutoCommit = null;
 
-        // TODO: This should really use prepared statements and proper positional parameters to guard against SQL injection, etc
-        // TODO: See SqlQueryBuilder in reporting module
-
         try {
             originalAutoCommit = connection.getAutoCommit();
             connection.setAutoCommit(false);

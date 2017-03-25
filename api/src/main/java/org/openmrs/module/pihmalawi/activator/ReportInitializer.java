@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
-import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.MysqlCmdDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -121,7 +121,7 @@ public class ReportInitializer implements Initializer {
                         throw new IllegalArgumentException("SQL resource" + r.getFilename() + " must define a report_name, report_uuid and design_uuid at minimum");
                     }
 
-                    MysqlCmdDataSetDefinition dsd = new MysqlCmdDataSetDefinition();
+                    SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
                     dsd.setSql(sql.toString());
                     dsd.setParameters(rd.getParameters());
 
