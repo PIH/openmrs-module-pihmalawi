@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.Location;
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.LocationTags;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
@@ -23,11 +24,9 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ import java.util.Map;
 public class TraceReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/trace-data.sql";
-    public static final String CONNECTION_PROPERTIES_FILENAME = "warehouse-connection.properties";
     public static final String LOCATION_NAME_PARAM = "location";
     public static final String MIN_WKS_PARAM = "minWeeks";
     public static final String MAX_WKS_PARAM = "maxWeeks";
@@ -99,7 +97,7 @@ public class TraceReport extends ApzuReportManager {
         String dsName = location.getName() + " - 2 weeks";
 
         SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
-        dsd.setConnectionPropertyFile(getConnectionPropertiesFile().getAbsolutePath());
+        dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE.getAbsolutePath());
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
         dsd.addParameter(new Parameter(LOCATION_NAME_PARAM, LOCATION_NAME_PARAM, String.class));
@@ -114,12 +112,6 @@ public class TraceReport extends ApzuReportManager {
         mappings.put(PHASE_1_PARAM, location.hasTag(LocationTags.TRACE_PHASE_1_LOCATION.name()));
 
         rd.addDataSetDefinition(dsName, dsd, mappings);
-    }
-
-    public static File getConnectionPropertiesFile() {
-        String appDataDir = OpenmrsConstants.APPLICATION_DATA_DIRECTORY;
-        File f = new File(appDataDir, CONNECTION_PROPERTIES_FILENAME);
-        return f;
     }
 
     @Override

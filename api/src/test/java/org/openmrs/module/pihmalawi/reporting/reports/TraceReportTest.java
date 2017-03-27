@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.sql.SqlRunner;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -56,7 +57,7 @@ public class TraceReportTest extends ReportManagerTest {
         properties.put("connection.url", url);
         properties.put("connection.username", user);
         properties.put("connection.password", password);
-        properties.store(new FileOutputStream(TraceReport.getConnectionPropertiesFile()), null);
+        properties.store(new FileOutputStream(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE), null);
 
         Connection connection = DriverManager.getConnection(url, "root", "root");
 
