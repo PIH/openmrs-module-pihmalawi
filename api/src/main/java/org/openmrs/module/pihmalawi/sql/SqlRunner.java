@@ -198,7 +198,7 @@ public class SqlRunner {
                     if (paramValue instanceof Date) {
                         sqlVal = "'" + DateUtil.formatDate((Date)paramValue, "yyyy-MM-dd") + "'";
                     }
-                    else if (paramValue instanceof Number) {
+                    else if (paramValue instanceof Number || paramValue instanceof Boolean) {
                         sqlVal = paramValue.toString();
                     }
                     else if (paramValue instanceof OpenmrsObject) {

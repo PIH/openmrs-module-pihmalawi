@@ -1,10 +1,10 @@
 
 -- ## parameter = endDate|End Date|java.util.Date
-set @endDate = now();
-set @location = 'Matandani Rural Health Center';
-set @minWeeks = 2;
-set @maxWeeks = 6;
-set @phase1 = TRUE;
+-- set @endDate = now();
+-- set @location = 'Matandani Rural Health Center';
+-- set @minWeeks = 2;
+-- set @maxWeeks = 6;
+-- set @phase1 = TRUE;
 
 /************************************************************************
   TODO: Answer the below questions
@@ -31,5 +31,5 @@ LEFT JOIN     rpt_identifiers i on i.patient_id = p.patient_id
 LEFT JOIN     rpt_active_art art on art.patient_id = p.patient_id
 LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
 GROUP BY      t.patient_id
-ORDER BY      if(p.vhw is null, 1, 0), p.vhw, p.village, p.last_name;
+ORDER BY      if(p.vhw is null, 1, 0), p.vhw, p.village, p.last_name
 ;
