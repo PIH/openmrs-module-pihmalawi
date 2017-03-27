@@ -22,6 +22,7 @@ import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.reports.TraceReport;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetMetaData;
 import org.openmrs.module.reporting.dataset.DataSetRow;
@@ -181,17 +182,19 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     String centeredRowStyle = rowStyle + ",align=center";
                     String dateRowStyle = centeredRowStyle + ",date";
 
-                    builder.addCell(row.getColumnValue("VILLAGE"), rowStyle + ",border=left");
-                    builder.addCell(row.getColumnValue("VHW"), rowStyle);
-                    builder.addCell(row.getColumnValue("FIRST_NAME"), rowStyle);
-                    builder.addCell(row.getColumnValue("LAST_NAME"), rowStyle);
-                    builder.addCell(row.getColumnValue("ARV_NUMBER"), rowStyle);
-                    builder.addCell(row.getColumnValue("HCC_NUMBER"), rowStyle);
+                    builder.addCell(row.getColumnValue("village"), rowStyle + ",border=left");
+                    builder.addCell(row.getColumnValue("vhw"), rowStyle);
+                    builder.addCell(row.getColumnValue("first_name"), rowStyle);
+                    builder.addCell(row.getColumnValue("last_name"), rowStyle);
+                    builder.addCell(row.getColumnValue("art_number"), rowStyle);
+                    builder.addCell(row.getColumnValue("eid_number"), rowStyle);
                     addCellIfColumnPresent(row.getColumnValue("NCD_NUMBER"), rowStyle, 15, builder, metaData, "NCD_NUMBER");
 
-                    boolean lateVisit = true; // TODO
-                    boolean labReady = true; // TODO
-                    boolean labDue = true; // TODO
+                    String traceCriteria = (String) row.getColumnValue("trace_criteria");
+
+                    boolean lateVisit = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID"); // TODO, ADD NCD?
+                    boolean labReady = false; // TODO
+                    boolean labDue = false; // TODO
                     String dateToVisit = "TBD"; // TODO;
 
                     builder.addCell((lateVisit ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // MISSED VISIT
@@ -206,11 +209,13 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("DIAGNOSES"), centeredRowStyle);
                     }
 
-                    String redactIfNeeded = (lateVisit ? "" : blackout);
+                    String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
 
-                    builder.addCell(row.getColumnValue("LAST_VISIT_DATE"), dateRowStyle + leftBorderedLight + redactIfNeeded);
-                    builder.addCell(row.getColumnValue("NEXT_APPT_DATE"), dateRowStyle + redactIfNeeded);
-                    builder.addCell(row.getColumnValue("WEEKS_OUT_OF_CARE"), centeredRowStyle + ",format=0.0" + redactIfNeeded);
+                    // TODO: Determine what dates and weeks out of care to put here, based on all types of care
+
+                    builder.addCell(row.getColumnValue("last_visit_date"), dateRowStyle + leftBorderedLight + redactIfNeeded);
+                    builder.addCell(row.getColumnValue("last_appt_date"), dateRowStyle + redactIfNeeded);
+                    builder.addCell(row.getColumnValue("art_weeks_out_of_care"), centeredRowStyle + ",format=0.0" + redactIfNeeded);
 
                     for (int j = 0; j < 6; j++) {
                         String border = (j == 0 ? leftBorderedLight : j == 5 ? ",border=right" : "");
@@ -234,6 +239,17 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
         if (metaData.getColumn(columnName) != null) {
             builder.addCell(columnValue, style, columnWidth);
         }
+    }
+
+    private boolean hasTraceCriteria(String traceCriteria, String... checkAny) {
+        if (traceCriteria != null && checkAny != null) {
+            for (String s : checkAny) {
+                if (traceCriteria.toLowerCase().trim().contains(s.toLowerCase().trim())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private <T> T getParameterValue(DataSet ds, String name, Class<T> type) {
