@@ -39,6 +39,7 @@ SELECT        t.patient_id,
               art.last_visit_date,
               art.last_appt_date,
               round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
+              d.diagnoses,
               c.priority_criteria,
               group_concat(t.criteria ORDER BY t.criteria asc SEPARATOR ', ') as trace_criteria
 FROM          rpt_trace_criteria t
@@ -47,8 +48,7 @@ LEFT JOIN     rpt_identifiers i on i.patient_id = p.patient_id
 LEFT JOIN     rpt_active_art art on art.patient_id = p.patient_id
 LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(priority ORDER BY priority asc SEPARATOR ', ') as priority_criteria from rpt_priority_patients GROUP BY patient_id) c on c.patient_id = p.patient_id
+LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as diagnoses from mw_ncd_diagnoses where diagnosis_date <= @endDate GROUP BY patient_id) d on d.patient_id = p.patient_id
 GROUP BY      t.patient_id
 ORDER BY      if(p.vhw is null, 1, 0), p.vhw, p.village, p.last_name
 ;
-
--- TODO:   diagnoses (basePatientData.getDiagnosesBasedOnMastercards()) - not needed for phase 1
