@@ -14,13 +14,16 @@
   - Similar to this, do we limit the trace criteria to ART, EID, and NCD patients (eg. not enrolled in HIV Program broadly).  We are.
   - Should we include the patient's HCC Number under EID Number, if they were Pre-ART but not EID?  We are not.
   - For visits and appointment dates, should we include visits outside of the enrollment location (eg. see 10016351)?  We are not.
+  - For High BP Priority patients (> 180/110), should we limit this to patients who have a hypertension visit?  We are not, just looking at BP.
+  - For Insulin Priority patients, should this be only patients on Insulin on Last Visit?  On Diabetes Visit?  Or ever?  Currently ever, any visit.
 
 *************************************************************************/
 
 CALL create_rpt_identifiers(@location);
 CALL create_rpt_active_eid(@endDate, @location);
 CALL create_rpt_active_art(@endDate, @location);
-CALL create_rpt_active_ncd(@endDAte, @location);
+CALL create_rpt_active_ncd(@endDate, @location);
+CALL create_rpt_priority_patients(@endDate);
 CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @maxWeeks, @phase1);
 
 
