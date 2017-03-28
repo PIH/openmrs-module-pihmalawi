@@ -22,8 +22,16 @@ CALL create_rpt_active_art(@endDate, @location);
 CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @maxWeeks, @phase1);
 
 
-SELECT        t.patient_id, p.village, p.vhw, p.first_name, p.last_name, i.eid_number, i.art_number,
-              art.last_visit_date, art.last_appt_date, round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
+SELECT        t.patient_id,
+              p.village,
+              p.vhw,
+              p.first_name,
+              p.last_name,
+              i.eid_number,
+              i.art_number,
+              art.last_visit_date,
+              art.last_appt_date,
+              round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
               group_concat(t.criteria ORDER BY t.criteria asc SEPARATOR ', ') as trace_criteria
 FROM          rpt_trace_criteria t
 INNER JOIN    mw_patient p on t.patient_id = p.patient_id
