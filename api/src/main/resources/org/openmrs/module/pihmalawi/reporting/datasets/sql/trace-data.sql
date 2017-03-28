@@ -10,7 +10,8 @@
   TODO: Answer the below questions
 
   - Do we want to include patients who are late for EID?  We are.
-  - Do we want to include patients who are still enrolled in HIV, but not in ART or EID?  We are not.
+  - Do we want to include patients who are still enrolled in HIV, but not in ART or EID?
+  - Similar to this, do we limit the trace criteria to ART, EID, and NCD patients (eg. not enrolled in HIV Program broadly).  We are.
   - Should we include the patient's HCC Number under EID Number, if they were Pre-ART but not EID?  We are not.
   - For visits and appointment dates, should we include visits outside of the enrollment location (eg. see 10016351)?  We are not.
 

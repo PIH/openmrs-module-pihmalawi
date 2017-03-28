@@ -1,4 +1,6 @@
 
+DROP FUNCTION IF EXISTS first_test_result_by_date_entered;
+
 CREATE FUNCTION first_test_result_by_date_entered(patientId INT, testType VARCHAR(100), endDate DATE)
   RETURNS INT
 DETERMINISTIC

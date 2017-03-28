@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Renderer for the TraceReport
@@ -192,18 +191,35 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
 
                     String traceCriteria = (String) row.getColumnValue("trace_criteria");
 
-                    boolean lateVisit = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID"); // TODO, ADD NCD?
-                    boolean labReady = false; // TODO
-                    boolean labDue = false; // TODO
-                    String dateToVisit = "TBD"; // TODO;
+                    // TODO, ADD LATE_NCD, EID_NEGATIVE, REPEAT_VIRAL_LOAD, EID_12_MONTH_TEST, EID_24_MONTH_TEST
+                    boolean lateHiv = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID");
+                    boolean lateNcd = hasTraceCriteria("LATE_NCD");
+                    boolean lateVisit = lateHiv || lateNcd;
+
+                    boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
+                    boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST");
+
+                    boolean highPriorityNcd = true; // TODO: Implement this  ( Set<String> s = (Set<String>) row.getColumnValue("PRIORITY_PATIENT"); )
+
+                    boolean isPriorityPatient = lateHiv || hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_POSITIVE_6_WK") || (lateNcd && highPriorityNcd);
+
+                    String dateToVisit = "";
+                    if (lateHiv || hasTraceCriteria(traceCriteria, "EID_POSITIVE_6_WK", "EID_NEGATIVE")) {
+                        dateToVisit = "TODAY";
+                    }
+                    else if (hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "LATE_NCD")) {
+                        dateToVisit = "NEXT_CLINIC_DAY";
+                    }
+                    else if (ObjectUtil.notNull(traceCriteria)) {
+                        dateToVisit = "APPOINTMENT_DATE";
+                    }
 
                     builder.addCell((lateVisit ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // MISSED VISIT
                     builder.addCell((labReady ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // LAB RESULTS READY
                     builder.addCell((labDue ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // DUE FOR LAB WORK (VIRAL LOAD FOR EID)
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
 
-                    Set<String> s = (Set<String>) row.getColumnValue("PRIORITY_PATIENT");
-                    builder.addCell(s != null && !s.isEmpty() ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
+                    builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
 
                     if (metaData.getColumn("DIAGNOSES") != null) {
                         builder.addCell(row.getColumnValue("DIAGNOSES"), centeredRowStyle);
