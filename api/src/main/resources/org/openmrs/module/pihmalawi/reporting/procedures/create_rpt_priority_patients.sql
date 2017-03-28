@@ -2,17 +2,6 @@ DELIMITER $$
 
 /************************************************************************
   Get priority conditions for each patient
-
-  df.getPatientsWithAnyObsByEndDate
-  Sickle Cell Disease    - ccMetadata.getSickleCellDiseaseConcept()
-  Chronic Kidney Disease  -  ccMetadata.getChronicKidneyDiseaseConcept()
-  Rheumatic Heart Disease  - ccMetadata.getRheumaticHeartDiseaseConcept()
-  Congestive Heart Failure - ccMetadata.getCongestiveHeartFailureConcept()
-
-  // 6. Sickle cell disease patients (all)
-  // 7. Chronic kidney disease patients (all)
-  // 8. Rheumatic Heart Disease patients (all)
-  // 9. Congestive Heart Failure patients (all)
 *************************************************************************/
 
 DROP PROCEDURE IF EXISTS create_rpt_priority_patients;
@@ -84,7 +73,24 @@ CREATE PROCEDURE create_rpt_priority_patients(IN _endDate DATE) BEGIN
         SELECT  v.patient_id
         FROM    mw_ncd_visits v
         WHERE   v.num_seizures > 5
-        AND     v.ncd_visit_id = latest_asthma_visit(v.patient_id, _endDate)
+        AND     v.ncd_visit_id = latest_epilepsy_visit(v.patient_id, _endDate)
+      ) p
+  ;
+
+  -- Sickle cell disease patients (all)
+  -- Chronic kidney disease patients (all)
+  -- Rheumatic Heart Disease patients (all)
+  -- Congestive Heart Failure patients (all)
+
+  INSERT INTO rpt_priority_patients(patient_id, priority)
+    SELECT  DISTINCT p.patient_id, p.diagnosis
+    FROM
+      (
+        SELECT    d.patient_id, d.diagnosis
+        FROM      mw_ncd_diagnoses d
+        WHERE     d.diagnosis in ('Sickle cell disease' , 'Chronic kidney disease', 'Rheumatic heart disease', 'Congestive heart failure')
+        AND       d.diagnosis_date <= _endDate
+        GROUP BY  d.patient_id, d.diagnosis
       ) p
   ;
 

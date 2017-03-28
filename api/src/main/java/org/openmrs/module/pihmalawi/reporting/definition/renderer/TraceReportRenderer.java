@@ -187,11 +187,13 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell(row.getColumnValue("last_name"), rowStyle);
                     builder.addCell(row.getColumnValue("art_number"), rowStyle);
                     builder.addCell(row.getColumnValue("eid_number"), rowStyle);
-                    addCellIfColumnPresent(row.getColumnValue("NCD_NUMBER"), rowStyle, 15, builder, metaData, "NCD_NUMBER");
+
+                    if (!isPhase1) {
+                        builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+                    }
 
                     String traceCriteria = (String) row.getColumnValue("trace_criteria");
 
-                    // TODO, ADD LATE_NCD, EID_NEGATIVE, REPEAT_VIRAL_LOAD, EID_12_MONTH_TEST, EID_24_MONTH_TEST
                     boolean lateHiv = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID");
                     boolean lateNcd = hasTraceCriteria("LATE_NCD");
                     boolean lateVisit = lateHiv || lateNcd;
@@ -199,9 +201,8 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
                     boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST");
 
-                    boolean highPriorityNcd = true; // TODO: Implement this  ( Set<String> s = (Set<String>) row.getColumnValue("PRIORITY_PATIENT"); )
-
-                    boolean isPriorityPatient = lateHiv || hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_POSITIVE_6_WK") || (lateNcd && highPriorityNcd);
+                    String priorityCriteria = (String) row.getColumnValue("priority_criteria");
+                    boolean isPriorityPatient = lateHiv || hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_POSITIVE_6_WK") || (lateNcd && ObjectUtil.notNull(priorityCriteria));
 
                     String dateToVisit = "";
                     if (lateHiv || hasTraceCriteria(traceCriteria, "EID_POSITIVE_6_WK", "EID_NEGATIVE")) {
