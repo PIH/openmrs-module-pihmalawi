@@ -20,6 +20,7 @@
 CALL create_rpt_identifiers(@location);
 CALL create_rpt_active_eid(@endDate, @location);
 CALL create_rpt_active_art(@endDate, @location);
+CALL create_rpt_active_ncd(@endDAte, @location);
 CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @maxWeeks, @phase1);
 
 
@@ -30,6 +31,7 @@ SELECT        t.patient_id,
               p.last_name,
               i.eid_number,
               i.art_number,
+              i.ncd_number,
               art.last_visit_date,
               art.last_appt_date,
               round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
@@ -42,3 +44,5 @@ LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
 GROUP BY      t.patient_id
 ORDER BY      if(p.vhw is null, 1, 0), p.vhw, p.village, p.last_name
 ;
+
+-- TODO:   diagnoses (basePatientData.getDiagnosesBasedOnMastercards()) - not needed for phase 1
