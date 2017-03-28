@@ -1,5 +1,5 @@
 
-CREATE FUNCTION latest_test_result_by_date_entered(patientId INT, testType VARCHAR(100), endDate DATE)
+CREATE FUNCTION first_test_result_by_date_entered(patientId INT, testType VARCHAR(100), endDate DATE)
   RETURNS INT
 DETERMINISTIC
   BEGIN
@@ -11,7 +11,7 @@ DETERMINISTIC
     AND       t.test_type = testType
     AND       (t.result_numeric is not null or t.result_coded is not null or t.result_exception is not null)
     AND       (endDate is null or t.date_result_entered <= endDate)
-    ORDER BY  t.date_result_entered desc
+    ORDER BY  t.date_result_entered asc
     LIMIT     1;
 
     return ret;
