@@ -213,6 +213,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
         return pdf.getAllObsByEndDate(hivMetadata.getHivViralLoadConcept(), null, null);
     }
 
+	@DocumentedDefinition
+	public PatientDataDefinition getLDLObservations() {
+		return pdf.getAllObsByEndDate(hivMetadata.getHivLDLConcept(), null, null);
+	}
+
     @DocumentedDefinition("latestViralLoad")
     public PatientDataDefinition getLatestViralLoadValueByEndDate() {
         return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsValueNumericConverter());

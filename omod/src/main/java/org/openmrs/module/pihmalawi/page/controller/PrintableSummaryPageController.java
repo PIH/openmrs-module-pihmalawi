@@ -82,6 +82,7 @@ public class PrintableSummaryPageController {
         add(dsd, "ccAppointmentStatus", ccData.getChronicCareAppointmentStatus());
         add(dsd, "cd4s", hivData.getCd4CountObservations());
         add(dsd, "viralLoads", hivData.getViralLoadObservations());
+        add(dsd, "viralLdl", hivData.getLDLObservations());
         add(dsd, "tbStatus", hivData.getLatestTbStatusObs());
         add(dsd, "height", baseData.getLatestHeightObs());
         add(dsd, "weights", baseData.getAllWeightObservations());

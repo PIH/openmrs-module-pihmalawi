@@ -356,7 +356,15 @@
             </td>
             <td class="third-column"></td>
         </tr>
-
+        <% if (viralLdl && viralLdl.size() > 0) { %>
+        <tr>
+            <td class="first-column">Last LDL:</td>
+            <td class="second-column">
+                 on ${ui.format(viralLdl.get(viralLdl.size()-1).obsDatetime)}
+            </td>
+            <td class="third-column"></td>
+        </tr>
+        <% } %>
         <tr>
             <td class="first-column">Last TB Status:</td>
             <td class="second-column">
