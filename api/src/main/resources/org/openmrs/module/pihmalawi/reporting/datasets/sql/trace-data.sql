@@ -1,23 +1,17 @@
 
-
--- ## parameter = endDate|End Date|java.util.Date
--- set @endDate = now();
--- set @location = 'Matandani Rural Health Center';
--- set @minWeeks = 2;
--- set @maxWeeks = 6;
--- set @phase1 = TRUE;
-
 /************************************************************************
-  TODO: Answer the below questions
 
-  - Do we want to include patients who are late for EID?  We are.
-  - Do we want to include patients who are still enrolled in HIV, but not in ART or EID (eg. Pre-ART)?
-  - Similar to this, do we limit the trace criteria to ART, EID, and NCD patients (eg. not enrolled in HIV Program broadly).  We are.
-  - Should we include the patient's HCC Number under EID Number, if they were Pre-ART but not EID?  We are not.
-  - For visits and appointment dates, should we include visits outside of the enrollment location (eg. see 10016351)?  We are not.
-  - For High BP Priority patients (> 180/110), should we limit this to patients who have a hypertension visit?  We are not, just looking at BP.
-  - For Insulin Priority patients, should this be only patients on Insulin on Last Visit?  On Diabetes Visit?  Or ever?  Currently ever, any visit.
-  - Do we expect to have any patients with Sickle cell disease, Chronic kidney disease, Rheumatic Heart Disease, Congestive Heart Failure?  We don't seem to capture this or have any.
+  TRACE Report Dataset
+  Requires Pentaho Warehouse tables
+  Expected parameters, which will be passed in via the Evaluation Context, are:
+
+  -- set @endDate = now();
+  -- set @location = 'Matandani Rural Health Center';
+  -- set @minWeeks = 2;
+  -- set @maxWeeks = 6;
+  -- set @phase1 = TRUE;
+
+  The TRACE Report will include this dataset several times for various combinations of the above parameters
 
 *************************************************************************/
 

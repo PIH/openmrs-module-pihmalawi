@@ -23,7 +23,6 @@ import org.openmrs.module.pihmalawi.reporting.reports.TraceReport;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
 import org.openmrs.module.reporting.common.ObjectUtil;
-import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
 import org.openmrs.module.reporting.dataset.SimpleDataSet;
