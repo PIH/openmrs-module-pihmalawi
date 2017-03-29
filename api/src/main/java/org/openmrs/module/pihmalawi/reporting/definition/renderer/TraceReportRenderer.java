@@ -61,10 +61,11 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             SimpleDataSet ds = (SimpleDataSet)reportData.getDataSets().get(key);
             if (ds.getRows().size() > 0) {
 
-                String locationName = getParameterValue(ds, TraceReport.LOCATION_NAME_PARAM, String.class);
-                boolean isPhase1 = getParameterValue(ds, TraceReport.PHASE_1_PARAM, Boolean.class);
-                Integer minWks = getParameterValue(ds, TraceReport.MIN_WKS_PARAM, Integer.class);
-                Integer maxWks = getParameterValue(ds, TraceReport.MAX_WKS_PARAM, Integer.class);
+                DataSetRow firstRow = ds.getRows().get(0);
+                String locationName = getParameterValue(firstRow, TraceReport.LOCATION_NAME_PARAM, String.class);
+                boolean isPhase1 = getParameterValue(firstRow, TraceReport.PHASE_1_PARAM, Boolean.class);
+                Integer minWks = getParameterValue(firstRow, TraceReport.MIN_WKS_PARAM, Integer.class);
+                Integer maxWks = getParameterValue(firstRow, TraceReport.MAX_WKS_PARAM, Integer.class);
 
                 builder.newSheet(key);
 
@@ -287,8 +288,8 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
         return false;
     }
 
-    private <T> T getParameterValue(DataSet ds, String name, Class<T> type) {
-        return (T) ds.getContext().getParameterValue(name);
+    private <T> T getParameterValue(DataSetRow row, String name, Class<T> type) {
+        return (T) row.getColumnValue("parameter." + name);
     }
 
     /**

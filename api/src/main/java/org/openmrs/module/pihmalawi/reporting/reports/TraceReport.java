@@ -20,6 +20,7 @@ import org.openmrs.module.pihmalawi.metadata.LocationTags;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.renderer.TraceReportRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.dataset.definition.MultiParameterDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -84,18 +85,42 @@ public class TraceReport extends ApzuReportManager {
         for (Location location : hivMetadata.getHivStaticSystemLocations()) {
             add2WeekDataSet(rd, location);
         }
-        //add6WeekDataSet(rd, locations);
+        add6WeekDataSet(rd, hivMetadata.getHivStaticSystemLocations());
 
         return rd;
     }
 
-    /**
-     * @return the patient data set for a given iteration
-     */
     public void add2WeekDataSet(ReportDefinition rd, Location location) {
-
         String dsName = location.getName() + " - 2 weeks";
+        MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
+        multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.setBaseDefinition(getBaseDsd());
+        Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
+        mappings.put(LOCATION_NAME_PARAM, location.getName());
+        mappings.put(MIN_WKS_PARAM, 2);
+        mappings.put(MAX_WKS_PARAM, 6);
+        mappings.put(PHASE_1_PARAM, location.hasTag(LocationTags.TRACE_PHASE_1_LOCATION.name()));
+        multiParamDsd.addIteration(mappings);
+        rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
+    }
 
+    public void add6WeekDataSet(ReportDefinition rd, List<Location> locations) {
+        String dsName = "6 weeks";
+        MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
+        multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.setBaseDefinition(getBaseDsd());
+        for (Location location : locations) {
+            Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
+            mappings.put(LOCATION_NAME_PARAM, location.getName());
+            mappings.put(MIN_WKS_PARAM, 6);
+            mappings.put(MAX_WKS_PARAM, 12);
+            mappings.put(PHASE_1_PARAM, false);
+            multiParamDsd.addIteration(mappings);
+        }
+        rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
+    }
+
+    public SqlFileDataSetDefinition getBaseDsd() {
         SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE.getAbsolutePath());
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
@@ -104,14 +129,7 @@ public class TraceReport extends ApzuReportManager {
         dsd.addParameter(new Parameter(MIN_WKS_PARAM, MIN_WKS_PARAM, Integer.class));
         dsd.addParameter(new Parameter(MAX_WKS_PARAM, MAX_WKS_PARAM, Integer.class));
         dsd.addParameter(new Parameter(PHASE_1_PARAM, PHASE_1_PARAM, Boolean.class));
-
-        Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
-        mappings.put(LOCATION_NAME_PARAM, location.getName());
-        mappings.put(MIN_WKS_PARAM, 2);
-        mappings.put(MAX_WKS_PARAM, 6);
-        mappings.put(PHASE_1_PARAM, location.hasTag(LocationTags.TRACE_PHASE_1_LOCATION.name()));
-
-        rd.addDataSetDefinition(dsName, dsd, mappings);
+        return dsd;
     }
 
     @Override
