@@ -81,10 +81,8 @@ public class TraceReport extends ApzuReportManager {
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
-        add2WeekDataSet(rd, hivMetadata.getLigoweHc());
-
         for (Location location : hivMetadata.getHivStaticSystemLocations()) {
-            //add2WeekDataSet(rd, location);
+            add2WeekDataSet(rd, location);
         }
         //add6WeekDataSet(rd, locations);
 

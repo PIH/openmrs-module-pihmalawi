@@ -16,15 +16,12 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.sql.SqlRunner;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileOutputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Properties;
 
 /**
@@ -58,14 +55,6 @@ public class TraceReportTest extends ReportManagerTest {
         properties.put("connection.username", user);
         properties.put("connection.password", password);
         properties.store(new FileOutputStream(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE), null);
-
-        Connection connection = DriverManager.getConnection(url, "root", "root");
-
-        SqlRunner runner = new SqlRunner(connection);
-        runner.executeSqlResource("org/openmrs/module/pihmalawi/reporting/procedures/create_rpt_identifiers.sql", null);
-        runner.executeSqlResource("org/openmrs/module/pihmalawi/reporting/procedures/create_rpt_active_eid.sql", null);
-        runner.executeSqlResource("org/openmrs/module/pihmalawi/reporting/procedures/create_rpt_active_art.sql", null);
-        runner.executeSqlResource("org/openmrs/module/pihmalawi/reporting/procedures/create_rpt_trace_criteria.sql", null);
 
         super.performTest();
     }

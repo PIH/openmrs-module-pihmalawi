@@ -1,4 +1,4 @@
-/**
+/*
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -24,7 +24,6 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
-import org.openmrs.module.reporting.dataset.DataSetMetaData;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
 import org.openmrs.module.reporting.dataset.SimpleDataSet;
@@ -62,7 +61,6 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             SimpleDataSet ds = (SimpleDataSet)reportData.getDataSets().get(key);
             if (ds.getRows().size() > 0) {
 
-                DataSetMetaData metaData = ds.getMetaData();
                 String locationName = getParameterValue(ds, TraceReport.LOCATION_NAME_PARAM, String.class);
                 boolean isPhase1 = getParameterValue(ds, TraceReport.PHASE_1_PARAM, Boolean.class);
                 Integer minWks = getParameterValue(ds, TraceReport.MIN_WKS_PARAM, Integer.class);
@@ -136,15 +134,19 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.addCell("Last", headerStyle1, 15);
                 builder.addCell("ART#", headerStyle1, 12);
                 builder.addCell("EID#", headerStyle1, 15);
-                addCellIfColumnPresent("NCD#", headerStyle1, 12, builder, metaData, "NCD_NUMBER");
+                if (!isPhase1) {
+                    builder.addCell("NCD#", headerStyle1, 12);
+                }
 
                 builder.addCell("(1) Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
                 builder.addCell("(2) Lab results ready", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
                 builder.addCell("(3) Due for lab work\n(viral load for EID)", headerStyle2 + leftBorderedLight + rightBorderedLight, 8);
 
-                builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 12);
+                builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 18);
                 builder.addCell("Priority\nPatient", headerStyle1Centered, 8);
-                addCellIfColumnPresent("Diagnoses", headerStyle1Centered, 20, builder, metaData, "DIAGNOSES");
+                if (!isPhase1) {
+                    builder.addCell("Diagnoses", headerStyle1Centered, 20);
+                }
 
                 builder.addCell("Last IC3\nVisit Date", headerStyle1Centered + leftBorderedLight, 12);
                 builder.addCell("Appointment\nDate", headerStyle1Centered, 14);
@@ -192,6 +194,30 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
                     }
 
+                    Number weeksOutOfCare = (Number)row.getColumnValue("art_weeks_out_of_care");
+                    Date lastVisitDate = (Date)row.getColumnValue("art_last_visit_date");
+                    Date lastApptDate = (Date)row.getColumnValue("art_last_appt_date");
+
+                    Number eidWeeksOutOfCare = (Number)row.getColumnValue("eid_weeks_out_of_care");
+                    if (eidWeeksOutOfCare != null) {
+                        if (weeksOutOfCare == null || eidWeeksOutOfCare.doubleValue() > weeksOutOfCare.doubleValue()) {
+                            weeksOutOfCare = eidWeeksOutOfCare;
+                            lastVisitDate = (Date)row.getColumnValue("eid_last_visit_date");
+                            lastApptDate = (Date)row.getColumnValue("eid_last_appt_date");
+                        }
+                    }
+
+                    if (!isPhase1) {
+                        Number ncdWeeksOutOfCare = (Number)row.getColumnValue("ncd_weeks_out_of_care");
+                        if (ncdWeeksOutOfCare != null) {
+                            if (weeksOutOfCare == null || ncdWeeksOutOfCare.doubleValue() > weeksOutOfCare.doubleValue()) {
+                                weeksOutOfCare = ncdWeeksOutOfCare;
+                                lastVisitDate = (Date)row.getColumnValue("ncd_last_visit_date");
+                                lastApptDate = (Date)row.getColumnValue("ncd_last_appt_date");
+                            }
+                        }
+                    }
+
                     String traceCriteria = (String) row.getColumnValue("trace_criteria");
 
                     boolean lateHiv = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID");
@@ -206,13 +232,13 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
 
                     String dateToVisit = "";
                     if (lateHiv || hasTraceCriteria(traceCriteria, "EID_POSITIVE_6_WK", "EID_NEGATIVE")) {
-                        dateToVisit = "TODAY";
+                        dateToVisit = "Today";
                     }
                     else if (hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "LATE_NCD")) {
-                        dateToVisit = "NEXT_CLINIC_DAY";
+                        dateToVisit = "Next Clinic Day";
                     }
                     else if (ObjectUtil.notNull(traceCriteria)) {
-                        dateToVisit = "APPOINTMENT_DATE";
+                        dateToVisit = "Appointment Date";
                     }
 
                     builder.addCell((lateVisit ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // MISSED VISIT
@@ -222,17 +248,15 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
 
                     builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
 
-                    if (metaData.getColumn("DIAGNOSES") != null) {
+                    if (!isPhase1) {
                         builder.addCell(row.getColumnValue("DIAGNOSES"), centeredRowStyle);
                     }
 
                     String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
 
-                    // TODO: Determine what dates and weeks out of care to put here, based on all types of care
-
-                    builder.addCell(row.getColumnValue("last_visit_date"), dateRowStyle + leftBorderedLight + redactIfNeeded);
-                    builder.addCell(row.getColumnValue("last_appt_date"), dateRowStyle + redactIfNeeded);
-                    builder.addCell(row.getColumnValue("art_weeks_out_of_care"), centeredRowStyle + ",format=0.0" + redactIfNeeded);
+                    builder.addCell(lastVisitDate, dateRowStyle + leftBorderedLight + redactIfNeeded);
+                    builder.addCell(lastApptDate, dateRowStyle + redactIfNeeded);
+                    builder.addCell(weeksOutOfCare, centeredRowStyle + ",format=0.0" + redactIfNeeded);
 
                     for (int j = 0; j < 6; j++) {
                         String border = (j == 0 ? leftBorderedLight : j == 5 ? ",border=right" : "");
@@ -249,12 +273,6 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
     private void addExtraRowsToDataSet(DataSetRowList ds) {
         for (int i=0; i<5; i++) {
             ds.add(new DataSetRow());
-        }
-    }
-
-    private void addCellIfColumnPresent(Object columnValue, String style, int columnWidth, ExcelBuilder builder, DataSetMetaData metaData, String columnName) {
-        if (metaData.getColumn(columnName) != null) {
-            builder.addCell(columnValue, style, columnWidth);
         }
     }
 

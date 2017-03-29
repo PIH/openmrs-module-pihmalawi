@@ -1,4 +1,5 @@
 
+
 -- ## parameter = endDate|End Date|java.util.Date
 -- set @endDate = now();
 -- set @location = 'Matandani Rural Health Center';
@@ -10,7 +11,7 @@
   TODO: Answer the below questions
 
   - Do we want to include patients who are late for EID?  We are.
-  - Do we want to include patients who are still enrolled in HIV, but not in ART or EID?
+  - Do we want to include patients who are still enrolled in HIV, but not in ART or EID (eg. Pre-ART)?
   - Similar to this, do we limit the trace criteria to ART, EID, and NCD patients (eg. not enrolled in HIV Program broadly).  We are.
   - Should we include the patient's HCC Number under EID Number, if they were Pre-ART but not EID?  We are not.
   - For visits and appointment dates, should we include visits outside of the enrollment location (eg. see 10016351)?  We are not.
@@ -36,9 +37,15 @@ SELECT        t.patient_id,
               i.eid_number,
               i.art_number,
               i.ncd_number,
-              art.last_visit_date,
-              art.last_appt_date,
+              art.last_visit_date as art_last_visit_date,
+              art.last_appt_date as art_last_appt_date,
               round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
+              eid.last_visit_date as eid_last_visit_date,
+              eid.last_appt_date as eid_last_appt_date,
+              round(eid.days_late_appt / 7, 1) as eid_weeks_out_of_care,
+              ncd.last_visit_date as ncd_last_visit_date,
+              ncd.last_appt_date as ncd_last_appt_date,
+              round(ncd.days_late_appt / 7, 1) as ncd_weeks_out_of_care,
               d.diagnoses,
               c.priority_criteria,
               group_concat(t.criteria ORDER BY t.criteria asc SEPARATOR ', ') as trace_criteria
@@ -47,6 +54,7 @@ INNER JOIN    mw_patient p on t.patient_id = p.patient_id
 LEFT JOIN     rpt_identifiers i on i.patient_id = p.patient_id
 LEFT JOIN     rpt_active_art art on art.patient_id = p.patient_id
 LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
+LEFT JOIN     rpt_active_ncd ncd on ncd.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(priority ORDER BY priority asc SEPARATOR ', ') as priority_criteria from rpt_priority_patients GROUP BY patient_id) c on c.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as diagnoses from mw_ncd_diagnoses where diagnosis_date <= @endDate GROUP BY patient_id) d on d.patient_id = p.patient_id
 GROUP BY      t.patient_id
