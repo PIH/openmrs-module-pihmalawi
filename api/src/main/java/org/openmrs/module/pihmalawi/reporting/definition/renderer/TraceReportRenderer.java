@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Renderer for the TraceReport
@@ -85,19 +87,42 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     reportLabel += "Clinical Team / POSER";
                 }
 
-                int lastColMerge = isPhase1 ? 13 : 15;
-
                 String topRowStyle = "bold,size=18,color=" + HSSFColor.WHITE.index + ",background-color=" + HSSFColor.BLACK.index;
                 builder.addCell("");
-                builder.addCell(traceLabel, topRowStyle).merge(5, 0);
-                builder.addCell(reportLabel, topRowStyle).merge(lastColMerge, 0);
+                builder.addCell(traceLabel, topRowStyle).merge(4, 0);
+                builder.addCell(reportLabel, topRowStyle).merge(16, 0);
                 builder.nextRow();
 
                 builder.addCell("");
-                builder.addCell(locationName, "bold,size=22,color=" + HSSFColor.BLUE.index).merge(5, 0);
-                builder.addCell(builder.createRichTextString(
-                        "Instructions: \n", "bold,italics,size=8",
-                        "For each patient listed here, look at Reason for Contact. For patients who missed a visit, first verify using the mastercards whether they have truly missed a visit. If they have not missed an appointment, add patient name and visit details to \"Mastercard Update\" report. VHWs should then visit all other patients, provide counseling, and advise them to visit the facility on the date provided. Patients marked high-priority should be visited right away. For patients with a missed visit, record the outcome. Return the reports to Chisomo (Upper Neno) or Maxwell (Lower Neno) by the due date. If the due during the week of a Site Supervisor Meeting, you are encouraged to bring the report with you to the PIH office on that day. Otherwise, you may send the report with another vehicle or call (Chisomo-0884784429/ Maxwell-0884789517).", "italics,size=8"), "size=8,wraptext,valign=center").merge(lastColMerge, 5);
+                builder.addCell(minWks == 2 ? locationName : "", "bold,size=22,color=" + HSSFColor.BLUE.index).merge(4, 0);
+
+                String instructionsStyle = "italic,size=10,wraptext,valign=center";
+                String boldInstructionsStyle = "bold," + instructionsStyle;
+
+                Map<String, String> instructions = new LinkedHashMap<String, String>();
+                instructions.put("Instructions: \n", boldInstructionsStyle);
+                instructions.put("For each patient listed here, look at Reason for Contact. For patients who ", instructionsStyle);
+                instructions.put("missed a visit", boldInstructionsStyle);
+                instructions.put(", first verify using the mastercards whether they have truly missed a visit. ", instructionsStyle);
+                instructions.put("If they have not missed an appointment, add patient name and visit details to \"Mastercard Update\" report.  ", instructionsStyle);
+                if (minWks == 2) {
+                    instructions.put("VHWs should then visit all other patients, provide counseling, and advise them to visit the facility on the date provided. ", instructionsStyle);
+                    instructions.put("Patients marked high-priority should be visited right away. For patients with a missed visit, record the outcome. ", instructionsStyle);
+                    instructions.put("Return the reports to Chisomo (Upper Neno) or Maxwell (Lower Neno) by the due date. ", instructionsStyle);
+                    instructions.put("If the due during the week of a Site Supervisor Meeting, you are encouraged to bring the report with you to the PIH office on that day. ", instructionsStyle);
+                    instructions.put("Otherwise, you may send the report with another vehicle or call (Chisomo-0884784429/ Maxwell-0884789517).", instructionsStyle);
+                }
+                else if (minWks == 6) {
+                    instructions.put("The HIV Coordinator should then visit all other patients, provide counseling, and advise them to visit the facility on the date provided. ", instructionsStyle);
+                    instructions.put("For patients with a missed visit, record the outcome.\n", instructionsStyle);
+                    instructions.put("Upper Neno: ", boldInstructionsStyle);
+                    instructions.put("Return reports to Chisomo (0884784429). ", instructionsStyle);
+                    instructions.put("Lower Neno: ", boldInstructionsStyle);
+                    instructions.put("Return reports to Maxwell (0884789517).\n", instructionsStyle);
+                    instructions.put("Note: submit reports by the due date even if it is incomplete!", instructionsStyle);
+                }
+                builder.addCell(builder.createRichTextString(instructions), instructionsStyle).merge(16, 5);
+
                 builder.nextRow();
 
                 builder.addCell("");
@@ -118,6 +143,17 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.nextRow();
                 builder.nextRow();
 
+                for (int i=0; i<8; i++) {
+                    builder.addCell("");
+                }
+                builder.addCell("Reason for Contact", "size=10,align=center").merge(2, 0);
+                for (int i=0; i<6; i++) {
+                    builder.addCell("");
+                }
+                builder.addCell("Outcome (Missed Visit Only)", "size=10,align=center").merge(5, 0);
+
+                builder.nextRow();
+
                 String headerStyle1 = "bold,size=11,wraptext,border=top";
                 String headerStyle2 = headerStyle1 + ",rotation=90";
                 String headerStyle3 = headerStyle2 + ",size=8";
@@ -127,31 +163,33 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 String blackout = ",background-color=" + HSSFColor.BLACK.index;
 
                 builder.addCell("", null, 4);
-
-                builder.addCell("Village", headerStyle1 + ",border=left", 25);
-                builder.addCell("VHW", headerStyle1, 20);
-                builder.addCell("First", headerStyle1, 12);
-                builder.addCell("Last", headerStyle1, 15);
-                builder.addCell("ART#", headerStyle1, 12);
-                builder.addCell("EID#", headerStyle1, 15);
-                if (!isPhase1) {
-                    builder.addCell("NCD#", headerStyle1, 12);
+                if (minWks == 2) {
+                    builder.addCell("Village", headerStyle1 + ",border=left", 25);
+                    builder.addCell("VHW", headerStyle1, 20);
+                    builder.addCell("First", headerStyle1, 12);
+                    builder.addCell("Last", headerStyle1, 15);
+                    builder.addCell("ART#", headerStyle1, 15);
+                    builder.addCell("EID#", headerStyle1, 15);
+                    builder.addCell("NCD#", headerStyle1, 15);
                 }
-
+                else {
+                    builder.addCell("ART#", headerStyle1 + ",border=left", 15);
+                    builder.addCell("EID#", headerStyle1, 15);
+                    builder.addCell("NCD#", headerStyle1, 15);
+                    builder.addCell("First", headerStyle1, 12);
+                    builder.addCell("Last", headerStyle1, 15);
+                    builder.addCell("Village", headerStyle1, 25);
+                    builder.addCell("VHW", headerStyle1, 20);
+                }
                 builder.addCell("(1) Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
                 builder.addCell("(2) Lab results ready", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
                 builder.addCell("(3) Due for lab work\n(viral load for EID)", headerStyle2 + leftBorderedLight + rightBorderedLight, 8);
-
                 builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 18);
                 builder.addCell("Priority\nPatient", headerStyle1Centered, 8);
-                if (!isPhase1) {
-                    builder.addCell("Diagnoses", headerStyle1Centered, 20);
-                }
-
+                builder.addCell("Diagnoses", headerStyle1Centered, 20);
                 builder.addCell("Last IC3\nVisit Date", headerStyle1Centered + leftBorderedLight, 12);
                 builder.addCell("Appointment\nDate", headerStyle1Centered, 14);
                 builder.addCell("Weeks\nout of\nCare", headerStyle1Centered, 8);
-
                 builder.addCell(builder.createRichTextString("Patient actually\nvisited clinic.", headerStyle2, "\nComplete Mastercard Update", headerStyle3), headerStyle2 + leftBorderedLight, 8);
                 builder.addCell("Transferred Out", headerStyle2, 4);
                 builder.addCell("Died", headerStyle2, 4);
@@ -170,7 +208,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 addExtraRowsToDataSet(rows);
 
                 for (int i = 0; i < rows.size(); i++) {
-                    builder.addCell(i + 1, "color=" + HSSFColor.GREY_50_PERCENT.index);
+
                     DataSetRow row = rows.get(i);
 
                     String rowStyle = "border=top";
@@ -183,15 +221,25 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     String centeredRowStyle = rowStyle + ",align=center";
                     String dateRowStyle = centeredRowStyle + ",date";
 
-                    builder.addCell(row.getColumnValue("village"), rowStyle + ",border=left");
-                    builder.addCell(row.getColumnValue("vhw"), rowStyle);
-                    builder.addCell(row.getColumnValue("first_name"), rowStyle);
-                    builder.addCell(row.getColumnValue("last_name"), rowStyle);
-                    builder.addCell(row.getColumnValue("art_number"), rowStyle);
-                    builder.addCell(row.getColumnValue("eid_number"), rowStyle);
+                    builder.addCell(i + 1, "color=" + HSSFColor.GREY_50_PERCENT.index);
 
-                    if (!isPhase1) {
+                    if (minWks == 2) {
+                        builder.addCell(row.getColumnValue("village"), rowStyle + ",border=left");
+                        builder.addCell(row.getColumnValue("vhw"), rowStyle);
+                        builder.addCell(row.getColumnValue("first_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("last_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("art_number"), rowStyle);
+                        builder.addCell(row.getColumnValue("eid_number"), rowStyle);
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+                    }
+                    else {
+                        builder.addCell(row.getColumnValue("art_number"), rowStyle + ",border=left");
+                        builder.addCell(row.getColumnValue("eid_number"), rowStyle);
+                        builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+                        builder.addCell(row.getColumnValue("first_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("last_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("village"), rowStyle);
+                        builder.addCell(row.getColumnValue("vhw"), rowStyle);
                     }
 
                     Number weeksOutOfCare = (Number)row.getColumnValue("art_weeks_out_of_care");
@@ -221,7 +269,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     String traceCriteria = (String) row.getColumnValue("trace_criteria");
 
                     boolean lateHiv = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID");
-                    boolean lateNcd = hasTraceCriteria("LATE_NCD");
+                    boolean lateNcd = hasTraceCriteria(traceCriteria,"LATE_NCD");
                     boolean lateVisit = lateHiv || lateNcd;
 
                     boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
@@ -245,12 +293,8 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell((labReady ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // LAB RESULTS READY
                     builder.addCell((labDue ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // DUE FOR LAB WORK (VIRAL LOAD FOR EID)
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
-
                     builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
-
-                    if (!isPhase1) {
-                        builder.addCell(row.getColumnValue("DIAGNOSES"), centeredRowStyle);
-                    }
+                    builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
 
                     String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
 
@@ -263,6 +307,16 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell("☐", centeredRowStyle + ",size=18" + border + redactIfNeeded);
                     }
                     builder.nextRow();
+                }
+
+                // For Phase 1, hide the NCD# and Diagnoses columns
+                if (isPhase1) {
+                    builder.getCurrentSheet().setColumnHidden(7, true);
+                    builder.getCurrentSheet().setColumnHidden(13, true);
+                }
+                // Only show "due for lab work" reason if 2 week report
+                if (minWks != 2) {
+                    builder.getCurrentSheet().setColumnHidden(10, true);
                 }
             }
         }

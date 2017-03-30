@@ -40,7 +40,7 @@ SELECT        t.patient_id,
               ncd.last_visit_date as ncd_last_visit_date,
               ncd.last_appt_date as ncd_last_appt_date,
               round(ncd.days_late_appt / 7, 1) as ncd_weeks_out_of_care,
-              d.diagnoses,
+              TRIM(TRAILING ',' FROM concat(if(art.patient_id is null, '', 'HIV, '), if(eid.patient_id is null, '', 'EID, '), d.diagnoses)) as diagnoses,
               c.priority_criteria,
               group_concat(t.criteria ORDER BY t.criteria asc SEPARATOR ', ') as trace_criteria
 FROM          rpt_trace_criteria t
