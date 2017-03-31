@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
@@ -39,6 +40,7 @@ import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +118,30 @@ public class PrintableSummaryPageController {
                 model.put("bmi", ObjectUtil.format(bmi, "1"));
                 model.put("bmiValue", bmi);
             }
+
+            String lastViralLoadValue = null;
+            Date lastViralLoadDate = null;
+            Boolean highViralLoad = false;
+
+            Obs lastViralLoad = getLastValue(dataSet, "viralLoads", Obs.class);
+            Obs lastViralLdl = getLastValue(dataSet, "viralLdl", Obs.class);
+
+            if (lastViralLoad != null) {
+                lastViralLoadValue = ObjectUtil.formatNumber(lastViralLoad.getValueNumeric(), "1", Context.getLocale());
+                lastViralLoadDate = lastViralLoad.getObsDatetime();
+                if (lastViralLoad.getValueNumeric() >= 1000) {
+                    highViralLoad = true;
+                }
+            }
+            if (lastViralLdl != null) {
+                if (lastViralLoadDate == null || lastViralLoadDate.before(lastViralLdl.getObsDatetime())) {
+                    lastViralLoadValue = "LDL";
+                    lastViralLoadDate = lastViralLdl.getObsDatetime();
+                }
+            }
+            model.put("lastViralLoadValue", lastViralLoadValue);
+            model.put("lastViralLoadDate", lastViralLoadDate);
+            model.put("highViralLoad", highViralLoad);
 
             Map<String, AppointmentInfo> appointmentStatuses = new LinkedHashMap<String, AppointmentInfo>();
             appointmentStatuses.put("HCC", getValue(dataSet, "hccAppointmentStatus", AppointmentInfo.class));

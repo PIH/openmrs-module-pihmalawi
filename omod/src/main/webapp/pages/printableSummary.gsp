@@ -348,23 +348,18 @@
         <tr>
             <td class="first-column">Last Viral Load:</td>
             <td class="second-column">
-                <% if (viralLoads && viralLoads.size() > 0) { %>
-                ${ viralLoads.get(viralLoads.size()-1).valueNumeric } on ${ui.format(viralLoads.get(viralLoads.size()-1).obsDatetime)}
+                <% if (lastViralLoadValue != null) { %>
+                ${ lastViralLoadValue } on ${ui.format(lastViralLoadDate)}
                 <% } else { %>
                 <span class="alert">No Viral Load Recorded</span>
                 <% } %>
             </td>
-            <td class="third-column"></td>
-        </tr>
-        <% if (viralLdl && viralLdl.size() > 0) { %>
-        <tr>
-            <td class="first-column">Last LDL:</td>
-            <td class="second-column">
-                 on ${ui.format(viralLdl.get(viralLdl.size()-1).obsDatetime)}
+            <td class="third-column alert">
+                <% if (highViralLoad) { %>
+                    High Viral Load
+                <% } %>
             </td>
-            <td class="third-column"></td>
         </tr>
-        <% } %>
         <tr>
             <td class="first-column">Last TB Status:</td>
             <td class="second-column">
