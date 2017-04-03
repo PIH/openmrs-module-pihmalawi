@@ -22,6 +22,7 @@ import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.reports.TraceReport;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
+import org.openmrs.module.reporting.common.ExcelUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
@@ -321,7 +322,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             }
         }
 
-        builder.write(out);
+        builder.write(out, ApzuReportUtil.getExcelPassword());
     }
 
     private void addExtraRowsToDataSet(DataSetRowList ds) {
