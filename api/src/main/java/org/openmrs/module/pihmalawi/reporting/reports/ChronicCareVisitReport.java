@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class NewChronicCareVisitReport extends ApzuDataExportManager{
+public class ChronicCareVisitReport extends ApzuDataExportManager{
     public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "3B95927F-AEDF-486B-9288-5E6058BAE9F4";
 
     @Autowired
@@ -57,7 +57,7 @@ public class NewChronicCareVisitReport extends ApzuDataExportManager{
     @Autowired
     private ChronicCarePatientDataLibrary ccPatientData ;
 
-    public NewChronicCareVisitReport() {}
+    public ChronicCareVisitReport() {}
 
     @Override
     public String getUuid() {
@@ -66,7 +66,7 @@ public class NewChronicCareVisitReport extends ApzuDataExportManager{
 
     @Override
     public String getName() {
-        return "New Chronic Care Visits";
+        return "Chronic Care Visits";
     }
 
     @Override
