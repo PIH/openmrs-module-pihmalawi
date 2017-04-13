@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class ChronicCareIndicatorReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "27c5d192-75b6-493b-86c2-f9347f1442b3";

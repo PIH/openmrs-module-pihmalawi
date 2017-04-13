@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class KsRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "e94f4a7c-06a0-11e4-b4d8-54ee7513a7ff";

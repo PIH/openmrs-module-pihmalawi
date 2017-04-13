@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Deprecated
 public class CrossSiteIndicatorReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "1e359bfd-7451-4e74-8663-00d3927f0c61";

@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Deprecated
 public class HivIndicatorReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "cb82fd24-3266-11e6-9f57-54ee7513a7ff";

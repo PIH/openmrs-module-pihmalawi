@@ -18,17 +18,17 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.springframework.core.io.Resource;
@@ -49,31 +49,34 @@ public class ReportInitializer implements Initializer {
 	 */
 	@Override
 	public synchronized void started() {
-		removeOldReports();
-		ReportManagerUtil.setupAllReports(ApzuReportManager.class);
+	    for (ReportManager reportManager : Context.getRegisteredComponents(ApzuReportManager.class)) {
+	        if (reportManager.getClass().getAnnotation(Deprecated.class) != null) {
+	            log.warn("Report " +reportManager.getName() + " is deprecated.  Removing it from use.");
+	            removeReport(reportManager);
+            }
+            else {
+                log.warn("Setting up report " +reportManager.getName() + "...");
+                ReportManagerUtil.setupReport(reportManager);
+            }
+        }
         loadSqlReports();
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
-	/**
-	 * @see Initializer#stopped()
-	 */
-	@Override
-	public void stopped() {
+	public static void removeReport(ReportManager reportManager) {
+	    ReportDefinition rd = reportManager.constructReportDefinition();
+	    removeReport(rd.getUuid());
 	}
 
-	private void removeOldReports() {
-		String gpVal = Context.getAdministrationService().getGlobalProperty("pihmalawi.oldReportsRemoved");
-		if (ObjectUtil.isNull(gpVal)) {
-			AdministrationService as = Context.getAdministrationService();
-			log.warn("Removing all reports");
-			as.executeSQL("delete from reporting_report_design_resource;", false);
-			as.executeSQL("delete from reporting_report_design;", false);
-			as.executeSQL("delete from reporting_report_request;", false);
-			as.executeSQL("delete from serialized_object;", false);
-			ReportUtil.updateGlobalProperty("pihmalawi.oldReportsRemoved", "true");
-		}
-	}
+    public static void removeReport(String reportUuid) {
+	    if (StringUtils.isNotBlank(reportUuid)) {
+            ReportDefinitionService rds = Context.getService(ReportDefinitionService.class);
+            ReportDefinition rd = rds.getDefinitionByUuid(reportUuid);
+            if (rd != null) {
+                Context.getService(ReportDefinitionService.class).purgeDefinition(rd);
+            }
+        }
+    }
 
     public static void loadSqlReports() {
         PathMatchingResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
@@ -83,6 +86,8 @@ public class ReportInitializer implements Initializer {
                 for (Resource r : resources) {
                     log.info("Loading " + r.getFilename());
                     List<String> lineByLineContents = IOUtils.readLines(r.getInputStream(), "UTF-8");
+
+                    boolean deprecated = false;
 
                     ReportDefinition rd = new ReportDefinition();
                     String designUuid = null;
@@ -113,6 +118,9 @@ public class ReportInitializer implements Initializer {
                             else if (key.equals("design_uuid")) {
                                 designUuid = value;
                             }
+                            else if (key.equalsIgnoreCase("DEPRECATED")) {
+                                deprecated = true;
+                            }
                         }
                         sql.append(line).append(System.getProperty("line.separator"));
                     }
@@ -130,12 +138,24 @@ public class ReportInitializer implements Initializer {
                     List<ReportDesign> designs = new ArrayList<ReportDesign>();
                     designs.add(ApzuReportUtil.createExcelDesign(designUuid, rd));
 
-                    ReportManagerUtil.setupReportDefinition(rd, designs, null);
+                    if (deprecated) {
+                        removeReport(rd.getUuid());
+                    }
+                    else {
+                        ReportManagerUtil.setupReportDefinition(rd, designs, null);
+                    }
                 }
             }
         }
         catch (Exception e) {
             throw new IllegalStateException("Unable to load SQL reports from classpath", e);
         }
+    }
+
+    /**
+     * @see Initializer#stopped()
+     */
+    @Override
+    public void stopped() {
     }
 }
