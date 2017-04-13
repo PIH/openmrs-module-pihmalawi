@@ -84,7 +84,7 @@ public class OldChronicCareVisitsReport extends ApzuDataExportManager {
 
 	@Override
 	public String getName() {
-		return "Chronic Care Visits";
+		return "Old Chronic Care Visits";
 	}
 
 	@Override
