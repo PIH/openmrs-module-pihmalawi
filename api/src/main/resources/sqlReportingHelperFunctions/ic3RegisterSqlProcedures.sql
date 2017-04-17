@@ -142,7 +142,8 @@ BEGIN
 	  epilepsyDx VARCHAR(255) default NULL,
 	  asthmaDx VARCHAR(255) default NULL,
 	  copdDx VARCHAR(255) default NULL,
-	  mentalDx  VARCHAR(255) default NULL
+	  mentalDx  VARCHAR(255) default NULL, 
+	  mentalDxList  VARCHAR(255) default NULL
 	);
 	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
 	
@@ -486,57 +487,70 @@ DROP PROCEDURE IF EXISTS updateFirstViralLoad;
 
 #
 
-CREATE PROCEDURE `updateFirstViralLoad`()
+CREATE PROCEDURE updateFirstViralLoad(IN endDate DATE)
 BEGIN
-	declare done INTEGER DEFAULT 0;
-	declare v_patientId int;
-	declare v_visitDate datetime;
-	declare v_numeric double;
-	declare insert_visitDate datetime;
-	declare insert_numeric double;
-	declare ldl_visitDate datetime;
 
-	DECLARE viralLoadCur CURSOR FOR
-		select  PID, obs_datetime, value_numeric
-		from warehouseCohortTable tt
-		left join (
-		select * from
-		(select person_id,obs_datetime, value_numeric
-		from obs where concept_id = 856 and voided = 0 order by obs_datetime asc) oi
-		group by person_id) o on o.person_id = tt.PID ;
-	declare continue handler for not found set done=1;
+	DROP TABLE IF EXISTS firstVL;
 
-	set done = 0;
-    open viralLoadCur;
-    viralLoop: loop
-        fetch viralLoadCur into v_patientId, v_visitDate,v_numeric;
-        if done = 1 then leave viralLoop; end if;
+	CREATE TEMPORARY TABLE firstVL as
+	select PID,
+		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					NULL
+				ELSE
+					ovl.obs_datetime
+				END
+			WHEN NOT ISNULL(oldl.obs_datetime) THEN
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					oldl.obs_datetime
+				ELSE
+					CASE WHEN ovl.obs_datetime < oldl.obs_datetime THEN
+						ovl.obs_datetime
+					ELSE
+						oldl.obs_datetime
+					END
+				END			
+		END AS insert_visitDate,
+		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					NULL
+				ELSE
+					ovl.value_numeric
+				END
+			WHEN NOT ISNULL(oldl.obs_datetime) THEN
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					0
+				ELSE
+					CASE WHEN ovl.obs_datetime < oldl.obs_datetime THEN
+						ovl.value_numeric
+					ELSE
+						0
+					END
+				END			
+		END AS insert_numeric
+	from warehouseCohortTable wct
+	left join (select * from 
+			(select person_id, value_numeric, obs_datetime 
+			from obs 
+			where concept_id = 856 
+			and obs_datetime <= endDate
+			and voided = 0 
+			order by obs_datetime asc) ovli 
+			group by person_id) ovl on ovl.person_id = wct.PID
+	left join (select * from 
+			(select person_id, value_coded, obs_datetime 
+			from obs 
+			where concept_id = 8561
+			and value_coded = 2257 
+			and obs_datetime <= endDate
+			and voided = 0 
+			order by obs_datetime asc) oldli 
+			group by person_id) oldl on oldl.person_id = wct.PID;
 
-		select MIN(obs_datetime) into ldl_visitDate
-		from obs where concept_id=8561
-		and value_coded = 2257 and voided =0
-		and person_id = v_patientId;
 
-		if (ldl_visitDate is null ) then
-			set insert_visitDate = v_visitDate;
-			set insert_numeric = v_numeric;
-		elseif (v_visitDate is null) then
-			set insert_visitDate = ldl_visitDate;
-			set insert_numeric = 0;
-		elseif ( datediff(ldl_visitDate, v_visitDate) <= 0 ) then
-			set insert_visitDate = ldl_visitDate;
-			set insert_numeric = 0;
-		else
-			set insert_visitDate = v_visitDate;
-			set insert_numeric = v_numeric;
-		end if;
-
-		UPDATE warehouseCohortTable tc
-		set firstViralLoadDate=insert_visitDate, firstViralLoadResult = insert_numeric
-		where PID = v_patientId;
-
-	end loop viralLoop;
-    close viralLoadCur;
+	UPDATE warehouseCohortTable tc, firstVL fvl
+		set tc.firstViralLoadDate=fvl.insert_visitDate, tc.firstViralLoadResult = fvl.insert_numeric
+	where tc.PID = fvl.PID;
 
 END
 
@@ -549,57 +563,70 @@ DROP PROCEDURE IF EXISTS updateLastViralLoad;
 
 #
 
-CREATE PROCEDURE `updateLastViralLoad`()
+CREATE PROCEDURE updateLastViralLoad(IN endDate DATE)
 BEGIN
-	declare done INTEGER DEFAULT 0;
-	declare v_patientId int;
-	declare v_visitDate datetime;
-	declare v_numeric double;
-	declare insert_visitDate datetime;
-	declare insert_numeric double;
-	declare ldl_visitDate datetime;
 
-	DECLARE viralLoadCur CURSOR FOR
-		select  PID, obs_datetime, value_numeric
-		from warehouseCohortTable tt
-		left join (
-		select * from
-		(select person_id,obs_datetime, value_numeric
-		from obs where concept_id = 856 and voided = 0 order by obs_datetime desc) oi
-		group by person_id) o on o.person_id = tt.PID ;
-	declare continue handler for not found set done=1;
+	DROP TABLE IF EXISTS lastVL;
 
-	set done = 0;
-    open viralLoadCur;
-    viralLoop: loop
-        fetch viralLoadCur into v_patientId, v_visitDate,v_numeric;
-        if done = 1 then leave viralLoop; end if;
+	CREATE TEMPORARY TABLE lastVL as
+	select PID,
+		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					NULL
+				ELSE
+					ovl.obs_datetime
+				END
+			WHEN NOT ISNULL(oldl.obs_datetime) THEN
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					oldl.obs_datetime
+				ELSE
+					CASE WHEN ovl.obs_datetime > oldl.obs_datetime THEN
+						ovl.obs_datetime
+					ELSE
+						oldl.obs_datetime
+					END
+				END			
+		END AS insert_visitDate,
+		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					NULL
+				ELSE
+					ovl.value_numeric
+				END
+			WHEN NOT ISNULL(oldl.obs_datetime) THEN
+				CASE WHEN ISNULL(ovl.obs_datetime) THEN
+					0
+				ELSE
+					CASE WHEN ovl.obs_datetime > oldl.obs_datetime THEN
+						ovl.value_numeric
+					ELSE
+						0
+					END
+				END			
+		END AS insert_numeric
+	from warehouseCohortTable wct
+	left join (select * from 
+			(select person_id, value_numeric, obs_datetime 
+			from obs 
+			where concept_id = 856 
+			and obs_datetime <= endDate
+			and voided = 0 
+			order by obs_datetime desc) ovli 
+			group by person_id) ovl on ovl.person_id = wct.PID
+	left join (select * from 
+			(select person_id, value_coded, obs_datetime 
+			from obs 
+			where concept_id = 8561
+			and value_coded = 2257 
+			and obs_datetime <= endDate
+			and voided = 0 
+			order by obs_datetime desc) oldli 
+			group by person_id) oldl on oldl.person_id = wct.PID;
 
-		select MAX(obs_datetime) into ldl_visitDate
-		from obs where concept_id=8561
-		and value_coded = 2257 and voided =0
-		and person_id = v_patientId;
 
-		if (ldl_visitDate is null ) then
-			set insert_visitDate = v_visitDate;
-			set insert_numeric = v_numeric;
-		elseif (v_visitDate is null) then
-			set insert_visitDate = ldl_visitDate;
-			set insert_numeric = 0;
-		elseif ( datediff(ldl_visitDate, v_visitDate) >= 0 ) then
-			set insert_visitDate = ldl_visitDate;
-			set insert_numeric = 0;
-		else
-			set insert_visitDate = v_visitDate;
-			set insert_numeric = v_numeric;
-		end if;
-
-		UPDATE warehouseCohortTable tc
-		set lastViralLoadDate=insert_visitDate, lastViralLoadResult = insert_numeric
-		where PID = v_patientId;
-
-	end loop viralLoop;
-    close viralLoadCur;
+	UPDATE warehouseCohortTable tc, lastVL lvl
+		set tc.lastViralLoadDate=lvl.insert_visitDate, tc.lastViralLoadResult = lvl.insert_numeric
+	where tc.PID = lvl.PID;
 
 END
 
@@ -886,7 +913,7 @@ BEGIN
 			ASTHMA, 
 			MENTAL, 
 			(HTN + DM + EPILEPSY + ASTHMA + COPD + MENTAL) AS totalNCDs,
-			CASE WHEN HIV=1 AND (HTN + DM + EPILEPSY + ASTHMA + COPD + MENTAL) > 0 
+			CASE WHEN HIV=1 AND NCD_ENROLLED=1 
 				THEN "yes" 
 				ELSE "no" 
 			END AS hivAtLeastOneNcd,
@@ -907,6 +934,10 @@ BEGIN
 				THEN 1 
 				ELSE 0 
 			END AS HIV,
+			CASE WHEN ncdEnrollmentDate IS NOT NULL
+				THEN 1
+				ELSE 0
+			END AS NCD_ENROLLED,
 			CASE WHEN htnDx IS NOT NULL 
 				THEN 1 
 				ELSE 0 

@@ -35,8 +35,8 @@ CALL getEncounterDatetimeBeforeEndDate('124,125', @reportEndDate, 'last', 'lastM
 CALL updateIc3EnrollmentInfo(@reportEndDate);
 CALL updateProgramsEnrollmentDate();
 -- HIV Program Information
-CALL updateFirstViralLoad();
-CALL updateLastViralLoad();
+CALL updateFirstViralLoad(@reportEndDate);
+CALL updateLastViralLoad(@reportEndDate);
 CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastHivOutcome', 'lastHivOutcomeDate');
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
@@ -104,6 +104,7 @@ CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '8473',
 CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '5622', @reportEndDate, 'last', 'otherAsthmaMeds');
 -- Mental Health Information
 CALL getDiagnosisBoolean(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', @reportEndDate, 'mentalDx');
+CALL getDiagnosisList(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', @reportEndDate, 'mentalDxList');
 CALL getDiagnosisDate(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', 6774, @reportEndDate, 'first', 'firstMentalHealthDxDate');
 CALL getEncounterDateForCodedObs('1193', '914,4047,927,920,920,4060,8498,4045,8582,8583,8237,8584,6408', @reportEndDate, 'first', 'firstMentalHealthMedsDate');
 CALL getEncounterDateForCodedObs('1193', '914,4047,927,920,920,4060,8498,4045,8582,8583,8237,8584,6408', @reportEndDate, 'last', 'lastMentalHealthMedsDate');        
@@ -224,6 +225,7 @@ SELECT
   oralSteroid as "Oral steroid given at last visit",
   otherAsthmaMeds as "Other Chronic Lung medications given at last visit",
   mentalDx as "Mental Health Diagnosis",
+  mentalDxList as "Mental Health Diagnoses",
   date_format(firstMentalHealthDxDate,'%Y-%m-%d') as "Mental Health Diagnosis Date",
   date_format(firstMentalHealthMedsDate,'%Y-%m-%d') as "First Mental Health Treatment Date",
   lastMentalHealthMedsDate "Last Mental Health Treatement Date",

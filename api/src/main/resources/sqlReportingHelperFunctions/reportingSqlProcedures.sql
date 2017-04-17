@@ -400,7 +400,7 @@ BEGIN
 		       set @upDown = 'asc';
 	ELSEIF firstLast = 'last' THEN
 	       set @upDown = 'desc';
-	ELSE select 'Must specify first/last encounter in getEncounterDateForObs!';
+	ELSE select 'Must specify first/last encounter in getDiagnosisDate!';
 	END IF;
 
 	SET @s = CONCAT('insert into temp_obs_vector
@@ -446,9 +446,7 @@ END
 -- 				colName - column to write to in reporting table
 -- Procedure is intended to get the existence of a value coded from an obs group (and so may apply more
 -- generally than diagnoses). The procedure finds diagnoses (coded answers) for a given diagnosis
--- type (dxQuestion) and returns a checkbox if one is found. The diagnosis dates are written out to 
--- the report table. This report currently works for one diagnosis, though the logic would need to 
--- change if there were multiple diagnosis dates for a given set of diagnoses. 
+-- type (dxQuestion) and returns a checkbox if one is found. 
 
 DROP PROCEDURE IF EXISTS getDiagnosisBoolean;
 
@@ -470,6 +468,58 @@ BEGIN
 					select o.person_id, 
 					CASE WHEN NOT ISNULL(o.value_coded) THEN \'✔\' END AS obs
 					-- group_concat(getConceptName(o.value_coded) separator \',\')					
+					from (select * from obs 
+							where concept_id = ', dxQuestion,
+							' and value_coded in (', dxConcepts,
+							') and obs_datetime <= \'', endDate, '\'
+							and voided = 0) o
+					group by person_id;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+	SET @s = NULL;
+
+	SET @u=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt SET tc.', colName,' = tt.obs WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt2 FROM @u;
+	EXECUTE stmt2;
+	DEALLOCATE PREPARE stmt2;
+	SET @u = NULL;
+
+END
+
+#
+
+-- getDiagnosisList(dxQuestion, dxConcepts, endDate, colName)
+-- INPUTS: 		dxQuestion - diagnosis question concept id
+--				dxConcepts - string list of diagnosis answers to consider (e.g., '1,2,3...')
+--				dxDateConcept - diagnosis date concept
+--				endDate - end Date of report
+-- 				colName - column to write to in reporting table
+-- Procedure is gets list of coded values from an obs group (and so may apply more
+-- generally than diagnoses). The procedure finds diagnoses (coded answers) for a given diagnosis
+-- type (dxQuestion) and returns a checkbox if one is found. 
+
+DROP PROCEDURE IF EXISTS getDiagnosisList;
+
+#
+
+CREATE PROCEDURE getDiagnosisList(IN dxQuestion INT, IN dxConcepts VARCHAR(100), IN endDate DATE, IN colName VARCHAR(255))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(255) default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	SET @s = CONCAT('insert into temp_obs_vector
+						(PID,obs)
+					select o.person_id, 
+					group_concat(getConceptName(o.value_coded) separator \',\')	as obs
 					from (select * from obs 
 							where concept_id = ', dxQuestion,
 							' and value_coded in (', dxConcepts,
@@ -532,7 +582,8 @@ BEGIN
 									join encounter e on e.encounter_id = obs.encounter_id
 									where concept_id in (', CONCAT(cid),
 									') and e.voided = 0
-									and obs.voided = 0				
+									and obs.voided = 0	
+									and obs_datetime <= \'', endDate, '\'	
 									order by obs_datetime ', @upDown,') oi
 								group by person_id) o 
 								on o.person_id = wc.PID;');
@@ -776,6 +827,7 @@ BEGIN
 									where concept_id in (', cids,
 									') and value_coded in (', vcid,
 									') and e.voided = 0
+									and obs_datetime <= \'', endDate, '\'	
 									and obs.voided = 0				
 									order by obs_datetime ', @upDown,') oi
 								group by person_id) o 
@@ -836,6 +888,7 @@ BEGIN
 									where concept_id in (', cids,
 									') and value_coded in (', vcid,
 									') and e.voided = 0
+									and obs_datetime <= \'', endDate, '\'	
 									and obs.voided = 0				
 									order by obs_datetime ', @upDown,') oi
 								group by person_id) o 
