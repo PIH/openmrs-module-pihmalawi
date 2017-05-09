@@ -56,6 +56,10 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
         if (providerAttributeType !=null ) {
             providerAttributes.add(providerAttributeType);
         }
+        providerAttributeType = providerService.getProviderAttributeTypeByUuid(ProviderAttributeTypeBundle.ProviderAttributeTypes.PHONE_NUMBER);
+        if (providerAttributeType !=null ) {
+            providerAttributes.add(providerAttributeType);
+        }
         providerAttributeType = providerService.getProviderAttributeTypeByUuid(ProviderAttributeTypeBundle.ProviderAttributeTypes.NUMBER_OF_HOUSEHOLDS);
         if (providerAttributeType !=null ) {
             providerAttributes.add(providerAttributeType);

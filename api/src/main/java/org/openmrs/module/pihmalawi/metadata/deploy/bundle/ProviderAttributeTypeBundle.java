@@ -28,6 +28,7 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
     private ProviderService providerService;
 
     public static final class ProviderAttributeTypes {
+        public static final String PHONE_NUMBER  = "30375A78-FA92-4C5C-A2FD-7E8339EC69CF";
         public static final String NUMBER_OF_HOUSEHOLDS  = "0c267ae8-f793-4cf8-9b27-93accaa45d86";
         public static final String DATE_HIRED  = "c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb";
         public static final String EDUCATION_LEVEL  = "1ff995ad-8bba-4660-a5cd-acc7801c9b51";
@@ -42,6 +43,16 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
      */
     @Override
     public void install() throws Exception {
+
+        install(providerAttributeType(
+                "Phone Number",
+                "Provider phone number",
+                FreeTextDatatype.class,
+                null,
+                0,
+                1,
+                ProviderAttributeTypes.PHONE_NUMBER));
+
         install(providerAttributeType(
                 "Households",
                 "Number of households monitored by a VHW",
