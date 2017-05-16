@@ -142,8 +142,13 @@ BEGIN
 	  epilepsyDx VARCHAR(255) default NULL,
 	  asthmaDx VARCHAR(255) default NULL,
 	  copdDx VARCHAR(255) default NULL,
-	  mentalDx  VARCHAR(255) default NULL, 
-	  mentalDxList  VARCHAR(255) default NULL
+	  mentalDx VARCHAR(255) default NULL, 
+	  mentalDxList VARCHAR(255) default NULL,
+	  artAptDate DATE default NULL,
+	  htnDmAptDate DATE default NULL,
+	  epilepsyAptDate DATE default NULL,
+	  mentalHealthAptDate DATE default NULL,
+	  chronicLungAptDate DATE default NULL
 	);
 	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
 	

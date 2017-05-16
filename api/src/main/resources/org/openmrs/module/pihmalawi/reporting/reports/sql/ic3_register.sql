@@ -115,7 +115,12 @@ CALL getNumericObsBeforeDate(5090, @reportEndDate, 'last', 'lastHeight');
 CALL getNumericObsBeforeDate(5089, @reportEndDate, 'last', 'lastWeight');
 -- Diagnoses Logic
 CALL diagnosesLogic(); -- Must be last!
-
+-- Appointments
+CALL getAppointmentDateForEncounter('10', @reportEndDate, 'artAptDate');
+CALL getAppointmentDateForEncounter('115', @reportEndDate, 'htnDmAptDate');
+CALL getAppointmentDateForEncounter('123', @reportEndDate, 'epilepsyAptDate');
+CALL getAppointmentDateForEncounter('125', @reportEndDate, 'mentalHealthAptDate');
+CALL getAppointmentDateForEncounter('119', @reportEndDate, 'chronicLungAptDate');
 
 -- Print report using select - update any column names or reorder here
 SELECT
@@ -235,7 +240,12 @@ SELECT
   lastWeight "Last Weight",
   CASE WHEN age >= 19 
     THEN round(lastWeight/POWER(lastHeight/100,2),1)
-  END AS BMI
+  END AS BMI,
+  artAptDate as "Next ART Appointment",
+  htnDmAptDate as "Next Hypertension/Diabetes Appointment",
+  epilepsyAptDate as "Next Epilepsy Appointment",
+  chronicLungAptDate as "Next Chronic Lung Appointment",
+  mentalHealthAptDate as "Next Mental Health Appointment"
 FROM warehouseCohortTable;
 
 

@@ -15,6 +15,7 @@
 --										getEncounterLocationForCodedObs
 --										getEncounterDateForCodedObs
 --										getNumericObsFromEncounterBeforeDate
+--										getAppointmentDateForEncounter
 --
 --				Helper Procedures: 		getConceptName
 --										addReportColumn
@@ -959,6 +960,62 @@ BEGIN
 								' and voided = 0
 								group by person_id) o on o.encounter_id = e.encounter_id;');
 	
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	SET @s = NULL;
+
+	CALL addReportColumn(colName);
+
+END
+
+#
+
+-- getNumericObsFromEncounterBeforeDate(cid, eids, endDate, firstLast, colName)
+-- INPUTS: 		cid - observation concept id
+--				eids - string list of encounter ids to consider (e.g., '1,2,3...')
+--				endDate - end Date of report
+-- 				colName - column to write to in reporting table
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets numeric obs value for concept id from the last encounter
+-- from a given encounter type before (or on) the report end date and 
+-- writes observation to report table for cohort (one per patient).
+-- Procedure only looks in the last encounter and will return NULL if obs was not made at last 
+-- encounter.
+
+DROP PROCEDURE IF EXISTS getAppointmentDateForEncounter;
+
+#
+
+CREATE PROCEDURE getAppointmentDateForEncounter(IN encounterTypes INT, IN endDate DATE, IN colName VARCHAR(100))
+BEGIN  
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs DATE default NULL 
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	SET @s=CONCAT('insert into temp_obs_vector
+					(PID, obs)
+					select patient_id, value_datetime 
+					from (select * from 
+							(select * 
+							from encounter 
+							where encounter_type in (', encounterTypes,
+							') and encounter_datetime <= \'', endDate, 
+							'\' and voided = 0
+							order by encounter_datetime desc) ei
+							group by patient_id) e
+					join (select encounter_id, value_datetime 
+							from obs 
+							where concept_id = 5096
+							and voided = 0) o
+							on o.encounter_id = e.encounter_id;');
+				
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
