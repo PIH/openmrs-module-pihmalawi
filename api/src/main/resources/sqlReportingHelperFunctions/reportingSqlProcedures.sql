@@ -972,15 +972,13 @@ END
 
 #
 
--- getNumericObsFromEncounterBeforeDate(cid, eids, endDate, firstLast, colName)
--- INPUTS: 		cid - observation concept id
---				eids - string list of encounter ids to consider (e.g., '1,2,3...')
+-- getAppointmentDateForEncounter(encounterTypes, endDate, colName)
+-- INPUTS: 		encounterTypes - encounter types to consider
 --				endDate - end Date of report
 -- 				colName - column to write to in reporting table
---				firstLast - either 'first' or 'last' to specify first/last encounter
--- Procedure gets numeric obs value for concept id from the last encounter
--- from a given encounter type before (or on) the report end date and 
--- writes observation to report table for cohort (one per patient).
+-- Procedure gets appointment date from a given encounter date for 
+-- the last encounter before the end date of the report and 
+-- writes the date to report table for cohort (one per patient).
 -- Procedure only looks in the last encounter and will return NULL if obs was not made at last 
 -- encounter.
 
@@ -988,7 +986,7 @@ DROP PROCEDURE IF EXISTS getAppointmentDateForEncounter;
 
 #
 
-CREATE PROCEDURE getAppointmentDateForEncounter(IN encounterTypes INT, IN endDate DATE, IN colName VARCHAR(100))
+CREATE PROCEDURE getAppointmentDateForEncounter(IN encounterTypes VARCHAR(50), IN endDate DATE, IN colName VARCHAR(100))
 BEGIN  
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -1028,3 +1026,55 @@ END
 
 #
 
+-- getIdentifierForProgram(programIdentifier, idType, colName)
+-- INPUTS: 		programIdentifier - program ID number
+--				idTypes - identifier types (string)
+-- 				colName - column to write to in reporting table
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- Procedure gets most recent patient identifier for a program id and identifier type
+-- and writes the identifier to report table for cohort (one per patient). Uses the
+-- warehouse program enrollment table for recent enrollment information (so should be
+-- called after that is updated).
+
+DROP PROCEDURE IF EXISTS getIdentifierForProgram;
+
+#
+
+CREATE PROCEDURE getIdentifierForProgram(IN programIdentifier INT, IN idTypes VARCHAR(50), IN colName VARCHAR(100))
+BEGIN  
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		obs VARCHAR(100) default NULL 
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	SET @s=CONCAT('insert into temp_obs_vector
+						(PID, obs)
+					select PID, identifier
+					from (select * from
+							(select PID, locationId, locationName 
+							from warehouse_program_enrollment
+							where programId = ', programIdentifier,
+							' order by stateStartDate desc) wpei
+							group by PID) wpe
+					join (select patient_id, identifier, location_id
+							from patient_identifier
+							where identifier_type in (', idTypes,
+							') and voided = 0) pi on pi.patient_id = wpe.PID  
+							and pi.location_id = wpe.locationId
+					order by locationName;');
+				
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	SET @s = NULL;
+
+	CALL addReportColumn(colName);
+
+END
+
+#

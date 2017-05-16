@@ -40,6 +40,8 @@ BEGIN
 	  allPreArtIds VARCHAR(100) default NULL,
 	  allArtIds VARCHAR(100) default NULL,
 	  allCccIds VARCHAR(100) default NULL,
+	  activeHivId VARCHAR(100) default NULL,
+	  activeCCCId VARCHAR(100) default NULL,
 	  ic3EnrollmentDate DATE,
 	  ic3FirstProgramEnrolled VARCHAR(255),
 	  lastNcdVisitDate DATE default NULL,

@@ -20,6 +20,8 @@ CALL warehouseProgramEnrollment();
 CALL getAllIdentifiers(@reportEndDate,'4','allArtIds');
 CALL getAllIdentifiers(@reportEndDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@reportEndDate,'21','allCccIds');
+CALL getIdentifierForProgram(1, '4,19', 'activeHivId');
+CALL getIdentifierForProgram(10, '21', 'activeCCCId');
 -- General Visits and outcomes
 CALL getEncounterDatetimeBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitDate');
 CALL getEncounterLocationBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitLocation');
@@ -129,6 +131,8 @@ SELECT
   allPreArtIds as "All HCC Identifiers",
   allArtIds as "All ART Identifiers",
   allCccIds as "ALL Chronic Care Identifiers",
+  activeHivId as "Active HIV Identifier",
+  activeCCCId as "Active Chronic Care Identifier",
   date_format(ic3EnrollmentDate,'%Y-%m-%d') as "Date of First Enrollment in HIV/Chronic Care Programs",
   ic3FirstProgramEnrolled as "First Program Enrollment",
   date_format(ncdEnrollmentDate,'%Y-%m-%d') as "NCD Program Enrollment Date",
