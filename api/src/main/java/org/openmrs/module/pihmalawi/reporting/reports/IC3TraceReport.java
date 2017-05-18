@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class IC3TraceReport extends ApzuReportManager {
 
     public static final Parameter MIN_WEEKS_PARAM = new Parameter("minWeeks", "Min Weeks", Integer.class);
@@ -93,7 +94,7 @@ public class IC3TraceReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "IC3 TRACE Report";
+		return "Old IC3 TRACE Report";
 	}
 
     @Override
