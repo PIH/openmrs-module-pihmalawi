@@ -1035,12 +1035,14 @@ END
 -- and writes the identifier to report table for cohort (one per patient). Uses the
 -- warehouse program enrollment table for recent enrollment information (so should be
 -- called after that is updated).
+-- This procedure currently returns the patient ids in ascending order of identifier_type
+-- which is not generic (but gives you ART number before HCC number).
 
 DROP PROCEDURE IF EXISTS getIdentifierForProgram;
 
 #
 
-CREATE PROCEDURE getIdentifierForProgram(IN programIdentifier INT, IN idTypes VARCHAR(50), IN colName VARCHAR(100))
+CREATE PROCEDURE getIdentifierForProgram(IN programIdentifier INT, IN idTypes VARCHAR(50), IN endDate DATE, IN colName VARCHAR(100))
 BEGIN  
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -1050,31 +1052,42 @@ BEGIN
   		obs VARCHAR(100) default NULL 
 	);
 	CREATE INDEX PID_index ON temp_obs_vector (PID);
+	
+	-- temporary table to hold enrollment location information
+	DROP TEMPORARY TABLE IF EXISTS lastEnrollmentLocation;
+
+	CREATE TEMPORARY TABLE lastEnrollmentLocation as
+	select *
+		from (select * from (select PID, locationId, locationName 
+			from warehouse_program_enrollment
+			where programId = programIdentifier
+			and dateEnrolled <= endDate
+			order by stateStartDate desc) wpei
+			group by PID) wpe;
 
 	SET @s=CONCAT('insert into temp_obs_vector
 						(PID, obs)
-					select PID, identifier
-					from (select * from
-							(select PID, locationId, locationName 
-							from warehouse_program_enrollment
-							where programId = ', programIdentifier,
-							' order by stateStartDate desc) wpei
-							group by PID) wpe
-					join (select patient_id, identifier, location_id
-							from patient_identifier
-							where identifier_type in (', idTypes,
-							') and voided = 0) pi on pi.patient_id = wpe.PID  
-							and pi.location_id = wpe.locationId
-					order by locationName;');
-				
+					select patient_id, identifier 
+					from (select * from 
+							(select * from 
+								patient_identifier pi
+								join lastEnrollmentLocation ler on ler.locationId = pi.location_id AND ler.PID = pi.patient_id
+								where identifier_type in (', idTypes, 
+								')
+								and voided = 0
+								order by identifier_type asc) piii
+								group by patient_id) pii;');	
+
 	PREPARE stmt1 FROM @s;
 	EXECUTE stmt1;
 	DEALLOCATE PREPARE stmt1;
 
 	SET @s = NULL;
+	DROP TEMPORARY TABLE IF EXISTS lastEnrollmentLocation;
 
 	CALL addReportColumn(colName);
 
 END
+
 
 #

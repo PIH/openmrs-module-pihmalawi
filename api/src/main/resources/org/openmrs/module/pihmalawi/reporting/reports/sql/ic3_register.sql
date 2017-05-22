@@ -11,7 +11,6 @@ CALL createIc3RegisterTable();
 -- Create cohort with demographic data
 CALL createIc3RegisterCohort(@reportEndDate);
 
-
 -- Call Routines to fill columns
 -- ---------------------------
 -- Warehousing 
@@ -20,8 +19,8 @@ CALL warehouseProgramEnrollment();
 CALL getAllIdentifiers(@reportEndDate,'4','allArtIds');
 CALL getAllIdentifiers(@reportEndDate,'19','allPreArtIds');
 CALL getAllIdentifiers(@reportEndDate,'21','allCccIds');
-CALL getIdentifierForProgram(1, '4,19', 'activeHivId');
-CALL getIdentifierForProgram(10, '21', 'activeCCCId');
+CALL getIdentifierForProgram(1, '4,19', @reportEndDate, 'activeHivId');
+CALL getIdentifierForProgram(10, '21', @reportEndDate, 'activeCCCId');
 -- General Visits and outcomes
 CALL getEncounterDatetimeBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitDate');
 CALL getEncounterLocationBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitLocation');
