@@ -40,6 +40,7 @@ public class TraceReport extends ApzuReportManager {
     public static final String MIN_WKS_PARAM = "minWeeks";
     public static final String MAX_WKS_PARAM = "maxWeeks";
     public static final String PHASE_1_PARAM = "phase1";
+    public static final Parameter LAB_WEEKS_PARAMETER = new Parameter("labWeeks", "Weeks of lab results to include", Integer.class);
 
 	@Autowired
 	private HivMetadata hivMetadata;
@@ -63,6 +64,7 @@ public class TraceReport extends ApzuReportManager {
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
         l.add(ReportingConstants.END_DATE_PARAMETER);
+        l.add(LAB_WEEKS_PARAMETER);
         return l;
     }
 
@@ -94,6 +96,7 @@ public class TraceReport extends ApzuReportManager {
         String dsName = location.getName() + " - 2 weeks";
         MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
         multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
         multiParamDsd.setBaseDefinition(getBaseDsd());
         Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
         mappings.put(LOCATION_NAME_PARAM, location.getName());
@@ -108,6 +111,7 @@ public class TraceReport extends ApzuReportManager {
         String dsName = "6 weeks";
         MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
         multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
         multiParamDsd.setBaseDefinition(getBaseDsd());
         for (Location location : locations) {
             Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
@@ -125,6 +129,7 @@ public class TraceReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE.getAbsolutePath());
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        dsd.addParameter(LAB_WEEKS_PARAMETER);
         dsd.addParameter(new Parameter(LOCATION_NAME_PARAM, LOCATION_NAME_PARAM, String.class));
         dsd.addParameter(new Parameter(MIN_WKS_PARAM, MIN_WKS_PARAM, Integer.class));
         dsd.addParameter(new Parameter(MAX_WKS_PARAM, MAX_WKS_PARAM, Integer.class));
