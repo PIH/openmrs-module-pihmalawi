@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>pihmalawi</artifactId>
-		<version>5.11-SNAPSHOT</version>
+		<version>5.11</version>
 	</parent>
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>pihmalawi-omod</artifactId>
