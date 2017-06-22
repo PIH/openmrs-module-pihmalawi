@@ -30,5 +30,5 @@ Dockerfile inclduded in this folder is used to run a container on the [bwenzi](h
 **`sudo docker rm neno-openmrs`**
 9. Remove the image  
 **`sudo docker rmi pih/malawi-openmrs:latest`**
-10. View running containers
-**`sudo docker ps
+10.View running containers  
+**`sudo docker ps`**
