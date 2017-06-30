@@ -5,6 +5,14 @@
 -- ## parameter = reportEndDate|End Date|java.util.Date
 
 -- Report lists all patients who are in enlisted in any of the CC programs or ART program.
+select encounter_type_id into @ART_FOLLOWUP from encounter_type where uuid = '664b8650-977f-11e1-8993-905e29aff6c1';
+select encounter_type_id into @DH_F from encounter_type where uuid = '66079de4-a8df-11e5-bf7f-feff819cdc9f';
+select encounter_type_id into @E_I from encounter_type where uuid = 'D8CBF1B9-EC74-4858-8764-2350E2A9925B';
+select encounter_type_id into @E_F from encounter_type where uuid = '1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72';
+select encounter_type_id into @M_I from encounter_type where uuid = '3F94849C-F245-4593-BCC8-879EAEA29168';
+select encounter_type_id into @M_F from encounter_type where uuid = 'D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1';
+select encounter_type_id into @A_I from encounter_type where uuid = 'a95dc43f-925c-11e5-a1de-e82aea237783';
+select encounter_type_id into @A_F from encounter_type where uuid = 'f4596df5-925c-11e5-a1de-e82aea237783';
 
 -- Create an empty table
 CALL createIc3RegisterTable();
@@ -22,17 +30,17 @@ CALL getAllIdentifiers(@reportEndDate,'21','allCccIds');
 CALL getIdentifierForProgram(1, '4,19', @reportEndDate, 'activeHivId');
 CALL getIdentifierForProgram(10, '21', @reportEndDate, 'activeCCCId');
 -- General Visits and outcomes
-CALL getEncounterDatetimeBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitDate');
-CALL getEncounterLocationBeforeEndDate('67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastNcdVisitLocation');
+CALL getEncounterDatetimeBeforeEndDate('67,69,29,@DH_F,@A_I,@A_F,@E_I,@E_F,@M_I,@M_F', @reportEndDate, 'last', 'lastNcdVisitDate');
+CALL getEncounterLocationBeforeEndDate('67,69,29,@DH_F,@A_I,@A_F,@E_I,@E_F,@M_I,@M_F', @reportEndDate, 'last', 'lastNcdVisitLocation');
 CALL getEncounterDatetimeBeforeEndDate('9,10,11,12', @reportEndDate, 'first', 'firstHivVisitDate');
 CALL getEncounterDatetimeBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitDate');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
-CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitDate');
-CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,115,118,119,122,123,124,125', @reportEndDate, 'last', 'lastVisitLocation');
-CALL getEncounterDatetimeBeforeEndDate('29,115', @reportEndDate, 'last', 'lastHtnDmVisitDate');
-CALL getEncounterDatetimeBeforeEndDate('122,123', @reportEndDate, 'last', 'lastEpilepsyVisitDate');
-CALL getEncounterDatetimeBeforeEndDate('118,119', @reportEndDate, 'last', 'lastChronicLungVisitDate');
-CALL getEncounterDatetimeBeforeEndDate('124,125', @reportEndDate, 'last', 'lastMentalHealthVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('9,10,11,12,67,69,29,@DH_F,@A_I,@A_F,@E_I,@E_F,@M_I,@M_F', @reportEndDate, 'last', 'lastVisitDate');
+CALL getEncounterLocationBeforeEndDate('9,10,11,12,67,69,29,@DH_F,@A_I,@A_F,@E_I,@E_F,@M_I,@M_F', @reportEndDate, 'last', 'lastVisitLocation');
+CALL getEncounterDatetimeBeforeEndDate('29,@DH_F', @reportEndDate, 'last', 'lastHtnDmVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('@E_I,@E_F', @reportEndDate, 'last', 'lastEpilepsyVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('@A_I,@A_F', @reportEndDate, 'last', 'lastChronicLungVisitDate');
+CALL getEncounterDatetimeBeforeEndDate('@M_I,@M_F', @reportEndDate, 'last', 'lastMentalHealthVisitDate');
 CALL updateIc3EnrollmentInfo(@reportEndDate);
 CALL updateProgramsEnrollmentDate();
 -- HIV Program Information
@@ -55,12 +63,12 @@ CALL getEncounterLocationForCodedObs('1193', '3182,3187,1242,250,3186,3183,254,8
 CALL getBloodPressureBeforeDate(@reportEndDate, 'first', 'firstBpDate', 'firstBp');
 CALL getBloodPressureBeforeDate(@reportEndDate, 'last', 'lastBpDate', 'lastBp');
 -- Hypertension Meds
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '8466,1243,99,4061', @reportEndDate, 'last', 'diuretic');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '8465,3187,250', @reportEndDate, 'last', 'calciumChannelBlocker');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '8464,1242,3182,3183', @reportEndDate, 'last', 'aceIInhibitor');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '8463,3186,8612,254', @reportEndDate, 'last', 'betaBlocker');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '8462,8613,8614,8210', @reportEndDate, 'last', 'statin');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '88,929,7121', @reportEndDate, 'last', 'otherHtnMeds');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '8466,1243,99,4061', @reportEndDate, 'last', 'diuretic');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '8465,3187,250', @reportEndDate, 'last', 'calciumChannelBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '8464,1242,3182,3183', @reportEndDate, 'last', 'aceIInhibitor');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '8463,3186,8612,254', @reportEndDate, 'last', 'betaBlocker');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '8462,8613,8614,8210', @reportEndDate, 'last', 'statin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '88,929,7121', @reportEndDate, 'last', 'otherHtnMeds');
 -- Diabetes Information
 CALL getDiagnosisBoolean(3683, '6409,6410,3720', @reportEndDate, 'dmDx');
 CALL getDiagnosisDate(3683, '6409,6410,3720', 6774, @reportEndDate, 'first', 'firstDmDxDate');
@@ -71,10 +79,10 @@ CALL getEncounterLocationForCodedObs('1193', '4052,8413,4046', @reportEndDate, '
 CALL getBloodGlucoseBeforeDate(@reportEndDate, 'first', 'firstGlucoseMonitoringDate','firstVisitHba1c','firstVisitRandomBloodSugar','firstVisitFastingBloodSugar');
 CALL getBloodGlucoseBeforeDate(@reportEndDate, 'last', 'lastGlucoseMonitoringDate','lastVisitHba1c','lastVisitRandomBloodSugar','lastVisitFastingBloodSugar');
 -- Diabetes Meds
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '282', @reportEndDate, 'last', 'shortActingRegularInsulin');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '6750', @reportEndDate, 'last', 'longActingInsulin');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '4052', @reportEndDate, 'last', 'metformin');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,115', '4046', @reportEndDate, 'last', 'glibenclamide');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '282', @reportEndDate, 'last', 'shortActingRegularInsulin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '6750', @reportEndDate, 'last', 'longActingInsulin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '4052', @reportEndDate, 'last', 'metformin');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '4046', @reportEndDate, 'last', 'glibenclamide');
 -- Epilepsy Information
 CALL getDiagnosisBoolean(3683, '155', @reportEndDate, 'epilepsyDx');
 CALL getDiagnosisDate(3683, '155', 6774, @reportEndDate, 'first', 'firstEpilepsyDxDate');
@@ -85,7 +93,7 @@ CALL getEncounterDateForObs(7924, @reportEndDate, 'first', 'firstSeizuresDate');
 CALL getNumericObsBeforeDate(7924, @reportEndDate, 'first', 'firstSeizures');
 CALL getEncounterDateForObs(7924, @reportEndDate, 'last', 'lastSeizuresDate');
 CALL getNumericObsBeforeDate(7924, @reportEndDate, 'last', 'lastSeizures');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '123', '8531,8532,8533,8534,8535,8536,8537', @reportEndDate, 'last', 'seizureTriggers');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '@E_F', '8531,8532,8533,8534,8535,8536,8537', @reportEndDate, 'last', 'seizureTriggers');
 -- Asthma Information (added COPD)
 CALL getDiagnosisBoolean(3683, '5', @reportEndDate, 'asthmaDx');
 CALL getDiagnosisDate(3683, '5', 6774, @reportEndDate, 'first', 'firstAsthmaDxDate');
@@ -99,10 +107,10 @@ CALL getCodedObsBeforeDate(8410, @reportEndDate, 'last', 'lastAsthmaSeverity');
 CALL getDiagnosisBoolean(3683, '3716', @reportEndDate, 'copdDx');
 CALL getDiagnosisDate(3683, '3716', 6774, @reportEndDate, 'first', 'copdDiagnosisDate');
 -- Asthma Meds
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '8471,978', @reportEndDate, 'last', 'inhaledBAgonist');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '8472,1240', @reportEndDate, 'last', 'inhaledSteroid');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '8473', @reportEndDate, 'last', 'oralSteroid');
-CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,119', '5622', @reportEndDate, 'last', 'otherAsthmaMeds');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,@A_F', '8471,978', @reportEndDate, 'last', 'inhaledBAgonist');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,@A_F', '8472,1240', @reportEndDate, 'last', 'inhaledSteroid');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,@A_F', '8473', @reportEndDate, 'last', 'oralSteroid');
+CALL getCodedObsWithValuesFromEncounterBeforeDate('1193,8474', '69,@A_F', '5622', @reportEndDate, 'last', 'otherAsthmaMeds');
 -- Mental Health Information
 CALL getDiagnosisBoolean(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', @reportEndDate, 'mentalDx');
 CALL getDiagnosisList(3683, '467,207,8419,8487,2719,8488,8489,8562,8563,8491,8420,8580,8581', @reportEndDate, 'mentalDxList');
@@ -117,11 +125,11 @@ CALL getNumericObsBeforeDate(5089, @reportEndDate, 'last', 'lastWeight');
 -- Diagnoses Logic
 CALL diagnosesLogic(); -- Must be last!
 -- Appointments
-CALL getAppointmentDateForEncounter('10', @reportEndDate, 'artAptDate');
-CALL getAppointmentDateForEncounter('115', @reportEndDate, 'htnDmAptDate');
-CALL getAppointmentDateForEncounter('123', @reportEndDate, 'epilepsyAptDate');
-CALL getAppointmentDateForEncounter('125', @reportEndDate, 'mentalHealthAptDate');
-CALL getAppointmentDateForEncounter('119', @reportEndDate, 'chronicLungAptDate');
+CALL getAppointmentDateForEncounter(@ART_FOLLOWUP, @reportEndDate, 'artAptDate');
+CALL getAppointmentDateForEncounter(@DH_F, @reportEndDate, 'htnDmAptDate');
+CALL getAppointmentDateForEncounter(@E_F, @reportEndDate, 'epilepsyAptDate');
+CALL getAppointmentDateForEncounter(@M_F, @reportEndDate, 'mentalHealthAptDate');
+CALL getAppointmentDateForEncounter(@A_F, @reportEndDate, 'chronicLungAptDate');
 
 -- Print report using select - update any column names or reorder here
 SELECT

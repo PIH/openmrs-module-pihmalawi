@@ -137,7 +137,7 @@ DROP PROCEDURE IF EXISTS getEncounterDatetimeBeforeEndDate;
 
 #
 
-CREATE PROCEDURE getEncounterDatetimeBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+CREATE PROCEDURE getEncounterDatetimeBeforeEndDate(IN encounterTypes VARCHAR(256), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -198,7 +198,7 @@ DROP PROCEDURE IF EXISTS getEncounterLocationBeforeEndDate;
 
 #
 
-CREATE PROCEDURE getEncounterLocationBeforeEndDate(IN encounterTypes VARCHAR(50), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
+CREATE PROCEDURE getEncounterLocationBeforeEndDate(IN encounterTypes VARCHAR(256), IN endDate DATE, IN firstLast VARCHAR(50), IN colName VARCHAR(100))
 BEGIN
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
@@ -986,7 +986,7 @@ DROP PROCEDURE IF EXISTS getAppointmentDateForEncounter;
 
 #
 
-CREATE PROCEDURE getAppointmentDateForEncounter(IN encounterTypes VARCHAR(50), IN endDate DATE, IN colName VARCHAR(100))
+CREATE PROCEDURE getAppointmentDateForEncounter(IN encounterTypes VARCHAR(256), IN endDate DATE, IN colName VARCHAR(100))
 BEGIN  
 
 	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
