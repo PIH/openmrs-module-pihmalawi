@@ -19,7 +19,7 @@ CALL create_rpt_active_ncd(@endDate, @location);
 
 CALL create_rpt_appt_alerts(@endDate);
 
-create_rpt_patients_expected(@endDate, @endDate, @location);
+CALL create_rpt_patients_expected(@endDate, @endDate, @location);
 
 SELECT		 	'☐' as "Client Arrived",
 				'☐' as "VHW Present",
