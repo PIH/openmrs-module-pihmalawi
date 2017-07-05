@@ -13,30 +13,27 @@
  */
 package org.openmrs.module.pihmalawi.reporting.reports;
 
-import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.metadata.LocationTags;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
-import org.openmrs.module.pihmalawi.reporting.definition.renderer.TraceReportRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.dataset.definition.MultiParameterDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
-// import org.openmrs.module.reporting.report.ReportDesign;
+import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+// import org.openmrs.module.reporting.report.ReportDesign;
 
 @Component
-public class NewAppointmentReport extends ApzuDataExportManager {
+public class NewAppointmentReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/appointment-data.sql";
+    public static final String EXCEL_REPORT_DESIGN_UUID = "82359302-5db2-11e7-be82-dfb5eb799ead";
 
 	@Autowired
 	private HivMetadata hivMetadata;
@@ -64,10 +61,6 @@ public class NewAppointmentReport extends ApzuDataExportManager {
         return l;
     }
 
-	public String getReportDesignUuid() {
-		return "82359302-5db2-11e7-be82-dfb5eb799ead";
-	}
-
     /**
      * @see ApzuReportManager#constructReportDefinition()
      */
@@ -80,25 +73,21 @@ public class NewAppointmentReport extends ApzuDataExportManager {
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
-        PatientDataSetDefinition dsd = new PatientDataSetDefinition();
-        dsd.setName(getName());
+        SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
         dsd.setParameters(getParameters());
+        dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
+        dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
+
         rd.addDataSetDefinition(getName(), Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
 
-    public SqlFileDataSetDefinition getBaseDsd() {
-        SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
-        dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE.getAbsolutePath());
-        dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
-        dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
-        dsd.addParameter(ReportingConstants.LOCATION_PARAMETER);
-        return dsd;
-    }
-
     @Override
-    public String getExcelDesignUuid() {
-        return "5eb12066-5db4-11e7-be82-dfb5eb799ead";
+    public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
+        List<ReportDesign> l = new ArrayList<ReportDesign>();
+        l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
+        //l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "AppointmentReport.xls"));
+        return l;
     }
 }

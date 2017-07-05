@@ -29,7 +29,7 @@ import java.util.Properties;
 /**
  * Tests the TraceReport
  */
-public class TraceReportTest extends ReportManagerTest {
+public class AppointmentReportTest extends ReportManagerTest {
 
 	@Autowired
 	HivMetadata metadata;
@@ -39,7 +39,7 @@ public class TraceReportTest extends ReportManagerTest {
 
 	@Autowired
 
-    TraceReport report;
+    NewAppointmentReport report;
 
 	@Override
 	public ReportManager getReportManager() {
@@ -65,7 +65,8 @@ public class TraceReportTest extends ReportManagerTest {
     @Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("endDate", DateUtil.getDateTime(2017, 3, 16));
+		context.addParameterValue("endDate", DateUtil.getDateTime(2017, 7, 16));
+		context.addParameterValue("location", hivMetadata.getNenoHospital());
 		return context;
 	}
 

@@ -32,6 +32,7 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 
 import java.io.File;
@@ -134,7 +135,8 @@ public class SqlFileDataSetEvaluator implements DataSetEvaluator {
             properties = new Properties();
             InputStream is = null;
             try {
-                is = new FileInputStream(connectionPropertyFile);
+                File file = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY, connectionPropertyFile);
+                is = new FileInputStream(file);
                 properties.load(is);
             }
             catch (Exception e) {

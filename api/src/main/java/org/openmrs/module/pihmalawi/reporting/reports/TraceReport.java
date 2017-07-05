@@ -126,7 +126,7 @@ public class TraceReport extends ApzuReportManager {
 
     public SqlFileDataSetDefinition getBaseDsd() {
         SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
-        dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE.getAbsolutePath());
+        dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
         dsd.addParameter(LAB_WEEKS_PARAMETER);
