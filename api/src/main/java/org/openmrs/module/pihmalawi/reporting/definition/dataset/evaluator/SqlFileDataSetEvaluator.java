@@ -135,7 +135,7 @@ public class SqlFileDataSetEvaluator implements DataSetEvaluator {
             properties = new Properties();
             InputStream is = null;
             try {
-                File file = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY, connectionPropertyFile);
+                File file = new File(OpenmrsUtil.getApplicationDataDirectory(), connectionPropertyFile);
                 is = new FileInputStream(file);
                 properties.load(is);
             }
