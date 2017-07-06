@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.OpenmrsMetadata;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
@@ -32,7 +33,6 @@ import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluator;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
-import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 
 import java.io.File;
@@ -68,21 +68,23 @@ public class SqlFileDataSetEvaluator implements DataSetEvaluator {
 
             SqlRunner runner = new SqlRunner(connection);
             SqlResult resultData = null;
+            Map<String, Object> parameterValues = constructParameterValues(dsd, context);
+
             if (StringUtils.isNotBlank(dsd.getSqlFile())) {
                 File sqlFile = new File(dsd.getSqlFile());
                 if (!sqlFile.exists()) {
                     throw new EvaluationException("Unable to find Sql File to execute: " + dsd.getSqlFile());
                 }
-                log.info("Executing SQL File at " + sqlFile + " with parameters " + context.getParameterValues());
-                resultData = runner.executeSqlFile(sqlFile, context.getParameterValues());
+                log.info("Executing SQL File at " + sqlFile + " with parameters " + parameterValues);
+                resultData = runner.executeSqlFile(sqlFile, parameterValues);
             }
             else if (StringUtils.isNotBlank(dsd.getSqlResource())) {
-                log.info("Executing SQL Resource at " + dsd.getSqlResource() + " with parameters " + context.getParameterValues());
-                resultData = runner.executeSqlResource(dsd.getSqlResource(), context.getParameterValues());
+                log.info("Executing SQL Resource at " + dsd.getSqlResource() + " with parameters " + parameterValues);
+                resultData = runner.executeSqlResource(dsd.getSqlResource(), parameterValues);
             }
             else if (StringUtils.isNotBlank(dsd.getSql())) {
-                log.info("Executing SQL with parameters " + context.getParameterValues());
-                resultData = runner.executeSql(dsd.getSql(), context.getParameterValues());
+                log.info("Executing SQL with parameters " + parameterValues);
+                resultData = runner.executeSql(dsd.getSql(), parameterValues);
             }
             else {
                 throw new EvaluationException("A SqlFileDataSetDefinition must define either a SQL File or SQL Resource");
@@ -164,5 +166,19 @@ public class SqlFileDataSetEvaluator implements DataSetEvaluator {
         catch (Exception e) {
 	        throw new EvaluationException("Unable to create a new connection to the database", e);
         }
+    }
+
+    protected Map<String, Object> constructParameterValues(SqlFileDataSetDefinition dsd, EvaluationContext context) {
+        Map<String, Object> ret = context.getParameterValues();
+        // This is a hack
+        if ("warehouse-connection.properties".equals(dsd.getConnectionPropertyFile())) {
+            for (String key : ret.keySet()) {
+                Object o = ret.get(key);
+                if (o instanceof OpenmrsMetadata) {
+                    ret.put(key, ((OpenmrsMetadata)o).getName());
+                }
+            }
+        }
+        return ret;
     }
 }
