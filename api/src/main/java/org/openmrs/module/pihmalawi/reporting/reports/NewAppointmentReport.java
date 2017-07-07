@@ -78,7 +78,7 @@ public class NewAppointmentReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
 
-        rd.addDataSetDefinition(getName(), Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("apptRpt", Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
@@ -86,8 +86,9 @@ public class NewAppointmentReport extends ApzuReportManager {
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
-        l.add(createExcelDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition));
-        //l.add(createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "AppointmentReport.xls"));
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "AppointmentReport.xls");
+        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset:apptRpt");
+        l.add(design);
         return l;
     }
 }

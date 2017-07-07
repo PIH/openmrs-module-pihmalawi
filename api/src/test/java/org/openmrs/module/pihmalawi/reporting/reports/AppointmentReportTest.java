@@ -65,7 +65,7 @@ public class AppointmentReportTest extends ReportManagerTest {
     @Override
 	public EvaluationContext getEvaluationContext() {
 		EvaluationContext context = new EvaluationContext();
-		context.addParameterValue("endDate", DateUtil.getDateTime(2017, 7, 16));
+		context.addParameterValue("endDate", DateUtil.getDateTime(2017, 7, 4));
 		context.addParameterValue("location", hivMetadata.getNenoHospital());
 		return context;
 	}
