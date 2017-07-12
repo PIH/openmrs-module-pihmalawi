@@ -73,6 +73,12 @@
 	</extension>
 
     <extension>
+        <point>org.openmrs.gutter.tools</point>
+        <class>org.openmrs.module.pihmalawi.web.extension.ChwHeaderLinkExt
+        </class>
+    </extension>
+
+    <extension>
         <point>org.openmrs.patientDashboard.overviewBox</point>
         <class>org.openmrs.module.pihmalawi.web.extension.MalawiPatientDashboardBoxExt</class>
     </extension>
@@ -81,5 +87,10 @@
         <point>org.openmrs.patientDashboard.Header</point>
         <class>org.openmrs.module.pihmalawi.web.extension.PrintableSummaryExtension</class>
     </extension>
+
+    <privilege>
+        <name>CHW Management App</name>
+        <description>Allows access to the CHW Management App</description>
+    </privilege>
 
 </module>
