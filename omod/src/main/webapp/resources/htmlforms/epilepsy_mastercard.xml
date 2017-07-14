@@ -469,7 +469,7 @@
                                 <table>
                                     <tr>
                                         <td colspan="2">
-                                            <b>Pre-ictal features</b>
+                                            <b>Post-ictal features</b>
                                         </td>
                                         <td>
                                             <obs conceptId="$postIcParal" labelText=""
