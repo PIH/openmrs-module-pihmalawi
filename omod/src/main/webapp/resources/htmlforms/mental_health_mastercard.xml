@@ -41,7 +41,6 @@
         psychDev=8591
         hyper=8592
 
-        mentalFamilyHistory=8458
         epilepsyFamilyHistory=8484
         mentalIllFamilyHistory=8485
         behaviorFamilyHistory=8486
@@ -237,14 +236,23 @@
                                 Family<br/>History
                             </th>
                             <td style="vertical-align:top;" rowspan="13">
-                                <obs conceptId="$epilepsyFamilyHistory" answerLabel="Epilepsy"
-                                     answerConceptId="$yesAnswer" style="checkbox"/>
-                                <br/><br/>
-                                <obs conceptId="$mentalIllFamilyHistory" answerLabel="Mental illness"
-                                     answerConceptId="$yesAnswer" style="checkbox"/>
-                                <br/><br/>
-                                <obs conceptId="$behaviorFamilyHistory" answerLabel="Behavioral problems"
-                                     answerConceptId="$yesAnswer" style="checkbox"/>
+                                <p>Epilepsy: <br/>
+                                <obs conceptId="$epilepsyFamilyHistory"
+                                     style="radio"
+                                     answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown" />
+                                </p>
+
+                                <p>Mental illness: <br/>
+                                <obs conceptId="$mentalIllFamilyHistory"
+                                     style="radio"
+                                     answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown" />
+                                </p>
+
+                                <p>Behavior problems: <br/>
+                                <obs conceptId="$behaviorFamilyHistory"
+                                     style="radio"
+                                     answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown" />
+                                </p>
                             </td>
                         </tr>
                                     <!-- Mental Health diagnoses -->
