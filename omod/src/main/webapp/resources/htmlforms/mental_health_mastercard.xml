@@ -241,12 +241,14 @@
                                      style="radio"
                                      answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown" />
                                 </p>
+                                <br/>
 
                                 <p>Mental illness: <br/>
                                 <obs conceptId="$mentalIllFamilyHistory"
                                      style="radio"
                                      answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown" />
                                 </p>
+                                <br/>
 
                                 <p>Behavior problems: <br/>
                                 <obs conceptId="$behaviorFamilyHistory"

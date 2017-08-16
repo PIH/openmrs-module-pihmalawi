@@ -3519,7 +3519,8 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
-            Integer id = 8578;
+            // Changed the id from 8578 which was already used - EBB
+            Integer id = 8572;
             String uuid = "138045AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             String name = "Hypomania";
             String synonym_1 = "Elevated mood";
@@ -3607,20 +3608,11 @@ public class MetadataInitializer implements Initializer {
             c.addAnswer(new ConceptAnswer(cs.getConcept(8566))); // Disruptive Behavior Disorder
             c.addAnswer(new ConceptAnswer(cs.getConcept(8567))); // Abnormal speech
             c.addAnswer(new ConceptAnswer(cs.getConcept(8568))); // Depressive Disorder
-            c.addAnswer(new ConceptAnswer(cs.getConcept(8578))); // Elevated mood
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8572))); // Elevated mood
             c.addAnswer(new ConceptAnswer(cs.getConcept(8579))); // Insight
             c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // other
             cs.saveConcept(c);
         }
-
-        /*
-        dae4efe6-659e-11e6-8b77-86f30ca893d3
-        dae4f0f4-659e-11e6-8b77-86f30ca893d3
-        dae4f662-659e-11e6-8b77-86f30ca893d3
-        dae4f928-659e-11e6-8b77-86f30ca893d3
-        dae4fb80-659e-11e6-8b77-86f30ca893d3
-        dae4fda6-659e-11e6-8b77-86f30ca893d3
-                */
 
         {
             Integer id = 8582;
@@ -4444,6 +4436,71 @@ public class MetadataInitializer implements Initializer {
                 }
             }
         }
+
+        {
+            Integer id = 8615;
+            String name = "Hospitalized for mental health since last visit";
+            String uuid = "b36bc9d2-8288-11e7-bb31-be2e44b06b34";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8616;
+            String name = "Stable";
+            String uuid = "1855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Finding"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8617;
+            String name = "Able to perform daily activities";
+            String uuid = "b36bce1e-8288-11e7-bb31-be2e44b06b34";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Question"));
+                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(c);
+            }
+        }
+
+
     }
 
     @Override
