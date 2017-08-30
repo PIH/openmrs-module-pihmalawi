@@ -32,8 +32,9 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
     private ProviderService providerService;
 
     public static final class ProviderRoles {
-        public static final String VHW = "68624C4C-9E10-473B-A849-204820D16C45";
-        public static final String VHW_SUPERVISOR = "11C1A56D-82F7-4269-95E8-2B67B9A3D837";
+        public static final String CHW = "68624C4C-9E10-473B-A849-204820D16C45";
+        public static final String CHW_SENIOR = "11C1A56D-82F7-4269-95E8-2B67B9A3D837";
+        public static final String CHW_SITE_SUPERVISOR = "30A32CFA-E88F-4405-AC89-E3FA68BC30F0";
     }
 
     /**
@@ -45,7 +46,7 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
     public void install() throws Exception {
 
         Set<RelationshipType> relationshipTypes = null;
-        RelationshipType vhwToPatient = personService.getRelationshipTypeByUuid(RelationshipTypeBundle.RelationshipTypes.VHW_TO_PATIENT);
+        RelationshipType vhwToPatient = personService.getRelationshipTypeByUuid(RelationshipTypeBundle.RelationshipTypes.CHW_TO_PATIENT);
         if (vhwToPatient != null) {
             relationshipTypes = new HashSet<RelationshipType>();
             relationshipTypes.add(vhwToPatient);
@@ -69,7 +70,7 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
             providerAttributes.add(providerAttributeType);
         }
 
-        ProviderRole vhwSupervisee = install(providerRole("VHW", null, relationshipTypes, providerAttributes, ProviderRoles.VHW));
+        ProviderRole vhwSupervisee = install(providerRole("CHW", null, relationshipTypes, providerAttributes, ProviderRoles.CHW));
 
         Set<ProviderRole> superviseeRoles = null;
         if (vhwSupervisee != null ) {
@@ -77,8 +78,15 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
             superviseeRoles.add(vhwSupervisee);
         }
 
-        install(providerRole("VHW Supervisor", superviseeRoles, relationshipTypes, providerAttributes, ProviderRoles.VHW_SUPERVISOR));
+        ProviderRole seniorChw = install(providerRole("Senior CHW", superviseeRoles, relationshipTypes, providerAttributes, ProviderRoles.CHW_SENIOR));
 
+        Set<ProviderRole> chwSeniorChwRoles = null;
+        if (seniorChw != null) {
+            chwSeniorChwRoles = new HashSet<ProviderRole>();
+            chwSeniorChwRoles.add(seniorChw);
+        }
 
+        install(providerRole("CHW Site Supervisor", chwSeniorChwRoles, relationshipTypes, providerAttributes,
+                ProviderRoles.CHW_SITE_SUPERVISOR));
     }
 }

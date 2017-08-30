@@ -20,7 +20,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
         SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator();
         generator.setBaseCharacterSet("0123456789");
         generator.setFirstIdentifierBase("00001");
-        generator.setPrefix("VHW-");
+        generator.setPrefix("CHW-");
         generator.setMaxLength(10);
         generator.setMinLength(5);
 
