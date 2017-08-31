@@ -31,9 +31,10 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
         public static final String PHONE_NUMBER  = "30375A78-FA92-4C5C-A2FD-7E8339EC69CF";
         public static final String NUMBER_OF_HOUSEHOLDS  = "0c267ae8-f793-4cf8-9b27-93accaa45d86";
         public static final String DATE_HIRED  = "c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb";
-        public static final String EDUCATION_LEVEL  = "1ff995ad-8bba-4660-a5cd-acc7801c9b51";
+        public static final String HH_MODEL_TEST  = "C0E1F105-DD36-4577-B00E-87A08D446A3A";
 
-        public static final String EDUCATION_LEVEL_CONCEPT  = "655b226e-977f-11e1-8993-905e29aff6c1";
+        public static final String HH_MODEL_TEST_CONCEPT  = "0E483511-6278-4D1A-881A-6385C223FAC7";
+
 
     }
     /**
@@ -75,19 +76,21 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
             providerService.saveProviderAttributeType(dateHired);
         }
 
-        Concept educationLevelConcept = conceptService.getConceptByUuid(ProviderAttributeTypes.EDUCATION_LEVEL_CONCEPT);
-        Integer educationLevelConceptId = null;
-        if (educationLevelConcept != null) {
-            educationLevelConceptId = educationLevelConcept.getConceptId();
+
+        Concept hhTestConcept = conceptService.getConceptByUuid(ProviderAttributeTypes.HH_MODEL_TEST_CONCEPT);
+        Integer hhTestConceptId = null;
+        if (hhTestConcept != null) {
+            hhTestConceptId = hhTestConcept.getConceptId();
         }
 
         install(providerAttributeType(
-                "Education Level",
-                "Education Level",
+                "Passed HH Test",
+                "Passed HH Test",
                 CodedConceptDatatype.class,
-                educationLevelConceptId.toString(),
+                hhTestConceptId.toString(),
                 0,
                 1,
-                ProviderAttributeTypes.EDUCATION_LEVEL));
+                ProviderAttributeTypes.HH_MODEL_TEST));
+
     }
 }

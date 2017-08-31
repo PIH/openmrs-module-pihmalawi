@@ -65,7 +65,7 @@ public class ProviderRoleBundle extends AbstractMetadataBundle{
         if (providerAttributeType !=null ) {
             providerAttributes.add(providerAttributeType);
         }
-        providerAttributeType = providerService.getProviderAttributeTypeByUuid(ProviderAttributeTypeBundle.ProviderAttributeTypes.EDUCATION_LEVEL);
+        providerAttributeType = providerService.getProviderAttributeTypeByUuid(ProviderAttributeTypeBundle.ProviderAttributeTypes.HH_MODEL_TEST);
         if (providerAttributeType !=null ) {
             providerAttributes.add(providerAttributeType);
         }

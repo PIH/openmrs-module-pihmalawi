@@ -58,7 +58,6 @@ public class MetadataInitializer implements Initializer {
     public synchronized void started() {
 
         MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
-        deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
@@ -4499,6 +4498,26 @@ public class MetadataInitializer implements Initializer {
                 cs.saveConcept(c);
             }
         }
+        {
+            String uuid = "0E483511-6278-4D1A-881A-6385C223FAC7";
+            Concept conceptByUuid = cs.getConceptByUuid(uuid);
+            if (conceptByUuid ==null) {
+                String name = "Passed the HH model post-test";
+                log.warn("Creating " + name);
+                conceptByUuid = new Concept();
+                conceptByUuid.setUuid(uuid);
+                conceptByUuid.setConceptClass(cs.getConceptClassByName("Question"));
+                conceptByUuid.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                conceptByUuid.setSet(false);
+                conceptByUuid.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                conceptByUuid.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
+                conceptByUuid.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
+                cs.saveConcept(conceptByUuid);
+            }
+
+        }
+
+        deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
 
 
     }
