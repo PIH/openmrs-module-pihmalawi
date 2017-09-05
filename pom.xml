@@ -41,7 +41,7 @@
         <appframeworkVersion>2.10.0</appframeworkVersion>
         <appuiVersion>1.8.0</appuiVersion>
         <calculationVersion>1.2</calculationVersion>
-		<coreappsVersion>1.15.0</coreappsVersion>
+		<coreappsVersion>1.16.0-SNAPSHOT</coreappsVersion>
         <emrapiVersion>1.21.0</emrapiVersion>
         <eventVersion>2.5</eventVersion>
         <htmlformentryVersion>3.3.2</htmlformentryVersion>
