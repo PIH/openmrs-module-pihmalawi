@@ -45,7 +45,7 @@ public class NewAppointmentReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "New Appointment Report";
+		return "Appointment Report";
 	}
 
     @Override
