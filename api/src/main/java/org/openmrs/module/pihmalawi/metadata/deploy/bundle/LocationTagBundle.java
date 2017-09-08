@@ -22,6 +22,7 @@ public class LocationTagBundle extends AbstractMetadataBundle {
         install(LocationTags.TRANSFER_LOCATION);
         install(LocationTags.DISPENSING_LOCATION);
         install(LocationTags.TRACE_PHASE_1_LOCATION);
+        install(LocationTags.HEALTH_FACILITY);
     }
 
     protected void install(LocationTagDescriptor d) {

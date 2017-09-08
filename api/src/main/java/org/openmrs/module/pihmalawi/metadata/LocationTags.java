@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.metadatadeploy.descriptor.LocationTagDescriptor;
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 
 /**
  * Constants for all defined location tags
@@ -86,5 +87,11 @@ public class LocationTags {
         public String uuid() { return "8c572a12-5379-11e6-8bd4-54ee7513a7ff"; }
         public String name() { return "TRACE PHASE 1"; }
         public String description() { return "Indicates that this location is TRACE phase 1"; }
+    };
+
+    public static LocationTagDescriptor HEALTH_FACILITY = new LocationTagDescriptor() {
+        public String uuid() { return "56595574-EF31-4731-B3BF-776922480EC3"; }
+        public String name() { return PihMalawiConstants.HEALTH_FACILITY_GP_VALUE; }
+        public String description() { return "Locations designated as Health Facilities."; }
     };
 }

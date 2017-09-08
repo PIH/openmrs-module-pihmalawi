@@ -20,21 +20,15 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
-import org.openmrs.Location;
-import org.openmrs.LocationAttribute;
-import org.openmrs.LocationAttributeType;
+import org.openmrs.GlobalProperty;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.ModuleException;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
-import org.openmrs.module.pihmalawi.metadata.LocationAttributeTypes;
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MetadataInitializer implements Initializer {
 
@@ -58,6 +52,12 @@ public class MetadataInitializer implements Initializer {
     public synchronized void started() {
 
         MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
+        GlobalProperty gp = Context.getAdministrationService().getGlobalPropertyObject(PihMalawiConstants.HEALTH_FACILITY_GP_NAME);
+        if (gp == null) {
+            gp = new GlobalProperty(PihMalawiConstants.HEALTH_FACILITY_GP_NAME, "");
+        }
+        gp.setPropertyValue(PihMalawiConstants.HEALTH_FACILITY_GP_VALUE);
+        Context.getAdministrationService().saveGlobalProperty(gp);
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
