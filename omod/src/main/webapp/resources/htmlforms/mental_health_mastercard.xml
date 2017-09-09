@@ -474,6 +474,7 @@
 
                         <tr>
                             <obsgroup groupingConceptId="$chiefCompConstruct">
+                                <!-- ToDo:  Confirm removed based on May 2017 paper form (MLW-581) -->
                                 <td data-toggle-source="depr" data-toggle-target="depr-date"
                                     style="border-right: 1px solid #ffffff;">
                                     <obs conceptId="$chiefCompAnswer" style="checkbox"

@@ -9,6 +9,7 @@
         weight=5089
 
         chiefCompAnswer=8569
+        chiefCompAbsent=8620
         depressive=8568
         elevMood=8572
         disrupt=8566
@@ -16,6 +17,7 @@
         delusion=8565
         hallucinate=8564
         insight=8579
+        lacksInsight=8619
         nonCodedOther=5622
 
         stable=8616
@@ -56,6 +58,11 @@
             margin: 0px 5px;    /* changed values to vertical, horizontal */
             top:5px;            /* added to offset the checkbox position to line up */
         }
+
+        .atab {
+            display: inline-block;
+            width: 150px;
+        }
     </style>
 
     <!-- Flowsheet table view -->
@@ -88,7 +95,7 @@
                     <td style="font-size:.7em;padding: 1px;">Disorganized<br/>speech</td>
                     <td style="font-size:.7em;padding: 1px;">Delusions</td>
                     <td style="font-size:.7em;padding: 1px;">Halluci-<br/>nations</td>
-                    <td style="font-size:.7em;padding: 1px;">Insight</td>
+                    <td style="font-size:.7em;padding: 1px;">Lacks<br/>insight</td>
                     <td style="font-size:.7em;padding: 1px;">Other</td>
                     <td style="font-size:.7em;padding: 1px;">Stable</td>
                     <td style="font-size:.7em;padding: 1px;">Daily<br/>activities</td>
@@ -128,11 +135,12 @@
                               ['$abSpeech','Disorganized speech'],
                               ['$delusion','Delusions'],
                               ['$hallucinate','Hallucinations'],
-                              ['$insight','Insight'],
+                              ['$lacksInsight','Lack of insight'],
                               ['$nonCodedOther','Other']">
-                        <td>
+                        <td style="font-size:.7em;padding: 1px">
                             <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
-                                 answerLabel="Y" style="radio" />
+                                 answerLabel="Y" style="radio"/>&amp;nbsp;<obs conceptId="$chiefCompAbsent" answerConceptId="{0}"
+                                 answerLabel="N" style="radio"/>
                         </td>
                     </repeat>
 
@@ -299,10 +307,17 @@
                                   ['$abSpeech','Disorganized speech'],
                                   ['$delusion','Delusions'],
                                   ['$hallucinate','Hallucinations'],
-                                  ['$insight','Insight'],
+                                  ['$lacksInsight','Lack of insight'],
                                   ['$nonCodedOther','Other']">
-                        <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
-                             answerLabel="{1}" style="checkbox" /><br/>
+                        <p>
+                            <span class="atab">{1}</span>
+                            <span>
+                                <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
+                                    answerLabel="Yes" style="checkbox"/>
+                                <obs conceptId="$chiefCompAbsent" answerConceptId="{0}"
+                                    answerLabel="No" style="checkbox"/>
+                            </span>
+                        </p>
                     </repeat>
                 </td>
             </tr>
