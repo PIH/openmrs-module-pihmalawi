@@ -32,8 +32,9 @@
         hivPreventiveTherapyDrugs=916,656,8605
         depoGiven=8029
         numCondoms=8080
+        viralLoadSet=8628
         viralLoadTaken=8421
-        viralLoad=856
+        viralLoadResult=856
         LDL=8561
         pregnantLactating=8027        
         currentlyPregnant=1755
@@ -163,18 +164,21 @@
                         <!-- # condoms -->
                         <obs conceptId="$numCondoms"/>
                     </td>
-                    <td>
-                        <!-- Viral load sample -->
-                        <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
-                    </td>
-                    <td>
-                        <!-- Viral load -->
-                        <obs conceptId="$viralLoad"/>
-                    </td>
-                    <td>
-                        <!-- LDL -->
-                        <obs conceptId="$LDL" style="checkbox" answerConceptId="$LDL" />
-                    </td>
+                    <obsgroup groupingConceptId="$viralLoadSet">
+                        <td>
+                            <!-- Viral load sample -->
+                            <obs conceptId="$viralLoadTaken" style="checkbox"
+                                 labelText="Bled"/>
+                        </td>
+                        <td>
+                            <!-- Viral load -->
+                            <obs conceptId="$viralLoadResult"/>
+                        </td>
+                        <td>
+                            <!-- LDL -->
+                            <obs conceptId="$LDL" style="checkbox" />
+                        </td>
+                    </obsgroup>
                     <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" />
@@ -282,14 +286,18 @@
                     <obs conceptId="$numCondoms"/>
                 </td>
             </tr>
-            <tr>
-                <th>Viral load</th>
-                <td>
-                    <obs conceptId="$viralLoadTaken" style="checkbox" answerConceptId="$viralLoadTaken" labelText="Bled" />
-                    <span style="padding-left:10px">Result</span>
-                    <obs conceptId="$viralLoad"/> <obs conceptId="$LDL" style="checkbox" answerConceptId="$LDL" labelText="LDL" />
-                </td>
-            </tr>
+            <obsgroup groupingConceptId="$viralLoadSet">
+                <tr>
+                    <th>Viral load</th>
+                    <td>
+                        <obs conceptId="$viralLoadTaken" style="checkbox"
+                             labelText="Bled"/>
+                        <span style="padding-left:10px">Result</span>
+                        <obs conceptId="$viralLoadResult"/>
+                        <obs conceptId="$LDL" style="checkbox" labelText="LDL"/>
+                    </td>
+                </tr>
+            </obsgroup>
             <tr>
                 <th>Next appointment</th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>

@@ -512,6 +512,7 @@ public class MetadataInitializer implements Initializer {
 
         {
             {
+                // Used for "bled"
                 Integer id = 8421;
                 String uuid = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
                 String name = "Sample taken for Viral Load";
@@ -4661,6 +4662,26 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8624))); // Central lab
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8625))); // Lisungwi GeneXpert
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8626))); // Neno GeneXpert
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 8628;
+            String name = "Viral Load Test Set";
+            String uuid = "e0821fb0-955d-11e7-abc4-cec278b6b50a";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConceptByName("Sample taken for Viral Load")); // Bled
+                c.addSetMember(cs.getConceptByName("HIV viral load"));              // Result
+                c.addSetMember(cs.getConceptByName("Lower than Detection Limit"));  // LDL
                 cs.saveConcept(c);
             }
         }
