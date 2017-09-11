@@ -125,4 +125,10 @@ public class EncounterTypes {
         public String description() { return "Annual ART Screening"; }
     };    
 
+    public static EncounterTypeDescriptor EXPOSED_CHILD_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "664bcbb0-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "EXPOSED_CHILD_INITIAL"; }
+        public String description() { return "HCC Initial for Exposed Child"; }
+    };        
+
 }

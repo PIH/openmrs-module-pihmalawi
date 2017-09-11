@@ -165,14 +165,17 @@ public class EMastercardAccessTag extends BodyTagSupport {
 
         m.put(HivMetadata.ART_INITIAL, "headerForm=art_mastercard&flowsheets=art_annual_screening&flowsheets=art_visit");
         m.put(HivMetadata.PRE_ART_INITIAL, "headerForm=preart_mastercard&flowsheets=preart_visit");
-		m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
         m.put(EncounterTypes.ASTHMA_INITIAL.name(), "headerForm=asthma_mastercard&flowsheets=asthma_visit&flowsheets=asthma_peak_flow&flowsheets=asthma_hospital");
         m.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "headerForm=htn_dm_mastercard&flowsheets=htn_dm_labs&flowsheets=htn_dm_annual_labs&flowsheets=htn_dm_hospital&flowsheets=htn_dm_visit");
         m.put(EncounterTypes.EPILEPSY_INITIAL.name(), "headerForm=epilepsy_mastercard&flowsheets=epilepsy_visit");
         m.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "headerForm=mental_health_mastercard&flowsheets=mental_health_visit");
         m.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "headerForm=ncd_mastercard&flowsheets=ncd_visit");
-
-        return m.get(f.getEncounterType().getName());
+        if (f.getName().equals("EID Test Results") && f.getEncounterType().getName().equals("EXPOSED_CHILD_INITIAL")) {
+			m.put(EncounterTypes.EXPOSED_CHILD_INITIAL.name(), "headerForm=eid_test_results&flowsheets=blank");
+		} else if (f.getEncounterType().getName().equals("EXPOSED_CHILD_INITIAL")) {
+			m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
+		}
+		return m.get(f.getEncounterType().getName());
     }
 
 	protected String createViewCardHtmlTag(Patient p, Form f, Encounter initialEncounter, String additionalMessage) {

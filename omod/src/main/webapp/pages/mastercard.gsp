@@ -242,7 +242,7 @@
 
         <div class="visit-section">
 
-            <% if (!viewOnly) { %>
+            <% if (!viewOnly && formName != 'blank') { %>
                 <div class="add-another-flowsheet-section flowsheet-section">
                     <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
                         <i class="icon-pencil"></i>

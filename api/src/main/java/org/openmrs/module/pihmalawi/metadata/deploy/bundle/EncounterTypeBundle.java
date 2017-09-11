@@ -17,6 +17,9 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // New BP Screening
         install(EncounterTypes.ART_ANNUAL_SCREENING);
 
+        // New BP Screening
+        install(EncounterTypes.EXPOSED_CHILD_INITIAL);
+
         // Hypertension and Diabetes
         install(EncounterTypes.HTN_DIABETES_INITIAL);
         install(EncounterTypes.HTN_DIABETES_FOLLOWUP);
