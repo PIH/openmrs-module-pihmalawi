@@ -237,7 +237,7 @@
                     </td>
                     <!-- Diuretics -->
                    <td style="text-align: left;">
-                       <repeat with="['$diuretic','Diuretic'],['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                       <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -245,7 +245,7 @@
                    </td>
                    <!-- Calcium Channel Blockers -->
                    <td style="text-align: left;">
-                       <repeat with="['$ccBlocker','CCB'],['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                       <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -253,7 +253,7 @@
                    </td>
                    <!-- ACE-I -->
                    <td style="text-align: left;">
-                       <repeat with="['$aceInhibit','ACE-I'],['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                       <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -261,7 +261,7 @@
                    </td>
                    <!-- Beta-blockers -->
                    <td style="text-align: left;">
-                       <repeat with="['$betaBlocker','BB'],['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                       <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -276,7 +276,7 @@
                     </td>
                     <!-- Statins -->
                    <td style="text-align: left;">
-                       <repeat with="['$statin','Statin'],['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
+                       <repeat with="['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -438,7 +438,7 @@
             <tr>
                 <th>Diuretic</th>
                 <td>
-                    <repeat with="['$diuretic','Diuretic'],['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                    <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" /><br/>
                         </obsgroup>
@@ -448,7 +448,7 @@
             <tr>
                 <th>CCB</th>
                 <td>
-                    <repeat with="['$ccBlocker','CCB'],['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                    <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </obsgroup>
@@ -458,7 +458,7 @@
             <tr>
                 <th>ACE-I</th>
                 <td>
-                    <repeat with="['$aceInhibit','ACE-I'],['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                    <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </obsgroup>
@@ -468,7 +468,7 @@
             <tr>
                 <th>BB</th>
                 <td>
-                    <repeat with="['$betaBlocker','BB'],['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                    <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </obsgroup>
@@ -486,7 +486,7 @@
             <tr>
                 <th>Statin</th>
                 <td>
-                    <repeat with="['$statin','Statin'],['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
+                    <repeat with="['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </obsgroup>
