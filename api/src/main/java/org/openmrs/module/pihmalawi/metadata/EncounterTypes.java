@@ -129,6 +129,18 @@ public class EncounterTypes {
         public String uuid() { return "664bcbb0-977f-11e1-8993-905e29aff6c1"; }
         public String name() { return "EXPOSED_CHILD_INITIAL"; }
         public String description() { return "HCC Initial for Exposed Child"; }
-    };        
+    };
+
+    public static EncounterTypeDescriptor ART_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b8574-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "ART_INITIAL"; }
+        public String description() { return "Initial HIV clinic registration encounter"; }
+    };
+
+    public static EncounterTypeDescriptor ART_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b8650-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "ART_FOLLOWUP"; }
+        public String description() { return "Followup visit for ART patient"; }
+    };
 
 }

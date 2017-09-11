@@ -163,7 +163,6 @@ public class EMastercardAccessTag extends BodyTagSupport {
     protected String getNewMasterCardConfiguration(Form f) {
         Map<String, String> m = new HashMap<String, String>();
 
-        m.put(HivMetadata.ART_INITIAL, "headerForm=art_mastercard&flowsheets=art_annual_screening&flowsheets=art_visit");
         m.put(HivMetadata.PRE_ART_INITIAL, "headerForm=preart_mastercard&flowsheets=preart_visit");
         m.put(EncounterTypes.ASTHMA_INITIAL.name(), "headerForm=asthma_mastercard&flowsheets=asthma_visit&flowsheets=asthma_peak_flow&flowsheets=asthma_hospital");
         m.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "headerForm=htn_dm_mastercard&flowsheets=htn_dm_labs&flowsheets=htn_dm_annual_labs&flowsheets=htn_dm_hospital&flowsheets=htn_dm_visit");
@@ -174,6 +173,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			m.put(EncounterTypes.EXPOSED_CHILD_INITIAL.name(), "headerForm=eid_test_results&flowsheets=blank");
 		} else if (f.getEncounterType().getName().equals("EXPOSED_CHILD_INITIAL")) {
 			m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
+		}
+		if (f.getName().equals("Viral Load Tests") && f.getEncounterType().getName().equals("ART_FOLLOWUP")) {
+			m.put(EncounterTypes.ART_FOLLOWUP.name(), "headerForm=blank_header&flowsheets=viral_load_test_results");
+		} else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
+			m.put(EncounterTypes.ART_INITIAL.name(), "headerForm=art_mastercard&flowsheets=art_annual_screening&flowsheets=art_visit");
 		}
 		return m.get(f.getEncounterType().getName());
     }
@@ -211,7 +215,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
         else {
             link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + initialEncounter.getId() + "&mode=EDIT\">";
         }
-		return link + "Edit " + f.getName() + "</a><br/>" + (includeAppointmentInfo ? getDetails(p, initialEncounter) + "<br/>" : "");
+		if (f.getName().equals("Viral Load Tests") || f.getName().equals("EID Test Results")) {
+			return link + "Edit " + f.getName() + "</a><br/>";
+        } else {
+			return link + "Edit " + f.getName() + "</a><br/>" + (includeAppointmentInfo ? getDetails(p, initialEncounter) + "<br/>" : "");
+		}
 	}
 
     protected String createNewCardHtmlTag(Patient p, Form f) {

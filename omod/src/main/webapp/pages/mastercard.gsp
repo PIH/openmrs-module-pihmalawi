@@ -216,10 +216,12 @@
             <i class="icon-chevron-left"></i>
             Back to Dashboard
         </a>
-        <a class="form-action-link" id="edit-header-link" onclick="mastercard.enterHeader();">
-            <i class="icon-pencil"></i>
-            Edit Header
-        </a>
+        <% if (headerForm != 'blank_header') { %>
+            <a class="form-action-link" id="edit-header-link" onclick="mastercard.enterHeader();">
+                <i class="icon-pencil"></i>
+                Edit Header
+            </a>
+        <% } %>
         <a class="form-action-link" id="print-form-link" onclick="mastercard.printForm();">
             <i class="icon-print"></i>
             ${ ui.message("uicommons.print") }
@@ -236,7 +238,9 @@
 
     <div id="error-message-section"></div>
 
-    <div id="header-section"></div>
+    <% if (headerForm != 'blank_header') { %>
+        <div id="header-section"></div>
+    <% } %>
 
     <% for (String formName : flowsheetEncounters.keySet()) { %>
 
