@@ -4721,6 +4721,35 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConceptByName("Sample taken for Viral Load")); // Bled
                 c.addSetMember(cs.getConceptByName("HIV viral load"));              // Result
                 c.addSetMember(cs.getConceptByName("Lower than Detection Limit"));  // LDL
+
+                // Added Sept 2017
+                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
+                c.addSetMember(cs.getConceptByName("Location of laboratory"));
+                c.addSetMember(cs.getConceptByName("Reason for no result"));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            // Do over with 3 additions
+            Integer id = 8628;
+            String name = "Viral Load Test Set";
+            String uuid = "e0821fb0-955d-11e7-abc4-cec278b6b50a";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Viral Load Test Set")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConceptByName("Sample taken for Viral Load")); // Bled
+                c.addSetMember(cs.getConceptByName("HIV viral load"));              // Result
+                c.addSetMember(cs.getConceptByName("Lower than Detection Limit"));  // LDL
+
+                // Added Sept 2017
+                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
+                c.addSetMember(cs.getConceptByName("Location of laboratory"));
+                c.addSetMember(cs.getConceptByName("Reason for no result"));
                 cs.saveConcept(c);
             }
         }
@@ -4745,10 +4774,6 @@ public class MetadataInitializer implements Initializer {
                 // Not used for EID
                 c.addSetMember(cs.getConceptByName("HIV test date"));
                 c.addSetMember(cs.getConceptByName("Location where test took place"));
-
-                // Added Sept 2017
-                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
-                c.addSetMember(cs.getConceptByName("Location of laboratory"));
 
                 // Historical information from EID (Version 1)
                 c.addSetMember(cs.getConceptByName("HIV test time period"));
