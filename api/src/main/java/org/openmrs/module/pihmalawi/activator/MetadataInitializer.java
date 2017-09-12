@@ -4296,6 +4296,7 @@ public class MetadataInitializer implements Initializer {
             if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Neuropathy and Peripheral Vascular Disease")) {
                 log.warn("Updating " + name);
                 c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.getAnswers().clear();
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
                 cs.saveConcept(c);
@@ -4308,6 +4309,7 @@ public class MetadataInitializer implements Initializer {
             if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Deformity of foot")) {
                 log.warn("Updating " + name);
                 c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.getAnswers().clear();
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
                 cs.saveConcept(c);
@@ -4320,6 +4322,7 @@ public class MetadataInitializer implements Initializer {
             if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Foot ulcer or infection")) {
                 log.warn("Updating " + name);
                 c.setDatatype(cs.getConceptDatatypeByName("Coded"));
+                c.getAnswers().clear();
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1065))); // Yes
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1066))); // No
                 cs.saveConcept(c);
@@ -4589,6 +4592,9 @@ public class MetadataInitializer implements Initializer {
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8621))); // Routine
                 c.addAnswer(new ConceptAnswer(cs.getConcept(1345))); // Confirm
                 c.addAnswer(new ConceptAnswer(cs.getConcept(8622))); // Target
+                c.addAnswer(new ConceptAnswer(cs.getConcept(822)));  // Exposed
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1346))); // presumed
+                c.addAnswer(new ConceptAnswer(cs.getConcept(1067))); // unknown
                 cs.saveConcept(c);
             }
         }
@@ -4666,6 +4672,39 @@ public class MetadataInitializer implements Initializer {
             }
         }
 
+        // Freebie concept_ids:  8597-8599
+
+        {
+            Integer id = 8596;
+            String uuid = "e0822140-955d-11e7-abc4-cec278b6b50a";
+            String name = "Result missing";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            Integer id = 6112;
+            String name = "Reason for no result";
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers for " + name);
+            c.getAnswers().clear();
+            c.addAnswer(new ConceptAnswer(cs.getConcept(5622))); // Other
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6113))); // unsatisfactory
+            c.addAnswer(new ConceptAnswer(cs.getConcept(6114))); // Technical prob
+            c.addAnswer(new ConceptAnswer(cs.getConcept(8596))); // Missing result
+            cs.saveConcept(c);
+        }
+
         {
             Integer id = 8628;
             String name = "Viral Load Test Set";
@@ -4682,6 +4721,35 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConceptByName("Sample taken for Viral Load")); // Bled
                 c.addSetMember(cs.getConceptByName("HIV viral load"));              // Result
                 c.addSetMember(cs.getConceptByName("Lower than Detection Limit"));  // LDL
+
+                // Added Sept 2017
+                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
+                c.addSetMember(cs.getConceptByName("Location of laboratory"));
+                c.addSetMember(cs.getConceptByName("Reason for no result"));
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            // Do over with 3 additions
+            Integer id = 8628;
+            String name = "Viral Load Test Set";
+            String uuid = "e0821fb0-955d-11e7-abc4-cec278b6b50a";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Viral Load Test Set")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("ConvSet"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.setSet(true);
+                c.getConceptSets().clear();
+                c.addSetMember(cs.getConceptByName("Sample taken for Viral Load")); // Bled
+                c.addSetMember(cs.getConceptByName("HIV viral load"));              // Result
+                c.addSetMember(cs.getConceptByName("Lower than Detection Limit"));  // LDL
+
+                // Added Sept 2017
+                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
+                c.addSetMember(cs.getConceptByName("Location of laboratory"));
+                c.addSetMember(cs.getConceptByName("Reason for no result"));
                 cs.saveConcept(c);
             }
         }
@@ -4707,16 +4775,27 @@ public class MetadataInitializer implements Initializer {
                 c.addSetMember(cs.getConceptByName("HIV test date"));
                 c.addSetMember(cs.getConceptByName("Location where test took place"));
 
-                // Added Sept 2017
-                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
-                c.addSetMember(cs.getConceptByName("Location of laboratory"));
-
                 // Historical information from EID (Version 1)
                 c.addSetMember(cs.getConceptByName("HIV test time period"));
                 c.addSetMember(cs.getConceptByName("Age"));
                 c.addSetMember(cs.getConceptByName("Units of age of child"));
                 c.addSetMember(cs.getConceptByName("Date result to guardian"));
 
+                cs.saveConcept(c);
+            }
+        }
+
+        {
+            // Remove all the answers (ie. sickle cell anemia, etc.)
+            Integer id = 1067;
+            String name = "Unknown";
+            Concept c = cs.getConcept(id);
+            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Unknown")) {
+                log.warn("Updating " + name);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
+                c.getAnswers().clear();
+                c.setSet(false);
                 cs.saveConcept(c);
             }
         }
