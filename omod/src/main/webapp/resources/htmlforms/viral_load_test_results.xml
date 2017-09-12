@@ -6,6 +6,11 @@
         viralLoadTaken=8421
         viralLoadResult=856
         LDL=8561        
+        testingReason=8623
+        routine=8621
+        confirmed=1345
+        targeted=8622
+        labLocation=8627
     </macros>
 
     <!-- Flowsheet table view -->
@@ -31,6 +36,9 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
+                    <th>Visit Location</th>
+                    <th>Reason for Test</th>
+                    <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
                     <th>LDL</th>
@@ -41,8 +49,17 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate />
-                    </td>                    
+                    </td>         
+                    <td>
+                        <encounterLocation id="visitLocation" />
+                    </td>                                           
                     <obsgroup groupingConceptId="$viralLoadSet">
+                        <td>
+                            <obs conceptId="$testingReason" answerConceptIds="$routine,$confirmed,$targeted"/>
+                        </td>
+                        <td>
+                            <obs conceptId="$labLocation"/>
+                        </td>
                         <td>
                             <!-- Viral load sample -->
                             <obs conceptId="$viralLoadTaken" style="checkbox"
@@ -87,6 +104,9 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
+                    <th>Visit Location</th>
+                    <th>Reason for test</th>
+                    <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
                     <th>LDL</th>
@@ -97,8 +117,17 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate />
-                    </td>                    
+                    </td>        
+                    <td>
+                        <encounterLocation id="visitLocation" />
+                    </td>            
                     <obsgroup groupingConceptId="$viralLoadSet">
+                        <td>
+                            <obs conceptId="$testingReason" answerConceptIds="$routine,$confirmed,$targeted"/>
+                        </td>
+                        <td>
+                            <obs conceptId="$labLocation"/>
+                        </td>
                         <td>
                             <!-- Viral load sample -->
                             <obs conceptId="$viralLoadTaken" style="checkbox"

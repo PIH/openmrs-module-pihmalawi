@@ -14,8 +14,11 @@
         positive=703
         inconclusive=1138
         hivPCR=844
-        testingReason=8623
         labLocation=8627
+        testingReason=8623
+        exposed=822
+        presumed=1346
+        unknown=1067
     </macros>
 
     <!-- Flowsheet table view -->
@@ -50,7 +53,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -65,7 +68,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -80,7 +83,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -133,7 +136,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -148,7 +151,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -163,7 +166,7 @@
                 <tr>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason"/></td>
+                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
