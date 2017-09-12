@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class PreArtRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "2aab6e6d-f8b5-456c-8194-2925695f4c60";

@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Deprecated
 public class HccQuarterlyReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "59b45872-e6aa-11e3-89c9-0023156365e4";

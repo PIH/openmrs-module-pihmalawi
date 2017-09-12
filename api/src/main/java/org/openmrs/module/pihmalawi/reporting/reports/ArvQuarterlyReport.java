@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Deprecated
 public class ArvQuarterlyReport extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "619346d0-33d5-11e4-8c21-0800200c9a66";

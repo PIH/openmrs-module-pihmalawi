@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Deprecated
 public class AppointmentReport extends ApzuDataExportManager {
 
     @Autowired

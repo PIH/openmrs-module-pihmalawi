@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Deprecated
 public class ArtAppointmentAdherence extends ApzuDataExportManager {
 
 	@Autowired

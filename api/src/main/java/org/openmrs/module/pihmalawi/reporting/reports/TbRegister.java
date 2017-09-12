@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class TbRegister extends ApzuReportManager {
 
 	public static final String EXCEL_REPORT_DESIGN_UUID = "e5e8b9b7-06aa-11e4-b4d8-54ee7513a7ff";
