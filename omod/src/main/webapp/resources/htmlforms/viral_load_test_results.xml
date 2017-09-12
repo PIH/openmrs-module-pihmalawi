@@ -11,6 +11,9 @@
         confirmed=1345
         targeted=8622
         labLocation=8627
+        noResult=6112
+        missing=8596
+        rejected=6113
     </macros>
 
     <!-- Flowsheet table view -->
@@ -41,7 +44,7 @@
                     <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
-                    <th>LDL</th>
+                    <th>Other Result</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -70,8 +73,10 @@
                             <obs conceptId="$viralLoadResult"/>
                         </td>
                         <td>
-                            <!-- LDL -->
-                            <obs conceptId="$LDL" style="checkbox" />
+                            <!-- Other -->
+                            <obs conceptId="$LDL" style="checkbox" /> LDL <br/>
+                            <obs conceptId="$noResult" answerConceptId="$missing" answerLabel="" style="checkbox" /> Missing <br/>
+                            <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
                         </td>
                     </obsgroup>
                 </tr>                                
@@ -138,8 +143,10 @@
                             <obs conceptId="$viralLoadResult"/>
                         </td>
                         <td>
-                            <!-- LDL -->
-                            <obs conceptId="$LDL" style="checkbox" />
+                            <!-- Other -->
+                            <obs conceptId="$LDL" style="checkbox" /> LDL <br/>
+                            <obs conceptId="$noResult" answerConceptId="$missing" answerLabel="" style="checkbox" /> Missing <br/>
+                            <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
                         </td>
                     </obsgroup>
                 </tr>                               
