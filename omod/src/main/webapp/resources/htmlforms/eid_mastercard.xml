@@ -62,7 +62,7 @@
         motherARTstart=3586
         hivTestConstruct=PIH Malawi:2168
         hivTestType=PIH Malawi:1867
-        hivResult=PIH Malawi:2169
+        hivResultQual=PIH Malawi:2169
         hivSampleDate=PIH Malawi:6108
         labTestNumber=PIH Malawi:3564
         hivResultDate=PIH Malawi:6110
@@ -207,7 +207,7 @@
                             <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                      answerLabels="DBS,RT" style="radio"/></td>
                             <td><obs conceptId="$labTestNumber" /></td>
-                            <td><obs conceptId="$hivResult"
+                            <td><obs conceptId="$hivResultQual"
                                      answerConceptIds="$negative,$positive,$inconclusive"
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
@@ -220,7 +220,7 @@
                             <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                      answerLabels="DBS,RT" style="radio"/></td>
                             <td><obs conceptId="$labTestNumber" /></td>
-                            <td><obs conceptId="$hivResult"
+                            <td><obs conceptId="$hivResultQual"
                                      answerConceptIds="$negative,$positive,$inconclusive"
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
@@ -233,7 +233,7 @@
                             <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                      answerLabels="DBS,RT" style="radio"/></td>
                             <td><obs conceptId="$labTestNumber" /></td>
-                            <td><obs conceptId="$hivResult"
+                            <td><obs conceptId="$hivResultQual"
                                      answerConceptIds="$negative,$positive,$inconclusive"
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
@@ -246,7 +246,7 @@
                             <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                      answerLabels="DBS,RT" style="radio"/></td>
                             <td><obs conceptId="$labTestNumber" /></td>
-                            <td><obs conceptId="$hivResult"
+                            <td><obs conceptId="$hivResultQual"
                                      answerConceptIds="$negative,$positive,$inconclusive"
                                      answerLabels="Neg,Pos,Inc"
                                      style="radio" /></td>
