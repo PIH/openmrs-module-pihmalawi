@@ -76,6 +76,7 @@
         alcoholHistory=1552
         past=1548
         current=1550
+        never=1090
         expoYears=2241
         expoDate=8545
         alcoholConstruct=2242
@@ -361,6 +362,8 @@
                                                  answerConceptId="$current" answerLabel="Current"/>
                                             <obs conceptId="$alcoholHistory" style="checkbox"
                                                  answerConceptId="$past" answerLabel="Past"/>
+                                            <obs conceptId="$alcoholHistory" style="checkbox"
+                                                 answerConceptId="$never" answerLabel="Never"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -408,6 +411,8 @@
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$past" answerLabel="Past"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$never" answerLabel="Never"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -458,6 +463,8 @@
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$past" answerLabel="Past"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$never" answerLabel="Never"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -509,6 +516,8 @@
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$past" answerLabel="Past"/>
+                                                <obs conceptId="$exposeHistory" style="checkbox"
+                                                     answerConceptId="$never" answerLabel="Never"/>
                                             </td>
                                         </tr>
                                         <tr>

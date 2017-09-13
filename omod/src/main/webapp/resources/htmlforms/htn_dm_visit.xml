@@ -32,6 +32,7 @@
         neuroPVD=8451
         footDeform=8456
         footUlcer=6566
+        hospitalSinceLast=1715
         drugsNow=1193
         drugSet=8501
         longActingInsulin=6750
@@ -71,6 +72,13 @@
         * pochedls on 26 Jan 2017
     -->
 
+    <style>
+        .atab {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
 
@@ -89,6 +97,7 @@
                     <td rowspan="2" class="rotate">Visual acuity</td>
 
                     <td colspan="3">Foot<br/>check</td>
+                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
                     <td>Insulin</td>
                     <td>Diabetes<br/>meds</td>
                     <td colspan="4">Anti-hypertensives</td>
@@ -114,19 +123,6 @@
                     <td><font style="font-size:.7em;">
                         <b>MET</b>formin or
                         <b>GLIB</b>enclamide</font></td>
-                    <!--
-                    <td class="rotate">Long acting</td>
-                    <td class="rotate">Short acting</td>
-                    <td class="rotate">Metformin</td>
-                    <td class="rotate">Glibenclamide</td>
-                    <td class="rotate">Diuretic</td>
-                    <td class="rotate">CCB</td>
-                    <td class="rotate">ACE-I</td>
-                    <td class="rotate">BB</td>
-                    <td class="rotate">ASA</td>
-                    <td class="rotate">Statin</td>
-                    -->
-
                     <td>Diuretic</td>
                     <td>CCB</td>
                     <td>ACE-I</td>
@@ -182,14 +178,14 @@
                     </td>
                     <td style="text-align: left;">
                         <!-- Tobacco -->
-                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="Yes" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="Current" style="checkbox" />
                         <obs conceptId="$tobacco" answerConceptId="$never" answerLabel="Never" style="checkbox" />
                         <obs conceptId="$tobacco" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
                     </td>
 
                     <td style="text-align: left">
                         <!-- Alcohol -->
-                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Yes" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Current" style="checkbox" />
                         <obs conceptId="$alcohol" answerConceptId="$never" answerLabel="Never" style="checkbox" />
                         <obs conceptId="$alcohol" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
                     </td>
@@ -213,10 +209,15 @@
                         <!-- Visual acuity -->
                         <obs conceptId="$visualAcuityText" />
                     </td>
+                    <!-- Foot check -->
                     <repeat with="['$neuroPVD'],['$footDeform'],['$footUlcer']">
                         <td style="text-align: left;"><obs conceptId="{0}" style="checkbox" answerConceptId="$yes" /><br/>
                             <obs conceptId="{0}" style="checkbox" answerConceptId="$no" /></td>
                     </repeat>
+                    <td>
+                        <!-- Hospitalized since last visit -->
+                        <obs conceptId="$hospitalSinceLast" style="checkbox" />Y
+                    </td>
                     <!-- Insulin -->
                     <td>
                         <!-- ToDo:  Add construct with dose and frequency -->
@@ -408,14 +409,21 @@
             <tr>
                 <th>Foot check</th>
                     <td>
-                        <table>
-                            <repeat with="['$neuroPVD','Neuropathy/PVD'],['$footDeform','Deformities'],['$footUlcer','Ulcers']">
-                                <tr>
-                                    <th>{1}</th><td><obs conceptId="{0}" style="radio" answerConceptIds="$yes,$no" /></td>
-                                </tr>
-                            </repeat>
-                        </table>
+                        <repeat with="['$neuroPVD','Neuropathy/PVD'],['$footDeform','Deformities'],['$footUlcer','Ulcers']">
+                            <span class="atab">{1}</span>
+                            <span>
+                                <obs conceptId="{0}" style="radio" answerConceptIds="$yes,$no" />
+                            </span>
+                            <br/>
+                        </repeat>
                     </td>
+            </tr>
+
+            <tr>
+                <th>Hospitalized since last visit?</th>
+                <td>
+                    <obs conceptId="$hospitalSinceLast" style="checkbox" />Yes
+                </td>
             </tr>
 
             <tr>

@@ -3305,8 +3305,20 @@ public class MetadataInitializer implements Initializer {
         }
 
         {
+            Integer id = 8571;
+            String name = "History of exposure";
+            Concept c = cs.getConcept(id);
+            log.warn("Updating answers" + name); // For NCD
+            c.getAnswers().clear();
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1550))); // Current
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1548))); // Past
+            c.addAnswer(new ConceptAnswer(cs.getConcept(1090))); // Never
+            cs.saveConcept(c);
+        }
+
+        {
             Integer id = 2242;
-            String uuid = "";
+            String uuid = "655e1cbc-977f-11e1-8993-905e29aff6c1";
             String name = "Alcohol use construct";
             Concept c = cs.getConcept(id);
             if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Alcohol use construct")) {

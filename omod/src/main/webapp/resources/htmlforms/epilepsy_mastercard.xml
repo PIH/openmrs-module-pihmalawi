@@ -87,15 +87,6 @@
     <span style="display:none">
         <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
-        <obsgroup groupingConceptId="$diagnosisSet">
-                <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                     answerConceptId="$epilepsyDiagnosis"
-                     defaultValue="$epilepsyDiagnosis"/>
-                <!-- ToDo: Set this value explicitly to encounter_datetime
-                           which will make this easier for reporting.
-                <obs conceptId="$diagnosisDate" defaultValue="now" />
-                -->
-        </obsgroup>
     </span>
     <div>
         <h4 style="font-style: italic;">
@@ -313,13 +304,19 @@
                         </tr>
 
                         <tr>
+                            <!-- Use Date of onset for Diagnosis Date -->
                             <td>Date of onset
                                 <i>(mm / yyyy)</i>
                             </td>
                             <td>
-                                <obs conceptId="$onsetMonth" placeholder="mm"/>
-                                /
-                                <obs conceptId="$onsetYear" placeholder="yyyy"/>
+                                <obsgroup groupingConceptId="$diagnosisSet">
+                                    <span style="display:none">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$epilepsyDiagnosis"
+                                         defaultValue="$epilepsyDiagnosis"/>
+                                    </span>
+                                    <obs conceptId="$diagnosisDate" />
+                                </obsgroup>
                             </td>
 
                             <td style="vertical-align:top;">
