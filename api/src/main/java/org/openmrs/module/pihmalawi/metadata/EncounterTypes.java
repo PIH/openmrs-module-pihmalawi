@@ -123,12 +123,6 @@ public class EncounterTypes {
         public String uuid() { return "ebaa2ad8-baaa-11e6-91a8-5622a9e78e10"; }
         public String name() { return "ANNUAL ART SCREENING"; }
         public String description() { return "Annual ART Screening"; }
-    };    
-
-    public static EncounterTypeDescriptor EXPOSED_CHILD_INITIAL = new EncounterTypeDescriptor() {
-        public String uuid() { return "664bcbb0-977f-11e1-8993-905e29aff6c1"; }
-        public String name() { return "EXPOSED_CHILD_INITIAL"; }
-        public String description() { return "HCC Initial for Exposed Child"; }
     };
 
     public static EncounterTypeDescriptor ART_INITIAL = new EncounterTypeDescriptor() {

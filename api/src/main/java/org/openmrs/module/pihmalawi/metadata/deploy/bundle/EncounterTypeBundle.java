@@ -17,9 +17,6 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // New BP Screening
         install(EncounterTypes.ART_ANNUAL_SCREENING);
 
-        // New Exposed Child Initial
-        install(EncounterTypes.EXPOSED_CHILD_INITIAL);
-
         // ART Initial + Followup
         install(EncounterTypes.ART_INITIAL);
         install(EncounterTypes.ART_FOLLOWUP);

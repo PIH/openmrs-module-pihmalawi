@@ -4774,6 +4774,8 @@ public class MetadataInitializer implements Initializer {
                 // Not used for EID
                 c.addSetMember(cs.getConceptByName("HIV test date"));
                 c.addSetMember(cs.getConceptByName("Location where test took place"));
+                c.addSetMember(cs.getConceptByName("Reason for testing (coded)"));
+                c.addSetMember(cs.getConceptByName("Location of laboratory"));
 
                 // Historical information from EID (Version 1)
                 c.addSetMember(cs.getConceptByName("HIV test time period"));

@@ -169,11 +169,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
         m.put(EncounterTypes.EPILEPSY_INITIAL.name(), "headerForm=epilepsy_mastercard&flowsheets=epilepsy_visit");
         m.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "headerForm=mental_health_mastercard&flowsheets=mental_health_visit");
         m.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "headerForm=ncd_mastercard&flowsheets=ncd_visit");
-        if (f.getName().equals("EID Test Results") && f.getEncounterType().getName().equals("EXPOSED_CHILD_INITIAL")) {
-			m.put(EncounterTypes.EXPOSED_CHILD_INITIAL.name(), "headerForm=eid_test_results&flowsheets=blank");
-		} else if (f.getEncounterType().getName().equals("EXPOSED_CHILD_INITIAL")) {
-			m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
-		}
+		m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
+
 		if (f.getName().equals("Viral Load Tests") && f.getEncounterType().getName().equals("ART_FOLLOWUP")) {
 			m.put(EncounterTypes.ART_FOLLOWUP.name(), "headerForm=blank_header&flowsheets=viral_load_test_results");
 		} else if (f.getEncounterType().getName().equals("ART_INITIAL")) {

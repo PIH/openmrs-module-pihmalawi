@@ -78,21 +78,6 @@
                 <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="68" initialEncounterTypeId="92" followupEncounterTypeId="93" patientIdentifierType="19" programWorkflowStates="120"/></td>
             </c:otherwise>
         </c:choose>
-        <c:set var="eidInitialEncounter" value="" />
-        <openmrs:forEachEncounter encounters="${model.patientEncounters}"
-                             type="92" num="1" var="enc">
-           <c:if test="${ not empty enc }">
-               <c:set var="eidInitialEncounter" value="true" />
-           </c:if>
-           </openmrs:forEachEncounter>
-           <c:choose>
-               <c:when test="${ not empty eidInitialEncounter }">
-                   <tr>
-                       <td>EID Lab Tests:</td>
-                       <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="EID Test Results" initialEncounterTypeId="92" followupEncounterTypeId="93" patientIdentifierType="19" programWorkflowStates="120"/></td>
-                   </tr>
-               </c:when>
-           </c:choose>
     </tr>
     <tr>
         <td><br /></td>
