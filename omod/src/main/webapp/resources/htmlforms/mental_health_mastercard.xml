@@ -463,6 +463,7 @@
                                                      answerConceptId="$current" answerLabel="Current"/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$past" answerLabel="Past"/>
+                                                <br/>
                                                 <obs conceptId="$exposeHistory" style="checkbox"
                                                      answerConceptId="$never" answerLabel="Never"/>
                                             </td>
