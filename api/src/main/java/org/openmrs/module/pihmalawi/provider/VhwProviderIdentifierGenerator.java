@@ -29,7 +29,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
 
         SequentialIdentifierGenerator generator = new SequentialIdentifierGenerator();
         generator.setBaseCharacterSet("0123456789");
-        generator.setFirstIdentifierBase("00001");
+        generator.setFirstIdentifierBase("1");
 
         String locationCode = getLocationCode(provider);
         if (StringUtils.isNotBlank(locationCode)) {
