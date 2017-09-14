@@ -87,6 +87,16 @@
     <span style="display:none">
         <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+
+        <obsgroup groupingConceptId="$diagnosisSet">
+            <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                 answerConceptId="$epilepsyDiagnosis"
+                 defaultValue="$epilepsyDiagnosis"/>
+            <!-- Diagnosis date is not collected on paper.  The closest match
+                 is "Date of onset" which is used on reports per clinical team
+            <obs conceptId="$diagnosisDate" defaultValue="now" />
+            -->
+        </obsgroup>
     </span>
     <div>
         <h4 style="font-style: italic;">
@@ -309,14 +319,9 @@
                                 <i>(mm / yyyy)</i>
                             </td>
                             <td>
-                                <obsgroup groupingConceptId="$diagnosisSet">
-                                    <span style="display:none">
-                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$epilepsyDiagnosis"
-                                         defaultValue="$epilepsyDiagnosis"/>
-                                    </span>
-                                    <obs conceptId="$diagnosisDate" />
-                                </obsgroup>
+                                <obs conceptId="$onsetMonth" placeholder="mm"/>
+                                /
+                                <obs conceptId="$onsetYear" placeholder="yyyy"/>
                             </td>
 
                             <td style="vertical-align:top;">
