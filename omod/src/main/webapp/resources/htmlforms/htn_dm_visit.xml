@@ -375,14 +375,14 @@
             <tr>
                 <th>Tobacco</th>
                 <td style="text-align: left">
-                    <obs conceptId="$tobacco" answerConceptIds="$current,$never,$stopped" answerLabels="Yes,Never,Stopped" style="radio" />
+                    <obs conceptId="$tobacco" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
                 </td>
             </tr>
 
             <tr>
                 <th>Alcohol</th>
                 <td style="text-align: left">
-                    <obs conceptId="$alcohol" answerConceptIds="$current,$never,$stopped" answerLabels="Yes,Never,Stopped" style="radio" />
+                    <obs conceptId="$alcohol" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
                 </td>
             </tr>
 
