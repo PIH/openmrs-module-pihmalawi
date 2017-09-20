@@ -274,7 +274,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     boolean lateVisit = lateHiv || lateNcd;
 
                     boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
-                    boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST");
+                    boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST", "EID_6_WEEK_TEST");
 
                     String priorityCriteria = (String) row.getColumnValue("priority_criteria");
                     boolean isPriorityPatient = lateHiv || hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_POSITIVE_6_WK") || (lateNcd && ObjectUtil.notNull(priorityCriteria));
