@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>pihmalawi</artifactId>
-	<version>6.0</version>
+	<version>6.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>PIH Malawi Customizations</name>
 	<description>Parent project for PIH Malawi Customizations</description>
@@ -55,7 +55,7 @@
         <metadatasharingVersion>1.2.2</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>
         <providermanagementVersion>2.8.0</providermanagementVersion>
-        <reportingVersion>1.12.0</reportingVersion>
+        <reportingVersion>1.14.0-SNAPSHOT</reportingVersion>
         <reportinguiVersion>1.2</reportinguiVersion>
         <reportingrestVersion>1.7.0</reportingrestVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>

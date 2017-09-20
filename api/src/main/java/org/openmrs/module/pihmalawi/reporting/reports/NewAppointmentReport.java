@@ -14,14 +14,14 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,9 +34,6 @@ public class NewAppointmentReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/appointment-data.sql";
     public static final String EXCEL_REPORT_DESIGN_UUID = "82359302-5db2-11e7-be82-dfb5eb799ead";
-
-	@Autowired
-	private HivMetadata hivMetadata;
 
 	@Override
 	public String getUuid() {
@@ -88,6 +85,7 @@ public class NewAppointmentReport extends ApzuReportManager {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
         ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "AppointmentReport.xls");
         design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset:apptRpt");
+        design.addPropertyValue(ExcelTemplateRenderer.PASSWORD_PROPERTY, ApzuReportUtil.getExcelPassword());
         l.add(design);
         return l;
     }
