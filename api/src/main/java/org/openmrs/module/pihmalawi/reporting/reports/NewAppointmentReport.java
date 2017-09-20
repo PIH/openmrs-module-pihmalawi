@@ -85,7 +85,6 @@ public class NewAppointmentReport extends ApzuReportManager {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
         ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "AppointmentReport.xls");
         design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset:apptRpt");
-        design.addPropertyValue(ExcelTemplateRenderer.PASSWORD_PROPERTY, ApzuReportUtil.getExcelPassword());
         l.add(design);
         return l;
     }
