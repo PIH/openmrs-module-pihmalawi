@@ -500,59 +500,46 @@ BEGIN
 	DROP TABLE IF EXISTS firstVL;
 
 	CREATE TEMPORARY TABLE firstVL as
-	select PID,
-		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					NULL
-				ELSE
-					ovl.obs_datetime
-				END
-			WHEN NOT ISNULL(oldl.obs_datetime) THEN
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					oldl.obs_datetime
-				ELSE
-					CASE WHEN ovl.obs_datetime < oldl.obs_datetime THEN
-						ovl.obs_datetime
-					ELSE
-						oldl.obs_datetime
-					END
-				END			
-		END AS insert_visitDate,
-		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					NULL
-				ELSE
-					ovl.value_numeric
-				END
-			WHEN NOT ISNULL(oldl.obs_datetime) THEN
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					0
-				ELSE
-					CASE WHEN ovl.obs_datetime < oldl.obs_datetime THEN
-						ovl.value_numeric
-					ELSE
-						0
-					END
-				END			
-		END AS insert_numeric
-	from warehouseCohortTable wct
-	left join (select * from 
-			(select person_id, value_numeric, obs_datetime 
-			from obs 
-			where concept_id = 856 
-			and obs_datetime <= endDate
-			and voided = 0 
-			order by obs_datetime asc) ovli 
-			group by person_id) ovl on ovl.person_id = wct.PID
-	left join (select * from 
-			(select person_id, value_coded, obs_datetime 
-			from obs 
-			where concept_id = 8561
-			and value_coded = 2257 
-			and obs_datetime <= endDate
-			and voided = 0 
-			order by obs_datetime asc) oldli 
-			group by person_id) oldl on oldl.person_id = wct.PID;
+	select 		og.person_id as PID, 
+				og.obs_id,
+				og.obs_datetime as insert_visitDate,
+			    bled.value_coded as "Bled",
+			    vl.value_numeric as "Value Numeric",
+			    ldl.value_coded	as "LDL",		    
+			    CASE WHEN ISNULL(vl.value_numeric) THEN
+			    	CASE WHEN ISNULL(ldl.value_coded) THEN
+			    		NULL
+			    	ELSE
+			   			0
+			   		END
+				ELSE 
+					vl.value_numeric
+				END AS insert_numeric	    
+	from 		(select * 
+		 		from (select * 
+		  	  		 from obs 
+			   	     where concept_id = 8628
+			         and voided = 0
+			  		 order by obs_datetime asc) ogi 
+		 	    group by person_id) og
+	left join	(select obs_group_id, value_numeric 
+				from obs 
+				where concept_id = 856
+				and voided = 0) vl
+				on vl.obs_group_id = og.obs_id
+	left join	(select obs_group_id, value_coded 
+				from obs 
+				where concept_id = 8561
+				and value_coded = 2257
+				and voided = 0) ldl
+				on ldl.obs_group_id = og.obs_id
+	left join	(select obs_group_id, value_coded 
+				from obs 
+				where concept_id = 8421
+				and value_coded = 2257
+				and voided = 0) bled
+				on bled.obs_group_id = og.obs_id
+	;
 
 
 	UPDATE warehouseCohortTable tc, firstVL fvl
@@ -576,59 +563,46 @@ BEGIN
 	DROP TABLE IF EXISTS lastVL;
 
 	CREATE TEMPORARY TABLE lastVL as
-	select PID,
-		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					NULL
-				ELSE
-					ovl.obs_datetime
-				END
-			WHEN NOT ISNULL(oldl.obs_datetime) THEN
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					oldl.obs_datetime
-				ELSE
-					CASE WHEN ovl.obs_datetime > oldl.obs_datetime THEN
-						ovl.obs_datetime
-					ELSE
-						oldl.obs_datetime
-					END
-				END			
-		END AS insert_visitDate,
-		CASE WHEN ISNULL(oldl.obs_datetime) THEN 
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					NULL
-				ELSE
-					ovl.value_numeric
-				END
-			WHEN NOT ISNULL(oldl.obs_datetime) THEN
-				CASE WHEN ISNULL(ovl.obs_datetime) THEN
-					0
-				ELSE
-					CASE WHEN ovl.obs_datetime > oldl.obs_datetime THEN
-						ovl.value_numeric
-					ELSE
-						0
-					END
-				END			
-		END AS insert_numeric
-	from warehouseCohortTable wct
-	left join (select * from 
-			(select person_id, value_numeric, obs_datetime 
-			from obs 
-			where concept_id = 856 
-			and obs_datetime <= endDate
-			and voided = 0 
-			order by obs_datetime desc) ovli 
-			group by person_id) ovl on ovl.person_id = wct.PID
-	left join (select * from 
-			(select person_id, value_coded, obs_datetime 
-			from obs 
-			where concept_id = 8561
-			and value_coded = 2257 
-			and obs_datetime <= endDate
-			and voided = 0 
-			order by obs_datetime desc) oldli 
-			group by person_id) oldl on oldl.person_id = wct.PID;
+	select 		og.person_id as PID, 
+				og.obs_id,
+				og.obs_datetime as insert_visitDate,
+			    bled.value_coded as "Bled",
+			    vl.value_numeric as "Value Numeric",
+			    ldl.value_coded	as "LDL",		    
+			    CASE WHEN ISNULL(vl.value_numeric) THEN
+			    	CASE WHEN ISNULL(ldl.value_coded) THEN
+			    		NULL
+			    	ELSE
+			   			0
+			   		END
+				ELSE 
+					vl.value_numeric
+				END AS insert_numeric	    
+	from 		(select * 
+		 		from (select * 
+		  	  		 from obs 
+			   	     where concept_id = 8628
+			         and voided = 0
+			  		 order by obs_datetime desc) ogi 
+		 	    group by person_id) og
+	left join	(select obs_group_id, value_numeric 
+				from obs 
+				where concept_id = 856
+				and voided = 0) vl
+				on vl.obs_group_id = og.obs_id
+	left join	(select obs_group_id, value_coded 
+				from obs 
+				where concept_id = 8561
+				and value_coded = 2257
+				and voided = 0) ldl
+				on ldl.obs_group_id = og.obs_id
+	left join	(select obs_group_id, value_coded 
+				from obs 
+				where concept_id = 8421
+				and value_coded = 2257
+				and voided = 0) bled
+				on bled.obs_group_id = og.obs_id
+	;
 
 
 	UPDATE warehouseCohortTable tc, lastVL lvl
