@@ -137,4 +137,16 @@ public class EncounterTypes {
         public String description() { return "Followup visit for ART patient"; }
     };
 
+    public static EncounterTypeDescriptor PALLIATIVE_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "e0822140-955d-11e7-abc4-cec278b6b50a"; }
+        public String name() { return "PALLIATIVE_INITIAL"; }
+        public String description() { return "Initial Palliative care encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PALLIATIVE_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "e082235c-955d-11e7-abc4-cec278b6b50a"; }
+        public String name() { return "PALLIATIVE_FOLLOWUP"; }
+        public String description() { return "Followup visit for Palliative care patient"; }
+    };
+
 }

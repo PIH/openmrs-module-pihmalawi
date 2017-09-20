@@ -86,6 +86,7 @@ CALL getCodedObsWithValuesFromEncounterBeforeDate('1193', '69,@DH_F', '4046', @r
 -- Epilepsy Information
 CALL getDiagnosisBoolean(3683, '155', @reportEndDate, 'epilepsyDx');
 CALL getDiagnosisDate(3683, '155', 6774, @reportEndDate, 'first', 'firstEpilepsyDxDate');
+CALL getEpilepsyOnsetDate(@reportEndDate, 'last', 'epilepsyOnsetDate');
 CALL getEncounterDateForCodedObs('1193', '238,273,920', @reportEndDate, 'first', 'firstEpilepsyMedsDate');
 CALL getEncounterDateForCodedObs('1193', '238,273,920', @reportEndDate, 'last', 'lastEpilepsyMedsDate');
 CALL getEncounterLocationForCodedObs('1193', '238,273,920', @reportEndDate, 'last', 'lastEpilepsyMedsLocation');
@@ -217,6 +218,7 @@ SELECT
   glibenclamide as "Glibenclamide given at last visit",  
   epilepsyDx as "Epilepsy Diagnosis",
   date_format(firstEpilepsyDxDate,'%Y-%m-%d') as "Epilepsy Diagnosis Date",
+  date_format(epilepsyOnsetDate,'%Y-%m-%d') as "Epilepsy Onset Date",
   date_format(firstEpilepsyMedsDate,'%Y-%m-%d') as "First Epilepsy Treatment Date",
   date_format(lastEpilepsyMedsDate,'%Y-%m-%d') as "Last Epilepsy Treatment Date",
   lastEpilepsyMedsLocation as "First Epilepsy Treatment Location",

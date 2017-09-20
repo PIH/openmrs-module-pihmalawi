@@ -41,6 +41,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // Mental Health
         install(EncounterTypes.MENTAL_HEALTH_INITIAL);
         install(EncounterTypes.MENTAL_HEALTH_FOLLOWUP);
+
+        // Palliative care
+        install(EncounterTypes.PALLIATIVE_INITIAL);
+        install(EncounterTypes.PALLIATIVE_FOLLOWUP);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

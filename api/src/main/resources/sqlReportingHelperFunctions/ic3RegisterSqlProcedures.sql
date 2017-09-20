@@ -111,6 +111,7 @@ BEGIN
 	  metformin VARCHAR(255) default NULL,
 	  glibenclamide VARCHAR(255) default NULL,
 	  firstEpilepsyDxDate DATE default NULL,
+	  epilepsyOnsetDate DATE default NULL,
 	  firstEpilepsyMedsDate DATE default NULL,
 	  lastEpilepsyMedsDate DATE default NULL,
 	  lastEpilepsyMedsLocation VARCHAR(255) default NULL,
@@ -966,4 +967,69 @@ END
 
 #
 
+-- getEpilepsyOnsetDate(endDate, firstLast, onsetDateCol)
+-- INPUTS:
+--				endDate - end Date of report
+--				firstLast - either 'first' or 'last' to specify first/last encounter
+-- 				onsetDateCol - temporary date column with year and month values
+-- Procedure gets onset date (yyyy/mm) (from same encounter) and puts them together
+-- in a string and writes out to the reporting table.
+
+DROP PROCEDURE IF EXISTS getEpilepsyOnsetDate;
+
+#
+
+CREATE PROCEDURE getEpilepsyOnsetDate(IN endDate DATE, IN firstLast VARCHAR(50), IN onsetDateCol VARCHAR(100))
+BEGIN
+
+	DROP TEMPORARY TABLE IF EXISTS temp_obs_vector;
+	create temporary table temp_obs_vector (
+  		id INT not null auto_increment primary key,
+  		PID INT(11) not NULL,
+  		onsetDate DATE default NULL
+	);
+	CREATE INDEX PID_index ON temp_obs_vector (PID);
+
+	IF firstLast = 'first' THEN
+		       set @upDown = 'asc';
+	ELSEIF firstLast = 'last' THEN
+	       set @upDown = 'desc';
+	ELSE select 'Must specify first/last encounter in getEpilepsyOnsetDate!';
+	END IF;
+
+	SET @s=CONCAT('insert into temp_obs_vector
+							(PID, onsetDate)
+					(select year.person_id,
+                            CASE WHEN month.value_numeric IS NOT NULL
+				                 THEN date_format(concat_ws(\'-\', year.value_numeric, month.value_numeric, \'01\'), \'%Y-%m-%d\')
+								 ELSE date_format(concat_ws(\'-\',year.value_numeric, \'01-01\'), \'%Y-%m-%d\')
+			                END AS onsetD
+  					  from obs year, encounter e
+                      left join (select encounter_id, value_numeric
+								from obs
+								where concept_id = 8513) month
+					on month.encounter_id = e.encounter_id
+					 where year.concept_id = 8512
+                       and e.encounter_id = year.encounter_id
+                       and e.encounter_datetime <= (\'', CONCAT(endDate),'\')
+                       and year.voided = 0
+                       and e.voided = 0
+					 group by year.person_id
+                     order by year.obs_datetime ', @upDown, ');');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+	set @s=CONCAT('UPDATE warehouseCohortTable tc, temp_obs_vector tt
+					SET tc.', onsetDateCol,' = tt.onsetDate
+					WHERE tc.PID = tt.PID;');
+
+	PREPARE stmt1 FROM @s;
+	EXECUTE stmt1;
+	DEALLOCATE PREPARE stmt1;
+
+END
+
+#
 

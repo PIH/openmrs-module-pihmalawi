@@ -154,7 +154,9 @@ public class ArtRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Last CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
 		addColumn(dsd, "Last CD4 count Date", hivPatientData.getLatestCd4CountDateByEndDate());
         addColumn(dsd, "Last Viral Load", hivPatientData.getLatestViralLoadValueByEndDate());
-        addColumn(dsd, "Last Viral Load Date", hivPatientData.getLatestViralLoadDateByEndDate());
+		addColumn(dsd, "Last Viral Load Date", hivPatientData.getLatestViralLoadDateByEndDate());
+		addColumn(dsd, "Last LDL", hivPatientData.getLatestLDLValueByEndDate());
+		addColumn(dsd, "Last LDL Date", hivPatientData.getLatestLDLDateByEndDate());
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 
