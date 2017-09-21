@@ -796,6 +796,10 @@ public class CommonMetadata extends Metadata {
 		return l;
 	}
 
+	public String getCurrentSystemLocationTag() {
+        return getGlobalProperty(CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY, "");
+    }
+
 	public List<Location> getSystemLocations() {
 		String upperOrLower = getGlobalProperty(CURRENT_SYSTEM_LOCATION_TAG_GLOBAL_PROPERTY, null);
 		if (UPPER_NENO.equals(upperOrLower)) {

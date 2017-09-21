@@ -5,7 +5,7 @@
   Expected parameters:
 
   * set @endDate = now();
-  * set @endDate = DATE_ADD(@endDate,INTERVAL -30 DAY)
+  * set @startDate = DATE_ADD(@endDate,INTERVAL -30 DAY)
   * location is hardcoded as NULL since report is to be run for all of upper / lower Neno
 
 */
@@ -22,9 +22,6 @@ CREATE TABLE rpt_ic3_indicators (
   indicator_type VARCHAR(255) default NULL,
   indicator_value NUMERIC default NULL
   );
-
-select * from rpt_ic3_indicators;
-
 
 /* 
 	IC3-M1
@@ -217,3 +214,5 @@ SELECT 'IC3-M13D', 'Proportion HIV-NCD Clients with next appointments for all co
 FROM rpt_ic3_indicators
 WHERE 	indicator = 'IC3-M7'
 ;
+
+select * from rpt_ic3_indicators;
