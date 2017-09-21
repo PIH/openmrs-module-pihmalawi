@@ -73,7 +73,7 @@ public class IC3IndicatorReportTest extends ReportManagerTest {
 
 	@Override
 	protected boolean isEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
