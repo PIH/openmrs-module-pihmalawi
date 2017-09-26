@@ -1,0 +1,444 @@
+<htmlform formUuid="03c5f102-9d08-11e7-abc4-cec278b6b50a"
+          formName="Palliative Care Visit"
+          formEncounterType="e082235c-955d-11e7-abc4-cec278b6b50a"
+          formVersion="1.0">
+
+    <macros>
+        height=5090
+        weight=5089
+        no=1066
+        yes=1065
+        systolicBP=5085
+        diastolicBP=5086
+        hospitalSinceLast=1715
+        drugsNow=1193
+        drugSet=8501
+        clinicalImpression=1364
+        nextAppt=5096
+    </macros>
+
+    <style>
+        .atab {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td>Visit Date</td>
+                    <td>Ht</td>
+                    <td>Wt</td>
+                    <td rowspan="2" span="2">BP</td>
+                    <td colspan="3">Location<br/>of visit</td>
+                    <td colspan="3">Functional status</td>
+                    <td colspan="2">Referral</td>
+                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
+                    <td colspan="2">Chemotheraphy<br/>and Bleomycin</td>
+                    <td>Pain<br/>score</td>
+                    <td colspan="5">Treatment details</td>
+                    <td rowspan="2">Counseling</td>
+                    <td>Management Plan<br/>Comments</td>
+                    <td>Next appt</td>
+                </tr>
+                <tr>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightEntered" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" />
+                    </td>
+
+                    <td>
+                        <!-- BMI -->
+                        <repeat with="['$underWeight','U'],['$typical','N'],['$overWeight','O']">
+                            <obs conceptId="$bmiCoded" answerConceptId="{0}" answerLabel="{1}" style="radio" />
+                            <br/>
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- Blood pressure -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                    </td>
+
+                    <td>
+                        <!--  Pulse rate -->
+                        <obs conceptId="$pulse"/>
+                    </td>
+
+                    <td>
+                        <!-- HbA1C -->
+                        <obs conceptId="$hbA1c"/>
+                    </td>
+                    <td>
+                        <!-- Serum Glucose -->
+                        <obs conceptId="$serumGlucose"/><br/>
+                        <obs conceptId="$glucoseTestType" answerConceptId="$fastingTest" style="checkbox"/>
+                        <obs conceptId="$glucoseTestType" answerConceptId="$randomTest" style="checkbox"/>
+                    </td>
+                    <td style="text-align: left;">
+                        <!-- Tobacco -->
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+                    <td style="text-align: left">
+                        <!-- Alcohol -->
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Number of fruit and veggie portions -->
+                        <obs conceptId="$fruitVeggies" />
+                    </td>
+
+                    <td>
+                        <!-- Days per week with 30 minutes of exercise  -->
+                        <obs conceptId="$exercise" />
+                    </td>
+
+                    <td>
+                        <!-- CV risk -->
+                        <obs conceptId="$cvRisk" />
+                    </td>
+
+                    <td>
+                        <!-- Visual acuity -->
+                        <obs conceptId="$visualAcuityText" />
+                    </td>
+                    <!-- Foot check -->
+                    <repeat with="['$neuroPVD'],['$footDeform'],['$footUlcer']">
+                        <td style="text-align: left;"><obs conceptId="{0}" style="checkbox" answerConceptId="$yes" /><br/>
+                            <obs conceptId="{0}" style="checkbox" answerConceptId="$no" /></td>
+                    </repeat>
+                    <td>
+                        <!-- Hospitalized since last visit -->
+                        <obs conceptId="$hospitalSinceLast" style="checkbox" />Y
+                    </td>
+                    <!-- Insulin -->
+                    <td>
+                        <!-- ToDo:  Add construct with dose and frequency -->
+                        <repeat with="['$longActingInsulin','L'],['$shortActingRegularInsulin','S']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                        </repeat>
+                    </td>
+
+                    <td style="text-align: left;">
+                        <!-- Diabetes -->
+                        <repeat with="['$metformin','MET'],['$glibenclamide','GLIB']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                        </repeat>
+                    </td>
+                    <!-- Diuretics -->
+                   <td style="text-align: left;">
+                       <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+                   <!-- Calcium Channel Blockers -->
+                   <td style="text-align: left;">
+                       <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+                   <!-- ACE-I -->
+                   <td style="text-align: left;">
+                       <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+                   <!-- Beta-blockers -->
+                   <td style="text-align: left;">
+                       <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+                   <!-- Other medications -->
+                    <td>
+                        <!-- Apirin -->
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="$aspirin" answerLabel="ASA" style="checkbox" />
+                        </obsgroup>
+                    </td>
+                    <!-- Statins -->
+                   <td style="text-align: left;">
+                       <repeat with="['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>      
+                   <!-- Other -->              
+                   <td style="text-align: left;">
+                       <repeat with="['$hydralazine ','HYD'],['$isosorbideMononitrate  ','ISSMN']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>      
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Hypertension and Diabetes Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">NCD Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+            <tr class="focus-field">
+                <th>Height</th>
+                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Body Mass Index (BMI)</th>
+                <td>
+                    <!-- BMI -->
+                    <obs style="radio" conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25"  answerSeparator="&lt;br /&gt;&lt;br /&gt;" />
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>Blood pressure</th>
+                <td><obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" /></td>
+            </tr>
+
+            <tr>
+                <th>Pulse rate</th>
+                <td><obs conceptId="$pulse" showUnits="true" /></td>
+            </tr>
+
+            <tr rowspan="2">
+                <th>Glucose Monitoring</th>
+                <td>
+                    <table>
+                        <tr>
+                            <th>HbA1C</th>
+                            <td><obs conceptId="$hbA1c" showUnits="true" /></td>
+                        </tr>
+                        <tr>
+                            <th>Fasting blood sugar</th>
+                            <td><obs conceptId="$serumGlucose" showUnits="true" /><br/><br/>
+                                <obs conceptId="$glucoseTestType" answerConceptIds="$fastingTest,$randomTest" style="radio"/></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <th>Tobacco</th>
+                <td style="text-align: left">
+                    <obs conceptId="$tobacco" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Alcohol</th>
+                <td style="text-align: left">
+                    <obs conceptId="$alcohol" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Number of fruit and vegetable portions</th>
+                <td><obs conceptId="$fruitVeggies" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Days per week with 30 minutes of exercise</th>
+                <td><obs conceptId="$exercise" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Cardiovascular risk</th>
+                <td><obs conceptId="$cvRisk" showUnits="true"/></td>
+            </tr>
+
+            <tr>
+                <th>Visual acuity</th>
+                <td><obs conceptId="$visualAcuityText" /></td>
+            </tr>
+
+            <tr>
+                <th>Foot check</th>
+                    <td>
+                        <repeat with="['$neuroPVD','Neuropathy/PVD'],['$footDeform','Deformities'],['$footUlcer','Ulcers']">
+                            <span class="atab">{1}</span>
+                            <span>
+                                <obs conceptId="{0}" style="radio" answerConceptIds="$yes,$no" />
+                            </span>
+                            <br/>
+                        </repeat>
+                    </td>
+            </tr>
+
+            <tr>
+                <th>Hospitalized since last visit?</th>
+                <td>
+                    <obs conceptId="$hospitalSinceLast" style="checkbox" />Yes
+                </td>
+            </tr>
+
+            <tr>
+                <th>Diabetes Medications</th>
+                <td>
+                    <repeat with="['$longActingInsulin','Long acting'],['$shortActingRegularInsulin','Short acting']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                    <repeat with="['$metformin'],['$glibenclamide']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" style="checkbox" />
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+            <tr>
+                <th>Diuretic</th>
+                <td>
+                    <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" /><br/>
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+            <tr>
+                <th>CCB</th>
+                <td>
+                    <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>       
+            <tr>
+                <th>ACE-I</th>
+                <td>
+                    <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>       
+            <tr>
+                <th>BB</th>
+                <td>
+                    <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>       
+            <tr>
+                <th>Aspirin</th>
+                <td>
+                    <obsgroup groupingConceptId="$drugSet">
+                        <obs conceptId="$drugsNow" answerConceptId="$aspirin" answerLabel="ASA" style="checkbox" />
+                    </obsgroup>
+                </td>
+            </tr>       
+            <tr>
+                <th>Statin</th>
+                <td>
+                    <repeat with="['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>       
+            <tr>
+                <th>Other</th>
+                <td>
+                    <repeat with="['$hydralazine ','HYD'],['$isosorbideMononitrate  ','ISSMN']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>                                                
+            <tr>
+                <th>Next appointment<br/></th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>
