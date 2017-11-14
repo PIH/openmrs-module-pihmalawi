@@ -22,7 +22,8 @@
         nyha3=3137
         nyha4=3138
         copdDx=3716
-        <!-- ToDo: create a general "Mental Health" diagnosis -->
+        <!-- ToDo: create a general "Mental Health" diagnosis instead of "other mh dx 1" -->
+        mentalHealthDx=8580
         mentalHealthOther0=8420
         epilepsyDx=155
         kidneyFailureDx=3681
@@ -59,7 +60,6 @@
         diabetesType2Dx=6410
         strokeDx=8455
         cardioDx=996
-        renalDx=6033
         pvdDx=7586
         retinopathyDx=8452
         neuropathyDx=8450
@@ -339,7 +339,7 @@
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
                                     <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$renalDx" answerLabel="Kidney Failure"/>
+                                         answerConceptId="$kidneyFailureDx" answerLabel="Kidney Failure"/>
 
                                 </td>
                                 <td>
