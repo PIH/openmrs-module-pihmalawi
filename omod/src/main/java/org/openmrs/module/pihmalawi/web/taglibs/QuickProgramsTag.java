@@ -167,7 +167,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 	private PatientProgram currentPatientProgram(Program program, Patient patient) {
 		List<org.openmrs.PatientProgram> pps = Context.getProgramWorkflowService()
 				.getPatientPrograms(patient, program, null, null, new Date(), null, false);
-		if (pps.size() == 1) {
+		if (pps.size() > 0) {
 			return (PatientProgram) pps.get(0);
 		}
 		return null;
