@@ -69,46 +69,6 @@ public class MetadataInitializer implements Initializer {
         // Create generated source / class files for these via maven plugin
         // Associate with versions and
 
-        ConceptService cs = Context.getConceptService();
-
-        {
-            Integer id = 8415;
-            String uuid = "14ce86d7-025e-4dcf-9437-67d26185c6ab";
-            String name = "Palliative Care Program";
-            String synonym = "PC Program";
-            Concept c = cs.getConcept(id);
-            if (c == null) {
-                log.warn("Creating " + name);
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
-                c.setConceptClass(cs.getConceptClassByName("Program"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addName(new ConceptName(synonym, Locale.ENGLISH));
-                cs.saveConcept(c);
-            }
-        }
-
-        {
-            Integer id = 8416;
-            String uuid = "e7a7c2ca-7433-4851-8687-67e8541ca40b";
-            String name = "Palliative Care Treatment Status";
-            String synonym = "PC Treatment Status";
-            Concept c = cs.getConcept(id);
-            if (c == null) {
-                log.warn("Creating " + name);
-                c = new Concept();
-                c.setConceptId(id);
-                c.setUuid(uuid);
-                c.setConceptClass(cs.getConceptClassByName("Workflow"));
-                c.setDatatype(cs.getConceptDatatypeByName("N/A"));
-                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
-                c.addName(new ConceptName(synonym, Locale.ENGLISH));
-                cs.saveConcept(c);
-            }
-        }
-
         deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
     }
 

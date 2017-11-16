@@ -59,6 +59,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         public static final String PROCEDURE = "8d490bf4-c2cc-11de-8d13-0010c6dffd0f";
         public static final String FREQUENCY = "8e071bfe-520c-44c0-a89b-538e9129b42a";
         public static final String PROGRAM = "65ab7782-977f-11e1-8993-905e29aff6c1";
+        public static final String WORKFLOW = "65ab789a-977f-11e1-8993-905e29aff6c1";
     }
 
     // these exist already, we don't create them

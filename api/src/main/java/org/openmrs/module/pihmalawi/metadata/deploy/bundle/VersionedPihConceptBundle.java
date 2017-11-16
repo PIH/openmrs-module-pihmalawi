@@ -45,6 +45,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptClass test;
     protected ConceptClass procedure;
     protected ConceptClass program;
+    protected ConceptClass workflow;
     protected ConceptClass frequency;
 
     protected ConceptMapType sameAs;
@@ -103,6 +104,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         test = MetadataUtils.existing(ConceptClass.class, ConceptClasses.TEST);
         procedure = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROCEDURE);
         program = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROGRAM);
+        workflow = MetadataUtils.existing(ConceptClass.class, ConceptClasses.WORKFLOW);
 
         frequency = MetadataUtils.existing(ConceptClass.class, ConceptClasses.FREQUENCY);
 
