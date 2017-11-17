@@ -114,6 +114,16 @@
     <tr>
         <td><br /></td>
     </tr>
+
+    <tr>
+        <td>Palliative Care Record:</td>
+            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Palliative Care Mastercard" initialEncounterTypeName="PALLIATIVE_INITIAL" followupEncounterTypeName="PALLIATIVE_FOLLOWUP" programWorkflowStates="144" patientIdentifierType="22"/></td>
+    </tr>
+
+    <tr>
+        <td><br /></td>
+    </tr>
+
     <tr>
         <td>Tuberculosis Record:</td>
         <td><pihmalawi:eRecordAccess patientId="${model.patientId}" formId="21" encounterTypeId="14" programWorkflowStates="92" patientIdentifierType="7"/></td>
@@ -165,6 +175,10 @@
     <tr>
         <td>Chronic Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,141" defaultLocation="2"/></td>
+    </tr>
+    <tr>
+        <td>Palliative Care Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="144" terminalStateIds="142,143,145,146" defaultLocation="2"/></td>
     </tr>
     <tr>
         <td>TB Program:</td>

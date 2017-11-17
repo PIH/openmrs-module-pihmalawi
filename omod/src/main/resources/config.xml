@@ -59,7 +59,19 @@
     <globalProperty>
         <property>pihmalawi.showOldChronicCareCard</property>
         <defaultValue>true</defaultValue>
-        <description>Inidicates whether or not to enable the link to the previous version of the CCC Mastercard</description>
+        <description>Indicates whether or not to enable the link to the previous version of the CCC Mastercard</description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>dashboard.identifiers</property>
+        <defaultValue>{"9":["ARV Number","HCC Number","KS Number","Chronic Care Number","Palliative Care Number"]}</defaultValue>
+        <description></description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>patient_identifier.importantTypes</property>
+        <defaultValue>ARV Number,HCC Number,Chronic Care Number,Palliative Care Number</defaultValue>
+        <description>A comma delimited list of PatientIdentifier names : PatientIdentifier locations that will be displayed on the patient dashboard.  E.g.: ARV Number,Chronic Care Number</description>
     </globalProperty>
 
 	<messages>

@@ -15,9 +15,6 @@ import java.util.Set;
 @Component("palliativeCareMetadata")
 public class PalliativeCareMetadata extends CommonMetadata{
 
-    public static String PALLIATIVE_CARE_NUMBER = "Palliative Care Number";
-
-
     public static ProgramWorkflowStateDescriptor ON_TREATMENT_STATE = new ProgramWorkflowStateDescriptor() {
         public String conceptUuid() { return PalliativeCareConcepts.ON_TREATMENT_CONCEPT_UUID; }
         public Boolean initial() { return true; }
