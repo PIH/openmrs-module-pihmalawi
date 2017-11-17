@@ -59,9 +59,9 @@ public class QuickProgramsTag extends BodyTagSupport {
 
 		try {
 
-			List<ProgramWorkflowState> states = getStates(stateIds);
-			List<ProgramWorkflowState> initialStates = getStates(initialStateIds);
-			List<ProgramWorkflowState> terminalStates = getStates(terminalStateIds);
+			List<ProgramWorkflowState> states = Helper.getProgramWorkflowStatesFromCsvIds(stateIds);
+			List<ProgramWorkflowState> initialStates = Helper.getProgramWorkflowStatesFromCsvIds(initialStateIds);
+			List<ProgramWorkflowState> terminalStates = Helper.getProgramWorkflowStatesFromCsvIds(terminalStateIds);
 			
 			ProgramWorkflow programWorkflow = initialStates.get(0).getProgramWorkflow();
 			Program program = programWorkflow.getProgram();
