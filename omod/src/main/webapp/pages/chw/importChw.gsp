@@ -29,3 +29,34 @@
 
     ui.includeJavascript("pihmalawi", "chw/importChwController.js")
 %>
+
+<script type="text/javascript">
+    var breadcrumbs = [
+        { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
+        { label: "${ ui.message("Import CHW")}" }
+    ];
+</script>
+
+<div class="container" id="importChw-app" ng-controller="ImportChwController">
+
+    <h1>${ ui.message("Select file that contains CHW records") }:</h1>
+    <input type="file" on-read-file="showContent(fileContent)" />
+    <br>
+    <div ng-if="content && !errorMessage">
+        <button type="button" class="confirm" ng-click="importChwFile()">${ ui.message("Import") }</button>
+        <br>
+        <br>
+        <pre>{{ content }}</pre>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    angular.module('importChwApp');
+    angular.bootstrap("#importChw-app", [ "importChwApp" ]);
+    jq(function () {
+        jq(document).on('sessionLocationChanged', function () {
+            window.location.reload();
+        });
+    });
+</script>
