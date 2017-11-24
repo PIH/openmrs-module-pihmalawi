@@ -79,6 +79,32 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), null);
     }
 
+	// Diagnoses
+	@DocumentedDefinition("hypertensionDiagnosis")
+	public PatientDataDefinition getHypertensionDiagnosis() {
+		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getHypertensionConcept(), null);
+	}
+
+	@DocumentedDefinition("diabetesDiagnosis")
+	public PatientDataDefinition getDiabetesDiagnosis() {
+		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getDiabetesConcept(), null);
+	}
+
+	@DocumentedDefinition("epilespyDiagnosis")
+	public PatientDataDefinition getEpilepsyDiagnosis() {
+		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getEpilepsyConcept(), null);
+	}
+
+	@DocumentedDefinition("asthmaDiagnosis")
+	public PatientDataDefinition getAsthmaDiagnosis() {
+		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getAsthmaConcept(), null);
+	}
+
+	@DocumentedDefinition("copdDiagnosis")
+	public PatientDataDefinition getCopdDiagnosis() {
+		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getCopdConcept(), null);
+	}
+
 	@DocumentedDefinition
 	public PatientDataDefinition getAllChronicCareDiagnosesByEndDate() {
 		CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());
