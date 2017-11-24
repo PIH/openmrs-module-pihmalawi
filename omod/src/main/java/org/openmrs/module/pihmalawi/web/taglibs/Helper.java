@@ -106,19 +106,27 @@ public class Helper {
 	}
 	
 	/**
-	 * @param csvStateIds a String containing comma-separated programWorkflowState ids 
+	 * @param csvStateIds a String containing comma-separated programWorkflowState ids or UUIDs
 	 * @return the List of ProgramWorkflowStates that match the given ids
 	 */
 	@SuppressWarnings("deprecation")
 	public static List<ProgramWorkflowState> getProgramWorkflowStatesFromCsvIds(String csvStateIds) {
-		if (StringUtils.isBlank(csvStateIds)) {
-			return null;
-		}
 		List<ProgramWorkflowState> states = new ArrayList<ProgramWorkflowState>();
+		if (StringUtils.isBlank(csvStateIds)) {
+			return states;
+		}
 		StringTokenizer st = new StringTokenizer(csvStateIds, ",");
 		while (st.hasMoreTokens()) {
+			ProgramWorkflowState state = null;
 			String id = st.nextToken().trim();
-			states.add(Context.getProgramWorkflowService().getState(new Integer(id)));
+			try {
+				int anInt = Integer.parseInt(id);
+				state = Context.getProgramWorkflowService().getState(new Integer(id));
+			}catch (NumberFormatException ex) {
+				// id is not an integer, it should be an UUID then
+				state = Context.getProgramWorkflowService().getStateByUuid(id);
+			}
+			states.add(state);
 		}
 		return states;
 	}

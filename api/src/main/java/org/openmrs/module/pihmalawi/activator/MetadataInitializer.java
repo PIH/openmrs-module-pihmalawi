@@ -34,17 +34,20 @@ public class MetadataInitializer implements Initializer {
 
     protected static final Log log = LogFactory.getLog(MetadataInitializer.class);
 
-    public boolean hasAnswer(Collection<ConceptAnswer> answers, Concept concept){
-        if ( answers != null && answers.size() > 0 ){
-            for (ConceptAnswer answer : answers) {
-                if (StringUtils.equals(answer.getAnswerConcept().getUuid(), concept.getUuid())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    public GlobalProperty saveGlobalProperty(String name, String value) {
+        GlobalProperty gp = null;
 
+        if (StringUtils.isNotBlank(name)) {
+            gp = Context.getAdministrationService().getGlobalPropertyObject(name);
+            if (gp == null) {
+                gp = new GlobalProperty(name, "");
+            }
+            gp.setPropertyValue(value);
+            Context.getAdministrationService().saveGlobalProperty(gp);
+        }
+
+        return gp;
+    }
     /**
      * @see Initializer#started()
      */
@@ -52,12 +55,9 @@ public class MetadataInitializer implements Initializer {
     public synchronized void started() {
 
         MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
-        GlobalProperty gp = Context.getAdministrationService().getGlobalPropertyObject(PihMalawiConstants.HEALTH_FACILITY_GP_NAME);
-        if (gp == null) {
-            gp = new GlobalProperty(PihMalawiConstants.HEALTH_FACILITY_GP_NAME, "");
-        }
-        gp.setPropertyValue(PihMalawiConstants.HEALTH_FACILITY_GP_VALUE);
-        Context.getAdministrationService().saveGlobalProperty(gp);
+        saveGlobalProperty(PihMalawiConstants.HEALTH_FACILITY_GP_NAME, PihMalawiConstants.HEALTH_FACILITY_GP_VALUE);
+        saveGlobalProperty(PihMalawiConstants.DASHBOARD_IDENTIFIERS_GP_NAME, PihMalawiConstants.DASHBOARD_IDENTIFIERS_GP_VALUE);
+        saveGlobalProperty(PihMalawiConstants.PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_NAME, PihMalawiConstants.PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_VALUE);
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
@@ -69,10 +69,12 @@ public class MetadataInitializer implements Initializer {
         // Create generated source / class files for these via maven plugin
         // Associate with versions and
 
-        ConceptService cs = Context.getConceptService();
-
         deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
     }
+
+
+
+
 
     @Override
     public void stopped() {

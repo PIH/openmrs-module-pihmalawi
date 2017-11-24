@@ -1,0 +1,231 @@
+<htmlform formUuid="03c5f102-9d08-11e7-abc4-cec278b6b50a"
+          formName="Palliative Care Visit"
+          formEncounterType="e082235c-955d-11e7-abc4-cec278b6b50a"
+          formVersion="1.0">
+
+    <macros>
+        height=5090
+        weight=5089
+        no=1066
+        yes=1065
+        systolicBP=5085
+        diastolicBP=5086
+        hospitalSinceLast=1715
+        drugsNow=1193
+        drugSet=8501
+        clinicalImpression=1364
+        nextAppt=5096
+    </macros>
+
+    <style>
+        .atab {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td>Visit Date</td>
+                    <td>Ht</td>
+                    <td>Wt</td>
+                    <td rowspan="2" span="2">BP</td>
+                    <td colspan="3">Location<br/>of visit</td>
+                    <td colspan="3">Functional status</td>
+                    <td colspan="2">Referral</td>
+                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
+                    <td colspan="2">Chemotheraphy<br/>and Bleomycin</td>
+                    <td>Pain<br/>score</td>
+                    <td colspan="5">Treatment details</td>
+                    <td rowspan="2">Counseling</td>
+                    <td>Management Plan<br/>Comments</td>
+                    <td>Next appt</td>
+                </tr>
+                <tr>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightEntered" />
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" />
+                    </td>
+
+                    <td>
+                        <!-- Blood pressure -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                    </td>
+
+                    <td>
+                        <!--  Location of visit -->
+                    </td>
+
+                    <td>
+                        <!-- Functional status -->
+                    </td>
+                    <td>
+                        <!-- Laxative -->
+                    </td>
+                    <td>
+                        <!-- Referral -->
+                    </td>
+
+                    <td>
+                        <!-- Hospitalized since last visit -->
+                        <obs conceptId="$hospitalSinceLast" style="checkbox" />Y
+                    </td>
+
+                    <td>
+                        <!-- Chemo -->
+                    </td>
+
+                    <td>
+                        <!-- Pain score  -->
+                    </td>
+
+                    <td>
+                        <!-- Treatment details -->
+                    </td>
+
+                    <td>
+                        <!-- Counseling -->
+                        <obs conceptId="$visualAcuityText" />
+                    </td>
+
+                    <td>
+                        <!-- Management plan / comments -->
+                    </td>
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Hypertension and Diabetes Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">NCD Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+            <tr class="focus-field">
+                <th>Height</th>
+                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Blood pressure</th>
+                <td><obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" /></td>
+            </tr>
+
+            <tr>
+                <th>Location of visit</th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Functional status</th>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <th>Laxative</th>
+                <td style="text-align: left">
+                </td>
+            </tr>
+
+            <tr>
+                <th>Referral</th>
+                <td style="text-align: left">
+                </td>
+            </tr>
+
+            <tr>
+                <th>Hospitalized since last visit?</th>
+                <td>
+                    <obs conceptId="$hospitalSinceLast" style="checkbox" />Yes
+                </td>
+            </tr>
+
+            <tr>
+                <th>Chemo...</th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Pain</th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Treatment details</th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Counseling</th>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Management plan</th>
+                <td>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Next appointment<br/></th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+        </table>
+
+        <submit/>
+
+    </ifMode>
+
+</htmlform>
