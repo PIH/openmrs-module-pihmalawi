@@ -203,6 +203,7 @@
                     <table>
                         <tr>
                             <td>Sample Date</td>
+                            <td>Location</td>
                             <td>Type</td>
                             <td>Sample ID /<br/>HTC Serial No</td>
                             <td>Result</td>
@@ -211,6 +212,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$hivTestConstruct">
                                 <td><obs conceptId="$hivSampleDate"/></td>
+                                <td><obs conceptId="$labLocation"/></td>
                                 <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                          answerLabels="DBS,RT" style="radio"/></td>
                                 <td><obs conceptId="$labTestNumber" /></td>
@@ -224,6 +226,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$hivTestConstruct">
                                 <td><obs conceptId="$hivSampleDate"/></td>
+                                <td><obs conceptId="$labLocation"/></td>
                                 <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                          answerLabels="DBS,RT" style="radio"/></td>
                                 <td><obs conceptId="$labTestNumber" /></td>
@@ -237,6 +240,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$hivTestConstruct">
                                 <td><obs conceptId="$hivSampleDate"/></td>
+                                <td><obs conceptId="$labLocation"/></td>
                                 <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                          answerLabels="DBS,RT" style="radio"/></td>
                                 <td><obs conceptId="$labTestNumber" /></td>
@@ -250,6 +254,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$hivTestConstruct">
                                 <td><obs conceptId="$hivSampleDate"/></td>
+                                <td><obs conceptId="$labLocation"/></td>
                                 <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                          answerLabels="DBS,RT" style="radio"/></td>
                                 <td><obs conceptId="$labTestNumber" /></td>
