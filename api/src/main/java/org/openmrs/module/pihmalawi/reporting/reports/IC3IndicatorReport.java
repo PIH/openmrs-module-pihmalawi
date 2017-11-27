@@ -48,7 +48,7 @@ public class IC3IndicatorReport extends ApzuReportManager {
 
     @Override
     public String getDescription() {
-        return "IC3 Indicator, revision September 2017";
+        return "IC3 Indicator, revision December 2017";
     }
 
     @Override
