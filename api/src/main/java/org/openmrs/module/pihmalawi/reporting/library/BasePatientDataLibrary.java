@@ -14,6 +14,8 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.Encounter;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.DiagnosesBasedOnMastercardsPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.PriorityPatientForTracePatientDataDefinition;
@@ -40,6 +42,9 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@Autowired
 	private HivMetadata metadata;
+
+	@Autowired
+	private ChronicCareMetadata ncdMetadata;
 
 	@Autowired
 	private BuiltInPatientDataLibrary builtInPatientData;
