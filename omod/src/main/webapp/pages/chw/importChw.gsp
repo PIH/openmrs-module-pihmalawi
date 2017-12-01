@@ -39,11 +39,29 @@
 
 <div class="container" id="importChw-app" ng-controller="ImportChwController">
 
+    <div ng-if="headerList && headerList.length != 0">
+        <h3>${ ui.message("List of CHWs") }</h3>
+        <button type="button" class="confirm" ng-click="importChwFile()">${ ui.message("Import All") }</button>
+        <table id="list-chws" cellspacing="0" cellpadding="2">
+            <thead>
+            <tr>
+                <th ng-repeat="columnName in headerList">{{ columnName }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="chw in pendingImportChws">
+                <td ng-repeat="value in chw">
+                    {{ value }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
     <h1>${ ui.message("Select file that contains CHW records") }:</h1>
     <input type="file" on-read-file="showContent(fileContent)" />
     <br>
     <div ng-if="content && !errorMessage">
-        <button type="button" class="confirm" ng-click="importChwFile()">${ ui.message("Import") }</button>
         <br>
         <br>
         <pre>{{ content }}</pre>
