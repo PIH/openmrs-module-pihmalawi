@@ -87,6 +87,20 @@ angular.module('importChwApp', ['ngDialog'])
                 });
             };
 
+            this.createProvider = function (provider) {
+
+                return $http.post(CONSTANTS.URLS.PROVIDER, provider).then(function(resp) {
+                    if (resp.status == 201) {
+                        // provider created
+                        return resp.data;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log("failed to create provider: " + provider.person.display + JSON.stringify(error, undefined, 4));
+                });
+            };
+
         }])
     .controller('ImportChwController', ['$q', '$scope', 'ImportChwService', 'ngDialog',
         function($q, $scope, ImportChwService, ngDialog) {
@@ -167,9 +181,9 @@ angular.module('importChwApp', ['ngDialog'])
 
             $scope.importChw = function(chw, showDialog){
 
-                var provider ={};
-                provider.person = null;
-                provider.identifier = null;
+                var newProvider ={};
+                newProvider.person = null;
+                newProvider.identifier = null;
 
                 ImportChwService.getProvider(chw).then( function (provider) {
                     console.log("provider = " + provider.results.length);
@@ -179,15 +193,23 @@ angular.module('importChwApp', ['ngDialog'])
                         ImportChwService.createPerson(chw).then( function (person) {
                             console.log("person created: " + person);
                             if (person) {
-                                provider.person = person;
+                                newProvider.person = person.uuid;
                             }
 
                             ImportChwService.getNextIdentifier(chw).then( function (identifier) {
                                 console.log("identifier = " + identifier);
                                 if (identifier ) {
                                     //create provider record
-                                    provider.identifier = identifier;
-                                    console.log("provider = " + provider);
+                                    newProvider.identifier = identifier;
+                                    ImportChwService.createProvider(newProvider).then( function (respProvider) {
+                                        if (respProvider) {
+                                            console.log("newProvider has been created = " + respProvider);
+                                        }
+                                    }, function (providerError) {
+                                        console.log("failed to create provider record");
+                                    });
+                                } else {
+                                    console.log("failed to generate identifier");
                                 }
                             }, function(identifierError) {
                                 console.log("failed to generate Identifier");
