@@ -23,8 +23,6 @@ CREATE TABLE rpt_ic3_indicators (
   indicator_value NUMERIC default NULL
   );
 
-select * from rpt_ic3_indicators;
-
 
 /* 
 	IC3-M1
@@ -135,16 +133,22 @@ SELECT 'IC3-M9N', 'Proportion IC3 Clients currently enrolled with visit last 3m'
 FROM rpt_ic3_data_table
 WHERE 	(currentNcdState = "On treatment"
 		OR
-		currentHivState = "On antiretrovirals")
+		currentHivState = "On antiretrovirals"
+		OR
+		currentHivState = "Exposed Child (Continue)")
 AND 	lastIc3Visit >= DATE_ADD(@endDate,INTERVAL -91 DAY)
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M9D';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-M9D', 'Proportion IC3 Clients currently enrolled with visit last 3m', 'At date', indicator_value
-FROM rpt_ic3_indicators
-WHERE 	indicator = 'IC3-M3'
+SELECT 'IC3-M9D', 'Proportion IC3 Clients currently enrolled with visit last 3m', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	(currentNcdState = "On treatment"
+		OR
+		currentHivState = "On antiretrovirals"
+		OR
+		currentHivState = "Exposed Child (Continue)")
 ;
 
 /*
@@ -321,7 +325,6 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M17N', 'Proportion of Hypertension patients with Blood Pressure recorded in the last visit', 'Period', count(*)
 FROM rpt_ic3_data_table
 WHERE htnDx is NOT NULL
-AND lastNcdVisit >= @startDate 
 AND lastNcdVisit <= @endDate
 AND systolicBp is NOT NULL
 ;
@@ -332,7 +335,6 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M17D', 'Proportion of Hypertension patients with Blood Pressure recorded in the last visit', 'Period', count(*)
 FROM rpt_ic3_data_table
 WHERE htnDx is NOT NULL
-AND lastNcdVisit >= @startDate 
 AND lastNcdVisit <= @endDate
 ;
 
@@ -444,7 +446,6 @@ FROM rpt_ic3_data_table
 WHERE asthmaDx is NOT NULL
 AND currentNcdState = "On Treatment"
 AND asthmaClassification IS NOT NULL
-AND lastAsthmaVisitDate >= @startDate
 AND lastAsthmaVisitDate <= @endDate
 ;
 -- denominator
@@ -455,7 +456,6 @@ SELECT 'IC3-M22D', 'Proportion patients with asthma diagnosis with disease sever
 FROM rpt_ic3_data_table
 WHERE asthmaDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND lastAsthmaVisitDate >= @startDate
 AND lastAsthmaVisitDate <= @endDate
 ;
 
@@ -548,7 +548,7 @@ AND ablePerformDailyActivities IS NOT NULL
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M27';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-M27', 'ART client with Outcome - "On antiretroviral" AND NO visit last 3m', 'Period', count(*)
+SELECT 'IC3-M27', 'ART client with Outcome - "On antiretroviral" AND had visit last 3m', 'Period', count(*)
 FROM rpt_ic3_data_table
 WHERE lastArtVisit >= DATE_ADD(@endDate,INTERVAL -91 DAY)
 AND currentHivState = "On antiretrovirals"

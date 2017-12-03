@@ -3,12 +3,90 @@ angular.module('importChwApp', ['ngDialog'])
         function($q, $http) {
             var CONSTANTS = {
                 URLS: {
+                    PERSON: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/person",
                     PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/patient",
-                    VISIT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/visit",
-                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
-                    OBS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs"
-                }
+                    PROVIDER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider",
+                    IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource"
+                },
+                PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
+                PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))"
             };
+
+            var locationsMap = new Map([
+                ["Neno District Hospital", "NNO"],
+                ["Chifunga", "CFGA"],
+                ["Dambe" , "DMB"],
+                ["Lisungwi" , "LSI"]]);
+
+            this.getNextIdentifier = function (chw) {
+
+                var generateIdentifiers = {
+                    generateIdentifiers: true,
+                    comment: "new CHW ID",
+                    numberToGenerate: 1,
+                    sourceUuid: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d"
+                };
+
+                return $http.post(CONSTANTS.URLS.IDENTIFIER_SOURCE, generateIdentifiers).then(function(resp) {
+                    if (resp.status == 201) {
+                        // identifier generated
+                        if (resp.data && resp.data.identifiers && resp.data.identifiers.length > 0) {
+                            // one identifier has been generated
+                            return locationsMap.get(chw.healthCenter) + " " + resp.data.identifiers[0];
+                        }
+                        return null;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log("failed to generate identifier: " + JSON.stringify(error, undefined, 4));
+                });
+
+            };
+
+            this.getProvider = function (chw) {
+
+                return $http.get(CONSTANTS.URLS.PROVIDER + "?" 
+                    + CONSTANTS.PROVIDER_CUSTOM_REP + '&q=' 
+                    + chw.firstName + " " + chw.lastName).then(function(resp) {
+                    if (resp.status == 200) {
+                        return resp.data;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 4));
+                });
+            };
+            
+            this.createPerson = function (chw) {
+                var person = {
+                    gender: chw.gender,
+                    //age: chw.age, not reliable information at this time
+                    names: [{
+                        givenName: chw.firstName,
+                        familyName: chw.lastName
+                    }],
+                    addresses: [{
+                        preferred: true,
+                        stateProvince: chw.district,
+                        countyDistrict: chw.ta,
+                        cityVillage: chw.village
+                    }]
+                };
+
+                return $http.post(CONSTANTS.URLS.PERSON, person).then(function(resp) {
+                    if (resp.status == 201) {
+                        // person created
+                        return resp.data;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log("failed to create person: " + chw.firstName + " " + chw.lastName + JSON.stringify(error, undefined, 4));
+                });
+            };
+
         }])
     .controller('ImportChwController', ['$q', '$scope', 'ImportChwService', 'ngDialog',
         function($q, $scope, ImportChwService, ngDialog) {
@@ -18,6 +96,8 @@ angular.module('importChwApp', ['ngDialog'])
             $scope.chwContent = null;
             $scope.headerList = null;
             $scope.pendingImportChws = null;
+            $scope.chwList = [];
+
 
 
             // This will parse a delimited string into an array of
@@ -83,8 +163,45 @@ angular.module('importChwApp', ['ngDialog'])
                 }
                     // Return the parsed data.
                     return( arrData );
-            }
+            };
 
+            $scope.importChw = function(chw, showDialog){
+
+                var provider ={};
+                provider.person = null;
+                provider.identifier = null;
+
+                ImportChwService.getProvider(chw).then( function (provider) {
+                    console.log("provider = " + provider.results.length);
+                    if (provider.results.length == 0 ) {
+                        //no provider found
+                        // create person
+                        ImportChwService.createPerson(chw).then( function (person) {
+                            console.log("person created: " + person);
+                            if (person) {
+                                provider.person = person;
+                            }
+
+                            ImportChwService.getNextIdentifier(chw).then( function (identifier) {
+                                console.log("identifier = " + identifier);
+                                if (identifier ) {
+                                    //create provider record
+                                    provider.identifier = identifier;
+                                    console.log("provider = " + provider);
+                                }
+                            }, function(identifierError) {
+                                console.log("failed to generate Identifier");
+                            } );
+                        }, function (personError) {
+                            console.log("failed to create person");
+                        })
+                    } else {
+                        console.log("provider already present in the system");
+                    }
+                }, function (error) {
+                    console.log("failed to find provider");
+                });
+            };
 
             $scope.showContent = function(fileContent){
                 $scope.errorMessage = null;
@@ -95,9 +212,26 @@ angular.module('importChwApp', ['ngDialog'])
                     $scope.headerList = arrayOfData[0];
                     $scope.pendingImportChws = arrayOfData.slice(1);
                 }
-                angular.forEach(arrayOfData, function(providerRecord) {
-                    console.log(providerRecord);
-                });
+                for (i = 0; i < $scope.pendingImportChws.length; i++) {
+                    var chwValues = $scope.pendingImportChws[i];
+                    if (chwValues.length ==  11) {
+                        var chwObj = {};
+
+                        chwObj.id = chwValues[0];
+                        chwObj.firstName = chwValues[1];
+                        chwObj.lastName = chwValues[2];
+                        chwObj.gender = chwValues[3];
+                        chwObj.age = chwValues[4];
+                        chwObj.healthCenter = chwValues[5];
+                        chwObj.district = chwValues[6];
+                        chwObj.ta = chwValues[7];
+                        chwObj.gvh = chwValues[8];
+                        chwObj.village = chwValues[9];
+                        chwObj.seniorChw = chwValues[10];
+
+                        $scope.chwList.push(chwObj);
+                    }
+                }
             };
 
             $scope.importChwFile = function() {

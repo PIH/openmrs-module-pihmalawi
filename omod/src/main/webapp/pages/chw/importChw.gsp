@@ -46,12 +46,24 @@
             <thead>
             <tr>
                 <th ng-repeat="columnName in headerList">{{ columnName }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="chw in pendingImportChws">
-                <td ng-repeat="value in chw">
-                    {{ value }}
+            <tr ng-repeat="chw in chwList">
+                <td>{{ chw.id }} </td>
+                <td>{{ chw.firstName }} </td>
+                <td>{{ chw.lastName }} </td>
+                <td>{{ chw.gender }} </td>
+                <td>{{ chw.age }} </td>
+                <td>{{ chw.healthCenter }} </td>
+                <td>{{ chw.district }} </td>
+                <td>{{ chw.ta }} </td>
+                <td>{{ chw.gvh }} </td>
+                <td>{{ chw.village }} </td>
+                <td>{{ chw.seniorChw }} </td>
+                <td>
+                    <button type="button" ng-click="importChw(chw, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
