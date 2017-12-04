@@ -11,6 +11,7 @@ angular.module('importChwApp', ['ngDialog'])
                 },
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
                 PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
+                CHW_IDENTIFIER_SOURCE: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d",
                 CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
             };
 
@@ -18,7 +19,20 @@ angular.module('importChwApp', ['ngDialog'])
                 ["Neno District Hospital", "NNO"],
                 ["Chifunga", "CFGA"],
                 ["Dambe" , "DAM"],
-                ["Lisungwi" , "LSI"]]);
+                ["Lisungwi" , "LSI"],
+                ["Luwani" , "LWAN"],
+                ["Nsambe" , "NSM"],
+                ["Ligowe" , "LGWE"],
+                ["Matandani" , "MTDN"],
+                ["Magaleta" , "MGT"],
+                ["Neno Parish" , "NOP"],
+                ["Matope" , "MTE"],
+                ["Zalewa" , "ZLA"],
+                ["Nkula" , "NKA"],
+                ["Midzemba" , "MIHC"]
+            ]);
+
+            this.CONSTANTS = CONSTANTS;
 
             this.getNextIdentifier = function (chw) {
 
@@ -26,7 +40,7 @@ angular.module('importChwApp', ['ngDialog'])
                     generateIdentifiers: true,
                     comment: "new CHW ID",
                     numberToGenerate: 1,
-                    sourceUuid: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d"
+                    sourceUuid: CONSTANTS.CHW_IDENTIFIER_SOURCE
                 };
 
                 return $http.post(CONSTANTS.URLS.IDENTIFIER_SOURCE, generateIdentifiers).then(function(resp) {
@@ -50,7 +64,7 @@ angular.module('importChwApp', ['ngDialog'])
                 return $http.get(CONSTANTS.URLS.PROVIDERMANAGEMENT_ROLE
                     + "?person=" + providerWithRole.person
                     + "&identifier=" + providerWithRole.identifier
-                    + "providerRole=" + providerWithRole.providerRole).then(function(resp) {
+                    + "&providerRole=" + providerWithRole.providerRole).then(function(resp) {
                     if (resp.status == 200) {
                         return resp.data;
                     } else {
@@ -78,7 +92,7 @@ angular.module('importChwApp', ['ngDialog'])
             
             this.createPerson = function (chw) {
                 var person = {
-                    gender: chw.gender,
+                    gender: chw.gender ? chw.gender : "UNKNOWN",
                     //age: chw.age, not reliable information at this time
                     names: [{
                         givenName: chw.firstName,
@@ -197,7 +211,7 @@ angular.module('importChwApp', ['ngDialog'])
             };
 
             $scope.importChw = function(chw, showDialog){
-                
+
                 var newProvider ={};
                 newProvider.person = null;
                 newProvider.identifier = null;
@@ -213,15 +227,16 @@ angular.module('importChwApp', ['ngDialog'])
                             if (person) {
                                 newProvider.person = person.uuid;
                             }
-
                             ImportChwService.getNextIdentifier(chw).then( function (identifier) {
                                 console.log("identifier = " + identifier);
                                 if (identifier ) {
                                     //create provider record
                                     newProvider.identifier = identifier;
                                     ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
-                                        if (respProvider) {
+                                        if (respProvider && respProvider.success === "true") {
                                             console.log("newProvider has been created = " + respProvider);
+                                        } else {
+                                            console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
                                         }
                                     }, function (providerError) {
                                         console.log("failed to create provider record");
