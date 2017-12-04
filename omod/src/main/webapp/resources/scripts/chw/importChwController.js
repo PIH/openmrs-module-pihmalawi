@@ -6,16 +6,18 @@ angular.module('importChwApp', ['ngDialog'])
                     PERSON: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/person",
                     PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/patient",
                     PROVIDER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider",
+                    PROVIDERMANAGEMENT_ROLE: "/" + OPENMRS_CONTEXT_PATH + "/providermanagement/providerEdit/assignProviderRoleToPerson.action",
                     IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource"
                 },
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
-                PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))"
+                PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
+                CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
             };
 
             var locationsMap = new Map([
                 ["Neno District Hospital", "NNO"],
                 ["Chifunga", "CFGA"],
-                ["Dambe" , "DMB"],
+                ["Dambe" , "DAM"],
                 ["Lisungwi" , "LSI"]]);
 
             this.getNextIdentifier = function (chw) {
@@ -42,6 +44,21 @@ angular.module('importChwApp', ['ngDialog'])
                     console.log("failed to generate identifier: " + JSON.stringify(error, undefined, 4));
                 });
 
+            };
+
+            this.createProviderWithRole = function (providerWithRole) {
+                return $http.get(CONSTANTS.URLS.PROVIDERMANAGEMENT_ROLE
+                    + "?person=" + providerWithRole.person
+                    + "&identifier=" + providerWithRole.identifier
+                    + "providerRole=" + providerWithRole.providerRole).then(function(resp) {
+                    if (resp.status == 200) {
+                        return resp.data;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 4));
+                });
             };
 
             this.getProvider = function (chw) {
@@ -180,10 +197,11 @@ angular.module('importChwApp', ['ngDialog'])
             };
 
             $scope.importChw = function(chw, showDialog){
-
+                
                 var newProvider ={};
                 newProvider.person = null;
                 newProvider.identifier = null;
+                newProvider.providerRole = ImportChwService.CONSTANTS.CHW_PROVIDER_ROLE;
 
                 ImportChwService.getProvider(chw).then( function (provider) {
                     console.log("provider = " + provider.results.length);
@@ -201,7 +219,7 @@ angular.module('importChwApp', ['ngDialog'])
                                 if (identifier ) {
                                     //create provider record
                                     newProvider.identifier = identifier;
-                                    ImportChwService.createProvider(newProvider).then( function (respProvider) {
+                                    ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
                                         if (respProvider) {
                                             console.log("newProvider has been created = " + respProvider);
                                         }
