@@ -41,7 +41,7 @@
 
     <div ng-if="headerList && headerList.length != 0">
         <h3>${ ui.message("List of CHWs") }</h3>
-        <button type="button" class="confirm" ng-click="importChwFile()">${ ui.message("Import All") }</button>
+        <button type="button" class="confirm" ng-click="importAllChw()">${ ui.message("Import All") }</button>
         <table id="list-chws" cellspacing="0" cellpadding="2">
             <thead>
             <tr>
@@ -52,6 +52,11 @@
             <tbody>
             <tr ng-repeat="chw in chwList">
                 <td>{{ chw.id }} </td>
+                <td>
+                    <a ng-show="chw.identifier" ng-click="goToProviderPage(chw)">
+                        {{ chw.identifier }}
+                    </a>
+                </td>
                 <td>{{ chw.firstName }} </td>
                 <td>{{ chw.lastName }} </td>
                 <td>{{ chw.gender }} </td>
@@ -73,11 +78,7 @@
     <h1>${ ui.message("Select file that contains CHW records") }:</h1>
     <input type="file" on-read-file="showContent(fileContent)" />
     <br>
-    <div ng-if="content && !errorMessage">
-        <br>
-        <br>
-        <pre>{{ content }}</pre>
-    </div>
+
 
 </div>
 

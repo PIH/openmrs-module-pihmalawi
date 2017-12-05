@@ -6,30 +6,41 @@ angular.module('importChwApp', ['ngDialog'])
                     PERSON: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/person",
                     PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/patient",
                     PROVIDER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider",
+                    PROVIDER_ATTRIBUTE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider/{UUID}/attribute",
                     PROVIDERMANAGEMENT_ROLE: "/" + OPENMRS_CONTEXT_PATH + "/providermanagement/providerEdit/assignProviderRoleToPerson.action",
                     IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource"
                 },
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
                 PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
                 CHW_IDENTIFIER_SOURCE: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d",
-                CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
+                PROVIDER_ROLES: {
+                    CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
+                },
+                PROVIDER_ATTRIBUTES: {
+                    HEALTH_FACILITY: "94047146-7918-4927-9401-F4284A10C7FD"
+                }
             };
 
+            var testMap = new Map([
+                ["Neno District Hospital", {code: "NNO", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e"}],
+                ["Chifunga", { code: "CFGA", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e" }]
+            ]);
+
             var locationsMap = new Map([
-                ["Neno District Hospital", "NNO"],
-                ["Chifunga", "CFGA"],
-                ["Dambe" , "DAM"],
-                ["Lisungwi" , "LSI"],
-                ["Luwani" , "LWAN"],
-                ["Nsambe" , "NSM"],
-                ["Ligowe" , "LGWE"],
-                ["Matandani" , "MTDN"],
-                ["Magaleta" , "MGT"],
-                ["Neno Parish" , "NOP"],
-                ["Matope" , "MTE"],
-                ["Zalewa" , "ZLA"],
-                ["Nkula" , "NKA"],
-                ["Midzemba" , "MIHC"]
+                ["Neno District Hospital", {code: "NNO", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e"}],
+                ["Chifunga", { code: "CFGA", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Dambe" , { code: "DAM", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef" } ],
+                ["Lisungwi" , { code: "LSI", uuid: "0d416376-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Luwani" , { code: "LWAN", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Nsambe" , { code: "NSM", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Ligowe" , { code: "LGWE", uuid: "0d417e38-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Matandani" , { code: "MTDN", uuid: "0d415200-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Magaleta" , { code: "MGT", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Neno Parish" , { code: "NOP", uuid: "ca86238f-eab4-4c55-b244-2a8c82e86ecd" }],
+                ["Matope" , { code: "MTE", uuid: "0d416b3c-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Zalewa" , { code: "ZLA", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Nkula" , { code: "NKA", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e" }],
+                ["Midzemba" , { code: "MIHC", uuid: "0d4182e8-5ab4-11e0-870c-9f6107fee88e" }]
             ]);
 
             this.CONSTANTS = CONSTANTS;
@@ -48,7 +59,7 @@ angular.module('importChwApp', ['ngDialog'])
                         // identifier generated
                         if (resp.data && resp.data.identifiers && resp.data.identifiers.length > 0) {
                             // one identifier has been generated
-                            return locationsMap.get(chw.healthCenter) + " " + resp.data.identifiers[0];
+                            return locationsMap.get(chw.healthCenter).code + " " + resp.data.identifiers[0];
                         }
                         return null;
                     } else {
@@ -75,8 +86,31 @@ angular.module('importChwApp', ['ngDialog'])
                 });
             };
 
-            this.getProvider = function (chw) {
+            this.addHealthFacility = function (provider, chw) {
+                if (provider && chw.healthCenter) {
+                    var location = locationsMap.get(chw.healthCenter);
+                    if (location) {
+                        var attribute = {
+                            attributeType: CONSTANTS.PROVIDER_ATTRIBUTES.HEALTH_FACILITY,
+                            value: location.uuid
+                        };
+                        var url = CONSTANTS.URLS.PROVIDER + "/" + provider.uuid + "/attribute";
+                        return $http.post(url, attribute).then(function(resp) {
+                            if (resp.status == 201) {
+                                // provider attribute has been created
+                                return resp.data;
+                            } else {
+                                return null;
+                            }
+                        }, function (error) {
+                            console.log("failed to create provider attribute: "
+                                + chw.healthCenter + JSON.stringify(error, undefined, 4));
+                        });
+                    }
+                }
+            }
 
+            this.getProvider = function (chw) {
                 return $http.get(CONSTANTS.URLS.PROVIDER + "?" 
                     + CONSTANTS.PROVIDER_CUSTOM_REP + '&q=' 
                     + chw.firstName + " " + chw.lastName).then(function(resp) {
@@ -148,7 +182,7 @@ angular.module('importChwApp', ['ngDialog'])
             // This will parse a delimited string into an array of
             // arrays. The default delimiter is the comma, but this
             // can be overriden in the second argument.
-            $scope.CSVToArray = function(strData, strDelimiter) {
+            function CSVToArray (strData, strDelimiter) {
 
                             // Check to see if the delimiter is defined. If not,
                             // then default to comma.
@@ -210,15 +244,16 @@ angular.module('importChwApp', ['ngDialog'])
                     return( arrData );
             };
 
-            $scope.importChw = function(chw, showDialog){
+            function importChwRecord(chw) {
 
+                var deferred = $q.defer();
+                
                 var newProvider ={};
                 newProvider.person = null;
                 newProvider.identifier = null;
-                newProvider.providerRole = ImportChwService.CONSTANTS.CHW_PROVIDER_ROLE;
+                newProvider.providerRole = ImportChwService.CONSTANTS.PROVIDER_ROLES.CHW_PROVIDER_ROLE;
 
                 ImportChwService.getProvider(chw).then( function (provider) {
-                    console.log("provider = " + provider.results.length);
                     if (provider.results.length == 0 ) {
                         //no provider found
                         // create person
@@ -228,72 +263,114 @@ angular.module('importChwApp', ['ngDialog'])
                                 newProvider.person = person.uuid;
                             }
                             ImportChwService.getNextIdentifier(chw).then( function (identifier) {
-                                console.log("identifier = " + identifier);
                                 if (identifier ) {
                                     //create provider record
                                     newProvider.identifier = identifier;
                                     ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
                                         if (respProvider && respProvider.success === "true") {
                                             console.log("newProvider has been created = " + respProvider);
+                                            chw.identifier = respProvider.identifier;
+                                            ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
+                                                deferred.resolve(newProvider);
+                                            }, function(errorHC) {
+                                                console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
+                                                deferred.reject(errorHC);
+                                            });
                                         } else {
                                             console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
+                                            deferred.reject(respProvider);
                                         }
                                     }, function (providerError) {
                                         console.log("failed to create provider record");
+                                        deferred.reject(providerError);
                                     });
                                 } else {
                                     console.log("failed to generate identifier");
+                                    deferred.reject("failed to generate identifier");
                                 }
                             }, function(identifierError) {
                                 console.log("failed to generate Identifier");
+                                deferred.reject(identifierError);
                             } );
                         }, function (personError) {
                             console.log("failed to create person");
+                            deferred.reject(personError);
                         })
                     } else {
-                        console.log("provider already present in the system");
+                        console.log("provider already present in the system: " + provider.results[0].identifier);
+                        newProvider.identifier = provider.results[0].identifier;
+                        chw.identifier = newProvider.identifier;
+                        deferred.resolve(newProvider);
                     }
                 }, function (error) {
                     console.log("failed to find provider");
+                    deferred.reject("search provider REST call failed");
                 });
+
+                return deferred.promise;
+            };
+
+            $scope.importChw = function(chw, showDialog){
+                importChwRecord(chw);
+            };
+
+            $scope.importAllChw = function(chw, showDialog){
+
+                if (angular.isDefined($scope.chwList) && $scope.chwList.length > 0) {
+                    var importedChws = [];
+
+                    $scope.chwList.reduce(function(p, val) {
+                        return p.then(function() {
+                            return importChwRecord(val).then(function(chwRecord) {
+                                importedChws.push(chwRecord);
+                            });
+                        });
+                    }, $q.when(true)).then(function(finalResult) {
+                        $scope.content = null;
+                    }, function(error) {
+                        $scope.content = null;
+                        $scope.errorMessage = JSON.stringify(error, undefined, 4);
+                    });
+                }
+
+            };
+
+            $scope.goToProviderPage = function(chw) {
+
             };
 
             $scope.showContent = function(fileContent){
                 $scope.errorMessage = null;
                 $scope.chwContent = fileContent;
                 $scope.content = $scope.chwContent;
-                var arrayOfData = $scope.CSVToArray($scope.chwContent);
+                var arrayOfData = CSVToArray($scope.chwContent);
                 if (arrayOfData.length > 0 ){
                     $scope.headerList = arrayOfData[0];
                     $scope.pendingImportChws = arrayOfData.slice(1);
                 }
                 for (i = 0; i < $scope.pendingImportChws.length; i++) {
                     var chwValues = $scope.pendingImportChws[i];
-                    if (chwValues.length ==  11) {
+                    if (chwValues.length ==  12) {
                         var chwObj = {};
 
                         chwObj.id = chwValues[0];
-                        chwObj.firstName = chwValues[1];
-                        chwObj.lastName = chwValues[2];
-                        chwObj.gender = chwValues[3];
-                        chwObj.age = chwValues[4];
-                        chwObj.healthCenter = chwValues[5];
-                        chwObj.district = chwValues[6];
-                        chwObj.ta = chwValues[7];
-                        chwObj.gvh = chwValues[8];
-                        chwObj.village = chwValues[9];
-                        chwObj.seniorChw = chwValues[10];
+                        chwObj.identifier = chwValues[1];
+                        chwObj.firstName = chwValues[2];
+                        chwObj.lastName = chwValues[3];
+                        chwObj.gender = chwValues[4];
+                        chwObj.age = chwValues[5];
+                        chwObj.healthCenter = chwValues[6];
+                        chwObj.district = chwValues[7];
+                        chwObj.ta = chwValues[8];
+                        chwObj.gvh = chwValues[9];
+                        chwObj.village = chwValues[10];
+                        chwObj.seniorChw = chwValues[11];
 
                         $scope.chwList.push(chwObj);
                     }
                 }
             };
-
-            $scope.importChwFile = function() {
-                if ($scope.chwContent) {
-                    console.log("Import CHWs");
-                }
-            }
+            
         }])
     .directive('onReadFile', function ($parse) {
         return {
