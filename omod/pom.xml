@@ -11,6 +11,11 @@
 	<name>PIH Malawi Customizations OMOD</name>
 	<description>OpenMRS module project for PIH Malawi Customizations</description>
 
+	<properties>
+		<gem.home>${basedir}/.rubygems</gem.home>
+		<gem.path>${basedir}/.rubygems</gem.path>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
@@ -29,6 +34,22 @@
             <artifactId>appui-omod</artifactId>
             <version>${appuiVersion}</version>
         </dependency>
+
+		<dependency>
+			<groupId>rubygems</groupId>
+			<artifactId>compass</artifactId>
+			<version>0.11.7</version>
+			<type>gem</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>rubygems</groupId>
+			<artifactId>sass</artifactId>
+			<version>3.2.5</version>
+			<type>gem</type>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
 	<build>
@@ -57,18 +78,86 @@
 			</resource>
 		</resources>
 
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<includeEmptyDirs>true</includeEmptyDirs>
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings
+                    only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.openmrs.maven.plugins</groupId>
+										<artifactId>maven-openmrs-plugin</artifactId>
+										<versionRange>[1.0.1,)</versionRange>
+										<goals>
+											<goal>initialize-module</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.4,)</versionRange>
+										<goals>
+											<goal>unpack-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.openmrs.maven.plugins</groupId>
 				<artifactId>maven-openmrs-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>init</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>initialize-module</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>pack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>package-module</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>Expand resources</id>
+						<id>Expand moduleApplicationContext and messages</id>
 						<goals>
 							<goal>unpack-dependencies</goal>
 						</goals>
@@ -76,17 +165,85 @@
 						<configuration>
 							<includeGroupIds>${project.parent.groupId}</includeGroupIds>
 							<includeArtifactIds>${project.parent.artifactId}-api</includeArtifactIds>
-							<includeScope>compile</includeScope>
-							<includes>**\/*.xml,**\/*.properties</includes>
+							<excludeTransitive>true</excludeTransitive>
+							<includes>**/*</includes>
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Fetch SASS sources from uicommons</id>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.openmrs.module</groupId>
+									<artifactId>uicommons-scss</artifactId>
+									<version>${uicommonsVersion}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>src/main/compass/sass-external</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>de.saumya.mojo</groupId>
+				<artifactId>gem-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<jrubyVersion>1.7.10</jrubyVersion>
+					<execArgs>${gem.home}/bin/compass compile ${basedir}/src/main/compass</execArgs>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
 	<profiles>
+		<profile>
+			<id>watch-sass</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>de.saumya.mojo</groupId>
+						<artifactId>gem-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<phase>generate-resources</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<includeGemsInResources>false</includeGemsInResources>
+							<jrubyVersion>1.7.10</jrubyVersion>
+							<execArgs>${gem.home}/bin/compass watch ${basedir}/src/main/compass</execArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>deploy-web</id>
 			<build>
