@@ -53,7 +53,7 @@
             <tr ng-repeat="chw in chwList">
                 <td>{{ chw.id }} </td>
                 <td>
-                    <a ng-show="chw.identifier" ng-click="goToProviderPage(chw)">
+                    <a ng-show="chw.identifier" href="{{providerPage}}{{chw.personId}}">
                         {{ chw.identifier }}
                     </a>
                 </td>
