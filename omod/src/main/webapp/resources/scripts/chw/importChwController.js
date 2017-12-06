@@ -8,10 +8,12 @@ angular.module('importChwApp', ['ngDialog'])
                     PROVIDER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider",
                     PROVIDER_ATTRIBUTE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider/{UUID}/attribute",
                     PROVIDERMANAGEMENT_ROLE: "/" + OPENMRS_CONTEXT_PATH + "/providermanagement/providerEdit/assignProviderRoleToPerson.action",
-                    IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource"
+                    IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource",
+                    PROVIDER_PAGE: "/" + OPENMRS_CONTEXT_PATH + "/coreapps/providermanagement/editProvider.page?personId=",
                 },
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
-                PROVIDER_CUSTOM_REP: "?v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
+                PROVIDER_CUSTOM_REP: "v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
+                PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
                 CHW_IDENTIFIER_SOURCE: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d",
                 PROVIDER_ROLES: {
                     CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
@@ -152,6 +154,19 @@ angular.module('importChwApp', ['ngDialog'])
                 });
             };
 
+            this.getPersonId = function (uuid) {
+                return $http.get(CONSTANTS.URLS.PERSON + "/" + uuid + "?"
+                    + CONSTANTS.PERSON_CUSTOM_REP ).then(function(resp) {
+                    if (resp.status == 200) {
+                        return resp.data;
+                    } else {
+                        return null;
+                    }
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 4));
+                });
+            };
+
             this.createProvider = function (provider) {
 
                 return $http.post(CONSTANTS.URLS.PROVIDER, provider).then(function(resp) {
@@ -171,6 +186,7 @@ angular.module('importChwApp', ['ngDialog'])
         function($q, $scope, ImportChwService, ngDialog) {
 
             $scope.content = null;
+            $scope.providerPage = ImportChwService.CONSTANTS.URLS.PROVIDER_PAGE;
             $scope.errorMessage = null;
             $scope.chwContent = null;
             $scope.headerList = null;
@@ -258,48 +274,56 @@ angular.module('importChwApp', ['ngDialog'])
                         //no provider found
                         // create person
                         ImportChwService.createPerson(chw).then( function (person) {
-                            console.log("person created: " + person);
                             if (person) {
                                 newProvider.person = person.uuid;
                             }
-                            ImportChwService.getNextIdentifier(chw).then( function (identifier) {
-                                if (identifier ) {
-                                    //create provider record
-                                    newProvider.identifier = identifier;
-                                    ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
-                                        if (respProvider && respProvider.success === "true") {
-                                            console.log("newProvider has been created = " + respProvider);
-                                            chw.identifier = respProvider.identifier;
-                                            ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
-                                                deferred.resolve(newProvider);
-                                            }, function(errorHC) {
-                                                console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
-                                                deferred.reject(errorHC);
-                                            });
-                                        } else {
-                                            console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
-                                            deferred.reject(respProvider);
-                                        }
-                                    }, function (providerError) {
-                                        console.log("failed to create provider record");
-                                        deferred.reject(providerError);
-                                    });
-                                } else {
-                                    console.log("failed to generate identifier");
-                                    deferred.reject("failed to generate identifier");
+                            ImportChwService.getPersonId(person.uuid).then( function(personId) {
+                                if(personId) {
+                                    chw.personId = personId.personId;
                                 }
-                            }, function(identifierError) {
-                                console.log("failed to generate Identifier");
-                                deferred.reject(identifierError);
-                            } );
+                                ImportChwService.getNextIdentifier(chw).then( function (identifier) {
+                                    if (identifier ) {
+                                        //create provider record
+                                        newProvider.identifier = identifier;
+                                        ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
+                                            if (respProvider && respProvider.success === "true") {
+                                                console.log("newProvider has been created = " + respProvider);
+                                                chw.identifier = respProvider.identifier;
+                                                ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
+                                                    deferred.resolve(newProvider);
+                                                }, function(errorHC) {
+                                                    console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
+                                                    deferred.reject(errorHC);
+                                                });
+                                            } else {
+                                                console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
+                                                deferred.reject(respProvider);
+                                            }
+                                        }, function (providerError) {
+                                            console.log("failed to create provider record");
+                                            deferred.reject(providerError);
+                                        });
+                                    } else {
+                                        console.log("failed to generate identifier");
+                                        deferred.reject("failed to generate identifier");
+                                    }
+                                }, function(identifierError) {
+                                    console.log("failed to generate Identifier");
+                                    deferred.reject(identifierError);
+                                } );
+                            }, function(personIdError){
+                                deferred.reject(personIdError);
+                            })
                         }, function (personError) {
                             console.log("failed to create person");
                             deferred.reject(personError);
                         })
                     } else {
-                        console.log("provider already present in the system: " + provider.results[0].identifier);
-                        newProvider.identifier = provider.results[0].identifier;
+                        var omrsProvider = provider.results[0];
+                        console.log("provider already present in the system: " + omrsProvider.identifier);
+                        newProvider.identifier = omrsProvider.identifier;
                         chw.identifier = newProvider.identifier;
+                        chw.personId = omrsProvider.person.personId;
                         deferred.resolve(newProvider);
                     }
                 }, function (error) {
@@ -336,7 +360,9 @@ angular.module('importChwApp', ['ngDialog'])
             };
 
             $scope.goToProviderPage = function(chw) {
-
+                if (chw.personId) {
+                    window.location.href = $scope.providerPage + chw.personId;
+                }
             };
 
             $scope.showContent = function(fileContent){
@@ -365,7 +391,7 @@ angular.module('importChwApp', ['ngDialog'])
                         chwObj.gvh = chwValues[9];
                         chwObj.village = chwValues[10];
                         chwObj.seniorChw = chwValues[11];
-
+                        chwObj.personId = 0;
                         $scope.chwList.push(chwObj);
                     }
                 }
