@@ -13,6 +13,7 @@ import org.openmrs.module.coreapps.customdatatype.CodedConceptDatatype;
 import org.openmrs.module.coreapps.customdatatype.LocationDatatype;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChwManagementConcepts;
 import org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,9 +38,6 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
         public static final String DATE_HIRED  = "c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb";
         public static final String HH_MODEL_TEST  = "C0E1F105-DD36-4577-B00E-87A08D446A3A";
         public static final String HEALTH_FACILITY  = "94047146-7918-4927-9401-F4284A10C7FD";
-
-        public static final String HH_MODEL_TEST_CONCEPT  = "0E483511-6278-4D1A-881A-6385C223FAC7";
-
 
     }
     /**
@@ -82,7 +80,7 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
         }
 
 
-        Concept hhTestConcept = conceptService.getConceptByUuid(ProviderAttributeTypes.HH_MODEL_TEST_CONCEPT);
+        Concept hhTestConcept = conceptService.getConceptByUuid(ChwManagementConcepts.HH_MODEL_TEST_CONCEPT);
         Integer hhTestConceptId = null;
         if (hhTestConcept != null) {
             hhTestConceptId = hhTestConcept.getConceptId();
