@@ -86,18 +86,17 @@ public class ProviderAttributeTypeBundle extends AbstractMetadataBundle {
         Integer hhTestConceptId = null;
         if (hhTestConcept != null) {
             hhTestConceptId = hhTestConcept.getConceptId();
+            
+            install(providerAttributeType(
+                    "Passed HH Test",
+                    "Passed HH Test",
+                    CodedConceptDatatype.class,
+                    hhTestConceptId.toString(),
+                    0,
+                    1,
+                    ProviderAttributeTypes.HH_MODEL_TEST));
+
         }
-
-        install(providerAttributeType(
-                "Passed HH Test",
-                "Passed HH Test",
-                CodedConceptDatatype.class,
-                hhTestConceptId.toString(),
-                0,
-                1,
-                ProviderAttributeTypes.HH_MODEL_TEST));
-
-
         install(providerAttributeType(
                 PihMalawiConstants.HEALTH_FACILITY_GP_VALUE,
                 PihMalawiConstants.HEALTH_FACILITY_GP_VALUE,
