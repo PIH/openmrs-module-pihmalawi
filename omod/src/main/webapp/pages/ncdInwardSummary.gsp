@@ -303,133 +303,131 @@
     </table>
 
     <br/>
-    <div class="section-divider-top">
-        <br/>
+    <div class="section-divider-top"></div>
+    <br/>
 
-        <div class="top-section-title">Known Diagnoses</div>
+    <div class="top-section-title">Known Diagnoses</div>
 
-        <table id="diagnosisTable" style="text-align: left;">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Diagnosis Date</th>
-                    <th>First Visit Date</th>
-                    <th>Last Visit Date</th>
-                    <th>Program Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% diagnosisSections.each { diagnosisSection -> %>
-                    <% if (!diagnosisSection.getRows().isEmpty()) { %>
-                        <% diagnosisSection.rows.each { row -> %>
-                            <tr>
-                                <td>${ui.format(row.diagnosis)}</td>
-                                <td>${ui.format(row.diagnosisDate)}</td>
-                                <td>${ui.format(diagnosisSection.earliestEncounterDate)}</td>
-                                <td>${ui.format(diagnosisSection.latestEncounterDate)}</td>
-                                <td>${ui.format(ccTxStatus)} since ${ui.format(ccTxStatusDate)} </td>
-                            </tr>
-                        <% } %>
+    <table id="diagnosisTable" style="text-align: left;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Diagnosis Date</th>
+                <th>First Visit Date</th>
+                <th>Last Visit Date</th>
+                <th>Program Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% diagnosisSections.each { diagnosisSection -> %>
+                <% if (!diagnosisSection.getRows().isEmpty()) { %>
+                    <% diagnosisSection.rows.each { row -> %>
+                        <tr>
+                            <td>${ui.format(row.diagnosis)}</td>
+                            <td>${ui.format(row.diagnosisDate)}</td>
+                            <td>${ui.format(diagnosisSection.earliestEncounterDate)}</td>
+                            <td>${ui.format(diagnosisSection.latestEncounterDate)}</td>
+                            <td>${ui.format(ccTxStatus)} since ${ui.format(ccTxStatusDate)} </td>
+                        </tr>
                     <% } %>
                 <% } %>
-                <% if (hivTxStatus) { %>
-                    <tr>
-                        <td>HIV</td>
-                        <td>${ui.format(hivEnrollmentDate)}</td>
-                        <td>${ui.format(hivFirstVisitDate)}</td>
-                        <td>${ui.format(hivLastVisitDate)}</td>
-                        <td>${ ui.format(hivTxStatus) } since ${ui.format(hivTxStatusDate)}</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+            <% } %>
+            <% if (hivTxStatus) { %>
+                <tr>
+                    <td>HIV</td>
+                    <td>${ui.format(hivEnrollmentDate)}</td>
+                    <td>${ui.format(hivFirstVisitDate)}</td>
+                    <td>${ui.format(hivLastVisitDate)}</td>
+                    <td>${ ui.format(hivTxStatus) } since ${ui.format(hivTxStatusDate)}</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
 
-    <div class="section-divider-top">
-        <br/>
-        <div>
-            <table id="diagnosisDetailTable">
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <% int htnDiaCols = 0;
-                            if (htnSection != null) {
-                                htnDiaCols++; %>
-                                <td class="diagnosisSection">
-                                    ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: htnSection])}
-                                </td>
-                            <% } %>
-                            <% if (diabetesSection != null) {
-                                htnDiaCols++; %>
-                                <td class="diagnosisSection">
-                                    ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: diabetesSection])}
-                                </td>
-                            <% } %>
-                            <% if (epilepsySection != null) { %>
-                                <td class="diagnosisSection">
-                                    ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: epilepsySection])}
-                                </td>
-                            <% } %>
-                            <% if (asthmaSection != null) { %>
-                                <td class="diagnosisSection">
-                                    ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: asthmaSection])}
-                                </td>
-                            <% } %>
-                            <% if (mhSection != null) { %>
-                                <td class="diagnosisSection">
-                                    ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: mhSection])}
-                                </td>
-                            <% } %>
-                        </tr>
-                    </table>
-                    <br/>
-                    <table style="width:100%;">
-                        <tr>
-                            <% if (htnDiaCols > 0) { %>
-                            <td style="border:1px solid black; width:50%;" colspan="${htnDiaCols}">
-                                <div class="top-section-title">Blood Pressure & Blood Glucose History</div>
-                                <table class="bpTable">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2">Date</th>
-                                            <th colspan="2">Blood Pressure</th>
-                                            <th colspan="2">Blood Sugar (mg/dl)</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Systol</th>
-                                            <th>Diastol</th>
-                                            <th>FBS</th>
-                                            <th>RBS</th>
-                                        </tr>
-                                    </thead>
-                                    <% bpTable.each { row -> %>
-                                    <tr>
-                                        <td>${ui.format(row.key)}</td>
-                                        <td>${ui.format(row.value['sbp'])}</td>
-                                        <td>${ui.format(row.value['dbp'])}</td>
-                                        <td>${ui.format(row.value['bst']) == 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
-                                        <td>${ui.format(row.value['bst']) != 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (bpTable.isEmpty()) { %>
-                                        <td colspan="5">None</td>
-                                    <% } %>
-                                </table>
+    <div class="section-divider-top"></div>
+    <br/>
+    <div>
+        <table id="diagnosisDetailTable">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <% int htnDiaCols = 0;
+                        if (htnSection != null) {
+                            htnDiaCols++; %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: htnSection])}
                             </td>
-                            <% } %>
-                            <% if (epilepsySection != null) { %>
-                                <td style="border:1px solid black; width:50%" class="nowrap">
-                                    <div class="top-section-title">Seizure History</div>
-                                    <div id="seizure-graph"></div>
-                                </td>
-                            <% } %>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        </div>
+                        <% } %>
+                        <% if (diabetesSection != null) {
+                            htnDiaCols++; %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: diabetesSection])}
+                            </td>
+                        <% } %>
+                        <% if (epilepsySection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: epilepsySection])}
+                            </td>
+                        <% } %>
+                        <% if (asthmaSection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: asthmaSection])}
+                            </td>
+                        <% } %>
+                        <% if (mhSection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: mhSection])}
+                            </td>
+                        <% } %>
+                    </tr>
+                </table>
+                <br/>
+                <table style="width:100%;">
+                    <tr>
+                        <% if (htnDiaCols > 0) { %>
+                        <td style="border:1px solid black; width:50%;" colspan="${htnDiaCols}">
+                            <div class="top-section-title">Blood Pressure & Blood Glucose History</div>
+                            <table class="bpTable">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Date</th>
+                                        <th colspan="2">Blood Pressure</th>
+                                        <th colspan="2">Blood Sugar (mg/dl)</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Systol</th>
+                                        <th>Diastol</th>
+                                        <th>FBS</th>
+                                        <th>RBS</th>
+                                    </tr>
+                                </thead>
+                                <% bpTable.each { row -> %>
+                                <tr>
+                                    <td>${ui.format(row.key)}</td>
+                                    <td>${ui.format(row.value['sbp'])}</td>
+                                    <td>${ui.format(row.value['dbp'])}</td>
+                                    <td>${ui.format(row.value['bst']) == 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                    <td>${ui.format(row.value['bst']) != 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                </tr>
+                                <% } %>
+                                <% if (bpTable.isEmpty()) { %>
+                                    <td colspan="5">None</td>
+                                <% } %>
+                            </table>
+                        </td>
+                        <% } %>
+                        <% if (epilepsySection != null) { %>
+                            <td style="border:1px solid black; width:50%" class="nowrap">
+                                <div class="top-section-title">Seizure History</div>
+                                <div id="seizure-graph"></div>
+                            </td>
+                        <% } %>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
     </div>
 
     <div class="section-divider-top">
