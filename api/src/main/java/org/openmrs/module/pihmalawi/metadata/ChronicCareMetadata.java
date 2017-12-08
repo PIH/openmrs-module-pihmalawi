@@ -209,6 +209,9 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT = "Age of hypertension diagnosis";
 	public static final String CHRONIC_CARE_MEDICATION_CONCEPT_SET = "Chronic Care Medication Set";
 	public static final String HYPERTENSION_MEDICATION_CONCEPT_SET = "Hypertension Medication Set";
+	public static final String GLYCATED_HEMOGLOBIN_CONCEPT= "Glycated hemoglobin";
+	public static final String BLOOD_SUGAR_TEST_RESULT_CONCEPT = "Serum glucose";
+	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "Blood sugar test type";
 
 	public Concept getChronicCareDiagnosisConcept() {
 		return getConcept(CHRONIC_CARE_DIAGNOSIS);
@@ -304,4 +307,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public List<Concept> getHypertensionMedicationConcepts() {
 		return getConceptsInSet(HYPERTENSION_MEDICATION_CONCEPT_SET);
 	}
+
+	public Concept getGlycatedHemoglobinConcept() { return getConcept(GLYCATED_HEMOGLOBIN_CONCEPT); }
+
+    public Concept getBloodSugarTestResultConcept() { return getConcept(BLOOD_SUGAR_TEST_RESULT_CONCEPT); }
+
+    public Concept getBloodSugarTestTypeConcept() { return getConcept(BLOOD_SUGAR_TEST_TYPE_CONCEPT); }
 }

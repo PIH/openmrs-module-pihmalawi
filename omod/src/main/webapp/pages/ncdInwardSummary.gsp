@@ -9,6 +9,7 @@
         jq("#print-form-link").click(function(event) {
             window.print();
         });
+
         var weightData = [];
         var minWeight = null;
         var maxWeight = null;
@@ -28,6 +29,36 @@
             },
             grid: { hoverable: true }
         });
+
+        var seizureData = [];
+        var maxNumSeizures = 10;
+        var minSeizureTime = null;
+        var seizureTimeDiff = 1000*60*60*24*180;
+
+        // 12 days
+        <% seizures.each { seizure -> %>
+            var num = ${seizure.valueNumeric};
+            var seizureTime = ${seizure.obsDatetime.getTime()};
+            seizureData.push([seizureTime, num]);
+            minSeizureTime = (minSeizureTime == null || minSeizureTime > seizureTime ? seizureTime : minSeizureTime);
+            maxNumSeizures = (maxNumSeizures == null || maxNumSeizures < num ? num : maxNumSeizures);
+        <% } %>
+
+        minSeizureTime=minSeizureTime-seizureTimeDiff;
+        maxNumSeizures+=2;
+
+        jq.plot("#seizure-graph", [ { data: seizureData, color: "#333" } ], {
+            xaxis: { mode: "time", min: minSeizureTime, max: (new Date().getTime()+seizureTimeDiff) },
+            yaxis: { min: 0, max: maxNumSeizures, ticks: maxNumSeizures },
+            series: {
+                bars: {
+                    show: true,
+                    fill: true,
+                    lineWidth: 10
+                },
+            },
+            grid: { hoverable: true }
+        });
     } );
 </script>
 
@@ -42,6 +73,7 @@
     }
     table {
         border-collapse: separate;
+        width:unset;
     }
     td {
         vertical-align: top;
@@ -106,10 +138,13 @@
     .detail-table td {
         padding: 0px 20px 0px 0px;
     }
+    #identifier-section {
+        padding-left:20px;
+    }
     #weightsTable {
         white-space: nowrap;
         float: left;
-        width: 350px
+        width: 300px;
     }
     #weightsTable thead {
         display: block
@@ -120,7 +155,7 @@
     }
     #weightsTable tbody {
         display: block;
-        height: 262px;
+        height: 200px;
         overflow: auto;
         width: 100%
     }
@@ -140,12 +175,35 @@
     #weightsTable tbody td + td {
         width: 191px
     }
+    #diagnosisTable {
+        white-space: nowrap;
+        float: left;
+        width: 800px;
+    }
+    #diagnosisDetailTable {
+        white-space: nowrap;
+        float: left;
+    }
     .alert {
         font-weight:bold;
         color:red;
     }
     .toast-container {
         display:none;
+    }
+    .diagnosisHeading {
+        font-weight:bold;
+        text-decoration: underline;
+    }
+    .diagnosisSection {
+        border: 1px solid black;
+        width: 20%;
+    }
+    .bpTable {
+        width: 100%;
+    }
+    #seizure-graph {
+        width:100%; height:175px;
     }
 </style>
 
@@ -186,7 +244,7 @@
 
     <div class="header-section">
         <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
-        <span id="identifier-section">(${arvNumber ? arvNumber : hccNumber ? hccNumber : ccNumber ? ccNumber : "?"})
+        <span id="identifier-section">(${ccNumber ? ccNumber : arvNumber ? arvNumber : hccNumber ? hccNumber : "?"})
     </div>
 
 
@@ -214,8 +272,8 @@
                 </span></br>
                 <span class="question">Last weight:</span>
                 <span class="value">
-                    <% if (lastWeight) { %>
-                    ${ lastWeight.valueNumeric } kg on ${ui.format(lastWeight.obsDatetime)}
+                    <% if (weight) { %>
+                    ${ weight.valueNumeric } kg on ${ui.format(weight.obsDatetime)}
                     <% } else { %>
                     <span class="alert">No Weight Recorded</span>
                     <% } %>
@@ -243,330 +301,144 @@
         </tr>
         <tr><td colspan="3" class="section-divider-top"></td></tr>
         <tr>
-            <td colspan="3"><div class="top-section-title">Program Enrollments</div></td>
+            <td colspan="3"><div class="top-section-title">Known Diagnoses</div></td>
         <tr>
             <td colspan="3">
-                <span class="question">HIV:</span>
-                <span class="value">
-                    <% if (hivTxStatus) { %>
-                    ${ hivTxStatus }
-                        <% if (hivTxStatusDate) { %>
-                            on ${ ui.format(hivTxStatusDate) }
+                <table id="diagnosisTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Diagnosis Date</th>
+                            <th>First Visit Date</th>
+                            <th>Last Visit Date</th>
+                            <th>Program Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% diagnosisSections.each { diagnosisSection -> %>
+                            <% if (!diagnosisSection.getRows().isEmpty()) { %>
+                                <% diagnosisSection.rows.each { row -> %>
+                                    <tr>
+                                        <td>${ui.format(row.diagnosis)}</td>
+                                        <td>${ui.format(row.diagnosisDate)}</td>
+                                        <td>${ui.format(diagnosisSection.earliestEncounterDate)}</td>
+                                        <td>${ui.format(diagnosisSection.latestEncounterDate)}</td>
+                                        <td>${ui.format(ccTxStatus)} since ${ui.format(ccTxStatusDate)} </td>
+                                    </tr>
+                                <% } %>
+                            <% } %>
                         <% } %>
-                        (${ arvNumber ? arvNumber : hccNumber })
-                    <% } else { %>
-                    Never Enrolled
-                    <% } %>
-                </span>
-                <br/>
-                <span class="question">NCD:</span>
-                <span class="value">
-                    <% if (ccTxStatus) { %>
-                    ${ ccTxStatus } on ${ ui.format(ccTxStatusDate) } ( ${ ccNumber } )
-                    <% } else { %>
-                    Never Enrolled
-                    <% } %>
-                </span>
-                <br/>
-
-                <! Chronic Care Diagnoses Table -->
-                </br>
-                <table class="detail-table">
-                <tr>
-                    <td colspan="3"><b>Chronic Care Diagnoses:</b></td>
-                </tr>
-                <tr>
-                    <td class="first-column">
-                        <% if (asthmaDiagnosis) { %>
-                            ✔︎
-                    </td>
+                        <% if (hivTxStatus) { %>
+                            <tr>
+                                <td>HIV</td>
+                                <td>${ui.format(hivEnrollmentDate)}</td>
+                                <td>${ui.format(hivFirstVisitDate)}</td>
+                                <td>${ui.format(hivLastVisitDate)}</td>
+                                <td>${ ui.format(hivTxStatus) } since ${ui.format(hivTxStatusDate)}</td>
+                            </tr>
                         <% } %>
-                    <td class="second-column">Asthma</td>
-                    <td class="third-column"></td>
-                </tr>
-                <tr>
-                    <td class="first-column">
-                        <% if (copdDiagnosis) { %>
-                            ✔︎
-                    </td>
-                        <% } %>
-                    <td class="second-column">COPD</td>
-                    <td class="third-column"></td>
-                </tr>
-                <tr>
-                    <td class="first-column">
-                        <% if (dmDiagnosis) { %>
-                            ✔︎
-                    </td>
-                        <% } %>
-                    <td class="second-column">Diabetes</td>
-                    <td class="third-column"></td>
-                </tr>
-                <tr>
-                    <td class="first-column">
-                        <% if (epilepsyDiagnosis) { %>
-                            ✔︎
-                    </td>
-                        <% } %>
-                    <td class="second-column">Epilepsy</td>
-                    <td class="third-column"></td>
-                </tr>
-                <tr>
-                    <td class="first-column">
-                        <% if (htnDiagnosis) { %>
-                            ✔︎
-                    </td>
-                        <% } %>
-                    <td class="second-column">Hypertension</td>
-                    <td class="third-column"></td>
-                </tr>
+                    </tbody>
                 </table>
+                <br/>
             </td>
         </tr>
-        <tr><td colspan="3" class="section-divider-top"></td></tr>
     </table>
 
-    <table>
+    <div class="section-divider-top"></div>
 
+    <br/>
+
+    <table id="diagnosisDetailTable">
         <tr>
-            <td class="first-column">
-                <div class="top-section-title">Demographics</div>
-                <span class="question">Age:</span>
-                <span class="value"><% if (ageYears > 0) { %>${ ageYears } years<% } else { %>${ ageMonths } months <% } %></span>
-                <br/>
-                <span class="question">Gender:</span>
-                <span class="value">${ gender == 'M' ? "Male" : gender == 'F' ? "Female" : ""}</span>
-            </td>
-            <td class="second-column">
-                <div class="top-section-title">Program Enrollments</div>
-                <span class="question">HIV:</span>
-                <span class="value">
-                    <% if (hivTxStatus) { %>
-                    ${ hivTxStatus }
-                        <% if (hivTxStatusDate) { %>
-                            on ${ ui.format(hivTxStatusDate) }
-                        <% } %>
-                        (${ arvNumber ? arvNumber : hccNumber })
-                    <% } else { %>
-                    Never Enrolled
-                    <% } %>
-                </span>
-                <br/>
-                <span class="question">NCD:</span>
-                <span class="value">
-                    <% if (ccTxStatus) { %>
-                    ${ ccTxStatus } on ${ ui.format(ccTxStatusDate) } ( ${ ccNumber } )
-                    <% } else { %>
-                    Never Enrolled
-                    <% } %>
-                </span>
-            </td>
-            <td class="third-column">
-                <div class="top-section-title">ARV Regimens:</div>
-                <%  if (artRegimens != null && artRegimens.size() > 0) {
-                    Collections.reverse(artRegimens); %>
-                    <%  artRegimens.each { regimenObs -> %>
-                        <div>${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }</div>
-                    <% } %>
-                <% } else { %>
-                    <br/>
-                    None
-                <% } %>
-            </td>
-        </tr>
-
-        <tr><td colspan="3" class="section-divider-top"></td></tr>
-        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
-        <tr><td colspan="3" class="section-title">Past visits and appointments</td></tr>
-
-        <tr id="encounters-section">
-            <td class="first-column">Last 4 Encounters:</td>
-            <td class="second-column">
-                <table class="detail-table">
-            <%
-                    if (encounters != null) {
-                    Collections.reverse(encounters);
-                    def numToShow = encounters.size() > 4 ? 4 : encounters.size();
-                    for (def i=0; i<numToShow; i++) {
-                        def encounter = encounters.get(i);
-                %>
-                    <tr><td>${ ui.format(encounter.encounterDatetime) }</td><td style="width:100%;">${ ui.format(encounter.encounterType) }</td></tr>
-            <% }
-            } %>
-                </table>
-            </td>
-            <td class="third-column"></td>
-        </tr>
-
-        <tr><td colspan="3"></td></tr>
-
-        <tr id="appointments-section">
-            <td class="first-column">Appointments:</td>
-            <td class="second-column">
-                <table class="detail-table">
-
-                    <% for (def programName : appointmentStatuses.keySet()) {
-                        def appStatus = appointmentStatuses[programName];
-                        if (appStatus.currentlyEnrolled) {
-                            def appDate = appStatus.nextScheduledDate;
-                            def daysToApp = appStatus.daysToAppointment;
-                            def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
-                    %>
+            <td>
+                <table>
                     <tr>
-                        <td>${ programName }:</td>
-                        <td>${ ui.format(appDate) }</td>
-                        <td class="alert third-column">${ appAlert }</td>
+                        <% int htnDiaCols = 0;
+                        if (htnSection != null) {
+                            htnDiaCols++; %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: htnSection])}
+                            </td>
+                        <% } %>
+                        <% if (diabetesSection != null) {
+                            htnDiaCols++; %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: diabetesSection])}
+                            </td>
+                        <% } %>
+                        <% if (epilepsySection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: epilepsySection])}
+                            </td>
+                        <% } %>
+                        <% if (asthmaSection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: asthmaSection])}
+                            </td>
+                        <% } %>
+                        <% if (mhSection != null) { %>
+                            <td class="diagnosisSection">
+                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: mhSection])}
+                            </td>
+                        <% } %>
                     </tr>
-                    <% } %>
-                    <% } %>
+                </table>
+                <br/>
+                <table style="width:100%;">
+                    <tr>
+                        <% if (htnDiaCols > 0) { %>
+                        <td style="border:1px solid black; width:50%;" colspan="${htnDiaCols}">
+                            <div class="top-section-title">Blood Pressure & Blood Glucose History</div>
+                            <table class="bpTable">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Date</th>
+                                        <th colspan="2">Blood Pressure</th>
+                                        <th colspan="2">Blood Sugar (mg/dl)</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Systol</th>
+                                        <th>Diastol</th>
+                                        <th>FBS</th>
+                                        <th>RBS</th>
+                                    </tr>
+                                </thead>
+                                <% bpTable.each { row -> %>
+                                <tr>
+                                    <td>${ui.format(row.key)}</td>
+                                    <td>${ui.format(row.value['sbp'])}</td>
+                                    <td>${ui.format(row.value['dbp'])}</td>
+                                    <td>${ui.format(row.value['bst']) == 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                    <td>${ui.format(row.value['bst']) != 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                </tr>
+                                <% } %>
+                                <% if (bpTable.isEmpty()) { %>
+                                    <td colspan="5">None</td>
+                                <% } %>
+                            </table>
+                        </td>
+                        <% } %>
+                        <% if (epilepsySection != null) { %>
+                            <td style="border:1px solid black; width:50%" class="nowrap">
+                                <div class="top-section-title">Seizure History</div>
+                                <div id="seizure-graph"></div>
+                            </td>
+                        <% } %>
+                    </tr>
                 </table>
             </td>
-            <td class="third-column"></td>
         </tr>
-
-        <tr><td colspan="3" class="section-divider-top"></td></tr>
-        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
-
-        <% if (artStartDate != null) { %>
-            <tr><td class="section-title" colspan="2">ART Status at Initiation</td></tr>
-            <tr>
-                <td class="first-column">ART Initiation date</td>
-                <td class="second-column" colspan="2">${artStartDate ? ui.format(artStartDate) : '_____'}</td>
-            </tr>
-            <tr>
-                <td class="first-column">WHO clinical conditions</td>
-                <td class="second-column" colspan="2">${reasonConditions ? reasonConditions : '_____'}</td>
-            </tr>
-            <tr>
-                <td class="first-column">Clinical stage</td>
-                <td class="second-column" colspan="2">
-                    ${reasonStage ? reasonStage : ''}
-                    ${reasonPshd ? (reasonStage ? ' / PSHD' : 'PSHD') : ''}
-                </td>
-            </tr>
-            <tr>
-                <td class="first-column">TB Status at Initiation</td>
-                <td class="second-column" colspan="2">${reasonTb ? reasonTb : '_____'}</td>
-            </tr>
-            <tr>
-                <td class="first-column">CD4/TLC</td>
-                <td class="second-column" colspan="2">
-                    ${reasonCd4 ? reasonCd4 : '_____'} / ${reasonCd4Pct ? reasonCd4Pct : '_____'}%
-                    &nbsp;&nbsp;
-                    Date: ${reasonCd4Date ? ui.format(reasonCd4Date) : '_____'}
-                </td>
-            </tr>
-            <tr>
-                <td class="first-column">KS</td>
-                <td class="second-column" colspan="2">${reasonKs ? reasonKs : '_____'}</td>
-            </tr>
-            <tr>
-                <td class="first-column">Pregnant/Lactating</td>
-                <td class="second-column" colspan="2">${reasonPregnantLactating ? reasonPregnantLactating : '_____'}</td>
-            </tr>
-            <tr><td colspan="3" class="section-divider-top"></td></tr>
-            <tr><td colspan="3" class="section-divider-bottom"></td></tr>
-        <% } %>
-
-        <tr><td colspan="3" class="section-title">Most recent clinical data</td></tr>
-
-        <tr>
-            <td class="first-column">Last CD4:</td>
-            <td class="second-column">
-                <% if (cd4s && cd4s.size() > 0) { %>
-                    ${ cd4s.get(cd4s.size()-1).valueNumeric } on ${ui.format(cd4s.get(cd4s.size()-1).obsDatetime)}
-                <% } else { %>
-                    <span class="alert">No CD4 Recorded</span>
-                <% } %>
-            </td>
-            <td class="third-column"></td>
-        </tr>
-
-        <tr>
-            <td class="first-column">Last Viral Load:</td>
-            <td class="second-column">
-                <% if (lastViralLoadValue != null) { %>
-                ${ lastViralLoadValue } on ${ui.format(lastViralLoadDate)}
-                <% } else { %>
-                <span class="alert">No Viral Load Recorded</span>
-                <% } %>
-            </td>
-            <td class="third-column alert">
-                <% if (highViralLoad) { %>
-                    High Viral Load
-                <% } %>
-            </td>
-        </tr>
-        <tr>
-            <td class="first-column">Last TB Status:</td>
-            <td class="second-column">
-                <% if (tbStatus) { %>
-                ${ ui.format(tbStatus.valueCoded) } on ${ ui.format(tbStatus.obsDatetime) }
-                <% } else { %>
-                <span class="alert">No TB Status Recorded</span>
-                <% } %>
-            </td>
-            <td class="third-column"></td>
-        </tr>
-
-        <tr>
-            <td class="first-column">Last Height:</td>
-            <td class="second-column">
-                <% if (height) { %>
-                ${ ui.format(height.valueNumeric) } cm on ${ ui.format(height.obsDatetime) }
-                <% } else { %>
-                <span class="alert">No Height Recorded</span>
-                <% } %>
-            </td>
-            <td class="third-column"></td>
-        </tr>
-
-        <tr>
-            <td class="first-column">Last Weight:</td>
-            <td class="second-column">
-                <% if (lastWeight) { %>
-                ${ lastWeight.valueNumeric } kg on ${ui.format(lastWeight.obsDatetime)}
-                <% } else { %>
-                <span class="alert">No Weight Recorded</span>
-                <% } %>
-            </td>
-            <td class="third-column alert">
-                <%
-                    if (lastWeight && oneYearWeight && lastWeight.valueNumeric && oneYearWeight.valueNumeric) {
-                        def weightChange = lastWeight.valueNumeric - oneYearWeight.valueNumeric;
-                        def percentChange = weightChange * 100 / oneYearWeight.valueNumeric;
-                        if (percentChange <= -10) { %>
-                            Alert:  One year weight loss of ${ Math.round(Math.abs(percentChange)) }%
-                <%      }
-                    }
-                %>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="first-column">Last BMI:</td>
-            <td class="second-column">
-                <% if (bmi) { %>
-                ${ bmi } kg/m<sup>2</sup>
-                <% } else { %>
-                <span class="alert">N/A</span>
-                <% } %>
-            </td>
-            <td class="third-column alert">
-                <% if (bmiValue && bmiValue < 19) { %>
-                    Alert:  BMI &lt; 19
-                <% } %>
-            </td>
-        </tr>
-
-        <tr><td colspan="3" class="section-divider-top"></td></tr>
-        <tr><td colspan="3" class="section-divider-bottom"></td></tr>
-
     </table>
+
+</table>
 
     <div>
 
         <table>
+            <tr><td colspan="3" class="section-divider-top"></td></tr>
+            <tr>
+                <td colspan="3"><div class="top-section-title">Weight Trend</div></td>
+            <tr>
             <tr>
                 <td class="nowrap">
                     <table style="width: auto;">
