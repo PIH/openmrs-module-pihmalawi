@@ -181,6 +181,7 @@ SELECT
   firstViralLoadResult as "First viral load result",
   date_format(lastViralLoadDate,'%d/%m/%Y') as "Date of most recent viral load",
   lastViralLoadResult as "Most recent viral load result",
+  lastViralLoadWeight as "Weight for Most recent viral load",
   date_format(lastArtRegimenStart,'%d/%m/%Y') as "ART Current regimen start date",
   lastArtRegimen as "ART Current Regimen",
   htnDx as "Hypertension Diagnosis",
