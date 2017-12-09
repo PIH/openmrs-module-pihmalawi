@@ -105,7 +105,7 @@
 
                     <td>
                         <!-- Counseling -->
-                        <obs conceptId="$visualAcuityText" />
+                        <obs conceptId="480E00E5-D428-45F1-B819-413FE5FAEAC0" />
                     </td>
 
                     <td>

@@ -26,6 +26,10 @@ public class PrintableSummaryExtension extends Extension {
         sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
         sb.append("HIV Patient Summary");
         sb.append("</a>&nbsp;&nbsp;<br />");
+        sb.append("<a href=\"");
+        sb.append("pihmalawi/ncdInwardSummary.page");
+        sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
+        sb.append("NCD Inward Summary");
         return sb.toString();
     }
 

@@ -1,6 +1,8 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
 
+import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
@@ -22,14 +24,19 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String DEFAULTED_CONCEPT_UUID = "655b5f4a-977f-11e1-8993-905e29aff6c1";
     public static final String DIED_STATE_CONCEPT_UUID = "655b5e46-977f-11e1-8993-905e29aff6c1";
 
+    public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
+
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
     protected void installNewVersion() throws Exception {
+
+        Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
+        Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
 
         install(new ConceptBuilder(PALLIATIVE_CARE_PROGRAM_CONCEPT_UUID)
                 .datatype(notApplicable)
@@ -55,6 +62,14 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         .type(sameAs).ensureTerm(pih, "Generic outcome").build())
                 .mapping(new ConceptMapBuilder("41a01c04-cc22-4c69-bfea-8bfe1ed002b6")
                         .type(sameAs).ensureTerm(pih, "11505").build())
+                .build());
+
+
+        install(new ConceptBuilder(COUNSELING_CONCEPT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("B9B25269-FFA2-4547-B51F-03FA40B5C799", "Counseling", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
                 .build());
     }
 }
