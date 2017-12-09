@@ -192,7 +192,7 @@
     }
     .diagnosisSection {
         border: 1px solid black;
-        width: 20%;
+        width: 300px;
     }
     .bpTable {
         width: 100%;
@@ -355,30 +355,20 @@
                         <% int htnDiaCols = 0;
                         if (htnSection != null) {
                             htnDiaCols++; %>
-                            <td class="diagnosisSection">
-                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: htnSection])}
-                            </td>
+                            ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: htnSection])}
                         <% } %>
                         <% if (diabetesSection != null) {
                             htnDiaCols++; %>
-                            <td class="diagnosisSection">
-                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: diabetesSection])}
-                            </td>
+                            ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: diabetesSection])}
                         <% } %>
                         <% if (epilepsySection != null) { %>
-                            <td class="diagnosisSection">
-                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: epilepsySection])}
-                            </td>
+                            ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: epilepsySection])}
                         <% } %>
                         <% if (asthmaSection != null) { %>
-                            <td class="diagnosisSection">
-                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: asthmaSection])}
-                            </td>
+                            ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: asthmaSection])}
                         <% } %>
                         <% if (mhSection != null) { %>
-                            <td class="diagnosisSection">
-                                ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: mhSection])}
-                            </td>
+                            ${ ui.includeFragment("pihmalawi", "ncdInwardSummary/diagnosisSection", [section: mhSection])}
                         <% } %>
                     </tr>
                 </table>
@@ -388,33 +378,37 @@
                         <% if (htnDiaCols > 0) { %>
                         <td style="border:1px solid black; width:50%;" colspan="${htnDiaCols}">
                             <div class="top-section-title">Blood Pressure & Blood Glucose History</div>
-                            <table class="bpTable">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">Date</th>
-                                        <th colspan="2">Blood Pressure</th>
-                                        <th colspan="2">Blood Sugar (mg/dl)</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Systol</th>
-                                        <th>Diastol</th>
-                                        <th>FBS</th>
-                                        <th>RBS</th>
-                                    </tr>
-                                </thead>
-                                <% bpTable.each { row -> %>
-                                <tr>
-                                    <td>${ui.format(row.key)}</td>
-                                    <td>${ui.format(row.value['sbp'])}</td>
-                                    <td>${ui.format(row.value['dbp'])}</td>
-                                    <td>${ui.format(row.value['bst']) == 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
-                                    <td>${ui.format(row.value['bst']) != 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
-                                </tr>
-                                <% } %>
-                                <% if (bpTable.isEmpty()) { %>
-                                    <td colspan="5">None</td>
-                                <% } %>
-                            </table>
+                            <div style="height:200px; overflow:auto;">
+                                <table class="bpTable">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">Date</th>
+                                            <th colspan="2">Blood Pressure</th>
+                                            <th colspan="2">Blood Sugar (mg/dl)</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Systol</th>
+                                            <th>Diastol</th>
+                                            <th>FBS</th>
+                                            <th>RBS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% bpTable.each { row -> %>
+                                        <tr>
+                                            <td>${ui.format(row.key)}</td>
+                                            <td>${ui.format(row.value['sbp'])}</td>
+                                            <td>${ui.format(row.value['dbp'])}</td>
+                                            <td>${ui.format(row.value['bst']) == 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                            <td>${ui.format(row.value['bst']) != 'Fasting' ? ui.format(row.value['bs']) : ""}</td>
+                                        </tr>
+                                        <% } %>
+                                        <% if (bpTable.isEmpty()) { %>
+                                            <td colspan="5">None</td>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </td>
                         <% } %>
                         <% if (epilepsySection != null) { %>
