@@ -1,17 +1,9 @@
 package org.openmrs.module.pihmalawi.reporting.definition.renderer;
 
-import java.util.*;
-
-import org.openmrs.*;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.common.ProgramHelper;
-import org.openmrs.module.pihmalawi.common.PatientDataHelper;
-import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.module.reporting.dataset.DataSetRow;
-
+@Deprecated
 public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 
-	public DataSetRow renderRow(Patient p, PatientIdentifierType patientIdentifierType, Location location, Date startDate, Date endDate) {
+/*	public DataSetRow renderRow(Patient p, PatientIdentifierType patientIdentifierType, Location location, Date startDate, Date endDate) {
 
 		PatientDataHelper pdh = new PatientDataHelper();
 		ProgramHelper ph = new ProgramHelper();
@@ -114,5 +106,5 @@ public class KsRegisterBreakdownRenderer extends BreakdownRowRenderer {
 		pdh.addCol(row, "Death Date", pdh.formatYmd(p.getDeathDate()));
 
 		return row;
-	}
+	}*/
 }
