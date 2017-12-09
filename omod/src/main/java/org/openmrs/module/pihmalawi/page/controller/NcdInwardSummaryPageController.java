@@ -129,17 +129,19 @@ public class NcdInwardSummaryPageController {
             DiagnosisSection mhSection = new DiagnosisSection("mh", "Mental Health", ccMetadata.getMentalHealthEncounterTypes());
 
             List<DiagnosisSection> diagnosisSections = Arrays.asList(htnSection, diabetesSection, epilepsySection, asthmaSection, mhSection);
-            for (DiagnosisSection section : diagnosisSections) {
-                for (Obs o : dxObs) {
-                    if (o.getEncounter() != null && section.getTypes().contains(o.getEncounter().getEncounterType())) {
-                        boolean add = true;
-                        if ((section.getKey().equals("htn") && !o.getValueCoded().equals(ccMetadata.getHypertensionConcept())) || (section.getKey().equals("diabetes") && o.getValueCoded().equals(ccMetadata.getHypertensionConcept()))) {
-                            add = false;
-                        }
-                        if (add) {
-                            DiagnosisRow diagnosisRow = new DiagnosisRow(o);
-                            diagnosisRow.setDiagnosisDate(getSibling(o, ccMetadata.getDiagnosisDateConcept()));
-                            section.addRow(diagnosisRow);
+            if (dxObs != null) {
+                for (DiagnosisSection section : diagnosisSections) {
+                    for (Obs o : dxObs) {
+                        if (o.getEncounter() != null && section.getTypes().contains(o.getEncounter().getEncounterType())) {
+                            boolean add = true;
+                            if ((section.getKey().equals("htn") && !o.getValueCoded().equals(ccMetadata.getHypertensionConcept())) || (section.getKey().equals("diabetes") && o.getValueCoded().equals(ccMetadata.getHypertensionConcept()))) {
+                                add = false;
+                            }
+                            if (add) {
+                                DiagnosisRow diagnosisRow = new DiagnosisRow(o);
+                                diagnosisRow.setDiagnosisDate(getSibling(o, ccMetadata.getDiagnosisDateConcept()));
+                                section.addRow(diagnosisRow);
+                            }
                         }
                     }
                 }
