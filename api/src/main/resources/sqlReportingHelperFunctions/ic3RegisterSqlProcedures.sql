@@ -73,6 +73,7 @@ BEGIN
 	  firstViralLoadResult NUMERIC,
 	  lastViralLoadDate Date,
 	  lastViralLoadResult NUMERIC,
+	  lastViralLoadWeight NUMERIC,
 	  lastArtRegimenStart DATE default NULL,
 	  lastArtRegimen VARCHAR(255) default NULL, 
 	  ncdEnrollmentDate DATE default NULL,
@@ -564,41 +565,48 @@ BEGIN
 	DROP TABLE IF EXISTS lastVL;
 
 	CREATE TEMPORARY TABLE lastVL as
-	select 		og.person_id as PID, 
+	select 		og.person_id as PID,
+				og.encounter_id,
 				og.obs_id,
 				og.obs_datetime as insert_visitDate,
+                w.value_numeric as weight,
 			    bled.value_coded as "Bled",
 			    vl.value_numeric as "Value Numeric",
-			    ldl.value_coded	as "LDL",		    
+			    ldl.value_coded	as "LDL",
 			    CASE WHEN ISNULL(vl.value_numeric) THEN
 			    	CASE WHEN ISNULL(ldl.value_coded) THEN
 			    		NULL
 			    	ELSE
 			   			0
 			   		END
-				ELSE 
+				ELSE
 					vl.value_numeric
-				END AS insert_numeric	    
-	from 		(select * 
-		 		from (select * 
-		  	  		 from obs 
+				END AS insert_numeric
+	from 		(select *
+		 		from (select *
+		  	  		 from obs
 			   	     where concept_id = 8628
 			         and voided = 0
-			  		 order by obs_datetime desc) ogi 
+			  		 order by obs_datetime desc) ogi
 		 	    group by person_id) og
-	left join	(select obs_group_id, value_numeric 
-				from obs 
+   left join	(select encounter_id, obs_id, value_numeric
+				from obs
+				where concept_id = 5089
+				and voided = 0) w
+				on w.encounter_id = og.encounter_id
+	left join	(select obs_group_id, value_numeric
+				from obs
 				where concept_id = 856
 				and voided = 0) vl
 				on vl.obs_group_id = og.obs_id
-	left join	(select obs_group_id, value_coded 
-				from obs 
+	left join	(select obs_group_id, value_coded
+				from obs
 				where concept_id = 8561
 				and value_coded = 2257
 				and voided = 0) ldl
 				on ldl.obs_group_id = og.obs_id
-	left join	(select obs_group_id, value_coded 
-				from obs 
+	left join	(select obs_group_id, value_coded
+				from obs
 				where concept_id = 8421
 				and value_coded = 2257
 				and voided = 0) bled
@@ -607,7 +615,8 @@ BEGIN
 
 
 	UPDATE warehouseCohortTable tc, lastVL lvl
-		set tc.lastViralLoadDate=lvl.insert_visitDate, tc.lastViralLoadResult = lvl.insert_numeric
+		set tc.lastViralLoadDate=lvl.insert_visitDate, tc.lastViralLoadResult = lvl.insert_numeric,
+		tc.lastViralLoadWeight = lvl.weight
 	where tc.PID = lvl.PID;
 
 END

@@ -100,6 +100,11 @@
         <class>org.openmrs.module.pihmalawi.web.extension.PrintableSummaryExtension</class>
     </extension>
 
+    <extension>
+        <point>org.openmrs.patientDashboard.Header</point>
+        <class>org.openmrs.module.pihmalawi.web.extension.NcdInwardSummary</class>
+    </extension>
+
     <privilege>
         <name>CHW Management App</name>
         <description>Allows access to the CHW Management App</description>

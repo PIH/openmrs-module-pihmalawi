@@ -204,6 +204,8 @@ public class CommonMetadata extends Metadata {
     public static final String RHEUMATIC_HEART_DISEASE_CONCEPT = "Rheumatic heart disease";
     public static final String CONGESTIVE_HEART_FAILURE_CONCEPT = "Congestive heart failure";
 
+    public static final String DIAGNOSIS_DATE = "Diagnosis date";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -685,6 +687,10 @@ public class CommonMetadata extends Metadata {
 
     public Concept getCongestiveHeartFailureConcept() {
         return getConcept(CONGESTIVE_HEART_FAILURE_CONCEPT);
+    }
+
+    public Concept getDiagnosisDateConcept() {
+        return getConcept(DIAGNOSIS_DATE);
     }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

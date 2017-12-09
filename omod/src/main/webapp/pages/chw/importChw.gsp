@@ -59,14 +59,15 @@
                 </td>
                 <td>{{ chw.firstName }} </td>
                 <td>{{ chw.lastName }} </td>
-                <td>{{ chw.gender }} </td>
-                <td>{{ chw.age }} </td>
                 <td>{{ chw.healthCenter }} </td>
-                <td>{{ chw.district }} </td>
-                <td>{{ chw.ta }} </td>
-                <td>{{ chw.gvh }} </td>
-                <td>{{ chw.village }} </td>
-                <td>{{ chw.seniorChw }} </td>
+                <td>{{ chw.role }} </td>
+                <td ng-if="chw.gender">{{ chw.gender }} </td>
+                <td ng-if="chw.age">{{ chw.age }} </td>
+                <td ng-if="chw.district">{{ chw.district }} </td>
+                <td ng-if="chw.ta">{{ chw.ta }} </td>
+                <td ng-if="chw.gvh">{{ chw.gvh }} </td>
+                <td ng-if="chw.village">{{ chw.village }} </td>
+
                 <td>
                     <button type="button" ng-click="importChw(chw, true)">${ ui.message("Import") }</button>
                 </td>

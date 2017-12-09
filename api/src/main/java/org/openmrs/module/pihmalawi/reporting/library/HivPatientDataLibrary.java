@@ -98,6 +98,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getAllIdentifiersOfType(pit, pdf.getIdentifierCollectionConverter());
 	}
 
+    @DocumentedDefinition
+    public PatientDataDefinition getFirstHivEncounterDateByEndDate() {
+        return pdf.getFirstEncounterOfTypeByEndDate(hivMetadata.getHivEncounterTypes(), pdf.getEncounterDatetimeConverter());
+    }
+
 	@DocumentedDefinition("firstPreArtInitialEncounter.date")
 	public PatientDataDefinition getFirstPreArtInitialEncounterDateByEndDate() {
 		return getFirstPreArtInitialEncounterByEndDate(pdf.getEncounterDatetimeConverter());

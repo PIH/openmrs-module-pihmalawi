@@ -14,18 +14,22 @@ angular.module('importChwApp', ['ngDialog'])
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
                 PROVIDER_CUSTOM_REP: "v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
                 PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
-                CHW_IDENTIFIER_SOURCE: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d",
+                CHW_IDENTIFIER_SOURCE: "CHW Identifier Source",
                 PROVIDER_ROLES: {
-                    CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45"
+                    CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45",
+                    CHW_SENIOR_PROVIDER_ROLE: "11C1A56D-82F7-4269-95E8-2B67B9A3D837",
+                    CHW_SITE_SUPERVISOR_PROVIDER_ROLE: "30A32CFA-E88F-4405-AC89-E3FA68BC30F0"
                 },
                 PROVIDER_ATTRIBUTES: {
                     HEALTH_FACILITY: "94047146-7918-4927-9401-F4284A10C7FD"
                 }
             };
 
-            var testMap = new Map([
-                ["Neno District Hospital", {code: "NNO", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e"}],
-                ["Chifunga", { code: "CFGA", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e" }]
+            var PROVIDER_ROLES_MAP = new Map([
+                ["CHW", { uuid: CONSTANTS.PROVIDER_ROLES.CHW_PROVIDER_ROLE}],
+                ["Senior CHW", { uuid: CONSTANTS.PROVIDER_ROLES.CHW_SENIOR_PROVIDER_ROLE}],
+                ["CHW Site Supervisor", { uuid: CONSTANTS.PROVIDER_ROLES.CHW_SITE_SUPERVISOR_PROVIDER_ROLE}]
+
             ]);
 
             var locationsMap = new Map([
@@ -46,14 +50,34 @@ angular.module('importChwApp', ['ngDialog'])
             ]);
 
             this.CONSTANTS = CONSTANTS;
+            this.PROVIDER_ROLES_MAP = PROVIDER_ROLES_MAP;
 
-            this.getNextIdentifier = function (chw) {
+            this.getIdentifierSource = function () {
+                return $http.get(CONSTANTS.URLS.IDENTIFIER_SOURCE + "?v=full").then(function(resp) {
+                    var idSource= null;
+                    if (resp.status == 200) {
+                        for (j = 0; j < resp.data.results.length; j++){
+                            if (resp.data.results[0].name === CONSTANTS.CHW_IDENTIFIER_SOURCE) {
+                                idSource = resp.data.results[0].uuid;
+                                break;
+                            }
+                        }
+
+                    }
+                    return idSource;
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 4));
+                });
+            };
+
+
+            this.getNextIdentifier = function (chw, sourceUuid) {
 
                 var generateIdentifiers = {
                     generateIdentifiers: true,
                     comment: "new CHW ID",
                     numberToGenerate: 1,
-                    sourceUuid: CONSTANTS.CHW_IDENTIFIER_SOURCE
+                    sourceUuid: sourceUuid
                 };
 
                 return $http.post(CONSTANTS.URLS.IDENTIFIER_SOURCE, generateIdentifiers).then(function(resp) {
@@ -133,14 +157,18 @@ angular.module('importChwApp', ['ngDialog'])
                     names: [{
                         givenName: chw.firstName,
                         familyName: chw.lastName
-                    }],
-                    addresses: [{
+                    }]
+                };
+
+                if (chw.district && chw.ta && chw.village) {
+                    person.addresses = [{
                         preferred: true,
                         stateProvince: chw.district,
                         countyDistrict: chw.ta,
                         cityVillage: chw.village
-                    }]
-                };
+                    }];
+
+                }
 
                 return $http.post(CONSTANTS.URLS.PERSON, person).then(function(resp) {
                     if (resp.status == 201) {
@@ -267,7 +295,7 @@ angular.module('importChwApp', ['ngDialog'])
                 var newProvider ={};
                 newProvider.person = null;
                 newProvider.identifier = null;
-                newProvider.providerRole = ImportChwService.CONSTANTS.PROVIDER_ROLES.CHW_PROVIDER_ROLE;
+                newProvider.providerRole =  ImportChwService.PROVIDER_ROLES_MAP.get(chw.role).uuid;
 
                 ImportChwService.getProvider(chw).then( function (provider) {
                     if (provider.results.length == 0 ) {
@@ -281,36 +309,46 @@ angular.module('importChwApp', ['ngDialog'])
                                 if(personId) {
                                     chw.personId = personId.personId;
                                 }
-                                ImportChwService.getNextIdentifier(chw).then( function (identifier) {
-                                    if (identifier ) {
-                                        //create provider record
-                                        newProvider.identifier = identifier;
-                                        ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
-                                            if (respProvider && respProvider.success === "true") {
-                                                console.log("newProvider has been created = " + respProvider);
-                                                chw.identifier = respProvider.identifier;
-                                                ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
-                                                    deferred.resolve(newProvider);
-                                                }, function(errorHC) {
-                                                    console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
-                                                    deferred.reject(errorHC);
+                                ImportChwService.getIdentifierSource().then( function (identifierSource) {
+                                    if (identifierSource){
+                                        ImportChwService.getNextIdentifier(chw, identifierSource).then( function (identifier) {
+                                            if (identifier ) {
+                                                //create provider record
+                                                newProvider.identifier = identifier;
+                                                ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
+                                                    if (respProvider && respProvider.success === "true") {
+                                                        console.log("newProvider has been created = " + respProvider);
+                                                        chw.identifier = respProvider.identifier;
+                                                        ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
+                                                            deferred.resolve(newProvider);
+                                                        }, function(errorHC) {
+                                                            console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
+                                                            deferred.reject(errorHC);
+                                                        });
+                                                    } else {
+                                                        console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
+                                                        deferred.reject(respProvider);
+                                                    }
+                                                }, function (providerError) {
+                                                    console.log("failed to create provider record");
+                                                    deferred.reject(providerError);
                                                 });
                                             } else {
-                                                console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
-                                                deferred.reject(respProvider);
+                                                console.log("failed to generate identifier");
+                                                deferred.reject("failed to generate identifier");
                                             }
-                                        }, function (providerError) {
-                                            console.log("failed to create provider record");
-                                            deferred.reject(providerError);
-                                        });
+                                        }, function(identifierError) {
+                                            console.log("failed to generate Identifier");
+                                            deferred.reject(identifierError);
+                                        } );
                                     } else {
-                                        console.log("failed to generate identifier");
-                                        deferred.reject("failed to generate identifier");
+                                        deferred.reject("failed to find an identifier source for CHW");
                                     }
-                                }, function(identifierError) {
-                                    console.log("failed to generate Identifier");
-                                    deferred.reject(identifierError);
-                                } );
+
+                                }, function(identifierSourceError){
+                                    deferred.reject(identifierSourceError);
+                                });
+
                             }, function(personIdError){
                                 deferred.reject(personIdError);
                             })
@@ -376,21 +414,14 @@ angular.module('importChwApp', ['ngDialog'])
                 }
                 for (i = 0; i < $scope.pendingImportChws.length; i++) {
                     var chwValues = $scope.pendingImportChws[i];
-                    if (chwValues.length ==  12) {
+                    if (chwValues.length ==  6) {
                         var chwObj = {};
-
                         chwObj.id = chwValues[0];
                         chwObj.identifier = chwValues[1];
                         chwObj.firstName = chwValues[2];
                         chwObj.lastName = chwValues[3];
-                        chwObj.gender = chwValues[4];
-                        chwObj.age = chwValues[5];
-                        chwObj.healthCenter = chwValues[6];
-                        chwObj.district = chwValues[7];
-                        chwObj.ta = chwValues[8];
-                        chwObj.gvh = chwValues[9];
-                        chwObj.village = chwValues[10];
-                        chwObj.seniorChw = chwValues[11];
+                        chwObj.healthCenter = chwValues[4];
+                        chwObj.role = chwValues[5];
                         chwObj.personId = 0;
                         $scope.chwList.push(chwObj);
                     }

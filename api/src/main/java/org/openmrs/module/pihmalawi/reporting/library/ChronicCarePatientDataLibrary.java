@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
+import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
@@ -26,6 +27,8 @@ import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
@@ -76,7 +79,7 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 
     @DocumentedDefinition
     public PatientDataDefinition getAllChronicCareDiagnosisObsByEndDate() {
-        return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), null);
+        return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), null, null);
     }
 
 	// Diagnoses
@@ -111,6 +114,12 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), c);
 	}
 
+    @DocumentedDefinition
+    public PatientDataDefinition getAllMentalHealthDiagnosesByEndDate() {
+        CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());
+        return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getMentalHealthEncounterTypes(), c);
+    }
+
 	@DocumentedDefinition
 	public PatientDataDefinition getIsPatientHighRisk() {
 		return df.getCodedObsPresentByEndDate(metadata.getHighRiskPatientConcept(), metadata.getYesConcept(), metadata.getChronicCareEncounterTypes());
@@ -139,5 +148,13 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
     @DocumentedDefinition
     public PatientDataDefinition getChronicCareAppointmentStatus() {
         return df.getAppointmentStatus(treatmentGroup);
+    }
+
+    public PatientDataDefinition getFirstEncounterDateByEndDate(List<EncounterType> encounterTypes) {
+        return df.getFirstEncounterOfTypeByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
+    }
+
+    public PatientDataDefinition getMostRecentEncounterDateByEndDate(List<EncounterType> encounterTypes) {
+        return df.getMostRecentEncounterOfTypesByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
     }
 }
