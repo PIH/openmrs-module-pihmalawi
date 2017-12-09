@@ -3,10 +3,12 @@ package org.openmrs.module.pihmalawi.common;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
@@ -17,20 +19,27 @@ import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.ObsService;
+import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.util.OpenmrsUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class PatientDataHelper {
 
@@ -260,7 +269,7 @@ public class PatientDataHelper {
 
 	// Orders
 
-	/*public List<DrugOrder> getDrugOrdersByStartDateAscending(Patient p, String conceptNameOrId, Date onOrBeforeDate) {
+	public List<DrugOrder> getDrugOrdersByStartDateAscending(Patient p, String conceptNameOrId, Date onOrBeforeDate) {
 		Map<Date, DrugOrder> m = new TreeMap<Date, DrugOrder>();
 		Concept drugConcept = commonMetadata.getConcept(conceptNameOrId);
 		for (DrugOrder drugOrder : Context.getOrderService().getOrders(DrugOrder.class, Arrays.asList(p), Arrays.asList(drugConcept), OrderService.ORDER_STATUS.NOTVOIDED, null, null, null)) {
@@ -304,7 +313,7 @@ public class PatientDataHelper {
 			return formatYmd(order.getStartDate());
 		}
 		return "";
-	}*/
+	}
 
 	// Program Enrollments
 
