@@ -25,7 +25,7 @@ public class NcdInwardSummary extends Extension {
         sb.append("pihmalawi/ncdInwardSummary.page");
         sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
         sb.append("NCD Inward Summary");
-        sb.append("</a>");
+        sb.append("</a>&nbsp;&nbsp;<br />");
         return sb.toString();
     }
 
