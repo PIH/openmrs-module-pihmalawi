@@ -82,40 +82,7 @@ mvn openmrs-sdk:run -DserverId=malawi
 - [OpenMRS SDK](https://wiki.openmrs.org/display/docs/OpenMRS+SDK)
 
 
-## Upgrading to OpenMRS 1.10.x ##
 
-(work in progress)
-
-Reference: https://wiki.openmrs.org/display/docs/Prepare+for+Upgrading+From+a+Pre-1.10+to+1.10+or+Later+Version
-
-### Backup old drug orders and orders table and then delete ###
-
-* Be careful with these, especially the line deleting obs; we only want to remove the small number of obs (3?) in the system associated with an order *
-
-create table if not exists old_obs_orders like obs;
-insert old_obs_orders select * from obs where order_id is not null;
-delete from obs where order_id is not null;
-
-create table if not exists old_drug_order like drug_order;
-insert old_drug_order select * from drug_order;
-delete from drug_order;
-
-create table if not exists old_orders like orders;
-insert old_orders select * from orders;
-delete from orders;
-
-### Fix one drug that has a dose strength but not a unit ###
-
-update drug set units='mg' where name='Amitriptyline (50mg tablet)';
-
-### Backup old order type table and then clear it out to only have drug order type
-
-create table if not exists old_order_type like order_type;
-insert old_order_type select * from order_type;
-delete from order_type where order_type_id > 1;
-
-update order_type set description='An order for a medication to be given to the patient' where order_type_id=1;
-update order_type set uuid='131168f4-15f5-102d-96e4-000c29c2a5d7' where order_type_id=1;
 
 
 
