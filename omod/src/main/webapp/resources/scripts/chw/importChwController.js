@@ -14,7 +14,7 @@ angular.module('importChwApp', ['ngDialog'])
                 PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
                 PROVIDER_CUSTOM_REP: "v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
                 PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
-                CHW_IDENTIFIER_SOURCE: "bda36c8c-8fe4-40fa-9ce4-ea151bb39c7d",
+                CHW_IDENTIFIER_SOURCE: "CHW Identifier Source",
                 PROVIDER_ROLES: {
                     CHW_PROVIDER_ROLE: "68624C4C-9E10-473B-A849-204820D16C45",
                     CHW_SENIOR_PROVIDER_ROLE: "11C1A56D-82F7-4269-95E8-2B67B9A3D837",
@@ -52,13 +52,32 @@ angular.module('importChwApp', ['ngDialog'])
             this.CONSTANTS = CONSTANTS;
             this.PROVIDER_ROLES_MAP = PROVIDER_ROLES_MAP;
 
-            this.getNextIdentifier = function (chw) {
+            this.getIdentifierSource = function () {
+                return $http.get(CONSTANTS.URLS.IDENTIFIER_SOURCE + "?v=full").then(function(resp) {
+                    var idSource= null;
+                    if (resp.status == 200) {
+                        for (j = 0; j < resp.data.results.length; j++){
+                            if (resp.data.results[0].name === CONSTANTS.CHW_IDENTIFIER_SOURCE) {
+                                idSource = resp.data.results[0].uuid;
+                                break;
+                            }
+                        }
+
+                    }
+                    return idSource;
+                }, function (error) {
+                    console.log(JSON.stringify(error, undefined, 4));
+                });
+            };
+
+
+            this.getNextIdentifier = function (chw, sourceUuid) {
 
                 var generateIdentifiers = {
                     generateIdentifiers: true,
                     comment: "new CHW ID",
                     numberToGenerate: 1,
-                    sourceUuid: CONSTANTS.CHW_IDENTIFIER_SOURCE
+                    sourceUuid: sourceUuid
                 };
 
                 return $http.post(CONSTANTS.URLS.IDENTIFIER_SOURCE, generateIdentifiers).then(function(resp) {
@@ -290,36 +309,46 @@ angular.module('importChwApp', ['ngDialog'])
                                 if(personId) {
                                     chw.personId = personId.personId;
                                 }
-                                ImportChwService.getNextIdentifier(chw).then( function (identifier) {
-                                    if (identifier ) {
-                                        //create provider record
-                                        newProvider.identifier = identifier;
-                                        ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
-                                            if (respProvider && respProvider.success === "true") {
-                                                console.log("newProvider has been created = " + respProvider);
-                                                chw.identifier = respProvider.identifier;
-                                                ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
-                                                    deferred.resolve(newProvider);
-                                                }, function(errorHC) {
-                                                    console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
-                                                    deferred.reject(errorHC);
+                                ImportChwService.getIdentifierSource().then( function (identifierSource) {
+                                    if (identifierSource){
+                                        ImportChwService.getNextIdentifier(chw, identifierSource).then( function (identifier) {
+                                            if (identifier ) {
+                                                //create provider record
+                                                newProvider.identifier = identifier;
+                                                ImportChwService.createProviderWithRole(newProvider).then( function (respProvider) {
+                                                    if (respProvider && respProvider.success === "true") {
+                                                        console.log("newProvider has been created = " + respProvider);
+                                                        chw.identifier = respProvider.identifier;
+                                                        ImportChwService.addHealthFacility(respProvider, chw).then(function (providerHC) {
+                                                            deferred.resolve(newProvider);
+                                                        }, function(errorHC) {
+                                                            console.log("failed to add Health Facility attribute to provider" + JSON.stringify(errorHC, undefined, 4));
+                                                            deferred.reject(errorHC);
+                                                        });
+                                                    } else {
+                                                        console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
+                                                        deferred.reject(respProvider);
+                                                    }
+                                                }, function (providerError) {
+                                                    console.log("failed to create provider record");
+                                                    deferred.reject(providerError);
                                                 });
                                             } else {
-                                                console.log("new provider not created:" + JSON.stringify(respProvider, undefined, 4));
-                                                deferred.reject(respProvider);
+                                                console.log("failed to generate identifier");
+                                                deferred.reject("failed to generate identifier");
                                             }
-                                        }, function (providerError) {
-                                            console.log("failed to create provider record");
-                                            deferred.reject(providerError);
-                                        });
+                                        }, function(identifierError) {
+                                            console.log("failed to generate Identifier");
+                                            deferred.reject(identifierError);
+                                        } );
                                     } else {
-                                        console.log("failed to generate identifier");
-                                        deferred.reject("failed to generate identifier");
+                                        deferred.reject("failed to find an identifier source for CHW");
                                     }
-                                }, function(identifierError) {
-                                    console.log("failed to generate Identifier");
-                                    deferred.reject(identifierError);
-                                } );
+
+                                }, function(identifierSourceError){
+                                    deferred.reject(identifierSourceError);
+                                });
+
                             }, function(personIdError){
                                 deferred.reject(personIdError);
                             })
