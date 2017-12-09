@@ -22,9 +22,9 @@ public class NcdInwardSummary extends Extension {
     public String getOverrideContent(String bodyContent) {
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"");
-        sb.append("pihmalawi/printableSummary.page");
+        sb.append("pihmalawi/ncdInwardSummary.page");
         sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
-        sb.append("View Patient Summary");
+        sb.append("NCD Inward Summary");
         sb.append("</a>");
         return sb.toString();
     }
