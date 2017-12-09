@@ -112,6 +112,7 @@ public class NcdInwardSummaryPageController {
             model.addAttribute("weights", weights);
             model.addAttribute("height", height);
             model.addAttribute("weight", weight);
+            model.put("bmi", "");
             if (weight != null && height != null) {
                 double bmi = weight.getValueNumeric()/Math.pow(height.getValueNumeric()/100, 2);
                 model.put("bmi", ObjectUtil.format(bmi, "1"));
