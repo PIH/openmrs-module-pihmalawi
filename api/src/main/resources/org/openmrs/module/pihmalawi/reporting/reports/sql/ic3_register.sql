@@ -47,9 +47,9 @@ CALL updateProgramsEnrollmentDate();
 CALL updateFirstViralLoad(@reportEndDate);
 CALL updateLastViralLoad(@reportEndDate);
 CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastHivOutcome', 'lastHivOutcomeDate');
-CALL everDefaultedByProgram('HIV Program', 'everDefaultedHiv')
+CALL everDefaultedByProgram('HIV Program', 'everDefaultedHiv');
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
-CALL everDefaultedByProgram('NCD Program', 'everDefaultedNcd')
+CALL everDefaultedByProgram('NCD Program', 'everDefaultedNcd');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
 CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
 CALL updateRecentRegimen(@reportEndDate);
