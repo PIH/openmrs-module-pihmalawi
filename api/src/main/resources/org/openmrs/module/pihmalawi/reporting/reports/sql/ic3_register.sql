@@ -47,7 +47,9 @@ CALL updateProgramsEnrollmentDate();
 CALL updateFirstViralLoad(@reportEndDate);
 CALL updateLastViralLoad(@reportEndDate);
 CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastHivOutcome', 'lastHivOutcomeDate');
+CALL everDefaultedByProgram('HIV Program', 'everDefaultedHiv')
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
+CALL everDefaultedByProgram('NCD Program', 'everDefaultedNcd')
 CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
 CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
 CALL updateRecentRegimen(@reportEndDate);
@@ -145,6 +147,7 @@ SELECT
   ic3FirstProgramEnrolled as "First Program Enrollment",
   date_format(ncdEnrollmentDate,'%d/%m/%Y') as "NCD Program Enrollment Date",
   lastNcdOutcome as "NCD Program Outcome",
+  everDefaultedNcd as "Ever Defaulted in NCD",
   date_format(lastNcdOutcomeDate,'%d/%m/%Y') as "NCD Program Outcome Date",
   lastNcdVisitLocation as "NCD last visit location",
   date_format(lastNcdVisitDate,'%d/%m/%Y') as "NCD last visit date",
@@ -154,6 +157,7 @@ SELECT
   date_format(lastMentalHealthVisitDate,'%d/%m/%Y') as "Last Mental Health encounter date",
   date_format(hivEnrollmentDate,'%d/%m/%Y') as "HIV Program Enrollment Date",
   lastHivOutcome as "HIV Program Outcome",
+  everDefaultedHiv as "Ever Defaulted in HIV",
   date_format(lastHivOutcomeDate,'%d/%m/%Y') as "HIV Program Outcome Date",
   lastHivVisitLocation as "HIV last visit location",
   date_format(lastHivVisitDate,'%d/%m/%Y') as "HIV last visit date",

@@ -12,6 +12,7 @@
 --			getLastOutcomeForProgram
 --			getBloodGlucoseBeforeDate
 --			getBloodPressureBeforeDate
+-- 			everDefaultedByProgram
 
 
 -- createIc3RegisterTable()
@@ -152,7 +153,9 @@ BEGIN
 	  htnDmAptDate DATE default NULL,
 	  epilepsyAptDate DATE default NULL,
 	  mentalHealthAptDate DATE default NULL,
-	  chronicLungAptDate DATE default NULL
+	  chronicLungAptDate DATE default NULL,
+	  everDefaultedNcd VARCHAR(10) default NULL,
+	  everDefaultedHiv VARCHAR(10) default NULL
 	);
 	CREATE INDEX PID_ic3_index ON warehouseCohortTable(PID);
 	
@@ -1041,4 +1044,33 @@ BEGIN
 END
 
 #
+
+-- everDefaultedByProgram()
+-- Procedure that puts a check mark in colName if the patient ever defaulted
+-- program specified with program_name
+
+DROP PROCEDURE IF EXISTS everDefaultedByProgram;
+
+#
+
+CREATE PROCEDURE everDefaultedByProgram(IN program_name VARCHAR(255), IN colName VARCHAR(100))
+BEGIN
+
+	DROP TABLE IF EXISTS everDefaulted;
+
+	CREATE TEMPORARY TABLE everDefaulted as
+	SELECT PID, '✔' as yes_no
+	FROM warehouse_program_enrollment
+	WHERE patientState = 'Patient Defaulted'
+	AND programName = program_name
+	GROUP BY PID
+	;
+
+	SET @u=CONCAT('UPDATE warehouseCohortTable tc, everDefaulted ed SET tc.',colName,' = ed.yes_no WHERE tc.PID = ed.PID;');
+	PREPARE stmt2 FROM @u;
+	EXECUTE stmt2;
+	DEALLOCATE PREPARE stmt2;
+	SET @u = NULL;
+
+END
 
