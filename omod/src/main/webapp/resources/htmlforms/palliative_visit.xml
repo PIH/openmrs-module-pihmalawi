@@ -10,6 +10,11 @@
         yes=1065
         systolicBP=5085
         diastolicBP=5086
+        counseling=480E00E5-D428-45F1-B819-413FE5FAEAC0
+        locationOfVisit=1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5
+        homeLocation=29EB5E06-9815-42D8-A3B1-37A5FE88B4F8
+        ic3Location=3064BCF8-56F7-43C9-A8CF-D90D42EEF739
+        hospitalWardLocation=20B8B0FB-F0D7-4692-96BF-5B516CA0D624
         hospitalSinceLast=1715
         drugsNow=1193
         drugSet=8501
@@ -49,7 +54,9 @@
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
-                    <td><i style="font-size:.7em;">day/month/year</i></td>
+                    <td class="rotate"><span style="font-size:.7em;">Home</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">IC3</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Hospital ward</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -72,9 +79,11 @@
                         <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
                     </td>
 
-                    <td>
-                        <!--  Location of visit -->
-                    </td>
+                    <repeat with="['$homeLocation'],['$ic3Location'],['$hospitalWardLocation']">
+                        <td>
+                            <obs conceptId="$locationOfVisit" answerConceptId="{0}" answerLabel=""/>
+                        </td>
+                    </repeat>
 
                     <td>
                         <!-- Functional status -->
@@ -105,7 +114,7 @@
 
                     <td>
                         <!-- Counseling -->
-                        <obs conceptId="480E00E5-D428-45F1-B819-413FE5FAEAC0" />
+                        <obs conceptId="$counseling" />
                     </td>
 
                     <td>
@@ -164,7 +173,11 @@
 
             <tr>
                 <th>Location of visit</th>
-                <td></td>
+                <td>
+                    <repeat with="['$homeLocation','Home'],['$ic3Location','IC3'],['$hospitalWardLocation','Hospital ward']">
+                        <obs conceptId="$locationOfVisit" answerConceptId="{0}" answerLabel="{1}"/>
+                    </repeat>
+                </td>
             </tr>
 
             <tr>

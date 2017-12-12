@@ -25,11 +25,12 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String DIED_STATE_CONCEPT_UUID = "655b5e46-977f-11e1-8993-905e29aff6c1";
 
     public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
+    public static final String LOCATION_OF_VISIT_CONCEPT  = "1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5";
 
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -71,5 +72,35 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("B9B25269-FFA2-4547-B51F-03FA40B5C799", "Counseling", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes, no)
                 .build());
+
+
+        Concept home_visit_location = install(new ConceptBuilder("29EB5E06-9815-42D8-A3B1-37A5FE88B4F8")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("3EDEEA24-7637-45BB-9D70-5C3FEC588B13", "Home", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("AEAE3734-156D-44BC-B2F2-3D795E37CA21", "Home Visit Location", Locale.ENGLISH)
+                .build());
+        Concept ic3_visit_location = install(new ConceptBuilder("3064BCF8-56F7-43C9-A8CF-D90D42EEF739")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("FE356DE3-765B-43D5-AF38-98459C305C1D", "IC3", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("16256F06-02B5-4892-8BD6-8D3B24A20E06", "IC3 Visit Location", Locale.ENGLISH)
+                .build());
+        Concept hospital_ward_location = install(new ConceptBuilder("20B8B0FB-F0D7-4692-96BF-5B516CA0D624")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("E50B802A-AD0D-4949-B930-A2030E9F1714", "Hospital Ward", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("D672F8E8-F68A-4469-AEF3-16FCF7B42021", "Hospital Ward Location", Locale.ENGLISH)
+                .build());
+
+        Concept locationOfVisit = install(new ConceptBuilder(LOCATION_OF_VISIT_CONCEPT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("C71A9356-BDDC-4726-8B8F-87A3071D9386", "Location of Visit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("4E85365B-E89C-40E8-9738-CF48C9469481", "Location of visit", Locale.ENGLISH)
+                .answers(
+                        home_visit_location,ic3_visit_location,hospital_ward_location)
+                .build());
+
     }
 }
