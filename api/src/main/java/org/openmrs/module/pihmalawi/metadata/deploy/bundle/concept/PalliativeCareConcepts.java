@@ -26,11 +26,12 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
     public static final String LOCATION_OF_VISIT_CONCEPT  = "1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5";
+    public static final String FUNCTIONAL_STATUS_CONCEPT  = "61EB2A1C-3DB0-4453-8E89-6FBD09563A96";
 
 
     @Override
     public int getVersion() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -93,13 +94,41 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .description("D672F8E8-F68A-4469-AEF3-16FCF7B42021", "Hospital Ward Location", Locale.ENGLISH)
                 .build());
 
-        Concept locationOfVisit = install(new ConceptBuilder(LOCATION_OF_VISIT_CONCEPT)
+        install(new ConceptBuilder(LOCATION_OF_VISIT_CONCEPT)
                 .datatype(coded)
                 .conceptClass(question)
                 .name("C71A9356-BDDC-4726-8B8F-87A3071D9386", "Location of Visit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("4E85365B-E89C-40E8-9738-CF48C9469481", "Location of visit", Locale.ENGLISH)
                 .answers(
                         home_visit_location,ic3_visit_location,hospital_ward_location)
+                .build());
+
+        Concept pc_no_support = install(new ConceptBuilder("C745EF20-19A1-4E43-998D-E34658580828")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("BEF65FCB-BBD9-496A-86AD-42FB7F5D8EB3", "No support", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("B429201D-4406-4109-BBA6-3831431A5F99", "Palliative Care no support", Locale.ENGLISH)
+                .build());
+        Concept pc_needs = install(new ConceptBuilder("1FD42AA9-AA92-48FB-AD9C-C985CA7FD8F1")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("0565B1E9-3435-4F8B-A689-C0CBBF0173DA", "Needs", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("F8622A6C-6750-44EB-8CDA-70427FE79177", "Palliative Care needs", Locale.ENGLISH)
+                .build());
+        Concept pc_bed_ridden = install(new ConceptBuilder("4C6822BE-88EA-4E71-A7EC-4D3E7403B3D5")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("3E2C5116-36DE-4F33-AA09-43C376412AF6", "Bed ridden", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("0DD73AE1-BB36-4B26-A287-F013A99937CB", "Palliative Care bed ridden", Locale.ENGLISH)
+                .build());
+
+        install(new ConceptBuilder(FUNCTIONAL_STATUS_CONCEPT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("A5BD81DE-934F-4BD6-AD26-E30C155A5391", "Functional status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("FCB7A29D-277F-4A67-AF7C-2C30AD9839B6", "Functional status", Locale.ENGLISH)
+                .answers(
+                        pc_no_support,pc_needs,pc_bed_ridden)
                 .build());
 
     }

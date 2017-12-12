@@ -4,17 +4,24 @@
           formVersion="1.0">
 
     <macros>
-        height=5090
-        weight=5089
-        no=1066
-        yes=1065
-        systolicBP=5085
-        diastolicBP=5086
-        counseling=480E00E5-D428-45F1-B819-413FE5FAEAC0
-        locationOfVisit=1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5
-        homeLocation=29EB5E06-9815-42D8-A3B1-37A5FE88B4F8
-        ic3Location=3064BCF8-56F7-43C9-A8CF-D90D42EEF739
-        hospitalWardLocation=20B8B0FB-F0D7-4692-96BF-5B516CA0D624
+        <macro key="height" value="5090"/>
+        <macro key="weight" value="5089"/>
+        <macro key="no" value="1066"/>
+        <macro key="yes" value="1065"/>
+        <macro key="systolicBP" value="5085"/>
+        <macro key="diastolicBP" value="5086"/>
+
+        <macro key="locationOfVisit" value="1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5"/>
+        <macro key="homeLocation" value="29EB5E06-9815-42D8-A3B1-37A5FE88B4F8"/>
+        <macro key="ic3Location" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739"/>
+        <macro key="hospitalWardLocation" value="20B8B0FB-F0D7-4692-96BF-5B516CA0D624"/>
+        <macro key="functionalStatus" value="61EB2A1C-3DB0-4453-8E89-6FBD09563A96"/>
+        <macro key="pc_no_support" value="C745EF20-19A1-4E43-998D-E34658580828"/>
+        <macro key="pc_needs" value="1FD42AA9-AA92-48FB-AD9C-C985CA7FD8F1"/>
+        <macro key="pc_bed_ridden" value="4C6822BE-88EA-4E71-A7EC-4D3E7403B3D5"/>
+
+        <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
+        
         hospitalSinceLast=1715
         drugsNow=1193
         drugSet=8501
@@ -57,6 +64,9 @@
                     <td class="rotate"><span style="font-size:.7em;">Home</span></td>
                     <td class="rotate"><span style="font-size:.7em;">IC3</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Hospital ward</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">No support</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Needs</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Bed ridden</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -85,9 +95,12 @@
                         </td>
                     </repeat>
 
-                    <td>
-                        <!-- Functional status -->
-                    </td>
+                    <repeat with="['$pc_no_support'],['$pc_needs'],['$pc_bed_ridden']">
+                        <td>
+                            <obs conceptId="$functionalStatus" answerConceptId="{0}" answerLabel=""/>
+                        </td>
+                    </repeat>
+
                     <td>
                         <!-- Laxative -->
                     </td>
@@ -183,8 +196,12 @@
             <tr>
                 <th>Functional status</th>
                 <td>
+                    <repeat with="['$pc_no_support','No support'],['$pc_needs','Needs'],['$pc_bed_ridden','Bed ridden']">
+                        <obs conceptId="$functionalStatus" answerConceptId="{0}" answerLabel="{1}"/>
+                    </repeat>
                 </td>
             </tr>
+
             <tr>
                 <th>Laxative</th>
                 <td style="text-align: left">
