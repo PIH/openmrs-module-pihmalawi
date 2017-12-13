@@ -24,14 +24,16 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String DEFAULTED_CONCEPT_UUID = "655b5f4a-977f-11e1-8993-905e29aff6c1";
     public static final String DIED_STATE_CONCEPT_UUID = "655b5e46-977f-11e1-8993-905e29aff6c1";
 
-    public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
     public static final String LOCATION_OF_VISIT_CONCEPT  = "1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5";
     public static final String FUNCTIONAL_STATUS_CONCEPT  = "61EB2A1C-3DB0-4453-8E89-6FBD09563A96";
+    public static final String PATIENT_ON_LAXATIVE_CONCEPT  = "2D452120-1DC7-427F-89FC-7FEE85A1E709";
+
+    public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
 
 
     @Override
     public int getVersion() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -129,6 +131,13 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .description("FCB7A29D-277F-4A67-AF7C-2C30AD9839B6", "Functional status", Locale.ENGLISH)
                 .answers(
                         pc_no_support,pc_needs,pc_bed_ridden)
+                .build());
+
+        install(new ConceptBuilder(PATIENT_ON_LAXATIVE_CONCEPT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("630A1C0A-A72C-477F-835E-1F9E5E26DBC4", "Patient on laxative", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
                 .build());
 
     }

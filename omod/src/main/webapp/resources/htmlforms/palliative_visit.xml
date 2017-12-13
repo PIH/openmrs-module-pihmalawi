@@ -6,8 +6,8 @@
     <macros>
         <macro key="height" value="5090"/>
         <macro key="weight" value="5089"/>
-        <macro key="no" value="1066"/>
-        <macro key="yes" value="1065"/>
+        <macro key="noAnswer" value="1066"/>
+        <macro key="yesAnswer" value="1065"/>
         <macro key="systolicBP" value="5085"/>
         <macro key="diastolicBP" value="5086"/>
 
@@ -20,8 +20,12 @@
         <macro key="pc_needs" value="1FD42AA9-AA92-48FB-AD9C-C985CA7FD8F1"/>
         <macro key="pc_bed_ridden" value="4C6822BE-88EA-4E71-A7EC-4D3E7403B3D5"/>
 
+        <macro key="patientOnLaxative" value="2D452120-1DC7-427F-89FC-7FEE85A1E709"/>
+
+        <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
+
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
-        
+
         hospitalSinceLast=1715
         drugsNow=1193
         drugSet=8501
@@ -45,28 +49,32 @@
                     <td>Visit Date</td>
                     <td>Ht</td>
                     <td>Wt</td>
-                    <td rowspan="2" span="2">BP</td>
+                    <td>BP</td>
                     <td colspan="3">Location<br/>of visit</td>
                     <td colspan="3">Functional status</td>
+                    <td rowspan="2" span="2">Patient on laxative?</td>
                     <td colspan="2">Referral</td>
                     <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
                     <td colspan="2">Chemotheraphy<br/>and Bleomycin</td>
-                    <td>Pain<br/>score</td>
-                    <td colspan="5">Treatment details</td>
+                    <td rowspan="2">Pain<br/>score</td>
+
                     <td rowspan="2">Counseling</td>
-                    <td>Management Plan<br/>Comments</td>
-                    <td>Next appt</td>
+                    <td rowspan="2">Management Plan<br/>Comments</td>
+                    <td rowspan="2">Next appt</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                     <td><i>cm</i></td>
                     <td><i>kg</i></td>
+                    <td><span style="font-size:.7em;">SBP/DBP</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Home</span></td>
                     <td class="rotate"><span style="font-size:.7em;">IC3</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Hospital ward</span></td>
                     <td class="rotate"><span style="font-size:.7em;">No support</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Needs</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Bed ridden</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">POSER Referral</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">QECH Referral</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -89,12 +97,14 @@
                         <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
                     </td>
 
+                    <!-- Location of Visit -->
                     <repeat with="['$homeLocation'],['$ic3Location'],['$hospitalWardLocation']">
                         <td>
                             <obs conceptId="$locationOfVisit" answerConceptId="{0}" answerLabel=""/>
                         </td>
                     </repeat>
 
+                    <!-- Functional Status -->
                     <repeat with="['$pc_no_support'],['$pc_needs'],['$pc_bed_ridden']">
                         <td>
                             <obs conceptId="$functionalStatus" answerConceptId="{0}" answerLabel=""/>
@@ -102,36 +112,40 @@
                     </repeat>
 
                     <td>
-                        <!-- Laxative -->
+                        <!-- Patient on laxative -->
+                        <obs conceptId="$patientOnLaxative" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
                     <td>
                         <!-- Referral -->
+                        Referral#1
+                    </td>
+                    <td>
+                        <!-- Referral -->
+                        Referral#2
                     </td>
 
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="$hospitalSinceLast" style="checkbox" />Y
+                        <obs conceptId="$hospitalSinceLast" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
 
-                    <td>
-                        <!-- Chemo -->
+                    <td colspan="2">
+                        <!-- Chemo --> chemo
                     </td>
 
                     <td>
                         <!-- Pain score  -->
-                    </td>
-
-                    <td>
-                        <!-- Treatment details -->
+                        <obs conceptId="$painScore" />
                     </td>
 
                     <td>
                         <!-- Counseling -->
-                        <obs conceptId="$counseling" />
+                        <obs conceptId="$counseling" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
 
                     <td>
                         <!-- Management plan / comments -->
+                        Management plan
                     </td>
 
                     <td>
@@ -203,9 +217,9 @@
             </tr>
 
             <tr>
-                <th>Laxative</th>
-                <td style="text-align: left">
-                </td>
+                <!-- Patient on laxative -->
+                <th>Patient on laxative?</th>
+                <td><obs conceptId="$patientOnLaxative" answerConceptIds="$yesAnswer,$noAnswer" style="radio" /> </td>
             </tr>
 
             <tr>
@@ -217,7 +231,7 @@
             <tr>
                 <th>Hospitalized since last visit?</th>
                 <td>
-                    <obs conceptId="$hospitalSinceLast" style="checkbox" />Yes
+                    <obs conceptId="$hospitalSinceLast" style="yes_no" />
                 </td>
             </tr>
 
@@ -227,9 +241,10 @@
             </tr>
 
             <tr>
-                <th>Pain</th>
-                <td></td>
+                <th>Pain score(0-5)</th>
+                <td><obs conceptId="$painScore" id="painScore" /></td>
             </tr>
+
 
             <tr>
                 <th>Treatment details</th>
@@ -237,8 +252,9 @@
             </tr>
 
             <tr>
-                <th>Counseling</th>
-                <td></td>
+                <!-- Counseling -->
+                <th>Counseling?</th>
+                <td><obs conceptId="$counseling" answerConceptIds="$yesAnswer,$noAnswer" style="radio" /> </td>
             </tr>
 
             <tr>
