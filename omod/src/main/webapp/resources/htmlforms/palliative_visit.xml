@@ -19,8 +19,11 @@
         <macro key="pc_no_support" value="C745EF20-19A1-4E43-998D-E34658580828"/>
         <macro key="pc_needs" value="1FD42AA9-AA92-48FB-AD9C-C985CA7FD8F1"/>
         <macro key="pc_bed_ridden" value="4C6822BE-88EA-4E71-A7EC-4D3E7403B3D5"/>
-
         <macro key="patientOnLaxative" value="2D452120-1DC7-427F-89FC-7FEE85A1E709"/>
+
+        <macro key="pcReferral" value="44EFAABD-5A8A-4D17-B3E5-E6A4834A7659"/>
+        <macro key="poserReferral" value="6F4191F7-AB10-41DE-8B23-DD8F6B66D6D1"/>
+        <macro key="qechReferral" value="8EF58590-DD8F-4117-B73B-435DBEB0B58B"/>
 
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
 
@@ -115,14 +118,13 @@
                         <!-- Patient on laxative -->
                         <obs conceptId="$patientOnLaxative" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                     </td>
-                    <td>
-                        <!-- Referral -->
-                        Referral#1
-                    </td>
-                    <td>
-                        <!-- Referral -->
-                        Referral#2
-                    </td>
+
+
+                    <repeat with="['$poserReferral'],['$qechReferral']">
+                        <td>
+                            <obs conceptId="$pcReferral" answerConceptId="{0}" answerLabel=""/>
+                        </td>
+                    </repeat>
 
                     <td>
                         <!-- Hospitalized since last visit -->
@@ -224,7 +226,10 @@
 
             <tr>
                 <th>Referral</th>
-                <td style="text-align: left">
+                <td>
+                    <repeat with="['$poserReferral','Poser Referral'],['$qechReferral','QECH Referral']">
+                        <obs conceptId="$pcReferral" answerConceptId="{0}" answerLabel="{1}"/>
+                    </repeat>
                 </td>
             </tr>
 

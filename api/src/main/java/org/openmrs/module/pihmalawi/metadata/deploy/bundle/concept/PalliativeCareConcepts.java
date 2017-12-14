@@ -27,13 +27,14 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String LOCATION_OF_VISIT_CONCEPT  = "1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5";
     public static final String FUNCTIONAL_STATUS_CONCEPT  = "61EB2A1C-3DB0-4453-8E89-6FBD09563A96";
     public static final String PATIENT_ON_LAXATIVE_CONCEPT  = "2D452120-1DC7-427F-89FC-7FEE85A1E709";
+    public static final String PC_REFERRAL_CONCEPT  = "44EFAABD-5A8A-4D17-B3E5-E6A4834A7659";
 
     public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
 
 
     @Override
     public int getVersion() {
-        return 7;
+        return 8;
     }
 
     @Override
@@ -140,5 +141,26 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .answers(yes, no)
                 .build());
 
+        Concept poser_referral = install(new ConceptBuilder("6F4191F7-AB10-41DE-8B23-DD8F6B66D6D1")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6269DA8C-34BE-4C9D-9E7B-EDFBDFDEAFD8", "POSER Referral", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("521409B0-86CF-46A6-8672-ECE620C53448", "PC POSER Referral", Locale.ENGLISH)
+                .build());
+        Concept qech_referral = install(new ConceptBuilder("8EF58590-DD8F-4117-B73B-435DBEB0B58B")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6266BF43-E1CA-432A-B97F-62E37641106B", "QECH Referral", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("B7B1B68C-1AB3-4E6E-A46F-33DF8AD0AA30", "PC QECH Referral", Locale.ENGLISH)
+                .build());
+
+        install(new ConceptBuilder(PC_REFERRAL_CONCEPT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("99819C4E-4043-4249-9EA0-3D4C76C25D33", "PC Referral", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("7745BD8C-BCE7-4B5F-ADED-56C4F229AB2E", "PC Referral", Locale.ENGLISH)
+                .answers(
+                        poser_referral,qech_referral)
+                .build());
     }
 }
