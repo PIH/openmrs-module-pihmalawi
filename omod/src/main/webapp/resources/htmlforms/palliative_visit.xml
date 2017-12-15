@@ -24,7 +24,9 @@
         <macro key="pcReferral" value="44EFAABD-5A8A-4D17-B3E5-E6A4834A7659"/>
         <macro key="poserReferral" value="6F4191F7-AB10-41DE-8B23-DD8F6B66D6D1"/>
         <macro key="qechReferral" value="8EF58590-DD8F-4117-B73B-435DBEB0B58B"/>
-
+        <macro key="chemoAndBleomycin" value="4E8920EC-CD8F-4E20-8B25-82924A1C59B8"/>
+        <macro key="vincristineAndBleomycin" value="E81CADD0-468F-4D08-AA76-76A18ED75677"/>
+        <macro key="paclitaxel" value="6566f788-977f-11e1-8993-905e29aff6c1"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
 
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
@@ -57,7 +59,7 @@
                     <td colspan="3">Functional status</td>
                     <td rowspan="2" span="2">Patient on laxative?</td>
                     <td colspan="2">Referral</td>
-                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit</td>
+                    <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit<br/>due to condition?</td>
                     <td colspan="2">Chemotheraphy<br/>and Bleomycin</td>
                     <td rowspan="2">Pain<br/>score</td>
 
@@ -78,6 +80,8 @@
                     <td class="rotate"><span style="font-size:.7em;">Bed ridden</span></td>
                     <td class="rotate"><span style="font-size:.7em;">POSER Referral</span></td>
                     <td class="rotate"><span style="font-size:.7em;">QECH Referral</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Vincristine 2mg<br/>and Bleomycin 15iu</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Paclitaxel</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -131,8 +135,11 @@
                         <obs conceptId="$hospitalSinceLast" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
 
-                    <td colspan="2">
-                        <!-- Chemo --> chemo
+                    <td>
+                        <obs conceptId="$chemoAndBleomycin" answerConceptId="$vincristineAndBleomycin" answerLabel="" style="checkbox"/>
+                    </td>
+                    <td>
+                        <obs conceptId="$chemoAndBleomycin" answerConceptId="$paclitaxel" answerLabel=" mg" />
                     </td>
 
                     <td>
