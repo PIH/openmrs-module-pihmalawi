@@ -30,14 +30,14 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String PC_REFERRAL_CONCEPT  = "44EFAABD-5A8A-4D17-B3E5-E6A4834A7659";
 
     public static final String PACLITAXEL_CONCEPT  = "6566f788-977f-11e1-8993-905e29aff6c1";
-    public static final String CHEMO_AND_BLEOMYCIN_CONCEPT  = "4E8920EC-CD8F-4E20-8B25-82924A1C59B8";
+    public static final String CHEMO_AND_BLEOMYCIN_CONCEPT  = "AD27EE9F-6AD7-426C-A970-05DF10BAB96D";
 
     public static final String COUNSELING_CONCEPT  = "480E00E5-D428-45F1-B819-413FE5FAEAC0";
 
 
     @Override
     public int getVersion() {
-        return 9;
+        return 15;
     }
 
     @Override
@@ -174,22 +174,21 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .build());
 
 
-        Concept vincristine_and_bleomycin = install(new ConceptBuilder("E81CADD0-468F-4D08-AA76-76A18ED75677")
+        Concept vincristine_and_bleomycin = install(new ConceptBuilder("462D9714-CB2B-4362-9268-AE98898F4D65")
                 .datatype(notApplicable)
                 .conceptClass(misc)
-                .name("0D8011F0-F532-4A08-AA07-E389F8B54C56", "Vincristine and Bleomycin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .description("3B4B6F19-70A5-4585-B4ED-0676F6F6F492", "Vincristine 2mg and Bleomycin 15iu", Locale.ENGLISH)
+                .name("2AAC2411-A5B2-46C7-916D-25AE35C236AF", "Vincristine and Bleomycin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("AF31B049-A8D6-4C87-B739-3B7E52AE061B", "Vincristine 2mg and Bleomycin 15iu", Locale.ENGLISH)
                 .build());
 
-        Concept paclitaxel = MetadataUtils.existing(Concept.class, PACLITAXEL_CONCEPT);
 
         install(new ConceptBuilder(CHEMO_AND_BLEOMYCIN_CONCEPT)
                 .datatype(coded)
                 .conceptClass(question)
-                .name("03C1BBE4-5AB6-4C91-865E-B01DAFB14C3F", "Chemotherapy and Bleomycin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .description("F9ADF7A9-9465-4749-9920-FD669D14A612", "Chemotherapy and Bleomycin", Locale.ENGLISH)
+                .name("2913C395-6063-4D7C-A49A-F09849051FB6", "Chemotherapy and Bleomycin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("BA1CD3C3-6C4C-47C5-B5CC-F231721E59EE", "Chemotherapy and Bleomycin", Locale.ENGLISH)
                 .answers(
-                        vincristine_and_bleomycin,paclitaxel)
+                        vincristine_and_bleomycin)
                 .build());
 
 

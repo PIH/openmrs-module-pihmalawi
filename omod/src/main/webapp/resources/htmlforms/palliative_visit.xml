@@ -24,12 +24,14 @@
         <macro key="pcReferral" value="44EFAABD-5A8A-4D17-B3E5-E6A4834A7659"/>
         <macro key="poserReferral" value="6F4191F7-AB10-41DE-8B23-DD8F6B66D6D1"/>
         <macro key="qechReferral" value="8EF58590-DD8F-4117-B73B-435DBEB0B58B"/>
-        <macro key="chemoAndBleomycin" value="4E8920EC-CD8F-4E20-8B25-82924A1C59B8"/>
-        <macro key="vincristineAndBleomycin" value="E81CADD0-468F-4D08-AA76-76A18ED75677"/>
+        <macro key="chemoAndBleomycin" value="AD27EE9F-6AD7-426C-A970-05DF10BAB96D"/>
+        <macro key="vincristineAndBleomycin" value="462D9714-CB2B-4362-9268-AE98898F4D65"/>
         <macro key="paclitaxel" value="6566f788-977f-11e1-8993-905e29aff6c1"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
 
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
+        <macro key="managementPlanComments" value="16D8FC88-0180-4858-95D5-2479CF7BD6EE"/>
+
 
         hospitalSinceLast=1715
         drugsNow=1193
@@ -42,6 +44,10 @@
         .atab {
             display: inline-block;
             width: 150px;
+        }
+        .vl {
+            border-left: 6px solid black;
+            height: 50px;
         }
     </style>
 
@@ -135,12 +141,14 @@
                         <obs conceptId="$hospitalSinceLast" style="yes_no" yesLabel="Y" noLabel="N" />
                     </td>
 
+
                     <td>
-                        <obs conceptId="$chemoAndBleomycin" answerConceptId="$vincristineAndBleomycin" answerLabel="" style="checkbox"/>
+                        <obs conceptId="$chemoAndBleomycin"  answerConceptId="$vincristineAndBleomycin"  answerLabel=""/>
                     </td>
                     <td>
-                        <obs conceptId="$chemoAndBleomycin" answerConceptId="$paclitaxel" answerLabel=" mg" />
+                        <obs conceptId="$paclitaxel" showUnits="true" />
                     </td>
+
 
                     <td>
                         <!-- Pain score  -->
@@ -154,7 +162,7 @@
 
                     <td>
                         <!-- Management plan / comments -->
-                        Management plan
+                        <obs conceptId="$managementPlanComments" answerLabel="" />
                     </td>
 
                     <td>
@@ -247,9 +255,16 @@
                 </td>
             </tr>
 
+
             <tr>
-                <th>Chemo...</th>
-                <td></td>
+
+                <th>Chemotherapy and Bleomycin</th>
+                    <td>
+                        <span><obs conceptId="$chemoAndBleomycin" answerConceptId="$vincristineAndBleomycin"  answerLabel="Vincristine 2mg and Bleomycin 15iu" /></span>
+                        <br></br>
+                        <br></br>
+                        <span><obs conceptId="$paclitaxel" labelText="Paclitaxel: " showUnits="true"/> </span>
+                    </td>
             </tr>
 
             <tr>
@@ -270,9 +285,8 @@
             </tr>
 
             <tr>
-                <th>Management plan</th>
-                <td>
-                </td>
+                <th>Management plan/comments</th>
+                <td><obs conceptId="$managementPlanComments"/></td>
             </tr>
 
             <tr>
