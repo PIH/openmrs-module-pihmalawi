@@ -29,6 +29,17 @@
         <macro key="paclitaxel" value="6566f788-977f-11e1-8993-905e29aff6c1"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
 
+        <macro key="medicationConstruct" value="B0AAF81F-3E74-4DD6-BB72-D9F704236CFC"/>
+        <macro key="meds" value="38625279-00DD-40B0-B926-ADB5549C8F8A"/>
+        <macro key="morphineImmediateRelease" value="BF09FD11-13AE-4398-90B0-33B66F4A1C0F"/>
+        <macro key="morphineModifiedRelease" value="23E28B0C-BEB7-46B1-8B54-D53549E15B61"/>
+        <macro key="morphineLiquid" value="1FB97E61-626C-44A4-B55C-AE60BAAFAA49"/>
+        <macro key="tramadol" value="657351a4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="codeine" value="6574f360-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="doseInMg" value="6562d39c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="drugFrequency" value="65636514-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="drugDuration" value="0F3AA0EC-C3FB-47E7-B17D-FA8AF2B0B33C"/>
+
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
         <macro key="managementPlanComments" value="16D8FC88-0180-4858-95D5-2479CF7BD6EE"/>
 
@@ -45,9 +56,8 @@
             display: inline-block;
             width: 150px;
         }
-        .vl {
-            border-left: 6px solid black;
-            height: 50px;
+        .nowrap {
+            white-space: nowrap;
         }
     </style>
 
@@ -68,7 +78,7 @@
                     <td rowspan="2" style="font-size:.7em;">Hospitalization since last visit<br/>due to condition?</td>
                     <td colspan="2">Chemotheraphy<br/>and Bleomycin</td>
                     <td rowspan="2">Pain<br/>score</td>
-
+                    <td colspan="5">Treatment Details:<br/>Write dosage and frequency</td>
                     <td rowspan="2">Counseling</td>
                     <td rowspan="2">Management Plan<br/>Comments</td>
                     <td rowspan="2">Next appt</td>
@@ -88,6 +98,11 @@
                     <td class="rotate"><span style="font-size:.7em;">QECH Referral</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Vincristine 2mg<br/>and Bleomycin 15iu</span></td>
                     <td class="rotate"><span style="font-size:.7em;">Paclitaxel</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Morphine Immediate Release</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Morphine Modified Release</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Morphine Liquid</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Tramadol</span></td>
+                    <td class="rotate"><span style="font-size:.7em;">Codeine</span></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -154,6 +169,37 @@
                         <!-- Pain score  -->
                         <obs conceptId="$painScore" />
                     </td>
+
+                    <!-- Treatment Details -->
+                    <repeat with="['$morphineImmediateRelease','Morphine Immediate Release'],
+                                  ['$morphineModifiedRelease','Morphine Modified Release'],
+                                  ['$morphineLiquid','Morphine Liquid'],
+                                  ['$tramadol','Tramadol'],
+                                  ['$codeine','Codeine']">
+                        <td style="padding: 1px;" >
+                            <obsgroup groupingConceptId="$medicationConstruct">
+                                <span class="nowrap">
+                                    <obs conceptId="$meds" answerConceptId="{0}"
+                                         answerLabel="" style="checkbox" />
+                                <br/>
+                                </span>
+                                <span class="nowrap">
+                                    <obs conceptId="$doseInMg"
+                                         answerLabel="" labelText="Dose:" showUnits="true" />
+                                <br/>
+                                </span>
+                                <span class="nowrap">
+                                    <obs conceptId="$drugFrequency"
+                                         labelText="Frequency:" />
+                                </span>
+                                <span class="nowrap">
+                                    <obs conceptId="$drugDuration"
+                                         labelText="Duration:" />
+                                </span>
+                            </obsgroup>
+                        </td>
+                    </repeat>
+
 
                     <td>
                         <!-- Counseling -->
@@ -274,8 +320,40 @@
 
 
             <tr>
-                <th>Treatment details</th>
-                <td></td>
+                <th>Treatment Details</th>
+                <td>
+
+                    <repeat with="['$morphineImmediateRelease','Morphine Immediate Release'],
+                                  ['$morphineModifiedRelease','Morphine Modified Release'],
+                                  ['$morphineLiquid','Morphine Liquid'],
+                                  ['$tramadol','Tramadol'],
+                                  ['$codeine','Codeine']">
+                        <table>
+                            <tr>
+                            <obsgroup groupingConceptId="$medicationConstruct">
+                                <td class="nowrap">
+                                <obs conceptId="$meds" answerConceptId="{0}"
+                                     answerLabel="{1}" style="checkbox" />
+                                &#160;&#160;
+                                </td>
+                                <td class="nowrap">
+                                <obs conceptId="$doseInMg"
+                                     labelText="Dose:" showUnits="true"/>
+                                &#160;&#160;
+                                </td>
+                                <td class="nowrap">
+                                <obs conceptId="$drugFrequency"
+                                     labelText="Frequency:" />
+                                </td>
+                                <td class="nowrap">
+                                    <obs conceptId="$drugDuration"
+                                         labelText="Duration:" />
+                                </td>
+                            </obsgroup>
+                            </tr>
+                        </table>
+                    </repeat>
+                </td>
             </tr>
 
             <tr>

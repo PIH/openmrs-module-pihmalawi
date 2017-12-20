@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
 
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
@@ -37,7 +38,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 15;
+        return 17;
     }
 
     @Override
@@ -191,6 +192,56 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         vincristine_and_bleomycin)
                 .build());
 
+
+        Concept morphineImmediateRelease = install(new ConceptBuilder("BF09FD11-13AE-4398-90B0-33B66F4A1C0F")
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("6AA5039E-A229-4251-924D-B1421498043F", "Morphine Immediate Release", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("C5912A17-8283-4A2D-91CF-0FD884E19339", "Morphine Immediate Release", Locale.ENGLISH)
+                .build());
+
+        Concept morphineModifiedRelease = install(new ConceptBuilder("23E28B0C-BEB7-46B1-8B54-D53549E15B61")
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("E3409AB7-B11F-430C-A31D-32E5804BF8A2", "Morphine Modified Release", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("164999B4-DEDE-4CEA-8E1F-EE431E3D1F81", "Morphine Modified Release", Locale.ENGLISH)
+                .build());
+
+        Concept morphineLiquid = install(new ConceptBuilder("1FB97E61-626C-44A4-B55C-AE60BAAFAA49")
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("D470873C-09E3-4029-80A4-692D60C30833", "Morphine Liquid", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("F9B1D5DB-CE27-4455-B091-8881903D80C6", "Morphine Liquid", Locale.ENGLISH)
+                .build());
+        Concept tramadol = MetadataUtils.existing(Concept.class, "657351a4-977f-11e1-8993-905e29aff6c1");
+        Concept codeine = MetadataUtils.existing(Concept.class, "6574f360-977f-11e1-8993-905e29aff6c1");
+
+        Concept pcMedication = install(new ConceptBuilder("38625279-00DD-40B0-B926-ADB5549C8F8A")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("3E9910A5-5DDB-4998-B128-C983D6D34D77", "Palliative care medication", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("4B8905FC-FA90-4FB5-9C62-9EC4785BBC87", "Palliative care medication", Locale.ENGLISH)
+                .answers(
+                        morphineImmediateRelease, morphineModifiedRelease, morphineLiquid, tramadol, codeine)
+                .build());
+
+        Concept doseInMg = MetadataUtils.existing(Concept.class, "6562d39c-977f-11e1-8993-905e29aff6c1");
+        Concept frequency = MetadataUtils.existing(Concept.class, "65636514-977f-11e1-8993-905e29aff6c1");
+        Concept generalDuration = install(new ConceptBuilder("0F3AA0EC-C3FB-47E7-B17D-FA8AF2B0B33C")
+                .datatype(text)
+                .conceptClass(question)
+                .name("1F6B5670-C2CC-4928-9729-38A538D57E97", "Duration", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("27964240-9227-45CB-9039-5F6D8ABC2D05", "Prescribed duration of drug consumption", Locale.ENGLISH)
+                .build());
+
+        Concept pcMedicationConstruct = install(new ConceptBuilder("B0AAF81F-3E74-4DD6-BB72-D9F704236CFC")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("80C4EFF9-0253-46EB-A3C2-19410A7595E6", "Palliative care medication construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("B3C85B3D-C5EA-49D6-A9AA-402D407CD432", "Palliative care medication construct", Locale.ENGLISH)
+                .setMembers(
+                        pcMedication, doseInMg, frequency, generalDuration)
+                .build());
 
     }
 }
