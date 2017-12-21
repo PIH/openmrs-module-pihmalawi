@@ -13,13 +13,11 @@
         diabetesDx=3720
         hypertensionDx=903
         heartFailureDx=3468
-        <!-- ToDo:  Add 3139 to PallCareDx ConvSet -->
         hfStages=3139
         nyha1=3135
         nyha2=3136
         nyha3=3137
         nyha4=3138
-
         chronicLungDx=155569AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         mentalHealthDx=7f55864c-e68d-11e7-80c1-9a214cf093ae
         epilepsyDx=155
@@ -31,10 +29,6 @@
         epilepsyFamilyHistory=8484
         allergyFamilyHistory=151530AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         tbContactFamilyHistory=13491200-e5bd-11e7-80c1-9a214cf093ae
-
-        roleProvidingHistory=9848a348-e681-11e7-80c1-9a214cf093ae
-        patient=134916ba-e5bd-11e7-80c1-9a214cf093ae
-        guardianRole=3565
 
         insightText=9848b694-e681-11e7-80c1-9a214cf093ae
         familyInfoText=9848b9aa-e681-11e7-80c1-9a214cf093ae
@@ -62,6 +56,7 @@
         relationToPatient=1328
         agreesToFollowup=2552
         chwName=8431
+        married=1055
 
         <macro key="historyConstruct" value="9168ACDB-F4CC-49A3-91D9-77E767EEFE78"/>
         <macro key="historyGivenBy" value="B71C09E6-F03E-4BBE-AC89-EF2B236397F3"/>
@@ -81,9 +76,6 @@
         <macro key="bleeding" value="6572103c-977f-11e1-8993-905e29aff6c1"/>
         <macro key="dryMouth" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="symptomDate" value="65732bf2-977f-11e1-8993-905e29aff6c1"/>
-
-        married=1055
-
     </macros>
 
     <span style="display:none">
@@ -263,8 +255,8 @@
 
                         <repeat with="['$chronicLungDx','chronicLung', 'Chronic Lung Disease'],
                                   ['$mentalHealthDx','mental','Mental Health'],
-                                  ['$kidneyFailureDx','kidney','Kidney Failure'],
-                                  ['$epilepsyDx','epilepsy','Epilepsy']">
+                                  ['$epilepsyDx','epilepsy','Epilepsy'],
+                                  ['$kidneyFailureDx','kidney','Kidney Failure']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$pcDiagnosisSet">
@@ -327,19 +319,19 @@
                             <td colspan="2">
                                 <b>History given by</b>
                                 <br/>
-                                <!-- ToDo:  Add concept 'Person providing history with 2 answers -->
-
+                                <obs conceptId="$historyGivenBy" answerConceptId="$historyByPatient" answerLabel="Patient" />&amp;nbsp;
+                                <obs conceptId="$historyGivenBy" answerConceptId="$historyByGuardian" answerLabel="Guardian" />
                             </td>
                         </tr>
                         <repeat with="['$shortnessOfBreath','sob', 'Shortness of breath'],
                                   ['$peripheralNeuropathy','pn','Peripheral neuropathy'],
-                                  ['$vaginalBleeding','pvBleeding','Bleeding (pv)'],
+                                  ['$vaginalBleeding','pvBleeding','Bleeding (PV)'],
                                   ['$bleeding','otherBleeding','Bleeding (other)'],
                                   ['$coughing','cough', 'Coughing'],
                                   ['$fatigue','fatigue', 'Fatigue'],
                                   ['$nauseaVomit','nausea', 'Nausea/Vomiting'],
                                   ['$constipation','constip', 'Constipation'],
-                                  ['$diarrhea','diarrhea', 'Diarrhea'],
+                                  ['$diarrhea','diarrhea', 'Diarrhoea'],
                                   ['$dryMouth','dryMouth', 'Dry mouth'],
                                   ['$anorexia','anorexia', 'Anorexia'],
                                   ['$dysphagia','dysphagia', 'Dysphagia'],
@@ -388,6 +380,7 @@
                     <b>Patients and family insight</b>
                     (diagnosis, treatment and prognosis)
                     <br/>
+                    <obs conceptId="$insightText" rows="2" cols="50" />
                 </td>
 
                 <td rowspan="3">
@@ -397,13 +390,12 @@
                     <repeat with="['$hypertensionFamilyHistory','HTN'],
                                   ['$diabetesFamilyHistory','Diabetes'],
                                   ['$asthmaFamilyHistory','Asthma'],
-                                  ['$epilepsyFamilyHistory','Epilepsy']">
-                        <!-- ToDo:  Add two concepts -->
-                        <!-- ['$allergyFamilyHistory','Allergies'], -->
-                        <!-- ['$tbContactFamilyHistory','TB Contact']"> -->
+                                  ['$allergyFamilyHistory','Allergies'],
+                                  ['$epilepsyFamilyHistory','Epilepsy'],
+                                  ['$tbContactFamilyHistory','TB Contact']">
 
                         {1}
-                        <span style="padding-left:50px;"></span>
+                        <span style="padding-left:5em;"></span>
 
                         <obs conceptId="{0}" style="radio"
                              answerLabels="Yes,No,Unknown"
@@ -420,19 +412,21 @@
             </tr>
 
             <tr>
-                <!-- ToDo:  Add 2 concepts with numeric -->
                 <td>Family Tree structure:
                     <br/>
-                    =male
+                    <span style="padding-left:50px;"></span>
+                    <obs conceptId="$numMales"/>=male
                     <br/>
-                    =female
+                    <span style="padding-left:50px;"></span>
+                    <obs conceptId="$numFemales"/>=female
                 </td>
 
                 <!-- ToDo:  Add concept with text -->
                 <td>
-                    <b>Other important family members/information</b>
+                    <b>Other important family members/information</b><br/>
                     (Explore Ages of children, Level of education or currently attending school and what grade)
                     <br/>
+                    <obs conceptId="$familyInfoText" rows="2" cols="50"/>
                 </td>
             </tr>
 

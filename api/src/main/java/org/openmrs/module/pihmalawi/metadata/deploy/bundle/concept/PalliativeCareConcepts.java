@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 19;
+        return 22;
     }
 
     @Override
@@ -50,6 +50,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
         Concept unknown = MetadataUtils.existing(Concept.class, "65576584-977f-11e1-8993-905e29aff6c1");
         Concept positive = MetadataUtils.existing(Concept.class, "6549be7a-977f-11e1-8993-905e29aff6c1");
         Concept negative = MetadataUtils.existing(Concept.class, "654994c2-977f-11e1-8993-905e29aff6c1");
+        Concept other = MetadataUtils.existing(Concept.class, "656cce7e-977f-11e1-8993-905e29aff6c1");
 
         install(new ConceptBuilder(PALLIATIVE_CARE_PROGRAM_CONCEPT_UUID)
                 .datatype(notApplicable)
@@ -358,11 +359,20 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("7f558958-e68d-11e7-80c1-9a214cf093ae", "Mental health diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        Concept cancer = MetadataUtils.existing(Concept.class, "6575a422-977f-11e1-8993-905e29aff6c1");
+        Concept depression = MetadataUtils.existing(Concept.class, "6546cbd4-977f-11e1-8993-905e29aff6c1");
+        Concept diabetes = MetadataUtils.existing(Concept.class, "6567426a-977f-11e1-8993-905e29aff6c1");
+        Concept hypertension = MetadataUtils.existing(Concept.class, "654abfc8-977f-11e1-8993-905e29aff6c1");
+        Concept heartFailure = MetadataUtils.existing(Concept.class, "6566257e-977f-11e1-8993-905e29aff6c1");
+        Concept epilepsy = MetadataUtils.existing(Concept.class, "6546938a-977f-11e1-8993-905e29aff6c1");
+        Concept kidneyFailure = MetadataUtils.existing(Concept.class, "65671a88-977f-11e1-8993-905e29aff6c1");
+
         Concept pcDiagnosis = install(new ConceptBuilder("9848b126-e681-11e7-80c1-9a214cf093ae")
                 .datatype(coded)
                 .conceptClass(diagnosis)
                 .name("9848b536-e681-11e7-80c1-9a214cf093ae", "Palliative care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(chronicLung,mentalHealth)
+                .answers(cancer,depression,diabetes,hypertension,heartFailure,chronicLung,mentalHealth,
+                        epilepsy,kidneyFailure,other)
                 .build());
 
         Concept pcDiagnosisConstruct = install(new ConceptBuilder("9848aec4-e681-11e7-80c1-9a214cf093ae")
