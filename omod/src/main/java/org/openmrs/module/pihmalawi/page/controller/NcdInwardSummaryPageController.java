@@ -101,6 +101,7 @@ public class NcdInwardSummaryPageController {
             model.addAttribute( "hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
             model.addAttribute( "hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
             model.addAttribute( "hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));
+            model.addAttribute( "artAppointmentStatus", evaluate(hivData.getArtAppointmentStatus(), context));
             model.addAttribute( "ccTxStatus", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
             model.addAttribute( "ccTxStatusDate", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
             model.addAttribute( "ccDxObs", evaluate(ccData.getAllChronicCareDiagnosisObsByEndDate(), context));
@@ -155,6 +156,11 @@ public class NcdInwardSummaryPageController {
                     Encounter latestEncounter = (Encounter)evaluate(df.getMostRecentEncounterOfTypesByEndDate(section.getTypes(), null), context);
                     if (latestEncounter != null) {
                         section.setLatestEncounterDate(latestEncounter.getEncounterDatetime());
+                        Obs nextApptDate = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getAppointmentDateConcept(), section.getTypes(), null), context);
+                        if (nextApptDate != null && latestEncounter.equals(nextApptDate.getEncounter())) {
+                            section.setNextAppointmentDate(nextApptDate.getValueDate());
+                        }
+
                         if (section.getKey().equals("htn") || section.getKey().equals("diabetes")) {
                             String bp = "None recorded";
                             Obs lastSystolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), section.getTypes(), null), context);
@@ -274,6 +280,7 @@ public class NcdInwardSummaryPageController {
         private List<DiagnosisRow> rows;
         private Date earliestEncounterDate;
         private Date latestEncounterDate;
+        private Date nextAppointmentDate;
         private Map<String, Object> obsValues;
         private List<Obs> currentMedications;
 
@@ -341,6 +348,14 @@ public class NcdInwardSummaryPageController {
 
         public void setLatestEncounterDate(Date latestEncounterDate) {
             this.latestEncounterDate = latestEncounterDate;
+        }
+
+        public Date getNextAppointmentDate() {
+            return nextAppointmentDate;
+        }
+
+        public void setNextAppointmentDate(Date nextAppointmentDate) {
+            this.nextAppointmentDate = nextAppointmentDate;
         }
 
         public Map<String, Object> getObsValues() {

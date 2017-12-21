@@ -316,6 +316,7 @@
                 <th>Diagnosis Date</th>
                 <th>First Visit Date</th>
                 <th>Last Visit Date</th>
+                <th>Next Appt Date</th>
                 <th>Program Status</th>
             </tr>
         </thead>
@@ -328,6 +329,7 @@
                             <td>${ui.format(row.diagnosisDate)}</td>
                             <td>${ui.format(diagnosisSection.earliestEncounterDate)}</td>
                             <td>${ui.format(diagnosisSection.latestEncounterDate)}</td>
+                            <td>${ui.format(diagnosisSection.nextAppointmentDate)}</td>
                             <td>${ui.format(ccTxStatus)} since ${ui.format(ccTxStatusDate)} </td>
                         </tr>
                     <% } %>
@@ -339,6 +341,7 @@
                     <td>${ui.format(hivEnrollmentDate)}</td>
                     <td>${ui.format(hivFirstVisitDate)}</td>
                     <td>${ui.format(hivLastVisitDate)}</td>
+                    <td>${ui.format(artAppointmentStatus?.nextScheduledDate)}</td>
                     <td>${ ui.format(hivTxStatus) } since ${ui.format(hivTxStatusDate)}</td>
                 </tr>
             <% } %>
