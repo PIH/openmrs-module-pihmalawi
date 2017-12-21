@@ -52,7 +52,7 @@ public class TraceReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "IC3 TRACE Report";
+		return "IC3 - TRACE Report";
 	}
 
     @Override

@@ -1,6 +1,6 @@
 -- ## report_uuid = 897C0E0A-1F8A-4ABD-AFE2-054146227668
 -- ## design_uuid = FFA51EA2-D483-43F2-9FE8-5B0AF619E8A0
--- ## report_name = IC3 Register Report
+-- ## report_name = IC3 - Register Report
 -- ## report_description = Report listing IC3 patients
 -- ## parameter = reportEndDate|End Date|java.util.Date
 

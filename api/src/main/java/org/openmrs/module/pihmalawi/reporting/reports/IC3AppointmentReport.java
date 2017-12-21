@@ -14,23 +14,19 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
-import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// import org.openmrs.module.reporting.report.ReportDesign;
-
 @Component
-public class NewAppointmentReport extends ApzuReportManager {
+public class IC3AppointmentReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/appointment-data.sql";
     public static final String EXCEL_REPORT_DESIGN_UUID = "82359302-5db2-11e7-be82-dfb5eb799ead";
@@ -42,12 +38,12 @@ public class NewAppointmentReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "Appointment Report";
+		return "IC3 - Appointment Report";
 	}
 
     @Override
     public String getDescription() {
-        return "Appointment Report, revision June 2017";
+        return "IC3 Appointment Report, revision June 2017";
     }
 
     @Override

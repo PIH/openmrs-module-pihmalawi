@@ -43,7 +43,7 @@ public class IC3IndicatorReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "IC3 Indicator Report";
+		return "IC3 - Indicator Report";
 	}
 
     @Override

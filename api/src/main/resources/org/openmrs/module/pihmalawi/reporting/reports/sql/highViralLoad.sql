@@ -1,6 +1,6 @@
 -- ## report_uuid = 2fe281be-3ff4-11e6-9d69-0f1641034c73
 -- ## design_uuid = 3ed8dbbe-3ff4-11e6-9d69-0f1641034c73
--- ## report_name = High Viral Load Report
+-- ## report_name = HIV - High Viral Load Report
 -- ## report_description = Report listing patients with a high viral load from last laboratory test. 
 -- ## parameter = endDate|End Date|java.util.Date
 -- ## parameter = min_vl|Minimum Viral Load|java.lang.Integer

@@ -70,7 +70,6 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 
             List<Object[]> results = evaluationService.evaluateToList(q, context);
             for (Object[] row : results) {
-                System.out.println("Viral Load Numeric: " + ObjectUtil.toString(", ", row));
                 ViralLoad vl = createAndAddViralLoadForPatient(c.getData(), (Integer) row[0]);
                 vl.setResultDate((Date) row[1]);
                 vl.setGroupId(row[2] == null ? null : ((Obs) row[2]).getObsId());
@@ -92,7 +91,6 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 
             List<Object[]> results = evaluationService.evaluateToList(q, context);
             for (Object[] row : results) {
-                System.out.println("Viral Load LDL: " + ObjectUtil.toString(", ", row));
                 ViralLoad vl = createAndAddViralLoadForPatient(c.getData(), (Integer) row[0]);
                 vl.setResultDate((Date) row[1]);
                 vl.setGroupId(row[2] == null ? null : ((Obs) row[2]).getObsId());

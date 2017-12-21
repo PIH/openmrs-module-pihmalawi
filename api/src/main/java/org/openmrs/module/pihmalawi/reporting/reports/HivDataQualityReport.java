@@ -73,7 +73,7 @@ public class HivDataQualityReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "HIV Data Quality";
+		return "HIV - Data Quality Report";
 	}
 
 	@Override
