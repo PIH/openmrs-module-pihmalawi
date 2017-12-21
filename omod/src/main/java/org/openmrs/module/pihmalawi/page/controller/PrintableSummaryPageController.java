@@ -21,6 +21,7 @@ import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
+import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
@@ -60,6 +61,7 @@ public class PrintableSummaryPageController {
 
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
+        model.addAttribute("dateUtil", new DateUtil());
 
         PatientDataSetDefinition dsd = new PatientDataSetDefinition();
 
@@ -83,8 +85,7 @@ public class PrintableSummaryPageController {
         add(dsd, "artAppointmentStatus", hivData.getArtAppointmentStatus());
         add(dsd, "ccAppointmentStatus", ccData.getChronicCareAppointmentStatus());
         add(dsd, "cd4s", hivData.getCd4CountObservations());
-        add(dsd, "viralLoads", hivData.getViralLoadObservations());
-        add(dsd, "viralLdl", hivData.getLDLObservations());
+        add(dsd, "viralLoads", hivData.getAllViralLoadsByEndDate());
         add(dsd, "tbStatus", hivData.getLatestTbStatusObs());
         add(dsd, "height", baseData.getLatestHeightObs());
         add(dsd, "weights", baseData.getAllWeightObservations());
@@ -123,20 +124,18 @@ public class PrintableSummaryPageController {
             Date lastViralLoadDate = null;
             Boolean highViralLoad = false;
 
-            Obs lastViralLoad = getLastValue(dataSet, "viralLoads", Obs.class);
-            Obs lastViralLdl = getLastValue(dataSet, "viralLdl", Obs.class);
+            ViralLoad lastViralLoad = getLastValue(dataSet, "viralLoads", ViralLoad.class);
 
             if (lastViralLoad != null) {
-                lastViralLoadValue = ObjectUtil.formatNumber(lastViralLoad.getValueNumeric(), "1", Context.getLocale());
-                lastViralLoadDate = lastViralLoad.getObsDatetime();
-                if (lastViralLoad.getValueNumeric() >= 1000) {
-                    highViralLoad = true;
+                lastViralLoadDate = lastViralLoad.getResultDate();
+                if (lastViralLoad.getResultNumeric() != null) {
+                    lastViralLoadValue = ObjectUtil.formatNumber(lastViralLoad.getResultNumeric(), "1", Context.getLocale());
+                    if (lastViralLoad.getResultNumeric() >= 1000) {
+                        highViralLoad = true;
+                    }
                 }
-            }
-            if (lastViralLdl != null) {
-                if (lastViralLoadDate == null || lastViralLoadDate.before(lastViralLdl.getObsDatetime())) {
+                else if (lastViralLoad.getResultLdl()) {
                     lastViralLoadValue = "LDL";
-                    lastViralLoadDate = lastViralLdl.getObsDatetime();
                 }
             }
             model.put("lastViralLoadValue", lastViralLoadValue);

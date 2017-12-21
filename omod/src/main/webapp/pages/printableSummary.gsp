@@ -14,7 +14,8 @@
         var maxWeight = null;
         <% weights.each { weight -> %>
             var wt = ${weight.valueNumeric};
-            weightData.push([${weight.obsDatetime.getTime()}, wt]);
+            var wtDate = ${dateUtil.getStartOfDay(weight.obsDatetime).getTime()};
+            weightData.push([wtDate, wt]);
             minWeight = (minWeight == null || minWeight > wt ? wt : minWeight);
             maxWeight = (maxWeight == null || maxWeight < wt ? wt : maxWeight);
         <% } %>
@@ -461,7 +462,7 @@
                             Collections.reverse(weights);  %>
                             <%  weights.each { weight -> %>
                                 <tr>
-                                    <td>${ ui.format(weight.obsDatetime) }</td>
+                                    <td>${ ui.format(dateUtil.getStartOfDay(weight.obsDatetime)) }</td>
                                     <td>${ ui.format(weight.valueNumeric) }</td>
                                 </tr>
                             <% } %>

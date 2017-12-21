@@ -20,6 +20,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
@@ -27,16 +28,19 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ObsValue
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PregnantLactatingConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.TbStatusConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ViralLoadValueConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.WhoStageConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.ChangeInValueConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -214,33 +218,22 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	}
 
     @DocumentedDefinition
-    public PatientDataDefinition getViralLoadObservations() {
-        return pdf.getAllObsByEndDate(hivMetadata.getHivViralLoadConcept(), null, null);
+    public ViralLoadDataDefinition getAllViralLoadsByEndDate() {
+        ViralLoadDataDefinition def = new ViralLoadDataDefinition();
+        def.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        return def;
     }
 
-	@DocumentedDefinition
-	public PatientDataDefinition getLDLObservations() {
-		return pdf.getAllObsByEndDate(hivMetadata.getHivLDLConcept(), null, null);
-	}
-
-	@DocumentedDefinition("latestLDL")
-	public PatientDataDefinition getLatestLDLValueByEndDate() {
-		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivLDLConcept()), pdf.getObsValueCodedConverter());
-	}
-
-	@DocumentedDefinition("latestLDL.date")
-	public PatientDataDefinition getLatestLDLDateByEndDate() {
-		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivLDLConcept()), pdf.getObsDatetimeConverter());
-	}
-
-    @DocumentedDefinition("latestViralLoad")
-    public PatientDataDefinition getLatestViralLoadValueByEndDate() {
-        return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsValueNumericConverter());
+    @DocumentedDefinition("latestViralLoad.value")
+    public PatientDataDefinition getLatestViralLoadValueByEndDate(Object valueIfLdl) {
+        ViralLoadDataDefinition def = getAllViralLoadsByEndDate();
+        return pdf.convert(def, pdf.getLastListItemConverter(new ViralLoadValueConverter(valueIfLdl)));
 	}
 
     @DocumentedDefinition("latestViralLoad.date")
     public PatientDataDefinition getLatestViralLoadDateByEndDate() {
-        return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getHivViralLoadConcept()), pdf.getObsDatetimeConverter());
+        ViralLoadDataDefinition def = getAllViralLoadsByEndDate();
+        return pdf.convert(def, pdf.getLastListItemConverter(new PropertyConverter(ViralLoad.class, "resultDate")));
     }
 
     @DocumentedDefinition("arvRegimenChanges")

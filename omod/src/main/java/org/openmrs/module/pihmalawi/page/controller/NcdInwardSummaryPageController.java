@@ -73,6 +73,7 @@ public class NcdInwardSummaryPageController {
 
 		patientDomainWrapper.setPatient(patient);
         model.addAttribute("patient", patientDomainWrapper);
+        model.addAttribute("dateUtil", new DateUtil());
 
         EvaluationContext context = new EvaluationContext();
         context.setBaseCohort(new Cohort(Arrays.asList(patient.getPatientId())));
