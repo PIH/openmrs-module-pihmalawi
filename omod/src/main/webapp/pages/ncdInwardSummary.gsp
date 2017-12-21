@@ -70,6 +70,10 @@
     }
     table td {
         border: none;
+        padding: 1px 3px 1px 3px;
+    }
+    table th {
+        padding: 3px;
     }
     table {
         border-collapse: separate;
@@ -109,21 +113,16 @@
         white-space: nowrap;
     }
     .header-section {
-        width:100%; padding:10px;
+        width:100%; padding:5px;
     }
     .section-divider-top {
-        border-bottom: 2px solid black; padding:10px;
+        border-bottom: 2px solid black; margin-top:5px; margin-bottom: 5px;
     }
     .top-section-title {
         font-weight: bold;
         font-size: 1.2em;
         padding-left: 10px;
         padding-bottom: 5px;
-    }
-    .section-title {
-        font-weight: bold;
-        font-size: 1.2em;
-        padding:0px 10px 10px 10px;
     }
     .first-column {
         padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top;
@@ -219,10 +218,12 @@
         padding-top:20px; padding-bottom: 20px;
     }
     .section-divider-top {
-        padding-bottom:20px;
+        padding-top:5px;
+        padding-bottom:5px;
     }
     .section-divider-bottom {
-        padding-top:20px;
+        padding-top:5px;
+        padding-bottom:5px;
     }
 </style>
 
@@ -243,8 +244,6 @@
         <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
         <span id="identifier-section">(${ccNumber ? ccNumber : arvNumber ? arvNumber : hccNumber ? hccNumber : "?"})
     </div>
-
-    <div class="top-section-title">Demographics</div>
 
     <table>
         <tr>
@@ -303,9 +302,7 @@
         </tr>
     </table>
 
-    <br/>
     <div class="section-divider-top"></div>
-    <br/>
 
     <div class="top-section-title">Known Diagnoses</div>
 
@@ -349,7 +346,7 @@
     </table>
 
     <div class="section-divider-top"></div>
-    <br/>
+
     <div>
         <table id="diagnosisDetailTable">
         <tr>
@@ -428,7 +425,7 @@
     </table>
     </div>
 
-    <div class="section-divider-top">
+    <div class="section-divider-top" style="border:none;">
 
     <div class="top-section-title">Weight Trend</div>
 
