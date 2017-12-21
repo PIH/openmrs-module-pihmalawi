@@ -24,6 +24,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
     public static final String TRANSFERRED_OUT_CONCEPT_UUID = "655b604e-977f-11e1-8993-905e29aff6c1";
     public static final String DEFAULTED_CONCEPT_UUID = "655b5f4a-977f-11e1-8993-905e29aff6c1";
     public static final String DIED_STATE_CONCEPT_UUID = "655b5e46-977f-11e1-8993-905e29aff6c1";
+    public static final String DISCHARGE_STATE_CONCEPT_UUID = "6566dba4-977f-11e1-8993-905e29aff6c1";
 
     public static final String LOCATION_OF_VISIT_CONCEPT  = "1F5A206E-9E08-4CDA-BC83-3B1DB492F3C5";
     public static final String FUNCTIONAL_STATUS_CONCEPT  = "61EB2A1C-3DB0-4453-8E89-6FBD09563A96";
@@ -38,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 18;
+        return 19;
     }
 
     @Override
@@ -46,6 +47,9 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
         Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
         Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
+        Concept unknown = MetadataUtils.existing(Concept.class, "65576584-977f-11e1-8993-905e29aff6c1");
+        Concept positive = MetadataUtils.existing(Concept.class, "6549be7a-977f-11e1-8993-905e29aff6c1");
+        Concept negative = MetadataUtils.existing(Concept.class, "654994c2-977f-11e1-8993-905e29aff6c1");
 
         install(new ConceptBuilder(PALLIATIVE_CARE_PROGRAM_CONCEPT_UUID)
                 .datatype(notApplicable)
@@ -177,9 +181,8 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
         Concept vincristine_and_bleomycin = install(new ConceptBuilder("462D9714-CB2B-4362-9268-AE98898F4D65")
                 .datatype(notApplicable)
-                .conceptClass(misc)
+                .conceptClass(drug)
                 .name("2AAC2411-A5B2-46C7-916D-25AE35C236AF", "Vincristine and Bleomycin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .description("AF31B049-A8D6-4C87-B739-3B7E52AE061B", "Vincristine 2mg and Bleomycin 15iu", Locale.ENGLISH)
                 .build());
 
 
@@ -243,7 +246,6 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         pcMedication, doseInMg, frequency, generalDuration)
                 .build());
 
-
         Concept historyByGuardian = MetadataUtils.existing(Concept.class, "65668f5a-977f-11e1-8993-905e29aff6c1");
         Concept historyByPatient = install(new ConceptBuilder("1249F550-FF24-4F3E-A743-B37232E9E1C3")
                 .datatype(notApplicable)
@@ -270,7 +272,25 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
         Concept diarrhea = MetadataUtils.existing(Concept.class, "6545a61e-977f-11e1-8993-905e29aff6c1");
         Concept anorexia = MetadataUtils.existing(Concept.class, "654a83e6-977f-11e1-8993-905e29aff6c1");
         Concept dysphagia = MetadataUtils.existing(Concept.class, "654a9246-977f-11e1-8993-905e29aff6c1");
+        Concept bleeding = MetadataUtils.existing(Concept.class, "6572103c-977f-11e1-8993-905e29aff6c1");
 
+        Concept nauseaVomit = install(new ConceptBuilder("133473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("9848ac4e-e681-11e7-80c1-9a214cf093ae", "Nausea and vomiting", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept vaginalBleed = install(new ConceptBuilder("156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("9848ad8e-e681-11e7-80c1-9a214cf093ae", "Vaginal bleeding", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept dryMouth = install(new ConceptBuilder("156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("9848aae6-e681-11e7-80c1-9a214cf093ae", "Dry mouth", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
 
         Concept symptomSet = install(new ConceptBuilder("A69F0C71-69A5-4783-BC1A-7C2B70C46E02")
                 .datatype(coded)
@@ -286,9 +306,12 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         constipation,
                         diarrhea,
                         anorexia,
-                        dysphagia)
+                        dysphagia,
+                        nauseaVomit,
+                        vaginalBleed,
+                        bleeding,
+                        dryMouth)
                 .build());
-
 
         Concept symptomDate = MetadataUtils.existing(Concept.class, "65732bf2-977f-11e1-8993-905e29aff6c1");
         Concept otherNonCoded = MetadataUtils.existing(Concept.class, "d57e3a20-5802-11e6-8b77-86f30ca893d3");
@@ -302,5 +325,75 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         historyGivenBy, symptomSet, symptomDate, otherNonCoded)
                 .build());
 
+        Concept allergyFamilyHistory = install(new ConceptBuilder("151530AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("13491098-e5bd-11e7-80c1-9a214cf093ae", "Family History of Allergic Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no,unknown)
+                .build());
+
+        install(new ConceptBuilder("37519f36-8c2e-11e5-80a3-c0430f805837")
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("c49769b6-d461-4f2f-a961-f1d7225b59b6", "Asthma family history", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no,unknown,positive,negative)
+                .build());
+
+        Concept tbContactFamilyHistory = install(new ConceptBuilder("13491200-e5bd-11e7-80c1-9a214cf093ae")
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("1349134a-e5bd-11e7-80c1-9a214cf093ae", "Family History of TB Contact", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no,unknown)
+                .build());
+
+        Concept chronicLung = install(new ConceptBuilder("155569AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("9848c4e0-e681-11e7-80c1-9a214cf093ae", "Chronic lung disease", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept mentalHealth = install(new ConceptBuilder("7f55864c-e68d-11e7-80c1-9a214cf093ae")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("7f558958-e68d-11e7-80c1-9a214cf093ae", "Mental health diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept pcDiagnosis = install(new ConceptBuilder("9848b126-e681-11e7-80c1-9a214cf093ae")
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("9848b536-e681-11e7-80c1-9a214cf093ae", "Palliative care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(chronicLung,mentalHealth)
+                .build());
+
+        Concept pcDiagnosisConstruct = install(new ConceptBuilder("9848aec4-e681-11e7-80c1-9a214cf093ae")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("9848affa-e681-11e7-80c1-9a214cf093ae", "Palliative care diagnosis construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(pcDiagnosis,symptomDate)
+                .build());
+
+        Concept insightText = install(new ConceptBuilder("9848b694-e681-11e7-80c1-9a214cf093ae")
+                .datatype(text)
+                .conceptClass(question)
+                .name("9848b7c0-e681-11e7-80c1-9a214cf093ae", "Patient and family comments", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept otherFamilyInfo = install(new ConceptBuilder("9848b9aa-e681-11e7-80c1-9a214cf093ae")
+                .datatype(text)
+                .conceptClass(question)
+                .name("9848bb9e-e681-11e7-80c1-9a214cf093ae", "Family information (text)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept numMales = install(new ConceptBuilder("9848bcf2-e681-11e7-80c1-9a214cf093ae")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("9848be28-e681-11e7-80c1-9a214cf093ae", "Number of males", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept numFemales = install(new ConceptBuilder("9848c256-e681-11e7-80c1-9a214cf093ae")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("9848c3aa-e681-11e7-80c1-9a214cf093ae", "Number of females", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
     }
 }
