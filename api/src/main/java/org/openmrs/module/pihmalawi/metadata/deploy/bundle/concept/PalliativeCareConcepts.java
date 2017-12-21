@@ -38,7 +38,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 17;
+        return 18;
     }
 
     @Override
@@ -234,13 +234,72 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .description("27964240-9227-45CB-9039-5F6D8ABC2D05", "Prescribed duration of drug consumption", Locale.ENGLISH)
                 .build());
 
-        Concept pcMedicationConstruct = install(new ConceptBuilder("B0AAF81F-3E74-4DD6-BB72-D9F704236CFC")
+        install(new ConceptBuilder("B0AAF81F-3E74-4DD6-BB72-D9F704236CFC")
                 .datatype(notApplicable)
                 .conceptClass(convSet)
                 .name("80C4EFF9-0253-46EB-A3C2-19410A7595E6", "Palliative care medication construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("B3C85B3D-C5EA-49D6-A9AA-402D407CD432", "Palliative care medication construct", Locale.ENGLISH)
                 .setMembers(
                         pcMedication, doseInMg, frequency, generalDuration)
+                .build());
+
+
+        Concept historyByGuardian = MetadataUtils.existing(Concept.class, "65668f5a-977f-11e1-8993-905e29aff6c1");
+        Concept historyByPatient = install(new ConceptBuilder("1249F550-FF24-4F3E-A743-B37232E9E1C3")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1715FD63-9B6C-4A77-A6C0-40C4101ED85D", "Patient", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("53231C97-F926-42E9-AC47-193E1ECE1DC2", "Medical history given by patient", Locale.ENGLISH)
+                .build());
+
+        Concept historyGivenBy = install(new ConceptBuilder("B71C09E6-F03E-4BBE-AC89-EF2B236397F3")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("2148C29A-1D32-42BB-91E2-C855A6E22B5C", "History given by", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("113FD929-575C-41A3-984F-FA0BDEBD1792", "History given by", Locale.ENGLISH)
+                .answers(
+                        historyByPatient, historyByGuardian)
+                .build());
+
+        Concept shortnessOfBreath = MetadataUtils.existing(Concept.class, "656ea87a-977f-11e1-8993-905e29aff6c1");
+        Concept peripheralNeuropathy = MetadataUtils.existing(Concept.class, "6572996c-977f-11e1-8993-905e29aff6c1");
+        Concept coughing = MetadataUtils.existing(Concept.class, "65460a32-977f-11e1-8993-905e29aff6c1");
+        Concept fatigue = MetadataUtils.existing(Concept.class, "656e9c9a-977f-11e1-8993-905e29aff6c1");
+        Concept nausea = MetadataUtils.existing(Concept.class, "656ec21a-977f-11e1-8993-905e29aff6c1");
+        Concept constipation = MetadataUtils.existing(Concept.class, "655aa366-977f-11e1-8993-905e29aff6c1");
+        Concept diarrhea = MetadataUtils.existing(Concept.class, "6545a61e-977f-11e1-8993-905e29aff6c1");
+        Concept anorexia = MetadataUtils.existing(Concept.class, "654a83e6-977f-11e1-8993-905e29aff6c1");
+        Concept dysphagia = MetadataUtils.existing(Concept.class, "654a9246-977f-11e1-8993-905e29aff6c1");
+
+
+        Concept symptomSet = install(new ConceptBuilder("A69F0C71-69A5-4783-BC1A-7C2B70C46E02")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("F745CDD7-A543-4C09-B4B3-FA4FDD7F6411", "Palliative Care Symptoms History", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("7E58794D-2FDF-4D07-B1C5-51740D426C74", "Palliative Care Symptoms History", Locale.ENGLISH)
+                .answers(
+                        shortnessOfBreath,
+                        peripheralNeuropathy,
+                        coughing,
+                        fatigue,
+                        nausea,
+                        constipation,
+                        diarrhea,
+                        anorexia,
+                        dysphagia)
+                .build());
+
+
+        Concept symptomDate = MetadataUtils.existing(Concept.class, "65732bf2-977f-11e1-8993-905e29aff6c1");
+        Concept otherNonCoded = MetadataUtils.existing(Concept.class, "d57e3a20-5802-11e6-8b77-86f30ca893d3");
+
+        install(new ConceptBuilder("9168ACDB-F4CC-49A3-91D9-77E767EEFE78")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("E95E1AAD-488C-402C-8921-D4008ADEDE42", "Palliative care symptoms history construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("5D42A478-3AA5-4AAB-A83D-29950F35C4EB", "Palliative care symptoms history construct", Locale.ENGLISH)
+                .setMembers(
+                        historyGivenBy, symptomSet, symptomDate, otherNonCoded)
                 .build());
 
     }
