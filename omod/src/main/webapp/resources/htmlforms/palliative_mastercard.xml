@@ -4,11 +4,10 @@
           formVersion="1.2">
 
     <macros>
-        diagnosisSet=8445
         diagnosisDate=6774
-        <!-- ToDo: Replace chronic care diagnosis with palliative care diagnosis
-        palliativeCareDx= -->
-        chronicCareDiagnosis=3683
+        pcDiagnosisSet=9848aec4-e681-11e7-80c1-9a214cf093ae
+        palliativeCareDiagnosis=9848b126-e681-11e7-80c1-9a214cf093ae
+
         cancerDx=7211
         depressionDx=207
         diabetesDx=3720
@@ -16,21 +15,34 @@
         heartFailureDx=3468
         <!-- ToDo:  Add 3139 to PallCareDx ConvSet -->
         hfStages=3139
-        <!-- ToDo:  Confirm NYHA Classes are the same as heart failure "stages" -->
         nyha1=3135
         nyha2=3136
         nyha3=3137
         nyha4=3138
-        copdDx=3716
-        <!-- ToDo: create a general "Mental Health" diagnosis instead of "other mh dx 1" -->
-        mentalHealthDx=8580
-        mentalHealthOther0=8420
+
+        chronicLungDx=155569AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        mentalHealthDx=7f55864c-e68d-11e7-80c1-9a214cf093ae
         epilepsyDx=155
         kidneyFailureDx=3681
-        other=5622
 
         diabetesFamilyHistory=6740
         hypertensionFamilyHistory=8458
+        asthmaFamilyHistory=8426
+        epilepsyFamilyHistory=8484
+        allergyFamilyHistory=151530AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        tbContactFamilyHistory=13491200-e5bd-11e7-80c1-9a214cf093ae
+
+        roleProvidingHistory=9848a348-e681-11e7-80c1-9a214cf093ae
+        patient=134916ba-e5bd-11e7-80c1-9a214cf093ae
+        guardianRole=3565
+
+        insightText=9848b694-e681-11e7-80c1-9a214cf093ae
+        familyInfoText=9848b9aa-e681-11e7-80c1-9a214cf093ae
+        numMales=9848bcf2-e681-11e7-80c1-9a214cf093ae
+        numFemales=9848c256-e681-11e7-80c1-9a214cf093ae
+        numChildren=2649
+
+        other=5622
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -45,11 +57,7 @@
         eptb=1547
         tbYear=8453
         patientPhone=1426
-
         guardianName=1824
-        smokingHistory=1551
-        inPast=1548
-        lastTimeSmoking=8432
         guardianPhone=2616
         relationToPatient=1328
         agreesToFollowup=2552
@@ -64,28 +72,31 @@
         <macro key="peripheralNeuropathy" value="6572996c-977f-11e1-8993-905e29aff6c1"/>
         <macro key="coughing" value="65460a32-977f-11e1-8993-905e29aff6c1"/>
         <macro key="fatigue" value="656e9c9a-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="nausea" value="656ec21a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nauseaVomit" value="133473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="constipation" value="655aa366-977f-11e1-8993-905e29aff6c1"/>
         <macro key="diarrhea" value="6545a61e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="anorexia" value="654a83e6-977f-11e1-8993-905e29aff6c1"/>
         <macro key="dysphagia" value="654a9246-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="vaginalBleeding" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="bleeding" value="6572103c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="dryMouth" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="symptomDate" value="65732bf2-977f-11e1-8993-905e29aff6c1"/>
 
+        married=1055
 
     </macros>
 
-    <!-- NOTE:  Is this treated differently from NCDs?
-         Should we set a palliative diagnosis and date of
-         "diagnosis"?  It's a treatment/care, so maybe this is handled differently -->
-
     <span style="display:none">
         <encounterProvider default="16576"/>
-        <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+        <span id="patientBirthdate">
+            <lookup expression="patient.birthdate"/>
+        </span>
     </span> <!-- Set provider to a default as not used -->
+
     <div>
         <h4 style="font-style: italic;">
-            <b>Palliative Care Patient Card <br /> Green Card </b>
-
+            <b>Palliative Care Patient Card</b>
+            (Green Card)
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
@@ -99,260 +110,16 @@
             </span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">NCD Reg no</b>
+                <b style="padding-right:10px;">PC Reg no</b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end"/>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Palliative Care Number&quot;) ) $!id #end"/>
                 </b>
             </span>
         </h4>
 
-        <br/>
-        <hr/>
-
-
-
-
-        <table>
-            <tr>
-                <td colspan="2"><h4>Patient / Guardian Details</h4></td> <td colspan="4"><h4>Patient Overview</h4></td>
-            </tr>
-
-            <tr>
-                <td rowspan="2">Patient Name</td><td rowspan="2"><lookup expression="patient.personName"/></td><td colspan="2"><h6>Diagnoses</h6></td> <td colspan="2"><h6>Patient History/ Main presenting symptoms</h6></td>
-            </tr>
-
-
-            <tr>
-                    <td> <table>
-                        <tr><td colspan="4"><input type="checkbox" /> Cancer,  &#160; &#160; &#160;&#160; &#160; &#160; Stage:<input name="name" type="text" size="2" /> </td></tr>
-                        <tr><td><input type="checkbox" />KS</td><td><input type="checkbox" />Cervical</td><td><input type="checkbox" />Esophageal</td><td><input type="checkbox" />Bladder</td></tr>
-                        <tr><td><input type="checkbox" />Liver</td><td><input type="checkbox" />Prostate</td><td><input type="checkbox" />Colorectal</td><td><input type="checkbox" />Breast</td></tr>
-
-                        <tr><td colspan="4"><input type="checkbox" />Lymphoma, type <input name="name" type="text" size="2" /></td></tr>
-                        <tr><td colspan="4"><input type="checkbox" />Other, type <input name="name" type="text" size="2" /></td></tr>
-
-                    </table>
-                    </td>
-                    <td>Date:<input name="name" type="text" size="2" /></td>
-                    <td colspan="2"><b>History given by</b> <br/> <input type="checkbox" />Patient <input type="checkbox" />Guardian</td>
-
-            </tr>
-
-
-            <tr>
-                <td>Sex</td><td><b><lookup expression="patient.gender"/></b> | Date: <lookup expression="patient.birthdate"/> (Age:<lookup expression="patient.age"/>)</td>
-                <td> <input type="checkbox" />Depression </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" />Shortness of breath </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-
-            <tr>
-                <td rowspan="5">Physical Address</td>
-            </tr>
-            <tr>
-                <td><!-- style="height:60px;"-->
-                    District: <lookup expression="patient.personAddress.stateProvince"/>
-                </td>
-                <td> <input type="checkbox" /> Diabetes </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Peripheral </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td><!-- style="height:60px;"-->
-                    TA: <lookup expression="patient.personAddress.countyDistrict"/>
-                </td>
-                <td> <input type="checkbox" /> Hypertension </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Bleeding where <br /> &#160; &#160; &#160; <input type="checkbox" />PV <input type="checkbox" />Other </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td><!-- style="height:60px;"-->
-                    Village: <lookup expression="patient.personAddress.cityVillage"/>
-                </td>
-                <td> <input type="checkbox" /> Heart Failure <br />Stage: <input type="checkbox" />I <input type="checkbox" />II <input type="checkbox" />III <input type="checkbox" />IV  </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Coughing  </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td><!-- style="height:60px;"-->
-                    Near:
-                </td>
-                <td> <input type="checkbox" /> Chronic Lung Disease </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Fatigue </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td>Patient Phone</td>
-                <td>
-                    <obs conceptId="$patientPhone" size="10"/>
-                </td>
-                <td> <input type="checkbox" /> Mental Health </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Nausea/Vomiting </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td>Religion</td>
-                <td>
-                <!-- ToDo: Get list of religions -->
-                <input name="name" type="text" size="2" />
-                </td>
-                <td> <input type="checkbox" /> Epilepsy </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Constipation </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td rowspan="2">Guardian Name <br/>
-                    <input name="name" type="text" size="2" />
-                </td>
-                <td rowspan="2">Relation to patient<br />
-                    <input name="name" type="text" size="2" />
-                </td>
-                <td> <input type="checkbox" /> Kidney Failure </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Diarrhoea </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td> <input type="checkbox" /> Other  <input name="name" type="text" size="2" /></td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Dry mouth</td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td>
-                    <table><tr><td>Agrees to Follow Up</td><td><input type="checkbox" /><br/>Yes</td><td><input type="checkbox" /><br/>No</td></tr></table>
-                </td>
-                <td>CHW Name<br />
-                    <input name="name" type="text" size="2" />
-                </td>
-                <td> HIV:  <input type="checkbox" />R <input type="checkbox" />NR <br /> Date test: <input name="name" type="text" size="2" /> </td>
-                <td>ART Start <br />Date:<input name="name" type="text" size="2" /></td>
-                <td> <input type="checkbox" /> Anorexia</td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-
-            <tr>
-                <td rowspan="2">
-                    CBO/HBC
-                </td>
-                <td rowspan="2">
-                    <input name="name" type="text" size="2" />
-                </td>
-                <td rowspan="2">
-                    <table>
-                        <tr><td><input type="checkbox" />TB: </td><td><input type="checkbox" />Smear pos</td><td><input type="checkbox" />EPTB</td></tr>
-                        <tr><td></td><td><input type="checkbox" />Smear neg</td><td><input type="checkbox" />Never had TB</td></tr>
-                    </table>
-                </td>
-                <td rowspan="2">
-                    Year: <input name="name" type="text" size="2" />
-                </td>
-                <td> <input type="checkbox" /> Dysphagia</td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-            <tr>
-                <td> <input type="checkbox" /> Other <input name="name" type="text" size="2" /> </td>
-                <td>Date:<input name="name" type="text" size="2" /></td>
-            </tr>
-
-            <tr>
-                <td>Currently have Spouse? <br /> &#160; &#160; <input type="checkbox" />Yes <input type="checkbox" />No  </td><td colspan="3" rowspan="3"><b> Patients and family insight</b>(diagnosis, treatment and prognosis)<br /><input name="name" type="text" /></td><td colspan="2"><b>Family history</b></td>
-            </tr>
-            <tr>
-                <td rowspan="2">Number of Children in the family:<br/><input name="name" type="text" size="2" />  </td>
-                <td colspan="2" rowspan="6">
-                    <table>
-                        <tr><td>HTN</td><td><input type="checkbox" />Yes</td><td><input type="checkbox" />No</td><td><input type="checkbox" />Unknown</td></tr>
-                        <tr><td>Diabetes</td><td><input type="checkbox" />Yes</td><td><input type="checkbox" />No</td><td><input type="checkbox" />Unknown</td></tr>
-                        <tr><td>Asthma</td><td>Yes</td><td>No</td><td>Unknown</td></tr>
-                        <tr><td>Allergies</td><td><input type="checkbox" />Yes</td><td><input type="checkbox" />No</td><td><input type="checkbox" />Unknown</td></tr>
-                        <tr><td>Epilepsy</td><td><input type="checkbox" />Yes</td><td><input type="checkbox" />No</td><td><input type="checkbox" />Unknown</td></tr>
-                        <tr><td>TB Contact</td><td><input type="checkbox" />Yes</td><td><input type="checkbox" />No</td><td><input type="checkbox" />Unknown</td></tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
-                <td rowspan="4">Family Tree/ structure<br/>&#160; &#160;<input name="name" type="text" size="2" />=male<br/>&#160; &#160;<input name="name" type="text" size="2" />=female</td>
-                <td colspan="3" rowspan="4"><b>Other important family members/information</b><br />(Explore Ages of children, Level of education or currently attending school and what grade)<br/><input name="name" type="text" /></td>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
-            <td colspan="6"><b>Outcome:</b><select><option></option> <option>Discharge</option><option>Default</option><option>Stop Tx</option><option>Transfer Out </option><option>Died</option></select> Date:<input name="name" type="text" /> </td>
-            </tr>
-
-        </table>
-
-
-        <br/><br/>
-
-<table>
-    <thead>
-        <tr>
-            <td colspan="2"><h4>Patient History/Main presenting symptoms</h4></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>History given by</b> <br/>
-                <obsgroup groupingConceptId="$historyConstruct">
-                    <obs conceptId="$historyGivenBy" answerConceptId="$historyByPatient"
-                         answerLabel="Patient" style="checkbox" />
-                </obsgroup>
-                <obsgroup groupingConceptId="$historyConstruct">
-                    <obs conceptId="$historyGivenBy" answerConceptId="$historyByGuardian"
-                         answerLabel="Guardian" style="checkbox" />
-                </obsgroup>
-
-            </td>
-        </tr>
-
-
-        <repeat with="
-                        ['$shortnessOfBreath','Shortness of breath','sob'],
-                        ['$peripheralNeuropathy','Peripheral neuropathy','peripheralNeuropathy'],
-                        ['$coughing','Coughing','coughing'],
-                        ['$fatigue','Fatigue','fatigue'],
-                        ['$nausea','Nausea','nausea'],
-                        ['$constipation','Constipation','constipation'],
-                        ['$diarrhea','Diarrhea','diarrhea'],
-                        ['$anorexia','Anorexia','anorexia'],
-                        ['$dysphagia','Dysphagia','dysphagia']">
-
-            <tr>
-                <obsgroup groupingConceptId="$historyConstruct">
-                    <td data-toggle-source="{2}" data-toggle-target="{2}-date" style="border-right: 1px solid #ffffff;">
-                        <obs conceptId="$symptomSet" style="checkbox"
-                             answerConceptId="{0}" answerLabel="{1}"/>
-                    </td>
-                    <td id="{2}-date" style="border-left: 1px solid #ffffff;">
-                        <obs conceptId="$symptomDate" labelText="Date"/>
-                    </td>
-                </obsgroup>
-            </tr>
-        </repeat>
-
-    </thead>
-
-</table>
-<!--
-
-
         <table class="data-entry-table">
             <tr style="border: none;">
-                <td style="vertical-align:top;">
+                <td style="vertical-align:top;" width="25%">
                     <h5>Patient / Guardian Details</h5>
                     <table>
                         <tr>
@@ -374,26 +141,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td rowspan="5">Physical Address</td>
-                        </tr>
-                        <tr>
-                            <td>&lt;!&ndash; style="height:60px;"&ndash;&gt;
-                                District:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&lt;!&ndash; style="height:60px;"&ndash;&gt;
-                                TA:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&lt;!&ndash; style="height:60px;"&ndash;&gt;
-                                Village:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&lt;!&ndash; style="height:60px;"&ndash;&gt;
-                                Near:
+                            <td>Physical Address</td>
+                            <td>
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end"/>
                             </td>
                         </tr>
 
@@ -406,7 +156,7 @@
                         <tr>
                             <td>Religion</td>
                             <td>
-                                &lt;!&ndash; ToDo: Get list of religions &ndash;&gt;
+                                <!-- ToDo: Get list of religions -->
                             </td>
                         </tr>
                         <tr>
@@ -443,25 +193,7 @@
                         <tr>
                             <td>CBO/HBC</td>
                             <td>
-                                &lt;!&ndash; ToDo:  What is this? &ndash;&gt;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Currently have spouse?</td>
-                            <td>
-                                &lt;!&ndash; ToDo:  Add concept with Y/N? &ndash;&gt;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Number of children in the family:</td>
-                            <td>
-                                &lt;!&ndash; ToDo:  Add concept with numeric &ndash;&gt;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Family Tree structure:</td>
-                            <td>
-                                &lt;!&ndash; ToDo:  Add concepts with numeric &ndash;&gt;
+                                <!--ToDo:  What is this? -->
                             </td>
                         </tr>
                     </table>
@@ -469,76 +201,110 @@
 
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
+
                     <table>
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="3">Diagnoses</th>
-                            &lt;!&ndash; Cancer &ndash;&gt;
-                            &lt;!&ndash; ToDo:  Add stage &ndash;&gt;
-                            &lt;!&ndash; ToDo:  Add specific cancer &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <th style="vertical-align:top;" align="left" colspan="2">
+                                Diagnoses
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <!-- ToDo: Cancer
+                            ToDo:  Add stage
+                            ToDo:  Add specific cancer -->
+                            <obsgroup groupingConceptId="$pcDiagnosisSet">
                                 <td data-toggle-source="cancer-dx" data-toggle-target="cancer-dx-date">
-                                    <obs id="cancer-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs id="cancer-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
                                          answerConceptId="$cancerDx" answerLabel="Cancer"/>
                                 </td>
                                 <td>
                                     <obs id="cancer-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
-
-                            &lt;!&ndash; Diabetes &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="diabetes-dx" data-toggle-target="diabetes-dx-date">
-                                    <obs id="diabetes-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$diabetesDx" answerLabel="Diabetes"/>
-                                </td>
-                                <td>
-                                    <obs id="diabetes-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-
-                            &lt;!&ndash; Hypertension &ndash;&gt;
-                            <tr>
-                                <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="hypertension-dx" data-toggle-target="hypertension-dx-date">
-                                        <obs id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
-                                    </td>
-                                    <td>
-                                        <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                    </td>
-                                </obsgroup>
-
-                            </tr>
-
-                            &lt;!&ndash; Family History &ndash;&gt;
-                            <th style="vertical-align:top;" align="left" rowspan="3">Family History</th>
-
-                            <td class="nowrap">
-                                <span>HTN: </span>
-                                <obs conceptId="$hypertensionFamilyHistory" style="radio" answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
-                            </td>
-
-                            <td>
-                                <span>Diabetes: </span>
-                                <obs conceptId="$diabetesFamilyHistory" style="radio"
-                                     answerLabels="Yes,No,Unknown" answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
-                            </td>
                         </tr>
 
 
+                        <repeat with="['$depressionDx','Depression'],
+                                  ['$diabetesDx','Diabetes'],
+                                  ['$hypertensionDx','Hypertension']">
+
+                            <tr>
+                                <obsgroup groupingConceptId="$pcDiagnosisSet">
+                                    <td data-toggle-source="{1}-dx" data-toggle-target="{1}-dx-date">
+                                        <obs id="{1}-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
+                                             answerConceptId="{0}" answerLabel="{1}"/>
+                                    </td>
+                                    <td>
+                                        <obs id="{1}-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    </td>
+                                </obsgroup>
+                            </tr>
+                        </repeat>
 
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>
-                                Complications
-                            </th>
-                            <td rowspan="2">
+                            <!-- Heart failure -->
+                            <obsgroup groupingConceptId="$pcDiagnosisSet">
+                                <td data-toggle-source="hf-dx" data-toggle-target="hf-dx-date">
+                                    <obs id="hf-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
+                                         answerConceptId="$heartFailureDx" answerLabel="Heart Failure"/>
+                                    <br/>
+                                    <obs conceptId="$hfStages"
+                                         answerConceptIds="$nyha1,$nyha2,$nyha3,$nyha4"
+                                         answerLabels="I,II,III,IV"
+                                         labelText="Stage:"
+                                    />
+                                </td>
+                                <td>
+                                    <obs id="hf-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+
+                        <repeat with="['$chronicLungDx','chronicLung', 'Chronic Lung Disease'],
+                                  ['$mentalHealthDx','mental','Mental Health'],
+                                  ['$kidneyFailureDx','kidney','Kidney Failure'],
+                                  ['$epilepsyDx','epilepsy','Epilepsy']">
+
+                            <tr>
+                                <obsgroup groupingConceptId="$pcDiagnosisSet">
+                                    <td data-toggle-source="{1}-dx" data-toggle-target="{1}-dx-date">
+                                        <obs id="{1}-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
+                                             answerConceptId="{0}" answerLabel="{2}"/>
+                                    </td>
+                                    <td>
+                                        <obs id="{1}-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    </td>
+                                </obsgroup>
+                            </tr>
+                        </repeat>
+
+
+                        <tr>
+                            <!-- Other dx -->
+                            <obsgroup groupingConceptId="$pcDiagnosisSet">
+                                <td class="nowrap" data-toggle-source="other-dx" data-toggle-target="other-dx-date">
+                                    <obs id="other-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
+                                         answerConceptId="$other" answerLabel="Other"/>
+                                </td>
+                                <td class="nowrap">
+                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+
+                        <tr>
+                            <td>
                                 <obs conceptId="$hivStatus" labelText="HIV"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/>
                                 <br/>
                                 <obs conceptId="$hivTestDate" labelText="Date test"/>
                             </td>
-                            <td rowspan="2">
+                            <td>
                                 <obs conceptId="$artStartDate" labelText="ART Start Date"/>
                             </td>
+                        </tr>
+                        <tr>
                             <td class="nowrap">
                                 <obs conceptId="$tbStatus" labelText="TB"
                                      answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
@@ -548,96 +314,139 @@
                                 <obs conceptId="$tbYear" labelText="Year"/>
                             </td>
                         </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
                         <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="hf-dx" data-toggle-target="stroke-dx-date">
-                                    <obs id="hf-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$heartFailureDx" answerLabel="Heart Failure"/>
-                                    <br/>
-                                    <obs conceptId="$hfStages"
-                                         answerConceptIds="$nyha1,$nyha2,$nyha3,$nyha4"
-                                         answerLabels="I,II,III,IV"
-                                         labelText="Stage:"
-                                            />
-                                </td>
-                                <td>
-                                    <obs id="hf-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
+                            <th colspan="2" style="vertical-align:top;" align="left">
+                                Patient History / Main presenting symptoms
+                            </th>
                         </tr>
                         <tr>
-                            &lt;!&ndash; ToDo: COPD == chronic lung disease? &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="lung-dx" data-toggle-target="lung-dx-date">
-                                    <obs id="lung-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$copdDx" answerLabel="Chronic Lung Disease"/>
-                                </td>
-                                <td>
-                                    <obs id="lung-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            &lt;!&ndash; Mental Health &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="mental-dx" data-toggle-target="mental-dx-date">
-                                    <obs id="mental-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$mentalHealthDx" answerLabel="Mental Health"/>
-                                </td>
-                                <td>
-                                    <obs id="mental-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
+                            <td colspan="2">
+                                <b>History given by</b>
+                                <br/>
+                                <!-- ToDo:  Add concept 'Person providing history with 2 answers -->
 
-                            &lt;!&ndash; Epilepsy &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="epilepsy-dx" data-toggle-target="epilepsy-dx-date">
-                                    <obs id="epilepsy-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$epilepsyDx" answerLabel="Epilepsy"/>
-                                </td>
-                                <td class="nowrap">
-                                    <obs id="epilepsy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            &lt;!&ndash; Kidney Failure &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
-                                    <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$kidneyFailureDx" answerLabel="Kidney Failure"/>
-
-                                </td>
-                                <td>
-                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-
-                            &lt;!&ndash; Other dx &ndash;&gt;
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td class="nowrap" data-toggle-source="other-dx" data-toggle-target="other-dx-date">
-                                    <obs id="other-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$other" answerLabel="Other"/>
-                                </td>
-                                <td class="nowrap">
-                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <th style="vertical-align:top;" align="left">Outcome</th>
-                            <td colspan="4">
-                                <b>
-                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name"/>
-                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate"/>)
-                                </b>
                             </td>
                         </tr>
+                        <repeat with="['$shortnessOfBreath','sob', 'Shortness of breath'],
+                                  ['$peripheralNeuropathy','pn','Peripheral neuropathy'],
+                                  ['$vaginalBleeding','pvBleeding','Bleeding (pv)'],
+                                  ['$bleeding','otherBleeding','Bleeding (other)'],
+                                  ['$coughing','cough', 'Coughing'],
+                                  ['$fatigue','fatigue', 'Fatigue'],
+                                  ['$nauseaVomit','nausea', 'Nausea/Vomiting'],
+                                  ['$constipation','constip', 'Constipation'],
+                                  ['$diarrhea','diarrhea', 'Diarrhea'],
+                                  ['$dryMouth','dryMouth', 'Dry mouth'],
+                                  ['$anorexia','anorexia', 'Anorexia'],
+                                  ['$dysphagia','dysphagia', 'Dysphagia'],
+                                  ['$other','other', 'Other']">
+
+                            <tr>
+                                <obsgroup groupingConceptId="$historyConstruct">
+                                    <td data-toggle-source="{1}-dx" data-toggle-target="{1}-dx-date">
+                                        <obs id="{1}-dx" conceptId="$symptomSet" style="checkbox"
+                                             answerConceptId="{0}" answerLabel="{2}"/>
+                                    </td>
+                                    <td>
+                                        <obs id="{1}-dx-date" conceptId="$symptomDate" labelText="Date"/>
+                                    </td>
+                                </obsgroup>
+                            </tr>
+                        </repeat>
+
                     </table>
 
                 </td>
+
+                <td>
+                    <table>
+                        <tr style="vertical-align:top;">
+                            <th align="left">
+                                Baseline Pain Rating
+                            </th>
+                        </tr>
+                    </table>
+                </td>
             </tr>
-        </table>-->
+        </table>
+
+
+        <table>
+            <tr>
+                <td>
+                    Currently have spouse?
+                    <br/>
+                    <obs conceptId="$married" style="yes_no"/>
+                </td>
+
+                <!-- ToDo:  Add concepts with text -->
+                <td rowspan="2">
+                    <b>Patients and family insight</b>
+                    (diagnosis, treatment and prognosis)
+                    <br/>
+                </td>
+
+                <td rowspan="3">
+                    <b>Family history</b>
+                    <br/>
+
+                    <repeat with="['$hypertensionFamilyHistory','HTN'],
+                                  ['$diabetesFamilyHistory','Diabetes'],
+                                  ['$asthmaFamilyHistory','Asthma'],
+                                  ['$epilepsyFamilyHistory','Epilepsy']">
+                        <!-- ToDo:  Add two concepts -->
+                        <!-- ['$allergyFamilyHistory','Allergies'], -->
+                        <!-- ['$tbContactFamilyHistory','TB Contact']"> -->
+
+                        {1}
+                        <span style="padding-left:50px;"></span>
+
+                        <obs conceptId="{0}" style="radio"
+                             answerLabels="Yes,No,Unknown"
+                             answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
+                        <br/>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Number of children in the family:
+                    <obs conceptId="$numChildren"/>
+                </td>
+            </tr>
+
+            <tr>
+                <!-- ToDo:  Add 2 concepts with numeric -->
+                <td>Family Tree structure:
+                    <br/>
+                    =male
+                    <br/>
+                    =female
+                </td>
+
+                <!-- ToDo:  Add concept with text -->
+                <td>
+                    <b>Other important family members/information</b>
+                    (Explore Ages of children, Level of education or currently attending school and what grade)
+                    <br/>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <b>
+                        Outcome:
+                        <lookup expression="fn.currentProgramWorkflowStatus(24).state.concept.name"/>
+                        (<lookup expression="fn.currentProgramWorkflowStatus(24).startDate"/>)
+                    </b>
+                </td>
+            </tr>
+        </table>
+
         <ifMode mode="VIEW" include="false">
             <div id="buttons" style="margin-top:10px;">
                 <button class="submitButton confirm" onclick="submitHtmlForm()">

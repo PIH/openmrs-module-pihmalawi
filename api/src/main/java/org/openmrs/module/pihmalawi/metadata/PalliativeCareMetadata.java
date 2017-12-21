@@ -45,12 +45,20 @@ public class PalliativeCareMetadata extends CommonMetadata{
         public Boolean terminal() { return true; }
         public String uuid() { return "4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"; }
     };
+    public static ProgramWorkflowStateDescriptor DISCHARGE_STATE = new ProgramWorkflowStateDescriptor() {
+        public String conceptUuid() { return PalliativeCareConcepts.DISCHARGE_STATE_CONCEPT_UUID; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return true; }
+        public String uuid() { return "13490dc8-e5bd-11e7-80c1-9a214cf093ae"; }
+    };
+
 
     public static ProgramWorkflowDescriptor PALLIATIVE_CARE_CLINICAL_STATUS = new ProgramWorkflowDescriptor() {
         public String conceptUuid() { return PalliativeCareConcepts.PALLIATIVE_CARE_PROGRAM_STATUS_CONCEPT_UUID; }
         public String uuid() { return "F2D47AE5-7083-4901-B630-51860D09A884"; }
         @Override public Set<ProgramWorkflowStateDescriptor> states() {
             return new HashSet<ProgramWorkflowStateDescriptor>(Arrays.asList(
+                    DISCHARGE_STATE,
                     ON_TREATMENT_STATE,
                     TREATMENT_STOPPED_STATE,
                     TRANSFERRED_OUT_STATE,
