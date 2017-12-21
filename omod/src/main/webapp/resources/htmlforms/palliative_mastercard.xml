@@ -120,7 +120,7 @@
         <table class="data-entry-table">
             <tr style="border: none;">
                 <td style="vertical-align:top;" width="25%">
-                    <h5>Patient / Guardian Details</h5>
+                    <h4>Patient / Guardian Details</h4>
                     <table>
                         <tr>
                             <td>Patient Name</td>
@@ -200,7 +200,7 @@
                 </td>
 
                 <td style="vertical-align:top;">
-                    <h5>Patient Overview</h5>
+                    <h4>Patient Overview</h4>
 
                     <table>
                         <tr>
@@ -316,18 +316,22 @@
                         </tr>
                     </table>
                 </td>
-                <td>
+
+                <td style="vertical-align:top;">
+                    <h4>Patient History / Main presenting symptoms</h4>
                     <table>
-                        <tr>
-                            <th colspan="2" style="vertical-align:top;" align="left">
-                                Patient History / Main presenting symptoms
-                            </th>
-                        </tr>
+
                         <tr>
                             <td colspan="2">
-                                <b>History given by</b>
-                                <br/>
-                                <!-- ToDo:  Add concept 'Person providing history with 2 answers -->
+                                <b>History given by</b> <br/>
+                                <obsgroup groupingConceptId="$historyConstruct">
+                                    <obs conceptId="$historyGivenBy" answerConceptId="$historyByPatient"
+                                         answerLabel="Patient" style="checkbox" />
+                                </obsgroup>
+                                <obsgroup groupingConceptId="$historyConstruct">
+                                    <obs conceptId="$historyGivenBy" answerConceptId="$historyByGuardian"
+                                         answerLabel="Guardian" style="checkbox" />
+                                </obsgroup>
 
                             </td>
                         </tr>
