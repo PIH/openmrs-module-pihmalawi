@@ -35,7 +35,7 @@ public class ViralLoadDataEvaluatorTest extends StandaloneContextSensitiveTest {
 
 	@Override
 	protected boolean isEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
