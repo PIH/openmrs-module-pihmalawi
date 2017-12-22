@@ -19,10 +19,9 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
-import org.openmrs.module.pihmalawi.reporting.reports.TraceReport;
+import org.openmrs.module.pihmalawi.reporting.reports.IC3TraceReport;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ExcelBuilder;
-import org.openmrs.module.reporting.common.ExcelUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.DataSetRowList;
@@ -64,10 +63,10 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             if (ds.getRows().size() > 0) {
 
                 DataSetRow firstRow = ds.getRows().get(0);
-                String locationName = getParameterValue(firstRow, TraceReport.LOCATION_NAME_PARAM, String.class);
-                boolean isPhase1 = getParameterValue(firstRow, TraceReport.PHASE_1_PARAM, Boolean.class);
-                Integer minWks = getParameterValue(firstRow, TraceReport.MIN_WKS_PARAM, Integer.class);
-                Integer maxWks = getParameterValue(firstRow, TraceReport.MAX_WKS_PARAM, Integer.class);
+                String locationName = getParameterValue(firstRow, IC3TraceReport.LOCATION_NAME_PARAM, String.class);
+                boolean isPhase1 = getParameterValue(firstRow, IC3TraceReport.PHASE_1_PARAM, Boolean.class);
+                Integer minWks = getParameterValue(firstRow, IC3TraceReport.MIN_WKS_PARAM, Integer.class);
+                Integer maxWks = getParameterValue(firstRow, IC3TraceReport.MAX_WKS_PARAM, Integer.class);
 
                 builder.newSheet(key);
 
