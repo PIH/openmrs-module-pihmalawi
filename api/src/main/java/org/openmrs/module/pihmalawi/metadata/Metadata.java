@@ -21,7 +21,6 @@ import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.LocationTag;
-import org.openmrs.OrderType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.Program;
@@ -353,7 +352,7 @@ public abstract class Metadata {
 	/**
 	 * @return the OrderType that matches the passed uuid, name, or primary key id
 	 */
-	public OrderType getOrderType(String lookup) {
+	/*public OrderType getOrderType(String lookup) {
 		OrderType ot = Context.getOrderService().getOrderTypeByUuid(lookup);
 		if (ot == null) {
 			for (OrderType orderType : Context.getOrderService().getAllOrderTypes()) {
@@ -373,7 +372,7 @@ public abstract class Metadata {
 		}
 		return ot;
 	}
-
+*/
 	/**
 	 * @return the Location that matches the passed uuid, name, or primary key id
 	 */
