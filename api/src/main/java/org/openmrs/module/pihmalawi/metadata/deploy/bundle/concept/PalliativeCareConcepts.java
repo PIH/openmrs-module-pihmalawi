@@ -383,6 +383,38 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .setMembers(pcDiagnosis,symptomDate)
                 .build());
 
+        Concept stage0 = install(new ConceptBuilder("160769AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19be6a-e755-11e7-80c1-9a214cf093ae", "Stage 0", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept stageI = install(new ConceptBuilder("160771AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19c3f6-e755-11e7-80c1-9a214cf093ae", "Stage I", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept stageII = install(new ConceptBuilder("160774AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19c6a8-e755-11e7-80c1-9a214cf093ae", "Stage II", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept stageIII = install(new ConceptBuilder("160778AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19c946-e755-11e7-80c1-9a214cf093ae", "Stage III", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept stageIV = install(new ConceptBuilder("160782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19cf04-e755-11e7-80c1-9a214cf093ae", "Stage IV", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept cancerStage = install(new ConceptBuilder("160786AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(finding)
+                .name("6a19d1a2-e755-11e7-80c1-9a214cf093ae", "Overall cancer stage group", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(stage0,stageI,stageII,stageIII,stageIV)
+                .build());
+
         Concept insightText = install(new ConceptBuilder("9848b694-e681-11e7-80c1-9a214cf093ae")
                 .datatype(text)
                 .conceptClass(question)

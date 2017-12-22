@@ -90,6 +90,13 @@
         <macro key="dryMouth" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="symptomDate" value="65732bf2-977f-11e1-8993-905e29aff6c1"/>
 
+        <macro key="cancerStage" value="160786AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="stage0" value="160769AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="stage1" value="160771AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="stage2" value="160774AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="stage3" value="160778AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="stage4" value="160782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+
         <macro key="baselinePainConstructA" value="E2D13414-6D37-4468-9719-DA6126F74FDE"/>
         <macro key="baselinePainConstructB" value="E60A40E0-B954-4251-86AD-10E875E7FFDB"/>
         <macro key="baselinePainConstructC" value="410C8D80-B20D-4FB3-979A-E269506CE783"/>
@@ -246,16 +253,24 @@
                         </tr>
 
                         <tr>
-                            <!-- ToDo: Add Cancer stage and types -->
+                            <!-- ToDo: Add Cancer types -->
                             <obsgroup groupingConceptId="$pcDiagnosisSet">
                                 <td data-toggle-source="cancer-dx" data-toggle-target="cancer-dx-date">
                                     <obs id="cancer-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
                                          answerConceptId="$cancerDx" answerLabel="Cancer"/>
+                                    &amp;nbsp;<obs conceptId="$cancerStage" labelText="Stage"
+                                         answerConceptIds="$stage0,$stage1,$stage2,$stage3,$stage4"
+                                         answerLabels="0,I,II,III,IV"/>
                                 </td>
                                 <td>
                                     <obs id="cancer-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                
+                            </td>
                         </tr>
 
 
