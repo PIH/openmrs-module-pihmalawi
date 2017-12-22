@@ -92,11 +92,27 @@
 
         <macro key="baselinePainConstructA" value="E2D13414-6D37-4468-9719-DA6126F74FDE"/>
         <macro key="baselinePainConstructB" value="E60A40E0-B954-4251-86AD-10E875E7FFDB"/>
+        <macro key="baselinePainConstructC" value="410C8D80-B20D-4FB3-979A-E269506CE783"/>
+        <macro key="baselinePainConstructD" value="ABF99F58-599B-4700-BC91-AD52FE81B18F"/>
         <macro key="painLocation" value="94C1A0B9-5F44-422F-A468-9434BDA06D01"/>
 
         <macro key="painDuration" value="08C78D58-3841-4CF5-A2EE-CE8F13CB0901"/>
+        <macro key="painDescription" value="DD2A9D6D-74F2-4116-ACFB-C585B36D0FF3"/>
+        <macro key="dull" value="5930E268-3FB4-4B34-BE26-82D671D4A06D"/>
+        <macro key="pricking" value="8589C4F6-3125-4B47-9229-E7FABDF87C86"/>
+        <macro key="burning" value="D077BB75-30C4-4C3C-BAA0-A1CAB5EA4353"/>
+        <macro key="throbbing" value="73E5E6BF-F026-4D91-B645-CF7ED7509EF1"/>
+
+        <macro key="peridiocity" value="83160B73-BB69-400E-A5F6-D821B8B88D4A"/>
+        <macro key="intermittentPain" value="dcbd27b0-4ca2-4a93-9d8a-89f1cbe761ed"/>
+        <macro key="constantPain" value="85F0ADC1-1091-44F6-ABD1-ABB51CFA7A6F"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="affectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
+        <macro key="afectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
+        <macro key="afectingWalking" value="B9651FB5-5025-4D50-B694-FF3C8B3F1F58"/>
+
+        <macro key="onPainDrugs" value="33B4CA3D-32EE-4118-B58E-4CA18BDE6DC3"/>
+        <macro key="painImprovement" value="E31DA648-4CEE-465F-B3D4-CB1AA6235588"/>
+
 
     </macros>
 
@@ -408,7 +424,9 @@
                             <tr class="visit-table-row">
                                 <td style="text-align: left;">Location</td>
                                 <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
-                                      ['$baselinePainConstructB','baselinePainConstructB','B']">
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
@@ -417,12 +435,13 @@
                                         </obsgroup>
                                     </td>
                                 </repeat>
-                                <td colspan="2">C and D</td>
                             </tr>
                             <tr class="visit-table-row">
                                 <td style="text-align: left;">Duration</td>
                                 <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
-                                      ['$baselinePainConstructB','baselinePainConstructB','B']">
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
@@ -431,12 +450,28 @@
                                         </obsgroup>
                                     </td>
                                 </repeat>
-                                <td colspan="2">C and D</td>
+                            </tr>
+                            <tr class="visit-table-row">
+                                <td style="text-align: left;">Character/<br/>Description</td>
+                                <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
+                                    <td style="padding: 1px;" >
+                                        <obsgroup groupingConceptId="{0}">
+                                            <span class="nowrap">
+                                                <obs conceptId="$painDescription" answerConceptIds="$dull,$pricking,$burning,$throbbing" answerLabels="1=Dull,2=Pricking,3=Burning,4=Throbbing" style="dropdown" />
+                                            </span>
+                                        </obsgroup>
+                                    </td>
+                                </repeat>
                             </tr>
                             <tr class="visit-table-row">
                                 <td style="text-align: left;">Severity<br></br>0-5</td>
                                 <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
-                                      ['$baselinePainConstructB','baselinePainConstructB','B']">
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
@@ -445,21 +480,67 @@
                                         </obsgroup>
                                     </td>
                                 </repeat>
-                                <td colspan="2">C and D</td>
                             </tr>
                             <tr class="visit-table-row">
-                                <td style="text-align: left;">Affecting sleep? </td>
+                                <td style="text-align: left;">Periodicity</td>
                                 <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
-                                      ['$baselinePainConstructB','baselinePainConstructB','B']">
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
-                                                <obs conceptId="$affectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                                <obs conceptId="$peridiocity" answerConceptIds="$constantPain,$intermittentPain" answerLabels="1=constant,2=intermittent" style="dropdown" />
                                             </span>
                                         </obsgroup>
                                     </td>
                                 </repeat>
-                                <td colspan="2">C and D</td>
+                            </tr>
+                            <tr class="visit-table-row">
+                                <td style="text-align: left;">Affecting sleep? </td>
+                                <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
+                                    <td style="padding: 1px;" >
+                                        <obsgroup groupingConceptId="{0}">
+                                            <span class="nowrap">
+                                                <obs conceptId="$afectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                            </span>
+                                        </obsgroup>
+                                    </td>
+                                </repeat>
+                            </tr>
+                            <tr class="visit-table-row">
+                                <td style="text-align: left;">Affecting walking? </td>
+                                <repeat with="['$baselinePainConstructA','baselinePainConstructA','A'],
+                                      ['$baselinePainConstructB','baselinePainConstructB','B'],
+                                      ['$baselinePainConstructC','baselinePainConstructC','C'],
+                                      ['$baselinePainConstructD','baselinePainConstructD','D']">
+                                    <td style="padding: 1px;" >
+                                        <obsgroup groupingConceptId="{0}">
+                                            <span class="nowrap">
+                                                <obs conceptId="$afectingWalking" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                            </span>
+                                        </obsgroup>
+                                    </td>
+                                </repeat>
+                            </tr>
+                            <tr class="visit-table-row">
+                                <td style="text-align: left;">On pain drugs? </td>
+                                <td colspan="4" style="text-align: left; padding: 1px;" >
+                                    <span class="nowrap">
+                                        <obs conceptId="$onPainDrugs" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="visit-table-row">
+                                <td style="text-align: left;">If on any pain drugs,<br/>any improvement? </td>
+                                <td colspan="4" style="text-align: left; padding: 1px;" >
+                                    <span class="nowrap">
+                                        <obs conceptId="$painImprovement" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

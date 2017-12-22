@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 25;
+        return 26;
     }
 
     @Override
