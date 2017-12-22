@@ -3,6 +3,17 @@
           formEncounterType="e0822140-955d-11e7-abc4-cec278b6b50a"
           formVersion="1.2">
 
+    <style type="text/css">
+            form input[type="checkbox"], form input[type="radio"], .form input[type="checkbox"], .form input[type="radio"] {
+                float: none;
+                display: inline-block;
+            }
+
+            form label, .form label {
+                display: inline-block;
+            }
+    </style>
+
     <macros>
         diagnosisDate=6774
         pcDiagnosisSet=9848aec4-e681-11e7-80c1-9a214cf093ae
@@ -22,6 +33,7 @@
         mentalHealthDx=7f55864c-e68d-11e7-80c1-9a214cf093ae
         epilepsyDx=155
         kidneyFailureDx=3681
+        tuberculosis=58
 
         diabetesFamilyHistory=6740
         hypertensionFamilyHistory=8458
@@ -33,7 +45,7 @@
         insightText=9848b694-e681-11e7-80c1-9a214cf093ae
         familyInfoText=9848b9aa-e681-11e7-80c1-9a214cf093ae
         numMales=725B3C83-CCE5-4A71-A7F1-CB1565D6F7ED
-        numFemales=9848c256-e681-11e7-80c1-9a214cf093ae
+        numFemales=155FE093-4A8A-4A23-899E-A435B45A7D05
         numChildren=2649
 
         other=5622
@@ -72,7 +84,7 @@
         <macro key="diarrhea" value="6545a61e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="anorexia" value="654a83e6-977f-11e1-8993-905e29aff6c1"/>
         <macro key="dysphagia" value="654a9246-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="vaginalBleeding" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="vaginalBleeding" value="147232AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="bleeding" value="6572103c-977f-11e1-8993-905e29aff6c1"/>
         <macro key="dryMouth" value="156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         <macro key="symptomDate" value="65732bf2-977f-11e1-8993-905e29aff6c1"/>
@@ -83,7 +95,7 @@
 
         <macro key="painDuration" value="08C78D58-3841-4CF5-A2EE-CE8F13CB0901"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="afectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
+        <macro key="affectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
 
     </macros>
 
@@ -292,7 +304,7 @@
                             <obsgroup groupingConceptId="$pcDiagnosisSet">
                                 <td class="nowrap" data-toggle-source="other-dx" data-toggle-target="other-dx-date">
                                     <obs id="other-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
-                                         answerConceptId="$other" answerLabel="Other"/>
+                                         answerConceptId="$other" answerLabel="Other" commentFieldLabel=""/>
                                 </td>
                                 <td class="nowrap">
                                     <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -313,7 +325,12 @@
                         </tr>
                         <tr>
                             <td class="nowrap">
-                                <obs conceptId="$tbStatus" labelText="TB"
+                                <obsgroup groupingConceptId="$pcDiagnosisSet">
+                                    <obs conceptId="$palliativeCareDiagnosis" style="checkbox"
+                                        answerConceptId="$tuberculosis" answerLabel="TB:" />
+                                </obsgroup>
+
+                                <obs conceptId="$tbStatus"
                                      answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/>
                             </td>
@@ -345,21 +362,32 @@
                                   ['$diarrhea','diarrhea', 'Diarrhoea'],
                                   ['$dryMouth','dryMouth', 'Dry mouth'],
                                   ['$anorexia','anorexia', 'Anorexia'],
-                                  ['$dysphagia','dysphagia', 'Dysphagia'],
-                                  ['$other','other', 'Other']">
+                                  ['$dysphagia','dysphagia', 'Dysphagia']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$historyConstruct">
-                                    <td data-toggle-source="{1}-dx" data-toggle-target="{1}-dx-date">
-                                        <obs id="{1}-dx" conceptId="$symptomSet" style="checkbox"
+                                    <td data-toggle-source="{1}-his" data-toggle-target="{1}-his-date">
+                                        <obs id="{1}-his" conceptId="$symptomSet" style="checkbox"
                                              answerConceptId="{0}" answerLabel="{2}"/>
                                     </td>
                                     <td>
-                                        <obs id="{1}-dx-date" conceptId="$symptomDate" labelText="Date"/>
+                                        <obs id="{1}-his-date" conceptId="$symptomDate" labelText="Date"/>
                                     </td>
                                 </obsgroup>
                             </tr>
                         </repeat>
+
+                        <tr>
+                            <obsgroup groupingConceptId="$historyConstruct">
+                                <td data-toggle-source="other-his" data-toggle-target="other-his-date">
+                                    <obs id="other-his" conceptId="$symptomSet" style="checkbox"
+                                         answerConceptId="$other" answerLabel="Other" commentFieldLabel="" />
+                                </td>
+                                <td>
+                                    <obs id="other-his-date" conceptId="$symptomDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
 
                     </table>
 
@@ -427,7 +455,7 @@
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
-                                                <obs conceptId="$afectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                                <obs conceptId="$affectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                                             </span>
                                         </obsgroup>
                                     </td>
@@ -458,24 +486,28 @@
                 </td>
 
                 <td rowspan="3">
-                    <b>Family history</b>
-                    <br/>
+                    <table>
+                        <tr>
+                            <th colspan="2" align="left">Family history</th>
+                        </tr>
 
-                    <repeat with="['$hypertensionFamilyHistory','HTN'],
-                                  ['$diabetesFamilyHistory','Diabetes'],
-                                  ['$asthmaFamilyHistory','Asthma'],
-                                  ['$allergyFamilyHistory','Allergies'],
-                                  ['$epilepsyFamilyHistory','Epilepsy'],
-                                  ['$tbContactFamilyHistory','TB Contact']">
+                        <repeat with="['$hypertensionFamilyHistory','HTN'],
+                                      ['$diabetesFamilyHistory','Diabetes'],
+                                      ['$asthmaFamilyHistory','Asthma'],
+                                      ['$allergyFamilyHistory','Allergies'],
+                                      ['$epilepsyFamilyHistory','Epilepsy'],
+                                      ['$tbContactFamilyHistory','TB Contact']">
 
-                        {1}
-                        <span style="padding-left:5em;"></span>
-
-                        <obs conceptId="{0}" style="radio"
-                             answerLabels="Yes,No,Unknown"
-                             answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
-                        <br/>
-                    </repeat>
+                            <tr>
+                                <td>{1}</td>
+                                <td>
+                                    <obs conceptId="{0}" style="radio"
+                                    answerLabels="Yes,No,Unknown"
+                                    answerConceptIds="$yesAnswer,$noAnswer,$unknown"/>
+                                </td>
+                            </tr>
+                        </repeat>
+                    </table>
                 </td>
             </tr>
 

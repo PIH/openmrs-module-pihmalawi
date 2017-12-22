@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 24;
+        return 25;
     }
 
     @Override
@@ -281,7 +281,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("9848ac4e-e681-11e7-80c1-9a214cf093ae", "Nausea and vomiting", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept vaginalBleed = install(new ConceptBuilder("156095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept vaginalBleed = install(new ConceptBuilder("147232AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(notApplicable)
                 .conceptClass(diagnosis)
                 .name("9848ad8e-e681-11e7-80c1-9a214cf093ae", "Vaginal bleeding", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -366,13 +366,14 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
         Concept heartFailure = MetadataUtils.existing(Concept.class, "6566257e-977f-11e1-8993-905e29aff6c1");
         Concept epilepsy = MetadataUtils.existing(Concept.class, "6546938a-977f-11e1-8993-905e29aff6c1");
         Concept kidneyFailure = MetadataUtils.existing(Concept.class, "65671a88-977f-11e1-8993-905e29aff6c1");
+        Concept tuberculosis = MetadataUtils.existing(Concept.class, "6545d15c-977f-11e1-8993-905e29aff6c1");
 
         Concept pcDiagnosis = install(new ConceptBuilder("9848b126-e681-11e7-80c1-9a214cf093ae")
                 .datatype(coded)
                 .conceptClass(diagnosis)
                 .name("9848b536-e681-11e7-80c1-9a214cf093ae", "Palliative care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(cancer,depression,diabetes,hypertension,heartFailure,chronicLung,mentalHealth,
-                        epilepsy,kidneyFailure,other)
+                        epilepsy,kidneyFailure,tuberculosis,other)
                 .build());
 
         Concept pcDiagnosisConstruct = install(new ConceptBuilder("9848aec4-e681-11e7-80c1-9a214cf093ae")
