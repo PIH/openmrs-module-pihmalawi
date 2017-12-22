@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 23;
+        return 24;
     }
 
     @Override
@@ -394,16 +394,65 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("9848bb9e-e681-11e7-80c1-9a214cf093ae", "Family information (text)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept numMales = install(new ConceptBuilder("725B3C83-CCE5-4A71-A7F1-CB1565D6F7ED")
-                .datatype(numeric)
-                .conceptClass(question)
-                .name("7DEFD10D-8F1D-4DC9-9BC4-5504CF00798B", "Number of males", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+        Concept numMales = Context.getConceptService().getConceptByUuid("725B3C83-CCE5-4A71-A7F1-CB1565D6F7ED");
+        if (numMales == null) {
+            install(new ConceptBuilder("725B3C83-CCE5-4A71-A7F1-CB1565D6F7ED")
+                    .datatype(numeric)
+                    .conceptClass(question)
+                    .name("7DEFD10D-8F1D-4DC9-9BC4-5504CF00798B", "Number of males", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                    .build());
+        }
+        Concept numFemales = Context.getConceptService().getConceptByUuid("155FE093-4A8A-4A23-899E-A435B45A7D05");
+        if (numFemales == null) {
+            install(new ConceptBuilder("155FE093-4A8A-4A23-899E-A435B45A7D05")
+                    .datatype(numeric)
+                    .conceptClass(question)
+                    .name("A27E1988-C232-43B3-ADAC-7D3EAF68393B", "Number of females", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                    .build());
+        }
+
+        //Baseline Pain Rating
+
+        Concept painLocation= install(new ConceptBuilder("94C1A0B9-5F44-422F-A468-9434BDA06D01")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("ADEB7FA4-900F-4CBE-AC58-F1AE5C8DB5A5", "Pain Location", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("766CCCE2-81DF-4A8F-84D8-E5E4D094C52A", "Pain Location", Locale.ENGLISH)
                 .build());
 
-        Concept numFemales = install(new ConceptBuilder("155FE093-4A8A-4A23-899E-A435B45A7D05")
-                .datatype(numeric)
+        Concept painDuration= install(new ConceptBuilder("08C78D58-3841-4CF5-A2EE-CE8F13CB0901")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("921D49A4-22D9-4280-BBAE-91D6ACCA9A94", "Pain duration", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("9F6AD206-7C67-4826-BD48-E3BF8395B8E9", "Pain duration", Locale.ENGLISH)
+                .build());
+
+        Concept painScore = MetadataUtils.existing(Concept.class, "6566c524-977f-11e1-8993-905e29aff6c1");
+
+        Concept afectingSleep = install(new ConceptBuilder("6A47512F-E573-4074-9000-24F6C93A5EB2")
+                .datatype(coded)
                 .conceptClass(question)
-                .name("A27E1988-C232-43B3-ADAC-7D3EAF68393B", "Number of females", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("BB9571B7-2897-470B-974B-D7DE8FC33295", "Afecting sleep", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        install(new ConceptBuilder("E2D13414-6D37-4468-9719-DA6126F74FDE")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("6944ABC6-91B2-4AFF-A909-C96C059276A0", "PC Baseline Pain construct A", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("9CACEA6E-8B12-4DB4-BFD1-19B7827C626F", "PC Baseline Pain construct A", Locale.ENGLISH)
+                .setMembers(
+                        painLocation, painDuration, painScore, afectingSleep)
+                .build());
+
+
+        install(new ConceptBuilder("E60A40E0-B954-4251-86AD-10E875E7FFDB")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("BCD87E6E-5962-4667-BD5A-4F0A2E0377C1", "PC Baseline Pain construct B", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("4F99B272-4CD6-4559-B989-5DAA65EB4EEC", "PC Baseline Pain construct B", Locale.ENGLISH)
+                .setMembers(
+                        painLocation, painDuration, painScore, afectingSleep)
                 .build());
     }
 }
