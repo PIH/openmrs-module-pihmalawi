@@ -394,16 +394,16 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("9848bb9e-e681-11e7-80c1-9a214cf093ae", "Family information (text)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept numMales = install(new ConceptBuilder("9848bcf2-e681-11e7-80c1-9a214cf093ae")
+        Concept numMales = install(new ConceptBuilder("725B3C83-CCE5-4A71-A7F1-CB1565D6F7ED")
                 .datatype(numeric)
                 .conceptClass(question)
-                .name("9848be28-e681-11e7-80c1-9a214cf093ae", "Number of males", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("7DEFD10D-8F1D-4DC9-9BC4-5504CF00798B", "Number of males", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept numFemales = install(new ConceptBuilder("9848c256-e681-11e7-80c1-9a214cf093ae")
+        Concept numFemales = install(new ConceptBuilder("155FE093-4A8A-4A23-899E-A435B45A7D05")
                 .datatype(numeric)
                 .conceptClass(question)
-                .name("9848c3aa-e681-11e7-80c1-9a214cf093ae", "Number of females", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("A27E1988-C232-43B3-ADAC-7D3EAF68393B", "Number of females", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
