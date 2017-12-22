@@ -70,6 +70,7 @@
         chwName=8431
         married=1055
 
+        <macro key="religion" value="162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="historyConstruct" value="9168ACDB-F4CC-49A3-91D9-77E767EEFE78"/>
         <macro key="historyGivenBy" value="B71C09E6-F03E-4BBE-AC89-EF2B236397F3"/>
         <macro key="historyByPatient" value="1249F550-FF24-4F3E-A743-B37232E9E1C3"/>
@@ -138,7 +139,7 @@
 
         <table class="data-entry-table">
             <tr style="border: none;">
-                <td style="vertical-align:top;" width="25%">
+                <td style="vertical-align:top;" >
                     <h4>Patient / Guardian Details</h4>
                     <table>
                         <tr>
@@ -175,13 +176,13 @@
                         <tr>
                             <td>Religion</td>
                             <td>
-                                <!-- ToDo: Get list of religions -->
+                                <obs conceptId="$religion" />
                             </td>
                         </tr>
                         <tr>
                             <td>Guardian Name</td>
                             <td>
-                                <obs id="guardianNameField" conceptId="$guardianName" size="40"/>
+                                <obs id="guardianNameField" conceptId="$guardianName" />
                             </td>
                         </tr>
                         <tr>
@@ -212,7 +213,7 @@
                         <tr>
                             <td>CBO/HBC</td>
                             <td>
-                                <!--ToDo:  What is this? -->
+                                <!--ToDo:  What is CBO/HBC? -->
                             </td>
                         </tr>
                     </table>
@@ -229,9 +230,7 @@
                         </tr>
 
                         <tr>
-                            <!-- ToDo: Cancer
-                            ToDo:  Add stage
-                            ToDo:  Add specific cancer -->
+                            <!-- ToDo: Add Cancer stage and types -->
                             <obsgroup groupingConceptId="$pcDiagnosisSet">
                                 <td data-toggle-source="cancer-dx" data-toggle-target="cancer-dx-date">
                                     <obs id="cancer-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
@@ -477,7 +476,6 @@
                     <obs conceptId="$married" style="yes_no"/>
                 </td>
 
-                <!-- ToDo:  Add concepts with text -->
                 <td rowspan="2">
                     <b>Patients and family insight</b>
                     (diagnosis, treatment and prognosis)
@@ -527,7 +525,6 @@
                     <obs conceptId="$numFemales"/>=female
                 </td>
 
-                <!-- ToDo:  Add concept with text -->
                 <td>
                     <b>Other important family members/information</b><br/>
                     (Explore Ages of children, Level of education or currently attending school and what grade)
