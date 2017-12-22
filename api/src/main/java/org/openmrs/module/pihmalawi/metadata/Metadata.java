@@ -21,7 +21,6 @@ import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.LocationTag;
-import org.openmrs.OrderType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.Program;
@@ -348,30 +347,6 @@ public abstract class Metadata {
 			throw new IllegalArgumentException("Unable to find RelationshipType using key: " + lookup);
 		}
 		return rt;
-	}
-
-	/**
-	 * @return the OrderType that matches the passed uuid, name, or primary key id
-	 */
-	public OrderType getOrderType(String lookup) {
-		OrderType ot = Context.getOrderService().getOrderTypeByUuid(lookup);
-		if (ot == null) {
-			for (OrderType orderType : Context.getOrderService().getAllOrderTypes()) {
-				if (orderType.getName().equalsIgnoreCase(lookup)) {
-					ot = orderType;
-				}
-			}
-		}
-		if (ot == null) {
-			try {
-				ot =  Context.getOrderService().getOrderType(Integer.parseInt(lookup));
-			}
-			catch(Exception e) { }
-		}
-		if (ot == null) {
-			throw new IllegalArgumentException("Unable to find OrderType using key: " + lookup);
-		}
-		return ot;
 	}
 
 	/**
