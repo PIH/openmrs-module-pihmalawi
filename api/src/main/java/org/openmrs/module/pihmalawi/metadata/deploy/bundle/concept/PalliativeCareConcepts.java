@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 24;
+        return 25;
     }
 
     @Override
@@ -427,12 +427,63 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .description("9F6AD206-7C67-4826-BD48-E3BF8395B8E9", "Pain duration", Locale.ENGLISH)
                 .build());
 
+
+        Concept dull = install(new ConceptBuilder("5930E268-3FB4-4B34-BE26-82D671D4A06D")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("2CA0E144-EAE9-4119-8FBD-86212B8196D5", "Dull", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept pricking = install(new ConceptBuilder("8589C4F6-3125-4B47-9229-E7FABDF87C86")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("9820AC5D-24A8-4F5A-ADF5-2AC36483C03E", "Pricking", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept burning = install(new ConceptBuilder("D077BB75-30C4-4C3C-BAA0-A1CAB5EA4353")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("A9D2F6CD-0472-434E-8786-0B8591DE3E8B", "Burning", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept throbbing = install(new ConceptBuilder("73E5E6BF-F026-4D91-B645-CF7ED7509EF1")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("A80ED141-5C2B-417E-872C-47898CFA6B04", "Throbbing", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept painDescription = install(new ConceptBuilder("DD2A9D6D-74F2-4116-ACFB-C585B36D0FF3")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("2CBF2BA2-36C2-4ED9-A744-7E9ED2A05AB0", "Pain Description", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(dull, pricking, burning, throbbing)
+                .build());
+
         Concept painScore = MetadataUtils.existing(Concept.class, "6566c524-977f-11e1-8993-905e29aff6c1");
+
+        Concept constantPain = install(new ConceptBuilder("85F0ADC1-1091-44F6-ABD1-ABB51CFA7A6F")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("5D409553-142A-40E0-94F4-0DD90F28ACF4", "Constant", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("04F29505-F462-468B-AE89-044E00FE1244", "Used to describe the constant frequency of an occurrence", Locale.ENGLISH)
+                .build());
+
+        Concept intermittentPain = MetadataUtils.existing(Concept.class, "dcbd27b0-4ca2-4a93-9d8a-89f1cbe761ed");
+        Concept peridiocity = install(new ConceptBuilder("83160B73-BB69-400E-A5F6-D821B8B88D4A")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("59B3558A-8297-42CD-A62D-95F37E5C9CE2", "Peridiocity", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(intermittentPain, constantPain)
+                .build());
 
         Concept afectingSleep = install(new ConceptBuilder("6A47512F-E573-4074-9000-24F6C93A5EB2")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("BB9571B7-2897-470B-974B-D7DE8FC33295", "Afecting sleep", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept afectingWalking = install(new ConceptBuilder("B9651FB5-5025-4D50-B694-FF3C8B3F1F58")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("1C48A2DF-AACE-49A4-944D-EA4A33698FE9", "Afecting walking", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes, no)
                 .build());
 
@@ -442,7 +493,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("6944ABC6-91B2-4AFF-A909-C96C059276A0", "PC Baseline Pain construct A", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("9CACEA6E-8B12-4DB4-BFD1-19B7827C626F", "PC Baseline Pain construct A", Locale.ENGLISH)
                 .setMembers(
-                        painLocation, painDuration, painScore, afectingSleep)
+                        painLocation, painDuration, painDescription, painScore, peridiocity, afectingSleep, afectingWalking)
                 .build());
 
 
@@ -452,7 +503,39 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .name("BCD87E6E-5962-4667-BD5A-4F0A2E0377C1", "PC Baseline Pain construct B", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("4F99B272-4CD6-4559-B989-5DAA65EB4EEC", "PC Baseline Pain construct B", Locale.ENGLISH)
                 .setMembers(
-                        painLocation, painDuration, painScore, afectingSleep)
+                        painLocation, painDuration, painDescription, painScore, peridiocity, afectingSleep, afectingWalking)
+                .build());
+
+        install(new ConceptBuilder("410C8D80-B20D-4FB3-979A-E269506CE783")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("C661478B-3E7D-4429-952C-FD968BF7E45E", "PC Baseline Pain construct C", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("A7669487-CE4F-417D-85A8-125783980611", "PC Baseline Pain construct C", Locale.ENGLISH)
+                .setMembers(
+                        painLocation, painDuration, painDescription, painScore, peridiocity, afectingSleep, afectingWalking)
+                .build());
+
+        install(new ConceptBuilder("ABF99F58-599B-4700-BC91-AD52FE81B18F")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("B59959EA-1DDB-416C-87E6-518DD696267A", "PC Baseline Pain construct D", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("3D638CF3-03B8-472A-99AD-36CB3FAC0267", "PC Baseline Pain construct D", Locale.ENGLISH)
+                .setMembers(
+                        painLocation, painDuration, painDescription, painScore, peridiocity, afectingSleep, afectingWalking)
+                .build());
+
+        install(new ConceptBuilder("33B4CA3D-32EE-4118-B58E-4CA18BDE6DC3")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("8AC72EF3-061C-48A3-BD9D-0C8A2C3D4FC4", "On Pain Drugs", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        install(new ConceptBuilder("E31DA648-4CEE-465F-B3D4-CB1AA6235588")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("1D1CDDAF-74F3-4F05-AB21-B77DE0485A68", "Pain improvement", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
                 .build());
     }
 }
