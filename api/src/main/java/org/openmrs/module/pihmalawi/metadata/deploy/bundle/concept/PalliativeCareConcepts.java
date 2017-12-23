@@ -39,7 +39,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 26;
+        return 27;
     }
 
     @Override
@@ -413,6 +413,40 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                 .conceptClass(finding)
                 .name("6a19d1a2-e755-11e7-80c1-9a214cf093ae", "Overall cancer stage group", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(stage0,stageI,stageII,stageIII,stageIV)
+                .build());
+
+        Concept karposi = MetadataUtils.existing(Concept.class, "65774d0e-977f-11e1-8993-905e29aff6c1");
+        Concept cervical = MetadataUtils.existing(Concept.class, "65757d58-977f-11e1-8993-905e29aff6c1");
+        Concept bladder = MetadataUtils.existing(Concept.class, "657833e0-977f-11e1-8993-905e29aff6c1");
+        Concept prostate = MetadataUtils.existing(Concept.class, "6571d310-977f-11e1-8993-905e29aff6c1");
+        Concept lymphoma = MetadataUtils.existing(Concept.class, "6569861a-977f-11e1-8993-905e29aff6c1");
+
+        Concept esophageal = install(new ConceptBuilder("116017AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19e228-e755-11e7-80c1-9a214cf093ae", "Malignant Neoplasm of Esophagus", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept liver = install(new ConceptBuilder("116066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19e48a-e755-11e7-80c1-9a214cf093ae", "Malignant Neoplasm of Liver", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept colon = install(new ConceptBuilder("134868AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19ff06-e755-11e7-80c1-9a214cf093ae", "Malignant Neoplasm of Colon", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        Concept breast = install(new ConceptBuilder("116026AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6a19f97a-e755-11e7-80c1-9a214cf093ae", "Malignant Neoplasm of Breast", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept cancerType = install(new ConceptBuilder("6a19d9ea-e755-11e7-80c1-9a214cf093ae")
+                .datatype(coded)
+                .conceptClass(finding)
+                .name("6a19df8a-e755-11e7-80c1-9a214cf093ae", "Type of cancer", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(karposi,cervical,esophageal,bladder,liver,prostate,colon,breast,lymphoma,otherNonCoded)
                 .build());
 
         Concept insightText = install(new ConceptBuilder("9848b694-e681-11e7-80c1-9a214cf093ae")

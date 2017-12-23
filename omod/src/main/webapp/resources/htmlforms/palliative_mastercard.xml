@@ -96,6 +96,16 @@
         <macro key="stage2" value="160774AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="stage3" value="160778AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="stage4" value="160782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="typeCancer" value="6a19d9ea-e755-11e7-80c1-9a214cf093ae" />
+        <macro key="ks" value="65774d0e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="cervical" value="65757d58-977f-11e1-8993-905e29aff6c1" />
+        <macro key="bladder" value="657833e0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="prostate" value="6571d310-977f-11e1-8993-905e29aff6c1" />
+        <macro key="lymphoma" value="6569861a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="esophageal" value="116017AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="liver" value="116066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="colon" value="134868AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="breast" value="116026AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 
         <macro key="baselinePainConstructA" value="E2D13414-6D37-4468-9719-DA6126F74FDE"/>
         <macro key="baselinePainConstructB" value="E60A40E0-B954-4251-86AD-10E875E7FFDB"/>
@@ -114,13 +124,11 @@
         <macro key="intermittentPain" value="dcbd27b0-4ca2-4a93-9d8a-89f1cbe761ed"/>
         <macro key="constantPain" value="85F0ADC1-1091-44F6-ABD1-ABB51CFA7A6F"/>
         <macro key="painScore" value="6566c524-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="afectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
-        <macro key="afectingWalking" value="B9651FB5-5025-4D50-B694-FF3C8B3F1F58"/>
+        <macro key="affectingSleep" value="6A47512F-E573-4074-9000-24F6C93A5EB2"/>
+        <macro key="affectingWalking" value="B9651FB5-5025-4D50-B694-FF3C8B3F1F58"/>
 
         <macro key="onPainDrugs" value="33B4CA3D-32EE-4118-B58E-4CA18BDE6DC3"/>
         <macro key="painImprovement" value="E31DA648-4CEE-465F-B3D4-CB1AA6235588"/>
-
-
     </macros>
 
     <style>
@@ -257,10 +265,10 @@
                             <obsgroup groupingConceptId="$pcDiagnosisSet">
                                 <td data-toggle-source="cancer-dx" data-toggle-target="cancer-dx-date">
                                     <obs id="cancer-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
-                                         answerConceptId="$cancerDx" answerLabel="Cancer"/>
-                                    &amp;nbsp;<obs conceptId="$cancerStage" labelText="Stage"
+                                         answerConceptId="$cancerDx" answerLabel="Cancer"/>&amp;nbsp;&amp;nbsp;
+                                    (<obs conceptId="$cancerStage" labelText="Stage"
                                          answerConceptIds="$stage0,$stage1,$stage2,$stage3,$stage4"
-                                         answerLabels="0,I,II,III,IV"/>
+                                         answerLabels="0,I,II,III,IV"/>)
                                 </td>
                                 <td>
                                     <obs id="cancer-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -268,8 +276,21 @@
                             </obsgroup>
                         </tr>
                         <tr>
-                            <td colspan="2">
-                                
+                            <td colspan="2" style="font-size: 10px;">
+                                <obs conceptId="$typeCancer" answerConceptId="$ks" answerLabel="KS" />&amp;nbsp;&amp;nbsp;
+                                <obs conceptId="$typeCancer" answerConceptId="$cervical" answerLabel="Cervical" />
+                                <obs conceptId="$typeCancer" answerConceptId="$esophageal" answerLabel="Esophageal" />
+                                <obs conceptId="$typeCancer" answerConceptId="$bladder" answerLabel="Bladder" />
+                                <br/>
+                                <obs conceptId="$typeCancer" answerConceptId="$liver" answerLabel="Liver" />
+                                <obs conceptId="$typeCancer" answerConceptId="$prostate" answerLabel="Prostate" />
+                                <obs conceptId="$typeCancer" answerConceptId="$colon" answerLabel="Colorectal" />
+                                <obs conceptId="$typeCancer" answerConceptId="$breast" answerLabel="Breast" />
+                                <br/>
+                                <obs conceptId="$typeCancer"
+                                     answerConceptId="$lymphoma" answerLabel="Lymphoma," commentFieldLabel="type:" /><br/>
+                                <obs conceptId="$typeCancer"
+                                     answerConceptId="$other" answerLabel="Other," commentFieldLabel="type:" />
                             </td>
                         </tr>
 
@@ -297,12 +318,11 @@
                                 <td data-toggle-source="hf-dx" data-toggle-target="hf-dx-date">
                                     <obs id="hf-dx" conceptId="$palliativeCareDiagnosis" style="checkbox"
                                          answerConceptId="$heartFailureDx" answerLabel="Heart Failure"/>
-                                    <br/>
-                                    <obs conceptId="$hfStages"
+                                    (<obs conceptId="$hfStages"
                                          answerConceptIds="$nyha1,$nyha2,$nyha3,$nyha4"
                                          answerLabels="I,II,III,IV"
                                          labelText="Stage:"
-                                    />
+                                    />)
                                 </td>
                                 <td>
                                     <obs id="hf-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -520,7 +540,7 @@
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
-                                                <obs conceptId="$afectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                                <obs conceptId="$affectingSleep" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                                             </span>
                                         </obsgroup>
                                     </td>
@@ -535,7 +555,7 @@
                                     <td style="padding: 1px;" >
                                         <obsgroup groupingConceptId="{0}">
                                             <span class="nowrap">
-                                                <obs conceptId="$afectingWalking" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                                                <obs conceptId="$affectingWalking" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                                             </span>
                                         </obsgroup>
                                     </td>
