@@ -302,7 +302,7 @@ FROM rpt_ic3_data_table
 WHERE eidStartDate >= @startDate 
 AND eidStartDate <= @endDate
 AND motherArtNumber IS NOT NULL
-AND motherHivStatus IS NOT NULL
+AND motherEnrollmentHivStatus IS NOT NULL
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M16D';
@@ -326,7 +326,7 @@ SELECT 'IC3-M17N', 'Proportion of Hypertension patients with Blood Pressure reco
 FROM rpt_ic3_data_table
 WHERE htnDx is NOT NULL
 AND lastNcdVisit <= @endDate
-AND systolicBp is NOT NULL
+AND systolicBpAtLastVisit is NOT NULL
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M17D';
@@ -350,7 +350,7 @@ SELECT 'IC3-M18N', 'Proportion of Hypertensive clients with SBP 180+ or DBP 110+
 FROM rpt_ic3_data_table
 WHERE htnDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND (systolicBp > 180 OR diastolicBp > 110)
+AND (systolicBpAtLastVisit > 180 OR diastolicBpAtLastVisit > 110)
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M18D';
@@ -374,7 +374,7 @@ SELECT 'IC3-M19N', 'Proportion of Diabetes patients with FS OR HBA1C recorded at
 FROM rpt_ic3_data_table
 WHERE dmDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND (fingerStick IS NOT NULL or hba1c IS NOT NULL)
+AND (fingerStickAtLastVisit IS NOT NULL or hba1cAtLastVisit IS NOT NULL)
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M19D';
@@ -399,7 +399,7 @@ SELECT 'IC3-M20N', 'Proportion Diabetes clients with finger stick value 200+ OR 
 FROM rpt_ic3_data_table
 WHERE dmDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND (fingerStick> 200 or hba1c >= 7)
+AND (fingerStickAtLastVisit> 200 or hba1cAtLastVisit >= 7)
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M20D';
@@ -445,7 +445,7 @@ SELECT 'IC3-M22N', 'Proportion patients with asthma diagnosis with disease sever
 FROM rpt_ic3_data_table
 WHERE asthmaDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND asthmaClassification IS NOT NULL
+AND asthmaClassificationAtLastVisit IS NOT NULL
 AND lastAsthmaVisitDate <= @endDate
 ;
 -- denominator
@@ -471,7 +471,7 @@ SELECT 'IC3-M23N', 'Proportion patients with asthma severity of \"moderate persi
 FROM rpt_ic3_data_table
 WHERE asthmaDx is NOT NULL
 AND currentNcdState = "On Treatment"
-AND asthmaClassification IN ("Moderate persistent", "Severe persistent", "Uncontrolled")
+AND asthmaClassificationAtLastVisit IN ("Moderate persistent", "Severe persistent", "Uncontrolled")
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M23D';
@@ -506,7 +506,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M25N', 'Proportion of patients with report of no suicide risk at at last visit', 'At date', count(*)
 FROM rpt_ic3_data_table
 WHERE lastMentalHealthVisitDate is NOT NULL
-AND suicideRisk = 'No'
+AND suicideRiskAtLastVisit = 'No'
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M25D';
@@ -515,7 +515,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M25D', 'Proportion of patients with report of no suicide risk at at last visit', 'At date', count(*)
 FROM rpt_ic3_data_table
 WHERE lastMentalHealthVisitDate is NOT NULL
-AND suicideRisk IS NOT NULL
+AND suicideRiskAtLastVisit IS NOT NULL
 ;
 
 /*
@@ -529,7 +529,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M26N', 'Proportion of patients with report of no suicide risk at at last visit', 'At date', count(*)
 FROM rpt_ic3_data_table
 WHERE lastMentalHealthVisitDate is NOT NULL
-AND ablePerformDailyActivities = 'Yes'
+AND ablePerformDailyActivitiesAtLastVisit = 'Yes'
 ;
 -- denominator
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-M26D';
@@ -538,7 +538,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-M26D', 'Proportion of patients with report of no suicide risk at at last visit', 'At date', count(*)
 FROM rpt_ic3_data_table
 WHERE lastMentalHealthVisitDate is NOT NULL
-AND ablePerformDailyActivities IS NOT NULL
+AND ablePerformDailyActivitiesAtLastVisit IS NOT NULL
 ;
 
 /*
