@@ -70,7 +70,7 @@ public class HivVisitsReport extends ApzuDataExportManager {
 
 	@Override
 	public String getName() {
-		return "HIV Visits";
+		return "HIV - Visits Report";
 	}
 
 	@Override

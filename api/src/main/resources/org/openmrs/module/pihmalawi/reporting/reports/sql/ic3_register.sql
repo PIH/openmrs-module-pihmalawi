@@ -1,6 +1,6 @@
 -- ## report_uuid = 897C0E0A-1F8A-4ABD-AFE2-054146227668
 -- ## design_uuid = FFA51EA2-D483-43F2-9FE8-5B0AF619E8A0
--- ## report_name = IC3 Register Report
+-- ## report_name = IC3 - Register Report
 -- ## report_description = Report listing IC3 patients
 -- ## parameter = reportEndDate|End Date|java.util.Date
 
@@ -47,9 +47,9 @@ CALL updateProgramsEnrollmentDate();
 CALL updateFirstViralLoad(@reportEndDate);
 CALL updateLastViralLoad(@reportEndDate);
 CALL getLastOutcomeForProgram(1, @reportEndDate, 'lastHivOutcome', 'lastHivOutcomeDate');
-CALL everDefaultedByProgram('HIV Program', 'everDefaultedHiv')
+CALL everDefaultedByProgram('HIV Program', 'everDefaultedHiv');
 CALL getLastOutcomeForProgram(10, @reportEndDate, 'lastNcdOutcome', 'lastNcdOutcomeDate');
-CALL everDefaultedByProgram('NCD Program', 'everDefaultedNcd')
+CALL everDefaultedByProgram('CHRONIC CARE PROGRAM', 'everDefaultedNcd');
 CALL getEncounterLocationBeforeEndDate('9,10,11,12', @reportEndDate, 'last', 'lastHivVisitLocation');
 CALL getDatetimeObsBeforeDate(6132, @reportEndDate, 'last', 'artInitialDate');
 CALL updateRecentRegimen(@reportEndDate);

@@ -77,7 +77,7 @@ public class ArtRegister extends ApzuDataExportManager {
 
 	@Override
 	public String getName() {
-		return "ART Register";
+		return "HIV - ART Register";
 	}
 
 	@Override
@@ -153,10 +153,8 @@ public class ArtRegister extends ApzuDataExportManager {
 		addColumn(dsd, "Last Date of starting first line antiretroviral regimen", hivPatientData.getLatestFirstLineArvStartDateByEndDate());
 		addColumn(dsd, "Last CD4 count", hivPatientData.getLatestCd4CountValueByEndDate());
 		addColumn(dsd, "Last CD4 count Date", hivPatientData.getLatestCd4CountDateByEndDate());
-        addColumn(dsd, "Last Viral Load", hivPatientData.getLatestViralLoadValueByEndDate());
+        addColumn(dsd, "Last Viral Load", hivPatientData.getLatestViralLoadValueByEndDate(0));
 		addColumn(dsd, "Last Viral Load Date", hivPatientData.getLatestViralLoadDateByEndDate());
-		addColumn(dsd, "Last LDL", hivPatientData.getLatestLDLValueByEndDate());
-		addColumn(dsd, "Last LDL Date", hivPatientData.getLatestLDLDateByEndDate());
 
 		addColumn(dsd, "VHW", basePatientData.getChwOrGuardian());
 

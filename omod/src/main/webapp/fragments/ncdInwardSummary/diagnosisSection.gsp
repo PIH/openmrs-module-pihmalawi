@@ -3,7 +3,7 @@
 %>
 <% if (config.section.rows.size() > 0) { %>
     <td class="diagnosisSection">
-        <table style="width:300px;">
+        <table style="min-width:300px;">
             <tr><td colspan="2"><div class="top-section-title">${config.section.label}</div></td><tr>
 
             <tr>
@@ -19,10 +19,8 @@
             <% } %>
             <tr>
                 <td>Current Medications:</td>
-                <td>
-                    <% config.section.currentMedications.each { med -> %>
-                    <div>${ui.format(med)}</div>
-                    <% } %>
+                <td style="white-space: normal; width: 100%;">
+                    <% config.section.currentMedications.eachWithIndex { med, idx -> %>${ (idx == 0 ? "" : ", ") + ui.format(med)}<% } %>
                 </td>
             </tr>
 

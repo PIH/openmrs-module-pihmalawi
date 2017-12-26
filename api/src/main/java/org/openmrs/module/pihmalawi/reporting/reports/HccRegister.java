@@ -73,7 +73,7 @@ public class HccRegister extends ApzuDataExportManager {
 
 	@Override
 	public String getName() {
-		return "HCC Register";
+		return "HIV - HCC Register";
 	}
 
 	@Override

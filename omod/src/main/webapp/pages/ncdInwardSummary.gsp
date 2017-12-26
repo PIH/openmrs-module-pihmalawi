@@ -15,7 +15,8 @@
         var maxWeight = null;
         <% weights.each { weight -> %>
             var wt = ${weight.valueNumeric};
-            weightData.push([${weight.obsDatetime.getTime()}, wt]);
+            var wtDate = ${dateUtil.getStartOfDay(weight.obsDatetime).getTime()};
+            weightData.push([wtDate, wt]);
             minWeight = (minWeight == null || minWeight > wt ? wt : minWeight);
             maxWeight = (maxWeight == null || maxWeight < wt ? wt : maxWeight);
         <% } %>
@@ -69,6 +70,10 @@
     }
     table td {
         border: none;
+        padding: 1px 3px 1px 3px;
+    }
+    table th {
+        padding: 3px;
     }
     table {
         border-collapse: separate;
@@ -108,21 +113,16 @@
         white-space: nowrap;
     }
     .header-section {
-        width:100%; padding:10px;
+        width:100%; padding:5px;
     }
     .section-divider-top {
-        border-bottom: 2px solid black; padding:10px;
+        border-bottom: 2px solid black; margin-top:5px; margin-bottom: 5px;
     }
     .top-section-title {
         font-weight: bold;
         font-size: 1.2em;
         padding-left: 10px;
         padding-bottom: 5px;
-    }
-    .section-title {
-        font-weight: bold;
-        font-size: 1.2em;
-        padding:0px 10px 10px 10px;
     }
     .first-column {
         padding:0px 10px 0px 10px; white-space:nowrap; vertical-align:top;
@@ -218,10 +218,12 @@
         padding-top:20px; padding-bottom: 20px;
     }
     .section-divider-top {
-        padding-bottom:20px;
+        padding-top:5px;
+        padding-bottom:5px;
     }
     .section-divider-bottom {
-        padding-top:20px;
+        padding-top:5px;
+        padding-bottom:5px;
     }
 </style>
 
@@ -242,8 +244,6 @@
         <span id="name-section" style="font-size:2em;">${ firstName } ${ lastName }</span>
         <span id="identifier-section">(${ccNumber ? ccNumber : arvNumber ? arvNumber : hccNumber ? hccNumber : "?"})
     </div>
-
-    <div class="top-section-title">Demographics</div>
 
     <table>
         <tr>
@@ -302,9 +302,7 @@
         </tr>
     </table>
 
-    <br/>
     <div class="section-divider-top"></div>
-    <br/>
 
     <div class="top-section-title">Known Diagnoses</div>
 
@@ -315,6 +313,7 @@
                 <th>Diagnosis Date</th>
                 <th>First Visit Date</th>
                 <th>Last Visit Date</th>
+                <th>Next Appt Date</th>
                 <th>Program Status</th>
             </tr>
         </thead>
@@ -327,6 +326,7 @@
                             <td>${ui.format(row.diagnosisDate)}</td>
                             <td>${ui.format(diagnosisSection.earliestEncounterDate)}</td>
                             <td>${ui.format(diagnosisSection.latestEncounterDate)}</td>
+                            <td>${ui.format(diagnosisSection.nextAppointmentDate)}</td>
                             <td>${ui.format(ccTxStatus)} since ${ui.format(ccTxStatusDate)} </td>
                         </tr>
                     <% } %>
@@ -338,6 +338,7 @@
                     <td>${ui.format(hivEnrollmentDate)}</td>
                     <td>${ui.format(hivFirstVisitDate)}</td>
                     <td>${ui.format(hivLastVisitDate)}</td>
+                    <td>${ui.format(artAppointmentStatus?.nextScheduledDate)}</td>
                     <td>${ ui.format(hivTxStatus) } since ${ui.format(hivTxStatusDate)}</td>
                 </tr>
             <% } %>
@@ -345,7 +346,7 @@
     </table>
 
     <div class="section-divider-top"></div>
-    <br/>
+
     <div>
         <table id="diagnosisDetailTable">
         <tr>
@@ -424,7 +425,7 @@
     </table>
     </div>
 
-    <div class="section-divider-top">
+    <div class="section-divider-top" style="border:none;">
 
     <div class="top-section-title">Weight Trend</div>
 
@@ -460,7 +461,7 @@
                             Collections.reverse(weights);  %>
                             <%  weights.each { weight -> %>
                                 <tr>
-                                    <td>${ ui.format(weight.obsDatetime) }</td>
+                                    <td>${ ui.format(dateUtil.getStartOfDay(weight.obsDatetime)) }</td>
                                     <td>${ ui.format(weight.valueNumeric) }</td>
                                 </tr>
                             <% } %>

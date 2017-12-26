@@ -56,7 +56,7 @@ public class WeeklyEncounterByLocationReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "Weekly Encounter By Location";
+		return "EMR - Weekly Encounter By Location";
 	}
 
 	@Override

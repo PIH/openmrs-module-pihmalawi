@@ -39,7 +39,7 @@ public class AppointmentReportTest extends ReportManagerTest {
 
 	@Autowired
 
-    NewAppointmentReport report;
+    IC3AppointmentReport report;
 
 	@Override
 	public ReportManager getReportManager() {

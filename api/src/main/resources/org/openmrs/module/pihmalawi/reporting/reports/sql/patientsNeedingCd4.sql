@@ -1,7 +1,7 @@
 -- ## DEPRECATED = true
 -- ## report_uuid = 56dce9c9-5d4b-11e5-a151-e82aea237783
 -- ## design_uuid = e15c1a59-5d50-11e5-a151-e82aea237783
--- ## report_name = Patients Needing CD4
+-- ## report_name = Clinical - Patients Needing CD4
 -- ## report_description = Report indicating which patients need a CD4 done
 -- ## parameter = endDate|End Date|java.util.Date
 -- ## parameter = location|Location|org.openmrs.Location
