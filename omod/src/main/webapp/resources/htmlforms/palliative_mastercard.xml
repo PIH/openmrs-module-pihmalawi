@@ -500,7 +500,6 @@
                                                     <obs conceptId="$painDescription"
                                                          answerConceptIds="$dull,$pricking,$burning,$throbbing"
                                                          answerLabels="1=Dull,2=Pricking,3=Burning,4=Throbbing" style="dropdown" />
-                                                <br/>&amp;nbsp;
                                                 </td>
                                             </tr>
                                             <tr>
@@ -563,7 +562,7 @@
                             </td>
                         </tr>
                         <tr height="10%">
-                            <td style="text-align: left;">If on any pain drugs, any improvement? </td>
+                            <td style="text-align: left;">If on any pain drugs,<br/>any improvement?</td>
                             <td colspan="4" style="text-align: left; padding: 1px;" >
                                 <obs conceptId="$painImprovement" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
                             </td>
@@ -573,8 +572,7 @@
             </tr>
         </table>
 
-
-        <table>
+        <table class="data-entry-table">
             <tr>
                 <td>
                     Currently have spouse?
@@ -586,7 +584,7 @@
                     <b>Patients and family insight</b>
                     (diagnosis, treatment and prognosis)
                     <br/>
-                    <obs conceptId="$insightText" rows="2" cols="50" />
+                    <obs conceptId="$insightText" rows="2" cols="80" />
                 </td>
 
                 <td rowspan="3" style="vertical-align:top;text-align: left; spacing: 1px; padding: 1px;">
@@ -635,7 +633,7 @@
                     <b>Other important family members/information</b><br/>
                     (Explore Ages of children, Level of education or currently attending school and what grade)
                     <br/>
-                    <obs conceptId="$familyInfoText" rows="2" cols="50"/>
+                    <obs conceptId="$familyInfoText" rows="2" cols="80"/>
                 </td>
             </tr>
 
@@ -659,4 +657,6 @@
             </div>
         </ifMode>
     </div>
+    <p style="page-break-after: always;">&amp;nbsp;</p>
+    <p style="page-break-before: always;">&amp;nbsp;</p>
 </htmlform>
