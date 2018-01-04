@@ -25,16 +25,8 @@
             }
 
             .painpadding {
-                spacing: 1px;
-                padding: 1px;
-            }
-
-            .zeropadding {
-                vertical-align:top;
-                spacing: 0px;
-                padding: 0px;
-                margin-top: 5px;
-                border: 0px;
+                spacing-right: 1px; spacing-left: 1px;
+                padding-right: 1px; padding-left: 1px;
             }
     </style>
 
@@ -476,59 +468,57 @@
                             <th>C</th>
                             <th>D</th>
                         </tr>
-                        <tr height="10%">
-                            <td class="painpadding">&amp;nbsp;Location</td>
+                        <tr>
+                            <td height="10%">Location</td>
                             <repeat with="['$baselinePainConstructA'],
                                       ['$baselinePainConstructB'],
                                       ['$baselinePainConstructC'],
                                       ['$baselinePainConstructD']">
-                                <td class="minpadding" rowspan="7">
+                                <td class="minpadding" rowspan="7" height="70%">
                                     <table>
                                         <obsgroup groupingConceptId="{0}">
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$painLocation" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$painDuration" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$painDescription"
                                                          answerConceptIds="$dull,$pricking,$burning,$throbbing"
                                                          answerLabels="1=Dull,2=Pricking,3=Burning,4=Throbbing" style="dropdown" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$painScore" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$peridiocity"
                                                          answerConceptIds="$constantPain,$intermittentPain"
                                                          answerLabels="1=constant,2=intermittent"
                                                          style="dropdown" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$affectingSleep"
                                                          answerConceptIds="$yesAnswer,$noAnswer"
-                                                         answerLabels="Y,N" style="radio"
-                                                         answerSeparator="&lt;br/&gt;" />
+                                                         answerLabels="Y,N" style="radio" />
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="zeropadding">
+                                            <tr height="14%">
+                                                <td class="painpadding">
                                                     <obs conceptId="$affectingWalking"
                                                          answerConceptIds="$yesAnswer,$noAnswer"
-                                                         answerLabels="Y,N" style="radio"
-                                                         answerSeparator="&lt;br/&gt;" />
+                                                         answerLabels="Y,N" style="radio" />
                                                 </td>
                                             </tr>
                                         </obsgroup>
@@ -537,16 +527,16 @@
                             </repeat>
                         </tr>
                         <tr height="10%">
-                            <td class="painpadding">&amp;nbsp;Duration</td>
+                            <td>Duration</td>
                         </tr>
                         <tr height="10%">
-                            <td class="painpadding">&amp;nbsp;Character</td>
+                            <td>Character</td>
                         </tr>
                         <tr height="10%">
-                            <td class="painpadding">&amp;nbsp;Severity</td>
+                            <td>Severity</td>
                         </tr>
                         <tr height="10%">
-                            <td class="painpadding">&amp;nbsp;Periodicity</td>
+                            <td>Periodicity</td>
                         </tr>
                         <tr height="10%">
                             <td>Affecting sleep?</td>
@@ -556,15 +546,19 @@
                         </tr>
 
                         <tr height="10%">
-                            <td style="text-align: left;">On pain drugs? </td>
-                            <td colspan="4" style="text-align: left; padding: 1px;" >
-                                <obs conceptId="$onPainDrugs" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                            <td>On pain drugs? </td>
+                            <td colspan="4">
+                                <obs conceptId="$onPainDrugs"
+                                     answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Y,N" style="radio" />
                             </td>
                         </tr>
                         <tr height="10%">
                             <td style="text-align: left;">If on any pain drugs,<br/>any improvement?</td>
-                            <td colspan="4" style="text-align: left; padding: 1px;" >
-                                <obs conceptId="$painImprovement" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" style="radio" />
+                            <td colspan="4">
+                                <obs conceptId="$painImprovement"
+                                     answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Y,N" style="radio" />
                             </td>
                         </tr>
                     </table>
