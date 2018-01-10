@@ -13,11 +13,15 @@
  */
 package org.openmrs.module.pihmalawi.page.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.FormService;
 import org.openmrs.api.LocationService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
@@ -40,6 +44,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class MastercardPageController {
 
@@ -47,7 +53,9 @@ public class MastercardPageController {
                            @RequestParam(value="headerForm") String headerForm,
                            @RequestParam(value="flowsheets") String[] flowsheets,
                            @RequestParam(value="viewOnly", required = false) Boolean viewOnly,
+                           @RequestParam(value="addRow", required = false) Boolean addRow,
                            @RequestParam(value="requireEncounter", required = false) Boolean requireEncounter,
+                           @RequestParam(value="requireObs", required = false) String requireObs,
                            UiUtils ui, PageModel model,
                            @SpringBean("htmlFormEntryService") HtmlFormEntryService htmlFormEntryService,
                            @SpringBean("formService") FormService formService,
@@ -97,9 +105,23 @@ public class MastercardPageController {
                 flowsheetForms.put(flowsheet, htmlForm);
                 List<Integer> encIds = new ArrayList<Integer>();
                 List<Encounter> encounters = getEncountersForForm(patient, htmlForm);
+                List<Concept> requiredObs = getRequiredObs(requireObs);
+
                 for (Encounter e : encounters) {
-                    encIds.add(e.getEncounterId());
-                    allEncounters.add(e);
+                    boolean obsPresent = true;
+                    if (requiredObs != null && requiredObs.size() > 0) {
+                        obsPresent = false;
+                        for (Obs ob : e.getObs()) {
+                            if (requiredObs.contains(ob.getConcept())){
+                                obsPresent = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (obsPresent) {
+                        encIds.add(e.getEncounterId());
+                        allEncounters.add(e);
+                    }
                 }
                 flowsheetEncounters.put(flowsheet, encIds);
             }
@@ -122,6 +144,10 @@ public class MastercardPageController {
         }
         model.addAttribute("defaultLocationId", defaultLocation == null ? null : defaultLocation.getLocationId());
         model.addAttribute("viewOnly", viewOnly == Boolean.TRUE);
+        if (addRow == null ) {
+            addRow = Boolean.TRUE;
+        }
+        model.addAttribute("addRow", addRow == Boolean.TRUE);
 
         model.addAttribute("returnUrl", ui.pageLink("pihmalawi", "mastercard", SimpleObject.create("patientId", patient.getId(), "headerForm", headerForm, "flowsheets", flowsheets, "viewOnly", viewOnly)));
 	}
@@ -150,5 +176,27 @@ public class MastercardPageController {
         edd.addType(form.getForm().getEncounterType());
         List<Encounter> ret = DataUtil.evaluateForPatient(edd, p.getPatientId(), List.class);
         return ret == null ? new ArrayList<Encounter>() : ret;
+    }
+
+    protected List<Concept> getRequiredObs(String requireObs) {
+        List<Concept> requiredConcepts = null;
+
+        if (StringUtils.isNotBlank(requireObs)) {
+            requiredConcepts = new ArrayList<Concept>();
+            StringTokenizer st = new StringTokenizer(requireObs, ",");
+            while (st.hasMoreTokens()) {
+                String id = st.nextToken().trim();
+                Concept concept = null;
+                try {
+                    int anInt = Integer.parseInt(id);
+                    concept = Context.getConceptService().getConcept(new Integer(id));
+                } catch (NumberFormatException ex) {
+                    // id is not an integer, it should be an UUID then
+                    concept = Context.getConceptService().getConceptByUuid(id);
+                }
+                requiredConcepts.add(concept);
+            }
+        }
+        return requiredConcepts;
     }
 }

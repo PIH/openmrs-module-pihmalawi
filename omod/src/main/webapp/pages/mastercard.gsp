@@ -4,6 +4,8 @@
     ui.includeJavascript("pihmalawi", "mastercard.js")
     ui.includeJavascript("pihmalawi", "jstat.min.js")
     ui.includeJavascript("htmlformentryui", "htmlForm.js")
+
+    def addNewRow = (addRow != null && addRow == true) ? true : false;
 %>
 
 <script type="text/javascript">
@@ -246,7 +248,7 @@
 
         <div class="visit-section">
 
-            <% if (!viewOnly && formName != 'blank') { %>
+            <% if (!viewOnly && formName != 'blank' && addNewRow == true) { %>
                 <div class="add-another-flowsheet-section flowsheet-section">
                     <a class="form-action-link" onclick="mastercard.enterVisit('${formName}');">
                         <i class="icon-pencil"></i>

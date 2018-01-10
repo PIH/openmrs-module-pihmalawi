@@ -36,6 +36,7 @@
 <c:set var="PccDiedWorkflowState" value="4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
+<openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
 
 <table cellspacing="0" cellpadding="2">
     <tr>
@@ -172,15 +173,20 @@
 <table cellspacing="0" cellpadding="2">
     <tr>
         <td>HIV Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,1,7" stateIds="7,87" terminalStateIds="2,12,119" /><br /></td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119" /><br /></td>
     </tr>
     <tr>
         <td>Chronic Care Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,141" defaultLocation="2"/></td>
+        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
+            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,141" defaultLocation="2"/><br /></td
+        </c:if>
+        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
+            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,154" defaultLocation="2"/><br /></td
+        </c:if>
     </tr>
     <tr>
         <td>Palliative Care Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}" defaultLocation="2"/></td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}" defaultLocation="2"/><br /></td>
     </tr>
     <tr>
         <td>TB Program:</td>
