@@ -609,4 +609,263 @@ AND hivCurrentStateStart >= @startDate
 AND currentHivState = "Patient died"
 ;
 
+/* 
+	IC3-Q1: Total in care
+	Total clients with either NCD "On Treatment" or "On Antiretroviral"; exclude EID
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q1';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q1', 'Total in care', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	( 	(currentHivState = "On antiretrovirals")
+		OR
+			(currentNcdState = "On treatment")	
+		);
+		
+/* 
+	IC3-Q2 - HIV Clients
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q2';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q2', 'HIV clients', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentHivState = "On antiretrovirals"	
+;		
+
+/*
+	IC3-Q3 - NCD Clients
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q3';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q3', 'NCD care current enrollments', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"	
+;
+
+/*
+	IC3-Q4 Dual diagnosis: HIV-NCD Clients
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q4';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q4', 'Dual diagnosis: HIV-NCD Clients', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"	
+AND 	currentHivState = "On antiretrovirals"
+;
+
+/*
+	IC3-Q6 Total IC3 Clients with outcome Defaulted
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q6';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q6', 'Total IC3 Clients with outcome Defaulted', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "Patient defaulted"	
+OR  	currentHivState = "Patient defaulted"
+;
+
+/*
+	IC3-Q7 HIV Clients with outcome Defaulted
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q7';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q7', 'HIV Clients with outcome Defaulted', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentHivState = "Patient defaulted"
+;
+
+/*
+	IC3-Q8 NCD Clients with outcome Defaulted
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q8';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q8', 'NCD Clients with outcome Defaulted', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentNcdState = "Patient defaulted"
+;
+
+/*
+	IC3-Q9 NCD Clients with outcome Defaulted
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q9';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q9', 'NCD Clients with outcome Defaulted', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentNcdState = "Patient defaulted"
+AND     currentHivState = "Patient defaulted"
+;
+
+
+
+
+/*
+	IC3-Q11 Total IC3 Clients with outcome Died
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q11';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q11', 'Total IC3 Clients with outcome Died', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "Patient died"	
+OR  	currentHivState = "Patient died"
+;
+
+/*
+	IC3-Q12 HIV Clients with outcome Died
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q12';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q12', 'HIV Clients with outcome Died', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentHivState = "Patient died"
+;
+
+/*
+	IC3-Q13 NCD Clients with outcome Died
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q13';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q13', 'NCD Clients with outcome Died', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentNcdState = "Patient died"
+;
+
+/*
+	IC3-Q14 NCD Clients with outcome Died
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q14';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q14', 'NCD Clients with outcome Died', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE  	currentNcdState = "Patient died"
+AND     currentHivState = "Patient died"
+;
+
+/* 
+	IC3-Q16N - Universal Health Coverage: Proportion of expected HIV clients in care
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q16N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q16N', 'Universal Health Coverage: Proportion of expected HIV clients in care', 'At date', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentHivState = "On antiretrovirals"	
+;	
+
+/* 
+	IC3-Q17N - Proportion of clients who started ART 6m ago + had viral load test
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q17N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q17N', 'Proportion of clients who started ART 6m ago with a viral load result on record', 'Period', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentHivState = "On antiretrovirals"	
+AND 	DATEDIFF(@endDate,artStartDate) > 30*6
+AND 	DATEDIFF(@endDate,artStartDate) < 30*9
+AND 	lastViralLoadTest IS NOT NULL
+;	
+
+/* 
+	IC3-Q17D - Proportion of clients who started ART 6m ago 
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q17D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q17D', 'Proportion of clients who started ART 6m ago', 'Period', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentHivState = "On antiretrovirals"	
+AND 	DATEDIFF(@endDate,artStartDate) > 30*6
+AND 	DATEDIFF(@endDate,artStartDate) < 30*9
+;	
+
+/* 
+	IC3-Q18N - Proportion of HIV patients retained in care at 12m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q18N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q18N', 'Proportion of HIV patients retained in care at 12m', 'Period', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	currentHivState = "On antiretrovirals"	
+AND 	DATEDIFF(@endDate,artStartDate) > 30*12
+AND 	DATEDIFF(@endDate,artStartDate) < 30*15
+;	
+
+/* 
+	IC3-Q18D - Proportion of HIV patients retained in care at 12m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q18D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q18D', 'Proportion of HIV patients retained in care at 12m', 'Period', count(*) 
+FROM rpt_ic3_data_table
+WHERE 	DATEDIFF(@endDate,artStartDate) > 30*12
+AND 	DATEDIFF(@endDate,artStartDate) < 30*15
+;	
+
+/* 
+	IC3-Q19N - Proportion of exposed infants with DNA-PCR DRAWN at 2m visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q19N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q19N', 'Proportion of exposed infants with DNA-PCR DRAWN at 2m visit', 'Period', count(*) 
+FROM 	rpt_ic3_data_table
+WHERE 	eidStartDate IS NOT NULL
+AND		DATEDIFF(lastDnaPcrTest,birthdate) < 90
+AND 	DATEDIFF(@endDate,birthdate) < 90
+AND 	DATEDIFF(@endDate,birthdate) >= 0
+;
+
+/* 
+	IC3-Q20N - Proportion of exposed infants with RT at 2y
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q20N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q20N', 'Proportion of exposed infants with RT at 2y', 'At date', count(*) 
+FROM 	rpt_ic3_data_table
+WHERE 	eidStartDate IS NOT NULL
+AND		DATEDIFF(lastRapidTest,birthdate) > 365+30.4*11
+AND		DATEDIFF(lastRapidTest,birthdate) < 365*2+30
+;
+
+/* 
+	IC3-Q21N - Proportion of exposed infants enrolled in EID
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q21N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q21N', 'Proportion of exposed infants enrolled in EID', 'Period', count(*) 
+FROM 	rpt_ic3_data_table
+WHERE 	currentHivState = "Exposed child (continue)"
+AND 	DATEDIFF(@endDate,eidStartDate) < 90
+AND 	DATEDIFF(@endDate,eidStartDate) >= 0
+;
+
+/* 
+	IC3-Q22 - Average age at enrollment for EID
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q22';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q22', 'Average age at enrollment for EID', 'Period', AVG(DATEDIFF(@endDate,eidStartDate))
+FROM 	rpt_ic3_data_table
+WHERE 	currentHivState = "Exposed child (continue)"
+AND 	DATEDIFF(@endDate,eidStartDate) < 90
+AND 	DATEDIFF(@endDate,eidStartDate) >= 0
+;
+
 select * from rpt_ic3_indicators;
