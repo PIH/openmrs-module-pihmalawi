@@ -173,7 +173,7 @@
 <table cellspacing="0" cellpadding="2">
     <tr>
         <td>HIV Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,1,7" stateIds="7,87" terminalStateIds="2,12,119" /><br /></td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119" /><br /></td>
     </tr>
     <tr>
         <td>Chronic Care Program:</td>
