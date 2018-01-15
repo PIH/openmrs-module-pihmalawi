@@ -861,11 +861,684 @@ AND 	DATEDIFF(@endDate,eidStartDate) >= 0
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q22';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q22', 'Average age at enrollment for EID', 'Period', AVG(DATEDIFF(@endDate,eidStartDate))
+SELECT 'IC3-Q22', 'Average age at enrollment for EID', 'Period', AVG(DATEDIFF(@endDate,eidStartDate))/7.
 FROM 	rpt_ic3_data_table
 WHERE 	currentHivState = "Exposed child (continue)"
 AND 	DATEDIFF(@endDate,eidStartDate) < 90
 AND 	DATEDIFF(@endDate,eidStartDate) >= 0
+;
+
+/* 
+	IC3-Q23N - Universal Health Coverage: Proportion of expected hypertensive clients in care
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q23N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q23N', 'Universal Health Coverage: Proportion of expected hypertensive clients in care', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+;
+
+/* 
+	IC3-Q24N - Percentage of all hypertension patients with urine dipstick done in last 6 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q24N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q24N', 'Percentage of all hypertension patients with urine dipstick done in last 6 months', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastProteinuriaDate) < 183
+AND 	DATEDIFF(@endDate,lastProteinuriaDate) >= 0
+;
+
+/* 
+	IC3-Q24D - Percentage of all hypertension patients with urine dipstick done in last 6 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q24D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q24D', 'Percentage of all hypertension patients with urine dipstick done in last 6 months', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/* 
+	IC3-Q25N - Percentage of all patients with creatinine recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q25N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q25N', 'Percentage of all patients with creatinine recorded once in the previous year', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastCreatinineDate) < 366
+AND 	DATEDIFF(@endDate,lastCreatinineDate) >= 0
+;
+
+/* 
+	IC3-Q25D - Percentage of all patients with creatinine recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q25D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q25D', 'Percentage of all patients with creatinine recorded once in the previous year', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/* 
+	IC3-Q26N - Percentage of all patients with fundoscopy recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q26N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q26N', 'Percentage of all patients with fundoscopy recorded once in the previous year', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastFundoscopyDate) < 366
+AND 	DATEDIFF(@endDate,lastFundoscopyDate) >= 0
+;
+
+/* 
+	IC3-Q26D - Percentage of all patients with fundoscopy recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q26D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q26D', 'Percentage of all patients with fundoscopy recorded once in the previous year', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/* 
+	IC3-Q27N - Percentage of eligible patients with HIV test recorded in last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q27N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q27N', 'Percentage of eligible patients with HIV test recorded in last 3m', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+AND 	(
+			(DATEDIFF(@endDate,lastRapidTest) <= 90 
+			AND 
+			DATEDIFF(@endDate,lastRapidTest) >= 0)
+		OR
+			(DATEDIFF(@endDate,lastDnaPcrTest) <= 90 
+			AND 
+			DATEDIFF(@endDate,lastDnaPcrTest) >= 0)		
+		)
+AND 	artStartDate IS NULL		
+;
+
+/* 
+	IC3-Q27D - Percentage of eligible patients with HIV test recorded in last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q27D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q27D', 'Percentage of eligible patients with HIV test recorded in last 3m', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		htnDx is NOT NULL
+AND 	artStartDate IS NULL
+;
+
+/*
+	IC3-Q28N - Percentage of all patients with visual acuity recorded at last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q28N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q28N', 'Percentage of all patients with visual acuity recorded at last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	htnDx is NOT NULL
+AND 	visualAcuityAtLastVisit is NOT NULL
+;
+
+/* 
+	IC3-Q28D - Percentage of all patients with visual acuity recorded at last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q28D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q28D', 'Percentage of all patients with visual acuity recorded at last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/*
+	IC3-Q29N - Percentage of all patients with CV risk assessment score recorded at the last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q29N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q29N', 'Percentage of all patients with CV risk assessment score recorded at the last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	htnDx is NOT NULL
+AND 	cvRiskAtLastVisit is NOT NULL
+;
+
+/* 
+	IC3-Q29D - Percentage of all patients with CV risk assessment score recorded at the last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q29D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q29D', 'Percentage of all patients with CV risk assessment score recorded at the last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/*
+	IC3-Q30N - Proportion of hypertension clients with cardiovascular disease complication
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q30N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q30N', 'Proportion of hypertension clients with cardiovascular disease complication', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	htnDx is NOT NULL
+AND 	cvDisease is NOT NULL
+;
+
+/* 
+	IC3-Q30D - Proportion of hypertension clients with cardiovascular disease complication
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q30D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q30D', 'Proportion of hypertension clients with cardiovascular disease complication', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/*
+	IC3-Q31N - Proportion of all IC3 HTN clients with hypertension brought to normal BP (Proportion with controlled BP) SBP <140 and DBP <90
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q31N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q31N', 'Proportion of all IC3 HTN clients with hypertension brought to normal BP (Proportion with controlled BP) SBP <140 and DBP <90', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	htnDx is NOT NULL
+AND 	systolicBpAtLastVisit < 140
+AND 	diastolicBpAtLastVisit < 90
+;
+
+/* 
+	IC3-Q31D - Proportion of all IC3 HTN clients with hypertension brought to normal BP (Proportion with controlled BP) SBP <140 and DBP <90
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q31D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q31D', 'Proportion of all IC3 HTN clients with hypertension brought to normal BP (Proportion with controlled BP) SBP <140 and DBP <90', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/*
+	IC3-Q32N - Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q32N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q32N', 'Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	htnDx is NOT NULL
+AND 	htnDmHospitalizedSinceLastVisit = True
+;
+
+/* 
+	IC3-Q32D - Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q32D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q32D', 'Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q23N'
+;
+
+/* 
+	IC3-Q33N - Universal Health Coverage: Proportion of expected diabetes clients in care
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q33N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q33N', 'Universal Health Coverage: Proportion of expected diabetes clients in care', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+;
+
+/* 
+	IC3-Q34N - Percentage of all diabetes patients with urine dipstick done in last 6 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q34N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q34N', 'Percentage of all diabetes patients with urine dipstick done in last 6 months', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastProteinuriaDate) < 183
+AND 	DATEDIFF(@endDate,lastProteinuriaDate) >= 0
+;
+
+/* 
+	IC3-Q34D - Percentage of all diabetes patients with urine dipstick done in last 6 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q34D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q34D', 'Percentage of all diabetes patients with urine dipstick done in last 6 months', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/* 
+	IC3-Q35N - Percentage of all patients with creatinine recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q35N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q35N', 'Percentage of all patients with creatinine recorded once in the previous year', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastCreatinineDate) < 366
+AND 	DATEDIFF(@endDate,lastCreatinineDate) >= 0
+;
+
+/* 
+	IC3-Q35D - Percentage of all patients with creatinine recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q35D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q35D', 'Percentage of all patients with creatinine recorded once in the previous year', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/* 
+	IC3-Q36N - Percentage of all patients with fundoscopy recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q36N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q36N', 'Percentage of all patients with fundoscopy recorded once in the previous year', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastFundoscopyDate) < 366
+AND 	DATEDIFF(@endDate,lastFundoscopyDate) >= 0
+;
+
+/* 
+	IC3-Q36D - Percentage of all patients with fundoscopy recorded once in the previous year
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q36D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q36D', 'Percentage of all patients with fundoscopy recorded once in the previous year', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/* 
+	IC3-Q37N - Percentage of eligible patients with HIV test recorded in last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q37N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q37N', 'Percentage of eligible patients with HIV test recorded in last 3m', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+AND 	(
+			(DATEDIFF(@endDate,lastRapidTest) <= 90 
+			AND 
+			DATEDIFF(@endDate,lastRapidTest) >= 0)
+		OR
+			(DATEDIFF(@endDate,lastDnaPcrTest) <= 90 
+			AND 
+			DATEDIFF(@endDate,lastDnaPcrTest) >= 0)		
+		)
+AND 	artStartDate IS NULL		
+;
+
+/* 
+	IC3-Q37D - Percentage of eligible patients with HIV test recorded in last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q37D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q37D', 'Percentage of eligible patients with HIV test recorded in last 3m', 'At date', count(*)
+FROM 	rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND		dmDx is NOT NULL
+AND 	artStartDate IS NULL
+;
+
+/*
+	IC3-Q38N - Percentage of all patients with visual acuity recorded at last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q38N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q38N', 'Percentage of all patients with visual acuity recorded at last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	dmDx is NOT NULL
+AND 	visualAcuityAtLastVisit is NOT NULL
+;
+
+/* 
+	IC3-Q38D - Percentage of all patients with visual acuity recorded at last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q38D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q38D', 'Percentage of all patients with visual acuity recorded at last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/*
+	IC3-Q39N - Percentage of all patients with CV risk assessment score recorded at the last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q39N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q39N', 'Percentage of all patients with CV risk assessment score recorded at the last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	dmDx is NOT NULL
+AND 	cvRiskAtLastVisit is NOT NULL
+;
+
+/* 
+	IC3-Q39D - Percentage of all patients with CV risk assessment score recorded at the last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q39D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q39D', 'Percentage of all patients with CV risk assessment score recorded at the last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/*
+	IC3-Q40N - Proportion of diabetes clients with cardiovascular disease complication
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q40N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q40N', 'Proportion of diabetes clients with cardiovascular disease complication ', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	dmDx is NOT NULL
+AND 	cvDisease is NOT NULL
+;
+
+/* 
+	IC3-Q40D - Proportion of hypertension clients with cardiovascular disease complication
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q40D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q40D', 'Proportion of diabetes clients with cardiovascular disease complication', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/*
+	IC3-Q41N - Proportion of patients with Diabetes controlled (HBA1C <7% at last measurement)
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q41N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q41N', 'Proportion of patients with Diabetes controlled (HBA1C <7% at last measurement)', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	dmDx is NOT NULL
+AND 	hba1cAtLastVisit < 7
+;
+
+/* 
+	IC3-Q41D - Proportion of patients with Diabetes controlled (HBA1C <7% at last measurement)
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q41D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q41D', 'Proportion of patients with Diabetes controlled (HBA1C <7% at last measurement)', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/*
+	IC3-Q42N - Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q42N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q42N', 'Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	dmDx is NOT NULL
+AND 	htnDmHospitalizedSinceLastVisit = True
+;
+
+/* 
+	IC3-Q42D - Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q42D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q42D', 'Proportion of enrolled clients who reported a hospitaliztion due to hypertension at their last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q33N'
+;
+
+/*
+	IC3-Q43N - Proportion Epilepsy patients with disease controlled (no seizures reported last visit)
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q43N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q43N', 'Proportion Epilepsy patients with disease controlled (no seizures reported last visit)', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	epilepsyDx is NOT NULL
+AND 	seizuresSinceLastVisit IS NULL
+AND 	(seizures = 0
+		OR
+		seizures IS NULL)
+;
+
+/*
+	IC3-Q43D - Proportion Epilepsy patients with disease controlled (no seizures reported last visit)
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q43D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q43D', 'Proportion Epilepsy patients with disease controlled (no seizures reported last visit)', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	epilepsyDx is NOT NULL
+;
+
+/*
+	IC3-Q44N - Proportion of patients without a seizure in the past 2 years
+*/
+-- numerator
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q44N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q44N', 'Proportion of patients without a seizure in the past 2 years', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	epilepsyDx is NOT NULL
+AND 	DATEDIFF(@endDate,lastSeizureActivityRecorded) >365.25*2
+;
+
+/* 
+	IC3-Q44D - Proportion of patients without a seizure in the past 2 years
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q44D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q44D', 'Proportion of patients without a seizure in the past 2 years', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q43D'
+;
+
+/*
+	IC3-Q45N - Proportion of asthma patients with disease controlled (severity at "intermittent"  or "mild persistent" at last visit)
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q45N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q45N', 'Proportion of asthma patients with disease controlled (severity at "intermittent"  or "mild persistent" at last visit)', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	asthmaDx is NOT NULL
+AND 	(asthmaClassificationAtLastVisit = 'Intermittent'
+		OR
+		asthmaClassificationAtLastVisit = 'Mild persistent')
+;
+
+/*
+	IC3-Q45D - Proportion of asthma patients with disease controlled (severity at "intermittent"  or "mild persistent" at last visit)
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q45D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q45D', 'Proportion of asthma patients with disease controlled (severity at "intermittent"  or "mild persistent" at last visit)', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	asthmaDx is NOT NULL
+;
+
+/*
+	IC3-Q46N - Percentage of patients seen in the last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q46N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q46N', 'Percentage of patients seen in the last 3m', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	DATEDIFF(@endDate,lastMentalHealthVisitDate) < 90
+;
+
+/*
+	IC3-Q46D - Percentage of patients seen in the last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q46D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q46D', 'Percentage of patients seen in the last 3m', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	lastMentalHealthVisitDate IS NOT NULL
+;
+
+/*
+	IC3-Q47N - Proportion of enrolled clients who reported a hospitaliztion due to mental health at their last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q47N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q47N', 'Proportion of enrolled clients who reported a hospitaliztion due to mental health at their last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	lastMentalHealthVisitDate IS NOT NULL
+AND		mentalHospitalizedSinceLastVisit IS NOT NULL
+;
+
+/* 
+	IC3-Q47D - Proportion of enrolled clients who reported a hospitaliztion due to mental health at their last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q47D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q47D', 'Proportion of enrolled clients who reported a hospitaliztion due to mental health at their last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q46D'
+;
+
+/*
+	IC3-Q48N - Proportion of enrolled clients on medication who reported side effects
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q48N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q48N', 'Proportion of enrolled clients on medication who reported side effects', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	lastMentalHealthVisitDate IS NOT NULL
+AND		mentalHealthRxSideEffectsAtLastVisit IS NOT NULL
+;
+
+/* 
+	IC3-Q48D - Proportion of enrolled clients on medication who reported side effects
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q48D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q48D', 'Proportion of enrolled clients on medication who reported side effects', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q46D'
+;
+
+/*
+	IC3-Q49N - Proportion of patients who were stable at the last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q49N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q49N', 'Proportion of patients who were stable at the last visit', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	lastMentalHealthVisitDate IS NOT NULL
+AND		mentalStableAtLastVisit IS NOT NULL
+;
+
+/* 
+	IC3-Q49D - Proportion of patients who were stable at the last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q49D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q49D', 'Proportion of patients who were stable at the last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q46D'
 ;
 
 select * from rpt_ic3_indicators;
