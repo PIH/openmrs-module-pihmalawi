@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class IC3IndicatorReport extends ApzuReportManager {
+public class IC3MonthlyIndicatorReport extends ApzuReportManager {
 
     @Autowired
     HivMetadata metadata;
@@ -43,12 +43,12 @@ public class IC3IndicatorReport extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "IC3 - Indicator Report";
+		return "IC3 - Monthly Indicator Report";
 	}
 
     @Override
     public String getDescription() {
-        return "IC3 Indicator, revision December 2017";
+        return "IC3 Monthly Indicator, revision January 2018";
     }
 
     @Override
@@ -79,7 +79,7 @@ public class IC3IndicatorReport extends ApzuReportManager {
         dsd.setIndicatorDescriptionColumn("description");
         dsd.setIndicatorValueColumn("indicator_value");
 
-        rd.addDataSetDefinition("ic3IndicatorReport", Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("ic3MonthlyIndicatorReport", Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
@@ -87,7 +87,7 @@ public class IC3IndicatorReport extends ApzuReportManager {
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
-        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "IC3IndicatorReport.xls");
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "IC3MonthlyIndicatorReport.xls");
         design.addPropertyValue("upperOrLowerNeno", getUpperOrLowerNeno());
         l.add(design);
         return l;

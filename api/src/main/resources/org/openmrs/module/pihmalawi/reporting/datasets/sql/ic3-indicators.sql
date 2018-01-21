@@ -624,12 +624,12 @@ WHERE 	( 	(currentHivState = "On antiretrovirals")
 		);
 		
 /* 
-	IC3-Q2 - HIV Clients
+	IC3-Q2 - HIV Clients in care
 */
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q2';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q2', 'HIV clients', 'At date', count(*) 
+SELECT 'IC3-Q2', 'HIV clients in care', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentHivState = "On antiretrovirals"	
 ;		
@@ -640,7 +640,7 @@ WHERE 	currentHivState = "On antiretrovirals"
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q3';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q3', 'NCD care current enrollments', 'At date', count(*) 
+SELECT 'IC3-Q3', 'NCD clients in care', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"	
 ;
@@ -651,7 +651,7 @@ WHERE 	currentNcdState = "On treatment"
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q4';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q4', 'Dual diagnosis: HIV-NCD Clients', 'At date', count(*) 
+SELECT 'IC3-Q4', 'Dual diagnosis: HIV-NCD Clients in care', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"	
 AND 	currentHivState = "On antiretrovirals"
@@ -702,9 +702,6 @@ FROM rpt_ic3_data_table
 WHERE  	currentNcdState = "Patient defaulted"
 AND     currentHivState = "Patient defaulted"
 ;
-
-
-
 
 /*
 	IC3-Q11 Total IC3 Clients with outcome Died
@@ -799,8 +796,8 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q18N', 'Proportion of HIV patients retained in care at 12m', 'Period', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentHivState = "On antiretrovirals"	
-AND 	DATEDIFF(@endDate,artStartDate) > 30*12
-AND 	DATEDIFF(@endDate,artStartDate) < 30*15
+AND 	DATEDIFF(@endDate,artStartDate) > 365
+AND 	DATEDIFF(@endDate,artStartDate) < 365+90
 ;	
 
 /* 
@@ -811,8 +808,8 @@ INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
 SELECT 'IC3-Q18D', 'Proportion of HIV patients retained in care at 12m', 'Period', count(*) 
 FROM rpt_ic3_data_table
-WHERE 	DATEDIFF(@endDate,artStartDate) > 30*12
-AND 	DATEDIFF(@endDate,artStartDate) < 30*15
+WHERE 	DATEDIFF(@endDate,artStartDate) > 365
+AND 	DATEDIFF(@endDate,artStartDate) < 365+90
 ;	
 
 /* 
@@ -851,8 +848,6 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q21N', 'Proportion of exposed infants enrolled in EID', 'Period', count(*) 
 FROM 	rpt_ic3_data_table
 WHERE 	currentHivState = "Exposed child (continue)"
-AND 	DATEDIFF(@endDate,eidStartDate) < 90
-AND 	DATEDIFF(@endDate,eidStartDate) >= 0
 ;
 
 /* 
@@ -864,8 +859,6 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q22', 'Average age at enrollment for EID', 'Period', AVG(DATEDIFF(@endDate,eidStartDate))/7.
 FROM 	rpt_ic3_data_table
 WHERE 	currentHivState = "Exposed child (continue)"
-AND 	DATEDIFF(@endDate,eidStartDate) < 90
-AND 	DATEDIFF(@endDate,eidStartDate) >= 0
 ;
 
 /* 
@@ -1375,8 +1368,8 @@ FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	epilepsyDx is NOT NULL
 AND 	seizuresSinceLastVisit IS NULL
-AND 	(seizures = 0
-		OR
+AND 	((seizures = 0 OR seizures IS NULL)
+		AND
 		seizures IS NULL)
 ;
 
@@ -1404,7 +1397,9 @@ SELECT 'IC3-Q44N', 'Proportion of patients without a seizure in the past 2 years
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	epilepsyDx is NOT NULL
-AND 	DATEDIFF(@endDate,lastSeizureActivityRecorded) >365.25*2
+AND 	(DATEDIFF(@endDate,lastSeizureActivityRecorded) >365.25*2
+		OR 
+		lastSeizureActivityRecorded IS NULL)
 ;
 
 /* 
@@ -1527,7 +1522,7 @@ SELECT 'IC3-Q49N', 'Proportion of patients who were stable at the last visit', '
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	lastMentalHealthVisitDate IS NOT NULL
-AND		mentalStableAtLastVisit IS NOT NULL
+AND		mentalStableAtLastVisit = 'Yes'
 ;
 
 /* 

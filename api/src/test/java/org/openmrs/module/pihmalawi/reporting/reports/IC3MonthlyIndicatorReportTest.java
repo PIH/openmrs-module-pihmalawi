@@ -30,7 +30,7 @@ import java.util.Properties;
 /**
  * Tests the TraceReport
  */
-public class IC3IndicatorReportTest extends ReportManagerTest {
+public class IC3MonthlyIndicatorReportTest extends ReportManagerTest {
 
 	@Autowired
 	HivMetadata metadata;
@@ -39,7 +39,7 @@ public class IC3IndicatorReportTest extends ReportManagerTest {
 	HivMetadata hivMetadata;
 
 	@Autowired
-    IC3IndicatorReport report;
+    IC3MonthlyIndicatorReport report;
 
 	@Override
 	public ReportManager getReportManager() {
