@@ -1368,9 +1368,7 @@ FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	epilepsyDx is NOT NULL
 AND 	seizuresSinceLastVisit IS NULL
-AND 	((seizures = 0 OR seizures IS NULL)
-		AND
-		seizures IS NULL)
+AND 	(seizures = 0 OR seizures IS NULL)
 ;
 
 /*
@@ -1474,7 +1472,7 @@ SELECT 'IC3-Q47N', 'Proportion of enrolled clients who reported a hospitaliztion
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	lastMentalHealthVisitDate IS NOT NULL
-AND		mentalHospitalizedSinceLastVisit IS NOT NULL
+AND		mentalHospitalizedSinceLastVisit = "Yes"
 ;
 
 /* 
@@ -1498,7 +1496,7 @@ SELECT 'IC3-Q48N', 'Proportion of enrolled clients on medication who reported si
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	lastMentalHealthVisitDate IS NOT NULL
-AND		mentalHealthRxSideEffectsAtLastVisit IS NOT NULL
+AND		mentalHealthRxSideEffectsAtLastVisit = "True"
 ;
 
 /* 
