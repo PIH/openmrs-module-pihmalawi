@@ -1317,7 +1317,7 @@ SELECT 'IC3-Q41N', 'Proportion of patients with Diabetes controlled (HBA1C <7% a
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	dmDx is NOT NULL
-AND 	hba1cAtLastVisit < 7
+AND 	lastHba1c < 7
 ;
 
 /* 
