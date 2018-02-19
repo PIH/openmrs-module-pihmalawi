@@ -840,7 +840,7 @@ AND		DATEDIFF(lastRapidTest,birthdate) < 365*2+30
 ;
 
 /* 
-	IC3-Q21N - Proportion of exposed infants enrolled in EID
+	IC3-Q21N - Proportion of exposed infants with visit in the last 3m
 */
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q21N';
 INSERT INTO rpt_ic3_indicators
@@ -848,6 +848,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q21N', 'Proportion of exposed infants enrolled in EID', 'Period', count(*) 
 FROM 	rpt_ic3_data_table
 WHERE 	currentHivState = "Exposed child (continue)"
+AND 	lastEidVisit >= DATE_ADD(@endDate,INTERVAL -91 DAY)
 ;
 
 /* 
@@ -1095,7 +1096,7 @@ SELECT 'IC3-Q32N', 'Proportion of enrolled clients who reported a hospitaliztion
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	htnDx is NOT NULL
-AND 	htnDmHospitalizedSinceLastVisit = True
+AND 	htnDmHospitalizedSinceLastVisit = "Yes"
 ;
 
 /* 
@@ -1342,7 +1343,7 @@ SELECT 'IC3-Q42N', 'Proportion of enrolled clients who reported a hospitaliztion
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	dmDx is NOT NULL
-AND 	htnDmHospitalizedSinceLastVisit = True
+AND 	htnDmHospitalizedSinceLastVisit = "Yes"
 ;
 
 /* 
@@ -1530,6 +1531,30 @@ DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q49D';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
 SELECT 'IC3-Q49D', 'Proportion of patients who were stable at the last visit', 'At date', indicator_value
+FROM 	rpt_ic3_indicators
+WHERE 	indicator = 'IC3-Q46D'
+;
+
+/*
+	IC3-Q50N - Proportion of patients with a normal mental status exam
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q50N';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q50N', 'Proportion of patients with a normal mental status exam', 'At date', count(*)
+FROM rpt_ic3_data_table
+WHERE 	currentNcdState = "On treatment"
+AND	 	lastMentalHealthVisitDate IS NOT NULL
+AND		mentalStatusExam = 'Normal'
+;
+
+/* 
+	IC3-50D - Proportion of patients with a normal mental status exam
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q50D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q50D', 'Proportion of patients with a normal mental status exam', 'At date', indicator_value
 FROM 	rpt_ic3_indicators
 WHERE 	indicator = 'IC3-Q46D'
 ;
