@@ -1096,7 +1096,7 @@ SELECT 'IC3-Q32N', 'Proportion of enrolled clients who reported a hospitaliztion
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	htnDx is NOT NULL
-AND 	htnDmHospitalizedSinceLastVisit = "Yes"
+AND 	htnDmHospitalizedSinceLastVisit = True
 ;
 
 /* 
@@ -1343,7 +1343,7 @@ SELECT 'IC3-Q42N', 'Proportion of enrolled clients who reported a hospitaliztion
 FROM rpt_ic3_data_table
 WHERE 	currentNcdState = "On treatment"
 AND	 	dmDx is NOT NULL
-AND 	htnDmHospitalizedSinceLastVisit = "Yes"
+AND 	htnDmHospitalizedSinceLastVisit = True
 ;
 
 /* 
