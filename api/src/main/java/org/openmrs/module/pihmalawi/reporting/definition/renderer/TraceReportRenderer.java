@@ -179,6 +179,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
                     builder.addCell("Village", headerStyle1, 25);
+                    builder.addCell("Health Facility", headerStyle1, 25);
                     builder.addCell("VHW", headerStyle1, 20);
                 }
                 builder.addCell("(1) Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
@@ -239,6 +240,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
                         builder.addCell(row.getColumnValue("village"), rowStyle);
+                        builder.addCell(row.getColumnValue("parameter.location"), rowStyle);
                         builder.addCell(row.getColumnValue("vhw"), rowStyle);
                     }
 
