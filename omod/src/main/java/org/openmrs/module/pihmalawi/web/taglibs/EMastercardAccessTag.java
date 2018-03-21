@@ -174,7 +174,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
 
 		if (f.getName().equals("Viral Load Tests") && f.getEncounterType().getName().equals("ART_FOLLOWUP")) {
-			m.put(EncounterTypes.ART_FOLLOWUP.name(), "headerForm=blank_header&flowsheets=viral_load_test_results&addRow=false&requireObs=" + PihMalawiConstants.SAMPLE_TAKEN_FOR_VIRAL_LOAD);
+			m.put(EncounterTypes.ART_FOLLOWUP.name(), "headerForm=blank_header&flowsheets=viral_load_test_results&requireObs=" + PihMalawiConstants.SAMPLE_TAKEN_FOR_VIRAL_LOAD);
 		} else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
 			m.put(EncounterTypes.ART_INITIAL.name(), "headerForm=art_mastercard&flowsheets=art_annual_screening&flowsheets=art_visit");
 		}
