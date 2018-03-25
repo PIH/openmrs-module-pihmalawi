@@ -531,6 +531,15 @@
             });
         }
 
+        // put in for HTN DM Lab form
+        // If an HIV Result is clicked - set a hidden HIV Test Date 
+        // to the encounter date. 
+        jq(html).find("#hivTestDate > input[type=text]").remove(); // make hiv sample date hidden
+        jq(html).find("#hivRadioResult > input").click(function () {
+            hivTestDate = jq(html).find("#visitDate > input[type=hidden]").val(); // get visit date
+            jq(html).find("#hivTestDate > input[type=hidden]").val(hivTestDate); // set sample date to visit date
+        });           
+
         // Configure warning if navigating away from form
         jq(html).find(':input').change(function () {
             mastercard.setDirty();

@@ -9,7 +9,9 @@
         proteinuria2Plus=1408
         proteinuria3Plus=1409
         proteinuria4Plus=8608
-        hivTest=2169
+        hivTestConstruct=PIH Malawi:2168
+        hivSampleDate=PIH Malawi:6108
+        hivTestResult=2169
     </macros>
 
     <!-- Flowsheet table view -->
@@ -40,8 +42,10 @@
                         <obs conceptId="$proteinuria" style="radio" answerConceptIds="6698,1410,1408,1409,8608" answerLabels="None,1+,2+,3+,4+"/>
                     </td>
                     <td>
-                        <!-- HIV test -->
-                        <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                        <obsgroup groupingConceptId="$hivTestConstruct">
+                            <!-- HIV test -->
+                            <obs conceptId="$hivTestResult" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                        </obsgroup>                    
                     </td>
                 </tr>
             </tbody>
@@ -92,7 +96,10 @@
             <tr>
                 <th>HIV test result</th>
                 <td>
-                    <obs conceptId="$hivTest" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                    <obsgroup groupingConceptId="$hivTestConstruct">
+                        <obs conceptId="$hivTestResult" id="hivRadioResult" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                        <obs type="hidden" id="hivTestDate" conceptId="$hivSampleDate"/>
+                    </obsgroup>
                 </td>
             </tr>
 
