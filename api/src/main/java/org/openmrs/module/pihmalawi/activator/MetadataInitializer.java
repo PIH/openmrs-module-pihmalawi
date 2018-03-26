@@ -16,19 +16,11 @@ package org.openmrs.module.pihmalawi.activator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Concept;
-import org.openmrs.ConceptAnswer;
-import org.openmrs.ConceptName;
-import org.openmrs.ConceptNumeric;
 import org.openmrs.GlobalProperty;
-import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-
-import java.util.Collection;
-import java.util.Locale;
 
 public class MetadataInitializer implements Initializer {
 
@@ -69,26 +61,10 @@ public class MetadataInitializer implements Initializer {
         // Create generated source / class files for these via maven plugin
         // Associate with versions and
 
-        ConceptService cs = Context.getConceptService(); 
 
-        {
-            Integer id = 1715;
-            Concept c = cs.getConcept(id);            
-            if (c.getFullySpecifiedName(Locale.ENGLISH).getName().equals("Patient hospitalized since last visit")) {
-                log.warn("********************************************************");
-                log.warn("Updating answers for Patient hospitalized since last visit");
-                c.setDatatype(cs.getConceptDatatypeByName("Coded"));
-                c.getAnswers().clear();
-                c.addAnswer(new ConceptAnswer(cs.getConcept(1065)));
-                c.addAnswer(new ConceptAnswer(cs.getConcept(1066)));
-            }
-        }           
 
         deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
     }
-
-    
-
 
 
     @Override
