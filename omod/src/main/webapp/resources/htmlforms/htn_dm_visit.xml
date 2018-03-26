@@ -216,7 +216,7 @@
                     </repeat>
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="$hospitalSinceLast" style="checkbox" />Y
+                        <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yes" answerLabel="" />Y
                     </td>
                     <!-- Insulin -->
                     <td>
@@ -422,7 +422,7 @@
             <tr>
                 <th>Hospitalized since last visit?</th>
                 <td>
-                    <obs conceptId="$hospitalSinceLast" style="checkbox" />Yes
+                    <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yes" answerLabel="" />Yes
                 </td>
             </tr>
 
