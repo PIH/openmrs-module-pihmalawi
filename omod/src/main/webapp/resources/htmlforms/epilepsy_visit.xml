@@ -149,7 +149,7 @@
                     </td>
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yes" answerLabel="" />Y
+                        <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" />Y
                     </td>
                     <td>
                         <!-- Pregnant -->
