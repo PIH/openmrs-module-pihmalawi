@@ -292,7 +292,7 @@
             <tr>
                 <th>Hospitalized since last visit</th>
                 <td>
-                    <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yes" answerLabel="" />Y
+                    <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" />Y
                 </td>
             </tr>
             <tr>
