@@ -708,21 +708,15 @@ AND     currentHivState = "Patient defaulted"
 ;
 
 /*
-	IC3-Q11 Total IC3 Clients with outcome Died during quarter
+	IC3-Q11 Total IC3 Clients with outcome Died
 */
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q11';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q11', 'Total IC3 Clients with outcome Died during quarter', 'Period', count(*) 
+SELECT 'IC3-Q11', 'Total IC3 Clients with outcome Died', 'At date', count(*) 
 FROM rpt_ic3_data_table
-WHERE 	(currentNcdState = "Patient died"	
-			OR  	
-		currentHivState = "Patient died")
-AND 	(
-			((DATEDIFF(@endDate, hivCurrentStateStart) < 91) AND (DATEDIFF(@endDate, hivCurrentStateStart) >= 0))
-			OR
-			((DATEDIFF(@endDate, ncdCurrentStateStart) < 91) AND (DATEDIFF(@endDate, ncdCurrentStateStart) >= 0))
-		)
+WHERE 	currentNcdState = "Patient died"	
+OR  	currentHivState = "Patient died"
 ;
 
 /*
@@ -731,10 +725,9 @@ AND 	(
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q12';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q12', 'HIV Clients with outcome Died', 'Period', count(*) 
+SELECT 'IC3-Q12', 'HIV Clients with outcome Died', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE  	currentHivState = "Patient died"
-AND 	((DATEDIFF(@endDate, hivCurrentStateStart) < 91) AND (DATEDIFF(@endDate, hivCurrentStateStart) >= 0))
 ;
 
 /*
@@ -743,10 +736,9 @@ AND 	((DATEDIFF(@endDate, hivCurrentStateStart) < 91) AND (DATEDIFF(@endDate, hi
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q13';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q13', 'NCD Clients with outcome Died', 'Period', count(*) 
+SELECT 'IC3-Q13', 'NCD Clients with outcome Died', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE  	currentNcdState = "Patient died"
-AND 	((DATEDIFF(@endDate, ncdCurrentStateStart) < 91) AND (DATEDIFF(@endDate, ncdCurrentStateStart) >= 0))
 ;
 
 /*
@@ -755,15 +747,10 @@ AND 	((DATEDIFF(@endDate, ncdCurrentStateStart) < 91) AND (DATEDIFF(@endDate, nc
 DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q14';
 INSERT INTO rpt_ic3_indicators
 	(indicator, description, indicator_type, indicator_value)
-SELECT 'IC3-Q14', 'HIV-NCD Clients with outcome Died', 'Period', count(*) 
+SELECT 'IC3-Q14', 'HIV-NCD Clients with outcome Died', 'At date', count(*) 
 FROM rpt_ic3_data_table
 WHERE  	currentNcdState = "Patient died"
 AND     currentHivState = "Patient died"
-AND 	(
-			((DATEDIFF(@endDate, hivCurrentStateStart) < 91) AND (DATEDIFF(@endDate, hivCurrentStateStart) >= 0))
-			OR
-			((DATEDIFF(@endDate, ncdCurrentStateStart) < 91) AND (DATEDIFF(@endDate, ncdCurrentStateStart) >= 0))
-		)
 ;
 
 /* 
@@ -786,9 +773,8 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q17N', 'Proportion of clients who started ART 6m ago with a viral load result on record', 'Period', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentHivState = "On antiretrovirals"	
-AND 	DATEDIFF(@endDate,artStartDate) > 30*6
-AND 	DATEDIFF(@endDate,artStartDate) < 30*9
-AND 	lastViralLoadTest IS NOT NULL
+AND 	DATEDIFF(@endDate,artStartDate) > 183
+AND 	DATEDIFF(@endDate,lastViralLoadTest) < 730
 ;	
 
 /* 
@@ -800,8 +786,7 @@ INSERT INTO rpt_ic3_indicators
 SELECT 'IC3-Q17D', 'Proportion of clients who started ART 6m ago', 'Period', count(*) 
 FROM rpt_ic3_data_table
 WHERE 	currentHivState = "On antiretrovirals"	
-AND 	DATEDIFF(@endDate,artStartDate) > 30*6
-AND 	DATEDIFF(@endDate,artStartDate) < 30*9
+AND 	DATEDIFF(@endDate,artStartDate) > 183
 ;	
 
 /* 
@@ -888,6 +873,17 @@ FROM 	rpt_ic3_data_table
 WHERE 	currentHivState = "Exposed child (continue)"
 AND 	lastEidVisit >= DATE_ADD(@endDate,INTERVAL -91 DAY)
 AND 	DATEDIFF(@endDate,lastEidVisit) >= 0
+;
+
+/* 
+	IC3-Q21D - Proportion of exposed infants with visit in the last 3m
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'IC3-Q21D';
+INSERT INTO rpt_ic3_indicators
+	(indicator, description, indicator_type, indicator_value)
+SELECT 'IC3-Q21D', 'Proportion of exposed infants enrolled in EID', 'Period', count(*) 
+FROM 	rpt_ic3_data_table
+WHERE 	currentHivState = "Exposed child (continue)"
 ;
 
 /* 
