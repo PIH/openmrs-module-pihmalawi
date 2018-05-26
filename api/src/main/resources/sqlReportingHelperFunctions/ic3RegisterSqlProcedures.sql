@@ -831,6 +831,10 @@ BEGIN
 	);
 	CREATE INDEX PID_index ON temp_obs_vector (PID);
 
+	select encounter_type_id into @AAS from encounter_type where uuid = 'ebaa2ad8-baaa-11e6-91a8-5622a9e78e10';
+	select encounter_type_id into @CCF from encounter_type where uuid = '664bb896-977f-11e1-8993-905e29aff6c1';
+	select encounter_type_id into @DHF from encounter_type where uuid = '66079de4-a8df-11e5-bf7f-feff819cdc9f';	
+
 	IF firstLast = 'first' THEN
 		       set @upDown = 'asc';
 	ELSEIF firstLast = 'last' THEN
@@ -845,12 +849,14 @@ BEGIN
 							from (select person_id, encounter_id 
 									from obs 
 									where concept_id in (5085,5086)
+									and obs_datetime <= (\'', CONCAT(endDate),'\')
 									and voided = 0 
 									order by obs_datetime ', @upDown, ') 
 							oi group by person_id) o
 					join (select encounter_id, encounter_datetime 
 							from encounter 
 							where encounter_datetime <= (\'', CONCAT(endDate),'\')
+							and encounter_type in (@AAS,@CCF,@DHF)							
 							and voided = 0) e 
 							on e.encounter_id = o.encounter_id
 					left join (select encounter_id, value_numeric 
