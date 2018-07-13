@@ -42,6 +42,13 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.MENTAL_HEALTH_INITIAL);
         install(EncounterTypes.MENTAL_HEALTH_FOLLOWUP);
 
+        // Chronic Heart Disease
+        install(EncounterTypes.CHF_INITIAL);
+        install(EncounterTypes.CHF_FOLLOWUP);
+        install(EncounterTypes.CHF_ANNUAL_SCREENING);
+        install(EncounterTypes.CHF_QUARTERLY_HIV_SCREENING);
+        install(EncounterTypes.CHF_HOSPITALIZATIONS);
+
         // Palliative care
         install(EncounterTypes.PALLIATIVE_INITIAL);
         install(EncounterTypes.PALLIATIVE_FOLLOWUP);
