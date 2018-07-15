@@ -28,7 +28,7 @@
         diastolicBP=5086
         heartRate=5087
         bloodOxygenSaturation=5092
-        chfHospital=3133 
+        chfHospital=3133
         volumeStatus=3271   
         hypo=3274
         euvol=3273
@@ -46,7 +46,11 @@
         raised=7583
         lower=3471
         same=2264
-        none=1107     
+        none=1107       
+        raised=7583
+        lower=3471
+        same=2264
+        none=1107       
         agreesToFollowup=2552
         drugSet=8501 
         drugsNow=1193
@@ -68,6 +72,7 @@
         aspirin=88
         benzathinePcn=4034
         dietSaltFluid=6741
+        dietSaltFluid=6741 
         nextAppt=5096
     </macros>
 
