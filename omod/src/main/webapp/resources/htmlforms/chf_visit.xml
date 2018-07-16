@@ -4,6 +4,22 @@
           formVersion="1.0">
 
     <macros>
+        
+        <macro key="mhReferral" value="3790bbe2-13b3-45b4-94d1-a9719f5ac51d" />
+        <macro key="palliativeReferral" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5" />
+        <macro key="tookMedicToday" value="5f91e983-f825-4f41-81de-077288a5d860" />
+        <macro key="oedema" value="bd057502-c23b-4f80-b24c-b996e8a84dfc" />
+        <macro key="bibasilarCrackles" value="e3ed7b54-5fcb-453f-9058-605f443bf78d" />
+        <macro key="restrictedSaltFluid" value="e513cb96-6782-4a2f-bc8e-e4f9ebaf0286" />
+        <macro key="concernForDepression" value="95b1429a-34fd-4209-9cf9-20c66abc0348" />
+        <macro key="jvpElevated" value="dc277a10-f5dd-461c-b936-8bcdeb808b8b" />
+        <macro key="otherCHFdrugs" value="51f56e0e-0038-42fd-88d5-d0d7d47b56b6" />
+        <macro key="levelDOE" value="a02a2c07-521e-44e0-b83c-5b6a9302f8d6" />
+        <macro key="levelFatigue" value="b97edeb3-ab9d-4577-8b90-6dcd942aa8b3" />
+        <macro key="levelDryCough" value="d3e06bb8-97e2-40cf-a72b-3d9672ff6366" />
+        <macro key="levelOrthop" value="91329a35-1f77-4cef-8870-1db5c5ceaf72" />
+        <macro key="levelPND" value="f4674f9b-3eda-4b5c-b8ad-9f8532aba1a2" />
+
         noAnswer=1066
         yesAnswer=1065
         height=5090
@@ -12,8 +28,7 @@
         diastolicBP=5086
         heartRate=5087
         bloodOxygenSaturation=5092
-        chfHospital=3133 
-        oedema=8702
+        chfHospital=3133
         volumeStatus=3271   
         hypo=3274
         euvol=3273
@@ -28,19 +43,14 @@
         current=2264
         never=2264
         stopped=1548
-        levelFatigue=8710   
-        levelDryCough=8711 
-        levelOrthop=8712 
-        levelDOE=8709 
-        levelPND=8713
         raised=7583
         lower=3471
         same=2264
         none=1107       
-        concernForDepression=8706
-        bibasilarCrackles=8704
-        mhReferral=8699
-        palliativeReferral=8700
+        raised=7583
+        lower=3471
+        same=2264
+        none=1107       
         agreesToFollowup=2552
         drugSet=8501 
         drugsNow=1193
@@ -61,11 +71,7 @@
         propranolol=254
         aspirin=88
         benzathinePcn=4034
-        otherCHFdrugs=8708
-        tookMedicToday=8701
         dietSaltFluid=6741
-        restrictedSaltFluid=8705
-        jvpElevated=8707   
         nextAppt=5096
     </macros>
 
