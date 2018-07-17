@@ -52,6 +52,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // Palliative care
         install(EncounterTypes.PALLIATIVE_INITIAL);
         install(EncounterTypes.PALLIATIVE_FOLLOWUP);
+
+        // IC3 Screening POC system
+        install(EncounterTypes.BLOOD_PRESSURE_SCREENING);
+        install(EncounterTypes.NUTRITION_SCREENING);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
