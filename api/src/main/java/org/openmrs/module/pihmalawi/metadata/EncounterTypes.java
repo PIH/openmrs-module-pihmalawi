@@ -178,4 +178,21 @@ public class EncounterTypes {
         public String name() { return "CHF_HOSPITALIZATIONS"; }
         public String description() { return "Hospitalizations for Chronic Heart Disease patients"; }
     };
+
+    // IC3 Screening POC system
+    public static EncounterTypeDescriptor CHECK_IN = new EncounterTypeDescriptor() {
+        public String uuid() { return "55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"; }
+        public String name() { return "Check-in"; }
+        public String description() { return "Check-in encounter"; }
+    };
+    public static EncounterTypeDescriptor BLOOD_PRESSURE_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "0C36F6FB-660E-485F-AF04-249579C9EAC9"; }
+        public String name() { return "Blood pressure screening"; }
+        public String description() { return "Blood pressure screening encounter"; }
+    };
+    public static EncounterTypeDescriptor NUTRITION_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "6265F6BC-EBC0-4181-91F3-28B70BBFDB61"; }
+        public String name() { return "Nutrition screening"; }
+        public String description() { return "Nutrition screening encounter"; }
+    };
 }
