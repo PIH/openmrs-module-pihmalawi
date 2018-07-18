@@ -16,7 +16,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -59,12 +59,6 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .conceptClass(finding)
                 .name("674f7ff9-274b-402b-827c-8c6fd599b28f", "Oedema", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(none, weaklyPos, modPos, strongPos, trace)
-                .build());
-
-        install(new ConceptBuilder("57476df7-e885-4444-b151-152cfcdac05b")
-                .datatype(notApplicable)
-                .conceptClass(diagnosis)
-                .name("6abfb879-6bc7-4a4c-a3e0-1b38b00b80da", "Restrictive cardiomyopathy", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         install(new ConceptBuilder("e3ed7b54-5fcb-453f-9058-605f443bf78d")
@@ -136,11 +130,180 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .answers(raised, lower, same, none)
                 .build());
 
-        install(new ConceptBuilder("1995a751-6f80-49f5-bc89-5cc6ae767eff")
+        //Echocardiogram construct - reinstalling with textual imaging result added to set members
+        Concept nameOfDoctor = MetadataUtils.existing(Concept.class, "6563e23c-977f-11e1-8993-905e29aff6c1");
+        Concept dateOfTest = MetadataUtils.existing(Concept.class, "6563e098-977f-11e1-8993-905e29aff6c1");
+        Concept locactionTest = MetadataUtils.existing(Concept.class, "655dcc8a-977f-11e1-8993-905e29aff6c1");
+        Concept otherLabs = MetadataUtils.existing(Concept.class, "655dfc32-977f-11e1-8993-905e29aff6c1");
+        Concept previousEcho = MetadataUtils.existing(Concept.class, "6563deea-977f-11e1-8993-905e29aff6c1");
+        Concept dbdEchoResult = MetadataUtils.existing(Concept.class, "6567b970-977f-11e1-8993-905e29aff6c1");
+
+        Concept echoImaging = install(new ConceptBuilder("1995a751-6f80-49f5-bc89-5cc6ae767eff")
                 .datatype(text)
                 .conceptClass(diagnosis)
                 .name("f34edfb3-6f88-4c8a-8bae-c05c6d7047dd", "ECHO imaging result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
+
+        install(new ConceptBuilder("6563e3ea-977f-11e1-8993-905e29aff6c1")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("660764fc-977f-11e1-8993-905e29aff6c1", "Echocardiogram construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("65c54554-977f-11e1-8993-905e29aff6c1", "Various questions related to echocardiograms.", Locale.ENGLISH)
+                .setMembers(
+                        nameOfDoctor, 
+                        dateOfTest, 
+                        locactionTest, 
+                        otherLabs, 
+                        previousEcho, 
+                        dbdEchoResult, 
+                        echoImaging)
+                .build());
+
+        //Heart failure diagnosis - reinstalling after adding a new answer of "Restrictive Cardiomyopathy"
+        Concept cardiomyopathy = MetadataUtils.existing(Concept.class, "6569659a-977f-11e1-8993-905e29aff6c1");
+        Concept rheumaticHeart = MetadataUtils.existing(Concept.class, "6546dad4-977f-11e1-8993-905e29aff6c1");
+        Concept otherNonCodedDiagnosis = MetadataUtils.existing(Concept.class, "656cce7e-977f-11e1-8993-905e29aff6c1");
+        Concept hypertensiveHeart = MetadataUtils.existing(Concept.class, "656298fa-977f-11e1-8993-905e29aff6c1");
+        Concept mitralStenosis = MetadataUtils.existing(Concept.class, "65632b6c-977f-11e1-8993-905e29aff6c1");
+        Concept idiopathicCardio = MetadataUtils.existing(Concept.class, "6562d9be-977f-11e1-8993-905e29aff6c1");
+        Concept atrialFibrillation = MetadataUtils.existing(Concept.class, "6563362a-977f-11e1-8993-905e29aff6c1");
+        Concept endomyocardialFibrosis = MetadataUtils.existing(Concept.class, "6562ddd8-977f-11e1-8993-905e29aff6c1");
+        Concept acuteRheumaticFever = MetadataUtils.existing(Concept.class, "6563eade-977f-11e1-8993-905e29aff6c1");
+        Concept pericardialDisease = MetadataUtils.existing(Concept.class, "6563e930-977f-11e1-8993-905e29aff6c1");
+        Concept hypertension = MetadataUtils.existing(Concept.class, "654abfc8-977f-11e1-8993-905e29aff6c1");
+        Concept congenitalHeart = MetadataUtils.existing(Concept.class, "6562dcd4-977f-11e1-8993-905e29aff6c1");
+        Concept peripatumCardio = MetadataUtils.existing(Concept.class, "6562dac2-977f-11e1-8993-905e29aff6c1");
+        Concept nonCardiac = MetadataUtils.existing(Concept.class, "6563f236-977f-11e1-8993-905e29aff6c1");
+        Concept hivAssociated = MetadataUtils.existing(Concept.class, "6562dbd0-977f-11e1-8993-905e29aff6c1");
+        Concept pulmonaryHyper = MetadataUtils.existing(Concept.class, "6563ed2c-977f-11e1-8993-905e29aff6c1");
+        Concept endocarditis = MetadataUtils.existing(Concept.class, "6568c270-977f-11e1-8993-905e29aff6c1");
+        Concept aorticAneurysm = MetadataUtils.existing(Concept.class, "6568c360-977f-11e1-8993-905e29aff6c1");
+        Concept nonRheumaticValvular = MetadataUtils.existing(Concept.class, "65695460-977f-11e1-8993-905e29aff6c1");
+        Concept postOperation = MetadataUtils.existing(Concept.class, "6563379c-977f-11e1-8993-905e29aff6c1");
+        Concept alcoholicCardio = MetadataUtils.existing(Concept.class, "6568c73e-977f-11e1-8993-905e29aff6c1");
+        Concept corPulmonale = MetadataUtils.existing(Concept.class, "6568c554-977f-11e1-8993-905e29aff6c1");
+        Concept dilatedCardio = MetadataUtils.existing(Concept.class, "65703154-977f-11e1-8993-905e29aff6c1");
+
+        Concept restrictiveCardio = install(new ConceptBuilder("57476df7-e885-4444-b151-152cfcdac05b")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("6abfb879-6bc7-4a4c-a3e0-1b38b00b80da", "Restrictive cardiomyopathy", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("6567bb82-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("66099aba-977f-11e1-8993-905e29aff6c1", "Heart failure diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)   
+                .description("65c7711c-977f-11e1-8993-905e29aff6c1", "Coded description of preliminary diagnosis of heart failure ", Locale.ENGLISH)
+                .answers(
+                        cardiomyopathy,
+                        rheumaticHeart,
+                        otherNonCodedDiagnosis,
+                        hypertensiveHeart,
+                        mitralStenosis,
+                        idiopathicCardio,
+                        atrialFibrillation,
+                        endomyocardialFibrosis,
+                        acuteRheumaticFever,
+                        pericardialDisease,
+                        hypertension,
+                        congenitalHeart,
+                        peripatumCardio,
+                        nonCardiac,
+                        hivAssociated,
+                        pulmonaryHyper,
+                        endocarditis,
+                        aorticAneurysm,
+                        nonRheumaticValvular,
+                        postOperation,
+                        alcoholicCardio,
+                        corPulmonale,
+                        dilatedCardio,
+                        restrictiveCardio)
+                .build());
+
+        //add Benzathine Penicillin to current chronic drugs used
+        Concept dapsone = MetadataUtils.existing(Concept.class, "6545f8b2-977f-11e1-8993-905e29aff6c1");
+        Concept streptomycin = MetadataUtils.existing(Concept.class, "65484176-977f-11e1-8993-905e29aff6c1");
+        Concept isoniazid = MetadataUtils.existing(Concept.class, "65498bbc-977f-11e1-8993-905e29aff6c1");
+        Concept ethambutol = MetadataUtils.existing(Concept.class, "6549f0b6-977f-11e1-8993-905e29aff6c1");
+        Concept fluconazole = MetadataUtils.existing(Concept.class, "6549f2dc-977f-11e1-8993-905e29aff6c1");
+        Concept rifampicinIsoniazidPyE = MetadataUtils.existing(Concept.class, "6557b32c-977f-11e1-8993-905e29aff6c1");
+        Concept rifampicinisoniazid = MetadataUtils.existing(Concept.class, "655852b4-977f-11e1-8993-905e29aff6c1");
+        Concept rifampicinIsoP = MetadataUtils.existing(Concept.class, "654a1190-977f-11e1-8993-905e29aff6c1");
+        Concept triSulfamethoxazole = MetadataUtils.existing(Concept.class, "654b02da-977f-11e1-8993-905e29aff6c1");
+        Concept nystatin = MetadataUtils.existing(Concept.class, "654b0618-977f-11e1-8993-905e29aff6c1");
+        Concept antibiotics = MetadataUtils.existing(Concept.class, "655853cc-977f-11e1-8993-905e29aff6c1");
+        Concept antimalarialMedications = MetadataUtils.existing(Concept.class, "656e1702-977f-11e1-8993-905e29aff6c1");
+        Concept herbalTraditionalMedications = MetadataUtils.existing(Concept.class, "656e191e-977f-11e1-8993-905e29aff6c1");
+        Concept multivitamin = MetadataUtils.existing(Concept.class, "65485a58-977f-11e1-8993-905e29aff6c1");
+        Concept mineralsIronSupplements = MetadataUtils.existing(Concept.class, "656e1b44-977f-11e1-8993-905e29aff6c1");
+        Concept otherNonCodedDrug = MetadataUtils.existing(Concept.class, "656cce7e-977f-11e1-8993-905e29aff6c1");
+        Concept unknown = MetadataUtils.existing(Concept.class, "65576584-977f-11e1-8993-905e29aff6c1");
+        Concept longActingInsulin = MetadataUtils.existing(Concept.class, "6573132e-977f-11e1-8993-905e29aff6c1");
+        Concept insulinSoluble = MetadataUtils.existing(Concept.class, "6547414a-977f-11e1-8993-905e29aff6c1");
+        Concept metformin = MetadataUtils.existing(Concept.class, "65694308-977f-11e1-8993-905e29aff6c1");
+        Concept glibenclamide = MetadataUtils.existing(Concept.class, "65693cf0-977f-11e1-8993-905e29aff6c1");
+        Concept diuretics = MetadataUtils.existing(Concept.class, "163212AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept ccBlockers = MetadataUtils.existing(Concept.class, "163213AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept aceInhibitors = MetadataUtils.existing(Concept.class, "162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept betaBlockers = MetadataUtils.existing(Concept.class, "163211AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept aspirin = MetadataUtils.existing(Concept.class, "6545efde-977f-11e1-8993-905e29aff6c1");
+        Concept statins = MetadataUtils.existing(Concept.class, "162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept chlorpromazine = MetadataUtils.existing(Concept.class, "654b00aa-977f-11e1-8993-905e29aff6c1");
+        Concept haloperidol = MetadataUtils.existing(Concept.class, "65693df4-977f-11e1-8993-905e29aff6c1");
+        Concept fluphenazine = MetadataUtils.existing(Concept.class, "654b0eb0-977f-11e1-8993-905e29aff6c1");
+        Concept carbamazepine = MetadataUtils.existing(Concept.class, "654b0726-977f-11e1-8993-905e29aff6c1");
+        Concept sodiumValproate = MetadataUtils.existing(Concept.class, "65694b32-977f-11e1-8993-905e29aff6c1");
+        Concept risperidone = MetadataUtils.existing(Concept.class, "83405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept fluoxetine = MetadataUtils.existing(Concept.class, "65693bec-977f-11e1-8993-905e29aff6c1");
+        Concept phenobarbital = MetadataUtils.existing(Concept.class, "6546f3c0-977f-11e1-8993-905e29aff6c1");
+        Concept phenytoin = MetadataUtils.existing(Concept.class, "65473768-977f-11e1-8993-905e29aff6c1");
+        Concept benzathinePcn = MetadataUtils.existing(Concept.class, "656930ac-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("65585192-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("65f5c1a2-977f-11e1-8993-905e29aff6c1", "Current drugs used", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)   
+                .description("65b496f0-977f-11e1-8993-905e29aff6c1", " Question on encounter forms: \"Is the patient currently taking, or has the patient ever taken, any of the following other medications?\" This particular concept stores a history of active use of the associated medications.", Locale.ENGLISH)
+                .answers(
+                        dapsone,
+                        streptomycin,
+                        isoniazid,
+                        ethambutol,
+                        fluconazole,
+                        rifampicinisoniazid,
+                        rifampicinIsoP,
+                        triSulfamethoxazole,
+                        nystatin,
+                        antibiotics,
+                        antimalarialMedications,
+                        herbalTraditionalMedications,
+                        multivitamin,
+                        mineralsIronSupplements,
+                        otherNonCodedDrug,
+                        unknown,
+                        longActingInsulin,
+                        insulinSoluble,
+                        metformin,
+                        glibenclamide,
+                        diuretics,
+                        ccBlockers,
+                        aceInhibitors,
+                        betaBlockers,
+                        aspirin,
+                        statins,
+                        chlorpromazine,
+                        haloperidol,
+                        fluphenazine,
+                        carbamazepine,
+                        sodiumValproate,
+                        risperidone,
+                        fluoxetine,
+                        phenobarbital,
+                        phenytoin,
+                        benzathinePcn)
+        .build());
 
     }
 }

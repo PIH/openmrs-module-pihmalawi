@@ -3,8 +3,7 @@
           formEncounterType="1f6ad830-6e94-4819-b1fd-8c4146e77280"
           formVersion="1.0">
 
-    <macros>
-        
+    <macros>       
         <macro key="mhReferral" value="3790bbe2-13b3-45b4-94d1-a9719f5ac51d" />
         <macro key="palliativeReferral" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5" />
         <macro key="tookMedicToday" value="5f91e983-f825-4f41-81de-077288a5d860" />
@@ -19,60 +18,57 @@
         <macro key="levelDryCough" value="d3e06bb8-97e2-40cf-a72b-3d9672ff6366" />
         <macro key="levelOrthop" value="91329a35-1f77-4cef-8870-1db5c5ceaf72" />
         <macro key="levelPND" value="f4674f9b-3eda-4b5c-b8ad-9f8532aba1a2" />
-
-        noAnswer=1066
-        yesAnswer=1065
-        height=5090
-        weight=5089
-        systolicBP=5085
-        diastolicBP=5086
-        heartRate=5087
-        bloodOxygenSaturation=5092
-        chfHospital=3133
-        volumeStatus=3271   
-        hypo=3274
-        euvol=3273
-        hyper=3272
-        nyhastage=3139   
-        stageOne=3135    
-        stageTwo=3136    
-        stageThree=3137  
-        stageFour=3138
-        tobacco=1551
-        alcohol=1552
-        current=2264
-        never=2264
-        stopped=1548
-        raised=7583
-        lower=3471
-        same=2264
-        none=1107       
-        raised=7583
-        lower=3471
-        same=2264
-        none=1107       
-        agreesToFollowup=2552
-        drugSet=8501 
-        drugsNow=1193
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
+        <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1" />
+        <macro key="heartRate" value="6569c224-977f-11e1-8993-905e29aff6c1" />
+        <macro key="bloodOxygenSaturation" value="6569c792-977f-11e1-8993-905e29aff6c1" />
+        <macro key="chfHospital" value="6562dedc-977f-11e1-8993-905e29aff6c1" />
+        <macro key="volumeStatus" value="6563ba78-977f-11e1-8993-905e29aff6c1" />   
+        <macro key="hypo" value="6563bd84-977f-11e1-8993-905e29aff6c1" />
+        <macro key="euvol" value="6563bc80-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hyper" value="6563bb7c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nyhastage" value="6562e508-977f-11e1-8993-905e29aff6c1" />   
+        <macro key="stageOne" value="6562e0ee-977f-11e1-8993-905e29aff6c1" />    
+        <macro key="stageTwo" value="6562e1f2-977f-11e1-8993-905e29aff6c1" />    
+        <macro key="stageThree" value="6562e300-977f-11e1-8993-905e29aff6c1" />  
+        <macro key="stageFour" value="6562e404-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tobacco" value="655a4dc6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="alcohol" value="655a4ed4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="current" value="655a4cc2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="never" value="65577f4c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="stopped" value="655a4ab0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="raised" value="65779f0c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="lower" value="6566289e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="same" value="655e3b84-977f-11e1-8993-905e29aff6c1" />
+        <macro key="none" value="6557987e-977f-11e1-8993-905e29aff6c1" />            
+        <macro key="agreesToFollowup" value="655fc526-977f-11e1-8993-905e29aff6c1" />
+        <macro key="drugSet" value="447aaa7a-cd03-11e5-9956-625662870761" /> 
+        <macro key="drugsNow" value="65585192-977f-11e1-8993-905e29aff6c1" />
         <!-- diuretic=8466 -->
-        hydrochlorothiazide=1243
-        furosemide=99
-        spironolactone=4061
+        <macro key="hydrochlorothiazide" value="65588df6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="furosemide" value="6546003c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="spironolactone" value="65694c36-977f-11e1-8993-905e29aff6c1" />
         <!-- ccBlocker=8465 -->
-        amlodipine=3187
-        nifedipineModifiedRelease=250
+        <macro key="amlodipine" value="65635ef2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nifedipineModifiedRelease" value="654704dc-977f-11e1-8993-905e29aff6c1" />
         <!-- aceInhibit=8464 -->
-        enalapril=1242
-        captopril=3182
-        lisinopril=3183
+        <macro key="enalapril" value="65588cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="captopril" value="6563597a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="lisinopril" value="65635a74-977f-11e1-8993-905e29aff6c1" />
         <!-- betaBlocker=8463 -->
-        atenolol=3186
+        <macro key="atenolol" value="65635d58-977f-11e1-8993-905e29aff6c1" />
         bisoprolol=8612
-        propranolol=254
-        aspirin=88
-        benzathinePcn=4034
-        dietSaltFluid=6741
-        nextAppt=5096
+        <macro key="propranolol" value="65470f18-977f-11e1-8993-905e29aff6c1" />
+
+        <macro key="aspirin" value="6545efde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="benzathinePcn" value="656930ac-977f-11e1-8993-905e29aff6c1" />
+        <macro key="dietSaltFluid" value="65730a00-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+
     </macros>
 
     <!-- Flowsheet table view -->
