@@ -2,39 +2,38 @@
           formEncounterType="cb337ef3-f5cb-4e10-af8d-8d717a3a139f" formVersion="1.0">
 
     <macros>
-        yesAnswer=1065
-        noAnswer=1066
-        unknown=1067
-        diagnosisSet=8445
-        chronicCareDiagnosis=3683
-        diagnosisDate=6774
-        hivStatus=3753
-        reactive=1228
-        nonReactive=1229
-        hivTestDate=1837
-        artStartDate=2516
-        tbStatus=7459
-        smearPos=2185
-        smearNeg=2186
-        eptb=1547
-        tbYear=8453
-        patientPhone=1426
-        guardianName=1824
-        guardianPhone=2616
-        relationToPatient=1328
-        agreesToFollowup=2552
-        chwName=8431
-        chfDiagnosis=3765
-        hypertensionDx=903
-        ckdDX=7623
-        familyPlanning=374
-        ecgSet=3403
-        ecgDate=3302
-        ecgResult=3402
-        echoSet=3304	
-        echoDate=3302	
-        echoResult=3763
-        echoImagingResult=8718
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diagnosisSet" value="6db168f1-0f38-42d9-9f0e-90946a3d8e72" />
+        <macro key="chronicCareDiagnosis" value="65671c9a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diagnosisDate" value="65732bf2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
+        <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nonReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hivTestDate" value="655bc9da-977f-11e1-8993-905e29aff6c1" />
+        <macro key="artStartDate" value="655f9eb6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbStatus" value="65770db2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="smearPos" value="655ddc20-977f-11e1-8993-905e29aff6c1" />
+        <macro key="smearNeg" value="655ddd24-977f-11e1-8993-905e29aff6c1" />
+        <macro key="eptb" value="655a49ac-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbYear" value="3237c2a0-ada3-11e5-bf7f-feff819cdc9f" />
+        <macro key="patientPhone" value="6559ba14-977f-11e1-8993-905e29aff6c1" />
+        <macro key="guardianName" value="655bbc74-977f-11e1-8993-905e29aff6c1" />
+        <macro key="guardianPhone" value="65600cd4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="relationToPatient" value="6558fd0e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="agreesToFollowup" value="655fc526-977f-11e1-8993-905e29aff6c1" />
+        <macro key="chwName" value="941bc17e-8c33-11e5-80a3-c0430f805837" />
+        <macro key="chfDiagnosis" value="6567bb82-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hypertensionDx" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ckdDX" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />	
+        <macro key="echoResult" value="6567b970-977f-11e1-8993-905e29aff6c1" />
+        <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
+        <macro key="echoEcgDate" value="6563e098-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <span style="display:none">
@@ -228,7 +227,7 @@
                     		<th align="left">ECHO</th>
                     		<obsgroup groupingConceptId="$echoSet"> 
                                 <td>
-                                    <obs conceptId="$echoDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$echoImagingResult" labelText="Result"/>
@@ -239,7 +238,7 @@
                     		<th align="left">ECG</th>	
                     		<obsgroup groupingConceptId="$ecgSet"> 
                                 <td>
-                                    <obs conceptId="$ecgDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$ecgResult" labelText="Result"/>

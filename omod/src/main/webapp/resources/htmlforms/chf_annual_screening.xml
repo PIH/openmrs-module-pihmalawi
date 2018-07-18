@@ -2,13 +2,13 @@
           formEncounterType="dbab9217-29ec-477d-8d11-161cd4fd2b34" formVersion="1.0">
 
     <macros>
-        proteinuria=6447
-        creatinine=6445
-        potassium=1133
-        lipid=8611
-        normal=1115
-        highLipids=8609
-        highTGs=8610
+        <macro key="proteinuria" value="65717366-977f-11e1-8993-905e29aff6c1" />
+        <macro key="creatinine" value="657170a0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="potassium" value="6557b566-977f-11e1-8993-905e29aff6c1" />
+        <macro key="lipid" value="f77f0ba3-8668-4537-9f96-7aad3403cff8" />
+        <macro key="normal" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="highLipids" value="6623242A-F374-46C1-83D7-D17551E48A79" />
+        <macro key="highTGs" value="F7A42154-66D8-41A9-97CD-C16DDE4C0F3B" />
     </macros>
 
     <!-- Flowsheet table view -->

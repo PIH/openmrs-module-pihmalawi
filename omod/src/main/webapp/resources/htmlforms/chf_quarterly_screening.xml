@@ -2,10 +2,10 @@
           formEncounterType="df5389a8-7715-462b-a41e-e8b1946c8c60" formVersion="1.0">
 
     <macros>
-        hivStatus=3753
-        reactive=1228
-        nReactive=1229
-        unknown=1067
+        <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
+        <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <!-- Flowsheet table view -->
