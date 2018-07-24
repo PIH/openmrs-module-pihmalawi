@@ -56,6 +56,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // IC3 Screening POC system
         install(EncounterTypes.BLOOD_PRESSURE_SCREENING);
         install(EncounterTypes.NUTRITION_SCREENING);
+        install(EncounterTypes.NURSE_EVALUATION);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

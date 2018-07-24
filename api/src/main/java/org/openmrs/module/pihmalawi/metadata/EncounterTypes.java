@@ -195,4 +195,9 @@ public class EncounterTypes {
         public String name() { return "Nutrition screening"; }
         public String description() { return "Nutrition screening encounter"; }
     };
+    public static EncounterTypeDescriptor NURSE_EVALUATION = new EncounterTypeDescriptor() {
+        public String uuid() { return "1e2f8be8-8ae3-41f1-b908-84f168f26325"; }
+        public String name() { return "Nurse evaluation"; }
+        public String description() { return "Nurse evaluation encounter"; }
+    };
 }
