@@ -729,8 +729,8 @@
             if (monthDiff < 0) {
                 err = 'Cannot be in the past';
             }
-            else if (monthDiff > 6) {
-                err = 'Must be within 6 months of visit date';
+            else if (monthDiff > 12) {
+                err = 'Must be within 12 months of visit date';
             }
         }
         else if (apptDateField[0] && !apptMoment) {

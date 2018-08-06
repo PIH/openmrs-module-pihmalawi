@@ -149,4 +149,55 @@ public class EncounterTypes {
         public String description() { return "Followup visit for Palliative care patient"; }
     };
 
+    public static EncounterTypeDescriptor CHF_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "cb337ef3-f5cb-4e10-af8d-8d717a3a139f"; }
+        public String name() { return "CHF_INITIAL"; }
+        public String description() { return "Initial Chronic Heart Disease encounter"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "1f6ad830-6e94-4819-b1fd-8c4146e77280"; }
+        public String name() { return "CHF_FOLLOWUP"; }
+        public String description() { return "Followup visit for Chronic Heart Disease patient"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_ANNUAL_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "dbab9217-29ec-477d-8d11-161cd4fd2b34"; }
+        public String name() { return "CHF_ANNUAL_SCREENING"; }
+        public String description() { return "Annual screening for Chronic Heart Disease"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_QUARTERLY_HIV_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "df5389a8-7715-462b-a41e-e8b1946c8c60"; }
+        public String name() { return "CHF_QUARTERLY_HIV_SCREENING"; }
+        public String description() { return "Quarterly HIV screening for Chronic Heart Disease"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_HOSPITALIZATIONS = new EncounterTypeDescriptor() {
+        public String uuid() { return "0d3f097f-206c-4c31-9fcb-2ba61145b69f"; }
+        public String name() { return "CHF_HOSPITALIZATIONS"; }
+        public String description() { return "Hospitalizations for Chronic Heart Disease patients"; }
+    };
+
+    // IC3 Screening POC system
+    public static EncounterTypeDescriptor CHECK_IN = new EncounterTypeDescriptor() {
+        public String uuid() { return "55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"; }
+        public String name() { return "Check-in"; }
+        public String description() { return "Check-in encounter"; }
+    };
+    public static EncounterTypeDescriptor BLOOD_PRESSURE_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "0C36F6FB-660E-485F-AF04-249579C9EAC9"; }
+        public String name() { return "Blood pressure screening"; }
+        public String description() { return "Blood pressure screening encounter"; }
+    };
+    public static EncounterTypeDescriptor NUTRITION_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "6265F6BC-EBC0-4181-91F3-28B70BBFDB61"; }
+        public String name() { return "Nutrition screening"; }
+        public String description() { return "Nutrition screening encounter"; }
+    };
+    public static EncounterTypeDescriptor NURSE_EVALUATION = new EncounterTypeDescriptor() {
+        public String uuid() { return "1e2f8be8-8ae3-41f1-b908-84f168f26325"; }
+        public String name() { return "Nurse evaluation"; }
+        public String description() { return "Nurse evaluation encounter"; }
+    };
 }

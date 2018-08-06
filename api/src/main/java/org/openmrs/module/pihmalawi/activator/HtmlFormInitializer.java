@@ -103,7 +103,12 @@ public class HtmlFormInitializer implements Initializer {
                 "pihmalawi:htmlforms/art_annual_screening.xml",
 				"pihmalawi:htmlforms/viral_load_test_results.xml",
 				"pihmalawi:htmlforms/palliative_mastercard.xml",
-				"pihmalawi:htmlforms/palliative_visit.xml");
+				"pihmalawi:htmlforms/palliative_visit.xml",
+                "pihmalawi:htmlforms/chf_annual_screening.xml",
+                "pihmalawi:htmlforms/chf_history_of_hospitalizations.xml",
+                "pihmalawi:htmlforms/chf_quarterly_screening.xml",
+                "pihmalawi:htmlforms/chf_mastercard.xml",
+                "pihmalawi:htmlforms/chf_visit.xml");
 
         if (uiHtmlForms != null) {
             ResourceFactory resourceFactory = ResourceFactory.getInstance();
