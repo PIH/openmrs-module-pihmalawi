@@ -16,7 +16,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
         Concept weaklyPos = MetadataUtils.existing(Concept.class, "65598fb2-977f-11e1-8993-905e29aff6c1");
         Concept modPos = MetadataUtils.existing(Concept.class, "65597cde-977f-11e1-8993-905e29aff6c1");
         Concept strongPos = MetadataUtils.existing(Concept.class, "65598706-977f-11e1-8993-905e29aff6c1");
-        Concept trace = MetadataUtils.existing(Concept.class, "6572cf72-977f-11e1-8993-905e29aff6c1");
+        Concept extremePos = MetadataUtils.existing(Concept.class, "E1B2AF76-4B69-4BA4-9DDC-D801649BC212");
 
         install(new ConceptBuilder("3790bbe2-13b3-45b4-94d1-a9719f5ac51d")
                 .datatype(coded)
@@ -58,7 +58,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(finding)
                 .name("674f7ff9-274b-402b-827c-8c6fd599b28f", "Oedema", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(none, weaklyPos, modPos, strongPos, trace)
+                .answers(none, weaklyPos, modPos, strongPos, extremePos)
                 .build());
 
         install(new ConceptBuilder("e3ed7b54-5fcb-453f-9058-605f443bf78d")
@@ -128,6 +128,12 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .conceptClass(symptom)
                 .name("d9ea4ab6-bb4d-481a-94ac-8646f00c3d51", "Level of paroxysmal nocturnal dyspnea", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(raised, lower, same, none)
+                .build());
+
+        install(new ConceptBuilder("1be55e42-9a11-11e8-9eb6-529269fb1459")
+                .datatype(text)
+                .conceptClass(question)
+                .name("1be55fc8-9a11-11e8-9eb6-529269fb1459", "Weight change", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         //Echocardiogram construct - reinstalling with textual imaging result added to set members
