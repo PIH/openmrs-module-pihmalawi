@@ -8,6 +8,10 @@
         <macro key="palliativeReferral" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5" />
         <macro key="tookMedicToday" value="5f91e983-f825-4f41-81de-077288a5d860" />
         <macro key="oedema" value="bd057502-c23b-4f80-b24c-b996e8a84dfc" />
+        <macro key="weaklyPos" value="65598fb2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="modPos" value="65597cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="strongPos" value="65598706-977f-11e1-8993-905e29aff6c1" />
+        <macro key="extremePos" value="E1B2AF76-4B69-4BA4-9DDC-D801649BC212" />
         <macro key="bibasilarCrackles" value="e3ed7b54-5fcb-453f-9058-605f443bf78d" />
         <macro key="restrictedSaltFluid" value="e513cb96-6782-4a2f-bc8e-e4f9ebaf0286" />
         <macro key="concernForDepression" value="95b1429a-34fd-4209-9cf9-20c66abc0348" />
@@ -21,7 +25,8 @@
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
         <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
-        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" /> 
+        <macro key="wtChange" value="d7df1781-00c4-462f-b81a-17dce8071b64" />
         <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1" />
         <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1" />
         <macro key="heartRate" value="6569c224-977f-11e1-8993-905e29aff6c1" />
@@ -63,7 +68,6 @@
         <macro key="atenolol" value="65635d58-977f-11e1-8993-905e29aff6c1" />
         bisoprolol=8612
         <macro key="propranolol" value="65470f18-977f-11e1-8993-905e29aff6c1" />
-
         <macro key="aspirin" value="6545efde-977f-11e1-8993-905e29aff6c1" />
         <macro key="benzathinePcn" value="656930ac-977f-11e1-8993-905e29aff6c1" />
         <macro key="dietSaltFluid" value="65730a00-977f-11e1-8993-905e29aff6c1" />
@@ -78,7 +82,7 @@
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td rowspan="2">Visit Date</td>
-                    <td colspan="5"><span>Vitals</span></td>
+                    <td colspan="6"><span>Vitals</span></td>
                     <td colspan="6"><span>Signs and Symptoms since last visit</span></td>
                     <td colspan="4"><span>Exam</span></td>
                     <td colspan="5"><span>Risk Assessment</span></td>
@@ -89,6 +93,7 @@
                 <tr> <!-- Units row -->
                     <td>Ht (cm)</td>
                     <td>Wt (kg)</td>
+                    <td>Wt change</td>
                     <td>Bp (mmh/g)</td>
                     <td>HR</td>
                     <td>% SPO2</td>
@@ -137,9 +142,15 @@
                         <!-- Height -->
                         <obs conceptId="$height" id="heightEntered" size="3"/>
                     </td>
+
                     <td>
                         <!-- Weight -->
                         <obs conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+
+                    <td>
+                        <!-- Weight change -->
+                        <obs conceptId="$wtChange" />
                     </td>
 
                     <td>
@@ -159,35 +170,35 @@
 
                     <!-- PND -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Up'],['$lower','Lower'],['$same','Same'],['$none','None']">
+                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelPND" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
 
                     <!-- DOE -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Up'],['$lower','Lower'],['$same','Same'],['$none','None']">
+                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelDOE" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
 
                     <!-- Orthopnea -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Up'],['$lower','Lower'],['$same','Same'],['$none','None']">
+                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelOrthop" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
 
                     <!-- Dry Cough -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Up'],['$lower','Lower'],['$same','Same'],['$none','None']">
+                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelDryCough" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
 
                     <!-- Fatigue -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Up'],['$lower','Lower'],['$same','Same'],['$none','None']">
+                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelFatigue" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
@@ -202,7 +213,7 @@
 
                     <!-- Oedema --> 
                     <td style="text-align: left;">
-                        <repeat with="['1107','None'],['1410','+'],['1408','2+'],['1409','3+'],['6698','Trace']">
+                        <repeat with="['$none','None'],['$weaklyPos','+1'],['$modPos','+2'],['$strongPos','+3'],['$extremePos','+4']">
                             <obs conceptId="$oedema" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
@@ -277,7 +288,7 @@
 
                     <!-- Diuretic -->
                     <td style="text-align: left;">
-                       <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                       <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURO'],['$spironolactone','SPIRO']">
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                             </obsgroup>
@@ -406,6 +417,12 @@
                 <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
             </tr>
 
+            <tr>
+                <!-- Weight change --> 
+                <th>Weight change</th>
+                <td><obs conceptId="$wtChange" /></td>
+            </tr>
+
              <tr>
                 <th>Blood Pressure</th>
                 <td>
@@ -428,39 +445,39 @@
                 <!--Level paroxysmal nocturnal dyspnea-->
                 <th>PND</th>
                 <td style="text-align: left">
-                    <obs conceptId="$levelPND" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Up,Low,Same,None" style="radio" />
+                    <obs conceptId="$levelPND" answerConceptIds="$raised,$lower,$same,$none" 
+                    answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
             <tr>
                 <th>Dyspnea on extertion</th>
                 <td style="text-align: left">
-                    <obs conceptId="$levelDOE" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Up,Low,Same,None" style="radio" />
+                    <obs conceptId="$levelDOE" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
             <tr>
                 <th>Orthopnea</th>
                 <td style="text-align: left">
-                    <obs conceptId="$levelOrthop" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Up,Low,Same,None" style="radio" />
+                    <obs conceptId="$levelOrthop" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
             <tr>
                 <th>Dry cough</th>
                 <td style="text-align: left">
-                    <obs conceptId="$levelDryCough" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Up,Low,Same,None" style="radio" />
+                    <obs conceptId="$levelDryCough" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
             <tr>
                 <th>Fatigue</th> 
                 <td>
-                    <obs conceptId="$levelFatigue" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Up,Low,Same,None" style="radio" />
+                    <obs conceptId="$levelFatigue" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
-            
             <tr>
                 <th>Hospitalized since last visit for CHF</th> 
                 <td style="text-align: left">
@@ -469,9 +486,10 @@
             </tr>
 
             <tr>
-                <th>Oedema</th>     
+                <th>Oedema</th>   
                 <td>
-                    <obs conceptId="$oedema" answerConceptIds="1107,1410,1408,1409,6698" answerLabels="None,+,2+,3+,Trace" style="radio" />
+                    <obs conceptId="$oedema" answerConceptIds="$none,$weaklyPos,$modPos,$strongPos,$extremePos" 
+                    answerLabels="None,+1,+2,+3,+4" style="radio" />
                 </td>
             </tr>
 
@@ -545,7 +563,7 @@
             <tr>
                 <th>Diuretic</th>
                 <td>
-                    <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
+                    <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURO'],['$spironolactone','SPIRO']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" /><br/>
                         </obsgroup>
