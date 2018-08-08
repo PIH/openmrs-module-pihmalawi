@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -59,21 +60,21 @@ public class IC3AppointmentReport extends ApzuReportManager {
      */
     @Override
     public ReportDefinition constructReportDefinition() {
-
         ReportDefinition rd = new ReportDefinition();
         rd.setUuid(getUuid());
         rd.setName(getName());
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
+        rd.addDataSetDefinition("apptRpt", Mapped.mapStraightThrough(constructDataSetDefinition()));
+        return rd;
+    }
 
+    public DataSetDefinition constructDataSetDefinition() {
         SqlFileDataSetDefinition dsd = new SqlFileDataSetDefinition();
         dsd.setParameters(getParameters());
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
-
-        rd.addDataSetDefinition("apptRpt", Mapped.mapStraightThrough(dsd));
-
-        return rd;
+        return dsd;
     }
 
     @Override
