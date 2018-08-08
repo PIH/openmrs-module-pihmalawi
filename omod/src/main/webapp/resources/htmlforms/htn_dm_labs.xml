@@ -4,11 +4,11 @@
 
     <macros>
         proteinuria=6447
-        proteinuriaNone=6698
+        proteinuriaNegative=664
+        proteinuriaTrace=6698
         proteinuria1Plus=1410
         proteinuria2Plus=1408
         proteinuria3Plus=1409
-        proteinuria4Plus=8608
         hivTestConstruct=PIH Malawi:2168
         hivSampleDate=PIH Malawi:6108
         hivTestResult=2169
@@ -39,7 +39,7 @@
                     </td>
                     <td>
                         <!-- Proteinuria -->
-                        <obs conceptId="$proteinuria" style="radio" answerConceptIds="6698,1410,1408,1409,8608" answerLabels="None,1+,2+,3+,4+"/>
+                        <obs conceptId="$proteinuria" style="radio" answerConceptIds="664,6698,1410,1408,1409" answerLabels="Negative,Trace,1+,2+,3+"/>
                     </td>
                     <td>
                         <obsgroup groupingConceptId="$hivTestConstruct">
@@ -89,7 +89,7 @@
             <tr>
                 <th>Proteinuria</th>
                 <td>
-                    <obs conceptId="$proteinuria" style="radio" answerConceptIds="6698,1410,1408,1409,8608" answerLabels="None,1+,2+,3+,4+"/>
+                    <obs conceptId="$proteinuria" style="radio" answerConceptIds="664,6698,1410,1408,1409" answerLabels="Negative,Trace,1+,2+,3+"/>
                 </td>
             </tr>
 
