@@ -200,4 +200,9 @@ public class EncounterTypes {
         public String name() { return "Nurse evaluation"; }
         public String description() { return "Nurse evaluation encounter"; }
     };
+    public static EncounterTypeDescriptor HTC_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "5B7238C1-23C6-4214-957F-7912A5BE87A9"; }
+        public String name() { return "HTC Screening"; }
+        public String description() { return "HTC screening test encounter"; }
+    };
 }
