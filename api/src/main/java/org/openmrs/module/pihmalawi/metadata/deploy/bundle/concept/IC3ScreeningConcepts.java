@@ -16,11 +16,11 @@ import java.util.Locale;
 @Requires({CoreConceptMetadataBundle.class})
 public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
-    public static final String REFERRAL_SOURCE_CONCEPT  = "65664fc2-977f-11e1-8993-905e29aff6c1";
+    //public static final String REFERRAL_SOURCE_CONCEPT  = "65664fc2-977f-11e1-8993-905e29aff6c1";
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -129,5 +129,37 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(sharc,outsideNeno,hospital,
                         primaryCareClinic,healthClinic, other, ward, prenatalClinic,community,outpatient,healthCenter)
                 .build());
+
+        // HTC
+        Concept noBlood = install(new ConceptBuilder("0e447720-a180-11e8-98d0-529269fb1459")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("0e447b26-a180-11e8-98d0-529269fb1459", "Unable to draw blood", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept patientRefused = MetadataUtils.existing(Concept.class, "6566a4ae-977f-11e1-8993-905e29aff6c1");
+
+        Concept noSampleReason = install(new ConceptBuilder("0e447d92-a180-11e8-98d0-529269fb1459")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("0e447fe0-a180-11e8-98d0-529269fb1459", "Reason for no sample", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("0e4485da-a180-11e8-98d0-529269fb1459","Lack of sample reason", Locale.ENGLISH,null)
+                .answers(noBlood,patientRefused)
+                .build());
+
+        Concept noResultReason = MetadataUtils.existing(Concept.class, "656fa450-977f-11e1-8993-905e29aff6c1");
+        Concept bled           = MetadataUtils.existing(Concept.class, "f792f2f9-9c24-4d6e-98fd-caffa8f2383f");
+        Concept vl             = MetadataUtils.existing(Concept.class, "654a7694-977f-11e1-8993-905e29aff6c1");
+        Concept ldl            = MetadataUtils.existing(Concept.class, "e97b36a2-16f5-11e6-b6ba-3e1d05defe78");
+        Concept testReason     = MetadataUtils.existing(Concept.class, "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Concept labLocation    = MetadataUtils.existing(Concept.class, "6fc0ab50-9492-11e7-abc4-cec278b6b50a");
+
+        install(new ConceptBuilder("83931c6d-0e5a-4302-b8ce-a31175b6475e")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason)
+                .build());
+
     }
 }
