@@ -205,4 +205,9 @@ public class EncounterTypes {
         public String name() { return "HTC Screening"; }
         public String description() { return "HTC screening test encounter"; }
     };
+    public static EncounterTypeDescriptor VIRAL_LOAD_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "9959A261-2122-4AE1-A89D-1CA444B712EA"; }
+        public String name() { return "Viral Load Screening"; }
+        public String description() { return "Viral Load screening test encounter"; }
+    };
 }
