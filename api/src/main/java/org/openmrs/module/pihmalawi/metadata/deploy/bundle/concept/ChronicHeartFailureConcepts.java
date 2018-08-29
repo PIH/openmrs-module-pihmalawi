@@ -134,7 +134,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .datatype(text)
                 .conceptClass(question)
                 .name("1be55fc8-9a11-11e8-9eb6-529269fb1459", "Weight change", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
+                .build());      
 
         //Echocardiogram construct - reinstalling with textual imaging result added to set members
         Concept nameOfDoctor = MetadataUtils.existing(Concept.class, "6563e23c-977f-11e1-8993-905e29aff6c1");
