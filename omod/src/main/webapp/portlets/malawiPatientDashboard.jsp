@@ -118,6 +118,10 @@
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Heart Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
     </tr>
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Kidney Disease eMastercard" initialEncounterTypeName="CKD_INITIAL" followupEncounterTypeName="CKD_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+    </tr>
 
     <tr>
         <td><br /></td>
