@@ -179,6 +179,42 @@ public class EncounterTypes {
         public String description() { return "Hospitalizations for Chronic Heart Disease patients"; }
     };
 
+    public static EncounterTypeDescriptor CKD_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "0a3621e2-974e-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_INITIAL"; }
+        public String description() { return "Initial Chronic Kidney Disease encounter"; }
+    };
+
+    public static EncounterTypeDescriptor CKD_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "1ebe2272-974e-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_FOLLOWUP"; }
+        public String description() { return "Followup visit for Chronic Kidney Disease patient"; }
+    };
+
+    public static EncounterTypeDescriptor CKD_ANNUAL_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "ec0a17ba-9751-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_ANNUAL_SCREENING"; }
+        public String description() { return "Annual screening for Chronic Kidney Disease"; }
+    };
+
+    public static EncounterTypeDescriptor CKD_QUARTERLY_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "ec0a2232-9751-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_QUARTERLY_SCREENING"; }
+        public String description() { return "Quarterly screening for Chronic Kidney Disease"; }
+    };
+
+    public static EncounterTypeDescriptor CKD_HOSPITALIZATIONS = new EncounterTypeDescriptor() {
+        public String uuid() { return "ec0a2f2a-9751-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_HOSPITALIZATIONS"; }
+        public String description() { return "Hospitalizations for Chronic Kidney Disease patients"; }
+    };
+
+    public static EncounterTypeDescriptor CKD_IMAGING = new EncounterTypeDescriptor() {
+        public String uuid() { return "c4948e2c-9adf-11e8-9eb6-529269fb1459"; }
+        public String name() { return "CKD_IMAGING"; }
+        public String description() { return "Imaging for Chronic Kidney Disease patients"; }
+    };
+
     // IC3 Screening POC system
     public static EncounterTypeDescriptor CHECK_IN = new EncounterTypeDescriptor() {
         public String uuid() { return "55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"; }

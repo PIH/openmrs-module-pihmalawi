@@ -1,0 +1,574 @@
+<htmlform formName="Chronic Kidney Disease Visit"
+          formUuid="ec0a1fb2-9751-11e8-9eb6-529269fb1459"
+          formEncounterType="1ebe2272-974e-11e8-9eb6-529269fb1459"
+          formVersion="1.0">
+
+    <macros>       
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
+        <!--Vital Sgns and Labs-->
+        <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="wtChange" value="1be55e42-9a11-11e8-9eb6-529269fb1459" />
+        <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1" />
+        <macro key="heartRate" value="6569c224-977f-11e1-8993-905e29aff6c1" />
+        <macro key="Creatinine" value="657170a0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="urineProtein" value="65717366-977f-11e1-8993-905e29aff6c1" />
+        <macro key="noUrineProtein" value="654994c2-977f-11e1-8993-905e29aff6c1" /> 
+        <macro key="trace" value="6572cf72-977f-11e1-8993-905e29aff6c1" /> 
+        <macro key="weaklyPos" value="65598fb2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="moderatelyPos" value="65597cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="stronglyPos" value="65598706-977f-11e1-8993-905e29aff6c1" />
+        <!--Signs and Symptoms-->
+        <macro key="confusion" value="657592c0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="patientHasFatigue" value="71195f66-a9c7-4c33-b6be-90ef9ff9535f" />
+        <macro key="patientHasNausea" value="104cb8fb-8ff9-4ea4-b547-10fed3afdea2" />
+        <macro key="patientHasAnorexia" value="ac7a7aae-6f3a-4a04-a147-97019597886f" />
+        <macro key="patientHasPruritus" value="ca2cd277-cdfc-42b0-9958-3f1281480ad8" />
+        <macro key="patientHasAscites" value="2b0f959a-8877-434b-8cc4-430682e7c9f4" />
+        <macro key="symptomsOther" value="654b3fac-977f-11e1-8993-905e29aff6c1" />
+
+        <macro key="tookMedicToday" value="5f91e983-f825-4f41-81de-077288a5d860" />
+        
+        <macro key="conjunctiva" value="6560c728-977f-11e1-8993-905e29aff6c1" />
+        <macro key="pinkConjunctiva" value="65638ef4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="paleConjunctiva" value="6548a256-977f-11e1-8993-905e29aff6c1" />
+        <macro key="edema" value="bd057502-c23b-4f80-b24c-b996e8a84dfc" />
+        <macro key="ckdStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
+        <macro key="OneTwoCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
+        <macro key="threeCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
+        <macro key="fourFiveCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
+        <macro key="nsaidUse" value="89a3d604-43f9-4d4e-95ad-8b8577f80108" />
+        <macro key="glycatedHemoglobin" value="65714f76-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tobacco" value="655a4dc6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="alcohol" value="655a4ed4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="current" value="655a4cc2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="never" value="65577f4c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="stopped" value="655a4ab0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="none" value="6557987e-977f-11e1-8993-905e29aff6c1" />            
+        <macro key="drugSet" value="447aaa7a-cd03-11e5-9956-625662870761" /> 
+        <macro key="drugsNow" value="65585192-977f-11e1-8993-905e29aff6c1" />
+        <!-- diuretic=8466 -->
+        <macro key="hydrochlorothiazide" value="65588df6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="furosemide" value="6546003c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="spironolactone" value="65694c36-977f-11e1-8993-905e29aff6c1" />
+        <!-- ccBlocker=8465 -->
+        <macro key="amlodipine" value="65635ef2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nifedipineModifiedRelease" value="654704dc-977f-11e1-8993-905e29aff6c1" />
+        <!-- aceInhibit=8464 -->
+        <macro key="enalapril" value="65588cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="captopril" value="6563597a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="lisinopril" value="65635a74-977f-11e1-8993-905e29aff6c1" />
+        <!-- betaBlocker=8463 -->
+        <macro key="atenolol" value="65635d58-977f-11e1-8993-905e29aff6c1" />
+        bisoprolol=8612
+        <macro key="propranolol" value="65470f18-977f-11e1-8993-905e29aff6c1" />
+        <macro key="dietRecommendations" value="ccc842f5-c7ee-4b82-865c-be19053c4db3" />
+        <macro key="sodiumLow" value="5e7a1d78-aecc-4b47-bc81-d144dc91dda1" />
+        <macro key="potassiumLow" value="0ddfbe32-04c3-4b03-a057-ca3b5524cbb5" />
+        <macro key="proteinLow" value="f8770f87-1834-4331-a8f5-88df5e6f9573" />
+        <macro key="caloriesHigh" value="3cfde72e-8626-4ee2-97e8-6f40172953f5" />
+        <macro key="medicationOther" value="c8a4d207-0a73-4471-955c-c1f47cbbe2b5" />
+        <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+        
+
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr> <!-- Label row -->
+                    <td rowspan="2">Visit Date</td>
+                    <td colspan="8"><span>Vital Signs and Labs</span></td>
+                    <td colspan="9"><span>Signs and Symptoms</span></td>
+                    <td colspan="4"><span>Risk Assessment</span></td>
+                    <td colspan="5"><span>Medications</span></td>
+                    <td colspan="2"><span>Pt Ed, Referral and Homecare</span></td>
+                    <td rowspan="2">Next Visit Date</td>
+                </tr>
+                <tr> <!-- Units row -->
+                    <td>Ht (cm)</td>
+                    <td>Wt (kg)</td>
+                    <td>Wt Change (kg)</td>
+                    <td>Bp (mmh/g)</td>
+                    <td>FSB/HBA1C</td>
+                    <td>HR</td>
+                    <td>Creatinine mg/dl</td>
+                    <td>Urine protein</td>
+
+                    <td>Confusion</td>
+                    <td>Fatigue</td>
+                    <td>Nausea</td>
+                    <td>Anorexia</td>
+                    <td>Pruritus</td>
+                    <td>Conjunctiva</td>
+                    <td>Ascites</td>
+                    <td>Edema</td>
+                    <td>Other</td>
+
+                    <td>CKD stage</td>
+                    <td>NSAID use</td>
+                    <td>Tobacco use</td>
+                    <td>Alcohol use</td>
+
+                    <td>Diuretic</td>
+                    <td>ACE-I</td>
+                    <td>BB</td>
+                    <td>CCB</td>
+                    <td>Other</td>
+
+                    <td>Took medication today?</td>
+                    <td>Diet recommendations</td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <encounterDate/>
+                    </td>
+
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightEntered" size="3"/>
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+
+                    <td>
+                        <!-- Weight change -->
+                        <obs conceptId="$wtChange" />
+                    </td>
+
+                    <td>
+                        <!-- BP -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                    </td>
+
+                    <td>
+                        <!-- FSB/HBA1C -->
+                        <obs conceptId="$glycatedHemoglobin" />
+                    </td>
+
+                    <td>
+                        <!-- Heart Rate -->
+                        <obs conceptId="$heartRate" />
+                    </td>
+
+                    <td>
+                        <!-- Creatinine -->
+                        <obs conceptId="$Creatinine" />
+                        
+                    </td> 
+
+                    <!-- Urine protein -->
+                    <td style="text-align: left;">
+                        <repeat with="['$noUrineProtein ','No'],['$trace','Trace'],['$weaklyPos','+'],['$moderatelyPos','++'],['$stronglyPos','+++']">
+                            <obs conceptId="$urineProtein" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                   </td>
+
+                    <td>
+                        <!-- Confusion -->
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$confusion" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Fatigue -->
+                    <td style="text-align: left;">
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$patientHasFatigue" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Nausea -->
+                    <td style="text-align: left;">
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$patientHasNausea" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Anorexia -->
+                    <td style="text-align: left;">
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$patientHasAnorexia" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Pruritus -->
+                    <td style="text-align: left;">
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$patientHasPruritus" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Conjunctiva -->
+                    <td style="text-align: left;">
+                        <repeat with="['$pinkConjunctiva ','Pink'],['$paleConjunctiva','Pale']">
+                            <obs conceptId="$conjunctiva" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Ascites -->
+                    <td style="text-align: left;">
+                        <repeat with="['$yesAnswer ','Yes'],['$noAnswer','No']">
+                            <obs conceptId="$patientHasAscites" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Edema -->
+                    <td style="text-align: left;">
+                        <repeat with="['$none ','No'],['$trace','Trace'],['$weaklyPos','+'],['$moderatelyPos','++'],['$stronglyPos','+++']">
+                            <obs conceptId="$edema" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- Other -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$symptomsOther" />
+                    </td>
+                  
+                    <!-- CKD stage -->
+                    <td style="text-align: left;">
+                        <repeat with="['$OneTwoCKDStage ','1-2'],['$threeCKDStage','3'],['$fourFiveCKDStage','4-5']">
+                            <obs conceptId="$ckdStage" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <!-- NSAID use -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$nsaidUse" answerConceptId="$yesAnswer" answerLabel="Yes" style="checkbox" />
+                        <obs conceptId="$nsaidUse" answerConceptId="$noAnswer" answerLabel="No" style="checkbox" />
+                    </td>
+
+                   <!-- Tobacco use -->
+                    <td style="text-align: left">                        
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+                    <!-- Alcohol use -->
+                    <td style="text-align: left;">       
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+
+                    <!-- Diuretic -->
+                    <td style="text-align: left;">
+                       <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURO'],['$spironolactone','SPIRO']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+
+                   <!-- ACE-I -->
+                    <td style="text-align: left;">
+                       <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+
+                    <!-- CCB -->
+                    <td style="text-align: left;">
+                       <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                   </td>
+
+                   <!-- BB -->
+                    <td  style="text-align: left;">
+                       <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                       </repeat>
+                    </td>
+
+
+                    <!-- Other drugs -->
+                    <td>
+                        <obs conceptId="$medicationOther" />
+                    </td>
+
+                    <!--  Took medication today?  -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$tookMedicToday"  answerConceptId="$yesAnswer" answerLabel="Yes"  style="checkbox" />
+                        <obs conceptId="$tookMedicToday"  answerConceptId="$noAnswer" answerLabel="No"  style="checkbox" />
+                    </td>
+
+                    <!--Diet recommendations-->
+                    <td style="text-align: left;">
+                        <repeat with="['$sodiumLow ','Low sodium'],['$potassiumLow','Low potassium'],['$proteinLow','Low protein'],['$caloriesHigh','High calories']">
+                            <obs conceptId="$dietRecommendations" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+        <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Chronic Kidney Disease Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Chronic Care no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+
+            <tr>
+                <!-- Height -->
+                <th>Height</th>
+                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <!-- Weight -->
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Weight change</th>
+                <td><obs conceptId="$wtChange" /></td>
+            </tr>
+
+             <tr>
+                <th>Blood Pressure</th>
+                <td>
+                    <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>FSB/HBA1C</th>
+                <td><obs conceptId="$glycatedHemoglobin" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Heart Rate</th>
+                <td><obs conceptId="$heartRate" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Creatinine</th>
+                <td><obs conceptId="$Creatinine" showUnits="true" /></td>        
+            </tr>
+
+            <tr>
+                <th>Urine protein</th>
+                <td style="text-align: left">
+                    <obs conceptId="$urineProtein" answerConceptIds="$noUrineProtein,$trace,$weaklyPos,$moderatelyPos,$stronglyPos" 
+                    answerLabels="No,Trace,+,++,+++" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Confusion</th>
+                <td style="text-align: left">
+                    <obs conceptId="$confusion" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Fatigue</th>
+                <td style="text-align: left">
+                    <obs conceptId="$patientHasFatigue" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Nausea</th>
+                <td style="text-align: left">
+                    <obs conceptId="$patientHasNausea" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Anorexia</th> 
+                <td>
+                    <obs conceptId="$patientHasAnorexia" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            
+            <tr>
+                <th>Pruritus</th> 
+                <td style="text-align: left">
+                    <obs conceptId="$patientHasPruritus" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Conjunctiva</th>     
+                <td>
+                    <obs conceptId="$conjunctiva" style="radio" answerLabels="Pink, Pale"
+                                     answerConceptIds="$pinkConjunctiva, $paleConjunctiva"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Ascites</th>
+                <td>
+                    <obs conceptId="$patientHasAscites" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Edema</th>
+                <td>
+                    <obs conceptId="$edema" answerConceptIds="$none,$trace,$weaklyPos,$moderatelyPos,$stronglyPos" 
+                    answerLabels="No,Trace,+,++,+++" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Other</th> 
+                <td><obs conceptId="$symptomsOther" /></td>
+            </tr>
+
+            <tr>
+                <th>CKD stage</th>
+                <td style="text-align: left">
+                    <obs conceptId="$ckdStage" answerConceptIds="$OneTwoCKDStage,$threeCKDStage,$fourFiveCKDStage" answerLabels="1-2,3,4-5" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>NSAID use</th>
+                <td style="text-align: left">
+                    <obs conceptId="$nsaidUse" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Tobacco use</th> 
+                <td style="text-align: left">
+                    <obs conceptId="$tobacco" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Alcohol use</th>
+                <td style="text-align: left">
+                    <obs conceptId="$alcohol" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Diuretic</th>
+                <td>
+                    <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURO'],['$spironolactone','SPIRO']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" /><br/>
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>ACE-I</th>
+                <td>
+                    <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>BB</th>
+                <td>
+                    <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>CCB</th>
+                <td>
+                    <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Other medications</th>
+                <td><obs conceptId="$medicationOther" /></td>
+            </tr>
+
+            <tr>
+                <th><span class="rotate">Took medication today?</span></th>
+                <td>
+                    <obs conceptId="$tookMedicToday" style="radio" answerLabels="Yes, No"
+                                     answerConceptIds="$yesAnswer, $noAnswer"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Diet recommendations</th>
+                <td>
+                    <obs conceptId="$dietRecommendations" style="radio" answerLabels="Low Sodium, Low potassium, Low protein, High calories"
+                                     answerConceptIds="$sodiumLow, $potassiumLow, $proteinLow, $caloriesHigh"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+        </table>
+        <submit />
+    </ifMode>
+
+</htmlform>
