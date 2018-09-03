@@ -369,11 +369,6 @@
                         <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="28" align="left">
-                        <submit />
-                    </td>
-                </tr>
             </tbody>
         </table>
 
