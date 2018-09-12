@@ -20,14 +20,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 10;
+        return 11;
     }
 
     @Override
     protected void installNewVersion() throws Exception {
 
-        // Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
-        // Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
+        Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
+        Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
         Concept other = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.OTHER);
 
         Concept sharc = install(new ConceptBuilder("6f48dfac-9ffa-11e8-98d0-529269fb1459")
@@ -308,5 +308,62 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                         notApp,depo,tubalLigation,norplant,abstain,rhythm,birthCtrlPill,hysterectomy,iud)
                 .build());
 
+        install(new ConceptBuilder("1382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("1507BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Family planning counseling", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("8fef32c4-b4d2-3372-9b55-b9662a37273b")
+                        .type(sameAs).ensureTerm(ciel, "1382").build())
+                .mapping(new ConceptMapBuilder("ab5158cd-e8b0-3d10-9204-218f2bee4f6b")
+                        .type(sameAs).ensureTerm(snomedCt, "410290005").build())
+                .answers(yes,no)
+                .build());
+
+        install(new ConceptBuilder("163757AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(date)
+                .conceptClass(question)
+                .name("06b1eec8-b6cc-11e8-96f8-529269fb1459","Family planning start date",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("06b1f27e-b6cc-11e8-96f8-529269fb1459","Date family planning administered", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("06b1f4fe-b6cc-11e8-96f8-529269fb1459")
+                        .type(sameAs).ensureTerm(ciel, "163757").build())
+                .build());
+
+        // Adherence counseling
+        Concept first = MetadataUtils.existing(Concept.class,"65662ed4-977f-11e1-8993-905e29aff6c1");
+        Concept second = MetadataUtils.existing(Concept.class,"65662fd8-977f-11e1-8993-905e29aff6c1");
+        Concept third = MetadataUtils.existing(Concept.class,"656630e6-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("06b1f7d8-b6cc-11e8-96f8-529269fb1459")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("06b1fa44-b6cc-11e8-96f8-529269fb1459", "Adherence session number", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(first,second,third)
+                .build());
+
+        install(new ConceptBuilder("06b2005c-b6cc-11e8-96f8-529269fb1459")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("06b202f0-b6cc-11e8-96f8-529269fb1459", "Adherence counseling (coded)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        install(new ConceptBuilder("06b20552-b6cc-11e8-96f8-529269fb1459")
+                // ToDo:  How to add units and range programmatically?
+                // .units("%")
+                // .lowAbsolute("0")
+                // .hiAbsolute("100")
+                .datatype(numeric)
+                .conceptClass(finding)
+                .name("06b207be-b6cc-11e8-96f8-529269fb1459", "Adherence percent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("06b20a2a-b6cc-11e8-96f8-529269fb1459")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("7886b4a2-b6d6-11e8-96f8-529269fb1459", "Viral load counseling", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("7886b7fe-b6d6-11e8-96f8-529269fb1459", "VL counseling", Locale.ENGLISH, null)
+                .answers(yes,no)
+                .build());
     }
 }

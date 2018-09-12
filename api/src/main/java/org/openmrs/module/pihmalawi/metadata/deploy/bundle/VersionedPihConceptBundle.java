@@ -16,7 +16,7 @@ import java.util.Locale;
 
 /**
  * Convenience superclass that loads existing datatypes, classes, etc,
- * from {@link org.openmrs.module.pihcore.deploy.bundle.core.concept.CoreConceptMetadataBundle}.
+ * from @link org.openmrs.module.pihcore.deploy.bundle.core.concept.CoreConceptMetadataBundle.
  * Any concrete subclass needs to do @Required(CoreConceptMetadataBundle.class)
  */
 public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle {
@@ -49,6 +49,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptClass program;
     protected ConceptClass workflow;
     protected ConceptClass frequency;
+    protected ConceptClass miscOrder;
 
     protected ConceptMapType sameAs;
     protected ConceptMapType narrowerThan;
@@ -100,6 +101,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         symptom = MetadataUtils.existing(ConceptClass.class, ConceptClasses.SYMPTOM);
         question = MetadataUtils.existing(ConceptClass.class, ConceptClasses.QUESTION);
         misc = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MISC);
+        miscOrder = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MISC_ORDER);
         convSet = MetadataUtils.existing(ConceptClass.class, ConceptClasses.CONV_SET);
         medSet = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MED_SET);
         drug = MetadataUtils.existing(ConceptClass.class, ConceptClasses.DRUG);
