@@ -15,8 +15,9 @@ import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.CoreConceptMe
 import java.util.Locale;
 
 /**
- * Convenience superclass that loads existing datatypes, classes, etc, from {@link org.openmrs.module.pihcore.deploy.bundle.core.concept.CoreConceptMetadataBundle}.
- * Any concrete subclass needs to do @Required(CoreConeptMetadataBundle.class)
+ * Convenience superclass that loads existing datatypes, classes, etc,
+ * from {@link org.openmrs.module.pihcore.deploy.bundle.core.concept.CoreConceptMetadataBundle}.
+ * Any concrete subclass needs to do @Required(CoreConceptMetadataBundle.class)
  */
 public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle {
 
