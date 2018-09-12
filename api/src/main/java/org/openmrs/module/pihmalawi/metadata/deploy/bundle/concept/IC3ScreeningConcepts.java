@@ -20,7 +20,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 10;
     }
 
     @Override
@@ -137,14 +137,21 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .name("0e447b26-a180-11e8-98d0-529269fb1459", "Unable to draw blood", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        Concept needsCounseling = install(new ConceptBuilder("bc7bd9f2-b21d-11e8-96f8-529269fb1459")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("bc7bddda-b21d-11e8-96f8-529269fb1459", "Needs counseling", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
         Concept patientRefused = MetadataUtils.existing(Concept.class, "6566a4ae-977f-11e1-8993-905e29aff6c1");
+        Concept noMaterials    = MetadataUtils.existing(Concept.class, "655dc866-977f-11e1-8993-905e29aff6c1");
 
         Concept noSampleReason = install(new ConceptBuilder("0e447d92-a180-11e8-98d0-529269fb1459")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("0e447fe0-a180-11e8-98d0-529269fb1459", "Reason for no sample", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("0e4485da-a180-11e8-98d0-529269fb1459","Lack of sample reason", Locale.ENGLISH,null)
-                .answers(noBlood,patientRefused)
+                .answers(noBlood,patientRefused,noMaterials,needsCounseling)
                 .build());
 
         Concept noResultReason = MetadataUtils.existing(Concept.class, "656fa450-977f-11e1-8993-905e29aff6c1");
@@ -159,6 +166,146 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .conceptClass(convSet)
                 .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason)
+                .build());
+
+        // TB Screening
+        Concept cough           = MetadataUtils.existing(Concept.class, "65460a32-977f-11e1-8993-905e29aff6c1");
+        Concept cough2Weeks     = MetadataUtils.existing(Concept.class, "655fdac0-977f-11e1-8993-905e29aff6c1");
+        Concept fever           = MetadataUtils.existing(Concept.class, "656e9844-977f-11e1-8993-905e29aff6c1");
+        Concept weightLoss      = MetadataUtils.existing(Concept.class, "654a56be-977f-11e1-8993-905e29aff6c1");
+        Concept nightSweats     = MetadataUtils.existing(Concept.class, "656f10da-977f-11e1-8993-905e29aff6c1");
+
+        Concept feverLastNight = install(new ConceptBuilder("bc7be082-b21d-11e8-96f8-529269fb1459")
+                .datatype(notApplicable)
+                .conceptClass(symptomFinding)
+                .name("bc7be32a-b21d-11e8-96f8-529269fb1459", "Fever last night",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept recentTBcontact = install(new ConceptBuilder("a6c1cd1c-b4a2-405a-930c-f11c914d50c5")
+                .datatype(notApplicable)
+                .conceptClass(finding)
+                .name("bc7be960-b21d-11e8-96f8-529269fb1459", "Recent contact with active TB ",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept lymphNodePain = install(new ConceptBuilder("974d5caf-2db6-4d5d-b509-11c6f5340ea5")
+                .datatype(notApplicable)
+                .conceptClass(symptomFinding)
+                .name("10458164-b223-11e8-96f8-529269fb1459", "Painful cervical and axillary lymph nodes",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept sob = MetadataUtils.existing(Concept.class, "656ea87a-977f-11e1-8993-905e29aff6c1");
+        Concept hemoptysis = MetadataUtils.existing(Concept.class, "654b3c96-977f-11e1-8993-905e29aff6c1");
+        Concept meningitis = MetadataUtils.existing(Concept.class, "6545d36e-977f-11e1-8993-905e29aff6c1");
+        Concept fatigue = MetadataUtils.existing(Concept.class, "656e9c9a-977f-11e1-8993-905e29aff6c1");
+        Concept recurFever = MetadataUtils.existing(Concept.class, "65791c92-977f-11e1-8993-905e29aff6c1");
+        Concept chestPain = MetadataUtils.existing(Concept.class, "65463250-977f-11e1-8993-905e29aff6c1");
+        Concept failToThrive = MetadataUtils.existing(Concept.class, "65698fb6-977f-11e1-8993-905e29aff6c1");
+        Concept crackles = MetadataUtils.existing(Concept.class, "65639408-977f-11e1-8993-905e29aff6c1");
+        Concept bronchialBreathing = MetadataUtils.existing(Concept.class, "65791b84-977f-11e1-8993-905e29aff6c1");
+        Concept persistCough = MetadataUtils.existing(Concept.class, "6559be42-977f-11e1-8993-905e29aff6c1");
+
+        Concept tbSymptoms = install(new ConceptBuilder("655a5712-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("65f76d36-977f-11e1-8993-905e29aff6c1", "TB symptoms", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("65b6bc6e-977f-11e1-8993-905e29aff6c1", "Question about the patient's presenting symptoms for TB", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("72ae411b-0496-11e6-b545-0010f345c8d0")
+                        .type(sameAs).ensureTerm(pihMalawi, "1560").build())
+                .setMembers(bronchialBreathing,sob,crackles,failToThrive,chestPain,recurFever,fatigue,hemoptysis,
+                        nightSweats,persistCough,meningitis,cough,cough2Weeks,fever,weightLoss,feverLastNight,
+                        recentTBcontact,lymphNodePain,other)
+                .answers(fever,other,weightLoss,hemoptysis,sob)
+                .build());
+
+        Concept tbSymptomPresent = install(new ConceptBuilder("aa97f7c9-1a05-4ab6-9caa-66da6718a85f")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("10458678-b223-11e8-96f8-529269fb1459", "TB symptom present",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept tbSymptomAbsent = install(new ConceptBuilder("25aef676-3253-42c0-8c8f-0f775d0b696a")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("1045879a-b223-11e8-96f8-529269fb1459", "TB symptom absent",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("10458542-b223-11e8-96f8-529269fb1459", "Tuberculosis screening set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(tbSymptoms,tbSymptomPresent,tbSymptomAbsent)
+                .build());
+
+        // Cervical cancer screening
+        Concept normal           = MetadataUtils.existing(Concept.class, "6557a15c-977f-11e1-8993-905e29aff6c1");
+        Concept abnormal         = MetadataUtils.existing(Concept.class, "6557a274-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(procedure)
+                .name("126850BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Colposcopy of cervix with acetic acid",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("126849BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB","VIA (visual inspection with acetic acid)",
+                        Locale.ENGLISH, null)
+                .answers(normal,abnormal)
+                .mapping(new ConceptMapBuilder("d0e78ae4-b6be-11e8-96f8-529269fb1459")
+                    .type(sameAs).ensureTerm(ciel,"162816").build())
+                .build());
+
+        // Family planning
+        Concept maleCondom = install(new ConceptBuilder("164813AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("141020BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Male condom",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("2bad80b0-b45c-11e8-96f8-529269fb1459")
+                        .type(sameAs).ensureTerm(snomedCt, "442450006").build())
+                .mapping(new ConceptMapBuilder("d0e7925a-b6be-11e8-96f8-529269fb1459")
+                        .type(sameAs).ensureTerm(ciel,"164813").build())
+                .build());
+
+        Concept femaleCondom = install(new ConceptBuilder("164814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("141021BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Female condom",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("2bad8344-b45c-11e8-96f8-529269fb1459")
+                        .type(sameAs).ensureTerm(snomedCt, "442288006").build())
+                .mapping(new ConceptMapBuilder("d0e79534-b6be-11e8-96f8-529269fb1459")
+                        .type(sameAs).ensureTerm(ciel,"164814").build())
+                .build());
+
+        Concept sterilization = MetadataUtils.existing(Concept.class, "6560b7ec-977f-11e1-8993-905e29aff6c1");
+        Concept none          = MetadataUtils.existing(Concept.class, "6557987e-977f-11e1-8993-905e29aff6c1");
+        Concept notApp = MetadataUtils.existing(Concept.class,"65583dce-977f-11e1-8993-905e29aff6c1");
+        Concept depo          = MetadataUtils.existing(Concept.class,"654acd88-977f-11e1-8993-905e29aff6c1");
+        Concept snip          = MetadataUtils.existing(Concept.class,"655b43de-977f-11e1-8993-905e29aff6c1");
+        Concept tubalLigation          = MetadataUtils.existing(Concept.class,"655b41d6-977f-11e1-8993-905e29aff6c1");
+        Concept norplant          = MetadataUtils.existing(Concept.class,"655b40d2-977f-11e1-8993-905e29aff6c1");
+        Concept abstain          = MetadataUtils.existing(Concept.class,"655b42da-977f-11e1-8993-905e29aff6c1");
+        Concept rhythm          = MetadataUtils.existing(Concept.class,"656ade34-977f-11e1-8993-905e29aff6c1");
+        Concept birthCtrlPill = MetadataUtils.existing(Concept.class,"654a1eb0-977f-11e1-8993-905e29aff6c1");
+        Concept condom          = MetadataUtils.existing(Concept.class,"6546b98c-977f-11e1-8993-905e29aff6c1");
+        Concept hysterectomy          = MetadataUtils.existing(Concept.class,"656add26-977f-11e1-8993-905e29aff6c1");
+        Concept iud = MetadataUtils.existing(Concept.class,"656adc0e-977f-11e1-8993-905e29aff6c1");
+        Concept diaphragm     = MetadataUtils.existing(Concept.class,"656adf4c-977f-11e1-8993-905e29aff6c1");
+        Concept injectable = MetadataUtils.existing(Concept.class,"656ae064-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("6547ac8e-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("66137e5e-977f-11e1-8993-905e29aff6c1", "Method of birth control", Locale.ENGLISH, null)
+                .name("65f1e032-977f-11e1-8993-905e29aff6c1", "Method of family planning", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("66267f54-977f-11e1-8993-905e29aff6c1", "Family planning method", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("7283ea68-0496-11e6-b545-0010f345c8d0")
+                        .type(sameAs).ensureTerm(pihMalawi, "374").build())
+                .answers(maleCondom,femaleCondom,condom,other,none,snip,injectable,diaphragm,sterilization,
+                        notApp,depo,tubalLigation,norplant,abstain,rhythm,birthCtrlPill,hysterectomy,iud)
                 .build());
 
     }

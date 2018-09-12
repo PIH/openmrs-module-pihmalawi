@@ -35,6 +35,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptDatatype time;
 
     protected ConceptClass finding;
+    protected ConceptClass symptomFinding;
     protected ConceptClass diagnosis;
     protected ConceptClass symptom;
     protected ConceptClass question;
@@ -105,8 +106,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         procedure = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROCEDURE);
         program = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROGRAM);
         workflow = MetadataUtils.existing(ConceptClass.class, ConceptClasses.WORKFLOW);
-
-        frequency = MetadataUtils.existing(ConceptClass.class, ConceptClasses.FREQUENCY);
+        symptomFinding = MetadataUtils.existing(ConceptClass.class, ConceptClasses.SYMPTOM_FINDING);
 
         sameAs = MetadataUtils.existing(ConceptMapType.class, ConceptMapTypes.SAME_AS);
         narrowerThan = MetadataUtils.existing(ConceptMapType.class, ConceptMapTypes.NARROWER_THAN);

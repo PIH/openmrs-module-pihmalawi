@@ -60,6 +60,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         public static final String FREQUENCY = "8e071bfe-520c-44c0-a89b-538e9129b42a";
         public static final String PROGRAM = "65ab7782-977f-11e1-8993-905e29aff6c1";
         public static final String WORKFLOW = "65ab789a-977f-11e1-8993-905e29aff6c1";
+        public static final String SYMPTOM_FINDING = "8d492b2a-c2cc-11de-8d13-0010c6dffd0f";
     }
 
     // these exist already, we don't create them
@@ -83,6 +84,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         install(conceptClass("ConvSet", "Term to describe convenience sets", ConceptClasses.CONV_SET));
         install(conceptClass("MedSet", "Term to describe medication sets", ConceptClasses.MED_SET));
         install(conceptClass("Finding", "Practitioner observation/finding", ConceptClasses.FINDING));
+        install(conceptClass("Symptom/Finding", "Observation that can be reported from patient or found on exam", ConceptClasses.SYMPTOM_FINDING));
         install(conceptClass("Drug", "Drug", ConceptClasses.DRUG));
         install(conceptClass("Test", "Acq. during patient encounter (vitals, labs, etc.)", ConceptClasses.TEST));
         install(conceptClass("Procedure", "Describes a clinical procedure", ConceptClasses.PROCEDURE));
