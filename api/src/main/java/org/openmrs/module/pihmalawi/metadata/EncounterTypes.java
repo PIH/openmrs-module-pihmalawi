@@ -251,4 +251,9 @@ public class EncounterTypes {
         public String name() { return "DNA-PCR Screening"; }
         public String description() { return "DNA Polymerase chain reaction screening test encounter"; }
     };
+    public static EncounterTypeDescriptor ADHERENCE_COUNSELING = new EncounterTypeDescriptor() {
+        public String uuid() { return "7D801495-3857-422F-BE2A-A4EEB3F36278"; }
+        public String name() { return "Adherence Counseling"; }
+        public String description() { return "Adherence counseling encounter"; }
+    };
 }
