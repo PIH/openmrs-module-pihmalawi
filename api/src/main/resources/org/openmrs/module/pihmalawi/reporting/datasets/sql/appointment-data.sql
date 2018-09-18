@@ -28,6 +28,8 @@ SELECT	patient_uuid,
 	eid_number,
 	art_number,
 	ncd_number,
+  e.last_visit_date,
+	e.last_appt_date,
 	alert,
 	actions
 FROM 			    rpt_patients_expected e
