@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IC3Service extends OpenmrsService{
 
-    SimpleObject getIC3AppointmentData(String locationUuid, String endDate);
+    SimpleObject getIC3AppointmentData(String locationUuid, String endDate, String patientUuid);
 }

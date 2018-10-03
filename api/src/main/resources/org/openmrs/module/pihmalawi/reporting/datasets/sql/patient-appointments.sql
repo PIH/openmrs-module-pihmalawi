@@ -6,6 +6,7 @@
 
   -- set @endDate = now(); -- used for building active identifiers table and due tests today
   -- set @location = 'Matandani Rural Health Center';
+  -- set @patient = 'UUID_of_the_patient';
 
 *************************************************************************/
 

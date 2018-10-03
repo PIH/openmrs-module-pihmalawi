@@ -10,6 +10,7 @@ import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.Utils;
 import org.openmrs.module.pihmalawi.api.IC3Service;
 import org.openmrs.module.pihmalawi.reporting.reports.IC3AppointmentReport;
+import org.openmrs.module.pihmalawi.reporting.reports.IC3PatientAppointmentsReport;
 import org.openmrs.module.pihmalawi.sql.SqlResult;
 import org.openmrs.module.pihmalawi.sql.SqlRunner;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
@@ -24,7 +25,7 @@ public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
     protected Log log = LogFactory.getLog(this.getClass());
 
     @Override
-    public SimpleObject getIC3AppointmentData(String locationUuid, String endDate) {
+    public SimpleObject getIC3AppointmentData(String locationUuid, String endDate, String patientUuid) {
         Properties connectionProperties = null;
         Connection connection = null;
         List<SimpleObject> patients = null;
@@ -36,12 +37,17 @@ public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
                     connectionProperties = Utils.getConnectionProperties(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
                     connection = Utils.createConnection(connectionProperties);
                     SqlRunner runner = new SqlRunner(connection);
-
+                    SqlResult resultData = null;
                     Map<String, Object> parameters = new HashMap<String, Object>();
                     parameters.put("location", clinicLocation.getName());
                     parameters.put("endDate", endDate);
+                    if (StringUtils.isNotBlank(patientUuid)){
+                        parameters.put("patient", patientUuid);
+                        resultData = runner.executeSqlResource(IC3PatientAppointmentsReport.SQL_DATA_SET_RESOURCE, parameters);
+                    } else {
+                        resultData = runner.executeSqlResource(IC3AppointmentReport.SQL_DATA_SET_RESOURCE, parameters);
+                    }
 
-                    SqlResult resultData = runner.executeSqlResource(IC3AppointmentReport.SQL_DATA_SET_RESOURCE, parameters);
                     if (!resultData.getErrors().isEmpty()) {
                         log.error("Failed to retrieve appointment data: " + OpenmrsUtil.join(resultData.getErrors(), "; "));
                     } else {

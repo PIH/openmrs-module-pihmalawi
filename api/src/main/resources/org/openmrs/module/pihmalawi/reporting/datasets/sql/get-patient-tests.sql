@@ -4,7 +4,7 @@
   Requires Pentaho Warehouse tables
   Expected parameters, which will be passed in via the Evaluation Context, are:
 
-  -- set @patientUuid = 'UUID_of_a_patient';
+  -- set @patientUuid = 'UUID_of_the_patient';
 
 *************************************************************************/
 
@@ -15,6 +15,7 @@ select p.patient_id,
        p.last_name,
        p.gender,
        p.birthdate,
+       t.lab_test_id,
        t.date_collected,
        t.test_type,
        t.date_result_entered,

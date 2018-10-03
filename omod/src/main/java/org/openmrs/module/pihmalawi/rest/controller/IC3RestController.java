@@ -32,7 +32,8 @@ public class IC3RestController {
 
        String location = requestContext.getParameter("location");
        String endDate = requestContext.getParameter("endDate");
-       return ic3Service.getIC3AppointmentData(location, endDate);
+       String patientUuid = requestContext.getParameter("patient");
+       return ic3Service.getIC3AppointmentData(location, endDate, patientUuid);
    }
 
 }
