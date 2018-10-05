@@ -34,6 +34,7 @@
 <c:set var="PccTransferedOutWorkflowState" value="e92017b9-45cf-41b9-bc69-a5b0232544c1"/>
 <c:set var="PccDefaultedWorkflowState" value="0f034ef4-3f70-4514-a020-5fb928fc3394"/>
 <c:set var="PccDiedWorkflowState" value="4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"/>
+<c:set var="ChronicCareActiveStates" value="66882650-977f-11e1-8993-905e29aff6c1,7c4d2e56-c8c2-11e8-9bc6-0242ac110001"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -92,7 +93,7 @@
     <tr>
         <td>Chronic Care Record:</td>
         <c:if test="${showOldChronicCareCard == 'true'}">
-            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" patientIdentifierType="21" programWorkflowStates="83"/></td
+            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="54" initialEncounterTypeId="67" followupEncounterTypeId="69" patientIdentifierType="21" programWorkflowStates="${ChronicCareActiveStates}"/></td
         </c:if>
         <c:if test="${showOldChronicCareCard != 'true'}">
             <td>&NonBreakingSpace;</td
@@ -100,27 +101,27 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Lung Disease eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Lung Disease eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Heart Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Heart Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Kidney Disease eMastercard" initialEncounterTypeName="CKD_INITIAL" followupEncounterTypeName="CKD_FOLLOWUP" programWorkflowStates="83" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Kidney Disease eMastercard" initialEncounterTypeName="CKD_INITIAL" followupEncounterTypeName="CKD_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
 
     <tr>
@@ -187,10 +188,10 @@
     <tr>
         <td>Chronic Care Program:</td>
         <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,141" defaultLocation="2"/><br /></td
+            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,141" defaultLocation="2"/><br /></td
         </c:if>
         <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="83" terminalStateIds="84,86,140,154" defaultLocation="2"/><br /></td
+            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,154" defaultLocation="2"/><br /></td
         </c:if>
     </tr>
     <tr>

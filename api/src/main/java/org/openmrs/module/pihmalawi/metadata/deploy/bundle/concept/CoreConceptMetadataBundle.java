@@ -60,6 +60,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         public static final String FREQUENCY = "8e071bfe-520c-44c0-a89b-538e9129b42a";
         public static final String PROGRAM = "65ab7782-977f-11e1-8993-905e29aff6c1";
         public static final String WORKFLOW = "65ab789a-977f-11e1-8993-905e29aff6c1";
+        public static final String STATE = "65ab79bc-977f-11e1-8993-905e29aff6c1";
         public static final String SYMPTOM_FINDING = "8d492b2a-c2cc-11de-8d13-0010c6dffd0f";
         public static final String MISC_ORDER = "8d492ee0-c2cc-11de-8d13-0010c6dffd0f";
     }

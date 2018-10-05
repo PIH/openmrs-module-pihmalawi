@@ -48,6 +48,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptClass procedure;
     protected ConceptClass program;
     protected ConceptClass workflow;
+    protected ConceptClass state;
     protected ConceptClass frequency;
     protected ConceptClass miscOrder;
 
@@ -109,6 +110,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         procedure = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROCEDURE);
         program = MetadataUtils.existing(ConceptClass.class, ConceptClasses.PROGRAM);
         workflow = MetadataUtils.existing(ConceptClass.class, ConceptClasses.WORKFLOW);
+        state = MetadataUtils.existing(ConceptClass.class, ConceptClasses.STATE);
         symptomFinding = MetadataUtils.existing(ConceptClass.class, ConceptClasses.SYMPTOM_FINDING);
 
         sameAs = MetadataUtils.existing(ConceptMapType.class, ConceptMapTypes.SAME_AS);
