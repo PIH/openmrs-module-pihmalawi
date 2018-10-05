@@ -233,21 +233,12 @@
 			<version>${uiframeworkVersion}</version>
 			<scope>provided</scope>
 		</dependency>
-
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>appframework-api</artifactId>
             <version>${appframeworkVersion}</version>
             <scope>provided</scope>
         </dependency>
-
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>webservices.rest-omod-common</artifactId>
-			<version>${webservicesRestVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>

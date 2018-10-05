@@ -14,21 +14,25 @@ import org.openmrs.module.pihmalawi.reporting.reports.IC3PatientAppointmentsRepo
 import org.openmrs.module.pihmalawi.sql.SqlResult;
 import org.openmrs.module.pihmalawi.sql.SqlRunner;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
-import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.util.OpenmrsUtil;
 
 import java.sql.Connection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
 
     protected Log log = LogFactory.getLog(this.getClass());
 
     @Override
-    public SimpleObject getIC3AppointmentData(String locationUuid, String endDate, String patientUuid) {
+    public List<Map<String, Object>> getIC3AppointmentData(String locationUuid, String endDate, String patientUuid) {
         Properties connectionProperties = null;
         Connection connection = null;
-        List<SimpleObject> patients = null;
+        List<Map<String, Object>> patients = null;
 
         if (StringUtils.isNotBlank(locationUuid) && StringUtils.isNotBlank(endDate)) {
             Location clinicLocation = Context.getLocationService().getLocationByUuid(locationUuid);
@@ -51,11 +55,11 @@ public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
                     if (!resultData.getErrors().isEmpty()) {
                         log.error("Failed to retrieve appointment data: " + OpenmrsUtil.join(resultData.getErrors(), "; "));
                     } else {
-                        patients = new ArrayList<SimpleObject>();
+                        patients = new ArrayList<Map<String, Object>>();
                         for (Map<String, Object> rowData : resultData.getData()) {
-                            SimpleObject patient = new SimpleObject();
+                            Map<String, Object> patient = new LinkedHashMap<String, Object>();
                             for (String column : resultData.getColumns()) {
-                                patient.add(column, rowData.get(column));
+                                patient.put(column, rowData.get(column));
                             }
 
                             Map<String, Object> labParameters = new HashMap<String, Object>();
@@ -64,15 +68,15 @@ public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
                             if (!labData.getErrors().isEmpty()){
                                 log.error("Failed to retrieve lab tests data: " + OpenmrsUtil.join(labData.getErrors(), "; "));
                             } else {
-                                List<SimpleObject> labTests = new ArrayList<SimpleObject>();
+                                List<Map<String, Object>> labTests = new ArrayList<Map<String, Object>>();
                                 for (Map<String, Object> rowLabTest : labData.getData()) {
-                                    SimpleObject test = new SimpleObject();
+                                    Map<String, Object> test = new LinkedHashMap<String, Object>();
                                     for (String column : labData.getColumns()) {
-                                        test.add(column, rowLabTest.get(column));
+                                        test.put(column, rowLabTest.get(column));
                                     }
                                     labTests.add(test);
                                 }
-                                patient.add("labTests", labTests);
+                                patient.put("labTests", labTests);
                             }
                             patients.add(patient);
                         }
@@ -90,9 +94,7 @@ public class IC3ServiceImpl extends BaseOpenmrsService implements IC3Service{
                 }
             }
         }
-
-        return new SimpleObject()
-                .add("patients", patients);
+        return patients;
     }
 
 
