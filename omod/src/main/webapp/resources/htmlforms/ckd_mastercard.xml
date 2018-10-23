@@ -208,7 +208,7 @@
                         </tr>
                         <tr>
                             <th style="vertical-align:top;" align="left" rowspan="2">Patient<br/>History</th>
-                            <td rowspan="2"><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive,$unknown"/>
+                            <td rowspan="2"><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive"/>
                                 <br/>
                                 <obs conceptId="$hivTestDate" labelText="Date Test"/>
                             </td>

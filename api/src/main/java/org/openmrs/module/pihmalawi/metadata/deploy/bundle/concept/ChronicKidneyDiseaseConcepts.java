@@ -4,6 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class ChronicKidneyDiseaseConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -159,6 +160,13 @@ public class ChronicKidneyDiseaseConcepts extends VersionedPihConceptBundle {
                 .conceptClass(question)
                 .name("50c96a22-1c92-4312-997a-85384a28ce31", "Nonsteroidal anti-inflammatory drug use", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes, no)
+                .build());
+				
+		install(new ConceptNumericBuilder("a0d7e2b0-d69c-11e8-9f8b-f2801f1b9fd1")
+                .datatype(numeric)
+                .conceptClass(test)
+                .name("a9c2039c-d69c-11e8-9f8b-f2801f1b9fd1", "Glomerular filtration rate", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .units("mL/min")
                 .build());
     }
 }
