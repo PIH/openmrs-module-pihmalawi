@@ -17,7 +17,7 @@ public class ChronicKidneyDiseaseConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -31,6 +31,12 @@ public class ChronicKidneyDiseaseConcepts extends VersionedPihConceptBundle {
         Concept ckdEtiNephro = MetadataUtils.existing(Concept.class, "65696f40-977f-11e1-8993-905e29aff6c1");
         Concept ckdEtiOther = MetadataUtils.existing(Concept.class, "657140f8-977f-11e1-8993-905e29aff6c1");
         Concept ckdEtiUknown = MetadataUtils.existing(Concept.class, "6577bb7c-977f-11e1-8993-905e29aff6c1");
+		
+		Concept drugsEtiologyGeneral = install(new ConceptBuilder("0754f2f8-d797-11e8-9f8b-f2801f1b9fd1")
+                .datatype(text)
+                .conceptClass(question)
+                .name("0754f7b2-d797-11e8-9f8b-f2801f1b9fd1", "drugs", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build()); 
 
         Concept lowSodium = install(new ConceptBuilder("5e7a1d78-aecc-4b47-bc81-d144dc91dda1")
                 .datatype(notApplicable)
@@ -152,7 +158,7 @@ public class ChronicKidneyDiseaseConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(question)
                 .name("773e8c89-998e-4dcb-b432-eb2fde13abeb", "Presumed chronic kidney disease etiology", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(hypertensionDx, diabetesDx, ckdEtiHIV, ckdEtiNephro, ckdEtiOther, ckdEtiUknown)
+                .answers(hypertensionDx, diabetesDx, ckdEtiHIV, ckdEtiNephro, ckdEtiOther, ckdEtiUknown, drugsEtiologyGeneral)
                 .build());
 
         install(new ConceptBuilder("89a3d604-43f9-4d4e-95ad-8b8577f80108")
