@@ -45,6 +45,7 @@
         <macro key="ckdEtiNephro" value="65696f40-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdEtiOther" value="657140f8-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdOtherEti" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ckdDrugsEti" value="0754f2f8-d797-11e8-9f8b-f2801f1b9fd1" />
         <macro key="ckdEtiUknown" value="6577bb7c-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
@@ -150,9 +151,10 @@
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$diabetesDx" answerLabel="Diabetes"  style="checkbox" /><br />
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$ckdEtiHIV" answerLabel="HIV"  style="checkbox" /><br />
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$ckdEtiNephro" answerLabel="Nephrotic"  style="checkbox" /><br />
+                                <obs conceptId="$ckdDrugsEti"  labelText="Drugs (specify)" /><br />
+                                <obs conceptId="$ckdOtherEti"  labelText="Others (specify)" /><br />
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$ckdEtiOther" answerLabel="Others"  style="checkbox" /><br />
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$ckdEtiUknown" answerLabel="Unknown"  style="checkbox" /><br /><br />
-                                <obs conceptId="$ckdOtherEti"  labelText="Others (specify)" />
                             </td>
                             <td class="toggle-target" rowspan="4">
                                 <obs id="ckd-etiology-date" conceptId="$diagnosisDate" labelText="Date"/>
