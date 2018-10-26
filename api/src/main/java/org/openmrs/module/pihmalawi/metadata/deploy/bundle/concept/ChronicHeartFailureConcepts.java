@@ -189,6 +189,8 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
         Concept alcoholicCardio = MetadataUtils.existing(Concept.class, "6568c73e-977f-11e1-8993-905e29aff6c1");
         Concept corPulmonale = MetadataUtils.existing(Concept.class, "6568c554-977f-11e1-8993-905e29aff6c1");
         Concept dilatedCardio = MetadataUtils.existing(Concept.class, "65703154-977f-11e1-8993-905e29aff6c1");
+        Concept valvularCHFdiag = MetadataUtils.existing(Concept.class, "6578972c-977f-11e1-8993-905e29aff6c1");
+        Concept unknownCHFdiag = MetadataUtils.existing(Concept.class, "65576584-977f-11e1-8993-905e29aff6c1");
 
         Concept restrictiveCardio = install(new ConceptBuilder("57476df7-e885-4444-b151-152cfcdac05b")
                 .datatype(notApplicable)
@@ -225,7 +227,9 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                         alcoholicCardio,
                         corPulmonale,
                         dilatedCardio,
-                        restrictiveCardio)
+                        restrictiveCardio,
+						unknownCHFdiag,
+						valvularCHFdiag)
                 .build());
 
         //add Benzathine Penicillin to current chronic drugs used
