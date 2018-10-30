@@ -13,7 +13,6 @@
  */
 package org.openmrs.module.pihmalawi.page.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
@@ -27,6 +26,7 @@ import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.htmlformentry.HtmlFormEntryService;
 import org.openmrs.module.htmlformentryui.HtmlFormUtil;
 import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.DataUtil;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.ui.framework.SimpleObject;
@@ -41,11 +41,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 public class MastercardPageController {
 
@@ -86,7 +87,7 @@ public class MastercardPageController {
         model.addAttribute("headerForm", headerForm);
 
         Encounter headerEncounter = null;
-        List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm);
+        List<Encounter> headerEncounters = getEncountersForForm(patient, headerHtmlForm, null);
         if (headerEncounters.size() > 0) {
             headerEncounter = headerEncounters.get(headerEncounters.size() - 1); // Most recent
             if (headerEncounters.size() > 1) {
@@ -104,24 +105,10 @@ public class MastercardPageController {
                 HtmlForm htmlForm = getHtmlFormFromResource(flowsheetResource, resourceFactory, formService, htmlFormEntryService);
                 flowsheetForms.put(flowsheet, htmlForm);
                 List<Integer> encIds = new ArrayList<Integer>();
-                List<Encounter> encounters = getEncountersForForm(patient, htmlForm);
-                List<Concept> requiredObs = getRequiredObs(requireObs);
-
+                List<Encounter> encounters = getEncountersForForm(patient, htmlForm, requireObs);
                 for (Encounter e : encounters) {
-                    boolean obsPresent = true;
-                    if (requiredObs != null && requiredObs.size() > 0) {
-                        obsPresent = false;
-                        for (Obs ob : e.getObs()) {
-                            if (requiredObs.contains(ob.getConcept())){
-                                obsPresent = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (obsPresent) {
-                        encIds.add(e.getEncounterId());
-                        allEncounters.add(e);
-                    }
+                    encIds.add(e.getEncounterId());
+                    allEncounters.add(e);
                 }
                 flowsheetEncounters.put(flowsheet, encIds);
             }
@@ -171,32 +158,52 @@ public class MastercardPageController {
     /**
      * @return all encounters for the given patient that have the same encounter type as the given form
      */
-    protected List<Encounter> getEncountersForForm(Patient p, HtmlForm form) {
+    protected List<Encounter> getEncountersForForm(Patient p, HtmlForm form, String requireObs) {
         EncountersForPatientDataDefinition edd = new EncountersForPatientDataDefinition();
         edd.addType(form.getForm().getEncounterType());
         List<Encounter> ret = DataUtil.evaluateForPatient(edd, p.getPatientId(), List.class);
-        return ret == null ? new ArrayList<Encounter>() : ret;
+        if (ret == null) {
+            ret = new ArrayList<Encounter>();
+        }
+        if (ObjectUtil.notNull(requireObs)) {
+            Set<String> questionsNeeded = getNestedConcepts(requireObs);
+            for (Iterator<Encounter> i = ret.iterator(); i.hasNext(); ) {
+                Encounter e = i.next();
+                if (!hasQuestionsAnswered(e, questionsNeeded)) {
+                    i.remove();
+                }
+            }
+
+        }
+        return ret;
     }
 
-    protected List<Concept> getRequiredObs(String requireObs) {
-        List<Concept> requiredConcepts = null;
-
-        if (StringUtils.isNotBlank(requireObs)) {
-            requiredConcepts = new ArrayList<Concept>();
-            StringTokenizer st = new StringTokenizer(requireObs, ",");
-            while (st.hasMoreTokens()) {
-                String id = st.nextToken().trim();
-                Concept concept = null;
-                try {
-                    int anInt = Integer.parseInt(id);
-                    concept = Context.getConceptService().getConcept(new Integer(id));
-                } catch (NumberFormatException ex) {
-                    // id is not an integer, it should be an UUID then
-                    concept = Context.getConceptService().getConceptByUuid(id);
-                }
-                requiredConcepts.add(concept);
+    protected boolean hasQuestionsAnswered(Encounter e, Set<String> questionsNeeded) {
+        for (Obs o : e.getAllObs()) {
+            if (questionsNeeded.contains(o.getConcept().getUuid())) {
+                return true;
             }
         }
-        return requiredConcepts;
+        return false;
+    }
+
+    protected Set<String> getNestedConcepts(String conceptUuid) {
+        Set<String> ret = new HashSet<String>();
+        ret.add(conceptUuid);
+        Concept c = getConcept(conceptUuid);
+        if (c.isSet()) {
+            for (Concept setMember : c.getSetMembers()) {
+                ret.addAll(getNestedConcepts(setMember.getUuid()));
+            }
+        }
+        return ret;
+    }
+
+    protected Concept getConcept(String uuid) {
+        Concept c = Context.getConceptService().getConceptByUuid(uuid);
+        if (c == null) {
+            throw new IllegalArgumentException("No concept with uuid found " + uuid);
+        }
+        return c;
     }
 }
