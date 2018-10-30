@@ -71,14 +71,27 @@ public class CommonMetadata extends Metadata {
 		return getEncounterType(APPOINTMENT_ENCOUNTER_TYPE);
 	}
 
-	public static final String APPOINTMENT_DATE = "Appointment date";
+	public static final String APPOINTMENT_DATE = "6569cbd4-977f-11e1-8993-905e29aff6c1";
 	public static final String HEIGHT = "Height (cm)";
 	public static final String WEIGHT = "Weight (kg)";
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
     public static final String CD4_DATE = "Date of CD4 count";
-    public static final String HIV_VIRAL_LOAD = "HIV viral load";
-	public static final String HIV_VIRAL_LDL = "Lower than Detection Limit";
+
+    // VIRAL LOAD TESTING CONSTANTS
+    public static final String HIV_VIRAL_LOAD_TEST_SET = "83931c6d-0e5a-4302-b8ce-a31175b6475e";
+    public static final String HIV_VIRAL_LOAD_SPECIMEN_COLLECTED = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
+    public static final String HIV_VIRAL_LOAD = "654a7694-977f-11e1-8993-905e29aff6c1";
+	public static final String HIV_VIRAL_LDL = "e97b36a2-16f5-11e6-b6ba-3e1d05defe78";
+	public static final String REASON_FOR_TESTING = "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+	public static final String ROUTINE = "e0821812-955d-11e7-abc4-cec278b6b50a";
+	public static final String CONFIRMED = "65590f06-977f-11e1-8993-905e29aff6c1";
+	public static final String TARGETED = "e0821df8-955d-11e7-abc4-cec278b6b50a";
+	public static final String LAB_LOCATION = "6fc0ab50-9492-11e7-abc4-cec278b6b50a";
+	public static final String REASON_NO_RESULT = "656fa450-977f-11e1-8993-905e29aff6c1";
+	public static final String RESULT_MISSING = "e0822140-955d-11e7-abc4-cec278b6b50a";
+	public static final String UNSATISFACTORY_SAMPLE = "656fa55e-977f-11e1-8993-905e29aff6c1";
+
 
 	public static final String EVER_RECEIVED_ART_CONCEPT = "Ever received ART?";
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
@@ -230,13 +243,57 @@ public class CommonMetadata extends Metadata {
 		return getConcept(CLINICIAN_REPORTED_CD4);
 	}
 
+    // Viral Load Testing
+
+    public Concept getHivViralLoadTestSetConcept() {
+        return getConcept(HIV_VIRAL_LOAD_TEST_SET);
+    }
+
     public Concept getHivViralLoadConcept() {
         return getConcept(HIV_VIRAL_LOAD);
     }
 
-	public Concept getHivLDLConcept() {
-		return getConcept(HIV_VIRAL_LDL);
+    public Concept getHivLDLConcept() {
+        return getConcept(HIV_VIRAL_LDL);
+    }
+
+    public Concept getHivViralLoadSpecimenCollectedConcept() {
+	    return getConcept(HIV_VIRAL_LOAD_SPECIMEN_COLLECTED);
+    }
+
+	public Concept getReasonForTestingConcept() {
+		return getConcept(REASON_FOR_TESTING);
 	}
+
+    public Concept getRoutineConcept() {
+        return getConcept(ROUTINE);
+    }
+
+    public Concept getConfirmedConcept() {
+        return getConcept(CONFIRMED);
+    }
+
+    public Concept getTargetedConcept() {
+        return getConcept(TARGETED);
+    }
+
+    public Concept getLabLocationConcept() {
+        return getConcept(LAB_LOCATION);
+    }
+
+    public Concept getReasonNoResultConcept() {
+        return getConcept(REASON_NO_RESULT);
+    }
+
+    public Concept getResultMissingConcept() {
+        return getConcept(RESULT_MISSING);
+    }
+
+    public Concept getUnsatisfactorySampleConcept() {
+        return getConcept(UNSATISFACTORY_SAMPLE);
+    }
+
+	// Other
 
 	public Concept getEverReceivedArtConcept() {
 		return getConcept(EVER_RECEIVED_ART_CONCEPT);

@@ -97,7 +97,7 @@ public class NcdInwardSummaryPageController {
             // Program enrollment status
 
             model.addAttribute("hivEnrollmentDate", evaluate(hivData.getEarliestHivProgramEnrollmentDateByEndDate(), context));
-            model.addAttribute( "hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateByEndDate(), context));
+            model.addAttribute( "hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
             model.addAttribute( "hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
             model.addAttribute( "hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
             model.addAttribute( "hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));

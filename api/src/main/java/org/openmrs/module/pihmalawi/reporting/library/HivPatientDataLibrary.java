@@ -291,8 +291,14 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getEarliestProgramEnrollmentByEndDate(hivMetadata.getHivProgram(), pdf.getProgramEnrollmentDateConverter());
 	}
 
-	@DocumentedDefinition("latestHivTreatmentStatusState")
-	public PatientDataDefinition getMostRecentHivTreatmentStatusStateByEndDate() {
+    @DocumentedDefinition("latestHivTreatmentStatusState")
+    public PatientDataDefinition getMostRecentHivTreatmentStatusStateByEndDate() {
+        ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
+        return pdf.getMostRecentStateForWorkflowByEndDate(wf, null);
+    }
+
+	@DocumentedDefinition("latestHivTreatmentStatusStateName")
+	public PatientDataDefinition getMostRecentHivTreatmentStatusStateNameByEndDate() {
 		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
 		return pdf.getMostRecentStateForWorkflowByEndDate(wf, pdf.getStateNameConverter());
 	}

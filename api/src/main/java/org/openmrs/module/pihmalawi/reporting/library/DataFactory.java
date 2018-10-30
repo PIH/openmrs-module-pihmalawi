@@ -983,9 +983,14 @@ public class DataFactory {
 	// Convenience methods
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, Map<String, String> renamedParameters, DataConverter converter) {
-		ConvertedPatientDataDefinition convertedDefinition = new ConvertedPatientDataDefinition();
-		addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
-		return convertedDefinition;
+	    if (converter != null) {
+            ConvertedPatientDataDefinition convertedDefinition = new ConvertedPatientDataDefinition();
+            addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
+            return convertedDefinition;
+	    }
+	    else {
+	        return pdd;
+        }
 	}
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, DataConverter converter) {

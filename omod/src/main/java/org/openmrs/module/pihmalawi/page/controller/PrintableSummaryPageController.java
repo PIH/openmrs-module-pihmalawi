@@ -74,7 +74,7 @@ public class PrintableSummaryPageController {
         add(dsd, "hccNumber", hivData.getHccNumberAtLocation());
         add(dsd, "arvNumber", hivData.getArvNumberAtLocation());
         add(dsd, "ccNumber", ccData.getChronicCareNumberAtLocation());
-        add(dsd, "hivTxStatus", hivData.getMostRecentHivTreatmentStatusStateByEndDate());
+        add(dsd, "hivTxStatus", hivData.getMostRecentHivTreatmentStatusStateNameByEndDate());
         add(dsd, "hivTxStatusDate", hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate());
         add(dsd, "ccTxStatus", ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
         add(dsd, "ccTxStatusDate", ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
