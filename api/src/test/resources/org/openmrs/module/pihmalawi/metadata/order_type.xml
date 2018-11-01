@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <order_type order_type_id="1" name="Drug Order" description="An order for a medication to be given to the patient" creator="1" date_created="2005-08-08 07:06:12.0" retired="false" uuid="131168f4-15f5-102d-96e4-000c29c2a5d7"/>
+</dataset>

@@ -1,0 +1,1081 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <concept_numeric concept_id="9" precise="false"/>
+  <concept_numeric concept_id="21" low_normal="11.5" units="g/dl" precise="true"/>
+  <concept_numeric concept_id="301" precise="false"/>
+  <concept_numeric concept_id="579" units="cm" precise="false"/>
+  <concept_numeric concept_id="648" precise="false"/>
+  <concept_numeric concept_id="649" precise="false"/>
+  <concept_numeric concept_id="650" precise="false"/>
+  <concept_numeric concept_id="651" precise="false"/>
+  <concept_numeric concept_id="653" hi_normal="37.0" units="U/L" precise="true"/>
+  <concept_numeric concept_id="654" hi_normal="42.0" units="U/L" precise="true"/>
+  <concept_numeric concept_id="655" units="mg/dl" precise="false"/>
+  <concept_numeric concept_id="677" units="" precise="false"/>
+  <concept_numeric concept_id="678" units="mnm10**9/ml" precise="true"/>
+  <concept_numeric concept_id="679" units="" precise="false"/>
+  <concept_numeric concept_id="680" precise="false"/>
+  <concept_numeric concept_id="681" precise="false"/>
+  <concept_numeric concept_id="682" units="" precise="false"/>
+  <concept_numeric concept_id="717" precise="false"/>
+  <concept_numeric concept_id="729" hi_normal="300.0" low_normal="150.0" units="nx10**9/ml" precise="false"/>
+  <concept_numeric concept_id="730" units="%" precise="false"/>
+  <concept_numeric concept_id="785" units="U/L" precise="false"/>
+  <concept_numeric concept_id="790" hi_normal="120.0" units="mmol/L" precise="true"/>
+  <concept_numeric concept_id="848" units="" precise="false"/>
+  <concept_numeric concept_id="849" units="" precise="false"/>
+  <concept_numeric concept_id="850" precise="false"/>
+  <concept_numeric concept_id="851" units="fL" precise="false"/>
+  <concept_numeric concept_id="853" units="cells/mm3" precise="false"/>
+  <concept_numeric concept_id="854" units="" precise="false"/>
+  <concept_numeric concept_id="855" units="" precise="false"/>
+  <concept_numeric concept_id="856" units="copies/ml" precise="false"/>
+  <concept_numeric concept_id="857" units="mg/dl" precise="true"/>
+  <concept_numeric concept_id="887" units="mg/dl" precise="true"/>
+  <concept_numeric concept_id="952" units="nx10**9/ml" precise="false"/>
+  <concept_numeric concept_id="1006" units="mg/dl" precise="false"/>
+  <concept_numeric concept_id="1007" units="mg/dl" precise="false"/>
+  <concept_numeric concept_id="1008" units="mg/dl" precise="false"/>
+  <concept_numeric concept_id="1009" units="mg/dl" precise="false"/>
+  <concept_numeric concept_id="1011" units="IU/L" precise="false"/>
+  <concept_numeric concept_id="1012" units="mmol/L" precise="false"/>
+  <concept_numeric concept_id="1013" units="IU/L" precise="false"/>
+  <concept_numeric concept_id="1014" units="%" precise="false"/>
+  <concept_numeric concept_id="1015" hi_normal="50.0" low_normal="35.0" units="%" precise="true"/>
+  <concept_numeric concept_id="1016" units="%" precise="false"/>
+  <concept_numeric concept_id="1017" units="g/dl" precise="false"/>
+  <concept_numeric concept_id="1018" units="pg" precise="false"/>
+  <concept_numeric concept_id="1020" units="%" precise="false"/>
+  <concept_numeric concept_id="1021" hi_normal="45.0" units="%" precise="false"/>
+  <concept_numeric concept_id="1022" units="%" precise="false"/>
+  <concept_numeric concept_id="1023" units="%" precise="false"/>
+  <concept_numeric concept_id="1024" units="%" precise="false"/>
+  <concept_numeric concept_id="1025" units="%" precise="false"/>
+  <concept_numeric concept_id="1027" units="%" precise="false"/>
+  <concept_numeric concept_id="1028" precise="false"/>
+  <concept_numeric concept_id="1033" units="OD" precise="false"/>
+  <concept_numeric concept_id="1035" units="OD" precise="false"/>
+  <concept_numeric concept_id="1037" units="S/CO" precise="false"/>
+  <concept_numeric concept_id="1041" units="OD" precise="false"/>
+  <concept_numeric concept_id="1053" units="# children" precise="false"/>
+  <concept_numeric concept_id="1089" precise="false"/>
+  <concept_numeric concept_id="1132" units="mEq/L" precise="true"/>
+  <concept_numeric concept_id="1133" units="mEq/L" precise="true"/>
+  <concept_numeric concept_id="1134" units="mmol/dl" precise="true"/>
+  <concept_numeric concept_id="1135" units="mmol/L" precise="true"/>
+  <concept_numeric concept_id="1186" units="# weeks" precise="false"/>
+  <concept_numeric concept_id="1196" units="# doses" precise="false"/>
+  <concept_numeric concept_id="1279" hi_absolute="44.0" low_absolute="0.0" units="weeks" precise="false"/>
+  <concept_numeric concept_id="1290" units="" precise="true"/>
+  <concept_numeric concept_id="1294" units="Days" precise="true"/>
+  <concept_numeric concept_id="1323" units="" precise="false"/>
+  <concept_numeric concept_id="1324" units="" precise="false"/>
+  <concept_numeric concept_id="1426" units="" precise="false"/>
+  <concept_numeric concept_id="1437" units="mm" precise="false"/>
+  <concept_numeric concept_id="1465" units="" precise="false"/>
+  <concept_numeric concept_id="1477" hi_absolute="25.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="1543" units="" precise="false"/>
+  <concept_numeric concept_id="1562" units="kg" precise="true"/>
+  <concept_numeric concept_id="1624" units="mIU/L" precise="false"/>
+  <concept_numeric concept_id="1625" units="mL/min" precise="false"/>
+  <concept_numeric concept_id="1626" units="mEq/L" precise="false"/>
+  <concept_numeric concept_id="1654" units="" precise="false"/>
+  <concept_numeric concept_id="1655" units="" precise="false"/>
+  <concept_numeric concept_id="1656" units="" precise="false"/>
+  <concept_numeric concept_id="1657" units="" precise="false"/>
+  <concept_numeric concept_id="1658" units="" precise="false"/>
+  <concept_numeric concept_id="1659" units="" precise="false"/>
+  <concept_numeric concept_id="1660" units="" precise="false"/>
+  <concept_numeric concept_id="1661" units="" precise="false"/>
+  <concept_numeric concept_id="1672" units="" precise="false"/>
+  <concept_numeric concept_id="1673" units="" precise="false"/>
+  <concept_numeric concept_id="1674" units="" precise="false"/>
+  <concept_numeric concept_id="1738" units="" precise="false"/>
+  <concept_numeric concept_id="1822" hi_absolute="100.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="1823" units="" precise="false"/>
+  <concept_numeric concept_id="1829" units="" precise="false"/>
+  <concept_numeric concept_id="1838" units="" precise="false"/>
+  <concept_numeric concept_id="1840" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="1841" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="1842" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="1843" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="1844" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="2083" hi_absolute="9.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2085" hi_absolute="9.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2088" units="" precise="false"/>
+  <concept_numeric concept_id="2089" hi_absolute="9.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2137" low_absolute="0.0" low_critical="18.5" units="" precise="true"/>
+  <concept_numeric concept_id="2160" units="" precise="true"/>
+  <concept_numeric concept_id="2161" units="" precise="true"/>
+  <concept_numeric concept_id="2165" units="" precise="false"/>
+  <concept_numeric concept_id="2189" units="" precise="false"/>
+  <concept_numeric concept_id="2190" units="" precise="false"/>
+  <concept_numeric concept_id="2213" units="" precise="false"/>
+  <concept_numeric concept_id="2217" units="" precise="true"/>
+  <concept_numeric concept_id="2218" units="" precise="true"/>
+  <concept_numeric concept_id="2219" units="" precise="true"/>
+  <concept_numeric concept_id="2240" units="" precise="false"/>
+  <concept_numeric concept_id="2241" units="" precise="true"/>
+  <concept_numeric concept_id="2243" hi_absolute="7.0" hi_critical="7.0" hi_normal="7.0" low_absolute="0.0" low_critical="0.0" low_normal="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2244" units="" precise="false"/>
+  <concept_numeric concept_id="2245" units="" precise="false"/>
+  <concept_numeric concept_id="2246" units="" precise="false"/>
+  <concept_numeric concept_id="2249" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2250" hi_critical="90.0" low_absolute="0.0" low_critical="1.0" units="" precise="false"/>
+  <concept_numeric concept_id="2251" hi_critical="60.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2270" units="Minutes" precise="false"/>
+  <concept_numeric concept_id="2278" units="" precise="false"/>
+  <concept_numeric concept_id="2279" units="" precise="false"/>
+  <concept_numeric concept_id="2280" units="" precise="false"/>
+  <concept_numeric concept_id="2285" units="" precise="false"/>
+  <concept_numeric concept_id="2295" units="" precise="false"/>
+  <concept_numeric concept_id="2296" units="kg" precise="false"/>
+  <concept_numeric concept_id="2297" units="kg" precise="false"/>
+  <concept_numeric concept_id="2300" units="km" precise="true"/>
+  <concept_numeric concept_id="2320" units="" precise="false"/>
+  <concept_numeric concept_id="2343" units="" precise="false"/>
+  <concept_numeric concept_id="2387" units="" precise="false"/>
+  <concept_numeric concept_id="2391" units="" precise="false"/>
+  <concept_numeric concept_id="2440" units="" precise="false"/>
+  <concept_numeric concept_id="2441" units="" precise="false"/>
+  <concept_numeric concept_id="2463" units="" precise="false"/>
+  <concept_numeric concept_id="2464" units="" precise="false"/>
+  <concept_numeric concept_id="2478" units="" precise="false"/>
+  <concept_numeric concept_id="2540" units="" precise="false"/>
+  <concept_numeric concept_id="2541" units="" precise="false"/>
+  <concept_numeric concept_id="2542" units="" precise="false"/>
+  <concept_numeric concept_id="2554" units="" precise="false"/>
+  <concept_numeric concept_id="2555" units="" precise="false"/>
+  <concept_numeric concept_id="2556" units="" precise="false"/>
+  <concept_numeric concept_id="2607" hi_absolute="62.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2608" hi_absolute="62.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2609" hi_absolute="62.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2610" hi_absolute="62.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2611" hi_absolute="62.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2646" units="" precise="false"/>
+  <concept_numeric concept_id="2648" hi_absolute="100.0" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="2649" units="" precise="false"/>
+  <concept_numeric concept_id="2663" hi_absolute="3.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2664" hi_absolute="3.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2665" hi_absolute="3.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2666" hi_absolute="3.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2671" hi_absolute="15.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2675" hi_absolute="10.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2677" hi_absolute="10.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2678" hi_absolute="100.0" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="2679" hi_absolute="150.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2687" hi_absolute="7.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2834" low_absolute="0.0" low_critical="0.0" low_normal="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="2835" low_absolute="0.0" low_critical="0.0" low_normal="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2836" low_absolute="0.0" low_critical="0.0" low_normal="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="2872" units="DAYS" precise="true"/>
+  <concept_numeric concept_id="2873" units="WEEKS" precise="true"/>
+  <concept_numeric concept_id="2874" units="MONTHS" precise="true"/>
+  <concept_numeric concept_id="2929" units="" precise="false"/>
+  <concept_numeric concept_id="2948" units="" precise="false"/>
+  <concept_numeric concept_id="2950" units="" precise="false"/>
+  <concept_numeric concept_id="2951" units="" precise="true"/>
+  <concept_numeric concept_id="2955" units="" precise="false"/>
+  <concept_numeric concept_id="2957" units="" precise="false"/>
+  <concept_numeric concept_id="2970" units="FRW" precise="true"/>
+  <concept_numeric concept_id="2973" units="" precise="false"/>
+  <concept_numeric concept_id="2980" units="minutes" precise="false"/>
+  <concept_numeric concept_id="2998" hi_absolute="10.0" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="3007" units="IU/L" precise="true"/>
+  <concept_numeric concept_id="3015" units="" precise="false"/>
+  <concept_numeric concept_id="3016" units="" precise="false"/>
+  <concept_numeric concept_id="3018" units="" precise="false"/>
+  <concept_numeric concept_id="3051" units="" precise="false"/>
+  <concept_numeric concept_id="3054" units="" precise="false"/>
+  <concept_numeric concept_id="3055" hi_normal="7.5" low_normal="2.5" units="umol/L" precise="false"/>
+  <concept_numeric concept_id="3056" units="" precise="true"/>
+  <concept_numeric concept_id="3057" units="" precise="false"/>
+  <concept_numeric concept_id="3058" units="" precise="false"/>
+  <concept_numeric concept_id="3059" units="nx10**9/ml" precise="false"/>
+  <concept_numeric concept_id="3060" units="%" precise="false"/>
+  <concept_numeric concept_id="3061" units="" precise="false"/>
+  <concept_numeric concept_id="3077" units="" precise="false"/>
+  <concept_numeric concept_id="3078" units="RWF" precise="false"/>
+  <concept_numeric concept_id="3080" units="" precise="false"/>
+  <concept_numeric concept_id="3084" units="" precise="false"/>
+  <concept_numeric concept_id="3085" units="" precise="false"/>
+  <concept_numeric concept_id="3102" units="" precise="false"/>
+  <concept_numeric concept_id="3112" units="" precise="false"/>
+  <concept_numeric concept_id="3113" units="g" precise="false"/>
+  <concept_numeric concept_id="3122" units="mg" precise="false"/>
+  <concept_numeric concept_id="3141" units="" precise="false"/>
+  <concept_numeric concept_id="3144" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="3205" low_absolute="0.0" units="Days" precise="false"/>
+  <concept_numeric concept_id="3206" low_absolute="0.0" units="Months" precise="false"/>
+  <concept_numeric concept_id="3224" units="kg" precise="true"/>
+  <concept_numeric concept_id="3225" low_absolute="0.0" units="kg" precise="true"/>
+  <concept_numeric concept_id="3226" low_absolute="0.0" units="" precise="true"/>
+  <concept_numeric concept_id="3235" low_absolute="0.0" units="cm" precise="true"/>
+  <concept_numeric concept_id="3253" low_absolute="0.0" units="cm" precise="true"/>
+  <concept_numeric concept_id="3254" low_absolute="0.0" units="cm" precise="true"/>
+  <concept_numeric concept_id="3266" low_absolute="0.0" units="m" precise="true"/>
+  <concept_numeric concept_id="3295" low_absolute="0.0" units="days" precise="false"/>
+  <concept_numeric concept_id="3296" low_absolute="0.0" units="weeks" precise="false"/>
+  <concept_numeric concept_id="3297" low_absolute="0.0" units="Months" precise="false"/>
+  <concept_numeric concept_id="3313" low_absolute="0.0" units="Years" precise="false"/>
+  <concept_numeric concept_id="3317" low_absolute="0.0" units="FRW" precise="true"/>
+  <concept_numeric concept_id="3341" low_absolute="0.0" units="liters" precise="true"/>
+  <concept_numeric concept_id="3422" units="mg" precise="true"/>
+  <concept_numeric concept_id="3423" units="Pills" precise="true"/>
+  <concept_numeric concept_id="3424" units="mg" precise="true"/>
+  <concept_numeric concept_id="3425" units="Pills" precise="false"/>
+  <concept_numeric concept_id="3426" units="mg" precise="true"/>
+  <concept_numeric concept_id="3427" units="Pills" precise="false"/>
+  <concept_numeric concept_id="3434" units="" precise="false"/>
+  <concept_numeric concept_id="3449" units="Days" precise="false"/>
+  <concept_numeric concept_id="3450" units="Weeks" precise="false"/>
+  <concept_numeric concept_id="3451" units="Months" precise="false"/>
+  <concept_numeric concept_id="3462" units="Years" precise="false"/>
+  <concept_numeric concept_id="3463" units="Hours" precise="false"/>
+  <concept_numeric concept_id="3467" units="Years" precise="false"/>
+  <concept_numeric concept_id="3475" units="mm" precise="true"/>
+  <concept_numeric concept_id="3476" units="mm" precise="true"/>
+  <concept_numeric concept_id="3489" units="" precise="false"/>
+  <concept_numeric concept_id="3515" units="months" precise="false"/>
+  <concept_numeric concept_id="3551" units="" precise="false"/>
+  <concept_numeric concept_id="3584" units="cells/mm3" precise="false"/>
+  <concept_numeric concept_id="3604" hi_absolute="10.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="3605" units="" precise="false"/>
+  <concept_numeric concept_id="3629" units="" precise="false"/>
+  <concept_numeric concept_id="3630" units="" precise="false"/>
+  <concept_numeric concept_id="3631" units="" precise="false"/>
+  <concept_numeric concept_id="3632" units="" precise="false"/>
+  <concept_numeric concept_id="3633" units="" precise="false"/>
+  <concept_numeric concept_id="3634" units="" precise="false"/>
+  <concept_numeric concept_id="3635" units="" precise="false"/>
+  <concept_numeric concept_id="3636" units="" precise="false"/>
+  <concept_numeric concept_id="3637" units="" precise="false"/>
+  <concept_numeric concept_id="3638" units="" precise="false"/>
+  <concept_numeric concept_id="3639" units="" precise="false"/>
+  <concept_numeric concept_id="3640" units="" precise="false"/>
+  <concept_numeric concept_id="3641" units="mg/dL" precise="false"/>
+  <concept_numeric concept_id="3648" hi_absolute="20.0" low_absolute="1.0" units="" precise="true"/>
+  <concept_numeric concept_id="3649" units="" precise="true"/>
+  <concept_numeric concept_id="3651" units="mg" precise="false"/>
+  <concept_numeric concept_id="3652" units="mg" precise="false"/>
+  <concept_numeric concept_id="3653" units="mg" precise="true"/>
+  <concept_numeric concept_id="3664" units="" precise="false"/>
+  <concept_numeric concept_id="3665" units="" precise="false"/>
+  <concept_numeric concept_id="3666" units="" precise="false"/>
+  <concept_numeric concept_id="3684" units="kg" precise="true"/>
+  <concept_numeric concept_id="3762" units="%" precise="false"/>
+  <concept_numeric concept_id="3791" units="" precise="false"/>
+  <concept_numeric concept_id="3796" units="" precise="true"/>
+  <concept_numeric concept_id="3797" units="" precise="true"/>
+  <concept_numeric concept_id="3825" units="" precise="false"/>
+  <concept_numeric concept_id="3853" units="cm" precise="false"/>
+  <concept_numeric concept_id="3854" units="mmHg" precise="false"/>
+  <concept_numeric concept_id="3866" units="cm" precise="true"/>
+  <concept_numeric concept_id="3871" units="cm" precise="true"/>
+  <concept_numeric concept_id="3881" units="cm2" precise="true"/>
+  <concept_numeric concept_id="3882" units="ms" precise="true"/>
+  <concept_numeric concept_id="3883" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3884" units="" precise="true"/>
+  <concept_numeric concept_id="3885" units="" precise="false"/>
+  <concept_numeric concept_id="3886" units="" precise="false"/>
+  <concept_numeric concept_id="3887" units="" precise="false"/>
+  <concept_numeric concept_id="3888" units="" precise="false"/>
+  <concept_numeric concept_id="3904" units="cm" precise="true"/>
+  <concept_numeric concept_id="3905" units="cm" precise="true"/>
+  <concept_numeric concept_id="3908" units="cm" precise="false"/>
+  <concept_numeric concept_id="3913" units="cm" precise="true"/>
+  <concept_numeric concept_id="3927" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3934" units="mm" precise="true"/>
+  <concept_numeric concept_id="3935" units="mm" precise="true"/>
+  <concept_numeric concept_id="3937" hi_absolute="10.0" low_absolute="0.0" units="cm" precise="true"/>
+  <concept_numeric concept_id="3938" units="cm" precise="true"/>
+  <concept_numeric concept_id="3939" units="cm" precise="true"/>
+  <concept_numeric concept_id="3940" units="m/s" precise="true"/>
+  <concept_numeric concept_id="3941" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3942" units="cm" precise="true"/>
+  <concept_numeric concept_id="3943" units="cm" precise="true"/>
+  <concept_numeric concept_id="3944" units="m/s" precise="true"/>
+  <concept_numeric concept_id="3945" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3946" units="" precise="true"/>
+  <concept_numeric concept_id="3947" units="cm" precise="true"/>
+  <concept_numeric concept_id="3948" units="cm" precise="true"/>
+  <concept_numeric concept_id="3949" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3951" units="m/s" precise="true"/>
+  <concept_numeric concept_id="3952" units="m/s" precise="true"/>
+  <concept_numeric concept_id="3954" units="m/s" precise="true"/>
+  <concept_numeric concept_id="3955" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3956" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3957" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3958" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3960" units="cm" precise="true"/>
+  <concept_numeric concept_id="3961" units="cm" precise="true"/>
+  <concept_numeric concept_id="3962" units="cm" precise="true"/>
+  <concept_numeric concept_id="3963" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="3964" units="ms" precise="true"/>
+  <concept_numeric concept_id="3996" units="" precise="false"/>
+  <concept_numeric concept_id="4009" units="cm" precise="true"/>
+  <concept_numeric concept_id="4065" units="" precise="false"/>
+  <concept_numeric concept_id="4066" units="cm" precise="true"/>
+  <concept_numeric concept_id="5001" precise="false"/>
+  <concept_numeric concept_id="5003" precise="false"/>
+  <concept_numeric concept_id="5004" precise="false"/>
+  <concept_numeric concept_id="5005" precise="false"/>
+  <concept_numeric concept_id="5053" precise="false"/>
+  <concept_numeric concept_id="5054" precise="false"/>
+  <concept_numeric concept_id="5064" precise="false"/>
+  <concept_numeric concept_id="5085" hi_absolute="250.0" low_absolute="20.0" units="mmHg" precise="false"/>
+  <concept_numeric concept_id="5086" hi_absolute="150.0" low_absolute="0.0" units="mmHg" precise="false"/>
+  <concept_numeric concept_id="5087" hi_absolute="230.0" low_absolute="0.0" units="rate/min" precise="false"/>
+  <concept_numeric concept_id="5088" hi_absolute="43.0" low_absolute="25.0" units="DEG C" precise="true"/>
+  <concept_numeric concept_id="5089" hi_absolute="250.0" low_absolute="0.0" units="kg" precise="true"/>
+  <concept_numeric concept_id="5090" hi_absolute="228.0" low_absolute="10.0" units="cm" precise="true"/>
+  <concept_numeric concept_id="5092" hi_absolute="100.0" low_absolute="30.0" units="%" precise="false"/>
+  <concept_numeric concept_id="5093" precise="false"/>
+  <concept_numeric concept_id="5094" precise="false"/>
+  <concept_numeric concept_id="5095" precise="false"/>
+  <concept_numeric concept_id="5153" units="cm" precise="false"/>
+  <concept_numeric concept_id="5195" units="cm" precise="false"/>
+  <concept_numeric concept_id="5220" precise="false"/>
+  <concept_numeric concept_id="5221" precise="false"/>
+  <concept_numeric concept_id="5223" precise="false"/>
+  <concept_numeric concept_id="5242" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="5268" precise="false"/>
+  <concept_numeric concept_id="5270" precise="false"/>
+  <concept_numeric concept_id="5281" precise="false"/>
+  <concept_numeric concept_id="5283" units="%" precise="false"/>
+  <concept_numeric concept_id="5284" precise="false"/>
+  <concept_numeric concept_id="5285" precise="false"/>
+  <concept_numeric concept_id="5286" precise="false"/>
+  <concept_numeric concept_id="5287" precise="false"/>
+  <concept_numeric concept_id="5288" precise="false"/>
+  <concept_numeric concept_id="5289" precise="false"/>
+  <concept_numeric concept_id="5290" precise="false"/>
+  <concept_numeric concept_id="5291" precise="false"/>
+  <concept_numeric concept_id="5292" precise="false"/>
+  <concept_numeric concept_id="5293" precise="false"/>
+  <concept_numeric concept_id="5294" precise="false"/>
+  <concept_numeric concept_id="5295" precise="false"/>
+  <concept_numeric concept_id="5296" precise="false"/>
+  <concept_numeric concept_id="5297" precise="false"/>
+  <concept_numeric concept_id="5298" precise="false"/>
+  <concept_numeric concept_id="5299" precise="false"/>
+  <concept_numeric concept_id="5300" precise="false"/>
+  <concept_numeric concept_id="5301" precise="false"/>
+  <concept_numeric concept_id="5302" precise="false"/>
+  <concept_numeric concept_id="5304" precise="false"/>
+  <concept_numeric concept_id="5305" precise="false"/>
+  <concept_numeric concept_id="5306" precise="false"/>
+  <concept_numeric concept_id="5307" precise="false"/>
+  <concept_numeric concept_id="5308" precise="false"/>
+  <concept_numeric concept_id="5309" precise="false"/>
+  <concept_numeric concept_id="5311" units="Tanner Stage" precise="false"/>
+  <concept_numeric concept_id="5314" units="cm" precise="false"/>
+  <concept_numeric concept_id="5315" precise="false"/>
+  <concept_numeric concept_id="5316" precise="false"/>
+  <concept_numeric concept_id="5317" precise="false"/>
+  <concept_numeric concept_id="5318" precise="false"/>
+  <concept_numeric concept_id="5322" precise="false"/>
+  <concept_numeric concept_id="5323" precise="false"/>
+  <concept_numeric concept_id="5324" precise="false"/>
+  <concept_numeric concept_id="5325" precise="false"/>
+  <concept_numeric concept_id="5326" precise="false"/>
+  <concept_numeric concept_id="5352" precise="false"/>
+  <concept_numeric concept_id="5355" precise="false"/>
+  <concept_numeric concept_id="5357" precise="false"/>
+  <concept_numeric concept_id="5358" precise="false"/>
+  <concept_numeric concept_id="5359" units="" precise="false"/>
+  <concept_numeric concept_id="5360" precise="false"/>
+  <concept_numeric concept_id="5361" precise="false"/>
+  <concept_numeric concept_id="5362" precise="false"/>
+  <concept_numeric concept_id="5363" precise="false"/>
+  <concept_numeric concept_id="5364" precise="false"/>
+  <concept_numeric concept_id="5365" precise="false"/>
+  <concept_numeric concept_id="5366" precise="false"/>
+  <concept_numeric concept_id="5367" precise="false"/>
+  <concept_numeric concept_id="5368" precise="false"/>
+  <concept_numeric concept_id="5369" precise="false"/>
+  <concept_numeric concept_id="5370" precise="false"/>
+  <concept_numeric concept_id="5371" precise="false"/>
+  <concept_numeric concept_id="5372" precise="false"/>
+  <concept_numeric concept_id="5373" precise="false"/>
+  <concept_numeric concept_id="5374" precise="false"/>
+  <concept_numeric concept_id="5375" precise="false"/>
+  <concept_numeric concept_id="5376" precise="false"/>
+  <concept_numeric concept_id="5377" precise="false"/>
+  <concept_numeric concept_id="5378" precise="false"/>
+  <concept_numeric concept_id="5379" precise="false"/>
+  <concept_numeric concept_id="5380" precise="false"/>
+  <concept_numeric concept_id="5381" precise="false"/>
+  <concept_numeric concept_id="5382" units="" precise="false"/>
+  <concept_numeric concept_id="5383" precise="false"/>
+  <concept_numeric concept_id="5384" precise="false"/>
+  <concept_numeric concept_id="5385" precise="false"/>
+  <concept_numeric concept_id="5386" precise="false"/>
+  <concept_numeric concept_id="5387" precise="false"/>
+  <concept_numeric concept_id="5388" precise="false"/>
+  <concept_numeric concept_id="5389" precise="false"/>
+  <concept_numeric concept_id="5390" precise="false"/>
+  <concept_numeric concept_id="5391" precise="false"/>
+  <concept_numeric concept_id="5392" precise="false"/>
+  <concept_numeric concept_id="5393" precise="false"/>
+  <concept_numeric concept_id="5394" precise="false"/>
+  <concept_numeric concept_id="5395" precise="false"/>
+  <concept_numeric concept_id="5396" precise="false"/>
+  <concept_numeric concept_id="5397" precise="false"/>
+  <concept_numeric concept_id="5398" precise="false"/>
+  <concept_numeric concept_id="5399" precise="false"/>
+  <concept_numeric concept_id="5400" precise="false"/>
+  <concept_numeric concept_id="5401" precise="false"/>
+  <concept_numeric concept_id="5402" precise="false"/>
+  <concept_numeric concept_id="5403" precise="false"/>
+  <concept_numeric concept_id="5404" precise="false"/>
+  <concept_numeric concept_id="5405" precise="false"/>
+  <concept_numeric concept_id="5406" precise="false"/>
+  <concept_numeric concept_id="5407" precise="false"/>
+  <concept_numeric concept_id="5408" precise="false"/>
+  <concept_numeric concept_id="5409" precise="false"/>
+  <concept_numeric concept_id="5410" precise="false"/>
+  <concept_numeric concept_id="5411" precise="false"/>
+  <concept_numeric concept_id="5444" precise="false"/>
+  <concept_numeric concept_id="5445" precise="false"/>
+  <concept_numeric concept_id="5446" precise="false"/>
+  <concept_numeric concept_id="5447" precise="false"/>
+  <concept_numeric concept_id="5448" precise="false"/>
+  <concept_numeric concept_id="5449" precise="false"/>
+  <concept_numeric concept_id="5450" precise="false"/>
+  <concept_numeric concept_id="5451" precise="false"/>
+  <concept_numeric concept_id="5452" precise="false"/>
+  <concept_numeric concept_id="5453" precise="false"/>
+  <concept_numeric concept_id="5454" precise="false"/>
+  <concept_numeric concept_id="5455" precise="false"/>
+  <concept_numeric concept_id="5456" precise="false"/>
+  <concept_numeric concept_id="5457" precise="false"/>
+  <concept_numeric concept_id="5458" precise="false"/>
+  <concept_numeric concept_id="5459" precise="false"/>
+  <concept_numeric concept_id="5460" precise="false"/>
+  <concept_numeric concept_id="5461" precise="false"/>
+  <concept_numeric concept_id="5462" precise="false"/>
+  <concept_numeric concept_id="5463" precise="false"/>
+  <concept_numeric concept_id="5464" precise="false"/>
+  <concept_numeric concept_id="5465" precise="false"/>
+  <concept_numeric concept_id="5466" precise="false"/>
+  <concept_numeric concept_id="5467" precise="false"/>
+  <concept_numeric concept_id="5468" precise="false"/>
+  <concept_numeric concept_id="5469" precise="false"/>
+  <concept_numeric concept_id="5470" precise="false"/>
+  <concept_numeric concept_id="5471" precise="false"/>
+  <concept_numeric concept_id="5472" precise="false"/>
+  <concept_numeric concept_id="5474" precise="false"/>
+  <concept_numeric concept_id="5475" precise="false"/>
+  <concept_numeric concept_id="5476" precise="false"/>
+  <concept_numeric concept_id="5477" precise="false"/>
+  <concept_numeric concept_id="5478" precise="false"/>
+  <concept_numeric concept_id="5479" precise="false"/>
+  <concept_numeric concept_id="5480" precise="false"/>
+  <concept_numeric concept_id="5481" precise="false"/>
+  <concept_numeric concept_id="5482" precise="false"/>
+  <concept_numeric concept_id="5483" units="" precise="false"/>
+  <concept_numeric concept_id="5484" units="" precise="false"/>
+  <concept_numeric concept_id="5486" units="" precise="false"/>
+  <concept_numeric concept_id="5487" units="" precise="false"/>
+  <concept_numeric concept_id="5488" units="" precise="false"/>
+  <concept_numeric concept_id="5489" units="" precise="false"/>
+  <concept_numeric concept_id="5490" units="" precise="false"/>
+  <concept_numeric concept_id="5491" precise="false"/>
+  <concept_numeric concept_id="5492" precise="false"/>
+  <concept_numeric concept_id="5493" precise="false"/>
+  <concept_numeric concept_id="5494" precise="false"/>
+  <concept_numeric concept_id="5495" precise="false"/>
+  <concept_numeric concept_id="5496" precise="false"/>
+  <concept_numeric concept_id="5497" low_absolute="0.0" low_critical="350.0" units="cells/mm3" precise="false"/>
+  <concept_numeric concept_id="5500" precise="false"/>
+  <concept_numeric concept_id="5501" precise="false"/>
+  <concept_numeric concept_id="5502" precise="false"/>
+  <concept_numeric concept_id="5503" precise="false"/>
+  <concept_numeric concept_id="5504" precise="false"/>
+  <concept_numeric concept_id="5505" precise="false"/>
+  <concept_numeric concept_id="5506" precise="false"/>
+  <concept_numeric concept_id="5507" precise="false"/>
+  <concept_numeric concept_id="5508" precise="false"/>
+  <concept_numeric concept_id="5509" precise="false"/>
+  <concept_numeric concept_id="5510" precise="false"/>
+  <concept_numeric concept_id="5511" precise="false"/>
+  <concept_numeric concept_id="5512" precise="false"/>
+  <concept_numeric concept_id="5513" precise="false"/>
+  <concept_numeric concept_id="5514" precise="false"/>
+  <concept_numeric concept_id="5515" precise="false"/>
+  <concept_numeric concept_id="5516" precise="false"/>
+  <concept_numeric concept_id="5517" precise="false"/>
+  <concept_numeric concept_id="5518" precise="false"/>
+  <concept_numeric concept_id="5519" precise="false"/>
+  <concept_numeric concept_id="5520" precise="false"/>
+  <concept_numeric concept_id="5521" precise="false"/>
+  <concept_numeric concept_id="5522" precise="false"/>
+  <concept_numeric concept_id="5523" precise="false"/>
+  <concept_numeric concept_id="5524" precise="false"/>
+  <concept_numeric concept_id="5525" precise="false"/>
+  <concept_numeric concept_id="5527" precise="false"/>
+  <concept_numeric concept_id="5528" precise="false"/>
+  <concept_numeric concept_id="5529" precise="false"/>
+  <concept_numeric concept_id="5530" precise="false"/>
+  <concept_numeric concept_id="5531" precise="false"/>
+  <concept_numeric concept_id="5532" precise="false"/>
+  <concept_numeric concept_id="5533" precise="false"/>
+  <concept_numeric concept_id="5534" precise="false"/>
+  <concept_numeric concept_id="5535" precise="false"/>
+  <concept_numeric concept_id="5536" precise="false"/>
+  <concept_numeric concept_id="5537" precise="false"/>
+  <concept_numeric concept_id="5538" precise="false"/>
+  <concept_numeric concept_id="5539" precise="false"/>
+  <concept_numeric concept_id="5540" precise="false"/>
+  <concept_numeric concept_id="5541" precise="false"/>
+  <concept_numeric concept_id="5545" precise="false"/>
+  <concept_numeric concept_id="5546" precise="false"/>
+  <concept_numeric concept_id="5547" precise="false"/>
+  <concept_numeric concept_id="5549" precise="false"/>
+  <concept_numeric concept_id="5551" precise="false"/>
+  <concept_numeric concept_id="5552" precise="false"/>
+  <concept_numeric concept_id="5553" precise="false"/>
+  <concept_numeric concept_id="5554" precise="false"/>
+  <concept_numeric concept_id="5556" precise="false"/>
+  <concept_numeric concept_id="5557" units="# wives" precise="false"/>
+  <concept_numeric concept_id="5558" units="# children" precise="false"/>
+  <concept_numeric concept_id="5559" precise="false"/>
+  <concept_numeric concept_id="5560" precise="false"/>
+  <concept_numeric concept_id="5561" precise="false"/>
+  <concept_numeric concept_id="5562" precise="false"/>
+  <concept_numeric concept_id="5565" precise="false"/>
+  <concept_numeric concept_id="5570" precise="false"/>
+  <concept_numeric concept_id="5572" precise="false"/>
+  <concept_numeric concept_id="5573" precise="false"/>
+  <concept_numeric concept_id="5574" units="years" precise="false"/>
+  <concept_numeric concept_id="5575" units="years" precise="false"/>
+  <concept_numeric concept_id="5576" units="" precise="false"/>
+  <concept_numeric concept_id="5579" precise="false"/>
+  <concept_numeric concept_id="5580" precise="false"/>
+  <concept_numeric concept_id="5581" precise="false"/>
+  <concept_numeric concept_id="5582" precise="false"/>
+  <concept_numeric concept_id="5583" precise="false"/>
+  <concept_numeric concept_id="5594" precise="false"/>
+  <concept_numeric concept_id="5595" precise="false"/>
+  <concept_numeric concept_id="5597" precise="false"/>
+  <concept_numeric concept_id="5598" precise="false"/>
+  <concept_numeric concept_id="5600" precise="false"/>
+  <concept_numeric concept_id="5601" precise="false"/>
+  <concept_numeric concept_id="5602" precise="false"/>
+  <concept_numeric concept_id="5603" precise="false"/>
+  <concept_numeric concept_id="5604" precise="false"/>
+  <concept_numeric concept_id="5607" units="years" precise="false"/>
+  <concept_numeric concept_id="5611" units="# people" precise="false"/>
+  <concept_numeric concept_id="5612" units="# children" precise="false"/>
+  <concept_numeric concept_id="5613" precise="false"/>
+  <concept_numeric concept_id="5614" precise="false"/>
+  <concept_numeric concept_id="5615" precise="false"/>
+  <concept_numeric concept_id="5624" units="# pregnancies" precise="false"/>
+  <concept_numeric concept_id="5625" precise="false"/>
+  <concept_numeric concept_id="5626" precise="false"/>
+  <concept_numeric concept_id="5627" precise="false"/>
+  <concept_numeric concept_id="5628" precise="false"/>
+  <concept_numeric concept_id="5631" precise="false"/>
+  <concept_numeric concept_id="5635" precise="false"/>
+  <concept_numeric concept_id="5636" precise="false"/>
+  <concept_numeric concept_id="5637" precise="false"/>
+  <concept_numeric concept_id="5638" precise="false"/>
+  <concept_numeric concept_id="5639" precise="false"/>
+  <concept_numeric concept_id="5640" precise="false"/>
+  <concept_numeric concept_id="5641" precise="false"/>
+  <concept_numeric concept_id="5642" precise="false"/>
+  <concept_numeric concept_id="5643" precise="false"/>
+  <concept_numeric concept_id="5644" precise="false"/>
+  <concept_numeric concept_id="5645" precise="false"/>
+  <concept_numeric concept_id="5646" precise="false"/>
+  <concept_numeric concept_id="5647" precise="false"/>
+  <concept_numeric concept_id="5648" precise="false"/>
+  <concept_numeric concept_id="5649" precise="false"/>
+  <concept_numeric concept_id="5650" precise="false"/>
+  <concept_numeric concept_id="5651" precise="false"/>
+  <concept_numeric concept_id="5652" precise="false"/>
+  <concept_numeric concept_id="5653" precise="false"/>
+  <concept_numeric concept_id="5654" precise="false"/>
+  <concept_numeric concept_id="5655" precise="false"/>
+  <concept_numeric concept_id="5656" precise="false"/>
+  <concept_numeric concept_id="5657" precise="false"/>
+  <concept_numeric concept_id="5658" precise="false"/>
+  <concept_numeric concept_id="5659" precise="false"/>
+  <concept_numeric concept_id="5660" precise="false"/>
+  <concept_numeric concept_id="5661" precise="false"/>
+  <concept_numeric concept_id="5662" precise="false"/>
+  <concept_numeric concept_id="5663" precise="false"/>
+  <concept_numeric concept_id="5664" precise="false"/>
+  <concept_numeric concept_id="5666" precise="false"/>
+  <concept_numeric concept_id="5667" precise="false"/>
+  <concept_numeric concept_id="5668" precise="false"/>
+  <concept_numeric concept_id="5669" precise="false"/>
+  <concept_numeric concept_id="5670" precise="false"/>
+  <concept_numeric concept_id="5671" precise="false"/>
+  <concept_numeric concept_id="5672" precise="false"/>
+  <concept_numeric concept_id="5673" precise="false"/>
+  <concept_numeric concept_id="5674" precise="false"/>
+  <concept_numeric concept_id="5675" units="# children" precise="false"/>
+  <concept_numeric concept_id="5676" units="# children" precise="false"/>
+  <concept_numeric concept_id="5677" precise="false"/>
+  <concept_numeric concept_id="5678" precise="false"/>
+  <concept_numeric concept_id="5679" precise="false"/>
+  <concept_numeric concept_id="5680" precise="false"/>
+  <concept_numeric concept_id="5681" precise="false"/>
+  <concept_numeric concept_id="5682" precise="false"/>
+  <concept_numeric concept_id="5683" precise="false"/>
+  <concept_numeric concept_id="5684" precise="false"/>
+  <concept_numeric concept_id="5685" precise="false"/>
+  <concept_numeric concept_id="5686" precise="false"/>
+  <concept_numeric concept_id="5687" precise="false"/>
+  <concept_numeric concept_id="5688" precise="false"/>
+  <concept_numeric concept_id="5689" precise="false"/>
+  <concept_numeric concept_id="5690" precise="false"/>
+  <concept_numeric concept_id="5691" precise="false"/>
+  <concept_numeric concept_id="5692" precise="false"/>
+  <concept_numeric concept_id="5693" precise="false"/>
+  <concept_numeric concept_id="5694" precise="false"/>
+  <concept_numeric concept_id="5695" precise="false"/>
+  <concept_numeric concept_id="5696" precise="false"/>
+  <concept_numeric concept_id="5697" precise="false"/>
+  <concept_numeric concept_id="5698" precise="false"/>
+  <concept_numeric concept_id="5699" precise="false"/>
+  <concept_numeric concept_id="5700" precise="false"/>
+  <concept_numeric concept_id="5701" precise="false"/>
+  <concept_numeric concept_id="5702" precise="false"/>
+  <concept_numeric concept_id="5704" units="# hospitalizations" precise="false"/>
+  <concept_numeric concept_id="5705" precise="false"/>
+  <concept_numeric concept_id="5707" precise="false"/>
+  <concept_numeric concept_id="5708" precise="false"/>
+  <concept_numeric concept_id="5709" precise="false"/>
+  <concept_numeric concept_id="5710" precise="false"/>
+  <concept_numeric concept_id="5711" precise="false"/>
+  <concept_numeric concept_id="5712" precise="false"/>
+  <concept_numeric concept_id="5713" precise="false"/>
+  <concept_numeric concept_id="5714" precise="false"/>
+  <concept_numeric concept_id="5715" precise="false"/>
+  <concept_numeric concept_id="5716" precise="false"/>
+  <concept_numeric concept_id="5717" precise="false"/>
+  <concept_numeric concept_id="5718" precise="false"/>
+  <concept_numeric concept_id="5719" precise="false"/>
+  <concept_numeric concept_id="5720" precise="false"/>
+  <concept_numeric concept_id="5721" precise="false"/>
+  <concept_numeric concept_id="5722" precise="false"/>
+  <concept_numeric concept_id="5723" precise="false"/>
+  <concept_numeric concept_id="5724" precise="false"/>
+  <concept_numeric concept_id="5725" precise="false"/>
+  <concept_numeric concept_id="5726" precise="false"/>
+  <concept_numeric concept_id="5727" precise="false"/>
+  <concept_numeric concept_id="5728" precise="false"/>
+  <concept_numeric concept_id="5729" precise="false"/>
+  <concept_numeric concept_id="5730" precise="false"/>
+  <concept_numeric concept_id="5731" precise="false"/>
+  <concept_numeric concept_id="5732" precise="false"/>
+  <concept_numeric concept_id="5733" precise="false"/>
+  <concept_numeric concept_id="5734" precise="false"/>
+  <concept_numeric concept_id="5735" precise="false"/>
+  <concept_numeric concept_id="5736" precise="false"/>
+  <concept_numeric concept_id="5737" precise="false"/>
+  <concept_numeric concept_id="5738" precise="false"/>
+  <concept_numeric concept_id="5739" precise="false"/>
+  <concept_numeric concept_id="5740" precise="false"/>
+  <concept_numeric concept_id="5741" precise="false"/>
+  <concept_numeric concept_id="5742" precise="false"/>
+  <concept_numeric concept_id="5743" precise="false"/>
+  <concept_numeric concept_id="5744" precise="false"/>
+  <concept_numeric concept_id="5745" precise="false"/>
+  <concept_numeric concept_id="5746" precise="false"/>
+  <concept_numeric concept_id="5747" precise="false"/>
+  <concept_numeric concept_id="5748" precise="false"/>
+  <concept_numeric concept_id="5749" precise="false"/>
+  <concept_numeric concept_id="5750" precise="false"/>
+  <concept_numeric concept_id="5751" precise="false"/>
+  <concept_numeric concept_id="5752" precise="false"/>
+  <concept_numeric concept_id="5753" precise="false"/>
+  <concept_numeric concept_id="5754" precise="false"/>
+  <concept_numeric concept_id="5755" precise="false"/>
+  <concept_numeric concept_id="5756" precise="false"/>
+  <concept_numeric concept_id="5757" precise="false"/>
+  <concept_numeric concept_id="5758" precise="false"/>
+  <concept_numeric concept_id="5759" precise="false"/>
+  <concept_numeric concept_id="5760" precise="false"/>
+  <concept_numeric concept_id="5761" precise="false"/>
+  <concept_numeric concept_id="5762" precise="false"/>
+  <concept_numeric concept_id="5763" precise="false"/>
+  <concept_numeric concept_id="5764" precise="false"/>
+  <concept_numeric concept_id="5765" precise="false"/>
+  <concept_numeric concept_id="5766" precise="false"/>
+  <concept_numeric concept_id="5767" precise="false"/>
+  <concept_numeric concept_id="5768" precise="false"/>
+  <concept_numeric concept_id="5769" precise="false"/>
+  <concept_numeric concept_id="5770" precise="false"/>
+  <concept_numeric concept_id="5771" precise="false"/>
+  <concept_numeric concept_id="5772" precise="false"/>
+  <concept_numeric concept_id="5773" precise="false"/>
+  <concept_numeric concept_id="5774" precise="false"/>
+  <concept_numeric concept_id="5775" precise="false"/>
+  <concept_numeric concept_id="5776" precise="false"/>
+  <concept_numeric concept_id="5777" precise="false"/>
+  <concept_numeric concept_id="5778" precise="false"/>
+  <concept_numeric concept_id="5779" precise="false"/>
+  <concept_numeric concept_id="5780" precise="false"/>
+  <concept_numeric concept_id="5781" precise="false"/>
+  <concept_numeric concept_id="5782" precise="false"/>
+  <concept_numeric concept_id="5783" precise="false"/>
+  <concept_numeric concept_id="5784" precise="false"/>
+  <concept_numeric concept_id="5785" precise="false"/>
+  <concept_numeric concept_id="5786" precise="false"/>
+  <concept_numeric concept_id="5787" precise="false"/>
+  <concept_numeric concept_id="5788" precise="false"/>
+  <concept_numeric concept_id="5789" precise="false"/>
+  <concept_numeric concept_id="5790" precise="false"/>
+  <concept_numeric concept_id="5791" precise="false"/>
+  <concept_numeric concept_id="5792" precise="false"/>
+  <concept_numeric concept_id="5793" precise="false"/>
+  <concept_numeric concept_id="5794" precise="false"/>
+  <concept_numeric concept_id="5795" precise="false"/>
+  <concept_numeric concept_id="5796" precise="false"/>
+  <concept_numeric concept_id="5797" precise="false"/>
+  <concept_numeric concept_id="5798" precise="false"/>
+  <concept_numeric concept_id="5799" precise="false"/>
+  <concept_numeric concept_id="5800" precise="false"/>
+  <concept_numeric concept_id="5801" precise="false"/>
+  <concept_numeric concept_id="5802" precise="false"/>
+  <concept_numeric concept_id="5803" precise="false"/>
+  <concept_numeric concept_id="5804" precise="false"/>
+  <concept_numeric concept_id="5805" precise="false"/>
+  <concept_numeric concept_id="5806" precise="false"/>
+  <concept_numeric concept_id="5807" precise="false"/>
+  <concept_numeric concept_id="5808" precise="false"/>
+  <concept_numeric concept_id="5809" precise="false"/>
+  <concept_numeric concept_id="5810" precise="false"/>
+  <concept_numeric concept_id="5812" precise="false"/>
+  <concept_numeric concept_id="5813" precise="false"/>
+  <concept_numeric concept_id="5814" precise="false"/>
+  <concept_numeric concept_id="5815" precise="false"/>
+  <concept_numeric concept_id="5816" precise="false"/>
+  <concept_numeric concept_id="5817" precise="false"/>
+  <concept_numeric concept_id="5818" precise="false"/>
+  <concept_numeric concept_id="5819" precise="false"/>
+  <concept_numeric concept_id="5820" precise="false"/>
+  <concept_numeric concept_id="5821" precise="false"/>
+  <concept_numeric concept_id="5822" precise="false"/>
+  <concept_numeric concept_id="5823" precise="false"/>
+  <concept_numeric concept_id="5824" precise="false"/>
+  <concept_numeric concept_id="5825" precise="false"/>
+  <concept_numeric concept_id="5826" precise="false"/>
+  <concept_numeric concept_id="5827" precise="false"/>
+  <concept_numeric concept_id="5828" precise="false"/>
+  <concept_numeric concept_id="5830" precise="false"/>
+  <concept_numeric concept_id="5831" precise="false"/>
+  <concept_numeric concept_id="5832" precise="false"/>
+  <concept_numeric concept_id="5833" precise="false"/>
+  <concept_numeric concept_id="5837" precise="false"/>
+  <concept_numeric concept_id="5838" precise="false"/>
+  <concept_numeric concept_id="5840" precise="false"/>
+  <concept_numeric concept_id="5842" precise="false"/>
+  <concept_numeric concept_id="5844" precise="false"/>
+  <concept_numeric concept_id="5845" precise="false"/>
+  <concept_numeric concept_id="5846" precise="false"/>
+  <concept_numeric concept_id="5847" precise="false"/>
+  <concept_numeric concept_id="5848" precise="false"/>
+  <concept_numeric concept_id="5849" precise="false"/>
+  <concept_numeric concept_id="5850" precise="false"/>
+  <concept_numeric concept_id="5851" precise="false"/>
+  <concept_numeric concept_id="5852" precise="false"/>
+  <concept_numeric concept_id="5854" precise="false"/>
+  <concept_numeric concept_id="5855" precise="false"/>
+  <concept_numeric concept_id="5856" precise="false"/>
+  <concept_numeric concept_id="5857" precise="false"/>
+  <concept_numeric concept_id="5858" precise="false"/>
+  <concept_numeric concept_id="5859" precise="false"/>
+  <concept_numeric concept_id="5860" precise="false"/>
+  <concept_numeric concept_id="5861" precise="false"/>
+  <concept_numeric concept_id="5862" precise="false"/>
+  <concept_numeric concept_id="5863" precise="false"/>
+  <concept_numeric concept_id="5865" precise="false"/>
+  <concept_numeric concept_id="5866" precise="false"/>
+  <concept_numeric concept_id="5867" precise="false"/>
+  <concept_numeric concept_id="5868" precise="false"/>
+  <concept_numeric concept_id="5869" precise="false"/>
+  <concept_numeric concept_id="5870" precise="false"/>
+  <concept_numeric concept_id="5871" precise="false"/>
+  <concept_numeric concept_id="5872" precise="false"/>
+  <concept_numeric concept_id="5873" precise="false"/>
+  <concept_numeric concept_id="5874" precise="false"/>
+  <concept_numeric concept_id="5875" precise="false"/>
+  <concept_numeric concept_id="5876" precise="false"/>
+  <concept_numeric concept_id="5877" precise="false"/>
+  <concept_numeric concept_id="5878" precise="false"/>
+  <concept_numeric concept_id="5879" precise="false"/>
+  <concept_numeric concept_id="5880" precise="false"/>
+  <concept_numeric concept_id="5881" precise="false"/>
+  <concept_numeric concept_id="5882" precise="false"/>
+  <concept_numeric concept_id="5883" precise="false"/>
+  <concept_numeric concept_id="5884" precise="false"/>
+  <concept_numeric concept_id="5885" precise="false"/>
+  <concept_numeric concept_id="5886" precise="false"/>
+  <concept_numeric concept_id="5887" precise="false"/>
+  <concept_numeric concept_id="5888" precise="false"/>
+  <concept_numeric concept_id="5889" precise="false"/>
+  <concept_numeric concept_id="5890" precise="false"/>
+  <concept_numeric concept_id="5891" precise="false"/>
+  <concept_numeric concept_id="5892" precise="false"/>
+  <concept_numeric concept_id="5893" precise="false"/>
+  <concept_numeric concept_id="5894" precise="false"/>
+  <concept_numeric concept_id="5895" precise="false"/>
+  <concept_numeric concept_id="5896" precise="false"/>
+  <concept_numeric concept_id="5897" precise="false"/>
+  <concept_numeric concept_id="5898" precise="false"/>
+  <concept_numeric concept_id="5899" precise="false"/>
+  <concept_numeric concept_id="5900" precise="false"/>
+  <concept_numeric concept_id="5901" precise="false"/>
+  <concept_numeric concept_id="5902" precise="false"/>
+  <concept_numeric concept_id="5903" precise="false"/>
+  <concept_numeric concept_id="5904" precise="false"/>
+  <concept_numeric concept_id="5905" precise="false"/>
+  <concept_numeric concept_id="5906" precise="false"/>
+  <concept_numeric concept_id="5907" precise="false"/>
+  <concept_numeric concept_id="5908" precise="false"/>
+  <concept_numeric concept_id="5911" precise="false"/>
+  <concept_numeric concept_id="5912" precise="false"/>
+  <concept_numeric concept_id="5913" precise="false"/>
+  <concept_numeric concept_id="5914" precise="false"/>
+  <concept_numeric concept_id="5915" precise="false"/>
+  <concept_numeric concept_id="5916" hi_absolute="10000.0" low_absolute="0.0" units="kg" precise="true"/>
+  <concept_numeric concept_id="5917" precise="false"/>
+  <concept_numeric concept_id="5918" precise="false"/>
+  <concept_numeric concept_id="5919" precise="false"/>
+  <concept_numeric concept_id="5920" precise="false"/>
+  <concept_numeric concept_id="5921" precise="false"/>
+  <concept_numeric concept_id="5922" precise="false"/>
+  <concept_numeric concept_id="5923" precise="false"/>
+  <concept_numeric concept_id="5924" precise="false"/>
+  <concept_numeric concept_id="5925" precise="false"/>
+  <concept_numeric concept_id="5926" precise="false"/>
+  <concept_numeric concept_id="5927" precise="false"/>
+  <concept_numeric concept_id="5928" precise="false"/>
+  <concept_numeric concept_id="5929" precise="false"/>
+  <concept_numeric concept_id="5930" precise="false"/>
+  <concept_numeric concept_id="5931" precise="false"/>
+  <concept_numeric concept_id="5932" precise="false"/>
+  <concept_numeric concept_id="5933" precise="false"/>
+  <concept_numeric concept_id="5934" precise="false"/>
+  <concept_numeric concept_id="5935" precise="false"/>
+  <concept_numeric concept_id="5936" precise="false"/>
+  <concept_numeric concept_id="5937" precise="false"/>
+  <concept_numeric concept_id="5938" precise="false"/>
+  <concept_numeric concept_id="5939" precise="false"/>
+  <concept_numeric concept_id="5940" precise="false"/>
+  <concept_numeric concept_id="5941" precise="false"/>
+  <concept_numeric concept_id="5942" precise="false"/>
+  <concept_numeric concept_id="5943" precise="false"/>
+  <concept_numeric concept_id="5944" precise="false"/>
+  <concept_numeric concept_id="5946" precise="false"/>
+  <concept_numeric concept_id="5966" precise="false"/>
+  <concept_numeric concept_id="5968" precise="false"/>
+  <concept_numeric concept_id="5977" precise="false"/>
+  <concept_numeric concept_id="5982" precise="false"/>
+  <concept_numeric concept_id="5985" precise="false"/>
+  <concept_numeric concept_id="5992" units="months" precise="false"/>
+  <concept_numeric concept_id="6009" precise="false"/>
+  <concept_numeric concept_id="6010" precise="false"/>
+  <concept_numeric concept_id="6026" precise="false"/>
+  <concept_numeric concept_id="6027" precise="false"/>
+  <concept_numeric concept_id="6038" precise="false"/>
+  <concept_numeric concept_id="6040" precise="false"/>
+  <concept_numeric concept_id="6041" precise="false"/>
+  <concept_numeric concept_id="6043" precise="false"/>
+  <concept_numeric concept_id="6044" precise="false"/>
+  <concept_numeric concept_id="6045" precise="false"/>
+  <concept_numeric concept_id="6047" precise="false"/>
+  <concept_numeric concept_id="6051" precise="false"/>
+  <concept_numeric concept_id="6053" units="" precise="false"/>
+  <concept_numeric concept_id="6054" precise="false"/>
+  <concept_numeric concept_id="6055" precise="false"/>
+  <concept_numeric concept_id="6056" precise="false"/>
+  <concept_numeric concept_id="6057" precise="false"/>
+  <concept_numeric concept_id="6058" precise="false"/>
+  <concept_numeric concept_id="6059" precise="false"/>
+  <concept_numeric concept_id="6060" precise="false"/>
+  <concept_numeric concept_id="6062" precise="false"/>
+  <concept_numeric concept_id="6063" precise="false"/>
+  <concept_numeric concept_id="6064" precise="false"/>
+  <concept_numeric concept_id="6066" precise="false"/>
+  <concept_numeric concept_id="6067" precise="false"/>
+  <concept_numeric concept_id="6068" precise="false"/>
+  <concept_numeric concept_id="6069" precise="false"/>
+  <concept_numeric concept_id="6070" precise="false"/>
+  <concept_numeric concept_id="6071" precise="false"/>
+  <concept_numeric concept_id="6072" precise="false"/>
+  <concept_numeric concept_id="6073" precise="false"/>
+  <concept_numeric concept_id="6074" precise="false"/>
+  <concept_numeric concept_id="6075" precise="false"/>
+  <concept_numeric concept_id="6076" precise="false"/>
+  <concept_numeric concept_id="6078" precise="false"/>
+  <concept_numeric concept_id="6079" precise="false"/>
+  <concept_numeric concept_id="6080" precise="false"/>
+  <concept_numeric concept_id="6081" precise="false"/>
+  <concept_numeric concept_id="6082" precise="false"/>
+  <concept_numeric concept_id="6083" precise="false"/>
+  <concept_numeric concept_id="6084" precise="false"/>
+  <concept_numeric concept_id="6085" precise="false"/>
+  <concept_numeric concept_id="6086" precise="false"/>
+  <concept_numeric concept_id="6087" precise="false"/>
+  <concept_numeric concept_id="6088" precise="false"/>
+  <concept_numeric concept_id="6089" precise="false"/>
+  <concept_numeric concept_id="6090" precise="false"/>
+  <concept_numeric concept_id="6091" precise="false"/>
+  <concept_numeric concept_id="6092" units="" precise="true"/>
+  <concept_numeric concept_id="6093" precise="false"/>
+  <concept_numeric concept_id="6094" precise="false"/>
+  <concept_numeric concept_id="6135" units="liter" precise="true"/>
+  <concept_numeric concept_id="6136" units="bottles" precise="false"/>
+  <concept_numeric concept_id="6161" units="cigarettes per day" precise="false"/>
+  <concept_numeric concept_id="6209" units="ms" precise="true"/>
+  <concept_numeric concept_id="6210" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="6211" units="mmHg" precise="true"/>
+  <concept_numeric concept_id="6272" units="" precise="false"/>
+  <concept_numeric concept_id="6273" units="" precise="false"/>
+  <concept_numeric concept_id="6274" units="" precise="false"/>
+  <concept_numeric concept_id="6293" units="" precise="false"/>
+  <concept_numeric concept_id="6319" precise="false"/>
+  <concept_numeric concept_id="6331" units="" precise="false"/>
+  <concept_numeric concept_id="6339" units="" precise="false"/>
+  <concept_numeric concept_id="6341" units="" precise="false"/>
+  <concept_numeric concept_id="6356" units="" precise="false"/>
+  <concept_numeric concept_id="6396" hi_absolute="100.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="6397" hi_absolute="100.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="6422" units="%" precise="true"/>
+  <concept_numeric concept_id="6445" units="mg/dl" precise="true"/>
+  <concept_numeric concept_id="6717" hi_absolute="4.0" low_absolute="1.0" units="" precise="true"/>
+  <concept_numeric concept_id="6754" units="" precise="false"/>
+  <concept_numeric concept_id="6781" units="" precise="false"/>
+  <concept_numeric concept_id="6782" units="" precise="false"/>
+  <concept_numeric concept_id="6793" units="" precise="false"/>
+  <concept_numeric concept_id="6795" units="" precise="false"/>
+  <concept_numeric concept_id="6796" units="" precise="false"/>
+  <concept_numeric concept_id="6797" units="" precise="false"/>
+  <concept_numeric concept_id="6835" units="" precise="false"/>
+  <concept_numeric concept_id="6836" units="" precise="false"/>
+  <concept_numeric concept_id="6837" units="" precise="false"/>
+  <concept_numeric concept_id="6838" units="" precise="false"/>
+  <concept_numeric concept_id="6839" units="" precise="false"/>
+  <concept_numeric concept_id="6840" units="" precise="false"/>
+  <concept_numeric concept_id="6841" units="" precise="false"/>
+  <concept_numeric concept_id="6842" units="" precise="false"/>
+  <concept_numeric concept_id="6843" units="" precise="false"/>
+  <concept_numeric concept_id="6844" units="" precise="false"/>
+  <concept_numeric concept_id="6845" units="" precise="false"/>
+  <concept_numeric concept_id="6846" units="" precise="false"/>
+  <concept_numeric concept_id="6847" units="" precise="false"/>
+  <concept_numeric concept_id="6848" units="" precise="false"/>
+  <concept_numeric concept_id="6849" units="" precise="false"/>
+  <concept_numeric concept_id="6850" units="" precise="false"/>
+  <concept_numeric concept_id="6851" units="" precise="false"/>
+  <concept_numeric concept_id="6852" units="" precise="false"/>
+  <concept_numeric concept_id="6853" units="" precise="false"/>
+  <concept_numeric concept_id="6854" units="" precise="false"/>
+  <concept_numeric concept_id="6855" units="" precise="false"/>
+  <concept_numeric concept_id="6856" units="" precise="false"/>
+  <concept_numeric concept_id="6857" units="" precise="false"/>
+  <concept_numeric concept_id="6858" units="" precise="false"/>
+  <concept_numeric concept_id="6859" units="" precise="false"/>
+  <concept_numeric concept_id="6860" units="" precise="false"/>
+  <concept_numeric concept_id="6861" units="" precise="false"/>
+  <concept_numeric concept_id="6862" units="" precise="false"/>
+  <concept_numeric concept_id="6863" units="" precise="false"/>
+  <concept_numeric concept_id="6873" units="" precise="false"/>
+  <concept_numeric concept_id="6987" hi_absolute="100.0" low_absolute="0.0" units="%" precise="true"/>
+  <concept_numeric concept_id="6991" units="" precise="false"/>
+  <concept_numeric concept_id="6992" units="" precise="false"/>
+  <concept_numeric concept_id="6994" units="" precise="false"/>
+  <concept_numeric concept_id="7368" units="" precise="false"/>
+  <concept_numeric concept_id="7369" units="" precise="false"/>
+  <concept_numeric concept_id="7404" units="" precise="false"/>
+  <concept_numeric concept_id="7416" units="" precise="false"/>
+  <concept_numeric concept_id="7454" units="" precise="false"/>
+  <concept_numeric concept_id="7455" units="" precise="false"/>
+  <concept_numeric concept_id="7456" units="" precise="false"/>
+  <concept_numeric concept_id="7457" units="" precise="false"/>
+  <concept_numeric concept_id="7458" units="" precise="false"/>
+  <concept_numeric concept_id="7557" units="" precise="false"/>
+  <concept_numeric concept_id="7757" units="" precise="false"/>
+  <concept_numeric concept_id="7758" units="" precise="false"/>
+  <concept_numeric concept_id="7760" units="" precise="false"/>
+  <concept_numeric concept_id="7761" units="" precise="false"/>
+  <concept_numeric concept_id="7762" units="" precise="false"/>
+  <concept_numeric concept_id="7763" units="" precise="false"/>
+  <concept_numeric concept_id="7764" units="" precise="false"/>
+  <concept_numeric concept_id="7765" units="" precise="false"/>
+  <concept_numeric concept_id="7766" units="" precise="false"/>
+  <concept_numeric concept_id="7767" units="" precise="false"/>
+  <concept_numeric concept_id="7768" units="" precise="false"/>
+  <concept_numeric concept_id="7769" units="" precise="false"/>
+  <concept_numeric concept_id="7770" units="" precise="false"/>
+  <concept_numeric concept_id="7771" units="" precise="false"/>
+  <concept_numeric concept_id="7772" units="" precise="false"/>
+  <concept_numeric concept_id="7773" units="" precise="false"/>
+  <concept_numeric concept_id="7774" units="" precise="false"/>
+  <concept_numeric concept_id="7775" units="" precise="false"/>
+  <concept_numeric concept_id="7776" units="" precise="false"/>
+  <concept_numeric concept_id="7777" units="" precise="false"/>
+  <concept_numeric concept_id="7879" units="" precise="false"/>
+  <concept_numeric concept_id="7921" units="" precise="false"/>
+  <concept_numeric concept_id="7922" units="" precise="false"/>
+  <concept_numeric concept_id="7923" units="" precise="false"/>
+  <concept_numeric concept_id="7924" units="" precise="false"/>
+  <concept_numeric concept_id="7925" precise="false"/>
+  <concept_numeric concept_id="7926" hi_absolute="100.0" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="7927" units="" precise="false"/>
+  <concept_numeric concept_id="7928" units="" precise="false"/>
+  <concept_numeric concept_id="8032" units="" precise="false"/>
+  <concept_numeric concept_id="8062" units="" precise="false"/>
+  <concept_numeric concept_id="8063" units="" precise="false"/>
+  <concept_numeric concept_id="8064" units="" precise="false"/>
+  <concept_numeric concept_id="8065" units="" precise="false"/>
+  <concept_numeric concept_id="8066" units="" precise="false"/>
+  <concept_numeric concept_id="8067" units="" precise="false"/>
+  <concept_numeric concept_id="8071" units="" precise="false"/>
+  <concept_numeric concept_id="8072" units="" precise="false"/>
+  <concept_numeric concept_id="8073" units="" precise="false"/>
+  <concept_numeric concept_id="8080" units="" precise="false"/>
+  <concept_numeric concept_id="8083" units="" precise="false"/>
+  <concept_numeric concept_id="8084" units="" precise="false"/>
+  <concept_numeric concept_id="8085" units="" precise="false"/>
+  <concept_numeric concept_id="8086" units="" precise="false"/>
+  <concept_numeric concept_id="8087" units="" precise="false"/>
+  <concept_numeric concept_id="8088" units="" precise="false"/>
+  <concept_numeric concept_id="8089" units="" precise="false"/>
+  <concept_numeric concept_id="8090" units="" precise="false"/>
+  <concept_numeric concept_id="8091" units="" precise="false"/>
+  <concept_numeric concept_id="8092" units="" precise="false"/>
+  <concept_numeric concept_id="8093" units="" precise="false"/>
+  <concept_numeric concept_id="8094" units="" precise="false"/>
+  <concept_numeric concept_id="8095" units="" precise="false"/>
+  <concept_numeric concept_id="8096" units="" precise="false"/>
+  <concept_numeric concept_id="8097" units="" precise="false"/>
+  <concept_numeric concept_id="8098" units="" precise="false"/>
+  <concept_numeric concept_id="8099" units="" precise="false"/>
+  <concept_numeric concept_id="8103" units="" precise="false"/>
+  <concept_numeric concept_id="8104" units="KG" precise="false"/>
+  <concept_numeric concept_id="8107" hi_normal="40.0" low_normal="1.0" units="g/dL" precise="false"/>
+  <concept_numeric concept_id="8349" units="" precise="false"/>
+  <concept_numeric concept_id="8350" units="" precise="false"/>
+  <concept_numeric concept_id="8351" units="" precise="false"/>
+  <concept_numeric concept_id="8396" low_absolute="0.0" units="servings per day" precise="false"/>
+  <concept_numeric concept_id="8399" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="8400" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="8401" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="8402" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="8403" low_absolute="0.0" units="" precise="false"/>
+  <concept_numeric concept_id="8446" hi_absolute="7.0" low_absolute="0.0" units="days per week" precise="false"/>
+  <concept_numeric concept_id="8447" low_absolute="0.0" units="mg/dL" precise="true"/>
+  <concept_numeric concept_id="8448" low_absolute="0.0" units="mg/dL" precise="true"/>
+  <concept_numeric concept_id="8453" hi_absolute="2050.0" low_absolute="1950.0" precise="false"/>
+  <concept_numeric concept_id="8460" hi_absolute="100.0" low_absolute="0.0" units="%" precise="false"/>
+  <concept_numeric concept_id="8512" hi_absolute="2050.0" low_absolute="1950.0" precise="false"/>
+  <concept_numeric concept_id="8513" hi_absolute="12.0" low_absolute="1.0" precise="false"/>
+  <concept_numeric concept_id="8758" units="mL/min" precise="false"/>
+</dataset>
