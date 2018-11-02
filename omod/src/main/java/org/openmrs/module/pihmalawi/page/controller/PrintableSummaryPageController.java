@@ -22,6 +22,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MostRecentViralLoadResultConverter;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
@@ -124,20 +125,22 @@ public class PrintableSummaryPageController {
             Date lastViralLoadDate = null;
             Boolean highViralLoad = false;
 
-            ViralLoad lastViralLoad = getLastValue(dataSet, "viralLoads", ViralLoad.class);
+            List<ViralLoad> viralLoads = getValue(dataSet, "viralLoads", List.class);
 
-            if (lastViralLoad != null) {
-                lastViralLoadDate = lastViralLoad.getResultDate();
-                if (lastViralLoad.getResultNumeric() != null) {
-                    lastViralLoadValue = ObjectUtil.formatNumber(lastViralLoad.getResultNumeric(), "1", Context.getLocale());
-                    if (lastViralLoad.getResultNumeric() >= 1000) {
-                        highViralLoad = true;
+            for (ViralLoad vl : viralLoads) {
+                if (vl.getResultLdl() != null || vl.getResultNumeric() != null) {
+                    lastViralLoadDate = vl.getResultDate();
+                    if (vl.getResultNumeric() != null) {
+                        lastViralLoadValue = ObjectUtil.formatNumber(vl.getResultNumeric(), "1", Context.getLocale());
+                        highViralLoad =  (vl.getResultNumeric() >= 1000);
+                    }
+                    else if (vl.getResultLdl()) {
+                        lastViralLoadValue = "LDL";
+                        highViralLoad = false;
                     }
                 }
-                else if (lastViralLoad.getResultLdl()) {
-                    lastViralLoadValue = "LDL";
-                }
             }
+
             model.put("lastViralLoadValue", lastViralLoadValue);
             model.put("lastViralLoadDate", lastViralLoadDate);
             model.put("highViralLoad", highViralLoad);

@@ -24,6 +24,7 @@ import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MostRecentViralLoadResultConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ObsValueBooleanYesNoConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PregnantLactatingConverter;
@@ -36,6 +37,7 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonF
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.ChangeInValueConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
@@ -227,13 +229,17 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
     @DocumentedDefinition("latestViralLoad.value")
     public PatientDataDefinition getLatestViralLoadValueByEndDate(Object valueIfLdl) {
         ViralLoadDataDefinition def = getAllViralLoadsByEndDate();
-        return pdf.convert(def, pdf.getLastListItemConverter(new ViralLoadValueConverter(valueIfLdl)));
+        MostRecentViralLoadResultConverter mlvrc = new MostRecentViralLoadResultConverter();
+        ViralLoadValueConverter vlvc = new ViralLoadValueConverter(valueIfLdl);
+        return pdf.convert(def, new ChainedConverter(mlvrc, vlvc));
 	}
 
     @DocumentedDefinition("latestViralLoad.date")
     public PatientDataDefinition getLatestViralLoadDateByEndDate() {
         ViralLoadDataDefinition def = getAllViralLoadsByEndDate();
-        return pdf.convert(def, pdf.getLastListItemConverter(new PropertyConverter(ViralLoad.class, "resultDate")));
+        MostRecentViralLoadResultConverter mlvrc = new MostRecentViralLoadResultConverter();
+        PropertyConverter dateConverter = new PropertyConverter(ViralLoad.class, "resultDate");
+        return pdf.convert(def, new ChainedConverter(mlvrc, dateConverter));
     }
 
     @DocumentedDefinition("arvRegimenChanges")
