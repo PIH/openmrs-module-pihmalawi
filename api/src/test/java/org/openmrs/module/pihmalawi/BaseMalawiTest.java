@@ -69,6 +69,7 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
         }
 
         authenticate();
+
     }
 
     protected PatientBuilder createPatient() {

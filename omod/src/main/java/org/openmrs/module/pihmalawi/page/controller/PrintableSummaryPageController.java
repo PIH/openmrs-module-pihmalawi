@@ -22,7 +22,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MostRecentViralLoadResultConverter;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
@@ -80,7 +79,7 @@ public class PrintableSummaryPageController {
         add(dsd, "ccTxStatus", ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
         add(dsd, "ccTxStatusDate", ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
         add(dsd, "artStartDate", hivData.getEarliestOnArvsStateStartDateByEndDate());
-        add(dsd, "artRegimens", hivData.getArvRegimenChanges());
+        add(dsd, "artRegimens", hivData.getArvRegimenChangesByEndDate());
         add(dsd, "encounters", baseData.getAllEncounters());
         add(dsd, "hccAppointmentStatus", hivData.getHccAppointmentStatus());
         add(dsd, "artAppointmentStatus", hivData.getArtAppointmentStatus());

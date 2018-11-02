@@ -13,10 +13,12 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLo
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.openmrs.test.SkipBaseSetup;
 
 import java.util.Date;
 import java.util.List;
 
+@SkipBaseSetup
 public class ViralLoadDataEvaluatorTest extends BaseMalawiTest {
 
 	@Test

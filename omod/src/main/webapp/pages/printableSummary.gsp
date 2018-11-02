@@ -229,8 +229,8 @@
                 <div class="top-section-title">ARV Regimens:</div>
                 <%  if (artRegimens != null && artRegimens.size() > 0) {
                     Collections.reverse(artRegimens); %>
-                    <%  artRegimens.each { regimenObs -> %>
-                        <div>${ ui.format(regimenObs.valueCoded) } on ${ ui.format(regimenObs.obsDatetime) }</div>
+                    <%  artRegimens.each { regimen -> %>
+                        <div>${ ui.format(regimen.regimen) } on ${ ui.format(regimen.regimenDate) }</div>
                     <% } %>
                 <% } else { %>
                     <br/>

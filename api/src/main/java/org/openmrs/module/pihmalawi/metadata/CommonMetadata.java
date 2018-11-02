@@ -110,8 +110,13 @@ public class CommonMetadata extends Metadata {
 	public static final String WHO_STAGE_4_PEDS_CONCEPT = "WHO stage IV peds";
 	public static final String LYMPHOCYTE_COUNT_BELOW_THRESHOLD_WITH_WHO_STAGE_2_CONCEPT = "Lymphocyte count below threshold with who stage 2";
 	public static final String PRESUMED_SEVERE_HIV_CRITERIA_PRESENT = "Presumed severe HIV criteria present";
-	public static final String FIRST_LINE_ARV_START_DATE = "Start date 1st line ARV";
 	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";
+    public static final String ARV_DRUGS_CHANGE_1 = "657ac678-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_DRUGS_CHANGE_2 = "657ac7c2-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_DRUGS_CHANGE_3 = "657ac8d0-977f-11e1-8993-905e29aff6c1";
+    public static final String DATE_OF_STARTING_FIRST_LINE_ARVS = "656fbe36-977f-11e1-8993-905e29aff6c1";
+    public static final String DATE_OF_STARTING_ALTERNATIVE_FIRST_LINE_ARVS = "655fabfe-977f-11e1-8993-905e29aff6c1";
+    public static final String DATE_OF_STARTING_SECOND_LINE_ARVS = "655fad02-977f-11e1-8993-905e29aff6c1";
 	public static final String TB_STATUS = "TB status";
 	public static final String MOTHER_ART_NUMBER = "Mother ART registration number";
 	public static final String TB_NOT_SUSPECTED_CONCEPT = "TB NOT suspected";
@@ -193,19 +198,21 @@ public class CommonMetadata extends Metadata {
 	public static final String REASON_FOR_EXITING_CARE_CONCEPT = "REASON FOR EXITING CARE";
 	public static final String DIED_CONCEPT = "Patient died";
 
-	public static final String ARV_REGIMEN_1A_CONCEPT = "1A: d4T / 3TC / NVP (previous 1L)";
-	public static final String ARV_REGIMEN_2A_CONCEPT = "2A: AZT / 3TC / NVP (previous AZT)";
-	public static final String ARV_REGIMEN_3A_CONCEPT = "3A: d4T / 3TC + EFV (previous EFV)";
-	public static final String ARV_REGIMEN_4A_CONCEPT = "4A: AZT / 3TC + EFV (previous AZTEFV)";
-	public static final String ARV_REGIMEN_5A_CONCEPT = "5A: TDF + 3TC + EFV";
-	public static final String ARV_REGIMEN_6A_CONCEPT = "6A: TDF / 3TC + NVP";
-	public static final String ARV_REGIMEN_7A_CONCEPT = "7A: TDF / 3TC + LPV/r";
-	public static final String ARV_REGIMEN_8A_CONCEPT = "8A: AZT / 3TC + LPV/r";
-	public static final String ARV_REGIMEN_9P_CONCEPT = "9P: ABC / 3TC + LPV/r";
-	public static final String ARV_REGIMEN_1P_CONCEPT = "1P: d4T / 3TC / NVP";
-	public static final String ARV_REGIMEN_2P_CONCEPT = "2P: AZT / 3TC / NVP";
-	public static final String ARV_REGIMEN_3P_CONCEPT = "3P: d4T / 3TC + EFV";
-	public static final String ARV_REGIMEN_4P_CONCEPT = "4P: AZT / 3TC + EFV";
+    public static final String ARV_REGIMEN_0A_CONCEPT = "d5930c3a-cb57-11e5-9956-625662870761";
+    public static final String ARV_REGIMEN_0P_CONCEPT = "d59315a4-cb57-11e5-9956-625662870761";
+    public static final String ARV_REGIMEN_1A_CONCEPT = "657ab1ba-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_1P_CONCEPT = "657ab372-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_2A_CONCEPT = "657ab520-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_2P_CONCEPT = "657ab6d8-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_3A_CONCEPT = "657ab886-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_3P_CONCEPT = "657aba3e-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_4A_CONCEPT = "657abd9a-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_4P_CONCEPT = "657abf48-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_5A_CONCEPT = "657ac056-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_6A_CONCEPT = "657ac164-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_7A_CONCEPT = "657ac268-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_8A_CONCEPT = "657ac36c-977f-11e1-8993-905e29aff6c1";
+    public static final String ARV_REGIMEN_9P_CONCEPT = "657ac470-977f-11e1-8993-905e29aff6c1";
 
 	public static final String PERIPHERAL_NEUROPATHY_CONCEPT = "Peripheral neuropathy";
 	public static final String HEPATITIS_CONCEPT = "Hepatitis";
@@ -323,13 +330,33 @@ public class CommonMetadata extends Metadata {
 		return getConcept(PRESUMED_SEVERE_HIV_CRITERIA_PRESENT);
 	}
 
-	public Concept getFirstLineArvStartDateConcept() {
-		return getConcept(FIRST_LINE_ARV_START_DATE);
-	}
-
 	public Concept getArvDrugsReceivedConcept() {
 		return getConcept(ARV_DRUGS_RECEIVED);
 	}
+
+    public Concept getArvDrugsChange1Concept() {
+        return getConcept(ARV_DRUGS_CHANGE_1);
+    }
+
+    public Concept getArvDrugsChange2Concept() {
+        return getConcept(ARV_DRUGS_CHANGE_2);
+    }
+
+    public Concept getArvDrugsChange3Concept() {
+        return getConcept(ARV_DRUGS_CHANGE_3);
+    }
+
+    public Concept getDateOfStartingFirstLineArvsConcept() {
+        return getConcept(DATE_OF_STARTING_FIRST_LINE_ARVS);
+    }
+
+    public Concept getDateOfStartingAlternativeFirstLineArvsConcept() {
+        return getConcept(DATE_OF_STARTING_ALTERNATIVE_FIRST_LINE_ARVS);
+    }
+
+    public Concept getDateOfStartingSecondLineArvsConcept() {
+        return getConcept(DATE_OF_STARTING_SECOND_LINE_ARVS);
+    }
 
 	public Concept getTbStatusConcept() {
 		return getConcept(TB_STATUS);

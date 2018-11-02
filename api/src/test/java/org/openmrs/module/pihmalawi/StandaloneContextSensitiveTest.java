@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Properties;
 
-@ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
+//@ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
 @SkipBaseSetup
 public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSensitiveTest {
 
