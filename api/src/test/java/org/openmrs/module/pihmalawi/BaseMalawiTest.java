@@ -13,6 +13,7 @@ import org.openmrs.contrib.testdata.TestDataManager;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
@@ -48,6 +49,9 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
     @Autowired
     protected HivMetadata hivMetadata;
+
+    @Autowired
+    protected ChronicCareMetadata ccMetadata;
 
     @Before
     public void loadMetadata() throws Exception {

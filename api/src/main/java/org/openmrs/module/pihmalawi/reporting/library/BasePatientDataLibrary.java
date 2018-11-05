@@ -13,12 +13,9 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.Encounter;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.DiagnosesBasedOnMastercardsPatientDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.PriorityPatientForTracePatientDataDefinition;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
@@ -165,15 +162,4 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
         return df.getObsWhoseValueDatetimeIsDuringPeriodAtLocation(metadata.getAppointmentDateConcept(), null, df.getObsValueDatetimeCollectionConverter());
     }
 
-    // TRACE
-
-    @DocumentedDefinition
-    public PatientDataDefinition getDiagnosesBasedOnMastercards() {
-        return new DiagnosesBasedOnMastercardsPatientDataDefinition();
-    }
-
-    @DocumentedDefinition
-    public PatientDataDefinition getPriorityPatientForTrace() {
-        return new PriorityPatientForTracePatientDataDefinition();
-    }
 }
