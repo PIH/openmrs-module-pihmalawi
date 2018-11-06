@@ -19,6 +19,8 @@ import org.openmrs.module.reporting.data.BaseDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
+import java.util.Date;
+
 /**
  * Definition that returns a CodedValueAndDate using the configured concepts
  */
@@ -34,7 +36,7 @@ public class CodedValueAndDatePatientDataDefinition extends BaseDataDefinition i
     private Boolean matchEncounterOnly;
 
     @ConfigurationProperty
-    private Boolean endDate;
+    private Date endDate;
 
 	//****** CONSTRUCTORS ******
 
@@ -87,11 +89,11 @@ public class CodedValueAndDatePatientDataDefinition extends BaseDataDefinition i
         this.matchEncounterOnly = matchEncounterOnly;
     }
 
-    public Boolean getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Boolean endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }

@@ -63,5 +63,18 @@ public class CodedValueAndDateDataEvaluatorTest extends BaseMalawiTest {
         Assert.assertNull(expectedDiabetes.getDateObs());
         Assert.assertEquals(ccMetadata.getDiabetesConcept(), expectedDiabetes.getValue());
         Assert.assertEquals(encounter.getEncounterDatetime(), expectedDiabetes.getDate());
+
+        // Test that endDate is respected with and without a date obs
+        pdd.setEndDate(DateUtil.getDateTime(2015, 1, 1));
+        data = patientDataService.evaluate(pdd, context);
+
+        patientData = (List<CodedValueAndDate>)data.getData().get(patient.getId());
+        Assert.assertEquals(1, patientData.size());
+        Assert.assertEquals(expectedHtn, patientData.get(0));
+
+        pdd.setEndDate(DateUtil.getDateTime(2011, 3, 17));
+        data = patientDataService.evaluate(pdd, context);
+        patientData = (List<CodedValueAndDate>)data.getData().get(patient.getId());
+        Assert.assertEquals(0, patientData.size());
 	}
 }

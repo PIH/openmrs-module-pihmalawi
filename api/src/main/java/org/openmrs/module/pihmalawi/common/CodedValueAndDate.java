@@ -14,8 +14,11 @@
 
 package org.openmrs.module.pihmalawi.common;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
+import org.openmrs.module.reporting.common.ObjectUtil;
 
 import java.util.Date;
 
@@ -38,11 +41,33 @@ public class CodedValueAndDate {
     //***** METHODS *****
 
     public Date getDate() {
-        return dateObs != null ? dateObs.getValueDate() : (valueObs != null ? valueObs.getEncounter().getEncounterDatetime() : null);
+        return dateObs != null && dateObs.getValueDate() != null ? dateObs.getValueDate() : (valueObs != null ? valueObs.getEncounter().getEncounterDatetime() : null);
     }
 
     public Concept getValue() {
         return valueObs != null ? valueObs.getValueCoded() : null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) { return false; }
+        CodedValueAndDate that = (CodedValueAndDate)obj;
+        return new EqualsBuilder().append(this.getValueObs(), that.getValueObs()).append(this.getDateObs(), that.getDateObs()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getValueObs()).append(getDateObs()).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        if (getValueObs() != null) {
+            return getValueObs().getValueCoded().getDisplayString() + " - " + ObjectUtil.format(getDate());
+        }
+        return super.toString();
     }
 
     //***** ACCESSORS ******

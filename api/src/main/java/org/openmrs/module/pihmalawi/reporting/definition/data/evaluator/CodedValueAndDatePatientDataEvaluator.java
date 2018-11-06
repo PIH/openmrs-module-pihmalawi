@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,11 +62,16 @@ public class CodedValueAndDatePatientDataEvaluator implements PatientDataEvaluat
 
 		boolean matchEncOnly = def.getMatchEncounterOnly() != null && def.getMatchEncounterOnly().booleanValue();
 
+		EvaluationContext childContext = context.shallowCopy();
+		if (def.getEndDate() != null) {
+		    childContext.addParameterValue("endDate", def.getEndDate());
+        }
+
         PatientDataDefinition codedValDef =  df.getAllObsByEndDate(def.getCodedValueQuestion(), null, null);
         PatientDataDefinition dateValDefs =  df.getAllObsByEndDate(def.getDateValueQuestion(), null, null);
 
-        PatientData codedValData = patientDataService.evaluate(codedValDef, context);
-        PatientData dateValData = patientDataService.evaluate(dateValDefs, context);
+        PatientData codedValData = patientDataService.evaluate(codedValDef, childContext);
+        PatientData dateValData = patientDataService.evaluate(dateValDefs, childContext);
 
         for (Integer pId : codedValData.getData().keySet()) {
             List<CodedValueAndDate> valsForPatient = new ArrayList<CodedValueAndDate>();
@@ -83,6 +89,16 @@ public class CodedValueAndDatePatientDataEvaluator implements PatientDataEvaluat
                     existing.setDateObs(dateVal);
                 }
             }
+            // Remove any needed if a date constraint passed in
+            if (def.getEndDate() != null) {
+                for (Iterator<CodedValueAndDate> i = valsForPatient.iterator(); i.hasNext();) {
+                    CodedValueAndDate v = i.next();
+                    if (v.getDate().after(def.getEndDate())) {
+                        i.remove();
+                    }
+                }
+            }
+            // Sort by date ascending
             Collections.sort(valsForPatient, new BeanPropertyComparator("date asc"));
             c.getData().put(pId, valsForPatient);
         }
