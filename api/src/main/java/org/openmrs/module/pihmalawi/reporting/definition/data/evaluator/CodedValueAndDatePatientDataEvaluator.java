@@ -20,6 +20,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.common.CodedValueAndDate;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.CodedValueAndDatePatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.BeanPropertyComparator;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
@@ -64,7 +65,8 @@ public class CodedValueAndDatePatientDataEvaluator implements PatientDataEvaluat
 
 		EvaluationContext childContext = context.shallowCopy();
 		if (def.getEndDate() != null) {
-		    childContext.addParameterValue("endDate", def.getEndDate());
+		    // Remove end date parameter if passed in, as we need to do the date restriction in code below, due to date obs
+		    childContext.getParameterValues().remove(ReportingConstants.END_DATE_PARAMETER.getName());
         }
 
         PatientDataDefinition codedValDef =  df.getAllObsByEndDate(def.getCodedValueQuestion(), null, null);
