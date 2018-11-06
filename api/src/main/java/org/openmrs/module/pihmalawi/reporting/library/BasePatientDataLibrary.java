@@ -13,9 +13,12 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
@@ -130,7 +133,7 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@DocumentedDefinition("latestHeight")
 	public PatientDataDefinition getLatestHeight() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getHeightConcept()), df.getObsValueNumericConverter());
+		return df.convert(getLatestHeightObs(), df.getObsValueNumericConverter());
 	}
 
     @DocumentedDefinition
@@ -138,15 +141,32 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
         return df.getAllObsByEndDate(metadata.getWeightConcept(), null, null);
     }
 
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestWeightObs() {
+        return df.getMostRecentObsByEndDate(metadata.getWeightConcept());
+    }
+
 	@DocumentedDefinition("latestWeight")
 	public PatientDataDefinition getLatestWeight() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsValueNumericConverter());
+		return df.convert(getLatestWeightObs(), df.getObsValueNumericConverter());
 	}
 
 	@DocumentedDefinition("latestWeight.date")
 	public PatientDataDefinition getLatestWeightDate() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsDatetimeConverter());
+		return df.convert(getLatestWeightObs(), df.getObsDatetimeConverter());
 	}
+
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestBmiByEndDate() {
+        BmiPatientDataDefinition d = new BmiPatientDataDefinition();
+        d.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        return d;
+    }
+
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestBmiNumericValueByEndDate() {
+        return df.convert(getLatestBmiByEndDate(), new PropertyConverter(BMI.class, "numericValue"));
+    }
 
     // Encounters
 

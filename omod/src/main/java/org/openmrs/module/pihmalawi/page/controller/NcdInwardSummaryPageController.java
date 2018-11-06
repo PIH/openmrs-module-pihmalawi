@@ -171,7 +171,7 @@ public class NcdInwardSummaryPageController {
                             section.addObsValue("Last Blood Pressure", bp);
                         }
                         if (section.getKey().equals("diabetes")) {
-                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getGlycatedHemoglobinConcept(), section.getTypes(), null), context);
+                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), section.getTypes(), null), context);
                             section.addObsValue("Last HbA1c result", ui.format(lastHba1cResult));
 
                             Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), section.getTypes(), null), context);

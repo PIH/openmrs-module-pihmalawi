@@ -14,9 +14,12 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
@@ -57,19 +60,28 @@ public abstract class ApzuReportManager extends BaseReportManager {
     DataFactory df;
 
     @Autowired
+    HivMetadata hivMetadata;
+
+    @Autowired
+    ChronicCareMetadata ccMetadata;
+
+    @Autowired
     HivCohortDefinitionLibrary hivCohorts;
 
     @Autowired
     HivEncounterQueryLibrary encounterQueries;
 
     @Autowired
-    BuiltInPatientDataLibrary builtInPatientData ;
+    BuiltInPatientDataLibrary builtInPatientData;
 
     @Autowired
-    BasePatientDataLibrary basePatientData ;
+    BasePatientDataLibrary basePatientData;
 
     @Autowired
-    HivPatientDataLibrary hivPatientData ;
+    HivPatientDataLibrary hivPatientData;
+
+    @Autowired
+    ChronicCarePatientDataLibrary ccPatientData;
 
     @Autowired
     BuiltInEncounterDataLibrary builtInEncounterData;
