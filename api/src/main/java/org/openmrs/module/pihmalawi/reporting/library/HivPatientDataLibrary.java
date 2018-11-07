@@ -17,6 +17,7 @@ import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
@@ -25,6 +26,7 @@ import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.HivTestResultListConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MostRecentViralLoadResultConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ObsValueBooleanYesNoConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
@@ -36,6 +38,7 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.converter.WhoStage
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ArtRegimenHistoryDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.HivTestResultPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonForStartingArvsPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -221,6 +224,21 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(cd4Def, pdf.getLastListItemConverter(pdf.getObsDatetimeConverter()));
 	}
 
+    //************* HIV TESTS *********************
+
+    @DocumentedDefinition
+    public PatientDataDefinition getAllHivTestResultsByEndDate() {
+        HivTestResultPatientDataDefinition def = new HivTestResultPatientDataDefinition();
+        def.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        return def;
+    }
+
+    public PatientDataDefinition getHivTestResultPropertyByEndDate(Concept type, String property) {
+        PatientDataDefinition results = getAllHivTestResultsByEndDate();
+        HivTestResultListConverter converter = new HivTestResultListConverter(type, property);
+        return pdf.convert(results, converter);
+    }
+
 	//************* VIRAL LOADS *********************
 
     @DocumentedDefinition
@@ -318,28 +336,34 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.getEarliestProgramEnrollmentByEndDate(hivMetadata.getHivProgram(), pdf.getProgramEnrollmentDateConverter());
 	}
 
+    public PatientDataDefinition getMostRecentHivTreatmentStatusStateByEndDate(DataConverter converter) {
+        ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
+        return pdf.getMostRecentStateForWorkflowByEndDate(wf, converter);
+    }
+
     @DocumentedDefinition("latestHivTreatmentStatusState")
     public PatientDataDefinition getMostRecentHivTreatmentStatusStateByEndDate() {
-        ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
-        return pdf.getMostRecentStateForWorkflowByEndDate(wf, null);
+        return getMostRecentHivTreatmentStatusStateByEndDate(null);
+    }
+
+    @DocumentedDefinition("latestHivTreatmentStatusStateConcept")
+    public PatientDataDefinition getMostRecentHivTreatmentStatusStateConceptByEndDate() {
+        return getMostRecentHivTreatmentStatusStateByEndDate(new PropertyConverter(PatientState.class, "state.concept"));
     }
 
 	@DocumentedDefinition("latestHivTreatmentStatusStateName")
 	public PatientDataDefinition getMostRecentHivTreatmentStatusStateNameByEndDate() {
-		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
-		return pdf.getMostRecentStateForWorkflowByEndDate(wf, pdf.getStateNameConverter());
+		return getMostRecentHivTreatmentStatusStateByEndDate(pdf.getStateNameConverter());
 	}
 
 	@DocumentedDefinition("latestHivTreatmentStatusState.date")
 	public PatientDataDefinition getMostRecentHivTreatmentStatusStateStartDateByEndDate() {
-		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
-		return pdf.getMostRecentStateForWorkflowByEndDate(wf, pdf.getStateStartDateConverter());
+        return getMostRecentHivTreatmentStatusStateByEndDate(pdf.getStateStartDateConverter());
 	}
 
 	@DocumentedDefinition("latestHivTreatmentStatusState.location")
 	public PatientDataDefinition getMostRecentHivTreatmentStatusStateLocationByEndDate() {
-		ProgramWorkflow wf = hivMetadata.getTreatmentStatusWorkfow();
-		return pdf.getMostRecentStateForWorkflowByEndDate(wf, pdf.getStateLocationConverter());
+        return getMostRecentHivTreatmentStatusStateByEndDate(pdf.getStateLocationConverter());
 	}
 
 	@DocumentedDefinition("latestHivTreatmentStatusStateAtLocation")
@@ -475,16 +499,6 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	protected PatientDataDefinition getObsOnEidInitialEncounter(Concept question, DataConverter converter) {
 		EncounterType eidInitial = hivMetadata.getEidInitialEncounterType();
 		return pdf.getFirstObsByEndDate(question, Arrays.asList(eidInitial), converter);
-	}
-
-    protected PatientDataDefinition getObsValuePresentOnArtInitialEncounter(Concept question, Concept answer) {
-        EncounterType arvInitial = hivMetadata.getArtInitialEncounterType();
-        return pdf.getCodedObsPresentByEndDate(question, answer, Arrays.asList(arvInitial));
-    }
-
-	protected PatientDataDefinition getLatestArtFollowupEncounterByEndDate(DataConverter converter) {
-		EncounterType arvFollowup = hivMetadata.getArtFollowupEncounterType();
-		return pdf.getMostRecentEncounterOfTypeByEndDate(arvFollowup, converter);
 	}
 
 	protected PatientDataDefinition getFirstStateAfterExposedChildOrPreArtStateAtLocationByEndDate(DataConverter converter) {

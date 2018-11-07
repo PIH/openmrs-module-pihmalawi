@@ -82,13 +82,15 @@ public class CodedValueAndDatePatientDataEvaluator implements PatientDataEvaluat
                 valsForPatient.add(new CodedValueAndDate(codedVal));
             }
             List<Obs> dateVals = (List<Obs>)dateValData.getData().get(pId);
-            for (Obs dateVal : dateVals) {
-                CodedValueAndDate existing = getMatch(valsForPatient, matchEncOnly, dateVal);
-                if (existing == null) {
-                    log.warn("Found date obs " + def.getDateValueQuestion() + " where not value obs exists. Obs ID: " + dateVal.getId());
-                }
-                else {
-                    existing.setDateObs(dateVal);
+            if (dateVals != null) {
+                for (Obs dateVal : dateVals) {
+                    CodedValueAndDate existing = getMatch(valsForPatient, matchEncOnly, dateVal);
+                    if (existing == null) {
+                        log.warn("Found date obs " + def.getDateValueQuestion() + " where not value obs exists. Obs ID: " + dateVal.getId());
+                    }
+                    else {
+                        existing.setDateObs(dateVal);
+                    }
                 }
             }
             // Remove any needed if a date constraint passed in

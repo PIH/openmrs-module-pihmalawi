@@ -13,7 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.apache.commons.collections.comparators.ComparableComparator;
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
@@ -24,7 +24,10 @@ import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.CodedValueAndDatePatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
+import org.openmrs.module.reporting.data.converter.CountConverter;
+import org.openmrs.module.reporting.data.converter.ExistenceConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
@@ -32,6 +35,7 @@ import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -94,36 +98,23 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         dd.addParameter(ReportingConstants.END_DATE_PARAMETER);
 
         PropertyConverter codedValueConvertor = new PropertyConverter(CodedValueAndDate.class, "value");
-        CollectionConverter c = new CollectionConverter(codedValueConvertor, true, new ComparableComparator());
+        CollectionConverter c = new CollectionConverter(codedValueConvertor, true, null);
 
         return df.convert(dd, c);
 	}
 
-
-
 	@DocumentedDefinition
-	public PatientDataDefinition getIsPatientHighRisk() {
-		return df.getCodedObsPresentByEndDate(metadata.getHighRiskPatientConcept(), metadata.getYesConcept(), metadata.getChronicCareEncounterTypes());
-	}
+	public PatientDataDefinition getFamilyHistoryOfDiabetesByEndDate() {
 
-	@DocumentedDefinition
-	public PatientDataDefinition getTimeSpentTravelingToClinicInHours() {
-		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInHoursConcept());
-	}
+        // This converter will return true of a definition returns a non-empty list, false otherwise
+        ChainedConverter converter = new ChainedConverter();
+        converter.addConverter(new CountConverter(true));
+        converter.addConverter(new ExistenceConverter(Boolean.TRUE, Boolean.FALSE));
 
-	@DocumentedDefinition
-	public PatientDataDefinition getTimeSpentTravelingToClinicInMinutes() {
-		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInMinutesConcept());
-	}
+        Concept question = metadata.getFamilyHistoryOfDiabetesConcept();
+        List<Concept> values = Arrays.asList(metadata.getYesConcept());
 
-	@DocumentedDefinition
-	public PatientDataDefinition getMostRecentEncounterDateByEndDate() {
-		return df.getMostRecentEncounterOfTypesByEndDate(metadata.getChronicCareEncounterTypes(), df.getEncounterDatetimeConverter());
-	}
-
-	@DocumentedDefinition
-	public PatientDataDefinition getMostRecentAppointmentDateByEndDate() {
-		return df.getMostRecentObsByEndDate(metadata.getAppointmentDateConcept(), metadata.getChronicCareEncounterTypes(), df.getObsValueDatetimeConverter());
+        return df.getAllObsWithCodedValueByEndDate(question, values, converter);
 	}
 
     @DocumentedDefinition
@@ -133,9 +124,5 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 
     public PatientDataDefinition getFirstEncounterDateByEndDate(List<EncounterType> encounterTypes) {
         return df.getFirstEncounterOfTypeByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
-    }
-
-    public PatientDataDefinition getMostRecentEncounterDateByEndDate(List<EncounterType> encounterTypes) {
-        return df.getMostRecentEncounterOfTypesByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
     }
 }

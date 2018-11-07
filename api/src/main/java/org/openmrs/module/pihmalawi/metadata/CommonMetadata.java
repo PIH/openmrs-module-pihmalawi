@@ -23,6 +23,7 @@ import org.openmrs.api.context.Context;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,25 +47,10 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public static final String LAB_ENCOUNTER_TYPE = "LAB";
-	public static final String REGISTRATION_ENCOUNTER_TYPE = "REGISTRATION";
-	public static final String VITALS_ENCOUNTER_TYPE = "VITALS";
-	public static final String OPD_ENCOUNTER_TYPE = "OUTPATIENT DIAGNOSIS";
 	public static final String APPOINTMENT_ENCOUNTER_TYPE = "APPOINTMENT";
 
 	public EncounterType getLabEncounterType() {
 		return getEncounterType(LAB_ENCOUNTER_TYPE);
-	}
-
-	public EncounterType getRegistrationEncounterType() {
-		return getEncounterType(REGISTRATION_ENCOUNTER_TYPE);
-	}
-
-	public EncounterType getVitalsEncounterType() {
-		return getEncounterType(VITALS_ENCOUNTER_TYPE);
-	}
-
-	public EncounterType getOpdEncounterType() {
-		return getEncounterType(OPD_ENCOUNTER_TYPE);
 	}
 
 	public EncounterType getAppointmentEncounterType() {
@@ -78,7 +64,33 @@ public class CommonMetadata extends Metadata {
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
     public static final String CD4_DATE = "Date of CD4 count";
 
+    // HIV TESTING
+
+    public static final String CHILD_HIV_SEROLOGY_CONSTRUCT = "655dca78-977f-11e1-8993-905e29aff6c1"; // Group for Child Results
+    public static final String HIV_TEST_SAMPLE_DATE = "656f9ed8-977f-11e1-8993-905e29aff6c1";
+    public static final String HIV_TEST_RESULT_DATE = "656fa234-977f-11e1-8993-905e29aff6c1";
+    public static final String HIV_TEST_TYPE = "655bee06-977f-11e1-8993-905e29aff6c1"; // Answers Rapid Test, DNA PCR
+    public static final String HIV_RAPID_TEST = "654b983a-977f-11e1-8993-905e29aff6c1"; // Answer and Question with answers Indeterminate/Negative/Postitive/Not Done
+    public static final String HIV_TEST_RESULT = "655dcb7c-977f-11e1-8993-905e29aff6c1"; // Answers Indeterminate/Negative/Positive/Reactive/Non-reactive
+    public static final String HIV_DNA_PCR = "654a6960-977f-11e1-8993-905e29aff6c1"; // Answer and Question with answers Indeterminate/Negative/Postitive/Not Done
+    public static final String DNA_PCR_RESULT = "657a3a14-977f-11e1-8993-905e29aff6c1";  // Values Negative/Positive
+    public static final String DNA_PCR_RESULT_2 = "657a3b22-977f-11e1-8993-905e29aff6c1";  // Values Negative/Positive
+    public static final String DNA_PCR_RESULT_3 = "657a3c26-977f-11e1-8993-905e29aff6c1";  // Values Negative/Positive
+    public static final String NEGATIVE = "654994c2-977f-11e1-8993-905e29aff6c1";
+    public static final String POSITIVE = "6549be7a-977f-11e1-8993-905e29aff6c1";
+    public static final String REACTIVE = "65587802-977f-11e1-8993-905e29aff6c1";
+    public static final String NON_REACTIVE = "6558791a-977f-11e1-8993-905e29aff6c1";
+    public static final String INDETERMINATE = "6557baa2-977f-11e1-8993-905e29aff6c1";
+
+    public static final List<String> HIV_DNA_PCR_RESULT_CONCEPTS = Arrays.asList(
+            HIV_DNA_PCR, DNA_PCR_RESULT, DNA_PCR_RESULT_2, DNA_PCR_RESULT_3
+    );
+
+    public static final String CONFIRMATORY_HIV_TEST_TYPE_CONCEPT = "65792d4a-977f-11e1-8993-905e29aff6c1";
+    public static final String FIRST_POSITIVE_HIV_TEST_TYPE_CONCEPT = "6574552c-977f-11e1-8993-905e29aff6c1";
+
     // VIRAL LOAD TESTING CONSTANTS
+
     public static final String HIV_VIRAL_LOAD_TEST_SET = "83931c6d-0e5a-4302-b8ce-a31175b6475e";
     public static final String HIV_VIRAL_LOAD_SPECIMEN_COLLECTED = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
     public static final String HIV_VIRAL_LOAD = "654a7694-977f-11e1-8993-905e29aff6c1";
@@ -92,6 +104,12 @@ public class CommonMetadata extends Metadata {
 	public static final String RESULT_MISSING = "e0822140-955d-11e7-abc4-cec278b6b50a";
 	public static final String UNSATISFACTORY_SAMPLE = "656fa55e-977f-11e1-8993-905e29aff6c1";
 
+	// ADHERENCE COUNSELLING
+
+    public static final String ADHERENCE_COUNSELING_SESSION_NUMBER_CONCEPT = "06b1f7d8-b6cc-11e8-96f8-529269fb1459";
+    public static final String FIRST_CONCEPT = "697e9461-f2d6-4ab1-a140-48f768ce002a";
+    public static final String SECOND_CONCEPT = "11c0f708-6950-4e94-b080-5c76174a4947";
+    public static final String THIRD_CONCEPT = "224e3d57-f6d1-4244-bbe2-b81a574ba7aa";
 
 	public static final String EVER_RECEIVED_ART_CONCEPT = "Ever received ART?";
 	public static final String KS_SIDE_EFFECTS_WORSENING_ON_ARVS = "Kaposis sarcoma side effects worsening while on ARVs?";
@@ -99,16 +117,6 @@ public class CommonMetadata extends Metadata {
 	public static final String WHO_STAGE = "WHO stage";
     public static final String WHO_CLINICAL_CONDITIONS = "Clinical Conditions Text";
 	public static final String CD4_PERCENT = "CD4 percent";
-	public static final String REASON_FOR_STARTING_ART = "Reason for ART eligibility";
-	public static final String UNKNOWN = "Unknown";
-	public static final String CD4_LESS_THAN_350_CONCEPT = "CD4 count less than 350";
-	public static final String WHO_STAGE_3_ADULT_AND_PEDS_CONCEPT = "WHO stage III adult and peds";
-	public static final String WHO_STAGE_4_ADULT_AND_PEDS_CONCEPT = "WHO stage IV adult and peds";
-	public static final String WHO_STAGE_3_ADULT_CONCEPT = "WHO stage III adult";
-	public static final String WHO_STAGE_4_ADULT_CONCEPT = "WHO stage IV adult";
-	public static final String WHO_STAGE_3_PEDS_CONCEPT = "WHO stage III peds";
-	public static final String WHO_STAGE_4_PEDS_CONCEPT = "WHO stage IV peds";
-	public static final String LYMPHOCYTE_COUNT_BELOW_THRESHOLD_WITH_WHO_STAGE_2_CONCEPT = "Lymphocyte count below threshold with who stage 2";
 	public static final String PRESUMED_SEVERE_HIV_CRITERIA_PRESENT = "Presumed severe HIV criteria present";
 	public static final String ARV_DRUGS_RECEIVED = "Malawi Antiretroviral drugs received";
     public static final String ARV_DRUGS_CHANGE_1 = "657ac678-977f-11e1-8993-905e29aff6c1";
@@ -124,58 +132,19 @@ public class CommonMetadata extends Metadata {
 	public static final String TB_CONFIRMED_NOT_ON_TX_CONCEPT = "Confirmed TB NOT on treatment";
 	public static final String TB_CONFIRMED_ON_TX_CONCEPT = "Confirmed TB on treatment";
 	public static final String ART_SIDE_EFFECTS = "Malawi ART side effects";
-	public static final String HIV_DNA_PCR = "HIV DNA polymerase chain reaction";
-	public static final String DNA_PCR_RESULT = "DNA-PCR Testing Result";
-	public static final String DNA_PCR_RESULT_2 = "DNA-PCR Testing Result 2";
-	public static final String DNA_PCR_RESULT_3 = "DNA-PCR Testing Result 3";
-	public static final String NEGATIVE = "Negative";
-	public static final String POSITIVE = "Positive";
-	public static final String INDETERMINATE = "Indeterminate";
-	public static final String FIRST_POSITIVE_HIV_TEST_TYPE_CONCEPT = "First positive HIV test type";
-	public static final String TREATMENT_COMPLETE_CONCEPT = "Treatment complete";
-	public static final String CURRENTLY_IN_TREATMENT_CONCEPT = "Currently in treatment";
-	public static final String NUMBER_OF_HIV_DRUG_DOSES_MISSED_CONCEPT = "Number of HIV drug doses missed";
 
-	public static final String PREGNANCY_STATUS = "Pregnancy status";
 	public static final String PREGNANT_OR_LACTATING_CONCEPT = "Pregnant/Lactating";
 	public static final String PATIENT_PREGNANT_CONCEPT = "Patient pregnant";
-	public static final String CURRENTLY_BREASTFEEDING_CONCEPT = "Currently breastfeeding child";
-	public static final String HIV_STATUS_CONCEPT = "HIV status";
-	public static final String ON_ART_CONCEPT = "On ART";
-	public static final String TB_HISTORY_CONCEPT = "Previous or current tuberculosis treatment";
-	public static final String CLINIC_TRAVEL_TIME_HOURS_CONCEPT = "Clinic travel time in hours";
-	public static final String CLINIC_TRAVEL_TIME_MINUTES_CONCEPT = "Clinic travel time in minutes";
-	public static final String HIGH_RISK_PATIENT_CONCEPT = "High risk patient";
-	public static final String WALL_MATERIAL_CONCEPT = "Wall material";
-	public static final String ROOF_MATERIAL_CONCEPT = "Roof material";
-	public static final String HOME_ELECTRICITY_CONCEPT = "Home electricity";
-	public static final String PATIENT_OWNS_RADIO_CONCEPT = "Patient owns radio";
-	public static final String ACCESS_TO_BICYCLE_CONCEPT = "Access to bicycle";
-	public static final String LOCATION_OF_COOKING_CONCEPT = "Location of cooking";
-	public static final String FUEL_SOUCE_CONCEPT = "Fuel source";
-	public static final String NUMBER_FRUIT_AND_VEGETABLES_CONCEPT = "Number of servings of fruits and vegetables consumed per day";
-	public static final String SMOKING_HISTORY_CONCEPT = "Smoking history";
-	public static final String NUMBER_CIGARRETES_PER_DAY_CONCEPT = "Number of cigarettes smoked per day";
-	public static final String HISTORY_OF_ALCOHOL_USE_CONCEPT = "History of alcohol use";
-	public static final String LITERS_ALCOHOL_PER_DAY_CONCEPT = "Liters per day";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
 	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
-	public static final String PREFERRED_TX_OUT_OF_STOCK_CONCEPT = "Preferred treatment out of stock";
-	public static final String CHANGE_IN_TREATMENT_CONCEPT = "Change in treatment";
 	public static final String HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT = "Patient hospitalized since last visit";
 	public static final String HOSPITALIZED_FOR_NCD_SINCE_LAST_VISIT_CONCEPT = "Hospitalized for non-communicable disease since last visit";
 	public static final String SYSTOLIC_BLOOD_PRESSURE_CONCEPT = "Systolic blood pressure";
 	public static final String DIASTOLIC_BLOOD_PRESSURE_CONCEPT = "Diastolic blood pressure";
-	public static final String NYHA_CLASS_CONCEPT = "Nyha class";
-	public static final String SERUM_GLUCOSE_CONCEPT = "Serum glucose";
 	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "Blood sugar test type";
 	public static final String NUMBER_OF_SEIZURES_CONCEPT = "NUMBER OF SEIZURES";
-	public static final String PEAK_FLOW_CONCEPT = "PEAK FLOW";
-	public static final String PEAK_FLOW_PREDICTED_CONCEPT = "PEAK FLOW PREDICTED";
 	public static final String ASTHMA_CLASSIFICATION_CONCEPT = "Asthma classification";
-	public static final String PATIENT_VISIT_COMPLETED_WITH_ALL_SERVICES_CONCEPT = "Patient visit completed with all services delivered";
-	public static final String DATA_CLERK_COMMENTS_CONCEPT = "Data clerk comments";
 
 	public static final String MODERATE_PERSISTENT_CONCEPT = "Moderate persistent";
 	public static final String SEVERE_PERSISTENT_CONCEPT = "Severe persistent";
@@ -183,9 +152,7 @@ public class CommonMetadata extends Metadata {
 
 	public static final String OTHER_NON_CODED_CONCEPT = "Other non-coded";
 	public static final String TRUE_CONCEPT = "True";
-	public static final String FALSE_CONCEPT = "False";
 	public static final String YES_CONCEPT = "Yes";
-	public static final String NO_CONCEPT = "No";
 	public static final String OTHER_CONCEPT = "Other";
 
 	public static final String BECLOMETHASONE_CONCEPT = "Beclomethasone";
@@ -198,21 +165,9 @@ public class CommonMetadata extends Metadata {
 	public static final String REASON_FOR_EXITING_CARE_CONCEPT = "REASON FOR EXITING CARE";
 	public static final String DIED_CONCEPT = "Patient died";
 
-    public static final String ARV_REGIMEN_0A_CONCEPT = "d5930c3a-cb57-11e5-9956-625662870761";
-    public static final String ARV_REGIMEN_0P_CONCEPT = "d59315a4-cb57-11e5-9956-625662870761";
-    public static final String ARV_REGIMEN_1A_CONCEPT = "657ab1ba-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_1P_CONCEPT = "657ab372-977f-11e1-8993-905e29aff6c1";
     public static final String ARV_REGIMEN_2A_CONCEPT = "657ab520-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_2P_CONCEPT = "657ab6d8-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_3A_CONCEPT = "657ab886-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_3P_CONCEPT = "657aba3e-977f-11e1-8993-905e29aff6c1";
     public static final String ARV_REGIMEN_4A_CONCEPT = "657abd9a-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_4P_CONCEPT = "657abf48-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_5A_CONCEPT = "657ac056-977f-11e1-8993-905e29aff6c1";
     public static final String ARV_REGIMEN_6A_CONCEPT = "657ac164-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_7A_CONCEPT = "657ac268-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_8A_CONCEPT = "657ac36c-977f-11e1-8993-905e29aff6c1";
-    public static final String ARV_REGIMEN_9P_CONCEPT = "657ac470-977f-11e1-8993-905e29aff6c1";
 
 	public static final String PERIPHERAL_NEUROPATHY_CONCEPT = "Peripheral neuropathy";
 	public static final String HEPATITIS_CONCEPT = "Hepatitis";
@@ -250,6 +205,66 @@ public class CommonMetadata extends Metadata {
 		return getConcept(CLINICIAN_REPORTED_CD4);
 	}
 
+	// HIV TESTING
+
+    public Concept getChildHivSerologyConstruct() { return getConcept(CHILD_HIV_SEROLOGY_CONSTRUCT); }
+
+    public Concept getHivTestSampleDateConcept() { return getConcept(HIV_TEST_SAMPLE_DATE); }
+
+    public Concept getHivTestResultDateConcept() { return getConcept(HIV_TEST_RESULT_DATE); }
+
+    public Concept getHivTestResult() { return getConcept(HIV_TEST_RESULT); }
+
+    public Concept getHivTestType() { return getConcept(HIV_TEST_TYPE); }
+
+    public Concept getHivRapidTest() { return getConcept(HIV_RAPID_TEST); }
+
+    public Concept getHivDnaPcrTest() { return getConcept(HIV_DNA_PCR); }
+
+    public List<Concept> getAllHivTestResultConcepts() {
+	    List<Concept> ret = new ArrayList<Concept>();
+	    ret.add(getHivTestResult());
+	    ret.addAll(getHivRapidTestResultConcepts());
+	    ret.addAll(getHivDnaPcrTestResultConcepts());
+	    return ret;
+    }
+
+    public List<Concept> getHivRapidTestResultConcepts() {
+        return Arrays.asList(getConcept(HIV_RAPID_TEST));
+    }
+
+    public List<Concept> getHivDnaPcrTestResultConcepts() {
+	    List<Concept> l = new ArrayList<Concept>();
+	    for (String uuid : HIV_DNA_PCR_RESULT_CONCEPTS) {
+	        l.add(getConcept(uuid));
+        }
+        return l;
+    }
+
+    public Concept getReactiveConcept() {
+        return getConcept(REACTIVE);
+    }
+
+    public Concept getPositiveConcept() {
+        return getConcept(POSITIVE);
+    }
+
+    public Concept getNonReactiveConcept() {
+        return getConcept(NON_REACTIVE);
+    }
+
+    public Concept getNegativeConcept() {
+        return getConcept(NEGATIVE);
+    }
+
+    public List<Concept> getHivPositiveResultConcepts() {
+        return Arrays.asList(getConcept(POSITIVE), getConcept(REACTIVE));
+    }
+
+    public List<Concept> getHivNegativeResultConcepts() {
+        return Arrays.asList(getConcept(NEGATIVE), getConcept(NON_REACTIVE));
+    }
+
     // Viral Load Testing
 
     public Concept getHivViralLoadTestSetConcept() {
@@ -276,29 +291,13 @@ public class CommonMetadata extends Metadata {
         return getConcept(ROUTINE);
     }
 
-    public Concept getConfirmedConcept() {
-        return getConcept(CONFIRMED);
-    }
-
-    public Concept getTargetedConcept() {
-        return getConcept(TARGETED);
-    }
-
-    public Concept getLabLocationConcept() {
-        return getConcept(LAB_LOCATION);
-    }
-
     public Concept getReasonNoResultConcept() {
         return getConcept(REASON_NO_RESULT);
     }
 
-    public Concept getResultMissingConcept() {
-        return getConcept(RESULT_MISSING);
-    }
+    // Adherence Counselling
 
-    public Concept getUnsatisfactorySampleConcept() {
-        return getConcept(UNSATISFACTORY_SAMPLE);
-    }
+    public Concept getAdherenceCounselingSessionNumberConcept() { return getConcept(ADHERENCE_COUNSELING_SESSION_NUMBER_CONCEPT); }
 
 	// Other
 
@@ -385,42 +384,6 @@ public class CommonMetadata extends Metadata {
 		return getConcept(ART_SIDE_EFFECTS);
 	}
 
-	public Concept getHivDnaPcrTestConcept() {
-		return getConcept(HIV_DNA_PCR);
-	}
-
-	public Concept getDnaPcrResultConcept() {
-		return getConcept(DNA_PCR_RESULT);
-	}
-
-	public Concept getDnaPcrResult2Concept() {
-		return getConcept(DNA_PCR_RESULT_2);
-	}
-
-	public Concept getDnaPcrResult3Concept() {
-		return getConcept(DNA_PCR_RESULT_3);
-	}
-
-	public Concept getNegativeConcept() {
-		return getConcept(NEGATIVE);
-	}
-
-	public Concept getPositiveConcept() {
-		return getConcept(POSITIVE);
-	}
-
-	public Concept getIndeterminateConcept() {
-		return getConcept(INDETERMINATE);
-	}
-
-	public Concept getFirstPositiveHivTestTypeConcept() {
-		return getConcept(FIRST_POSITIVE_HIV_TEST_TYPE_CONCEPT);
-	}
-
-	public Concept getPregnancyStatusConcept() {
-		return getConcept(PREGNANCY_STATUS);
-	}
-
 	public Concept getPregnantOrLactatingConcept() {
 		return getConcept(PREGNANT_OR_LACTATING_CONCEPT);
 	}
@@ -429,96 +392,12 @@ public class CommonMetadata extends Metadata {
 		return getConcept(PATIENT_PREGNANT_CONCEPT);
 	}
 
-	public Concept getCurrentlyBreastfeedingConcept() {
-		return getConcept(CURRENTLY_BREASTFEEDING_CONCEPT);
-	}
-
-	public Concept getHivStatusConcept() {
-		return getConcept(HIV_STATUS_CONCEPT);
-	}
-
-	public Concept getOnArtConcept() {
-		return getConcept(ON_ART_CONCEPT);
-	}
-
-	public Concept getTbHistoryConcept() {
-		return getConcept(TB_HISTORY_CONCEPT);
-	}
-
-	public Concept getClinicTravelTimeInHoursConcept() {
-		return getConcept(CLINIC_TRAVEL_TIME_HOURS_CONCEPT);
-	}
-
-	public Concept getClinicTravelTimeInMinutesConcept() {
-		return getConcept(CLINIC_TRAVEL_TIME_MINUTES_CONCEPT);
-	}
-
-	public Concept getHighRiskPatientConcept() {
-		return getConcept(HIGH_RISK_PATIENT_CONCEPT);
-	}
-
-	public Concept getWallMaterialConcept() {
-		return getConcept(WALL_MATERIAL_CONCEPT);
-	}
-
-	public Concept getRoofMaterialConcept() {
-		return getConcept(ROOF_MATERIAL_CONCEPT);
-	}
-
-	public Concept getHomeElectricityConcept() {
-		return getConcept(HOME_ELECTRICITY_CONCEPT);
-	}
-
-	public Concept getPatientOwnsRadioConcept() {
-		return getConcept(PATIENT_OWNS_RADIO_CONCEPT);
-	}
-
-	public Concept getAccessToBicycleConcept() {
-		return getConcept(ACCESS_TO_BICYCLE_CONCEPT);
-	}
-
-	public Concept getLocationOfCookingConcept() {
-		return getConcept(LOCATION_OF_COOKING_CONCEPT);
-	}
-
-	public Concept getFuelSourceConcept() {
-		return getConcept(FUEL_SOUCE_CONCEPT);
-	}
-
-	public Concept getNumberOfFruitAndVegatablesConcept() {
-		return getConcept(NUMBER_FRUIT_AND_VEGETABLES_CONCEPT);
-	}
-
-	public Concept getSmokingHistoryConcept() {
-		return getConcept(SMOKING_HISTORY_CONCEPT);
-	}
-
-	public Concept getNumberOfCigarettesPerDayConcept() {
-		return getConcept(NUMBER_CIGARRETES_PER_DAY_CONCEPT);
-	}
-
-	public Concept getHistoryOfAlcoholUseConcept() {
-		return getConcept(HISTORY_OF_ALCOHOL_USE_CONCEPT);
-	}
-
-	public Concept getLitersOfAlcoholPerDayConcept() {
-		return getConcept(LITERS_ALCOHOL_PER_DAY_CONCEPT);
-	}
-
 	public Concept getSourceOfReferralConcept() {
 		return getConcept(SOURCE_OF_REFERRAL_CONCEPT);
 	}
 
 	public Concept getCurrentDrugsUsedConcept() {
 		return getConcept(CURRENT_DRUGS_USED_CONCEPT);
-	}
-
-	public Concept getPreferredTreatmentOutOfStockConcept() {
-		return getConcept(PREFERRED_TX_OUT_OF_STOCK_CONCEPT);
-	}
-
-	public Concept getChangeInTreatmentConcept() {
-		return getConcept(CHANGE_IN_TREATMENT_CONCEPT);
 	}
 
 	public Concept getHospitalizedSinceLastVisitConcept() {
@@ -537,14 +416,6 @@ public class CommonMetadata extends Metadata {
 		return getConcept(DIASTOLIC_BLOOD_PRESSURE_CONCEPT);
 	}
 
-	public Concept getNyhaClassConcept() {
-		return getConcept(NYHA_CLASS_CONCEPT);
-	}
-
-	public Concept getSerumGlucoseConcept() {
-		return getConcept(SERUM_GLUCOSE_CONCEPT);
-	}
-
 	public Concept getBloodSugarTestTypeConcept() {
 		return getConcept(BLOOD_SUGAR_TEST_TYPE_CONCEPT);
 	}
@@ -553,24 +424,8 @@ public class CommonMetadata extends Metadata {
 		return getConcept(NUMBER_OF_SEIZURES_CONCEPT);
 	}
 
-	public Concept getPeakFlowConcept() {
-		return getConcept(PEAK_FLOW_CONCEPT);
-	}
-
-	public Concept getPeakFlowPredictedConcept() {
-		return getConcept(PEAK_FLOW_PREDICTED_CONCEPT);
-	}
-
 	public Concept getAsthmaClassificationConcept() {
 		return getConcept(ASTHMA_CLASSIFICATION_CONCEPT);
-	}
-
-	public Concept getPatientVisitCompletedWithAllServicesConcept() {
-		return getConcept(PATIENT_VISIT_COMPLETED_WITH_ALL_SERVICES_CONCEPT);
-	}
-
-	public Concept getDataClerkCommentsConcept() {
-		return getConcept(DATA_CLERK_COMMENTS_CONCEPT);
 	}
 
 	public Concept getModeratePersistentConcept() {
@@ -593,16 +448,8 @@ public class CommonMetadata extends Metadata {
 		return getConcept(TRUE_CONCEPT);
 	}
 
-	public Concept getFalseConcept() {
-		return getConcept(FALSE_CONCEPT);
-	}
-
 	public Concept getYesConcept() {
 		return getConcept(YES_CONCEPT);
-	}
-
-	public Concept getNoConcept() {
-		return getConcept(NO_CONCEPT);
 	}
 
 	public Concept getOtherConcept() {
@@ -637,108 +484,16 @@ public class CommonMetadata extends Metadata {
 		return getConcept(DIED_CONCEPT);
 	}
 
-	public Concept getReasonForStartingArtConcept() {
-		return getConcept(REASON_FOR_STARTING_ART);
-	}
-
-	public Concept getUnknownConcept() {
-		return getConcept(UNKNOWN);
-	}
-
-	public Concept getCd4LessThan350Concept() {
-		return getConcept(CD4_LESS_THAN_350_CONCEPT);
-	}
-
-	public Concept getWhoStage3AdultAndPedsConcept() {
-		return getConcept(WHO_STAGE_3_ADULT_AND_PEDS_CONCEPT);
-	}
-
-	public Concept getWhoStage4AdultAndPedsConcept() {
-		return getConcept(WHO_STAGE_4_ADULT_AND_PEDS_CONCEPT);
-	}
-
-	public Concept getWhoStage3AdultConcept() {
-		return getConcept(WHO_STAGE_3_ADULT_CONCEPT);
-	}
-
-	public Concept getWhoStage4AdultConcept() {
-		return getConcept(WHO_STAGE_4_ADULT_CONCEPT);
-	}
-
-	public Concept getWhoStage3PedsConcept() {
-		return getConcept(WHO_STAGE_3_PEDS_CONCEPT);
-	}
-
-	public Concept getWhoStage4PedsConcept() {
-		return getConcept(WHO_STAGE_4_PEDS_CONCEPT);
-	}
-
-	public Concept getLymphocyteCountBelowThresholdWithWhoStage2Concept() {
-		return getConcept(LYMPHOCYTE_COUNT_BELOW_THRESHOLD_WITH_WHO_STAGE_2_CONCEPT);
-	}
-
-	public Concept getTreatmentCompleteConcept() {
-		return getConcept(TREATMENT_COMPLETE_CONCEPT);
-	}
-
-	public Concept getCurrentlyInTreatmentConcept() {
-		return getConcept(CURRENTLY_IN_TREATMENT_CONCEPT);
-	}
-
-	public Concept getNumberOfHivDrugDosesMissedConcept() {
-		return getConcept(NUMBER_OF_HIV_DRUG_DOSES_MISSED_CONCEPT);
-	}
-
-	public Concept getArvRegimen1aConcept() {
-		return getConcept(ARV_REGIMEN_1A_CONCEPT);
-	}
-
 	public Concept getArvRegimen2aConcept() {
 		return getConcept(ARV_REGIMEN_2A_CONCEPT);
-	}
-
-	public Concept getArvRegimen3aConcept() {
-		return getConcept(ARV_REGIMEN_3A_CONCEPT);
 	}
 
 	public Concept getArvRegimen4aConcept() {
 		return getConcept(ARV_REGIMEN_4A_CONCEPT);
 	}
 
-	public Concept getArvRegimen5aConcept() {
-		return getConcept(ARV_REGIMEN_5A_CONCEPT);
-	}
-
 	public Concept getArvRegimen6aConcept() {
 		return getConcept(ARV_REGIMEN_6A_CONCEPT);
-	}
-
-	public Concept getArvRegimen7aConcept() {
-		return getConcept(ARV_REGIMEN_7A_CONCEPT);
-	}
-
-	public Concept getArvRegimen8aConcept() {
-		return getConcept(ARV_REGIMEN_8A_CONCEPT);
-	}
-
-	public Concept getArvRegimen9pConcept() {
-		return getConcept(ARV_REGIMEN_9P_CONCEPT);
-	}
-
-	public Concept getArvRegimen1pConcept() {
-		return getConcept(ARV_REGIMEN_1P_CONCEPT);
-	}
-
-	public Concept getArvRegimen2pConcept() {
-		return getConcept(ARV_REGIMEN_2P_CONCEPT);
-	}
-
-	public Concept getArvRegimen3pConcept() {
-		return getConcept(ARV_REGIMEN_3P_CONCEPT);
-	}
-
-	public Concept getArvRegimen4pConcept() {
-		return getConcept(ARV_REGIMEN_4P_CONCEPT);
 	}
 
 	public Concept getPeripheralNeuropathyConcept() {
@@ -781,18 +536,9 @@ public class CommonMetadata extends Metadata {
 	public static String OUTPATIENT_LOCATION = "Outpatient";
 	public static String REGISTRATION_LOCATION = "Registration";
 	public static String VITALS_LOCATION = "Vitals";
-	public static String MAGALETA_HC  = "Magaleta HC";
-	public static String NSAMBE_HC  = "Nsambe HC";
 	public static String LIGOWE_HC  = "Ligowe HC";
-	public static String MATANDANI_HC = "Matandani Rural Health Center";
-	public static String NENO_MISSION_HC = "Neno Mission HC";
-	public static String LUWANI_HC = "Luwani RHC";
 	public static String LISUNGWI_HOSPITAL = "Lisungwi Community Hospital";
 	public static String MIDZEMBA_HC = "Midzemba HC";
-	public static String CHIFUNGA_HC = "Chifunga HC";
-	public static String MATOPE_HC = "Matope HC";
-	public static String NKHULA_FALLS_HC = "Nkhula Falls RHC";
-	public static String ZALEWA_HC = "Zalewa HC";
 
 	public Location getNenoHospital() {
 		return getLocation(NENO_HOSPITAL);
@@ -810,28 +556,8 @@ public class CommonMetadata extends Metadata {
 		return getLocation(VITALS_LOCATION);
 	}
 
-	public Location getMagaletaHc() {
-		return getLocation(MAGALETA_HC);
-	}
-
-	public Location getNsambeHc() {
-		return getLocation(NSAMBE_HC);
-	}
-
 	public Location getLigoweHc() {
 		return getLocation(LIGOWE_HC);
-	}
-
-	public Location getMatandaniHc() {
-		return getLocation(MATANDANI_HC);
-	}
-
-	public Location getNenoMissionHc() {
-		return getLocation(NENO_MISSION_HC);
-	}
-
-	public Location getLuwaniHc() {
-		return getLocation(LUWANI_HC);
 	}
 
 	public Location getLisungwiHospital() {
@@ -840,22 +566,6 @@ public class CommonMetadata extends Metadata {
 
 	public Location getMidzembaHc() {
 		return getLocation(MIDZEMBA_HC);
-	}
-
-	public Location getChifungaHc() {
-		return getLocation(CHIFUNGA_HC);
-	}
-
-	public Location getMatopeHc() {
-		return getLocation(MATOPE_HC);
-	}
-
-	public Location getNkhulaFallsHc() {
-		return getLocation(NKHULA_FALLS_HC);
-	}
-
-	public Location getZalewaHc() {
-		return getLocation(ZALEWA_HC);
 	}
 
 	public List<Location> getPrimaryFacilities() {
