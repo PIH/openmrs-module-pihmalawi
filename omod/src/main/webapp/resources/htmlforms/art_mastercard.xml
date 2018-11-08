@@ -48,8 +48,8 @@
         artRegimen1=8170
         artRegimen2=8171
         artRegimen3=8172
-        regimenOptions=8499,8500,8155,8156,8157,8158,8159,8160,8162,8163,8164,8165,8166,8167,8168,43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1,53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1,5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1,6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1,826b65ba-dc53-11e8-9f8b-f2801f1b9fd1
-        regimenLabels=0A,0P,1A,1P,2A,2P,3A,3P,4A,4P,5A,6A,7A,8A,9P,12A,13A,14A,15A,Non Standard
+        regimenOptions=8499,8500,8155,8156,8157,8158,8159,8160,8162,8163,8164,8165,8166,8167,8601,8168,8602,8603,8604,43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1,53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1,5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1,6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1,826b65ba-dc53-11e8-9f8b-f2801f1b9fd1
+        regimenLabels=0A,0P,1A,1P,2A,2P,3A,3P,4A,4P,5A,6A,7A,8A,9A,9P,10A,11A,11P,12A,13A,14A,15A,Non Standard
         firstLineArvStartDate=6132
         alternativeFirstLineArvStartDate=2528
         secondLineArvStartDate=2529
