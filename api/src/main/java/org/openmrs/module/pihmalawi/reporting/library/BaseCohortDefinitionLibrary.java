@@ -15,11 +15,15 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.User;
 import org.openmrs.api.FormService;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.VisitCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.RangeComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -38,10 +42,13 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
     public static final String PREFIX = "pihmalawi.cohortDefinition.";
 
 	@Autowired
-	private DataFactory df;
+	DataFactory df;
 
 	@Autowired
 	FormService formService;
+
+	@Autowired
+    HivMetadata hivMetadata;
 
     @Override
     public Class<? super CohortDefinition> getDefinitionType() {
@@ -85,4 +92,28 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 		cd.addParameter(new Parameter("createdBy", "Created By", User.class));
 		return df.convert(cd, ObjectUtil.toMap("createdBy=user"));
 	}
+
+	@DocumentedDefinition
+	public CohortDefinition getPatientsWithScheduledAppointmentOnEndDate() {
+        DateObsCohortDefinition cd = new DateObsCohortDefinition();
+        cd.setQuestion(hivMetadata.getAppointmentDateConcept());
+        cd.setOperator1(RangeComparator.EQUAL);
+        cd.addParameter(new Parameter("value1", "Date Value", Date.class));
+        return df.convert(cd, ObjectUtil.toMap("value1=endDate"));
+    }
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithAnActiveVisit() {
+        VisitCohortDefinition cd = new VisitCohortDefinition();
+        cd.setActive(true);
+        return cd;
+    }
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithACompletedVisitOnEndDate() {
+        VisitCohortDefinition cd = new VisitCohortDefinition();
+        cd.addParameter(new Parameter("stoppedOnOrAfter", "Stopped on or after", Date.class));
+        cd.addParameter(new Parameter("stoppedOnOrBefore", "Stopped on or before", Date.class));
+        return df.convert(cd, ObjectUtil.toMap("stoppedOnOrAfter=endDate,stoppedOnOrBefore=endDate"));
+    }
 }

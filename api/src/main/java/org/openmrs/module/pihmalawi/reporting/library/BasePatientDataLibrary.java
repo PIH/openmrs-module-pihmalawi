@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
+import org.openmrs.Patient;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -25,6 +26,7 @@ import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.PatientObjectDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
@@ -58,6 +60,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public Class<? super PatientDataDefinition> getDefinitionType() {
 		return PatientDataDefinition.class;
 	}
+
+    @DocumentedDefinition("uuid")
+    public PatientDataDefinition getUuid() {
+        return df.convert(new PatientObjectDataDefinition(), new PropertyConverter(Patient.class, "uuid"));
+    }
 
 	// Address Data
 
