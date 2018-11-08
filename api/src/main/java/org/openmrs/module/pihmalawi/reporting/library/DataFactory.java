@@ -59,7 +59,6 @@ import org.openmrs.module.reporting.data.ConvertedDataDefinition;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
-import org.openmrs.module.reporting.data.converter.CollectionElementConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.DataSetRowConverter;
 import org.openmrs.module.reporting.data.converter.ListConverter;
@@ -209,13 +208,13 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
 
-	public PatientDataDefinition getCodedObsPresentByEndDate(Concept question, Concept answer, List<EncounterType> encounterTypes) {
-		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
-		def.setQuestion(question);
-		def.setEncounterTypeList(encounterTypes);
-		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
-		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), getObsValueCodedPresentConverter(answer));
-	}
+    public PatientDataDefinition getAllObsWithCodedValueByEndDate(Concept question, List<Concept> codedValues, DataConverter converter) {
+        ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+        def.setQuestion(question);
+        def.setValueCodedList(codedValues);
+        def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+        return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
+    }
 
     public PatientDataDefinition getObsWhoseValueDatetimeIsDuringPeriodAtLocation(Concept question, List<EncounterType> encounterTypes, DataConverter converter) {
         ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
@@ -334,24 +333,8 @@ public class DataFactory {
 		return def;
 	}
 
-	public EncounterDataDefinition getObsValueCodedPresentInEncounter(Concept question, Concept answer) {
-		return convert(getListOfObsForEncounter(question), getObsValueCodedPresentConverter(answer));
-	}
-
-	public EncounterDataDefinition getSingleObsValueCodedNameForEncounter(Concept concept) {
-		return convert(getSingleObsForEncounter(concept), getObsValueCodedNameConverter());
-	}
-
 	public EncounterDataDefinition getSingleObsValueNumericForEncounter(Concept concept) {
 		return convert(getSingleObsForEncounter(concept), getObsValueNumericConverter());
-	}
-
-	public EncounterDataDefinition getSingleObsValueTextForEncounter(Concept concept) {
-		return convert(getSingleObsForEncounter(concept), getObsValueTextConverter());
-	}
-
-	public EncounterDataDefinition getSingleObsValueDatetimeForEncounter(Concept concept) {
-		return convert(getSingleObsForEncounter(concept), getObsValueDatetimeConverter());
 	}
 
 	// Cohort Definitions
@@ -931,13 +914,6 @@ public class DataFactory {
 		return converter;
 	}
 
-	public DataConverter getObsValueCodedPresentConverter(Concept valueCoded) {
-		ChainedConverter converter = new ChainedConverter();
-		converter.addConverter(new CollectionConverter(getObsValueCodedConverter(), false, null));
-		converter.addConverter(new CollectionElementConverter(valueCoded, "true", ""));
-		return converter;
-	}
-
 	public DataConverter getObjectFormatter() {
 		return new ObjectFormatter();
 	}
@@ -983,9 +959,9 @@ public class DataFactory {
 	// Convenience methods
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, Map<String, String> renamedParameters, DataConverter converter) {
-		ConvertedPatientDataDefinition convertedDefinition = new ConvertedPatientDataDefinition();
-		addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
-		return convertedDefinition;
+        ConvertedPatientDataDefinition convertedDefinition = new ConvertedPatientDataDefinition();
+        addAndConvertMappings(pdd, convertedDefinition, renamedParameters, converter);
+        return convertedDefinition;
 	}
 
 	public PatientDataDefinition convert(PatientDataDefinition pdd, DataConverter converter) {

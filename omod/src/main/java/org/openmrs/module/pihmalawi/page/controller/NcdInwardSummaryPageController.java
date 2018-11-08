@@ -97,7 +97,7 @@ public class NcdInwardSummaryPageController {
             // Program enrollment status
 
             model.addAttribute("hivEnrollmentDate", evaluate(hivData.getEarliestHivProgramEnrollmentDateByEndDate(), context));
-            model.addAttribute( "hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateByEndDate(), context));
+            model.addAttribute( "hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
             model.addAttribute( "hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
             model.addAttribute( "hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
             model.addAttribute( "hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));
@@ -171,7 +171,7 @@ public class NcdInwardSummaryPageController {
                             section.addObsValue("Last Blood Pressure", bp);
                         }
                         if (section.getKey().equals("diabetes")) {
-                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getGlycatedHemoglobinConcept(), section.getTypes(), null), context);
+                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), section.getTypes(), null), context);
                             section.addObsValue("Last HbA1c result", ui.format(lastHba1cResult));
 
                             Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), section.getTypes(), null), context);

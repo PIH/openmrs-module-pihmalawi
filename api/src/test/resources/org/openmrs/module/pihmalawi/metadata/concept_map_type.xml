@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <concept_map_type concept_map_type_id="1" name="SAME-AS" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="35543629-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="2" name="NARROWER-THAN" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="43ac5109-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="3" name="BROADER-THAN" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="4b9d9421-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="4" name="Associated finding" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="55e02065-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="5" name="Associated morphology" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="605f4a61-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="6" name="Associated procedure" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="6eb1bfce-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="7" name="Associated with" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="781bdc8f-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="8" name="Causative agent" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="808f9e19-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="9" name="Finding site" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="889c3013-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="10" name="Has specimen" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="929600b9-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="11" name="Laterality" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="999c6fc0-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="12" name="Severity" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="false" retired="false" uuid="a0e52281-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="13" name="Access" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="f9e90b29-7d8c-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="14" name="After" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="01b60e29-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="15" name="Clinical course" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="5f7c3702-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="16" name="Component" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="67debecc-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="17" name="Direct device" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="718c00da-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="18" name="Direct morphology" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="7b9509cb-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="19" name="Direct substance" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="82bb495d-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="20" name="Due to" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="8b77f7d3-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="21" name="Episodicity" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="94a81179-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="22" name="Finding context" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="9d23c22e-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="23" name="Finding informer" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="a4524368-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="24" name="Finding method" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="af089254-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="25" name="Has active ingredient" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="b65aa605-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="26" name="Has definitional manifestation" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="c2b7b2fa-7d8d-11e1-909d-c80aa9edcf4"/>
+  <concept_map_type concept_map_type_id="27" name="Has dose form" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="cc3878e6-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="28" name="Has focus" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="d67c5840-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="29" name="Has intent" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="de2fb2c5-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="30" name="Has interpretation" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="e758838b-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="31" name="Indirect device" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="ee63c142-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="32" name="Indirect morphology" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="f4f36681-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="33" name="Interprets" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="fc7f5fed-7d8d-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="34" name="Measurement method" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="06b11d79-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="35" name="Method" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="0efb4753-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="36" name="Occurrence" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="16e7b617-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="37" name="Part of" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="1e82007b-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="38" name="Pathological process" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="2969915e-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="39" name="Priority" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="32d57796-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="40" name="Procedure context" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="3f11904c-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="41" name="Procedure device" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="468c4aa3-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="42" name="Procedure morphology" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="5383e889-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="43" name="Procedure site" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="5ad2655d-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="44" name="Procedure site - Direct" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="66085196-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="45" name="Procedure site - Indirect" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="7080e843-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="46" name="Property" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="76bfb796-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="47" name="Recipient category" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="7e7d00e4-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="48" name="Revision status" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="851e14c1-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="49" name="Route of administration" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="8ee5b13d-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="50" name="Scale type" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="986acf48-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="51" name="Specimen procedure" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="a6937642-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="52" name="Specimen source identity" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="b1d6941e-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="53" name="Specimen source morphology" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="b7c793c1-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="54" name="Specimen source topography" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="be9f9eb8-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="55" name="Specimen substance" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="c8f2bacb-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="56" name="Subject of information" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="d0664c4f-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="57" name="Subject relationship context" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="dace9d13-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="58" name="Surgical approach" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="e3cd666d-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="59" name="Temporal context" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="ed96447d-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="60" name="Time aspect" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="f415bcce-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="61" name="Using access device" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="fa9538a9-7d8e-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="62" name="Using device" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="06588655-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="63" name="Using energy" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="0c2ae0bc-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="64" name="Using substance" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="13d2c607-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="65" name="IS A" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="1ce7a784-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="66" name="MAY BE A" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="267812a3-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="67" name="MOVED FROM" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="2de3168e-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="68" name="MOVED TO" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="32f0fd99-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="69" name="REPLACED BY" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="3b3b9a7d-7d8f-11e1-909d-c80aa9edcf4e"/>
+  <concept_map_type concept_map_type_id="70" name="WAS A" creator="1" date_created="2014-03-03 00:00:00.0" is_hidden="true" retired="false" uuid="41a034da-7d8f-11e1-909d-c80aa9edcf4e"/>
+</dataset>

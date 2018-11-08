@@ -14,19 +14,26 @@
 
 package org.openmrs.module.pihmalawi.common;
 
+import org.openmrs.Concept;
+import org.openmrs.module.reporting.common.ObjectUtil;
+
 import java.util.Date;
 
 /**
- * A simple object that contains information about the status of an appointment
+ * A simple object that represents a viral load result
  */
 public class ViralLoad {
 
     //** PROPERTIES
 
+    private Integer encounterId;
     private Integer groupId;
+    private Date specimenDate;
     private Date resultDate;
     private Double resultNumeric;
     private Boolean resultLdl;
+    private Concept reasonForTest;
+    private Concept reasonNoResult;
 
     //***** CONSTRUCTORS *****
 
@@ -34,7 +41,20 @@ public class ViralLoad {
 
     //***** METHODS *****
 
+    public Date getEffectiveDate() {
+        return ObjectUtil.nvl(getSpecimenDate(), getResultDate());
+    }
+
     //***** ACCESSORS ******
+
+
+    public Integer getEncounterId() {
+        return encounterId;
+    }
+
+    public void setEncounterId(Integer encounterId) {
+        this.encounterId = encounterId;
+    }
 
     public Integer getGroupId() {
         return groupId;
@@ -42,6 +62,14 @@ public class ViralLoad {
 
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
+    }
+
+    public Date getSpecimenDate() {
+        return specimenDate;
+    }
+
+    public void setSpecimenDate(Date specimenDate) {
+        this.specimenDate = specimenDate;
     }
 
     public Date getResultDate() {
@@ -66,5 +94,21 @@ public class ViralLoad {
 
     public void setResultLdl(Boolean resultLdl) {
         this.resultLdl = resultLdl;
+    }
+
+    public Concept getReasonForTest() {
+        return reasonForTest;
+    }
+
+    public void setReasonForTest(Concept reasonForTest) {
+        this.reasonForTest = reasonForTest;
+    }
+
+    public Concept getReasonNoResult() {
+        return reasonNoResult;
+    }
+
+    public void setReasonNoResult(Concept reasonNoResult) {
+        this.reasonNoResult = reasonNoResult;
     }
 }

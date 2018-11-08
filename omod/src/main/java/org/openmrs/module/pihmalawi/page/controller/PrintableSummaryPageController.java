@@ -74,12 +74,12 @@ public class PrintableSummaryPageController {
         add(dsd, "hccNumber", hivData.getHccNumberAtLocation());
         add(dsd, "arvNumber", hivData.getArvNumberAtLocation());
         add(dsd, "ccNumber", ccData.getChronicCareNumberAtLocation());
-        add(dsd, "hivTxStatus", hivData.getMostRecentHivTreatmentStatusStateByEndDate());
+        add(dsd, "hivTxStatus", hivData.getMostRecentHivTreatmentStatusStateNameByEndDate());
         add(dsd, "hivTxStatusDate", hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate());
         add(dsd, "ccTxStatus", ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate());
         add(dsd, "ccTxStatusDate", ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate());
         add(dsd, "artStartDate", hivData.getEarliestOnArvsStateStartDateByEndDate());
-        add(dsd, "artRegimens", hivData.getArvRegimenChanges());
+        add(dsd, "artRegimens", hivData.getArvRegimenChangesByEndDate());
         add(dsd, "encounters", baseData.getAllEncounters());
         add(dsd, "hccAppointmentStatus", hivData.getHccAppointmentStatus());
         add(dsd, "artAppointmentStatus", hivData.getArtAppointmentStatus());
@@ -124,20 +124,22 @@ public class PrintableSummaryPageController {
             Date lastViralLoadDate = null;
             Boolean highViralLoad = false;
 
-            ViralLoad lastViralLoad = getLastValue(dataSet, "viralLoads", ViralLoad.class);
+            List<ViralLoad> viralLoads = getValue(dataSet, "viralLoads", List.class);
 
-            if (lastViralLoad != null) {
-                lastViralLoadDate = lastViralLoad.getResultDate();
-                if (lastViralLoad.getResultNumeric() != null) {
-                    lastViralLoadValue = ObjectUtil.formatNumber(lastViralLoad.getResultNumeric(), "1", Context.getLocale());
-                    if (lastViralLoad.getResultNumeric() >= 1000) {
-                        highViralLoad = true;
+            for (ViralLoad vl : viralLoads) {
+                if (vl.getResultLdl() != null || vl.getResultNumeric() != null) {
+                    lastViralLoadDate = vl.getResultDate();
+                    if (vl.getResultNumeric() != null) {
+                        lastViralLoadValue = ObjectUtil.formatNumber(vl.getResultNumeric(), "1", Context.getLocale());
+                        highViralLoad =  (vl.getResultNumeric() >= 1000);
+                    }
+                    else if (vl.getResultLdl()) {
+                        lastViralLoadValue = "LDL";
+                        highViralLoad = false;
                     }
                 }
-                else if (lastViralLoad.getResultLdl()) {
-                    lastViralLoadValue = "LDL";
-                }
             }
+
             model.put("lastViralLoadValue", lastViralLoadValue);
             model.put("lastViralLoadDate", lastViralLoadDate);
             model.put("highViralLoad", highViralLoad);

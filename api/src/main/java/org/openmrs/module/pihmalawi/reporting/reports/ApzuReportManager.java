@@ -14,14 +14,25 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
+import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.PatientToEncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.obs.definition.EncounterToObsDataDefinition;
 import org.openmrs.module.reporting.data.obs.definition.ObsDataDefinition;
 import org.openmrs.module.reporting.data.obs.definition.PatientToObsDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.ObsDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
@@ -36,6 +47,7 @@ import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.module.reporting.report.renderer.XlsReportRenderer;
 import org.openmrs.module.reporting.report.util.ReportUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -43,6 +55,39 @@ import java.util.Map;
  * Base implementation of ReportManager that provides some common method implementations
  */
 public abstract class ApzuReportManager extends BaseReportManager {
+
+    @Autowired
+    DataFactory df;
+
+    @Autowired
+    HivMetadata hivMetadata;
+
+    @Autowired
+    ChronicCareMetadata ccMetadata;
+
+    @Autowired
+    HivCohortDefinitionLibrary hivCohorts;
+
+    @Autowired
+    HivEncounterQueryLibrary encounterQueries;
+
+    @Autowired
+    BuiltInPatientDataLibrary builtInPatientData;
+
+    @Autowired
+    BasePatientDataLibrary basePatientData;
+
+    @Autowired
+    HivPatientDataLibrary hivPatientData;
+
+    @Autowired
+    ChronicCarePatientDataLibrary ccPatientData;
+
+    @Autowired
+    BuiltInEncounterDataLibrary builtInEncounterData;
+
+    @Autowired
+    BaseEncounterDataLibrary baseEncounterData;
 
 	protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
 		dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));

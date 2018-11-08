@@ -34,6 +34,7 @@ import org.openmrs.module.reporting.dataset.definition.evaluator.DataSetEvaluato
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.util.OpenmrsUtil;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,6 +48,7 @@ import java.util.Properties;
  * Evaluates a SqlFileDataSetDefinition and produces results
  */
 @Handler(supports={SqlFileDataSetDefinition.class})
+@Component("value=malawiSqlFileDataSetEvaluator")
 public class SqlFileDataSetEvaluator implements DataSetEvaluator {
 
 	protected Log log = LogFactory.getLog(this.getClass());

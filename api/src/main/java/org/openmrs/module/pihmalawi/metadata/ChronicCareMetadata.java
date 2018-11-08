@@ -209,9 +209,11 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String AGE_OF_HYPERTENSION_DIAGNOSIS_CONCEPT = "Age of hypertension diagnosis";
 	public static final String CHRONIC_CARE_MEDICATION_CONCEPT_SET = "Chronic Care Medication Set";
 	public static final String HYPERTENSION_MEDICATION_CONCEPT_SET = "Hypertension Medication Set";
-	public static final String GLYCATED_HEMOGLOBIN_CONCEPT= "Glycated hemoglobin";
-	public static final String BLOOD_SUGAR_TEST_RESULT_CONCEPT = "Serum glucose";
-	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "Blood sugar test type";
+	public static final String HBA1C_CONCEPT = "65714f76-977f-11e1-8993-905e29aff6c1";
+	public static final String BLOOD_SUGAR_TEST_RESULT_CONCEPT = "654a98b8-977f-11e1-8993-905e29aff6c1";
+	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "65711e3e-977f-11e1-8993-905e29aff6c1";
+	public static final String CREATININE_CONCEPT = "657170a0-977f-11e1-8993-905e29aff6c1";
+	public static final String FAMILY_HISTORY_DIABETES = "657308fc-977f-11e1-8993-905e29aff6c1";
 
 	public Concept getChronicCareDiagnosisConcept() {
 		return getConcept(CHRONIC_CARE_DIAGNOSIS);
@@ -308,9 +310,13 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return getConceptsInSet(HYPERTENSION_MEDICATION_CONCEPT_SET);
 	}
 
-	public Concept getGlycatedHemoglobinConcept() { return getConcept(GLYCATED_HEMOGLOBIN_CONCEPT); }
+	public Concept getHbA1cConcept() { return getConcept(HBA1C_CONCEPT); }
 
     public Concept getBloodSugarTestResultConcept() { return getConcept(BLOOD_SUGAR_TEST_RESULT_CONCEPT); }
 
     public Concept getBloodSugarTestTypeConcept() { return getConcept(BLOOD_SUGAR_TEST_TYPE_CONCEPT); }
+
+    public Concept getCreatinineConcept() { return getConcept(CREATININE_CONCEPT); }
+
+    public Concept getFamilyHistoryOfDiabetesConcept() { return getConcept(FAMILY_HISTORY_DIABETES); }
 }

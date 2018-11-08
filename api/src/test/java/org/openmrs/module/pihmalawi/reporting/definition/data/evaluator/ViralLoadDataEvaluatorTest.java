@@ -1,58 +1,83 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.openmrs.Cohort;
-import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
+import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.contrib.testdata.builder.ObsBuilder;
+import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.openmrs.test.SkipBaseSetup;
 
 import java.util.Date;
 import java.util.List;
 
-public class ViralLoadDataEvaluatorTest extends StandaloneContextSensitiveTest {
+@SkipBaseSetup
+public class ViralLoadDataEvaluatorTest extends BaseMalawiTest {
 
-	@Autowired
-    HivPatientDataLibrary hivPatientDataLibrary;
+	@Test
+	public void shouldTestViralLoad() throws Exception {
 
-    @Autowired
-    ChronicCarePatientDataLibrary chronicCarePatientDataLibrary;
+        Patient patient = createPatient().save();
+        Encounter encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2016, 8, 3)).save();
+        Date effectiveDate = new Date();
 
-	@Autowired
-    @Qualifier("reportingPatientDataService")
-    PatientDataService patientDataService;
+        ViralLoad expectedVl = new ViralLoad();
+        expectedVl.setEncounterId(encounter.getId());
+        expectedVl.setSpecimenDate(encounter.getEncounterDatetime());
 
-    @Autowired
-    HivMetadata hivMetadata;
+        // Test bled only
+        Obs bled = createObs(encounter, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
 
-	@Override
-	protected boolean isEnabled() {
-		return false;
+        // Test bled and LDL
+        Obs ldlResult = createObs(encounter, hivMetadata.getHivLDLConcept(), hivMetadata.getTrueConcept()).save();
+        expectedVl.setResultLdl(true);
+        expectedVl.setResultDate(ldlResult.getObsDatetime());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+        // Test bled and numeric
+        voidObs(ldlResult);
+        Obs numericResult = createObs(encounter, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+        expectedVl.setResultLdl(null);
+        expectedVl.setResultNumeric(numericResult.getValueNumeric());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+        // Test numeric only
+        bled = voidObs(bled);
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+        // Test Obs Group
+        ObsBuilder groupObsBuilder = createObs(encounter, hivMetadata.getHivViralLoadTestSetConcept(), null);
+        groupObsBuilder.member(numericResult);
+        Obs groupObs = groupObsBuilder.save();
+        expectedVl.setGroupId(groupObs.getObsId());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+        // Test reason for test
+        Obs reason = createObs(encounter, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        groupObs.addGroupMember(reason);
+        groupObs = tdm.getObsService().saveObs(groupObs, "Add to group");
+        expectedVl.setGroupId(groupObs.getObsId());
+        expectedVl.setReasonForTest(hivMetadata.getRoutineConcept());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+        // Test reason no result
+        Obs reasonNoResult = createObs(encounter, hivMetadata.getReasonNoResultConcept(), hivMetadata.getDiedConcept()).save();
+        groupObs.addGroupMember(reasonNoResult);
+        groupObs = tdm.getObsService().saveObs(groupObs, "Add to group");
+        expectedVl.setGroupId(groupObs.getObsId());
+        expectedVl.setReasonNoResult(hivMetadata.getDiedConcept());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
 	}
 
-	@Override
-	public void performTest() throws Exception {
-        Date endDate = DateUtil.getDateTime(2017, 12, 1);
-
-        Date testDate = DateUtil.getDateTime(2016, 8, 22);
-        testViralLoad(16025, 2, 1, endDate, testDate, 93487d, null);
-
-        testDate = DateUtil.getDateTime(2017, 1, 23);
-        testViralLoad(16025, 2, 2, endDate, testDate, 97017d, null);
-
-        testDate = DateUtil.getDateTime(2017, 6, 1);
-        testViralLoad(15892, 2, 2, endDate, testDate, null, true);
-	}
-
-    protected void testViralLoad(Integer pId, int totalNum, Integer whichNum, Date endDate, Date testDate, Double numericResult, Boolean ldlResult) {
+    protected void testViralLoad(Integer pId, int totalNum, Integer whichNum, Date endDate, ViralLoad expectedVl) {
         EvaluationContext context = new EvaluationContext();
         context.setBaseCohort(new Cohort());
         context.getBaseCohort().addMember(pId);
@@ -60,12 +85,19 @@ public class ViralLoadDataEvaluatorTest extends StandaloneContextSensitiveTest {
         dd.setEndDate(endDate);
         try {
             List<ViralLoad> viralLoads = (List<ViralLoad>) patientDataService.evaluate(dd, context).getData().get(pId);
-            Assert.assertEquals(totalNum, viralLoads.size());
+            Assert.assertEquals(totalNum, (viralLoads == null ? 0 : viralLoads.size()));
             if (whichNum != null) {
-                ViralLoad viralLoad = viralLoads.get(whichNum-1);
-                Assert.assertEquals(testDate, viralLoad.getResultDate());
-                Assert.assertEquals(numericResult, viralLoad.getResultNumeric());
-                Assert.assertEquals(ldlResult, viralLoad.getResultLdl());
+                ViralLoad vl = viralLoads.get(whichNum-1);
+                if (expectedVl != null) {
+                    assertBothNullOrEqual(expectedVl.getEncounterId(), vl.getEncounterId());
+                    assertBothNullOrEqual(expectedVl.getGroupId(), vl.getGroupId());
+                    assertBothNullOrEqual(expectedVl.getSpecimenDate(), vl.getSpecimenDate());
+                    assertBothNullOrEqual(expectedVl.getResultDate(), vl.getResultDate());
+                    assertBothNullOrEqual(expectedVl.getResultNumeric(), vl.getResultNumeric());
+                    assertBothNullOrEqual(expectedVl.getResultLdl(), vl.getResultLdl());
+                    assertBothNullOrEqual(expectedVl.getReasonForTest(), vl.getReasonForTest());
+                    assertBothNullOrEqual(expectedVl.getReasonNoResult(), vl.getReasonNoResult());
+                }
             }
         }
         catch (EvaluationException e) {

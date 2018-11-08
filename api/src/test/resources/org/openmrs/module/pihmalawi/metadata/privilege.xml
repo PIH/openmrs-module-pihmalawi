@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <privilege privilege="Add Allergies" description="Add allergies" uuid="c55348c9-9481-4684-b6c9-079134407f24"/>
+  <privilege privilege="Add Cohorts" description="Able to add a cohort to the system" uuid="c85b6f4c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Concept Proposals" description="Able to add concept proposals to the system" uuid="c85b75aa-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Concepts" description="Able to add new terms to the concept dictionary." uuid="c85b767c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Encounters" description="Able to add new encounters?" uuid="c85b774e-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add FormEntry Archive" description="Allows the user to add the formentry archive" uuid="c85b7820-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add FormEntry Error" description="Allows a user to add a formentry error item" uuid="c85b78f2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add FormEntry Queue" description="Allows user to add a queue item to database" uuid="c85b79ce-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Forms" description="Able to add new forms." uuid="c85b7a8c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add HL7 Inbound Archive" description="Able to add an HL7 archive item" uuid="f796c6b9-40c8-46de-8b13-397c9a1d3b39"/>
+  <privilege privilege="Add HL7 Inbound Exception" description="Able to add an HL7 error item" uuid="aa2e8ce4-a946-4a51-b0ef-ef39844fe86d"/>
+  <privilege privilege="Add HL7 Inbound Queue" description="Able to add an HL7 Queue item" uuid="0a860c0e-e8d0-43b3-be38-5070d1e4e54e"/>
+  <privilege privilege="Add HL7 Source" description="Able to add an HL7 Source" uuid="c1fe405d-098c-4994-a067-e44c34913d75"/>
+  <privilege privilege="Add Observations" description="Able to add clinical encounters to the repository." uuid="c85b7b54-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Orders" description="Able to add clinical orders and procedures for a given patient." uuid="c85b7c1c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Patient Identifiers" description="Able to add patient identifiers" uuid="c85b7ce4-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Patient Programs" description="Able to add patients to programs" uuid="c85b7dac-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Patients" description="Able to add new patients to the system." uuid="c85b7e74-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add People" description="Able to add person objects" uuid="c85b7f3c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Problems" description="Add problems" uuid="e5a92d7f-ca43-49a9-8af4-ea65041ed14a"/>
+  <privilege privilege="Add Relationships" description="Able to add relationships" uuid="c85b8004-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Report Objects" description="Able to add report objects" uuid="c85b80b8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Reports" description="Able to add new reports." uuid="c85b8180-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Users" description="Able to add new users to the system." uuid="c85b8248-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Add Visits" description="Able to add visits" uuid="51f4a0c5-8f15-40a7-ac99-aa12957697c3"/>
+  <privilege privilege="Analysis Shortcut" description="Shortcut to patient groups on homepage" uuid="c85b8306-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Analyze" description="Work with patient groups" uuid="c85b994a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="App: coreapps.activeVisits" description="Able to access the active visits app" uuid="6a3cd714-2a21-43e5-92e3-af65cbf0a0bb"/>
+  <privilege privilege="App: coreapps.dataManagement" description="Able to access data management apps" uuid="d8e5b25f-3ec2-4a2c-851d-bc132056c653"/>
+  <privilege privilege="App: coreapps.findPatient" description="Able to access the find patient app" uuid="64aadcef-0c9b-40c8-8229-bd71b5a8d9cf"/>
+  <privilege privilege="App: coreapps.mergePatient" description="Able to access the merge patient app" uuid="4261365c-e90d-4ddd-9cdf-a054d272b7f4"/>
+  <privilege privilege="App: coreapps.patientDashboard" description="Able to access the patient dashboard" uuid="bc9004f9-478c-4a7d-a025-5dc46b2277ac"/>
+  <privilege privilege="App: coreapps.patientVisits" description="Able to access the patient visits screen" uuid="2ce0cc63-242f-4e10-8415-a374cd2c6bd4"/>
+  <privilege privilege="App: registrationapp.registerPatient" description="Able to access the register patient app" uuid="6ab147fb-0b1a-417f-acc7-f2c2fcfea57e"/>
+  <privilege privilege="Assign System Developer Role" description="Able to assign System Developer role" uuid="a4c263b6-b7cc-45d2-a55f-f3b58fce3858"/>
+  <privilege privilege="CHW Management App" description="Allows access to the CHW Management App" uuid="46b91a2b-f7ac-4217-b49c-792b225a620b"/>
+  <privilege privilege="Configure Visits" description="Able to choose encounter visit handler and enable/disable encounter visits" uuid="d03c81ae-b620-4844-8ade-f6467fb37a24"/>
+  <privilege privilege="Data Import" description="Allows user to access Data Import pages/functions" uuid="c85b9a12-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Cohorts" description="Able to add a cohort to the system" uuid="c85b9ad0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Concept Proposals" description="Able to delete concept proposals from the system" uuid="c85b9ba2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Concepts" description="Able to remove concepts from the dictionary." uuid="c85b9c6a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Encounters" description="Able to void encounters from the repository." uuid="c85b9d28-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete FormEntry Archive" description="Allows the user to delete a formentry archive" uuid="c85b9df0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete FormEntry Error" description="Allows a user to delete a formentry error item" uuid="c85b9ec2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete FormEntry Queue" description="Allows the user to delete formentry queue items" uuid="c85b9f8a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Forms" description="Able to remove forms from the system." uuid="c85ba05c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete HL7 Inbound Archive" description="Able to delete/retire an HL7 archive item" uuid="b98aa627-304c-4f49-8f3b-30cf982cc814"/>
+  <privilege privilege="Delete HL7 Inbound Exception" description="Able to delete an HL7 archive item" uuid="dcd8a645-6d72-4695-8582-bdb1b5fd90c2"/>
+  <privilege privilege="Delete HL7 Inbound Queue" description="Able to delete an HL7 Queue item" uuid="c0e24124-2235-4116-a2cb-b634d7e2ae2a"/>
+  <privilege privilege="Delete Observations" description="Able to void observations for a given patient or encounter." uuid="c85ba124-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Orders" description="Able to void orders from the system." uuid="c85ba1ec-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Patient Identifiers" description="Able to delete patient identifiers" uuid="c85ba2be-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Patient Programs" description="Able to delete patients from programs" uuid="c85ba390-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Patients" description="Able to void patients from the system" uuid="c85ba458-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete People" description="Able to delete objects" uuid="c85ba520-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Relationships" description="Able to delete relationships" uuid="c85ba5e8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Report Objects" description="Able to delete report objects" uuid="c85ba6a6-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Reports" description="Able to delete reports." uuid="c85ba778-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Users" description="Able to void user accounts from the system." uuid="c85ba840-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Delete Visits" description="Able to delete visits" uuid="eeae6c5c-3878-4962-a8b9-787992630a8b"/>
+  <privilege privilege="Edit Allergies" description="Able to edit allergies" uuid="a69389f8-5c8d-44b6-a6aa-6c8203b52ec9"/>
+  <privilege privilege="Edit Cohorts" description="Able to add a cohort to the system" uuid="c85ba8fe-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Concept Proposals" description="Able to edit concept proposals in the system" uuid="c85baa84-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Concepts" description="Able to change attributes of existing terms." uuid="c85bab56-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Encounters" description="Able to change information for preexisting encounters." uuid="c85bac14-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit FormEntry Archive" description="Allows the user to edit a formentry archive" uuid="c85bafca-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit FormEntry Error" description="Allows a user to edit a formentry error item" uuid="c85bc424-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit FormEntry Queue" description="Allows the user to edit the formentry queue" uuid="c85bc500-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Forms" description="Able to change preexisting forms." uuid="c85bc5c8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Observations" description="Able to change information relating to a particular observation." uuid="c85bc690-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Orders" description="Able to change information relating to an order." uuid="c85bc74e-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Patient Identifiers" description="Able to edit patient identifiers" uuid="c85bc816-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Patient Programs" description="Core Privilege" uuid="c85bc8e8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Patients" description="Able to change information about particular patients" uuid="c85bc9a6-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit People" description="Able to edit person objects" uuid="c85bca6e-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Problems" description="Able to edit problems" uuid="892660f4-caeb-4ce5-b4ff-d38c6452ad16"/>
+  <privilege privilege="Edit Relationships" description="Able to edit relationships" uuid="c85bcb36-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Report Objects" description="Able to edit report objects" uuid="c85bcbfe-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Reports" description="Able to change information relating to a report design." uuid="c85bccbc-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit User Passwords" description="Able to change the passwords of users in OpenMRS" uuid="c85bcd84-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Users" description="Able to change information relating to a user account." uuid="c85bce4c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit Visits" description="Able to edit visits" uuid="818b9c72-6597-42b1-bd07-b5776be81109"/>
+  <privilege privilege="Enter Facility Data Reports" description="Allow users to fill out and view reports" uuid="34628ca2-15ef-4c01-8ccc-74063ad4159f"/>
+  <privilege privilege="Find Patient Shortcut" description="Show find-patient shortcut on homepage" uuid="c85bcf0a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Form Entry" description="Access to the FormEntry application." uuid="c85bcfc8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Generate Batch of Identifiers" description="Allows user to generate a batch of identifiers to a file for offline use" uuid="9dd74a25-dc76-4c5b-8996-a20c405c6cc4"/>
+  <privilege privilege="List Groovy Scripts" description="Allows user to view Groovy scripts which are saved." uuid="c51e9f93-f28c-47b4-a287-2a9d8a4ebe80"/>
+  <privilege privilege="Manage Address Hierarchy" description="Allows user to access/modify the defined address hierarchy" uuid="f11a8567-eaad-40f5-80e1-8ac5fdbb4350"/>
+  <privilege privilege="Manage Address Templates" description="Able to add/edit/delete address templates" uuid="6319d26b-0295-4159-9426-914177a2db08"/>
+  <privilege privilege="Manage Alerts" description="Able to add/edit/delete user alerts" uuid="c85bd086-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Auto Generation Options" description="Allows user add, edit, and remove auto-generation options" uuid="2807c250-91ef-4ad1-92ec-e82020d7e69b"/>
+  <privilege privilege="Manage Cohort Definitions" description="Add/Edit/Remove Cohort Definitions" uuid="28be84c8-241b-4622-b649-36182cd6dee3"/>
+  <privilege privilege="Manage Concept Classes" description="Able to add, edit, and delete concept classes." uuid="c85bd144-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Concept Datatypes" description="Able to add, edit, and delete concept datatypes" uuid="c85bd216-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Concept Map Types" description="Able to add/edit/retire concept map types" uuid="cf812517-9e74-49f2-97c2-1e90a84850af"/>
+  <privilege privilege="Manage Concept Name tags" description="Able to add/edit/delete concept name tags" uuid="6c40811a-38df-486a-8b35-c5f5aef2f9c5"/>
+  <privilege privilege="Manage Concept Reference Terms" description="Able to add/edit/retire reference terms" uuid="acff4573-c7c3-4fdb-8d59-890612828570"/>
+  <privilege privilege="Manage Concept Sources" description="Able to add/edit/delete concept sources" uuid="c85bd2de-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Concept Stop Words" description="Able to view/add/remove the concept stop words" uuid="fac41b02-c021-49fb-80d0-a644d5d3da40"/>
+  <privilege privilege="Manage Concepts" description="Able to add/edit/delete concept entries" uuid="c85bd3b0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Data Set Definitions" description="Add/Edit/Remove Data Set Definitions" uuid="20d9b347-3899-44b7-be07-21eb41bd4905"/>
+  <privilege privilege="Manage Dimension Definitions" description="Add/Edit/Remove Dimension Definitions" uuid="0c24afae-1de5-421e-9f04-280d6eb320e3"/>
+  <privilege privilege="Manage Encounter Roles" description="Able to add/edit/retire encounter roles" uuid="26211940-c0f9-4c63-b115-e9c0ed646e19"/>
+  <privilege privilege="Manage Encounter Types" description="Able to add, edit, and delete encounter types." uuid="c85bd478-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Facility Data Reports" description="Allows user to manage reports. (e.g. create, delete, etc)" uuid="7f311137-d696-4493-8b07-97ac152996f0"/>
+  <privilege privilege="Manage Field Types" description="Able to add, edit, and delete field types." uuid="c85bd540-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Flags" description="Allows user add, edit, and remove flags" uuid="17f0bcc8-f941-46ed-a21a-ee8cc5aa1414"/>
+  <privilege privilege="Manage Form Exports" description="Allows users to manage form exports" uuid="c85bd608-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage FormEntry XSN" description="Allows user to upload and edit the xsns stored on the server" uuid="c85bd6d0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Forms" description="Allows users to manage forms" uuid="c85bd7a2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Global Properties" description="Core Privilege" uuid="c85bebde-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Groups" description="Able to add, edit, and delete groups" uuid="c85becb0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage HL7 Messages" description="Able to add/edit/delete HL7 messages" uuid="befc7e03-d0b6-46d5-be1d-6e4aaa4372f6"/>
+  <privilege privilege="Manage Identifier Sources" description="Allows user add, edit, and remove identifier sources" uuid="c115359b-e393-4db2-a12d-429c55bbe5c4"/>
+  <privilege privilege="Manage Identifier Types" description="Able to add, edit, and delete identifier types." uuid="c85bed78-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Implementation Id" description="Able to view/add/edit the implementation id for the system" uuid="8d50b4e1-a113-47ca-9418-4564e907b5d6"/>
+  <privilege privilege="Manage Indicator Definitions" description="Add/Edit/Remove Indicator Definitions" uuid="6d3dc58f-e7b2-4123-9e44-9a1b0255d137"/>
+  <privilege privilege="Manage Location Attribute Types" description="Able to add/edit/retire location attribute types" uuid="0d0091fd-d97e-44c4-b637-788cb840dd7c"/>
+  <privilege privilege="Manage Location Tags" description="Able to add/edit/delete location tags" uuid="356037d6-8a8a-4c01-8d27-dbc4496e7d7a"/>
+  <privilege privilege="Manage Locations" description="Able to add, edit, and delete locations." uuid="c85bf11a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Metadata Mapping" description="Able to manage metadata mappings" uuid="9c6929ec-370e-4667-924e-7da036490808"/>
+  <privilege privilege="Manage Modules" description="Able to add/remove modules to the system" uuid="c85bf1ec-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Order Types" description="Able to add, edit, and delete order types." uuid="c85bf2aa-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Patient Programs" description="Core Privilege" uuid="c85bf372-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Person Attribute Types" description="Able to add/edit/delete person attribute tyeps" uuid="c85bf44e-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Privileges" description="Able to add, edit, and delete user privileges." uuid="c85bf520-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Programs" description="Core Privilege" uuid="c85bf5e8-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Providers" description="Able to edit Provider" uuid="0a0e27cd-c60d-4829-bdb0-bf17753ebace"/>
+  <privilege privilege="Manage Relationship Types" description="Core Privilege" uuid="c85bf6a6-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Relationships" description="Core Privilege" uuid="c85bf782-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Report Definitions" description="Add/Edit/Remove Report Definitions" uuid="029fa2c0-abae-4356-9ebf-3c3bd81eddcc"/>
+  <privilege privilege="Manage Report Designs" description="Add/Edit/Remove Report Designs" uuid="9d330816-3c12-4eaf-8c86-c84d9bb00d91"/>
+  <privilege privilege="Manage Reports" description="Allows user to access all reporting use cases" uuid="c85bf84a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage RESTWS" description="Allows to configure RESTWS module" uuid="52a326e8-3846-4847-bfe5-b16258d9600f"/>
+  <privilege privilege="Manage Roles" description="Able to add, edit, and delete user roles." uuid="c85bf912-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Rule Definitions" description="Allows creation and editing of user-defined rules" uuid="26cc1ab6-e47d-45f9-80ac-324af35b3c65"/>
+  <privilege privilege="Manage Scheduled Report Tasks" description="Manage Task Scheduling in Reporting Module" uuid="5d2343e1-553d-4d27-bcea-3c7d19d134f1"/>
+  <privilege privilege="Manage Scheduler" description="Able to add/edit/remove scheduled tasks" uuid="c85bf9d0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Manage Synchronization" description="sync" uuid="e8ea27cc-3296-47b8-a4c0-6b974c5253b4"/>
+  <privilege privilege="Manage Token Registrations" description="Allows to create/update/delete token registrations" uuid="e4f4643c-4e37-4f68-916a-bcb1e88fdca4"/>
+  <privilege privilege="Manage Tokens" description="Allows registering and removal of tokens" uuid="6e61132a-a02f-4c1f-b518-c19864e7b05f"/>
+  <privilege privilege="Manage Visit Attribute Types" description="Able to add/edit/retire visit attribute types" uuid="88dee27e-dc07-4c04-96a7-35ab030dd96f"/>
+  <privilege privilege="Manage Visit Types" description="Able to add/edit/delete visit types" uuid="56ecd075-c551-4e94-8445-db6be7ac0370"/>
+  <privilege privilege="Patient Dashboard - View Demographics Section" description="Core Privilege" uuid="c85bfaa2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Encounters Section" description="Core Privilege" uuid="c85bfb74-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Forms Section" description="Core Privilege" uuid="c85bfc50-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Graphs Section" description="Core Privilege" uuid="c85bfd36-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Overview Section" description="Core Privilege" uuid="c85bfe1c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Patient Summary" description="Able to view the &apos;Summary&apos; tab on the patient dashboard" uuid="c85bff0c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Regimen Section" description="Core Privilege" uuid="c85bffde-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Patient Dashboard - View Visits Section" description="Able to view the &apos;Visits&apos; tab on the patient dashboard" uuid="6dbd2ba0-506a-43ad-b704-33f76e5bb724"/>
+  <privilege privilege="Provider Management - Admin" description="Allows access to admin pages of the provider management module" uuid="74766f96-b4c4-466e-adb1-3a5989f305f6"/>
+  <privilege privilege="Provider Management API" description="Allows access to all provider management service and provider suggestion service API method" uuid="26412b83-486e-425e-b618-b5e6280e8db3"/>
+  <privilege privilege="Provider Management API - Read-only" description="Allows access to all provider management service and provider suggestion service API methods that are read-only" uuid="b2e1f8e8-da0a-423a-8055-36b08f9d4e14"/>
+  <privilege privilege="Provider Management Dashboard - Edit Patients" description="Allows access to editing patient information on the provider management dashboard" uuid="cf804935-3050-473f-8bd3-64b3bfe8eeee"/>
+  <privilege privilege="Provider Management Dashboard - Edit Providers" description="Allows access to editing provider information on the provider management dashboard" uuid="d3cf8d36-e8de-4f49-ac80-a98a329c6b53"/>
+  <privilege privilege="Provider Management Dashboard - View Historical" description="Allows access to viewing historical patient (if user has view patients right) and supervisee information on the provider management dashboard" uuid="51926553-dd23-46d3-8204-34892ecfcdc7"/>
+  <privilege privilege="Provider Management Dashboard - View Patients" description="Allows access to viewing patient information on the provider management dashboard" uuid="035e6bb1-1106-465d-be36-a3e46bf7ee42"/>
+  <privilege privilege="Provider Management Dashboard - View Providers" description="Allows access to viewing provider information on the provider management dashboard" uuid="1cddd8f3-eeaf-43c9-b72f-b30377befcd1"/>
+  <privilege privilege="Purge Field Types" description="Able to purge field types" uuid="c85c00b0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Purge Patients" description="Purge Patients" uuid="ce929703-e072-470b-b91b-e8ce94f16498"/>
+  <privilege privilege="Remote Form Entry Edit Properties" description="Allows the user to change the remote form entry properties. (like which &#xA;&#09;&#09;&#09;encounter types are initial, etc)" uuid="c85c045c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remote Form Entry Export" description="Allows the user to export and download all entries in the Form Entry queue &#xA;&#09;&#09;&#09;on a remote site and upload them" uuid="c85c0538-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remote Form Entry Import" description="Allows the user to import/upload the zip file generated at the remote site&#xA;&#09;&#09;&#09;that contains Form Entry queue items." uuid="c85c0600-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remote Form Entry Receive Data" description="Allows the user to receive remote data on the central location." uuid="c85c1a78-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remote Form Entry Resolve Errors" description="Allows user to resolve discrepancies in remote form entry queue items&#xA;&#09;&#09;&#09;that were uploaded and patients could not be found" uuid="c85c1b5e-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remote Form Entry Return To Remote" description="Allows the user to return the remote data from the central location." uuid="c85c1c3a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Remove Allergies" description="Remove allergies" uuid="59f4f6f6-dfda-4fed-a75a-ba257d9d75e2"/>
+  <privilege privilege="Remove Problems" description="Remove problems" uuid="34156c07-9c8d-490b-a842-b82c16753931"/>
+  <privilege privilege="Run Groovy Scripts" description="Allows user to execute Groovy scripts." uuid="7cda71a1-428c-40fc-b8a5-71e16c849fa3"/>
+  <privilege privilege="Run Reports" description="Able to run reports" uuid="6d9a2919-8f83-48c1-95fc-a48708e77ab8"/>
+  <privilege privilege="Share Metadata" description="Allows user to export and import metadata" uuid="a1a1e42f-03f9-4680-a25c-d3cb3994d5cb"/>
+  <privilege privilege="SQL Level Access" description="SQL Level Access" uuid="8e00b79c-9f9f-49c3-9cc9-b471f8f0b654"/>
+  <privilege privilege="Task: coreapps.createRetrospectiveVisit" description="Able to create a retrospective visit" uuid="30c66e61-6553-4c45-8b45-59052859585b"/>
+  <privilege privilege="Task: coreapps.createVisit" description="Able to create a visit" uuid="afe83d1f-0ddd-4373-b9bc-86c0ec8ac96a"/>
+  <privilege privilege="Task: coreapps.deletePatient" description="Able to delete a patient" uuid="b1d1d631-ec21-442b-9580-29e36b754588"/>
+  <privilege privilege="Task: coreapps.deletePatientProgram" description="Ability to delete a patient program via the program status widget" uuid="e8dad1c7-2af1-40ea-b694-8a735b17cbaa"/>
+  <privilege privilege="Task: coreapps.editPatientProgram" description="Ability to edit a patient program via the program status widget" uuid="9fbea596-93fd-4547-a2b5-472feb378de0"/>
+  <privilege privilege="Task: coreapps.editRelationships" description="Able to edit relationships" uuid="f0534154-abbb-4dfb-a5a7-da4554dde22e"/>
+  <privilege privilege="Task: coreapps.endVisit" description="Able to end a visit" uuid="9e967c93-6688-4e54-91a3-40207238369d"/>
+  <privilege privilege="Task: coreapps.enrollInProgram" description="Ability to enroll a patient in a program via the program status widget" uuid="80e0b0f4-51e4-46d0-b0db-bfa4aadf63a1"/>
+  <privilege privilege="Task: coreapps.mergeVisits" description="Able to merge visits" uuid="7d0d9464-9f5c-4b10-9d96-373fe32e31e7"/>
+  <privilege privilege="Test Flags" description="Allows the user to test a flag, or set of flags, against a Patient set" uuid="657e8778-1665-4077-b2ac-8b2c24be9481"/>
+  <privilege privilege="Update HL7 Inbound Archive" description="Able to update an HL7 archive item" uuid="a16fdd06-675c-4058-ab0d-0134d35c29ba"/>
+  <privilege privilege="Update HL7 Inbound Exception" description="Able to update an HL7 archive item" uuid="b0f7be33-ddf4-44a6-a81c-8d8c135378fe"/>
+  <privilege privilege="Update HL7 Inbound Queue" description="Able to update an HL7 Queue item" uuid="fa93eeed-129a-4bfa-945f-ee512cd79da0"/>
+  <privilege privilege="Update HL7 Source" description="Able to update an HL7 Source" uuid="9c427693-51f8-49f6-a6f6-88c388cd4380"/>
+  <privilege privilege="Upload Batch of Identifiers" description="Allows user to upload a batch of identifiers" uuid="e4b99261-5c72-497b-8d13-1ee193e586b8"/>
+  <privilege privilege="Upload XSN" description="Allows user to upload/overwrite the XSNs defined for forms" uuid="c85c1d0c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Validate Objects" description="Allows to validate data and metadata" uuid="92ba6126-366d-43f7-b5d1-40912861f6e0"/>
+  <privilege privilege="View Administration Functions" description="Core Privilege" uuid="c85c1dca-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Allergies" description="Able to view allergies" uuid="0c454c86-a088-48c7-95fe-85a0f770efdb"/>
+  <privilege privilege="View Calculations" description="Allows to view Calculations" uuid="e5f386ea-03a6-4b86-af90-6117cd4ab65d"/>
+  <privilege privilege="View Concept Classes" description="Able to view concept classes" uuid="c85c1e92-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Concept Datatypes" description="Able to view concept datatypes" uuid="c85c2252-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Concept Map Types" description="Able to view concept map types" uuid="22ab8dbf-0b5f-47d2-87a8-39bee9b4f54a"/>
+  <privilege privilege="View Concept Proposals" description="Able to view concept proposals to the system" uuid="c85c231a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Concept Reference Terms" description="Able to view concept reference terms" uuid="0e880336-1564-48d7-b13b-a0fe7187f501"/>
+  <privilege privilege="View Concept Sources" description="Able to view concept sources" uuid="c85c23ec-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Concepts" description="Able to browse the concept dictionary." uuid="c85c24be-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Data Entry Statistics" description="Able to view data entry statistics from the admin screen" uuid="c85c2586-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Data Exports" description="View Data Exports" uuid="e5bda654-d10e-43c1-8080-4b21b3005c99"/>
+  <privilege privilege="View Database Changes" description="Able to view database changes from the admin screen" uuid="92d6b28e-021c-4b7a-89e6-d64c7001a881"/>
+  <privilege privilege="View Encounter Roles" description="Able to view encounter roles" uuid="03e92a29-cc75-449f-8a16-33ba5fcc507d"/>
+  <privilege privilege="View Encounter Types" description="Able to view encounter types" uuid="c85c2644-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Encounters" description="Able to view metadata relating to clinical encounters" uuid="c85c270c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Facility Data Reports" description="Allows user to view reports that are saved." uuid="71ec8634-b8b8-4f0f-8650-8857e5b7db46"/>
+  <privilege privilege="View Field Types" description="Able to view field types" uuid="c85c27d4-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View FormEntry Archive" description="Allows the user to view the formentry archive" uuid="c85c289c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View FormEntry Error" description="Allows a user to view a formentry error" uuid="c85c295a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View FormEntry Queue" description="Allows user to view the queue items" uuid="c85c2d38-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Forms" description="Able to view forms." uuid="c85c2e0a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Global Properties" description="Able to view global properties on the administration screen" uuid="c85c2ed2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View HL7 Inbound Archive" description="Able to view an HL7 archive item" uuid="5de6a80e-6f23-46ea-b40a-2e350ca0c85f"/>
+  <privilege privilege="View HL7 Inbound Exception" description="Able to view an HL7 archive item" uuid="5e28946b-f8a2-4bf3-825a-924b3e91a5ef"/>
+  <privilege privilege="View HL7 Inbound Queue" description="Able to view an HL7 Queue item" uuid="b15c6bb9-6a1f-4c07-9a46-bef1b9066989"/>
+  <privilege privilege="View HL7 Source" description="Able to view an HL7 Source" uuid="8a307601-ef2e-47f6-a8c7-eefa42e33a14"/>
+  <privilege privilege="View Identifier Types" description="Able to view patient identifier types" uuid="c85c2f90-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Location Attribute Types" description="Able to view location attribute types" uuid="2278c605-060e-45b6-98d6-de3532c758a1"/>
+  <privilege privilege="View Locations" description="Able to view locations" uuid="c85c3058-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Metadata Via Mapping" description="Able to view metadata via a mapping" uuid="f517cbd3-597a-45b0-a6a3-35dd7acb899b"/>
+  <privilege privilege="View Navigation Menu" description="Core Privilege" uuid="c85c3116-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Observations" description="Able to view preexisting information/notes relating to observations." uuid="c85c31de-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Order Types" description="Able to view order types" uuid="c85c35b2-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Orders" description="Able to view information about orders." uuid="c85c367a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Patient Cohorts" description="Able to view patient cohorts" uuid="c85c37ba-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Patient Identifiers" description="Able to view patient identifiers" uuid="c85c4c64-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Patient Programs" description="Able to see which programs that patients are in" uuid="c85c4d90-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Patient Sets" description="Core Privilege" uuid="c85c556a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Patients" description="Able to view attributes of a patient" uuid="c85c56b4-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View People" description="Able to view person objects" uuid="c85c57f4-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Person Attribute Types" description="Able to view person attribute types" uuid="c85c5c36-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Privileges" description="Able to view user privileges" uuid="c85c5e84-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Problems" description="Able to view problems" uuid="62bc6aaf-2fa1-4cb0-bfd2-1ae745dd6a07"/>
+  <privilege privilege="View Programs" description="Core Privilege" uuid="c85c644c-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Providers" description="Able to view Provider" uuid="a712d005-aefb-4d9b-a992-68da665fbb19"/>
+  <privilege privilege="View Relationship Types" description="Able to view relationship types" uuid="c85c68c0-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Relationships" description="Able to view relationships" uuid="c85c75a4-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Report Objects" description="Able to view report objects" uuid="c85c7676-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Reports" description="Able to review information about a particular report design." uuid="c85c7748-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View RESTWS" description="Gives access to RESTWS in administration" uuid="47ee4fff-ea31-48ef-b84e-ece14f0dcd00"/>
+  <privilege privilege="View Roles" description="Able to view user roles" uuid="c85c781a-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Rule Definitions" description="Allows viewing of user-defined rules. (This privilege is not necessary to run rules under normal usage.)" uuid="05f50c6c-b2fc-4171-8611-c7e60dcde1ec"/>
+  <privilege privilege="View Synchronization Records" description="sync" uuid="0205b0c5-8562-4766-8b07-1da80c12c5b5"/>
+  <privilege privilege="View Synchronization Status" description="sync" uuid="d4cf9e64-37ad-4f44-b732-de87a08b6632"/>
+  <privilege privilege="View Token Registrations" description="Allows to view token registrations" uuid="488ff8c4-c751-430c-ad3d-c8722b657685"/>
+  <privilege privilege="View Unpublished Forms" description="Core Privilege" uuid="c85c7982-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Users" description="Able to browse user lists and metainformation about a user." uuid="c85c7a68-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="View Visit Attribute Types" description="Able to view visit attribute types" uuid="37a14bff-de53-4a88-b13c-73f0e5971a20"/>
+  <privilege privilege="View Visit Types" description="Able to view visit types" uuid="044bfeaa-ae5f-4ae0-9f30-0b19a6faf9ea"/>
+  <privilege privilege="View Visits" description="Able to view visits" uuid="2b0c87de-afb5-4b43-a226-49a660bc536c"/>
+</dataset>

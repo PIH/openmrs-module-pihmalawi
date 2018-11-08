@@ -13,18 +13,20 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.Encounter;
+import org.openmrs.Patient;
+import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.DiagnosesBasedOnMastercardsPatientDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.PriorityPatientForTracePatientDataDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.PatientObjectDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
@@ -58,6 +60,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public Class<? super PatientDataDefinition> getDefinitionType() {
 		return PatientDataDefinition.class;
 	}
+
+    @DocumentedDefinition("uuid")
+    public PatientDataDefinition getUuid() {
+        return df.convert(new PatientObjectDataDefinition(), new PropertyConverter(Patient.class, "uuid"));
+    }
 
 	// Address Data
 
@@ -133,7 +140,7 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@DocumentedDefinition("latestHeight")
 	public PatientDataDefinition getLatestHeight() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getHeightConcept()), df.getObsValueNumericConverter());
+		return df.convert(getLatestHeightObs(), df.getObsValueNumericConverter());
 	}
 
     @DocumentedDefinition
@@ -141,15 +148,32 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
         return df.getAllObsByEndDate(metadata.getWeightConcept(), null, null);
     }
 
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestWeightObs() {
+        return df.getMostRecentObsByEndDate(metadata.getWeightConcept());
+    }
+
 	@DocumentedDefinition("latestWeight")
 	public PatientDataDefinition getLatestWeight() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsValueNumericConverter());
+		return df.convert(getLatestWeightObs(), df.getObsValueNumericConverter());
 	}
 
 	@DocumentedDefinition("latestWeight.date")
 	public PatientDataDefinition getLatestWeightDate() {
-		return df.convert(df.getMostRecentObsByEndDate(metadata.getWeightConcept()), df.getObsDatetimeConverter());
+		return df.convert(getLatestWeightObs(), df.getObsDatetimeConverter());
 	}
+
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestBmiByEndDate() {
+        BmiPatientDataDefinition d = new BmiPatientDataDefinition();
+        d.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        return d;
+    }
+
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestBmiNumericValueByEndDate() {
+        return df.convert(getLatestBmiByEndDate(), new PropertyConverter(BMI.class, "numericValue"));
+    }
 
     // Encounters
 
@@ -165,15 +189,4 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
         return df.getObsWhoseValueDatetimeIsDuringPeriodAtLocation(metadata.getAppointmentDateConcept(), null, df.getObsValueDatetimeCollectionConverter());
     }
 
-    // TRACE
-
-    @DocumentedDefinition
-    public PatientDataDefinition getDiagnosesBasedOnMastercards() {
-        return new DiagnosesBasedOnMastercardsPatientDataDefinition();
-    }
-
-    @DocumentedDefinition
-    public PatientDataDefinition getPriorityPatientForTrace() {
-        return new PriorityPatientForTracePatientDataDefinition();
-    }
 }

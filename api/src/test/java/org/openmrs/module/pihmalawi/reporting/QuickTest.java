@@ -1,35 +1,28 @@
 package org.openmrs.module.pihmalawi.reporting;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
+import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivEncounterQueryLibrary;
-import org.openmrs.module.pihmalawi.reporting.reports.HivDataQualityReport;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
-import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ListMap;
 import org.openmrs.module.reporting.data.patient.PatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
-import org.openmrs.module.reporting.dataset.DataSet;
-import org.openmrs.module.reporting.dataset.DataSetUtil;
-import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationProfiler;
-import org.openmrs.module.reporting.evaluation.parameter.Mapped;
-import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -132,6 +125,29 @@ public class QuickTest extends StandaloneContextSensitiveTest {
                 sb.append(ai.get("apptType") + ": " + DateFormatUtils.format((Date)ai.get("apptDate"), "yyyy-MM-dd"));
             }
             System.out.println(pId + ": " + sb);
+        }
+
+        ViralLoadDataDefinition dd = new ViralLoadDataDefinition();
+        PatientData data = patientDataService.evaluate(dd, new EvaluationContext());
+        for (Integer pId : data.getData().keySet()) {
+            List<ViralLoad> viralLoads = (List<ViralLoad>)data.getData().get(pId);
+            for (ViralLoad vl: viralLoads) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("PID: " + pId);
+                if (vl.getSpecimenDate() == null) {
+                    sb.append(", No specimen collection date.  Group ID: " + vl.getGroupId() + "; Encounter ID: " + vl.getEncounterId());
+                }
+                if (vl.getSpecimenDate() != null && vl.getResultDate() == null) {
+                    sb.append(", Pending");
+                }
+                if (vl.getReasonForTest() != null) {
+                    sb.append(", Reason: " + vl.getReasonForTest());
+                }
+                if (vl.getReasonNoResult() != null) {
+                    sb.append(", No Result: " + vl.getReasonNoResult());
+                }
+                System.out.println(sb.toString());
+            }
         }
 	}
 }

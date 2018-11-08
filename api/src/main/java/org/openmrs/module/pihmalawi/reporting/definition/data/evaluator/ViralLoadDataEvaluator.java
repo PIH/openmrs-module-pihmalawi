@@ -13,6 +13,9 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
@@ -30,8 +33,10 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +45,8 @@ import java.util.Map;
  */
 @Handler(supports = ViralLoadDataDefinition.class, order = 50)
 public class ViralLoadDataEvaluator implements PatientDataEvaluator {
+
+    protected static final Log log = LogFactory.getLog(ViralLoadDataEvaluator.class);
 
 	@Autowired
 	private HivMetadata metadata;
@@ -57,12 +64,35 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 			return c;
 		}
 
-		// Numeric Viral Load Results
+		// Viral Load Specimen Date (Bled)
 
         {
             HqlQueryBuilder q = new HqlQueryBuilder();
-            q.select("o.personId", "o.obsDatetime", "o.obsGroup", "o.valueNumeric");
+            q.select("o.personId", "e.encounterId", "g.obsId", "e.encounterDatetime");
             q.from(Obs.class, "o");
+            q.innerJoin("o.encounter", "e");
+            q.leftOuterJoin("o.obsGroup", "g");
+            q.wherePersonIn("o.personId", context);
+            q.whereEqual("o.concept", metadata.getHivViralLoadSpecimenCollectedConcept());
+            q.whereEqual("o.valueCoded", metadata.getTrueConcept());
+            q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
+            q.orderAsc("o.obsDatetime");
+
+            List<Object[]> results = evaluationService.evaluateToList(q, context);
+            for (Object[] row : results) {
+                ViralLoad vl = getViralLoadForPatient(c.getData(), (Integer) row[0], (Integer) row[1], (Integer) row[2]);
+                vl.setSpecimenDate((Date) row[3]);
+            }
+        }
+
+        // Numeric Viral Load Results
+
+        {
+            HqlQueryBuilder q = new HqlQueryBuilder();
+            q.select("o.personId", "e.encounterId", "g.obsId", "o.obsDatetime", "o.valueNumeric", "e.encounterDatetime");
+            q.from(Obs.class, "o");
+            q.innerJoin("o.encounter", "e");
+            q.leftOuterJoin("o.obsGroup", "g");
             q.wherePersonIn("o.personId", context);
             q.whereEqual("o.concept", metadata.getHivViralLoadConcept());
             q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
@@ -70,10 +100,12 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 
             List<Object[]> results = evaluationService.evaluateToList(q, context);
             for (Object[] row : results) {
-                ViralLoad vl = createAndAddViralLoadForPatient(c.getData(), (Integer) row[0]);
-                vl.setResultDate((Date) row[1]);
-                vl.setGroupId(row[2] == null ? null : ((Obs) row[2]).getObsId());
-                vl.setResultNumeric((Double) row[3]);
+                ViralLoad vl = getViralLoadForPatient(c.getData(), (Integer) row[0], (Integer) row[1], (Integer) row[2]);
+                vl.setResultDate((Date) row[3]);
+                vl.setResultNumeric((Double) row[4]);
+                if (vl.getSpecimenDate() == null) {
+                    vl.setSpecimenDate((Date) row[5]); // If result does not match up with a collection obs, use encounter date as specimen collection date
+                }
             }
         }
 
@@ -81,8 +113,10 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 
         {
             HqlQueryBuilder q = new HqlQueryBuilder();
-            q.select("o.personId", "o.obsDatetime", "o.obsGroup");
+            q.select("o.personId", "e.encounterId", "g.obsId", "o.obsDatetime", "e.encounterDatetime");
             q.from(Obs.class, "o");
+            q.innerJoin("o.encounter", "e");
+            q.leftOuterJoin("o.obsGroup", "g");
             q.wherePersonIn("o.personId", context);
             q.whereEqual("o.concept", metadata.getHivLDLConcept());
             q.whereEqual("o.valueCoded", metadata.getTrueConcept());
@@ -91,31 +125,93 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
 
             List<Object[]> results = evaluationService.evaluateToList(q, context);
             for (Object[] row : results) {
-                ViralLoad vl = createAndAddViralLoadForPatient(c.getData(), (Integer) row[0]);
-                vl.setResultDate((Date) row[1]);
-                vl.setGroupId(row[2] == null ? null : ((Obs) row[2]).getObsId());
+                ViralLoad vl = getViralLoadForPatient(c.getData(), (Integer) row[0], (Integer) row[1], (Integer) row[2]);
+                vl.setResultDate((Date) row[3]);
                 vl.setResultLdl(true);
+                if (vl.getSpecimenDate() == null) {
+                    vl.setSpecimenDate((Date) row[4]); // If result does not match up with a collection obs, use encounter date as specimen collection date
+                }
+            }
+        }
+
+        // Reason For Test and Reason No Result
+
+        Concept reasonForTest = metadata.getReasonForTestingConcept();
+		Concept reasonNoResult = metadata.getReasonNoResultConcept();
+
+        {
+            HqlQueryBuilder q = new HqlQueryBuilder();
+            q.select("o.personId", "e.encounterId", "g.obsId", "o.concept", "o.valueCoded", "o.obsDatetime");
+            q.from(Obs.class, "o");
+            q.innerJoin("o.encounter", "e");
+            q.leftOuterJoin("o.obsGroup", "g");
+            q.wherePersonIn("o.personId", context);
+            q.whereIn("o.concept", Arrays.asList(metadata.getReasonForTestingConcept(), metadata.getReasonNoResultConcept()));
+            q.whereNotNull("o.obsGroup");
+            q.whereEqual("o.obsGroup.concept", metadata.getHivViralLoadTestSetConcept());
+            q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
+            q.orderAsc("o.obsDatetime");
+
+            List<Object[]> results = evaluationService.evaluateToList(q, context);
+            for (Object[] row : results) {
+                ViralLoad vl = getViralLoadForPatient(c.getData(), (Integer) row[0], (Integer) row[1], (Integer) row[2]);
+                Concept question = (Concept)row[3];
+                Concept answer = (Concept)row[4];
+                if (question.equals(reasonForTest)) {
+                    vl.setReasonForTest(answer);
+                }
+                else if (question.equals(reasonNoResult)) {
+                    vl.setReasonNoResult(answer);
+                    vl.setResultDate((Date)row[5]);
+                }
+                else {
+                    throw new EvaluationException("Unhandled question: " + question.getUuid());
+                }
             }
         }
 
         for (Integer pId : c.getData().keySet()) {
 		    List<ViralLoad> l = (List<ViralLoad>) c.getData().get(pId);
 		    if (l != null) {
-                Collections.sort(l, new BeanPropertyComparator("resultDate asc"));
+                for (Iterator<ViralLoad> i = l.iterator(); i.hasNext();) {
+                    ViralLoad vl = i.next();
+                    if (vl.getSpecimenDate() == null && vl.getResultDate() == null) {
+                        log.warn("Dangling viral load obs group found: " + vl.getGroupId());
+                        i.remove();  // Remove any viral loads that have neither a collection nor any result data
+                    }
+                }
+                Collections.sort(l, new BeanPropertyComparator("effectiveDate asc"));
             }
         }
 
 		return c;
 	}
 
-	protected ViralLoad createAndAddViralLoadForPatient(Map<Integer, Object> data, Integer pId) {
-        ViralLoad vl = new ViralLoad();
-        List<ViralLoad> forPatient = (List<ViralLoad>) data.get(pId);
-        if (forPatient == null) {
-            forPatient = new ArrayList<ViralLoad>();
-            data.put(pId, forPatient);
+	protected ViralLoad getViralLoadForPatient(Map<Integer, Object> data, Integer pId, Integer encId, Integer groupId) {
+        List<ViralLoad> l = (List<ViralLoad>) data.get(pId);
+        if (l == null) {
+            l = new ArrayList<ViralLoad>();
+            data.put(pId, l);
         }
-        forPatient.add(vl);
+        ViralLoad vl = getMatchingViralLoad(l, encId, groupId);
+        if (vl == null) {
+            vl = new ViralLoad();
+            l.add(vl);
+        }
+        vl.setEncounterId(encId);
+        vl.setGroupId(groupId);
         return vl;
+    }
+
+    protected ViralLoad getMatchingViralLoad(List<ViralLoad> viralLoads, Integer encId, Integer obsGroupId) {
+	    for (ViralLoad vl : viralLoads) {
+	        if (ObjectUtil.areEqual(vl.getGroupId(), obsGroupId)) {
+	            return vl;
+            }
+            if (vl.getGroupId() == null && obsGroupId == null && ObjectUtil.areEqual(vl.getEncounterId(), encId)) {
+                return vl;
+            }
+        }
+        return null;
     }
 }

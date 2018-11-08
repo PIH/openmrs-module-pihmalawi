@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
 
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
@@ -20,7 +21,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 11;
+        return 14;
     }
 
     @Override
@@ -164,7 +165,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         install(new ConceptBuilder("83931c6d-0e5a-4302-b8ce-a31175b6475e")
                 .datatype(notApplicable)
                 .conceptClass(convSet)
-                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set, IC3", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason)
                 .build());
 
@@ -330,16 +331,37 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // Adherence counseling
-        Concept first = MetadataUtils.existing(Concept.class,"65662ed4-977f-11e1-8993-905e29aff6c1");
-        Concept second = MetadataUtils.existing(Concept.class,"65662fd8-977f-11e1-8993-905e29aff6c1");
-        Concept third = MetadataUtils.existing(Concept.class,"656630e6-977f-11e1-8993-905e29aff6c1");
-
-        install(new ConceptBuilder("06b1f7d8-b6cc-11e8-96f8-529269fb1459")
-                .datatype(coded)
-                .conceptClass(question)
-                .name("06b1fa44-b6cc-11e8-96f8-529269fb1459", "Adherence session number", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(first,second,third)
+        Concept first = install(new ConceptBuilder("697e9461-f2d6-4ab1-a140-48f768ce002a")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("3fe10be2-f148-4256-9b7c-dfb2e3b2e1d4", "1st", Locale.ENGLISH, null)
+                .name("3fed5fa8-65e5-49bb-827f-f9ed0a1bcb61", "First", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("32ca38c8-89d4-48b0-b884-bacba7881fd2").type(sameAs).ensureTerm(pih, "First").build())
                 .build());
+
+        Concept second = install(new ConceptBuilder("11c0f708-6950-4e94-b080-5c76174a4947")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("ee45ae72-9466-4f18-a15f-f62e76b8b53e", "Second", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("ee9c230b-672e-4bf2-8e71-287c576e8cb4", "2nd", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("41908ecc-fbb3-44e4-8ea6-08e03ca9c460").type(sameAs).ensureTerm(pih, "Second").build())
+                .build());
+
+        Concept third = install(new ConceptBuilder("224e3d57-f6d1-4244-bbe2-b81a574ba7aa")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("2524ebcf-7eb1-411d-8771-4f301c94388d", "Third", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("c140030f-feaa-4a9d-b030-bb71dd0621bf", "3rd", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("90b316d0-4ded-4b6a-b5d5-dd6de82a4327").type(sameAs).ensureTerm(pih, "Third").build())
+                .build());
+
+
+            install(new ConceptBuilder("06b1f7d8-b6cc-11e8-96f8-529269fb1459")
+                    .datatype(coded)
+                    .conceptClass(question)
+                    .name("06b1fa44-b6cc-11e8-96f8-529269fb1459", "Adherence session number", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                    .answers(first,second,third)
+                    .build());
 
         install(new ConceptBuilder("06b2005c-b6cc-11e8-96f8-529269fb1459")
                 .datatype(coded)
@@ -348,14 +370,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(yes,no)
                 .build());
 
-        install(new ConceptBuilder("06b20552-b6cc-11e8-96f8-529269fb1459")
+        install(new ConceptBuilder("20E91F16-BA4F-4058-B17A-998A82F4B803")
                 // ToDo:  How to add units and range programmatically?
                 // .units("%")
                 // .lowAbsolute("0")
                 // .hiAbsolute("100")
                 .datatype(numeric)
                 .conceptClass(finding)
-                .name("06b207be-b6cc-11e8-96f8-529269fb1459", "Adherence percent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("BF7BFB51-8F8E-4DEC-908F-4B447A4EAD30", "Medication Adherence percent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         install(new ConceptBuilder("06b20a2a-b6cc-11e8-96f8-529269fb1459")

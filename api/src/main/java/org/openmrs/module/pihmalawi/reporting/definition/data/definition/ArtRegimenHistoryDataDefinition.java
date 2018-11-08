@@ -13,31 +13,31 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
+import org.openmrs.module.reporting.common.Localized;
 import org.openmrs.module.reporting.data.BaseDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 
+import java.util.Date;
 import java.util.List;
 
 /**
- * Diagnoses Based on Mastercards
+ * Returns a List<ViralLoad> for each patient, as of the endDate, ordered by result date asc
  */
-public class DiagnosesBasedOnMastercardsPatientDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
+@Localized("pihmalawi.ArtRegimenHistoryDataDefinition")
+public class ArtRegimenHistoryDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
 
 	//****** CONSTRUCTORS ******
 
 	/**
 	 * Default Constructor
 	 */
-	public DiagnosesBasedOnMastercardsPatientDataDefinition() {
+	public ArtRegimenHistoryDataDefinition() {
 		super();
 	}
 
-	/**
-	 * Name only Constructor
-	 */
-	public DiagnosesBasedOnMastercardsPatientDataDefinition(String name) {
-		super(name);
-	}
+	@ConfigurationProperty
+	private Date endDate;
 
 	//***** INSTANCE METHODS *****
 
@@ -46,5 +46,13 @@ public class DiagnosesBasedOnMastercardsPatientDataDefinition extends BaseDataDe
 	 */
 	public Class<?> getDataType() {
 		return List.class;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }

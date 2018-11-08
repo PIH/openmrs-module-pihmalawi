@@ -13,21 +13,29 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.apache.commons.collections.comparators.ComparableComparator;
+import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
+import org.openmrs.module.pihmalawi.common.CodedValueAndDate;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.CodedValueAndDatePatientDataDefinition;
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CollectionConverter;
+import org.openmrs.module.reporting.data.converter.CountConverter;
+import org.openmrs.module.reporting.data.converter.ExistenceConverter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -82,67 +90,31 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), null, null);
     }
 
-	// Diagnoses
-	@DocumentedDefinition("hypertensionDiagnosis")
-	public PatientDataDefinition getHypertensionDiagnosis() {
-		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getHypertensionConcept(), null);
-	}
-
-	@DocumentedDefinition("diabetesDiagnosis")
-	public PatientDataDefinition getDiabetesDiagnosis() {
-		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getDiabetesConcept(), null);
-	}
-
-	@DocumentedDefinition("epilespyDiagnosis")
-	public PatientDataDefinition getEpilepsyDiagnosis() {
-		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getEpilepsyConcept(), null);
-	}
-
-	@DocumentedDefinition("asthmaDiagnosis")
-	public PatientDataDefinition getAsthmaDiagnosis() {
-		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getAsthmaConcept(), null);
-	}
-
-	@DocumentedDefinition("copdDiagnosis")
-	public PatientDataDefinition getCopdDiagnosis() {
-		return df.getCodedObsPresentByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getCopdConcept(), null);
-	}
-
 	@DocumentedDefinition
 	public PatientDataDefinition getAllChronicCareDiagnosesByEndDate() {
-		CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());
-		return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getChronicCareEncounterTypes(), c);
-	}
+        CodedValueAndDatePatientDataDefinition dd = new CodedValueAndDatePatientDataDefinition();
+        dd.setCodedValueQuestion(metadata.getChronicCareDiagnosisConcept());
+        dd.setDateValueQuestion(metadata.getDiagnosisDateConcept());
+        dd.addParameter(ReportingConstants.END_DATE_PARAMETER);
 
-    @DocumentedDefinition
-    public PatientDataDefinition getAllMentalHealthDiagnosesByEndDate() {
-        CollectionConverter c = new CollectionConverter(df.getObsValueCodedNameConverter(), true, new ComparableComparator());
-        return df.getAllObsByEndDate(metadata.getChronicCareDiagnosisConcept(), metadata.getMentalHealthEncounterTypes(), c);
-    }
+        PropertyConverter codedValueConvertor = new PropertyConverter(CodedValueAndDate.class, "value");
+        CollectionConverter c = new CollectionConverter(codedValueConvertor, true, null);
 
-	@DocumentedDefinition
-	public PatientDataDefinition getIsPatientHighRisk() {
-		return df.getCodedObsPresentByEndDate(metadata.getHighRiskPatientConcept(), metadata.getYesConcept(), metadata.getChronicCareEncounterTypes());
+        return df.convert(dd, c);
 	}
 
 	@DocumentedDefinition
-	public PatientDataDefinition getTimeSpentTravelingToClinicInHours() {
-		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInHoursConcept());
-	}
+	public PatientDataDefinition getFamilyHistoryOfDiabetesByEndDate() {
 
-	@DocumentedDefinition
-	public PatientDataDefinition getTimeSpentTravelingToClinicInMinutes() {
-		return df.getMostRecentObsByEndDate(metadata.getClinicTravelTimeInMinutesConcept());
-	}
+        // This converter will return true of a definition returns a non-empty list, false otherwise
+        ChainedConverter converter = new ChainedConverter();
+        converter.addConverter(new CountConverter(true));
+        converter.addConverter(new ExistenceConverter(Boolean.TRUE, Boolean.FALSE));
 
-	@DocumentedDefinition
-	public PatientDataDefinition getMostRecentEncounterDateByEndDate() {
-		return df.getMostRecentEncounterOfTypesByEndDate(metadata.getChronicCareEncounterTypes(), df.getEncounterDatetimeConverter());
-	}
+        Concept question = metadata.getFamilyHistoryOfDiabetesConcept();
+        List<Concept> values = Arrays.asList(metadata.getYesConcept());
 
-	@DocumentedDefinition
-	public PatientDataDefinition getMostRecentAppointmentDateByEndDate() {
-		return df.getMostRecentObsByEndDate(metadata.getAppointmentDateConcept(), metadata.getChronicCareEncounterTypes(), df.getObsValueDatetimeConverter());
+        return df.getAllObsWithCodedValueByEndDate(question, values, converter);
 	}
 
     @DocumentedDefinition
@@ -152,9 +124,5 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 
     public PatientDataDefinition getFirstEncounterDateByEndDate(List<EncounterType> encounterTypes) {
         return df.getFirstEncounterOfTypeByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
-    }
-
-    public PatientDataDefinition getMostRecentEncounterDateByEndDate(List<EncounterType> encounterTypes) {
-        return df.getMostRecentEncounterOfTypesByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
     }
 }
