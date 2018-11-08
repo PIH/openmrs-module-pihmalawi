@@ -18,7 +18,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -38,7 +38,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept fourA = MetadataUtils.existing(Concept.class, "657abd9a-977f-11e1-8993-905e29aff6c1");
         Concept fourP = MetadataUtils.existing(Concept.class, "657abf48-977f-11e1-8993-905e29aff6c1");
         Concept sixA = MetadataUtils.existing(Concept.class, "657ac164-977f-11e1-8993-905e29aff6c1");
+        Concept nineA = MetadataUtils.existing(Concept.class, "8a795372-ba39-11e6-91a8-5622a9e78e10");
         Concept nineP = MetadataUtils.existing(Concept.class, "657ac470-977f-11e1-8993-905e29aff6c1");
+        Concept tenA = MetadataUtils.existing(Concept.class, "7ebc782a-baa2-11e6-91a8-5622a9e78e10");
+        Concept elevenA = MetadataUtils.existing(Concept.class, "8bb7294e-baa2-11e6-91a8-5622a9e78e10");
+        Concept elevenP = MetadataUtils.existing(Concept.class, "91bcdad2-baa2-11e6-91a8-5622a9e78e10");
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
                 .datatype(coded)
@@ -114,7 +118,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         sixA,
                         sevenA,
                         eightA,
+                        nineA,
                         nineP,
+                        tenA,
+                        elevenA,
+                        elevenP,
                         twelveA,
                         thirteenA,
                         fourteenA,
@@ -141,7 +149,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         sixA,
                         sevenA,
                         eightA,
+                        nineA,
                         nineP,
+                        tenA,
+                        elevenA,
+                        elevenP,
                         twelveA,
                         thirteenA,
                         fourteenA,
@@ -168,7 +180,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         sixA,
                         sevenA,
                         eightA,
+                        nineA,
                         nineP,
+                        tenA,
+                        elevenA,
+                        elevenP,
                         twelveA,
                         thirteenA,
                         fourteenA,
@@ -195,7 +211,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         sixA,
                         sevenA,
                         eightA,
+                        nineA,
                         nineP,
+                        tenA,
+                        elevenA,
+                        elevenP,
                         twelveA,
                         thirteenA,
                         fourteenA,
