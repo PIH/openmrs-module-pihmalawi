@@ -41,7 +41,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
     @Override
     protected boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override

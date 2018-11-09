@@ -42,7 +42,7 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 
 	@Test
 	public void runTest() throws Exception {
-		if (isEnabled()) {
+		if (isEnabled() && getLoadCount() == 1) {
 			if (!Context.isSessionOpen()) {
 				Context.openSession();
 			}
