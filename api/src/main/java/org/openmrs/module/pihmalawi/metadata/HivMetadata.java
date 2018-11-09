@@ -29,9 +29,9 @@ public class HivMetadata extends CommonMetadata {
 
 	public static String HIV_PROGRAM = "HIV program";
 	public static String HIV_PROGRAM_TREATMENT_STATUS = "Treatment status";
-	public static String HIV_PROGRAM_STATUS_EXPOSED_CHILD = "Exposed Child (Continue)";
+	public static String HIV_PROGRAM_STATUS_EXPOSED_CHILD = "668847a2-977f-11e1-8993-905e29aff6c1";
 	public static String HIV_PROGRAM_STATUS_PRE_ART = "Pre-ART (Continue)";
-	public static String HIV_PROGRAM_STATUS_ON_ARVS = "On antiretrovirals";
+	public static String HIV_PROGRAM_STATUS_ON_ARVS = "6687fa7c-977f-11e1-8993-905e29aff6c1";
 	public static String HIV_PROGRAM_STATUS_TRANSFERRED_OUT = "Patient transferred out";
 	public static String HIV_PROGRAM_STATUS_DIED = "Patient died";
 	public static String HIV_PROGRAM_STATUS_DEFAULTED = "Patient defaulted";

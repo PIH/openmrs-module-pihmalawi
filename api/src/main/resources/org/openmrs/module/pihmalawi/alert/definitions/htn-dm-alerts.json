@@ -1,0 +1,71 @@
+[
+  {
+    "name": "routine-hba1c-dm-type-1",
+    "categories": ["diabetes"],
+    "conditions": [
+      "active_diabetes_type_1 == true",
+      "monthsBetween(today, last_hba1c_result_date) >= 3"
+    ],
+    "alert": "Routine HbA1C for DM type 1",
+    "notes": "All patients with DM type 1 should have a HbA1C every 3 months",
+    "enabled": false
+  },
+  {
+    "name": "routine-hba1c-dm-type-2",
+    "categories": ["diabetes"],
+    "conditions": [
+      "active_diabetes == true",
+      "active_diabetes_type_1 == false",
+      "monthsBetween(today, last_hba1c_result_date) >= 6"
+    ],
+    "alert": "Routine HBA1C for DM type 2",
+    "notes": "All patients with DM type 2 should have a HbA1C every 6 months",
+    "enabled": false
+  },
+  {
+    "name": "routine-fingerstick-diabetes",
+    "categories": ["diabetes"],
+    "conditions": [
+      "active_diabetes == true",
+      "missing(last_fingerstick_result_date) || last_fingerstick_result_date < today"
+    ],
+    "alert": "Routine fingerstick for Diabetes patient",
+    "notes": "All patients with Diabetes should have a RBS at each visit to the clinic",
+    "enabled": false
+  },
+  {
+    "name": "routine-blood-sugar-high-risk",
+    "categories": ["diabetes"],
+    "conditions": [
+      "age_years >= 30",
+      "yearsBetween(today, last_blood_sugar_result_date >= 1) || last_bmi > 25 || active_hypertension == true || family_history_diabetes == true"
+    ],
+    "alert": "Routine Blood Sugar for high risk population",
+    "notes": "These high risk populations should have blood sugar each year to screen for diabetes",
+    "enabled": false
+  },
+  {
+    "name": "routine-creatinine",
+    "categories": ["diabetes"],
+    "conditions": [
+      "active_diabetes == true || active_hypertension == true",
+      "yearsBetween(today, last_creatinine_result_date) >= 1",
+      "missing(last_creatinine_result) || last_creatinine_result < 1.5"
+    ],
+    "alert": "Routine Creatinine for patients with diabetes or hypertension",
+    "notes": "All patients with diabetes or hypertension should have a creatinine test each year, and every year if the result is <1.5, should be recurring if not entered into EMR",
+    "enabled": false
+  },
+  {
+    "name": "high-creatinine",
+    "categories": ["diabetes"],
+    "conditions": [
+      "active_diabetes == true || active_hypertension == true",
+      "monthsBetween(today, last_creatinine_result_date) >= 6",
+      "last_creatinine_result >= 1.5"
+    ],
+    "alert": "Creatinine for patient with creatinine >1.5 with diabetes or hypertention",
+    "notes": "All patients with diabetes or hypertension with a creatinine of >/=1.5, should have a creatinine test every 6 months, should be recurring if not captured in EMR",
+    "enabled": false
+  }
+]

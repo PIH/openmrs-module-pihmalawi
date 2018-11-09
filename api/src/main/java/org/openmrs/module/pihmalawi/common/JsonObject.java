@@ -7,11 +7,14 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.pihmalawi.data;
+package org.openmrs.module.pihmalawi.common;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.OpenmrsObject;
+import org.openmrs.util.OpenmrsClassLoader;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -21,11 +24,11 @@ import java.util.Map;
 /**
  * Based on SimpleObject from webservices.rest
  */
-public class SimpleObject extends LinkedHashMap<String, Object> {
+public class JsonObject extends LinkedHashMap<String, Object> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public SimpleObject() {
+	public JsonObject() {
 		super();
 	}
 
@@ -45,15 +48,33 @@ public class SimpleObject extends LinkedHashMap<String, Object> {
     /**
 	 * Creates an instance from the given json string.
 	 */
-	public static SimpleObject fromJson(String json) {
+	public static JsonObject fromJson(String json) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-            return objectMapper.readValue(json, SimpleObject.class);
+            return objectMapper.readValue(json, JsonObject.class);
         }
         catch (Exception e) {
 		    throw new IllegalArgumentException("Unable to parse json into SimpleObject", e);
         }
 	}
+
+    /**
+     * Creates an instance from the given json resource.
+     */
+    public static JsonObject fromJsonResource(String resource) {
+        InputStream is = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            is = OpenmrsClassLoader.getInstance().getResourceAsStream(resource);
+            return objectMapper.readValue(is, JsonObject.class);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Unable to load JSON from resource: " + resource, e);
+        }
+        finally {
+            IOUtils.closeQuietly(is);
+        }
+    }
 
     /**
      * Serializes to a JSON string

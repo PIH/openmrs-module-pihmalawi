@@ -1,0 +1,104 @@
+[
+  {
+    "name": "due-for-routine-viral-load-1",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years >= 3",
+      "hiv_treatment_status == active_art",
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_regimen_change_date)",
+      "daysBetween(today, last_art_regimen_change_date) > 182"
+    ],
+    "alert": "Due for routine VL",
+    "notes": "If a patient was due for viral load on a particular appointment date and was not bled, an alert should re-appear on any subsequent visit until that patient is bled or If a patient was switched to second line or third line, then the patient viral load cascade cycle needs to start again and ignore their current viral load cycle"
+  },
+  {
+    "name": "due-for-routine-viral-load-2",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years >= 3",
+      "hiv_treatment_status == active_art",
+      "yearsBetween(today, last_art_regimen_change_date) >= 2",
+      "yearsBetween(today, last_art_regimen_change_date) < 4",
+      "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 18"
+    ],
+    "alert": "Due for routine VL",
+    "notes": "If a patient was switched to second line or third line, then alert provider to begin the viral load cascade based on this new regimen. The patient viral load cascade cycle needs to start again ignoring their current viral load cycle's regimen"
+  },
+  {
+    "name": "due-for-routine-viral-load-3",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years >= 3",
+      "hiv_treatment_status == active_art",
+      "yearsBetween(today, last_art_regimen_change_date) >= 4",
+      "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 24"
+    ],
+    "alert": "Due for routine VL",
+    "notes": "According to the guidelines the fixed viral load cascade ends at 24 months then thereafter you have to do it every 2 years"
+  },
+  {
+    "name": "due-for-adherence-counselling",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years >= 3",
+      "hiv_treatment_status == active_art",
+      "last_viral_load_type == routine_viral_load",
+      "last_viral_load_numeric > 0",
+      "last_viral_load_ldl != true",
+      "last_adherence_counselling_session_number < 3",
+      "last_adherence_counselling_session_date > last_viral_load_date"
+    ],
+    "alert": "High Viral Load. Do adherence counseling for 3 consecutive months.",
+    "notes": "Alert provider to do adherence counseling for 3 consecutive months at each visit. If a routine viral load is elevated or high (>LDL/Undetectable), the patient needs to receive adherence counseling once a month for 3 consecutive months."
+  },
+  {
+    "name": "due-for-confirmatory-viral-load",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years >= 3",
+      "hiv_treatment_status == active_art",
+      "last_viral_load_numeric > 0",
+      "last_viral_load_ldl != true",
+      "TODO: Figure this out - 90 days has passed since appointment where high load result was available"
+    ],
+    "alert": "Due for confirmatory VL",
+    "notes": "Alert provider to repeat viral load. Repeat viral load or bleed 90 days after the elevated viral load",
+    "enabled": false
+  },
+  {
+    "name": "due-for-routine-viral-load-1p",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years < 3",
+      "hiv_treatment_status == active_art",
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_regimen_change_date)",
+      "daysBetween(today, last_art_regimen_change_date) > 182"
+    ],
+    "alert": "Due for routine VL",
+    "notes": "Alert provider to repeat viral load. Same as >=3 but at 6 months and then at 12 months and every year thereafter"
+  },
+  {
+    "name": "due-for-routine-viral-load-2p",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years < 3",
+      "hiv_treatment_status == active_art",
+      "monthsBetween(today, last_art_regimen_change_date) >= 12",
+      "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 6"
+    ],
+    "alert": "Due for routine VL",
+    "notes": ""
+  },
+  {
+    "name": "due-for-routine-viral-load-3p",
+    "categories": ["viral-load"],
+    "conditions": [
+      "age_years < 3",
+      "hiv_treatment_status == active_art",
+      "monthsBetween(today, last_art_regimen_change_date) >= 24",
+      "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 12"
+    ],
+    "alert": "Due for routine VL",
+    "notes": ""
+  }
+]

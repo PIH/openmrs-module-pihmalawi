@@ -36,9 +36,13 @@ public class IC3ScreeningData extends LivePatientDataSet {
         PatientDataSetDefinition dsd = new PatientDataSetDefinition();
         dsd.setName("IC3 Screening Data");
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        addColumn(dsd, "patientId", builtInPatientData.getPatientId());
         addColumn(dsd, "uuid", basePatientData.getUuid());
         addColumn(dsd, "birthdate", basePatientData.getBirthdate());
-        addColumn(dsd, "hiv_treatment_status", hivPatientData.getMostRecentHivTreatmentStatusStateConceptByEndDate());
+        addColumn(dsd, "age_years", basePatientData.getAgeAtEndInYears());
+        addColumn(dsd, "age_months", basePatientData.getAgeAtEndInMonths());
+        addColumn(dsd, "age_days", basePatientData.getAgeAtEndInDays());
+        addColumn(dsd, "hiv_treatment_status", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
         addColumn(dsd, "art_start_date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
         addColumn(dsd, "eid_start_date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
         addColumn(dsd, "last_viral_load_collection_date", hivPatientData.getLatestViralLoadByEndDate("specimenDate"));

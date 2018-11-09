@@ -343,7 +343,7 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 
     @DocumentedDefinition("latestHivTreatmentStatusState")
     public PatientDataDefinition getMostRecentHivTreatmentStatusStateByEndDate() {
-        return getMostRecentHivTreatmentStatusStateByEndDate(null);
+        return getMostRecentHivTreatmentStatusStateByEndDate(new PropertyConverter(PatientState.class, "state"));
     }
 
     @DocumentedDefinition("latestHivTreatmentStatusStateConcept")

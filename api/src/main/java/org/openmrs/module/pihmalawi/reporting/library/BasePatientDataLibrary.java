@@ -17,6 +17,7 @@ import org.openmrs.Patient;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.AgeInDaysConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -61,34 +62,34 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 		return PatientDataDefinition.class;
 	}
 
-    @DocumentedDefinition("uuid")
+    @DocumentedDefinition
     public PatientDataDefinition getUuid() {
         return df.convert(new PatientObjectDataDefinition(), new PropertyConverter(Patient.class, "uuid"));
     }
 
 	// Address Data
 
-	@DocumentedDefinition("birthdate")
+	@DocumentedDefinition
 	public PatientDataDefinition getBirthdate() {
 		return df.convert(new BirthdateDataDefinition(), new PropertyConverter(Birthdate.class, "birthdate"));
 	}
 
-	@DocumentedDefinition("village")
+	@DocumentedDefinition
 	public PatientDataDefinition getVillage() {
 		return df.getPreferredAddress("cityVillage");
 	}
 
-	@DocumentedDefinition("traditionalAuthority")
+	@DocumentedDefinition
 	public PatientDataDefinition getTraditionalAuthority() {
 		return df.getPreferredAddress("countyDistrict");
 	}
 
-	@DocumentedDefinition("district")
+	@DocumentedDefinition
 	public PatientDataDefinition getDistrict() {
 		return df.getPreferredAddress("stateProvince");
 	}
 
-	@DocumentedDefinition("addressFull")
+	@DocumentedDefinition
 	public PatientDataDefinition getAddressFull() {
 		PreferredAddressDataDefinition pdd = new PreferredAddressDataDefinition();
 		return df.convert(pdd, new ConcatenatedPropertyConverter(", ", "district", "traditionalAuthority", "village"));
@@ -96,34 +97,40 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	// Relationship Data
 
-	@DocumentedDefinition("chw")
+	@DocumentedDefinition
 	public PatientDataDefinition getChw() {
 		return df.getRelationships(metadata.getChwRelationshipType(), false, true);
 	}
 
-	@DocumentedDefinition("parentOrGuardian")
+	@DocumentedDefinition
 	public PatientDataDefinition getParentOrGuardian() {
 		return df.getRelationships(metadata.getGuardianRelationshipType(), false, true);
 	}
 
-	@DocumentedDefinition("chwOrGuardian")
+	@DocumentedDefinition
 	public PatientDataDefinition getChwOrGuardian() {
 		return new ChwOrGuardianPatientDataDefinition();
 	}
 
 	// Demographic Data
 
-	@DocumentedDefinition("ageAtEndInYears")
+	@DocumentedDefinition
 	public PatientDataDefinition getAgeAtEndInYears() {
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
 		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.YEARS));
 	}
 
-	@DocumentedDefinition("ageAtEndInMonths")
+	@DocumentedDefinition
 	public PatientDataDefinition getAgeAtEndInMonths() {
 		PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
 		return df.convert(ageAtEnd, new AgeConverter(AgeConverter.MONTHS));
 	}
+
+    @DocumentedDefinition
+    public PatientDataDefinition getAgeAtEndInDays() {
+        PatientDataDefinition ageAtEnd = builtInPatientData.getAgeAtEnd();
+        return df.convert(ageAtEnd, new AgeInDaysConverter());
+    }
 
 	@DocumentedDefinition("preferredFamilyNames")
 	public PatientDataDefinition getPreferredFamilyNames() {

@@ -1,0 +1,61 @@
+[
+  {
+    "name": "eid-positive-rapid-test",
+    "categories": ["eid"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_years < 2",
+      "last_hiv_rapid_test_result == positive"
+    ],
+    "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "notes": "Alert provider to immediately collect sample for DNA PCR"
+  },
+  {
+    "name": "eid-positive-dna-pcr-test",
+    "categories": ["eid"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_years < 2",
+      "last_hiv_dna_pcr_result == positive"
+    ],
+    "alert": "Confirm enrollment in ART",
+    "notes": "Alert provider to immediately initiate the infant on ART"
+  },
+  {
+    "name": "eid-routine-dna-pcr-test",
+    "categories": ["eid"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_days >= 42",
+      "age_years < 1",
+      "missing(last_hiv_dna_pcr_result_date) || last_hiv_dna_pcr_result_date < eid_start_date"
+    ],
+    "alert": "Due for routine DBS (DNA PCR Test)",
+    "notes": "Alert provider to collect sample for DNA PCR. Ideally, this DBS would be done at 6 weeks old but if the patient misses the appointment then it may be later than 6 weeks."
+  },
+  {
+    "name": "eid-routine-12-month-rapid-test",
+    "categories": ["eid"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_years >= 1",
+      "age_years < 2",
+      "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 1"
+    ],
+    "alert": "Due for routine rapid HIV test",
+    "notes": "All children in EID should get a rapid test at 12 months of age"
+  },
+  {
+    "name": "eid-routine-24-month-rapid-test",
+    "categories": ["eid"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_years >= 2",
+      "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2",
+      "TODO - stopped breastfeeding >/= 6 weeks ago"
+    ],
+    "alert": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
+    "notes": "No rapid test since 24 months, with age of >=24 months, infant stopped breastfeeding 6 weeks ago",
+    "enabled": false
+  }
+]
