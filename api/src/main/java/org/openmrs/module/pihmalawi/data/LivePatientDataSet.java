@@ -13,6 +13,8 @@ import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
+import org.openmrs.Patient;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
@@ -42,9 +44,12 @@ import java.util.Map;
 /**
  * Provides a foundational class to retain in-memory data for use by the system
  */
-public abstract class LiveDataSet {
+public abstract class LivePatientDataSet {
 
-    private final static Log log = LogFactory.getLog(LiveDataSet.class);
+    private final static Log log = LogFactory.getLog(LivePatientDataSet.class);
+
+    @Autowired
+    PatientService patientService;
 
     @Autowired
     DataSetDefinitionService dataSetService;
@@ -81,6 +86,9 @@ public abstract class LiveDataSet {
     private Map<String, SimpleObject> dataByUuid;
 
     public Map<String, SimpleObject> getDataByUuid() {
+        if (dataByUuid == null) {
+            dataByUuid = new HashMap<String, SimpleObject>();
+        }
         return dataByUuid;
     }
 
@@ -88,8 +96,16 @@ public abstract class LiveDataSet {
         return refreshingData;
     }
 
+    public boolean isLastRefreshSuccessful() {
+        return lastRefreshSuccessful;
+    }
+
     public Date getLastRefreshDate() {
         return lastRefreshDate;
+    }
+
+    public void setLastRefreshDate(Date lastRefreshDate) {
+        this.lastRefreshDate = lastRefreshDate;
     }
 
     //***** ABSTRACT METHODS *****
@@ -114,28 +130,42 @@ public abstract class LiveDataSet {
     //***** METHODS *****
 
     /**
-     * Updates the data for a single patient, using the passed date as the effectiveDate.  Intended to be called after a patient record is updated
+     * @return the data for a patient matching the given uuid, loading the data if necessary
      */
-    public void refresh(Integer patientId, Date effectiveDate) {
-        Cohort c = new Cohort();
-        c.addMember(patientId);
-        refresh(c, effectiveDate);
+    public SimpleObject getDataForPatient(String patientUuid) {
+        SimpleObject data = getDataByUuid().get(patientUuid);
+        if (data == null) {
+            Patient p = patientService.getPatientByUuid(patientUuid);
+            if (p == null) {
+                throw new IllegalArgumentException("Unable to find patient with uuid: " + patientUuid);
+            }
+            refresh(p);
+        }
+        return getDataByUuid().get(patientUuid);
     }
 
-    public void refresh(Date effectiveDate) {
+    /**
+     * Updates the data for a single patient, using the passed date as the effectiveDate.  Intended to be called after a patient record is updated
+     */
+    public void refresh(Patient p) {
+        Cohort c = new Cohort();
+        c.addMember(p.getPatientId());
+        refresh(c);
+    }
+
+    public void refresh() {
         refreshingData = true;
         try {
             dataByUuid = null;
             log.debug("Refreshing: " + getClass().getSimpleName());
             StopWatch sw = new StopWatch();
             sw.start();
-            EvaluationContext context = new EvaluationContext();
-            context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), effectiveDate);
+            EvaluationContext context = getEvaluationContext();
             CohortDefinition cd = constructCohortDefinition();
             try {
                 Cohort c = cohortDefinitionService.evaluate(cd, context);
                 log.debug("Number of patients to refresh: " + c.size());
-                refresh(c, effectiveDate);
+                refresh(c);
             }
             catch (Exception e) {
                 lastRefreshSuccessful = false;
@@ -154,9 +184,8 @@ public abstract class LiveDataSet {
     /**
      * Loads/updates the data for a Cohort of patients.  Intended to be called when initializing or refreshing the data
      */
-    public void refresh(Cohort cohort, Date effectiveDate) {
-        EvaluationContext context = new EvaluationContext();
-        context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), effectiveDate);
+    public void refresh(Cohort cohort) {
+        EvaluationContext context = getEvaluationContext();
         context.setBaseCohort(cohort);
         DataSetDefinition dsd = constructDataSetDefinition();
         try {
@@ -166,7 +195,11 @@ public abstract class LiveDataSet {
                 for (DataSetColumn c : row.getColumnValues().keySet()) {
                     so.put(c.getName(), row.getColumnValues().get(c));
                 }
-                updateData((String)row.getColumnValue(getUuidColumn()), so);
+                String uuid = (String)row.getColumnValue(getUuidColumn());
+                if (uuid == null) {
+                    throw new RuntimeException("No uuid found for data set row: " + row);
+                }
+                getDataByUuid().put(uuid, so);
             }
         }
         catch (EvaluationException e) {
@@ -175,19 +208,18 @@ public abstract class LiveDataSet {
     }
 
     /**
-     * Called to update the data for a given uuid
-     */
-    protected void updateData(String uuid, SimpleObject data) {
-        if (dataByUuid == null) {
-            dataByUuid = new HashMap<String, SimpleObject>();
-        }
-        dataByUuid.put(uuid, data);
-    }
-
-    /**
      * Utility/convenience method to map straight through the mappings
       */
     protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
         dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
+    }
+
+    /**
+     * Get initial evaluation context, which contains the date parameter for the report
+     */
+    protected EvaluationContext getEvaluationContext() {
+        EvaluationContext context = new EvaluationContext();
+        context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), new Date());
+        return context;
     }
 }

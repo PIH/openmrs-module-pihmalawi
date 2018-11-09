@@ -75,12 +75,13 @@ public class SimpleObject extends LinkedHashMap<String, Object> {
 
     /**
      * Converts objects passed in to standard data types
+     * TODO: DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; ??
      */
     protected Object convert(Object o) {
         if (o instanceof OpenmrsObject) {
             return ((OpenmrsObject)o).getUuid();
         }
-        if (o instanceof Collection) {
+        else if (o instanceof Collection) {
             List<Object> l = new ArrayList<Object>();
             for (Object v : ((Collection)o)) {
                 l.add(convert(v));

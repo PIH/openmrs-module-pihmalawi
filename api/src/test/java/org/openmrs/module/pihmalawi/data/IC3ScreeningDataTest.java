@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.data;
 
+import org.junit.Assert;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,22 @@ import java.util.Map;
 public class IC3ScreeningDataTest extends StandaloneContextSensitiveTest {
 
     @Autowired
-    IC3ScreeningData screeningData;
+    IC3ScreeningDataForTesting screeningData;
 
     @Override
     protected boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override
     protected void performTest() throws Exception {
-        Date testDate = DateUtil.getDateTime(2018, 11, 8);
-        screeningData.refresh(testDate);
+
+        // No data before initialization
+        Assert.assertEquals(0, screeningData.getDataByUuid().size());
+
+        screeningData.setEvaluationDate(DateUtil.getDateTime(2017, 12, 26));
+        screeningData.refresh();
+
         Map<String, SimpleObject> data = screeningData.getDataByUuid();
         System.out.println("ScreeningData: " + data.size());
         for (String pId : data.keySet()) {

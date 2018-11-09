@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * Provides means to update for a given patient or all patients in a cohort on demand
  */
 @Component
-public class IC3ScreeningData extends LiveDataSet {
+public class IC3ScreeningData extends LivePatientDataSet {
 
     @Override
     public CohortDefinition constructCohortDefinition() {

@@ -176,7 +176,7 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
                 for (Iterator<ViralLoad> i = l.iterator(); i.hasNext();) {
                     ViralLoad vl = i.next();
                     if (vl.getSpecimenDate() == null && vl.getResultDate() == null) {
-                        log.warn("Dangling viral load obs group found: " + vl.getGroupId());
+                        log.debug("Dangling viral load obs group found: " + vl.getGroupId());
                         i.remove();  // Remove any viral loads that have neither a collection nor any result data
                     }
                 }

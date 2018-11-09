@@ -86,7 +86,7 @@ public class CodedValueAndDatePatientDataEvaluator implements PatientDataEvaluat
                 for (Obs dateVal : dateVals) {
                     CodedValueAndDate existing = getMatch(valsForPatient, matchEncOnly, dateVal);
                     if (existing == null) {
-                        log.warn("Found date obs " + def.getDateValueQuestion() + " where not value obs exists. Obs ID: " + dateVal.getId());
+                        log.debug("Found date obs " + def.getDateValueQuestion() + " where no value obs exists. Obs ID: " + dateVal.getId());
                     }
                     else {
                         existing.setDateObs(dateVal);

@@ -116,7 +116,7 @@ public class ArtRegimenHistoryDataEvaluator implements PatientDataEvaluator {
                     for (Obs regimenDateObs : regimenDates) {
                         ArtRegimen regimen = regimenForEncounter.get(regimenDateObs.getEncounter().getEncounterId());
                         if (regimen == null) {
-                            log.warn("Regimen Date Obs found without a matching Regimen Obs: " + regimenDateObs);
+                            log.debug("Regimen Date Obs found without a matching Regimen Obs: " + regimenDateObs);
                         }
                         else {
                             regimen.setDateObs(regimenDateObs);
