@@ -193,12 +193,12 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String CHRONIC_CARE_DIAGNOSIS = "CHRONIC CARE DIAGNOSIS";
 	public static final String ASTHMA = "Asthma";
     public static final String COPD = "Chronic obstructive pulmonary disease";
-	public static final String DIABETES = "Diabetes";
-    public static final String TYPE_1_DIABETES = "Type 1 diabetes";
-    public static final String TYPE_2_DIABETES = "Type 2 diabetes";
+	public static final String DIABETES = "6567426a-977f-11e1-8993-905e29aff6c1";
+    public static final String TYPE_1_DIABETES = "65714206-977f-11e1-8993-905e29aff6c1";
+    public static final String TYPE_2_DIABETES = "65714314-977f-11e1-8993-905e29aff6c1";
 	public static final String EPILEPSY = "Epilepsy";
 	public static final String HEART_FAILURE = "Heart failure";
-	public static final String HYPERTENSION = "Hypertension";
+	public static final String HYPERTENSION = "654abfc8-977f-11e1-8993-905e29aff6c1";
 	public static final String CHRONIC_KIDNEY_DISEASE = "Chronic kidney disease";
 	public static final String STROKE = "Stroke";
 	public static final String DEPRESSION = "Depression";

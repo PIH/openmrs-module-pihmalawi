@@ -61,3 +61,26 @@ function has(arrayToCheck, valueToCheck) {
     }
     return false;
 }
+
+/**
+ * Returns true if any in the valueArrayToCheck is found in the arrayToCheck, false otherwise
+ */
+function hasAny(arrayToCheck, valueArrayToCheck) {
+    if (arrayToCheck) {
+        for (var i = 0; i < arrayToCheck.length; i++) {
+            for (var j = 0; j< valueArrayToCheck.length; j++) {
+                if (arrayToCheck[i] === valueArrayToCheck[j]) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Returns false if valueToCheck is found in the arrayToCheck, true otherwise
+ */
+function hasNot(arrayToCheck, valueToCheck) {
+    return !has(arrayToCheck, valueToCheck);
+}

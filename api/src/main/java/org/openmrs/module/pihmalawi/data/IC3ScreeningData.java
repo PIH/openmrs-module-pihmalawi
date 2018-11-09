@@ -60,7 +60,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_hiv_rapid_test_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "testResult"));
         addColumn(dsd, "last_hiv_rapid_test_result_date", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "effectiveDate"));
         addColumn(dsd, "last_hba1c_result_date", df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, df.getObsDatetimeConverter()));
-        addColumn(dsd, "last_fingerstick_result_date", df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "last_blood_sugar_result_date", df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_creatinine_result_date", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_creatinine_result", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "last_bmi", basePatientData.getLatestBmiNumericValueByEndDate());
