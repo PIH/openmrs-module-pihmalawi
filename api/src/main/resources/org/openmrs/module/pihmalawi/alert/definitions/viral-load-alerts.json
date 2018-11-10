@@ -59,11 +59,10 @@
       "hiv_treatment_status == active_art",
       "last_viral_load_numeric > 0",
       "last_viral_load_ldl != true",
-      "TODO: Figure this out - 90 days has passed since appointment where high load result was available"
+      "daysBetween(today, last_viral_load_result_date) >= 90"
     ],
     "alert": "Due for confirmatory VL",
-    "notes": "Alert provider to repeat viral load. Repeat viral load or bleed 90 days after the elevated viral load",
-    "enabled": false
+    "notes": "Alert provider to repeat viral load. Repeat viral load or bleed 90 days after the elevated viral load"
   },
   {
     "name": "due-for-routine-viral-load-1p",
