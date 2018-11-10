@@ -208,6 +208,11 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 	}
 
     @DocumentedDefinition
+    public PatientDataDefinition getLatestBreastfeedingStatusValueByEndDate() {
+        return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getBreastfeedingStatusConcept()), pdf.getObsValueCodedConverter());
+    }
+
+    @DocumentedDefinition
     public PatientDataDefinition getCd4CountObservations() {
         return new Cd4DataDefinition();
     }

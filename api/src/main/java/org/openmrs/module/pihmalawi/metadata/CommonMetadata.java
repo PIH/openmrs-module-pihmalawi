@@ -181,6 +181,8 @@ public class CommonMetadata extends Metadata {
 
     public static final String DIAGNOSIS_DATE = "Diagnosis date";
 
+    public static final String BREASTFEEDING_STATUS_CONCEPT = "657a289e-977f-11e1-8993-905e29aff6c1";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -530,6 +532,10 @@ public class CommonMetadata extends Metadata {
 
     public Concept getDiagnosisDateConcept() {
         return getConcept(DIAGNOSIS_DATE);
+    }
+
+    public Concept getBreastfeedingStatusConcept() {
+        return getConcept(BREASTFEEDING_STATUS_CONCEPT);
     }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";

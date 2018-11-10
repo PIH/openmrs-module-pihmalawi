@@ -52,10 +52,9 @@
       "hiv_treatment_status == active_eid",
       "age_years >= 2",
       "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2",
-      "TODO - stopped breastfeeding >/= 6 weeks ago"
+      "last_breastfeeding_status == breastfeeding_stopped_over_6_weeks_ago"
     ],
     "alert": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
-    "notes": "No rapid test since 24 months, with age of >=24 months, infant stopped breastfeeding 6 weeks ago",
-    "enabled": false
+    "notes": "No rapid test since 24 months, with age of >=24 months, infant stopped breastfeeding 6 weeks ago"
   }
 ]
