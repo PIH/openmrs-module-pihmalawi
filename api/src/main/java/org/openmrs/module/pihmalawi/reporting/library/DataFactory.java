@@ -865,10 +865,18 @@ public class DataFactory {
 		return new PropertyConverter(Obs.class, "valueDatetime");
 	}
 
+    public DataConverter getObsLocationConverter() {
+        return new PropertyConverter(Obs.class, "location");
+    }
+
     public DataConverter getObsValueDatetimeCollectionConverter() {
         ChainedConverter itemConverter = new ChainedConverter(getObsValueDatetimeConverter(), getObjectFormatter());
         CollectionConverter collectionConverter = new CollectionConverter(itemConverter, true, null);
         return new ChainedConverter(collectionConverter, new ObjectFormatter(" "));
+    }
+
+    public DataConverter getObsLocationCollectionConverter() {
+        return new CollectionConverter(getObsLocationConverter(), true, null);
     }
 
 	public DataConverter getObsValueCodedConverter() {

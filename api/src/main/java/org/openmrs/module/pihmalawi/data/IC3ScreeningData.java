@@ -42,6 +42,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "age_years", basePatientData.getAgeAtEndInYears());
         addColumn(dsd, "age_months", basePatientData.getAgeAtEndInMonths());
         addColumn(dsd, "age_days", basePatientData.getAgeAtEndInDays());
+        addColumn(dsd, "appointment_locations", basePatientData.getVisitLocationsForAppointmentsOnEndDate());
         addColumn(dsd, "hiv_treatment_status", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
         addColumn(dsd, "art_start_date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
         addColumn(dsd, "eid_start_date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());

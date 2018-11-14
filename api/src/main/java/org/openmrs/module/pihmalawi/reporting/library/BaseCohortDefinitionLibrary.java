@@ -15,11 +15,13 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.User;
 import org.openmrs.api.FormService;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.VisitCohortDefinition;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -49,6 +51,9 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 
 	@Autowired
     HivMetadata hivMetadata;
+
+    @Autowired
+    ChronicCareMetadata ccMetadata;
 
     @Override
     public Class<? super CohortDefinition> getDefinitionType() {
@@ -115,5 +120,14 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
         cd.addParameter(new Parameter("stoppedOnOrAfter", "Stopped on or after", Date.class));
         cd.addParameter(new Parameter("stoppedOnOrBefore", "Stopped on or before", Date.class));
         return df.convert(cd, ObjectUtil.toMap("stoppedOnOrAfter=endDate,stoppedOnOrBefore=endDate"));
+    }
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsActiveInHivOrChronicCareProgramOnEndDate() {
+        InProgramCohortDefinition cd = new InProgramCohortDefinition();
+        cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+        cd.addProgram(hivMetadata.getHivProgram());
+        cd.addProgram(ccMetadata.getChronicCareProgram());
+        return df.convert(cd, ObjectUtil.toMap("onDate=endDate"));
     }
 }

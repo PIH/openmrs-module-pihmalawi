@@ -22,20 +22,26 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPati
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.Birthdate;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
+import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientObjectDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefinition> {
@@ -191,9 +197,17 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
     // Obs
 
-    @DocumentedDefinition("appointmentDatesAtLocationDuringPeriod")
-    public PatientDataDefinition getAppointmentDatesAtLocationDuringPeriod() {
-        return df.getObsWhoseValueDatetimeIsDuringPeriodAtLocation(metadata.getAppointmentDateConcept(), null, df.getObsValueDatetimeCollectionConverter());
+    @DocumentedDefinition("appointmentObsOnDate")
+    public PatientDataDefinition getAppointmentObsOnEndDate(DataConverter converter) {
+        ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+        def.setQuestion(metadata.getAppointmentDateConcept());
+        def.addParameter(new Parameter("valueDatetimeOrAfter", "On or after", Date.class));
+        def.addParameter(new Parameter("valueDatetimeOnOrBefore", "On or before", Date.class));
+        return df.convert(def, ObjectUtil.toMap("valueDatetimeOrAfter=endDate,valueDatetimeOnOrBefore=endDate"), converter);
     }
 
+    @DocumentedDefinition
+    public PatientDataDefinition getVisitLocationsForAppointmentsOnEndDate() {
+        return getAppointmentObsOnEndDate(df.getObsLocationCollectionConverter());
+    }
 }

@@ -14,31 +14,55 @@
 
 package org.openmrs.module.pihmalawi.data;
 
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.evaluation.EvaluationContext;
+
 import java.util.Date;
 
 /**
- * Represents parameters to control how a Data Refresh should occur
+ * Extends EvaluationContext to provide easier methods to control evaluation
  * The effectiveDate passed in allows the data to be based on a different effectiveDate
  * If this is left null, then effectiveDate will be set to the current date
- * But this provides a means to look at what a refresh would look like based on a different effectiveDate
+ * This provides a means to look at what a refresh would look like based on a different effectiveDate
  */
 public class DataRefreshContext {
 
-    //** PROPERTIES
+    //***** PROPERTIES *****
 
-    private Date effectiveDate = new Date();
+    private EvaluationContext evaluationContext;
     private boolean replaceAllData = false;
 
     //***** CONSTRUCTORS *****
 
-    public DataRefreshContext() {}
+    public DataRefreshContext() {
+        this(new Date());
+    }
+
+    public DataRefreshContext(Date effectiveDate) {
+        setEffectiveDate(effectiveDate);
+    }
+
+    //***** METHODS *****
 
     public Date getEffectiveDate() {
-        return effectiveDate;
+        return evaluationContext == null ? null : (Date) evaluationContext.getParameterValue(ReportingConstants.END_DATE_PARAMETER.getName());
     }
 
     public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+        if (evaluationContext == null) {
+            evaluationContext = new EvaluationContext();
+        }
+        evaluationContext.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), effectiveDate);
+    }
+
+    //***** PROPERTY ACCESS *****
+
+    public EvaluationContext getEvaluationContext() {
+        return evaluationContext;
+    }
+
+    public void setEvaluationContext(EvaluationContext evaluationContext) {
+        this.evaluationContext = evaluationContext;
     }
 
     public boolean isReplaceAllData() {

@@ -23,7 +23,6 @@ import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
-import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -164,14 +163,13 @@ public abstract class LivePatientDataSet {
     public void refresh(DataRefreshContext refreshContext) {
         refreshingData = true;
         try {
-            log.debug("Refreshing: " + getClass().getSimpleName());
+            log.info("Refreshing: " + getClass().getSimpleName());
             StopWatch sw = new StopWatch();
             sw.start();
-            EvaluationContext context = getEvaluationContext(refreshContext);
-            CohortDefinition cd = constructCohortDefinition();
             try {
-                Cohort c = cohortDefinitionService.evaluate(cd, context);
-                log.debug("Number of patients to refresh: " + c.size());
+                CohortDefinition cd = constructCohortDefinition();
+                Cohort c = cohortDefinitionService.evaluate(cd, refreshContext.getEvaluationContext());
+                log.info("Number of patients to refresh: " + c.size());
                 refresh(c, refreshContext);
             }
             catch (Exception e) {
@@ -179,7 +177,7 @@ public abstract class LivePatientDataSet {
                 throw new RuntimeException("Error evaluating base refresh cohort for " + getClass(), e);
             }
             sw.stop();
-            log.debug("Refresh time: " + sw.toString());
+            log.info("Refresh time: " + sw.toString());
             lastRefreshSuccessful = true;
             lastRefreshDate = new Date();
         }
@@ -192,10 +190,10 @@ public abstract class LivePatientDataSet {
      * Loads/updates the data for a Cohort of patients.  Intended to be called when initializing or refreshing the data
      */
     public void refresh(Cohort cohort, DataRefreshContext refreshContext) {
-        EvaluationContext context = getEvaluationContext(refreshContext);
-        context.setBaseCohort(cohort);
         DataSetDefinition dsd = constructDataSetDefinition();
         try {
+            EvaluationContext context = refreshContext.getEvaluationContext().shallowCopy();
+            context.setBaseCohort(cohort);
             DataSet ds = dataSetService.evaluate(dsd, context);
             Map<String, JsonObject> newDataByUuid = new HashMap<String, JsonObject>();
             for (DataSetRow row : ds) {
@@ -204,7 +202,7 @@ public abstract class LivePatientDataSet {
                 for (DataSetColumn c : row.getColumnValues().keySet()) {
                     so.put(c.getName(), row.getColumnValues().get(c));
                 }
-                String uuid = (String)row.getColumnValue(getUuidColumn());
+                String uuid = (String) row.getColumnValue(getUuidColumn());
                 if (uuid == null) {
                     throw new RuntimeException("No uuid found for data set row: " + row);
                 }
@@ -227,14 +225,5 @@ public abstract class LivePatientDataSet {
       */
     protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
         dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
-    }
-
-    /**
-     * Get initial evaluation context, which contains the date parameter for the report
-     */
-    protected EvaluationContext getEvaluationContext(DataRefreshContext refreshContext) {
-        EvaluationContext context = new EvaluationContext();
-        context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), refreshContext.getEffectiveDate());
-        return context;
     }
 }

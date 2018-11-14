@@ -23,6 +23,8 @@ import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.common.ObjectCounter;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -47,7 +49,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
     @Override
     protected void performTest() throws Exception {
         testDate(2018, 11, 8);
-        testDate(2017, 12, 27);
+        //testDate(2017, 12, 27);
     }
 
     protected void testDate(int year, int month, int day) throws Exception {
@@ -74,13 +76,22 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         sw.reset();
         sw.start();
         Map<String, JsonObject> data = screeningData.getDataByUuid();
+
+        ObjectCounter counter = new ObjectCounter();
         for (String patientUuid : data.keySet()) {
             JsonObject patientData = data.get(patientUuid);
             List<AlertDefinition> matches = alertEngine.evaluateMatchingAlerts(alertDefinitions, patientData);
-            log.info(patientUuid + ": " + matches);
+            for (AlertDefinition match : matches) {
+                counter.increment(match.getName());
+            }
         }
         sw.stop();
+
         log.info("Evaluated Alerts for " + screeningData.getDataByUuid().size() + " patients in: " + sw.toString());
+        for (AlertDefinition alertDefinition : alertDefinitions) {
+            Object count = counter.getCount(alertDefinition.getName());
+            log.info(alertDefinition.getName() + ": " + ObjectUtil.nvlStr(count, "0"));
+        }
 
         screeningData.getDataByUuid().clear();
     }
