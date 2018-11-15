@@ -1,0 +1,304 @@
+<htmlform formName="Advanced NCD Visit"
+          formUuid="766c8c30-e35b-11e8-9f32-f2801f1b9fd1"
+          formEncounterType="1ebe2272-974e-11e8-9eb6-529269fb1459"
+          formVersion="1.0">
+
+    <macros>
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
+        <!--Vital Signs and Labs-->
+        <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="bmiCoded" value="484499f2-b58b-11e5-9f22-ba0be0483c18" />
+        <macro key="underWeight" value="6567eb98-977f-11e1-8993-905e29aff6c1" />
+        <macro key="typical" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="overWeight" value="158204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="bloodSugar" value="654a98b8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1" />
+        <macro key="heartRate" value="6569c224-977f-11e1-8993-905e29aff6c1" />
+        <!-- Risk assessment -->
+        <macro key="fruitVeggies" value="c65523dd-0c6b-41f6-a59f-a16fe544b22d" />
+        <macro key="exercise" value="161261AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="tobacco" value="655a4dc6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="alcohol" value="655a4ed4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="current" value="655a4cc2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="never" value="65577f4c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="stopped" value="655a4ab0-977f-11e1-8993-905e29aff6c1" />
+        <!-- -->
+        <macro key="diagnosisNonCoded" value="6562c316-977f-11e1-8993-905e29aff6c1" />
+        <macro key="medications" value="65617506-977f-11e1-8993-905e29aff6c1" />
+        <macro key="medsChanged" value="655e8076-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hospitalSince" value="655b3dc6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="comments" value="65710548-977f-11e1-8993-905e29aff6c1" />
+        <macro key="locationNextAppt" value="9f262c0e-e850-11e8-9f32-f2801f1b9fd1" />
+        <macro key="ic3Location" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739" />
+        <macro key="advancedLocation" value="2bc82b28-e84f-11e8-9f32-f2801f1b9fd1" />
+        <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr> <!-- Label row -->
+                    <td rowspan="2">Visit Date</td>
+                    <td colspan="6"><span>Vital Signs and Labs</span></td>
+                    <td colspan="4"><span>Risk Assessment</span></td>
+                    <td rowspan="2"><span>Diagnosis</span></td>
+                    <td rowspan="2"><span>Medications</span></td>
+                    <td rowspan="2"><span>Medications changed</span></td>
+                    <td rowspan="2"><span>Hospitalized since last visit?</span></td>
+                    <td rowspan="2"><span>Comments</span></td>
+                    <td rowspan="2"><span>Next Visit Date</span></td>
+                    <td rowspan="2"><span>Next Visit Location</span></td>
+                </tr>
+                <tr> <!-- Units row -->
+                    <td>Ht (cm)</td>
+                    <td>Wt (kg)</td>
+                    <td>BMI</td>
+                    <td>BP</td>
+                    <td>PR</td>
+                    <td>Blood Sugar (mg/dL)</td>
+
+                    <td>Tobacco use</td>Days/ wk of 30 min exercise
+                    <td>Alcohol use</td>
+                    <td class="rotate">F/V portions per day</td>
+                    <td class="rotate">Days/ wk of 30 min exercise</td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <encounterDate/>
+                    </td>
+
+                    <td>
+                        <!-- Height -->
+                        <obs conceptId="$height" id="heightEntered" size="3"/>
+                    </td>
+                    <td>
+                        <!-- Weight -->
+                        <obs conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+
+                    <td>
+                        <!-- BMI -->
+                        <repeat with="['$underWeight','U'],['$typical','N'],['$overWeight','O']">
+                            <obs conceptId="$bmiCoded" answerConceptId="{0}" answerLabel="{1}" style="radio" />
+                            <br/>
+                        </repeat>
+                    </td>
+
+                    <td>
+                        <!-- BP -->
+                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                    </td>
+
+                    <td>
+                        <!-- PR -->
+                        <obs conceptId="$heartRate" id="weightInput" size="3"/>
+                    </td>
+
+                    <td>
+                        <!-- Blood Sugar -->
+                        <obs conceptId="$bloodSugar" id="weightInput" size="3"/>
+                    </td>
+
+                    <!-- Tobacco use -->
+                    <td style="text-align: left">
+                        <obs conceptId="$tobacco" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$tobacco" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+                    <!-- Alcohol use -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Current" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$never" answerLabel="Never" style="checkbox" />
+                        <obs conceptId="$alcohol" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Number of fruit and veggie portions -->
+                        <obs conceptId="$fruitVeggies" />
+                    </td>
+
+                    <td>
+                        <!-- Days per week with 30 minutes of exercise  -->
+                        <obs conceptId="$exercise" />
+                    </td>
+
+                    <td>
+                        <!-- Diagnosis -->
+                        <obs conceptId="$diagnosisNonCoded" />
+                    </td>
+
+                    <td>
+                        <!-- Medications -->
+                        <obs conceptId="$medications" />
+                    </td>
+
+                    <!--  Medications changed  -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$medsChanged"  answerConceptId="$noAnswer" answerLabel="No"  style="checkbox" />
+                        <obs conceptId="$medsChanged"  answerConceptId="$yesAnswer" answerLabel="Yes"  style="checkbox" />
+                    </td>
+
+                    <!--  Hospitalized since last visit  -->
+                    <td style="text-align: left;">
+                        <obs conceptId="$hospitalSince"  answerConceptId="$noAnswer" answerLabel="No"  style="checkbox" />
+                        <obs conceptId="$hospitalSince"  answerConceptId="$yesAnswer" answerLabel="Yes"  style="checkbox" />
+                    </td>
+
+                    <td>
+                        <!-- Comments -->
+                        <obs conceptId="$comments" />
+                    </td>
+
+                    <td>
+                        <!-- Next appointment -->
+                        <obs conceptId="$nextAppt" id="nextAppointmentDate" allowFutureDates="true" />
+                    </td>
+
+                    <td style="text-align: left;">
+                        <obs conceptId="$locationNextAppt"  answerConceptId="$advancedLocation" answerLabel="Advanced"  style="checkbox" />
+                        <obs conceptId="$locationNextAppt"  answerConceptId="$ic3Location" answerLabel="IC3"  style="checkbox" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <h4 style="font-style: italic;">
+            <b>Advanced NCD Patient Card</b>
+            <span style="padding-left:50px;">Version 1</span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Chronic Care no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Chronic Care Number&quot;) ) $!id #end" />
+                </b>
+            </span>
+        </h4>
+
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" /></td>
+            </tr>
+
+            <tr>
+                <!-- Height -->
+                <th>Height</th>
+                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+            </tr>
+            <tr>
+                <!-- Weight -->
+                <th>Weight</th>
+                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Body Mass Index (BMI)</th>
+                <td>
+                    <!-- BMI -->
+                    <obs style="radio" conceptId="$bmiCoded" answerConceptIds="$underWeight,$typical,$overWeight" answerLabels="Below 19,19-24.9,Above 25"  answerSeparator="&lt;br /&gt;&lt;br /&gt;" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Blood Pressure</th>
+                <td>
+                    <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Heart Rate</th>
+                <td><obs conceptId="$heartRate" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Blood Sugar (mg/dL)</th>
+                <td><obs conceptId="$bloodSugar" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Tobacco use</th>
+                <td style="text-align: left">
+                    <obs conceptId="$tobacco" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Alcohol use</th>
+                <td style="text-align: left">
+                    <obs conceptId="$alcohol" answerConceptIds="$current,$never,$stopped" answerLabels="Current,Never,Stopped" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Number of fruit and vegetable portions</th>
+                <td><obs conceptId="$fruitVeggies" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Days per week with 30 minutes of exercise</th>
+                <td><obs conceptId="$exercise" showUnits="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Diagnosis</th>
+                <td><obs conceptId="$diagnosisNonCoded" /></td>
+            </tr>
+
+            <tr>
+                <th>Medications</th>
+                <td><obs conceptId="$medications" /></td>
+            </tr>
+
+            <tr>
+                <th>Medications changed</th>
+                <td><obs conceptId="$medsChanged" style="radio" answerLabels="No, Yes"
+                         answerConceptIds="$yesAnswer, $noAnswer"/></td>
+            </tr>
+
+            <tr>
+                <th>Hospitalized since last visit?</th>
+                <td><obs conceptId="$hospitalSince" style="radio" answerLabels="No, Yes"
+                         answerConceptIds="$yesAnswer, $noAnswer" /></td>
+            </tr>
+
+            <tr>
+                <th>Comments</th>
+                <td><obs conceptId="$comments" /></td>
+            </tr>
+
+            <tr>
+                <th>Next appointment</th>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+            </tr>
+
+            <tr>
+                <th>Next appointment Location</th>
+                <td><obs conceptId="$locationNextAppt"  style="radio" answerLabels="Advanced, IC3"
+                         answerConceptIds="$advancedLocation, $ic3Location"/></td>
+            </tr>
+
+        </table>
+        <submit />
+    </ifMode>
+
+</htmlform>
