@@ -215,6 +215,37 @@ public class EncounterTypes {
         public String description() { return "Imaging for Chronic Kidney Disease patients"; }
     };
 
+    //Advanced NCD
+    public static EncounterTypeDescriptor ADVANCED_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "b562295c-e335-11e8-9f32-f2801f1b9fd1"; }
+        public String name() { return "ADVANCED_INITIAL"; }
+        public String description() { return "Initial encounter for advanced NCD clinic"; }
+    };
+
+    public static EncounterTypeDescriptor ADVANCED_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "b5622bf0-e335-11e8-9f32-f2801f1b9fd1"; }
+        public String name() { return "ADVANCED_FOLLOWUP"; }
+        public String description() { return "Follow up encounter for advanced NCD clinic"; }
+    };
+
+    public static EncounterTypeDescriptor ADVANCED_QUARTERLY_LABS = new EncounterTypeDescriptor() {
+        public String uuid() { return "b5622d4e-e335-11e8-9f32-f2801f1b9fd1"; }
+        public String name() { return "ADVANCED_QUARTERLY_LABS"; }
+        public String description() { return "Every 3 months screening for advanced NCD clinic"; }
+    };
+
+    public static EncounterTypeDescriptor ADVANCED_ANNUAL_LABS = new EncounterTypeDescriptor() {
+        public String uuid() { return "b5623082-e335-11e8-9f32-f2801f1b9fd1"; }
+        public String name() { return "ADVANCED_ANNUAL_LABS"; }
+        public String description() { return "Annual screening for advanced NCD clinic"; }
+    };
+
+    public static EncounterTypeDescriptor ADVANCED_HOSPITAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "b56231e0-e335-11e8-9f32-f2801f1b9fd1"; }
+        public String name() { return "ADVANCED_HOSPITAL"; }
+        public String description() { return "Hospitalization for advanced NCD clinic"; }
+    };
+
     // IC3 Screening POC system
     public static EncounterTypeDescriptor CHECK_IN = new EncounterTypeDescriptor() {
         public String uuid() { return "55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"; }
