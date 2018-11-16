@@ -91,6 +91,9 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
                         Cohort activeVisitPatients = ic3ScreeningData.evaluateCohort(baseCohorts.getPatientsWithAVisitOnEndDateAtLocation(), today, location);
                         ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location);
                     }
+
+                    // Clear any caches that have not been accessed in the last hour
+                    ic3ScreeningData.getCache().clearCaches(60);
                 }
                 finally {
                     running = false;
