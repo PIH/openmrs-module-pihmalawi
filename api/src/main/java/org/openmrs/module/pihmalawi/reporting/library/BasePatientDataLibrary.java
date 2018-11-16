@@ -14,16 +14,21 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Patient;
+import org.openmrs.PersonAttribute;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.AgeInDaysConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MaxValueConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.converter.AgeConverter;
+import org.openmrs.module.reporting.data.converter.ChainedConverter;
+import org.openmrs.module.reporting.data.converter.CollectionConverter;
 import org.openmrs.module.reporting.data.converter.ConcatenatedPropertyConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.PropertyConverter;
@@ -33,6 +38,7 @@ import org.openmrs.module.reporting.data.patient.definition.PatientObjectDataDef
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.person.definition.BirthdateDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredAddressDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
@@ -50,7 +56,7 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	private DataFactory df;
 
 	@Autowired
-	private HivMetadata metadata;
+	private HivMetadata hivMetadata;
 
 	@Autowired
 	private ChronicCareMetadata ncdMetadata;
@@ -105,18 +111,25 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@DocumentedDefinition
 	public PatientDataDefinition getChw() {
-		return df.getRelationships(metadata.getChwRelationshipType(), false, true);
+		return df.getRelationships(hivMetadata.getChwRelationshipType(), false, true);
 	}
 
 	@DocumentedDefinition
 	public PatientDataDefinition getParentOrGuardian() {
-		return df.getRelationships(metadata.getGuardianRelationshipType(), false, true);
+		return df.getRelationships(hivMetadata.getGuardianRelationshipType(), false, true);
 	}
 
 	@DocumentedDefinition
 	public PatientDataDefinition getChwOrGuardian() {
 		return new ChwOrGuardianPatientDataDefinition();
 	}
+
+	@DocumentedDefinition
+    public PatientDataDefinition getPhoneNumber() {
+        PersonAttributeDataDefinition dd = new PersonAttributeDataDefinition();
+        dd.setPersonAttributeType(hivMetadata.getTelephoneNumberAttributeType());
+        return df.convert(dd, new PropertyConverter(PersonAttribute.class, "value"));
+    }
 
 	// Demographic Data
 
@@ -148,7 +161,7 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
     @DocumentedDefinition
     public PatientDataDefinition getLatestHeightObs() {
-        return df.getMostRecentObsByEndDate(metadata.getHeightConcept());
+        return df.getMostRecentObsByEndDate(hivMetadata.getHeightConcept());
     }
 
 	@DocumentedDefinition("latestHeight")
@@ -158,12 +171,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
     @DocumentedDefinition
     public PatientDataDefinition getAllWeightObservations() {
-        return df.getAllObsByEndDate(metadata.getWeightConcept(), null, null);
+        return df.getAllObsByEndDate(hivMetadata.getWeightConcept(), null, null);
     }
 
     @DocumentedDefinition
     public PatientDataDefinition getLatestWeightObs() {
-        return df.getMostRecentObsByEndDate(metadata.getWeightConcept());
+        return df.getMostRecentObsByEndDate(hivMetadata.getWeightConcept());
     }
 
 	@DocumentedDefinition("latestWeight")
@@ -197,17 +210,29 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
     // Obs
 
-    @DocumentedDefinition("appointmentObsOnDate")
-    public PatientDataDefinition getAppointmentObsOnEndDate(DataConverter converter) {
+    @DocumentedDefinition
+    public PatientDataDefinition getNextAppointmentObsByEndDate(DataConverter converter) {
         ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
-        def.setQuestion(metadata.getAppointmentDateConcept());
-        def.addParameter(new Parameter("valueDatetimeOrAfter", "On or after", Date.class));
+        def.setQuestion(hivMetadata.getAppointmentDateConcept());
         def.addParameter(new Parameter("valueDatetimeOnOrBefore", "On or before", Date.class));
-        return df.convert(def, ObjectUtil.toMap("valueDatetimeOrAfter=endDate,valueDatetimeOnOrBefore=endDate"), converter);
+        return df.convert(def, ObjectUtil.toMap("valueDatetimeOnOrBefore=endDate"), converter);
     }
 
     @DocumentedDefinition
-    public PatientDataDefinition getVisitLocationsForAppointmentsOnEndDate() {
-        return getAppointmentObsOnEndDate(df.getObsLocationCollectionConverter());
+    public PatientDataDefinition getLatestNextAppointmentDateValueByEndDate() {
+        CollectionConverter collectionConverter = new CollectionConverter(df.getObsValueDatetimeConverter(), true, null);
+        MaxValueConverter<Date> maxValueConverter = new MaxValueConverter<Date>();
+        return getNextAppointmentObsByEndDate(new ChainedConverter(collectionConverter, maxValueConverter));
+    }
+
+    /**
+     * // TODO: Determine if we should limit this by type.  With all of the new encounter types added, I am defaulting to no, as we may forget to update this
+     */
+    @DocumentedDefinition
+    public PatientDataDefinition getLatestVisitDateByEndDate() {
+        EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
+        def.setWhich(TimeQualifier.LAST);
+        def.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        return df.convert(def, ObjectUtil.toMap("onOrBefore=endDate"), df.getEncounterDatetimeConverter());
     }
 }

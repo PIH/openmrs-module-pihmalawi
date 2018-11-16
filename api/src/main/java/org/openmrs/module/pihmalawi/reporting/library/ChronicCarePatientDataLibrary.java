@@ -67,6 +67,12 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 		return df.getPreferredProgramIdentifierAtLocation(pit, program, new PatientIdentifierConverter());
 	}
 
+    @DocumentedDefinition("allChronicCareNumbers")
+    public PatientDataDefinition getAllChronicCareNumbers() {
+        PatientIdentifierType pit = metadata.getChronicCareNumber();
+        return df.getAllIdentifiersOfType(pit, df.getIdentifierCollectionConverter());
+    }
+
 	@DocumentedDefinition("latestChronicCareTreatmentStatusStateAtLocation")
 	public PatientDataDefinition getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate() {
 		ProgramWorkflow wf = metadata.getChronicCareTreatmentStatusWorkflow();

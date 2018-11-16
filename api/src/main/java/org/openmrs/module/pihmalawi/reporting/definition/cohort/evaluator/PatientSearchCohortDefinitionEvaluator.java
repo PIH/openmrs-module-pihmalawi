@@ -54,9 +54,17 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 	}
 
 	protected Set<Integer> getPatientsMatchingIdentifier(String searchString, MatchMode matchMode, EvaluationContext context) {
-		if (ObjectUtil.isNull(searchString)) {
-			return new HashSet<Integer>();
+        Set<Integer> ret = new HashSet<Integer>();
+	    if (ObjectUtil.isNull(searchString)) {
+			return ret;
 		}
+
+		Patient p = Context.getPatientService().getPatientByUuid(searchString);
+		if (p != null) {
+		    ret.add(p.getPatientId());
+		    return ret;
+        }
+
 		HqlQueryBuilder q = new HqlQueryBuilder();
 		q.select("distinct pi.patient.patientId");
 		q.from(PatientIdentifier.class, "pi");
@@ -77,7 +85,8 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 		}
 
 		List<Integer> l = evaluationService.evaluateToList(q, Integer.class, context);
-		return new HashSet<Integer>(l);
+		ret.addAll(l);
+		return ret;
 	}
 
 	protected Set<Integer> getPatientsMatchingName(String searchString, boolean isSoundex, MatchMode matchMode, EvaluationContext context) {

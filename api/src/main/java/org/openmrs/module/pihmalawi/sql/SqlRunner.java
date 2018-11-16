@@ -84,7 +84,6 @@ public class SqlRunner {
 	public SqlResult executeSql(String sql, Map<String, Object> parameterValues) {
 
 	    SqlResult result = new SqlResult();
-        log.info("Executing SQL...");
 
         List<String> sqlStatements = new ArrayList<String>();
         sqlStatements.addAll(parseParametersIntoStatements(parameterValues));

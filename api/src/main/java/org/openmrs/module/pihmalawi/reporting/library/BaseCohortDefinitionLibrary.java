@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Defines all of the General Cohort Definition instances we want to expose for Pih Malawi
@@ -108,26 +109,21 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
     }
 
     @DocumentedDefinition
-    public CohortDefinition getPatientsWithAnActiveVisit() {
+    public CohortDefinition getPatientsWithAVisitOnEndDateAtLocation() {
         VisitCohortDefinition cd = new VisitCohortDefinition();
-        cd.setActive(true);
-        return cd;
+        cd.addParameter(new Parameter("activeOnOrAfter", "Active on or after", Date.class));
+        cd.addParameter(new Parameter("activeOnOrBefore", "Active on or before", Date.class));
+        cd.addParameter(new Parameter("locationList", "Locations", List.class));
+        return df.convert(cd, ObjectUtil.toMap("locationList=location,activeOnOrAfter=endDate,activeOnOrBefore=endDate"));
     }
 
     @DocumentedDefinition
-    public CohortDefinition getPatientsWithACompletedVisitOnEndDate() {
-        VisitCohortDefinition cd = new VisitCohortDefinition();
-        cd.addParameter(new Parameter("stoppedOnOrAfter", "Stopped on or after", Date.class));
-        cd.addParameter(new Parameter("stoppedOnOrBefore", "Stopped on or before", Date.class));
-        return df.convert(cd, ObjectUtil.toMap("stoppedOnOrAfter=endDate,stoppedOnOrBefore=endDate"));
-    }
-
-    @DocumentedDefinition
-    public CohortDefinition getPatientsActiveInHivOrChronicCareProgramOnEndDate() {
+    public CohortDefinition getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate() {
         InProgramCohortDefinition cd = new InProgramCohortDefinition();
         cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+        cd.addParameter(new Parameter("locations", "Locations", List.class));
         cd.addProgram(hivMetadata.getHivProgram());
         cd.addProgram(ccMetadata.getChronicCareProgram());
-        return df.convert(cd, ObjectUtil.toMap("onDate=endDate"));
+        return df.convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
     }
 }

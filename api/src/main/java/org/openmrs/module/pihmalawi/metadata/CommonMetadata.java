@@ -18,6 +18,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,11 @@ public class CommonMetadata extends Metadata {
 	public RelationshipType getGuardianRelationshipType() {
 		return getRelationshipType(GUARDIAN_RELATIONSHIP_TYPE);
 	}
+
+	public static final String TELEPHONE_NUMBER_ATTRIBUTE_TYPE = "667f45ee-977f-11e1-8993-905e29aff6c1";
+	public PersonAttributeType getTelephoneNumberAttributeType() {
+	    return getPersonAttributeType(TELEPHONE_NUMBER_ATTRIBUTE_TYPE);
+    }
 
 	public static final String LAB_ENCOUNTER_TYPE = "LAB";
 	public static final String APPOINTMENT_ENCOUNTER_TYPE = "APPOINTMENT";

@@ -9,40 +9,48 @@
  */
 package org.openmrs.module.pihmalawi.data;
 
+import org.openmrs.module.pihmalawi.alert.AlertDefinition;
+import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.reporting.ReportingConstants;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
- * Retains an updated copy of the IC3 Screening Data Set
- * Undertakes a full refresh once per day
- * Provides means to update for a given patient or all patients in a cohort on demand
+ * Retains live IC3 Screening Data for each patient
  */
 @Component
 public class IC3ScreeningData extends LivePatientDataSet {
 
+    /**
+     * @return the data elements included in the screening data for each patient
+     */
     @Override
-    public CohortDefinition constructCohortDefinition() {
-        CohortDefinition appts = baseCohorts.getPatientsWithScheduledAppointmentOnEndDate();
-        CohortDefinition active = baseCohorts.getPatientsWithAnActiveVisit();
-        CohortDefinition completed = baseCohorts.getPatientsWithACompletedVisitOnEndDate();
-        return df.getPatientsInAny(appts, active, completed);
-    }
-
-    @Override
-    public DataSetDefinition constructDataSetDefinition() {
+    public PatientDataSetDefinition getDataSetDefinition() {
         PatientDataSetDefinition dsd = new PatientDataSetDefinition();
         dsd.setName("IC3 Screening Data");
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
-        addColumn(dsd, "patientId", builtInPatientData.getPatientId());
-        addColumn(dsd, "uuid", basePatientData.getUuid());
+        dsd.addParameter(ReportingConstants.LOCATION_PARAMETER);
+        addColumn(dsd, INTERNAL_ID, builtInPatientData.getPatientId()); // This column is required by the framework
+        addColumn(dsd, "patient_uuid", basePatientData.getUuid());
+        addColumn(dsd, "first_name", builtInPatientData.getPreferredGivenName());
+        addColumn(dsd, "last_name", builtInPatientData.getPreferredFamilyName());
+        addColumn(dsd, "village", basePatientData.getVillage());
+        addColumn(dsd, "traditional_authority", basePatientData.getTraditionalAuthority());
+        addColumn(dsd, "district", basePatientData.getDistrict());
+        addColumn(dsd, "phone_number", basePatientData.getPhoneNumber()); // TODO: See if this is what we want or to use obs?
+        addColumn(dsd, "vhw", basePatientData.getChw());
+        addColumn(dsd, "gender", builtInPatientData.getGender());
         addColumn(dsd, "birthdate", basePatientData.getBirthdate());
         addColumn(dsd, "age_years", basePatientData.getAgeAtEndInYears());
         addColumn(dsd, "age_months", basePatientData.getAgeAtEndInMonths());
         addColumn(dsd, "age_days", basePatientData.getAgeAtEndInDays());
-        addColumn(dsd, "appointment_locations", basePatientData.getVisitLocationsForAppointmentsOnEndDate());
+        addColumn(dsd, "hcc_number", hivPatientData.getHccNumberAtLocation()); // TODO: See if this is what we want
+        addColumn(dsd, "art_number", hivPatientData.getArvNumberAtLocation()); // TODO: See if this is what we want
+        addColumn(dsd, "ncd_number", ccPatientData.getChronicCareNumberAtLocation()); // TODO: See if this is what we want
+        addColumn(dsd, "last_visit_date", basePatientData.getLatestVisitDateByEndDate());
+        addColumn(dsd, "last_appt_date", basePatientData.getLatestNextAppointmentDateValueByEndDate());
         addColumn(dsd, "hiv_treatment_status", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
         addColumn(dsd, "art_start_date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
         addColumn(dsd, "eid_start_date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
@@ -68,5 +76,14 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "family_history_diabetes", ccPatientData.getFamilyHistoryOfDiabetesByEndDate());
         addColumn(dsd, "last_breastfeeding_status", hivPatientData.getLatestBreastfeedingStatusValueByEndDate());
         return dsd;
+    }
+
+    /**
+     * @return the AlertDefinitions to evaluate for this data set
+     */
+    public List<AlertDefinition> getAlertDefinitions() {
+        AlertEngine alertEngine = new AlertEngine();
+        List<AlertDefinition> alertDefinitions = alertEngine.getAlertDefinitions();
+        return alertDefinitions;
     }
 }

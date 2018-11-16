@@ -17,16 +17,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.BaseModuleActivator;
+import org.openmrs.module.DaemonToken;
+import org.openmrs.module.DaemonTokenAware;
 import org.openmrs.module.appframework.domain.Extension;
 import org.openmrs.module.appframework.repository.AllFreeStandingExtensions;
 import org.openmrs.module.appui.AppUiExtensions;
+import org.openmrs.module.pihmalawi.data.IC3ScreeningDataLoader;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PihMalawiModuleActivator extends BaseModuleActivator {
+public class PihMalawiModuleActivator extends BaseModuleActivator implements DaemonTokenAware {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
@@ -75,6 +78,8 @@ public class PihMalawiModuleActivator extends BaseModuleActivator {
             Extension e = new Extension("pihmalawi.headerExtension", null, AppUiExtensions.HEADER_CONFIG_EXTENSION, null, null, null, 100, null, extensionParams);
             extensions.add(e);
         }
+
+        Context.getRegisteredComponents(IC3ScreeningDataLoader.class).get(0).runImmediately();
     }
 
 	@Override
@@ -84,4 +89,9 @@ public class PihMalawiModuleActivator extends BaseModuleActivator {
 		}
 		log.info("pihmalawi module stopped");
 	}
+
+    @Override
+    public void setDaemonToken(DaemonToken daemonToken) {
+        IC3ScreeningDataLoader.setDaemonToken(daemonToken);
+    }
 }

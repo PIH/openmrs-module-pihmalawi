@@ -9,12 +9,13 @@
  */
 package org.openmrs.module.pihmalawi.data;
 
-import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
-import org.openmrs.Patient;
+import org.openmrs.Location;
 import org.openmrs.api.PatientService;
+import org.openmrs.module.pihmalawi.alert.AlertDefinition;
+import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -23,8 +24,12 @@ import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
+import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -40,7 +45,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -82,148 +90,145 @@ public abstract class LivePatientDataSet {
     @Autowired
     DataFactory df;
 
-    //***** PROPERTIES *****
+    //***** CONSTANTS *****
 
-    private boolean refreshingData;
-    private Date lastRefreshDate;
-    private boolean lastRefreshSuccessful;
-    private Map<String, JsonObject> dataByUuid;
+    public static final String INTERNAL_ID = "internal_id";
 
-    public Map<String, JsonObject> getDataByUuid() {
-        if (dataByUuid == null) {
-            dataByUuid = new HashMap<String, JsonObject>();
-        }
-        return dataByUuid;
-    }
+    //***** INSTANCE VARIABLES *****
 
-    public boolean isRefreshingData() {
-        return refreshingData;
-    }
-
-    public boolean isLastRefreshSuccessful() {
-        return lastRefreshSuccessful;
-    }
-
-    public Date getLastRefreshDate() {
-        return lastRefreshDate;
-    }
-
-    public void setLastRefreshDate(Date lastRefreshDate) {
-        this.lastRefreshDate = lastRefreshDate;
-    }
+    private LivePatientDataCache cache;
+    private AlertEngine alertEngine = new AlertEngine();
 
     //***** ABSTRACT METHODS *****
 
     /**
      * @return the DataSetDefinition for this data
      */
-    public abstract DataSetDefinition constructDataSetDefinition();
+    public abstract DataSetDefinition getDataSetDefinition();
 
     /**
-     * @return the CohortDefinition to determine which patients should be loaded refresh
+     * @return the AlertDefinitions for this data
      */
-    public abstract CohortDefinition constructCohortDefinition();
+    public abstract List<AlertDefinition> getAlertDefinitions();
+
+    //***** PUBLIC METHODS *****
 
     /**
-     * @return the column in the dataset used to identify a unique piece of data
+     * @return the data for a given Patient on a given date and location
+     * If date is null, then the current date will be used
+     * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
-    public String getUuidColumn() {
-        return "uuid";
-    }
-
-    //***** METHODS *****
-
-    /**
-     * @return the data for a patient matching the given uuid, loading the data if necessary
-     */
-    public JsonObject getDataForPatient(String patientUuid) {
-        JsonObject data = getDataByUuid().get(patientUuid);
-        if (data == null) {
-            Patient p = patientService.getPatientByUuid(patientUuid);
-            if (p == null) {
-                throw new IllegalArgumentException("Unable to find patient with uuid: " + patientUuid);
-            }
-            refresh(p, new DataRefreshContext());
-        }
-        return getDataByUuid().get(patientUuid);
-    }
-
-    /**
-     * Updates the data for a single patient, using the passed date as the effectiveDate.  Intended to be called after a patient record is updated
-     */
-    public void refresh(Patient p, DataRefreshContext dataRefreshContext) {
+    public JsonObject getDataForPatient(Integer patientId, Date effectiveDate, Location location) {
         Cohort c = new Cohort();
-        c.addMember(p.getPatientId());
-        refresh(c, dataRefreshContext);
+        c.addMember(patientId);
+        return getDataForCohort(c, effectiveDate, location).get(patientId);
     }
 
     /**
-     * This would be used to do a full refresh, based on the configured cohort
+     * @return the data for a given cohort on a given date and location
+     * If date is null, then the current date will be used
+     * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
-    public void refresh(DataRefreshContext refreshContext) {
-        refreshingData = true;
-        try {
-            log.info("Refreshing: " + getClass().getSimpleName());
-            StopWatch sw = new StopWatch();
-            sw.start();
-            try {
-                CohortDefinition cd = constructCohortDefinition();
-                Cohort c = cohortDefinitionService.evaluate(cd, refreshContext.getEvaluationContext());
-                log.info("Number of patients to refresh: " + c.size());
-                refresh(c, refreshContext);
-            }
-            catch (Exception e) {
-                lastRefreshSuccessful = false;
-                throw new RuntimeException("Error evaluating base refresh cohort for " + getClass(), e);
-            }
-            sw.stop();
-            log.info("Refresh time: " + sw.toString());
-            lastRefreshSuccessful = true;
-            lastRefreshDate = new Date();
-        }
-        finally {
-            refreshingData = false;
-        }
-    }
+    public Map<Integer, JsonObject> getDataForCohort(Cohort cohort, Date effectiveDate, Location location) {
 
-    /**
-     * Loads/updates the data for a Cohort of patients.  Intended to be called when initializing or refreshing the data
-     */
-    public void refresh(Cohort cohort, DataRefreshContext refreshContext) {
-        DataSetDefinition dsd = constructDataSetDefinition();
-        try {
-            EvaluationContext context = refreshContext.getEvaluationContext().shallowCopy();
-            context.setBaseCohort(cohort);
-            DataSet ds = dataSetService.evaluate(dsd, context);
-            Map<String, JsonObject> newDataByUuid = new HashMap<String, JsonObject>();
+        Map<Integer, JsonObject> data = new HashMap<Integer, JsonObject>();
+
+        log.debug("Getting Data for Cohort size " + cohort.getSize());
+        log.debug("Effective Date: " + effectiveDate);
+        log.debug("Location: " + location);
+
+        Map<Integer, JsonObject> cachedData = getCache().getDataCache(effectiveDate, location);
+
+        Cohort notCached = PatientIdSet.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
+        log.debug(notCached.size() + " elements of the cohort are not cached, generating these");
+
+        if (notCached.size() > 0) {
+            DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, notCached);
             for (DataSetRow row : ds) {
-                JsonObject so = new JsonObject();
-                so.put("today", refreshContext.getEffectiveDate().getTime());
+                JsonObject patientData = new JsonObject();
+                patientData.put("today", effectiveDate);
+                patientData.put("location", (location != null ? location.getUuid() : null));
                 for (DataSetColumn c : row.getColumnValues().keySet()) {
-                    so.put(c.getName(), row.getColumnValues().get(c));
+                    if (patientData.containsKey(c.getName())) {
+                        throw new RuntimeException("Duplicate column " + c.getName() + " found.  Please change column name in data set");
+                    }
+                    patientData.put(c.getName(), row.getColumnValues().get(c));
                 }
-                String uuid = (String) row.getColumnValue(getUuidColumn());
-                if (uuid == null) {
-                    throw new RuntimeException("No uuid found for data set row: " + row);
+                List<AlertDefinition> matchingAlerts = alertEngine.evaluateMatchingAlerts(getAlertDefinitions(), patientData);
+                Set<String> alerts = new HashSet<String>();
+                for (AlertDefinition ad : matchingAlerts) {
+                    alerts.add(ad.getName());
                 }
-                newDataByUuid.put(uuid, so);
+                patientData.put("alerts", alerts);
+                Integer internalId = (Integer) row.getColumnValue(INTERNAL_ID);
+                if (internalId == null) {
+                    throw new RuntimeException("No " + INTERNAL_ID + " found for data set row: " + row);
+                }
+                data.put(internalId, patientData);
             }
-            if (refreshContext.isReplaceAllData()) {
-                dataByUuid = newDataByUuid;
-            }
-            else {
-                getDataByUuid().putAll(newDataByUuid);
-            }
+            log.debug("Number of results generated " + data.size());
+
+            getCache().updateCache(data, effectiveDate, location);
         }
-        catch (EvaluationException e) {
-            throw new RuntimeException("Error refreshing data set for " + getClass(), e);
-        }
+        data.putAll(cachedData);
+
+        return data;
     }
+
+    //***** HELPER METHODS *****
 
     /**
      * Utility/convenience method to map straight through the mappings
       */
     protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
         dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
+    }
+
+    /**
+     * Helper method to evaluate a Cohort Definition
+     */
+    protected Cohort evaluateCohort(CohortDefinition cd, Date endDate, Location location) {
+        EvaluationContext context = createEvaluationContext(endDate, location, null);
+        try {
+            return cohortDefinitionService.evaluate(cd, context);
+        }
+        catch (EvaluationException e) {
+            throw new RuntimeException("Unable to evaluate cohort", e);
+        }
+    }
+
+    /**
+     * Helper method to evaluate a Data Set Definition
+     */
+    protected DataSet evaluateDataSet(DataSetDefinition dsd, Date endDate, Location location, Cohort baseCohort) {
+        EvaluationContext context = createEvaluationContext(endDate, location, baseCohort);
+        try {
+            log.warn("Evaluating data set for " + baseCohort.size() + " patients at " + (location == null ? "all locations" : location.getName()) + " on " + DateUtil.formatDate(endDate, "yyyy-MM-dd"));
+            return dataSetService.evaluate(dsd, context);
+        }
+        catch (EvaluationException e) {
+            throw new RuntimeException("Unable to evaluate data set", e);
+        }
+    }
+
+    /**
+     * Helper method to construct an Evaluation Context
+     */
+    protected EvaluationContext createEvaluationContext(Date endDate, Location location, Cohort baseCohort) {
+        EvaluationContext context = new EvaluationContext();
+        context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), ObjectUtil.nvl(endDate, new Date()));
+        context.addParameterValue(ReportingConstants.LOCATION_PARAMETER.getName(), location);
+        context.setBaseCohort(baseCohort);
+        return context;
+    }
+
+    /**
+     * @return Cache of patient data
+     */
+    public LivePatientDataCache getCache() {
+        if (cache == null) {
+            cache = new LivePatientDataCache();
+        }
+        return cache;
     }
 }

@@ -17,11 +17,17 @@ package org.openmrs.module.pihmalawi.data;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
+import org.openmrs.Cohort;
+import org.openmrs.Location;
+import org.openmrs.Patient;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.common.JsonObject;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
+import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectCounter;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -41,6 +47,15 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
     @Autowired
     IC3ScreeningData screeningData;
 
+    @Autowired
+    PatientService patientService;
+
+    @Autowired
+    BaseCohortDefinitionLibrary baseCohorts;
+
+    @Autowired
+    HivMetadata metadata;
+
     @Override
     protected boolean isEnabled() {
         return true;
@@ -48,25 +63,42 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
     @Override
     protected void performTest() throws Exception {
+
+        JsonObject patient = getPatient("c5489230-2695-102d-b4c2-001d929acb54", 2017, 12, 27);
+
         testDate(2018, 11, 8);
         //testDate(2017, 12, 27);
+
+        patient = getPatient("c5489230-2695-102d-b4c2-001d929acb54", 2017, 12, 27);
+        log.warn(patient);
+    }
+
+    protected JsonObject getPatient(String uuid, int year, int month, int day) {
+        StopWatch sw = new StopWatch();
+        sw.start();
+        Patient p = patientService.getPatientByUuid(uuid);
+        JsonObject ret = screeningData.getDataForPatient(p.getPatientId(), DateUtil.getDateTime(2017, 12, 27), metadata.getNenoHospital());
+        sw.stop();
+        log.info("Refreshed Data for single patient in: " + sw.toString());
+        return ret;
     }
 
     protected void testDate(int year, int month, int day) throws Exception {
 
         Date effectiveDate = DateUtil.getDateTime(year, month, day);
+        Location location = null;
 
         log.info("----- TEST for " + effectiveDate + " -----");
 
-        // No data before initialization
-        Assert.assertEquals(0, screeningData.getDataByUuid().size());
+        Cohort apts = screeningData.evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), effectiveDate, location);
+        Cohort active = screeningData.evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), effectiveDate, location);
+        Cohort cohort = PatientIdSet.intersect(apts, active);
 
-        DataRefreshContext refreshContext = new DataRefreshContext();
-        refreshContext.setEffectiveDate(effectiveDate);
+        log.info("Found " + cohort.size() + " patients with an appointment on " + effectiveDate + " at " + location);
 
         StopWatch sw = new StopWatch();
         sw.start();
-        screeningData.refresh(refreshContext);
+        Map<Integer, JsonObject> data = screeningData.getDataForCohort(cohort, effectiveDate, location);
         sw.stop();
         log.info("Refreshed Data in: " + sw.toString());
 
@@ -75,11 +107,10 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
         sw.reset();
         sw.start();
-        Map<String, JsonObject> data = screeningData.getDataByUuid();
 
         ObjectCounter counter = new ObjectCounter();
-        for (String patientUuid : data.keySet()) {
-            JsonObject patientData = data.get(patientUuid);
+        for (Integer pId : data.keySet()) {
+            JsonObject patientData = data.get(pId);
             List<AlertDefinition> matches = alertEngine.evaluateMatchingAlerts(alertDefinitions, patientData);
             for (AlertDefinition match : matches) {
                 counter.increment(match.getName());
@@ -87,12 +118,10 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         }
         sw.stop();
 
-        log.info("Evaluated Alerts for " + screeningData.getDataByUuid().size() + " patients in: " + sw.toString());
+        log.info("Evaluated Alerts in: " + sw.toString());
         for (AlertDefinition alertDefinition : alertDefinitions) {
             Object count = counter.getCount(alertDefinition.getName());
             log.info(alertDefinition.getName() + ": " + ObjectUtil.nvlStr(count, "0"));
         }
-
-        screeningData.getDataByUuid().clear();
     }
 }
