@@ -129,6 +129,16 @@ public abstract class LivePatientDataSet {
      * If date is null, then the current date will be used
      * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
+    public Map<Integer, JsonObject> getDataForCohort(CohortDefinition cohortDefinition, Date effectiveDate, Location location) {
+        Cohort cohort = evaluateCohort(cohortDefinition, effectiveDate, location);
+        return getDataForCohort(cohort, effectiveDate, location);
+    }
+
+    /**
+     * @return the data for a given cohort on a given date and location
+     * If date is null, then the current date will be used
+     * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
+     */
     public Map<Integer, JsonObject> getDataForCohort(Cohort cohort, Date effectiveDate, Location location) {
 
         Map<Integer, JsonObject> data = new HashMap<Integer, JsonObject>();
@@ -170,7 +180,9 @@ public abstract class LivePatientDataSet {
 
             getCache().updateCache(data, effectiveDate, location);
         }
-        data.putAll(cachedData);
+        for (Integer pId : cohort.getMemberIds()) {
+            data.put(pId, cachedData.get(pId));
+        }
 
         return data;
     }
