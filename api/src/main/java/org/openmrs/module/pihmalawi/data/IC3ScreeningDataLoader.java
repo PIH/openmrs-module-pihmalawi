@@ -18,7 +18,6 @@ import org.openmrs.module.DaemonToken;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
-import org.openmrs.module.reporting.common.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean;
 import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
@@ -77,7 +76,7 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
             if (!running) {
                 running = true;
                 try {
-                    Date today = DateUtil.getDateTime(2018, 11, 8);
+                    Date today = new Date();
 
                     // First pre-load all actively enrolled patients who have appointments
                     Cohort patientsWithAppts = ic3ScreeningData.evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), today, null);
