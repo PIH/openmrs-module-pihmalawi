@@ -27,7 +27,6 @@ import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectCounter;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -90,9 +89,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
         log.info("----- TEST for " + effectiveDate + " -----");
 
-        Cohort apts = screeningData.evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), effectiveDate, location);
-        Cohort active = screeningData.evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), effectiveDate, location);
-        Cohort cohort = PatientIdSet.intersect(apts, active);
+        Cohort cohort = screeningData.getPatientsWithAppointmentsAtLocation(effectiveDate, location);
 
         log.info("Found " + cohort.size() + " patients with an appointment on " + effectiveDate + " at " + location);
 

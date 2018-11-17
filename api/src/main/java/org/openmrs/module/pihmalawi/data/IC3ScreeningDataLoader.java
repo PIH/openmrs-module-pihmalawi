@@ -17,13 +17,13 @@ import org.openmrs.api.context.Daemon;
 import org.openmrs.module.DaemonToken;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean;
 import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -79,16 +79,14 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
                     Date today = new Date();
 
                     // First pre-load all actively enrolled patients who have appointments
-                    Cohort patientsWithAppts = ic3ScreeningData.evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), today, null);
-                    for (Location location : metadata.getSystemLocations()) {
-                        Cohort activePatients = ic3ScreeningData.evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), today, location);
-                        Cohort activeWithAppts = PatientIdSet.intersect(activePatients, patientsWithAppts);
-                        ic3ScreeningData.getDataForCohort(activeWithAppts, today, location);
+                    Map<Location, Cohort> patientsWithAppts = ic3ScreeningData.getPatientsWithAppointmentsByEnrolledLocation(today);
+                    for (Location location : patientsWithAppts.keySet()) {
+                        ic3ScreeningData.getDataForCohort(patientsWithAppts.get(location), today, location);
                     }
 
                     // Next load all patients who had a visit at the given location and given date
                     for (Location location : metadata.getSystemLocations()) {
-                        Cohort activeVisitPatients = ic3ScreeningData.evaluateCohort(baseCohorts.getPatientsWithAVisitOnEndDateAtLocation(), today, location);
+                        Cohort activeVisitPatients = ic3ScreeningData.getPatientsWithAVisitAtLocation(today, location);
                         ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location);
                     }
 

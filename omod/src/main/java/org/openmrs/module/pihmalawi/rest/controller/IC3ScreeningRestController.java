@@ -9,7 +9,6 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -68,9 +67,7 @@ public class IC3ScreeningRestController {
             @RequestParam(required = false, value="location") Location location) {
 
         Date endDate = getEndDate(endDateStr);
-        CohortDefinition active = baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate();
-        CohortDefinition appt = baseCohorts.getPatientsWithScheduledAppointmentOnEndDate();
-        CohortDefinition activeWithAppt = df.getPatientsInAll(active, appt);
+        Cohort activeWithAppt = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
         Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(activeWithAppt, endDate, location);
         return data.values();
    }

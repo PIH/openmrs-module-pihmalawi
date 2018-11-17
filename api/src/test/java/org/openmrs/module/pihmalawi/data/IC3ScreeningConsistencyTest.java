@@ -27,7 +27,6 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectCounter;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -138,9 +137,7 @@ public class IC3ScreeningConsistencyTest extends StandaloneContextSensitiveTest 
     protected Map<String, JsonObject> getRevisedData(Date endDate, Location location) {
         StopWatch sw = new StopWatch();
         sw.start();
-        Cohort apts = screeningData.evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), endDate, location);
-        Cohort active = screeningData.evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), endDate, location);
-        Cohort cohort = PatientIdSet.intersect(apts, active);
+        Cohort cohort = screeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
         sw.stop();
         log.warn("Got cohort in " + sw.toString());
         sw.reset();

@@ -25,6 +25,7 @@ import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibr
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
@@ -202,7 +203,8 @@ public abstract class LivePatientDataSet {
     protected Cohort evaluateCohort(CohortDefinition cd, Date endDate, Location location) {
         EvaluationContext context = createEvaluationContext(endDate, location, null);
         try {
-            return cohortDefinitionService.evaluate(cd, context);
+            EvaluatedCohort c = cohortDefinitionService.evaluate(cd, context);
+            return new Cohort(c.getMemberIds());
         }
         catch (EvaluationException e) {
             throw new RuntimeException("Unable to evaluate cohort", e);

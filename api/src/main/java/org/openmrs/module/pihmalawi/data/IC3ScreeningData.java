@@ -9,19 +9,45 @@
  */
 package org.openmrs.module.pihmalawi.data;
 
+import org.openmrs.Cohort;
+import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Retains live IC3 Screening Data for each patient
  */
 @Component
 public class IC3ScreeningData extends LivePatientDataSet {
+
+    public Map<Location, Cohort> getPatientsWithAppointmentsByEnrolledLocation(Date appointmentDate) {
+        Map<Location, Cohort> ret = new HashMap<Location, Cohort>();
+        Cohort appts = evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), appointmentDate, null);
+        for (Location location : hivMetadata.getSystemLocations()) {
+            Cohort enrolled = evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), appointmentDate, location);
+            ret.put(location, PatientIdSet.intersect(appts, enrolled));
+        }
+        return ret;
+    }
+
+    public Cohort getPatientsWithAppointmentsAtLocation(Date appointmentDate, Location location) {
+        Cohort appts = evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), appointmentDate, null);
+        Cohort enrolled = evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), appointmentDate, location);
+        return PatientIdSet.intersect(appts, enrolled);
+    }
+
+    public Cohort getPatientsWithAVisitAtLocation(Date endDate, Location location) {
+        return evaluateCohort(baseCohorts.getPatientsWithAVisitOnEndDateAtLocation(), endDate, location);
+    }
 
     /**
      * @return the data elements included in the screening data for each patient
