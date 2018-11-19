@@ -67,7 +67,7 @@ public class IC3ScreeningConsistencyTest extends StandaloneContextSensitiveTest 
 
     @Override
     protected boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override
