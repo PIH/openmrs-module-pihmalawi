@@ -22,7 +22,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 14;
+        return 15;
     }
 
     @Override
