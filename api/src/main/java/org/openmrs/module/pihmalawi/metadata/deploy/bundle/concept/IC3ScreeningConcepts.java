@@ -7,6 +7,7 @@ import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
@@ -370,11 +371,10 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(yes,no)
                 .build());
 
-        install(new ConceptBuilder("20E91F16-BA4F-4058-B17A-998A82F4B803")
-                // ToDo:  How to add units and range programmatically?
-                // .units("%")
-                // .lowAbsolute("0")
-                // .hiAbsolute("100")
+        install(new ConceptNumericBuilder("20E91F16-BA4F-4058-B17A-998A82F4B803")
+                .units("%")
+                .lowAbsolute(0d)
+                .hiAbsolute(100d)
                 .datatype(numeric)
                 .conceptClass(finding)
                 .name("BF7BFB51-8F8E-4DEC-908F-4B447A4EAD30", "Medication Adherence percent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
