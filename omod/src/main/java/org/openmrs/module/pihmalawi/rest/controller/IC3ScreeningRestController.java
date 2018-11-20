@@ -9,7 +9,10 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -33,6 +36,10 @@ public class IC3ScreeningRestController {
     public static final String PIHMALAWI = "/pihmalawi";
     public static final String IC3_SCREENING_DATA = "/ic3ScreeningData";
     public static final String IC3_APPOINTMENTS = "/ic3Appointments";
+    public static final String IC3_PATIENTS = "/ic3Patients";
+
+    public static final String PATIENTS_WITH_APPOINTMENT = "patientsWithAppointment";
+    public static final String PATIENTS_WITH_VISIT = "patientsWithVisit";
 
     @Autowired
     IC3ScreeningData ic3ScreeningData;
@@ -65,16 +72,33 @@ public class IC3ScreeningRestController {
     @ResponseBody
     public Object getAppointments(
             @RequestParam(required = false, value="endDate") String endDateStr,
-            @RequestParam(required = false, value="location") Location location,
-            @RequestParam(required = false, value="includePatientsWithVisit") boolean includePatientsWithVisit) {
+            @RequestParam(required = false, value="location") Location location) {
 
         Date endDate = getEndDate(endDateStr);
-        Cohort cohort = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
-        if (includePatientsWithVisit) {
-            Cohort withVisit = ic3ScreeningData.getPatientsWithAVisitAtLocation(endDate, location);
-            cohort = PatientIdSet.union(cohort, withVisit);
+        Cohort activeWithAppt = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
+        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(activeWithAppt, endDate, location);
+        return data.values();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value="/rest/" + RestConstants.VERSION_1 + PIHMALAWI + IC3_PATIENTS)
+    @ResponseBody
+    public Object getPatients(
+            @RequestParam(required = false, value="endDate") String endDateStr,
+            @RequestParam(required = false, value="location") Location location,
+            @RequestParam(required = false, value="cohorts") List<String> cohorts) {
+
+        Date endDate = getEndDate(endDateStr);
+
+        Cohort baseCohort = null;
+        if (ObjectUtil.isNull(cohorts) || cohorts.size() == 0 || cohorts.contains(PATIENTS_WITH_APPOINTMENT)) {
+            Cohort c = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
+            baseCohort = (baseCohort == null ? c : PatientIdSet.union(baseCohort, c));
         }
-        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(cohort, endDate, location);
+        if (ObjectUtil.isNull(cohorts) || cohorts.size() == 0 || cohorts.contains(PATIENTS_WITH_VISIT)) {
+            Cohort c = ic3ScreeningData.getPatientsWithAVisitAtLocation(endDate, location);
+            baseCohort = (baseCohort == null ? c : PatientIdSet.union(baseCohort, c));
+        }
+        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(baseCohort, endDate, location);
         return data.values();
    }
 
