@@ -18,9 +18,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
+import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VisitTypeBundle;
+import org.openmrs.util.OpenmrsConstants;
 
 public class MetadataInitializer implements Initializer {
 
@@ -50,6 +54,14 @@ public class MetadataInitializer implements Initializer {
         saveGlobalProperty(PihMalawiConstants.HEALTH_FACILITY_GP_NAME, PihMalawiConstants.HEALTH_FACILITY_GP_VALUE);
         saveGlobalProperty(PihMalawiConstants.DASHBOARD_IDENTIFIERS_GP_NAME, PihMalawiConstants.DASHBOARD_IDENTIFIERS_GP_VALUE);
         saveGlobalProperty(PihMalawiConstants.PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_NAME, PihMalawiConstants.PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_VALUE);
+
+        // enable visits, and automatically create a new visit when checking in if a visit is not already open
+        saveGlobalProperty(EmrApiConstants.GP_VISIT_ASSIGNMENT_HANDLER_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAP,
+                EncounterTypes.CHECK_IN.uuid() + ":" + VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
+        saveGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_ENABLE_VISITS, "true");
+        saveGlobalProperty(OpenmrsConstants.GP_VISIT_TYPES_TO_AUTO_CLOSE, VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
+        saveGlobalProperty(OpenmrsConstants.GP_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAPPING,
+                EncounterTypes.CHECK_IN.uuid() + ":" + VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
