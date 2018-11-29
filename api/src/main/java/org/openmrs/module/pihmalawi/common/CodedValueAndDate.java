@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * A simple object that represents an obs with an optional date obs associated with it
  */
-public class CodedValueAndDate {
+public class CodedValueAndDate implements JsonSerializable {
 
     //** PROPERTIES
 
@@ -46,6 +46,14 @@ public class CodedValueAndDate {
 
     public Concept getValue() {
         return valueObs != null ? valueObs.getValueCoded() : null;
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject ret = new JsonObject();
+        ret.put("date", getDate());
+        ret.put("value", getValue());
+        return ret;
     }
 
     @Override

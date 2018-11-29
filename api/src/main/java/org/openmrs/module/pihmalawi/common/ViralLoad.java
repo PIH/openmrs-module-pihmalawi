@@ -22,7 +22,7 @@ import java.util.Date;
 /**
  * A simple object that represents a viral load result
  */
-public class ViralLoad {
+public class ViralLoad implements JsonSerializable {
 
     //** PROPERTIES
 
@@ -43,6 +43,19 @@ public class ViralLoad {
 
     public Date getEffectiveDate() {
         return ObjectUtil.nvl(getSpecimenDate(), getResultDate());
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject ret = new JsonObject();
+        ret.put("specimenDate", specimenDate);
+        ret.put("resultDate", resultDate);
+        ret.put("effectiveDate", getEffectiveDate());
+        ret.put("resultNumeric", resultNumeric);
+        ret.put("resultLdl", resultLdl);
+        ret.put("reasonForTest", reasonForTest);
+        ret.put("reasonNoResult", reasonNoResult);
+        return ret;
     }
 
     //***** ACCESSORS ******

@@ -22,7 +22,7 @@ import java.util.Date;
 /**
  * A simple object that represents a patient BMI
  */
-public class BMI {
+public class BMI implements JsonSerializable {
 
     //** PROPERTIES
 
@@ -43,6 +43,14 @@ public class BMI {
         double ht = heightObs.getValueNumeric();
         double bmi = wt/Math.pow(ht/100, 2);
         return bmi;
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject ret = new JsonObject();
+        ret.put("value", getNumericValue());
+        ret.put("valueAsText", getValueAsText());
+        return ret;
     }
 
     public String getValueAsText() {

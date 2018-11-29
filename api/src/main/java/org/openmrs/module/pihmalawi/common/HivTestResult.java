@@ -23,7 +23,7 @@ import java.util.Date;
  * A simple object that represents an HIV Test Result
  * There are multiple concepts that have stored test results, both questions and answers
  */
-public class HivTestResult {
+public class HivTestResult implements JsonSerializable {
 
     //** PROPERTIES
 
@@ -42,6 +42,17 @@ public class HivTestResult {
     }
 
     //***** METHODS *****
+
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject ret = new JsonObject();
+        ret.put("specimenDate", specimenDateObs == null ? null : specimenDateObs.getValueDate());
+        ret.put("resultDate", resultDateObs == null ? null : resultDateObs.getValueDate());
+        ret.put("effectiveDate", getEffectiveDate());
+        ret.put("result", testResult);
+        ret.put("testType", testType);
+        return ret;
+    }
 
     //***** ACCESSORS ******
 

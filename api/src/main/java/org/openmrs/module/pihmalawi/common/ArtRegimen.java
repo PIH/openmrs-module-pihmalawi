@@ -23,7 +23,7 @@ import java.util.Date;
  * A simple object that represents an ART regimen
  * If a specific obs is entered to indicate the regimen date, use it.  Otherwise, use the encounter date.
  */
-public class ArtRegimen {
+public class ArtRegimen implements JsonSerializable {
 
     //** PROPERTIES
 
@@ -34,6 +34,14 @@ public class ArtRegimen {
 
     public ArtRegimen(Obs regimenObs) {
         this.regimenObs = regimenObs;
+    }
+
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject ret = new JsonObject();
+        ret.put("resultDate", getRegimenDate());
+        ret.put("regimen", getRegimen());
+        return ret;
     }
 
     //***** METHODS *****

@@ -96,7 +96,6 @@ public class JsonObject extends LinkedHashMap<String, Object> {
 
     /**
      * Converts objects passed in to standard data types
-     * TODO: DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; ??
      */
     protected Object convert(Object o) {
         if (o instanceof OpenmrsObject) {
@@ -108,6 +107,9 @@ public class JsonObject extends LinkedHashMap<String, Object> {
                 l.add(convert(v));
             }
             return l;
+        }
+        else if (o instanceof JsonSerializable) {
+            return ((JsonSerializable)o).toJsonObject();
         }
         return o;
     }
