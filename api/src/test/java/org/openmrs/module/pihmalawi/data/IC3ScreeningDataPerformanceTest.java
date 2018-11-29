@@ -76,7 +76,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         StopWatch sw = new StopWatch();
         sw.start();
         Patient p = patientService.getPatientByUuid(uuid);
-        JsonObject ret = screeningData.getDataForPatient(p.getPatientId(), DateUtil.getDateTime(2017, 12, 27), metadata.getNenoHospital());
+        JsonObject ret = screeningData.getDataForPatient(p.getPatientId(), DateUtil.getDateTime(2017, 12, 27), metadata.getNenoHospital(), true);
         sw.stop();
         log.info("Refreshed Data for single patient in: " + sw.toString());
         return ret;
@@ -95,7 +95,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
         StopWatch sw = new StopWatch();
         sw.start();
-        Map<Integer, JsonObject> data = screeningData.getDataForCohort(cohort, effectiveDate, location);
+        Map<Integer, JsonObject> data = screeningData.getDataForCohort(cohort, effectiveDate, location, true);
         sw.stop();
         log.info("Refreshed Data in: " + sw.toString());
 

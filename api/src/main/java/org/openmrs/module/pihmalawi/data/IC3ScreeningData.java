@@ -80,6 +80,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "hiv_treatment_status", hivPatientData.getMostRecentHivTreatmentStatusStateByEndDate());
         addColumn(dsd, "art_start_date", hivPatientData.getEarliestOnArvsStateStartDateByEndDate());
         addColumn(dsd, "eid_start_date", hivPatientData.getEarliestExposedChildStateStartDateByEndDate());
+        addColumn(dsd, "viral_load_tests", hivPatientData.getAllViralLoadsByEndDate());
         addColumn(dsd, "last_viral_load_collection_date", hivPatientData.getLatestViralLoadByEndDate("specimenDate"));
         addColumn(dsd, "last_viral_load_result_date", hivPatientData.getLatestViralLoadResultDateByEndDate());
         addColumn(dsd, "last_viral_load_date", hivPatientData.getLatestViralLoadByEndDate("effectiveDate"));
@@ -90,6 +91,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_adherence_counselling_session_number", df.getMostRecentObsByEndDate(hivMetadata.getAdherenceCounselingSessionNumberConcept(), null, df.getObsValueCodedConverter()));
         addColumn(dsd, "last_adherence_counselling_session_date", df.getMostRecentObsByEndDate(hivMetadata.getAdherenceCounselingSessionNumberConcept(), null, df.getObsValueDatetimeConverter()));
         addColumn(dsd, "chronic_care_diagnoses", ccPatientData.getAllChronicCareDiagnosesByEndDate());
+        addColumn(dsd, "hiv_tests", hivPatientData.getAllHivTestResultsByEndDate());
         addColumn(dsd, "last_hiv_dna_pcr_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "testResult"));
         addColumn(dsd, "last_hiv_dna_pcr_result_date", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "effectiveDate"));
         addColumn(dsd, "last_hiv_rapid_test_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "testResult"));

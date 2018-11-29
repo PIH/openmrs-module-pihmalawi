@@ -81,13 +81,13 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
                     // First pre-load all actively enrolled patients who have appointments
                     Map<Location, Cohort> patientsWithAppts = ic3ScreeningData.getPatientsWithAppointmentsByEnrolledLocation(today);
                     for (Location location : patientsWithAppts.keySet()) {
-                        ic3ScreeningData.getDataForCohort(patientsWithAppts.get(location), today, location);
+                        ic3ScreeningData.getDataForCohort(patientsWithAppts.get(location), today, location, false); // TODO: Set to true?
                     }
 
                     // Next load all patients who had a visit at the given location and given date
                     for (Location location : metadata.getSystemLocations()) {
                         Cohort activeVisitPatients = ic3ScreeningData.getPatientsWithAVisitAtLocation(today, location);
-                        ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location);
+                        ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location, false); // TODO: Set to true?
                     }
 
                     // Clear any caches that have not been accessed in the last hour

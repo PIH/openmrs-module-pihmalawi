@@ -142,7 +142,7 @@ public class IC3ScreeningConsistencyTest extends StandaloneContextSensitiveTest 
         log.warn("Got cohort in " + sw.toString());
         sw.reset();
         sw.start();
-        Map<Integer, JsonObject> m = screeningData.getDataForCohort(cohort, endDate, location);
+        Map<Integer, JsonObject> m = screeningData.getDataForCohort(cohort, endDate, location, true);
         Map<String, JsonObject> ret = new HashMap<String, JsonObject>();
         for (JsonObject o : m.values()) {
             ret.put((String)o.get("patient_uuid"), o);

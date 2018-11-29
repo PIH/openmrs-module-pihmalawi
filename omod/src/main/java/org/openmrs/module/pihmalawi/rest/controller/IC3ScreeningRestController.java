@@ -57,14 +57,16 @@ public class IC3ScreeningRestController {
     @ResponseBody
     public Object getScreeningData(
             @RequestParam(value="patients") String[] patientUuids,
-            @RequestParam(required = false, value="endDate") String endDateStr) {
+            @RequestParam(required = false, value="endDate") String endDateStr,
+            @RequestParam(required = false, value = "useCachedValues") Boolean useCachedValues) {
 
         Date endDate = getEndDate(endDateStr);
+        boolean useCache = useCachedValues == null || useCachedValues;
         if (patientUuids == null) {
             throw new IllegalArgumentException("You must specify which patients you wish to retrieve data for");
         }
         Cohort cohort = getCohort(patientUuids);
-        Map<Integer, JsonObject> data =  ic3ScreeningData.getDataForCohort(cohort, endDate, null);
+        Map<Integer, JsonObject> data =  ic3ScreeningData.getDataForCohort(cohort, endDate, null, useCache);
         return data.values();
     }
 
@@ -72,11 +74,13 @@ public class IC3ScreeningRestController {
     @ResponseBody
     public Object getAppointments(
             @RequestParam(required = false, value="endDate") String endDateStr,
-            @RequestParam(required = false, value="location") Location location) {
+            @RequestParam(required = false, value="location") Location location,
+            @RequestParam(required = false, value = "useCachedValues") Boolean useCachedValues) {
 
         Date endDate = getEndDate(endDateStr);
+        boolean useCache = useCachedValues == null || useCachedValues;
         Cohort activeWithAppt = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
-        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(activeWithAppt, endDate, location);
+        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(activeWithAppt, endDate, location, useCache);
         return data.values();
     }
 
@@ -85,9 +89,11 @@ public class IC3ScreeningRestController {
     public Object getPatients(
             @RequestParam(required = false, value="endDate") String endDateStr,
             @RequestParam(required = false, value="location") Location location,
-            @RequestParam(required = false, value="cohorts") List<String> cohorts) {
+            @RequestParam(required = false, value="cohorts") List<String> cohorts,
+            @RequestParam(required = false, value = "useCachedValues") Boolean useCachedValues) {
 
         Date endDate = getEndDate(endDateStr);
+        boolean useCache = useCachedValues == null || useCachedValues;
 
         Cohort baseCohort = null;
         if (ObjectUtil.isNull(cohorts) || cohorts.size() == 0 || cohorts.contains(PATIENTS_WITH_APPOINTMENT)) {
@@ -98,7 +104,7 @@ public class IC3ScreeningRestController {
             Cohort c = ic3ScreeningData.getPatientsWithAVisitAtLocation(endDate, location);
             baseCohort = (baseCohort == null ? c : PatientIdSet.union(baseCohort, c));
         }
-        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(baseCohort, endDate, location);
+        Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(baseCohort, endDate, location, useCache);
         return data.values();
    }
 
