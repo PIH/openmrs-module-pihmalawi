@@ -34,10 +34,10 @@ public class AlertEngineTest {
     @Test
     public void shouldTestFunctionsAndConstants() throws Exception {
 
-        test("yearsBetween", 2000, 3, 1, 1970, 2, 1, 30);
-        test("yearsBetween", 2000, 3, 1, 1970, 3, 1, 30);
-        test("yearsBetween", 2000, 3, 1, 1970, 3, 2, 29);
-        test("yearsBetween", 2000, 3, 1, 1970, 2, 28, 30);
+        test("yearsBetween", 2000, 3, 1, 1980, 2, 1, 20);
+        test("yearsBetween", 2000, 3, 1, 1980, 3, 1, 20);
+        test("yearsBetween", 2000, 3, 1, 1980, 3, 2, 19);
+        test("yearsBetween", 2000, 3, 1, 1980, 2, 28, 20);
         test("yearsBetween", 2000, 1, 1, 1999, 12, 31, 0);
 
         test("monthsBetween", 2005, 3, 5, 2000, 2, 5, 61);
