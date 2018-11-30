@@ -66,13 +66,7 @@ public class AlertEngineTest {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("t1", DateUtil.getDateTime(y1, m1, d1).getTime());
         variables.put("t2", DateUtil.getDateTime(y2, m2, d2).getTime());
-        ScriptEngine scriptEngine = engine.createScriptEngine(variables);
-        System.out.println("T1: ");
-        scriptEngine.eval("println(t1)");
-        System.out.println("T2: ");
-        scriptEngine.eval("println(t2)");
         Object res = engine.createScriptEngine(variables).eval(function + "(t1, t2)");
-        System.out.println(function + "(t1, t2) = " + res);
         Assert.assertEquals(expected, res);
     }
 
