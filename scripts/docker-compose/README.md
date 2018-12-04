@@ -8,10 +8,12 @@ If you haven't already done do, you will need to [Install Docker](https://docs.d
 ### Step 1:  Download the necessary deployment artifacts
 
 This Docker container mounts in several host files/directories to provide the webapps, modules, and initial database script.
-These can be 
+These can be downloaded from their latest builds using the "update-artifacts.sh" script in the parent directory.
+This will create a new directory for these artifacts, so best to run this script from the location on your machine where you want this to live.
 
+### Step 2:  Adjust the included configuration files as needed
 
-### Step 1:  Adjust the included configuration files as needed
+There is a default ".env" file included with the following defaults
 
 MYSQL_ROOT_PASSWORD=root
 MYSQL_PASSWORD=openmrs
@@ -21,38 +23,31 @@ MYSQL_INITIAL_DB_PATH=~/environments/nenotest/malawi-initial-db.sql
 OPENMRS_WEBAPPS_PATH=~/environments/nenotest/webapps
 OPENMRS_MODULES_PATH=~/environments/nenotest/modules
 
-Although this docker-compose project should work without modification, there may be occasions when you would like more control over the
-way it operates, given your particular machine configuration.  Most of the included files should be considered defaults that can be changed.  Some common examples:
+These parameters should be modified to meet your environment.
 
-**The Tomcat port** - Default is 8080.  Changing this requires editing the "tomcat" service settings in docker-compose.yml 
+You may also override the following defaults that are included:
 
-**The Tomcat memory and environment** - Edit the included openboxes-setenv.sh file
+OPENMRS_MEMORY_OPTS="-Xmx2048m -Xms1024m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:NewSize=128m"
+OPENMRS_OTHER_OPTS="-server -Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -Djava.awt.headlesslib=true"
 
-**The MySQL database name, port, username, or password** - Changing these requires editing the "db" service settings in docker-compose.yml 
-and the dataSource.url, dataSource.username, and/or dataSource.password in openmrs-runtime.properties
-
-**The MySQL root password** - Edit the "db" service settings in docker-compose.yml 
-
-**The MySQL configuration** - Edit the included openmrs-mysql.conf file
-
-### Step 2:  Build the necessary Docker images and attempt initial run
+### Step 3:  Build images and run the containers for the first time
 
 From the base directory (the one that contains your docker-compose.yml file) run:
 
 `docker-compose up --build`
 
-### Step 3:  Attempt to start up the service
+This should successfully start and run MySQL and Tomcat, running the OpenMRS web application
 
-After step 1 above, Ctrl-C out of it, and attempt to run again, this time omitting the build flag:
+### Step 4:  Start/Stop this
+
+To stop, Ctrl-C out of it.  You could also bring down by typing:
+
+`docker-compose down`
+
+You can start it back up again with:
 
 `docker-compose up`
 
-This should successfully start up the application.  If any errors occur, these will generally be configuration related.  Fix and repeat this step
-
-Ctrl-C from the window in which you brought the containers up is sufficient to later stop those services.  You can also stop them explicitly from another
-terminal window, by running:
-
-`docker-compose down`
 
 ### Working with the running containers
 
