@@ -1,11 +1,25 @@
-# pihmalawi-docker
+# Deploying the PIH Malawi Distribution using Docker Compose
 
 This project contains the relevant files to run the PIH Malawi distribution using Docker.  It utilizes docker-compose, which enables connecting several independent
 dockerized services together (in this case MySQL and Tomcat), and maintaining configuration for these within a docker-compose.yml file.
 
 If you haven't already done do, you will need to [Install Docker](https://docs.docker.com/) and [Install Docker Compose](https://docs.docker.com/compose/)
 
-### Step 1:  Adjust the include configuration files as needed
+### Step 1:  Download the necessary deployment artifacts
+
+This Docker container mounts in several host files/directories to provide the webapps, modules, and initial database script.
+These can be 
+
+
+### Step 1:  Adjust the included configuration files as needed
+
+MYSQL_ROOT_PASSWORD=root
+MYSQL_PASSWORD=openmrs
+MYSQL_PORT=3308
+OPENMRS_SERVER_PORT=8080
+MYSQL_INITIAL_DB_PATH=~/environments/nenotest/malawi-initial-db.sql
+OPENMRS_WEBAPPS_PATH=~/environments/nenotest/webapps
+OPENMRS_MODULES_PATH=~/environments/nenotest/modules
 
 Although this docker-compose project should work without modification, there may be occasions when you would like more control over the
 way it operates, given your particular machine configuration.  Most of the included files should be considered defaults that can be changed.  Some common examples:

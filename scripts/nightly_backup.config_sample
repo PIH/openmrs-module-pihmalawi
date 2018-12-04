@@ -1,8 +1,0 @@
-# config file for nightly_backup.sh
-
-export PATH=$PATH:/usr/local/mysql/bin/
-
-# msql connection
-MYSQL_USER=<mysql username>
-MYSQL_PW=<mysql passwd>
-MYSQL_DB=openmrs
