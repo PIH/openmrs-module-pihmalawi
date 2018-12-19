@@ -287,4 +287,9 @@ public class EncounterTypes {
         public String name() { return "Adherence Counseling"; }
         public String description() { return "Adherence counseling encounter"; }
     };
+    public static EncounterTypeDescriptor TB_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "45F221B9-7254-4B15-811B-5B8C8912F245"; }
+        public String name() { return "TB Screening"; }
+        public String description() { return "IC3 TB Screening encounter type"; }
+    };
 }
