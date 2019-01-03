@@ -1,0 +1,202 @@
+[
+  {
+    "name": "eligible-for-bp-screening",
+    "categories": ["bp","screening-eligibility"],
+    "conditions": [
+      "age_years > 18",
+      "TODO: no BP in active visit"
+    ],
+    "alert": "Due for BP Screening",
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-bp",
+    "categories": ["bp", "abnormal-result", "enrollment-needed"],
+    "conditions": [
+      "TODO: systolic BP > 160 OR diastolic BP > 110"
+    ],
+    "alert": "Abnormally high BP, enroll into care",
+    "enabled": false
+  },
+  {
+    "name": "critical-result-bp",
+    "categories": ["bp", "critical-result"],
+    "conditions": [
+      "TODO: systolic BP < 80 OR systolic BP > 200 OR diastolic BP > 120"
+    ],
+    "alert": "Critical BP, alert clinician",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-blood-glucose-screening-enrolled",
+    "categories": ["blood-glucose","screening-eligibility"],
+    "conditions": [
+      "TODO: active diabetes patient"
+    ],
+    "alert": "TODO",
+    "notes": "This is for disease monitoring, treatment adjustment",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-blood-glucose-screening-not-enrolled",
+    "categories": ["blood-glucose","screening-eligibility"],
+    "conditions": [
+      "TODO: Not active diabetes patient AND (> 30 years without a result in the past year OR adults with BMI > 25, diagnosed with hypertension, parent/sibling has diabetes without a result in the past year)"
+    ],
+    "alert": "TODO",
+    "notes": "Action: enroll if confirmed by clinician meets criteria",
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-blood-glucose",
+    "categories": ["blood-glucose","abnormal-result", "enrollment-needed"],
+    "conditions": [
+      "TODO: Fasting FS >126 or Random FS >200"
+    ],
+    "alert": "TODO",
+    "notes": "",
+    "enabled": false
+  },
+  {
+    "name": "critical-result-blood-glucose",
+    "categories": ["blood-glucose","critical-result"],
+    "conditions": [
+      "TODO: FS>400 or FS<70"
+    ],
+    "alert": "TODO",
+    "notes": "",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-a1c-screening-type-1",
+    "categories": ["a1c","screening-eligibility"],
+    "conditions": [
+      "TODO: enrolled AND diabetes type 1 AND last a1c >= 3m ago"
+    ],
+    "alert": "TODO",
+    "notes": "Action: for disease monitoring",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-a1c-screening-type-2",
+    "categories": ["a1c","screening-eligibility"],
+    "conditions": [
+      "TODO: enrolled AND diabetes type 2 AND last a1c >= 6m ago"
+    ],
+    "alert": "TODO",
+    "notes": "Action: for disease monitoring",
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-a1c",
+    "categories": ["a1c","abnormal-result", "enrollment-needed"],
+    "conditions": [
+      "TODO: a1c > 7%"
+    ],
+    "alert": "TODO",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-weight",
+    "categories": ["nutrition", "screening-eligibility"],
+    "conditions": [
+      "true"
+    ],
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-height",
+    "categories": ["nutrition", "screening-eligibility"],
+    "conditions": [
+      "age_years <= 18"
+    ],
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-bmi",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "TODO: 16-18.4 moderate malnutrition ,BMI <16 severe malnutrition"
+    ],
+    "alert": "Action: Enroll in NCST",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-muac",
+    "categories": ["nutrition", "screening-eligibility"],
+    "conditions": [
+      "TODO: age_years <= 18 OR pregnant"
+    ],
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-MUAC-cmam",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "TODO: (oedema or visible wasting) OR (6-59 months <11.5cm severe and 11.5-12.5 moderate) OR (5-9 years <13cm severe and 13-14.5 moderate) OR (10-14 years <16cm severe and 16-18.5 moderate)"
+    ],
+    "alert": "Action: Enroll in CMAM",
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-MUAC-ncst",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "TODO: (15-18 years <18.5cm severe and 18.5-21.9cm moderate) OR (pregnant mothers <19cm severe and 19-21.9 moderate)"
+    ],
+    "alert": "Action: Enroll in NCST",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-htc",
+    "categories": ["htc", "screening-eligibility"],
+    "conditions": [
+      "TODO: HIV negative AND no test in last 3 months AND age_years > 15"
+    ],
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-htc",
+    "categories": ["htc", "abnormal-result"],
+    "conditions": [
+      "TODO: hiv positive and hiv result recorded prior to this visit and not enrolled in hiv program ?? - need to clarify this definition"
+    ],
+    "alert": "Action: Refer to clinician",
+    "enabled": false
+  },
+  {
+    "name": "critical-result-htc",
+    "categories": ["htc", "critical-result"],
+    "conditions": [
+      "TODO: hiv positive and hiv result recorded during this visit ?? - need to clarify this definition"
+    ],
+    "alert": "Action: Refer to clinician",
+    "enabled": false
+  },
+  {
+    "name": "eligible-for-tb-screening",
+    "categories": ["tb", "screening-eligibility"],
+    "conditions": [
+      "true"
+    ],
+    "enabled": false
+  },
+  {
+    "name": "abnormal-result-tb",
+    "categories": ["tb", "abnormal-result"],
+    "conditions": [
+      "yes to any screening question during visit"
+    ],
+    "alert": "Action: Refer to nurse station for sputum submission",
+    "enabled": false
+  },
+  {
+    "name": "abnormal-viral-load",
+    "categories": ["viral-load", "abnormal-result"],
+    "conditions": [
+      "last VL > 1000"
+    ],
+    "alert": "needs enhanced adherence counselling if first time, needs reminders on first second and third counselling and needs a second viral load after third counselling",
+    "enabled": false
+  }
+]
