@@ -151,9 +151,15 @@
     "name": "eligible-for-htc",
     "categories": ["htc", "screening-eligibility"],
     "conditions": [
-      "TODO: HIV negative AND no test in last 3 months AND age_years > 15"
+      "age_years >= 15",
+      "hiv_treatment_status !== active_art",
+      "hiv_treatment_status !== active_eid",
+      "last_hiv_rapid_test_result == negative",
+      "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
     ],
-    "enabled": false
+    "alert": "Eligible for HIV test",
+    "notes": "All non-HIV patients, older than 15 yo, should be tested for HIV every 3 months",
+    "enabled": true
   },
   {
     "name": "abnormal-result-htc",
