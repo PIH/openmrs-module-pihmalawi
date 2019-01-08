@@ -170,7 +170,7 @@ public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
 
     protected void testResult(HivTestResult result, Date testDate, Concept testType, Concept testResult) {
         assertBothNullOrEqual(testDate, result.getEffectiveDate());
-        assertBothNullOrEqual(testType, result.getTestType());
+        assertBothNullOrEqual(testType == null ? hivMetadata.getHivRapidTest() : testType, result.getTestType());
         assertBothNullOrEqual(testResult, result.getTestResult());
     }
 }

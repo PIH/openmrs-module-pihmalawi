@@ -169,11 +169,11 @@ public abstract class LivePatientDataSet {
                     patientData.put(c.getName(), row.getColumnValues().get(c));
                 }
                 List<AlertDefinition> matchingAlerts = alertEngine.evaluateMatchingAlerts(getAlertDefinitions(), patientData);
-                Set<String> alerts = new HashSet<String>();
+                Map<String, List<String>> alertToCategoriesMap = new HashMap<String, List<String>>();
                 for (AlertDefinition ad : matchingAlerts) {
-                    alerts.add(ad.getName());
+                    alertToCategoriesMap.put(ad.getName(), ad.getCategories());
                 }
-                patientData.put("alerts", alerts);
+                patientData.put("alerts", alertToCategoriesMap);
                 Integer internalId = (Integer) row.getColumnValue(INTERNAL_ID);
                 if (internalId == null) {
                     throw new RuntimeException("No " + INTERNAL_ID + " found for data set row: " + row);

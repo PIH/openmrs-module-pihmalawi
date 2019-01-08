@@ -135,6 +135,9 @@ public class HivTestResultPatientDataEvaluator implements PatientDataEvaluator {
                         r.setTestType(hivDnaPcrTest);
                     }
                 }
+                if (r.getTestType() == null ) {
+                    r.setTestType(hivRapidTest);
+                }
 
                 // Test Result
                 if (r.getTestResultObs() != null) {
