@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPENMRS_WAR_URL="https://openmrs.jfrog.io/openmrs/releases/org/openmrs/web/openmrs-webapp/1.9.11/openmrs-webapp-1.9.11.war"
-WORKFLOW_PWA_URL="http://bamboo.pih-emr.org/workflow-repo/openmrs-pwa-workflow.tar.gz"
+IC3_PWA_URL="http://bamboo.pih-emr.org/pwa-repo/unstable/openmrs-pwa-apzu-ic3.tar.gz"
 MODULES_ZIP_URL="http://bamboo.pih-emr.org/malawi-repo/modules.zip"
 INITIAL_SQL_ZIP="http://bamboo.pih-emr.org/artifacts/malawi-initial-db.zip"
 
@@ -12,7 +12,7 @@ echo "Downloading Web Apps..."
 WEBAPPS_DIR="$TARGET_DIR/webapps"
 mkdir $WEBAPPS_DIR
 wget -q --show-progress -O $WEBAPPS_DIR/openmrs.war $OPENMRS_WAR_URL
-wget -q --show-progress -O $WEBAPPS_DIR/workflow.tar.gz $WORKFLOW_PWA_URL
+wget -q --show-progress -O $WEBAPPS_DIR/workflow.tar.gz $IC3_PWA_URL
 echo "Web Apps downloaded to $WEBAPPS_DIR"
 
 echo "Downloading modules..."
