@@ -28,6 +28,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.metadata.group.TreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.AppointmentStatusCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.InAgeRangeAtStateStartCohortDefinition;
@@ -90,6 +91,7 @@ import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.MappedParametersEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.NumericObsForEncounterQuery;
 import org.openmrs.module.reporting.query.encounter.definition.ObsForEncounterQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -99,6 +101,9 @@ import java.util.Map;
 
 @Component
 public class DataFactory {
+
+	@Autowired
+	private PatientService patientService;
 
 	public Parameter getStartDateParameter() {
 		return new Parameter("startDate", "Start Date", Date.class);
@@ -130,6 +135,14 @@ public class DataFactory {
 		def.setIdentifierType(pit);
 		def.setProgram(program);
 		def.addParameter(new Parameter("location", "Location", Location.class));
+		return convert(def, converter);
+	}
+
+	public PatientDataDefinition getAllIdentifiers(DataConverter converter) {
+		PatientIdentifierDataDefinition def = new PatientIdentifierDataDefinition();
+		for (PatientIdentifierType pit : patientService.getAllPatientIdentifierTypes()) {
+			def.addType(pit);
+		}
 		return convert(def, converter);
 	}
 

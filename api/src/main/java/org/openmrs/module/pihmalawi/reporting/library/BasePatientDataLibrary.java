@@ -15,11 +15,13 @@ package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.AgeInDaysConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MaxValueConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -155,6 +157,12 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 	public PatientDataDefinition getPreferredFamilyNames() {
 		PreferredNameDataDefinition pdd = new PreferredNameDataDefinition();
 		return df.convert(pdd, new ConcatenatedPropertyConverter(" ", "familyName", "familyName2"));
+	}
+
+	// Identifiers
+	@DocumentedDefinition("allIdentifiers")
+	public PatientDataDefinition getAllIdentifiers() {
+		return df.getAllIdentifiers(new CollectionConverter(new PatientIdentifierConverter(), true, null));
 	}
 
 	// Vitals
