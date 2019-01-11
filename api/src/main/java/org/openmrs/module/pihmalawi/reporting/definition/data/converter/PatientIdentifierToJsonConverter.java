@@ -16,6 +16,7 @@ public class PatientIdentifierToJsonConverter implements DataConverter {
         result.put("identifierType", identifier.getIdentifierType());
         result.put("identifier", new PatientIdentifierConverter().convert(identifier));
         result.put("raw_identifier", identifier.getIdentifier());
+        result.put("preferred", identifier.getPreferred());
         return result;
     }
 
