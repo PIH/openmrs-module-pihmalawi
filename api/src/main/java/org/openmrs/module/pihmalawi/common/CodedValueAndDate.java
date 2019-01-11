@@ -38,6 +38,11 @@ public class CodedValueAndDate implements JsonSerializable {
         this.valueObs = valueObs;
     }
 
+    public CodedValueAndDate(Obs valueObs, Obs dateObs) {
+        this.valueObs = valueObs;
+        this.dateObs = dateObs;
+    }
+
     //***** METHODS *****
 
     public Date getDate() {

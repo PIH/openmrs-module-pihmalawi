@@ -18,17 +18,14 @@ import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
-import org.openmrs.module.pihmalawi.common.CodedValueAndDate;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.EarliestCodedValueConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.CodedValueAndDatePatientDataDefinition;
-import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
-import org.openmrs.module.reporting.data.converter.CollectionConverter;
 import org.openmrs.module.reporting.data.converter.CountConverter;
 import org.openmrs.module.reporting.data.converter.ExistenceConverter;
-import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -101,12 +98,7 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         CodedValueAndDatePatientDataDefinition dd = new CodedValueAndDatePatientDataDefinition();
         dd.setCodedValueQuestion(metadata.getChronicCareDiagnosisConcept());
         dd.setDateValueQuestion(metadata.getDiagnosisDateConcept());
-        dd.addParameter(ReportingConstants.END_DATE_PARAMETER);
-
-        PropertyConverter codedValueConvertor = new PropertyConverter(CodedValueAndDate.class, "value");
-        CollectionConverter c = new CollectionConverter(codedValueConvertor, true, null);
-
-        return df.convert(dd, c);
+        return df.convert(dd, new EarliestCodedValueConverter());
 	}
 
 	@DocumentedDefinition
