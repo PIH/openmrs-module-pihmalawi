@@ -23,6 +23,18 @@ import org.openmrs.module.pihmalawi.PihMalawiConstants;
  */
 public class LocationTags {
 
+    public static LocationTagDescriptor WORKSTATION_LOCATION = new LocationTagDescriptor() {
+        public String uuid() { return "43402e52-d55d-11e0-9ad2-dce5e6ce584c"; }
+        public String name() { return "Workstation Location"; }
+        public String description() { return ""; }
+    };
+
+    public static LocationTagDescriptor HIV = new LocationTagDescriptor() {
+        public String uuid() { return "a7f61027-d64d-4555-bdb1-d510e719fdbc"; }
+        public String name() { return "HIV"; }
+        public String description() { return "HIV Care Clinic Locations"; }
+    };
+
     public static LocationTagDescriptor HIV_STATIC = new LocationTagDescriptor() {
         public String uuid() { return "50df77f9-7c8b-4c23-a552-82814195c56c"; }
         public String name() { return "Static HIV"; }

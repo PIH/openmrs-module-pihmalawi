@@ -11,6 +11,8 @@ public class LocationTagBundle extends AbstractMetadataBundle {
 
     @Override
     public void install() throws Exception {
+        install(LocationTags.WORKSTATION_LOCATION);
+        install(LocationTags.HIV);
         install(LocationTags.HIV_STATIC);
         install(LocationTags.HIV_OUTREACH);
         install(LocationTags.CHRONIC_CARE_LOCATION);
