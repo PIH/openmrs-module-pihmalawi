@@ -10,7 +10,6 @@ import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
-import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -22,7 +21,6 @@ import org.openmrs.web.user.CurrentUsers;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -64,13 +62,11 @@ public class LoginPageController {
         model.addAttribute(PihMalawiWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL, redirectUrl);
 
         Location lastSessionLocation = null;
-        List<Location> systemLocations = null;
+        List<Location> loginLocations = null;
         try {
             Context.addProxyPrivilege(PrivilegeConstants.VIEW_LOCATIONS);
             Context.addProxyPrivilege(GET_LOCATIONS);
-            //model.addAttribute("locations", appFrameworkService.getLoginLocations());
-            CommonMetadata commonMetadata = new CommonMetadata();
-            systemLocations = commonMetadata.getSystemLocations();
+            loginLocations = appFrameworkService.getLoginLocations();
             lastSessionLocation = locationService.getLocation(Integer.valueOf(lastSessionLocationId));
         }
         catch (Exception ex) {
@@ -82,7 +78,7 @@ public class LoginPageController {
         }
 
         model.addAttribute("lastSessionLocation", lastSessionLocation);
-        model.addAttribute("locations", systemLocations);
+        model.addAttribute("locations", loginLocations);
         return null;
     }
 

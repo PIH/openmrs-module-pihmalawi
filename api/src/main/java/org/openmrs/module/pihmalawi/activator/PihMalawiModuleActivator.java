@@ -58,6 +58,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
     public List<Initializer> getInitializers() {
 		List<Initializer> l = new ArrayList<Initializer>();
 		l.add(new MetadataInitializer());
+		l.add(new LocationInitializer());
 		l.add(new SoundexInitializer());
 		l.add(new AddressTemplateInitializer());
 		l.add(new HtmlFormInitializer());
