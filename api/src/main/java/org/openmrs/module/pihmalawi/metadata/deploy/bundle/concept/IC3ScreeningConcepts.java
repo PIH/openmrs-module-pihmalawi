@@ -22,7 +22,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 15;
+        return 18;
     }
 
     @Override
@@ -31,6 +31,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
         Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
         Concept other = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.OTHER);
+        Concept unknown = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.UNKNOWN);
 
         Concept sharc = install(new ConceptBuilder("6f48dfac-9ffa-11e8-98d0-529269fb1459")
                 .datatype(notApplicable)
@@ -357,12 +358,12 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
 
-            install(new ConceptBuilder("06b1f7d8-b6cc-11e8-96f8-529269fb1459")
-                    .datatype(coded)
-                    .conceptClass(question)
-                    .name("06b1fa44-b6cc-11e8-96f8-529269fb1459", "Adherence session number", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                    .answers(first,second,third)
-                    .build());
+        install(new ConceptBuilder("06b1f7d8-b6cc-11e8-96f8-529269fb1459")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("06b1fa44-b6cc-11e8-96f8-529269fb1459", "Adherence session number", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(first,second,third)
+                .build());
 
         install(new ConceptBuilder("06b2005c-b6cc-11e8-96f8-529269fb1459")
                 .datatype(coded)
@@ -387,5 +388,198 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .name("7886b7fe-b6d6-11e8-96f8-529269fb1459", "VL counseling", Locale.ENGLISH, null)
                 .answers(yes,no)
                 .build());
+
+        // TB screening
+        install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("92e4d218-7f72-4112-b731-6e2fc9563e0c", "Sample collected", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("80594576-a5ef-4b11-8db9-f9a257609544", "Was a sample collected for testing", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("f8438a32-2e08-4083-8234-f88636127cfb").type(sameAs).ensureTerm(ciel, "165252").build())
+                .mapping(new ConceptMapBuilder("78b5426d-4776-407e-8d26-cb7987f1cb59").type(narrowerThan).ensureTerm(snomedNp, "364708003").build())
+                .answers(yes,no,unknown)
+                .build());
+
+        Concept satisfactory = MetadataUtils.existing(Concept.class, "6559dde6-977f-11e1-8993-905e29aff6c1");
+        Concept unsatisfactory = MetadataUtils.existing(Concept.class, "656fa55e-977f-11e1-8993-905e29aff6c1");
+
+        Concept poorSampleQuality = install(new ConceptBuilder("1304AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1391BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Poor sample quality", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("f8b7dea6-e911-443e-969d-6dc43d1adf9f", "Mauvaise qualité d'échantillon", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("24cc715c-c6fd-4972-b3a5-f8c97e251328", "Echantiyon kalite pòv", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("86785BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "PSQ", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("97068BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "PSQ", Locale.ENGLISH, null)
+                .name("138769BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "ECHANTILLON DE PAUVRE QUALITÉ", Locale.FRENCH, null)
+                .mapping(new ConceptMapBuilder("1807244b-ea37-4ebb-b09d-d825f396930b").type(sameAs).ensureTerm(ciel, "1304").build())
+                .mapping(new ConceptMapBuilder("1086294d-1c28-45b6-8ec5-6658eafbc3e1").type(sameAs).ensureTerm(pih, "7450").build())
+                .mapping(new ConceptMapBuilder("756cd8a2-a16e-4a2c-893c-21f3b5a47732").type(sameAs).ensureTerm(pih, "POOR SAMPLE QUALITY").build())
+                .mapping(new ConceptMapBuilder("137561ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "123038009").build())
+                .mapping(new ConceptMapBuilder("134979ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ampath, "1304").build())
+                .build());
+
+        install(new ConceptBuilder("165253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("4fec528c-622e-4512-879b-d830be24a958", "Sample quality", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("1a6dae0f-6e0d-49ca-b7d6-5f2a5501a233").type(sameAs).ensureTerm(ciel, "165253").build())
+                .mapping(new ConceptMapBuilder("820e4def-3d52-4169-8c00-c7a87cd7a00b").type(narrowerThan).ensureTerm(snomedNp, "364708003").build())
+                .answers(satisfactory, poorSampleQuality, unsatisfactory)
+                .build());
+
+        Concept tbMicroscopy= MetadataUtils.existing(Concept.class, "65628356-977f-11e1-8993-905e29aff6c1") ;
+        Concept geneXNeno = MetadataUtils.existing(Concept.class, "e08214c0-955d-11e7-abc4-cec278b6b50a");
+        Concept geneXLisung = MetadataUtils.existing(Concept.class, "e08212b8-955d-11e7-abc4-cec278b6b50a");
+        Concept centralLab = MetadataUtils.existing(Concept.class, "e0820552-955d-11e7-abc4-cec278b6b50a");
+
+        // ToDo:  Add location.  Not sure if this will work since we're adding one new answer to an existing concept
+        install(new ConceptBuilder("6fc0ab50-9492-11e7-abc4-cec278b6b50a")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("e45d8f94-efdb-4b94-88da-b7e844cc91e3", "Location of laboratory", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(tbMicroscopy, geneXLisung, geneXNeno, centralLab)
+                .build());
+
+
+        Concept detected = install(new ConceptBuilder("1301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1388BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Detected", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("138839BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Détecté", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("138840BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "detekte", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .description("1302FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Descriptive term:  to discover or ascertain the existence, presence, or fact of.", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("137373ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "260373001").build())
+                .mapping(new ConceptMapBuilder("134976ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ampath, "1301").build())
+                .mapping(new ConceptMapBuilder("171553ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "1301").build())
+                .build());
+
+        Concept undetected = install(new ConceptBuilder("1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1389BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Not detected", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("5e2c7c4a-d756-479a-bb77-0e66b4e3bb03", "Non-détecté", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .description("1303FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Descriptive term:  unable to discover or ascertain the existence, presence, or fact of.", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("137374ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "260415000").build())
+                .mapping(new ConceptMapBuilder("171554ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "1302").build())
+                .mapping(new ConceptMapBuilder("134977ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ampath, "1302").build())
+                .build());
+
+        Concept geneXpertTest = install(new ConceptBuilder("162202AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(test)
+                .name("125027BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "GeneXpert MTB/RIF", Locale.ENGLISH, null)
+                .name("125026BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Tuberculosis polymerase chain reaction with rifampin resistance checking", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("c696819f-14fa-4a28-9ba8-bbba60431544", "Gene Xpert MTB/RIF", Locale.ENGLISH, null)
+                .name("125025BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Xpert MTB/RIF", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274858ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "9718006").build())
+                .mapping(new ConceptMapBuilder("274859ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162202").build())
+                .answers(detected, undetected, none)
+                .build());
+
+        Concept indetRif = install(new ConceptBuilder("164104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("139913BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Mycobacterium tuberculosis detected with indeterminate rifampin resistance", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("18175FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Result of PCR test determining MTB present with only unknown or indeterminate rifampin resistance", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("281190ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "365691004").build())
+                .mapping(new ConceptMapBuilder("281192ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "164104").build())
+                .build());
+
+        Concept rifResist = install(new ConceptBuilder("162203AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("125028BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Mycobacterium tuberculosis detected with rifampin resistance", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125030BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "MTB detected with rifampin resistance", Locale.ENGLISH, null)
+                .description("17171FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Result of PCR test determining MTB present with rifampin resistance", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("274860ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "365691004").build())
+                .mapping(new ConceptMapBuilder("274864ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "415345001").build())
+                .mapping(new ConceptMapBuilder("274861ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162203").build())
+                .build());
+
+        Concept noRifResist = install(new ConceptBuilder("162204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("125029BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Mycobacterium tuberculosis detected without rifampin resistance", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125031BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "MTB detected without rifampin resistance", Locale.ENGLISH, null)
+                .description("17172FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Result of PCR test for MTB showing no rifampin resistance", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("274862ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "365691004").build())
+                .mapping(new ConceptMapBuilder("274863ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162204").build())
+                .build());
+
+        Concept tbRifStatus = install(new ConceptBuilder("164937AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("141218BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Mycobacterium tuberculosis rifampin resistance detection status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("282959ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "164937").build())
+                .mapping(new ConceptMapBuilder("282958ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "373064003").build())
+                .answers(indetRif,rifResist,noRifResist)
+                .build());
+
+        Concept geneXlabSet = install(new ConceptBuilder("164945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(labSet)
+                .name("141236BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "GeneXpert MTB/Rif Lab set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("282980ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "164945").build())
+                .setMembers(geneXpertTest, tbRifStatus)
+                .build());
+
+        Concept tbTestType = install(new ConceptBuilder("38c4512a-5aef-487d-a450-ecea4bc5df7e")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("87d4a0e8-b773-44f1-b7ab-9b8423b8caf2", "Tuberculosis test type", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("2ff362a1-f422-48fb-896e-c60f89373fb1", "Type of TB test", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("fbfc8709-e404-491b-947c-82e4d0e70852").type(sameAs).ensureTerm(ciel, "165254").build())
+                .mapping(new ConceptMapBuilder("28f31d20-fa39-40e7-a101-542bccd73faa").type(narrowerThan).ensureTerm(snomedNp, "416342005").build())
+                .answers(tbMicroscopy, geneXlabSet)
+                .build());
+
+        Concept contaminated = MetadataUtils.existing(Concept.class, "65597a5e-977f-11e1-8993-905e29aff6c1");
+        Concept missingResult = MetadataUtils.existing(Concept.class, "e0822140-955d-11e7-abc4-cec278b6b50a");
+        Concept techProb = MetadataUtils.existing(Concept.class, "656fa662-977f-11e1-8993-905e29aff6c1");
+
+        Concept equipFail = install(new ConceptBuilder("165179AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("371b9b8e-7829-4aa9-aa84-222a6a128b81", "Equipment failure", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("a91450fd-e41e-42ab-a4c2-1ed96af0b5b6").type(sameAs).ensureTerm(ciel, "165179").build())
+                .build());
+
+        Concept coagSample = install(new ConceptBuilder("165180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("830d1c0d-ac7c-4c0f-9bc8-228e51645a19", "Blood sample coagulated", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("9a8634b4-a713-4b15-b4d4-5a8f662806cc").type(sameAs).ensureTerm(ciel, "165180").build())
+                .build());
+
+        Concept badContain = install(new ConceptBuilder("165181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("17b7172f-c4bb-41c4-a079-f75646a29056", "Inappropriate sample container used", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("e4678185-4700-4382-981a-1a06729b1186", "Wrong container", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("1030f50c-e651-4bbf-9dcb-f44cc8947953").type(sameAs).ensureTerm(ciel, "165181").build())
+                .build());
+
+        Concept noSupply = install(new ConceptBuilder("165183AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("383979ca-473b-4686-b1ba-c9f8180d0512", "Supplies not available", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("f672024c-d5db-102d-ad2a-000c29c2a5d7", "PAS DE FOURNITURE", Locale.FRENCH, null)
+                .name("4902a1a1-70cf-4255-9759-57f8ab0f4950", "Lack of materials", Locale.ENGLISH, null)
+                .description("ecf0b184-07fe-102c-b5fa-0017a47871b2", "No supplies as a reason for not being able to do something", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("7586f954-4943-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "NO SUPPLIES").build())
+                .mapping(new ConceptMapBuilder("685db8e6-544e-40a4-a744-40508060e16d").type(sameAs).ensureTerm(ciel, "165183").build())
+                .mapping(new ConceptMapBuilder("b220aec6-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "2166").build())
+                .build());
+
+        install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("6618934e-977f-11e1-8993-905e29aff6c1", "Reason for no result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("66189434-977f-11e1-8993-905e29aff6c1", "Reason no result obtained", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("73448768-0496-11e6-b545-0010f345c8d0").type(sameAs).ensureTerm(pihMalawi, "6112").build())
+                .answers(contaminated, unsatisfactory, equipFail, techProb, missingResult, coagSample, badContain, noSupply, other)
+                .build());
+
     }
 }

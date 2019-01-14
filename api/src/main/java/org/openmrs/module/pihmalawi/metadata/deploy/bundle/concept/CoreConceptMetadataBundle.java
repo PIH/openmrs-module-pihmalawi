@@ -52,6 +52,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         public static final String SYMPTOM = "8d492954-c2cc-11de-8d13-0010c6dffd0f";
         public static final String QUESTION = "8d491e50-c2cc-11de-8d13-0010c6dffd0f";
         public static final String CONV_SET = "8d492594-c2cc-11de-8d13-0010c6dffd0f";
+        public static final String LAB_SET = "8d492026-c2cc-11de-8d13-0010c6dffd0f";
         public static final String MED_SET = "8d4923b4-c2cc-11de-8d13-0010c6dffd0f";
         public static final String FINDING = "8d491a9a-c2cc-11de-8d13-0010c6dffd0f";
         public static final String DRUG = "8d490dfc-c2cc-11de-8d13-0010c6dffd0f";

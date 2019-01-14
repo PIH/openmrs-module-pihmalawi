@@ -42,6 +42,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptClass question;
     protected ConceptClass misc;
     protected ConceptClass convSet;
+    protected ConceptClass labSet;
     protected ConceptClass medSet;
     protected ConceptClass drug;
     protected ConceptClass test;
@@ -104,6 +105,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         misc = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MISC);
         miscOrder = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MISC_ORDER);
         convSet = MetadataUtils.existing(ConceptClass.class, ConceptClasses.CONV_SET);
+        labSet = MetadataUtils.existing(ConceptClass.class, ConceptClasses.LAB_SET);
         medSet = MetadataUtils.existing(ConceptClass.class, ConceptClasses.MED_SET);
         drug = MetadataUtils.existing(ConceptClass.class, ConceptClasses.DRUG);
         test = MetadataUtils.existing(ConceptClass.class, ConceptClasses.TEST);
