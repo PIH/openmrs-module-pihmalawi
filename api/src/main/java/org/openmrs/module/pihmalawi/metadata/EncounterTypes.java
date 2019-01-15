@@ -292,4 +292,9 @@ public class EncounterTypes {
         public String name() { return "TB Screening"; }
         public String description() { return "IC3 TB Screening encounter type"; }
     };
+    public static EncounterTypeDescriptor TB_TEST_RESULTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "C770232A-4847-42D9-8F70-B01B5BA0EED8"; }
+        public String name() { return "TB Test Results"; }
+        public String description() { return "TB test results encounter type"; }
+    };
 }

@@ -78,6 +78,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.DNA_PCR_SCREENING);
         install(EncounterTypes.ADHERENCE_COUNSELING);
         install(EncounterTypes.TB_SCREENING);
+        install(EncounterTypes.TB_TEST_RESULTS);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
