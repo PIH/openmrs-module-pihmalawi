@@ -299,7 +299,7 @@ public class EncounterTypes {
     };
     public static EncounterTypeDescriptor IC3_CLINICIAN_PLAN = new EncounterTypeDescriptor() {
         public String uuid() { return "04E668BA-E24F-43FF-A135-A085EC3DBE40"; }
-        public String name() { return "IC3 Clinician Plan"; }
-        public String description() { return "IC3 Clinician Station encounter type"; }
+        public String name() { return "Clinical Plan"; }
+        public String description() { return "Clinical plan encounter type"; }
     };
 }
