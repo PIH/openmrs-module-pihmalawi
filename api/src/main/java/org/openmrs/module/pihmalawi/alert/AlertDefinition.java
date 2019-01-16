@@ -31,20 +31,17 @@ import java.util.List;
          "notes": "Any description of notes that should be associated with this alert"
      },
  */
-public class AlertDefinition {
+public class AlertDefinition extends AlertNotification{
 
     //** PROPERTIES
-
-    private String name;
-    private List<String> categories;
     private List<String> conditions;
-    private String alert;
     private String notes;
     private boolean enabled = true;
 
     //***** CONSTRUCTORS *****
 
     public AlertDefinition() {
+        super();
     }
 
     //***** METHODS *****
@@ -57,36 +54,12 @@ public class AlertDefinition {
 
     // ***** ACCESSORS *****
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
     public List<String> getConditions() {
         return conditions;
     }
 
     public void setConditions(List<String> conditions) {
         this.conditions = conditions;
-    }
-
-    public String getAlert() {
-        return alert;
-    }
-
-    public void setAlert(String alert) {
-        this.alert = alert;
     }
 
     public String getNotes() {

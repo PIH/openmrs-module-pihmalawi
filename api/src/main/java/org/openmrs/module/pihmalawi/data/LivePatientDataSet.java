@@ -16,6 +16,7 @@ import org.openmrs.Location;
 import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.alert.AlertEngine;
+import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -44,12 +45,7 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -90,6 +86,8 @@ public abstract class LivePatientDataSet {
 
     @Autowired
     DataFactory df;
+
+
 
     //***** CONSTANTS *****
 
@@ -170,10 +168,13 @@ public abstract class LivePatientDataSet {
                 }
                 List<AlertDefinition> matchingAlerts = alertEngine.evaluateMatchingAlerts(getAlertDefinitions(), patientData);
                 Map<String, List<String>> alertToCategoriesMap = new HashMap<String, List<String>>();
-                for (AlertDefinition ad : matchingAlerts) {
+                List<AlertNotification> alertNotificationList = new ArrayList<AlertNotification>();
+                for (AlertNotification ad : matchingAlerts) {
+                    alertNotificationList.add(new AlertNotification(ad));
                     alertToCategoriesMap.put(ad.getName(), ad.getCategories());
                 }
                 patientData.put("alerts", alertToCategoriesMap);
+                patientData.put("notifications", alertNotificationList);
                 Integer internalId = (Integer) row.getColumnValue(INTERNAL_ID);
                 if (internalId == null) {
                     throw new RuntimeException("No " + INTERNAL_ID + " found for data set row: " + row);

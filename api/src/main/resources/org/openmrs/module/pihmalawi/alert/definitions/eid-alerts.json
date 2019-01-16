@@ -8,6 +8,7 @@
       "last_hiv_rapid_test_result == positive"
     ],
     "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
     "notes": "Alert provider to immediately collect sample for DNA PCR"
   },
   {
@@ -19,6 +20,7 @@
       "last_hiv_dna_pcr_result == positive"
     ],
     "alert": "Confirm enrollment in ART",
+    "action": "Confirm enrollment in ART",
     "notes": "Alert provider to immediately initiate the infant on ART"
   },
   {
@@ -31,6 +33,7 @@
       "missing(last_hiv_dna_pcr_result_date) || last_hiv_dna_pcr_result_date < eid_start_date"
     ],
     "alert": "Due for routine DBS (DNA PCR Test)",
+    "action": "Due for routine DBS (DNA PCR Test)",
     "notes": "Alert provider to collect sample for DNA PCR. Ideally, this DBS would be done at 6 weeks old but if the patient misses the appointment then it may be later than 6 weeks."
   },
   {
@@ -43,6 +46,7 @@
       "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 1"
     ],
     "alert": "Due for routine rapid HIV test",
+    "action": "Due for routine rapid HIV test",
     "notes": "All children in EID should get a rapid test at 12 months of age"
   },
   {
@@ -55,6 +59,7 @@
       "last_breastfeeding_status == breastfeeding_stopped_over_6_weeks_ago"
     ],
     "alert": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
+    "action": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
     "notes": "No rapid test since 24 months, with age of >=24 months, infant stopped breastfeeding 6 weeks ago"
   }
 ]

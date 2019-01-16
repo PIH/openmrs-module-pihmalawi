@@ -158,6 +158,7 @@
       "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
     ],
     "alert": "Eligible for HIV test",
+    "action": "Eligible for HIV test",
     "notes": "All non-HIV patients, older than 15 yo, should be tested for HIV every 3 months",
     "enabled": true
   },
