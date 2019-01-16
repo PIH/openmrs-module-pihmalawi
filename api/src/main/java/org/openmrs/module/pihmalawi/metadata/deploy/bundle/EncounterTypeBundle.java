@@ -79,6 +79,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.ADHERENCE_COUNSELING);
         install(EncounterTypes.TB_SCREENING);
         install(EncounterTypes.TB_TEST_RESULTS);
+        install(EncounterTypes.IC3_CLINICIAN_PLAN);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
