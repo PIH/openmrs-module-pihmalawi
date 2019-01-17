@@ -146,16 +146,13 @@ public abstract class LivePatientDataSet {
         log.debug("Effective Date: " + effectiveDate);
         log.debug("Location: " + location);
 
-        Map<Integer, JsonObject> cachedData = new HashMap<Integer, JsonObject>();
-        if (useCachedValues) {
-            cachedData = getCache().getDataCache(effectiveDate, location);
-        }
+        Map<Integer, JsonObject> cachedData = getCache().getDataCache(effectiveDate, location);
 
         Cohort notCached = PatientIdSet.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
-        log.debug("Generating new data for " + notCached.size() + " patients");
+        log.debug("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
 
         if (notCached.size() > 0) {
-            DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, notCached);
+            DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, useCachedValues ? notCached : cohort);
             for (DataSetRow row : ds) {
                 JsonObject patientData = new JsonObject();
                 patientData.put("today", effectiveDate);
