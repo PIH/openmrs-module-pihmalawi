@@ -20,11 +20,7 @@ import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
-import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.*;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
@@ -164,14 +160,11 @@ public abstract class LivePatientDataSet {
                     patientData.put(c.getName(), row.getColumnValues().get(c));
                 }
                 List<AlertDefinition> matchingAlerts = alertEngine.evaluateMatchingAlerts(getAlertDefinitions(), patientData);
-                Map<String, List<String>> alertToCategoriesMap = new HashMap<String, List<String>>();
                 List<AlertNotification> alertNotificationList = new ArrayList<AlertNotification>();
                 for (AlertNotification ad : matchingAlerts) {
                     alertNotificationList.add(new AlertNotification(ad));
-                    alertToCategoriesMap.put(ad.getName(), ad.getCategories());
                 }
-                patientData.put("alerts", alertToCategoriesMap);
-                patientData.put("notifications", alertNotificationList);
+                patientData.put("alerts", alertNotificationList);
                 Integer internalId = (Integer) row.getColumnValue(INTERNAL_ID);
                 if (internalId == null) {
                     throw new RuntimeException("No " + INTERNAL_ID + " found for data set row: " + row);
