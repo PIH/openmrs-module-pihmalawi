@@ -20,7 +20,11 @@ import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.reporting.library.*;
+import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
+import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
@@ -41,7 +45,11 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -147,7 +155,7 @@ public abstract class LivePatientDataSet {
         Cohort notCached = PatientIdSet.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
         log.debug("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
 
-        if (notCached.size() > 0) {
+        if (!useCachedValues || notCached.size() > 0) {
             DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, useCachedValues ? notCached : cohort);
             for (DataSetRow row : ds) {
                 JsonObject patientData = new JsonObject();

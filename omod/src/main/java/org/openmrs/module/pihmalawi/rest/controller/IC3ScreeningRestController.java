@@ -9,10 +9,7 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -57,6 +54,7 @@ public class IC3ScreeningRestController {
     @ResponseBody
     public Object getScreeningData(
             @RequestParam(value="patients") String[] patientUuids,
+            @RequestParam(required = false, value="location") Location location,
             @RequestParam(required = false, value="endDate") String endDateStr,
             @RequestParam(required = false, value = "useCachedValues") Boolean useCachedValues) {
 
@@ -66,7 +64,7 @@ public class IC3ScreeningRestController {
             throw new IllegalArgumentException("You must specify which patients you wish to retrieve data for");
         }
         Cohort cohort = getCohort(patientUuids);
-        Map<Integer, JsonObject> data =  ic3ScreeningData.getDataForCohort(cohort, endDate, null, useCache);
+        Map<Integer, JsonObject> data =  ic3ScreeningData.getDataForCohort(cohort, endDate, location, useCache);
         return data.values();
     }
 

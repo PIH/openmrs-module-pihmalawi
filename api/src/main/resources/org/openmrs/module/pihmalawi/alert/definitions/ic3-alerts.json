@@ -13,19 +13,21 @@
     "name": "abnormal-result-bp",
     "categories": ["bp", "abnormal-result", "enrollment-needed"],
     "conditions": [
-      "TODO: systolic BP > 160 OR diastolic BP > 110"
+      "(current_systolic_bp != null && current_systolic_bp > 160) || (current_diastolic_bp != null && current_diastolic_bp > 110)"
     ],
-    "alert": "Abnormally high BP, enroll into care",
-    "enabled": false
+    "alert": "Abnormally high BP",
+    "action": "Enroll in care",
+    "enabled": true
   },
   {
     "name": "critical-result-bp",
     "categories": ["bp", "critical-result"],
     "conditions": [
-      "TODO: systolic BP < 80 OR systolic BP > 200 OR diastolic BP > 120"
+      "(current_systolic_bp != null && current_systolic_bp < 80 || current_systolic_bp > 200) || (current_diastolic_bp != null && current_diastolic_bp > 120)"
     ],
-    "alert": "Critical BP, alert clinician",
-    "enabled": false
+    "alert": "Critical BP" ,
+    "action": "Alert clinician",
+    "enabled": true
   },
   {
     "name": "eligible-for-blood-glucose-screening-enrolled",
