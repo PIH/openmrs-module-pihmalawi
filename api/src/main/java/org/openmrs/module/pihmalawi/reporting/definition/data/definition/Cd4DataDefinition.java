@@ -13,7 +13,6 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
-import org.openmrs.Obs;
 import org.openmrs.module.reporting.common.Localized;
 import org.openmrs.module.reporting.data.BaseDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
