@@ -108,11 +108,11 @@ public class IC3ScreeningRestController {
 
    protected Date getEndDate(String endDateStr) {
         if (ObjectUtil.isNull(endDateStr)) {
-            return new Date();
+            return DateUtil.getStartOfDay(new Date());
         }
         try {
             long l = Long.parseLong(endDateStr);
-            return new Date(l);
+            return DateUtil.getStartOfDay(new Date(l));
         }
         catch (Exception e) {}
         try {

@@ -121,7 +121,8 @@ public abstract class LivePatientDataSet {
      * If date is null, then the current date will be used
      * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
-    public JsonObject getDataForPatient(Integer patientId, Date effectiveDate, Location location, boolean useCachedValues) {
+    public JsonObject getDataForPatient(Integer patientId, Date effectiveDatetime, Location location, boolean useCachedValues) {
+        Date effectiveDate = DateUtil.getStartOfDay(effectiveDatetime);
         Cohort c = new Cohort();
         c.addMember(patientId);
         return getDataForCohort(c, effectiveDate, location, useCachedValues).get(patientId);
@@ -132,7 +133,8 @@ public abstract class LivePatientDataSet {
      * If date is null, then the current date will be used
      * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
-    public Map<Integer, JsonObject> getDataForCohort(CohortDefinition cohortDefinition, Date effectiveDate, Location location, boolean useCachedValues) {
+    public Map<Integer, JsonObject> getDataForCohort(CohortDefinition cohortDefinition, Date effectiveDatetime, Location location, boolean useCachedValues) {
+        Date effectiveDate = DateUtil.getStartOfDay(effectiveDatetime);
         Cohort cohort = evaluateCohort(cohortDefinition, effectiveDate, location);
         return getDataForCohort(cohort, effectiveDate, location, useCachedValues);
     }
@@ -142,7 +144,9 @@ public abstract class LivePatientDataSet {
      * If date is null, then the current date will be used
      * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
      */
-    public Map<Integer, JsonObject> getDataForCohort(Cohort cohort, Date effectiveDate, Location location, boolean useCachedValues) {
+    public Map<Integer, JsonObject> getDataForCohort(Cohort cohort, Date effectiveDatetime, Location location, boolean useCachedValues) {
+
+        Date effectiveDate = DateUtil.getStartOfDay(effectiveDatetime);
 
         Map<Integer, JsonObject> data = new HashMap<Integer, JsonObject>();
 
