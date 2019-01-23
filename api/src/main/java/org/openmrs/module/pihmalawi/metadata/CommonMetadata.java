@@ -69,6 +69,7 @@ public class CommonMetadata extends Metadata {
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
     public static final String CD4_DATE = "Date of CD4 count";
+	public static final String MUAC_CONCEPT = "6558d09a-977f-11e1-8993-905e29aff6c1";
 
     // HIV TESTING
 
@@ -199,6 +200,10 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getWeightConcept() {
 		return getConcept(WEIGHT);
+	}
+
+	public Concept getMUACConcept() {
+		return getConcept(MUAC_CONCEPT);
 	}
 
 	public Concept getCd4CountConcept() {

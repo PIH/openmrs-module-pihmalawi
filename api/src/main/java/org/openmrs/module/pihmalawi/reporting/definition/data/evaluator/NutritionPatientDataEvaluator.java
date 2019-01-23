@@ -1,10 +1,13 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 
 import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.annotation.Handler;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionPatientDataDefinition;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.evaluator.PatientDataEvaluator;
@@ -15,23 +18,27 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 @Handler(supports = NutritionPatientDataDefinition.class, order = 50)
 public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
 
-    // TODO: change concept id sorting as ASC or DESC based on comparing concept IDs
-    // TODO confirm that this works all the way through (ie build out the required functionality to return as REST request and to parse as part of Obs History)
-    // TODO include MUAC;
-    // TODO: factor in age and pregnancy when calculating BMI;
-    // TODO: do we need to collapse datetime to date (so that if weight is technically captured earlier in day, can still do BMI?)
+    // TODO: create an endpoint for this; change NutritionSummary element to load in obs itself, morph BMI into obs, and then pass on to ObsHistory element
+    // TODO: do we need to collapse datetime to date (so that if weight is technically captured earlier in day than height, can still do BMI?)
 
     @Autowired
     private ChronicCareMetadata metadata;
 
     @Autowired
     private EvaluationService evaluationService;
+
+    @Autowired
+    private PatientService patientService;
 
     @Override
     public EvaluatedPatientData evaluate(PatientDataDefinition definition, EvaluationContext context) throws EvaluationException {
@@ -47,10 +54,9 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
         q.select("o.personId", "o");
         q.from(Obs.class, "o");
         q.wherePersonIn("o.personId", context);
-        q.whereInAny("o.concept", metadata.getHeightConcept(), metadata.getWeightConcept());
+        q.whereInAny("o.concept", metadata.getHeightConcept(), metadata.getWeightConcept(), metadata.getMUACConcept(), metadata.getPatientPregnantConcept());
         q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
         q.orderAsc("o.obsDatetime");
-        q.orderDesc("o.concept.id");
 
         List<Object[]> results = evaluationService.evaluateToList(q, context);
         for (Object[] row : results) {
@@ -64,26 +70,80 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
             obsForPatient.add(o);
         }
 
-        // add in the BMI values
-        for (Object obsForPatient : c.getData().values()) {
+        for (Map.Entry<Integer, Object> obsForPatient : c.getData().entrySet()) {
 
-            List<Object> obs = (List<Object>) obsForPatient;
+            Patient patient = patientService.getPatient(obsForPatient.getKey());
+            List<Object> obs = (List<Object>) obsForPatient.getValue();
+
+            // rank the obs in the order we want (height and pregnancy before weight)
+            Collections.sort(obs ,new Comparator<Object>() {
+                public int compare(Object obj1, Object obj2) {
+                    Obs obs1 = (Obs) obj1;
+                    Obs obs2 = (Obs) obj2;
+
+                    if (!obs1.getObsDatetime().equals(obs2.getObsDatetime())) {
+                        return obs1.getObsDatetime().compareTo(obs2.getObsDatetime());
+                    }
+                    else {
+                        return getRanking(obs1).compareTo(getRanking(obs2));
+                    }
+                }
+            });
+
+            // add in the BMI values
             ListIterator<Object> i = obs.listIterator();
 
-            Obs height = null;
+            Obs latestHeightAsAnAdult = null;
+            Date latestPregnantObsDate = null;
+
             while (i.hasNext()) {
+
                 Obs nextObs = (Obs) i.next();
 
-                if (nextObs.getConcept().equals(metadata.getHeightConcept())) {
-                    height = nextObs;
+                // keep track of the most recent height captured *as an adult*
+                if (nextObs.getConcept().equals(metadata.getHeightConcept())
+                        && patient.getAge(nextObs.getObsDatetime()) >= 18) {
+                    latestHeightAsAnAdult = nextObs;
                 }
 
-                if (nextObs.getConcept().equals(metadata.getWeightConcept()) && height != null) {
-                    i.add(new BMI(nextObs, height));
+                if (nextObs.getConcept().equals(metadata.getPatientPregnantConcept()) &&
+                        nextObs.getValueCoded().equals(metadata.getTrueConcept())) {
+                    latestPregnantObsDate = DateUtil.getStartOfDay(nextObs.getObsDatetime());
+                }
+
+                if (nextObs.getConcept().equals(metadata.getWeightConcept())
+                        && !DateUtil.getStartOfDay(nextObs.getObsDatetime()).equals(latestPregnantObsDate)  // patient was not flagged as pregnant on this date
+                        && patient.getAge(nextObs.getObsDatetime()) >= 18  // patient is greater or equal to 18
+                        && latestHeightAsAnAdult != null) {   // we have a most recent height as an adult
+                    i.add(new BMI(nextObs, latestHeightAsAnAdult));
                 }
             }
+
+            // we actually want the results is descending order, so flip
+            Collections.reverse(obs);
         }
 
         return c;
+    }
+
+    private Integer getRanking(Obs obs) {
+
+        if (obs.getConcept().equals(metadata.getPatientPregnantConcept())) {
+            return 0;
+        }
+
+        if (obs.getConcept().equals(metadata.getHeightConcept())) {
+            return 1;
+        }
+
+        if (obs.getConcept().equals(metadata.getWeightConcept())) {
+            return 2;
+        }
+
+        if (obs.getConcept().equals(metadata.getMUACConcept())) {
+            return 3;
+        }
+
+        return -1;  //should never reach here
     }
 }
