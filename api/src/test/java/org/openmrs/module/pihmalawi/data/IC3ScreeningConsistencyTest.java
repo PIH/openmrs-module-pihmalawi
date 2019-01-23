@@ -22,6 +22,7 @@ import org.openmrs.Cohort;
 import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
+import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.api.IC3Service;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -168,6 +169,13 @@ public class IC3ScreeningConsistencyTest extends StandaloneContextSensitiveTest 
 
             if (current == null) {
                 log.warn("patientId= " + patientId + "; PATIENT " + patientUuid + " IS NEW IN REVISED REPORT");
+                if (revised != null ) {
+                    List<Object> alerts = ((List<Object>)revised.get("alerts"));
+                    for (int i = 0; i< alerts.size(); i++) {
+                        AlertNotification alert = (AlertNotification)alerts.get(i);
+                        log.warn("\t\tALERT: " + alert.getAlert());
+                    }
+                }
             }
             else {
                 Assert.assertNotNull("PATIENT IN CURRENT APPOINTMENT REPORT IS NOT IN REVISED REPORT", revised);
@@ -182,7 +190,7 @@ public class IC3ScreeningConsistencyTest extends StandaloneContextSensitiveTest 
                         curVal = curVal == null ? null : curVal.toString();
                         revVal = (revised.get("hcc_number") == null ? null : ((String)revised.get("hcc_number")));
                     }
-                    if (!"alert".equals(property) && !"actions".equals(property) && !"labTests".equals(property)) {
+                    if (!"alert".equals(property) && !"actions".equals(property) && !"labTests".equals(property) && !"eid_number".equals(property)) {
                         if (!ObjectUtil.areEqual(curVal, revVal)) {
                             counter.increment(property);
                             log.warn("patientId= " + patientId);
