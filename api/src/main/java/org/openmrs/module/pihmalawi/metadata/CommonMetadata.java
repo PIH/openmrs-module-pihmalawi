@@ -142,6 +142,7 @@ public class CommonMetadata extends Metadata {
 
 	public static final String PREGNANT_OR_LACTATING_CONCEPT = "Pregnant/Lactating";
 	public static final String PATIENT_PREGNANT_CONCEPT = "Patient pregnant";
+	public static final String IS_PATIENT_PREGNANT_CONCEPT = "656fbd28-977f-11e1-8993-905e29aff6c1";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
 	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
@@ -404,6 +405,8 @@ public class CommonMetadata extends Metadata {
 	public Concept getPatientPregnantConcept() {
 		return getConcept(PATIENT_PREGNANT_CONCEPT);
 	}
+
+	public Concept getIsPatientPregnantConcept() { return getConcept(IS_PATIENT_PREGNANT_CONCEPT); }
 
 	public Concept getSourceOfReferralConcept() {
 		return getConcept(SOURCE_OF_REFERRAL_CONCEPT);
