@@ -63,20 +63,50 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
     @Override
     protected void performTest() throws Exception {
 
-        JsonObject patient = getPatient("c5489230-2695-102d-b4c2-001d929acb54", 2017, 12, 27);
+        //Moderate malnutrition,  16 <= BMI <= 18.4
+        JsonObject patient = getPatient(
+                "0dff0a3f-10d4-4b13-b727-c21b9a6d1cb0",
+                "Neno District Hospital",
+                2019, 1, 24);
 
-        testDate(2018, 11, 8);
+        log.warn(patient.get("alerts"));
+
+        //Severe malnutrition
+        patient = getPatient(
+                "68f95c58-bc26-4006-bcec-55b276027213",
+                "Neno District Hospital",
+                2019, 1, 24);
+
+        log.warn(patient.get("alerts"));
+
+        //Is patient pregnant
+        patient = getPatient(
+                "cf95c7ec-aa83-4c69-b3ae-dc7e6dec8726",
+                "Matandani Rural Health Center",
+                2019, 2, 18);
+
+        log.warn(patient);
+
+        //testDate(2018, 11, 8);
         //testDate(2017, 12, 27);
 
-        patient = getPatient("c5489230-2695-102d-b4c2-001d929acb54", 2017, 12, 27);
-        log.warn(patient);
+        //patient = getPatient("c5489230-2695-102d-b4c2-001d929acb54", 2017, 12, 27);
+        //log.warn(patient);
     }
 
-    protected JsonObject getPatient(String uuid, int year, int month, int day) {
+    protected JsonObject getPatient(String uuid, String clinic, int year, int month, int day) {
         StopWatch sw = new StopWatch();
         sw.start();
         Patient p = patientService.getPatientByUuid(uuid);
-        JsonObject ret = screeningData.getDataForPatient(p.getPatientId(), DateUtil.getDateTime(2017, 12, 27), metadata.getNenoHospital(), true);
+        if (p == null) {
+            log.error("Patient with uuid = " + uuid + " doe not exists");
+            return null;
+        }
+        JsonObject ret = screeningData.getDataForPatient(
+                p.getPatientId(),
+                DateUtil.getDateTime(year, month, day),
+                metadata.getLocation(clinic),
+                false);
         sw.stop();
         log.info("Refreshed Data for single patient in: " + sw.toString());
         return ret;

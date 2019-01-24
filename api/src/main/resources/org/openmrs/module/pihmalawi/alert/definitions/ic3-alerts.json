@@ -143,7 +143,7 @@
     ],
     "alert": "Eligible for MUAC screening",
     "action": "Measure and record MUAC",
-    "enabled": false
+    "enabled": true
   },
   {
     "name": "abnormal-result-MUAC-cmam",
