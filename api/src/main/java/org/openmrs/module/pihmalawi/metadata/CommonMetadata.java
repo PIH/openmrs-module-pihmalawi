@@ -191,6 +191,8 @@ public class CommonMetadata extends Metadata {
 
     public static final String BREASTFEEDING_STATUS_CONCEPT = "657a289e-977f-11e1-8993-905e29aff6c1";
 
+    public static final String BMI_CONCEPT = "655d615a-977f-11e1-8993-905e29aff6c1";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -551,6 +553,8 @@ public class CommonMetadata extends Metadata {
     public Concept getBreastfeedingStatusConcept() {
         return getConcept(BREASTFEEDING_STATUS_CONCEPT);
     }
+
+    public Concept getBMIConcept() { return getConcept(BMI_CONCEPT); }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";
 	public static String OUTPATIENT_LOCATION = "Outpatient";
