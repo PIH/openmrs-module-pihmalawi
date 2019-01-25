@@ -13,7 +13,7 @@
     "name": "abnormal-result-bp",
     "categories": ["bp", "abnormal-result", "enrollment-needed"],
     "conditions": [
-      "(current_systolic_bp != null && current_systolic_bp > 160) || (current_diastolic_bp != null && current_diastolic_bp > 110)"
+      "(!missing(current_systolic_bp) && current_systolic_bp > 160) || (!missing(current_diastolic_bp) && current_diastolic_bp > 110)"
     ],
     "alert": "Abnormally high BP",
     "action": "Enroll in care",
@@ -23,7 +23,7 @@
     "name": "critical-result-bp",
     "categories": ["bp", "critical-result"],
     "conditions": [
-      "(current_systolic_bp != null && current_systolic_bp < 80 || current_systolic_bp > 200) || (current_diastolic_bp != null && current_diastolic_bp > 120)"
+      "(!missing(current_systolic_bp) && current_systolic_bp < 80 || current_systolic_bp > 200) || (!missing(current_diastolic_bp) && current_diastolic_bp > 120)"
     ],
     "alert": "Critical BP" ,
     "action": "Alert clinician",
@@ -139,7 +139,7 @@
     "name": "eligible-for-muac",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "((age_years <= 18) || (is_pregnant == yes))"
+      "(age_years <= 18) || (isTrue(is_pregnant))"
     ],
     "alert": "Eligible for MUAC screening",
     "action": "Measure and record MUAC",
@@ -150,8 +150,8 @@
     "categories": ["nutrition", "critical-result"],
     "conditions": [
       "age_years < 5",
-      "!missing(last_muac)",
-      "last_muac < 11.5"
+      "!missing(current_muac)",
+      "current_muac < 11.5"
     ],
     "alert": "Severe Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -163,9 +163,9 @@
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
       "age_years < 5",
-      "!missing(last_muac)",
-      "last_muac >= 11.5",
-      "last_muac < 12.5"
+      "!missing(current_muac)",
+      "current_muac >= 11.5",
+      "current_muac < 12.5"
     ],
     "alert": "Moderate Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -178,8 +178,8 @@
     "conditions": [
       "age_years >= 5",
       "age_years < 10",
-      "!missing(last_muac)",
-      "last_muac < 13"
+      "!missing(current_muac)",
+      "current_muac < 13"
     ],
     "alert": "Severe Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -192,9 +192,9 @@
     "conditions": [
       "age_years >= 5",
       "age_years < 10",
-      "!missing(last_muac)",
-      "last_muac >= 13",
-      "last_muac < 14.5"
+      "!missing(current_muac)",
+      "current_muac >= 13",
+      "current_muac < 14.5"
     ],
     "alert": "Moderate Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -208,8 +208,8 @@
     "conditions": [
       "age_years >= 10",
       "age_years < 15",
-      "!missing(last_muac)",
-      "last_muac < 16"
+      "!missing(current_muac)",
+      "current_muac < 16"
     ],
     "alert": "Severe Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -222,9 +222,9 @@
     "conditions": [
       "age_years >= 10",
       "age_years < 15",
-      "!missing(last_muac)",
-      "last_muac >= 16",
-      "last_muac < 18.5"
+      "!missing(current_muac)",
+      "current_muac >= 16",
+      "current_muac < 18.5"
     ],
     "alert": "Moderate Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -238,8 +238,8 @@
     "conditions": [
       "age_years >= 15",
       "age_years < 18",
-      "!missing(last_muac)",
-      "last_muac < 18.5"
+      "!missing(current_muac)",
+      "current_muac < 18.5"
     ],
     "alert": "Severe Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -252,9 +252,9 @@
     "conditions": [
       "age_years >= 15",
       "age_years < 18",
-      "!missing(last_muac)",
-      "last_muac >= 18.5",
-      "last_muac < 21.9"
+      "!missing(current_muac)",
+      "current_muac >= 18.5",
+      "current_muac < 21.9"
     ],
     "alert": "Moderate Malnutrition",
     "action": "Action: Enroll in CMAM",
@@ -266,9 +266,9 @@
     "name": "critical-result-MUAC-ncst-pregnant",
     "categories": ["nutrition", "critical-result"],
     "conditions": [
-      "is_pregnant == yes",
-      "!missing(last_muac)",
-      "last_muac < 19"
+      "isTrue(is_pregnant)",
+      "!missing(current_muac)",
+      "current_muac < 19"
     ],
     "alert": "Severe Malnutrition",
     "action": "Action: Enroll in NCST",
@@ -279,10 +279,10 @@
     "name": "abnormal-result-MUAC-ncst-pregnant",
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
-      "is_pregnant == yes",
-      "!missing(last_muac)",
-      "last_muac >= 19",
-      "last_muac < 22"
+      "isTrue(is_pregnant)",
+      "!missing(current_muac)",
+      "current_muac >= 19",
+      "current_muac < 22"
     ],
     "alert": "Moderate Malnutrition",
     "action": "Action: Enroll in NCST",
