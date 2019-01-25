@@ -328,7 +328,9 @@
     "conditions": [
       "true"
     ],
-    "enabled": false
+    "alert": "Eligible for TB screening",
+    "action": "Action: Refer to the TB screening station",
+    "enabled": true
   },
   {
     "name": "abnormal-result-tb",
