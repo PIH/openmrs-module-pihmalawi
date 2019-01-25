@@ -150,6 +150,7 @@
     "categories": ["nutrition", "critical-result"],
     "conditions": [
       "age_years < 5",
+      "!missing(last_muac)",
       "last_muac < 11.5"
     ],
     "alert": "Severe Malnutrition",
@@ -162,6 +163,7 @@
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
       "age_years < 5",
+      "!missing(last_muac)",
       "last_muac >= 11.5",
       "last_muac < 12.5"
     ],
@@ -176,6 +178,7 @@
     "conditions": [
       "age_years >= 5",
       "age_years < 10",
+      "!missing(last_muac)",
       "last_muac < 13"
     ],
     "alert": "Severe Malnutrition",
@@ -189,6 +192,7 @@
     "conditions": [
       "age_years >= 5",
       "age_years < 10",
+      "!missing(last_muac)",
       "last_muac >= 13",
       "last_muac < 14.5"
     ],
@@ -204,6 +208,7 @@
     "conditions": [
       "age_years >= 10",
       "age_years < 15",
+      "!missing(last_muac)",
       "last_muac < 16"
     ],
     "alert": "Severe Malnutrition",
@@ -217,6 +222,7 @@
     "conditions": [
       "age_years >= 10",
       "age_years < 15",
+      "!missing(last_muac)",
       "last_muac >= 16",
       "last_muac < 18.5"
     ],
@@ -232,6 +238,7 @@
     "conditions": [
       "age_years >= 15",
       "age_years < 18",
+      "!missing(last_muac)",
       "last_muac < 18.5"
     ],
     "alert": "Severe Malnutrition",
@@ -245,6 +252,7 @@
     "conditions": [
       "age_years >= 15",
       "age_years < 18",
+      "!missing(last_muac)",
       "last_muac >= 18.5",
       "last_muac < 21.9"
     ],
@@ -259,6 +267,7 @@
     "categories": ["nutrition", "critical-result"],
     "conditions": [
       "is_pregnant == yes",
+      "!missing(last_muac)",
       "last_muac < 19"
     ],
     "alert": "Severe Malnutrition",
@@ -271,6 +280,7 @@
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
       "is_pregnant == yes",
+      "!missing(last_muac)",
       "last_muac >= 19",
       "last_muac < 22"
     ],
