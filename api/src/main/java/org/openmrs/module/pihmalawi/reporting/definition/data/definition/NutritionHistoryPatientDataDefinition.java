@@ -14,10 +14,10 @@ import java.util.List;
  * Includes a calculated, transient "BMI" for each weight as applicable
  * Results will be ordered chronologically from earliest to most recen
  */
-@Localized("pihmalawi.NutritionPatientDataDefinition")
-public class NutritionPatientDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
+@Localized("pihmalawi.NutritionHistoryPatientDataDefinition")
+public class NutritionHistoryPatientDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
 
-    public NutritionPatientDataDefinition() {
+    public NutritionHistoryPatientDataDefinition() {
         super();
     }
 

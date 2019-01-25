@@ -6,7 +6,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.api.PatientService;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionPatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionHistoryPatientDataDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-@Handler(supports = NutritionPatientDataDefinition.class, order = 50)
-public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
+@Handler(supports = NutritionHistoryPatientDataDefinition.class, order = 50)
+public class NutritionHistoryPatientDataEvaluator implements PatientDataEvaluator {
 
     // TODO: do we want to strip out the pregnancy concepts form the result set?
     // TODO: create an endpoint for this; change NutritionSummary element to load in obs itself, morph BMI into obs, and then pass on to ObsHistory element
@@ -46,7 +46,7 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
     @Override
     public EvaluatedPatientData evaluate(PatientDataDefinition definition, EvaluationContext context) throws EvaluationException {
 
-        NutritionPatientDataDefinition def = (NutritionPatientDataDefinition) definition;
+        NutritionHistoryPatientDataDefinition def = (NutritionHistoryPatientDataDefinition) definition;
         EvaluatedPatientData c = new EvaluatedPatientData(def, context);
 
         if (context.getBaseCohort() != null && context.getBaseCohort().isEmpty()) {

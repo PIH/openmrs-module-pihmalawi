@@ -8,7 +8,7 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.common.BMI;
-import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionPatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionHistoryPatientDataDefinition;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
@@ -27,7 +27,7 @@ public class NutritionPatientDataEvaluatorTest extends BaseMalawiTest {
         context.setBaseCohort(new Cohort());
         context.getBaseCohort().addMember(patient.getId());
 
-        NutritionPatientDataDefinition dd = new NutritionPatientDataDefinition();
+        NutritionHistoryPatientDataDefinition dd = new NutritionHistoryPatientDataDefinition();
         dd.setEndDate(DateUtil.getStartOfDay(new Date()));
 
         Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2017, 8, 3)).save();  // just use a random encounter type
