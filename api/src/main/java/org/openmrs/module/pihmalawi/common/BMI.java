@@ -42,10 +42,16 @@ public class BMI implements JsonSerializable {
     public double getNumericValue() {
         double wt = weightObs.getValueNumeric();
         double ht = heightObs.getValueNumeric();
-        BigDecimal bmi = BigDecimal.valueOf(wt/Math.pow(ht/100, 2));
-        bmi = bmi.setScale(1, BigDecimal.ROUND_HALF_DOWN);
+        double bmi = wt/Math.pow(ht/100, 2);
+        return bmi;
+    }
+
+    public double getNumericValue(int scale) {
+        BigDecimal bmi = BigDecimal.valueOf(this.getNumericValue());
+        bmi = bmi.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
         return bmi.doubleValue();
     }
+
 
     @Override
     public JsonObject toJsonObject() {
