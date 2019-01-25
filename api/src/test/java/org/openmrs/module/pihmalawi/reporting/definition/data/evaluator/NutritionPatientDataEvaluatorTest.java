@@ -34,8 +34,9 @@ public class NutritionPatientDataEvaluatorTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2016, 8, 3)).save();  // just use a random encounter type
         Encounter enc3 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2015, 8, 3)).save();  // just use a random encounter type
         Encounter enc4 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2010, 8, 3)).save();  // just use a random encounter type
-        Encounter enc5 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2005, 8, 3)).save();  // just use a random encounter type
-        Encounter enc6 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2000, 8, 3)).save();  // just use a random encounter type
+        Encounter enc5 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2009, 8, 3)).save();  // just use a random encounter type
+        Encounter enc6 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2005, 8, 3)).save();  // just use a random encounter type
+        Encounter enc7 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2000, 8, 3)).save();  // just use a random encounter type
 
         createObs(enc1, ccMetadata.getWeightConcept(), 110).save();
         Double expectedBmiEnc1 = bmi(110, 100);
@@ -50,19 +51,23 @@ public class NutritionPatientDataEvaluatorTest extends BaseMalawiTest {
 
         createObs(enc4, ccMetadata.getWeightConcept(), 120).save();
         createObs(enc4, ccMetadata.getHeightConcept(), 100).save();
-        createObs(enc4, ccMetadata.getPatientPregnantConcept(), ccMetadata.getTrueConcept()).save();
+        createObs(enc4, ccMetadata.getIsPatientPregnantConcept(), ccMetadata.getYesConcept()).save();
 
-        createObs(enc5, ccMetadata.getWeightConcept(), 100).save();
+        createObs(enc5, ccMetadata.getWeightConcept(), 108).save();
+        createObs(enc5, ccMetadata.getHeightConcept(), 100).save();
+        createObs(enc5, ccMetadata.getPregnantOrLactatingConcept(), ccMetadata.getPatientPregnantConcept()).save();
 
-        createObs(enc6, ccMetadata.getWeightConcept(), 50).save();
-        createObs(enc6, ccMetadata.getHeightConcept(), 50).save();
-        createObs(enc6, ccMetadata.getMUACConcept(), 14).save();
+        createObs(enc6, ccMetadata.getWeightConcept(), 100).save();
+
+        createObs(enc7, ccMetadata.getWeightConcept(), 50).save();
+        createObs(enc7, ccMetadata.getHeightConcept(), 50).save();
+        createObs(enc7, ccMetadata.getMUACConcept(), 14).save();
 
 
         try {
             List<Object> obsAndBmi = (List<Object>) patientDataService.evaluate(dd, context).getData().get(patient.getId());
 
-            Assert.assertEquals(15, obsAndBmi.size());
+            Assert.assertEquals(18, obsAndBmi.size());
 
             // encounter in 2017
             Assert.assertEquals(expectedBmiEnc1, (Double) ((BMI) obsAndBmi.get(0)).getNumericValue());
@@ -82,16 +87,22 @@ public class NutritionPatientDataEvaluatorTest extends BaseMalawiTest {
             // no BMI because patient is pregnant
             Assert.assertEquals(new Double(120), ((Obs) obsAndBmi.get(8)).getValueNumeric());   // Weight
             Assert.assertEquals(new Double(100), ((Obs) obsAndBmi.get(9)).getValueNumeric());   // Height
-            Assert.assertEquals(ccMetadata.getTrueConcept(), ((Obs) obsAndBmi.get(10)).getValueCoded());  // pregnancy
+            Assert.assertEquals(ccMetadata.getYesConcept(), ((Obs) obsAndBmi.get(10)).getValueCoded());  // pregnancy
+
+            // encounter in 2009
+            // no BMI because patient is pregnant
+            Assert.assertEquals(new Double(108), ((Obs) obsAndBmi.get(11)).getValueNumeric());   // Weight
+            Assert.assertEquals(new Double(100), ((Obs) obsAndBmi.get(12)).getValueNumeric());   // Height
+            Assert.assertEquals(ccMetadata.getPatientPregnantConcept(), ((Obs) obsAndBmi.get(13)).getValueCoded());  // pregnancy
 
             // encounter in 2005
             // no height because we haven't collected a date since they have become an adult
-            Assert.assertEquals(new Double(100), ((Obs) obsAndBmi.get(11)).getValueNumeric());   // Weight
+            Assert.assertEquals(new Double(100), ((Obs) obsAndBmi.get(14)).getValueNumeric());   // Weight
 
             // encounter int 2000
-            Assert.assertEquals(new Double(14), ((Obs) obsAndBmi.get(12)).getValueNumeric());
-            Assert.assertEquals(new Double(50), ((Obs) obsAndBmi.get(13)).getValueNumeric());   // Weight
-            Assert.assertEquals(new Double(50), ((Obs) obsAndBmi.get(14)).getValueNumeric());   // Height
+            Assert.assertEquals(new Double(14), ((Obs) obsAndBmi.get(15)).getValueNumeric());
+            Assert.assertEquals(new Double(50), ((Obs) obsAndBmi.get(16)).getValueNumeric());   // Weight
+            Assert.assertEquals(new Double(50), ((Obs) obsAndBmi.get(17)).getValueNumeric());   // Height
 
         }
         catch (EvaluationException e) {

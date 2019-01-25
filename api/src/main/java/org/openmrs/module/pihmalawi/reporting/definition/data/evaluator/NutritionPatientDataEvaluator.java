@@ -28,8 +28,11 @@ import java.util.Map;
 @Handler(supports = NutritionPatientDataDefinition.class, order = 50)
 public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
 
+    // TODO: do we want to strip out the pregnancy concepts form the result set?
     // TODO: create an endpoint for this; change NutritionSummary element to load in obs itself, morph BMI into obs, and then pass on to ObsHistory element
     // TODO: do we need to collapse datetime to date (so that if weight is technically captured earlier in day than height, can still do BMI?)
+    // TODO: what about existing BMI calculations, coded or otherwise?
+    // TODO: what about very old pregnancy obs
 
     @Autowired
     private ChronicCareMetadata metadata;
@@ -54,7 +57,8 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
         q.select("o.personId", "o");
         q.from(Obs.class, "o");
         q.wherePersonIn("o.personId", context);
-        q.whereInAny("o.concept", metadata.getHeightConcept(), metadata.getWeightConcept(), metadata.getMUACConcept(), metadata.getPatientPregnantConcept());
+        q.whereInAny("o.concept", metadata.getHeightConcept(), metadata.getWeightConcept(), metadata.getMUACConcept(),
+                metadata.getPregnantOrLactatingConcept(), metadata.getIsPatientPregnantConcept());
         q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
         q.orderAsc("o.obsDatetime");
 
@@ -106,8 +110,7 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
                     latestHeightAsAnAdult = nextObs;
                 }
 
-                if (nextObs.getConcept().equals(metadata.getPatientPregnantConcept()) &&
-                        nextObs.getValueCoded().equals(metadata.getTrueConcept())) {
+                if (isPregnant(nextObs)) {
                     latestPregnantObsDate = DateUtil.getStartOfDay(nextObs.getObsDatetime());
                 }
 
@@ -128,7 +131,7 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
 
     private Integer getRanking(Obs obs) {
 
-        if (obs.getConcept().equals(metadata.getPatientPregnantConcept())) {
+        if (obs.getConcept().equals(metadata.getIsPatientPregnantConcept()) || obs.getConcept().equals(metadata.getPregnantOrLactatingConcept())) {
             return 0;
         }
 
@@ -145,5 +148,12 @@ public class NutritionPatientDataEvaluator implements PatientDataEvaluator {
         }
 
         return -1;  //should never reach here
+    }
+
+    private boolean isPregnant(Obs obs) {
+        return (obs.getConcept().equals(metadata.getIsPatientPregnantConcept()) &&
+                obs.getValueCoded().equals(metadata.getYesConcept())) ||
+                (obs.getConcept().equals(metadata.getPregnantOrLactatingConcept()) &&
+                    obs.getValueCoded().equals(metadata.getPatientPregnantConcept()));
     }
 }
