@@ -79,13 +79,14 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
         log.warn(patient.get("alerts"));
 
-        //Is patient pregnant
+        //Is patient pregnant, MUAC
         patient = getPatient(
-                "cf95c7ec-aa83-4c69-b3ae-dc7e6dec8726",
-                "Matandani Rural Health Center",
-                2019, 2, 18);
+                "1dc4da36-7d32-4ee3-95b8-b81a94bd53c2",
+                "Neno District Hospital",
+                2019, 1, 24);
 
         log.warn(patient);
+        log.warn(patient.get("alerts"));
 
         //testDate(2018, 11, 8);
         //testDate(2017, 12, 27);
@@ -99,7 +100,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         sw.start();
         Patient p = patientService.getPatientByUuid(uuid);
         if (p == null) {
-            log.error("Patient with uuid = " + uuid + " doe not exists");
+            log.error("Patient with uuid = " + uuid + " does not exists");
             return null;
         }
         JsonObject ret = screeningData.getDataForPatient(
