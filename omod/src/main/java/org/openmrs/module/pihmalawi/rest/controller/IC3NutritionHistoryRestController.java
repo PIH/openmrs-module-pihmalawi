@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/rest/" + RestConstants.VERSION_1 + IC3NutritionHistoryRestController.PIHMALAWI + IC3NutritionHistoryRestController.IC3_NUTRITION_HISTORY)
@@ -82,6 +83,7 @@ public class IC3NutritionHistoryRestController {
                     // we coerce the BMI in an object into a kind of "faux" obs
                     BMI bmi = (BMI) obsOrBmi;
                     SimpleObject bmiObject = new SimpleObject();
+                    bmiObject.put("uuid", UUID.randomUUID());
                     bmiObject.put("obsDatetime", ConversionUtil.convertToRepresentation(bmi.getWeightObs().getObsDatetime(), Representation.REF));  // date is from the underlying weight concept
                     bmiObject.put("value", bmi.getValueAsText());
 
