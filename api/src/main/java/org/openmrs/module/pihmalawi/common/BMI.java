@@ -46,7 +46,7 @@ public class BMI implements JsonSerializable {
         return bmi;
     }
 
-    public double getNumericValue(int scale) {
+    public double getNumericValueRounded(int scale) {
         BigDecimal bmi = BigDecimal.valueOf(this.getNumericValue());
         bmi = bmi.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
         return bmi.doubleValue();

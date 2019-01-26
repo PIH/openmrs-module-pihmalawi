@@ -85,7 +85,7 @@ public class IC3NutritionHistoryRestController {
                     SimpleObject bmiObject = new SimpleObject();
                     bmiObject.put("uuid", UUID.randomUUID());
                     bmiObject.put("obsDatetime", ConversionUtil.convertToRepresentation(bmi.getWeightObs().getObsDatetime(), Representation.REF));  // date is from the underlying weight concept
-                    bmiObject.put("value", bmi.getNumericValue(1));
+                    bmiObject.put("value", bmi.getNumericValueRounded(1));
 
                     SimpleObject concept = new SimpleObject();
                     concept.put("uuid", bmiConceptUuid);
