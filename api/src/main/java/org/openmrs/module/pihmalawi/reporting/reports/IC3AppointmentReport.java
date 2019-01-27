@@ -31,6 +31,7 @@ public class IC3AppointmentReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/appointment-data.sql";
     public static final String EXCEL_REPORT_DESIGN_UUID = "82359302-5db2-11e7-be82-dfb5eb799ead";
+    public static final Parameter ADVANCED_CARE_FILTER_PARAMETER = new Parameter("advancedCare", "Advanced Care Patients", Boolean.class);
 
 	@Override
 	public String getUuid() {
@@ -51,7 +52,8 @@ public class IC3AppointmentReport extends ApzuReportManager {
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
         l.add(ReportingConstants.END_DATE_PARAMETER);
-        l.add(ReportingConstants.LOCATION_PARAMETER);        
+        l.add(ReportingConstants.LOCATION_PARAMETER);
+        l.add(ADVANCED_CARE_FILTER_PARAMETER);
         return l;
     }
 

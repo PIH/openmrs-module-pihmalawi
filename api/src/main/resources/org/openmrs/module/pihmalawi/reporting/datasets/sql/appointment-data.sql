@@ -16,7 +16,7 @@ CALL create_rpt_active_ncd(@endDate, @location);
 
 CALL create_rpt_appt_alerts(@endDate);
 
-CALL create_rpt_patients_expected(@endDate, @endDate, @location);
+CALL create_rpt_patients_expected(@endDate, @endDate, @location, @advancedCare);
 
 SELECT	patient_uuid,
 	p.last_name,
@@ -45,7 +45,3 @@ FROM 			    rpt_patients_expected e
 								FROM rpt_appt_alerts GROUP BY patient_id) a
 		ON a.patient_id = e.patient_id
 ORDER BY last_name, first_name;
-
-
-
-
