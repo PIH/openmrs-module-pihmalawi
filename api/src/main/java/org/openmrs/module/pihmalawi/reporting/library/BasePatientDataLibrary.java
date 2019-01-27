@@ -23,6 +23,7 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MaxValue
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierToJsonConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ChwOrGuardianPatientDataDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionHistoryPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.Birthdate;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -231,6 +232,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
         MaxValueConverter<Date> maxValueConverter = new MaxValueConverter<Date>();
         return getNextAppointmentObsByEndDate(new ChainedConverter(collectionConverter, maxValueConverter));
     }
+
+    @DocumentedDefinition("nutritionHistory")
+	public PatientDataDefinition getNutritionHistory() {
+    	return new NutritionHistoryPatientDataDefinition();
+	}
 
     /**
      * // TODO: Determine if we should limit this by type.  With all of the new encounter types added, I am defaulting to no, as we may forget to update this

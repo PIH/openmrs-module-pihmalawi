@@ -17,6 +17,7 @@ package org.openmrs.module.pihmalawi.common;
 import org.openmrs.Obs;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -44,6 +45,13 @@ public class BMI implements JsonSerializable {
         double bmi = wt/Math.pow(ht/100, 2);
         return bmi;
     }
+
+    public double getNumericValueRounded(int scale) {
+        BigDecimal bmi = BigDecimal.valueOf(this.getNumericValue());
+        bmi = bmi.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
+        return bmi.doubleValue();
+    }
+
 
     @Override
     public JsonObject toJsonObject() {

@@ -1,5 +1,12 @@
 // ***** Functions that can be used within the alert scripting *****
 
+var concepts = {
+    'true': '655e2f90-977f-11e1-8993-905e29aff6c1',
+    'false': '655e3148-977f-11e1-8993-905e29aff6c1',
+    'yes': '65576354-977f-11e1-8993-905e29aff6c1',
+    'no': '6557646c-977f-11e1-8993-905e29aff6c1'
+};
+
 /**
  * Returns full years, rounded down, between the two timestamps
  * To return a positive result, timestamp1 must be greater (more recent) than timestamp2
@@ -83,4 +90,12 @@ function hasAny(arrayToCheck, valueArrayToCheck) {
  */
 function hasNot(arrayToCheck, valueToCheck) {
     return !has(arrayToCheck, valueToCheck);
+}
+
+function isTrue(conceptUuid) {
+    return conceptUuid === concepts['true'] || conceptUuid === concepts['yes']
+}
+
+function isFalse(conceptUuid) {
+    return conceptUuid === concepts['false'] || conceptUuid === concepts['no']
 }

@@ -69,6 +69,7 @@ public class CommonMetadata extends Metadata {
 	public static final String CD4_COUNT = "CD4 count";
 	public static final String CLINICIAN_REPORTED_CD4 = "Clinician reported to CD4";
     public static final String CD4_DATE = "Date of CD4 count";
+	public static final String MUAC_CONCEPT = "6558d09a-977f-11e1-8993-905e29aff6c1";
 
     // HIV TESTING
 
@@ -141,6 +142,7 @@ public class CommonMetadata extends Metadata {
 
 	public static final String PREGNANT_OR_LACTATING_CONCEPT = "Pregnant/Lactating";
 	public static final String PATIENT_PREGNANT_CONCEPT = "Patient pregnant";
+	public static final String IS_PATIENT_PREGNANT_CONCEPT = "656fbd28-977f-11e1-8993-905e29aff6c1";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
 	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
@@ -189,6 +191,8 @@ public class CommonMetadata extends Metadata {
 
     public static final String BREASTFEEDING_STATUS_CONCEPT = "657a289e-977f-11e1-8993-905e29aff6c1";
 
+    public static final String BMI_CONCEPT = "655d615a-977f-11e1-8993-905e29aff6c1";
+
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -199,6 +203,10 @@ public class CommonMetadata extends Metadata {
 
 	public Concept getWeightConcept() {
 		return getConcept(WEIGHT);
+	}
+
+	public Concept getMUACConcept() {
+		return getConcept(MUAC_CONCEPT);
 	}
 
 	public Concept getCd4CountConcept() {
@@ -400,6 +408,8 @@ public class CommonMetadata extends Metadata {
 		return getConcept(PATIENT_PREGNANT_CONCEPT);
 	}
 
+	public Concept getIsPatientPregnantConcept() { return getConcept(IS_PATIENT_PREGNANT_CONCEPT); }
+
 	public Concept getSourceOfReferralConcept() {
 		return getConcept(SOURCE_OF_REFERRAL_CONCEPT);
 	}
@@ -543,6 +553,8 @@ public class CommonMetadata extends Metadata {
     public Concept getBreastfeedingStatusConcept() {
         return getConcept(BREASTFEEDING_STATUS_CONCEPT);
     }
+
+    public Concept getBMIConcept() { return getConcept(BMI_CONCEPT); }
 
 	public static String NENO_HOSPITAL = "Neno District Hospital";
 	public static String OUTPATIENT_LOCATION = "Outpatient";

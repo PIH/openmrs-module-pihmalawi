@@ -102,10 +102,12 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_creatinine_result_date", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_creatinine_result", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "last_bmi", basePatientData.getLatestBmiNumericValueByEndDate());
+        addColumn(dsd, "current_muac", df.getMostRecentObsOnDate(ccMetadata.getMUACConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "family_history_diabetes", ccPatientData.getFamilyHistoryOfDiabetesByEndDate());
         addColumn(dsd, "last_breastfeeding_status", hivPatientData.getLatestBreastfeedingStatusValueByEndDate());
-        addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
-        addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
+        addColumn(dsd, "is_pregnant", df.getMostRecentObsOnDate(ccMetadata.getIsPatientPregnantConcept(), null, df.getObsValueCodedConverter()));
+        addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
+        addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         return dsd;
     }
 

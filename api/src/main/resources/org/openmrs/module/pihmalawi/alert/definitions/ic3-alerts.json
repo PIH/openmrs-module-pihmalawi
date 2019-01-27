@@ -13,7 +13,7 @@
     "name": "abnormal-result-bp",
     "categories": ["bp", "abnormal-result", "enrollment-needed"],
     "conditions": [
-      "(current_systolic_bp != null && current_systolic_bp > 160) || (current_diastolic_bp != null && current_diastolic_bp > 110)"
+      "(!missing(current_systolic_bp) && current_systolic_bp > 160) || (!missing(current_diastolic_bp) && current_diastolic_bp > 110)"
     ],
     "alert": "Abnormally high BP",
     "action": "Enroll in care",
@@ -23,7 +23,7 @@
     "name": "critical-result-bp",
     "categories": ["bp", "critical-result"],
     "conditions": [
-      "(current_systolic_bp != null && current_systolic_bp < 80 || current_systolic_bp > 200) || (current_diastolic_bp != null && current_diastolic_bp > 120)"
+      "(!missing(current_systolic_bp) && current_systolic_bp < 80 || current_systolic_bp > 200) || (!missing(current_diastolic_bp) && current_diastolic_bp > 120)"
     ],
     "alert": "Critical BP" ,
     "action": "Alert clinician",
@@ -118,36 +118,176 @@
     "name": "abnormal-result-bmi",
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
-      "TODO: 16-18.4 moderate malnutrition ,BMI <16 severe malnutrition"
+      "last_bmi >= 16",
+      "last_bmi <= 18.4"
     ],
-    "alert": "Action: Enroll in NCST",
-    "enabled": false
+    "alert": "Moderate malnutrition",
+    "action": "Action: Enroll in NCST",
+    "enabled": true
+  },
+  {
+    "name": "critical-result-bmi",
+    "categories": ["nutrition", "critical-result"],
+    "conditions": [
+      "last_bmi < 16"
+    ],
+    "alert": "Severe malnutrition",
+    "action": "Action: Enroll in NCST",
+    "enabled": true
   },
   {
     "name": "eligible-for-muac",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "TODO: age_years <= 18 OR pregnant"
+      "(age_years <= 18) || (isTrue(is_pregnant))"
     ],
-    "enabled": false
+    "alert": "Eligible for MUAC screening",
+    "action": "Measure and record MUAC",
+    "enabled": true
   },
   {
-    "name": "abnormal-result-MUAC-cmam",
-    "categories": ["nutrition", "abnormal-result"],
+    "name": "critical-result-MUAC-cmam-under5",
+    "categories": ["nutrition", "critical-result"],
     "conditions": [
-      "TODO: (oedema or visible wasting) OR (6-59 months <11.5cm severe and 11.5-12.5 moderate) OR (5-9 years <13cm severe and 13-14.5 moderate) OR (10-14 years <16cm severe and 16-18.5 moderate)"
+      "age_years < 5",
+      "!missing(current_muac)",
+      "current_muac < 11.5"
     ],
-    "alert": "Action: Enroll in CMAM",
-    "enabled": false
+    "alert": "Severe Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Under 5 with severe malnutrition",
+    "enabled": true
   },
   {
-    "name": "abnormal-result-MUAC-ncst",
+    "name": "abnormal-result-MUAC-cmam-under5",
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
-      "TODO: (15-18 years <18.5cm severe and 18.5-21.9cm moderate) OR (pregnant mothers <19cm severe and 19-21.9 moderate)"
+      "age_years < 5",
+      "!missing(current_muac)",
+      "current_muac >= 11.5",
+      "current_muac < 12.5"
     ],
-    "alert": "Action: Enroll in NCST",
-    "enabled": false
+    "alert": "Moderate Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Under 5 with moderate malnutrition",
+    "enabled": true
+  },
+  {
+    "name": "critical-result-MUAC-cmam-under10",
+    "categories": ["nutrition", "critical-result"],
+    "conditions": [
+      "age_years >= 5",
+      "age_years < 10",
+      "!missing(current_muac)",
+      "current_muac < 13"
+    ],
+    "alert": "Severe Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 5 and 10 with severe malnutrition",
+    "enabled": true
+  },
+  {
+    "name": "abnormal-result-MUAC-cmam-under10",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "age_years >= 5",
+      "age_years < 10",
+      "!missing(current_muac)",
+      "current_muac >= 13",
+      "current_muac < 14.5"
+    ],
+    "alert": "Moderate Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 5 and 10 with moderate malnutrition",
+    "enabled": true
+  },
+
+  {
+    "name": "critical-result-MUAC-cmam-under15",
+    "categories": ["nutrition", "critical-result"],
+    "conditions": [
+      "age_years >= 10",
+      "age_years < 15",
+      "!missing(current_muac)",
+      "current_muac < 16"
+    ],
+    "alert": "Severe Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 10 and 15 with severe malnutrition",
+    "enabled": true
+  },
+  {
+    "name": "abnormal-result-MUAC-cmam-under15",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "age_years >= 10",
+      "age_years < 15",
+      "!missing(current_muac)",
+      "current_muac >= 16",
+      "current_muac < 18.5"
+    ],
+    "alert": "Moderate Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 10 and 15 with moderate malnutrition",
+    "enabled": true
+  },
+
+  {
+    "name": "critical-result-MUAC-cmam-under18",
+    "categories": ["nutrition", "critical-result"],
+    "conditions": [
+      "age_years >= 15",
+      "age_years < 18",
+      "!missing(current_muac)",
+      "current_muac < 18.5"
+    ],
+    "alert": "Severe Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 15 and 18 with severe malnutrition",
+    "enabled": true
+  },
+  {
+    "name": "abnormal-result-MUAC-cmam-under18",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "age_years >= 15",
+      "age_years < 18",
+      "!missing(current_muac)",
+      "current_muac >= 18.5",
+      "current_muac < 21.9"
+    ],
+    "alert": "Moderate Malnutrition",
+    "action": "Action: Enroll in CMAM",
+    "notes": "Children between the age of 15 and 18 with moderate malnutrition",
+    "enabled": true
+  },
+
+  {
+    "name": "critical-result-MUAC-ncst-pregnant",
+    "categories": ["nutrition", "critical-result"],
+    "conditions": [
+      "isTrue(is_pregnant)",
+      "!missing(current_muac)",
+      "current_muac < 19"
+    ],
+    "alert": "Severe Malnutrition",
+    "action": "Action: Enroll in NCST",
+    "notes": "Pregnant mothers with severe malnutrition",
+    "enabled": true
+  },
+  {
+    "name": "abnormal-result-MUAC-ncst-pregnant",
+    "categories": ["nutrition", "abnormal-result"],
+    "conditions": [
+      "isTrue(is_pregnant)",
+      "!missing(current_muac)",
+      "current_muac >= 19",
+      "current_muac < 22"
+    ],
+    "alert": "Moderate Malnutrition",
+    "action": "Action: Enroll in NCST",
+    "notes": "Pregnant mothers with moderate malnutrition",
+    "enabled": true
   },
   {
     "name": "eligible-for-htc",
@@ -188,7 +328,9 @@
     "conditions": [
       "true"
     ],
-    "enabled": false
+    "alert": "Eligible for TB screening",
+    "action": "Action: Refer to the TB screening station",
+    "enabled": true
   },
   {
     "name": "abnormal-result-tb",
