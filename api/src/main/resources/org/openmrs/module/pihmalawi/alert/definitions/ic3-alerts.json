@@ -104,7 +104,8 @@
     "name": "eligible-for-weight",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "missing(current_weight)"
+      "missing(current_weight)",
+      "(age_years > 18)"
     ],
     "alert": "Due for Nutrition Screening",
     "action": "Refer to Nutrition Screening station",
