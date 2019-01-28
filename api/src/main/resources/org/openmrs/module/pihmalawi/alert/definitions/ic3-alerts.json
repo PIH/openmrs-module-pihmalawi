@@ -4,10 +4,12 @@
     "categories": ["bp","screening-eligibility"],
     "conditions": [
       "age_years > 18",
-      "TODO: no BP in active visit"
+      "missing(current_systolic_bp)",
+      "missing(current_diastolic_bp)"
     ],
     "alert": "Due for BP Screening",
-    "enabled": false
+    "action": "Refer to BP Screening station",
+    "enabled": true
   },
   {
     "name": "abnormal-result-bp",
