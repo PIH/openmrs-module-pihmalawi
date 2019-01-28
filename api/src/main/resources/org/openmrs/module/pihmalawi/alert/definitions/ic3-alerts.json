@@ -104,17 +104,22 @@
     "name": "eligible-for-weight",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "true"
+      "missing(current_weight)"
     ],
-    "enabled": false
+    "alert": "Due for Nutrition Screening",
+    "action": "Refer to Nutrition Screening station",
+    "enabled": true
   },
   {
     "name": "eligible-for-height",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "age_years <= 18"
+      "age_years <= 18",
+      "missing(current_height)"
     ],
-    "enabled": false
+    "alert": "Due for Nutrition Screening",
+    "action": "Refer to Nutrition Screening station",
+    "enabled": true
   },
   {
     "name": "abnormal-result-bmi",
