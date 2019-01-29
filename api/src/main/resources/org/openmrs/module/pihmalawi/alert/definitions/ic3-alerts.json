@@ -4,8 +4,7 @@
     "categories": ["bp","screening-eligibility"],
     "conditions": [
       "age_years > 18",
-      "missing(current_systolic_bp)",
-      "missing(current_diastolic_bp)"
+      "missing(current_systolic_bp) || missing(current_diastolic_bp)"
     ],
     "alert": "Due for BP Screening",
     "action": "Refer to BP Screening station",
@@ -15,7 +14,9 @@
     "name": "abnormal-result-bp",
     "categories": ["bp", "abnormal-result", "enrollment-needed"],
     "conditions": [
-      "(!missing(current_systolic_bp) && current_systolic_bp > 160) || (!missing(current_diastolic_bp) && current_diastolic_bp > 110)"
+      "!missing(current_systolic_bp)",
+      "!missing(current_diastolic_bp)",
+      "(current_systolic_bp > 160 && current_systolic_bp <= 200) || (current_diastolic_bp > 110 && current_diastolic_bp <= 120)"
     ],
     "alert": "Abnormally high BP",
     "action": "Enroll in care",
@@ -25,7 +26,9 @@
     "name": "critical-result-bp",
     "categories": ["bp", "critical-result"],
     "conditions": [
-      "(!missing(current_systolic_bp) && current_systolic_bp < 80 || current_systolic_bp > 200) || (!missing(current_diastolic_bp) && current_diastolic_bp > 120)"
+      "!missing(current_systolic_bp)",
+      "!missing(current_diastolic_bp)",
+      "(current_systolic_bp < 80 || current_systolic_bp > 200) || (current_diastolic_bp > 120)"
     ],
     "alert": "Critical BP" ,
     "action": "Alert clinician",
