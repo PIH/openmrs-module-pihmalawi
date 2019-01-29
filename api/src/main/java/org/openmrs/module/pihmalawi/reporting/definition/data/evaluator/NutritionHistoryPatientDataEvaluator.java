@@ -29,7 +29,6 @@ import java.util.Map;
 public class NutritionHistoryPatientDataEvaluator implements PatientDataEvaluator {
 
     // TODO: do we want to strip out the pregnancy concepts form the result set?
-    // TODO: create an endpoint for this; change NutritionSummary element to load in obs itself, morph BMI into obs, and then pass on to ObsHistory element
     // TODO: do we need to collapse datetime to date (so that if weight is technically captured earlier in day than height, can still do BMI?)
     // TODO: what about existing BMI calculations, coded or otherwise?
     // TODO: what about very old pregnancy obs
