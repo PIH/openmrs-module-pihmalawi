@@ -118,7 +118,7 @@
     "name": "eligible-for-height",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "age_years <= 18",
+      "age_years > 18",
       "missing(current_height)"
     ],
     "alert": "Due for Nutrition Screening",
