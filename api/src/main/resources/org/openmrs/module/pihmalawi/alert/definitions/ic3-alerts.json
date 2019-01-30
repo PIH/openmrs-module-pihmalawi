@@ -16,7 +16,7 @@
     "conditions": [
       "!missing(current_systolic_bp)",
       "!missing(current_diastolic_bp)",
-      "(current_systolic_bp > 160 && current_systolic_bp <= 200) || (current_diastolic_bp > 110 && current_diastolic_bp <= 120)"
+      "(current_systolic_bp > 160 && current_systolic_bp <= 200 && current_diastolic_bp <= 120) || (current_diastolic_bp > 110 && current_diastolic_bp <= 120 && current_systolic_bp > 80 && current_systolic_bp <= 200)"
     ],
     "alert": "Abnormally high BP",
     "action": "Enroll in care",
