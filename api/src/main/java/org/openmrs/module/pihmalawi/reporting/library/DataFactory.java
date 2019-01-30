@@ -915,6 +915,11 @@ public class DataFactory {
 		return new PropertyConverter(Obs.class, "valueCoded");
 	}
 
+	public DataConverter getObsValueCodedCollectionConverter() {
+		CollectionConverter collectionConverter = new CollectionConverter(getObsValueCodedConverter(), true, null);
+		return collectionConverter;
+	}
+
 	public DataConverter getObsValueCodedNameConverter() {
 		return new ChainedConverter(getObsValueCodedConverter(), new ObjectFormatter());
 	}
