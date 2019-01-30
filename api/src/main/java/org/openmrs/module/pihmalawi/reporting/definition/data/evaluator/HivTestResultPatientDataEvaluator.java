@@ -23,6 +23,7 @@ import org.openmrs.module.pihmalawi.common.HivTestResult;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.HivTestResultPatientDataDefinition;
 import org.openmrs.module.reporting.common.BeanPropertyComparator;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.evaluator.PatientDataEvaluator;
@@ -152,7 +153,7 @@ public class HivTestResultPatientDataEvaluator implements PatientDataEvaluator {
                 }
 
                 // Filter out results based on effective date
-                if (def.getEndDate() != null && r.getEffectiveDate().after(def.getEndDate())) {
+                if (def.getEndDate() != null && DateUtil.getStartOfDay(r.getEffectiveDate()).after(def.getEndDate())) {
                     i.remove();
                 }
             }
