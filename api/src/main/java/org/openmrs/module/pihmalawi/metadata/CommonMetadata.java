@@ -145,6 +145,15 @@ public class CommonMetadata extends Metadata {
 	public static final String IS_PATIENT_PREGNANT_CONCEPT = "656fbd28-977f-11e1-8993-905e29aff6c1";
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
+	public static final String SYMPTOM_PRESENT_CONCEPT  = "6558d3ba-977f-11e1-8993-905e29aff6c1";
+	//TB Screening concepts
+	public static final String COUGH_CONCEPT  = "65460a32-977f-11e1-8993-905e29aff6c1";
+	public static final String FEVER_CONCEPT  = "656e9844-977f-11e1-8993-905e29aff6c1";
+	public static final String NIGHT_SWEATS_CONCEPT  = "656f10da-977f-11e1-8993-905e29aff6c1";
+	public static final String WEIGHT_LOSS_CONCEPT  = "654a56be-977f-11e1-8993-905e29aff6c1";
+	public static final String RECENT_CONTACT_WITH_ACTIVE_TB_CONCEPT  = "a6c1cd1c-b4a2-405a-930c-f11c914d50c5";
+	public static final String PAINFUL_NECK_AND_ARMPIT_LYMPH_NODES_CONCEPT  = "974d5caf-2db6-4d5d-b509-11c6f5340ea5";
+
 	public static final String CURRENT_DRUGS_USED_CONCEPT = "Current drugs used";
 	public static final String HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT = "Patient hospitalized since last visit";
 	public static final String HOSPITALIZED_FOR_NCD_SINCE_LAST_VISIT_CONCEPT = "Hospitalized for non-communicable disease since last visit";

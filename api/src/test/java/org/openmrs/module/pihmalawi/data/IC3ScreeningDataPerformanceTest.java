@@ -32,6 +32,7 @@ import org.openmrs.module.reporting.common.ObjectCounter;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         JsonObject patient = getPatient(
                 "0dff0a3f-10d4-4b13-b727-c21b9a6d1cb0",
                 "Neno District Hospital",
-                2019, 1, 24);
+                2019, 1, 28);
 
         log.warn(patient.get("alerts"));
 
@@ -84,6 +85,25 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "1dc4da36-7d32-4ee3-95b8-b81a94bd53c2",
                 "Neno District Hospital",
                 2019, 1, 24);
+
+        //log.warn(patient);
+        log.warn(patient.get("alerts"));
+
+
+        //Severe malnutrition under 18
+        patient = getPatient(
+                "c4f3f568-2695-102d-b4c2-001d929acb54",
+                "Nsambe HC",
+                2019, 1, 25);
+
+        log.warn(patient);
+        log.warn(patient.get("alerts"));
+
+        //TB Screening
+        patient = getPatient(
+                "c58d53fc-2695-102d-b4c2-001d929acb54",
+                "Neno District Hospital",
+                2019, 1, 29);
 
         log.warn(patient);
         log.warn(patient.get("alerts"));

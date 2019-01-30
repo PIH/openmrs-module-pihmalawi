@@ -108,6 +108,9 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "family_history_diabetes", ccPatientData.getFamilyHistoryOfDiabetesByEndDate());
         addColumn(dsd, "last_breastfeeding_status", hivPatientData.getLatestBreastfeedingStatusValueByEndDate());
         addColumn(dsd, "is_pregnant", df.getMostRecentObsOnDate(ccMetadata.getIsPatientPregnantConcept(), null, df.getObsValueCodedConverter()));
+
+        addColumn(dsd, "current_symptoms", df.getAllRecentObsOnDate(ccMetadata.getConcept(ccMetadata.SYMPTOM_PRESENT_CONCEPT), null, null));
+
         addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         return dsd;

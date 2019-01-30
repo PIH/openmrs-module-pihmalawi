@@ -9,6 +9,7 @@ import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
 
@@ -172,11 +173,11 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // TB Screening
-        Concept cough           = MetadataUtils.existing(Concept.class, "65460a32-977f-11e1-8993-905e29aff6c1");
+        Concept cough           = MetadataUtils.existing(Concept.class, CommonMetadata.COUGH_CONCEPT);
         Concept cough2Weeks     = MetadataUtils.existing(Concept.class, "655fdac0-977f-11e1-8993-905e29aff6c1");
-        Concept fever           = MetadataUtils.existing(Concept.class, "656e9844-977f-11e1-8993-905e29aff6c1");
-        Concept weightLoss      = MetadataUtils.existing(Concept.class, "654a56be-977f-11e1-8993-905e29aff6c1");
-        Concept nightSweats     = MetadataUtils.existing(Concept.class, "656f10da-977f-11e1-8993-905e29aff6c1");
+        Concept fever           = MetadataUtils.existing(Concept.class, CommonMetadata.FEVER_CONCEPT);
+        Concept weightLoss      = MetadataUtils.existing(Concept.class, CommonMetadata.WEIGHT_LOSS_CONCEPT);
+        Concept nightSweats     = MetadataUtils.existing(Concept.class, CommonMetadata.NIGHT_SWEATS_CONCEPT);
 
         Concept feverLastNight = install(new ConceptBuilder("bc7be082-b21d-11e8-96f8-529269fb1459")
                 .datatype(notApplicable)
@@ -185,14 +186,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept recentTBcontact = install(new ConceptBuilder("a6c1cd1c-b4a2-405a-930c-f11c914d50c5")
+        Concept recentTBcontact = install(new ConceptBuilder(CommonMetadata.RECENT_CONTACT_WITH_ACTIVE_TB_CONCEPT)
                 .datatype(notApplicable)
                 .conceptClass(finding)
                 .name("bc7be960-b21d-11e8-96f8-529269fb1459", "Recent contact with active TB ",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept lymphNodePain = install(new ConceptBuilder("974d5caf-2db6-4d5d-b509-11c6f5340ea5")
+        Concept lymphNodePain = install(new ConceptBuilder(CommonMetadata.PAINFUL_NECK_AND_ARMPIT_LYMPH_NODES_CONCEPT)
                 .datatype(notApplicable)
                 .conceptClass(symptomFinding)
                 .name("10458164-b223-11e8-96f8-529269fb1459", "Painful cervical and axillary lymph nodes",

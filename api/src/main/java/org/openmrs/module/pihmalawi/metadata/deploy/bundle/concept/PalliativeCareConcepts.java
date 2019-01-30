@@ -7,6 +7,7 @@ import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
 
@@ -266,7 +267,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
         Concept shortnessOfBreath = MetadataUtils.existing(Concept.class, "656ea87a-977f-11e1-8993-905e29aff6c1");
         Concept peripheralNeuropathy = MetadataUtils.existing(Concept.class, "6572996c-977f-11e1-8993-905e29aff6c1");
-        Concept coughing = MetadataUtils.existing(Concept.class, "65460a32-977f-11e1-8993-905e29aff6c1");
+        Concept coughing = MetadataUtils.existing(Concept.class, CommonMetadata.COUGH_CONCEPT);
         Concept fatigue = MetadataUtils.existing(Concept.class, "656e9c9a-977f-11e1-8993-905e29aff6c1");
         Concept nausea = MetadataUtils.existing(Concept.class, "656ec21a-977f-11e1-8993-905e29aff6c1");
         Concept constipation = MetadataUtils.existing(Concept.class, "655aa366-977f-11e1-8993-905e29aff6c1");
