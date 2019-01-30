@@ -347,10 +347,12 @@
     "name": "abnormal-result-tb",
     "categories": ["tb", "abnormal-result"],
     "conditions": [
-      "yes to any screening question during visit"
+      "!missing(current_symptoms)",
+      "hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes])"
     ],
-    "alert": "Action: Refer to nurse station for sputum submission",
-    "enabled": false
+    "alert": "TB symptoms",
+    "action": "Action: Refer to nurse station for sputum submission",
+    "enabled": true
   },
   {
     "name": "abnormal-viral-load",

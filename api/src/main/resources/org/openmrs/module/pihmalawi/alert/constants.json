@@ -8,5 +8,11 @@
   "diabetes_type_1": "65714206-977f-11e1-8993-905e29aff6c1",
   "diabetes_type_2": "65714314-977f-11e1-8993-905e29aff6c1",
   "hypertension": "654abfc8-977f-11e1-8993-905e29aff6c1",
-  "breastfeeding_stopped_over_6_weeks_ago": "657a2bb4-977f-11e1-8993-905e29aff6c1"
+  "breastfeeding_stopped_over_6_weeks_ago": "657a2bb4-977f-11e1-8993-905e29aff6c1",
+  "cough": "65460a32-977f-11e1-8993-905e29aff6c1",
+  "fever": "656e9844-977f-11e1-8993-905e29aff6c1",
+  "nightSweats":"656f10da-977f-11e1-8993-905e29aff6c1",
+  "weightLoss":"654a56be-977f-11e1-8993-905e29aff6c1",
+  "recentContactWithActiveTB":"a6c1cd1c-b4a2-405a-930c-f11c914d50c5",
+  "painfulNeckAndArmpitLymphNodes":"974d5caf-2db6-4d5d-b509-11c6f5340ea5"
 }
