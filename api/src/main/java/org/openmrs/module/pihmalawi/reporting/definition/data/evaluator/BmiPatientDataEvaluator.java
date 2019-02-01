@@ -13,14 +13,12 @@
  */
 package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 
-import org.openmrs.Obs;
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.common.BMI;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.BmiPatientDataDefinition;
-import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.definition.data.definition.NutritionHistoryPatientDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
-import org.openmrs.module.reporting.data.patient.PatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.evaluator.PatientDataEvaluator;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
@@ -28,14 +26,13 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Evaluates a BmiPatientDataDefinition to produce a PatientData
  */
 @Handler(supports = BmiPatientDataDefinition.class, order = 50)
 public class BmiPatientDataEvaluator implements PatientDataEvaluator {
-
-	@Autowired
-	private BasePatientDataLibrary baseLibrary;
 
 	@Autowired
 	private PatientDataService patientDataService;
@@ -51,18 +48,26 @@ public class BmiPatientDataEvaluator implements PatientDataEvaluator {
 		    childContext.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), def.getEndDate());
         }
 
-		PatientData weights = patientDataService.evaluate(baseLibrary.getLatestWeightObs(), childContext);
-		PatientData heights = patientDataService.evaluate(baseLibrary.getLatestHeightObs(), childContext);
+		NutritionHistoryPatientDataDefinition nutritionHistoryDef = new NutritionHistoryPatientDataDefinition();
+		nutritionHistoryDef.setEndDate(def.getEndDate());
 
-        for (Integer pId : weights.getData().keySet()) {
-            Obs weight = (Obs) weights.getData().get(pId);
-            Obs height = (Obs) heights.getData().get(pId);
-            BMI bmi = null;
-            if (weight != null && height != null) {
-                bmi = new BMI(weight, height);
-            }
-            pd.getData().put(pId, bmi);
-        }
+		EvaluatedPatientData nutritionHistory = patientDataService.evaluate(nutritionHistoryDef, childContext);
+
+		for (Integer pId : nutritionHistory.getData().keySet()) {
+
+			// nutrition history is sorted with most recent first, so we take the first BMI we find
+			List<Object> nutritionHistoryForPatient = (List<Object>) nutritionHistory.getData().get(pId);
+
+			BMI bmi = null;
+			for (Object entry : nutritionHistoryForPatient) {
+				if (entry instanceof BMI) {
+					bmi = (BMI) entry;
+					break;
+				}
+			}
+			pd.getData().put(pId, bmi);
+
+		}
 
 		return pd;
 	}
