@@ -20,9 +20,7 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
 import javax.script.ScriptEngine;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Tests the AlertEngine
@@ -60,6 +58,29 @@ public class AlertEngineTest {
         Assert.assertEquals(Boolean.FALSE, scriptEngine.eval("has([1, 2, 3], 4)"));
 
         Assert.assertNotNull(scriptEngine.eval("active_art"));
+    }
+
+    @Test
+    public void shouldTestHasAnyFunction() throws Exception {
+        Map<String, Object> variables = new HashMap<String, Object>();
+        String[] current_symptoms = new String[] {"656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1"};
+        List<String> symptomsList = Arrays.asList("656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1");
+        //NativeArray nativeArray = new NativeArray(symptomsList.toArray());
+
+
+        String[] tb_symptoms = new String[] {"fever", "nightSweats", "cough"};
+        List<String> tbSymptomsList = Arrays.asList("656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1");
+
+        variables.put("current_symptoms", symptomsList); //nightSweats, weightLoss
+        variables.put("tb_symptoms", tbSymptomsList);
+
+
+        ScriptEngine scriptEngine = engine.createScriptEngine(variables);
+        Object res = scriptEngine.eval( "hasAny(current_symptoms, " +
+                "['656f10da-977f-11e1-8993-905e29aff6c1', '654a56be-977f-11e1-8993-905e29aff6c1'])");
+
+        Assert.assertEquals(true, res);
+
     }
 
     protected void test(String function, int y1, int m1, int d1, int y2, int m2, int d2, double expected) throws Exception {

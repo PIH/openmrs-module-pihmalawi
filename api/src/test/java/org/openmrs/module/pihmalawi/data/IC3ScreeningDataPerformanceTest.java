@@ -72,7 +72,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
         log.warn(patient.get("alerts"));
 
-        //Severe malnutrition
+        // Severe malnutrition
         patient = getPatient(
                 "68f95c58-bc26-4006-bcec-55b276027213",
                 "Neno District Hospital",
@@ -99,11 +99,11 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         log.warn(patient);
         log.warn(patient.get("alerts"));
 
-        //TB Screening
+        //TB Screening Abnormal
         patient = getPatient(
-                "c58d53fc-2695-102d-b4c2-001d929acb54",
-                "Neno District Hospital",
-                2019, 1, 29);
+                "f58495e0-3dfc-4409-b1a1-31f1ecddcd75",
+                "Luwani RHC",
+                2019, 1, 30);
 
         log.warn(patient);
         log.warn(patient.get("alerts"));

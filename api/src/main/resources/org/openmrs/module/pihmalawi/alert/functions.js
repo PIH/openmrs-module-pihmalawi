@@ -73,14 +73,22 @@ function has(arrayToCheck, valueToCheck) {
  * Returns true if any in the valueArrayToCheck is found in the arrayToCheck, false otherwise
  */
 function hasAny(arrayToCheck, valueArrayToCheck) {
-    if (arrayToCheck) {
-        for (var i = 0; i < arrayToCheck.length; i++) {
-            for (var j = 0; j< valueArrayToCheck.length; j++) {
-                if (arrayToCheck[i] === valueArrayToCheck[j]) {
-                    return true;
-                }
+
+    if (arrayToCheck && valueArrayToCheck) {
+      var arrayFromList;
+      if (arrayToCheck instanceof java.lang.Object) {
+        // we have to convert Java ArrayList to JavaScript array
+        arrayFromList = arrayToCheck.toArray();
+      }
+      if (arrayFromList && arrayFromList.length > 0) {
+        for (var i = 0; i < arrayFromList.length; i++) {
+          for (var j = 0; j < valueArrayToCheck.length; j++) {
+            if (arrayFromList[i] == valueArrayToCheck[j]) {
+              return true;
             }
+          }
         }
+      }
     }
     return false;
 }
