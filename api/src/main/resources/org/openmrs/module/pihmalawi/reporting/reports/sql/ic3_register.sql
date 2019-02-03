@@ -216,7 +216,7 @@ SELECT
   date_format(lastGlucoseMonitoringDate,'%d/%m/%Y') as "Date of last visit with glucose monitoring",
   lastVisitHba1c as "HbA1c at last visit",
   lastVisitRandomBloodSugar as "Random blood sugar at last visit",
-  lastVisitFastingBloodSugar as "Fasting blood sugar at first visit",
+  lastVisitFastingBloodSugar as "Fasting blood sugar at last visit",
   shortActingRegularInsulin as "Short Acting Insulin given at last visit",  
   longActingInsulin as "Short Acting Insulin given at last visit",  
   metformin as "Metformin given at last visit",  
