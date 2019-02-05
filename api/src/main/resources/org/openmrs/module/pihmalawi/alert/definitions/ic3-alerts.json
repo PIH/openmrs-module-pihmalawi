@@ -38,17 +38,21 @@
     "name": "eligible-for-blood-glucose-screening-enrolled",
     "categories": ["blood-glucose","screening-eligibility"],
     "conditions": [
-      "TODO: active diabetes patient"
+      "!missing(chronic_care_diagnoses)",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])"
     ],
-    "alert": "TODO",
+    "alert": "Active diabetes patient eligible for blood glucose screening",
+    "action": "Measure blood glucose",
     "notes": "This is for disease monitoring, treatment adjustment",
-    "enabled": false
+    "enabled": true
   },
   {
     "name": "eligible-for-blood-glucose-screening-not-enrolled",
     "categories": ["blood-glucose","screening-eligibility"],
     "conditions": [
-      "TODO: Not active diabetes patient AND (> 30 years without a result in the past year OR adults with BMI > 25, diagnosed with hypertension, parent/sibling has diabetes without a result in the past year)"
+      "Not active diabetes patient",
+      "No blood sugar result in the last year",
+      "( age > 30 years without a result in the past year) OR (adults with BMI > 25, diagnosed with hypertension, parent/sibling has diabetes without a result in the past year)"
     ],
     "alert": "TODO",
     "notes": "Action: enroll if confirmed by clinician meets criteria",

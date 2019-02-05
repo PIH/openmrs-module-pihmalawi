@@ -108,6 +108,15 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         log.warn(patient);
         log.warn(patient.get("alerts"));
 
+        //Chronic Care Diagnoses
+        patient = getPatient(
+                "c59d3ba0-2695-102d-b4c2-001d929acb54",
+                "Matandani Rural Health Center",
+                2019, 2, 4);
+
+        log.warn(patient);
+        log.warn(patient.get("alerts"));
+
         //testDate(2018, 11, 8);
         //testDate(2017, 12, 27);
 

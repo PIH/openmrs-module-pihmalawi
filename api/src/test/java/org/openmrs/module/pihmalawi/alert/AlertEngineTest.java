@@ -63,21 +63,68 @@ public class AlertEngineTest {
     @Test
     public void shouldTestHasAnyFunction() throws Exception {
         Map<String, Object> variables = new HashMap<String, Object>();
-        String[] current_symptoms = new String[] {"656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1"};
-        List<String> symptomsList = Arrays.asList("656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1");
-        //NativeArray nativeArray = new NativeArray(symptomsList.toArray());
 
+        List<String> symptomsList = Arrays.asList("656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1");
 
         String[] tb_symptoms = new String[] {"fever", "nightSweats", "cough"};
         List<String> tbSymptomsList = Arrays.asList("656f10da-977f-11e1-8993-905e29aff6c1", "654a56be-977f-11e1-8993-905e29aff6c1");
 
         variables.put("current_symptoms", symptomsList); //nightSweats, weightLoss
-        variables.put("tb_symptoms", tbSymptomsList);
-
 
         ScriptEngine scriptEngine = engine.createScriptEngine(variables);
         Object res = scriptEngine.eval( "hasAny(current_symptoms, " +
                 "['656f10da-977f-11e1-8993-905e29aff6c1', '654a56be-977f-11e1-8993-905e29aff6c1'])");
+
+        Assert.assertEquals(true, res);
+
+    }
+
+    @Test
+    public void shouldTestChronicCareDiagnoses() throws Exception {
+
+        class ChronicDiagnosis {
+            Date date = null;
+            String value = null;
+
+            public ChronicDiagnosis(Date date, String value) {
+                this.date = date;
+                this.value = value;
+            }
+
+            public Date getDate() {
+                return date;
+            }
+
+            public void setDate(Date date) {
+                this.date = date;
+            }
+
+            public String getValue() {
+                return value;
+            }
+
+            public void setValue(String value) {
+                this.value = value;
+            }
+        }
+        Map<String, Object> variables = new HashMap<String, Object>();
+        //diabetes, hypertension
+        List<ChronicDiagnosis> chronicDiagnosisList = Arrays.asList(
+                new ChronicDiagnosis(DateUtil.getDateTime(2017, 4, 12), "6567426a-977f-11e1-8993-905e29aff6c1"),
+                new ChronicDiagnosis(DateUtil.getDateTime(2018, 8, 17), "654abfc8-977f-11e1-8993-905e29aff6c1"));
+
+        List<HashMap<String, String>> hashMapList = Arrays.asList(new HashMap<String, String>() {{
+            put("date", "1265086800000");
+            put("value", "6567426a-977f-11e1-8993-905e29aff6c1");
+        }}, new HashMap<String, String>() {{
+            put("date", "1265086800000");
+            put("value", "654abfc8-977f-11e1-8993-905e29aff6c1");
+        }});
+        variables.put("chronic_care_diagnoses", hashMapList);
+        ScriptEngine scriptEngine = engine.createScriptEngine(variables);
+
+        Object res = scriptEngine.eval( "hasChronicCareDiagnosis(chronic_care_diagnoses, " +
+                "['6567426a-977f-11e1-8993-905e29aff6c1', '65714206-977f-11e1-8993-905e29aff6c1'])"); //diabetes, diabetes_type_1
 
         Assert.assertEquals(true, res);
 

@@ -79,7 +79,10 @@ function hasAny(arrayToCheck, valueArrayToCheck) {
       if (arrayToCheck instanceof java.lang.Object) {
         // we have to convert Java ArrayList to JavaScript array
         arrayFromList = arrayToCheck.toArray();
+      } else {
+        arrayFromList = arrayToCheck;
       }
+
       if (arrayFromList && arrayFromList.length > 0) {
         for (var i = 0; i < arrayFromList.length; i++) {
           for (var j = 0; j < valueArrayToCheck.length; j++) {
@@ -91,6 +94,36 @@ function hasAny(arrayToCheck, valueArrayToCheck) {
       }
     }
     return false;
+}
+
+/**
+ * Returns true if any in the valueArrayToCheck is found in the arrayToCheck, false otherwise
+ */
+function hasChronicCareDiagnosis(arrayToCheck, valueArrayToCheck) {
+
+  if (arrayToCheck && valueArrayToCheck) {
+    var arrayFromList;
+    if (arrayToCheck instanceof java.lang.Object) {
+      // we have to convert Java ArrayList to JavaScript array
+      arrayFromList = arrayToCheck.toArray();
+    } else {
+      arrayFromList = arrayToCheck;
+    }
+
+    if (arrayFromList && arrayFromList.length > 0) {
+      for (var i = 0; i < arrayFromList.length; i++) {
+        var obj = arrayFromList[i];
+        var objValue = obj.get('value').toUpperCase();
+        for (var j = 0; j < valueArrayToCheck.length; j++) {
+          var valueToCheck = valueArrayToCheck[j].toUpperCase();
+          if (objValue == valueToCheck) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
 }
 
 /**
