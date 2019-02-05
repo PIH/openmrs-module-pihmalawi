@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 18;
+        return 19;
     }
 
     @Override
@@ -391,7 +391,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // TB screening
-        install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept sampleCollected = install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("92e4d218-7f72-4112-b731-6e2fc9563e0c", "Sample collected", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -420,7 +420,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("134979ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ampath, "1304").build())
                 .build());
 
-        install(new ConceptBuilder("165253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept sampleQuality = install(new ConceptBuilder("165253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("4fec528c-622e-4512-879b-d830be24a958", "Sample quality", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -573,7 +573,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("b220aec6-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "2166").build())
                 .build());
 
-        install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
+        Concept reasonNoResult = install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("6618934e-977f-11e1-8993-905e29aff6c1", "Reason for no result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -582,5 +582,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(contaminated, unsatisfactory, equipFail, techProb, missingResult, coagSample, badContain, noSupply, other)
                 .build());
 
+        Concept tbSmearResult = MetadataUtils.existing(Concept.class, "65628568-977f-11e1-8993-905e29aff6c1") ;
+
+        Concept tbTestSet = install(new ConceptBuilder("4c92373c-28d6-11e9-b210-d663bd873d93")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("4c9239da-28d6-11e9-b210-d663bd873d93", "Tuberculosis test set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .name("4c923b24-28d6-11e9-b210-d663bd873d93", "TB test construct", Locale.ENGLISH, null)
+                .setMembers(sampleCollected, sampleQuality, labLocation, tbSmearResult, tbTestType, geneXpertTest, reasonNoResult, tbRifStatus)
+                .build());
     }
 }
