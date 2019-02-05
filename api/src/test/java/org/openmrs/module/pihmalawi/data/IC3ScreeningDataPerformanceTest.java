@@ -117,6 +117,15 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
         log.warn(patient);
         log.warn(patient.get("alerts"));
 
+        //Not Enrolled Patients:  eligible-for-blood-glucose-screening alert
+        patient = getPatient(
+                "27fea436-fb54-4cf2-87a0-3fd8fbfa5d1e",
+                "Ligowe HC",
+                2019, 2, 8);
+
+        log.warn(patient);
+        log.warn(patient.get("alerts"));
+
         //testDate(2018, 11, 8);
         //testDate(2017, 12, 27);
 
