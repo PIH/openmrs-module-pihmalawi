@@ -128,6 +128,60 @@ public class AlertEngineTest {
     }
 
     @Test
+    public void shouldReturnEligibleForA1CScreeningType1Alert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        // and 3 months and 1 day ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -3);
+        cal.add(Calendar.DATE, -1);
+
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d414ce2-5ab4-11e0-870c-9f6107fee88e"); //Neno DHO
+        patientData.put("age_years", "70");
+        patientData.put("ncd_number", "NNO 452 CCC");
+
+        patientData.put("last_bmi", "28.30");
+        patientData.put("last_hba1c_result_date", cal.getTime());
+        patientData.put("last_blood_sugar_result_date", cal.getTime());
+        patientData.put("family_history_diabetes", null);
+        patientData.put("cc_treatment_status", "66882650-977f-11e1-8993-905e29aff6c1"); //on_treatment
+
+        // diabetes_type_1, hypertension
+        List<HashMap<String, String>> chronic_care_diagnoses = Arrays.asList(new HashMap<String, String>() {{
+            put("date", "1378958400000");
+            put("value", "65714206-977f-11e1-8993-905e29aff6c1");
+        }}, new HashMap<String, String>() {{
+            put("date", "1376539200000");
+            put("value", "6567426a-977f-11e1-8993-905e29aff6c1");
+        }});
+        patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName("eligible-for-a1c-screening-type-1");
+        alert.setCategories(Arrays.asList("a1c", "screening-eligibility"));
+        alert.setConditions(Arrays.asList(
+                "!missing(cc_treatment_status)",
+                "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
+                "!missing(chronic_care_diagnoses)",
+                "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_1])",
+                "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 3)"));
+
+        alert.setAlert("Action: for disease monitoring");
+        alert.setAction("Eligible for a1c screening");
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-a1c-screening-type-1"), 0);
+    }
+
+    @Test
     public void shouldTestChronicCareDiagnoses() throws Exception {
 
         Map<String, Object> variables = new HashMap<String, Object>();

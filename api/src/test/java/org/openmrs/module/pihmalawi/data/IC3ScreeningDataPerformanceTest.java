@@ -70,6 +70,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "Neno District Hospital",
                 2019, 1, 28);
 
+        log.warn(patient.get("cc_treatment_status"));
         log.warn(patient.get("alerts"));
 
         // Severe malnutrition
@@ -86,7 +87,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "Neno District Hospital",
                 2019, 1, 24);
 
-        //log.warn(patient);
+        log.warn(patient.get("cc_treatment_status"));
         log.warn(patient.get("alerts"));
 
 
