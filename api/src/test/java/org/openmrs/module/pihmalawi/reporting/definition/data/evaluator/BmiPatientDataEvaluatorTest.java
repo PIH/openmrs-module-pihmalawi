@@ -58,7 +58,7 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
         Assert.assertEquals(1, data.getData().size());
 
         BMI bmi = (BMI) data.getData().get(patient.getId());
-        if (weight == null || height == null) {
+        if (weight == null && height == null) {
             Assert.assertNull(bmi);
         }
         else {
