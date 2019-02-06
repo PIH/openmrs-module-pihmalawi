@@ -38,6 +38,9 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
 
         Obs height1 = createObs(encounter2, ccMetadata.getHeightConcept(), 170).save();
 
+        // sanity check
+        Assert.assertEquals(date2, weight2.getObsDatetime());
+
         testBmi(patient, date1, null, null);
 
         testBmi(patient, date3, 100.0, 170.0);
