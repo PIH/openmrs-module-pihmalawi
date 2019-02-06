@@ -39,8 +39,10 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
         Obs height1 = createObs(encounter2, ccMetadata.getHeightConcept(), 170).save();
 
         testBmi(patient, date1, null, null);
-        testBmi(patient, date2, 75.0, 170.0);
+
         testBmi(patient, date3, 100.0, 170.0);
+
+        testBmi(patient, date2, 75.0, 170.0);
 	}
 
 	protected void testBmi(Patient patient, Date date, Double weight, Double height) throws Exception {
