@@ -67,6 +67,9 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
             Assert.assertNull(bmi);
         }
         else {
+            Assert.assertNotNull(bmi);
+            Assert.assertNotNull(bmi.getWeightObs());
+            Assert.assertNotNull(bmi.getHeightObs());;
             Assert.assertEquals(weight, bmi.getWeightObs().getValueNumeric());
             Assert.assertEquals(height, bmi.getHeightObs().getValueNumeric());
             Assert.assertEquals(new Double(weight/((height/100)*(height/100))), new Double(bmi.getNumericValue()));
