@@ -165,9 +165,7 @@ public class AlertEngineTest {
         alert.setName("eligible-for-a1c-screening-type-1");
         alert.setCategories(Arrays.asList("a1c", "screening-eligibility"));
         alert.setConditions(Arrays.asList(
-                "!missing(cc_treatment_status)",
                 "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
-                "!missing(chronic_care_diagnoses)",
                 "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_1])",
                 "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 3)"));
 
@@ -219,9 +217,7 @@ public class AlertEngineTest {
         alert.setName("eligible-for-a1c-screening-type-2");
         alert.setCategories(Arrays.asList("a1c", "screening-eligibility"));
         alert.setConditions(Arrays.asList(
-                "!missing(cc_treatment_status)",
                 "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
-                "!missing(chronic_care_diagnoses)",
                 "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_2])",
                 "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 6)"));
 
