@@ -1,7 +1,7 @@
 [
   {
     "name": "eid-positive-rapid-test",
-    "categories": ["eid"],
+    "categories": ["eid", "screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -13,7 +13,7 @@
   },
   {
     "name": "eid-positive-dna-pcr-test",
-    "categories": ["eid"],
+    "categories": ["eid", "screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -25,7 +25,7 @@
   },
   {
     "name": "eid-routine-dna-pcr-test",
-    "categories": ["eid"],
+    "categories": ["eid", "screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_days >= 42",
@@ -38,7 +38,7 @@
   },
   {
     "name": "eid-routine-12-month-rapid-test",
-    "categories": ["eid"],
+    "categories": ["eid", "screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 1",
@@ -51,7 +51,7 @@
   },
   {
     "name": "eid-routine-24-month-rapid-test",
-    "categories": ["eid"],
+    "categories": ["eid", "screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 2",
