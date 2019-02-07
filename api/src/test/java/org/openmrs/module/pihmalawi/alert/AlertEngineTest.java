@@ -235,6 +235,110 @@ public class AlertEngineTest {
         Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-a1c-screening-type-2"), 0);
     }
 
+
+    @Test
+    public void shouldReturnDueForAdherenceCounselingAlert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        // and 1 months and 1 day ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d414ce2-5ab4-11e0-870c-9f6107fee88e"); //Neno DHO
+        patientData.put("age_years", "28");
+        patientData.put("art_number", "NNO 3517");
+
+        patientData.put("last_bmi", "28.30");
+        patientData.put("hiv_treatment_status", "6687fa7c-977f-11e1-8993-905e29aff6c1"); //active_art
+        cal.add(Calendar.MONTH, -2); // 2 months ago
+        patientData.put("last_viral_load_date", cal.getTime());
+        patientData.put("last_viral_load_type", "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
+        patientData.put("last_viral_load_numeric", 1000);
+        patientData.put("last_viral_load_ldl", null);
+        patientData.put("last_adherence_counselling_session_number", 1);
+        cal.add(Calendar.MONTH, 1); // 1 month ago
+        patientData.put("last_adherence_counselling_session_date", cal.getTime());
+
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName("due-for-adherence-counselling");
+        alert.setCategories(Arrays.asList("viral-load", "abnormal-result"));
+        alert.setConditions(Arrays.asList(
+                "age_years >= 3",
+                "hiv_treatment_status == active_art",
+                "last_viral_load_type == routine_viral_load",
+                "last_viral_load_numeric > 0",
+                "last_viral_load_ldl != true",
+                "last_adherence_counselling_session_number < 3",
+                "last_adherence_counselling_session_date > last_viral_load_date"
+        ));
+
+        alert.setAlert("High Viral Load. Do adherence counseling for 3 consecutive months.");
+        alert.setAction("High Viral Load. Do adherence counseling for 3 consecutive months.");
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("due-for-adherence-counselling"), 0);
+    }
+
+    @Test
+    public void shouldReturnDueForConfirmatoryViralLoadAlert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        // and 1 months and 1 day ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d414ce2-5ab4-11e0-870c-9f6107fee88e"); //Neno DHO
+        patientData.put("age_years", "28");
+        patientData.put("art_number", "NNO 3517");
+
+        patientData.put("last_bmi", "28.30");
+        patientData.put("hiv_treatment_status", "6687fa7c-977f-11e1-8993-905e29aff6c1"); //active_art
+        cal.add(Calendar.MONTH, -2); // 2 months ago
+        patientData.put("last_viral_load_date", cal.getTime());
+        patientData.put("last_viral_load_type", "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
+        patientData.put("last_viral_load_numeric", 1000);
+        patientData.put("last_viral_load_ldl", null);
+        patientData.put("last_adherence_counselling_session_number", 1);
+        cal.add(Calendar.MONTH, 1); // 1 month ago
+        patientData.put("last_adherence_counselling_session_date", cal.getTime());
+
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName("due-for-confirmatory-viral-load");
+        alert.setCategories(Arrays.asList("viral-load", "abnormal-result"));
+        alert.setConditions(Arrays.asList(
+                "age_years >= 3",
+                "hiv_treatment_status == active_art",
+                "last_viral_load_type == routine_viral_load",
+                "last_viral_load_numeric > 0",
+                "last_viral_load_ldl != true",
+                "daysBetween(today, last_viral_load_result_date) >= 90"
+        ));
+
+        alert.setAlert("Due for confirmatory VL");
+        alert.setAction("Due for confirmatory VL");
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("due-for-confirmatory-viral-load"), 0);
+    }
+
     @Test
     public void shouldTestChronicCareDiagnoses() throws Exception {
 

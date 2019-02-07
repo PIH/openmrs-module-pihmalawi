@@ -41,7 +41,7 @@
   },
   {
     "name": "due-for-adherence-counselling",
-    "categories": ["viral-load"],
+    "categories": ["viral-load", "abnormal-result"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -57,10 +57,11 @@
   },
   {
     "name": "due-for-confirmatory-viral-load",
-    "categories": ["viral-load"],
+    "categories": ["viral-load", "abnormal-result"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
+      "last_viral_load_type == routine_viral_load",
       "last_viral_load_numeric > 0",
       "last_viral_load_ldl != true",
       "daysBetween(today, last_viral_load_result_date) >= 90"
