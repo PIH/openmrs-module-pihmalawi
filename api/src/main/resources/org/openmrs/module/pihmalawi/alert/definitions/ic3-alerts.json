@@ -91,7 +91,7 @@
 
     ],
     "action": "Eligible for a1c screening",
-    "alert": "Action: for disease monitoring",
+    "alert": "Action: Diabetes Type 1 disease monitoring",
     "notes": "TODO: enrolled AND diabetes type 1 AND last a1c >= 3m ago",
     "enabled": true
   },
@@ -99,11 +99,16 @@
     "name": "eligible-for-a1c-screening-type-2",
     "categories": ["a1c","screening-eligibility"],
     "conditions": [
-      "TODO: enrolled AND diabetes type 2 AND last a1c >= 6m ago"
+      "!missing(cc_treatment_status)",
+      "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
+      "!missing(chronic_care_diagnoses)",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_2])",
+      "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 6)"
     ],
-    "alert": "TODO",
-    "notes": "Action: for disease monitoring",
-    "enabled": false
+    "action": "Eligible for a1c screening",
+    "alert": "Action: Diabetes Type 2 disease monitoring",
+    "notes": "enrolled AND diabetes type 2 AND last a1c >= 6m ago",
+    "enabled": true
   },
   {
     "name": "abnormal-result-a1c",
