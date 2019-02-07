@@ -306,8 +306,9 @@ public class AlertEngineTest {
 
         patientData.put("last_bmi", "28.30");
         patientData.put("hiv_treatment_status", "6687fa7c-977f-11e1-8993-905e29aff6c1"); //active_art
-        cal.add(Calendar.MONTH, -2); // 2 months ago
+        cal.add(Calendar.MONTH, -3); // 2 months ago
         patientData.put("last_viral_load_date", cal.getTime());
+        patientData.put("last_viral_load_result_date", cal.getTime());
         patientData.put("last_viral_load_type", "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
         patientData.put("last_viral_load_numeric", 1000);
         patientData.put("last_viral_load_ldl", null);

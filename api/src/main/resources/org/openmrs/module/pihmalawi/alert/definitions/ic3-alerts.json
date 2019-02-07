@@ -369,14 +369,5 @@
     "alert": "TB symptoms",
     "action": "Action: Refer to nurse station for sputum submission",
     "enabled": true
-  },
-  {
-    "name": "abnormal-viral-load",
-    "categories": ["viral-load", "abnormal-result"],
-    "conditions": [
-      "last VL > 1000"
-    ],
-    "alert": "needs enhanced adherence counselling if first time, needs reminders on first second and third counselling and needs a second viral load after third counselling",
-    "enabled": false
   }
 ]
