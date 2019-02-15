@@ -43,7 +43,7 @@ public class BMI implements JsonSerializable {
         double wt = weightObs.getValueNumeric();
         double ht = heightObs.getValueNumeric();
 
-        if (ht == 0 || wt ==0) {
+        if (ht == 0 || wt == 0) {
             return 0;
         }
         else{
