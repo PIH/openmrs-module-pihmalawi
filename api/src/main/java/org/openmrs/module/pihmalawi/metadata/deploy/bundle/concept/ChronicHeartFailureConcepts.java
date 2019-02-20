@@ -5,6 +5,7 @@ import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
+import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -313,6 +314,287 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                         phenobarbital,
                         phenytoin,
                         benzathinePcn)
+        .build());
+
+	Concept malariaCom = MetadataUtils.existing(Concept.class, "65461b8a-977f-11e1-8993-905e29aff6c1");
+	Concept pruritisCom = MetadataUtils.existing(Concept.class, "654a8fd0-977f-11e1-8993-905e29aff6c1");
+	Concept sexuallyTransInfection = MetadataUtils.existing(Concept.class, "6546a848-977f-11e1-8993-905e29aff6c1");
+	Concept kaposisSarcomaCom = MetadataUtils.existing(Concept.class, "6548955e-977f-11e1-8993-905e29aff6c1"); 
+	Concept meningitisCom = MetadataUtils.existing(Concept.class, "6545d36e-977f-11e1-8993-905e29aff6c1");
+	Concept tuberculosisCom = MetadataUtils.existing(Concept.class, "6545d15c-977f-11e1-8993-905e29aff6c1"); 
+	Concept herpesZoster = MetadataUtils.existing(Concept.class, "654a5b14-977f-11e1-8993-905e29aff6c1");
+	Concept candidiasisEsoCom = MetadataUtils.existing(Concept.class, "655a96f0-977f-11e1-8993-905e29aff6c1");
+	Concept oralCandidiasisCom = MetadataUtils.existing(Concept.class, "656b23c6-977f-11e1-8993-905e29aff6c1"); 
+	Concept pneumoniaCom = MetadataUtils.existing(Concept.class, "6545c176-977f-11e1-8993-905e29aff6c1");
+	Concept candidiasisVaginal = MetadataUtils.existing(Concept.class, "654752d4-977f-11e1-8993-905e29aff6c1"); 
+	Concept urethritisCom = MetadataUtils.existing(Concept.class, "6547a838-977f-11e1-8993-905e29aff6c1");
+	Concept genitalSoresCom = MetadataUtils.existing(Concept.class, "654a7f68-977f-11e1-8993-905e29aff6c1");
+	Concept diarrheaChronicCom = MetadataUtils.existing(Concept.class, "6559bf46-977f-11e1-8993-905e29aff6c1");
+	Concept trichomonasCom = MetadataUtils.existing(Concept.class, "6549aa2a-977f-11e1-8993-905e29aff6c1");
+	Concept bacterialVaginosisCom = MetadataUtils.existing(Concept.class, "655da444-977f-11e1-8993-905e29aff6c1");
+	Concept otherNonCodedCom = MetadataUtils.existing(Concept.class, "656cce7e-977f-11e1-8993-905e29aff6c1");
+	Concept vaginalDischargeCom = MetadataUtils.existing(Concept.class, "656ed246-977f-11e1-8993-905e29aff6c1");
+	Concept pneumopathyCom = MetadataUtils.existing(Concept.class, "655a843a-977f-11e1-8993-905e29aff6c1");
+	Concept nodularRash = MetadataUtils.existing(Concept.class, "65592f2c-977f-11e1-8993-905e29aff6c1");
+	Concept weightLossCom = MetadataUtils.existing(Concept.class, "65591c3a-977f-11e1-8993-905e29aff6c1");
+	Concept acutePneumoniaPCom = MetadataUtils.existing(Concept.class, "65591a28-977f-11e1-8993-905e29aff6c1");
+	Concept subAcutePneumoniaCom = MetadataUtils.existing(Concept.class, "65591b2c-977f-11e1-8993-905e29aff6c1");
+	Concept typhoidFeverCom = MetadataUtils.existing(Concept.class, "65463fca-977f-11e1-8993-905e29aff6c1");
+	Concept pulmonaryTBCom = MetadataUtils.existing(Concept.class, "655a4bbe-977f-11e1-8993-905e29aff6c1");
+	Concept extrapulmonaryTBCom = MetadataUtils.existing(Concept.class, "655a49ac-977f-11e1-8993-905e29aff6c1");
+	Concept depressionCom = MetadataUtils.existing(Concept.class, "6546cbd4-977f-11e1-8993-905e29aff6c1");
+	Concept psychosisCom = MetadataUtils.existing(Concept.class, "6546d8ae-977f-11e1-8993-905e29aff6c1");
+	Concept anxietyDisorderCom = MetadataUtils.existing(Concept.class, "6560bf08-977f-11e1-8993-905e29aff6c1");
+	Concept hypertensionCom = MetadataUtils.existing(Concept.class, "654abfc8-977f-11e1-8993-905e29aff6c1"); 
+	Concept congestiveHeartFCom = MetadataUtils.existing(Concept.class, "6560c016-977f-11e1-8993-905e29aff6c1");
+	Concept herpesSimplexGenitalCom = MetadataUtils.existing(Concept.class, "6559324c-977f-11e1-8993-905e29aff6c1");
+	Concept syphilisCom = MetadataUtils.existing(Concept.class, "6546dcfa-977f-11e1-8993-905e29aff6c1");
+	Concept humanPapillomavirusCom = MetadataUtils.existing(Concept.class, "65586790-977f-11e1-8993-905e29aff6c1");
+	Concept pelvicInflammatoryCom = MetadataUtils.existing(Concept.class, "654abe38-977f-11e1-8993-905e29aff6c1");
+	Concept severeDysphagiaCom = MetadataUtils.existing(Concept.class, "65592072-977f-11e1-8993-905e29aff6c1");
+	Concept meningitisSubAcuteCom = MetadataUtils.existing(Concept.class, "655924aa-977f-11e1-8993-905e29aff6c1");
+	Concept meningitisSubAcuteCryptCom = MetadataUtils.existing(Concept.class, "6559239c-977f-11e1-8993-905e29aff6c1");
+	Concept diarrheaParasite = MetadataUtils.existing(Concept.class, "6545a416-977f-11e1-8993-905e29aff6c1");
+	Concept diarrheaBacterial = MetadataUtils.existing(Concept.class, "6560d588-977f-11e1-8993-905e29aff6c1");
+	Concept hIVEncephalopathy = MetadataUtils.existing(Concept.class, "655926c6-977f-11e1-8993-905e29aff6c1");
+	Concept chlamydiaTrachomatis = MetadataUtils.existing(Concept.class, "6559313e-977f-11e1-8993-905e29aff6c1");
+	Concept genitalDischarge = MetadataUtils.existing(Concept.class, "655bb45e-977f-11e1-8993-905e29aff6c1");
+	Concept gonorrheaCom = MetadataUtils.existing(Concept.class, "654a9eda-977f-11e1-8993-905e29aff6c1");
+	Concept genitalUlcersCha = MetadataUtils.existing(Concept.class, "6560d790-977f-11e1-8993-905e29aff6c1");
+	Concept GenitalUlcersLgv = MetadataUtils.existing(Concept.class, "6560d68c-977f-11e1-8993-905e29aff6c1");
+	Concept hIVWastingSyndrome = MetadataUtils.existing(Concept.class, "654a4d04-977f-11e1-8993-905e29aff6c1");
+	Concept syphilisWithoutGenital = MetadataUtils.existing(Concept.class, "6561583c-977f-11e1-8993-905e29aff6c1"); 
+	Concept syphilisWithGenitalCom = MetadataUtils.existing(Concept.class, "65615940-977f-11e1-8993-905e29aff6c1");
+	Concept vaginalUrethralDischarge = MetadataUtils.existing(Concept.class, "6561616a-977f-11e1-8993-905e29aff6c1");
+	Concept tuberculomaCom = MetadataUtils.existing(Concept.class, "65615fb2-977f-11e1-8993-905e29aff6c1");
+	Concept toxoplasmosisCom = MetadataUtils.existing(Concept.class, "656b481a-977f-11e1-8993-905e29aff6c1");
+	Concept convulsionsNeurological = MetadataUtils.existing(Concept.class, "65592e1e-977f-11e1-8993-905e29aff6c1");
+	Concept meningitisAcuteBac = MetadataUtils.existing(Concept.class, "6559228e-977f-11e1-8993-905e29aff6c1");
+	Concept rashOtherCom = MetadataUtils.existing(Concept.class, "6561fc42-977f-11e1-8993-905e29aff6c1");
+	Concept otherEnteritis = MetadataUtils.existing(Concept.class, "6561fb3e-977f-11e1-8993-905e29aff6c1");
+	Concept encephalopathyPresumedNotDue = MetadataUtils.existing(Concept.class, "655927d4-977f-11e1-8993-905e29aff6c1");
+	Concept scabiesCom = MetadataUtils.existing(Concept.class, "654638ea-977f-11e1-8993-905e29aff6c1");
+	Concept tineaCapitisCom = MetadataUtils.existing(Concept.class, "65464e70-977f-11e1-8993-905e29aff6c1");
+	Concept helminthiasis = MetadataUtils.existing(Concept.class, "6546c33c-977f-11e1-8993-905e29aff6c1");
+	Concept meningitisViralCom = MetadataUtils.existing(Concept.class, "6562c730-977f-11e1-8993-905e29aff6c1");
+	Concept seizuresComCom = MetadataUtils.existing(Concept.class, "6546cabc-977f-11e1-8993-905e29aff6c1");
+	Concept gastritisNosCom = MetadataUtils.existing(Concept.class, "6546a618-977f-11e1-8993-905e29aff6c1");
+	Concept gastritisWithHemorrhage = MetadataUtils.existing(Concept.class, "6562c41a-977f-11e1-8993-905e29aff6c1");
+	Concept meningitisOtherCause = MetadataUtils.existing(Concept.class, "6562c62c-977f-11e1-8993-905e29aff6c1");
+	Concept cardiovascularDisease = MetadataUtils.existing(Concept.class, "654b5c58-977f-11e1-8993-905e29aff6c1");
+	Concept diarrheaBloody = MetadataUtils.existing(Concept.class, "655d5f66-977f-11e1-8993-905e29aff6c1");
+	Concept dermatitisAllergic = MetadataUtils.existing(Concept.class, "65461842-977f-11e1-8993-905e29aff6c1");
+	Concept genitourinaryProblem = MetadataUtils.existing(Concept.class, "6562c83e-977f-11e1-8993-905e29aff6c1");
+	Concept focalNeurologicalDeficit = MetadataUtils.existing(Concept.class, "654b3ea8-977f-11e1-8993-905e29aff6c1");
+	Concept dermatophytosisComCom = MetadataUtils.existing(Concept.class, "654b196e-977f-11e1-8993-905e29aff6c1");
+	Concept feverUnknownOrigin = MetadataUtils.existing(Concept.class, "654abca8-977f-11e1-8993-905e29aff6c1");
+	Concept gastritisWithoutHemorrhage = MetadataUtils.existing(Concept.class, "6562c528-977f-11e1-8993-905e29aff6c1");
+	Concept skinRashCom = MetadataUtils.existing(Concept.class, "65489e00-977f-11e1-8993-905e29aff6c1");
+	Concept dysenteryBacilliary = MetadataUtils.existing(Concept.class, "655929e6-977f-11e1-8993-905e29aff6c1");
+	Concept tuberculousEnteritis = MetadataUtils.existing(Concept.class, "65666b9c-977f-11e1-8993-905e29aff6c1");
+	Concept otitisExterna = MetadataUtils.existing(Concept.class, "6546d7a0-977f-11e1-8993-905e29aff6c1");
+	Concept acuteDiarrheaMoreStools = MetadataUtils.existing(Concept.class, "6566b20a-977f-11e1-8993-905e29aff6c1");
+	Concept encephalopathyCO = MetadataUtils.existing(Concept.class, "656b3794-977f-11e1-8993-905e29aff6c1");
+	Concept encephalopathyNonFocalCO = MetadataUtils.existing(Concept.class, "655925b8-977f-11e1-8993-905e29aff6c1");
+        Concept diabetesCOm = MetadataUtils.existing(Concept.class, "6567426a-977f-11e1-8993-905e29aff6c1");
+        Concept ckdCom = MetadataUtils.existing(Concept.class, "6577c7a2-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("655a8d90-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("65f79b58-977f-11e1-8993-905e29aff6c1", "Current opportunistic infection or comorbidity, confirmed or presumed", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)   
+                .description("65b6f38c-977f-11e1-8993-905e29aff6c1", "An opportunistic infection or co-morbid condition that the patient had (either confirmed or presumptive diagnosis) at the time the question was asked.", Locale.ENGLISH)
+                .answers(
+                        malariaCom,
+                        pruritisCom,
+                        sexuallyTransInfection,
+                        kaposisSarcomaCom,
+                        tuberculosisCom,
+                        herpesZoster,
+                        candidiasisEsoCom,
+                        oralCandidiasisCom,
+                        pneumoniaCom,
+                        candidiasisVaginal,
+                        urethritisCom,
+                        genitalSoresCom,
+                        diarrheaChronicCom,
+                        trichomonasCom,
+                        bacterialVaginosisCom,
+                        otherNonCodedCom,
+                        vaginalDischargeCom,
+                        pneumopathyCom,
+                        nodularRash,
+                        weightLossCom,
+                        acutePneumoniaPCom,
+                        subAcutePneumoniaCom,
+                        typhoidFeverCom,
+                        pulmonaryTBCom,
+                        extrapulmonaryTBCom,
+                        depressionCom,
+                        psychosisCom,
+                        anxietyDisorderCom,
+                        hypertensionCom,
+                        congestiveHeartFCom,
+                        herpesSimplexGenitalCom,
+                        syphilisCom,
+                        humanPapillomavirusCom,
+                        pelvicInflammatoryCom,
+                        severeDysphagiaCom,
+                        meningitisSubAcuteCom,
+                        meningitisSubAcuteCryptCom,
+                        diarrheaParasite,
+                        diarrheaBacterial,
+                        hIVEncephalopathy,
+                        chlamydiaTrachomatis,
+                        genitalDischarge,
+                        gonorrheaCom,
+                        genitalUlcersCha,
+                        GenitalUlcersLgv,
+                        hIVWastingSyndrome,
+                        syphilisWithoutGenital,
+                        syphilisWithGenitalCom,
+                        vaginalUrethralDischarge,
+                        tuberculomaCom,
+                        toxoplasmosisCom,
+                        convulsionsNeurological,
+                        meningitisAcuteBac,
+                        rashOtherCom,
+                        otherEnteritis,
+                        encephalopathyPresumedNotDue,
+                        scabiesCom,
+                        tineaCapitisCom,
+                        helminthiasis,
+                        meningitisViralCom,
+                        seizuresComCom,
+                        gastritisNosCom,
+                        gastritisWithHemorrhage,
+                        meningitisOtherCause,
+                        cardiovascularDisease,
+                        diarrheaBloody,
+                        dermatitisAllergic,
+                        genitourinaryProblem,
+                        focalNeurologicalDeficit,
+                        dermatophytosisComCom,
+                        feverUnknownOrigin,
+                        gastritisWithoutHemorrhage,
+                        skinRashCom,
+                        dysenteryBacilliary,
+                        tuberculousEnteritis,
+                        otitisExterna,
+                        acuteDiarrheaMoreStools,
+                        encephalopathyCO,
+                        encephalopathyNonFocalCO,
+                        diabetesCOm,
+                        ckdCom)
+        .build());
+
+
+	Concept coronaryArteryDisease = install(new ConceptBuilder("154007AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+		.datatype(notApplicable)
+		.conceptClass(diagnosis)
+		.name("11ace762-0ed0-4265-a181-d5291b936a89", "Coronary artery disease", Locale.ENGLISH, null)
+		.name("53569BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Chronic coronary artery disease", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+		.mapping(new ConceptMapBuilder("ca5feb09-0e3e-4c71-ae9c-fb42f4b34e67").type(narrowerThan).ensureTerm(snomedNp, "53741008").build())
+		.mapping(new ConceptMapBuilder("b98b3ac6-f584-11e3-9323-aa00f871a3e1").type(sameAs).ensureTerm(ciel, "154007").build())
+		.mapping(new ConceptMapBuilder("86748ABBBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(icd10who, "I25.1").build())
+		.build());
+
+	Concept asthma = MetadataUtils.existing(Concept.class, "65459124-977f-11e1-8993-905e29aff6c1");
+	Concept epilepsy = MetadataUtils.existing(Concept.class, "6546938a-977f-11e1-8993-905e29aff6c1");
+	Concept diabetes = MetadataUtils.existing(Concept.class, "6567426a-977f-11e1-8993-905e29aff6c1");
+	Concept typeOnediabetes = MetadataUtils.existing(Concept.class, "65714206-977f-11e1-8993-905e29aff6c1"); 
+	Concept typeTwodiabetes = MetadataUtils.existing(Concept.class, "65714314-977f-11e1-8993-905e29aff6c1");
+	Concept heartFailure = MetadataUtils.existing(Concept.class, "6566257e-977f-11e1-8993-905e29aff6c1");
+	Concept chronicKidneyDisease = MetadataUtils.existing(Concept.class, "6577c7a2-977f-11e1-8993-905e29aff6c1");
+	Concept stroke = MetadataUtils.existing(Concept.class, "65714e68-977f-11e1-8993-905e29aff6c1");
+	Concept chronicObstructivePulmonary = MetadataUtils.existing(Concept.class, "65673e96-977f-11e1-8993-905e29aff6c1");
+	Concept depression = MetadataUtils.existing(Concept.class, "6546cbd4-977f-11e1-8993-905e29aff6c1");
+	Concept acutePsychotic = MetadataUtils.existing(Concept.class, "93e9be37-1369-11e4-a125-54ee7513a7ff");
+	Concept otherMentalHealthNonCoded = MetadataUtils.existing(Concept.class, "aad4c0e9-1369-11e4-a125-54ee7513a7ff");
+	Concept othermentalHealthOne = MetadataUtils.existing(Concept.class, "f97271c0-63ed-11e6-8b77-86f30ca893d3");
+	Concept othermentalHealthTwo = MetadataUtils.existing(Concept.class, "f972763e-63ed-11e6-8b77-86f30ca893d3");
+	Concept otherNonCoded = MetadataUtils.existing(Concept.class, "656cce7e-977f-11e1-8993-905e29aff6c1");
+	Concept schizophrenia = MetadataUtils.existing(Concept.class, "654860c0-977f-11e1-8993-905e29aff6c1");
+	Concept schizoaffectiveD = MetadataUtils.existing(Concept.class, "127132AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept organicMentalAcute = MetadataUtils.existing(Concept.class, "7057d712-c5dd-11e5-9912-ba0be0483c18");
+	Concept organicMentalChronic = MetadataUtils.existing(Concept.class, "7057d8b6-c5dd-11e5-9912-ba0be0483c18");
+	Concept bipolarAffectiveManic = MetadataUtils.existing(Concept.class, "115924AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept anxietyDisorder = MetadataUtils.existing(Concept.class, "6560bf08-977f-11e1-8993-905e29aff6c1");
+	Concept alcoholInducedMental = MetadataUtils.existing(Concept.class, "121716AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept drugInducedMentalBehavior = MetadataUtils.existing(Concept.class, "90ec5559-3ba2-4fc3-abc1-614727b17141");
+	Concept reactionSevereStress = MetadataUtils.existing(Concept.class, "160196AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept dissociativeConversion = MetadataUtils.existing(Concept.class, "115261AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept somatoformDisorder = MetadataUtils.existing(Concept.class, "112874AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept puerperalDisorder = MetadataUtils.existing(Concept.class, "dae4ec94-659e-11e6-8b77-86f30ca893d3");
+	Concept personalityDisorder = MetadataUtils.existing(Concept.class, "114193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept mentalRetardation = MetadataUtils.existing(Concept.class, "115809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept psychologicalDevelopment = MetadataUtils.existing(Concept.class, "159238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept hyperkineticBehavior = MetadataUtils.existing(Concept.class, "117468AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	Concept sickleCellDisease = MetadataUtils.existing(Concept.class, "65774b06-977f-11e1-8993-905e29aff6c1");
+	Concept tropicalSplenomegalySyndrome = MetadataUtils.existing(Concept.class, "6567c9d8-977f-11e1-8993-905e29aff6c1"); 
+	Concept cirrhosis = MetadataUtils.existing(Concept.class, "65673cac-977f-11e1-8993-905e29aff6c1");
+	Concept rheumaticHeartDisease = MetadataUtils.existing(Concept.class, "6546dad4-977f-11e1-8993-905e29aff6c1");
+	Concept congestiveHeartFailure = MetadataUtils.existing(Concept.class, "dae4eed8-659e-11e6-8b77-86f30ca893d3");
+	Concept polycysticKidneyDisease = MetadataUtils.existing(Concept.class, "dae4eed8-659e-11e6-8b77-86f30ca893d3");
+	Concept rheumatoidArthritis = MetadataUtils.existing(Concept.class, "6546c670-977f-11e1-8993-905e29aff6c1");
+	Concept hepatitisB = MetadataUtils.existing(Concept.class, "6545b140-977f-11e1-8993-905e29aff6c1");
+
+	Concept deepVeinThrombosis = MetadataUtils.existing(Concept.class, "65717898-977f-11e1-8993-905e29aff6c1");
+	Concept pulmonaryEmbolism = MetadataUtils.existing(Concept.class, "657179a6-977f-11e1-8993-905e29aff6c1");
+	Concept congenitalHeartDisease = MetadataUtils.existing(Concept.class, "6562dcd4-977f-11e1-8993-905e29aff6c1");
+	Concept otherDiagnosis = MetadataUtils.existing(Concept.class, "65780d0c-977f-11e1-8993-905e29aff6c1");
+	Concept afibFinding = MetadataUtils.existing(Concept.class, "65680bfa-977f-11e1-8993-905e29aff6c1");
+
+	install(new ConceptBuilder("65671c9a-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("66094394-977f-11e1-8993-905e29aff6c1", "Chronic care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)   
+                .answers(
+                        asthma,
+			hypertension,
+			epilepsy,
+			diabetes,
+			typeOnediabetes,
+			typeTwodiabetes,
+			heartFailure,
+			chronicKidneyDisease,
+			stroke,
+			chronicObstructivePulmonary,
+			depression,
+			acutePsychotic,
+			otherMentalHealthNonCoded,
+			othermentalHealthOne,
+			othermentalHealthTwo,
+			otherNonCoded,
+			schizophrenia,
+			schizoaffectiveD,
+			organicMentalAcute,
+			organicMentalChronic,
+			bipolarAffectiveManic,
+			anxietyDisorder,
+			alcoholInducedMental,
+			drugInducedMentalBehavior,
+			reactionSevereStress,
+			dissociativeConversion,
+			somatoformDisorder,
+			puerperalDisorder,
+			personalityDisorder,
+			mentalRetardation,
+			psychologicalDevelopment,
+			hyperkineticBehavior,
+			sickleCellDisease,
+			tropicalSplenomegalySyndrome,
+			cirrhosis,
+			rheumaticHeartDisease,
+			congestiveHeartFailure,
+			polycysticKidneyDisease,
+			rheumatoidArthritis,
+			hepatitisB,
+			deepVeinThrombosis,	
+			coronaryArteryDisease, 	
+			pulmonaryEmbolism, 	
+			atrialFibrillation,	
+			congenitalHeartDisease)
         .build());
 
     }
