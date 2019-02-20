@@ -54,8 +54,7 @@
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 2",
-      "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2",
-      "last_breastfeeding_status == breastfeeding_stopped_over_6_weeks_ago"
+      "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2"
     ],
     "alert": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
     "action": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",

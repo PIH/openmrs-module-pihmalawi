@@ -512,6 +512,54 @@ public class AlertEngineTest {
     }
 
     @Test
+    public void shouldReturnEid24MonthRapidTestAlert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -3);
+
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d41505c-5ab4-11e0-870c-9f6107fee88e"); //Neno Mission HC
+        //patient was born 3 years ago
+        patientData.put("birthdate", cal.getTime());
+        patientData.put("age_years", "3");
+        patientData.put("age_months", "36");
+
+        patientData.put("hcc_number", "NOP-0327-HCC");
+
+        patientData.put("hiv_treatment_status", "668847a2-977f-11e1-8993-905e29aff6c1"); //Active EID
+        cal.add(Calendar.MONTH, 3);
+        //enrolled in EID 3 months after birth
+        patientData.put("eid_start_date", cal.getTime());
+        patientData.put("last_breastfeeding_status", "657a29a2-977f-11e1-8993-905e29aff6c1");
+        cal.add(Calendar.YEAR, 1);
+        // when patient was about 15 months old
+        patientData.put("last_hiv_rapid_test_result_date", cal.getTime());
+        patientData.put("last_hiv_dna_pcr_result", null);
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName("eid-routine-24-month-rapid-test");
+        alert.setCategories(Arrays.asList("eid", "screening-eligibility"));
+        alert.setConditions(Arrays.asList(
+                "hiv_treatment_status == active_eid",
+                "age_years >= 2",
+                "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2"
+        ));
+
+        alert.setAlert("Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago");
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eid-routine-24-month-rapid-test"), 0);
+    }
+
+    @Test
     public void shouldTestChronicCareDiagnoses() throws Exception {
 
         Map<String, Object> variables = new HashMap<String, Object>();
