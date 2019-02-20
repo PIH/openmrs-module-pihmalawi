@@ -117,7 +117,7 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Heart Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Cardiac and Vascular Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
@@ -125,7 +125,7 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Advanced NCD eMastercard" initialEncounterTypeName="ADVANCED_INITIAL" followupEncounterTypeName="ADVANCED_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="NCD Other eMastercard" initialEncounterTypeName="NCD_OTHER_INITIAL" followupEncounterTypeName="NCD_OTHER_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
 
     <tr>

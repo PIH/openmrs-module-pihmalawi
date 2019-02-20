@@ -170,7 +170,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		m.put(EncounterTypes.PALLIATIVE_INITIAL.name(), "headerForm=palliative_mastercard&flowsheets=palliative_visit");
 		m.put(EncounterTypes.CHF_INITIAL.name(), "headerForm=chf_mastercard&flowsheets=chf_quarterly_screening&flowsheets=chf_annual_screening&flowsheets=chf_history_of_hospitalizations&flowsheets=chf_visit");
 		m.put(EncounterTypes.CKD_INITIAL.name(), "headerForm=ckd_mastercard&flowsheets=ckd_quarterly_screening&flowsheets=ckd_annual_screening&flowsheets=ckd_imaging&flowsheets=ckd_history_of_hospitalizations&flowsheets=ckd_visit");
-		m.put(EncounterTypes.ADVANCED_INITIAL.name(), "headerForm=ancd_mastercard&flowsheets=ancd_quarterly_screening&flowsheets=ancd_annual_screening&flowsheets=ancd_hospitalizations&flowsheets=ancd_visit");
+		m.put(EncounterTypes.NCD_OTHER_INITIAL.name(), "headerForm=ncd_other_mastercard&flowsheets=ncd_other_quarterly_screening&flowsheets=ncd_other_annual_screening&flowsheets=ncd_other_hospitalizations&flowsheets=ncd_other_visit");
 		m.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "headerForm=mental_health_mastercard&flowsheets=mental_health_visit");
         m.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "headerForm=ncd_mastercard&flowsheets=ncd_visit");
 		m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
