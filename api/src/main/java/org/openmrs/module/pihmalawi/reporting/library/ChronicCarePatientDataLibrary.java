@@ -13,11 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.Concept;
-import org.openmrs.EncounterType;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.Program;
-import org.openmrs.ProgramWorkflow;
+import org.openmrs.*;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.EarliestCodedValueConverter;
@@ -26,6 +22,7 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.CodedVa
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.CountConverter;
 import org.openmrs.module.reporting.data.converter.ExistenceConverter;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -69,6 +66,12 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         PatientIdentifierType pit = metadata.getChronicCareNumber();
         return df.getAllIdentifiersOfType(pit, df.getIdentifierCollectionConverter());
     }
+
+	@DocumentedDefinition("latestNcdTreatmentStatusState")
+	public PatientDataDefinition getMostRecentNcdTreatmentStatusStateByEndDate() {
+		ProgramWorkflow wf = metadata.getChronicCareTreatmentStatusWorkflow();
+		return df.getMostRecentStateForWorkflowByEndDate(wf, new PropertyConverter(PatientState.class, "state"));
+	}
 
 	@DocumentedDefinition("latestChronicCareTreatmentStatusStateAtLocation")
 	public PatientDataDefinition getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate() {

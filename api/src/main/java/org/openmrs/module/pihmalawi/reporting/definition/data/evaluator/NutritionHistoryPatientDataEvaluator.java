@@ -103,17 +103,23 @@ public class NutritionHistoryPatientDataEvaluator implements PatientDataEvaluato
 
                 Obs nextObs = (Obs) i.next();
 
+                // remove any bogus height or weight obs
+                if ((nextObs.getConcept().equals(metadata.getHeightConcept()) || nextObs.getConcept().equals(metadata.getWeightConcept())) &&
+                        (nextObs.getValueNumeric() == 0 || nextObs.getValueNumeric() == null)) {
+                    i.remove();
+                }
+
                 // keep track of the most recent height captured *as an adult*
-                if (nextObs.getConcept().equals(metadata.getHeightConcept())
+                else if (nextObs.getConcept().equals(metadata.getHeightConcept())
                         && patient.getAge(nextObs.getObsDatetime()) >= 18) {
                     latestHeightAsAnAdult = nextObs;
                 }
 
-                if (isPregnant(nextObs)) {
+                else if (isPregnant(nextObs)) {
                     latestPregnantObsDate = DateUtil.getStartOfDay(nextObs.getObsDatetime());
                 }
 
-                if (nextObs.getConcept().equals(metadata.getWeightConcept())
+                else if (nextObs.getConcept().equals(metadata.getWeightConcept())
                         && !DateUtil.getStartOfDay(nextObs.getObsDatetime()).equals(latestPregnantObsDate)  // patient was not flagged as pregnant on this date
                         && patient.getAge(nextObs.getObsDatetime()) >= 18  // patient is greater or equal to 18
                         && latestHeightAsAnAdult != null) {   // we have a most recent height as an adult

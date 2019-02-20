@@ -38,9 +38,14 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
 
         Obs height1 = createObs(encounter2, ccMetadata.getHeightConcept(), 170).save();
 
+        // sanity check
+        Assert.assertEquals(date2, weight2.getObsDatetime());
+
         testBmi(patient, date1, null, null);
-        testBmi(patient, date2, 75.0, 170.0);
+
         testBmi(patient, date3, 100.0, 170.0);
+
+        testBmi(patient, date2, 75.0, 170.0);
 	}
 
 	protected void testBmi(Patient patient, Date date, Double weight, Double height) throws Exception {
@@ -58,10 +63,13 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
         Assert.assertEquals(1, data.getData().size());
 
         BMI bmi = (BMI) data.getData().get(patient.getId());
-        if (weight == null && height == null) {
+        if (weight == null || height == null) {
             Assert.assertNull(bmi);
         }
         else {
+            Assert.assertNotNull(bmi);
+            Assert.assertNotNull(bmi.getWeightObs());
+            Assert.assertNotNull(bmi.getHeightObs());;
             Assert.assertEquals(weight, bmi.getWeightObs().getValueNumeric());
             Assert.assertEquals(height, bmi.getHeightObs().getValueNumeric());
             Assert.assertEquals(new Double(weight/((height/100)*(height/100))), new Double(bmi.getNumericValue()));

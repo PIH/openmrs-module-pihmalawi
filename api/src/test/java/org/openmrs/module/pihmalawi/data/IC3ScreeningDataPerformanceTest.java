@@ -70,6 +70,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "Neno District Hospital",
                 2019, 1, 28);
 
+        log.warn(patient.get("cc_treatment_status"));
         log.warn(patient.get("alerts"));
 
         // Severe malnutrition
@@ -86,7 +87,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "Neno District Hospital",
                 2019, 1, 24);
 
-        //log.warn(patient);
+        log.warn(patient.get("cc_treatment_status"));
         log.warn(patient.get("alerts"));
 
 
@@ -104,6 +105,24 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 "f58495e0-3dfc-4409-b1a1-31f1ecddcd75",
                 "Luwani RHC",
                 2019, 1, 30);
+
+        log.warn(patient);
+        log.warn(patient.get("alerts"));
+
+        //Chronic Care Diagnoses
+        patient = getPatient(
+                "c59d3ba0-2695-102d-b4c2-001d929acb54",
+                "Matandani Rural Health Center",
+                2019, 2, 4);
+
+        log.warn(patient);
+        log.warn(patient.get("alerts"));
+
+        //Not Enrolled Patients:  eligible-for-blood-glucose-screening alert
+        patient = getPatient(
+                "27fea436-fb54-4cf2-87a0-3fd8fbfa5d1e",
+                "Ligowe HC",
+                2019, 2, 8);
 
         log.warn(patient);
         log.warn(patient.get("alerts"));

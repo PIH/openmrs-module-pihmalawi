@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 18;
+        return 20;
     }
 
     @Override
@@ -391,7 +391,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // TB screening
-        install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept sampleCollected = install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("92e4d218-7f72-4112-b731-6e2fc9563e0c", "Sample collected", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -420,7 +420,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("134979ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ampath, "1304").build())
                 .build());
 
-        install(new ConceptBuilder("165253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept sampleQuality = install(new ConceptBuilder("165253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("4fec528c-622e-4512-879b-d830be24a958", "Sample quality", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -573,13 +573,58 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("b220aec6-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "2166").build())
                 .build());
 
-        install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
+        Concept reasonNoResult = install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("6618934e-977f-11e1-8993-905e29aff6c1", "Reason for no result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("66189434-977f-11e1-8993-905e29aff6c1", "Reason no result obtained", Locale.ENGLISH, null)
                 .mapping(new ConceptMapBuilder("73448768-0496-11e6-b545-0010f345c8d0").type(sameAs).ensureTerm(pihMalawi, "6112").build())
                 .answers(contaminated, unsatisfactory, equipFail, techProb, missingResult, coagSample, badContain, noSupply, other)
+                .build());
+
+        Concept tbSmearResult = MetadataUtils.existing(Concept.class, "65628568-977f-11e1-8993-905e29aff6c1") ;
+
+        Concept tbTestSet = install(new ConceptBuilder("4c92373c-28d6-11e9-b210-d663bd873d93")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("4c9239da-28d6-11e9-b210-d663bd873d93", "Tuberculosis test set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .name("4c923b24-28d6-11e9-b210-d663bd873d93", "TB test construct", Locale.ENGLISH, null)
+                .setMembers(sampleCollected, sampleQuality, labLocation, tbSmearResult, tbTestType, geneXpertTest, reasonNoResult, tbRifStatus)
+                .build());
+
+        Concept morning = MetadataUtils.existing(Concept.class, "656f9bc2-977f-11e1-8993-905e29aff6c1") ;
+        Concept evening = MetadataUtils.existing(Concept.class, "656f9cc6-977f-11e1-8993-905e29aff6c1") ;
+
+        Concept qualTime = install(new ConceptBuilder("4c923fca-28d6-11e9-b210-d663bd873d93")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("4c924132-28d6-11e9-b210-d663bd873d93", "Qualitative time", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("8d6f2fba-297d-11e9-b210-d663bd873d93", "AM or PM", Locale.ENGLISH, null)
+                .answers(morning,evening)
+                .build());
+
+        Concept nextVisit = MetadataUtils.existing(Concept.class, "6569cbd4-977f-11e1-8993-905e29aff6c1");
+        Concept reasonVisit = MetadataUtils.existing(Concept.class, "6573364c-977f-11e1-8993-905e29aff6c1");
+        Concept locationVisit = MetadataUtils.existing(Concept.class, "65736a36-977f-11e1-8993-905e29aff6c1");
+
+        Concept nextVisitSet = install(new ConceptBuilder("65733750-977f-11e1-8993-905e29aff6c1")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("661d6be4-977f-11e1-8993-905e29aff6c1", "Appointment set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .name("8d6f3866-297d-11e9-b210-d663bd873d93", "Appointment date construct", Locale.ENGLISH, null)
+                .setMembers(nextVisit, reasonVisit, locationVisit, qualTime)
+                .build());
+
+        Concept otherOutcome = install(new ConceptBuilder("558a7114-2990-11e9-b210-d663bd873d93")
+                .datatype(text)
+                .conceptClass(question)
+                .name("558a7696-2990-11e9-b210-d663bd873d93", "Other outcome", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .build());
+
+        Concept reasonForExit = install(new ConceptBuilder("558a783a-2990-11e9-b210-d663bd873d93")
+                .datatype(text)
+                .conceptClass(question)
+                .name("558a7984-2990-11e9-b210-d663bd873d93", "Reason to stop care (text)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .build());
 
     }

@@ -42,8 +42,13 @@ public class BMI implements JsonSerializable {
     public double getNumericValue() {
         double wt = weightObs.getValueNumeric();
         double ht = heightObs.getValueNumeric();
-        double bmi = wt/Math.pow(ht/100, 2);
-        return bmi;
+
+        if (ht == 0 || wt == 0) {
+            return 0;
+        }
+        else{
+            return wt/Math.pow(ht/100, 2);
+        }
     }
 
     public double getNumericValueRounded(int scale) {
