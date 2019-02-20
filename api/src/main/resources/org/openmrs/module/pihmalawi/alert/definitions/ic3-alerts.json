@@ -319,7 +319,7 @@
       "age_years >= 15",
       "hiv_treatment_status !== active_art",
       "hiv_treatment_status !== active_eid",
-      "last_hiv_rapid_test_result == negative || missing(last_hiv_rapid_test_result)",
+      "last_hiv_rapid_test_result == negative",
       "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
     ],
     "alert": "Eligible for HIV test",

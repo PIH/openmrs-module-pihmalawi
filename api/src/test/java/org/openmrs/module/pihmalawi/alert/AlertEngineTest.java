@@ -337,47 +337,6 @@ public class AlertEngineTest {
     }
 
     @Test
-    public void shouldReturnEligibleForHtcAlert() throws Exception {
-        //today
-        Date effectiveDate = DateUtil.getStartOfDay(new Date());
-
-        // and 1 months and 1 day ago
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-
-
-        JsonObject patientData = new JsonObject();
-        patientData.put("today", effectiveDate);
-        patientData.put("location", "0d414ce2-5ab4-11e0-870c-9f6107fee88e"); //Neno DHO
-        patientData.put("age_years", "83");
-
-        patientData.put("hiv_treatment_status", null);
-        patientData.put("last_hiv_rapid_test_result", null);
-        patientData.put("last_hiv_rapid_test_result_date", null);
-
-        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
-        AlertDefinition alert = new AlertDefinition();
-        alert.setName("eligible-for-htc");
-        alert.setCategories(Arrays.asList("htc", "screening-eligibility"));
-        alert.setConditions(Arrays.asList(
-                "age_years >= 15",
-                "hiv_treatment_status !== active_art",
-                "hiv_treatment_status !== active_eid",
-                "last_hiv_rapid_test_result == negative || missing(last_hiv_rapid_test_result)",
-                "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
-        ));
-
-        alert.setAlert("Eligible for HIV test");
-        alert.setAction("Eligible for HIV test");
-        alert.setEnabled(true);
-        alertDefinitions.add(alert);
-
-        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
-        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
-        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-htc"), 0);
-    }
-
-    @Test
     public void shouldTestChronicCareDiagnoses() throws Exception {
 
         Map<String, Object> variables = new HashMap<String, Object>();
