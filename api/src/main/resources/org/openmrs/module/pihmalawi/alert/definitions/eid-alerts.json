@@ -42,7 +42,6 @@
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 1",
-      "age_years < 2",
       "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 1"
     ],
     "alert": "Due for routine rapid HIV test",
