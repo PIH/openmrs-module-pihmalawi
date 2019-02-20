@@ -141,6 +141,8 @@
     "name": "abnormal-result-bmi",
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
+      "age_years > 18",
+      "!isTrue(is_pregnant)",
       "!missing(current_weight)",
       "!missing(current_height) || !missing(last_height)",
       "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) >= 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) >= 16",
@@ -154,6 +156,8 @@
     "name": "critical-result-bmi",
     "categories": ["nutrition", "critical-result"],
     "conditions": [
+      "age_years > 18",
+      "!isTrue(is_pregnant)",
       "!missing(current_weight)",
       "!missing(current_height) || !missing(last_height)",
       "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) < 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) < 16"
