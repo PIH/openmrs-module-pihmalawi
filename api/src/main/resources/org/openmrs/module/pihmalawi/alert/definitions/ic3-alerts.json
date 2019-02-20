@@ -141,8 +141,10 @@
     "name": "abnormal-result-bmi",
     "categories": ["nutrition", "abnormal-result"],
     "conditions": [
-      "last_bmi >= 16",
-      "last_bmi <= 18.4"
+      "!missing(current_weight)",
+      "!missing(current_height) || !missing(last_height)",
+      "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) >= 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) >= 16",
+      "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) <= 18.4 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) <= 18.4"
     ],
     "alert": "Moderate malnutrition",
     "action": "Action: Enroll in NCST",
@@ -152,7 +154,9 @@
     "name": "critical-result-bmi",
     "categories": ["nutrition", "critical-result"],
     "conditions": [
-      "last_bmi < 16"
+      "!missing(current_weight)",
+      "!missing(current_height) || !missing(last_height)",
+      "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) < 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) < 16"
     ],
     "alert": "Severe malnutrition",
     "action": "Action: Enroll in NCST",
@@ -319,7 +323,7 @@
       "age_years >= 15",
       "hiv_treatment_status !== active_art",
       "hiv_treatment_status !== active_eid",
-      "last_hiv_rapid_test_result == negative",
+      "last_hiv_rapid_test_result == negative || missing(last_hiv_rapid_test_result)",
       "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
     ],
     "alert": "Eligible for HIV test",
