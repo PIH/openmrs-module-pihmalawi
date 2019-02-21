@@ -357,13 +357,15 @@ public class AlertEngineTest {
         patientData.put("current_weight", "50");
         patientData.put("current_height", null);
         patientData.put("last_height", "170");
-
+        patientData.put("is_pregnant", null);
 
         List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
         AlertDefinition alert = new AlertDefinition();
         alert.setName("abnormal-result-bmi");
         alert.setCategories(Arrays.asList("nutrition", "abnormal-result"));
         alert.setConditions(Arrays.asList(
+                "age_years > 18",
+                "!isTrue(is_pregnant)",
                 "!missing(current_weight)",
                 "!missing(current_height) || !missing(last_height)",
                 "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) >= 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) >= 16",
@@ -401,13 +403,15 @@ public class AlertEngineTest {
         patientData.put("current_weight", "45");
         patientData.put("current_height", "170");
         patientData.put("last_height", "170");
-
+        patientData.put("is_pregnant", null);
 
         List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
         AlertDefinition alert = new AlertDefinition();
         alert.setName("critical-result-bmi");
         alert.setCategories(Arrays.asList("nutrition", "critical-result"));
         alert.setConditions(Arrays.asList(
+                "age_years > 18",
+                "!isTrue(is_pregnant)",
                 "!missing(current_weight)",
                 "!missing(current_height) || !missing(last_height)",
                 "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) < 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) < 16"
