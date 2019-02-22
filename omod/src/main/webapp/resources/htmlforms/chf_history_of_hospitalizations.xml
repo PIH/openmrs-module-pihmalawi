@@ -1,4 +1,4 @@
-<htmlform formUuid="74fcc9a4-794e-11e8-adc0-fa7ae01bbebc" formName="Chronic Heart Disease Hospitalization History"
+<htmlform formUuid="74fcc9a4-794e-11e8-adc0-fa7ae01bbebc" formName="Cardiac and Vascular Disease Hospitalization History"
           formEncounterType="0d3f097f-206c-4c31-9fcb-2ba61145b69f" formVersion="1.0">
 
     <macros>
@@ -14,7 +14,7 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="5">Hospitalization History for Chronic Heart Disease</th>
+                    <th colspan="5">Hospitalization History for Cardiac and Vascular Disease</th>
                 </tr>
                 <tr>
                     <th>Date of dishcharge</th>
@@ -58,7 +58,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Chronic Heart Disease Hospitalization</b>
+            <b>Cardiac and Vascular Disease Hospitalization</b>
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
