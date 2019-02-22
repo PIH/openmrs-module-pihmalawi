@@ -1,4 +1,4 @@
-<htmlform formName="Cardiac and Vascular Disease eMastercard" formUuid="40c59f30-794e-11e8-adc0-fa7ae01bbebc"
+<htmlform formName="Chronic Heart Disease eMastercard" formUuid="40c59f30-794e-11e8-adc0-fa7ae01bbebc"
           formEncounterType="cb337ef3-f5cb-4e10-af8d-8d717a3a139f" formVersion="1.0">
 
     <macros>
@@ -25,24 +25,9 @@
         <macro key="agreesToFollowup" value="655fc526-977f-11e1-8993-905e29aff6c1" />
         <macro key="chwName" value="941bc17e-8c33-11e5-80a3-c0430f805837" />
         <macro key="chfDiagnosis" value="6567bb82-977f-11e1-8993-905e29aff6c1" />
-        <macro key="dilatedCHF" value="65703154-977f-11e1-8993-905e29aff6c1" />
-        <macro key="valvularCHF" value="6578972c-977f-11e1-8993-905e29aff6c1" /> 
-        <macro key="rheumaticCHF" value="6546dad4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="congenitalCHF" value="6562dcd4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="restrictCHF" value="57476df7-e885-4444-b151-152cfcdac05b" />
-        <macro key="cvdUnknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
-        <macro key="comorbid" value="655a8d90-977f-11e1-8993-905e29aff6c1" /> 
-        <macro key="rheumatic" value="655a8d90-977f-11e1-8993-905e29aff6c1" />
-        <macro key="cadDx" value="154007AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> 
-        <macro key="strokeDx" value="65714e68-977f-11e1-8993-905e29aff6c1" />   
-        <macro key="afibDx" value="65680bfa-977f-11e1-8993-905e29aff6c1" />   
-        <macro key="pulmoEmbolism" value="657179a6-977f-11e1-8993-905e29aff6c1" />   
-        <macro key="dvThrombosis" value="65717898-977f-11e1-8993-905e29aff6c1" />   
-        <macro key="otherDx" value="65780d0c-977f-11e1-8993-905e29aff6c1" /> 
-        <macro key="hyComorbid" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
-        <macro key="diComorbid" value="6567426a-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckComorbid" value="655a8d90-977f-11e1-8993-905e29aff6c1" />
-        <macro key="othComorbid" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hypertensionDx" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ckdDX" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />	
@@ -58,8 +43,8 @@
     <div>
         <h4 style="font-style: italic;">
             <b>NCD Patient Card</b>
-            <b style="padding-left:50px;">Cardiac and Vascular Disease</b>
-            <span style="padding-left:50px;">Version 1.2</span>
+            <b style="padding-left:50px;">Chronic Heart Disease</b>
+            <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -146,128 +131,70 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="6">Diagnoses</th>
-                            <!-- CCF -->       
-		 	    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="cad-dx" data-toggle-target="dilated-dx-date">
-                                    <obs id="dilated-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$dilatedCHF" answerLabel="Dilated"/>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Diagnoses</th>
+                            <!-- CHF -->
+                            <obsgroup groupingConceptId="$diagnosisSet"> 
+                                <td>
+                                    <obs conceptId="$chfDiagnosis" labelText="CHF"/>
                                 </td>
                                 <td>
-                                    <obs id="dilated-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			 
-  			    <!-- CAD diagnosis and date -->
-			    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="cad-dx" data-toggle-target="cad-dx-date" rowspan="2">
-                                    <obs id="cad-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$cadDx" answerLabel="CAD"/>
-                                </td>
-                                <td rowspan="2">
-                                    <obs id="cad-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			    <!-- PE --> 
-			    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="pe-dx" data-toggle-target="pe-dx-date" rowspan="2">
-                                    <obs id="pe-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$pulmoEmbolism" answerLabel="PE"/>
-                                </td>
-                                <td rowspan="2">
-                                    <obs id="pe-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			 </tr>
-			 <tr>
-			    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="restrict-dx" data-toggle-target="restrict-dx-date">
-                                    <obs id="restrict-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$restrictCHF" answerLabel="Restrictive"/>
-                                </td>
-                                <td>
-                                    <obs id="restrict-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			 </tr>
-			 <tr>
-			    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="valv-dx" data-toggle-target="valv-dx-date">
-                                    <obs id="valv-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$valvularCHF" answerLabel="Valvular"/>
-                                </td>
-                                <td>
-                                    <obs id="valv-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			    <!-- Stroke diagnosis and date -->
-		    	     <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date" rowspan="2">
-                                    	<obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke"/>
-                                    </td>
-                                    <td rowspan="2">
-                                    	<obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                    </td>
-                             </obsgroup>
-
-			     <!-- DVT -->
-			     <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="dvt-dx" data-toggle-target="dvt-dx-date" rowspan="2">
-                                    <obs id="dvt-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$dvThrombosis" answerLabel="DVT"/>
-                                </td>
-                                <td rowspan="2">
-                                    <obs id="dvt-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-			 </tr>
-			 <tr>
-			    <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="cvdUn-dx" data-toggle-target="cvdUn-dx-date">
-                                    <obs id="cvdUn-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$cvdUnknown" answerLabel="Unknown"/>
-                                </td>
-                                <td>
-                                    <obs id="cvdUn-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-        		 </tr>
-                        <tr>
-			     <!-- Rheumatic -->
-			     <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="cad-dx" data-toggle-target="rheumatic-dx-date">
-                                    	<obs id="rheumatic-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$rheumaticCHF" answerLabel="Rheumatic"/>
-                                    </td>
-                                    <td>
-                                    	<obs id="rheumatic-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                    </td>
-                             </obsgroup>
-			     <!-- Afib diagnosis and date -->
-		    	     <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="afib-dx" data-toggle-target="afib-dx-date" rowspan="2">
-                                    	<obs id="afib-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$afibDx" answerLabel="Afib"/>
-                                    </td>
-                                    <td rowspan="2">
-                                    	<obs id="afib-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                    </td>
-                             </obsgroup>
-		
-		   	     <!-- Other diagnosis -->
-			     <obsgroup groupingConceptId="$diagnosisSet">
-                                <td rowspan="2">
-                                    <obs id="otherd-dx" conceptId="$otherDx" labelText="Other"/>
-                                </td>
-                                <td rowspan="2">
-                                    <obs id="otherd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
 
-                        </tr>
-                        <tr>
-                            <!-- Congenital -->
+                            <!-- CKD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                    <td data-toggle-source="congenital-dx" data-toggle-target="congenital-dx-date">
-                                    	<obs id="congenital-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$congenitalCHF" answerLabel="Congenital"/>
-                                    </td>
-                                    <td>
-                                    	<obs id="congenital-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                    </td>
-                             </obsgroup>
+                                <td data-toggle-source="ckd-dx" data-toggle-target="ckd-dx-date">
+                                    <obs id="ckd-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$ckdDX" answerLabel="CKD" />
+                                </td>
+                                <td class="toggle-target">
+                                    <obs id="ckd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+
+                            <th style="vertical-align:top;" align="left" rowspan="1">Family Planning</th>
+                            <td>
+                                <obs conceptId="$familyPlanning" labelText="Family Planning"/>
+                            </td>
                         </tr>
-    
+                        <tr>
+                            <!-- Hypertension -->
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="htn-dx" data-toggle-target="htn-dx-date">
+                                    <obs id="htn-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$hypertensionDx" answerLabel="Hypertension" />
+                                </td>
+                                <td class="toggle-target">
+                                    <obs id="htn-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+
+
+                            <!-- Diabetes -->
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="diabetes-dx" data-toggle-target="diabetes-dx-date">
+                                    <obs id="diabetes-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$ckdDX" answerLabel="Diabetes" />
+                                </td>
+                                <td class="toggle-target">
+                                    <obs id="diabetes-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+                        </tr>
+                        <tr>
+                            <!-- Other -->
+                            <obsgroup groupingConceptId="$diagnosisSet">
+                                <td data-toggle-source="other-dx" data-toggle-target="other-dx-date">
+                                    <obs id="other-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$hypertensionDx" answerLabel="Other (Stroke, COPD)" />
+                                </td>
+                                <td class="toggle-target">
+                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                </td>
+                            </obsgroup>
+
+                        </tr>
                         <tr>
                             <th style="vertical-align:top;" align="left">Patient<br/>History &#38;<br/>Exposures</th>
                             <td><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive"/>
@@ -279,13 +206,6 @@
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
                             <td class="nowrap">
                                 <obs conceptId="$tbYear" labelText="Year"/>
-                            </td>
-			    <th style="vertical-align:top;" align="left">Comorbities</th>
-                            <td>
-                                <obs conceptId="$comorbid" answerConceptId="$hyComorbid" answerLabel="Hypertension"/><br />
-		                <obs conceptId="$comorbid" answerConceptId="$diComorbid" answerLabel="Diabetes"/><br />
-		                <obs conceptId="$comorbid" answerConceptId="$ckComorbid" answerLabel="CKD"/><br />
-		                <obs conceptId="$comorbid" answerConceptId="$othComorbid" answerLabel="Other"/>
                             </td>
                         </tr>
                    
