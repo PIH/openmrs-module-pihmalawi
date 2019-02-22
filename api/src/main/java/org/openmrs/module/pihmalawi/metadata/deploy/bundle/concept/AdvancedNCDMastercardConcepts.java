@@ -16,7 +16,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override

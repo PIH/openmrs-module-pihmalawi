@@ -58,11 +58,11 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.CKD_IMAGING);
 
         //Advanced NCD
-        install(EncounterTypes.ADVANCED_INITIAL);
-        install(EncounterTypes.ADVANCED_FOLLOWUP);
-        install(EncounterTypes.ADVANCED_QUARTERLY_LABS);
-        install(EncounterTypes.ADVANCED_ANNUAL_LABS);
-        install(EncounterTypes.ADVANCED_HOSPITAL);
+        install(EncounterTypes.NCD_OTHER_INITIAL);
+        install(EncounterTypes.NCD_OTHER_FOLLOWUP);
+        install(EncounterTypes.NCD_OTHER_QUARTERLY_LABS);
+        install(EncounterTypes.NCD_OTHER_ANNUAL_LABS);
+        install(EncounterTypes.NCD_OTHER_HOSPITAL);
 
         // Palliative care
         install(EncounterTypes.PALLIATIVE_INITIAL);
