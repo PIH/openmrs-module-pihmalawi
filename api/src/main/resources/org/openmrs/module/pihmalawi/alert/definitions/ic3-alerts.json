@@ -3,7 +3,7 @@
     "name": "eligible-for-bp-screening",
     "categories": ["bp","screening-eligibility"],
     "conditions": [
-      "age_years > 18",
+      "age_years >= 18",
       "missing(current_systolic_bp) || missing(current_diastolic_bp)"
     ],
     "alert": "Due for BP Screening",

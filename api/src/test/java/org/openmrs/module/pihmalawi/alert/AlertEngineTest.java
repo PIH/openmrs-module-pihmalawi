@@ -81,6 +81,44 @@ public class AlertEngineTest {
     }
 
     @Test
+    public void shouldReturnEligibleForBPScreening() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        // and 1 year and 1 day ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.DATE, -1);
+
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d414eae-5ab4-11e0-870c-9f6107fee88e"); //Magaleta HC
+        patientData.put("age_years", "18");
+        // 18 years and 1 month old
+        patientData.put("age_months", "217");
+        patientData.put("age_days", "6480");
+        patientData.put("current_systolic_bp", null);
+        patientData.put("current_diastolic_bp", null);
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName("eligible-for-bp-screening");
+        alert.setCategories(Arrays.asList("bp", "screening-eligibility"));
+        alert.setConditions(Arrays.asList(
+                "age_years >= 18",
+                "missing(current_systolic_bp) || missing(current_diastolic_bp)"));
+        alert.setAlert("Due for BP Screening");
+        alert.setAction("Refer to BP Screening station");
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-bp-screening"), 0);
+    }
+
+    @Test
     public void shouldReturnEligibleForBloodGlucoseScreeningNotEnrolled() throws Exception {
         //today
         Date effectiveDate = DateUtil.getStartOfDay(new Date());
