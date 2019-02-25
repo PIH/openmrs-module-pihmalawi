@@ -27,7 +27,7 @@
     "categories": ["diabetes"],
     "conditions": [
       "hasAny(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])",
-      "missing(last_fingerstick_result_date) || last_fingerstick_result_date < today"
+      "missing(last_blood_sugar_result_date) || last_blood_sugar_result_date < today"
     ],
     "alert": "Routine fingerstick for Diabetes patient",
     "action": "Routine fingerstick for Diabetes patient",
