@@ -22,7 +22,7 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
 	@Test
 	public void shouldTestBmi() throws Exception {
 
-        Patient patient = createPatient().save();
+        Patient patient = createPatient().age(24).save(); // adult
 
         Date date1 = DateUtil.getDateTime(2016, 8, 3);
         Date date2 = DateUtil.getDateTime(2017, 9, 4);
@@ -38,14 +38,11 @@ public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
 
         Obs height1 = createObs(encounter2, ccMetadata.getHeightConcept(), 170).save();
 
-        // sanity check
-        Assert.assertEquals(date2, weight2.getObsDatetime());
-
         testBmi(patient, date1, null, null);
 
-        testBmi(patient, date3, 100.0, 170.0);
-
         testBmi(patient, date2, 75.0, 170.0);
+
+        testBmi(patient, date3, 100.0, 170.0);
 	}
 
 	protected void testBmi(Patient patient, Date date, Double weight, Double height) throws Exception {
