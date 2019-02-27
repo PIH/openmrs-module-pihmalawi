@@ -244,6 +244,48 @@ public class AlertEngineTest {
     }
 
     @Test
+    public void shouldReturnHighCreatinineAlert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        JsonObject patientData = getTestPatient("55");
+
+        // 1 year and 7 months 10 days ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -7);
+        cal.add(Calendar.DAY_OF_YEAR, -10);
+        patientData.put("last_creatinine_result_date", cal.getTime());
+        patientData.put("last_creatinine_result", "1.7");
+
+        List<HashMap<String, String>> chronic_care_diagnoses = Arrays.asList(new HashMap<String, String>() {{
+            put("date", "688971600000"); //Friday, November 1, 1991
+            put("value", "65714206-977f-11e1-8993-905e29aff6c1"); //diabetes_type_1
+        }}, new HashMap<String, String>() {{
+            put("date", "1311652800000"); //Tuesday, July 26, 2011
+            put("value", "656cce7e-977f-11e1-8993-905e29aff6c1"); //Other non-coded diagnosis
+        }}, new HashMap<String, String>() {{
+            put("date", "1499832000000"); //Wednesday, July 12, 2017
+            put("value", "654abfc8-977f-11e1-8993-905e29aff6c1"); // hypertension
+        }});
+        patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
+
+
+        List<String> conditions = Arrays.asList(
+                "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
+                "monthsBetween(today, last_creatinine_result_date) >= 6",
+                "last_creatinine_result >= 1.5"
+        );
+
+
+        createAndEvaluateAlert(
+                "high-creatinine",
+                Arrays.asList("diabetes"),
+                conditions,
+                "Creatinine for patient with creatinine >1.5 with diabetes or hypertention",
+                patientData);
+    }
+
+    @Test
     public void shouldReturnEligibleForA1CScreeningType1Alert() throws Exception {
         //today
         Date effectiveDate = DateUtil.getStartOfDay(new Date());

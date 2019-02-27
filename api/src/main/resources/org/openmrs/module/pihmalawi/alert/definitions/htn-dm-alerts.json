@@ -14,7 +14,7 @@
     "name": "routine-hba1c-dm-type-2",
     "categories": ["diabetes"],
     "conditions": [
-      "hasAny(chronic_care_diagnoses, [diabetes, diabetes_type_2])",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_2])",
       "hasNot(chronic_care_diagnoses, diabetes_type_1)",
       "monthsBetween(today, last_hba1c_result_date) >= 6"
     ],
@@ -26,7 +26,7 @@
     "name": "routine-fingerstick-diabetes",
     "categories": ["diabetes"],
     "conditions": [
-      "hasAny(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])",
       "missing(last_blood_sugar_result_date) || last_blood_sugar_result_date < today"
     ],
     "alert": "Routine fingerstick for Diabetes patient",
@@ -61,7 +61,7 @@
     "name": "high-creatinine",
     "categories": ["diabetes"],
     "conditions": [
-      "hasAny(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "monthsBetween(today, last_creatinine_result_date) >= 6",
       "last_creatinine_result >= 1.5"
     ],
