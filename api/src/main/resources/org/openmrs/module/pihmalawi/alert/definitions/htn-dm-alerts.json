@@ -38,7 +38,8 @@
     "categories": ["diabetes"],
     "conditions": [
       "age_years >= 30",
-      "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || has(chronic_care_diagnoses, hypertension) || family_history_diabetes == true"
+      "missing(cc_treatment_status)",
+      "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension]) || family_history_diabetes == true"
     ],
     "alert": "Routine Blood Sugar for high risk population",
     "action": "Routine Blood Sugar for high risk population",
@@ -48,7 +49,7 @@
     "name": "routine-creatinine",
     "categories": ["diabetes"],
     "conditions": [
-      "hasAny(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "yearsBetween(today, last_creatinine_result_date) >= 1",
       "missing(last_creatinine_result) || last_creatinine_result < 1.5"
     ],

@@ -101,21 +101,18 @@ public class AlertEngineTest {
         patientData.put("current_systolic_bp", null);
         patientData.put("current_diastolic_bp", null);
 
-        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
-        AlertDefinition alert = new AlertDefinition();
-        alert.setName("eligible-for-bp-screening");
-        alert.setCategories(Arrays.asList("bp", "screening-eligibility"));
-        alert.setConditions(Arrays.asList(
+        List<String> conditions = Arrays.asList(
                 "age_years >= 18",
-                "missing(current_systolic_bp) || missing(current_diastolic_bp)"));
-        alert.setAlert("Due for BP Screening");
-        alert.setAction("Refer to BP Screening station");
-        alert.setEnabled(true);
-        alertDefinitions.add(alert);
+                "missing(current_systolic_bp) || missing(current_diastolic_bp)"
+        );
 
-        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
-        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
-        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-bp-screening"), 0);
+
+        createAndEvaluateAlert(
+                "eligible-for-bp-screening",
+                Arrays.asList("bp", "screening-eligibility"),
+                conditions,
+                "Due for BP Screening",
+                patientData);
     }
 
     @Test
@@ -148,21 +145,102 @@ public class AlertEngineTest {
         }});
         patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
 
-        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
-        AlertDefinition alert = new AlertDefinition();
-        alert.setName("eligible-for-blood-glucose-screening-not-enrolled");
-        alert.setCategories(Arrays.asList("blood-glucose", "screening-eligibility"));
-        alert.setConditions(Arrays.asList("missing(chronic_care_diagnoses) || (!missing(chronic_care_diagnoses) && !hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2]))",
+        List<String> conditions = Arrays.asList(
+                "missing(chronic_care_diagnoses) || (!missing(chronic_care_diagnoses) && !hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2]))",
                 "missing(last_blood_sugar_result_date) || (!missing(last_blood_sugar_result_date) && yearsBetween(today, last_blood_sugar_result_date) >= 1)",
-                "(age_years > 30) || (age_years > 18 && last_bmi > 25) || (!missing(chronic_care_diagnoses) && hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension])) || (family_history_diabetes == true)"));
-        alert.setAlert("Enroll if confirmed by clinician meets criteria");
-        alert.setAction("Action: Eligible for blood sugar test");
-        alert.setEnabled(true);
-        alertDefinitions.add(alert);
+                "(age_years > 30) || (age_years > 18 && last_bmi > 25) || (!missing(chronic_care_diagnoses) && hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension])) || (family_history_diabetes == true)"
+        );
 
-        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
-        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
-        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo("eligible-for-blood-glucose-screening-not-enrolled"), 0);
+
+        createAndEvaluateAlert(
+                "eligible-for-blood-glucose-screening-not-enrolled",
+                Arrays.asList("blood-glucose", "screening-eligibility"),
+                conditions,
+                "Enroll if confirmed by clinician meets criteria",
+                patientData);
+    }
+
+    @Test
+    public void shouldReturnRoutineBloodSugarHighRiskAlert() throws Exception {
+
+        JsonObject patientData = getTestPatient("55");
+        patientData.put("last_bmi", "24");
+        // 1 year and 3 months ago
+        Calendar cal = Calendar.getInstance();
+        //cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.DAY_OF_YEAR, -10);
+        patientData.put("last_blood_sugar_result_date", cal.getTime());
+        patientData.put("family_history_diabetes", true);
+        patientData.put("cc_treatment_status", null);
+
+        List<HashMap<String, String>> chronic_care_diagnoses = Arrays.asList(
+                new HashMap<String, String>() {{
+                    put("date", "1311652800000"); //Tuesday, July 26, 2011
+                    put("value", "656cce7e-977f-11e1-8993-905e29aff6c1"); //Other non-coded diagnosis
+                }}, new HashMap<String, String>() {{
+                    put("date", "1499832000000"); //Wednesday, July 12, 2017
+                    put("value", "654abfc8-977f-11e1-8993-905e29aff6c1"); // hypertension
+                }});
+        patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
+
+        List<String> conditions = Arrays.asList(
+                "age_years >= 30",
+                "missing(cc_treatment_status)",
+                "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension]) || family_history_diabetes == true"
+        );
+
+        createAndEvaluateAlert(
+                "routine-blood-sugar-high-risk",
+                Arrays.asList("diabetes"),
+                conditions,
+                "Routine Blood Sugar for high risk population",
+                patientData);
+    }
+
+    @Test
+    public void shouldReturnRoutineCreatinineAlert() throws Exception {
+        //today
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        JsonObject patientData = new JsonObject();
+        patientData.put("today", effectiveDate);
+        patientData.put("location", "0d41505c-5ab4-11e0-870c-9f6107fee88e"); //NOP
+        patientData.put("age_years", "55");
+        patientData.put("ncd_number", "NOP 452 CCC");
+
+        // 1 year and 3 months ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.DAY_OF_YEAR, -10);
+        patientData.put("last_creatinine_result_date", cal.getTime());
+        patientData.put("last_creatinine_result", "0.5");
+
+        List<HashMap<String, String>> chronic_care_diagnoses = Arrays.asList(new HashMap<String, String>() {{
+            put("date", "688971600000"); //Friday, November 1, 1991
+            put("value", "65714206-977f-11e1-8993-905e29aff6c1"); //diabetes_type_1
+        }}, new HashMap<String, String>() {{
+            put("date", "1311652800000"); //Tuesday, July 26, 2011
+            put("value", "656cce7e-977f-11e1-8993-905e29aff6c1"); //Other non-coded diagnosis
+        }}, new HashMap<String, String>() {{
+            put("date", "1499832000000"); //Wednesday, July 12, 2017
+            put("value", "654abfc8-977f-11e1-8993-905e29aff6c1"); // hypertension
+        }});
+        patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
+
+
+        List<String> conditions = Arrays.asList(
+                "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
+                "yearsBetween(today, last_creatinine_result_date) >= 1",
+                "missing(last_creatinine_result) || last_creatinine_result < 1.5"
+        );
+
+
+        createAndEvaluateAlert(
+                "routine-creatinine",
+                Arrays.asList("diabetes"),
+                conditions,
+                "Routine Creatinine for patients with diabetes or hypertension",
+                patientData);
     }
 
     @Test
@@ -621,6 +699,38 @@ public class AlertEngineTest {
 
         Assert.assertEquals(true, res);
 
+    }
+
+    protected JsonObject getTestPatient(String years){
+        Date effectiveDate = DateUtil.getStartOfDay(new Date());
+
+        JsonObject patientObject = new JsonObject();
+        patientObject.put("today", effectiveDate);
+        patientObject.put("location", "0d41505c-5ab4-11e0-870c-9f6107fee88e"); //NOP
+        patientObject.put("age_years", years);
+        patientObject.put("ncd_number", "NNO 101 CCC");
+
+        return patientObject;
+    }
+
+    protected void createAndEvaluateAlert(
+            String name,
+            List<String> categories,
+            List<String> conditions,
+            String alertVerbiage,
+            JsonObject patientData) {
+
+        List<AlertDefinition> alertDefinitions = new ArrayList<AlertDefinition>();
+        AlertDefinition alert = new AlertDefinition();
+        alert.setName(name);
+        alert.setCategories(categories);
+        alert.setConditions(conditions);
+        alert.setAlert(alertVerbiage);
+        alert.setEnabled(true);
+        alertDefinitions.add(alert);
+        List<AlertDefinition> evaluateMatchingAlerts = engine.evaluateMatchingAlerts(alertDefinitions, patientData);
+        Assert.assertEquals(evaluateMatchingAlerts != null && evaluateMatchingAlerts.size() > 0, true);
+        Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo(alert.getName()), 0);
     }
 
     protected void test(String function, int y1, int m1, int d1, int y2, int m2, int d2, double expected) throws Exception {
