@@ -185,7 +185,7 @@ public class AlertEngineTest {
 
         List<String> conditions = Arrays.asList(
                 "age_years >= 30",
-                "missing(cc_treatment_status)",
+                "!hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes,diabetes_type_1,diabetes_type_2])",
                 "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension]) || family_history_diabetes == true"
         );
 
