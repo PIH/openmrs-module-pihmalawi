@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Patient;
 import org.openmrs.Program;
@@ -33,6 +34,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
      * @verifies return the json data and BP eligibility alert
      * @see LivePatientDataSet#getDataForPatient(Integer, java.util.Date, org.openmrs.Location, boolean)
      */
+    @Ignore
     @Test
     public void getDataForPatient_shouldReturnEligibleForBPAlert() throws Exception {
 
