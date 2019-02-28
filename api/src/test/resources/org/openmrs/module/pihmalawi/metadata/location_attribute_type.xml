@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <location_attribute_type location_attribute_type_id="1" name="Location Code" description="Short name or code for used in identifier types and for concise display of locations" datatype="org.openmrs.customdatatype.datatype.FreeTextDatatype" min_occurs="0" max_occurs="1" creator="1" date_created="2018-10-30 15:01:08.0" changed_by="1" date_changed="2018-10-30 15:01:08.0" retired="false" uuid="62eb8441-0326-11e6-8c93-e82aea237783"/>
+  <location_attribute_type location_attribute_type_id="1" name="Location Code" description="Short name or code for used in identifier types and for concise display of locations" datatype="org.openmrs.customdatatype.datatype.FreeTextDatatype" min_occurs="0" max_occurs="1" creator="1" date_created="2019-02-26 14:56:46.0" changed_by="1" date_changed="2019-02-26 14:56:46.0" retired="false" uuid="62eb8441-0326-11e6-8c93-e82aea237783"/>
 </dataset>

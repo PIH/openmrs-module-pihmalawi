@@ -17,6 +17,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.QueryDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.junit.Test;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
@@ -45,9 +46,14 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
     }
 
 	public String getOutputDirectory() {
-		return "/home/mseaton/code/pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
+		return "/Users/cioan/workspace/pih/pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
 	}
-	
+
+	@Test
+	public void shouldCreateDbUnitTestFiles() throws Exception {
+        performTest();
+    }
+
 	public Map<String, String> getTables() {
         Map<String, String> m = new LinkedHashMap<String, String>();
         m.put("concept", "SELECT * FROM concept");
@@ -76,6 +82,9 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
         m.put("patient_identifier_type", "SELECT * FROM patient_identifier_type");
         m.put("person_attribute_type", "SELECT * FROM person_attribute_type");
         m.put("privilege", "SELECT * FROM privilege");
+        m.put("program", "SELECT * FROM program");
+        m.put("program_workflow", "SELECT * FROM program_workflow");
+        m.put("program_workflow_state", "SELECT * FROM program_workflow_state");
         m.put("relationship_type", "SELECT * FROM relationship_type");
         m.put("visit_type", "SELECT * FROM visit_type");
         return m;

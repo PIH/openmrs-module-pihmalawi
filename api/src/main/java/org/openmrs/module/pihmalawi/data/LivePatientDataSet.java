@@ -120,6 +120,7 @@ public abstract class LivePatientDataSet {
      * @return the data for a given Patient on a given date and location
      * If date is null, then the current date will be used
      * Location is generally not applicable to the patient data returned, though may be used to determine which data to favor (eg. patient identifiers)
+     * @should return the json data
      */
     public JsonObject getDataForPatient(Integer patientId, Date effectiveDatetime, Location location, boolean useCachedValues) {
         Date effectiveDate = DateUtil.getStartOfDay(effectiveDatetime);

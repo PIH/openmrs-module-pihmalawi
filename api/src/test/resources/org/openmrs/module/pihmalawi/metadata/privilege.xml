@@ -64,6 +64,7 @@
   <privilege privilege="Edit Cohorts" description="Able to add a cohort to the system" uuid="c85ba8fe-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Edit Concept Proposals" description="Able to edit concept proposals in the system" uuid="c85baa84-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Edit Concepts" description="Able to change attributes of existing terms." uuid="c85bab56-2695-102d-b4c2-001d929acb54"/>
+  <privilege privilege="Edit conditions" description="Able to edit conditions" uuid="721b863b-35eb-4250-b50b-5ca09ab72f72"/>
   <privilege privilege="Edit Encounters" description="Able to change information for preexisting encounters." uuid="c85bac14-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Edit FormEntry Archive" description="Allows the user to edit a formentry archive" uuid="c85bafca-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Edit FormEntry Error" description="Allows a user to edit a formentry error item" uuid="c85bc424-2695-102d-b4c2-001d929acb54"/>
@@ -86,6 +87,7 @@
   <privilege privilege="Find Patient Shortcut" description="Show find-patient shortcut on homepage" uuid="c85bcf0a-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Form Entry" description="Access to the FormEntry application." uuid="c85bcfc8-2695-102d-b4c2-001d929acb54"/>
   <privilege privilege="Generate Batch of Identifiers" description="Allows user to generate a batch of identifiers to a file for offline use" uuid="9dd74a25-dc76-4c5b-8996-a20c405c6cc4"/>
+  <privilege privilege="Get conditions" description="Able to get conditions" uuid="886bf996-cd63-4aee-9c23-ac3dd38f2d19"/>
   <privilege privilege="List Groovy Scripts" description="Allows user to view Groovy scripts which are saved." uuid="c51e9f93-f28c-47b4-a287-2a9d8a4ebe80"/>
   <privilege privilege="Manage Address Hierarchy" description="Allows user to access/modify the defined address hierarchy" uuid="f11a8567-eaad-40f5-80e1-8ac5fdbb4350"/>
   <privilege privilege="Manage Address Templates" description="Able to add/edit/delete address templates" uuid="6319d26b-0295-4159-9426-914177a2db08"/>
