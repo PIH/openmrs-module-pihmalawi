@@ -14,6 +14,7 @@ import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.test.SkipBaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.hamcrest.core.Is.is;
 
+@SkipBaseSetup
 public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataBasicTest.class);
@@ -34,7 +36,6 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
      * @verifies return the json data and BP eligibility alert
      * @see LivePatientDataSet#getDataForPatient(Integer, java.util.Date, org.openmrs.Location, boolean)
      */
-    @Ignore
     @Test
     public void getDataForPatient_shouldReturnEligibleForBPAlert() throws Exception {
 
