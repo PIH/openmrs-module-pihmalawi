@@ -11,6 +11,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.common.JsonObject;
+import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.test.SkipBaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,6 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     public void getDataForPatient_shouldReturnEligibleForBPAlert() throws Exception {
 
         Patient patient = createPatient().age(32).save();
-        List<Patient> allPatients = Context.getPatientService().getAllPatients();
-        List<User> allUsers = Context.getUserService().getAllUsers();
 
         JsonObject patientData = screeningData.getDataForPatient(
                 patient.getPatientId(),
@@ -56,7 +55,6 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("eligible-for-bp-screening"))));
-        Assert.assertTrue(allPatients != null && allPatients.size() > 0);
 
     }
 
@@ -64,8 +62,6 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     public void shouldReturnRoutineCreatinineAlert() throws Exception {
 
         Patient patient = createPatient().age(32).save();
-        List<Patient> allPatients = Context.getPatientService().getAllPatients();
-        List<User> allUsers = Context.getUserService().getAllUsers();
 
         Date date1 = DateUtil.getDateTime(2014, 2, 22);
         Encounter enc1 = createEncounter(patient, ccMetadata.getHtnDiabetesInitialEncounterType(), date1).save();
@@ -85,7 +81,65 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("routine-creatinine"))));
-        Assert.assertTrue(allPatients != null && allPatients.size() > 0);
+
+    }
+
+    @Test
+    public void shouldReturnRoutineViralLoadAlert() throws Exception {
+
+        Patient patient = createPatient().age(32).save();
+
+        Program hivProgram = hivMetadata.getHivProgram();
+        PatientProgram patientProgram = new PatientProgram();
+        patientProgram.setPatient(patient);
+        patientProgram.setProgram(hivProgram);
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(2015, 10, 22));
+        // Patient on ART
+        PatientState patientState = new PatientState();
+        patientState.setStartDate(DateUtil.getDateTime(2015, 10, 22));
+        ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
+        patientState.setState(onArvsState);
+        patientProgram.getStates().add(patientState);
+        PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+
+        // Patient starts first line regiment
+        Date d1 = DateUtil.getDateTime(2017, 2, 13);
+        Concept reg1 = hivMetadata.getArvRegimen2aConcept();
+        Encounter reg1Encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), d1).save();
+        Obs reg1Obs = createObs(reg1Encounter, hivMetadata.getArvDrugsChange1Concept(), reg1).save();
+        Obs regDate1 = createObs(reg1Encounter, hivMetadata.getDateOfStartingFirstLineArvsConcept(), d1).save();
+
+        // Viral Load Test
+        Date lastViralLoadDate = DateUtil.getDateTime(2018, 1, 22);
+        Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
+        ViralLoad expectedVl = new ViralLoad();
+        expectedVl.setEncounterId(enc1.getId());
+        expectedVl.setSpecimenDate(enc1.getEncounterDatetime());
+        // bled
+        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+        expectedVl.setResultLdl(null);
+        expectedVl.setResultNumeric(numericResult.getValueNumeric());
+
+        // Patient changes ART regiment
+        Date d3 = DateUtil.getDateTime(2018, 3, 7);
+        Concept reg2 = hivMetadata.getArvRegimen4aConcept();
+        Encounter reg2Encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), d3).save();
+        Obs regChange2 = createObs(reg2Encounter, hivMetadata.getArvDrugsChange2Concept(), reg2).save();
+        Obs regDate2 = createObs(reg2Encounter, hivMetadata.getDateOfStartingAlternativeFirstLineArvsConcept(), d3).save();
+
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(2019, 2, 27),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("due-for-routine-viral-load-1"))));
+
 
     }
 }
