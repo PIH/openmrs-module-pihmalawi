@@ -21,6 +21,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -52,6 +53,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public ProgramWorkflowState getChronicCareStatusOnTreatment() {
 		return getProgramWorkflowState(CHRONIC_CARE_PROGRAM, CHRONIC_CARE_PROGRAM_TREATMENT_STATUS, CHRONIC_CARE_STATUS_ON_TREATMENT);
+	}
+
+	public ProgramWorkflowState getChronicCareStatusInAdvancedCare() {
+		return getProgramWorkflowState(CHRONIC_CARE_PROGRAM, CHRONIC_CARE_PROGRAM_TREATMENT_STATUS, ProgramConcepts.CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT);
 	}
 
     public List<ProgramWorkflowState> getActiveChronicCareStates() {

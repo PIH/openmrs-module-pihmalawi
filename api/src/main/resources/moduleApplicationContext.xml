@@ -13,32 +13,6 @@
 
 	<context:component-scan base-package="org.openmrs.module.pihmalawi" />
 
-	<!-- Add here beans related to the API context -->
-	<bean id="ic3Service" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<property name="transactionManager">
-			<ref bean="transactionManager"/>
-		</property>
-		<property name="target">
-			<bean class="org.openmrs.module.pihmalawi.api.impl.IC3ServiceImpl">
-			</bean>
-		</property>
-		<property name="preInterceptors">
-			<ref bean="serviceInterceptors"/>
-		</property>
-		<property name="transactionAttributeSource">
-			<ref bean="transactionAttributeSource"/>
-		</property>
-	</bean>
-
-	<!-- Services accessible via Context.getService() -->
-	<bean parent="serviceContext">
-		<property name="moduleService">
-			<list>
-				<value>${project.parent.groupId}.${project.parent.artifactId}.api.IC3Service</value>
-				<ref local="ic3Service"/>
-			</list>
-		</property>
-	</bean>
 </beans>
 
   

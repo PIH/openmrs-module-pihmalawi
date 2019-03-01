@@ -14,7 +14,6 @@
 package org.openmrs.module.pihmalawi.reporting.library;
 
 import org.openmrs.module.pihmalawi.reporting.reports.IC3AppointmentReport;
-import org.openmrs.module.pihmalawi.reporting.reports.IC3PatientAppointmentsReport;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.definition.library.BaseDefinitionLibrary;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -26,9 +25,6 @@ public class BaseDataSetLibrary extends BaseDefinitionLibrary<DataSetDefinition>
 
     @Autowired
     IC3AppointmentReport ic3AppointmentReport;
-
-    @Autowired
-    IC3PatientAppointmentsReport ic3PatientAppointmentsReport;
 
     @Override
     public String getKeyPrefix() {
@@ -46,9 +42,4 @@ public class BaseDataSetLibrary extends BaseDefinitionLibrary<DataSetDefinition>
 	public DataSetDefinition getIC3AppointmentData() {
         return ic3AppointmentReport.constructDataSetDefinition();
 	}
-
-    @DocumentedDefinition(value = "ic3PatientAppointmentsData")
-    public DataSetDefinition getIC3PatientAppointmentsData() {
-        return ic3PatientAppointmentsReport.constructDataSetDefinition();
-    }
 }

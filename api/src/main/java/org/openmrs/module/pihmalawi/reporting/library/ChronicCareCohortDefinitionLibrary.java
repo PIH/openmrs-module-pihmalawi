@@ -197,6 +197,11 @@ public class ChronicCareCohortDefinitionLibrary extends BaseDefinitionLibrary<Co
 		return df.getActiveInStateAtLocationOnEndDate(metadata.getChronicCareStatusOnTreatment());
 	}
 
+	@DocumentedDefinition(value = "inAdvancedCareAtLocationOnEndDate")
+	public CohortDefinition getPatientsInAdvancedCareStateAtLocationOnEndDate() {
+		return df.getActiveInStateAtLocationOnEndDate(metadata.getChronicCareStatusInAdvancedCare());
+	}
+
 	// Helper methods
 
 	protected CohortDefinition hasDiagnosisByEndDate(Concept diagnosis) {
