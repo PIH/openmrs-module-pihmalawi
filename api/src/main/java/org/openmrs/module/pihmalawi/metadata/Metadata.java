@@ -449,4 +449,11 @@ public abstract class Metadata {
 		String s = Context.getAdministrationService().getGlobalProperty(propertyName);
 		return ObjectUtil.nvlStr(s, defaultValue);
 	}
+
+	/**
+	 * Should be used to clear cache, mostly for testing
+	 */
+	public void clearConceptCache() {
+		conceptCache = new HashMap<String, Concept>();
+	}
 }

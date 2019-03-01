@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.openmrs.Concept;
@@ -9,12 +10,14 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.Metadata;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
@@ -74,6 +77,13 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
         authenticate();
 
+    }
+
+    @After
+    public void clearConceptCaches() {
+        for (Metadata m : Context.getRegisteredComponents(Metadata.class)) {
+            m.clearConceptCache();
+        }
     }
 
     protected PatientBuilder createPatient() {
