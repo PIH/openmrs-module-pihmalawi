@@ -102,7 +102,7 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 
 				Set<String> alerts = new LinkedHashSet<String>();
 				Set<String> actions = new LinkedHashSet<String>();
-				List<AlertNotification> alertNotifications = (List<AlertNotification>) data.get("alerts");
+				List<AlertNotification> alertNotifications = (List<AlertNotification>) patData.get("alerts");
 				if (alertNotifications != null) {
 					for (AlertNotification an : alertNotifications) {
 						if (ObjectUtil.notNull(an.getAlert())) {
