@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 21;
+        return 22;
     }
 
     @Override
@@ -128,6 +128,13 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .description("5f94191e-3f64-11e9-b210-d663bd873d93", "Linkage of individuals to appropriate services", Locale.ENGLISH)
                 .build());
 
+        Concept ic3Appointment = install(new ConceptBuilder("5004B09D-16D6-4439-9481-C9EAA2E939B5")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("419E7374-9965-459C-B70C-1D0E275B3A29", "IC3 Appointment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("5C040ED0-E3EB-468A-8484-AB96D58E8DA4", "Patient has an appointment at the IC3 clinic", Locale.ENGLISH)
+                .build());
+
         install(new ConceptBuilder("65664fc2-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
@@ -138,7 +145,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("7311c63f-0496-11e6-b545-0010f345c8d0")
                         .type(sameAs).ensureTerm(pihMalawi, "3509").build())
                 .answers(sharc,outsideNeno,hospital,
-                        primaryCareClinic,healthClinic, other, ward, prenatalClinic,community,outpatient,healthCenter,linkToCare)
+                        primaryCareClinic,healthClinic, other, ward, prenatalClinic,community,outpatient,healthCenter,linkToCare,ic3Appointment)
                 .build());
 
         // HTC
