@@ -216,34 +216,34 @@ public class EncounterTypes {
     };
 
     //Advanced NCD
-    public static EncounterTypeDescriptor ADVANCED_INITIAL = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor NCD_OTHER_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "b562295c-e335-11e8-9f32-f2801f1b9fd1"; }
-        public String name() { return "ADVANCED_INITIAL"; }
-        public String description() { return "Initial encounter for advanced NCD clinic"; }
+        public String name() { return "NCD_OTHER_INITIAL"; }
+        public String description() { return "Initial encounter for NCD Other condition clinic"; }
     };
 
-    public static EncounterTypeDescriptor ADVANCED_FOLLOWUP = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor NCD_OTHER_FOLLOWUP = new EncounterTypeDescriptor() {
         public String uuid() { return "b5622bf0-e335-11e8-9f32-f2801f1b9fd1"; }
-        public String name() { return "ADVANCED_FOLLOWUP"; }
-        public String description() { return "Follow up encounter for advanced NCD clinic"; }
+        public String name() { return "NCD_OTHER_FOLLOWUP"; }
+        public String description() { return "Follow up encounter for NCD Other condition clinic"; }
     };
 
-    public static EncounterTypeDescriptor ADVANCED_QUARTERLY_LABS = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor NCD_OTHER_QUARTERLY_LABS = new EncounterTypeDescriptor() {
         public String uuid() { return "b5622d4e-e335-11e8-9f32-f2801f1b9fd1"; }
-        public String name() { return "ADVANCED_QUARTERLY_LABS"; }
-        public String description() { return "Every 3 months screening for advanced NCD clinic"; }
+        public String name() { return "NCD_OTHER_QUARTERLY_LABS"; }
+        public String description() { return "Every 3 months screening for NCD Other condition clinic"; }
     };
 
-    public static EncounterTypeDescriptor ADVANCED_ANNUAL_LABS = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor NCD_OTHER_ANNUAL_LABS = new EncounterTypeDescriptor() {
         public String uuid() { return "b5623082-e335-11e8-9f32-f2801f1b9fd1"; }
-        public String name() { return "ADVANCED_ANNUAL_LABS"; }
-        public String description() { return "Annual screening for advanced NCD clinic"; }
+        public String name() { return "NCD_OTHER_ANNUAL_LABS"; }
+        public String description() { return "Annual screening for NCD Other condition clinic"; }
     };
 
-    public static EncounterTypeDescriptor ADVANCED_HOSPITAL = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor NCD_OTHER_HOSPITAL = new EncounterTypeDescriptor() {
         public String uuid() { return "b56231e0-e335-11e8-9f32-f2801f1b9fd1"; }
-        public String name() { return "ADVANCED_HOSPITAL"; }
-        public String description() { return "Hospitalization for advanced NCD clinic"; }
+        public String name() { return "NCD_OTHER_HOSPITAL"; }
+        public String description() { return "Hospitalization for NCD Other condition clinic"; }
     };
 
     // IC3 Screening POC system
