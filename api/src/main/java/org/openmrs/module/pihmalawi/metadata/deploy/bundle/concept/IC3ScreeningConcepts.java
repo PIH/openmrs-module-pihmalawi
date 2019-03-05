@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 20;
+        return 21;
     }
 
     @Override
@@ -121,6 +121,13 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                         .type(sameAs).ensureTerm(pihMalawi, "2233").build())
                 .build());
 
+        Concept linkToCare = install(new ConceptBuilder("5f941306-3f64-11e9-b210-d663bd873d93")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("5f9417ac-3f64-11e9-b210-d663bd873d93", "Linkage to care", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("5f94191e-3f64-11e9-b210-d663bd873d93", "Linkage of individuals to appropriate services", Locale.ENGLISH)
+                .build());
+
         install(new ConceptBuilder("65664fc2-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
@@ -131,7 +138,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("7311c63f-0496-11e6-b545-0010f345c8d0")
                         .type(sameAs).ensureTerm(pihMalawi, "3509").build())
                 .answers(sharc,outsideNeno,hospital,
-                        primaryCareClinic,healthClinic, other, ward, prenatalClinic,community,outpatient,healthCenter)
+                        primaryCareClinic,healthClinic, other, ward, prenatalClinic,community,outpatient,healthCenter,linkToCare)
                 .build());
 
         // HTC
