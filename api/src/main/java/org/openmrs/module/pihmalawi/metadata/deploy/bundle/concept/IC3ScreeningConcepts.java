@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 22;
+        return 23;
     }
 
     @Override
@@ -126,6 +126,13 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("5f9417ac-3f64-11e9-b210-d663bd873d93", "Linkage to care", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("5f94191e-3f64-11e9-b210-d663bd873d93", "Linkage of individuals to appropriate services", Locale.ENGLISH)
+                .build());
+
+        Concept linkageToCareId = install(new ConceptBuilder("B9E98A62-8437-4807-9DF8-37F0046FD0E8")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("444AFDF6-A50A-470E-936F-9F937CFEEF2F", "Linkage to Care ID", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("5D155402-8569-4049-8D6C-22E68D955A93", "Linkage to care identifier", Locale.ENGLISH)
                 .build());
 
         Concept ic3Appointment = install(new ConceptBuilder("5004B09D-16D6-4439-9481-C9EAA2E939B5")
