@@ -1,5 +1,6 @@
-<htmlform formUuid="74fcc9a4-794e-11e8-adc0-fa7ae01bbebc" formName="Cardiac and Vascular Disease Hospitalization History"
-          formEncounterType="0d3f097f-206c-4c31-9fcb-2ba61145b69f" formVersion="1.0">
+<htmlform formUuid="766c941e-e35b-11e8-9f32-f2801f1b9fd1"
+          formName="NCD Other Hospitalization History"
+          formEncounterType="b56231e0-e335-11e8-9f32-f2801f1b9fd1" formVersion="1.0">
 
     <macros>
         <macro key="hospitalDays" value="656170f6-977f-11e1-8993-905e29aff6c1" />
@@ -14,10 +15,10 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="5">Hospitalization History for Chronic Heart Disease</th>
+                    <th colspan="5">History of Hospitalizations for NCD Other</th>
                 </tr>
                 <tr>
-                    <th>Date of dishcharge</th>
+                    <th>Date</th>
                     <th>Length of Stay<br/><i style="font-size:.7em;">days</i></th>
                     <th>Reason for<br/>Admission</th>
                     <th>Discharge<br/>Diagnosis</th>
@@ -58,7 +59,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Chronic Heart Disease Hospitalization</b>
+            <b>NCD Other Hospitalization</b>
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
@@ -75,7 +76,7 @@
 
         <table class="visit-edit-table">
             <tr>
-                <th>Date of discharge</th>
+                <th>Date</th>
                 <td>
                     <encounterDate id="visitDate" size="20" default="today"/>
                 </td>
@@ -88,7 +89,7 @@
             </tr>
 
             <tr>
-                <th>Length of stay</th>
+                <th>Length of stay <br />days</th>
                 <td class="focus-field">
                     <obs conceptId="$hospitalDays" />days
                 </td>
@@ -118,8 +119,8 @@
 
         </table>
 
-<submit/>
+        <submit/>
 
-</ifMode>
+    </ifMode>
 
 </htmlform>

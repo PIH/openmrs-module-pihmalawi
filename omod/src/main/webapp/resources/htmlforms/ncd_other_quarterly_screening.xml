@@ -1,11 +1,13 @@
-<htmlform formUuid="6c88df60-794e-11e8-adc0-fa7ae01bbebc" formName="Cardiac and Vascular Disease Quarterly Laboratory Tests"
-          formEncounterType="df5389a8-7715-462b-a41e-e8b1946c8c60" formVersion="1.0">
+<htmlform formUuid="766c9554-e35b-11e8-9f32-f2801f1b9fd1"
+          formName="NCD Other Quarterly Laboratory Tests"
+          formEncounterType="b5622d4e-e335-11e8-9f32-f2801f1b9fd1" formVersion="1.0">
 
     <macros>
         <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
         <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
         <macro key="nReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hba1clab" value="65714f76-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <!-- Flowsheet table view -->
@@ -14,10 +16,11 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="2">Screening Every 3 Months</th>
+                    <th colspan="3">Screening Every 3 Months</th>
                 </tr>
                 <tr>
                     <th>Date</th>
+                    <th>HbA1C</th>
                     <th>HIV</th>
                 </tr>
             </thead>
@@ -26,6 +29,9 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate/>
+                    </td>
+                    <td>
+                        <obs conceptId="$hba1clab"/>
                     </td>
                     <td>
                         <obs conceptId="$hivStatus"/>
@@ -70,8 +76,15 @@
             </tr>
 
             <tr>
-                <th>HIV</th>
+                <th>HbA1C</th>
                 <td class="focus-field">
+                    <obs conceptId="$hba1clab" showUnits="true"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>HIV test</th>
+                <td>
                     <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nReactive,$unknown"/>
                 </td>
             </tr>

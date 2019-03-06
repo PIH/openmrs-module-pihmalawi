@@ -1,4 +1,4 @@
-<htmlform formName="Chronic Heart Disease Visit"
+<htmlform formName="Cardiac and Vascular Disease Visit"
           formUuid="4a5c17b8-794e-11e8-adc0-fa7ae01bbebc"
           formEncounterType="1f6ad830-6e94-4819-b1fd-8c4146e77280"
           formVersion="1.0">
@@ -31,7 +31,7 @@
         <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1" />
         <macro key="heartRate" value="6569c224-977f-11e1-8993-905e29aff6c1" />
         <macro key="bloodOxygenSaturation" value="6569c792-977f-11e1-8993-905e29aff6c1" />
-        <macro key="chfHospital" value="6562dedc-977f-11e1-8993-905e29aff6c1" />
+        <macro key="chfHospital" value="ef3c5476-a0e2-44eb-be62-dab5631af36d" />
         <macro key="volumeStatus" value="6563ba78-977f-11e1-8993-905e29aff6c1" />   
         <macro key="hypo" value="6563bd84-977f-11e1-8993-905e29aff6c1" />
         <macro key="euvol" value="6563bc80-977f-11e1-8993-905e29aff6c1" />
@@ -83,7 +83,7 @@
                 <tr> <!-- Label row -->
                     <td rowspan="2">Visit Date</td>
                     <td colspan="6"><span>Vitals</span></td>
-                    <td colspan="6"><span>Signs and Symptoms since last visit</span></td>
+                    <td colspan="5"><span>Signs and Symptoms since last visit</span></td>
                     <td colspan="4"><span>Exam</span></td>
                     <td colspan="5"><span>Risk Assessment</span></td>
                     <td colspan="7"><span>CHF Medications</span></td>
@@ -98,12 +98,11 @@
                     <td>HR</td>
                     <td>% SPO2</td>
 
-                    <td>PND</td>
-                    <td>DOE</td>
                     <td>Orthopnea</td>
+                    <td>DOE</td>
                     <td>Dry Cough</td>
                     <td>Fatigue</td>
-                    <td>Hospitalized since last visit for CHF?</td>
+                    <td>Hospitalized since last visit for NCD?</td>
 
                     <td>Oedema</td>
                     <td>Bibasilar Crackles</td>
@@ -168,24 +167,17 @@
                         <obs conceptId="$bloodOxygenSaturation" />
                     </td>
 
-                    <!-- PND -->
+                    <!-- Orthopnea -->
                     <td style="text-align: left;">
-                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
-                            <obs conceptId="$levelPND" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                       </repeat>
+                        <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
+                            <obs conceptId="$levelOrthop" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </repeat>
                     </td>
 
                     <!-- DOE -->
                     <td style="text-align: left;">
                        <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
                             <obs conceptId="$levelDOE" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                       </repeat>
-                    </td>
-
-                    <!-- Orthopnea -->
-                    <td style="text-align: left;">
-                       <repeat with="['$raised','Increase'],['$lower','Decrease'],['$same','Same'],['$none','None']">
-                            <obs conceptId="$levelOrthop" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                        </repeat>
                     </td>
 
@@ -437,11 +429,9 @@
             </tr>
 
             <tr>
-                <!--Level paroxysmal nocturnal dyspnea-->
-                <th>PND</th>
+                <th>Orthopnea</th>
                 <td style="text-align: left">
-                    <obs conceptId="$levelPND" answerConceptIds="$raised,$lower,$same,$none" 
-                    answerLabels="Increase,Decrease,Same,None" style="radio" />
+                    <obs conceptId="$levelOrthop" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
@@ -449,13 +439,6 @@
                 <th>Dyspnea on extertion</th>
                 <td style="text-align: left">
                     <obs conceptId="$levelDOE" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
-                </td>
-            </tr>
-
-            <tr>
-                <th>Orthopnea</th>
-                <td style="text-align: left">
-                    <obs conceptId="$levelOrthop" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
             </tr>
 
@@ -474,7 +457,7 @@
             </tr>
 
             <tr>
-                <th>Hospitalized since last visit for CHF</th> 
+                <th>Hospitalized since last visit for NCD</th>
                 <td style="text-align: left">
                     <obs conceptId="$chfHospital" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Yes,No" style="radio" />
                 </td>

@@ -1,8 +1,17 @@
-<htmlform formUuid="5e3363e6-594e-4b03-98c6-152616b955b1" formName="Cardiac and Vascular Disease Annual Laboratory Tests"
-          formEncounterType="dbab9217-29ec-477d-8d11-161cd4fd2b34" formVersion="1.0">
+<htmlform formUuid="998068ae-e35b-11e8-9f32-f2801f1b9fd1"
+          formName="NCD Other Annual Laboratory Tests"
+          formEncounterType="b5623082-e335-11e8-9f32-f2801f1b9fd1" formVersion="1.0">
 
     <macros>
         <macro key="proteinuria" value="65717366-977f-11e1-8993-905e29aff6c1" />
+
+        <macro key="negatoreProtein" value="654994c2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="oneProteinuria" value="65598fb2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="twoProteinuria" value="65597cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="threeProteinuria" value="65598706-977f-11e1-8993-905e29aff6c1" />
+        <macro key="fourProteinuria" value="E1B2AF76-4B69-4BA4-9DDC-D801649BC212" />
+        <macro key="Traceproteinuria" value="6572cf72-977f-11e1-8993-905e29aff6c1" />
+
         <macro key="creatinine" value="657170a0-977f-11e1-8993-905e29aff6c1" />
         <macro key="potassium" value="6557b566-977f-11e1-8993-905e29aff6c1" />
         <macro key="rbs" value="654a98b8-977f-11e1-8993-905e29aff6c1" />
@@ -18,7 +27,7 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="6">Screening Every 12 Months</th>
+                    <th colspan="6">Screening (Frequency per protocol)</th>
                 </tr>
                 <tr>
                     <th>Date</th>
@@ -35,6 +44,7 @@
                         <!-- Encounter Date -->
                         <encounterDate/>
                     </td>
+
                     <td>
                         <!-- Proteinuria -->
                         <obs conceptId="$proteinuria" style="radio" answerConceptIds="664,6698,1410,1408,1409" answerLabels="Negative,Trace,1+,2+,3+"/>
@@ -120,7 +130,7 @@
                 <td>
                     <obs conceptId="$lipid" answerConceptIds="$normal,$highLipids,$highTGs"/>
                 </td>
-            </tr> 
+            </tr>
 
         </table>
 
