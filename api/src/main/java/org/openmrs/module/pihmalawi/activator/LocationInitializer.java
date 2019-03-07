@@ -41,7 +41,6 @@ public class LocationInitializer implements Initializer {
             "Golden Outreach Clinic",
             "Ligowe HC",
             "Luwani RHC",
-            "Luwani Prison",
             "Magaleta HC",
             "Matandani Rural Health Center",
             "Neno District Hospital",
