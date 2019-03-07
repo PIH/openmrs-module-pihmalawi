@@ -17,4 +17,13 @@ public class PihMalawiPatientIdentifierTypes {
         }
     };
 
+    public static PatientIdentifierTypeDescriptor IC3_IDENTIFIER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "f51dfa3a-95de-4040-b4eb-52d2de718a74"; }
+        public String name() { return "IC3 Identifier"; }
+        public String description() { return "ID assigned to patients at IC3 clinic who have not be enrolled in a program"; }
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
 }
