@@ -218,7 +218,7 @@ SELECT
   lastVisitRandomBloodSugar as "Random blood sugar at last visit",
   lastVisitFastingBloodSugar as "Fasting blood sugar at last visit",
   shortActingRegularInsulin as "Short Acting Insulin given at last visit",  
-  longActingInsulin as "Short Acting Insulin given at last visit",  
+  longActingInsulin as "Long Acting Insulin given at last visit",
   metformin as "Metformin given at last visit",  
   glibenclamide as "Glibenclamide given at last visit",  
   epilepsyDx as "Epilepsy Diagnosis",
