@@ -555,7 +555,47 @@
             });
             toggleEnabledDisabled(toggleTarget, jq(toggleCheckbox).prop("checked"));
         });
+
+        // Allow user to select either type 1 or type 2 only for diabetes
+        if ($('#diabetes-type-1-dx :checkbox').is(':checked') || $('#diabetes-type-2-dx :checkbox').is(':checked')) {
+            validateDiabetesDiagnosisType();
+        }
+
+        $("#diabetes-type-1-dx").change(function() {
+            if ($('#diabetes-type-1-dx :checkbox').is(':checked')) {
+                $("#diabetes-type-2-dx").find(":input").prop('disabled', true);
+            } else {
+                $("#diabetes-type-2-dx").find(":input").prop('disabled', false);
+            }
+        });
+
+        $("#diabetes-type-2-dx").change(function() {
+            if ($('#diabetes-type-2-dx :checkbox').is(':checked')) {
+                $("#diabetes-type-1-dx").find(":input").prop('disabled', true);
+            } else {
+                $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
+            }
+        });
     };
+
+    var validateDiabetesDiagnosisType = function() {
+        var type1diagnosis = $('#diabetes-type-1-dx :checkbox').is(':checked');
+        var type2diagnosis = $('#diabetes-type-2-dx :checkbox').is(':checked');
+
+        if (type1diagnosis && type2diagnosis) {
+            $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
+            $("#diabetes-type-2-dx").find(":input").prop('disabled', false);
+        } else if (type1diagnosis || type2diagnosis) {
+            if (type1diagnosis) {
+                $("#diabetes-type-2-dx").find(":input").prop('disabled', true);
+            } else {
+                $("#diabetes-type-1-dx").find(":input").prop('disabled', true);
+            }
+        } else {
+            $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
+            $("#diabetes-type-2-dx").find(":input").prop('disabled', false);
+        }
+    }
 
     var toggleEnabledDisabled = function(toggleTarget, enable) {
         if (enable) {
