@@ -411,6 +411,27 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(yes,no)
                 .build());
 
+
+        install(new ConceptBuilder("53cb83ed-5d55-4b63-922f-d6b8fc67a5f8")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("1D5B2CC9-8C4D-47B8-9975-47AC1354BBC6", "Detectable lower limit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("4603C955-6F58-4C6A-9647-8AE4B28872AE", "Detectable lower limit", Locale.ENGLISH, null)
+                .description("7ABFCA65-5F9F-4B7E-9321-63E409EAF052", "Detectable lower limit", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("FC69F1C1-6B74-4ADE-ADBE-4AB7EED5F5DF")
+                        .type(sameAs).ensureTerm(pih, "11548").build())
+                .build());
+
+        install(new ConceptBuilder("163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("067169CE-8786-4156-814F-F5462EFB4DE2", "HIV viral load status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("BCC7AF09-D605-41D1-BE5D-8295A0974AF0", "HIV viral load status", Locale.ENGLISH, null)
+                .description("2091E39A-F1E3-4A38-88AB-54B4931B6599", "HIV viral load status", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("28177726-44C9-4936-B3A3-4E4734864D4F")
+                        .type(sameAs).ensureTerm(ciel, "163310").build())
+                .build());
+
         // TB screening
         Concept sampleCollected = install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
