@@ -22,7 +22,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,33 +161,70 @@ public class EMastercardAccessTag extends BodyTagSupport {
 	}
 
     protected String getNewMasterCardConfiguration(Form f) {
-        Map<String, String> m = new HashMap<String, String>();
 
-        m.put(HivMetadata.PRE_ART_INITIAL, "headerForm=preart_mastercard&flowsheets=preart_visit");
-        m.put(EncounterTypes.ASTHMA_INITIAL.name(), "headerForm=asthma_mastercard&flowsheets=asthma_visit&flowsheets=asthma_peak_flow&flowsheets=asthma_hospital");
-        m.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "headerForm=htn_dm_mastercard&flowsheets=htn_dm_labs&flowsheets=htn_dm_annual_labs&flowsheets=htn_dm_hospital&flowsheets=htn_dm_visit");
-        m.put(EncounterTypes.EPILEPSY_INITIAL.name(), "headerForm=epilepsy_mastercard&flowsheets=epilepsy_visit");
-		m.put(EncounterTypes.PALLIATIVE_INITIAL.name(), "headerForm=palliative_mastercard&flowsheets=palliative_visit");
-		m.put(EncounterTypes.CHF_INITIAL.name(), "headerForm=chf_mastercard&flowsheets=chf_quarterly_screening&flowsheets=chf_annual_screening&flowsheets=chf_history_of_hospitalizations&flowsheets=chf_visit");
-		m.put(EncounterTypes.CKD_INITIAL.name(), "headerForm=ckd_mastercard&flowsheets=ckd_quarterly_screening&flowsheets=ckd_annual_screening&flowsheets=ckd_imaging&flowsheets=ckd_history_of_hospitalizations&flowsheets=ckd_visit");
-		m.put(EncounterTypes.NCD_OTHER_INITIAL.name(), "headerForm=ncd_other_mastercard&flowsheets=ncd_other_quarterly_screening&flowsheets=ncd_other_annual_screening&flowsheets=ncd_other_hospitalizations&flowsheets=ncd_other_visit");
-		m.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "headerForm=mental_health_mastercard&flowsheets=mental_health_visit");
-        m.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "headerForm=ncd_mastercard&flowsheets=ncd_visit");
-		m.put(HivMetadata.EXPOSED_CHILD_INITIAL, "headerForm=eid_mastercard&flowsheets=eid_visit");
+		Map<String, String> headerForms = new LinkedHashMap<String, String>();
+		headerForms.put(HivMetadata.PRE_ART_INITIAL, "preart_mastercard");
+		headerForms.put(EncounterTypes.ASTHMA_INITIAL.name(), "asthma_mastercard");
+		headerForms.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "htn_dm_mastercard");
+		headerForms.put(EncounterTypes.EPILEPSY_INITIAL.name(), "epilepsy_mastercard");
+		headerForms.put(EncounterTypes.PALLIATIVE_INITIAL.name(), "palliative_mastercard");
+		headerForms.put(EncounterTypes.CHF_INITIAL.name(), "chf_mastercard");
+		headerForms.put(EncounterTypes.CKD_INITIAL.name(), "ckd_mastercard");
+		headerForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), "ncd_other_mastercard");
+		headerForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "mental_health_mastercard");
+		headerForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "ncd_mastercard");
+		headerForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, "eid_mastercard");
+
+		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
+        flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
+        flowsheetForms.put(EncounterTypes.ASTHMA_INITIAL.name(), Arrays.asList("asthma_visit","asthma_peak_flow","asthma_hospital"));
+        flowsheetForms.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), Arrays.asList("htn_dm_labs","htn_dm_annual_labs","htn_dm_hospital","htn_dm_visit"));
+        flowsheetForms.put(EncounterTypes.EPILEPSY_INITIAL.name(), Arrays.asList("epilepsy_visit"));
+		flowsheetForms.put(EncounterTypes.PALLIATIVE_INITIAL.name(), Arrays.asList("palliative_visit"));
+		flowsheetForms.put(EncounterTypes.CHF_INITIAL.name(), Arrays.asList("chf_quarterly_screening","chf_annual_screening","chf_history_of_hospitalizations","chf_visit"));
+		flowsheetForms.put(EncounterTypes.CKD_INITIAL.name(), Arrays.asList("ckd_quarterly_screening","ckd_annual_screening","ckd_imaging","ckd_history_of_hospitalizations","ckd_visit"));
+		flowsheetForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), Arrays.asList("ncd_other_quarterly_screening","ncd_other_annual_screening","ncd_other_hospitalizations","ncd_other_visit"));
+		flowsheetForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), Arrays.asList("mental_health_visit"));
+        flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
+		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit"));
+
+		String requireObs = "";
 
 		if (f.getName().equals("Viral Load Tests") && f.getEncounterType().getName().equals("ART_FOLLOWUP")) {
-			m.put(EncounterTypes.ART_FOLLOWUP.name(), "headerForm=blank_header&flowsheets=viral_load_test_results&requireObs=" + CommonMetadata.HIV_VIRAL_LOAD_TEST_SET);
-		} else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
-			m.put(EncounterTypes.ART_INITIAL.name(), "headerForm=art_mastercard&flowsheets=art_annual_screening&flowsheets=art_visit");
+			headerForms.put(EncounterTypes.ART_FOLLOWUP.name(), "blank_header");
+			flowsheetForms.put(EncounterTypes.ART_FOLLOWUP.name(), Arrays.asList("viral_load_test_results"));
+			requireObs = CommonMetadata.HIV_VIRAL_LOAD_TEST_SET;
 		}
-		return m.get(f.getEncounterType().getName());
+		else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
+			headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
+			flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("art_annual_screening", "art_visit"));
+		}
+
+		String encType = f.getEncounterType().getName();
+		String headerForm = headerForms.get(encType);
+		List<String> flowsheets = flowsheetForms.get(encType);
+
+		if (headerForm != null && flowsheets != null) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("/openmrs/htmlformentryui/htmlform/flowsheet.page?");
+			sb.append("headerForm=pihmalawi:htmlforms/").append(headerForm).append(".xml");
+			for (String flowsheet : flowsheets) {
+				sb.append("&flowsheets=pihmalawi:htmlforms/").append(flowsheet).append(".xml");
+			}
+			if (StringUtils.isNotBlank(requireObs)) {
+				sb.append("&requireObs=").append(requireObs);
+			}
+			sb.append("&dashboardUrl=legacyui");
+			return sb.toString();
+		}
+		return null;
     }
 
 	protected String createViewCardHtmlTag(Patient p, Form f, Encounter initialEncounter, String additionalMessage) {
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&viewOnly=true&patientId="+p.getPatientId()+"\">";
+            link = "<a href=\"" + newMasterCardConfig + "&viewOnly=true&patientId="+p.getPatientId()+"\">";
         }
         else {
             link = "<a href=\"javascript:void(0)\" onClick=\"loadUrlIntoEncounterPopup('"
@@ -211,7 +248,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+            link = "<a href=\"" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
         }
         else {
             link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?encounterId=" + initialEncounter.getId() + "&mode=EDIT\">";
@@ -227,7 +264,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a href=\"/openmrs/pihmalawi/mastercard.page?" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
+            link = "<a href=\"" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
         }
         else {
             link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
