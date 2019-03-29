@@ -214,7 +214,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			if (StringUtils.isNotBlank(requireObs)) {
 				sb.append("&requireObs=").append(requireObs);
 			}
-			sb.append("&dashboardUrl=legacyui");
+			sb.append("&dashboardUrl=legacyui&customizationProvider=pihmalawi&customizationFragment=mastercard");
 			return sb.toString();
 		}
 		return null;
