@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 24;
+        return 27;
     }
 
     @Override
@@ -186,11 +186,23 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept testReason     = MetadataUtils.existing(Concept.class, "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Concept labLocation    = MetadataUtils.existing(Concept.class, "6fc0ab50-9492-11e7-abc4-cec278b6b50a");
 
+        Concept lessThanNumber = install(new ConceptBuilder("69e87644-5562-11e9-8647-d663bd873d93")
+                .datatype(numeric)
+                .conceptClass(finding)
+                .name("69e878e2-5562-11e9-8647-d663bd873d93", "Less than limit",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("910cad76-5562-11e9-8647-d663bd873d93","Less than number", Locale.ENGLISH,null)
+                .description("910cb1a4-5562-11e9-8647-d663bd873d93",
+                        "A generic concept for a limit.  One example of use, an instrument reports Viral load is less than a value (ie. > 500).",
+                        Locale.ENGLISH)
+                .build());
+
         install(new ConceptBuilder("83931c6d-0e5a-4302-b8ce-a31175b6475e")
                 .datatype(notApplicable)
                 .conceptClass(convSet)
-                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set, IC3", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
-                .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason)
+                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load test set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason, lessThanNumber)
                 .build());
 
         // TB Screening
@@ -445,6 +457,16 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
         Concept satisfactory = MetadataUtils.existing(Concept.class, "6559dde6-977f-11e1-8993-905e29aff6c1");
         Concept unsatisfactory = MetadataUtils.existing(Concept.class, "656fa55e-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("3cd75550-26fe-102b-80cb-0017a47871b2")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("B67F1E06-6323-490A-8580-F45E93CAB64C", "Not  done", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("384C5A1B-BE9B-4902-9173-DC986C73D2FF", "Not  done", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("99F7FD08-B0E6-4145-904C-DABA0C5BCD3A").type(sameAs).ensureTerm(ciel, "1118").build())
+                .mapping(new ConceptMapBuilder("081651C0-99C9-49D9-BC6B-E903A7D62F4C").type(sameAs).ensureTerm(pih, "1118").build())
+                .mapping(new ConceptMapBuilder("8E822DFE-76D4-42B3-AE9F-1CC71B656BF8").type(sameAs).ensureTerm(pih, "NOT DONE").build())
+                .build());
 
         Concept poorSampleQuality = install(new ConceptBuilder("1304AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(notApplicable)
