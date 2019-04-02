@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 25;
+        return 27;
     }
 
     @Override
@@ -186,11 +186,23 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept testReason     = MetadataUtils.existing(Concept.class, "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Concept labLocation    = MetadataUtils.existing(Concept.class, "6fc0ab50-9492-11e7-abc4-cec278b6b50a");
 
+        Concept lessThanNumber = install(new ConceptBuilder("69e87644-5562-11e9-8647-d663bd873d93")
+                .datatype(numeric)
+                .conceptClass(finding)
+                .name("69e878e2-5562-11e9-8647-d663bd873d93", "Less than limit",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("910cad76-5562-11e9-8647-d663bd873d93","Less than number", Locale.ENGLISH,null)
+                .description("910cb1a4-5562-11e9-8647-d663bd873d93",
+                        "A generic concept for a limit.  One example of use, an instrument reports Viral load is less than a value (ie. > 500).",
+                        Locale.ENGLISH)
+                .build());
+
         install(new ConceptBuilder("83931c6d-0e5a-4302-b8ce-a31175b6475e")
                 .datatype(notApplicable)
                 .conceptClass(convSet)
-                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load Test Set, IC3", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
-                .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason)
+                .name("4405c71b-3081-4fc9-87cf-3fdc1315817f", "Viral Load test set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(bled, vl, ldl, testReason, labLocation, noResultReason, noSampleReason, lessThanNumber)
                 .build());
 
         // TB Screening
