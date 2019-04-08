@@ -1,7 +1,7 @@
 [
   {
     "name": "due-for-routine-viral-load-1",
-    "categories": ["viral-load"],
+    "categories": ["viral-load", "screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -14,7 +14,7 @@
   },
   {
     "name": "due-for-routine-viral-load-2",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -28,7 +28,7 @@
   },
   {
     "name": "due-for-routine-viral-load-3",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -41,7 +41,7 @@
   },
   {
     "name": "due-for-adherence-counselling",
-    "categories": ["viral-load", "abnormal-result"],
+    "categories": ["adherence", "abnormal-result","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -57,7 +57,7 @@
   },
   {
     "name": "due-for-confirmatory-viral-load",
-    "categories": ["viral-load", "abnormal-result"],
+    "categories": ["viral-load", "abnormal-result","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -72,7 +72,7 @@
   },
   {
     "name": "due-for-routine-viral-load-1p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
       "hiv_treatment_status == active_art",
@@ -85,7 +85,7 @@
   },
   {
     "name": "due-for-routine-viral-load-2p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
       "hiv_treatment_status == active_art",
@@ -98,7 +98,7 @@
   },
   {
     "name": "due-for-routine-viral-load-3p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
       "hiv_treatment_status == active_art",
