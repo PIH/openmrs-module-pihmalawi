@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
+import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.common.JsonObject;
@@ -182,6 +183,59 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat((String) patientData.get("last_adherence_counselling_session_number"), CoreMatchers.containsString(firstSessionConcept.getUuid().toString()));
         assertNotNull(patientData.get("last_adherence_counselling_session_date"));
         assertEquals(patientData.get("last_adherence_counselling_session_date"), d1);
+
+    }
+
+    @Test
+    public void shouldReturnDueForAdherenceCounselingAlert() throws Exception {
+
+        Patient patient = createPatient().age(22).save();
+
+        Program hivProgram = hivMetadata.getHivProgram();
+        PatientProgram patientProgram = new PatientProgram();
+        patientProgram.setPatient(patient);
+        patientProgram.setProgram(hivProgram);
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(2015, 10, 22));
+        // Patient on ART
+        PatientState patientState = new PatientState();
+        patientState.setStartDate(DateUtil.getDateTime(2015, 10, 22));
+        ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
+        patientState.setState(onArvsState);
+        patientProgram.getStates().add(patientState);
+        PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+
+        // Viral Load Test
+        Date lastViralLoadDate = DateUtil.getDateTime(2018, 9, 22);
+        Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
+        ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getHivViralLoadTestSetConcept(), null);
+        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        // bled
+        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+
+        groupObsBuilder.member(routineTest);
+        groupObsBuilder.member(bled);
+        groupObsBuilder.member(numericResult);
+        groupObsBuilder.save();
+
+        // Patient has first Adherence Counseling Session
+        Date d1 = DateUtil.getDateTime(2018, 10, 21);
+        Concept adherenceCounselingConcept = hivMetadata.getAdherenceCounselingSessionNumberConcept();
+        Concept firstSessionConcept = hivMetadata.getConcept(hivMetadata.FIRST_CONCEPT);
+        Encounter adherenceCounselingEncounter = createEncounter(patient, hivMetadata.getEncounterType(hivMetadata.ADHERENCE_COUNSELING_ENCOUNTER_TYPE), d1).save();
+        Obs adherenceCounselingObs = createObs(adherenceCounselingEncounter, adherenceCounselingConcept, firstSessionConcept).save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(2019, 4, 1),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("due-for-adherence-counselling"))));
 
     }
 }
