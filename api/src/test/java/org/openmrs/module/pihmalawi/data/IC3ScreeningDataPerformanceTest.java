@@ -58,7 +58,7 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
 
     @Override
     protected boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override
@@ -125,6 +125,16 @@ public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveT
                 2019, 2, 8);
 
         log.warn(patient);
+        log.warn(patient.get("alerts"));
+
+        // IS-13, fix "last_adherence_counselling_session_date": null
+        patient = getPatient(
+                "c514a3d0-2695-102d-b4c2-001d929acb54",
+                "Neno District Hospital",
+                2019, 4, 10);
+
+        log.warn("last_adherence_counselling_session_date: " + patient.get("last_adherence_counselling_session_date"));
+        log.warn("last_adherence_counselling_session_number: " + patient.get("last_adherence_counselling_session_number"));
         log.warn(patient.get("alerts"));
 
         //testDate(2018, 11, 8);

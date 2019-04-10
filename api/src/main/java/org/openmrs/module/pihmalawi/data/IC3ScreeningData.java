@@ -92,7 +92,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_viral_load_ldl", hivPatientData.getLatestViralLoadByEndDate("resultLdl"));
         addColumn(dsd, "last_art_regimen_change_date", hivPatientData.getLatestArtRegimenChangeByEndDate("regimenDate"));
         addColumn(dsd, "last_adherence_counselling_session_number", df.getMostRecentObsByEndDate(hivMetadata.getAdherenceCounselingSessionNumberConcept(), null, df.getObsValueCodedConverter()));
-        addColumn(dsd, "last_adherence_counselling_session_date", df.getMostRecentObsByEndDate(hivMetadata.getAdherenceCounselingSessionNumberConcept(), null, df.getObsValueDatetimeConverter()));
+        addColumn(dsd, "last_adherence_counselling_session_date", df.getMostRecentObsByEndDate(hivMetadata.getAdherenceCounselingSessionNumberConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "chronic_care_diagnoses", ccPatientData.getAllChronicCareDiagnosesByEndDate());
         addColumn(dsd, "hiv_tests", hivPatientData.getAllHivTestResultsByEndDate());
         addColumn(dsd, "last_hiv_dna_pcr_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "testResult"));
