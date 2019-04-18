@@ -1,5 +1,29 @@
 [
   {
+    "name": "eid-positive-rapid-test-today",
+    "categories": ["eid", "screening-eligibility"],
+    "conditions": [
+      "age_years <= 2",
+      "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
+      "(last_hiv_rapid_test_result == positive) && (daysBetween(today, last_hiv_rapid_test_result_date) == 0)"
+    ],
+    "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "notes": "Alert provider to immediately collect sample for DNA PCR"
+  },
+  {
+    "name": "eid-positive-dna-pcr-test-today",
+    "categories": ["eid", "screening-eligibility"],
+    "conditions": [
+      "age_years <= 2",
+      "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
+      "(last_hiv_dna_pcr_result == positive) && (daysBetween(today, last_hiv_dna_pcr_result_date) == 0)"
+    ],
+    "alert": "Confirm enrollment in ART",
+    "action": "Confirm enrollment in ART",
+    "notes": "Alert provider to immediately initiate the infant on ART"
+  },
+  {
     "name": "eid-positive-rapid-test",
     "categories": ["eid", "screening-eligibility"],
     "conditions": [

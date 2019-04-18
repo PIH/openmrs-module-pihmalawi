@@ -19,6 +19,7 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.test.SkipBaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -213,7 +214,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
         Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
 
-        groupObsBuilder.member(routineTest);
+        //groupObsBuilder.member(routineTest);
         groupObsBuilder.member(bled);
         groupObsBuilder.member(numericResult);
         groupObsBuilder.save();
@@ -236,6 +237,89 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("due-for-adherence-counselling"))));
+
+    }
+
+
+    @Test
+    public void shouldReturnPossibleHIVInfectionAlert() throws Exception {
+
+        Patient patient = createPatient().age(1).save();
+
+        // HIV DNA-PCR test
+        Date date2 = DateUtil.getDateTime(2018, 10, 15);
+        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
+        // Child HIV serology construct
+        ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObs.member(dnaPcrTest);
+        groupObs.member(positiveResult);
+        groupObs.save();
+
+        // HIV Rapid test 1
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        Date date1 = DateUtil.getDateTime(currentYear, currentMonth, currentDay);
+        Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date1).save();
+        // Child HIV serology construct
+        ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObsBuilder.member(rapidTest);
+        groupObsBuilder.member(positiveRapidTestResult);
+        groupObsBuilder.save();
+
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(currentYear, currentMonth, currentDay),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("eid-positive-rapid-test-today"))));
+
+    }
+
+    @Test
+    public void shouldReturnPositiveDnaPcrTestTodayAlert() throws Exception {
+
+        Patient patient = createPatient().age(1).save();
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        // HIV DNA-PCR test
+        Date date2 = DateUtil.getDateTime(currentYear, currentMonth, currentDay);
+        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
+        // Child HIV serology construct
+        ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObs.member(dnaPcrTest);
+        groupObs.member(positiveResult);
+        groupObs.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(currentYear, currentMonth, currentDay),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("eid-positive-dna-pcr-test-today"))));
 
     }
 }
