@@ -784,6 +784,16 @@ public class AlertEngineTest {
     }
 
     @Test
+    public void shouldTestInlineVariables() throws Exception {
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        // t1 = March 4, 2005: 1109973600000
+        // t2 = February 5, 2000: 949701600000
+        Object res = engine.createScriptEngine(variables).eval("var t1='1109973600000'; var t2='949701600000'; monthsBetween(t1, t2)");
+        Assert.assertEquals(61.0, res);
+    }
+
+    @Test
     public void shouldTestLoadingAlerts() throws Exception {
         List<AlertDefinition> alertDefinitions = engine.getAlertDefinitions();
         Assert.assertTrue(alertDefinitions.size() > 0);

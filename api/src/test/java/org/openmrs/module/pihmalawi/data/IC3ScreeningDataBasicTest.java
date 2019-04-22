@@ -322,4 +322,59 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
                 (Matcher) hasItem(hasProperty("name", is("eid-positive-dna-pcr-test-today"))));
 
     }
+
+    @Test
+    public void shouldReturnRoutineViralLoad2pAlert() throws Exception {
+
+        Patient patient = createPatient().birthdate(DateUtil.getDateTime(2016, 11, 22)).save();
+
+        Program hivProgram = hivMetadata.getHivProgram();
+        PatientProgram patientProgram = new PatientProgram();
+        patientProgram.setPatient(patient);
+        patientProgram.setProgram(hivProgram);
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(2018, 2, 22));
+
+        // Exposed Child State
+        PatientState childState = new PatientState();
+        childState.setStartDate(DateUtil.getDateTime(2018, 2, 22));
+        ProgramWorkflowState exposedChildState = hivMetadata.getExposedChildState();
+        childState.setState(exposedChildState);
+        patientProgram.getStates().add(childState);
+        PatientProgram childProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+
+        // Patient changes ART regiment
+        Date d3 = DateUtil.getDateTime(2018, 3, 22);
+        Concept reg2 = hivMetadata.getArvRegimen4aConcept();
+        Encounter reg2Encounter = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), d3).save();
+        Obs regChange2 = createObs(reg2Encounter, hivMetadata.getArvDrugsChange2Concept(), reg2).save();
+        Obs regDate2 = createObs(reg2Encounter, hivMetadata.getDateOfStartingAlternativeFirstLineArvsConcept(), d3).save();
+
+        // Viral Load Test
+        Date lastViralLoadDate = DateUtil.getDateTime(2018, 4, 20);
+        Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), lastViralLoadDate).save();
+        ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getHivViralLoadTestSetConcept(), null);
+        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        // bled
+        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+
+        groupObsBuilder.member(routineTest);
+        groupObsBuilder.member(bled);
+        groupObsBuilder.member(numericResult);
+        groupObsBuilder.save();
+
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(2019, 4, 20),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("due-for-routine-viral-load-2p"))));
+
+
+    }
 }

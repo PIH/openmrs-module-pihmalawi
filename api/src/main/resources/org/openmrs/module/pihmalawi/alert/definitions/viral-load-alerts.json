@@ -87,8 +87,8 @@
     "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
-      "hiv_treatment_status == active_art",
-      "monthsBetween(today, last_art_regimen_change_date) >= 12",
+      "hiv_treatment_status == active_eid && !missing(eid_start_date)",
+      "(!missing(last_art_regimen_change_date) && (monthsBetween(today, last_art_regimen_change_date) <= 24) && ((age_months - monthsBetween(today, last_art_regimen_change_date)) >= 12) && ((age_months - monthsBetween(today, last_art_regimen_change_date)) <= 24)) || (((age_months - monthsBetween(today, eid_start_date)) >= 12) && ((age_months - monthsBetween(today, eid_start_date)) <= 24))",
       "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 6"
     ],
     "alert": "Due for routine VL",
