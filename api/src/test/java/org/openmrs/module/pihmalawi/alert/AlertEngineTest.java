@@ -463,7 +463,7 @@ public class AlertEngineTest {
         cal.add(Calendar.MONTH, -3); // 2 months ago
         patientData.put("last_viral_load_date", cal.getTime());
         patientData.put("last_viral_load_result_date", cal.getTime());
-        patientData.put("last_viral_load_type", "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
+        patientData.put("last_viral_load_type", null); // "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
         patientData.put("last_viral_load_numeric", 1000);
         patientData.put("last_viral_load_ldl", null);
         patientData.put("last_adherence_counselling_session_number", 1);
@@ -478,7 +478,7 @@ public class AlertEngineTest {
         alert.setConditions(Arrays.asList(
                 "age_years >= 3",
                 "hiv_treatment_status == active_art",
-                "last_viral_load_type == routine_viral_load",
+                "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
                 "last_viral_load_numeric > 0",
                 "last_viral_load_ldl != true",
                 "daysBetween(today, last_viral_load_result_date) >= 90"
