@@ -48,6 +48,8 @@ public class HivMetadata extends CommonMetadata {
 	public static String EXPOSED_CHILD_INITIAL = "EXPOSED_CHILD_INITIAL";
 	public static String EXPOSED_CHILD_FOLLOWUP = "EXPOSED_CHILD_FOLLOWUP";
 
+	public static String ADHERENCE_COUNSELING_ENCOUNTER_TYPE= "Adherence Counseling";
+
 	public static String HCC_NUMBER = "HCC Number";
 	public static String ARV_NUMBER = "ARV Number";
 	public static String OLD_PART_NUMBER = "z_deprecated PART Number";
@@ -151,6 +153,7 @@ public class HivMetadata extends CommonMetadata {
 	public EncounterType getEidInitialEncounterType() {
 		return getEncounterType(EXPOSED_CHILD_INITIAL);
 	}
+
 
 	public EncounterType getArtFollowupEncounterType() {
 		return getEncounterType(ART_FOLLOWUP);

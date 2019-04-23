@@ -463,7 +463,7 @@ public class AlertEngineTest {
         cal.add(Calendar.MONTH, -3); // 2 months ago
         patientData.put("last_viral_load_date", cal.getTime());
         patientData.put("last_viral_load_result_date", cal.getTime());
-        patientData.put("last_viral_load_type", "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
+        patientData.put("last_viral_load_type", null); // "e0821812-955d-11e7-abc4-cec278b6b50a"); //routine_viral_load
         patientData.put("last_viral_load_numeric", 1000);
         patientData.put("last_viral_load_ldl", null);
         patientData.put("last_adherence_counselling_session_number", 1);
@@ -478,7 +478,7 @@ public class AlertEngineTest {
         alert.setConditions(Arrays.asList(
                 "age_years >= 3",
                 "hiv_treatment_status == active_art",
-                "last_viral_load_type == routine_viral_load",
+                "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
                 "last_viral_load_numeric > 0",
                 "last_viral_load_ldl != true",
                 "daysBetween(today, last_viral_load_result_date) >= 90"
@@ -781,6 +781,16 @@ public class AlertEngineTest {
         variables.put("t2", DateUtil.getDateTime(y2, m2, d2).getTime());
         Object res = engine.createScriptEngine(variables).eval(function + "(t1, t2)");
         Assert.assertEquals(expected, res);
+    }
+
+    @Test
+    public void shouldTestInlineVariables() throws Exception {
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        // t1 = March 4, 2005: 1109973600000
+        // t2 = February 5, 2000: 949701600000
+        Object res = engine.createScriptEngine(variables).eval("var t1='1109973600000'; var t2='949701600000'; monthsBetween(t1, t2)");
+        Assert.assertEquals(61.0, res);
     }
 
     @Test

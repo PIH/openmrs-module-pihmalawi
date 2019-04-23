@@ -1,7 +1,7 @@
 [
   {
     "name": "due-for-routine-viral-load-1",
-    "categories": ["viral-load"],
+    "categories": ["viral-load", "screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -14,7 +14,7 @@
   },
   {
     "name": "due-for-routine-viral-load-2",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -28,7 +28,7 @@
   },
   {
     "name": "due-for-routine-viral-load-3",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
@@ -41,15 +41,14 @@
   },
   {
     "name": "due-for-adherence-counselling",
-    "categories": ["viral-load", "abnormal-result"],
+    "categories": ["adherence", "abnormal-result","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
-      "last_viral_load_type == routine_viral_load",
+      "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
       "last_viral_load_numeric > 0",
       "last_viral_load_ldl != true",
-      "last_adherence_counselling_session_number < 3",
-      "last_adherence_counselling_session_date > last_viral_load_date"
+      "(missing(last_adherence_counselling_session_number) || missing(last_adherence_counselling_session_date)) || (!missing(last_adherence_counselling_session_date) && (last_adherence_counselling_session_date < last_viral_load_date)) || (!missing(last_adherence_counselling_session_date) && !missing(last_adherence_counselling_session_number) && (last_adherence_counselling_session_date >= last_viral_load_date) && (last_adherence_counselling_session_number != adherence_counseling_third_session))"
     ],
     "alert": "High Viral Load. Do adherence counseling for 3 consecutive months.",
     "action": "High Viral Load. Do adherence counseling for 3 consecutive months.",
@@ -57,11 +56,11 @@
   },
   {
     "name": "due-for-confirmatory-viral-load",
-    "categories": ["viral-load", "abnormal-result"],
+    "categories": ["viral-load", "abnormal-result","screening-eligibility"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
-      "last_viral_load_type == routine_viral_load",
+      "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
       "last_viral_load_numeric > 0",
       "last_viral_load_ldl != true",
       "daysBetween(today, last_viral_load_result_date) >= 90"
@@ -72,7 +71,7 @@
   },
   {
     "name": "due-for-routine-viral-load-1p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
       "hiv_treatment_status == active_art",
@@ -85,11 +84,11 @@
   },
   {
     "name": "due-for-routine-viral-load-2p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
-      "hiv_treatment_status == active_art",
-      "monthsBetween(today, last_art_regimen_change_date) >= 12",
+      "hiv_treatment_status == active_eid && !missing(eid_start_date)",
+      "(!missing(last_art_regimen_change_date) && (monthsBetween(today, last_art_regimen_change_date) <= 24) && ((age_months - monthsBetween(today, last_art_regimen_change_date)) >= 12) && ((age_months - monthsBetween(today, last_art_regimen_change_date)) <= 24)) || (((age_months - monthsBetween(today, eid_start_date)) >= 12) && ((age_months - monthsBetween(today, eid_start_date)) <= 24))",
       "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 6"
     ],
     "alert": "Due for routine VL",
@@ -98,7 +97,7 @@
   },
   {
     "name": "due-for-routine-viral-load-3p",
-    "categories": ["viral-load"],
+    "categories": ["viral-load","screening-eligibility"],
     "conditions": [
       "age_years < 3",
       "hiv_treatment_status == active_art",
