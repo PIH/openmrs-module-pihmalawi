@@ -97,6 +97,8 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "hiv_tests", hivPatientData.getAllHivTestResultsByEndDate());
         addColumn(dsd, "last_hiv_dna_pcr_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "testResult"));
         addColumn(dsd, "last_hiv_dna_pcr_result_date", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "effectiveDate"));
+        addColumn(dsd, "first_hiv_dna_pcr_result", hivPatientData.getFirstHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "testResult"));
+        addColumn(dsd, "first_hiv_dna_pcr_result_date", hivPatientData.getFirstHivTestResultPropertyByEndDate(hivMetadata.getHivDnaPcrTest(), "effectiveDate"));
         addColumn(dsd, "last_hiv_rapid_test_result", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "testResult"));
         addColumn(dsd, "last_hiv_rapid_test_result_date", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "effectiveDate"));
         addColumn(dsd, "last_hba1c_result_date", df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, df.getObsDatetimeConverter()));

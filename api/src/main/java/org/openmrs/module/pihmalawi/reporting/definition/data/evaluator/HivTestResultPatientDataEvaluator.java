@@ -24,6 +24,7 @@ import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.HivTestResultPatientDataDefinition;
 import org.openmrs.module.reporting.common.BeanPropertyComparator;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.patient.EvaluatedPatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.evaluator.PatientDataEvaluator;
@@ -158,9 +159,13 @@ public class HivTestResultPatientDataEvaluator implements PatientDataEvaluator {
                 }
             }
 
-            // Sort by effective date ascending
 
-            Collections.sort(l, new BeanPropertyComparator("effectiveDate asc"));
+            if (def.getWhich() != null && def.getWhich() == TimeQualifier.FIRST) {
+                Collections.sort(l, new BeanPropertyComparator("effectiveDate desc"));
+            } else {
+                // Sort by effective date ascending
+                Collections.sort(l, new BeanPropertyComparator("effectiveDate asc"));
+            }
         }
 
 		return c;

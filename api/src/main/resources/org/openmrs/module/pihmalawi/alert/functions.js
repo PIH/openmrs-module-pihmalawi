@@ -126,6 +126,40 @@ function hasChronicCareDiagnosis(arrayToCheck, valueArrayToCheck) {
   return false;
 }
 
+function getTestFirstDateByTypeAndValue(objectArray, testType, resultValue, returnProperty) {
+
+  if (objectArray && testType && resultValue && returnProperty) {
+    var arrayFromList;
+    if (objectArray instanceof java.lang.Object) {
+      // we have to convert Java ArrayList to JavaScript array
+      arrayFromList = objectArray.toArray();
+    } else {
+      arrayFromList = objectArray;
+    }
+
+
+    if (arrayFromList && arrayFromList.length > 0) {
+      for (var i = 0; i < arrayFromList.length; i++) {
+        var obj = arrayFromList[i];
+        var objTestType = obj.get('testType').toUpperCase();
+        var objResultValue = obj.get('result').toUpperCase();
+
+        if ((objTestType == testType.toUpperCase()) && (objResultValue == resultValue.toUpperCase())) {
+          var objReturnValue = obj.get(returnProperty);
+          if (objReturnValue) {
+            if (objReturnValue instanceof java.util.Date) {
+              return objReturnValue.getTime();
+            } else {
+              return objReturnValue;
+            }
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+
 /**
  * Returns false if valueToCheck is found in the arrayToCheck, true otherwise
  */

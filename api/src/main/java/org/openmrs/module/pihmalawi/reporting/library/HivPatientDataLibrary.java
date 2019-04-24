@@ -43,6 +43,7 @@ import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ReasonF
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ViralLoadDataDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.converter.ChainedConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.MapConverter;
@@ -243,6 +244,20 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
         HivTestResultListConverter converter = new HivTestResultListConverter(type, property);
         return pdf.convert(results, converter);
     }
+
+	@DocumentedDefinition
+	public PatientDataDefinition getFirstHivTestResultsByEndDate() {
+		HivTestResultPatientDataDefinition def = new HivTestResultPatientDataDefinition();
+		def.setWhich(TimeQualifier.FIRST);
+		def.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		return def;
+	}
+
+	public PatientDataDefinition getFirstHivTestResultPropertyByEndDate(Concept type, String property) {
+		PatientDataDefinition results = getFirstHivTestResultsByEndDate();
+		HivTestResultListConverter converter = new HivTestResultListConverter(type, property);
+		return pdf.convert(results, converter);
+	}
 
 	//************* VIRAL LOADS *********************
 

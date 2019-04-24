@@ -48,6 +48,20 @@
     "notes": "Alert provider to immediately initiate the infant on ART"
   },
   {
+    "name": "eid-new-positive-dna-pcr-test",
+    "categories": ["eid", "screening-eligibility"],
+    "conditions": [
+      "hiv_treatment_status == active_eid",
+      "age_days >= 42",
+      "age_days < 366",
+      "!missing(hiv_tests)",
+      "daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) == 0"
+    ],
+    "alert": "EID Positive DNA PCR Test",
+    "action": "Do this today: Confirm ART Enrollment, Refer for confirmatory EID DNA-PCR Test",
+    "notes": "EID Positive DNA PCR Test"
+  },
+  {
     "name": "eid-routine-dna-pcr-test",
     "categories": ["eid", "screening-eligibility"],
     "conditions": [

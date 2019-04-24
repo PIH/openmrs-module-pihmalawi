@@ -743,6 +743,39 @@ public class AlertEngineTest {
 
     }
 
+    @Test
+    public void shouldTestGetTestFirstDateByTypeAndValue() throws Exception {
+
+        final Long startOfDay = (DateUtil.getStartOfDay(new Date())).getTime();
+        Map<String, Object> variables = new HashMap<String, Object>();
+        //diabetes, hypertension
+        List<HashMap<String, String>> hashMapList = Arrays.asList(new HashMap<String, String>() {{
+            put("specimenDate", "1525726800000");
+            put("resultDate", null);
+            put("effectiveDate", "1525726800000");
+            put("result", "654994c2-977f-11e1-8993-905e29aff6c1");
+            put("testType", "654a6960-977f-11e1-8993-905e29aff6c1");
+        }}, new HashMap<String, String>() {{
+            put("specimenDate", "1553299200000");
+            put("resultDate", null);
+            put("effectiveDate", "1553299200000");
+            put("result", "654994c2-977f-11e1-8993-905e29aff6c1");
+            put("testType", "654a6960-977f-11e1-8993-905e29aff6c1");
+        }}, new HashMap<String, String>() {{
+            put("specimenDate", String.valueOf(startOfDay));
+            put("resultDate", null);
+            put("effectiveDate", String.valueOf(startOfDay));
+            put("result", "6549be7a-977f-11e1-8993-905e29aff6c1");
+            put("testType", "654a6960-977f-11e1-8993-905e29aff6c1");
+        }});
+        variables.put("hiv_tests", hashMapList);
+        variables.put("today", String.valueOf(startOfDay));
+        ScriptEngine scriptEngine = engine.createScriptEngine(variables);
+        Object res = scriptEngine.eval( "daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) == 0");
+
+        Assert.assertEquals(true, res);
+    }
+
     protected JsonObject getTestPatient(String years){
         Date effectiveDate = DateUtil.getStartOfDay(new Date());
 

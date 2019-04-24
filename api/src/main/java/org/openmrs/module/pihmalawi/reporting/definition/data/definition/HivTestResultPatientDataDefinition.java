@@ -14,6 +14,7 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
 import org.openmrs.module.reporting.common.Localized;
+import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.data.BaseDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
@@ -38,6 +39,8 @@ public class HivTestResultPatientDataDefinition extends BaseDataDefinition imple
 
 	@ConfigurationProperty
 	private Date endDate;
+	@ConfigurationProperty
+	private TimeQualifier which;
 
 	//***** INSTANCE METHODS *****
 
@@ -54,5 +57,13 @@ public class HivTestResultPatientDataDefinition extends BaseDataDefinition imple
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public TimeQualifier getWhich() {
+		return this.which;
+	}
+
+	public void setWhich(TimeQualifier which) {
+		this.which = which;
 	}
 }
