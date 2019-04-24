@@ -17,7 +17,7 @@
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
-      "(last_hiv_dna_pcr_result == positive) && (daysBetween(today, last_hiv_dna_pcr_result_date) == 0)"
+      "(age_days < 42 || age_days >= 366 || (age_days >= 42 && age_days < 366 && (daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) > 0))) && (last_hiv_dna_pcr_result == positive) && (daysBetween(today, last_hiv_dna_pcr_result_date) == 0)"
     ],
     "alert": "Confirm enrollment in ART",
     "action": "Confirm enrollment in ART",
@@ -41,7 +41,8 @@
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
-      "last_hiv_dna_pcr_result == positive"
+      "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
+      "last_hiv_dna_pcr_result == positive && (last_hiv_dna_pcr_result_date != today)"
     ],
     "alert": "Confirm enrollment in ART",
     "action": "Confirm enrollment in ART",
@@ -51,7 +52,6 @@
     "name": "eid-new-positive-dna-pcr-test",
     "categories": ["eid", "screening-eligibility"],
     "conditions": [
-      "hiv_treatment_status == active_eid",
       "age_days >= 42",
       "age_days < 366",
       "!missing(hiv_tests)",
