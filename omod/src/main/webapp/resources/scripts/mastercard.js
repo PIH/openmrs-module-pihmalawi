@@ -222,7 +222,17 @@
                 if (flowsheet.getCurrentlyEditingFormName() ) {
                     var heightArray = heightMap[flowsheet.getCurrentlyEditingFormName()];
                     if (heightArray) {
-                        heightArray.sort(compare);
+                        heightArray.sort(function compare(a,b) {
+                            if ( a.encounterDateTime.isBefore(b.encounterDateTime) ) {
+                                return -1;
+                            }
+                            else if ( a.encounterDateTime.isAfter(b.encounterDateTime) ) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        });
                         for (i = 0; i < heightArray.length; i++) {
                             var heightInfo = heightArray[i];
                             if ( visitMoment.isAfter(heightInfo.encounterDateTime) ) {
