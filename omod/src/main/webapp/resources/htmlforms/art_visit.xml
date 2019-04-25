@@ -95,93 +95,93 @@
                     </td>
                     <td>
                         <!-- Height -->
-                       <obs conceptId="$height" id="heightEntered"/>
+                       <obsreference conceptId="$height" id="heightEntered"/>
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" />
+                        <obsreference conceptId="$weight"/>
                     </td>
-                    <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Preg" answerConceptId="$currentlyPregnant" />
-                    <obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Bf" answerConceptId="$currentlyLactating" />
+                    <td><obsreference conceptId="$pregnantLactating" style="checkbox" answerLabel="Preg" answerConceptId="$currentlyPregnant" />
+                    <obsreference conceptId="$pregnantLactating" style="checkbox" answerLabel="Bf" answerConceptId="$currentlyLactating" />
                     </td>
                     <!-- TB Status (curr) -->
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="" />
                     </td>
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="" />
                     </td>
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="" />
                     </td>
                     <td>
-                        <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="" />
                     </td>
                     <td>
                         <!-- Side Effects -->
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                        <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                        <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
                     </td>                    
                     <td>
                         <!-- Pill count -->
-                        <obs conceptId="$pillCount" />
+                        <obsreference conceptId="$pillCount" />
                     </td>
                     <td>
                         <!-- Doses missed -->
-                        <obs conceptId="$dosesMissed" />
+                        <obsreference conceptId="$dosesMissed" />
                     </td>
                     <td>
                         <!-- ART Regimen -->
-                        <obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
+                        <obsreference conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
                     </td>                    
                     <td>
                         <!-- # ARVs -->
-                        <obs conceptId="$numArvsGiven" />
+                        <obsreference conceptId="$numArvsGiven" />
                     </td>
                     <td style="white-space: nowrap;">
                         <!-- # ARVs given to -->
-                        <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
+                        <obsreference conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
                     </td>
                     <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
                         <td>
                             <!-- Regimen -->
-                            <obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
+                            <obsreference style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
                         </td>    
                         <td>             
                             <!-- # tablets -->
-                            <obs conceptId="$hivPreventiveTherapyPills"/>
+                            <obsreference conceptId="$hivPreventiveTherapyPills"/>
                         </td>
                     </obsgroup>
                     <td>
                         <!-- depo given -->
-                        <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                        <obsreference conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
                     </td>
                     <td>
                         <!-- # condoms -->
-                        <obs conceptId="$numCondoms"/>
+                        <obsreference conceptId="$numCondoms"/>
                     </td>
                     <obsgroup groupingConceptId="$viralLoadSet">
                         <td>
                             <!-- Viral load sample -->
-                            <obs conceptId="$viralLoadTaken" style="checkbox"
+                            <obsreference conceptId="$viralLoadTaken" style="checkbox"
                                  labelText="Bled"/>
                         </td>
                         <td>
                             <!-- Viral load -->
-                            <obs conceptId="$viralLoadResult"/>
+                            <obsreference conceptId="$viralLoadResult"/>
                         </td>
                         <td>
                             <!-- LDL -->
-                            <obs conceptId="$LDL" style="checkbox" />
+                            <obsreference conceptId="$LDL" style="checkbox" />
                         </td>
                     </obsgroup>
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" />
+                        <obsreference conceptId="$nextAppt" />
                     </td>
                 </tr>
             </tbody>
@@ -217,90 +217,91 @@
             </tr>
             <tr>
                 <th>Height</th>
-                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <th>Pregnant/Breastfeed.</th>
-                <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$currentlyPregnant,$currentlyLactating" /><span style="font-size:.8em;">Write child HCC no. if Bf</span></td>
+                <td><obsreference conceptId="$pregnantLactating" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$currentlyPregnant,$currentlyLactating"/>
+                    <span style="font-size:.8em;">Write child HCC no. if Bf</span>
+                </td>
             </tr>
             <tr>
                 <th>TB Status (Curr.)*</th>
                 <td>
                     <b>Suspected</b>
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes" />
+                    <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No"/>
+                    <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes"/>
                     <b style="padding-left:30px;">Confirmed</b>
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx" />
-                    <obs conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
+                    <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx"/>
+                    <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx"/>
                 </td>
             </tr>
             <tr>
                 <th>Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></th>
                 <td>
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
-                    <obs conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$no" answerLabel="No" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$pn" answerLabel="PN" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$hp" answerLabel="HP" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$sk" answerLabel="SK" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$lip" answerLabel="Lip" />
+                    <obsreferece conceptId="$sideEffect" style="checkbox" answerConceptId="$other" answerLabel="Oth" />
                 </td>
             </tr>
             <tr>
                 <th>Pill Count</th>
-                <td><obs conceptId="$pillCount" /></td>
+                <td><obsreference conceptId="$pillCount"/></td>
             </tr>
             <tr>
                 <th>Doses Missed</th>
-                <td><obs conceptId="$dosesMissed" /></td>
+                <td><obsreference conceptId="$dosesMissed"/></td>
             </tr>
             <tr>
                 <th>ART Regimen</th>
-                <td><obs conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
+                <td><obsreference conceptId="$artRegimen" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/></td>
             </tr>            
             <tr>
                 <th>ARVs given</th>
                 <td>
-                    No. of tablets: <obs conceptId="$numArvsGiven" />
+                    No. of tablets: <obsreference conceptId="$numArvsGiven"/>
                     <span style="padding-left:10px">To: </span>
-                    <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
+                    <obsreference conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G"/>
                 </td>
             </tr>
             <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
                 <tr>
                     <th>CPT/IPT Given</th>
                     <!-- Regimen -->
-                    <td><obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
+                    <td><obsreference style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
                     <span style="padding-left:10px">No. of pills</span>
-                    <obs conceptId="$hivPreventiveTherapyPills"/></td>
+                    <obsreference conceptId="$hivPreventiveTherapyPills"/></td>
                 </tr>                  
             </obsgroup>
             <tr>
                 <th>Family Plan.</th>
                 <td>
-                    Depo Given: <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                    Depo Given: <obsreference conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel=""/>
                     <span style="padding-left:10px">No. of condom</span>
-                    <obs conceptId="$numCondoms"/>
+                    <obsreference conceptId="$numCondoms"/>
                 </td>
             </tr>
             <obsgroup groupingConceptId="$viralLoadSet">
                 <tr>
                     <th>Viral load</th>
                     <td>
-                        <obs conceptId="$viralLoadTaken" style="checkbox"
-                             labelText="Bled"/>
+                        <obsreference conceptId="$viralLoadTaken" style="checkbox" labelText="Bled"/>
                         <span style="padding-left:10px">Result</span>
-                        <obs conceptId="$viralLoadResult"/>
-                        <obs conceptId="$LDL" style="checkbox" labelText="LDL"/>
+                        <obsreference conceptId="$viralLoadResult"/>
+                        <obsreference conceptId="$LDL" style="checkbox" labelText="LDL"/>
                     </td>
                 </tr>
             </obsgroup>
             <tr>
                 <th>Next appointment</th>
-                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/></td>
             </tr>
 
         </table>
