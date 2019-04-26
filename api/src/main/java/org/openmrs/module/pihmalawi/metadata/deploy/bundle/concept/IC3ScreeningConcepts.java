@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 27;
+        return 28;
     }
 
     @Override
@@ -691,5 +691,11 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .name("558a7984-2990-11e9-b210-d663bd873d93", "Reason to stop care (text)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .build());
 
+        Concept transferOutsideDistrict = install(new ConceptBuilder("e498db2a-04b1-44da-81fd-a2ef86529141")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1858d032-f3d9-4764-98e5-810f83c42c03", "Transfer outside district", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ee7cbe8e-d06e-4378-b841-b723b330b96e", "Transfer to another health facility outside the district of responsibility", Locale.ENGLISH)
+                .build());
     }
 }
