@@ -81,15 +81,15 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightEntered" />
+                        <obsreference conceptId="$height" id="heightEntered" />
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" />
+                        <obsreference conceptId="$weight" />
                     </td>
                     <td>
                         <!-- MUAC -->
-                        <obs conceptId="$muac"/>
+                        <obsreference conceptId="$muac"/>
                     </td>
                     <td>
                         <!-- Wasting/malnutrition -->
@@ -98,7 +98,7 @@
                     </td>
                     <td>
                         <!-- Breast feeding -->
-                        <obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
+                        <obsreference conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
                              answerLabels="Exc,M,C,&lt;6,6+" />
                     </td>
                     <td>
@@ -131,7 +131,7 @@
                     </td>
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" />
+                        <obsreference conceptId="$nextAppt" />
                     </td>
                 </tr>
             </tbody>
@@ -167,15 +167,15 @@
           </tr>
           <tr>
               <th>Height</th>
-              <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+              <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true" /></td>
           </tr>
           <tr>
               <th>Weight</th>
-              <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+              <td><obsreference conceptId="$weight" id="weightInput" showUnits="true" /></td>
           </tr>
           <tr>
               <th>MUAC</th>
-              <td><obs conceptId="$muac"/></td>
+              <td><obsreference conceptId="$muac"/></td>
           </tr>
           <tr>
               <th>Wasting/Malnutrition</th>
@@ -184,7 +184,7 @@
           </tr>
           <tr>
               <th>Breast feeding</th>
-              <td><obs conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
+              <td><obsreference conceptId="$breast" style="radio" answerConceptIds="$exclusive,$mixed,$complimentary,$stoppedPastSix,$stoppedOverSix"
                    answerLabels="Exc,M,C,&lt;6,6+" /></td>
           </tr>
           <tr>
@@ -219,7 +219,7 @@
           </tr>
           <tr>
               <th>Next appointment</th>
-              <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+              <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
           </tr>
         </table>
 
