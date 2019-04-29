@@ -198,10 +198,10 @@
                             <td>Height, Wt.</td>
                             <td class="nowrap">
                                 <span class="left-cell">
-                                    <obs conceptId="$height" /> cm
+                                    <obsreference conceptId="$height" /> cm
                                 </span>
                                 <span class="right-cell">
-                                    <obs conceptId="$weight" /> kgs
+                                    <obsreference conceptId="$weight" /> kgs
                                 </span>
                             </td>
                             <td style="white-space: nowrap;">Ever taken ARVs</td>
