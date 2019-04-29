@@ -159,7 +159,9 @@
         <table class="visit-edit-table">
           <tr>
               <th>Visit Date</th>
-              <td><encounterDate id="visitDate" size="20" default="today" /></td>
+              <td><lookup expression="context.defaultEncounterDate" />
+                  <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
+              </td>
           </tr>
           <tr>
               <th>Visit Location</th>
