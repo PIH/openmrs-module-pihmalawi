@@ -134,7 +134,7 @@
                         err = 'Must be within 12 months of visit date';
                     }
                 }
-                else if (apptDateField[0] && !apptMoment) {
+                else if (apptDateField[0] && !apptDateField.parent().is(':hidden') && !apptMoment) {  // bit of a hack, if the field is parent hidden, we assume there is a provided reference value
                     err = "Required"
                 }
                 return flowsheet.toggleError(apptDateField, err)
