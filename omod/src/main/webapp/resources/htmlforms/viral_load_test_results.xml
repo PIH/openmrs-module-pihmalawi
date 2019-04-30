@@ -1,5 +1,5 @@
 <htmlform formUuid="badbb502-9718-11e7-8999-ad34fd5ac8df" formName="Viral Load Tests"
-          formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
+          formEncounterType="9959A261-2122-4AE1-A89D-1CA444B712EA" formVersion="1.0">
 
     <macros>
         viralLoadSet=8628
@@ -34,8 +34,7 @@
     <span style="display:none">
         <encounterProvider default="16576" />
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
-    </span> <!-- Set provider to a default as not used --> 
-    abc 123       
+    </span> <!-- Set provider to a default as not used -->
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
@@ -46,7 +45,6 @@
                     <th>Bled</th>
                     <th>Viral Load Result</th>
                     <th>Other Result</th>
-                    <th>Next appointment</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -81,10 +79,6 @@
                             <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
                         </td>
                     </obsgroup>
-                    <td>
-                        <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" />
-                    </td>
                 </tr>                                
             </tbody>
         </table>
@@ -121,7 +115,6 @@
                     <th>Bled</th>
                     <th>Viral Load Result</th>
                     <th>LDL</th>
-                    <th>Next appointment</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -156,7 +149,6 @@
                             <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
                         </td>
                     </obsgroup>
-                    <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
                 </tr>                               
             </tbody>
         </table>

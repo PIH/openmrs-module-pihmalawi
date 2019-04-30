@@ -188,12 +188,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit"));
 
-		String requireObs = "";
+		String byConcept = "";
 
-		if (f.getName().equals("Viral Load Tests") && f.getEncounterType().getName().equals("ART_FOLLOWUP")) {
-			headerForms.put(EncounterTypes.ART_FOLLOWUP.name(), "blank_header");
-			flowsheetForms.put(EncounterTypes.ART_FOLLOWUP.name(), Arrays.asList("viral_load_test_results"));
-			requireObs = CommonMetadata.HIV_VIRAL_LOAD_TEST_SET;
+		if (f.getName().equals("Viral Load Tests")) {
+			headerForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), "blank_header");
+			flowsheetForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), Arrays.asList("viral_load_test_results"));
+			byConcept = CommonMetadata.HIV_VIRAL_LOAD_TEST_SET;
 		}
 		else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
 			headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
@@ -211,8 +211,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			for (String flowsheet : flowsheets) {
 				sb.append("&flowsheets=pihmalawi:htmlforms/").append(flowsheet).append(".xml");
 			}
-			if (StringUtils.isNotBlank(requireObs)) {
-				sb.append("&requireObs=").append(requireObs);
+			if (StringUtils.isNotBlank(byConcept)) {
+				sb.append("&byConcept=").append(byConcept);
 			}
 			sb.append("&dashboardUrl=legacyui&customizationProvider=pihmalawi&customizationFragment=mastercard");
 			return sb.toString();
