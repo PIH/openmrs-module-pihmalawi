@@ -113,16 +113,16 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightEntered" />
+                        <obsreference conceptId="$height" id="heightEntered" size="3"/>
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" />
+                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
 
                     <td>
                         <!-- Blood pressure -->
-                        <obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" />
+                        <obsreference conceptId="$systolicBP" />/<obsreference conceptId="$diastolicBP" />
                     </td>
 
                     <!-- Location of Visit -->
@@ -225,7 +225,9 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+                <td><lookup expression="context.defaultEncounterDate" />
+                    <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
+                </td>
             </tr>
             <tr>
                 <th>Visit Location</th>
@@ -233,16 +235,16 @@
             </tr>
             <tr class="focus-field">
                 <th>Height</th>
-                <td class="focus-field"><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
             </tr>
 
             <tr>
                 <th>Blood pressure</th>
-                <td><obs conceptId="$systolicBP" />/<obs conceptId="$diastolicBP" /></td>
+                <td><obsreference conceptId="$systolicBP" />/<obsreference conceptId="$diastolicBP" /></td>
             </tr>
 
             <tr>

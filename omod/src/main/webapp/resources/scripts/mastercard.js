@@ -4,17 +4,17 @@
 
     console.log("Adding extensions to flowsheet");
 
-    var fsExt = {}
+    var fsExt = {};
 
     fsExt.heightMap = null;
 
     fsExt.afterShowVisitTable = function(flowsheet) {
-        if (heightMap) {
+        if (typeof fsExt.heightMap !== "undefined" && fsExt.heightMap != null) {
             flowsheet.clearErrorMessage();
             jq(".visit-table").find(".td-error").removeClass("td-error");
-            for (var key in heightMap) {
-                if (heightMap.hasOwnProperty(key)) {
-                    var heightArray = heightMap[key];
+            for (var key in fsExt.heightMap) {
+                if (fsExt.heightMap.hasOwnProperty(key)) {
+                    var heightArray = fsExt.heightMap[key];
                     if (heightArray) {
                         var values = fsExt.extractHeightValues(heightArray);
                         for (i = 0; i < heightArray.length; i++) {
@@ -35,7 +35,7 @@
     };
 
     fsExt.beforeLoadVisitTable = function(flowsheet) {
-        heightMap = new Object();
+        fsExt.heightMap = new Object();
     }
 
     fsExt.beforeLoadVisitRow = function(flowsheet, formName, encounterId, data) {
@@ -44,14 +44,14 @@
         var newVisitMoment = flowsheet.extractVisitMoment(newRow);
         var heightField = jq(data).find("#heightEntered :first-child");
 
-        if (heightMap == null) {
-            heightMap = new Object();
+        if (fsExt.heightMap == null) {
+            fsExt.heightMap = new Object();
         }
         if (heightField) {
             var currentHeight = parseInt(heightField.text(), 10);
             if (currentHeight > 0) {
                 var heightInfo = null;
-                var formHeight = heightMap[formName];
+                var formHeight = fsExt.heightMap[formName];
                 if (formHeight == null) {
                     formHeight = [];
                 }
@@ -66,7 +66,7 @@
                 heightInfo.encounterDateTime = newVisitMoment;
                 heightInfo.height = currentHeight;
 
-                heightMap[formName] = formHeight;
+                fsExt.heightMap[formName] = formHeight;
             }
         }
 
@@ -201,9 +201,9 @@
 
         function validateAdultHeight(patientHeight) {
             var error = null;
-            if ( patientHeight > 0 && heightMap) {
+            if ( patientHeight > 0 && fsExt.heightMap) {
                 if (flowsheet.getCurrentlyEditingFormName() ) {
-                    var heightArray = heightMap[flowsheet.getCurrentlyEditingFormName()];
+                    var heightArray = fsExt.heightMap[flowsheet.getCurrentlyEditingFormName()];
                     if (heightArray) {
                         var values = fsExt.extractHeightValues(heightArray);
                         if (fsExt.isHeightOutsideOfStandardDeviation(values, patientHeight)) {
@@ -218,9 +218,9 @@
 
         function validateChildHeight(patientHeight, visitMoment) {
             var error = null;
-            if ( patientHeight > 0 && heightMap) {
+            if ( patientHeight > 0 && fsExt.heightMap) {
                 if (flowsheet.getCurrentlyEditingFormName() ) {
-                    var heightArray = heightMap[flowsheet.getCurrentlyEditingFormName()];
+                    var heightArray = fsExt.heightMap[flowsheet.getCurrentlyEditingFormName()];
                     if (heightArray) {
                         heightArray.sort(function compare(a,b) {
                             if ( a.encounterDateTime.isBefore(b.encounterDateTime) ) {

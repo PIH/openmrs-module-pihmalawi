@@ -98,11 +98,11 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightEntered" size="3"/>
+                        <obsreference conceptId="$height" id="heightEntered" size="3"/>
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="$weight" id="weightInput" size="3"/>
+                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
                     <td>
                         <!-- Day sx -->
@@ -207,7 +207,9 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="visitDate" default="today" /></td>
+                <td><lookup expression="context.defaultEncounterDate" />
+                    <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
+                </td>
             </tr>
             <tr>
                 <th>Visit Location</th>
@@ -224,12 +226,12 @@
             <tr>
                 <!-- Height -->
                 <th>Height</th>
-                <td><obs conceptId="$height" id="heightInput" showUnits="true" /></td>
+                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <!-- Weight -->
                 <th>Weight</th>
-                <td><obs conceptId="$weight" id="weightInput" showUnits="true" /></td>
+                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <!-- Day sx -->

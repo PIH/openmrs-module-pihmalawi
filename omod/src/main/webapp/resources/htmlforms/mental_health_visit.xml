@@ -122,11 +122,11 @@
                     </td>
                     <td style="padding: 1px;" >
                         <!-- Height -->
-                        <obs conceptId="$height" id="heightInput" size="3"/>
+                        <obsreference conceptId="$height" id="heightInput" size="3"/>
                     </td>
                     <td style="padding: 1px;" >
                         <!-- Weight -->
-                        <obs conceptId="$weight" id="weightInput" size="3"/>
+                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
                     <!-- ToDo: Mental status examination -->
                     <repeat with="['$depressive','Depressed mood'],
@@ -283,7 +283,9 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+                <td><lookup expression="context.defaultEncounterDate" />
+                    <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
+                </td>
             </tr>
             <tr>
                 <th>Visit Location</th>
@@ -291,11 +293,11 @@
             </tr>
             <tr class="focus-field">
                 <th>Height</th>
-                <td><obs conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
+                <td><obsreference conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
             </tr>
             <tr class="focus-field">
                 <th>Weight</th>
-                <td><obs conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
+                <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
             </tr>
             <tr>
                 <!-- ToDo: Mental status examination -->

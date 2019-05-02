@@ -3,6 +3,10 @@
 
     <macros>
         <!-- Not used -->
+        height=5090
+        weight=5089
+        systolicBP=5085
+        diastolicBP=5086
     </macros>
 
     <!-- Flowsheet table view -->
@@ -62,16 +66,16 @@
                     </td>
                     <td>
                         <!-- Height -->
-                        <obs conceptId="5090" id="heightEntered" />
+                        <obsreference conceptId="$height" id="heightEntered" size="3"/>
                     </td>
                     <td>
                         <!-- Weight -->
-                        <obs conceptId="5089"/>
+                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
 
                     <td>
                         <!-- Blood Pressure -->
-                        <obs conceptId="5085" /> / <obs conceptId="5086" /> 
+                        <obsreference conceptId="$systolicBP" />/<obsreference conceptId="$diastolicBP" />
                     </td>
 
                     <!-- Fingerstick -->
@@ -158,8 +162,8 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td>
-                    <encounterDate id="visitDate" size="20" default="today"/>
+                <td><lookup expression="context.defaultEncounterDate" />
+                    <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>
             <tr>
@@ -177,20 +181,18 @@
             <tr>
                 <th>Height</th>
                 <td class="focus-field">
-                    <obs conceptId="5090" id="heightInput" showUnits="true"/>
+                    <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
                 </td>
             </tr>
             <tr>
                 <th>Weight</th>
                 <td>
-                    <obs conceptId="5089"/>
+                    <obsreference conceptId="$weight" id="weightInput" showUnits="true"/>
                 </td>
             </tr>
             <tr>
                 <th>Blood Pressure</th>
-                <td>
-                    <obs conceptId="5085" /> / <obs conceptId="5086" /> 
-                </td>
+                <td><obsreference conceptId="$systolicBP" />/<obsreference conceptId="$diastolicBP" /></td>
             </tr>
             <tr>
                 <th>Fingerstick (fasting)</th>
