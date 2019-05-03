@@ -7,6 +7,7 @@
         weight=5089
         systolicBP=5085
         diastolicBP=5086
+        nextAppt=5096
     </macros>
 
     <!-- Flowsheet table view -->
@@ -124,7 +125,7 @@
                     </td>              
                     <td>
                         <!-- next appt -->
-                        <obs conceptId="5096"/>
+                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                     </td>
                     <td>
                         <!-- high risk --> 
@@ -301,7 +302,7 @@
             <tr>
                 <th>Next appointment</th>
                 <td>
-                    <obs conceptId="5096" id="appointmentDate" allowFutureDates="true"/>
+                    <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                 </td>
             </tr>
             <tr>

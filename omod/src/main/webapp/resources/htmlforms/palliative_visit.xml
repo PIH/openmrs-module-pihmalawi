@@ -197,7 +197,7 @@
 
                     <td>
                         <!-- Next appointment -->
-                        <obs conceptId="$nextAppt" />
+                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                     </td>
                 </tr>
             </tbody>
@@ -335,7 +335,7 @@
 
             <tr>
                 <th>Next appointment<br/></th>
-                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" /></td>
+                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
             </tr>
 
         </table>
