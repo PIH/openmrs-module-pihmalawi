@@ -14,6 +14,11 @@
         noResult=6112
         missing=8596
         rejected=6113
+        contaminated=65597a5e-977f-11e1-8993-905e29aff6c1
+        equipmentFailure=165179AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        inappropriateContainer=165181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        suppliesNotAvailable=165183AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        other=656cce7e-977f-11e1-8993-905e29aff6c1
         nextAppt=5096
     </macros>
 
@@ -44,7 +49,8 @@
                     <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
-                    <th>Other Result</th>
+                    <th>LDL</th>
+                    <th>Other Results</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -73,10 +79,12 @@
                             <obs conceptId="$viralLoadResult"/>
                         </td>
                         <td>
-                            <!-- Other -->
+                            <!-- LDL-->
                             <obs conceptId="$LDL" style="checkbox" /> LDL <br/>
-                            <obs conceptId="$noResult" answerConceptId="$missing" answerLabel="" style="checkbox" /> Missing <br/>
-                            <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
+                        </td>
+                        <td>
+                            <!-- Other -->
+                            <obs conceptId="$noResult" answerConceptIds="$contaminated,$missing,$rejected,$equipmentFailure,$inappropriateContainer,$suppliesNotAvailable,$other" />
                         </td>
                     </obsgroup>
                 </tr>                                
@@ -115,6 +123,7 @@
                     <th>Bled</th>
                     <th>Viral Load Result</th>
                     <th>LDL</th>
+                    <th>Other Results</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -143,10 +152,12 @@
                             <obs conceptId="$viralLoadResult"/>
                         </td>
                         <td>
-                            <!-- Other -->
+                            <!-- LDL -->
                             <obs conceptId="$LDL" style="checkbox" /> LDL <br/>
-                            <obs conceptId="$noResult" answerConceptId="$missing" answerLabel="" style="checkbox" /> Missing <br/>
-                            <obs conceptId="$noResult" answerConceptId="$rejected" answerLabel="" style="checkbox" /> Rejected
+                        </td>
+                        <td>
+                            <!-- Other -->
+                            <obs conceptId="$noResult" answerConceptIds="$contaminated,$missing,$rejected,$equipmentFailure,$inappropriateContainer,$suppliesNotAvailable,$other" />
                         </td>
                     </obsgroup>
                 </tr>                               
