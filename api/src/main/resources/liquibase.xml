@@ -13,4 +13,14 @@
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20190506-01" author="cioan">
+		<comment>
+			Migrate HIV test results from Reactive/Non-Reactive to Positive/Negative concepts.
+		</comment>
+		<sql>
+			update obs set value_coded = 703  where concept_id = 2169 and value_coded =1228 and voided = 0;
+			update obs set value_coded = 664  where concept_id = 2169 and value_coded =1229 and voided = 0;
+		</sql>
+
+	</changeSet>
 </databaseChangeLog>

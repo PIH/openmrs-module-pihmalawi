@@ -12,6 +12,11 @@
         hivTestConstruct=PIH Malawi:2168
         hivSampleDate=PIH Malawi:6108
         hivTestResult=2169
+
+        <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="notDone" value="6557a4ae-977f-11e1-8993-905e29aff6c1"/>
+
     </macros>
 
     <!-- Flowsheet table view -->
@@ -44,7 +49,7 @@
                     <td>
                         <obsgroup groupingConceptId="$hivTestConstruct">
                             <!-- HIV test -->
-                            <obs conceptId="$hivTestResult" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                            <obsreference conceptId="$hivTestResult" style="radio" answerConceptIds="$positive,$negative,$notDone" answerLabels="R,NR,ND"/>
                         </obsgroup>                    
                     </td>
                 </tr>
@@ -76,7 +81,8 @@
             <tr>
                 <th>Visit Date</th>
                 <td>
-                    <encounterDate id="visitDate" size="20" default="today"/>
+                    <lookup expression="context.defaultEncounterDate" />
+                    <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>
             <tr>
@@ -97,7 +103,7 @@
                 <th>HIV test result</th>
                 <td>
                     <obsgroup groupingConceptId="$hivTestConstruct">
-                        <obs conceptId="$hivTestResult" id="hivRadioResult" style="radio" answerConceptIds="1228,1229" answerLabels="R,NR"/>
+                        <obsreference conceptId="$hivTestResult" id="hivRadioResult" style="radio" answerConceptIds="$positive,$negative,$notDone" answerLabels="R,NR,ND"/>
                         <obs type="hidden" id="hivTestDate" conceptId="$hivSampleDate"/>
                     </obsgroup>
                 </td>
