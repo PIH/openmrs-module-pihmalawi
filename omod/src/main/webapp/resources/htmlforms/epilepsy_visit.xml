@@ -225,13 +225,13 @@
             <tr>
                 <th>Height</th>
                 <td class="focus-field">
-                    <obs conceptId="$height" id="heightInput" showUnits="true"/>
+                    <obsreference conceptId="$height" id="heightInput" showUnits="true"/>
                 </td>
             </tr>
             <tr>
                 <th>Weight</th>
                 <td>
-                    <obs conceptId="$weight" id="weightInput" showUnits="true"/>
+                    <obsreference conceptId="$weight" id="weightInput" showUnits="true"/>
                 </td>
             </tr>
 
