@@ -476,13 +476,13 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         patientProgram.setProgram(hivProgram);
         patientProgram.setDateEnrolled(DateUtil.getDateTime(2018, 2, 22));
 
-        // Exposed Child State
-        PatientState childState = new PatientState();
-        childState.setStartDate(DateUtil.getDateTime(2018, 2, 22));
-        ProgramWorkflowState exposedChildState = hivMetadata.getExposedChildState();
-        childState.setState(exposedChildState);
-        patientProgram.getStates().add(childState);
-        PatientProgram childProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+        // Patient on ART
+        PatientState patientState = new PatientState();
+        patientState.setStartDate(DateUtil.getDateTime(2018, 2, 12));
+        ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
+        patientState.setState(onArvsState);
+        patientProgram.getStates().add(patientState);
+        PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
 
         // Patient changes ART regiment
         Date d3 = DateUtil.getDateTime(2018, 3, 22);
