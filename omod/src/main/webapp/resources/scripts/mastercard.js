@@ -90,6 +90,7 @@
         setupAppointmentDateValidation(flowsheet, html);
         setupHeightAndWeightValidation(flowsheet, html);
         setupHtnDmValidation(flowsheet, html);
+        setupViralLoadValidation(flowsheet, html);
 
         function setupLocationDefaults(flowsheet, html) {
 
@@ -321,6 +322,59 @@
                 $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
                 $("#diabetes-type-2-dx").find(":input").prop('disabled', false);
             }
+        }
+
+        function setupViralLoadValidation(flowsheet, html) {
+            var vlNumericValue = jq(html).find("#vl-numeric :first-child");
+            var vlLessThanValue = jq(html).find("#vl-less-than :first-child");
+
+            $("#vl-LDL").change(function () {
+                if ($('#vl-LDL :checkbox').is(':checked')) {
+                    if (vlNumericValue.val() != '' || vlLessThanValue.val() != '') {
+                        if (vlNumericValue.val() != ''){ vlNumericValue.val(''); }
+
+                        if (vlLessThanValue.val() != ''){ vlLessThanValue.val(''); }
+                    }
+                }
+            });
+
+            $(document).ready(function() {
+                var regExp = /[a-z]/i;
+
+                vlNumericValue.on('keydown keyup', function(e) {
+                    var keyValue = String.fromCharCode(e.which) || e.key;
+
+                    if (regExp.test(keyValue)) {
+                        e.preventDefault();
+                        return false;
+                    } else {
+                        if (vlLessThanValue.val() != '' || $('#vl-LDL :checkbox').is(':checked')) {
+                            if (vlLessThanValue.val() != ''){ vlLessThanValue.val(''); }
+
+                            if ($('#vl-LDL :checkbox').is(':checked')){
+                                $('#vl-LDL :checkbox').prop('checked', false);
+                            }
+                        }
+                    }
+                });
+
+                vlLessThanValue.on('keydown keyup', function(e) {
+                    var keyValue = String.fromCharCode(e.which) || e.key;
+
+                    if (regExp.test(keyValue)) {
+                        e.preventDefault();
+                        return false;
+                    } else {
+                        if (vlNumericValue.val() != '' || $('#vl-LDL :checkbox').is(':checked')) {
+                            if (vlNumericValue.val() != ''){ vlNumericValue.val(''); }
+
+                            if ($('#vl-LDL :checkbox').is(':checked')){
+                                $('#vl-LDL :checkbox').prop('checked', false);
+                            }
+                        }
+                    }
+                });
+            });
         }
     };
 
