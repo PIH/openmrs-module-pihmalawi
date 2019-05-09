@@ -5,7 +5,8 @@
         viralLoadSet=8628
         viralLoadTaken=8421
         viralLoadResult=856
-        LDL=8561        
+        LDL=8561
+        lessThanLimit=69e87644-5562-11e9-8647-d663bd873d93
         testingReason=8623
         routine=8621
         confirmed=1345
@@ -49,6 +50,7 @@
                     <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
+                    <th>Viral Load Result &#40;&#60;&#41;</th>
                     <th>LDL</th>
                     <th>Other Results</th>
                 </tr>
@@ -77,6 +79,10 @@
                         <td>
                             <!-- Viral load -->
                             <obs conceptId="$viralLoadResult"/>
+                        </td>
+                        <td>
+                            <!-- Viral load (<)-->
+                            <b>&#60;</b> <obs conceptId="$lessThanLimit"/>
                         </td>
                         <td>
                             <!-- LDL-->
@@ -122,6 +128,7 @@
                     <th>Lab Location</th>
                     <th>Bled</th>
                     <th>Viral Load Result</th>
+                    <th>Viral Load Result &#40;&#60;&#41;</th>
                     <th>LDL</th>
                     <th>Other Results</th>
                 </tr>
@@ -149,11 +156,15 @@
                         </td>
                         <td>
                             <!-- Viral load -->
-                            <obs conceptId="$viralLoadResult"/>
+                            <obs conceptId="$viralLoadResult" id="vl-numeric" />
+                        </td>
+                        <td>
+                            <!-- Viral load (<)-->
+                            <b>&#60;</b> <obs conceptId="$lessThanLimit" id="vl-less-than" />
                         </td>
                         <td>
                             <!-- LDL -->
-                            <obs conceptId="$LDL" style="checkbox" /> LDL <br/>
+                            <obs conceptId="$LDL" style="checkbox" id="vl-LDL" /> LDL <br/>
                         </td>
                         <td>
                             <!-- Other -->

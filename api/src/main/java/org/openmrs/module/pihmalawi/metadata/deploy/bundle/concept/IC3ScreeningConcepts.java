@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 28;
+        return 29;
     }
 
     @Override
@@ -503,7 +503,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(question)
                 .name("e45d8f94-efdb-4b94-88da-b7e844cc91e3", "Location of laboratory", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(tbMicroscopy, geneXLisung, geneXNeno, centralLab)
+                .answers(geneXLisung, geneXNeno, centralLab)
                 .build());
 
 
