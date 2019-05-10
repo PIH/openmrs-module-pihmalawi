@@ -1,5 +1,5 @@
 <htmlform formUuid="c811d39c-946a-11e7-9ae7-d567856360b8" formName="EID Test Results"
-          formEncounterType="664bcbb0-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
+          formEncounterType="8383DE35-5145-4953-A018-34876B797F3E" formVersion="1.0">
 
     <macros>
         hivTestConstruct=PIH Malawi:2168
@@ -44,16 +44,16 @@
                     <th>Reason for Testing</th>
                     <th>Lab Location</th>
                     <th>Test Type</th>
-                    <th>Lab Test Number</th>
+                    <th>Sample ID</th>
                     <th>HIV Result</th>
                     <th>Result Date</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
-                <tr>
+                <tr class="visit-table-row">
                     <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
+                        <td class="nowrap visit-date"><encounterDate/></td>
+                        <td><obs conceptId="$testingReason"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -65,36 +65,6 @@
                         <td><obs conceptId="$hivResultDate" /></td>
                     </obsgroup>
                 </tr>
-                <tr>
-                    <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                        <td><obs conceptId="$labLocation"/></td>
-                        <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                 answerLabels="DBS,RT" style="radio"/></td>
-                        <td><obs conceptId="$labTestNumber" /></td>
-                        <td><obs conceptId="$hivResult"
-                                 answerConceptIds="$negative,$positive,$inconclusive"
-                                 answerLabels="Neg,Pos,Inc"
-                                 style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
-                    </obsgroup>
-                </tr>
-                <tr>
-                    <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                        <td><obs conceptId="$labLocation"/></td>
-                        <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                 answerLabels="DBS,RT" style="radio"/></td>
-                        <td><obs conceptId="$labTestNumber" /></td>
-                        <td><obs conceptId="$hivResult"
-                                 answerConceptIds="$negative,$positive,$inconclusive"
-                                 answerLabels="Neg,Pos,Inc"
-                                 style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
-                    </obsgroup>
-                </tr>                                
             </tbody>
         </table>
 
@@ -127,16 +97,16 @@
                     <th>Reason for Testing</th>
                     <th>Lab Location</th>
                     <th>Test Type</th>
-                    <th>Lab Test Number</th>
+                    <th>Sample ID</th>
                     <th>HIV Result</th>
                     <th>Result Date</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
-                <tr>
+                <tr class="visit-table-row">
                     <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
+                        <td class="nowrap visit-date"><encounterDate/></td>
+                        <td><obs conceptId="$testingReason"/></td>
                         <td><obs conceptId="$labLocation"/></td>
                         <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
                                  answerLabels="DBS,RT" style="radio"/></td>
@@ -148,36 +118,6 @@
                         <td><obs conceptId="$hivResultDate" /></td>
                     </obsgroup>
                 </tr>
-                <tr>
-                    <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                        <td><obs conceptId="$labLocation"/></td>
-                        <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                 answerLabels="DBS,RT" style="radio"/></td>
-                        <td><obs conceptId="$labTestNumber" /></td>
-                        <td><obs conceptId="$hivResult"
-                                 answerConceptIds="$negative,$positive,$inconclusive"
-                                 answerLabels="Neg,Pos,Inc"
-                                 style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
-                    </obsgroup>
-                </tr>
-                <tr>
-                    <obsgroup groupingConceptId="$hivTestConstruct">
-                        <td><obs conceptId="$hivSampleDate"/></td>
-                        <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                        <td><obs conceptId="$labLocation"/></td>
-                        <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                 answerLabels="DBS,RT" style="radio"/></td>
-                        <td><obs conceptId="$labTestNumber" /></td>
-                        <td><obs conceptId="$hivResult"
-                                 answerConceptIds="$negative,$positive,$inconclusive"
-                                 answerLabels="Neg,Pos,Inc"
-                                 style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
-                    </obsgroup>
-                </tr>                                
             </tbody>
         </table>
 

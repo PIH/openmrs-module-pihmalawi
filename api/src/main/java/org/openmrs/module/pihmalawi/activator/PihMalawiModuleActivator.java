@@ -73,6 +73,9 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 			initializer.started();
 		}
 
+		// run any custom migrations
+        Migrations.moveEIDTestResultsToEIDScreeningEncounters();
+
 		// New bug/feature in Chrome/IE/Safari causes system to log out user with default logo link url.  Update this here.
         List<AllFreeStandingExtensions> l = Context.getRegisteredComponents(AllFreeStandingExtensions.class);
         if (l != null && l.size() > 0) {
@@ -97,4 +100,5 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
     public void setDaemonToken(DaemonToken daemonToken) {
         IC3ScreeningDataLoader.setDaemonToken(daemonToken);
     }
+
 }
