@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 29;
+        return 30;
     }
 
     @Override
@@ -413,6 +413,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .datatype(numeric)
                 .conceptClass(finding)
                 .name("BF7BFB51-8F8E-4DEC-908F-4B447A4EAD30", "Medication Adherence percent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("290c1601-a1a7-4a4c-8dc7-d18a17f059a2")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("D82672D4-D82C-4D1A-94D5-59B3BD9F09A5", "Number of missed medication doses in past 7 days", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("93AD144F-D957-4F41-9C88-6CCF8F1478D5", "Number of missed medication doses in past 7 days", Locale.ENGLISH, ConceptNameType.SHORT)
+                .description("9F8D4377-0388-4CFE-99AD-E5BDE7962F39", "Number of doses the patient was expected, but failed to take in the past 7 days", Locale.ENGLISH)
                 .build());
 
         install(new ConceptBuilder("06b20a2a-b6cc-11e8-96f8-529269fb1459")
