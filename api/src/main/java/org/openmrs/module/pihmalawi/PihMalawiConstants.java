@@ -17,4 +17,7 @@ public class PihMalawiConstants {
     public static final String TASK_CLOSE_STALE_VISITS_DESCRIPTION = "Closes any open visits that are no longer active";
     public static final long TASK_CLOSE_STALE_VISITS_REPEAT_INTERVAL = 300L;
 
+    public static final String TASK_MIGRATE_EID_TEST_RESULTS = "Migrate EID Test Results";
+    public static final String TASK_MIGRATE_EID_TEST_RESULTS_DESCRIPTION = "Migrates EID Test Results on the Exposed Child Initial Form to the EID Screening Form";
+
 }

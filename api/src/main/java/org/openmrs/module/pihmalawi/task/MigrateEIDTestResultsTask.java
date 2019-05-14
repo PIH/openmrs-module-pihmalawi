@@ -1,52 +1,53 @@
-package org.openmrs.module.pihmalawi.activator;
+package org.openmrs.module.pihmalawi.task;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.Person;
 import org.openmrs.api.context.Context;
+import org.openmrs.scheduler.tasks.AbstractTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-/**
- Utility class to group any non-liquibase migrations we need to make
- **/
-public class Migrations {
+// TODO remove this after EIDTestResult migration is complete (will need to remove task as well)
+public class MigrateEIDTestResultsTask extends AbstractTask {
 
-    protected static final Log log = LogFactory.getLog(Migrations.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public static void moveEIDTestResultsToEIDScreeningEncounters() {
+    @Override
+    public void execute() {
+        EncounterType eidScreening = Context.getEncounterService().getEncounterTypeByUuid("8383DE35-5145-4953-A018-34876B797F3E");  // EID Screening
+        EncounterType exposedChildInitial = Context.getEncounterService().getEncounterTypeByUuid("664bcbb0-977f-11e1-8993-905e29aff6c1");  // Exposed Child Initial
+        Concept eidTestConstruct = Context.getConceptService().getConceptByMapping("2168", "PIH Malawi");  // HIV Test Construct
 
-        // TEMP
-       // Patient patient = Context.getPatientService().getPatient(23871);
-
-        EncounterType eidScreening = Context.getEncounterService().getEncounterTypeByUuid("8383DE35-5145-4953-A018-34876B797F3E");
-        EncounterType exposedChildInitial = Context.getEncounterService().getEncounterTypeByUuid("664bcbb0-977f-11e1-8993-905e29aff6c1");
-        Concept eidTestConstruct = Context.getConceptService().getConceptByMapping("2168", "PIH Malawi");
-
+        // get all HIV Test Result constructs
         List<Obs> eidTests = Context.getObsService().getObservations(null, null, Collections.singletonList(eidTestConstruct), null, null,
                 null, null, null, null, null, null, false);
 
         for (Obs eidTest : eidTests) {
+            // only migrate those found on the Exposed Child Initial Form
             if (eidTest.getEncounter().getEncounterType().equals(exposedChildInitial)) {
+
                 Date encounterDate = getSampleDate(eidTest);
+
                 if (encounterDate != null) {
 
+                    // create the new encounter
                     Encounter eidScreeningEncounter = new Encounter();
                     eidScreeningEncounter.setPatient(Context.getPatientService().getPatientOrPromotePerson(eidTest.getPerson().getPersonId()));
                     eidScreeningEncounter.setEncounterType(eidScreening);
                     eidScreeningEncounter.setEncounterDatetime(encounterDate);
                     eidScreeningEncounter.setLocation(eidTest.getLocation());
+                    // for the existing encounters, the provider is always Unknown, with Unknown role... do we need to propagate this? I am skipping for now
 
-                    // need to save before adding obs?
+                    // for some reason, we need to persist the encounter before moving the obs
                     Context.getEncounterService().saveEncounter(eidScreeningEncounter);
 
+                    // move the obs from the old encounter to the new
                     eidScreeningEncounter.addObs(eidTest);
                     for (Obs member : eidTest.getGroupMembers()) {
                         eidScreeningEncounter.addObs(member);
@@ -55,18 +56,17 @@ public class Migrations {
                     Context.getEncounterService().saveEncounter(eidScreeningEncounter);
                 }
                 else {
-                    // TODO there were some use cases here
+                    // this will happen if there's no sample date on the construct... this is rare but does seem to happen, we will identify and migrate those manually
                     log.error("No sample date for obsgroup " + eidTest.getId());
                 }
             }
-
         }
-
-        return;
     }
 
-    private static Date getSampleDate(Obs eidTest) {
-        Concept sampleDate = Context.getConceptService().getConceptByMapping("6108", "PIH Malawi");
+
+    // look for date of blood sample obs and use the value datetime from that, otherwise return null
+    private Date getSampleDate(Obs eidTest) {
+        Concept sampleDate = Context.getConceptService().getConceptByMapping("6108", "PIH Malawi");    // Date of blood sample construct
         for (Obs member: eidTest.getGroupMembers()) {
             if (member.getConcept().equals(sampleDate)) {
                 return member.getValueDatetime();
@@ -74,5 +74,4 @@ public class Migrations {
         }
         return null;
     }
-
 }
