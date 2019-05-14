@@ -112,7 +112,7 @@
                                  answerLabels="DBS,RT" style="radio"/></td>
                         <td><obs conceptId="$labTestNumber" /></td>
                         <td><obs conceptId="$hivResult"
-                                 answerConceptIds="$negative,$positive,$inconclusive"
+                                 answerConceptIds="$negative,$positive,$inconclusive,$notDone"
                                  answerLabels="Neg,Pos,Inc"
                                  style="radio" /></td>
                         <td><obs conceptId="$hivResultDate" /></td>
