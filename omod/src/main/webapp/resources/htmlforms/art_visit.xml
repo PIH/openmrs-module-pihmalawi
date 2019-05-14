@@ -35,11 +35,12 @@
         viralLoadSet=8628
         viralLoadTaken=8421
         viralLoadResult=856
-        LDL=8561
         pregnantLactating=8027        
         currentlyPregnant=1755
         currentlyLactating=5632        
         nextAppt=5096
+        <macro key="lessThanLimit" value="69e87644-5562-11e9-8647-d663bd873d93"/>
+        <macro key="LDL" value="e97b36a2-16f5-11e6-b6ba-3e1d05defe78"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -60,7 +61,7 @@
                     <td colspan="2">ARVs given</td>
                     <td colspan="2">CPT/IPT Given</td>
                     <td colspan="2">Family Plan.</td>
-                    <td colspan="3">Viral load</td>
+                    <td colspan="4">Viral load</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
@@ -74,6 +75,7 @@
                     <td rowspan="2">No. of<br/>condom</td>
                     <td rowspan="2">Sample<br/>Taken</td>
                     <td rowspan="2">Result</td>
+                    <td rowspan="2">Viral Load Result &#40;&#60;&#41;</td>
                     <td rowspan="2">LDL</td>
                 </tr>
                 <tr>
@@ -173,6 +175,10 @@
                         <td>
                             <!-- Viral load -->
                             <obsreference conceptId="$viralLoadResult"/>
+                        </td>
+                        <td>
+                            <!-- Viral load (<)-->
+                            <b>&#60;</b> <obs conceptId="$lessThanLimit"/>
                         </td>
                         <td>
                             <!-- LDL -->
@@ -294,10 +300,26 @@
                 <tr>
                     <th>Viral load</th>
                     <td>
-                        <obsreference conceptId="$viralLoadTaken" style="checkbox" labelText="Bled"/>
-                        <span style="padding-left:10px">Result</span>
-                        <obsreference conceptId="$viralLoadResult"/>
-                        <obsreference conceptId="$LDL" style="checkbox" labelText="LDL"/>
+                        <table>
+                            <tr>
+                                <td style="width:30px">
+                                    <obsreference conceptId="$viralLoadTaken" style="checkbox" labelText="Bled"/>
+                                </td>
+                                <td style="width:70px">
+                                    <span style="padding-left:10px">Result</span>
+                                    <!-- Viral load -->
+                                    <obsreference conceptId="$viralLoadResult" id="vl-numeric" labelText="Numeric"/>
+                                </td>
+                                <td style="width:70px">
+                                    <!-- Viral load (<)-->
+                                    <span style="padding-left:10px">Result Less Than(<b>&#60;</b>)</span>
+                                    <obsreference conceptId="$lessThanLimit" id="vl-less-than"/>
+                                </td>
+                                <td style="width:30px">
+                                    <obsreference conceptId="$LDL" style="checkbox" id="vl-LDL" labelText="LDL"/>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </obsgroup>
