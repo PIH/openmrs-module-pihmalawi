@@ -515,7 +515,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(patientData.size(), greaterThan(0));
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
-                (Matcher) hasItem(hasProperty("name", is("due-for-routine-viral-load-2p"))));
+                (Matcher) hasItem(hasProperty("name", is("due-for-routine-viral-load-2"))));
 
 
     }
