@@ -325,56 +325,45 @@
         }
 
         function setupViralLoadValidation(flowsheet, html) {
-            var vlNumericValue = jq(html).find("#vl-numeric :first-child");
-            var vlLessThanValue = jq(html).find("#vl-less-than :first-child");
+            var vlNumericField = jq(html).find("#vl-numeric :first-child");
+            var vlLessThanField = jq(html).find("#vl-less-than :first-child");
+            var vlLdlField = jq(html).find("#vl-LDL :checkbox");
 
-            $("#vl-LDL").change(function () {
-                if ($('#vl-LDL :checkbox').is(':checked')) {
-                    if (vlNumericValue.val() != '' || vlLessThanValue.val() != '') {
-                        if (vlNumericValue.val() != ''){ vlNumericValue.val(''); }
+            if ((typeof vlNumericField.val() !== "undefined") &&
+              ( typeof vlLessThanField.val() !== "undefined") &&
+              ( typeof vlLdlField.is(':checked') !== "undefined")) {
 
-                        if (vlLessThanValue.val() != ''){ vlLessThanValue.val(''); }
-                    }
+
+              vlNumericField.change(function () {
+                event.stopImmediatePropagation();
+                var tempVal = vlNumericField.val();
+                if (typeof tempVal !== 'undefined' && !Number.isNaN(Number.parseInt(tempVal, 10))) {
+                    vlLessThanField.val('');
+                    vlLdlField.prop('checked', false);
                 }
-            });
 
-            $(document).ready(function() {
-                var regExp = /[a-z]/i;
+              });
 
-                vlNumericValue.on('keydown keyup', function(e) {
-                    var keyValue = String.fromCharCode(e.which) || e.key;
+              vlLessThanField.change(function () {
+                event.stopImmediatePropagation();
+                var tempVal = vlLessThanField.val();
+                if (typeof tempVal !== 'undefined' && !Number.isNaN(Number.parseInt(tempVal, 10))) {
+                  vlNumericField.val('');
+                  vlLdlField.prop('checked', false);
+                }
+              });
 
-                    if (regExp.test(keyValue)) {
-                        e.preventDefault();
-                        return false;
-                    } else {
-                        if (vlLessThanValue.val() != '' || $('#vl-LDL :checkbox').is(':checked')) {
-                            if (vlLessThanValue.val() != ''){ vlLessThanValue.val(''); }
+              vlLdlField.change(function () {
+                var ldlVal = vlLdlField.is(':checked');
+                event.stopImmediatePropagation();
+                if (typeof ldlVal !== "undefined" && ldlVal === true) {
+                    vlNumericField.val('');
+                    vlLessThanField.val('');
+                }
+              });
 
-                            if ($('#vl-LDL :checkbox').is(':checked')){
-                                $('#vl-LDL :checkbox').prop('checked', false);
-                            }
-                        }
-                    }
-                });
+            }
 
-                vlLessThanValue.on('keydown keyup', function(e) {
-                    var keyValue = String.fromCharCode(e.which) || e.key;
-
-                    if (regExp.test(keyValue)) {
-                        e.preventDefault();
-                        return false;
-                    } else {
-                        if (vlNumericValue.val() != '' || $('#vl-LDL :checkbox').is(':checked')) {
-                            if (vlNumericValue.val() != ''){ vlNumericValue.val(''); }
-
-                            if ($('#vl-LDL :checkbox').is(':checked')){
-                                $('#vl-LDL :checkbox').prop('checked', false);
-                            }
-                        }
-                    }
-                });
-            });
         }
     };
 
