@@ -5,7 +5,7 @@
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
-      "(last_hiv_rapid_test_result == positive) && (daysBetween(today, last_hiv_rapid_test_result_date) == 0)"
+      "(last_hiv_rapid_test_result == positive) && (sameDay(now, last_hiv_rapid_test_result_date))"
     ],
     "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
     "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
@@ -17,7 +17,7 @@
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
-      "(age_days < 42 || age_days >= 366 || (age_days >= 42 && age_days < 366 && (daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) > 0))) && (last_hiv_dna_pcr_result == positive) && (daysBetween(today, last_hiv_dna_pcr_result_date) == 0)"
+      "(age_days < 42 || age_days >= 366 || (age_days >= 42 && age_days < 366 && (daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) > 0))) && (last_hiv_dna_pcr_result == positive) && (sameDay(now, last_hiv_dna_pcr_result_date))"
     ],
     "alert": "Confirm enrollment in ART",
     "action": "Confirm enrollment in ART",

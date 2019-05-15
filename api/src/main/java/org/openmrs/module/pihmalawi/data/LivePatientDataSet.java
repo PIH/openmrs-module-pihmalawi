@@ -45,11 +45,7 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -165,6 +161,7 @@ public abstract class LivePatientDataSet {
             for (DataSetRow row : ds) {
                 JsonObject patientData = new JsonObject();
                 patientData.put("today", effectiveDate);
+                patientData.put("now", Calendar.getInstance().getTime());
                 patientData.put("location", (location != null ? location.getUuid() : null));
                 for (DataSetColumn c : row.getColumnValues().keySet()) {
                     if (patientData.containsKey(c.getName())) {

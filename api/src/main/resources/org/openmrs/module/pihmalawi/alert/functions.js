@@ -48,6 +48,11 @@ function daysBetween(timestamp1, timestamp2) {
     return Math.floor((timestamp1 - timestamp2)/msPerDay);
 }
 
+function sameDay(timestamp1, timestamp2) {
+  var msPerDay = 1000*60*60*24;
+  return Math.floor(( Math.abs(timestamp1 - timestamp2) )/msPerDay) == 0 ? true : false;
+}
+
 /**
  * Returns true if the passed argument is undefined, null or empty
  */

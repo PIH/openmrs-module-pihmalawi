@@ -263,8 +263,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         int currentMonth = cal.get(Calendar.MONTH) +1;
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        Date date1 = DateUtil.getDateTime(currentYear, currentMonth, currentDay);
-        Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date1).save();
+        Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
         Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
@@ -310,8 +309,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         firstGroupObs.save();
 
         // LAST HIV DNA-PCR test
-        Date date2 = DateUtil.getDateTime(currentYear, currentMonth, currentDay);
-        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
+        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
         Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
