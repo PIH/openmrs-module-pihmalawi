@@ -20,9 +20,13 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
 
     @Override
     public void execute() {
+
         EncounterType eidScreening = Context.getEncounterService().getEncounterTypeByUuid("8383DE35-5145-4953-A018-34876B797F3E");  // EID Screening
         EncounterType exposedChildInitial = Context.getEncounterService().getEncounterTypeByUuid("664bcbb0-977f-11e1-8993-905e29aff6c1");  // Exposed Child Initial
         Concept eidTestConstruct = Context.getConceptService().getConceptByMapping("2168", "PIH Malawi");  // HIV Test Construct
+
+        Concept sampleDateConcept = Context.getConceptService().getConceptByMapping("6108", "PIH Malawi");    // Date of blood sample
+       // Concept resultDateConcept = Context.getConceptService().getConceptByMapping("6110", "PIH Malawi");   // Date of result concept
 
         // get all HIV Test Result constructs
         List<Obs> eidTests = Context.getObsService().getObservations(null, null, Collections.singletonList(eidTestConstruct), null, null,
@@ -32,7 +36,7 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
             // only migrate those found on the Exposed Child Initial Form
             if (eidTest.getEncounter().getEncounterType().equals(exposedChildInitial)) {
 
-                Date encounterDate = getSampleDate(eidTest);
+                Date encounterDate = getSampleDate(eidTest, sampleDateConcept);
 
                 if (encounterDate != null) {
 
@@ -64,14 +68,20 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
     }
 
 
-    // look for date of blood sample obs and use the value datetime from that, otherwise return null
-    private Date getSampleDate(Obs eidTest) {
-        Concept sampleDate = Context.getConceptService().getConceptByMapping("6108", "PIH Malawi");    // Date of blood sample construct
+    // look for date of blood sample obs and use the value datetime from that, otherwise use result date, otherwise return null
+    private Date getSampleDate(Obs eidTest, Concept sampleDateConcept) {
+
         for (Obs member: eidTest.getGroupMembers()) {
-            if (member.getConcept().equals(sampleDate)) {
+            if (member.getConcept().equals(sampleDateConcept)) {
                 return member.getValueDatetime();
             }
         }
+/*
+        for (Obs member: eidTest.getGroupMembers()) {
+            if (member.getConcept().equals(resultDateConcept)) {
+                return member.getValueDatetime();
+            }
+        }*/
         return null;
     }
 }
