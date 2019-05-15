@@ -439,8 +439,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         firstGroupObs.save();
 
         // Today HIV DNA-PCR test: positive
-        Date date2 = DateUtil.getDateTime(currentYear, currentMonth, currentDay);
-        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
+        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), Calendar.getInstance().getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
         Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
