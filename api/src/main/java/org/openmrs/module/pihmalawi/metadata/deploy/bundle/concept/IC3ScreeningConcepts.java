@@ -23,7 +23,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 30;
+        return 31;
     }
 
     @Override
@@ -704,6 +704,76 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("1858d032-f3d9-4764-98e5-810f83c42c03", "Transfer outside district", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("ee7cbe8e-d06e-4378-b841-b723b330b96e", "Transfer to another health facility outside the district of responsibility", Locale.ENGLISH)
+                .build());
+
+        // IS-403 add Refer to screening station
+        Concept nutritionScreening = install(new ConceptBuilder("a738a3d9-e823-412a-b8c2-a340b25e6186")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("ea16fc3f-9c62-4c1e-8f71-a84a30c57936", "Nutrition screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("200980bb-a9ae-4c97-9d6d-945cf75fa96b", "Nutrition Station", Locale.ENGLISH, null)
+                .build());
+
+        Concept bpScreening = install(new ConceptBuilder("7562aeef-42b6-48d8-a693-efd626997822")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("49cae44e-7ad5-4527-9d47-d2cfe2f1e101", "Blood pressure screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("c451017f-7cc0-4528-b39f-55f7f707e3e3", "Blood pressure station", Locale.ENGLISH, null)
+                .build());
+
+        Concept hivTestingStation = install(new ConceptBuilder("8e0e32cf-756f-4237-b78f-8c4842cce7a5")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1ada8858-361e-455c-a974-b061e96a50e6", "HIV Testing Station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("879efb0a-f0e8-4a3b-9ed9-6b347aff0f1d", "HTC station", Locale.ENGLISH, null)
+                .build());
+
+        Concept vlTestingStation = install(new ConceptBuilder("c2316084-596e-4f31-a375-b99ea62c612d")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("0d997c1f-9c1a-47df-9198-c75588ad818f", "Viral load testing station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("7cad750e-e8ce-4a49-8bcb-647e3f41cf2e", "Viral load station", Locale.ENGLISH, null)
+                .build());
+
+        Concept tbScreening = install(new ConceptBuilder("1bb40f5c-a8a2-4a1f-bead-ee8dcfac367b")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("3128093f-572c-451a-a21e-44b44ff2aeba", "Tuberculosis symptoms screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("e8050a72-ab6b-48e8-9f5c-0377a2e2c7f2", "TB screening station", Locale.ENGLISH, null)
+                .build());
+
+        Concept tbTestingStation = install(new ConceptBuilder("23d0e9e2-f838-4f90-8d1e-e8e5d1a85ca7")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("4c665007-eef4-46f7-afb9-ae666ac3a618", "Tuberculosis testing station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("5e0b8a61-48ea-48be-8961-b00c9ad81ee6", "TB testing station", Locale.ENGLISH, null)
+                .build());
+
+        Concept adherenceCounselingStation = install(new ConceptBuilder("00d0a6aa-a9da-4d26-bffc-ec4753d8e721")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("9725c0f0-306a-49d2-80ce-01046e73711f", "Adherence counseling station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept eidScreeningStation = install(new ConceptBuilder("da82a921-fe41-409d-87d0-67eb3e3c2963")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("bda56eda-02bf-4c1e-a979-1f38ea79d857", "EID screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("7f2d2cee-3ea2-405c-b7be-dc16721bef63", "Early Infant Diagnosis station", Locale.ENGLISH, null)
+                .name("a8e90dc2-dc02-4e6f-a046-420d4c3c5d6c", "Exposed Child station", Locale.ENGLISH, null)
+                .build());
+
+        Concept nursingStation = install(new ConceptBuilder("d74065b8-cecf-4ee9-bbba-07bb962e4164")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("476432ae-3c05-4092-9946-b31c877f8403", "Nursing station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("191b3cdc-ec5b-4447-aeb5-4c985e336779")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("14a8da4e-a42d-4ce6-8e9e-9f374c2b6c6c", "Refer to screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(nutritionScreening, bpScreening, hivTestingStation, vlTestingStation, tbScreening, tbTestingStation, adherenceCounselingStation, eidScreeningStation, nursingStation)
                 .build());
     }
 }
