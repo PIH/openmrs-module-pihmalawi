@@ -174,6 +174,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		headerForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "mental_health_mastercard");
 		headerForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "ncd_mastercard");
 		headerForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, "eid_mastercard");
+		headerForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), "blank_header");
+		headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
         flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
@@ -186,18 +188,16 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		flowsheetForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), Arrays.asList("ncd_other_quarterly_screening","ncd_other_annual_screening","ncd_other_hospitalizations","ncd_other_visit"));
 		flowsheetForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), Arrays.asList("mental_health_visit"));
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
-		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit"));
+		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
+		flowsheetForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), Arrays.asList("viral_load_test_results"));
+		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("art_annual_screening", "art_visit"));
 
+		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
+		// TODO: move this into a more organized customization
 		String byConcept = "";
 
 		if (f.getName().equals("Viral Load Tests")) {
-			headerForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), "blank_header");
-			flowsheetForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), Arrays.asList("viral_load_test_results"));
 			byConcept = CommonMetadata.HIV_VIRAL_LOAD_TEST_SET;
-		}
-		else if (f.getEncounterType().getName().equals("ART_INITIAL")) {
-			headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
-			flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("art_annual_screening", "art_visit"));
 		}
 
 		String encType = f.getEncounterType().getName();
@@ -211,9 +211,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			for (String flowsheet : flowsheets) {
 				sb.append("&flowsheets=pihmalawi:htmlforms/").append(flowsheet).append(".xml");
 			}
+
 			if (StringUtils.isNotBlank(byConcept)) {
 				sb.append("&byConcept=").append(byConcept);
 			}
+
 			sb.append("&dashboardUrl=legacyui&customizationProvider=pihmalawi&customizationFragment=mastercard");
 			return sb.toString();
 		}
