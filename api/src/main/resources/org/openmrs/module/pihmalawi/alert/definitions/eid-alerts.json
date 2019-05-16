@@ -42,7 +42,7 @@
       "hiv_treatment_status == active_eid",
       "age_years < 2",
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
-      "last_hiv_dna_pcr_result == positive && (last_hiv_dna_pcr_result_date != today)"
+      "last_hiv_dna_pcr_result == positive && (!sameDay(now,last_hiv_dna_pcr_result_date))"
     ],
     "alert": "Confirm enrollment in ART",
     "action": "Confirm enrollment in ART",

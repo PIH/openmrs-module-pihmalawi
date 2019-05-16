@@ -333,6 +333,41 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     }
 
     @Test
+    public void shouldReturnFirstPositiveDnaPcrTestTodayAlert() throws Exception {
+
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        Patient patient = createPatient().birthdate(DateUtil.getDateTime(currentYear, currentMonth -8, currentDay)).save();
+
+        // FIRST POSITIVE HIV DNA-PCR test today
+        Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
+        // Child HIV serology construct
+        ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObs.member(dnaPcrTest);
+        groupObs.member(positiveResult);
+        groupObs.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(currentYear, currentMonth, currentDay),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("eid-new-positive-dna-pcr-test"))));
+
+    }
+
+    @Test
     public void shouldReturnEidPositiveDnaPcrTestAlert() throws Exception {
 
         Calendar cal = Calendar.getInstance();
@@ -459,6 +494,10 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("eid-new-positive-dna-pcr-test"))));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                not((Matcher) hasItem(hasProperty("name", is("eid-positive-dna-pcr-test")))));
 
     }
 
