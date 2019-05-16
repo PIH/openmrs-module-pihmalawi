@@ -77,7 +77,7 @@ public class IC3NutritionHistoryRestController {
             for (Object obsOrBmi : (List<Object>) data.getData().get(patient.getId())) {
                 if (obsOrBmi instanceof Obs) {
                     results.add((SimpleObject) ConversionUtil.convertToRepresentation(obsOrBmi,
-                            new CustomRepresentation("(id,uuid,display,obsDatetime,value:(id,uuid,display,name:(uuid,name)),concept:(uuid),encounter:(id,uuid,encounterDatetime))")));
+                            new CustomRepresentation("(id,uuid,display,obsDatetime,value:(id,uuid,display,name:(uuid,name)),concept:(uuid),encounter:(id,uuid,encounterDatetime,encounterType:(uuid)))")));
                 }
                 else if (obsOrBmi instanceof BMI) {
                     // we coerce the BMI in an object into a kind of "faux" obs
