@@ -144,31 +144,31 @@
                     </td>            
                     <obsgroup groupingConceptId="$viralLoadSet">
                         <td>
-                            <obsreference conceptId="$testingReason" answerConceptIds="$routine,$confirmed,$targeted"/>
+                            <obs conceptId="$testingReason" answerConceptIds="$routine,$confirmed,$targeted"/>
                         </td>
                         <td>
-                            <obsreference conceptId="$labLocation"/>
+                            <obs conceptId="$labLocation"/>
                         </td>
                         <td>
                             <!-- Viral load sample -->
-                            <obsreference conceptId="$viralLoadTaken" style="checkbox"
+                            <obs conceptId="$viralLoadTaken" style="checkbox"
                                  labelText="Bled"/>
                         </td>
                         <td>
                             <!-- Viral load -->
-                            <obsreference conceptId="$viralLoadResult" id="vl-numeric"/>
+                            <obs conceptId="$viralLoadResult" id="vl-numeric"/>
                         </td>
                         <td>
                             <!-- Viral load (<)-->
-                            <b>&#60;</b> <obsreference conceptId="$lessThanLimit" id="vl-less-than"/>
+                            <b>&#60;</b> <obs conceptId="$lessThanLimit" id="vl-less-than"/>
                         </td>
                         <td>
                             <!-- LDL -->
-                            <obsreference conceptId="$LDL" style="checkbox" id="vl-LDL"/> <br/>
+                            <obs conceptId="$LDL" style="checkbox" id="vl-LDL"/> <br/>
                         </td>
                         <td>
                             <!-- Other -->
-                            <obsreference conceptId="$noResult" answerConceptIds="$contaminated,$missing,$rejected,$equipmentFailure,$inappropriateContainer,$suppliesNotAvailable,$other" />
+                            <obs conceptId="$noResult" answerConceptIds="$contaminated,$missing,$rejected,$equipmentFailure,$inappropriateContainer,$suppliesNotAvailable,$other" />
                         </td>
                     </obsgroup>
                 </tr>                               
