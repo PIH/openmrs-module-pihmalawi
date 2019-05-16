@@ -86,7 +86,7 @@
                         </td>
                         <td>
                             <!-- LDL-->
-                            <obsreference conceptId="$LDL" style="checkbox" />
+                            <obs conceptId="$LDL" style="checkbox" />
                         </td>
                         <td>
                             <!-- Other -->
