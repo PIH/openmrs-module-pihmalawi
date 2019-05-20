@@ -1,7 +1,7 @@
 [
   {
     "name": "eid-positive-rapid-test-today",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "abnormal-result","screening-eligibility"],
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
@@ -13,7 +13,7 @@
   },
   {
     "name": "eid-positive-dna-pcr-test-today",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "critical-result"],
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
@@ -25,7 +25,7 @@
   },
   {
     "name": "eid-positive-rapid-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "abnormal-result","screening-eligibility"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -37,7 +37,7 @@
   },
   {
     "name": "eid-positive-dna-pcr-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "critical-result"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -50,7 +50,7 @@
   },
   {
     "name": "eid-new-positive-dna-pcr-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "critical-result"],
     "conditions": [
       "age_days >= 42",
       "age_days < 366",
