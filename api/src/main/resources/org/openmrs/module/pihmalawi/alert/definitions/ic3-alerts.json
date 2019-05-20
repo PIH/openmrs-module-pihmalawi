@@ -170,7 +170,8 @@
     "name": "eligible-for-muac",
     "categories": ["nutrition", "screening-eligibility"],
     "conditions": [
-      "(age_years <= 18) || (isTrue(is_pregnant))"
+      "(age_years <= 18) || (isTrue(is_pregnant))",
+      "missing(current_muac)"
     ],
     "alert": "Eligible for MUAC screening",
     "action": "Measure and record MUAC",
