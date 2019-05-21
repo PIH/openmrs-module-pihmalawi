@@ -41,7 +41,7 @@ function monthsBetween(timestamp1, timestamp2) {
 /**
  * Returns full days, rounded down, between the two timestamps
  * To return a positive result, timestamp1 must be greater (more recent) than timestamp2
- * So calculating an age in months would be yearsBetween(today, birthdate)
+ * TODO "full days" means "24-hour periods between", is this what we want?
  */
 function daysBetween(timestamp1, timestamp2) {
     var msPerDay = 1000*60*60*24;
