@@ -20,5 +20,9 @@
   "nightSweats":"656f10da-977f-11e1-8993-905e29aff6c1",
   "weightLoss":"654a56be-977f-11e1-8993-905e29aff6c1",
   "recentContactWithActiveTB":"a6c1cd1c-b4a2-405a-930c-f11c914d50c5",
-  "painfulNeckAndArmpitLymphNodes":"974d5caf-2db6-4d5d-b509-11c6f5340ea5"
+  "painfulNeckAndArmpitLymphNodes":"974d5caf-2db6-4d5d-b509-11c6f5340ea5",
+  "yes": "65576354-977f-11e1-8993-905e29aff6c1",
+  "no": "6557646c-977f-11e1-8993-905e29aff6c1",
+  "true": "655e2f90-977f-11e1-8993-905e29aff6c1",
+  "false": "655e3148-977f-11e1-8993-905e29aff6c1"
 }

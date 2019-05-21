@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class IC3ScreeningMetadata extends CommonMetadata {
 
+    public static String SPUTUM_COLLECTED_CONCEPT_UUID = "165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
+
+    // ENCOUNTERS
     public EncounterType getBloodPressureScreeningEncounterType() {
         return getEncounterType(EncounterTypes.BLOOD_PRESSURE_SCREENING.uuid());
     }
@@ -46,6 +49,8 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getEncounterType(EncounterTypes.NURSE_EVALUATION.uuid());
     }
 
+
+    // CONCEPTS
     public Concept getReferToScreeningStationConcept() {
         return getConcept(IC3ScreeningConcepts.REFER_TO_SCREENING_STATION_UUID);
     }
@@ -84,6 +89,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
 
     public Concept getNurseScreeningStationConcept() {
         return getConcept(IC3ScreeningConcepts.NURSE_STATION_CONCEPT_UUID);
+    }
+
+    public Concept getSputumCollectedConcept() {
+        return getConcept(SPUTUM_COLLECTED_CONCEPT_UUID);
     }
 
 }

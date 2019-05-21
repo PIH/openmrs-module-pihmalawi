@@ -49,8 +49,11 @@ function daysBetween(timestamp1, timestamp2) {
 }
 
 function sameDay(timestamp1, timestamp2) {
-  var msPerDay = 1000*60*60*24;
-  return Math.floor(( Math.abs(timestamp1 - timestamp2) )/msPerDay) == 0 ? true : false;
+  var d1 = new Date(+timestamp1);
+  var d2 = new Date(+timestamp2);
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
 }
 
 /**

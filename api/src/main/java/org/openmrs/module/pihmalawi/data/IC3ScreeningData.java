@@ -213,6 +213,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "current_symptoms", df.getAllRecentObsOnDate(ccMetadata.getConcept(ccMetadata.SYMPTOM_PRESENT_CONCEPT), null, df.getObsValueCodedCollectionConverter()));
         addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
+        addColumn(dsd, "current_sputum_collection", df.getMostRecentObsOnDate(screeningMetadata.getSputumCollectedConcept(), null, df.getObsValueCodedConverter()));
         addColumn(dsd, "last_bp_screening_datetime", getMostRecentBPScreeningDate());
         addColumn(dsd, "last_nutrition_screening_datetime", getMostRecentNutritionScreeningDate());
         addColumn(dsd, "last_adherence_screening_datetime", getMostRecentAdherenceScreeningDate());

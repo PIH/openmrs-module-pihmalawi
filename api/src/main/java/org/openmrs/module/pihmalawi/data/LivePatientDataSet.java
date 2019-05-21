@@ -19,6 +19,7 @@ import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
@@ -45,7 +46,12 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -83,6 +89,9 @@ public abstract class LivePatientDataSet {
 
     @Autowired
     ChronicCareMetadata ccMetadata;
+
+    @Autowired
+    CommonMetadata commonMetadata;
 
     @Autowired
     DataFactory df;

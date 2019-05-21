@@ -358,7 +358,7 @@
     "name": "eligible-for-tb-screening",
     "categories": ["tb", "screening-eligibility"],
     "conditions": [
-      "true"
+      "missing(last_tb_screening_datetime) || !sameDay(now, last_tb_screening_datetime)"
     ],
     "alert": "Eligible for TB screening",
     "action": "Action: Refer to the TB screening station",
@@ -366,10 +366,11 @@
   },
   {
     "name": "abnormal-result-tb",
-    "categories": ["tb", "abnormal-result"],
+    "categories": ["abnormal-result", "screening-eligibility", "nurse" ],
     "conditions": [
       "!missing(current_symptoms)",
-      "hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes])"
+      "hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes])",
+      "missing(current_sputum_collection) || isFalse(current_sputum_collection)"
     ],
     "alert": "TB symptoms",
     "action": "Action: Refer to nurse station for sputum submission",
