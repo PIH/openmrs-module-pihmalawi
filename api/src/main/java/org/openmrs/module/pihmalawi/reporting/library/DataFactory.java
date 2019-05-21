@@ -95,6 +95,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +170,17 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate"), converter);
 	}
 
+	public PatientDataDefinition getMostRecentEncounterOfType(EncounterType type) {
+		return getMostRecentEncounterOfTypes(Collections.singletonList(type));
+	}
+
+	public PatientDataDefinition getMostRecentEncounterOfTypes(List<EncounterType> types) {
+		EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setTypes(types);
+		return def;
+	}
+
 	public PatientDataDefinition getMostRecentEncounterOfTypesByEndDate(List<EncounterType> types, DataConverter converter) {
 		EncountersForPatientDataDefinition def = new EncountersForPatientDataDefinition();
 		def.setWhich(TimeQualifier.LAST);
@@ -226,6 +238,21 @@ public class DataFactory {
 		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
 		def.setWhich(TimeQualifier.LAST);
 		def.setQuestion(question);
+		def.setEncounterTypeList(encounterTypes);
+		def.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
+		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));
+		return convert(def, ObjectUtil.toMap("onOrBefore=endDate,onOrAfter=endDate"), converter);
+	}
+
+	public PatientDataDefinition getMostRecentObsOnDate(Concept question, Concept answer, List<EncounterType> encounterTypes, DataConverter converter) {
+		return getMostRecentObsOnDate(question, Collections.singletonList(answer), encounterTypes, converter);
+	}
+
+	public PatientDataDefinition getMostRecentObsOnDate(Concept question, List<Concept> answers, List<EncounterType> encounterTypes, DataConverter converter) {
+		ObsForPersonDataDefinition def = new ObsForPersonDataDefinition();
+		def.setWhich(TimeQualifier.LAST);
+		def.setQuestion(question);
+		def.setValueCodedList(answers);
 		def.setEncounterTypeList(encounterTypes);
 		def.addParameter(new Parameter("onOrAfter", "On or After", Date.class));
 		def.addParameter(new Parameter("onOrBefore", "On or Before", Date.class));

@@ -13,9 +13,13 @@ import org.openmrs.Cohort;
 import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.alert.AlertEngine;
+import org.openmrs.module.pihmalawi.metadata.IC3ScreeningMetadata;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
+import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
+import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -28,6 +32,9 @@ import java.util.Map;
  */
 @Component
 public class IC3ScreeningData extends LivePatientDataSet {
+
+    @Autowired
+    private IC3ScreeningMetadata screeningMetadata;
 
     public Map<Location, Cohort> getPatientsWithAppointmentsByEnrolledLocation(Date appointmentDate) {
         Map<Location, Cohort> ret = new HashMap<Location, Cohort>();
@@ -47,6 +54,96 @@ public class IC3ScreeningData extends LivePatientDataSet {
 
     public Cohort getPatientsWithAVisitAtLocation(Date endDate, Location location) {
         return evaluateCohort(baseCohorts.getPatientsWithAVisitOnEndDateAtLocation(), endDate, location);
+    }
+
+    @DocumentedDefinition("mostRecentBPScreening")
+    public PatientDataDefinition getMostRecentBPScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getBloodPressureScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentBPScreeningDate")
+    public PatientDataDefinition getMostRecentBPScreeningDate() {
+        return  df.convert(getMostRecentBPScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentNutritionScreening")
+    public PatientDataDefinition getMostRecentNutritionScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getNutritionScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentNutritionScreeningDate")
+    public PatientDataDefinition getMostRecentNutritionScreeningDate() {
+        return  df.convert(getMostRecentNutritionScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentAdherenceScreening")
+    public PatientDataDefinition getMostRecentAdherenceScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getAdherenceScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentAdherenceScreeningDate")
+    public PatientDataDefinition getMostRecentAdherenceScreeningDate() {
+        return  df.convert(getMostRecentAdherenceScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentEIDScreening")
+    public PatientDataDefinition getMostRecentEIDScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getEIDScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentEIDScreeningDate")
+    public PatientDataDefinition getMostRecentEIDScreeningDate() {
+        return  df.convert(getMostRecentEIDScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentHTCScreening")
+    public PatientDataDefinition getMostRecentHTCScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getHTCScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentHTCScreeningDate")
+    public PatientDataDefinition getMostRecentHTCScreeningDate() {
+        return  df.convert(getMostRecentHTCScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentVLScreening")
+    public PatientDataDefinition getMostRecentVLScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getVLScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentVLScreeningDate")
+    public PatientDataDefinition getMostRecentVLScreeningDate() {
+        return  df.convert(getMostRecentVLScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentTBScreening")
+    public PatientDataDefinition getMostRecentTBScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getTBScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentTBScreeningDate")
+    public PatientDataDefinition getMostRecentTBScreeningDate() {
+        return  df.convert(getMostRecentTBScreening(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentTBTestResults")
+    public PatientDataDefinition getMostRecentTBTestResults() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getTBTestResultsEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentTBTestResultsDate")
+    public PatientDataDefinition getMostRecentTBTestResultsDate() {
+        return  df.convert(getMostRecentTBTestResults(), df.getEncounterDatetimeConverter());
+    }
+
+    @DocumentedDefinition("mostRecentNurseScreening")
+    public PatientDataDefinition getMostRecentNurseScreening() {
+        return df.getMostRecentEncounterOfType(screeningMetadata.getNurseScreeningEncounterType());
+    }
+
+    @DocumentedDefinition("mostRecentNurseScreeningDate")
+    public PatientDataDefinition getMostRecentNurseScreeningDate() {
+        return  df.convert(getMostRecentNurseScreening(), df.getEncounterDatetimeConverter());
     }
 
     /**
@@ -116,6 +213,23 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "current_symptoms", df.getAllRecentObsOnDate(ccMetadata.getConcept(ccMetadata.SYMPTOM_PRESENT_CONCEPT), null, df.getObsValueCodedCollectionConverter()));
         addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
+        addColumn(dsd, "last_bp_screening_datetime", getMostRecentBPScreeningDate());
+        addColumn(dsd, "last_nutrition_screening_datetime", getMostRecentNutritionScreeningDate());
+        addColumn(dsd, "last_adherence_screening_datetime", getMostRecentAdherenceScreeningDate());
+        addColumn(dsd, "last_eid_screening_datetime", getMostRecentEIDScreeningDate());
+        addColumn(dsd, "last_htc_screening_datetime", getMostRecentHTCScreeningDate());
+        addColumn(dsd, "last_vl_screening_datetime", getMostRecentVLScreeningDate());
+        addColumn(dsd, "last_tb_screening_datetime", getMostRecentTBScreeningDate());
+        addColumn(dsd, "last_tb_test_results_datetime", getMostRecentTBTestResults());
+        addColumn(dsd, "last_nurse_screening_datetime", getMostRecentNutritionScreeningDate());
+        addColumn(dsd, "current_bp_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getBPScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_nutrition_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getNutritionScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_adherence_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getAdherenceScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_eid_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getEIDScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_htc_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getHTCScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_vl_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getVLScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_tb_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getTBScreeningStationConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_nurse_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getNurseScreeningStationConcept(), null, df.getObsDatetimeConverter()));
         return dsd;
     }
 

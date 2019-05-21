@@ -374,5 +374,79 @@
     "alert": "TB symptoms",
     "action": "Action: Refer to nurse station for sputum submission",
     "enabled": true
+  },
+  {
+    "name": "clinician-refered-to-bp",
+    "categories": ["bp", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_bp_screening_clinician_referral_datetime)",
+      "missing(last_bp_screening_datetime) || last_bp_screening_datetime < current_bp_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for blood pressure screening"
+  },
+  {
+    "name": "clinician-referred-to-nutrition",
+    "categories": ["nutrition", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_nutrition_screening_clinician_referral_datetime)",
+      "missing(last_nutrition_screening_datetime) || last_nutrition_screening_datetime < current_nutrition_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for Nutrition screening"
+  },
+  {
+    "name": "clinician-referred-to-adherence",
+    "categories": ["adherence", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_adherence_screening_clinician_referral_datetime)",
+      "missing(last_adherence_screening_datetime) || last_adherence_screening_datetime < current_adherence_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for Adherence screening"
+  },
+  {
+  "name": "clinician-referred-to-eid",
+  "categories": ["eid", "screening-eligibility", "clinician-referral"],
+  "conditions": [
+    "!missing(current_eid_screening_clinician_referral_datetime)",
+    "missing(last_eid_screening_datetime) || last_eid_screening_datetime < current_eid_screening_clinician_referral_datetime"
+  ],
+  "alert": "Referred by clinician for EID screening"
+  },
+  {
+    "name": "clinician-referred-to-htc",
+    "categories": ["htc", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_htc_screening_clinician_referral_datetime)",
+      "missing(last_htc_screening_datetime) || last_htc_screening_datetime < current_htc_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for HTC screening"
+  },
+  {
+    "name": "clinician-referred-to-viral-load",
+    "categories": ["viral-load", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_vl_screening_clinician_referral_datetime)",
+      "missing(last_vl_screening_datetime) || last_vl_screening_datetime < current_vl_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for Viral Load screening"
+  },
+  {
+    "name": "clinician-referred-to-tb-screening",
+    "categories": ["tb", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_tb_screening_clinician_referral_datetime)",
+      "missing(last_tb_screening_datetime) || last_tb_screening_datetime < current_tb_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for TB screening"
+  },
+  {
+    "name": "clinician-referred-to-nurse",
+    "categories": ["nurse", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_nurse_screening_clinician_referral_datetime)",
+      "missing(last_nurse_screening_datetime) || last_nurse_screening_datetime < current_nurse_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician to Nursing station"
   }
 ]
+
+

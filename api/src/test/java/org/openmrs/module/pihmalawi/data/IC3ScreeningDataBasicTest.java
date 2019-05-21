@@ -4,17 +4,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.PatientProgram;
+import org.openmrs.PatientState;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.alert.AlertDefinition;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
+import org.openmrs.module.pihmalawi.metadata.IC3ScreeningMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.test.SkipBaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +28,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
 @SkipBaseSetup
 public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
@@ -37,6 +44,9 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     @Autowired
     IC3ScreeningData screeningData;
+
+    @Autowired
+    IC3ScreeningMetadata screeningMetadata;
 
     /**
      * @verifies return the json data and BP eligibility alert
@@ -553,6 +563,24 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("due-for-routine-viral-load-2"))));
 
+    }
+
+    @Test
+    public void shouldGetMostRecentBloodPressureScreeningEncounterDateForPatient() {
+
+        Patient patient = createPatient().birthdate(DateUtil.getDateTime(2016, 11, 22)).save();
+        createEncounter(patient, screeningMetadata.getBloodPressureScreeningEncounterType(), DateUtil.getDateTime(2016, 11, 22)).save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                new Date(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat((Date) patientData.get("last_blood_pressure_screening_datetime"), is( DateUtil.getDateTime(2016, 11, 22)));
+
 
     }
+
 }
