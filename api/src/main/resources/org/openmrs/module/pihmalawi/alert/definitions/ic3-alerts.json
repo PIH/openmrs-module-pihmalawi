@@ -447,6 +447,24 @@
       "missing(last_nurse_screening_datetime) || last_nurse_screening_datetime < current_nurse_screening_clinician_referral_datetime"
     ],
     "alert": "Referred by clinician to Nursing station"
+  },
+  {
+    "name": "eligible-for-cervical-cancer-screening",
+    "categories": ["nurse", "screening-eligibility"],
+    "conditions": [
+      "age_years >= 25 && age_years <= 49",
+      "gender == female"
+    ],
+    "alert": "Refer to Nursing station for Cervical Cancer Screening"
+  },
+  {
+    "name": "eligible-for-family-planning",
+    "categories": ["nurse", "screening-eligibility"],
+    "conditions": [
+      "age_years >= 15 && age_years <= 49",
+      "gender == female"
+    ],
+    "alert": "Refer to Nursing station for Family Planning"
   }
 ]
 

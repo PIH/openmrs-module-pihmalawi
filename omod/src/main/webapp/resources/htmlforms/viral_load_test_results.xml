@@ -45,6 +45,7 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
+                    <th>Encounter Type</th>
                     <th>Visit Location</th>
                     <th>Reason for Test</th>
                     <th>Lab Location</th>
@@ -60,7 +61,10 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate />
-                    </td>         
+                    </td>
+                    <td>
+                        <encounterType id="encounterType" />
+                    </td>
                     <td>
                         <encounterLocation id="visitLocation" />
                     </td>                                           
@@ -138,7 +142,6 @@
                     <td><lookup expression="context.defaultEncounterDate" />
                         <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                     </td>
-
                     <td>
                         <encounterLocation id="visitLocation" />
                     </td>            
