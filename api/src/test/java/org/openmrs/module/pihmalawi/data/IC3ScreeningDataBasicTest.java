@@ -578,7 +578,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
                 false);
 
         assertThat(patientData.size(), greaterThan(0));
-        assertThat((Date) patientData.get("last_blood_pressure_screening_datetime"), is( DateUtil.getDateTime(2016, 11, 22)));
+        assertThat((Date) patientData.get("last_bp_screening_datetime"), is( DateUtil.getDateTime(2016, 11, 22)));
 
 
     }

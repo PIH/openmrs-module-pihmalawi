@@ -42,11 +42,11 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
 
     @Override
     protected boolean isEnabled() {
-        return false;
+        return true;
     }
 
 	public String getOutputDirectory() {
-		return "/Users/cioan/workspace/pih/pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
+		return "/home/mgoodrich/openmrs/modules/pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
 	}
 
 	@Test

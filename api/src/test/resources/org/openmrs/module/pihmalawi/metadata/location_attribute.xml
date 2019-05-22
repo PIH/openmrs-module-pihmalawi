@@ -1,17 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <location_attribute location_attribute_id="1" location_id="17" attribute_type_id="1" value_reference="LWAN" uuid="278f2fed-8677-4646-90be-5762330922bf" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="2" location_id="18" attribute_type_id="1" value_reference="CFGA" uuid="b46e4ec6-1e32-4aab-b862-3e7ff04ff6fa" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="3" location_id="34" attribute_type_id="1" value_reference="LGWE" uuid="c0e796f8-9454-4352-a68b-7288ff9c3e47" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="4" location_id="2" attribute_type_id="1" value_reference="NNO" uuid="85e64e73-e542-4fc4-82b2-6100b127a009" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="5" location_id="5" attribute_type_id="1" value_reference="MTDN" uuid="84bc454b-e050-4e70-af7e-01470af670f5" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="6" location_id="3" attribute_type_id="1" value_reference="MGT" uuid="55141aa7-9eb8-4ca4-a6bd-c9cf025f8bfb" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="7" location_id="35" attribute_type_id="1" value_reference="ZLA" uuid="cb4a7e49-4b99-478f-bd5a-55031305a78d" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="8" location_id="21" attribute_type_id="1" value_reference="NKA" uuid="e1c867fc-a709-4f0f-8576-b0c61755d7e5" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="9" location_id="22" attribute_type_id="1" value_reference="MTE" uuid="11f9a566-3b52-4151-9a7b-1642cdca626a" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="10" location_id="16" attribute_type_id="1" value_reference="LSI" uuid="8cdc8ba4-8649-4165-b20e-b80fa66485e0" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="11" location_id="20" attribute_type_id="1" value_reference="NSM" uuid="f43fbcf3-abbf-47e0-9214-1f7f1a967c60" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="12" location_id="4" attribute_type_id="1" value_reference="NOP" uuid="3414a215-2b6a-4de8-9bfb-80ebb543eec9" creator="1" date_created="2016-04-21 20:11:11.0" voided="false"/>
-  <location_attribute location_attribute_id="13" location_id="57" attribute_type_id="1" value_reference="DAM" uuid="d65e7c2a-d2aa-49ae-b925-94951cdaee6f" creator="1" date_created="2017-06-06 17:25:21.0" voided="false"/>
-  <location_attribute location_attribute_id="14" location_id="45" attribute_type_id="1" value_reference="NOP" uuid="57ddf25c-5693-4f53-bc27-9240306ed657" creator="1" date_created="2018-01-31 21:49:00.0" voided="false"/>
+  <location_attribute location_attribute_id="1" location_id="17" attribute_type_id="1" value_reference="LWAN" uuid="2a738d46-e86b-4261-aa5e-8b3a8baec9e9" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="2" location_id="18" attribute_type_id="1" value_reference="CFGA" uuid="191a3beb-a428-4d5f-bed1-a0989b9d6f78" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="3" location_id="34" attribute_type_id="1" value_reference="LGWE" uuid="6cfd7eab-e9e4-409c-843f-7980e693c27b" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="4" location_id="2" attribute_type_id="1" value_reference="NNO" uuid="d7a9c294-8749-451d-b6b6-24f3f389a361" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="5" location_id="5" attribute_type_id="1" value_reference="MTDN" uuid="e0a0e7be-ee57-430d-9441-3702a19cff4c" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="6" location_id="3" attribute_type_id="1" value_reference="MGT" uuid="483fc6a7-46d4-4ee0-aa71-29d198cb9970" creator="1" date_created="2016-04-21 11:02:29.0" voided="false"/>
+  <location_attribute location_attribute_id="7" location_id="35" attribute_type_id="1" value_reference="ZLA" uuid="2df1431c-c10c-40fa-9914-996ee797eeb2" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="8" location_id="21" attribute_type_id="1" value_reference="NKA" uuid="c12a8c6d-be2c-470b-99b3-4079cb7c1350" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="9" location_id="22" attribute_type_id="1" value_reference="MTE" uuid="24d6e01d-e03b-4796-b44e-39f4b7d3940d" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="10" location_id="16" attribute_type_id="1" value_reference="LSI" uuid="6611e38a-70c2-4276-bc10-b29df9732209" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="11" location_id="20" attribute_type_id="1" value_reference="NSM" uuid="e1706412-647a-44b4-935d-48023658d071" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="12" location_id="4" attribute_type_id="1" value_reference="NOP" uuid="be7f2a4b-1da1-4bc8-bc56-26c462f7f575" creator="1" date_created="2016-04-21 11:02:30.0" voided="false"/>
+  <location_attribute location_attribute_id="13" location_id="37" attribute_type_id="1" value_reference="MIHC" uuid="4929164b-fba0-4dfe-9913-adcf7f45e9b0" creator="1" date_created="2016-04-21 11:08:24.0" voided="false"/>
 </dataset>

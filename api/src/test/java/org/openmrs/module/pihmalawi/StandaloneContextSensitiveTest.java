@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.openmrs.test.SkipBaseSetup;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Properties;
 
@@ -31,11 +30,11 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 	public Properties getRuntimeProperties() {
 		Properties p = super.getRuntimeProperties();
 		if (isEnabled()) {
-			p.setProperty("connection.url", "jdbc:mysql://localhost:3306/upperneno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
-            p.setProperty("connection.username", "openmrs");
-            p.setProperty("connection.password", "openmrs");
-            p.setProperty("junit.username", "openmrs");
-            p.setProperty("junit.password", "openmrs");
+			p.setProperty("connection.url", "jdbc:mysql://localhost:3306/openmrs_malawi?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+            p.setProperty("connection.username", "root");
+            p.setProperty("connection.password", "root");
+            p.setProperty("junit.username", "mgoodrich");
+            p.setProperty("junit.password", "Morrison1");
         }
 		return p;
 	}

@@ -79,10 +79,6 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getConcept(IC3ScreeningConcepts.VL_SCREENING_STATION_CONCEPT_UUID);
     }
 
-    public Concept getTBTestingScreeningStationConcept() {
-        return getConcept(IC3ScreeningConcepts.TB_TESTING_STATION_CONCEPT_UUID);
-    }
-
     public Concept getTBScreeningStationConcept() {
         return getConcept(IC3ScreeningConcepts.TB_SCREENING_STATION_CONCEPT_UUID);
     }

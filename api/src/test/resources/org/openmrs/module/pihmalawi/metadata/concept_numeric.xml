@@ -66,7 +66,7 @@
   <concept_numeric concept_id="1186" units="# weeks" precise="false"/>
   <concept_numeric concept_id="1196" units="# doses" precise="false"/>
   <concept_numeric concept_id="1279" hi_absolute="44.0" low_absolute="0.0" units="weeks" precise="false"/>
-  <concept_numeric concept_id="1290" units="" precise="true"/>
+  <concept_numeric concept_id="1290" precise="true"/>
   <concept_numeric concept_id="1294" units="Days" precise="true"/>
   <concept_numeric concept_id="1323" units="" precise="false"/>
   <concept_numeric concept_id="1324" units="" precise="false"/>
@@ -1077,6 +1077,9 @@
   <concept_numeric concept_id="8460" hi_absolute="100.0" low_absolute="0.0" units="%" precise="false"/>
   <concept_numeric concept_id="8512" hi_absolute="2050.0" low_absolute="1950.0" precise="false"/>
   <concept_numeric concept_id="8513" hi_absolute="12.0" low_absolute="1.0" precise="false"/>
-  <concept_numeric concept_id="8738" units="mL/min" precise="false"/>
-  <concept_numeric concept_id="8767" hi_absolute="100.0" low_absolute="0.0" units="%" precise="false"/>
+  <concept_numeric concept_id="8916" units="mL/min" precise="false"/>
+  <concept_numeric concept_id="8946" hi_absolute="100.0" low_absolute="0.0" units="%" precise="false"/>
+  <concept_numeric concept_id="8973" precise="false"/>
+  <concept_numeric concept_id="8975" precise="false"/>
+  <concept_numeric concept_id="8978" precise="false"/>
 </dataset>
