@@ -404,13 +404,13 @@
     "alert": "Referred by clinician for Adherence screening"
   },
   {
-  "name": "clinician-referred-to-eid",
-  "categories": ["eid", "screening-eligibility", "clinician-referral"],
-  "conditions": [
-    "!missing(current_eid_screening_clinician_referral_datetime)",
-    "missing(last_eid_screening_datetime) || last_eid_screening_datetime < current_eid_screening_clinician_referral_datetime"
-  ],
-  "alert": "Referred by clinician for EID screening"
+    "name": "clinician-referred-to-eid",
+    "categories": ["eid", "screening-eligibility", "clinician-referral"],
+    "conditions": [
+      "!missing(current_eid_screening_clinician_referral_datetime)",
+      "missing(last_eid_screening_datetime) || last_eid_screening_datetime < current_eid_screening_clinician_referral_datetime"
+    ],
+    "alert": "Referred by clinician for EID screening"
   },
   {
     "name": "clinician-referred-to-htc",
