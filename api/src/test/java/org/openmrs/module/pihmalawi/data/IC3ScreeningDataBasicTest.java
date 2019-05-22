@@ -596,13 +596,30 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
                 hivMetadata.getLocation("Neno District Hospital"),
                 false);
 
-        if (patientData != null && !patientData.isEmpty()) {
-            log.warn("alert= " + patientData.get("alerts"));
-        }
         assertThat(patientData.size(), greaterThan(0));
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("eligible-for-cervical-cancer-screening"))));
+
+    }
+
+    @Test
+    public void getDataForPatient_shouldReturnEligibleForFamilyPlanning() throws Exception {
+
+        Patient patient = createPatient().age(16).save();
+        patient.setGender("F");
+        Calendar cal = Calendar.getInstance();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("eligible-for-family-planning"))));
 
     }
 
