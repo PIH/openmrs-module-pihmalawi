@@ -21,6 +21,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
@@ -71,6 +72,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public EncounterType getOldChronicCareFollowupEncounterType() {
 		return getEncounterType(CHRONIC_CARE_FOLLOWUP);
+	}
+
+	public EncounterType getTBScreeningEncounterType() {
+		return getEncounterType(EncounterTypes.TB_SCREENING.uuid());
 	}
 
 	public EncounterType getHtnDiabetesInitialEncounterType() {
@@ -266,6 +271,22 @@ public class ChronicCareMetadata extends CommonMetadata {
 
 	public Concept getDepressionConcept() {
 		return getConcept(DEPRESSION);
+	}
+
+	public Concept getTbScreeningSetConcept() {
+		return getConcept(IC3ScreeningConcepts.TB_SCREENING_SET_CONCEPT_UUID);
+	}
+
+	public Concept getSymptomPresentConcept() {
+		return getConcept(CommonMetadata.SYMPTOM_PRESENT_CONCEPT);
+	}
+
+	public Concept getSymptomAbsentConcept() {
+		return getConcept(CommonMetadata.SYMPTOM_ABSENT_CONCEPT);
+	}
+
+	public Concept getCoughConcept() {
+		return getConcept(CommonMetadata.COUGH_CONCEPT);
 	}
 
 	public List<Concept> getChronicCareDiagnosisAnswerConcepts() {

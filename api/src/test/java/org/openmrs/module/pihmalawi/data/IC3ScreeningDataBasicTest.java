@@ -623,4 +623,69 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     }
 
+    @Test
+    public void getDataForPatient_shouldReturnFastTrackHivPatients() throws Exception {
+
+        Patient patient = createPatient().age(36).save();
+        patient.setGender("M");
+        Calendar cal = Calendar.getInstance();
+
+        Program hivProgram = hivMetadata.getHivProgram();
+        PatientProgram patientProgram = new PatientProgram();
+        patientProgram.setPatient(patient);
+        patientProgram.setProgram(hivProgram);
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(2016, 2, 22));
+
+        // Patient on ART
+        PatientState patientState = new PatientState();
+        patientState.setStartDate(DateUtil.getDateTime(2016, 2, 22));
+        ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
+        patientState.setState(onArvsState);
+        patientProgram.getStates().add(patientState);
+        PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+
+        Date d1 = DateUtil.getDateTime(2016, 4, 23);
+        Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), d1).save();
+        Obs weightObs = createObs(enc1, ccMetadata.getWeightConcept(), 71.0).save();
+        Obs heightObs = createObs(enc1, ccMetadata.getHeightConcept(), 165).save();
+
+        // Viral Load Test
+        Date lastViralLoadDate = DateUtil.getDateTime(2018, 4, 20);
+        Encounter vlEncounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
+        ObsBuilder groupObsBuilder = createObs(vlEncounter, hivMetadata.getHivViralLoadTestSetConcept(), null);
+        Obs routineTest = createObs(vlEncounter, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        // bled
+        Obs bled = createObs(vlEncounter, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        //Obs numericResult = createObs(vlEncounter, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+        Obs ldlResult = createObs(vlEncounter, hivMetadata.getHivLDLConcept(), hivMetadata.getTrueConcept()).save();
+
+        groupObsBuilder.member(routineTest);
+        groupObsBuilder.member(bled);
+        groupObsBuilder.member(ldlResult);
+        groupObsBuilder.save();
+
+        Encounter enc2 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), cal.getTime()).save();
+        createObs(enc2, ccMetadata.getWeightConcept(), 70.0).save();
+        createObs(enc2, ccMetadata.getHeightConcept(), 165).save();
+
+        Encounter enc3 = createEncounter(patient, ccMetadata.getTBScreeningEncounterType(), cal.getTime()).save();
+        ObsBuilder tbSymptomsGroupObs = createObs(enc3, ccMetadata.getTbScreeningSetConcept(), null);
+        //Obs tbCoughPresent = createObs(enc3, ccMetadata.getSymptomPresentConcept(), ccMetadata.getCoughConcept()).save();
+        Obs tbCoughAbsent = createObs(enc3, ccMetadata.getSymptomAbsentConcept(), ccMetadata.getCoughConcept()).save();
+        tbSymptomsGroupObs.member(tbCoughAbsent);
+        tbSymptomsGroupObs.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("fast-track-hiv-patients"))));
+
+    }
+
 }

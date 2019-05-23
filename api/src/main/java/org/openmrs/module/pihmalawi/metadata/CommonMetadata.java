@@ -146,6 +146,7 @@ public class CommonMetadata extends Metadata {
 	public static final String SOURCE_OF_REFERRAL_CONCEPT = "Type of referring clinic or hospital";
 
 	public static final String SYMPTOM_PRESENT_CONCEPT  = "6558d3ba-977f-11e1-8993-905e29aff6c1";
+	public static final String SYMPTOM_ABSENT_CONCEPT  = "655b50fe-977f-11e1-8993-905e29aff6c1";
 	//TB Screening concepts
 	public static final String COUGH_CONCEPT  = "65460a32-977f-11e1-8993-905e29aff6c1";
 	public static final String FEVER_CONCEPT  = "656e9844-977f-11e1-8993-905e29aff6c1";

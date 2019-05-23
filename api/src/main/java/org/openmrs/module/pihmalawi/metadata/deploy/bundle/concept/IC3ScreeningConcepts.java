@@ -35,6 +35,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
     public static final String VL_SCREENING_STATION_CONCEPT_UUID = "c2316084-596e-4f31-a375-b99ea62c612d";
 
     public static final String TB_SCREENING_STATION_CONCEPT_UUID = "1bb40f5c-a8a2-4a1f-bead-ee8dcfac367b";
+    public static final String TB_SCREENING_SET_CONCEPT_UUID = "6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478";
 
     public static final String TB_TESTING_STATION_CONCEPT_UUID = "23d0e9e2-f838-4f90-8d1e-e8e5d1a85ca7";
 
@@ -290,7 +291,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        install(new ConceptBuilder("6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478")
+        install(new ConceptBuilder(TB_SCREENING_SET_CONCEPT_UUID)
                 .datatype(notApplicable)
                 .conceptClass(convSet)
                 .name("10458542-b223-11e8-96f8-529269fb1459", "Tuberculosis screening set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
