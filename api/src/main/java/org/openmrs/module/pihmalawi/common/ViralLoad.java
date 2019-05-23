@@ -31,6 +31,7 @@ public class ViralLoad implements JsonSerializable {
     private Date specimenDate;
     private Date resultDate;
     private Double resultNumeric;
+    private Double lessThanResultNumeric;
     private Boolean resultLdl;
     private Concept reasonForTest;
     private Concept reasonNoResult;
@@ -52,6 +53,7 @@ public class ViralLoad implements JsonSerializable {
         ret.put("resultDate", resultDate);
         ret.put("effectiveDate", getEffectiveDate());
         ret.put("resultNumeric", resultNumeric);
+        ret.put("lessThanResultNumeric", lessThanResultNumeric);
         ret.put("resultLdl", resultLdl);
         ret.put("reasonForTest", reasonForTest);
         ret.put("reasonNoResult", reasonNoResult);
@@ -123,5 +125,13 @@ public class ViralLoad implements JsonSerializable {
 
     public void setReasonNoResult(Concept reasonNoResult) {
         this.reasonNoResult = reasonNoResult;
+    }
+
+    public Double getLessThanResultNumeric() {
+        return lessThanResultNumeric;
+    }
+
+    public void setLessThanResultNumeric(Double lessThanResultNumeric) {
+        this.lessThanResultNumeric = lessThanResultNumeric;
     }
 }

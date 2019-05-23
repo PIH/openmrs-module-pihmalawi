@@ -101,6 +101,7 @@ public class CommonMetadata extends Metadata {
     public static final String HIV_VIRAL_LOAD_TEST_SET = "83931c6d-0e5a-4302-b8ce-a31175b6475e";
     public static final String HIV_VIRAL_LOAD_SPECIMEN_COLLECTED = "f792f2f9-9c24-4d6e-98fd-caffa8f2383f";
     public static final String HIV_VIRAL_LOAD = "654a7694-977f-11e1-8993-905e29aff6c1";
+    public static final String HIV_LESS_THAN_VIRAL_LOAD = "69e87644-5562-11e9-8647-d663bd873d93";
 	public static final String HIV_VIRAL_LDL = "e97b36a2-16f5-11e6-b6ba-3e1d05defe78";
 	public static final String REASON_FOR_TESTING = "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	public static final String ROUTINE = "e0821812-955d-11e7-abc4-cec278b6b50a";
@@ -300,6 +301,8 @@ public class CommonMetadata extends Metadata {
     public Concept getHivViralLoadConcept() {
         return getConcept(HIV_VIRAL_LOAD);
     }
+
+    public Concept getHivLessThanViralLoadConcept() { return getConcept(HIV_LESS_THAN_VIRAL_LOAD); }
 
     public Concept getHivLDLConcept() {
         return getConcept(HIV_VIRAL_LDL);

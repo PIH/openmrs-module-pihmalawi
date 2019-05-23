@@ -77,6 +77,26 @@ public class ViralLoadDataEvaluatorTest extends BaseMalawiTest {
         testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
 	}
 
+    @Test
+    public void shouldTestViralLoadWithLessThanResultNumeric() throws Exception {
+
+        Patient patient = createPatient().save();
+        Encounter encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), DateUtil.getDateTime(2016, 8, 3)).save();
+        Date effectiveDate = new Date();
+
+        ViralLoad expectedVl = new ViralLoad();
+        expectedVl.setEncounterId(encounter.getId());
+        expectedVl.setSpecimenDate(encounter.getEncounterDatetime());
+
+        createObs(encounter, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
+        Obs lessThanResult = createObs(encounter, hivMetadata.getHivLessThanViralLoadConcept(), 1500L).save();
+        expectedVl.setResultLdl(null);
+        expectedVl.setLessThanResultNumeric(lessThanResult.getValueNumeric());
+        expectedVl.setResultDate(lessThanResult.getObsDatetime());
+        testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
+
+    }
+
     protected void testViralLoad(Integer pId, int totalNum, Integer whichNum, Date endDate, ViralLoad expectedVl) {
         EvaluationContext context = new EvaluationContext();
         context.setBaseCohort(new Cohort());

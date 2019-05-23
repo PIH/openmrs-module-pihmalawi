@@ -43,7 +43,7 @@
       "age_years >= 3",
       "hiv_treatment_status == active_art",
       "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
-      "last_viral_load_numeric > 0",
+      "last_viral_load_numeric > 0 || last_viral_load_less_than_numeric > 0",
       "last_viral_load_ldl != true",
       "!sameDay(now, last_adherence_screening_datetime)",
       "(missing(last_adherence_counselling_session_number) || missing(last_adherence_counselling_session_date)) || (!missing(last_adherence_counselling_session_date) && (last_adherence_counselling_session_date < last_viral_load_date)) || (!missing(last_adherence_counselling_session_date) && !missing(last_adherence_counselling_session_number) && (last_adherence_counselling_session_date >= last_viral_load_date) && (last_adherence_counselling_session_number != adherence_counseling_third_session))"
@@ -59,7 +59,7 @@
       "age_years >= 3",
       "hiv_treatment_status == active_art",
       "missing(last_viral_load_type) || (last_viral_load_type == routine_viral_load)",
-      "last_viral_load_numeric > 0",
+      "last_viral_load_numeric > 0 || last_viral_load_less_than_numeric > 0",
       "last_viral_load_ldl != true",
       "daysBetween(today, last_viral_load_result_date) >= 90"
     ],

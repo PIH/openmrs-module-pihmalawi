@@ -109,6 +109,31 @@ public class ViralLoadDataEvaluator implements PatientDataEvaluator {
             }
         }
 
+
+        // Numeric Less Than Viral Load Results
+
+        {
+            HqlQueryBuilder q = new HqlQueryBuilder();
+            q.select("o.personId", "e.encounterId", "g.obsId", "o.obsDatetime", "o.valueNumeric", "e.encounterDatetime");
+            q.from(Obs.class, "o");
+            q.innerJoin("o.encounter", "e");
+            q.leftOuterJoin("o.obsGroup", "g");
+            q.wherePersonIn("o.personId", context);
+            q.whereEqual("o.concept", metadata.getHivLessThanViralLoadConcept());
+            q.whereLessOrEqualTo("o.obsDatetime", def.getEndDate());
+            q.orderAsc("o.obsDatetime");
+
+            List<Object[]> results = evaluationService.evaluateToList(q, context);
+            for (Object[] row : results) {
+                ViralLoad vl = getViralLoadForPatient(c.getData(), (Integer) row[0], (Integer) row[1], (Integer) row[2]);
+                vl.setResultDate((Date) row[3]);
+                vl.setLessThanResultNumeric((Double) row[4]);
+                if (vl.getSpecimenDate() == null) {
+                    vl.setSpecimenDate((Date) row[5]); // If result does not match up with a collection obs, use encounter date as specimen collection date
+                }
+            }
+        }
+
         // LDL Viral Load Results
 
         {
