@@ -483,6 +483,15 @@
       "missing(current_symptoms) || (!missing(current_symptoms) && !hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes]))"
     ],
     "alert": "Fast-track HIV patients"
+  },
+  {
+    "name": "checked-in-patients-without-appointment",
+    "categories": ["nurse", "screening-eligibility"],
+    "conditions": [
+      "!missing(current_checkin_referral)",
+      "current_checkin_referral != ic3_appointment"
+    ],
+    "alert": "Patients without appointment"
   }
 ]
 

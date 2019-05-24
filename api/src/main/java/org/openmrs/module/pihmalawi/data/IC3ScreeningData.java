@@ -174,6 +174,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "hcc_number", hivPatientData.getHccNumberAtLocation()); // TODO: See if this is what we want
         addColumn(dsd, "art_number", hivPatientData.getArvNumberAtLocation()); // TODO: See if this is what we want
         addColumn(dsd, "ncd_number", ccPatientData.getChronicCareNumberAtLocation()); // TODO: See if this is what we want
+        addColumn(dsd, "current_checkin_referral", df.getMostRecentObsOnDate(screeningMetadata.getSourceOfReferralConcept(), null, df.getObsValueCodedConverter()));
         addColumn(dsd, "cc_treatment_status", ccPatientData.getMostRecentNcdTreatmentStatusStateByEndDate());
         addColumn(dsd, "last_visit_date", basePatientData.getLatestVisitDateByEndDate());
         addColumn(dsd, "last_appt_date", basePatientData.getLatestNextAppointmentDateValueByEndDate());

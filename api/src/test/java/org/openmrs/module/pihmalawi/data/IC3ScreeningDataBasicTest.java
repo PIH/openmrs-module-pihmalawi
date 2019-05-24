@@ -688,4 +688,28 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     }
 
+    @Test
+    public void shouldReturnCheckedInPatientWithoutAppointment() throws Exception {
+
+        Patient patient = createPatient().age(36).save();
+        patient.setGender("M");
+        Calendar cal = Calendar.getInstance();
+
+
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getCheckInEncounterType(), cal.getTime()).save();
+        Obs referral = createObs(enc1, screeningMetadata.getSourceOfReferralConcept(), screeningMetadata.getHealthCenterReferralConcept()).save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("checked-in-patients-without-appointment"))));
+
+    }
+
 }

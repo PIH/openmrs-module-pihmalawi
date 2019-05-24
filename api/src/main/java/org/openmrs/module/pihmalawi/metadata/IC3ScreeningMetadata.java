@@ -12,6 +12,11 @@ public class IC3ScreeningMetadata extends CommonMetadata {
 
 
     // ENCOUNTERS
+
+    public EncounterType getCheckInEncounterType() {
+        return getEncounterType(EncounterTypes.CHECK_IN.uuid());
+    }
+
     public EncounterType getBloodPressureScreeningEncounterType() {
         return getEncounterType(EncounterTypes.BLOOD_PRESSURE_SCREENING.uuid());
     }
@@ -51,6 +56,18 @@ public class IC3ScreeningMetadata extends CommonMetadata {
 
 
     // CONCEPTS
+    public Concept getReferralSourceConcept() {
+        return getConcept(IC3ScreeningConcepts.REFERRAL_SOURCE_CONCEPT);
+    }
+
+    public Concept getHealthCenterReferralConcept() {
+        return getConcept(IC3ScreeningConcepts.HEALTH_CENTER_REFERRAL);
+    }
+
+    public Concept getIC3AppointmentConcept() {
+        return getConcept(IC3ScreeningConcepts.IC3_APPOINTMENT);
+    }
+
     public Concept getReferToScreeningStationConcept() {
         return getConcept(IC3ScreeningConcepts.REFER_TO_SCREENING_STATION_UUID);
     }

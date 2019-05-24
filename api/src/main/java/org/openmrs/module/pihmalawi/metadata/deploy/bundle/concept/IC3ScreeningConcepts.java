@@ -18,7 +18,9 @@ import java.util.Locale;
 @Requires({CoreConceptMetadataBundle.class})
 public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
-    //public static final String REFERRAL_SOURCE_CONCEPT  = "65664fc2-977f-11e1-8993-905e29aff6c1";
+    public static final String REFERRAL_SOURCE_CONCEPT  = "65664fc2-977f-11e1-8993-905e29aff6c1";
+    public static final String HEALTH_CENTER_REFERRAL = "6566905e-977f-11e1-8993-905e29aff6c1";
+    public static final String IC3_APPOINTMENT = "5004B09D-16D6-4439-9481-C9EAA2E939B5";
 
     public static final String REFER_TO_SCREENING_STATION_UUID = "191b3cdc-ec5b-4447-aeb5-4c985e336779";
 
@@ -69,7 +71,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .name("6f48e808-9ffa-11e8-98d0-529269fb1459", "Outside Neno district", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept healthCenter = install(new ConceptBuilder("6566905e-977f-11e1-8993-905e29aff6c1")
+        Concept healthCenter = install(new ConceptBuilder(HEALTH_CENTER_REFERRAL)
                 .datatype(notApplicable)
                 .conceptClass(misc)
                 .name("660899e4-977f-11e1-8993-905e29aff6c1", "Health center", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -155,14 +157,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .description("5D155402-8569-4049-8D6C-22E68D955A93", "Linkage to care identifier", Locale.ENGLISH)
                 .build());
 
-        Concept ic3Appointment = install(new ConceptBuilder("5004B09D-16D6-4439-9481-C9EAA2E939B5")
+        Concept ic3Appointment = install(new ConceptBuilder(IC3_APPOINTMENT)
                 .datatype(notApplicable)
                 .conceptClass(misc)
                 .name("419E7374-9965-459C-B70C-1D0E275B3A29", "IC3 Appointment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("5C040ED0-E3EB-468A-8484-AB96D58E8DA4", "Patient has an appointment at the IC3 clinic", Locale.ENGLISH)
                 .build());
 
-        install(new ConceptBuilder("65664fc2-977f-11e1-8993-905e29aff6c1")
+        install(new ConceptBuilder(REFERRAL_SOURCE_CONCEPT)
                 .datatype(coded)
                 .conceptClass(question)
                 .name("66093d9a-977f-11e1-8993-905e29aff6c1", "Type of referring clinic or hospital", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
