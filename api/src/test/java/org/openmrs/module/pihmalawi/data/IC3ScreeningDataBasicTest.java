@@ -626,31 +626,43 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     @Test
     public void getDataForPatient_shouldReturnFastTrackHivPatients() throws Exception {
 
-        Patient patient = createPatient().age(36).save();
-        patient.setGender("M");
         Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        Patient patient = createPatient().birthdate(DateUtil.getDateTime(currentYear - 34, currentMonth - 2, 22)).save();
+        patient.setGender("M");
+
 
         Program hivProgram = hivMetadata.getHivProgram();
         PatientProgram patientProgram = new PatientProgram();
         patientProgram.setPatient(patient);
         patientProgram.setProgram(hivProgram);
-        patientProgram.setDateEnrolled(DateUtil.getDateTime(2016, 2, 22));
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(currentYear -3, currentMonth - 2, 22));
 
         // Patient on ART
         PatientState patientState = new PatientState();
-        patientState.setStartDate(DateUtil.getDateTime(2016, 2, 22));
+        patientState.setStartDate(DateUtil.getDateTime(currentYear - 3, currentMonth + 1, 22));
         ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
         patientState.setState(onArvsState);
         patientProgram.getStates().add(patientState);
         PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
 
-        Date d1 = DateUtil.getDateTime(2016, 4, 23);
+        // Patient starts first line regiment
+        Date regDate = DateUtil.getDateTime(currentYear - 2, currentMonth - 2, 13);
+        Concept reg1 = hivMetadata.getArvRegimen2aConcept();
+        Encounter reg1Encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), regDate).save();
+        Obs reg1Obs = createObs(reg1Encounter, hivMetadata.getArvDrugsChange1Concept(), reg1).save();
+        Obs regDate1 = createObs(reg1Encounter, hivMetadata.getDateOfStartingFirstLineArvsConcept(), regDate).save();
+
+        Date d1 = DateUtil.getDateTime(currentYear - 2, currentMonth + 2, 23);
         Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), d1).save();
         Obs weightObs = createObs(enc1, ccMetadata.getWeightConcept(), 71.0).save();
         Obs heightObs = createObs(enc1, ccMetadata.getHeightConcept(), 165).save();
 
         // Viral Load Test
-        Date lastViralLoadDate = DateUtil.getDateTime(2018, 4, 20);
+        Date lastViralLoadDate = DateUtil.getDateTime(currentYear , currentMonth  - 10, 20);
         Encounter vlEncounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
         ObsBuilder groupObsBuilder = createObs(vlEncounter, hivMetadata.getHivViralLoadTestSetConcept(), null);
         Obs routineTest = createObs(vlEncounter, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();

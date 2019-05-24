@@ -476,9 +476,10 @@
       "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) > 19 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) > 19",
       "hiv_treatment_status == active_art",
       "missing(cc_treatment_status)",
-      "!missing(art_start_date) && yearsBetween(today, art_start_date) > 1",
+      "!missing(art_start_date) && yearsBetween(today, art_start_date) >= 1",
       "!missing(last_viral_load_date)",
       "!(last_viral_load_numeric > 0)",
+      "!isDueForVL(art_start_date, last_art_regimen_change_date, last_viral_load_date, today)",
       "!missing(last_tb_screening_datetime) && sameDay(now, last_tb_screening_datetime)",
       "missing(current_symptoms) || (!missing(current_symptoms) && !hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes]))"
     ],
