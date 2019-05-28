@@ -254,10 +254,29 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     @Test
     public void shouldReturnPossibleHIVInfectionAlert() throws Exception {
 
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
         Patient patient = createPatient().age(1).save();
 
+        Program hivProgram = hivMetadata.getHivProgram();
+        PatientProgram patientProgram = new PatientProgram();
+        patientProgram.setPatient(patient);
+        patientProgram.setProgram(hivProgram);
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(currentYear, currentMonth -11, 2));
+
+        // Exposed Child State
+        PatientState childState = new PatientState();
+        childState.setStartDate(DateUtil.getDateTime(currentYear, currentMonth -11, 19));
+        ProgramWorkflowState exposedChildState = hivMetadata.getExposedChildState();
+        childState.setState(exposedChildState);
+        patientProgram.getStates().add(childState);
+        PatientProgram childProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+
         // HIV DNA-PCR test
-        Date date2 = DateUtil.getDateTime(2018, 10, 15);
+        Date date2 = DateUtil.getDateTime(currentYear, currentMonth - 10, 15);
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
@@ -267,11 +286,6 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         groupObs.member(positiveResult);
         groupObs.save();
 
-        // HIV Rapid test 1
-        Calendar cal = Calendar.getInstance();
-        int currentYear = cal.get(Calendar.YEAR);
-        int currentMonth = cal.get(Calendar.MONTH) +1;
-        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
@@ -294,6 +308,10 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         assertThat(
                 (List<AlertDefinition>)patientData.get("alerts"),
                 (Matcher) hasItem(hasProperty("name", is("eid-positive-rapid-test-today"))));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                not((Matcher) hasItem(hasProperty("name", is("eid-positive-rapid-test")))));
 
     }
 

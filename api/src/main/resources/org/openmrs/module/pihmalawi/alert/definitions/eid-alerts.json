@@ -29,7 +29,8 @@
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
-      "last_hiv_rapid_test_result == positive"
+      "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
+      "(last_hiv_rapid_test_result == positive) && (!sameDay(now, last_hiv_rapid_test_result_date))"
     ],
     "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
     "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
