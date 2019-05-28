@@ -48,7 +48,7 @@
       "!sameDay(now, last_adherence_screening_datetime)",
       "(missing(last_adherence_counselling_session_number) || missing(last_adherence_counselling_session_date)) || (!missing(last_adherence_counselling_session_date) && (last_adherence_counselling_session_date < last_viral_load_date)) || (!missing(last_adherence_counselling_session_date) && !missing(last_adherence_counselling_session_number) && (last_adherence_counselling_session_date >= last_viral_load_date) && (last_adherence_counselling_session_number != adherence_counseling_third_session))"
     ],
-    "alert": "High Viral Load. Do adherence counseling for 3 consecutive months.",
+    "alert": "Due for Adherence Counseling",
     "action": "High Viral Load. Do adherence counseling for 3 consecutive months.",
     "notes": "Alert provider to do adherence counseling for 3 consecutive months at each visit. If a routine viral load is elevated or high (>LDL/Undetectable), the patient needs to receive adherence counseling once a month for 3 consecutive months."
   },
