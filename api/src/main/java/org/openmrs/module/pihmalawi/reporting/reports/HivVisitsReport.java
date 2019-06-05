@@ -16,6 +16,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.EncounterType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.IC3ScreeningMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
@@ -48,6 +49,9 @@ public class HivVisitsReport extends ApzuDataExportManager {
 
 	@Autowired
 	private HivMetadata metadata;
+
+	@Autowired
+	private IC3ScreeningMetadata screeningMetadata;
 
 	@Autowired
 	private BuiltInEncounterDataLibrary builtInEncounterData;
@@ -95,6 +99,7 @@ public class HivVisitsReport extends ApzuDataExportManager {
 		rd.setParameters(getParameters());
 		addDataSet(rd, "art_initial", metadata.getArtInitialEncounterType(), metadata.getArvNumberIdentifierType());
 		addDataSet(rd, "art_followup", metadata.getArtFollowupEncounterType(), metadata.getArvNumberIdentifierType());
+		addDataSet(rd, "viral_load", screeningMetadata.getVLScreeningEncounterType(), metadata.getArvNumberIdentifierType());
 		addDataSet(rd, "part_initial", metadata.getPreArtInitialEncounterType(), metadata.getHccNumberIdentifierType());
 		addDataSet(rd, "part_followup", metadata.getPreArtFollowupEncounterType(), metadata.getHccNumberIdentifierType());
 		addDataSet(rd, "exposed_child_initial", metadata.getExposedChildInitialEncounterType(), metadata.getHccNumberIdentifierType());
