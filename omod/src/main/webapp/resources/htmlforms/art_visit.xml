@@ -41,6 +41,8 @@
         nextAppt=5096
         <macro key="lessThanLimit" value="69e87644-5562-11e9-8647-d663bd873d93"/>
         <macro key="LDL" value="e97b36a2-16f5-11e6-b6ba-3e1d05defe78"/>
+        <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -52,6 +54,7 @@
                     <td rowspan="2">Visit Date</td>
                     <td rowspan="2">Hgt</td>
                     <td rowspan="2">Wt</td>
+                    <td colspan="2">BP</td>
                     <td rowspan="2">Pregnant/<br/>Breastfeed.</td>
                     <td colspan="4">TB Status (Curr.)*</td>
                     <td rowspan="3">Side Effects (Current)<br/><span style="font-size:.8em;">Specifiy Other In Notes</span></td>
@@ -65,6 +68,8 @@
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
+                    <td rowspan="2">Systolic</td>
+                    <td rowspan="2">Diastolic</td>
                     <td colspan="2">Suspected</td>
                     <td colspan="2">Confirmed</td>
                     <td rowspan="2">No. of<br/>tablets</td>
@@ -103,6 +108,16 @@
                         <!-- Weight -->
                         <obsreference conceptId="$weight"/>
                     </td>
+
+                    <td>
+                        <!-- # Systolic BP -->
+                        <obsreference conceptId="$systolicBP" />
+                    </td>
+                    <td style="white-space: nowrap;">
+                        <!-- # Diastolic BP -->
+                        <obsreference conceptId="$diastolicBP" />
+                    </td>
+
                     <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Preg" answerConceptId="$currentlyPregnant" />
                     <obs conceptId="$pregnantLactating" style="checkbox" answerLabel="Bf" answerConceptId="$currentlyLactating" />
                     </td>
@@ -230,6 +245,14 @@
             <tr>
                 <th>Weight</th>
                 <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
+            </tr>
+            <tr>
+                <th>Systolic BP</th>
+                <td class="focus-field"><obsreference conceptId="$systolicBP" id="systolicBPInput" showUnits="true"/></td>
+            </tr>
+            <tr>
+                <th>Diastolic BP</th>
+                <td><obsreference conceptId="$diastolicBP" id="diastolicBPInput" showUnits="true"/></td>
             </tr>
             <tr>
                 <th>Pregnant/Breastfeed.</th>
