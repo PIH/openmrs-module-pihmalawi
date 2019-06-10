@@ -45,7 +45,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 31;
+        return 32;
     }
 
     @Override
@@ -464,15 +464,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                         .type(sameAs).ensureTerm(pih, "11548").build())
                 .build());
 
-        install(new ConceptBuilder("163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-                .datatype(coded)
-                .conceptClass(question)
-                .name("067169CE-8786-4156-814F-F5462EFB4DE2", "HIV viral load status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .name("BCC7AF09-D605-41D1-BE5D-8295A0974AF0", "HIV viral load status", Locale.ENGLISH, ConceptNameType.SHORT)
-                .description("2091E39A-F1E3-4A38-88AB-54B4931B6599", "HIV viral load status", Locale.ENGLISH)
-                .mapping(new ConceptMapBuilder("28177726-44C9-4936-B3A3-4E4734864D4F")
-                        .type(sameAs).ensureTerm(ciel, "163310").build())
-                .build());
+        uninstall(MetadataUtils.possible(Concept.class, "163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"), "No longer used");
 
         // TB screening
         Concept sampleCollected = install(new ConceptBuilder("165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
