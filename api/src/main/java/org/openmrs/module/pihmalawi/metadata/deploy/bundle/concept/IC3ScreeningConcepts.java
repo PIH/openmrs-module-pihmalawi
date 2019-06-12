@@ -45,7 +45,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 32;
+        return 33;
     }
 
     @Override
@@ -193,12 +193,34 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept patientRefused = MetadataUtils.existing(Concept.class, "6566a4ae-977f-11e1-8993-905e29aff6c1");
         Concept noMaterials    = MetadataUtils.existing(Concept.class, "655dc866-977f-11e1-8993-905e29aff6c1");
 
+        Concept unableToProduceSputum = install(new ConceptBuilder("10330319-287f-44b1-ac49-3a80515ef7fd")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("c4ea5fcc-6ee0-4d35-8cb4-af8024997214", "Unable to produce sputum", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("97c5fe0d-e134-45bd-931b-7db86889dd80", "Unable to produce sputum sample for testing", Locale.ENGLISH)
+                .build());
+
+        Concept suspectNonPulmonaryTB = install(new ConceptBuilder("adcd6686-7847-46ff-8368-f8a976c4fc07")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("cecfe143-bcdf-45bb-8c02-514f1e00b35b", "Suspect non-pulmonary TB", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("73a0cfb1-42ef-4fcf-a607-7b4cb92c711f", "non-pulmonary tuberculosis is suspected", Locale.ENGLISH)
+                .build());
+
+        Concept materialSupplyOrEquipmentUnavailable = install(new ConceptBuilder("35903754-cbd1-42b9-b1bd-78590982d916")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("8d9a0525-9c53-4c6b-b25b-d8367d1e37d8", "Material, supply, or equipment unavailable", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("e96e3c4c-26b7-482e-b134-05f6d7d2b218").type(sameAs).ensureTerm(pih, "11395").build())
+                .mapping(new ConceptMapBuilder("af529531-548d-4d49-b835-14539e32a762").type(sameAs).ensureTerm(pih, "Material supply or equipment unavailable").build())
+                .build());
+
         Concept noSampleReason = install(new ConceptBuilder("0e447d92-a180-11e8-98d0-529269fb1459")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("0e447fe0-a180-11e8-98d0-529269fb1459", "Reason for no sample", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("0e4485da-a180-11e8-98d0-529269fb1459","Lack of sample reason", Locale.ENGLISH,null)
-                .answers(noBlood,patientRefused,noMaterials,needsCounseling)
+                .answers(noBlood,patientRefused,noMaterials,needsCounseling, unableToProduceSputum, suspectNonPulmonaryTB, materialSupplyOrEquipmentUnavailable)
                 .build());
 
         Concept noResultReason = MetadataUtils.existing(Concept.class, "656fa450-977f-11e1-8993-905e29aff6c1");
@@ -788,6 +810,20 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .conceptClass(question)
                 .name("14a8da4e-a42d-4ce6-8e9e-9f374c2b6c6c", "Refer to screening station", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(nutritionScreening, bpScreening, hivTestingStation, vlTestingStation, tbScreening, tbTestingStation, adherenceCounselingStation, eidScreeningStation, nursingStation)
+                .build());
+
+        Concept ultrasound = MetadataUtils.existing(Concept.class, "6572c32e-977f-11e1-8993-905e29aff6c1");
+        Concept xRay = MetadataUtils.existing(Concept.class, "6572c432-977f-11e1-8993-905e29aff6c1");
+        Concept otherDiagnosisOrProcedure = MetadataUtils.existing(Concept.class, "6572c540-977f-11e1-8993-905e29aff6c1");
+        Concept referToClinician = MetadataUtils.existing(Concept.class, "6578ea56-977f-11e1-8993-905e29aff6c1");
+
+        Concept recommendedSteps = install(new ConceptBuilder("3ee10e6b-ee68-4238-99ee-1f132551e70e")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("9202246d-3d5f-41b3-87f9-09c0280980b8", "Recommended steps", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("9437e3ff-b8f6-460b-8e29-31d98a54ca61", "Next steps", Locale.ENGLISH, null)
+                .answers(ultrasound, xRay, otherDiagnosisOrProcedure, referToClinician, none)
+                .description("05d1c6a7-13a1-4f2a-8544-497855230dfa", "Recommended next steps", Locale.ENGLISH)
                 .build());
     }
 }
