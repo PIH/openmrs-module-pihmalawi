@@ -7,8 +7,8 @@
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
       "(last_hiv_rapid_test_result == positive) && (sameDay(now, last_hiv_rapid_test_result_date))"
     ],
-    "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
-    "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "alert": "Positive HIV Rapid Test",
+    "action": "Start ART. Refer for confirmatory EID DNA-PCR Test",
     "notes": "Alert provider to immediately collect sample for DNA PCR"
   },
   {
@@ -19,8 +19,8 @@
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
       "(age_days < 42 || age_days >= 366 || (age_days >= 42 && age_days < 366 && (daysBetween(today, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate')) > 0))) && (last_hiv_dna_pcr_result == positive) && (sameDay(now, last_hiv_dna_pcr_result_date))"
     ],
-    "alert": "Confirm enrollment in ART",
-    "action": "Confirm enrollment in ART",
+    "alert": "Positive HIV PCR Test",
+    "action": "Start ART",
     "notes": "Alert provider to immediately initiate the infant on ART"
   },
   {
@@ -32,8 +32,8 @@
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
       "(last_hiv_rapid_test_result == positive) && (!sameDay(now, last_hiv_rapid_test_result_date))"
     ],
-    "alert": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
-    "action": "Possible HIV infection. Refer for confirmatory EID DNA-PCR Test",
+    "alert": "Positive HIV Rapid Test",
+    "action": "Start ART. Refer for confirmatory EID DNA-PCR Test",
     "notes": "Alert provider to immediately collect sample for DNA PCR"
   },
   {
@@ -45,8 +45,8 @@
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
       "last_hiv_dna_pcr_result == positive && (!sameDay(now,last_hiv_dna_pcr_result_date))"
     ],
-    "alert": "Confirm enrollment in ART",
-    "action": "Confirm enrollment in ART",
+    "alert": "Positive HIV PCR Test",
+    "action": "Start ART",
     "notes": "Alert provider to immediately initiate the infant on ART"
   },
   {
@@ -58,8 +58,8 @@
       "!missing(hiv_tests)",
       "sameDay(now, getTestFirstDateByTypeAndValue(hiv_tests, hiv_dna_pcr, positive, 'effectiveDate'))"
     ],
-    "alert": "EID Positive DNA PCR Test",
-    "action": "Do this today: Confirm ART Enrollment, Refer for confirmatory EID DNA-PCR Test",
+    "alert": "Positive HIV PCR Test",
+    "action": "Start ART, Refer for confirmatory DNA-PCR Test",
     "notes": "EID Positive DNA PCR Test"
   },
   {
@@ -71,8 +71,8 @@
       "age_years < 1",
       "missing(last_hiv_dna_pcr_result_date) || last_hiv_dna_pcr_result_date < eid_start_date"
     ],
-    "alert": "Due for routine DBS (DNA PCR Test)",
-    "action": "Due for routine DBS (DNA PCR Test)",
+    "alert": "Due for routine DNA PCR Test",
+    "action": "Perform DNA PCR Test",
     "notes": "Alert provider to collect sample for DNA PCR. Ideally, this DBS would be done at 6 weeks old but if the patient misses the appointment then it may be later than 6 weeks."
   },
   {
@@ -84,7 +84,7 @@
       "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 1"
     ],
     "alert": "Due for routine rapid HIV test",
-    "action": "Due for routine rapid HIV test",
+    "action": "Perform routine rapid HIV test",
     "notes": "All children in EID should get a rapid test at 12 months of age"
   },
   {
@@ -95,8 +95,8 @@
       "age_years >= 2",
       "missing(last_hiv_rapid_test_result_date) || yearsBetween(last_hiv_rapid_test_result_date, birthdate) < 2"
     ],
-    "alert": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
-    "action": "Due for routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
+    "alert": "Due for routine rapid HIV test",
+    "action": "Perform routine rapid HIV test if stopped breastfeeding >/= 6 weeks ago",
     "notes": "No rapid test since 24 months, with age of >=24 months, infant stopped breastfeeding 6 weeks ago"
   }
 ]
