@@ -45,7 +45,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 33;
+        return 34;
     }
 
     @Override
@@ -817,13 +817,48 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept otherDiagnosisOrProcedure = MetadataUtils.existing(Concept.class, "6572c540-977f-11e1-8993-905e29aff6c1");
         Concept referToClinician = MetadataUtils.existing(Concept.class, "6578ea56-977f-11e1-8993-905e29aff6c1");
 
-        Concept recommendedSteps = install(new ConceptBuilder("3ee10e6b-ee68-4238-99ee-1f132551e70e")
+        install(new ConceptBuilder("3ee10e6b-ee68-4238-99ee-1f132551e70e")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("9202246d-3d5f-41b3-87f9-09c0280980b8", "Recommended steps", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("9437e3ff-b8f6-460b-8e29-31d98a54ca61", "Next steps", Locale.ENGLISH, null)
                 .answers(ultrasound, xRay, otherDiagnosisOrProcedure, referToClinician, none)
                 .description("05d1c6a7-13a1-4f2a-8544-497855230dfa", "Recommended next steps", Locale.ENGLISH)
+                .build());
+
+        Concept patient = MetadataUtils.existing(Concept.class, "1249F550-FF24-4F3E-A743-B37232E9E1C3");
+
+        Concept chw = install(new ConceptBuilder("bf997029-a496-41a2-a7e7-7981e82d2dd0")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("89567BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CHW (Community Health Worker)", Locale.ENGLISH, null)
+                .name("1cde03dc-2345-4865-baf4-94910db24498", "Agent santé communautaire (ASCP)", Locale.FRENCH, null)
+                .name("ba3cf7c0-95e9-4040-8fb5-1eac41287ad0", "Ajan sante kominotè", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("0b785ea4-15f5-102d-96e4-000c29c2a5d7", "Village Health Worker", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("107416BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CHO (Community Health Officer)", Locale.ENGLISH, null)
+                .name("89434BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CHEW (Community Health Extension Worker)", Locale.ENGLISH, null)
+                .name("1819BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Community Health Care Worker", Locale.ENGLISH, null)
+                .name("99967BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "VHW (Village Health Worker)", Locale.ENGLISH, null)
+                .name("107415BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CHN (Community Health Nurse)", Locale.ENGLISH, null)
+                .name("126198BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "CCHA (Community and Clinical Health Assistant)", Locale.ENGLISH, null)
+                .name("ccd55aef-35ef-4a3f-bbde-26b6072fdc9b", "ASCP", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("1820BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Officier de Santé du Village", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("f2a5c1f1-cff2-44cb-a5e6-43b5ac4bfe97", "Agent de santé communautaire", Locale.FRENCH, null)
+                .name("7049249e-6ade-4743-a33d-fb3f6d4b33cd", "Accompagnateur", Locale.FRENCH, null)
+                .mapping(new ConceptMapBuilder("75a0ac8c-4943-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "VILLAGE HEALTH WORKER").build())
+                .mapping(new ConceptMapBuilder("4c10c0b5-ca8e-4b5f-87a4-3142a269929e").type(sameAs).ensureTerm(ampath, "1862").build())
+                .mapping(new ConceptMapBuilder("137476ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "223366009").build())
+                .mapping(new ConceptMapBuilder("3b9816c5-9bd3-441c-a453-5912baf4cfcc").type(sameAs).ensureTerm(ciel, "1555").build())
+                .mapping(new ConceptMapBuilder("b25f6544-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "3645").build())
+                .build());
+
+        Concept guardian = MetadataUtils.existing(Concept.class, "65668f5a-977f-11e1-8993-905e29aff6c1");
+
+        install(new ConceptBuilder("d0d91980-6788-4325-80d3-3bd7b54e705a")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("f28e6faa-c3e3-455d-b9e5-bcf06671b4b7", "Person at visit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(patient, chw, guardian)
                 .build());
     }
 }
