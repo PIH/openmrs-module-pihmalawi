@@ -105,11 +105,13 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 				List<AlertNotification> alertNotifications = (List<AlertNotification>) patData.get("alerts");
 				if (alertNotifications != null) {
 					for (AlertNotification an : alertNotifications) {
-						if (ObjectUtil.notNull(an.getAlert())) {
-							alerts.add(an.getAlert());
-						}
-						if (ObjectUtil.notNull(an.getAction())) {
-							actions.add(an.getAction());
+						if (an.getCategories().contains("appointment-report")) {
+							if (ObjectUtil.notNull(an.getAlert())) {
+								alerts.add(an.getAlert());
+							}
+							if (ObjectUtil.notNull(an.getAction())) {
+								actions.add(an.getAction());
+							}
 						}
 					}
 				}
