@@ -1,7 +1,7 @@
 [
   {
     "name": "eid-positive-rapid-test-today",
-    "categories": ["eid", "abnormal-result","screening-eligibility"],
+    "categories": ["eid", "abnormal-result","screening-eligibility", "appointment-report"],
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
@@ -13,7 +13,7 @@
   },
   {
     "name": "eid-positive-dna-pcr-test-today",
-    "categories": ["eid", "critical-result"],
+    "categories": ["eid", "critical-result", "appointment-report"],
     "conditions": [
       "age_years <= 2",
       "!missing(last_hiv_dna_pcr_result_date) && !missing(last_hiv_dna_pcr_result)",
@@ -25,7 +25,7 @@
   },
   {
     "name": "eid-positive-rapid-test",
-    "categories": ["eid", "abnormal-result","screening-eligibility"],
+    "categories": ["eid", "abnormal-result","screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -38,7 +38,7 @@
   },
   {
     "name": "eid-positive-dna-pcr-test",
-    "categories": ["eid", "critical-result"],
+    "categories": ["eid", "critical-result", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years < 2",
@@ -51,7 +51,7 @@
   },
   {
     "name": "eid-new-positive-dna-pcr-test",
-    "categories": ["eid", "critical-result"],
+    "categories": ["eid", "critical-result", "appointment-report"],
     "conditions": [
       "age_days >= 42",
       "age_days < 366",
@@ -64,7 +64,7 @@
   },
   {
     "name": "eid-routine-dna-pcr-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_days >= 42",
@@ -77,7 +77,7 @@
   },
   {
     "name": "eid-routine-12-month-rapid-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 1",
@@ -89,7 +89,7 @@
   },
   {
     "name": "eid-routine-24-month-rapid-test",
-    "categories": ["eid", "screening-eligibility"],
+    "categories": ["eid", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_eid",
       "age_years >= 2",

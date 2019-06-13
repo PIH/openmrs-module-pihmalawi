@@ -1,7 +1,7 @@
 [
   {
     "name": "due-for-routine-viral-load-1",
-    "categories": ["viral-load", "screening-eligibility"],
+    "categories": ["viral-load", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
       "yearsBetween(today, last_art_regimen_change_date) < 1",
@@ -14,7 +14,7 @@
   },
   {
     "name": "due-for-routine-viral-load-2",
-    "categories": ["viral-load","screening-eligibility"],
+    "categories": ["viral-load","screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
       "yearsBetween(today, last_art_regimen_change_date) >= 1 && yearsBetween(today, last_art_regimen_change_date) < 2",
@@ -26,7 +26,7 @@
   },
   {
     "name": "due-for-routine-viral-load-3",
-    "categories": ["viral-load","screening-eligibility"],
+    "categories": ["viral-load","screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
       "yearsBetween(today, last_art_regimen_change_date) >= 2",
@@ -54,7 +54,7 @@
   },
   {
     "name": "due-for-confirmatory-viral-load",
-    "categories": ["viral-load", "abnormal-result","screening-eligibility"],
+    "categories": ["viral-load", "abnormal-result","screening-eligibility", "appointment-report"],
     "conditions": [
       "age_years >= 3",
       "hiv_treatment_status == active_art",
