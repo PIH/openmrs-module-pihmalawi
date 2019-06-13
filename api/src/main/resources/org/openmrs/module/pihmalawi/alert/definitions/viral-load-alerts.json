@@ -9,7 +9,7 @@
       "daysBetween(today, last_art_regimen_change_date) > 182"
     ],
     "alert": "Due for routine VL",
-    "action": "Due for routine VL",
+    "action": "Perform routine VL",
     "notes": "Viral Load due at 6 months after ART initiation or change"
   },
   {
@@ -21,7 +21,7 @@
       "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 6"
     ],
     "alert": "Due for routine VL",
-    "action": "Due for routine VL",
+    "action": "Perform routine VL",
     "notes": "Viral Load due at 12 months after ART initiation or change"
   },
   {
@@ -33,7 +33,7 @@
       "missing(last_viral_load_date) || yearsBetween(today, last_viral_load_date) >= 1"
     ],
     "alert": "Due for routine VL",
-    "action": "Due for routine VL",
+    "action": "Perform routine VL",
     "notes": "Viral Load due at 2 years after ART initiation or change, and every year thereafter"
   },
   {
@@ -48,8 +48,8 @@
       "!sameDay(now, last_adherence_screening_datetime)",
       "(missing(last_adherence_counselling_session_number) || missing(last_adherence_counselling_session_date)) || (!missing(last_adherence_counselling_session_date) && (last_adherence_counselling_session_date < last_viral_load_date)) || (!missing(last_adherence_counselling_session_date) && !missing(last_adherence_counselling_session_number) && (last_adherence_counselling_session_date >= last_viral_load_date) && (last_adherence_counselling_session_number != adherence_counseling_third_session))"
     ],
-    "alert": "Due for Adherence Counseling",
-    "action": "High Viral Load. Do adherence counseling for 3 consecutive months.",
+    "alert": "High Viral Load Patient",
+    "action": "Perform adherence counseling",
     "notes": "Alert provider to do adherence counseling for 3 consecutive months at each visit. If a routine viral load is elevated or high (>LDL/Undetectable), the patient needs to receive adherence counseling once a month for 3 consecutive months."
   },
   {
@@ -64,7 +64,7 @@
       "daysBetween(today, last_viral_load_result_date) >= 90"
     ],
     "alert": "Due for confirmatory VL",
-    "action": "Due for confirmatory VL",
+    "action": "Perform confirmatory VL",
     "notes": "Alert provider to repeat viral load. Repeat viral load or bleed 90 days after the elevated viral load"
   }
 ]
