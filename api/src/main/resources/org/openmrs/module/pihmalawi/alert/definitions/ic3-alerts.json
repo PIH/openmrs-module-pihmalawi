@@ -18,8 +18,8 @@
       "!missing(current_diastolic_bp)",
       "(current_systolic_bp > 160 && current_systolic_bp <= 200 && current_diastolic_bp <= 120) || (current_diastolic_bp > 110 && current_diastolic_bp <= 120 && current_systolic_bp > 80 && current_systolic_bp <= 200)"
     ],
-    "alert": "Abnormally high BP",
-    "action": "Enroll in care",
+    "alert": "Abnormal BP",
+    "action": "Enroll in hypertension program",
     "enabled": true
   },
   {
@@ -41,8 +41,8 @@
       "!missing(chronic_care_diagnoses)",
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])"
     ],
-    "alert": "Active diabetes patient eligible for blood glucose screening",
-    "action": "Measure blood glucose",
+    "alert": "Diabetes patient for glucose fingerstick",
+    "action": "Perform glucose fingerstick",
     "notes": "This is for disease monitoring, treatment adjustment",
     "enabled": true
   },
@@ -54,8 +54,8 @@
       "missing(last_blood_sugar_result_date) || (!missing(last_blood_sugar_result_date) && yearsBetween(today, last_blood_sugar_result_date) >= 1)",
       "(age_years >= 30) || (age_years >= 18 && last_bmi > 25) || (!missing(chronic_care_diagnoses) && hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension])) || (family_history_diabetes == true)"
     ],
-    "alert": "Enroll if confirmed by clinician meets criteria",
-    "action": "Action: Eligible for blood sugar test",
+    "alert": "Routine glucose fingerstick",
+    "action": "Perform glucose fingerstick",
     "notes": "(Not active diabetes patient) AND (No blood sugar result in the last year) AND (age > 30 years OR adults with BMI > 25 OR diagnosed with hypertension OR parent/sibling has diabetes)",
     "enabled": true
   },
@@ -88,8 +88,8 @@
       "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 3)"
 
     ],
-    "action": "Eligible for a1c screening",
-    "alert": "Action: Diabetes Type 1 disease monitoring",
+    "action": "Do routine HbA1C",
+    "alert": "Routine HbA1C for DM type 1",
     "notes": "TODO: enrolled AND diabetes type 1 AND last a1c >= 3m ago",
     "enabled": true
   },
@@ -101,8 +101,8 @@
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_2])",
       "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 6)"
     ],
-    "action": "Eligible for a1c screening",
-    "alert": "Action: Diabetes Type 2 disease monitoring",
+    "action": "Do routine HbA1C",
+    "alert": "Routine HbA1C for DM type 2",
     "notes": "enrolled AND diabetes type 2 AND last a1c >= 6m ago",
     "enabled": true
   },
@@ -149,7 +149,7 @@
       "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) <= 18.4 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) <= 18.4"
     ],
     "alert": "Moderate malnutrition",
-    "action": "Action: Enroll in NCST",
+    "action": "Alert clinician for NCST",
     "enabled": true
   },
   {
@@ -163,7 +163,7 @@
       "!missing(current_height) ? (( current_weight / ( current_height * current_height) ) * 10000).toFixed(1) < 16 : (( current_weight / ( last_height * last_height) ) * 10000).toFixed(1) < 16"
     ],
     "alert": "Severe malnutrition",
-    "action": "Action: Enroll in NCST",
+    "action": "Alert clinician for NCST",
     "enabled": true
   },
   {
@@ -173,8 +173,8 @@
       "(age_years <= 18) || (isTrue(is_pregnant))",
       "missing(current_muac)"
     ],
-    "alert": "Eligible for MUAC screening",
-    "action": "Measure and record MUAC",
+    "alert": "Screen MUAC ",
+    "action": "Perform MUAC",
     "enabled": true
   },
   {
@@ -186,7 +186,7 @@
       "current_muac < 11.5"
     ],
     "alert": "Severe Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Under 5 with severe malnutrition",
     "enabled": true
   },
@@ -200,7 +200,7 @@
       "current_muac < 12.5"
     ],
     "alert": "Moderate Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Under 5 with moderate malnutrition",
     "enabled": true
   },
@@ -214,7 +214,7 @@
       "current_muac < 13"
     ],
     "alert": "Severe Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Children between the age of 5 and 10 with severe malnutrition",
     "enabled": true
   },
@@ -229,7 +229,7 @@
       "current_muac < 14.5"
     ],
     "alert": "Moderate Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Children between the age of 5 and 10 with moderate malnutrition",
     "enabled": true
   },
@@ -244,7 +244,7 @@
       "current_muac < 16"
     ],
     "alert": "Severe Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Children between the age of 10 and 15 with severe malnutrition",
     "enabled": true
   },
@@ -259,7 +259,7 @@
       "current_muac < 18.5"
     ],
     "alert": "Moderate Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for CMAM",
     "notes": "Children between the age of 10 and 15 with moderate malnutrition",
     "enabled": true
   },
@@ -274,7 +274,7 @@
       "current_muac < 18.5"
     ],
     "alert": "Severe Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for NCST",
     "notes": "Children between the age of 15 and 18 with severe malnutrition",
     "enabled": true
   },
@@ -289,7 +289,7 @@
       "current_muac < 21.9"
     ],
     "alert": "Moderate Malnutrition",
-    "action": "Action: Enroll in CMAM",
+    "action": "Alert clinician for NCST",
     "notes": "Children between the age of 15 and 18 with moderate malnutrition",
     "enabled": true
   },
@@ -303,7 +303,7 @@
       "current_muac < 19"
     ],
     "alert": "Severe Malnutrition",
-    "action": "Action: Enroll in NCST",
+    "action": "Alert clinician",
     "notes": "Pregnant mothers with severe malnutrition",
     "enabled": true
   },
@@ -317,7 +317,7 @@
       "current_muac < 22"
     ],
     "alert": "Moderate Malnutrition",
-    "action": "Action: Enroll in NCST",
+    "action": "Alert clinician",
     "notes": "Pregnant mothers with moderate malnutrition",
     "enabled": true
   },
@@ -331,8 +331,8 @@
       "last_hiv_rapid_test_result == negative || missing(last_hiv_rapid_test_result)",
       "missing(last_hiv_rapid_test_result_date) || monthsBetween(today, last_hiv_rapid_test_result_date) > 3"
     ],
-    "alert": "Eligible for HIV test",
-    "action": "Eligible for HIV test",
+    "alert": "Due for Rapid HIV test",
+    "action": "Perform HIV test",
     "notes": "All non-HIV patients, older than 15 yo, should be tested for HIV every 3 months",
     "enabled": true
   },
@@ -360,8 +360,8 @@
     "conditions": [
       "missing(last_tb_screening_datetime) || !sameDay(now, last_tb_screening_datetime)"
     ],
-    "alert": "Eligible for TB screening",
-    "action": "Action: Refer to the TB screening station",
+    "alert": "Due for TB screening",
+    "action": "Perform TB screening",
     "enabled": true
   },
   {
@@ -372,8 +372,8 @@
       "hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes])",
       "missing(current_sputum_collection) || isFalse(current_sputum_collection)"
     ],
-    "alert": "TB symptoms",
-    "action": "Action: Refer to nurse station for sputum submission",
+    "alert": "Positive TB symptoms",
+    "action": "Obtain sputum from patient",
     "enabled": true
   },
   {
@@ -455,7 +455,7 @@
       "age_years >= 25 && age_years <= 49",
       "gender == female"
     ],
-    "alert": "Refer to Nursing station for Cervical Cancer Screening"
+    "alert": "Due for Cervical Cancer Screening"
   },
   {
     "name": "eligible-for-family-planning",
@@ -464,7 +464,7 @@
       "age_years >= 15 && age_years <= 49",
       "gender == female"
     ],
-    "alert": "Refer to Nursing station for Family Planning"
+    "alert": "Eligible for Family Planning Counseling"
   },
   {
     "name": "fast-track-hiv-patients",
@@ -483,7 +483,8 @@
       "!missing(last_tb_screening_datetime) && sameDay(now, last_tb_screening_datetime)",
       "missing(current_symptoms) || (!missing(current_symptoms) && !hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes]))"
     ],
-    "alert": "Fast-track HIV patients"
+    "alert": "Fast-track HIV patients",
+    "action": "Refer to nurse station"
   },
   {
     "name": "checked-in-patients-without-appointment",
