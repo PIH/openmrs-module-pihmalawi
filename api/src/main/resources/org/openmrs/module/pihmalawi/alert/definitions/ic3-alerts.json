@@ -468,7 +468,7 @@
   },
   {
     "name": "fast-track-hiv-patients",
-    "categories": ["nurse", "screening-eligibility"],
+    "categories": ["nurse", "screening-eligibility", "abnormal-result"],
     "conditions": [
       "!isTrue(is_pregnant)",
       "!missing(current_weight)",
