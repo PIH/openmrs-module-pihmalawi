@@ -26,7 +26,7 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
         Concept eidTestConstruct = Context.getConceptService().getConceptByMapping("2168", "PIH Malawi");  // HIV Test Construct
 
         Concept sampleDateConcept = Context.getConceptService().getConceptByMapping("6108", "PIH Malawi");    // Date of blood sample
-       // Concept resultDateConcept = Context.getConceptService().getConceptByMapping("6110", "PIH Malawi");   // Date of result concept
+        Concept resultDateConcept = Context.getConceptService().getConceptByMapping("6110", "PIH Malawi");   // Date of result concept
 
         // get all HIV Test Result constructs
         List<Obs> eidTests = Context.getObsService().getObservations(null, null, Collections.singletonList(eidTestConstruct), null, null,
@@ -36,7 +36,7 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
             // only migrate those found on the Exposed Child Initial Form
             if (eidTest.getEncounter().getEncounterType().equals(exposedChildInitial)) {
 
-                Date encounterDate = getSampleDate(eidTest, sampleDateConcept);
+                Date encounterDate = getSampleDate(eidTest, sampleDateConcept, resultDateConcept);
 
                 if (encounterDate != null) {
 
@@ -69,19 +69,20 @@ public class MigrateEIDTestResultsTask extends AbstractTask {
 
 
     // look for date of blood sample obs and use the value datetime from that, otherwise use result date, otherwise return null
-    private Date getSampleDate(Obs eidTest, Concept sampleDateConcept) {
+    private Date getSampleDate(Obs eidTest, Concept sampleDateConcept, Concept resultDateConcept) {
 
         for (Obs member: eidTest.getGroupMembers()) {
             if (member.getConcept().equals(sampleDateConcept)) {
                 return member.getValueDatetime();
             }
         }
-/*
+
         for (Obs member: eidTest.getGroupMembers()) {
             if (member.getConcept().equals(resultDateConcept)) {
                 return member.getValueDatetime();
             }
-        }*/
+        }
+
         return null;
     }
 }
