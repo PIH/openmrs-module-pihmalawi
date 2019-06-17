@@ -68,7 +68,7 @@
         <uiframeworkVersion>3.11.0</uiframeworkVersion>
         <uilibraryVersion>2.0.4</uilibraryVersion>
         <validationVersion>1.0.1</validationVersion>
-        <webservicesRestVersion>2.25.0-SNAPSHOT</webservicesRestVersion>
+        <webservicesRestVersion>2.25.0</webservicesRestVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
 		<MODULE_NAME>PIH Malawi</MODULE_NAME>
