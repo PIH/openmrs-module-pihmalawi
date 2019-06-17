@@ -47,6 +47,42 @@ public class BaseEncounterDataLibrary extends BaseDefinitionLibrary<EncounterDat
 		return df.convert(def, df.getObsValueDatetimeConverter());
 	}
 
+	@DocumentedDefinition(value = "nextAppointmentDateObsReferenceValue")
+	public EncounterDataDefinition getNextAppointmentDateObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getAppointmentDateConcept());
+		return df.convert(def, df.getObsValueDatetimeConverter());
+	}
+
+	@DocumentedDefinition(value = "weightObsValue")
+	public EncounterDataDefinition getWeightObsValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncounter(hivMetadata.getWeightConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "weightObsReferenceValue")
+	public EncounterDataDefinition getWeightObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getWeightConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "heightObsReferenceValue")
+	public EncounterDataDefinition getHeightObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getHeightConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "systolicBPObsReferenceValue")
+	public EncounterDataDefinition getSystolicBPObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getSystolicBloodPressureConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "diastolicBPObsReferenceValue")
+	public EncounterDataDefinition getDiastolicBPObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getDiastolicBloodPressureConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
 	@DocumentedDefinition(value = "ageAtEncounterDateInYears")
 	public EncounterDataDefinition getAgeAtEncounterDateInYears() {
 		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.YEARS));

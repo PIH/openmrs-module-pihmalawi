@@ -130,6 +130,12 @@ public class HivVisitsReport extends ApzuDataExportManager {
 		dsd.addColumn("District", basePatientData.getDistrict(), "");
 		dsd.addColumn("T/A", basePatientData.getTraditionalAuthority(), "");
 		dsd.addColumn("Village", basePatientData.getVillage(), "");
+		dsd.addColumn("IC3_WEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+		dsd.addColumn("IC3_HEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+		dsd.addColumn("IC3_SYSTOLIC_BP", baseEncounterData.getSystolicBPObsReferenceValue(), "");
+		dsd.addColumn("IC3_DIASTOLIC_BP", baseEncounterData.getDiastolicBPObsReferenceValue(), "");
+		dsd.addColumn("IC3_NEXT_APPOINTMENT_DATE", baseEncounterData.getNextAppointmentDateObsReferenceValue(), "");
+
 
 		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 	}
