@@ -168,7 +168,7 @@
   },
   {
     "name": "eligible-for-muac",
-    "categories": ["nutrition", "screening-eligibility"],
+    "categories": ["nutrition"],
     "conditions": [
       "(age_years <= 18) || (isTrue(is_pregnant))",
       "missing(current_muac)"
