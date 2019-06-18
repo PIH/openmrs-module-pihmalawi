@@ -43,6 +43,8 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     public static final String NURSE_STATION_CONCEPT_UUID = "d74065b8-cecf-4ee9-bbba-07bb962e4164";
 
+    public static final String REASON_NO_RESULT = "656fa450-977f-11e1-8993-905e29aff6c1";
+
     @Override
     public int getVersion() {
         return 34;
@@ -223,7 +225,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .answers(noBlood,patientRefused,noMaterials,needsCounseling, unableToProduceSputum, suspectNonPulmonaryTB, materialSupplyOrEquipmentUnavailable)
                 .build());
 
-        Concept noResultReason = MetadataUtils.existing(Concept.class, "656fa450-977f-11e1-8993-905e29aff6c1");
+        Concept noResultReason = MetadataUtils.existing(Concept.class, REASON_NO_RESULT);
         Concept bled           = MetadataUtils.existing(Concept.class, "f792f2f9-9c24-4d6e-98fd-caffa8f2383f");
         Concept vl             = MetadataUtils.existing(Concept.class, "654a7694-977f-11e1-8993-905e29aff6c1");
         Concept ldl            = MetadataUtils.existing(Concept.class, "e97b36a2-16f5-11e6-b6ba-3e1d05defe78");
@@ -681,7 +683,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("b220aec6-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "2166").build())
                 .build());
 
-        Concept reasonNoResult = install(new ConceptBuilder("656fa450-977f-11e1-8993-905e29aff6c1")
+        Concept reasonNoResult = install(new ConceptBuilder(REASON_NO_RESULT)
                 .datatype(coded)
                 .conceptClass(question)
                 .name("6618934e-977f-11e1-8993-905e29aff6c1", "Reason for no result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)

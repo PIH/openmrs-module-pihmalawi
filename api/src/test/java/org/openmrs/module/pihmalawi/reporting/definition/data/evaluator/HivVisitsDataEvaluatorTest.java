@@ -39,6 +39,9 @@ import java.util.Date;
 @SkipBaseSetup
 public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
 
+    public static final String NENO_GENE_XPERT_LAB = "e08214c0-955d-11e7-abc4-cec278b6b50a";
+    public static final String CONTAMINATED_RESULT = "65597a5e-977f-11e1-8993-905e29aff6c1";
+
     @Autowired
     HivMetadata hivMetadata;
 
@@ -75,6 +78,45 @@ public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
         return e;
     }
 
+    protected Encounter createVLTestEncounter(
+            Patient patient,
+            EncounterType encounterType,
+            Concept reasonForTesting,
+            Concept labLocation,
+            Concept bled,
+            Number vlResult,
+            Number lessThanLimit,
+            Concept ldl,
+            Concept reasonForNoSample,
+            Date encounterDate) {
+
+        Encounter e = createEncounter(patient, encounterType, encounterDate).save();
+
+        if (reasonForTesting != null) {
+            createObs(e, hivMetadata.getReasonForTestingConcept(), reasonForTesting).save();
+        }
+        if (labLocation != null) {
+            createObs(e, hivMetadata.getConcept(hivMetadata.LAB_LOCATION), labLocation).save();
+        }
+        if (bled != null) {
+            createObs(e, hivMetadata.getConcept(hivMetadata.HIV_VIRAL_LOAD_SPECIMEN_COLLECTED), bled).save();
+        }
+        if (vlResult != null) {
+            createObs(e, hivMetadata.getHivViralLoadConcept(), vlResult).save();
+        }
+        if (lessThanLimit != null) {
+            createObs(e, hivMetadata.getHivLessThanViralLoadConcept(), lessThanLimit).save();
+        }
+        if (ldl != null) {
+            createObs(e, hivMetadata.getHivLDLConcept(), ldl).save();
+        }
+        if (reasonForNoSample != null) {
+            createObs(e, hivMetadata.getReasonNoResultConcept(), reasonForNoSample).save();
+        }
+
+        return e;
+    }
+
     @Test
     public void shouldTestHivVisitsHistory() throws Exception {
 
@@ -82,6 +124,7 @@ public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
         EncounterType nutritionScreeningEncounterType = screeningMetadata.getNutritionScreeningEncounterType();
         EncounterType bloodPressureScreeningEncounterType = screeningMetadata.getBloodPressureScreeningEncounterType();
         EncounterType clinicianScreeningEncounterType = screeningMetadata.getClinicianScreeningEncounterType();
+        EncounterType vlScreeningEncounterType = screeningMetadata.getVLScreeningEncounterType();
 
         EncounterEvaluationContext context = new EncounterEvaluationContext();
 
@@ -119,6 +162,18 @@ public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
         Encounter e5_bp = createVisitEncounter(testPatient, bloodPressureScreeningEncounterType, null, null, null, 158, 47, null, d6);
         Encounter e5_clinician_plan = createVisitEncounter(testPatient, clinicianScreeningEncounterType, null, null, null, null, null, nextAppointmentDate, d6);
 
+        createVLTestEncounter(
+                testPatient,
+                vlScreeningEncounterType,
+                hivMetadata.getRoutineConcept(),
+                hivMetadata.getConcept(NENO_GENE_XPERT_LAB),
+                hivMetadata.getTrueConcept(),
+                null,
+                321,
+                hivMetadata.getTrueConcept(),
+                hivMetadata.getConcept(CONTAMINATED_RESULT),
+                d6);
+
         EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
 
         dsd.addColumn("ENCOUNTER_ID", new EncounterIdDataDefinition(), null);	// Test a basic encounter data item
@@ -134,6 +189,15 @@ public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
         dsd.addColumn("IC3_WEIGHT", weightObsDef, ObjectUtil.toString(Mapped.straightThroughMappings(weightObsDef), "=", ","));
         dsd.addColumn("IC3_SYSTOLIC_BP", baseEncounterData.getSystolicBPObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getSystolicBPObsReferenceValue()), "=", ","));
         dsd.addColumn("IC3_DIASTOLIC_BP", baseEncounterData.getDiastolicBPObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getDiastolicBPObsReferenceValue()), "=", ","));
+
+
+        dsd.addColumn("VL_REASON_FOR_TESTING", baseEncounterData.getReasonForTestObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getReasonForTestObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_LAB_LOCATION", baseEncounterData.getLabLocationObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getLabLocationObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_BLED", baseEncounterData.getBledObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getBledObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_RESULT", baseEncounterData.getVLResultObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getVLResultObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_LESS_THAN_LIMIT", baseEncounterData.getVLLessThanLimitObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getVLLessThanLimitObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_LDL", baseEncounterData.getLdlObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getLdlObsReferenceValue()), "=", ","));
+        dsd.addColumn("VL_REASON_FOR_NO_RESULT", baseEncounterData.getReasonNoResultObsReferenceValue(), ObjectUtil.toString(Mapped.straightThroughMappings(baseEncounterData.getReasonNoResultObsReferenceValue()), "=", ","));
 
         context.setBaseEncounters(new EncounterIdSet(e1.getId(), e2.getId(), e3.getId(), e4.getId(), e5.getId() ));
 

@@ -83,6 +83,48 @@ public class BaseEncounterDataLibrary extends BaseDefinitionLibrary<EncounterDat
 		return df.convert(def, df.getObsValueNumericConverter());
 	}
 
+	@DocumentedDefinition(value = "reasonForTestObsReferenceValue")
+	public EncounterDataDefinition getReasonForTestObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getReasonForTestingConcept());
+		return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
+	@DocumentedDefinition(value = "labLocationObsReferenceValue")
+	public EncounterDataDefinition getLabLocationObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getConcept(hivMetadata.LAB_LOCATION));
+		return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
+	@DocumentedDefinition(value = "bledObsReferenceValue")
+	public EncounterDataDefinition getBledObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getConcept(hivMetadata.HIV_VIRAL_LOAD_SPECIMEN_COLLECTED));
+		return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
+	@DocumentedDefinition(value = "vlResultObsReferenceValue")
+	public EncounterDataDefinition getVLResultObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getHivViralLoadConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "vlLessThanLimitObsReferenceValue")
+	public EncounterDataDefinition getVLLessThanLimitObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getHivLessThanViralLoadConcept());
+		return df.convert(def, df.getObsValueNumericConverter());
+	}
+
+	@DocumentedDefinition(value = "ldlObsReferenceValue")
+	public EncounterDataDefinition getLdlObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getHivLDLConcept());
+		return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
+	@DocumentedDefinition(value = "reasonNoResultObsReferenceValue")
+	public EncounterDataDefinition getReasonNoResultObsReferenceValue() {
+		EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getReasonNoResultConcept());
+		return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
 	@DocumentedDefinition(value = "ageAtEncounterDateInYears")
 	public EncounterDataDefinition getAgeAtEncounterDateInYears() {
 		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.YEARS));

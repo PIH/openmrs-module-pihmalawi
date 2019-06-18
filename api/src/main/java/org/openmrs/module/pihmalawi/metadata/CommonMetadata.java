@@ -21,6 +21,7 @@ import org.openmrs.LocationAttributeType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -108,7 +109,6 @@ public class CommonMetadata extends Metadata {
 	public static final String CONFIRMED = "65590f06-977f-11e1-8993-905e29aff6c1";
 	public static final String TARGETED = "e0821df8-955d-11e7-abc4-cec278b6b50a";
 	public static final String LAB_LOCATION = "6fc0ab50-9492-11e7-abc4-cec278b6b50a";
-	public static final String REASON_NO_RESULT = "656fa450-977f-11e1-8993-905e29aff6c1";
 	public static final String RESULT_MISSING = "e0822140-955d-11e7-abc4-cec278b6b50a";
 	public static final String UNSATISFACTORY_SAMPLE = "656fa55e-977f-11e1-8993-905e29aff6c1";
 
@@ -321,7 +321,7 @@ public class CommonMetadata extends Metadata {
     }
 
     public Concept getReasonNoResultConcept() {
-        return getConcept(REASON_NO_RESULT);
+        return getConcept(IC3ScreeningConcepts.REASON_NO_RESULT);
     }
 
     // Adherence Counselling
