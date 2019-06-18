@@ -66,7 +66,7 @@ SELECT
     (select name from concept_name where voided = 0 and locale = 'en' and concept_name_type = "FULLY_SPECIFIED" and eid_lablocation.valueCoded = concept_id) 'EID laboratory',
 	IF(eid_hiv_resultB.valueCoded = (select concept_id from report_mapping rm where rm.source = 'PIH Malawi' and rm.code = '844'),
     (select name from concept_name where voided = 0 and locale = "en" and concept_name_type = "FULLY_SPECIFIED" and concept_id = eid_hiv_resultA.valueCoded), NULL) 'EID DNA PCR Result',
-    (select name from concept_name where voided = 0 and locale = "en" and concept_name_type = "FULLY_SPECIFIED" and eid_dna_nores.ValueCoded = concept_id) 'EID DNA PCR Reason for No Result:',
+    (select name from concept_name where voided = 0 and locale = "en" and concept_name_type = "FULLY_SPECIFIED" and eid_dna_nores.ValueCoded = concept_id) 'EID DNA PCR Reason for No Result',
     IF(tb_screen_sweats.conceptID = (select concept_id from report_mapping rm where rm.source = 'PIH Malawi' and rm.code = '1293')
     , "Yes",
     (IF(tb_screen_sweats.conceptID = (select concept_id from report_mapping rm where rm.source = 'PIH Malawi' and rm.code = '1734')
