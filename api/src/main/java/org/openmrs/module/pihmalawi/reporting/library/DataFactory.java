@@ -70,6 +70,7 @@ import org.openmrs.module.reporting.data.converter.PropertyConverter;
 import org.openmrs.module.reporting.data.encounter.definition.ConvertedEncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.definition.ObsForEncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.definition.ObsOnSameDateEncounterDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.EncountersForPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
@@ -380,6 +381,13 @@ public class DataFactory {
 
 	public EncounterDataDefinition getSingleObsForEncounter(Concept concept) {
 		ObsForEncounterDataDefinition def = new ObsForEncounterDataDefinition();
+		def.setQuestion(concept);
+		def.setSingleObs(true);
+		return def;
+	}
+
+	public EncounterDataDefinition getSingleObsForEncountersOnSameDate(Concept concept) {
+		ObsOnSameDateEncounterDataDefinition def = new ObsOnSameDateEncounterDataDefinition();
 		def.setQuestion(concept);
 		def.setSingleObs(true);
 		return def;

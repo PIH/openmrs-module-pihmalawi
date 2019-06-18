@@ -24,6 +24,7 @@ import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
+import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
@@ -99,12 +100,32 @@ public class HivVisitsReport extends ApzuDataExportManager {
 		rd.setParameters(getParameters());
 		addDataSet(rd, "art_initial", metadata.getArtInitialEncounterType(), metadata.getArvNumberIdentifierType());
 		addDataSet(rd, "art_followup", metadata.getArtFollowupEncounterType(), metadata.getArvNumberIdentifierType());
-		addDataSet(rd, "viral_load", screeningMetadata.getVLScreeningEncounterType(), metadata.getArvNumberIdentifierType());
+		addViralLoadDataSet(rd, "viral_load",  metadata.getArvNumberIdentifierType());
 		addDataSet(rd, "part_initial", metadata.getPreArtInitialEncounterType(), metadata.getHccNumberIdentifierType());
 		addDataSet(rd, "part_followup", metadata.getPreArtFollowupEncounterType(), metadata.getHccNumberIdentifierType());
 		addDataSet(rd, "exposed_child_initial", metadata.getExposedChildInitialEncounterType(), metadata.getHccNumberIdentifierType());
 		addDataSet(rd, "exposed_child_followup", metadata.getExposedChildFollowupEncounterType(), metadata.getHccNumberIdentifierType());
 		return rd;
+	}
+
+	protected void addGeneralColumns(EncounterDataSetDefinition encounterDataSetDefinition, PatientIdentifierType identifierType) {
+		if (encounterDataSetDefinition != null) {
+			encounterDataSetDefinition.addColumn("ENCOUNTER_ID", builtInEncounterData.getEncounterId(), "");
+			encounterDataSetDefinition.addColumn("ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime(), "");
+			encounterDataSetDefinition.addColumn("LOCATION", builtInEncounterData.getLocationName(), "");
+			encounterDataSetDefinition.addColumn("INTERNAL_PATIENT_ID", builtInEncounterData.getPatientId(), "");
+			encounterDataSetDefinition.addColumn(identifierType.getName(), df.getAllIdentifiersOfType(identifierType, df.getIdentifierCollectionConverter()), "");
+			encounterDataSetDefinition.addColumn("Birthdate", basePatientData.getBirthdate(), "");
+			encounterDataSetDefinition.addColumn("Age at encounter (yr)", baseEncounterData.getAgeAtEncounterDateInYears(), "");
+			encounterDataSetDefinition.addColumn("Age at encounter (mth)", baseEncounterData.getAgeAtEncounterDateInMonths(), "");
+			encounterDataSetDefinition.addColumn("M/F", builtInPatientData.getGender(), "");
+			encounterDataSetDefinition.addColumn("District", basePatientData.getDistrict(), "");
+			encounterDataSetDefinition.addColumn("T/A", basePatientData.getTraditionalAuthority(), "");
+			encounterDataSetDefinition.addColumn("Village", basePatientData.getVillage(), "");
+			encounterDataSetDefinition.addColumn("IC3_WEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+			encounterDataSetDefinition.addColumn("IC3_HEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+		}
+
 	}
 
 	protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType, PatientIdentifierType identifierType) {
@@ -118,18 +139,37 @@ public class HivVisitsReport extends ApzuDataExportManager {
 		MappedParametersEncounterQuery q = new MappedParametersEncounterQuery(rowFilter, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
 		dsd.addRowFilter(Mapped.mapStraightThrough(q));
 
-		dsd.addColumn("ENCOUNTER_ID", builtInEncounterData.getEncounterId(), "");
-		dsd.addColumn("ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime(), "");
-		dsd.addColumn("LOCATION", builtInEncounterData.getLocationName(), "");
-		dsd.addColumn("INTERNAL_PATIENT_ID", builtInEncounterData.getPatientId(), "");
-		dsd.addColumn(identifierType.getName(), df.getAllIdentifiersOfType(identifierType, df.getIdentifierCollectionConverter()), "");
-		dsd.addColumn("Birthdate", basePatientData.getBirthdate(), "");
-		dsd.addColumn("Age at encounter (yr)", baseEncounterData.getAgeAtEncounterDateInYears(), "");
-		dsd.addColumn("Age at encounter (mth)", baseEncounterData.getAgeAtEncounterDateInMonths(), "");
-		dsd.addColumn("M/F", builtInPatientData.getGender(), "");
-		dsd.addColumn("District", basePatientData.getDistrict(), "");
-		dsd.addColumn("T/A", basePatientData.getTraditionalAuthority(), "");
-		dsd.addColumn("Village", basePatientData.getVillage(), "");
+		addGeneralColumns(dsd, identifierType);
+		dsd.addColumn("IC3_SYSTOLIC_BP", baseEncounterData.getSystolicBPObsReferenceValue(), "");
+		dsd.addColumn("IC3_DIASTOLIC_BP", baseEncounterData.getDiastolicBPObsReferenceValue(), "");
+		dsd.addColumn("IC3_NEXT_APPOINTMENT_DATE", baseEncounterData.getNextAppointmentDateObsReferenceValue(), "");
+
+		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
+	}
+
+	protected void addViralLoadDataSet(ReportDefinition rd, String key, PatientIdentifierType identifierType) {
+		EncounterDataSetDefinition dsd = new EncounterDataSetDefinition();
+		dsd.setParameters(getParameters());
+
+		BasicEncounterQuery rowFilter = new BasicEncounterQuery();
+		rowFilter.addEncounterType(metadata.getArtFollowupEncounterType());
+		rowFilter.addEncounterType(screeningMetadata.getVLScreeningEncounterType());
+		rowFilter.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+		rowFilter.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+		MappedParametersEncounterQuery q = new MappedParametersEncounterQuery(rowFilter, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+		dsd.addRowFilter(Mapped.mapStraightThrough(q));
+
+		addGeneralColumns(dsd, identifierType);
+		dsd.addColumn("ENCOUNTER_TYPE", builtInEncounterData.getEncounterTypeName(), "");
+		dsd.addColumn("REASON_FOR_TEST", baseEncounterData.getReasonForTestObsReferenceValue(), "");
+		dsd.addColumn("LAB_LOCATION", baseEncounterData.getLabLocationObsReferenceValue(), "");
+		dsd.addColumn("BLED", baseEncounterData.getBledObsReferenceValue(), "");
+		dsd.addColumn("VL_RESULT", baseEncounterData.getVLResultObsReferenceValue(), "");
+		dsd.addColumn("VL_LESS_THAN_LIMIT", baseEncounterData.getVLLessThanLimitObsReferenceValue(), "");
+		dsd.addColumn("LDL", baseEncounterData.getLdlObsReferenceValue(), "");
+		dsd.addColumn("REASON_NO_SAMPLE", baseEncounterData.getReasonNoResultObsReferenceValue(), "");
+
+		dsd.addColumn("IC3_NEXT_APPOINTMENT_DATE", baseEncounterData.getNextAppointmentDateObsReferenceValue(), "");
 
 		rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
 	}

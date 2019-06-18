@@ -21,6 +21,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getEncounterType(EncounterTypes.BLOOD_PRESSURE_SCREENING.uuid());
     }
 
+    public EncounterType getClinicianScreeningEncounterType() {
+        return getEncounterType(EncounterTypes.IC3_CLINICIAN_PLAN.uuid());
+    }
+
     public EncounterType getNutritionScreeningEncounterType() {
         return getEncounterType(EncounterTypes.NUTRITION_SCREENING.uuid());
     }
