@@ -34,16 +34,17 @@
     "notes": "All patients with Diabetes should have a RBS at each visit to the clinic"
   },
   {
-    "name": "routine-blood-sugar-high-risk",
-    "categories": ["diabetes"],
+    "name": "eligible-for-blood-glucose-screening-not-enrolled",
+    "categories": ["blood-glucose","screening-eligibility"],
     "conditions": [
-      "age_years >= 30",
-      "!hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes,diabetes_type_1,diabetes_type_2])",
-      "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension]) || family_history_diabetes == true"
+      "missing(chronic_care_diagnoses) || (!missing(chronic_care_diagnoses) && !hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2]))",
+      "missing(last_blood_sugar_result_date) || (!missing(last_blood_sugar_result_date) && yearsBetween(today, last_blood_sugar_result_date) >= 1)",
+      "(age_years >= 30) || (age_years >= 18 && last_bmi > 25) || (!missing(chronic_care_diagnoses) && hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension])) || (family_history_diabetes == true)"
     ],
-    "alert": "Due for routine glucose fingerstick",
-    "action": "Perform routine glucose fingerstick",
-    "notes": "These high risk populations should have blood sugar each year to screen for diabetes"
+    "alert": "Routine glucose fingerstick",
+    "action": "Perform glucose fingerstick",
+    "notes": "(Not active diabetes patient) AND (No blood sugar result in the last year) AND (age > 30 years OR adults with BMI > 25 OR diagnosed with hypertension OR parent/sibling has diabetes)",
+    "enabled": true
   },
   {
     "name": "routine-creatinine",

@@ -161,43 +161,6 @@ public class AlertEngineTest {
     }
 
     @Test
-    public void shouldReturnRoutineBloodSugarHighRiskAlert() throws Exception {
-
-        JsonObject patientData = getTestPatient("55");
-        patientData.put("last_bmi", "24");
-        // 1 year and 3 months ago
-        Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.YEAR, -1);
-        cal.add(Calendar.DAY_OF_YEAR, -10);
-        patientData.put("last_blood_sugar_result_date", cal.getTime());
-        patientData.put("family_history_diabetes", true);
-        patientData.put("cc_treatment_status", null);
-
-        List<HashMap<String, String>> chronic_care_diagnoses = Arrays.asList(
-                new HashMap<String, String>() {{
-                    put("date", "1311652800000"); //Tuesday, July 26, 2011
-                    put("value", "656cce7e-977f-11e1-8993-905e29aff6c1"); //Other non-coded diagnosis
-                }}, new HashMap<String, String>() {{
-                    put("date", "1499832000000"); //Wednesday, July 12, 2017
-                    put("value", "654abfc8-977f-11e1-8993-905e29aff6c1"); // hypertension
-                }});
-        patientData.put("chronic_care_diagnoses", chronic_care_diagnoses);
-
-        List<String> conditions = Arrays.asList(
-                "age_years >= 30",
-                "!hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes,diabetes_type_1,diabetes_type_2])",
-                "yearsBetween(today, last_blood_sugar_result_date) >= 1 || last_bmi > 25 || hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension]) || family_history_diabetes == true"
-        );
-
-        createAndEvaluateAlert(
-                "routine-blood-sugar-high-risk",
-                Arrays.asList("diabetes"),
-                conditions,
-                "Routine Blood Sugar for high risk population",
-                patientData);
-    }
-
-    @Test
     public void shouldReturnRoutineCreatinineAlert() throws Exception {
         //today
         Date effectiveDate = DateUtil.getStartOfDay(new Date());
