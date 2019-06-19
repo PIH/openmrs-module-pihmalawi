@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <visit_type visit_type_id="1" name="Clinic or Hospital Visit" description="Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)" uuid="f01c54cb-2225-471a-9cd5-d348552c337c" creator="1" date_created="2019-05-21 17:16:09.0" changed_by="1" date_changed="2019-05-21 17:16:09.0" retired="0"/>
+  <visit_type visit_type_id="1" name="Clinic or Hospital Visit" description="Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)" uuid="f01c54cb-2225-471a-9cd5-d348552c337c" creator="1" date_created="2019-06-18 16:58:31.0" changed_by="1" date_changed="2019-06-18 16:58:31.0" retired="0"/>
 </dataset>

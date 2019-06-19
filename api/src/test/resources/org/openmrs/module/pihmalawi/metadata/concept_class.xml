@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <concept_class concept_class_id="1" name="Test" description="Acq. during patient encounter (vitals, labs, etc.)" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d4907b2-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="2" name="Procedure" description="Describes a clinical procedure" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d490bf4-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="3" name="Drug" description="Drug" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d490dfc-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="4" name="Diagnosis" description="Conclusion drawn through findings" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d4918b0-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="5" name="Finding" description="Practitioner observation/finding" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d491a9a-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="1" name="Test" description="Acq. during patient encounter (vitals, labs, etc.)" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d4907b2-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="2" name="Procedure" description="Describes a clinical procedure" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d490bf4-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="3" name="Drug" description="Drug" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d490dfc-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="4" name="Diagnosis" description="Conclusion drawn through findings" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d4918b0-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="5" name="Finding" description="Practitioner observation/finding" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d491a9a-c2cc-11de-8d13-0010c6dffd0f"/>
   <concept_class concept_class_id="6" name="Anatomy" description="Anatomic sites / descriptors" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="8d491c7a-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="7" name="Question" description="Question (eg, patient history, SF36 items)" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d491e50-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="7" name="Question" description="Question (eg, patient history, SF36 items)" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d491e50-c2cc-11de-8d13-0010c6dffd0f"/>
   <concept_class concept_class_id="8" name="LabSet" description="Term to describe laboratory sets" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="8d492026-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="9" name="MedSet" description="Term to describe medication sets" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d4923b4-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="10" name="ConvSet" description="Term to describe convenience sets" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d492594-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="11" name="Misc" description="Terms which don&apos;t fit other categories" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d492774-c2cc-11de-8d13-0010c6dffd0f"/>
-  <concept_class concept_class_id="12" name="Symptom" description="Patient-reported observation" creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8d492954-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="9" name="MedSet" description="Term to describe medication sets" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d4923b4-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="10" name="ConvSet" description="Term to describe convenience sets" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d492594-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="11" name="Misc" description="Terms which don&apos;t fit other categories" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d492774-c2cc-11de-8d13-0010c6dffd0f"/>
+  <concept_class concept_class_id="12" name="Symptom" description="Patient-reported observation" creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8d492954-c2cc-11de-8d13-0010c6dffd0f"/>
   <concept_class concept_class_id="13" name="Symptom/Finding" description="Observation that can be reported from patient or found on exam" creator="1" date_created="2004-10-04 00:00:00.0" retired="false" uuid="8d492b2a-c2cc-11de-8d13-0010c6dffd0f"/>
   <concept_class concept_class_id="14" name="Specimen" description="Body or fluid specimen" creator="1" date_created="2004-12-02 00:00:00.0" retired="false" uuid="8d492d0a-c2cc-11de-8d13-0010c6dffd0f"/>
   <concept_class concept_class_id="15" name="Misc Order" description="Orderable items which aren&apos;t tests or drugs" creator="1" date_created="2005-02-17 00:00:00.0" retired="false" uuid="8d492ee0-c2cc-11de-8d13-0010c6dffd0f"/>
@@ -20,6 +20,6 @@
   <concept_class concept_class_id="18" name="State" description="A state within a workflow" creator="1" date_created="2006-08-16 02:04:43.0" retired="false" uuid="65ab79bc-977f-11e1-8993-905e29aff6c1"/>
   <concept_class concept_class_id="19" name="Request" description="Used for making a request." creator="1" date_created="2009-09-05 10:09:55.0" retired="false" uuid="65ab7ad4-977f-11e1-8993-905e29aff6c1"/>
   <concept_class concept_class_id="20" name="Specimen Sample Type" description="A type of vessel that is used to hold a specimen." creator="1" date_created="2010-02-04 10:46:01.0" retired="false" uuid="65ab7bf6-977f-11e1-8993-905e29aff6c1"/>
-  <concept_class concept_class_id="21" name="Pharmacologic Drug Class" description="Class of medications based on pharmacologic properties as opposed to therapeutic properties" creator="1" date_created="2016-01-06 20:44:20.0" retired="false" uuid="b4535251-9183-4175-959e-9ee67dc71e78"/>
-  <concept_class concept_class_id="24" name="Frequency" description="A concept used for capturing frequency information such as for medication ordering." creator="1" date_created="2018-01-04 18:14:04.0" retired="false" uuid="8e071bfe-520c-44c0-a89b-538e9129b42a"/>
+  <concept_class concept_class_id="21" name="Pharmacologic Drug Class" description="Class of medications based on pharmacologic properties as opposed to therapeutic properties" creator="1" date_created="2016-01-06 20:55:15.0" retired="false" uuid="b4535251-9183-4175-959e-9ee67dc71e78"/>
+  <concept_class concept_class_id="22" name="Frequency" description="A concept used for capturing frequency information such as for medication ordering." creator="1" date_created="2018-01-04 22:32:41.0" retired="false" uuid="8e071bfe-520c-44c0-a89b-538e9129b42a"/>
 </dataset>

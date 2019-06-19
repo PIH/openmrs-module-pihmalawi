@@ -108,6 +108,14 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getConcept(IC3ScreeningConcepts.NURSE_STATION_CONCEPT_UUID);
     }
 
+    public Concept getRecommendedNextStepsConcept() {
+        return getConcept(IC3ScreeningConcepts.RECOMMENDED_NEXT_STEPS);
+    }
+
+    public Concept getReferToClinicianConcept() {
+        return getConcept(IC3ScreeningConcepts.REFER_TO_CLINICIAN);
+    }
+
     public Concept getSputumCollectedConcept() {
         return getConcept(SPUTUM_COLLECTED_CONCEPT_UUID);
     }

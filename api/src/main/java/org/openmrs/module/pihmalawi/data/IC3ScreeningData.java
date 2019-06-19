@@ -22,10 +22,7 @@ import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Retains live IC3 Screening Data for each patient
@@ -212,6 +209,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "family_history_diabetes", ccPatientData.getFamilyHistoryOfDiabetesByEndDate());
         addColumn(dsd, "last_breastfeeding_status", hivPatientData.getLatestBreastfeedingStatusValueByEndDate());
         addColumn(dsd, "is_pregnant", df.getMostRecentObsOnDate(ccMetadata.getIsPatientPregnantConcept(), null, df.getObsValueCodedConverter()));
+        addColumn(dsd, "tb_results_next_steps", df.getMostRecentObsOnDate(screeningMetadata.getRecommendedNextStepsConcept(), Arrays.asList(screeningMetadata.getTBTestResultsEncounterType()), df.getObsValueCodedConverter()));
         addColumn(dsd, "current_symptoms", df.getAllRecentObsOnDate(ccMetadata.getConcept(ccMetadata.SYMPTOM_PRESENT_CONCEPT), null, df.getObsValueCodedCollectionConverter()));
         addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
@@ -223,7 +221,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_htc_screening_datetime", getMostRecentHTCScreeningDate());
         addColumn(dsd, "last_vl_screening_datetime", getMostRecentVLScreeningDate());
         addColumn(dsd, "last_tb_screening_datetime", getMostRecentTBScreeningDate());
-        addColumn(dsd, "last_tb_test_results_datetime", getMostRecentTBTestResults());
+        addColumn(dsd, "last_tb_test_results_datetime", getMostRecentTBTestResultsDate());
         addColumn(dsd, "last_nurse_screening_datetime", getMostRecentNutritionScreeningDate());
         addColumn(dsd, "current_bp_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getBPScreeningStationConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "current_nutrition_screening_clinician_referral_datetime", df.getMostRecentObsOnDate(screeningMetadata.getReferToScreeningStationConcept(), screeningMetadata.getNutritionScreeningStationConcept(), null, df.getObsDatetimeConverter()));

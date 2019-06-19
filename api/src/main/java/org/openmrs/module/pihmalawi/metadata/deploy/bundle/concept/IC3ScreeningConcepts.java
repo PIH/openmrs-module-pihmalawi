@@ -44,6 +44,8 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
     public static final String NURSE_STATION_CONCEPT_UUID = "d74065b8-cecf-4ee9-bbba-07bb962e4164";
 
     public static final String REASON_NO_RESULT = "656fa450-977f-11e1-8993-905e29aff6c1";
+    public static final String RECOMMENDED_NEXT_STEPS = "3ee10e6b-ee68-4238-99ee-1f132551e70e";
+    public static final String REFER_TO_CLINICIAN = "6578ea56-977f-11e1-8993-905e29aff6c1";
 
     @Override
     public int getVersion() {
@@ -817,9 +819,9 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept ultrasound = MetadataUtils.existing(Concept.class, "6572c32e-977f-11e1-8993-905e29aff6c1");
         Concept xRay = MetadataUtils.existing(Concept.class, "6572c432-977f-11e1-8993-905e29aff6c1");
         Concept otherDiagnosisOrProcedure = MetadataUtils.existing(Concept.class, "6572c540-977f-11e1-8993-905e29aff6c1");
-        Concept referToClinician = MetadataUtils.existing(Concept.class, "6578ea56-977f-11e1-8993-905e29aff6c1");
+        Concept referToClinician = MetadataUtils.existing(Concept.class, REFER_TO_CLINICIAN);
 
-        install(new ConceptBuilder("3ee10e6b-ee68-4238-99ee-1f132551e70e")
+        install(new ConceptBuilder(RECOMMENDED_NEXT_STEPS)
                 .datatype(coded)
                 .conceptClass(question)
                 .name("9202246d-3d5f-41b3-87f9-09c0280980b8", "Recommended steps", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)

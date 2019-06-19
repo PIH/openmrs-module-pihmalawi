@@ -742,4 +742,31 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     }
 
+    @Test
+    public void shouldReturnTBReferToClinicianAlert() throws Exception {
+
+        Patient patient = createPatient().age(32).save();
+        patient.setGender("F");
+        Calendar cal = Calendar.getInstance();
+
+
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getCheckInEncounterType(), cal.getTime()).save();
+        Obs referral = createObs(enc1, screeningMetadata.getSourceOfReferralConcept(), screeningMetadata.getHealthCenterReferralConcept()).save();
+
+        Encounter tbTestResultEncounter = createEncounter(patient, screeningMetadata.getTBTestResultsEncounterType(), cal.getTime()).save();
+        createObs(tbTestResultEncounter, screeningMetadata.getRecommendedNextStepsConcept(), screeningMetadata.getReferToClinicianConcept()).save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("tb-refer-to-clinician"))));
+
+    }
+
 }

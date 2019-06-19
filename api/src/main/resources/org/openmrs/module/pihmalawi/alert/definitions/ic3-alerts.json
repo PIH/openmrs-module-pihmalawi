@@ -370,7 +370,7 @@
     "conditions": [
       "!missing(current_symptoms)",
       "hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes])",
-      "missing(current_sputum_collection) || isFalse(current_sputum_collection)"
+      "missing(last_tb_test_results_datetime) || (!missing(last_tb_test_results_datetime) && !sameDay(now, last_tb_test_results_datetime))"
     ],
     "alert": "Positive TB symptoms",
     "action": "Obtain sputum from patient",
@@ -447,6 +447,18 @@
       "missing(last_nurse_screening_datetime) || last_nurse_screening_datetime < current_nurse_screening_clinician_referral_datetime"
     ],
     "alert": "Referred by clinician to Nursing station"
+  },
+  {
+    "name": "tb-refer-to-clinician",
+    "categories": ["abnormal-result", "screening-eligibility"],
+    "conditions": [
+      "!missing(last_tb_test_results_datetime) && sameDay(now, last_tb_test_results_datetime)",
+      "tb_results_next_steps == refer_to_clinician"
+    ],
+    "alert": "Unable to produce sputum",
+    "action": "Refer to clinician",
+    "notes": "Nurse is referring patient from TB Sputum station to Clinician",
+    "enabled": true
   },
   {
     "name": "eligible-for-cervical-cancer-screening",
