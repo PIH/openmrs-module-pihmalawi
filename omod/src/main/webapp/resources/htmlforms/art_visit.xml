@@ -32,9 +32,6 @@
         hivPreventiveTherapyDrugs=916,656,8605
         depoGiven=8029
         numCondoms=8080
-        viralLoadSet=8628
-        viralLoadTaken=8421
-        viralLoadResult=856
         pregnantLactating=8027        
         currentlyPregnant=1755
         currentlyLactating=5632        
@@ -64,7 +61,6 @@
                     <td colspan="2">ARVs given</td>
                     <td colspan="2">CPT/IPT Given</td>
                     <td colspan="2">Family Plan.</td>
-                    <td colspan="4">Viral load</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
@@ -78,10 +74,6 @@
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Depo<br/>Given</td>
                     <td rowspan="2">No. of<br/>condom</td>
-                    <td rowspan="2">Sample<br/>Taken</td>
-                    <td rowspan="2">Result</td>
-                    <td rowspan="2">Viral Load Result &#40;&#60;&#41;</td>
-                    <td rowspan="2">LDL</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
@@ -181,25 +173,6 @@
                         <!-- # condoms -->
                         <obs conceptId="$numCondoms"/>
                     </td>
-                    <obsgroup groupingConceptId="$viralLoadSet">
-                        <td>
-                            <!-- Viral load sample -->
-                            <obsreference conceptId="$viralLoadTaken" style="checkbox"
-                                 labelText="Bled"/>
-                        </td>
-                        <td>
-                            <!-- Viral load -->
-                            <obsreference conceptId="$viralLoadResult"/>
-                        </td>
-                        <td>
-                            <!-- Viral load (<)-->
-                            <b>&#60;</b> <obs conceptId="$lessThanLimit"/>
-                        </td>
-                        <td>
-                            <!-- LDL -->
-                            <obsreference conceptId="$LDL" style="checkbox" />
-                        </td>
-                    </obsgroup>
                     <td>
                         <!-- Next appointment -->
                         <obsreference conceptId="$nextAppt" />
@@ -230,7 +203,7 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><lookup expression="context.defaultEncounterDate" />
+                <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>
@@ -319,33 +292,6 @@
                     <obs conceptId="$numCondoms"/>
                 </td>
             </tr>
-            <obsgroup groupingConceptId="$viralLoadSet">
-                <tr>
-                    <th>Viral load</th>
-                    <td>
-                        <table>
-                            <tr>
-                                <td style="width:30px">
-                                    <obsreference conceptId="$viralLoadTaken" style="checkbox" labelText="Bled"/>
-                                </td>
-                                <td style="width:70px">
-                                    <span style="padding-left:10px">Result</span>
-                                    <!-- Viral load -->
-                                    <obsreference conceptId="$viralLoadResult" id="vl-numeric" labelText="Numeric"/>
-                                </td>
-                                <td style="width:70px">
-                                    <!-- Viral load (<)-->
-                                    <span style="padding-left:10px">Result Less Than(<b>&#60;</b>)</span>
-                                    <obsreference conceptId="$lessThanLimit" id="vl-less-than"/>
-                                </td>
-                                <td style="width:30px">
-                                    <obsreference conceptId="$LDL" style="checkbox" id="vl-LDL" labelText="LDL"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </obsgroup>
             <tr>
                 <th>Next appointment</th>
                 <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/></td>

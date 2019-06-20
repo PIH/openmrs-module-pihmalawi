@@ -163,7 +163,7 @@
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
-                <td><lookup expression="context.defaultEncounterDate" />
+                <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>

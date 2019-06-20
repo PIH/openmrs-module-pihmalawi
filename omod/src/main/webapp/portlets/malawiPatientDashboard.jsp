@@ -51,14 +51,6 @@
                 <c:set var="artInitialEncounter" value="true" />
             </c:if>
         </openmrs:forEachEncounter>
-        <c:choose>
-            <c:when test="${ not empty artInitialEncounter }">
-                <tr>
-                    <td>Viral Load Tests:</td>
-                    <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Viral Load Tests" initialEncounterTypeId="9" followupEncounterTypeId="10" patientIdentifierType="4" programWorkflowStates="7"/></td>
-                </tr>
-            </c:when>
-        </c:choose>
     <tr>
         <td>Pre-ART Patient Card:</td>
         <c:choose>

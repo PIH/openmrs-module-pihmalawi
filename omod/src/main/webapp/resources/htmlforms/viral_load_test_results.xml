@@ -45,7 +45,6 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
-                    <th>Encounter Type</th>
                     <th>Visit Location</th>
                     <th>Reason for Test</th>
                     <th>Lab Location</th>
@@ -61,9 +60,6 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate />
-                    </td>
-                    <td>
-                        <encounterType id="encounterType" />
                     </td>
                     <td>
                         <encounterLocation id="visitLocation" />
@@ -139,7 +135,7 @@
             </thead>
             <tbody class="visit-table-body">
                 <tr>
-                    <td><lookup expression="context.defaultEncounterDate" />
+                    <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                         <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                     </td>
                     <td>

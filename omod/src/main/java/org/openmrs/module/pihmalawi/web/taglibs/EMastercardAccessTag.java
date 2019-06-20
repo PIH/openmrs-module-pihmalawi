@@ -174,7 +174,6 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		headerForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "mental_health_mastercard");
 		headerForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "ncd_mastercard");
 		headerForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, "eid_mastercard");
-		headerForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), "blank_header");
 		headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
@@ -189,8 +188,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		flowsheetForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), Arrays.asList("mental_health_visit"));
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
-		flowsheetForms.put(EncounterTypes.VIRAL_LOAD_SCREENING.name(), Arrays.asList("viral_load_test_results"));
-		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("art_visit"));
+		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("art_visit", "viral_load_test_results"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization
