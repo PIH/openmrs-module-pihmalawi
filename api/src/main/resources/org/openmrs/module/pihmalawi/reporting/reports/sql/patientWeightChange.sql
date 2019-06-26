@@ -1,3 +1,4 @@
+-- ## DEPRECATED = true
 -- ## report_uuid = a222543e-63c2-11e5-a9f6-d60697e5b5db
 -- ## design_uuid = 483b5cee-2eeb-4df3-b685-befcf2658daa
 -- ## report_name = Clinical - Weight Loss Report
