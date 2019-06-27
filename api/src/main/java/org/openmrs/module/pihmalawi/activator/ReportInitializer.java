@@ -49,6 +49,7 @@ public class ReportInitializer implements Initializer {
 	 */
 	@Override
 	public synchronized void started() {
+	    removeReport("9880C308-8734-444E-812B-05D95ADE63BE"); // Can be removed once "IC3 - Patient Future Appointments Report is confirmed removed
 	    for (ReportManager reportManager : Context.getRegisteredComponents(ApzuReportManager.class)) {
 	        if (reportManager.getClass().getAnnotation(Deprecated.class) != null) {
 	            log.warn("Report " +reportManager.getName() + " is deprecated.  Removing it from use.");
