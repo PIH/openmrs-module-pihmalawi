@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class HccRegister extends ApzuDataExportManager {
 
     public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "8bc5d836-5c71-11e5-a151-e82aea237783";
