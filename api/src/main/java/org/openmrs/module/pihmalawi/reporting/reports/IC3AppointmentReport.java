@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Deprecated
 public class IC3AppointmentReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/appointment-data.sql";

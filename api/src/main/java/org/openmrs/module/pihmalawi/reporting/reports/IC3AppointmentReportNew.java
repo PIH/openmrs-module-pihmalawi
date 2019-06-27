@@ -38,7 +38,7 @@ public class IC3AppointmentReportNew extends ApzuReportManager {
 
 	@Override
 	public String getName() {
-		return "IC3 - Appointment Report New";
+		return "IC3 - Appointment Report";
 	}
 
     @Override
