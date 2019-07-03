@@ -128,11 +128,15 @@ public class PrintableSummaryPageController {
 
             if (viralLoads != null) {
                 for (ViralLoad vl : viralLoads) {
-                    if (vl.getResultLdl() != null || vl.getResultNumeric() != null) {
+                    if (vl.getResultLdl() != null || vl.getLessThanResultNumeric() != null || vl.getResultNumeric() != null) {
                         lastViralLoadDate = vl.getResultDate();
                         if (vl.getResultNumeric() != null) {
                             lastViralLoadValue = ObjectUtil.formatNumber(vl.getResultNumeric(), "1", Context.getLocale());
                             highViralLoad = (vl.getResultNumeric() >= 1000);
+                        }
+                        else if (vl.getLessThanResultNumeric() != null) {
+                            lastViralLoadValue = "< " + vl.getLessThanResultNumeric();
+                            highViralLoad = false;
                         }
                         else if (vl.getResultLdl()) {
                             lastViralLoadValue = "LDL";
