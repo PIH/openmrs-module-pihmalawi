@@ -341,16 +341,6 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
 		return pdf.convert(pdf.getMostRecentObsByEndDate(hivMetadata.getArtSideEffectsConcept()), pdf.getObsDatetimeConverter());
 	}
 
-    @DocumentedDefinition("hccAppointmentStatus")
-    public PatientDataDefinition getHccAppointmentStatus() {
-        return pdf.getAppointmentStatus(hccTreatmentGroup);
-    }
-
-    @DocumentedDefinition("artAppointmentStatus")
-    public PatientDataDefinition getArtAppointmentStatus() {
-        return pdf.getAppointmentStatus(artTreatmentGroup);
-    }
-
 	@DocumentedDefinition
 	public PatientDataDefinition getEarliestHivProgramEnrollmentDateByEndDate() {
 		return pdf.getEarliestProgramEnrollmentByEndDate(hivMetadata.getHivProgram(), pdf.getProgramEnrollmentDateConverter());

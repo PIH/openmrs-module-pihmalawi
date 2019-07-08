@@ -101,7 +101,7 @@ public class NcdInwardSummaryPageController {
             model.addAttribute( "hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
             model.addAttribute( "hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
             model.addAttribute( "hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));
-            model.addAttribute( "artAppointmentStatus", evaluate(hivData.getArtAppointmentStatus(), context));
+            model.addAttribute( "artAppointmentStatus", evaluate(null, context)); // TODO Fix this
             model.addAttribute( "ccTxStatus", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
             model.addAttribute( "ccTxStatusDate", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
             model.addAttribute( "ccDxObs", evaluate(ccData.getAllChronicCareDiagnosisObsByEndDate(), context));

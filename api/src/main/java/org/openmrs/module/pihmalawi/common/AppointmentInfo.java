@@ -32,19 +32,15 @@ public class AppointmentInfo {
     //** PROPERTIES
 
     private Date effectiveDate;
-    private boolean currentlyEnrolled;
+    private String encounterType;
     private Date lastEncounterDate;
     private Date nextScheduledDate;
 
     //***** CONSTRUCTORS *****
 
-    public AppointmentInfo(Date effectiveDate) {
+    public AppointmentInfo(Date effectiveDate, String encounterType, Date lastEncounterDate, Date nextScheduledDate) {
         this.effectiveDate = effectiveDate;
-    }
-
-    public AppointmentInfo(Date effectiveDate, Boolean currentlyEnrolled, Date lastEncounterDate, Date nextScheduledDate) {
-        this(effectiveDate);
-        this.currentlyEnrolled = currentlyEnrolled;
+        this.encounterType = encounterType;
         this.lastEncounterDate = lastEncounterDate;
         this.nextScheduledDate = nextScheduledDate;
     }
@@ -55,9 +51,6 @@ public class AppointmentInfo {
      * @return true if the last "next scheduled date" is in the past
      */
     public boolean isOverdue() {
-        if (!currentlyEnrolled) {
-            return false;
-        }
         Date today = DateUtil.getStartOfDay(effectiveDate);
         return nextScheduledDate != null && nextScheduledDate.after(lastEncounterDate) && nextScheduledDate.before(today);
     }
@@ -68,7 +61,7 @@ public class AppointmentInfo {
     public Integer getDaysToAppointment() {
 
         // No scheduled appointment
-        if (nextScheduledDate == null || !currentlyEnrolled) {
+        if (nextScheduledDate == null) {
             return null;
         }
 
@@ -110,13 +103,20 @@ public class AppointmentInfo {
 
     //***** ACCESSORS ******
 
-
-    public boolean isCurrentlyEnrolled() {
-        return currentlyEnrolled;
+    public Date getEffectiveDate() {
+        return effectiveDate;
     }
 
-    public void setCurrentlyEnrolled(boolean currentlyEnrolled) {
-        this.currentlyEnrolled = currentlyEnrolled;
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public String getEncounterType() {
+        return encounterType;
+    }
+
+    public void setEncounterType(String encounterType) {
+        this.encounterType = encounterType;
     }
 
     public Date getLastEncounterDate() {

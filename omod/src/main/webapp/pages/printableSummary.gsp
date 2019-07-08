@@ -249,7 +249,6 @@
                 <table class="detail-table">
             <%
                     if (encounters != null) {
-                    Collections.reverse(encounters);
                     def numToShow = encounters.size() > 4 ? 4 : encounters.size();
                     for (def i=0; i<numToShow; i++) {
                         def encounter = encounters.get(i);
@@ -269,20 +268,20 @@
             <td class="second-column">
                 <table class="detail-table">
 
-                    <% for (def programName : appointmentStatuses.keySet()) {
-                        def appStatus = appointmentStatuses[programName];
-                        if (appStatus.currentlyEnrolled) {
-                            def appDate = appStatus.nextScheduledDate;
-                            def daysToApp = appStatus.daysToAppointment;
-                            def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
+                    <%  for (def programName : appointmentStatuses.keySet()) {
+                            def appStatusList = appointmentStatuses[programName];
+                            for (def appStatus : appStatusList) {
+                                def appDate = appStatus.nextScheduledDate;
+                                def daysToApp = appStatus.daysToAppointment;
+                                def appAlert = (daysToApp == null ? "No appointments scheduled" : (daysToApp < 0 ? "Overdue. Expected " + daysToApp*-1 + " days ago" : ""));
                     %>
-                    <tr>
-                        <td>${ programName }:</td>
-                        <td>${ ui.format(appDate) }</td>
-                        <td class="alert third-column">${ appAlert }</td>
-                    </tr>
-                    <% } %>
-                    <% } %>
+                            <tr>
+                                <td>${ ui.format(appDate) }</td>
+                                <td>${appStatus.encounterType}</td>
+                                <td class="alert third-column">${ appAlert }</td>
+                            </tr>
+                            <% } %>
+                    <%  } %>
                 </table>
             </td>
             <td class="third-column"></td>

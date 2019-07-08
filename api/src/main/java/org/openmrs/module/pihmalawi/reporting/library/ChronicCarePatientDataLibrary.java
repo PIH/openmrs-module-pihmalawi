@@ -13,7 +13,12 @@
  */
 package org.openmrs.module.pihmalawi.reporting.library;
 
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.EncounterType;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientState;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.EarliestCodedValueConverter;
@@ -117,11 +122,6 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 
         return df.getAllObsWithCodedValueByEndDate(question, values, converter);
 	}
-
-    @DocumentedDefinition
-    public PatientDataDefinition getChronicCareAppointmentStatus() {
-        return df.getAppointmentStatus(treatmentGroup);
-    }
 
     public PatientDataDefinition getFirstEncounterDateByEndDate(List<EncounterType> encounterTypes) {
         return df.getFirstEncounterOfTypeByEndDate(encounterTypes, df.getEncounterDatetimeConverter());
