@@ -769,4 +769,72 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     }
 
+    @Test
+    public void shouldReturnPositivePriorHivTestAlert() throws Exception {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        Patient patient = createPatient().age(28).save();
+
+        // one month ago
+        Date date1 = DateUtil.getDateTime(currentYear, currentMonth - 1, currentDay - 3);
+
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getHTCScreeningEncounterType(), date1).save();
+        // HTC test
+        // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
+        ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObsBuilder.member(rapidTest);
+        groupObsBuilder.member(positiveRapidTestResult);
+        groupObsBuilder.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                DateUtil.getDateTime(currentYear, currentMonth, currentDay),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("positive-prior-hiv-test"))));
+
+    }
+
+    @Test
+    public void shouldReturnPositiveHivTestTodayAlert() throws Exception {
+
+        Calendar cal = Calendar.getInstance();
+
+        Patient patient = createPatient().age(28).save();
+
+        // today
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getHTCScreeningEncounterType(), cal.getTime()).save();
+        // HTC test
+        // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
+        ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        groupObsBuilder.member(rapidTest);
+        groupObsBuilder.member(positiveRapidTestResult);
+        groupObsBuilder.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("positive-hiv-test-today"))));
+
+    }
 }

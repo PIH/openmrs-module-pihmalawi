@@ -324,22 +324,26 @@
     "enabled": true
   },
   {
-    "name": "abnormal-result-htc",
-    "categories": ["htc", "abnormal-result"],
-    "conditions": [
-      "TODO: hiv positive and hiv result recorded prior to this visit and not enrolled in hiv program ?? - need to clarify this definition"
-    ],
-    "alert": "Action: Refer to clinician",
-    "enabled": false
-  },
-  {
-    "name": "critical-result-htc",
+    "name": "positive-prior-hiv-test",
     "categories": ["htc", "critical-result"],
     "conditions": [
-      "TODO: hiv positive and hiv result recorded during this visit ?? - need to clarify this definition"
+      "hiv_treatment_status !== active_art",
+      "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
+      "(last_hiv_rapid_test_result == positive) && (!sameDay(now, last_hiv_rapid_test_result_date))"
     ],
-    "alert": "Action: Refer to clinician",
-    "enabled": false
+    "alert": "Action: Enroll in ART",
+    "enabled": true
+  },
+  {
+    "name": "positive-hiv-test-today",
+    "categories": ["htc", "critical-result"],
+    "conditions": [
+      "hiv_treatment_status !== active_art",
+      "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
+      "(last_hiv_rapid_test_result == positive) && (sameDay(now, last_hiv_rapid_test_result_date))"
+    ],
+    "alert": "Action: Enroll in ART",
+    "enabled": true
   },
   {
     "name": "eligible-for-tb-screening",
