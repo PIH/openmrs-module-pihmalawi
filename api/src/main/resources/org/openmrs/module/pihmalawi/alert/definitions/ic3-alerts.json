@@ -324,6 +324,18 @@
     "enabled": true
   },
   {
+    "name": "eligible-for-cervical-cancer-screening",
+    "categories": ["cervical", "screening-eligibility"],
+    "conditions": [
+      "gender == female",
+      "age_years >= 15 && age_years <= 49"
+    ],
+    "alert": "Due for Cervical Cancer Screening",
+    "action": "Screen for Cervical Cancer",
+    "notes": "All females between the age of 15 and 49 y.o.",
+    "enabled": true
+  },
+  {
     "name": "positive-prior-hiv-test",
     "categories": ["htc", "critical-result"],
     "conditions": [
@@ -450,15 +462,6 @@
     "action": "Refer to clinician",
     "notes": "Nurse is referring patient from TB Sputum station to Clinician",
     "enabled": true
-  },
-  {
-    "name": "eligible-for-cervical-cancer-screening",
-    "categories": ["nurse", "screening-eligibility"],
-    "conditions": [
-      "age_years >= 25 && age_years <= 49",
-      "gender == female"
-    ],
-    "alert": "Due for Cervical Cancer Screening"
   },
   {
     "name": "eligible-for-family-planning",

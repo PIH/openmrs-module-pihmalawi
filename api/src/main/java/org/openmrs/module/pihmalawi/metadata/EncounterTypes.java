@@ -272,6 +272,11 @@ public class EncounterTypes {
         public String name() { return "HTC Screening"; }
         public String description() { return "HTC screening test encounter"; }
     };
+    public static EncounterTypeDescriptor CERVICAL_CANCER_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "AA2C2B86-1A59-49A3-905B-41D318E94FFE"; }
+        public String name() { return "Cervical Cancer Screening"; }
+        public String description() { return "Cervical cancer screening encounter"; }
+    };
     public static EncounterTypeDescriptor VIRAL_LOAD_SCREENING = new EncounterTypeDescriptor() {
         public String uuid() { return "9959A261-2122-4AE1-A89D-1CA444B712EA"; }
         public String name() { return "Viral Load Screening"; }
