@@ -343,7 +343,7 @@
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
       "(last_hiv_rapid_test_result == positive) && (!sameDay(now, last_hiv_rapid_test_result_date))"
     ],
-    "alert": "Action: Enroll in ART",
+    "alert": "Positive prior HIV Test",
     "action": "Enroll in ART",
     "enabled": true
   },
@@ -355,7 +355,7 @@
       "!missing(last_hiv_rapid_test_result_date) && !missing(last_hiv_rapid_test_result)",
       "(last_hiv_rapid_test_result == positive) && (sameDay(now, last_hiv_rapid_test_result_date))"
     ],
-    "alert": "Enroll in ART",
+    "alert": "Positive HIV Test today",
     "action": "Enroll in ART",
     "enabled": true
   },
