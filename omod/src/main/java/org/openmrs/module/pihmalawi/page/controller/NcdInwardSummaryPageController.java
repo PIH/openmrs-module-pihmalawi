@@ -158,8 +158,10 @@ public class NcdInwardSummaryPageController {
                     Encounter latestEncounter = (Encounter)evaluate(df.getMostRecentEncounterOfTypesByEndDate(section.getTypes(), null), context);
                     if (latestEncounter != null) {
                         section.setLatestEncounterDate(latestEncounter.getEncounterDatetime());
-                        Date nextApptDate = (Date) evaluate(df.getMostRecentObsOnDate(ccMetadata.getAppointmentDateConcept(), null, new ObsValueConverter()), context);
-                        section.setNextAppointmentDate(nextApptDate);
+                        Obs nextApptDateObs = (Obs) evaluate(df.getMostRecentObsOnGivenDate(ccMetadata.getAppointmentDateConcept(), latestEncounter.getEncounterDatetime()), context);
+                        if (nextApptDateObs != null) {
+                            section.setNextAppointmentDate(nextApptDateObs.getValueDatetime());
+                        }
 
                         if (section.getKey().equals("htn") || section.getKey().equals("diabetes")) {
                             String bp = "None recorded";
@@ -185,11 +187,7 @@ public class NcdInwardSummaryPageController {
                             }
                         }
 
-                        ObsForPersonDataDefinition medsForPatient = new ObsForPersonDataDefinition();
-                        medsForPatient.setQuestion(ccMetadata.getCurrentDrugsUsedConcept());
-                        medsForPatient.setOnOrAfter(latestEncounter.getEncounterDatetime());
-                        medsForPatient.setOnOrBefore(latestEncounter.getEncounterDatetime());
-                        List<Obs> meds = (List<Obs>)evaluate(new PersonToPatientDataDefinition(medsForPatient), context);
+                        List<Obs> meds = (List<Obs>)evaluate(df.getAllObsOnGivenDate(ccMetadata.getCurrentDrugsUsedConcept(), latestEncounter.getEncounterDatetime()), context);
                         section.setCurrentMedications(meds);
                     }
                 }

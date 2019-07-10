@@ -243,6 +243,23 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("onOrBefore=endDate,onOrAfter=endDate"), converter);
 	}
 
+	public PatientDataDefinition getAllObsOnGivenDate(Concept question, Date onDate) {
+		ObsForPersonDataDefinition d = new ObsForPersonDataDefinition();
+		d.setQuestion(question);
+		d.setOnOrAfter(onDate);
+		d.setOnOrBefore(onDate);
+		return new PersonToPatientDataDefinition(d);
+	}
+
+	public PatientDataDefinition getMostRecentObsOnGivenDate(Concept question, Date onDate) {
+		ObsForPersonDataDefinition d = new ObsForPersonDataDefinition();
+		d.setWhich(TimeQualifier.LAST);
+		d.setQuestion(question);
+		d.setOnOrAfter(onDate);
+		d.setOnOrBefore(onDate);
+		return new PersonToPatientDataDefinition(d);
+	}
+
 	public PatientDataDefinition getMostRecentObsOnDate(Concept question, Concept answer, List<EncounterType> encounterTypes, DataConverter converter) {
 		return getMostRecentObsOnDate(question, Collections.singletonList(answer), encounterTypes, converter);
 	}
