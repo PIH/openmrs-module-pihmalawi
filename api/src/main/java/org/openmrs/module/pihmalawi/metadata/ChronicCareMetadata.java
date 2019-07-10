@@ -63,6 +63,7 @@ public class ChronicCareMetadata extends CommonMetadata {
     public List<ProgramWorkflowState> getActiveChronicCareStates() {
         List<ProgramWorkflowState> l = new ArrayList<ProgramWorkflowState>();
         l.add(getChronicCareStatusOnTreatment());
+        l.add(getChronicCareStatusInAdvancedCare());
         return l;
     }
 

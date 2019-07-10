@@ -14,15 +14,14 @@
 
 package org.openmrs.module.pihmalawi.common;
 
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.util.OpenmrsUtil;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * A simple object that contains information about the status of an appointment
@@ -32,14 +31,20 @@ public class AppointmentInfo {
     //** PROPERTIES
 
     private Date effectiveDate;
+    private boolean currentlyEnrolled;
     private String encounterType;
     private Date lastEncounterDate;
     private Date nextScheduledDate;
 
     //***** CONSTRUCTORS *****
 
-    public AppointmentInfo(Date effectiveDate, String encounterType, Date lastEncounterDate, Date nextScheduledDate) {
+    public AppointmentInfo(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
+    }
+
+    public AppointmentInfo(Date effectiveDate, boolean currentlyEnrolled, String encounterType, Date lastEncounterDate, Date nextScheduledDate) {
+        this.effectiveDate = effectiveDate;
+        this.currentlyEnrolled = currentlyEnrolled;
         this.encounterType = encounterType;
         this.lastEncounterDate = lastEncounterDate;
         this.nextScheduledDate = nextScheduledDate;
@@ -47,10 +52,40 @@ public class AppointmentInfo {
 
     //***** METHODS *****
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof AppointmentInfo)) {
+            return false;
+        }
+        AppointmentInfo that = (AppointmentInfo)o;
+        EqualsBuilder b = new EqualsBuilder();
+        b.append(this.getEffectiveDate(), that.getEffectiveDate());
+        b.append(this.isCurrentlyEnrolled(), that.isCurrentlyEnrolled());
+        b.append(this.getEncounterType(), that.getEncounterType());
+        b.append(this.getLastEncounterDate(), that.getLastEncounterDate());
+        b.append(this.getNextScheduledDate(), that.getNextScheduledDate());
+        return b.isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder b = new HashCodeBuilder();
+        b.append(effectiveDate);
+        b.append(currentlyEnrolled);
+        b.append(encounterType);
+        b.append(lastEncounterDate);
+        b.append(nextScheduledDate);
+        return b.toHashCode();
+    }
+
     /**
      * @return true if the last "next scheduled date" is in the past
      */
     public boolean isOverdue() {
+        if (!currentlyEnrolled) {
+            return false;
+        }
         Date today = DateUtil.getStartOfDay(effectiveDate);
         return nextScheduledDate != null && nextScheduledDate.after(lastEncounterDate) && nextScheduledDate.before(today);
     }
@@ -61,7 +96,7 @@ public class AppointmentInfo {
     public Integer getDaysToAppointment() {
 
         // No scheduled appointment
-        if (nextScheduledDate == null) {
+        if (nextScheduledDate == null || !currentlyEnrolled) {
             return null;
         }
 
@@ -91,14 +126,7 @@ public class AppointmentInfo {
 
     @Override
     public String toString() {
-        List<String> l = new ArrayList<String>();
-        if (lastEncounterDate != null) {
-            l.add("Last Actual: " + DateFormatUtils.format(lastEncounterDate, "yyyy-MM-dd"));
-        }
-        if (nextScheduledDate != null) {
-            l.add("Next Scheduled: " + DateFormatUtils.format(nextScheduledDate, "yyyy-MM-dd"));
-        }
-        return OpenmrsUtil.join(l, ", ");
+        return ToStringBuilder.reflectionToString(this);
     }
 
     //***** ACCESSORS ******
@@ -109,6 +137,14 @@ public class AppointmentInfo {
 
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
+    }
+
+    public boolean isCurrentlyEnrolled() {
+        return currentlyEnrolled;
+    }
+
+    public void setCurrentlyEnrolled(boolean currentlyEnrolled) {
+        this.currentlyEnrolled = currentlyEnrolled;
     }
 
     public String getEncounterType() {

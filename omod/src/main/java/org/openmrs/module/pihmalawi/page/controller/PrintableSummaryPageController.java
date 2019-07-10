@@ -21,6 +21,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
@@ -30,6 +31,7 @@ import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
+import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -60,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ public class PrintableSummaryPageController {
 
 	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
                            UiUtils ui, PageModel model,
+                           @SpringBean("dataFactory") DataFactory df,
                            @SpringBean("hivMetadata") HivMetadata hivMetadata,
                            @SpringBean("chronicCareMetadata") ChronicCareMetadata ccMetadata,
                            @SpringBean("builtInPatientDataLibrary") BuiltInPatientDataLibrary builtInData,
@@ -169,57 +171,43 @@ public class PrintableSummaryPageController {
             model.addAttribute("reasonPregnantLactating", getObsValueOnDate(hivMetadata.getPregnantOrLactatingConcept(), aid, context));
 
             List<Encounter> encounters = getData(baseData.getAllEncounters(), context);
-
-            Map<EncounterType, Encounter> latestByType = new HashMap<EncounterType, Encounter>();
-            if (encounters != null) {
-                for (Encounter e : encounters) {
-                    latestByType.put(e.getEncounterType(), e);
-                }
-            }
-
-            Concept apptDateConcept = hivMetadata.getAppointmentDateConcept();
+            Collections.reverse(encounters);
+            model.addAttribute("encounters", encounters);
 
             Map<String, List<AppointmentInfo>> appts = new LinkedHashMap<String, List<AppointmentInfo>>();
 
-            boolean activeEid = isInCohort(hivCohorts.getPatientsInExposedChildStateOnEndDate(), context);
-            if (activeEid) {
-                AppointmentInfo appInfo = getAppointmentInfo(latestByType, hivMetadata.getExposedChildFollowupEncounterType(), apptDateConcept, context);
-                appts.put("EID", Arrays.asList(appInfo));
+            AppointmentInfo eidApp = getData(hivData.getEidAppointmentStatus(), context);
+            if (eidApp.isCurrentlyEnrolled()) {
+                appts.put("EID", Arrays.asList(eidApp));
             }
 
-            boolean activeArt = isInCohort(hivCohorts.getInOnArtStateAtLocationOnEndDate(), context);
-            if (activeArt) {
-                AppointmentInfo appInfo = getAppointmentInfo(latestByType, hivMetadata.getArtFollowupEncounterType(), apptDateConcept, context);
-                appts.put("ART", Arrays.asList(appInfo));
+            AppointmentInfo artApp = getData(hivData.getArtAppointmentStatus(), context);
+            if (artApp.isCurrentlyEnrolled()) {
+                appts.put("ART", Arrays.asList(artApp));
             }
 
-            boolean activeNcd = isInCohort(ccCohorts.getActivelyEnrolledInChronicCareProgramAtLocationOnEndDate(), context);
-            if (activeNcd) {
-                List<AppointmentInfo> ncdList = new ArrayList<AppointmentInfo>();
-                List<EncounterType> ncdTypes = new ArrayList<EncounterType>();
-                ncdTypes.add(ccMetadata.getHtnDiabetesFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getEpilepsyFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getAsthmaFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getCkdFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getPalliativeCareFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getChfFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getNcdOtherFollowupEncounterType());
-                ncdTypes.add(ccMetadata.getMentalHealthFollowupEncounterType());
-                for (EncounterType et : ncdTypes) {
-                    Encounter e = latestByType.get(et);
-                    if (e != null) {
-                        Date encounterDate = e.getEncounterDatetime();
-                        Date apptDate = getObsValueOnDate(hivMetadata.getAppointmentDateConcept(), encounterDate, context);
-                        ncdList.add(new AppointmentInfo(today, e.getEncounterType().getName(), encounterDate, apptDate));
-                    }
+            List<AppointmentInfo> ncdList = new ArrayList<AppointmentInfo>();
+
+            List<ProgramWorkflowState> activeNcdStates = ccMetadata.getActiveChronicCareStates();
+
+            List<EncounterType> ncdTypes = new ArrayList<EncounterType>();
+            ncdTypes.add(ccMetadata.getHtnDiabetesFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getEpilepsyFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getAsthmaFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getCkdFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getPalliativeCareFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getChfFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getNcdOtherFollowupEncounterType());
+            ncdTypes.add(ccMetadata.getMentalHealthFollowupEncounterType());
+            for (EncounterType et : ncdTypes) {
+                AppointmentInfo ncdApp = getData(df.getAppointmentStatus(activeNcdStates, et), context);
+                if (ncdApp.isCurrentlyEnrolled() && ncdApp.getLastEncounterDate() != null) {
+                    ncdList.add(ncdApp);
                 }
-                appts.put("CCC", ncdList);
             }
+            appts.put("CCC", ncdList);
 
             model.addAttribute("appointmentStatuses", appts);
-
-            Collections.reverse(encounters);
-            model.addAttribute("encounters", encounters);
         }
         catch (Exception e) {
             model.addAttribute("errors", e.getMessage());
@@ -273,18 +261,6 @@ public class PrintableSummaryPageController {
         catch (EvaluationException e) {
             throw new IllegalArgumentException("Unable to evaluate definition for patient", e);
         }
-    }
-
-    protected AppointmentInfo getAppointmentInfo(Map<EncounterType, Encounter> latestByType, EncounterType type, Concept apptDateConcept, EvaluationContext context) {
-	    AppointmentInfo appInfo = new AppointmentInfo(new Date(), type.getName(), null, null);
-        Encounter e = latestByType.get(type);
-	    if (e != null) {
-            Date encounterDate = e.getEncounterDatetime();
-            Date apptDate = getObsValueOnDate(apptDateConcept, encounterDate, context);
-            appInfo.setLastEncounterDate(encounterDate);
-            appInfo.setNextScheduledDate(apptDate);
-        }
-        return appInfo;
     }
 
     /**
