@@ -14,7 +14,6 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.definition;
 
 import org.openmrs.EncounterType;
-import org.openmrs.Location;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.common.AppointmentInfo;
 import org.openmrs.module.reporting.common.Localized;
@@ -31,14 +30,11 @@ import java.util.List;
 @Localized("pihmalawi.AppointmentDataDefinition")
 public class AppointmentStatusDataDefinition extends BaseDataDefinition implements PatientDataDefinition {
 
-    @ConfigurationProperty
+    @ConfigurationProperty(required = true)
     private List<ProgramWorkflowState> activeStates;
 
-    @ConfigurationProperty
-    private List<EncounterType> encounterTypes;
-
-    @ConfigurationProperty
-    private List<Location> locations;
+    @ConfigurationProperty(required = true)
+    private EncounterType encounterType;
 
     @ConfigurationProperty
     private Date onDate;
@@ -69,20 +65,12 @@ public class AppointmentStatusDataDefinition extends BaseDataDefinition implemen
         this.activeStates = activeStates;
     }
 
-    public List<EncounterType> getEncounterTypes() {
-        return encounterTypes;
+    public EncounterType getEncounterType() {
+        return encounterType;
     }
 
-    public void setEncounterTypes(List<EncounterType> encounterTypes) {
-        this.encounterTypes = encounterTypes;
-    }
-
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
+    public void setEncounterType(EncounterType encounterType) {
+        this.encounterType = encounterType;
     }
 
     public Date getOnDate() {

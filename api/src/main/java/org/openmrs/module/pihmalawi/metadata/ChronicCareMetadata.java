@@ -63,6 +63,7 @@ public class ChronicCareMetadata extends CommonMetadata {
     public List<ProgramWorkflowState> getActiveChronicCareStates() {
         List<ProgramWorkflowState> l = new ArrayList<ProgramWorkflowState>();
         l.add(getChronicCareStatusOnTreatment());
+        l.add(getChronicCareStatusInAdvancedCare());
         return l;
     }
 
@@ -157,6 +158,22 @@ public class ChronicCareMetadata extends CommonMetadata {
         l.add(getMentalHealthFollowupEncounterType());
         return l;
     }
+
+    public EncounterType getNcdOtherFollowupEncounterType() {
+		return getEncounterType(EncounterTypes.NCD_OTHER_FOLLOWUP.uuid());
+	}
+
+	public EncounterType getCkdFollowupEncounterType() {
+		return getEncounterType(EncounterTypes.CKD_FOLLOWUP.uuid());
+	}
+
+	public EncounterType getPalliativeCareFollowupEncounterType() {
+		return getEncounterType(EncounterTypes.PALLIATIVE_FOLLOWUP.uuid());
+	}
+
+	public EncounterType getChfFollowupEncounterType() {
+		return getEncounterType(EncounterTypes.CHF_FOLLOWUP.uuid());
+	}
 
     public List<EncounterType> getChronicCareInitialEncounterTypes() {
         List<EncounterType> l = new ArrayList<EncounterType>();

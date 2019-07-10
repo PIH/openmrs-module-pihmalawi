@@ -31,17 +31,19 @@ import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.data.converter.ObsValueConverter;
 import org.openmrs.module.reporting.data.encounter.EncounterData;
 import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.encounter.service.EncounterDataService;
 import org.openmrs.module.reporting.data.patient.PatientData;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
+import org.openmrs.module.reporting.data.patient.definition.PersonToPatientDataDefinition;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
+import org.openmrs.module.reporting.data.person.definition.ObsForPersonDataDefinition;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.context.EncounterEvaluationContext;
-import org.openmrs.module.reporting.query.encounter.EncounterIdSet;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -156,25 +158,25 @@ public class NcdInwardSummaryPageController {
                     Encounter latestEncounter = (Encounter)evaluate(df.getMostRecentEncounterOfTypesByEndDate(section.getTypes(), null), context);
                     if (latestEncounter != null) {
                         section.setLatestEncounterDate(latestEncounter.getEncounterDatetime());
-                        Obs nextApptDate = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getAppointmentDateConcept(), section.getTypes(), null), context);
-                        if (nextApptDate != null && latestEncounter.equals(nextApptDate.getEncounter())) {
-                            section.setNextAppointmentDate(nextApptDate.getValueDate());
+                        Obs nextApptDateObs = (Obs) evaluate(df.getMostRecentObsOnGivenDate(ccMetadata.getAppointmentDateConcept(), latestEncounter.getEncounterDatetime()), context);
+                        if (nextApptDateObs != null) {
+                            section.setNextAppointmentDate(nextApptDateObs.getValueDatetime());
                         }
 
                         if (section.getKey().equals("htn") || section.getKey().equals("diabetes")) {
                             String bp = "None recorded";
-                            Obs lastSystolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), section.getTypes(), null), context);
-                            Obs lastDiastolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), section.getTypes(), null), context);
+                            Obs lastSystolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, null), context);
+                            Obs lastDiastolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, null), context);
                             if (lastSystolicBp != null && lastDiastolicBp != null) {
                                 bp = lastSystolicBp.getValueNumeric().intValue() + " / " + lastDiastolicBp.getValueNumeric().intValue();
                             }
                             section.addObsValue("Last Blood Pressure", bp);
                         }
                         if (section.getKey().equals("diabetes")) {
-                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), section.getTypes(), null), context);
+                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, null), context);
                             section.addObsValue("Last HbA1c result", ui.format(lastHba1cResult));
 
-                            Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), section.getTypes(), null), context);
+                            Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, null), context);
                             if (bloodSugarResult != null) {
                                 Obs bloodSugarTestType = getSibling(bloodSugarResult, ccMetadata.getBloodSugarTestTypeConcept());
                                 String resultStr = ui.format(bloodSugarResult) + " on " + ui.format(bloodSugarResult.getObsDatetime());
@@ -185,8 +187,7 @@ public class NcdInwardSummaryPageController {
                             }
                         }
 
-                        EncounterEvaluationContext eec = new EncounterEvaluationContext(context, new EncounterIdSet(latestEncounter.getEncounterId()));
-                        List<Obs> meds = (List<Obs>)evaluate(df.getListOfObsForEncounter(ccMetadata.getCurrentDrugsUsedConcept()), eec);
+                        List<Obs> meds = (List<Obs>)evaluate(df.getAllObsOnGivenDate(ccMetadata.getCurrentDrugsUsedConcept(), latestEncounter.getEncounterDatetime()), context);
                         section.setCurrentMedications(meds);
                     }
                 }
@@ -270,7 +271,7 @@ public class NcdInwardSummaryPageController {
                 dateRow.put(key, o);
             }
         }
-    };
+    }
 
     class DiagnosisSection {
 

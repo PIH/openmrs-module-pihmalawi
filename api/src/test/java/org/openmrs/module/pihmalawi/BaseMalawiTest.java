@@ -10,11 +10,16 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.PatientProgram;
+import org.openmrs.PatientState;
+import org.openmrs.Program;
+import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
+import org.openmrs.contrib.testdata.builder.PatientProgramBuilder;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.Metadata;
@@ -31,6 +36,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @SkipBaseSetup
 public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
@@ -94,6 +101,10 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
         return tdm.encounter().patient(p).encounterDatetime(encounterDate).encounterType(type);
     }
 
+    protected PatientProgramBuilder createPatientProgram(Patient p, Program program, Date dateEnrolled, Date dateCompleted) {
+        return tdm.patientProgram().patient(p).program(program).dateEnrolled(dateEnrolled).dateCompleted(dateCompleted);
+    }
+
     protected ObsBuilder createObs(Encounter e, Concept question, Object value) {
         ObsBuilder ob = tdm.obs().encounter(e).concept(question);
         if (value != null) {
@@ -117,6 +128,18 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
             }
         }
         return ob;
+    }
+
+    protected PatientState createState(PatientProgram pp, ProgramWorkflowState state, Date startDate) {
+        PatientState ps = new PatientState();
+        ps.setPatientProgram(pp);
+        ps.setState(state);
+        ps.setStartDate(startDate);
+        Set<PatientState> states = new HashSet<PatientState>();
+        states.add(ps);
+        pp.setStates(states);
+        tdm.getProgramWorkflowService().savePatientProgram(pp);
+        return ps;
     }
 
     protected Obs voidObs(Obs o) {

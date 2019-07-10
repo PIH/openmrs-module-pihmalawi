@@ -11,7 +11,7 @@
 	</appender>
 
     <logger name="org.openmrs.module.pihmalawi.data.LivePatientDataSet">
-        <level value="DEBUG" />
+        <level value="INFO" />
         <appender-ref ref="CONSOLE" />
     </logger>
 
@@ -37,6 +37,11 @@
 
 	<logger name="org.openmrs.module.reporting.dataset.definition.evaluator">
 		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<logger name="org.openmrs.api">
+		<level value="WARN" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
 
