@@ -263,27 +263,32 @@ public class EMastercardAccessTag extends BodyTagSupport {
 	}
 
     protected String createNewCardHtmlTag(Patient p, Form f) {
-		String uuid = UUID.randomUUID().toString();
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a onclick=\"window.location.href='"
-                    + newMasterCardConfig
-                    + "&patientId="+p.getPatientId()
-                    + "&encounterDate=' + document.getElementById('date-" + uuid + "').value"
-                    +"\">";
-        }
+
+			String uuid = UUID.randomUUID().toString();
+
+			// special case here to allow us to pre-pick the encounter date
+			link = "<a onclick=\"window.location.href='"
+					+ newMasterCardConfig
+					+ "&patientId=" + p.getPatientId()
+					+ "&encounterDate=' + $j.datepicker.formatDate('yy-mm-dd', $j.datepicker.parseDate('dd/mm/yy', $j('#date-" + uuid + "').val()))"
+					+ "\">";
+
+			return link + "Create new " + f.getName() + "</a> on " + dateTag("date-" + uuid, "date-" + uuid);
+		}
         else {
-            link = "<a onclick=\"window.location.href='/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
+
+        	link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
                     + p.getPersonId()
                     + "&patientId="
                     + p.getPatientId()
                     + "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId="
-                    + f.getFormId()
-					+ "&encounterDate=' + document.getElementById('date-" + uuid + "').value"
-					+ "\">";
+                    + f.getFormId() + "\">";
+
+			return link + "Create new " + f.getName() + "</a>";
         }
-        return link + "Create new " + f.getName() + "</a>  " + dateTag("date-" + uuid, "date-" + uuid);
     }
 
     protected String getDetails(Patient p, Encounter initialEncounter) {
