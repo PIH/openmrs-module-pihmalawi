@@ -94,7 +94,7 @@ public class AppointmentStatusDataEvaluator implements PatientDataEvaluator {
                         if (latestEnc != null && latestEnc.equals(o.getEncounter())) {
                             ai.setNextScheduledDate(o.getValueDatetime());
                         } else {
-                            Date obsEncDate = o.getEncounter().getEncounterDatetime();
+                            Date obsEncDate = (o.getEncounter() == null ? o.getObsDatetime() : o.getEncounter().getEncounterDatetime());
                             Date encDate = latestEnc.getEncounterDatetime();
                             if (DateUtil.datesMatchWithFormat(obsEncDate, encDate, "yyyy-MM-dd")) {
                                 appDate = o.getValueDatetime();
