@@ -38,6 +38,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     public static final String TB_SCREENING_STATION_CONCEPT_UUID = "1bb40f5c-a8a2-4a1f-bead-ee8dcfac367b";
     public static final String TB_SCREENING_SET_CONCEPT_UUID = "6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478";
+    public static final String CERVICAL_CANCER_SCREENING_SET_CONCEPT_UUID = "4508D9EC-1355-461A-AB1D-74CF5A9C6F6F";
 
     public static final String TB_TESTING_STATION_CONCEPT_UUID = "23d0e9e2-f838-4f90-8d1e-e8e5d1a85ca7";
 
@@ -49,7 +50,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 34;
+        return 35;
     }
 
     @Override
@@ -329,17 +330,26 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         // Cervical cancer screening
         Concept normal           = MetadataUtils.existing(Concept.class, "6557a15c-977f-11e1-8993-905e29aff6c1");
         Concept abnormal         = MetadataUtils.existing(Concept.class, "6557a274-977f-11e1-8993-905e29aff6c1");
+        Concept neoplasm         = MetadataUtils.existing(Concept.class, "6545e2aa-977f-11e1-8993-905e29aff6c1");
+        Concept clinicalNotes    = MetadataUtils.existing(Concept.class, "655928e2-977f-11e1-8993-905e29aff6c1");
 
-        install(new ConceptBuilder("162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept cervicalCancerScreeningResults= install(new ConceptBuilder("162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(procedure)
                 .name("126850BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Colposcopy of cervix with acetic acid",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("126849BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB","VIA (visual inspection with acetic acid)",
                         Locale.ENGLISH, null)
-                .answers(normal,abnormal)
+                .answers(normal,abnormal, neoplasm, other)
                 .mapping(new ConceptMapBuilder("d0e78ae4-b6be-11e8-96f8-529269fb1459")
                     .type(sameAs).ensureTerm(ciel,"162816").build())
+                .build());
+
+        install(new ConceptBuilder(CERVICAL_CANCER_SCREENING_SET_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("461ED81E-5001-4ABF-BD88-CD3719F28150", "Cervical cancer screening set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(cervicalCancerScreeningResults, clinicalNotes)
                 .build());
 
         // Family planning
