@@ -2,9 +2,7 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 
 
 import org.openmrs.EncounterType;
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
-import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseEncounterDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibrary;
@@ -14,6 +12,7 @@ import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.data.encounter.library.BuiltInEncounterDataLibrary;
 import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibrary;
 import org.openmrs.module.reporting.dataset.definition.EncounterAndObsDataSetDefinition;
+import org.openmrs.module.reporting.dataset.definition.EncounterDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.query.encounter.definition.BasicEncounterQuery;
@@ -112,17 +111,7 @@ public class ChronicCareVisitReport extends ApzuDataExportManager{
         return rd;
     }
 
-    protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType) {
-        EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
-        dsd.setParameters(getParameters());
-
-        BasicEncounterQuery rowFilter = new BasicEncounterQuery();
-        rowFilter.addEncounterType(encounterType);
-        rowFilter.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
-        rowFilter.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
-        MappedParametersEncounterQuery q = new MappedParametersEncounterQuery(rowFilter, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
-        dsd.addRowFilter(Mapped.mapStraightThrough(q));
-
+    protected void addGeneralColumns(EncounterDataSetDefinition dsd) {
         dsd.addColumn("ENCOUNTER_ID", builtInEncounterData.getEncounterId(), "");
         dsd.addColumn("ENCOUNTER_DATETIME", builtInEncounterData.getEncounterDatetime(), "");
         dsd.addColumn("LOCATION", builtInEncounterData.getLocationName(), "");
@@ -141,6 +130,52 @@ public class ChronicCareVisitReport extends ApzuDataExportManager{
         dsd.addColumn("VILLAGE", basePatientData.getVillage(), "");
         dsd.addColumn("TA", basePatientData.getTraditionalAuthority(), "");
         dsd.addColumn("DISTRICT", basePatientData.getDistrict(), "");
+    }
+
+    protected void addIC3HeightAndWeight(EncounterDataSetDefinition dsd) {
+        dsd.addColumn("IC3_WEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+        dsd.addColumn("IC3_HEIGHT", baseEncounterData.getWeightObsReferenceValue(), "");
+    }
+
+    protected void addIC3NextAppt(EncounterDataSetDefinition dsd) {
+        dsd.addColumn("IC3_NEXT_APPOINTMENT_DATE", baseEncounterData.getNextAppointmentDateObsReferenceValue(), "");
+    }
+
+    protected void addIC3BloodPressure(EncounterDataSetDefinition dsd) {
+        dsd.addColumn("IC3_SYSTOLIC_BP", baseEncounterData.getSystolicBPObsReferenceValue(), "");
+        dsd.addColumn("IC3_DIASTOLIC_BP", baseEncounterData.getDiastolicBPObsReferenceValue(), "");
+    }
+
+    protected void addIC3HivTestResult(EncounterDataSetDefinition dsd) {
+        dsd.addColumn("IC3_HIV_TEST_RESULT", baseEncounterData.getHivTestResultObsReferenceValue(), "");
+    }
+
+
+    protected void addDataSet(ReportDefinition rd, String key, EncounterType encounterType) {
+        EncounterAndObsDataSetDefinition dsd = new EncounterAndObsDataSetDefinition();
+        dsd.setParameters(getParameters());
+
+        BasicEncounterQuery rowFilter = new BasicEncounterQuery();
+        rowFilter.addEncounterType(encounterType);
+        rowFilter.addParameter(new Parameter("onOrAfter", "On Or After", Date.class));
+        rowFilter.addParameter(new Parameter("onOrBefore", "On Or Before", Date.class));
+        MappedParametersEncounterQuery q = new MappedParametersEncounterQuery(rowFilter, ObjectUtil.toMap("onOrAfter=startDate,onOrBefore=endDate"));
+        dsd.addRowFilter(Mapped.mapStraightThrough(q));
+
+        addGeneralColumns(dsd);
+
+        if (key.contains("followup")) {
+            addIC3HeightAndWeight(dsd);
+            addIC3NextAppt(dsd);
+        }
+
+        if (key.equals("diabetes_followup")) {
+            addIC3BloodPressure(dsd);
+        }
+
+        if (key.equals("diabetes_tests")) {
+            addIC3HivTestResult(dsd);
+        }
 
         rd.addDataSetDefinition(key, Mapped.mapStraightThrough(dsd));
     }
