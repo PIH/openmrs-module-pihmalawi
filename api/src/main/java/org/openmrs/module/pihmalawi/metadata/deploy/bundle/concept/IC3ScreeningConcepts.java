@@ -47,10 +47,11 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
     public static final String REASON_NO_RESULT = "656fa450-977f-11e1-8993-905e29aff6c1";
     public static final String RECOMMENDED_NEXT_STEPS = "3ee10e6b-ee68-4238-99ee-1f132551e70e";
     public static final String REFER_TO_CLINICIAN = "6578ea56-977f-11e1-8993-905e29aff6c1";
+    public static final String BIOPSY_DONE = "1BCB4919-3FD2-4A2F-8F60-684CA797E0A2";
 
     @Override
     public int getVersion() {
-        return 35;
+        return 36;
     }
 
     @Override
@@ -333,6 +334,14 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
         Concept neoplasm         = MetadataUtils.existing(Concept.class, "6545e2aa-977f-11e1-8993-905e29aff6c1");
         Concept clinicalNotes    = MetadataUtils.existing(Concept.class, "655928e2-977f-11e1-8993-905e29aff6c1");
 
+        Concept biopsyDone = install(new ConceptBuilder(BIOPSY_DONE)
+                    .datatype(coded)
+                    .conceptClass(question)
+                    .name("1A83EC82-C0FD-4C17-AAB7-05EBDB7798C9", "Biopsy done",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                    .answers(yes,no)
+                    .build());
+
         Concept cervicalCancerScreeningResults= install(new ConceptBuilder("162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(coded)
                 .conceptClass(procedure)
@@ -349,7 +358,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
                 .conceptClass(convSet)
                 .name("461ED81E-5001-4ABF-BD88-CD3719F28150", "Cervical cancer screening set", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED) // locale-preferred
-                .setMembers(cervicalCancerScreeningResults, clinicalNotes)
+                .setMembers(cervicalCancerScreeningResults, biopsyDone, clinicalNotes)
                 .build());
 
         // Family planning
