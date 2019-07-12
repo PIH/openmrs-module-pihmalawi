@@ -125,6 +125,12 @@ public class BaseEncounterDataLibrary extends BaseDefinitionLibrary<EncounterDat
 		return df.convert(def, df.getObsValueCodedNameConverter());
 	}
 
+	@DocumentedDefinition(value = "hivTestResult")
+	public EncounterDataDefinition getHivTestResultObsReferenceValue() {
+    	EncounterDataDefinition def = df.getSingleObsForEncountersOnSameDate(hivMetadata.getHivTestResult());
+    	return df.convert(def, df.getObsValueCodedNameConverter());
+	}
+
 	@DocumentedDefinition(value = "ageAtEncounterDateInYears")
 	public EncounterDataDefinition getAgeAtEncounterDateInYears() {
 		return df.convert(getAgeAtEncounterDate(), new AgeConverter(AgeConverter.YEARS));
