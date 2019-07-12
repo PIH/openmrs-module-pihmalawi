@@ -22,9 +22,11 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class EMastercardAccessTag extends BodyTagSupport {
 
@@ -264,17 +266,29 @@ public class EMastercardAccessTag extends BodyTagSupport {
         String link = "";
         String newMasterCardConfig = getNewMasterCardConfiguration(f);
         if (newMasterCardConfig != null) {
-            link = "<a href=\"" + newMasterCardConfig + "&patientId="+p.getPatientId()+"\">";
-        }
+
+			String uuid = UUID.randomUUID().toString();
+
+			// special case here to allow us to pre-pick the encounter date
+			link = "<a onclick=\"window.location.href='"
+					+ newMasterCardConfig
+					+ "&patientId=" + p.getPatientId()
+					+ "&encounterDate=' + $j.datepicker.formatDate('yy-mm-dd', $j.datepicker.parseDate('dd/mm/yy', $j('#date-" + uuid + "').val()))"
+					+ "\">";
+
+			return link + "Create new " + f.getName() + "</a> on " + dateTag("date-" + uuid, "date-" + uuid);
+		}
         else {
-            link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
+
+        	link = "<a href=\"/openmrs/module/htmlformentry/htmlFormEntry.form?personId="
                     + p.getPersonId()
                     + "&patientId="
                     + p.getPatientId()
                     + "&returnUrl=%2fopenmrs%2fpatientDashboard.form&formId="
                     + f.getFormId() + "\">";
+
+			return link + "Create new " + f.getName() + "</a>";
         }
-        return link + "Create new " + f.getName() + "</a>";
     }
 
     protected String getDetails(Patient p, Encounter initialEncounter) {
@@ -301,6 +315,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
         String details = created + ", " + visited + ", " + rvd;
         return details;
     }
+
+	private String dateTag(String id, String name) {
+		String today = Context.getDateFormat().format(new Date());
+		return "<input type=\"text\" id=\"" + id + "\" name=\"" + name + "\" size=\"10\" onClick=\"showCalendar(this)\" value=\"" + today + "\" />";
+	}
 
 	public int doEndTag() {
 		patientId = null;
