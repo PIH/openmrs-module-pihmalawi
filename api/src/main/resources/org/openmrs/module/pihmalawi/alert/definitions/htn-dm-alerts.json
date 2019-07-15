@@ -27,7 +27,8 @@
     "categories": ["diabetes","blood-glucose","screening-eligibility"],
     "conditions": [
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])",
-      "missing(last_blood_sugar_result_date) || last_blood_sugar_result_date < today"
+      "missing(last_blood_sugar_result_date) || last_blood_sugar_result_date < today",
+      "missing(last_fasting_blood_sugar_result_date) || last_fasting_blood_sugar_result_date < today"
     ],
     "alert": "Routine glucose fingerstick",
     "action": "Perform glucose fingerstick",
@@ -39,6 +40,7 @@
     "conditions": [
       "missing(chronic_care_diagnoses) || (!missing(chronic_care_diagnoses) && !hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2]))",
       "missing(last_blood_sugar_result_date) || (!missing(last_blood_sugar_result_date) && yearsBetween(today, last_blood_sugar_result_date) >= 1)",
+      "missing(last_fasting_blood_sugar_result_date) || (!missing(last_fasting_blood_sugar_result_date) && yearsBetween(today, last_fasting_blood_sugar_result_date) >= 1)",
       "(age_years >= 30) || (age_years >= 18 && last_bmi > 25) || (!missing(chronic_care_diagnoses) && hasChronicCareDiagnosis(chronic_care_diagnoses, [hypertension])) || (family_history_diabetes == true)"
     ],
     "alert": "Routine glucose fingerstick",
