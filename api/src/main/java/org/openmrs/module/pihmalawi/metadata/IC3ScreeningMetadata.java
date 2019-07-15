@@ -58,6 +58,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getEncounterType(EncounterTypes.NURSE_EVALUATION.uuid());
     }
 
+    public EncounterType getCervicalScreeningEncounterType() {
+        return getEncounterType(EncounterTypes.CERVICAL_CANCER_SCREENING.uuid());
+    }
+
 
     // CONCEPTS
     public Concept getReferralSourceConcept() {
@@ -120,6 +124,15 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getConcept(SPUTUM_COLLECTED_CONCEPT_UUID);
     }
 
+    public Concept getCervicalCancerScreeningConstructConcept() {
+        return getConcept(IC3ScreeningConcepts.CERVICAL_CANCER_SCREENING_SET_CONCEPT_UUID);
+    }
+    public Concept getCervicalCancerScreeningResultsConcept() {
+        return getConcept(IC3ScreeningConcepts.CERVICAL_CANCER_SCREENING_RESULTS_CONCEPT_UUID);
+    }
+    public Concept getNormalConcept() {
+        return getConcept(IC3ScreeningConcepts.NORMAL_CONCEPT_UUID);
+    }
 }
 
 

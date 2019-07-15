@@ -201,6 +201,8 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_blood_sugar_result_date", df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_creatinine_result_date", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_creatinine_result", df.getMostRecentObsByEndDate(ccMetadata.getCreatinineConcept(), null, df.getObsValueNumericConverter()));
+        addColumn(dsd, "last_cervical_cancer_screening_result", df.getMostRecentObsByEndDate(screeningMetadata.getCervicalCancerScreeningResultsConcept(), null, df.getObsValueCodedConverter()));
+        addColumn(dsd, "last_cervical_cancer_screening_date", df.getMostRecentObsByEndDate(screeningMetadata.getCervicalCancerScreeningResultsConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_bmi", basePatientData.getLatestBmiNumericValueByEndDate());
         addColumn(dsd, "current_weight", df.getMostRecentObsOnDate(ccMetadata.getWeightConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "last_height", df.getMostRecentObsByEndDate(ccMetadata.getHeightConcept(), null, df.getObsValueNumericConverter()));

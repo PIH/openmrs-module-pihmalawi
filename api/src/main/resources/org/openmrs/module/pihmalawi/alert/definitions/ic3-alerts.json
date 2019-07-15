@@ -328,7 +328,8 @@
     "categories": ["cervical", "screening-eligibility"],
     "conditions": [
       "gender == female",
-      "age_years >= 15 && age_years <= 49"
+      "age_years >= 15 && age_years <= 49",
+      "(!missing(last_hiv_rapid_test_result_date) && (yearsBetween(today, last_hiv_rapid_test_result_date) < 3) && (last_hiv_rapid_test_result == negative) && yearsBetween(today, last_cervical_cancer_screening_date) >= 3) || (missing(last_hiv_rapid_test_result_date) &&  yearsBetween(today, last_cervical_cancer_screening_date) >= 1) || (!missing(last_hiv_rapid_test_result_date) && (last_hiv_rapid_test_result == positive)  &&  yearsBetween(today, last_cervical_cancer_screening_date) >= 1)"
     ],
     "alert": "Due for Cervical Cancer Screening",
     "action": "Screen for Cervical Cancer",

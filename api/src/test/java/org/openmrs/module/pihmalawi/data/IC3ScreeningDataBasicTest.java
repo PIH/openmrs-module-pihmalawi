@@ -603,10 +603,32 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     @Test
     public void getDataForPatient_shouldReturnEligibleForCervicalCancerScreening() throws Exception {
+        //https://pihemr.atlassian.net/browse/IS-204
 
         Patient patient = createPatient().age(32).save();
         patient.setGender("F");
         Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+
+        Encounter htcEncounter = createEncounter(patient, screeningMetadata.getHTCScreeningEncounterType(), DateUtil.getDateTime(currentYear -2 , currentMonth, currentDay)).save();
+        // HTC test about 2 years ago
+        // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
+        ObsBuilder htcGroupObsBuilder = createObs(htcEncounter, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs rapidTest = createObs(htcEncounter, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
+        Obs neagativeRapidTestResult = createObs(htcEncounter, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).save();
+        htcGroupObsBuilder.member(rapidTest);
+        htcGroupObsBuilder.member(neagativeRapidTestResult);
+        htcGroupObsBuilder.save();
+
+        // more than 3 years ago
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getCervicalScreeningEncounterType(), DateUtil.getDateTime(currentYear -3 , currentMonth-2, currentDay)).save();
+        ObsBuilder groupObsBuilder = createObs(enc1, screeningMetadata.getCervicalCancerScreeningConstructConcept(), null);
+        Obs cervicalScreening = createObs(enc1, screeningMetadata.getCervicalCancerScreeningResultsConcept(), screeningMetadata.getNormalConcept()).save();
+        groupObsBuilder.member(cervicalScreening);
+        groupObsBuilder.save();
 
         JsonObject patientData = screeningData.getDataForPatient(
                 patient.getPatientId(),

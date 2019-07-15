@@ -39,6 +39,8 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
     public static final String TB_SCREENING_STATION_CONCEPT_UUID = "1bb40f5c-a8a2-4a1f-bead-ee8dcfac367b";
     public static final String TB_SCREENING_SET_CONCEPT_UUID = "6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478";
     public static final String CERVICAL_CANCER_SCREENING_SET_CONCEPT_UUID = "4508D9EC-1355-461A-AB1D-74CF5A9C6F6F";
+    public static final String CERVICAL_CANCER_SCREENING_RESULTS_CONCEPT_UUID = "162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    public static final String NORMAL_CONCEPT_UUID = "6557a15c-977f-11e1-8993-905e29aff6c1";
 
     public static final String TB_TESTING_STATION_CONCEPT_UUID = "23d0e9e2-f838-4f90-8d1e-e8e5d1a85ca7";
 
@@ -329,7 +331,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // Cervical cancer screening
-        Concept normal           = MetadataUtils.existing(Concept.class, "6557a15c-977f-11e1-8993-905e29aff6c1");
+        Concept normal           = MetadataUtils.existing(Concept.class, NORMAL_CONCEPT_UUID);
         Concept abnormal         = MetadataUtils.existing(Concept.class, "6557a274-977f-11e1-8993-905e29aff6c1");
         Concept neoplasm         = MetadataUtils.existing(Concept.class, "6545e2aa-977f-11e1-8993-905e29aff6c1");
         Concept clinicalNotes    = MetadataUtils.existing(Concept.class, "655928e2-977f-11e1-8993-905e29aff6c1");
@@ -342,7 +344,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                     .answers(yes,no)
                     .build());
 
-        Concept cervicalCancerScreeningResults= install(new ConceptBuilder("162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept cervicalCancerScreeningResults= install(new ConceptBuilder(CERVICAL_CANCER_SCREENING_RESULTS_CONCEPT_UUID)
                 .datatype(coded)
                 .conceptClass(procedure)
                 .name("126850BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Colposcopy of cervix with acetic acid",
