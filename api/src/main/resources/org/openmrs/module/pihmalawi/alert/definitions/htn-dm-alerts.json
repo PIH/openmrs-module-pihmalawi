@@ -52,7 +52,7 @@
     "name": "abnormal-result-glucose-level",
     "categories": ["diabetes","blood-glucose", "abnormal-result", "enrollment-needed"],
     "conditions": [
-      "(!missing(current_fasting_blood_sugar_result_date) && current_fasting_blood_sugar_result > 126) || (!missing(current_blood_sugar_result_date) && current_blood_sugar_result > 200)"
+      "(!missing(current_fasting_blood_sugar_result_date) && current_fasting_blood_sugar_result > 126 && current_fasting_blood_sugar_result <= 400) || (!missing(current_blood_sugar_result_date) && current_blood_sugar_result > 200 && current_blood_sugar_result <= 400)"
     ],
     "alert": "Abnormal Glucose Level",
     "action": "Enroll in diabetes program",
