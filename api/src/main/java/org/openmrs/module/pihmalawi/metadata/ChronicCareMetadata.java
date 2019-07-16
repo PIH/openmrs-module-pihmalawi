@@ -240,6 +240,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public static final String BLOOD_SUGAR_TEST_RESULT_CONCEPT = "654a98b8-977f-11e1-8993-905e29aff6c1";
 	public static final String FASTING_BLOOD_SUGAR_GLUCOSE_CONCEPT = "160912AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	public static final String BLOOD_SUGAR_TEST_TYPE_CONCEPT = "65711e3e-977f-11e1-8993-905e29aff6c1";
+	public static final String FASTING_BLOOD_SUGAR_TEST_TYPE_CONCEPT = "65711c2c-977f-11e1-8993-905e29aff6c1";
 	public static final String CREATININE_CONCEPT = "657170a0-977f-11e1-8993-905e29aff6c1";
 	public static final String FAMILY_HISTORY_DIABETES = "657308fc-977f-11e1-8993-905e29aff6c1";
 
@@ -360,6 +361,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	public Concept getFastingBloodSugarGlucoseConcept() { return getConcept(FASTING_BLOOD_SUGAR_GLUCOSE_CONCEPT); }
 
     public Concept getBloodSugarTestTypeConcept() { return getConcept(BLOOD_SUGAR_TEST_TYPE_CONCEPT); }
+	public Concept getFastingBloodSugarTestTypeConcept() { return getConcept(FASTING_BLOOD_SUGAR_TEST_TYPE_CONCEPT); }
 
     public Concept getCreatinineConcept() { return getConcept(CREATININE_CONCEPT); }
 

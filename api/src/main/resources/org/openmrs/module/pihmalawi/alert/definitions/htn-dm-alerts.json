@@ -49,6 +49,26 @@
     "enabled": true
   },
   {
+    "name": "abnormal-result-glucose-level",
+    "categories": ["diabetes","blood-glucose", "abnormal-result", "enrollment-needed"],
+    "conditions": [
+      "(!missing(current_fasting_blood_sugar_result_date) && current_fasting_blood_sugar_result > 126) || (!missing(current_blood_sugar_result_date) && current_blood_sugar_result > 200)"
+    ],
+    "alert": "Abnormal Glucose Level",
+    "action": "Enroll in diabetes program",
+    "enabled": true
+  },
+  {
+    "name": "critical-result-glucose-level",
+    "categories": ["diabetes","blood-glucose", "critical-result"],
+    "conditions": [
+      "(!missing(current_fasting_blood_sugar_result_date) && (current_fasting_blood_sugar_result > 400 || current_fasting_blood_sugar_result < 70)) || (!missing(current_blood_sugar_result_date) && (current_blood_sugar_result > 400 || current_blood_sugar_result < 70))"
+    ],
+    "alert": "Critical Glucose Level",
+    "action": "Alert clinician",
+    "enabled": true
+  },
+  {
     "name": "routine-creatinine",
     "categories": ["diabetes", "appointment-report"],
     "conditions": [

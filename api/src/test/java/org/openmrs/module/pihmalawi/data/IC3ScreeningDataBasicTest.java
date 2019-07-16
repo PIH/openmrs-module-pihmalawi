@@ -859,4 +859,37 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
                 (Matcher) hasItem(hasProperty("name", is("positive-hiv-test-today"))));
 
     }
+
+
+    @Test
+    public void shouldReturnAbnormalGlucoselAlert() throws Exception {
+
+        Calendar cal = Calendar.getInstance();
+
+        Patient patient = createPatient().age(28).save();
+
+        // today
+        Encounter enc1 = createEncounter(patient, screeningMetadata.getBloodSugarScreeningEncounterType(), cal.getTime()).save();
+        // Blood Sugar Test Set
+        ObsBuilder groupObsBuilder = createObs(enc1, screeningMetadata.getBloodSugarTestSetConcept(), null);
+
+        Obs fastingTest = createObs(enc1, ccMetadata.getBloodSugarTestTypeConcept(), ccMetadata.getFastingBloodSugarTestTypeConcept()).save();
+        Obs fastingGlucoseLevel = createObs(enc1, ccMetadata.getFastingBloodSugarGlucoseConcept(), 140).save();
+        groupObsBuilder.member(fastingTest);
+        groupObsBuilder.member(fastingGlucoseLevel);
+        groupObsBuilder.save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("abnormal-result-glucose-level"))));
+
+    }
 }

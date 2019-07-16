@@ -62,6 +62,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getEncounterType(EncounterTypes.CERVICAL_CANCER_SCREENING.uuid());
     }
 
+    public EncounterType getBloodSugarScreeningEncounterType() {
+        return getEncounterType(EncounterTypes.BLOOD_SUGAR_SCREENING.uuid());
+    }
+
 
     // CONCEPTS
     public Concept getReferralSourceConcept() {
@@ -132,6 +136,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
     }
     public Concept getNormalConcept() {
         return getConcept(IC3ScreeningConcepts.NORMAL_CONCEPT_UUID);
+    }
+
+    public Concept getBloodSugarTestSetConcept() {
+        return getConcept(IC3ScreeningConcepts.BLOOD_SUGAR_TEST_SET_CONCEPT_UUID);
     }
 }
 

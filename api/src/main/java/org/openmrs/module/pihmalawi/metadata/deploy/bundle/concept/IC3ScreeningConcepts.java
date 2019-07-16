@@ -42,6 +42,8 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
     public static final String CERVICAL_CANCER_SCREENING_RESULTS_CONCEPT_UUID = "162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     public static final String NORMAL_CONCEPT_UUID = "6557a15c-977f-11e1-8993-905e29aff6c1";
 
+    public static final String BLOOD_SUGAR_TEST_SET_CONCEPT_UUID = "65711f4c-977f-11e1-8993-905e29aff6c1";
+
     public static final String TB_TESTING_STATION_CONCEPT_UUID = "23d0e9e2-f838-4f90-8d1e-e8e5d1a85ca7";
 
     public static final String NURSE_STATION_CONCEPT_UUID = "d74065b8-cecf-4ee9-bbba-07bb962e4164";
