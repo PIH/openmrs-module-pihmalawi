@@ -55,7 +55,6 @@
                   <td rowspan="2">Breastfeeding</td>
                   <td rowspan="2">Mother Status</td>
                   <td rowspan="2">Clin. Monit.</td>
-                  <td rowspan="2">HIV testing</td>
                   <td rowspan="2">HIV infection</td>
                   <td>CPT<br/>given</td>
                   <td>Next<br/>appointment</td>
@@ -110,15 +109,6 @@
                         <!-- Clin Monit. -->
                         <obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
                              answerLabels="NAD,Sick" />
-                    </td>
-                    <td>
-                        <!-- HIV testing -->
-                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$notDone"
-                             answerLabel="No" />
-                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$dbsDone"
-                             answerLabel="Dbs" />
-                        <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$rtDone"
-                             answerLabel="Rt" />
                     </td>
                     <td>
                         <!-- HIV infection -->
@@ -198,17 +188,6 @@
               <th>Clinical Monitoring</th>
               <td><obs conceptId="$clinMon" style="radio" answerConceptIds="$nothingAbnormal,$anySickness"
                    answerLabels="NAD,Sick" /></td>
-          </tr>
-          <tr>
-              <th>HIV testing</th>
-              <td>
-                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$notDone"
-                       answerLabel="Not done" />
-                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$dbsDone"
-                       answerLabel="DBS taken (PCR)" />
-                  <obs conceptId="$hivTestCompl" style="checkbox" answerConceptId="$rtDone"
-                       answerLabel="Rapid test done" />
-              </td>
           </tr>
           <tr>
               <th>HIV infection</th>
