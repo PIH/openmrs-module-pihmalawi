@@ -874,9 +874,10 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         ObsBuilder groupObsBuilder = createObs(enc1, screeningMetadata.getBloodSugarTestSetConcept(), null);
 
         Obs fastingTest = createObs(enc1, ccMetadata.getBloodSugarTestTypeConcept(), ccMetadata.getFastingBloodSugarTestTypeConcept()).save();
-        Obs fastingGlucoseLevel = createObs(enc1, ccMetadata.getFastingBloodSugarGlucoseConcept(), 140).save();
+        // we are only using
+        Obs randomGlucoseLevel = createObs(enc1, ccMetadata.getBloodSugarTestResultConcept(), 140).save();
         groupObsBuilder.member(fastingTest);
-        groupObsBuilder.member(fastingGlucoseLevel);
+        groupObsBuilder.member(randomGlucoseLevel);
         groupObsBuilder.save();
 
         JsonObject patientData = screeningData.getDataForPatient(
