@@ -163,7 +163,7 @@
 
                     <td>
                         <!--  Pulse rate -->
-                        <obs conceptId="$pulse"/>
+                        <obsreference conceptId="$pulse"/>
                     </td>
 
                     <td>
@@ -172,9 +172,9 @@
                     </td>
                     <td>
                         <!-- Serum Glucose -->
-                        <obs conceptId="$serumGlucose"/><br/>
-                        <obs conceptId="$glucoseTestType" answerConceptId="$fastingTest" style="checkbox"/>
-                        <obs conceptId="$glucoseTestType" answerConceptId="$randomTest" style="checkbox"/>
+                        <obsreference conceptId="$serumGlucose"/><br/>
+                        <obsreference conceptId="$glucoseTestType" answerConceptId="$fastingTest" style="checkbox"/>
+                        <obsreference conceptId="$glucoseTestType" answerConceptId="$randomTest" style="checkbox"/>
                     </td>
                     <td style="text-align: left;">
                         <!-- Tobacco -->
@@ -355,7 +355,7 @@
 
             <tr>
                 <th>Pulse rate</th>
-                <td><obs conceptId="$pulse" showUnits="true" /></td>
+                <td><obsreference conceptId="$pulse" showUnits="true" /></td>
             </tr>
 
             <tr rowspan="2">
@@ -364,12 +364,12 @@
                     <table>
                         <tr>
                             <th>HbA1C</th>
-                            <td><obs conceptId="$hbA1c" showUnits="true" /></td>
+                            <td><obsreference conceptId="$hbA1c" showUnits="true" /></td>
                         </tr>
                         <tr>
                             <th>Fasting blood sugar</th>
-                            <td><obs conceptId="$serumGlucose" showUnits="true" /><br/><br/>
-                                <obs conceptId="$glucoseTestType" answerConceptIds="$fastingTest,$randomTest" style="radio"/></td>
+                            <td><obsreference conceptId="$serumGlucose" showUnits="true" /><br/><br/>
+                                <obsreference conceptId="$glucoseTestType" answerConceptIds="$fastingTest,$randomTest" style="radio"/></td>
                         </tr>
                     </table>
                 </td>

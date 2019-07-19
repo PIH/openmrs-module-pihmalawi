@@ -81,7 +81,7 @@
 
                     <!-- Fingerstick -->
                     <td>
-                        <obs conceptId="887"/> <obs conceptId="6381" answerConceptId="6379" style="checkbox"/>
+                        <obsreference conceptId="887"/> <obsreference conceptId="6381" answerConceptId="6379" style="checkbox"/>
                     </td>
                     <td>
                         <!-- CHF NYHA Classification --> 
@@ -182,7 +182,7 @@
             <tr>
                 <th>Height</th>
                 <td class="focus-field">
-                    <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
+                    <obsreference conceptId="$height" id="heightInput" showUnits="true"/>
                 </td>
             </tr>
             <tr>
@@ -198,7 +198,7 @@
             <tr>
                 <th>Fingerstick (fasting)</th>
                 <td>
-                    <obs conceptId="887"/> <obs conceptId="6381" answerConceptId="6379" style="checkbox" answerLabel=""/>
+                    <obsreference conceptId="887"/> <obsreference conceptId="6381" answerConceptId="6379" style="checkbox" answerLabel=""/>
                 </td>
             </tr>
             <tr>
