@@ -199,6 +199,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "last_hiv_rapid_test_result_date", hivPatientData.getHivTestResultPropertyByEndDate(hivMetadata.getHivRapidTest(), "effectiveDate"));
         addColumn(dsd, "last_hba1c_result_date", df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "last_blood_sugar_result_date", df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsDatetimeConverter()));
+        addColumn(dsd, "current_blood_sugar_test_type", df.getMostRecentObsOnDate(ccMetadata.getBloodSugarTestTypeConcept(), null, df.getObsValueCodedConverter()));
         addColumn(dsd, "current_blood_sugar_result_date", df.getMostRecentObsOnDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsDatetimeConverter()));
         addColumn(dsd, "current_blood_sugar_result", df.getMostRecentObsOnDate(ccMetadata.getBloodSugarTestResultConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "last_fasting_blood_sugar_result_date", df.getMostRecentObsByEndDate(ccMetadata.getFastingBloodSugarGlucoseConcept(), null, df.getObsDatetimeConverter()));
