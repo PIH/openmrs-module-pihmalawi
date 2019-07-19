@@ -45,10 +45,6 @@
         years=2287
 
         enrollmentAge=3467
-        hivRapid=1040
-        notDone=1118
-        negative=664
-        positive=703
         inconclusive=1138
         hivPCR=844
         labLocation=8627
@@ -65,12 +61,6 @@
         suspectedHIVExposure=1062
         motherRegNo=8046
         motherARTstart=3586
-        hivTestConstruct=PIH Malawi:2168
-        hivTestType=PIH Malawi:1867
-        hivResultQual=PIH Malawi:2169
-        hivSampleDate=PIH Malawi:6108
-        labTestNumber=PIH Malawi:3564
-        hivResultDate=PIH Malawi:6110
         period=8554
         setAge=8550
         unitAge=2286
@@ -351,81 +341,6 @@
                                 </td>
                             </tr>
                         </table>
-                    </td>
-
-                    <td style="vertical-align:top;">
-                    <h5>HIV Testing</h5>
-                    <table>
-                        <tr>
-                            <td>Sample Date</td>
-                            <th>Reason for Testing</th>
-                            <th>Lab Location</th>                            
-                            <td>Type</td>
-                            <td>Sample ID /<br/>HTC Serial No</td>
-                            <td>Result</td>
-                            <td>Date received<br/>from lab</td>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$hivTestConstruct">
-                                <td><obs conceptId="$hivSampleDate"/></td>
-                                <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                                <td><obs conceptId="$labLocation"/></td>
-                                <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                         answerLabels="DBS,RT" style="radio"/></td>
-                                <td><obs conceptId="$labTestNumber" /></td>
-                                <td><obs conceptId="$hivResultQual"
-                                         answerConceptIds="$negative,$positive,$inconclusive"
-                                         answerLabels="Neg,Pos,Inc"
-                                         style="radio" /></td>
-                                <td><obs conceptId="$hivResultDate" /></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$hivTestConstruct">
-                                <td><obs conceptId="$hivSampleDate"/></td>
-                                <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                                <td><obs conceptId="$labLocation"/></td>
-                                <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                         answerLabels="DBS,RT" style="radio"/></td>
-                                <td><obs conceptId="$labTestNumber" /></td>
-                                <td><obs conceptId="$hivResultQual"
-                                         answerConceptIds="$negative,$positive,$inconclusive"
-                                         answerLabels="Neg,Pos,Inc"
-                                         style="radio" /></td>
-                                <td><obs conceptId="$hivResultDate" /></td>
-                            </obsgroup>
-                        </tr>
-                        <tr>
-                            <obsgroup groupingConceptId="$hivTestConstruct">
-                                <td><obs conceptId="$hivSampleDate"/></td>
-                                <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                                <td><obs conceptId="$labLocation"/></td>
-                                <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                         answerLabels="DBS,RT" style="radio"/></td>
-                                <td><obs conceptId="$labTestNumber" /></td>
-                                <td><obs conceptId="$hivResultQual"
-                                         answerConceptIds="$negative,$positive,$inconclusive"
-                                         answerLabels="Neg,Pos,Inc"
-                                         style="radio" /></td>
-                                <td><obs conceptId="$hivResultDate" /></td>
-                            </obsgroup>
-                        </tr>   
-                        <tr>
-                            <obsgroup groupingConceptId="$hivTestConstruct">
-                                <td><obs conceptId="$hivSampleDate"/></td>
-                                <td><obs conceptId="$testingReason" answerConceptIds="$exposed,$presumed,$unknown"/></td>
-                                <td><obs conceptId="$labLocation"/></td>
-                                <td><obs conceptId="$hivTestType" answerConceptIds="$hivPCR,$hivRapid"
-                                         answerLabels="DBS,RT" style="radio"/></td>
-                                <td><obs conceptId="$labTestNumber" /></td>
-                                <td><obs conceptId="$hivResultQual"
-                                         answerConceptIds="$negative,$positive,$inconclusive"
-                                         answerLabels="Neg,Pos,Inc"
-                                         style="radio" /></td>
-                                <td><obs conceptId="$hivResultDate" /></td>
-                            </obsgroup>
-                        </tr>                        
-                    </table>
                     </td>
                 </tr>
             </table>
