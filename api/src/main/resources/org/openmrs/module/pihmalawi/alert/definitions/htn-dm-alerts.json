@@ -70,7 +70,7 @@
   },
   {
     "name": "routine-creatinine",
-    "categories": ["diabetes", "appointment-report"],
+    "categories": ["diabetes", "appointment-report", "screening-eligibility", "nurse" ],
     "conditions": [
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "yearsBetween(today, last_creatinine_result_date) >= 1",
@@ -78,11 +78,12 @@
     ],
     "alert": "Due for routine creatinine",
     "action": "Perform routine creatinine",
-    "notes": "All patients with diabetes or hypertension should have a creatinine test each year, and every year if the result is <1.5, should be recurring if not entered into EMR"
+    "notes": "All patients with diabetes or hypertension should have a creatinine test each year, and every year if the result is <1.5, should be recurring if not entered into EMR",
+    "enabled": true
   },
   {
     "name": "high-creatinine",
-    "categories": ["diabetes", "appointment-report"],
+    "categories": ["diabetes", "appointment-report", "screening-eligibility", "nurse" ],
     "conditions": [
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "monthsBetween(today, last_creatinine_result_date) >= 6",
@@ -90,6 +91,7 @@
     ],
     "alert": "High creatinine",
     "action": "Alert clinician",
-    "notes": "All patients with diabetes or hypertension with a creatinine of >/=1.5, should have a creatinine test every 6 months, should be recurring if not captured in EMR"
+    "notes": "All patients with diabetes or hypertension with a creatinine of >/=1.5, should have a creatinine test every 6 months, should be recurring if not captured in EMR",
+    "enabled": true
   }
 ]

@@ -100,6 +100,39 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     }
 
     @Test
+    public void shouldReturnHighCreatinineAlert() throws Exception {
+
+        Patient patient = createPatient().age(35).save();
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH) +1;
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        Date date1 = DateUtil.getDateTime(currentYear - 1, currentMonth, currentDay - 4);
+        Encounter enc1 = createEncounter(patient, ccMetadata.getHtnDiabetesInitialEncounterType(), date1).save();
+        Obs type1Diabetes = createObs(enc1, ccMetadata.getChronicCareDiagnosisConcept(), ccMetadata.getType1DiabetesConcept()).save();
+
+        Date date2 = DateUtil.getDateTime(currentYear, currentMonth - 8, currentDay - 4);
+        Encounter enc2 = createEncounter(patient, ccMetadata.getHtnDiabetesTestsEncounterType(), date2).save();
+        Obs creatinineResult = createObs(enc2, ccMetadata.getCreatinineConcept(), 1.7).save();
+
+        JsonObject patientData = screeningData.getDataForPatient(
+                patient.getPatientId(),
+                cal.getTime(),
+                hivMetadata.getLocation("Neno District Hospital"),
+                false);
+
+        assertThat(patientData.size(), greaterThan(0));
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                (Matcher) hasItem(hasProperty("name", is("high-creatinine"))));
+
+        assertThat(
+                (List<AlertDefinition>)patientData.get("alerts"),
+                not((Matcher) hasItem(hasProperty("name", is("routine-creatinine")))));
+    }
+
+    @Test
     public void shouldReturnRoutineViralLoadAlert() throws Exception {
 
         Patient patient = createPatient().age(32).save();
