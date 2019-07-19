@@ -26,10 +26,6 @@
         clinMon=8035
         nothingAbnormal=7920
         anySickness=8034
-        hivTestCompl=8560
-        notDone=1118
-        dbsDone=3658
-        rtDone=3657
         childHIVStatus=5303
         notHIVInfected=8043
         hivInfected=1169
