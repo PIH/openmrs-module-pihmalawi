@@ -6,6 +6,8 @@
 
   THE endDate PARAMETER IS USED PRIMARILY FOR AGE AND OTHER DATE-BASED
   CALCULATATIONS THAT MIGHT BE NEEDED
+
+  REQUIRES: identifier_type_by_uuid
 *************************************************************************/
 DROP PROCEDURE IF EXISTS create_mw_patient;
 CREATE PROCEDURE create_mw_patient(IN _endDate DATE)
@@ -15,7 +17,7 @@ BEGIN
     create temporary table mw_patient
     (
         patient_id            int primary key,
-        eid_number            varchar(20),
+        hcc_number            varchar(20),
         art_number            varchar(20),
         ccc_number            varchar(20),
         first_name            varchar(100),
@@ -104,9 +106,9 @@ BEGIN
 
     # IDENTIFIERS
 
-    set @arvNumber = '66784d84-977f-11e1-8993-905e29aff6c1';
-    set @hccNumber = '66786256-977f-11e1-8993-905e29aff6c1';
-    set @ccNumber = '11a76c3e-1db8-4d16-9252-9a18b5ed1843';
+    set @arvNumber = identifier_type_by_uuid('66784d84-977f-11e1-8993-905e29aff6c1');
+    set @hccNumber = identifier_type_by_uuid('66786256-977f-11e1-8993-905e29aff6c1');
+    set @ccNumber = identifier_type_by_uuid('11a76c3e-1db8-4d16-9252-9a18b5ed1843');
 
     update mw_patient mp
         inner join
@@ -123,7 +125,7 @@ BEGIN
                               patient_identifier pi
                            where
                               pi.voided = 0
-                                  and pi.identifier_type = identifier_type_by_uuid(@arvNumber)
+                                  and pi.identifier_type = @arvNumber
                                   and pi.patient_id = p.patient_id
                            order by
                               pi.preferred desc,
@@ -149,7 +151,7 @@ BEGIN
                               patient_identifier pi
                            where
                               pi.voided = 0
-                                  and pi.identifier_type = identifier_type_by_uuid(@hccNumber)
+                                  and pi.identifier_type = @hccNumber
                                   and pi.patient_id = p.patient_id
                            order by
                               pi.preferred desc,
@@ -158,7 +160,7 @@ BEGIN
                               1
                    )
         ) pi on pi.patient_id = mp.patient_id
-    set mp.eid_number = pi.identifier;
+    set mp.hcc_number = pi.identifier;
 
     update mw_patient mp
         inner join
@@ -175,7 +177,7 @@ BEGIN
                               patient_identifier pi
                            where
                               pi.voided = 0
-                                  and pi.identifier_type = identifier_type_by_uuid(@ccNumber)
+                                  and pi.identifier_type = @ccNumber
                                   and pi.patient_id = p.patient_id
                            order by
                               pi.preferred desc,

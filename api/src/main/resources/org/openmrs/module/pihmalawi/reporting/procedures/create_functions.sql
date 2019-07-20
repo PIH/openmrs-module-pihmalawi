@@ -33,3 +33,21 @@ BEGIN
     return ret;
 END
 ;
+
+/*
+    Return the program id for the given uuid
+*/
+DROP FUNCTION IF EXISTS program_by_uuid;
+CREATE FUNCTION program_by_uuid(_uuid CHAR(38))
+    RETURNS INT
+    DETERMINISTIC
+BEGIN
+    DECLARE ret INT;
+
+    SELECT program_id into ret
+    FROM program
+    WHERE uuid = _uuid;
+
+    return ret;
+END
+;
