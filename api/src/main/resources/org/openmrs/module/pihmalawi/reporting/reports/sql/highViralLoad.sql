@@ -8,8 +8,8 @@
 -- Report lists patients who have a high viral load based on the last available
 -- viral load observation (simply searches obs and joins demographic information).
 
-SET @endDate = '2019-06-30';
-SET @min_vl = 1000;
+# SET @endDate = '2019-06-30';
+# SET @min_vl = 1000;
 
 # CONSTRUCT TARGET TABLE THAT WE WILL POPULATE TO REPRESENT THE FULL EXPORT
 
