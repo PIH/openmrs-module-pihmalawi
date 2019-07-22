@@ -129,7 +129,8 @@ BEGIN
              order by patient_id,
                       start_date asc,
                       if(end_date is null, 1, 0) asc,
-                      end_date asc
+                      end_date asc,
+                      enrollment_status_id asc
          ) s;
 
     set @row_number = 0;
@@ -147,7 +148,8 @@ BEGIN
                      order by patient_id,
                               start_date desc,
                               if(end_date is null, 1, 0) desc,
-                              end_date desc
+                              end_date desc,
+                              enrollment_status_id desc
                  ) s
         ) ri on r.enrollment_status_id = ri.enrollment_status_id
     set r.num_from_end = ri.num;
