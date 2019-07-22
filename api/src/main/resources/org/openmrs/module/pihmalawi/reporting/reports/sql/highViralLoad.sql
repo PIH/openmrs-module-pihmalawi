@@ -163,5 +163,5 @@ SELECT identifier       as 'Identifier',
        current_reg_date as 'Current Regimen Start Date',
        current_reg      as 'Current Regimen'
 FROM rpt_high_vls
-ORDER BY identifier;
+ORDER BY identifier
 ;
