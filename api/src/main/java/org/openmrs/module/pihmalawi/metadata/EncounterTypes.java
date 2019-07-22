@@ -257,6 +257,11 @@ public class EncounterTypes {
         public String name() { return "Blood pressure screening"; }
         public String description() { return "Blood pressure screening encounter"; }
     };
+    public static EncounterTypeDescriptor LAB_STATION_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "6D29EEC4-6FEE-497C-9352-CA8081543FD6"; }
+        public String name() { return "IC3 Lab station results"; }
+        public String description() { return "Lab station results encounter"; }
+    };
     public static EncounterTypeDescriptor BLOOD_SUGAR_SCREENING = new EncounterTypeDescriptor() {
         public String uuid() { return "D8D67095-0AAC-4B61-87B3-A2B32B7E1FEE"; }
         public String name() { return "Blood sugar screening"; }

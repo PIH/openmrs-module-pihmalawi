@@ -1,26 +1,30 @@
 [
   {
-    "name": "routine-hba1c-dm-type-1",
-    "categories": ["diabetes","screening-eligibility"],
+    "name": "eligible-for-a1c-screening-type-1",
+    "categories": ["a1c","screening-eligibility"],
     "conditions": [
-      "has(chronic_care_diagnoses, diabetes_type_1)",
-      "monthsBetween(today, last_hba1c_result_date) >= 3"
+      "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_1])",
+      "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 3)"
+
     ],
-    "alert": "Routine HbA1C for DM type 1",
     "action": "Do routine HbA1C",
-    "notes": "All patients with DM type 1 should have a HbA1C every 3 months"
+    "alert": "Routine HbA1C for DM type 1",
+    "notes": "TODO: enrolled AND diabetes type 1 AND last a1c >= 3m ago",
+    "enabled": true
   },
   {
-    "name": "routine-hba1c-dm-type-2",
-    "categories": ["diabetes","screening-eligibility"],
+    "name": "eligible-for-a1c-screening-type-2",
+    "categories": ["a1c","lab-station", "screening-eligibility"],
     "conditions": [
-      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_2])",
-      "hasNot(chronic_care_diagnoses, diabetes_type_1)",
-      "monthsBetween(today, last_hba1c_result_date) >= 6"
+      "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
+      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_2])",
+      "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 6)"
     ],
-    "alert": "Routine HBA1C for DM type 2",
     "action": "Do routine HbA1C",
-    "notes": "All patients with DM type 2 should have a HbA1C every 6 months"
+    "alert": "Routine HbA1C for DM type 2",
+    "notes": "enrolled AND diabetes type 2 AND last a1c >= 6m ago",
+    "enabled": true
   },
   {
     "name": "routine-fingerstick-diabetes",
@@ -70,7 +74,7 @@
   },
   {
     "name": "routine-creatinine",
-    "categories": ["diabetes", "appointment-report", "screening-eligibility", "nurse" ],
+    "categories": ["diabetes", "appointment-report", "lab-station", "screening-eligibility", "nurse" ],
     "conditions": [
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "yearsBetween(today, last_creatinine_result_date) >= 1",
@@ -83,7 +87,7 @@
   },
   {
     "name": "high-creatinine",
-    "categories": ["diabetes", "appointment-report", "screening-eligibility", "nurse" ],
+    "categories": ["diabetes", "appointment-report", "lab-station", "screening-eligibility", "nurse" ],
     "conditions": [
       "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2, hypertension])",
       "monthsBetween(today, last_creatinine_result_date) >= 6",

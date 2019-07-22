@@ -72,6 +72,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.CHECK_IN);
         install(EncounterTypes.BLOOD_PRESSURE_SCREENING);
         install(EncounterTypes.BLOOD_SUGAR_SCREENING);
+        install(EncounterTypes.LAB_STATION_SCREENING);
         install(EncounterTypes.NUTRITION_SCREENING);
         install(EncounterTypes.NURSE_EVALUATION);
         install(EncounterTypes.HTC_SCREENING);

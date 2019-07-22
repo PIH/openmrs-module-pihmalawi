@@ -66,6 +66,10 @@ public class IC3ScreeningMetadata extends CommonMetadata {
         return getEncounterType(EncounterTypes.BLOOD_SUGAR_SCREENING.uuid());
     }
 
+    public EncounterType getLabStationResultsEncounterType() {
+        return getEncounterType(EncounterTypes.LAB_STATION_SCREENING.uuid());
+    }
+
 
     // CONCEPTS
     public Concept getReferralSourceConcept() {

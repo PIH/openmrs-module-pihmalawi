@@ -35,65 +35,6 @@
     "enabled": true
   },
   {
-    "name": "eligible-for-blood-glucose-screening-enrolled",
-    "categories": ["blood-glucose","screening-eligibility"],
-    "conditions": [
-      "!missing(chronic_care_diagnoses)",
-      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes, diabetes_type_1, diabetes_type_2])"
-    ],
-    "alert": "Diabetes patient for glucose fingerstick",
-    "action": "Perform glucose fingerstick",
-    "notes": "This is for disease monitoring, treatment adjustment",
-    "enabled": true
-  },
-  {
-    "name": "abnormal-result-blood-glucose",
-    "categories": ["blood-glucose","abnormal-result", "enrollment-needed"],
-    "conditions": [
-      "TODO: Fasting FS >126 or Random FS >200"
-    ],
-    "alert": "TODO",
-    "notes": "",
-    "enabled": false
-  },
-  {
-    "name": "critical-result-blood-glucose",
-    "categories": ["blood-glucose","critical-result"],
-    "conditions": [
-      "TODO: FS>400 or FS<70"
-    ],
-    "alert": "TODO",
-    "notes": "",
-    "enabled": false
-  },
-  {
-    "name": "eligible-for-a1c-screening-type-1",
-    "categories": ["a1c","screening-eligibility"],
-    "conditions": [
-      "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
-      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_1])",
-      "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 3)"
-
-    ],
-    "action": "Do routine HbA1C",
-    "alert": "Routine HbA1C for DM type 1",
-    "notes": "TODO: enrolled AND diabetes type 1 AND last a1c >= 3m ago",
-    "enabled": true
-  },
-  {
-    "name": "eligible-for-a1c-screening-type-2",
-    "categories": ["a1c","screening-eligibility"],
-    "conditions": [
-      "(cc_treatment_status == on_treatment) || (cc_treatment_status == in_advanced_care)",
-      "hasChronicCareDiagnosis(chronic_care_diagnoses, [diabetes_type_2])",
-      "missing(last_hba1c_result_date) || (!missing(last_hba1c_result_date) && monthsBetween(today, last_hba1c_result_date) >= 6)"
-    ],
-    "action": "Do routine HbA1C",
-    "alert": "Routine HbA1C for DM type 2",
-    "notes": "enrolled AND diabetes type 2 AND last a1c >= 6m ago",
-    "enabled": true
-  },
-  {
     "name": "abnormal-result-a1c",
     "categories": ["a1c","abnormal-result", "enrollment-needed"],
     "conditions": [
