@@ -51,3 +51,21 @@ BEGIN
     return ret;
 END
 ;
+
+/*
+    Return the encounter type id for the given uuid
+*/
+DROP FUNCTION IF EXISTS encounter_type_by_uuid;
+CREATE FUNCTION encounter_type_by_uuid(_uuid CHAR(38))
+    RETURNS INT
+    DETERMINISTIC
+BEGIN
+    DECLARE ret INT;
+
+    SELECT encounter_type_id into ret
+    FROM encounter_type
+    WHERE uuid = _uuid;
+
+    return ret;
+END
+;

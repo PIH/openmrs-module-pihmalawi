@@ -51,6 +51,7 @@ call create_mw_patient(@endDate);
 call create_mw_viral_load(@endDate);
 call create_mw_regimen(@endDate);
 call create_mw_hiv_enrollment(@endDate);
+call create_mw_hiv_visit(@endDate);
 
 # FIRST POPULATE THE BASE SET OF PATIENTS THAT THIS REPORT WILL CONTAIN
 # ACTIVE PATIENTS IN THE HIV PROGRAM WHOSE LATEST VIRAL LOAD IS HIGH
@@ -71,10 +72,20 @@ where v.patient_id in (select patient_id from mw_hiv_enrollment where active = t
   and (v.vl_numeric is not null and v.vl_numeric >= @min_vl)
 ;
 
+# LOAD IN THE LATEST ENROLLMENT STATUS INFO
+
 update rpt_high_vls h
     inner join mw_hiv_enrollment_status s on h.patient_id = s.patient_id and s.num_from_end = 1
 set h.outcome      = s.state_name,
     h.outcome_date = s.start_date;
+
+# LOAD IN THE LATEST VISIT AND OBS INFO
+
+update rpt_high_vls h
+    inner join mw_hiv_visit v on h.patient_id = v.patient_id and v.num_from_end = 1
+    inner join location l on v.location_id = l.location_id
+set h.next_appt_date = v.next_appt_date,
+    h.next_appt_loc  = l.name;
 
 # LOAD SPECIFIC VIRAL LOAD RESULTS FOR THE PATIENT IN FROM THE MW_VIRAL_LOAD TABLE
 
@@ -98,6 +109,27 @@ update rpt_high_vls h
 set h.fourth_vl_date = v.vl_date,
     h.fourth_vl      = v.value_display;
 
+# LOAD SPECIFIC REGIMEN CHANGES IN FROM THE MW_REGIMEN_CHANGE TABLE
+
+update rpt_high_vls h
+    inner join mw_regimen_change v on h.patient_id = v.patient_id and v.num_from_start = 1
+set h.first_reg_date = v.regimen_date,
+    h.first_reg      = v.regimen_name;
+
+update rpt_high_vls h
+    inner join mw_regimen_change v on h.patient_id = v.patient_id and v.num_from_start = 2
+set h.second_reg_date = v.regimen_date,
+    h.second_reg      = v.regimen_name;
+
+update rpt_high_vls h
+    inner join mw_regimen_change v on h.patient_id = v.patient_id and v.num_from_start = 3
+set h.third_reg_date = v.regimen_date,
+    h.third_reg      = v.regimen_name;
+
+update rpt_high_vls h
+    inner join mw_regimen_change v on h.patient_id = v.patient_id and v.num_from_end = 1
+set h.current_reg_date = v.regimen_date,
+    h.current_reg      = v.regimen_name;
 
 # OUTPUT FINAL DATA SET
 # THIS SELECTS FROM THE MASTER TABLE, ELIMINATES PATIENTS WHO ARE NO LONGER ACTIVE
@@ -121,15 +153,15 @@ SELECT identifier     as 'Identifier',
        third_vl_date  as 'Third Viral Load Test Date',
        third_vl       as 'Third Viral Load Test Result',
        fourth_vl_date as 'Fourth Viral Load Test Date',
-       fourth_vl      as 'Fourth Viral Load Test Result'
-       # as 'Initial Regimen Start Date'
-       # as 'Initial Regimen'
-       # as 'Second Regimen Start date'
-       # as 'Second Regimen'
-       # as 'Third Regimen Start Date'
-       # as 'Third Regimen'
-       # as 'Current Regimen Start Date'
-       # as 'Current Regimen'
+       fourth_vl      as 'Fourth Viral Load Test Result',
+       first_reg_date as 'Initial Regimen Start Date',
+       first_reg as 'Initial Regimen',
+       second_reg_date as 'Second Regimen Start date',
+       second_reg as 'Second Regimen',
+       third_reg_date as 'Third Regimen Start Date',
+       third_reg as 'Third Regimen',
+       current_reg_date as 'Current Regimen Start Date',
+       current_reg as 'Current Regimen'
 
 FROM rpt_high_vls
 ;
