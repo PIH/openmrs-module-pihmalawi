@@ -22,6 +22,18 @@ BEGIN
         regimen_date_obs_id int
     );
 
+    drop temporary table if exists mw_regimen_change;
+    create temporary table mw_regimen_change
+    (
+        patient_id      int,
+        regimen_concept int,
+        regimen_date    date,
+        num_from_start  int,
+        num_from_end    int,
+        regimen_name    varchar(10),
+        regimen_line    int
+    );
+
     # DEFINE VARIABLES FOR SPECIFIC CONCEPT QUESTIONS TO LOOK UP
 
     set @arvReceived = concept_by_uuid('657ac57e-977f-11e1-8993-905e29aff6c1');
@@ -142,18 +154,6 @@ BEGIN
     # POPULATE REGIMEN CHANGE TABLE WITH
     # ROWS THE REPRESENT THE FIRST DATE OF EACH REGIMEN CHANGE
     # AND POPULATE WITH THE NAME AND LINE OF EACH REGIMEN
-
-    drop temporary table if exists mw_regimen_change;
-    create temporary table mw_regimen_change
-    (
-        patient_id      int,
-        regimen_concept int,
-        regimen_date    date,
-        num_from_start  int,
-        num_from_end    int,
-        regimen_name    varchar(10),
-        regimen_line    int
-    );
 
     insert into mw_regimen_change (patient_id, regimen_concept, regimen_date, num_from_start, num_from_end)
     select s.patient_id,
