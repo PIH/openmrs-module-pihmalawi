@@ -44,12 +44,12 @@ BEGIN
 
     update mw_hiv_visit v
     inner join (
-            select date(e.encounter_datetime) as encounter_date, date(o.value_datetime) as appt_date
+            select e.patient_id, date(e.encounter_datetime) as encounter_date, date(o.value_datetime) as appt_date
             from encounter e
                      inner join obs o
                                 on o.encounter_id = e.encounter_id and o.concept_id = @nextApptDate and e.voided = 0 and
                                    o.voided = 0
-        ) vo on v.encounter_date = vo.encounter_date
+        ) vo on v.patient_id = vo.patient_id and v.encounter_date = vo.encounter_date
     set v.next_appt_date = vo.appt_date;
 
     # SEQUENCE NUMBERS THAT ALLOW US TO EASILY RETRIEVE SPECIFIC OCCURANCES (EG. CURRENT)
