@@ -38,4 +38,29 @@
 			and crs.name in ('PIH','CIEL','PIH Malawi');
 		</sql>
 	</changeSet>
+
+	<changeSet id="pihmalawi-create-functions" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_functions.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="pihmalawi-create_mw_patient" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_mw_patient.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="pihmalawi-create_mw_regimen" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_mw_regimen.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="pihmalawi-create_mw_viral_load" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_mw_viral_load.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="pihmalawi-create_mw_hiv_enrollment" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_mw_hiv_enrollment.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="pihmalawi-create_mw_hiv_visit" author="mseaton" runAlways="true" runOnChange="true">
+		<sqlFile endDelimiter="#" path="org/openmrs/module/pihmalawi/reporting/procedures/create_mw_hiv_visit.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>
