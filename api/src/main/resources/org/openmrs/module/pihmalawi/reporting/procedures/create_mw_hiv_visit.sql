@@ -5,7 +5,9 @@
 
   REQUIRES: encounter_type_by_uuid
 *************************************************************************/
+
 DROP PROCEDURE IF EXISTS create_mw_hiv_visit;
+#
 CREATE PROCEDURE create_mw_hiv_visit(IN _endDate DATE)
 BEGIN
 
@@ -27,7 +29,7 @@ BEGIN
     set @preArtFollowup = encounter_type_by_uuid('664b8812-977f-11e1-8993-905e29aff6c1');
     set @nextApptDate = concept_by_uuid('6569cbd4-977f-11e1-8993-905e29aff6c1');
 
-    # VISIT TABLE POPULATION
+    -- VISIT TABLE POPULATION
 
     insert into mw_hiv_visit (encounter_id, patient_id, location_id, encounter_date, visit_type)
     select e.encounter_id,
@@ -40,7 +42,7 @@ BEGIN
     where e.voided = 0
       and e.encounter_type in (@artFollowup, @eidFollowup, @preArtFollowup);
 
-    # ADD SPECIFIC OBS THAT WE WANT TO QUERY FOR EACH ENCOUNTER
+    -- ADD SPECIFIC OBS THAT WE WANT TO QUERY FOR EACH ENCOUNTER
 
     update mw_hiv_visit v
     inner join (
@@ -52,7 +54,7 @@ BEGIN
         ) vo on v.patient_id = vo.patient_id and v.encounter_date = vo.encounter_date
     set v.next_appt_date = vo.appt_date;
 
-    # SEQUENCE NUMBERS THAT ALLOW US TO EASILY RETRIEVE SPECIFIC OCCURANCES (EG. CURRENT)
+    -- SEQUENCE NUMBERS THAT ALLOW US TO EASILY RETRIEVE SPECIFIC OCCURANCES (EG. CURRENT)
 
     drop temporary table if exists mw_enc_seq;
     create temporary table mw_enc_seq
@@ -107,3 +109,4 @@ BEGIN
     drop table mw_enc_seq;
 
 END
+#

@@ -1,7 +1,12 @@
 /*
+  This file contains common functions that are useful within the stored procedures defined in this folder
+*/
+
+/*
     Return the concept id for the given uuid
 */
 DROP FUNCTION IF EXISTS concept_by_uuid;
+#
 CREATE FUNCTION concept_by_uuid(_uuid CHAR(38))
     RETURNS INT
     DETERMINISTIC
@@ -14,12 +19,13 @@ BEGIN
 
     return ret;
 END
-;
+#
 
 /*
     Return the patient_identifier_type id for the given uuid
 */
 DROP FUNCTION IF EXISTS identifier_type_by_uuid;
+#
 CREATE FUNCTION identifier_type_by_uuid(_uuid CHAR(38))
     RETURNS INT
     DETERMINISTIC
@@ -32,12 +38,13 @@ BEGIN
 
     return ret;
 END
-;
+#
 
 /*
     Return the program id for the given uuid
 */
 DROP FUNCTION IF EXISTS program_by_uuid;
+#
 CREATE FUNCTION program_by_uuid(_uuid CHAR(38))
     RETURNS INT
     DETERMINISTIC
@@ -50,12 +57,13 @@ BEGIN
 
     return ret;
 END
-;
+#
 
 /*
     Return the encounter type id for the given uuid
 */
 DROP FUNCTION IF EXISTS encounter_type_by_uuid;
+#
 CREATE FUNCTION encounter_type_by_uuid(_uuid CHAR(38))
     RETURNS INT
     DETERMINISTIC
@@ -68,4 +76,4 @@ BEGIN
 
     return ret;
 END
-;
+#

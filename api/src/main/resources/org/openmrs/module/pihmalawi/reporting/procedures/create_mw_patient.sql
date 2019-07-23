@@ -9,7 +9,9 @@
 
   REQUIRES: identifier_type_by_uuid
 *************************************************************************/
+
 DROP PROCEDURE IF EXISTS create_mw_patient;
+#
 CREATE PROCEDURE create_mw_patient(IN _endDate DATE)
 BEGIN
 
@@ -30,7 +32,7 @@ BEGIN
         village               varchar(100)
     );
 
-    # NON-VOIDED WITH BASE DATA
+    -- NON-VOIDED WITH BASE DATA
 
     insert into mw_patient (patient_id, gender, birthdate, age_yrs)
     select p.patient_id,
@@ -44,7 +46,7 @@ BEGIN
            p.voided = 0
                and n.voided = 0;
 
-    # FIRST NAME AND LAST NAME
+    -- FIRST NAME AND LAST NAME
 
     update mw_patient p
         inner join
@@ -73,15 +75,15 @@ BEGIN
     set p.first_name = pi.given_name,
         p.last_name  = pi.family_name;
 
-    # ADDRESS DATA
+    -- ADDRESS DATA
 
     update mw_patient p
         inner join
         (
             select p.patient_id,
-                   a.state_province,  # District
-                   a.county_district, # Traditional Authority
-                   a.city_village     # Village
+                   a.state_province,  -- District
+                   a.county_district, -- Traditional Authority
+                   a.city_village     -- Village
                 from
                    patient p
                        left join person_address a on p.patient_id = a.person_id
@@ -104,7 +106,7 @@ BEGIN
         p.traditional_authority = pi.county_district,
         p.village               = pi.city_village;
 
-    # IDENTIFIERS
+    -- IDENTIFIERS
 
     set @arvNumber = identifier_type_by_uuid('66784d84-977f-11e1-8993-905e29aff6c1');
     set @hccNumber = identifier_type_by_uuid('66786256-977f-11e1-8993-905e29aff6c1');
@@ -189,3 +191,4 @@ BEGIN
     set mp.ccc_number = pi.identifier;
 
 END
+#

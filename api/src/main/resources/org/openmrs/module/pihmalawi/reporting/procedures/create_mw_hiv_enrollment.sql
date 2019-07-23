@@ -5,7 +5,10 @@
 
   REQUIRES: program_by_uuid, identifier_type_by_uuid
 *************************************************************************/
+
 DROP PROCEDURE IF EXISTS create_mw_hiv_enrollment;
+#
+
 CREATE PROCEDURE create_mw_hiv_enrollment(IN _endDate DATE)
 BEGIN
 
@@ -41,7 +44,7 @@ BEGIN
     set @hccNumber = identifier_type_by_uuid('66786256-977f-11e1-8993-905e29aff6c1');
     set @hivProgram = program_by_uuid('66850b0a-977f-11e1-8993-905e29aff6c1');
 
-    # ENROLLMENT TABLE POPULATION
+    -- ENROLLMENT TABLE POPULATION
 
     insert into mw_hiv_enrollment (enrollment_id, patient_id, location_id, date_enrolled, date_completed, active)
     select pp.patient_program_id,
@@ -56,7 +59,7 @@ BEGIN
     where pp.voided = 0
       and pp.program_id = @hivProgram;
 
-    # IDENTIFIERS ASSOCIATED WITH THE LOCATION OF THE ENROLLMENT
+    -- IDENTIFIERS ASSOCIATED WITH THE LOCATION OF THE ENROLLMENT
 
     update mw_hiv_enrollment e
         inner join
@@ -80,7 +83,7 @@ BEGIN
         on e.patient_id = pi.patient_id and e.location_id = pi.location_id
     set e.hcc_number = pi.identifier;
 
-    # STATUS TABLE POPULATION
+    -- STATUS TABLE POPULATION
 
     insert into mw_hiv_enrollment_status (enrollment_status_id, enrollment_id, patient_id, location_id, state_id,
                                           start_date, end_date)
@@ -95,7 +98,7 @@ BEGIN
              inner join mw_hiv_enrollment e on e.enrollment_id = ps.patient_program_id
     where ps.voided = 0;
 
-    # DISPLAY NAME FOR EACH STATE
+    -- DISPLAY NAME FOR EACH STATE
 
     update mw_hiv_enrollment_status s
         inner join program_workflow_state pws on program_workflow_state_id = s.state_id
@@ -103,7 +106,7 @@ BEGIN
                                       cn.concept_name_type = 'FULLY_SPECIFIED'
     set s.state_name = cn.name;
 
-    # SEQUENCE NUMBERS THAT ALLOW US TO EASILY RETRIEVE SPECIFIC OCCURANCES (EG. CURRENT)
+    -- SEQUENCE NUMBERS THAT ALLOW US TO EASILY RETRIEVE SPECIFIC OCCURANCES (EG. CURRENT)
 
     drop temporary table if exists mw_state_seq;
     create temporary table mw_state_seq
@@ -162,3 +165,4 @@ BEGIN
     drop table mw_state_seq;
 
 END
+#

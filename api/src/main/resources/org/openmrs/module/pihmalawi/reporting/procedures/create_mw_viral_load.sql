@@ -3,7 +3,9 @@
 
   REQUIRES: concept_by_uuid
 *************************************************************************/
+
 DROP PROCEDURE IF EXISTS create_mw_viral_load;
+#
 CREATE PROCEDURE create_mw_viral_load(IN _endDate DATE)
 BEGIN
 
@@ -21,8 +23,8 @@ BEGIN
         num_from_end   int
     );
 
-    # A VIRAL LOAD CAN HAVE MULTIPLE RESULTS
-    # A NUMERIC, LDL, OR LESS THAN NUMERIC RESULT.  FLATTEN THESE TO A SINGLE ROW.
+    -- A VIRAL LOAD CAN HAVE MULTIPLE RESULTS
+    -- A NUMERIC, LDL, OR LESS THAN NUMERIC RESULT.  FLATTEN THESE TO A SINGLE ROW.
 
     set @vlNumeric = concept_by_uuid('654a7694-977f-11e1-8993-905e29aff6c1');
     set @ldl = concept_by_uuid('e97b36a2-16f5-11e6-b6ba-3e1d05defe78');
@@ -66,7 +68,7 @@ BEGIN
         on duplicate key update
            vl_less_than = o.value_numeric;
 
-    # NEXT, PROCESS THESE ROWS AND ASSIGN SEQUENCE NUMBERS TO EACH VIRAL LOAD DATE PER PATIENT
+    -- NEXT, PROCESS THESE ROWS AND ASSIGN SEQUENCE NUMBERS TO EACH VIRAL LOAD DATE PER PATIENT
 
     drop temporary table if exists mw_viral_load_seq;
     create temporary table mw_viral_load_seq
@@ -121,9 +123,10 @@ BEGIN
 
     drop temporary table mw_viral_load_seq;
 
-    # ADD A DISPLAY COLUMN THAT CONSOLIDATES ALL OF THE RESULT TYPES
+    -- ADD A DISPLAY COLUMN THAT CONSOLIDATES ALL OF THE RESULT TYPES
 
     update mw_viral_load
         set value_display = if(vl_ldl, 'LDL', if(vl_less_than is not null, concat('<', convert(vl_less_than, char)), convert(vl_numeric, char)));
 
 END
+#

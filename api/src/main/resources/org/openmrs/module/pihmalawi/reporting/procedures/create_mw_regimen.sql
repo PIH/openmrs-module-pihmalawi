@@ -6,7 +6,9 @@
 
   REQUIRES: concept_by_uuid
 *************************************************************************/
+
 DROP PROCEDURE IF EXISTS create_mw_regimen;
+#
 CREATE PROCEDURE create_mw_regimen(IN _endDate DATE)
 BEGIN
 
@@ -34,7 +36,7 @@ BEGIN
         regimen_line    int
     );
 
-    # DEFINE VARIABLES FOR SPECIFIC CONCEPT QUESTIONS TO LOOK UP
+    -- DEFINE VARIABLES FOR SPECIFIC CONCEPT QUESTIONS TO LOOK UP
 
     set @arvReceived = concept_by_uuid('657ac57e-977f-11e1-8993-905e29aff6c1');
     set @arvChange1 = concept_by_uuid('657ac678-977f-11e1-8993-905e29aff6c1');
@@ -44,7 +46,7 @@ BEGIN
     set @arvChangeDate2 = concept_by_uuid('655fabfe-977f-11e1-8993-905e29aff6c1');
     set @arvChangeDate3 = concept_by_uuid('655fad02-977f-11e1-8993-905e29aff6c1');
 
-    # ADD ALL OBSERVATIONS THE RECORD THE PATIENT'S ART REGIMEN
+    -- ADD ALL OBSERVATIONS THE RECORD THE PATIENT'S ART REGIMEN
 
     insert into mw_regimen (regimen_obs_id, encounter_id, patient_id, regimen_question, regimen_answer, regimen_date)
     select o.obs_id,
@@ -60,7 +62,7 @@ BEGIN
                and o.obs_datetime <= _endDate
                and o.concept_id in (@arvReceived, @arvChange1, @arvChange2, @arvChange3);
 
-    # FOR THOSE THAT HAVE SPECIFIC REGIMEN DATE OBS THAT MIGHT BE FILLED OUT, PULL THESE IN IF THEY EXIST
+    -- FOR THOSE THAT HAVE SPECIFIC REGIMEN DATE OBS THAT MIGHT BE FILLED OUT, PULL THESE IN IF THEY EXIST
 
     update mw_regimen r
         inner join obs o on r.encounter_id = o.encounter_id
@@ -86,7 +88,7 @@ BEGIN
       and o.concept_id = @arvChangeDate3
       and r.regimen_question = @arvChange3;
 
-    # ITERATE OVER EACH REGIMEN, AND SEQUENTIALLY NUMBER THOSE THAT REPRESENT CHANGES FOR A PATIENT
+    -- ITERATE OVER EACH REGIMEN, AND SEQUENTIALLY NUMBER THOSE THAT REPRESENT CHANGES FOR A PATIENT
 
     drop temporary table if exists mw_regimen_seq;
     create temporary table mw_regimen_seq
@@ -151,9 +153,9 @@ BEGIN
         ) ri on r.regimen_obs_id = ri.regimen_obs_id
     set r.num_from_end = ri.num;
 
-    # POPULATE REGIMEN CHANGE TABLE WITH
-    # ROWS THE REPRESENT THE FIRST DATE OF EACH REGIMEN CHANGE
-    # AND POPULATE WITH THE NAME AND LINE OF EACH REGIMEN
+    -- POPULATE REGIMEN CHANGE TABLE WITH
+    -- ROWS THE REPRESENT THE FIRST DATE OF EACH REGIMEN CHANGE
+    -- AND POPULATE WITH THE NAME AND LINE OF EACH REGIMEN
 
     insert into mw_regimen_change (patient_id, regimen_concept, regimen_date, num_from_start, num_from_end)
     select s.patient_id,
@@ -169,7 +171,7 @@ BEGIN
            s.num_from_start,
            s.num_from_end;
 
-    # DEFINE VARIABLES THE SPECIFIC REGIMENS
+    -- DEFINE VARIABLES THE SPECIFIC REGIMENS
 
     update mw_regimen_change set regimen_name = '0A', regimen_line = 1 where regimen_concept = concept_by_uuid('d5930c3a-cb57-11e5-9956-625662870761');
     update mw_regimen_change set regimen_name = '0P', regimen_line = 1 where regimen_concept = concept_by_uuid('d59315a4-cb57-11e5-9956-625662870761');
@@ -199,3 +201,4 @@ BEGIN
     drop temporary table mw_regimen_seq;
 
 END
+#
