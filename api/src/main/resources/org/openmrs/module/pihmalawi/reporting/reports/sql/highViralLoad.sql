@@ -1,12 +1,9 @@
 -- ## report_uuid = 2fe281be-3ff4-11e6-9d69-0f1641034c73
 -- ## design_uuid = 3ed8dbbe-3ff4-11e6-9d69-0f1641034c73
 -- ## report_name = HIV - High Viral Load Report
--- ## report_description = Report listing patients with a high viral load from last laboratory test.
+-- ## report_description = Report listing patients with a high viral load from last laboratory test  (revision: July 2019)
 -- ## parameter = endDate|End Date|java.util.Date
 -- ## parameter = min_vl|Minimum Viral Load|java.lang.Integer
-
--- Report lists patients who have a high viral load based on the last available
--- viral load observation (simply searches obs and joins demographic information).
 
 # SET @endDate = '2019-06-30';
 # SET @min_vl = 1000;
