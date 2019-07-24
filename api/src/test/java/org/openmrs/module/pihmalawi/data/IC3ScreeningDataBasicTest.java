@@ -589,7 +589,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Obs regDate2 = createObs(reg2Encounter, hivMetadata.getDateOfStartingAlternativeFirstLineArvsConcept(), d3).save();
 
         // Viral Load Test
-        Date lastViralLoadDate = DateUtil.getDateTime(2018, 4, 20);
+        Date lastViralLoadDate = DateUtil.getDateTime(2018, 2, 20);
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), lastViralLoadDate).save();
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getHivViralLoadTestSetConcept(), null);
         Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();

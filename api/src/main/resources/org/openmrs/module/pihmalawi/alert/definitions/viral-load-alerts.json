@@ -4,11 +4,11 @@
     "categories": ["viral-load", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
+      "daysBetween(today, last_art_regimen_change_date) > 168",
       "yearsBetween(today, last_art_regimen_change_date) < 1",
-      "missing(last_viral_load_date) || (last_viral_load_date < last_art_regimen_change_date)",
-      "daysBetween(today, last_art_regimen_change_date) > 182"
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_regimen_change_date)"
     ],
-    "alert": "Due for routine VL",
+    "alert": "No Viral Load",
     "action": "Perform routine VL",
     "notes": "Viral Load due at 6 months after ART initiation or change"
   },
@@ -17,10 +17,10 @@
     "categories": ["viral-load","screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
-      "yearsBetween(today, last_art_regimen_change_date) >= 1 && yearsBetween(today, last_art_regimen_change_date) < 2",
-      "missing(last_viral_load_date) || monthsBetween(today, last_viral_load_date) >= 6"
+      "daysBetween(today, last_art_regimen_change_date) > 336",
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_regimen_change_date)"
     ],
-    "alert": "Due for routine VL",
+    "alert": "No Viral Load in past 12 months",
     "action": "Perform routine VL",
     "notes": "Viral Load due at 12 months after ART initiation or change"
   },
@@ -34,7 +34,7 @@
     ],
     "alert": "Due for routine VL",
     "action": "Perform routine VL",
-    "notes": "Viral Load due at 2 years after ART initiation or change, and every year thereafter"
+    "notes": "Viral Load due at 1 year after ART initiation or change, and every year thereafter"
   },
   {
     "name": "due-for-adherence-counselling",
