@@ -16,6 +16,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.reporting.common.DateUtil;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -307,7 +308,9 @@ public class EMastercardAccessTag extends BodyTagSupport {
             Encounter lastFollowup = followups.get(followups.size() - 1);
             visited = "Visited: " + Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
             Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
-            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, null, 1, null, null, null, false);
+            Date startOfDay = DateUtil.getStartOfDay(lastFollowup.getEncounterDatetime());
+            Date endOfDay = DateUtil.getEndOfDay(lastFollowup.getEncounterDatetime());
+            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), null, Arrays.asList(appt), null, null, null, null, 1, null, startOfDay, endOfDay, false);
             if (!os.isEmpty()) {
                 rvd = "Appointment: " + Helper.formatDate(os.get(0).getValueDatetime());
             }
