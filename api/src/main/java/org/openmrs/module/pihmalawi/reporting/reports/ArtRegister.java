@@ -164,7 +164,7 @@ public class ArtRegister extends ApzuDataExportManager {
 		encDsd.addRowFilter(Mapped.mapStraightThrough(encounterQueries.getHivFollowupEncountersByEndDate()));
 		addColumn(encDsd, "encounterDate", builtInEncounterData.getEncounterDatetime());
 		addColumn(encDsd, "locationName", builtInEncounterData.getLocationName());
-		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsValue());
+		addColumn(encDsd, "appointmentDate", baseEncounterData.getNextAppointmentDateObsReferenceValue());
 		addColumn(encDsd, "encounterTypeName", builtInEncounterData.getEncounterTypeName());
 		encDsd.addSortCriteria("encounterDate", SortCriteria.SortDirection.ASC);
 
