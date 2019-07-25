@@ -46,7 +46,7 @@ public class MostRecentViralLoadResultConverter implements DataConverter  {
 	    if (original != null) {
             List<ViralLoad> viralLoads = (List<ViralLoad>) original;
             for (ViralLoad vl : viralLoads) {
-                if (vl.getResultLdl() != null || vl.getResultNumeric() != null) {
+                if (vl.getResultLdl() != null || vl.getLessThanResultNumeric() != null || vl.getResultNumeric() != null) {
                     if (ret == null || ret.getResultDate().before(vl.getResultDate())) {
                         ret = vl;
                     }
