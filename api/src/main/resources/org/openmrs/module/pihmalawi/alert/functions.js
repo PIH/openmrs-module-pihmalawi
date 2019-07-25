@@ -169,13 +169,13 @@ function getTestFirstDateByTypeAndValue(objectArray, testType, resultValue, retu
   return null;
 }
 
-function isDueForVL(art_start_date, last_art_regimen_change_date, last_viral_load_date, today) {
+function isDueForVL(art_start_date, last_art_line_regimen_change_date, last_viral_load_date, today) {
 
   var dueForVL = false;
 
-  if (!missing(last_art_regimen_change_date)) {
+  if (!missing(last_art_line_regimen_change_date)) {
     //java.lang.System.out.println("monthsBetween(today, last_viral_load_date): " + monthsBetween(today, last_viral_load_date));
-    dueForVL = ((monthsBetween(today, last_art_regimen_change_date) < 24) && (monthsBetween(today, last_viral_load_date) >= 6) ) || ((monthsBetween(today, last_art_regimen_change_date) >= 24) && (monthsBetween(today, last_viral_load_date) >= 12) );
+    dueForVL = ((monthsBetween(today, last_art_line_regimen_change_date) < 24) && (monthsBetween(today, last_viral_load_date) >= 6) ) || ((monthsBetween(today, last_art_line_regimen_change_date) >= 24) && (monthsBetween(today, last_viral_load_date) >= 12) );
   } else if (!missing(art_start_date)){
     dueForVL = ((monthsBetween(today, art_start_date) < 24) && (monthsBetween(today, last_viral_load_date) >= 6)) || ((monthsBetween(today, art_start_date) >= 24) && (monthsBetween(today, last_viral_load_date) >= 12));
   }

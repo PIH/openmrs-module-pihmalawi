@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.pihmalawi.metadata;
 
+import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
@@ -22,6 +23,7 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.MasterCardConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -204,6 +206,48 @@ public class CommonMetadata extends Metadata {
 
     public static final String BMI_CONCEPT = "655d615a-977f-11e1-8993-905e29aff6c1";
 
+    public static final List<String> FIRST_LINE_ARV_REGIMEN = Arrays.asList(
+			MasterCardConcepts.ZERO_P,
+    		MasterCardConcepts.ZERO_A,
+			MasterCardConcepts.TWO_P,
+			MasterCardConcepts.TWO_A,
+			MasterCardConcepts.FOUR_P,
+			MasterCardConcepts.FOUR_A,
+			MasterCardConcepts.FIVE_A,
+			MasterCardConcepts.SIX_A,
+			MasterCardConcepts.THIRTEEN_A,
+			MasterCardConcepts.FOURTEEN_A,
+			MasterCardConcepts.FIFTEEN_A
+	);
+
+	public static final List<String> SECOND_LINE_ARV_REGIMEN = Arrays.asList(
+			MasterCardConcepts.SEVEN_A,
+			MasterCardConcepts.EIGHT_A,
+			MasterCardConcepts.NINE_P,
+			MasterCardConcepts.NINE_A,
+			MasterCardConcepts.TEN_A,
+			MasterCardConcepts.ELEVEN_P,
+			MasterCardConcepts.ELEVEN_A
+	);
+
+	public static final List<String> THIRD_LINE_ARV_REGIMEN = Arrays.asList(
+			MasterCardConcepts.TWELFE_A
+	);
+
+	public static int getArvLineRegimen(String uuid) {
+		int line = -1;
+		if (StringUtils.isNotBlank(uuid)) {
+			line = 0;
+			if (FIRST_LINE_ARV_REGIMEN.contains(uuid)) {
+				line = 1;
+			} else if(SECOND_LINE_ARV_REGIMEN.contains(uuid)) {
+				line = 2;
+			} else if (THIRD_LINE_ARV_REGIMEN.contains(uuid)) {
+				line = 3;
+			}
+		}
+		return line;
+	}
 	public Concept getAppointmentDateConcept() {
 		return getConcept(APPOINTMENT_DATE);
 	}
@@ -527,6 +571,9 @@ public class CommonMetadata extends Metadata {
 		return getConcept(ARV_REGIMEN_6A_CONCEPT);
 	}
 
+	public Concept getArvRegimen7aConcept() {
+		return getConcept(MasterCardConcepts.SEVEN_A);
+	}
 	public Concept getPeripheralNeuropathyConcept() {
 		return getConcept(PERIPHERAL_NEUROPATHY_CONCEPT);
 	}

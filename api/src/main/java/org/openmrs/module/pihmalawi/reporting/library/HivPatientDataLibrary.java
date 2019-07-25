@@ -26,15 +26,7 @@ import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ArtTreatmentGroup;
 import org.openmrs.module.pihmalawi.metadata.group.HccTreatmentGroup;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.HivTestResultListConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.MostRecentViralLoadResultConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ObsValueBooleanYesNoConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PregnantLactatingConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.RegimenChangeConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.TbStatusConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.ViralLoadValueConverter;
-import org.openmrs.module.pihmalawi.reporting.definition.data.converter.WhoStageConverter;
+import org.openmrs.module.pihmalawi.reporting.definition.data.converter.*;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.ArtRegimenHistoryDataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.Cd4DataDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.FirstStateAfterStatePatientDataDefinition;
@@ -258,6 +250,18 @@ public class HivPatientDataLibrary extends BaseDefinitionLibrary<PatientDataDefi
         PatientDataDefinition changes = getArvRegimenChangesByEndDate();
         return pdf.convert(changes, pdf.getLastListItemConverter(new PropertyConverter(ArtRegimen.class, property)));
     }
+
+	@DocumentedDefinition("arvLineRegimenChanges")
+	public PatientDataDefinition getArvLineRegimenChangesByEndDate() {
+		ArtRegimenHistoryDataDefinition def = new ArtRegimenHistoryDataDefinition();
+		def.addParameter(ReportingConstants.END_DATE_PARAMETER);
+		return pdf.convert(def, new ArvLineRegimenChangeConverter());
+	}
+
+	public PatientDataDefinition getLatestArtLineRegimenChangeByEndDate(String property) {
+		PatientDataDefinition changes = getArvLineRegimenChangesByEndDate();
+		return pdf.convert(changes, pdf.getLastListItemConverter(new PropertyConverter(ArtRegimen.class, property)));
+	}
 
 	@DocumentedDefinition("latestArvDrugsReceived.value")
 	public PatientDataDefinition getLatestArvDrugsReceivedByEndDate() {

@@ -16,6 +16,31 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     public static final String HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT  = "655b3dc6-977f-11e1-8993-905e29aff6c1";
 
+    public static final String ZERO_A = "d5930c3a-cb57-11e5-9956-625662870761";
+    public static final String ZERO_P = "d59315a4-cb57-11e5-9956-625662870761";
+    public static final String ONE_A = "657ab1ba-977f-11e1-8993-905e29aff6c1";
+    public static final String TWO_P = "657ab6d8-977f-11e1-8993-905e29aff6c1";
+    public static final String TWO_A = "657ab520-977f-11e1-8993-905e29aff6c1";
+    public static final String FOUR_P = "657abf48-977f-11e1-8993-905e29aff6c1";
+    public static final String FOUR_A = "657abd9a-977f-11e1-8993-905e29aff6c1";
+    public static final String FIVE_A = "657ac056-977f-11e1-8993-905e29aff6c1";
+    public static final String SIX_A = "657ac164-977f-11e1-8993-905e29aff6c1";
+    public static final String THIRTEEN_A = "53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String FOURTEEN_A = "5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
+
+    public static final String SEVEN_A = "657ac268-977f-11e1-8993-905e29aff6c1";
+    public static final String EIGHT_A = "657ac36c-977f-11e1-8993-905e29aff6c1";
+    public static final String NINE_P = "657ac470-977f-11e1-8993-905e29aff6c1";
+    public static final String NINE_A = "8a795372-ba39-11e6-91a8-5622a9e78e10";
+    public static final String TEN_A = "7ebc782a-baa2-11e6-91a8-5622a9e78e10";
+    public static final String ELEVEN_P = "91bcdad2-baa2-11e6-91a8-5622a9e78e10";
+    public static final String ELEVEN_A = "8bb7294e-baa2-11e6-91a8-5622a9e78e10";
+
+    public static final String TWELFE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
+
+
+
     @Override
     public int getVersion() {
         return 3;
@@ -27,22 +52,22 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
 
 	    //reinstalling/adding some ART drugs concepts to match with 2018 MoH guidelines
-        Concept zeroA = MetadataUtils.existing(Concept.class, "d5930c3a-cb57-11e5-9956-625662870761");
-        Concept zeroP = MetadataUtils.existing(Concept.class, "d59315a4-cb57-11e5-9956-625662870761");
-        Concept oneA = MetadataUtils.existing(Concept.class, "657ab1ba-977f-11e1-8993-905e29aff6c1");
+        Concept zeroA = MetadataUtils.existing(Concept.class, ZERO_A);
+        Concept zeroP = MetadataUtils.existing(Concept.class, ZERO_P);
+        Concept oneA = MetadataUtils.existing(Concept.class, ONE_A);
         Concept oneP = MetadataUtils.existing(Concept.class, "657ab372-977f-11e1-8993-905e29aff6c1");
-        Concept twoA = MetadataUtils.existing(Concept.class, "657ab520-977f-11e1-8993-905e29aff6c1");
-        Concept twoP = MetadataUtils.existing(Concept.class, "657ab6d8-977f-11e1-8993-905e29aff6c1");
+        Concept twoA = MetadataUtils.existing(Concept.class, TWO_A);
+        Concept twoP = MetadataUtils.existing(Concept.class, TWO_P);
         Concept threeA = MetadataUtils.existing(Concept.class, "657ab886-977f-11e1-8993-905e29aff6c1");
         Concept threeP = MetadataUtils.existing(Concept.class, "657aba3e-977f-11e1-8993-905e29aff6c1");
-        Concept fourA = MetadataUtils.existing(Concept.class, "657abd9a-977f-11e1-8993-905e29aff6c1");
-        Concept fourP = MetadataUtils.existing(Concept.class, "657abf48-977f-11e1-8993-905e29aff6c1");
-        Concept sixA = MetadataUtils.existing(Concept.class, "657ac164-977f-11e1-8993-905e29aff6c1");
-        Concept nineA = MetadataUtils.existing(Concept.class, "8a795372-ba39-11e6-91a8-5622a9e78e10");
-        Concept nineP = MetadataUtils.existing(Concept.class, "657ac470-977f-11e1-8993-905e29aff6c1");
-        Concept tenA = MetadataUtils.existing(Concept.class, "7ebc782a-baa2-11e6-91a8-5622a9e78e10");
-        Concept elevenA = MetadataUtils.existing(Concept.class, "8bb7294e-baa2-11e6-91a8-5622a9e78e10");
-        Concept elevenP = MetadataUtils.existing(Concept.class, "91bcdad2-baa2-11e6-91a8-5622a9e78e10");
+        Concept fourA = MetadataUtils.existing(Concept.class, FOUR_A);
+        Concept fourP = MetadataUtils.existing(Concept.class, FOUR_P);
+        Concept sixA = MetadataUtils.existing(Concept.class, SIX_A);
+        Concept nineA = MetadataUtils.existing(Concept.class, NINE_A);
+        Concept nineP = MetadataUtils.existing(Concept.class, NINE_P);
+        Concept tenA = MetadataUtils.existing(Concept.class, TEN_A);
+        Concept elevenA = MetadataUtils.existing(Concept.class, ELEVEN_A);
+        Concept elevenP = MetadataUtils.existing(Concept.class, ELEVEN_P);
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
                 .datatype(coded)
@@ -51,43 +76,43 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .answers(yes, no)
                 .build());
 
-        Concept fiveA = install(new ConceptBuilder("657ac056-977f-11e1-8993-905e29aff6c1")
+        Concept fiveA = install(new ConceptBuilder(FIVE_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("6628679c-977f-11e1-8993-905e29aff6c1", "5A: TDF / 3TC / EFV", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept sevenA = install(new ConceptBuilder("657ac268-977f-11e1-8993-905e29aff6c1")
+        Concept sevenA = install(new ConceptBuilder(SEVEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("66286dbe-977f-11e1-8993-905e29aff6c1", "7A: TDF / 3TC + ATV/r", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept eightA = install(new ConceptBuilder("657ac36c-977f-11e1-8993-905e29aff6c1")
+        Concept eightA = install(new ConceptBuilder(EIGHT_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("66286e9a-977f-11e1-8993-905e29aff6c1", "8A: AZT / 3TC + ATV/r", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept twelveA = install(new ConceptBuilder("43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1")
+        Concept twelveA = install(new ConceptBuilder(TWELFE_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("4dbe31e4-dc3f-11e8-9f8b-f2801f1b9fd1", "12A: DRV + r + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept thirteenA = install(new ConceptBuilder("53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1")
+        Concept thirteenA = install(new ConceptBuilder(THIRTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("580173f0-dc3f-11e8-9f8b-f2801f1b9fd1", "13A: TDF / 3TC / DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept fourteenA = install(new ConceptBuilder("5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1")
+        Concept fourteenA = install(new ConceptBuilder(FOURTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("624b723e-dc3f-11e8-9f8b-f2801f1b9fd1", "14A: AZT / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept fifteenA = install(new ConceptBuilder("6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1")
+        Concept fifteenA = install(new ConceptBuilder(FIFTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("6c9da91e-dc3f-11e8-9f8b-f2801f1b9fd1", "15A: ABC / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)

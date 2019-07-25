@@ -429,7 +429,7 @@
       "!missing(art_start_date) && yearsBetween(today, art_start_date) >= 1",
       "!missing(last_viral_load_date)",
       "last_viral_load_ldl == true",
-      "!isDueForVL(art_start_date, last_art_regimen_change_date, last_viral_load_date, today)",
+      "!isDueForVL(art_start_date, last_art_line_regimen_change_date, last_viral_load_date, today)",
       "!missing(last_tb_screening_datetime) && sameDay(now, last_tb_screening_datetime)",
       "missing(current_symptoms) || (!missing(current_symptoms) && !hasAny(current_symptoms, [cough, fever, nightSweats, weightLoss, recentContactWithActiveTB, painfulNeckAndArmpitLymphNodes]))"
     ],

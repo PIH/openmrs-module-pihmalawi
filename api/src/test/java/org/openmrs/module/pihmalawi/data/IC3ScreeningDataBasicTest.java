@@ -169,9 +169,9 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         expectedVl.setResultLdl(null);
         expectedVl.setResultNumeric(numericResult.getValueNumeric());
 
-        // Patient changes ART regiment
-        Date d3 = DateUtil.getDateTime(2018, 3, 7);
-        Concept reg2 = hivMetadata.getArvRegimen4aConcept();
+        // Patient changes to 2nd line ART regiment
+        Date d3 = DateUtil.getDateTime(2018, 5, 7);
+        Concept reg2 = hivMetadata.getArvRegimen7aConcept();
         Encounter reg2Encounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), d3).save();
         Obs regChange2 = createObs(reg2Encounter, hivMetadata.getArvDrugsChange2Concept(), reg2).save();
         Obs regDate2 = createObs(reg2Encounter, hivMetadata.getDateOfStartingAlternativeFirstLineArvsConcept(), d3).save();
