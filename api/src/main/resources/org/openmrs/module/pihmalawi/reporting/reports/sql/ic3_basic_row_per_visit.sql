@@ -5,22 +5,6 @@
 -- ## parameter = startDate|Start Date|java.util.Date
 -- ## parameter = endDate|End Date|java.util.Date
 
-select encounter_type_id into @checkinEnc from encounter_type where uuid = '55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b'; -- 141
-select encounter_type_id into @bloodPressureScreening from encounter_type where uuid = '0C36F6FB-660E-485F-AF04-249579C9EAC9'; -- 142
-select encounter_type_id into @nutritionScreening from encounter_type where uuid = '6265F6BC-EBC0-4181-91F3-28B70BBFDB61'; -- 143
-select encounter_type_id into @htcScreening from encounter_type where uuid = '5B7238C1-23C6-4214-957F-7912A5BE87A9'; -- 145
-select encounter_type_id into @vlScreening from encounter_type where uuid = '9959A261-2122-4AE1-A89D-1CA444B712EA'; -- 146
-select encounter_type_id into @eidScreening from encounter_type where uuid = '8383DE35-5145-4953-A018-34876B797F3E'; -- 147
-select encounter_type_id into @adherenceCounseling from encounter_type where uuid = '7D801495-3857-422F-BE2A-A4EEB3F36278'; -- 148
-select encounter_type_id into @tbScreen from encounter_type where uuid = '45F221B9-7254-4B15-811B-5B8C8912F245'; -- 154
-select encounter_type_id into @tbTestResult from encounter_type where uuid = 'C770232A-4847-42D9-8F70-B01B5BA0EED8'; -- 155
-select encounter_type_id into @clinicalPlan from encounter_type where uuid = '04E668BA-E24F-43FF-A135-A085EC3DBE40'; -- 156
-select patient_identifier_type_id into @arv_number from patient_identifier_type where uuid = '66784d84-977f-11e1-8993-905e29aff6c1'; -- ARV Number -- 4
-select patient_identifier_type_id into @hcc_number from patient_identifier_type where uuid = '66786256-977f-11e1-8993-905e29aff6c1'; -- HCC Number -- 19
-select patient_identifier_type_id into @cc_number from patient_identifier_type where uuid = '11a76c3e-1db8-4d16-9252-9a18b5ed1843'; -- Chronic Care Number -- 21
-select patient_identifier_type_id into @ic3_id from patient_identifier_type where uuid = 'f51dfa3a-95de-4040-b4eb-52d2de718a74'; -- IC3 Identifier-- 23
-
-
 select
 e.patient_id,
    pi_hiv.identifier 'ARV Number',
@@ -37,8 +21,8 @@ e.patient_id,
  	DATE(v.date_started) 'Visit start date',
 	DATE(v.date_stopped) 'Visit stop date',
   l.name 'Encounter location',
--- The below code works by retrieve all of the observations for the specified encounter types in IC3 for any visit within the start and end date of the report
--- The aggregate functions below transpose the rows into columns based on the concepts for the observations.
+-- The below code works by retrieving all of the observations for the specified encounter types in IC3 for any visit within the start and end date of the report
+-- The aggregate functions below transpose the rows into columns based on the concepts for the observations
 -- External mappings are used when they exist, otherwide the UUID is used
 -- The rows are grouped by visit id so there will be one row per visit
 -- check-in information:
@@ -48,6 +32,7 @@ max(CASE when cq.UUID = 'd0d91980-6788-4325-80d3-3bd7b54e705a' then cna.name end
 -- blood pressure information:
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5085' then o.value_numeric end) "Systolic blood pressure",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5086' then o.value_numeric end) "Diastolic blood pressure",
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5087' then o.value_numeric end) "Pulse",
 -- nutrition information:
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5089' then o.value_numeric end) "Weight",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5090' then o.value_numeric end) "Height",
@@ -104,17 +89,38 @@ max(CASE when cq.UUID = '06b2005c-b6cc-11e8-96f8-529269fb1459' then cna.name end
 max(CASE when cq.UUID = '20E91F16-BA4F-4058-B17A-998A82F4B803' then o.value_numeric end) "Drug adherence percentage",
 max(CASE when cq.UUID = '290c1601-a1a7-4a4c-8dc7-d18a17f059a2' then o.value_numeric end) "Missed doses in the last 7 days",
 max(CASE when cq.UUID = '06b20a2a-b6cc-11e8-96f8-529269fb1459' then cna.name end) "Counseled on Viral Load",
--- Clinician station information:
-max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1364' then o.value_text end) "Clinical Notes",
+-- diabetes station information
+max(CASE when cq.UUID = '65711e3e-977f-11e1-8993-905e29aff6c1' and rmg.source = 'PIH Malawi' and rmg.code = '6382' then cna.name end) "Blood Sugar Test Type",
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '887' and rmg.source = 'PIH Malawi' and rmg.code = '6382' then o.value_numeric end) "Blood Sugar Level",
+-- cervical cancer screening
+max(CASE when cq.UUID = '162816AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' and cg.UUID = '4508D9EC-1355-461A-AB1D-74CF5A9C6F6F' then cna.name end) "Cervical Cancer Screening Result",
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1364' and cg.UUID = '4508D9EC-1355-461A-AB1D-74CF5A9C6F6F' then o.value_text end) "Other gyn notes",
+max(CASE when cq.UUID = '1BCB4919-3FD2-4A2F-8F60-684CA797E0A2' and cg.UUID = '4508D9EC-1355-461A-AB1D-74CF5A9C6F6F' then cna.name end) "Biopsy Done",
+-- lab Test Station
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '6422' then o.value_numeric end) "HbA1c",
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '6445' then o.value_numeric end) "Creatinine",
+-- clinician station information:  note that clinician station is not currently using an obs group
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1364' and cg.UUID is null then o.value_text end) "Clinical Notes",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '6538' then cna.name end) "Clinical Outcome",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '5096' then date_format(o.value_datetime,"%d-%m-%Y") end) "Next appointment date",
 max(CASE when cq.UUID = '4c923fca-28d6-11e9-b210-d663bd873d93' then cna.name end) "Next appointment time",
 group_concat(CASE when cq.UUID = '191b3cdc-ec5b-4447-aeb5-4c985e336779' then cna.name end) "Referred to Station"
 from visit v
 INNER JOIN encounter e on e.visit_id = v.visit_id and v.voided = 0
-   -- and e.encounter_type in (141,142,143,145,146,147,148,154,155,156)
-   and e.encounter_type in
-   (@checkinEnc,@bloodPressureScreening,@nutritionScreening,@htcScreening,@vlScreening,@eidScreening,@adherenceCounseling,@tbScreen,@tbTestResult,@clinicalPlan,@arv_number,@hcc_number,@cc_number,@ic3_id)
+   and e.encounter_type in (select et.encounter_type_id from encounter_type et where et.uuid in
+    ('55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b',  -- check in
+    '0C36F6FB-660E-485F-AF04-249579C9EAC9',   -- bp screening
+    '6265F6BC-EBC0-4181-91F3-28B70BBFDB61',   -- nutrition screening
+    '5B7238C1-23C6-4214-957F-7912A5BE87A9',   -- htc testing
+    '9959A261-2122-4AE1-A89D-1CA444B712EA',   -- vl testing
+    '8383DE35-5145-4953-A018-34876B797F3E',   -- EID testing
+    '7D801495-3857-422F-BE2A-A4EEB3F36278',   -- adherence counseling
+    '45F221B9-7254-4B15-811B-5B8C8912F245',   -- TB symptoms
+    'C770232A-4847-42D9-8F70-B01B5BA0EED8',   -- TB testing
+    '04E668BA-E24F-43FF-A135-A085EC3DBE40',   -- clinical plan
+    'AA2C2B86-1A59-49A3-905B-41D318E94FFE',   -- cervical cancer screening
+    'D8D67095-0AAC-4B61-87B3-A2B32B7E1FEE',   -- blood sugar testing
+    '6D29EEC4-6FEE-497C-9352-CA8081543FD6'))   -- lab testing station
 INNER JOIN obs o on o.encounter_id = e.encounter_id and o.voided = 0
 LEFT OUTER JOIN report_mapping rmq on rmq.concept_id = o.concept_id
 LEFT OUTER JOIN report_mapping rma on rma.concept_id = o.value_coded
@@ -131,28 +137,32 @@ LEFT OUTER JOIN patient_identifier pi_hiv on pi_hiv.patient_identifier_id =
    (select patient_identifier_id from patient_identifier pid
     where pid.patient_id = e.patient_id
     and pid.voided = 0
-    and pid.identifier_type = @arv_number
+    and pid.identifier_type =
+    (select  patient_identifier_type_id from patient_identifier_type where uuid = '66784d84-977f-11e1-8993-905e29aff6c1')
     order by pid.preferred desc, pid.date_created desc
     limit 1)
 LEFT OUTER JOIN patient_identifier pi_hcc on pi_hcc.patient_identifier_id =
    (select patient_identifier_id from patient_identifier pid
     where pid.patient_id = e.patient_id
     and pid.voided = 0
-    and pid.identifier_type = @hcc_number
+    and pid.identifier_type =
+    (select  patient_identifier_type_id from patient_identifier_type where uuid = '66786256-977f-11e1-8993-905e29aff6c1')
     order by pid.preferred desc, pid.date_created desc
     limit 1)
 LEFT OUTER JOIN patient_identifier pi_ccc on pi_ccc.patient_identifier_id =
    (select patient_identifier_id from patient_identifier pid
     where pid.patient_id = e.patient_id
     and pid.voided = 0
-    and pid.identifier_type = @cc_number
+    and pid.identifier_type =
+    (select  patient_identifier_type_id from patient_identifier_type where uuid = '11a76c3e-1db8-4d16-9252-9a18b5ed1843')
     order by pid.preferred desc, pid.date_created desc
     limit 1)
 LEFT OUTER JOIN patient_identifier pi_ic3 on pi_ic3.patient_identifier_id =
    (select patient_identifier_id from patient_identifier pid
     where pid.patient_id = e.patient_id
     and pid.voided = 0
-    and pid.identifier_type = @ic3_id
+    and pid.identifier_type =
+    (select  patient_identifier_type_id from patient_identifier_type where uuid = 'f51dfa3a-95de-4040-b4eb-52d2de718a74')
     order by pid.preferred desc, pid.date_created desc
     limit 1)
 INNER JOIN person p on p.person_id = e.patient_id and p.voided = 0
