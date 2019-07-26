@@ -43,7 +43,7 @@ public class ViralLoadValueConverter implements DataConverter  {
             if (vl.getResultNumeric() != null) {
                 return vl.getResultNumeric();
             }
-            else if (vl.getResultLdl()) {
+            else if (vl.getResultLdl() != null && vl.getResultLdl()) {
                 return valueForLdl;
             }
             else if (vl.getLessThanResultNumeric() != null) {
