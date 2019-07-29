@@ -168,7 +168,7 @@
 
                     <td>
                         <!-- HbA1C -->
-                        <obs conceptId="$hbA1c"/>
+                        <obsreference conceptId="$hbA1c"/>
                     </td>
                     <td>
                         <!-- Serum Glucose -->

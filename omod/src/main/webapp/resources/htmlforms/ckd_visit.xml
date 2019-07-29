@@ -161,7 +161,7 @@
 
                     <td>
                         <!-- Creatinine -->
-                        <obs conceptId="$Creatinine" />
+                        <obsreference conceptId="$Creatinine" />
                         
                     </td> 
 
@@ -390,7 +390,7 @@
 
             <tr>
                 <th>Creatinine</th>
-                <td><obs conceptId="$Creatinine" showUnits="true" /></td>        
+                <td><obsreference conceptId="$Creatinine" showUnits="true" /></td>
             </tr>
 
             <tr>

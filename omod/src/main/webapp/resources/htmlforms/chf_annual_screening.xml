@@ -41,7 +41,7 @@
                     </td>
 
                     <td>
-                        <obs conceptId="$creatinine"/>
+                        <obsreference conceptId="$creatinine"/>
                     </td>
                     <td>
                         <obs conceptId="$potassium"/>
@@ -100,7 +100,7 @@
             <tr>
                 <th>Cr</th>
                 <td>
-                    <obs conceptId="$creatinine" id="creatinineInput" showUnits="true"/>
+                    <obsreference conceptId="$creatinine" id="creatinineInput" showUnits="true"/>
                 </td>
             </tr>
             <tr>

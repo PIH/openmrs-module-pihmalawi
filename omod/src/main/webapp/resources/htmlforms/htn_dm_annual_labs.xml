@@ -44,7 +44,7 @@
                     </td>
                     <td>
                         <!-- Creatinine -->
-                        <obs conceptId="$creatinine"/>
+                        <obsreference conceptId="$creatinine"/>
                     </td>
                     <td style="text-align: left;">
                         <!-- Lipid profile -->
@@ -105,7 +105,7 @@
             <tr>
                 <th>Creatinine</th>
                 <td>
-                    <obs conceptId="$creatinine" showUnits="true"/>
+                    <obsreference conceptId="$creatinine" showUnits="true"/>
                 </td>
             </tr>
 

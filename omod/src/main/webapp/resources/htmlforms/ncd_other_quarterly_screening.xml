@@ -31,7 +31,7 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <obs conceptId="$hba1clab"/>
+                        <obsreference conceptId="$hba1clab"/>
                     </td>
                     <td>
                         <obs conceptId="$hivStatus"/>
@@ -78,7 +78,7 @@
             <tr>
                 <th>HbA1C</th>
                 <td class="focus-field">
-                    <obs conceptId="$hba1clab" showUnits="true"/>
+                    <obsreference conceptId="$hba1clab" showUnits="true"/>
                 </td>
             </tr>
 
