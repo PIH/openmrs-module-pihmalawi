@@ -43,7 +43,7 @@ max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1290' then o.value_numer
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '8421' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "VL Bled",
 max(CASE when cq.UUID = '164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "Reason for VL Testing",
 max(CASE when cq.UUID = '6fc0ab50-9492-11e7-abc4-cec278b6b50a' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "Location of laboratory for VL",
-max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '6112' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "Reason for no VL sample",
+max(CASE when cq.UUID = '0e447d92-a180-11e8-98d0-529269fb1459' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "Reason for no VL sample",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '856'  and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then o.value_numeric end) "HIV viral load",
 max(CASE when cq.UUID = '69e87644-5562-11e9-8647-d663bd873d93' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then o.value_numeric end) "HIV Viral load less than value",
 max(CASE when cq.UUID = 'e97b36a2-16f5-11e6-b6ba-3e1d05defe78' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "HIV Viral load lower than detection limit",
@@ -56,7 +56,6 @@ max(CASE when rmq.source = 'CIEL' and rmq.code = '165252'  and rmg.source = 'PIH
 max(CASE when cq.UUID = '0e447d92-a180-11e8-98d0-529269fb1459' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Reason for no sample",
 max(CASE when cq.UUID = '164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Reason for testing",
 max(CASE when cq.UUID = '6fc0ab50-9492-11e7-abc4-cec278b6b50a' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID laboratory",
-max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '2169' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID DNA PCR Result",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '6112'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID DNA PCR Reason for No Result",
 -- TB Symptons - these are a little different because the questions of the obs are symptoms present/absent symptoms and the symptoms are the answers
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1293' and rma.source = 'PIH Malawi' and rma.code = '107' and cg.UUID = '6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478' then 'Yes'
@@ -171,8 +170,8 @@ INNER JOIN person_name pn ON pn.person_name_id =
 INNER JOIN person_address pa on pa.person_address_id =
         (select person_address_id from person_address pa2 where e.patient_id = pa2.person_id and pa2.voided = 0 order by pa2.preferred desc, pa2.date_created desc limit 1)
 INNER JOIN location l ON e.location_id = l.location_id
-where v.date_started >= @startDate
-and v.date_started <= @endDate
+where date(v.date_started) >= date(@startDate)
+and date(v.date_started) <= date(@endDate)
 group by v.visit_id
 order by v.date_started
 ;
