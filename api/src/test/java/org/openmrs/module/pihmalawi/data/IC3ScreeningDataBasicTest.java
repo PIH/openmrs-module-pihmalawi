@@ -565,24 +565,24 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
     @Test
     public void shouldReturnRoutineViralLoad2pAlert() throws Exception {
 
-        Patient patient = createPatient().birthdate(DateUtil.getDateTime(2016, 11, 22)).save();
+        Patient patient = createPatient().birthdate(DateUtil.getDateTime(2008, 11, 22)).save();
 
         Program hivProgram = hivMetadata.getHivProgram();
         PatientProgram patientProgram = new PatientProgram();
         patientProgram.setPatient(patient);
         patientProgram.setProgram(hivProgram);
-        patientProgram.setDateEnrolled(DateUtil.getDateTime(2018, 2, 22));
+        patientProgram.setDateEnrolled(DateUtil.getDateTime(2010, 2, 22));
 
         // Patient on ART
         PatientState patientState = new PatientState();
-        patientState.setStartDate(DateUtil.getDateTime(2018, 2, 12));
+        patientState.setStartDate(DateUtil.getDateTime(2011, 2, 12));
         ProgramWorkflowState onArvsState = hivMetadata.getOnArvsState();
         patientState.setState(onArvsState);
         patientProgram.getStates().add(patientState);
         PatientProgram savePatientProgram = Context.getProgramWorkflowService().savePatientProgram(patientProgram);
 
         // Patient changes ART regiment
-        Date d3 = DateUtil.getDateTime(2018, 3, 22);
+        Date d3 = DateUtil.getDateTime(2017, 3, 22);
         Concept reg2 = hivMetadata.getArvRegimen4aConcept();
         Encounter reg2Encounter = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), d3).save();
         Obs regChange2 = createObs(reg2Encounter, hivMetadata.getArvDrugsChange2Concept(), reg2).save();
@@ -595,7 +595,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
         // bled
         Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
-        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 0L).save();
 
         groupObsBuilder.member(routineTest);
         groupObsBuilder.member(bled);

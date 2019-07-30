@@ -18,23 +18,11 @@
     "conditions": [
       "hiv_treatment_status == active_art",
       "daysBetween(today, last_art_line_regimen_change_date) > 336",
-      "missing(last_viral_load_date) || (last_viral_load_date < last_art_line_regimen_change_date)"
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_line_regimen_change_date) || (daysBetween(today, last_viral_load_date) > 336)"
     ],
     "alert": "No Viral Load in past 12 months",
     "action": "Perform routine VL",
-    "notes": "Viral Load due at 12 months after ART initiation or change"
-  },
-  {
-    "name": "due-for-routine-viral-load-3",
-    "categories": ["viral-load","screening-eligibility", "appointment-report"],
-    "conditions": [
-      "hiv_treatment_status == active_art",
-      "yearsBetween(today, last_art_line_regimen_change_date) >= 2",
-      "missing(last_viral_load_date) || yearsBetween(today, last_viral_load_date) >= 1"
-    ],
-    "alert": "Due for routine VL",
-    "action": "Perform routine VL",
-    "notes": "Viral Load due at 1 year after ART initiation or change, and every year thereafter"
+    "notes": "Viral Load due at 12 months after ART initiation or change, and every year thereafter"
   },
   {
     "name": "due-for-adherence-counselling",
