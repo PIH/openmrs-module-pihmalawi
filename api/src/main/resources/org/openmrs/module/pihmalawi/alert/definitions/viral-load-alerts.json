@@ -4,8 +4,8 @@
     "categories": ["viral-load", "screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
-      "daysBetween(today, last_art_line_regimen_change_date) > 168",
-      "daysBetween(today, last_art_line_regimen_change_date) <= 336",
+      "daysBetween(today, last_art_line_regimen_change_date) > 180",
+      "daysBetween(today, last_art_line_regimen_change_date) <= 360",
       "missing(last_viral_load_date) || (last_viral_load_date < last_art_line_regimen_change_date)"
     ],
     "alert": "No Viral Load",
@@ -17,8 +17,8 @@
     "categories": ["viral-load","screening-eligibility", "appointment-report"],
     "conditions": [
       "hiv_treatment_status == active_art",
-      "daysBetween(today, last_art_line_regimen_change_date) > 336",
-      "missing(last_viral_load_date) || (last_viral_load_date < last_art_line_regimen_change_date) || (daysBetween(today, last_viral_load_date) > 336)"
+      "daysBetween(today, last_art_line_regimen_change_date) > 360",
+      "missing(last_viral_load_date) || (last_viral_load_date < last_art_line_regimen_change_date) || (daysBetween(today, last_viral_load_date) > 360)"
     ],
     "alert": "No Viral Load in past 12 months",
     "action": "Perform routine VL",
