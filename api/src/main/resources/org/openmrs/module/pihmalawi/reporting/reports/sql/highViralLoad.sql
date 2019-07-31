@@ -132,7 +132,8 @@ set h.current_reg_date = v.regimen_date,
 # THIS SELECTS FROM THE MASTER TABLE, ELIMINATES PATIENTS WHO ARE NO LONGER ACTIVE
 # AND PERFORMS SOME FINAL TRANSFORMATIONS
 
-SELECT identifier       as 'Identifier',
+SELECT patient_id       as 'PID',
+       identifier       as 'Identifier',
        first_name       as 'First',
        last_name        as 'Last',
        gender           as 'Gender',
