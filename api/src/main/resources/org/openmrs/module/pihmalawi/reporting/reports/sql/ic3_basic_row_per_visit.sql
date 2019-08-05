@@ -47,11 +47,11 @@ max(CASE when cq.UUID = '0e447d92-a180-11e8-98d0-529269fb1459' and cg.UUID = '83
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '856'  and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then o.value_numeric end) "HIV viral load",
 max(CASE when cq.UUID = '69e87644-5562-11e9-8647-d663bd873d93' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then o.value_numeric end) "HIV Viral load less than value",
 max(CASE when cq.UUID = 'e97b36a2-16f5-11e6-b6ba-3e1d05defe78' and cg.UUID = '83931c6d-0e5a-4302-b8ce-a31175b6475e' then cna.name end) "HIV Viral load lower than detection limit",
--- HTC information:
+-- HIV Testing information: (note that this may come from HTC or EID encounter/station)
+max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1867'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "HIV Test Type",
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '2169'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "HIV Test Result",
 -- EID information:
 max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '8039'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Breastfeeding",
-max(CASE when rmq.source = 'PIH Malawi' and rmq.code = '1867'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID HIV Test Type",
 max(CASE when rmq.source = 'CIEL' and rmq.code = '165252'  and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Bled",
 max(CASE when cq.UUID = '0e447d92-a180-11e8-98d0-529269fb1459' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Reason for no sample",
 max(CASE when cq.UUID = '164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' and rmg.source = 'PIH Malawi' and rmg.code = '2168' then cna.name end) "EID Reason for testing",
