@@ -55,7 +55,7 @@
         <metadatasharingVersion>1.2.2</metadatasharingVersion>
         <namephoneticsVersion>1.5</namephoneticsVersion>
         <providermanagementVersion>2.10.0</providermanagementVersion>
-        <reportingVersion>1.18.0-SNAPSHOT</reportingVersion>
+        <reportingVersion>1.18.0</reportingVersion>
         <reportinguiVersion>1.2</reportinguiVersion>
         <reportingrestVersion>1.7.0</reportingrestVersion>
         <reportingcompatibilityVersion>1.5.8</reportingcompatibilityVersion>
