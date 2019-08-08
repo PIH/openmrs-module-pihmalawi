@@ -60,6 +60,25 @@ END
 #
 
 /*
+    Return the state id for the given uuid
+*/
+DROP FUNCTION IF EXISTS state_by_uuid;
+#
+CREATE FUNCTION state_by_uuid(_uuid CHAR(38))
+    RETURNS INT
+    DETERMINISTIC
+BEGIN
+    DECLARE ret INT;
+
+    SELECT program_workflow_state_id into ret
+    FROM program_workflow_state
+    WHERE uuid = _uuid;
+
+    return ret;
+END
+#
+
+/*
     Return the encounter type id for the given uuid
 */
 DROP FUNCTION IF EXISTS encounter_type_by_uuid;
