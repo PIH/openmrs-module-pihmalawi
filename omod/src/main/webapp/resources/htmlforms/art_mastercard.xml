@@ -54,6 +54,7 @@
         alternativeFirstLineArvStartDate=2528
         secondLineArvStartDate=2529
         chwName=8431
+	transferIn=6559bc30-977f-11e1-8993-905e29aff6c1
         childHCCNo=8600
     </macros>
 
@@ -73,6 +74,13 @@
                         Date: <lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                         <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                     </span>
+                </b>
+            </span>
+
+	    <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferIn" />
                 </b>
             </span>
 
