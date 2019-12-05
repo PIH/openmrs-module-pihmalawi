@@ -39,7 +39,7 @@ public class CommonMetadata extends Metadata {
 	public static final String UPPER_NENO = "UPPER_NENO";
 	public static final String LOWER_NENO = "LOWER_NENO";
 
-	public static final String CHW_RELATIONSHIP_TYPE = "Patient/Village Health Worker";
+	public static final String CHW_RELATIONSHIP_TYPE = "Community Health Worker/Patient";
 	public static final String GUARDIAN_RELATIONSHIP_TYPE = "Patient/Guardian";
 
 	public RelationshipType getChwRelationshipType() {

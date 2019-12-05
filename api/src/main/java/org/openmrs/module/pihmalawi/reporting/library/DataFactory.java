@@ -373,6 +373,18 @@ public class DataFactory {
 		return convert(def, ObjectUtil.toMap("activeOnDate=endDate"), converter);
 	}
 
+	public PatientDataDefinition getChwRelationships(RelationshipType type, Boolean valuesArePersonA, Boolean valuesArePersonB) {
+		RelationshipsForPersonDataDefinition def = new RelationshipsForPersonDataDefinition();
+		def.addRelationshipType(type);
+		def.setValuesArePersonA(valuesArePersonA);
+		def.setValuesArePersonB(valuesArePersonB);
+		ChainedConverter c = new ChainedConverter();
+		c.addConverter(new MostRecentlyCreatedConverter(Relationship.class));
+		c.addConverter(new PropertyConverter(Relationship.class, "personA"));
+		c.addConverter(new ObjectFormatter());
+		return convert(def, c);
+	}
+
 	public PatientDataDefinition getRelationships(RelationshipType type, Boolean valuesArePersonA, Boolean valuesArePersonB) {
 		RelationshipsForPersonDataDefinition def = new RelationshipsForPersonDataDefinition();
 		def.addRelationshipType(type);

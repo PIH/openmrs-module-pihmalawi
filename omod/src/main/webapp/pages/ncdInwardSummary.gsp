@@ -289,7 +289,7 @@
                 </table>
             </td>
             <td class="third-column">
-                <span class="question">Village Health Worker:</span>
+                <span class="question">Community Health Worker:</span>
                 <! Note: This appears to not work -->
                 <span class="value">
                     <% if (chw) { %>

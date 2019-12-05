@@ -113,7 +113,7 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 
 	@DocumentedDefinition
 	public PatientDataDefinition getChw() {
-		return df.getRelationships(hivMetadata.getChwRelationshipType(), false, true);
+		return df.getChwRelationships(hivMetadata.getChwRelationshipType(), true, false);
 	}
 
 	@DocumentedDefinition
