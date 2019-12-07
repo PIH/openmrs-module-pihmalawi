@@ -18,7 +18,7 @@ public class MentalHealthMetadata extends CommonMetadata{
         public String uuid() { return "60357F01-536E-4B59-A851-B000F801FB13"; }
         public String name() { return "MENTAL HEALTH CARE PROGRAM"; }
         public String description() { return "Mental Health Care Program"; }
-        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_PROGRAM_CONCEPT; }
+        public String conceptUuid() { return ProgramConcepts.MH_CARE_PROGRAM_CONCEPT; }
         public Set<ProgramWorkflowDescriptor> workflows() { return Collections.singleton(MH_CARE_TREATMENT_STATUS); }
     };
 
