@@ -15,6 +15,7 @@ import java.util.Locale;
 public class ProgramConcepts extends VersionedPihConceptBundle {
 
     public static final String CHRONIC_CARE_PROGRAM_CONCEPT  = "655f4f42-977f-11e1-8993-905e29aff6c1";
+    public static final String MH_CARE_PROGRAM_CONCEPT  = "406AD643-79A3-4019-9888-3EFBB9B24FB0";
     public static final String CHRONIC_CARE_TREATMENT_STATUS_CONCEPT = "65766b96-977f-11e1-8993-905e29aff6c1";
     public static final String CHRONIC_CARE_STATUS_ON_TREATMENT_CONCEPT = "65664784-977f-11e1-8993-905e29aff6c1";
     public static final String CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT = "9af03945-c8c1-11e8-9bc6-0242ac110001";
@@ -26,7 +27,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -44,6 +45,12 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
                 .conceptClass(state)
                 .name("508515ce-c8c2-11e8-9bc6-0242ac110001", "In advanced care", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder(MH_CARE_PROGRAM_CONCEPT)
+                .datatype(notApplicable)
+                .conceptClass(program)
+                .name("66840734-B1BB-4EC9-A151-12578F301790", "Mental Health Care Program", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }

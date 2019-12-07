@@ -35,6 +35,12 @@
 <c:set var="PccDefaultedWorkflowState" value="0f034ef4-3f70-4514-a020-5fb928fc3394"/>
 <c:set var="PccDiedWorkflowState" value="4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"/>
 <c:set var="ChronicCareActiveStates" value="66882650-977f-11e1-8993-905e29aff6c1,7c4d2e56-c8c2-11e8-9bc6-0242ac110001"/>
+<c:set var="MentalHealthActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84"/>
+<c:set var="MHTreatmentDischargedWorkflowState" value="42ACC789-C2BB-4EAA-8AC2-0BE7D0F5D4E8"/>
+<c:set var="MHTreatmentStoppedWorkflowState" value="9F6F188C-42AB-45D8-BC8B-DBE78948072D"/>
+<c:set var="MHPatientDiedWorkflowState" value="D79B02C2-B473-47F1-A51C-6D40B2242B9C"/>
+<c:set var="MHTransferredOutWorkflowState" value="41AF39C1-7CE6-47E0-9BA7-9FD7C0354C12"/>
+<c:set var="MHPatientDefaultedWorkflowState" value="19CEF51A-0823-4876-A8AF-7285B7077494"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -105,10 +111,6 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
-    </tr>
-    <tr>
-        <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Cardiac and Vascular Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
@@ -118,6 +120,15 @@
     <tr>
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="NCD Other eMastercard" initialEncounterTypeName="NCD_OTHER_INITIAL" followupEncounterTypeName="NCD_OTHER_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+    </tr>
+
+    <tr>
+        <td><br /></td>
+    </tr>
+
+    <tr>
+        <td>Mental Health Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Mental Health eMastercard" initialEncounterTypeName="MENTAL_HEALTH_INITIAL" followupEncounterTypeName="MENTAL_HEALTH_FOLLOWUP" programWorkflowStates="${MentalHealthActiveStates}" patientIdentifierType="21"/></td>
     </tr>
 
     <tr>
@@ -189,6 +200,10 @@
         <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
             <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,154" defaultLocation="2"/><br /></td
         </c:if>
+    </tr>
+    <tr>
+        <td>Mental Health Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}" defaultLocation="2"/><br /></td
     </tr>
     <tr>
         <td>Palliative Care Program:</td>
