@@ -36,11 +36,11 @@
         <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />	
+        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoResult" value="6567b970-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" /> 
+        <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
         <macro key="echoEcgDate" value="6563e098-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdEtiology" value="9868d4ee-3325-49a7-9eee-ebb8416e2728" />    
+        <macro key="ckdEtiology" value="9868d4ee-3325-49a7-9eee-ebb8416e2728" />
         <macro key="ckdEtiHIV" value="654a9598-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdEtiNephro" value="65696f40-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdEtiOther" value="657140f8-977f-11e1-8993-905e29aff6c1" />
@@ -135,7 +135,11 @@
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                              <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
+                                  #if(${relationship.relationshipType.bIsToA} == 'Patient')
+                                        ${relationship.personA.personName}
+                                  #end
+                              #end "/>
                             </td>
                         </tr>
                     </table>
@@ -145,7 +149,7 @@
                     <table>
                         <tr>
                             <th style="vertical-align:top;" align="left" rowspan="4">Presumed<br/>etiology</th>
-                            <!-- CKD -->       
+                            <!-- CKD -->
                             <td data-toggle-source="ckd-dx" data-toggle-target="ckd-etiology-date" rowspan="4">
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$hypertensionDx" answerLabel="Hypertension"  style="checkbox" /><br />
                                 <obs conceptId="$ckdEtiology"  answerConceptId="$diabetesDx" answerLabel="Diabetes"  style="checkbox" /><br />
@@ -159,7 +163,7 @@
                             <td class="toggle-target" rowspan="4">
                                 <obs id="ckd-etiology-date" conceptId="$diagnosisDate" labelText="Date"/>
                             </td>
-                        
+
                             <!-- CHF -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="chf-dx" data-toggle-target="chf-dx-date">
@@ -226,7 +230,7 @@
                                 <obs conceptId="$tbDate" labelText="Date"/>
                             </td>
                         </tr>
-                   
+
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>
                             <td colspan="6">
