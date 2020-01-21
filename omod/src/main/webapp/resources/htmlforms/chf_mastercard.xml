@@ -30,7 +30,7 @@
         <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />	
+        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoResult" value="6567b970-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
         <macro key="echoEcgDate" value="6563e098-977f-11e1-8993-905e29aff6c1" />
@@ -138,7 +138,11 @@
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                              <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
+                                  #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+                                        ${relationship.personA.personName}
+                                  #end
+                              #end "/>
                             </td>
                         </tr>
                     </table>
@@ -297,7 +301,7 @@
                                 <obs conceptId="$otherComorbidity" labelText="Other: " /><br />
                             </td>
                         </tr>
-                   
+
                         <tr>
                             <th style="vertical-align:top;" align="left">Outcome</th>
                             <td colspan="6">
@@ -311,10 +315,10 @@
 
                     <h5>Imaging Results</h5>
 
-                    <table>	
+                    <table>
                     	<tr>
                     		<th align="left">ECHO</th>
-                    		<obsgroup groupingConceptId="$echoSet"> 
+                    		<obsgroup groupingConceptId="$echoSet">
                                 <td>
                                     <obs conceptId="$echoEcgDate" labelText="Date"/>
                                 </td>
@@ -322,10 +326,10 @@
                                     <obs conceptId="$echoImagingResult" labelText="Result"/>
                                 </td>
                             </obsgroup>
-                    	</tr>				    	
+                    	</tr>
                     	<tr>
-                    		<th align="left">ECG</th>	
-                    		<obsgroup groupingConceptId="$ecgSet"> 
+                    		<th align="left">ECG</th>
+                    		<obsgroup groupingConceptId="$ecgSet">
                                 <td>
                                     <obs conceptId="$echoEcgDate" labelText="Date"/>
                                 </td>
