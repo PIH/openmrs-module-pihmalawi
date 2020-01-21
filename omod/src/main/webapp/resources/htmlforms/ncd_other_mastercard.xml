@@ -133,7 +133,7 @@
                             <td>CHW Name</td>
                             <td>
                               <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
-                                  #if(${relationship.relationshipType.bIsToA} == 'Patient')
+                                  #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
                                         ${relationship.personA.personName}
                                   #end
                               #end "/>
