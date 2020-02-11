@@ -208,7 +208,7 @@ public class CommonMetadata extends Metadata {
 
     public static final List<String> FIRST_LINE_ARV_REGIMEN = Arrays.asList(
 			MasterCardConcepts.ZERO_P,
-    		MasterCardConcepts.ZERO_A,
+    			MasterCardConcepts.ZERO_A,
 			MasterCardConcepts.TWO_P,
 			MasterCardConcepts.TWO_A,
 			MasterCardConcepts.FOUR_P,
@@ -217,7 +217,11 @@ public class CommonMetadata extends Metadata {
 			MasterCardConcepts.SIX_A,
 			MasterCardConcepts.THIRTEEN_A,
 			MasterCardConcepts.FOURTEEN_A,
-			MasterCardConcepts.FIFTEEN_A
+			MasterCardConcepts.FIFTEEN_A,
+			"cf770b14-4c9d-11ea-b77f-2e728ce88125",
+			"e2ec7c88-4c9d-11ea-b77f-2e728ce88125",
+			"e2ec871e-4c9d-11ea-b77f-2e728ce88125",
+			"e2ec899e-4c9d-11ea-b77f-2e728ce88125"
 	);
 
 	public static final List<String> SECOND_LINE_ARV_REGIMEN = Arrays.asList(
@@ -227,11 +231,13 @@ public class CommonMetadata extends Metadata {
 			MasterCardConcepts.NINE_A,
 			MasterCardConcepts.TEN_A,
 			MasterCardConcepts.ELEVEN_P,
-			MasterCardConcepts.ELEVEN_A
+			MasterCardConcepts.ELEVEN_A,
+			"e2ec805c-4c9d-11ea-b77f-2e728ce88125",
+			"e2ec82b4-4c9d-11ea-b77f-2e728ce88125"
 	);
 
 	public static final List<String> THIRD_LINE_ARV_REGIMEN = Arrays.asList(
-			MasterCardConcepts.TWELFE_A
+			MasterCardConcepts.TWELVE_A
 	);
 
 	public static int getArvLineRegimen(String uuid) {
