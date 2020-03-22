@@ -20,6 +20,11 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
+import org.openmrs.ConceptName;
+import java.util.Locale;
+import org.openmrs.api.ConceptService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
@@ -72,6 +77,26 @@ public class MetadataInitializer implements Initializer {
         //
         // Create generated source / class files for these via maven plugin
         // Associate with versions and
+
+        ConceptService cs = Context.getConceptService();
+
+        {
+            Integer id = 8819;
+            String uuid = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
+            String name = "Viral Load Sample ID";
+            Concept c = cs.getConcept(id);
+            if (c == null) {
+                log.warn("Creating " + name);
+                c = new Concept();
+                c.setConceptId(id);
+                c.setUuid(uuid);
+                c.setConceptClass(cs.getConceptClassByName("Misc"));
+                c.setDatatype(cs.getConceptDatatypeByName("Text"));
+                c.setSet(false);
+                c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+                cs.saveConcept(c);
+            }
+        }
 
 
 

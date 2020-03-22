@@ -16,18 +16,18 @@
 	  <tag>HEAD</tag>
   </scm>
 
-	<distributionManagement>
-		<repository>
-			<id>openmrs-repo-modules</id>
-			<name>OpenMRS Modules</name>
-			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/modules</url>
-		</repository>
-		<snapshotRepository>
-			<id>openmrs-repo-snapshots</id>
-			<name>OpenMRS Snapshots</name>
-			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>openmrs-repo-modules-pih</id>
+            <name>Modules</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/modules-pih/</url>
+        </repository>
+        <snapshotRepository>
+            <id>openmrs-repo-modules-pih-snapshots</id>
+            <name>OpenMRS Snapshots</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/modules-pih-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 	<modules>
 		<module>api</module>
@@ -195,7 +195,7 @@
             <scope>provided</scope>
         </dependency>
 		<dependency>
-			<groupId>org.openmrs.module</groupId>						
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>reporting-api</artifactId>
 			<version>${reportingVersion}</version>
 			<scope>provided</scope>
@@ -215,8 +215,8 @@
 			<classifier>tests</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.openmrs.module</groupId>						
-			<artifactId>serialization.xstream-api</artifactId>											
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>serialization.xstream-api</artifactId>
 			<version>${serializationVersion}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -104,26 +104,29 @@ public class NutritionHistoryPatientDataEvaluator implements PatientDataEvaluato
                 Obs nextObs = (Obs) i.next();
 
                 // remove any bogus height or weight obs
-                if ((nextObs.getConcept().equals(metadata.getHeightConcept()) || nextObs.getConcept().equals(metadata.getWeightConcept())) &&
-                        (nextObs.getValueNumeric() == 0 || nextObs.getValueNumeric() == null)) {
-                    i.remove();
-                }
+                try {
+                    if ((nextObs.getConcept().equals(metadata.getHeightConcept()) || nextObs.getConcept()
+                            .equals(metadata.getWeightConcept())) &&
+                            (nextObs.getValueNumeric() == null || nextObs.getValueNumeric() == 0)) {
+                        i.remove();
+                    }
 
-                // keep track of the most recent height captured *as an adult*
-                else if (nextObs.getConcept().equals(metadata.getHeightConcept())
-                        && patient.getAge(nextObs.getObsDatetime()) >= 18) {
-                    latestHeightAsAnAdult = nextObs;
+                    // keep track of the most recent height captured *as an adult*
+                    else if (nextObs.getConcept().equals(metadata.getHeightConcept())
+                            && patient.getAge(nextObs.getObsDatetime()) >= 18) {
+                        latestHeightAsAnAdult = nextObs;
+                    } else if (isPregnant(nextObs)) {
+                        latestPregnantObsDate = DateUtil.getStartOfDay(nextObs.getObsDatetime());
+                    } else if (nextObs.getConcept().equals(metadata.getWeightConcept())
+                            && !DateUtil.getStartOfDay(nextObs.getObsDatetime()).equals(latestPregnantObsDate)
+                            // patient was not flagged as pregnant on this date
+                            && patient.getAge(nextObs.getObsDatetime()) >= 18  // patient is greater or equal to 18
+                            && latestHeightAsAnAdult != null) {   // we have a most recent height as an adult
+                        i.add(new BMI(nextObs, latestHeightAsAnAdult));
+                    }
                 }
-
-                else if (isPregnant(nextObs)) {
-                    latestPregnantObsDate = DateUtil.getStartOfDay(nextObs.getObsDatetime());
-                }
-
-                else if (nextObs.getConcept().equals(metadata.getWeightConcept())
-                        && !DateUtil.getStartOfDay(nextObs.getObsDatetime()).equals(latestPregnantObsDate)  // patient was not flagged as pregnant on this date
-                        && patient.getAge(nextObs.getObsDatetime()) >= 18  // patient is greater or equal to 18
-                        && latestHeightAsAnAdult != null) {   // we have a most recent height as an adult
-                    i.add(new BMI(nextObs, latestHeightAsAnAdult));
+                catch (Exception e) {
+                    throw new IllegalStateException("Error processing obs: " + nextObs);
                 }
             }
 

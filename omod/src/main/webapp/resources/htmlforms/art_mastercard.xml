@@ -153,7 +153,11 @@
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                                <obs conceptId="$chwName"  />
+                              <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
+                                  #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+                                        ${relationship.personA.personName}
+                                  #end
+                              #end "/>
                             </td>
                         </tr>
                     </table>

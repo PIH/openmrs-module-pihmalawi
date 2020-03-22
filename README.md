@@ -10,7 +10,7 @@ database = openmrs_neno
 source code = ~/workspace
 module name = pihmalawi for openmrs-module-pihmalawi
 ```
-### Linux instructions - testung
+### Linux instructions 
 
 #### Install prerequisites
 
