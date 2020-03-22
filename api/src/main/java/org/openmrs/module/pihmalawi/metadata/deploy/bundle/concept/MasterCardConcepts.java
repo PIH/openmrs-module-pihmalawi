@@ -38,14 +38,20 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String THIRTEEN_A = "53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FOURTEEN_A = "5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String FOURTEEN_P = "cf770b14-4c9d-11ea-b77f-2e728ce88125";
     public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String FIFTEEN_P = "e2ec7c88-4c9d-11ea-b77f-2e728ce88125"
+    public static final String SIXTEEN_A = "e2ec805c-4c9d-11ea-b77f-2e728ce88125"
+    public static final String SIXTEEN_P = "e2ec82b4-4c9d-11ea-b77f-2e728ce88125"
+    public static final String SEVENTEEN_A = "e2ec871e-4c9d-11ea-b77f-2e728ce88125"
+    public static final String SEVENTEEN_P = "e2ec899e-4c9d-11ea-b77f-2e728ce88125"
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
 
 
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -92,37 +98,37 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                  .name("ba40105b-673d-4fa4-9263-70ce5f228230", "11P: AZT / 3TC + LPV/r (previous AZT3TCLPV)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                  .build());
 
-        Concept fourteenP = install(new ConceptBuilder("cf770b14-4c9d-11ea-b77f-2e728ce88125")
+        Concept fourteenP = install(new ConceptBuilder(FOURTEEN_P)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("cf770dd0-4c9d-11ea-b77f-2e728ce88125", "14P: AZT / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept fifteenP = install(new ConceptBuilder("e2ec7c88-4c9d-11ea-b77f-2e728ce88125")
+        Concept fifteenP = install(new ConceptBuilder(FIFTEEN_P)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("e2ec7f12-4c9d-11ea-b77f-2e728ce88125", "15P: ABC / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept sixteenA = install(new ConceptBuilder("e2ec805c-4c9d-11ea-b77f-2e728ce88125")
+        Concept sixteenA = install(new ConceptBuilder(SIXTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("e2ec8188-4c9d-11ea-b77f-2e728ce88125", "16A: ABC / 3TC + RAL", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept sixteenP = install(new ConceptBuilder("e2ec82b4-4c9d-11ea-b77f-2e728ce88125")
+        Concept sixteenP = install(new ConceptBuilder(SIXTEEN_P)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("e2ec83e0-4c9d-11ea-b77f-2e728ce88125", "16P: ABC / 3TC + RAL", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept seventeenA = install(new ConceptBuilder("e2ec871e-4c9d-11ea-b77f-2e728ce88125")
+        Concept seventeenA = install(new ConceptBuilder(SEVENTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("e2ec8868-4c9d-11ea-b77f-2e728ce88125", "17A: ABC / 3TC + EFV", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept seventeenP = install(new ConceptBuilder("e2ec899e-4c9d-11ea-b77f-2e728ce88125")
+        Concept seventeenP = install(new ConceptBuilder(SEVENTEEN_P)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("e2ec8c14-4c9d-11ea-b77f-2e728ce88125", "17P: ABC / 3TC + EFV", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
