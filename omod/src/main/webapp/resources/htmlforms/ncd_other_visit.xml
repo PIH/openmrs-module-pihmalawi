@@ -44,7 +44,6 @@
                     <td colspan="6"><span>Vital Signs and Labs</span></td>
                     <td colspan="4"><span>Risk Assessment</span></td>
                     <td rowspan="2"><span>Hospitalized since last visit?</span></td>
-                    <td rowspan="2"><span>Diagnosis</span></td>
                     <td rowspan="2"><span>Medications</span></td>
                     <td rowspan="2"><span>Medications changed</span></td>
                     <td rowspan="2"><span>Comments</span></td>
@@ -127,11 +126,6 @@
                     <td style="text-align: left;">
                         <obs conceptId="$hospitalSince"  answerConceptId="$noAnswer" answerLabel="No"  style="checkbox" />
                         <obs conceptId="$hospitalSince"  answerConceptId="$yesAnswer" answerLabel="Yes"  style="checkbox" />
-                    </td>
-
-                    <td>
-                        <!-- Diagnosis -->
-                        <obs conceptId="$diagnosisNonCoded" />
                     </td>
 
                     <td>
@@ -255,11 +249,6 @@
                 <th>Hospitalized since last visit for NCD?</th>
                 <td><obs conceptId="$hospitalSince" style="radio" answerLabels="No, Yes"
                          answerConceptIds="$yesAnswer, $noAnswer" /></td>
-            </tr>
-
-            <tr>
-                <th>Diagnosis</th>
-                <td><obs conceptId="$diagnosisNonCoded" /></td>
             </tr>
 
             <tr>
