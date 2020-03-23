@@ -40,7 +40,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String FOURTEEN_A = "5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
-    public static final String TWELFE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String VIRAL_LOAD_SAMPLE_ID = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
 
 
