@@ -34,12 +34,14 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String NINE_P = "657ac470-977f-11e1-8993-905e29aff6c1";
     public static final String TEN_A = "7ebc782a-baa2-11e6-91a8-5622a9e78e10";
     public static final String ELEVEN_A = "8bb7294e-baa2-11e6-91a8-5622a9e78e10";
+
     public static final String ELEVEN_P = "91bcdad2-baa2-11e6-91a8-5622a9e78e10";
-    public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String THIRTEEN_A = "53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FOURTEEN_A = "5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
+    public static final String TWELFE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
+    public static final String VIRAL_LOAD_SAMPLE_ID = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
 
 
 
@@ -274,6 +276,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         seventeenA,
                         seventeenP,
                         nonStandard)
+                .build());
+
+        Concept viralLoadSampleId = install(new ConceptBuilder(VIRAL_LOAD_SAMPLE_ID)
+                .datatype(text)
+                .conceptClass(misc)
+                .name("F3C29B6C-7FBD-460F-A7D8-CE8377268FE5", "Viral Load Sample ID", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
