@@ -50,10 +50,10 @@
                     <th>Reason for Test</th>
                     <th>Lab Location</th>
                     <th>Bled</th>
+                    <th>Sample ID</th>
                     <th>Viral Load Result</th>
                     <th>Viral Load Result &#40;&#60;&#41;</th>
                     <th>LDL</th>
-                    <th>Sample ID</th>
                     <th>Other Results</th>
                 </tr>
             </thead>
@@ -79,6 +79,10 @@
                                  labelText="Bled"/>
                         </td>
                         <td>
+                            <!-- Sample ID-->
+                            <obs conceptId="$sampleId" />
+                        </td>
+                        <td>
                             <!-- Viral load -->
                             <obs conceptId="$viralLoadResult"/>
                         </td>
@@ -89,10 +93,6 @@
                         <td>
                             <!-- LDL-->
                             <obs conceptId="$LDL" style="checkbox" />
-                        </td>
-                        <td>
-                            <!-- Sample ID-->
-                            <obs conceptId="$sampleId" />
                         </td>
                         <td>
                             <!-- Other -->
@@ -133,10 +133,10 @@
                     <th>Reason for test</th>
                     <th>Lab Location</th>
                     <th>Bled</th>
+                    <th>Sample ID</th>
                     <th>Viral Load Result</th>
                     <th>Viral Load Result &#40;&#60;&#41;</th>
                     <th>LDL</th>
-                    <th>Sample ID</th>
                     <th>Other Results</th>
                 </tr>
             </thead>
