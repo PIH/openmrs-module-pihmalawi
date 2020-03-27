@@ -29,6 +29,11 @@
 
     ui.includeJavascript("pihmalawi", "vlresults/importVLRController.js")
 %>
+<style type="text/css">
+.notFoundPatient {
+    background-color: #ffb3b5;
+}
+</style>
 
 <script type="text/javascript">
   var breadcrumbs = [
@@ -50,12 +55,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="vlr in vlrList">
+            <tr ng-repeat="vlr in vlrList" ng-style="{'background': !vlr.patientId ? '#ffb3b5' : ''}">
                 <td>{{ vlr.artClinicNo }} </td>
                 <td>
-                    <a ng-show="vlr.identifier" href="{{providerPage}}{{vlr.personId}}">
+                    <a ng-show="vlr.patientId" href="{{dashboardPage}}{{vlr.patientId}}">
                         {{ vlr.identifier }}
                     </a>
+                    <span ng-show="!vlr.patientId">{{ vlr.identifier }}</span>
                 </td>
                 <td>{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
@@ -67,7 +73,7 @@
                 <td ng-if="vlr.dateOfTesting">{{ vlr.dateOfTesting }} </td>
                 <td ng-if="vlr.result">{{ vlr.result }} </td>
                 <td>
-                    <button type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!vlr.patientId" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>

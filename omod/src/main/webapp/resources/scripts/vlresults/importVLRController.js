@@ -9,49 +9,39 @@ angular.module('importVLRApp', ['ngDialog'])
           PROVIDER_ATTRIBUTE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider/{UUID}/attribute",
           PROVIDERMANAGEMENT_ROLE: "/" + OPENMRS_CONTEXT_PATH + "/providermanagement/providerEdit/assignProviderRoleToPerson.action",
           IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource",
-          PROVIDER_PAGE: "/" + OPENMRS_CONTEXT_PATH + "/coreapps/providermanagement/editProvider.page?personId=",
+          PATIENT_DASHBOARD_PAGE: "/" + OPENMRS_CONTEXT_PATH + "/patientDashboard.form?patientId=",
         },
-        PATIENT_CUSTOM_REP: "v=custom:(uuid,display,identifiers:(uuid,identifier,identifierType:(uuid),preferred),person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath,names,addresses,attributes))",
+        PATIENT_CUSTOM_REP: "v=custom:(uuid,id,display,person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath))",
         PROVIDER_CUSTOM_REP: "v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
         PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
         CHW_IDENTIFIER_SOURCE: "CHW Identifier Source"
       };
 
-      var locationsMap = new Map([
-        ["Neno District Hospital", {code: "NNO", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e"}],
-        ["Chifunga", { code: "CFGA", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Dambe" , { code: "DAM", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef" } ],
-        ["Lisungwi" , { code: "LSI", uuid: "0d416376-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Luwani" , { code: "LWAN", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Nsambe" , { code: "NSM", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Ligowe" , { code: "LGWE", uuid: "0d417e38-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Matandani" , { code: "MTDN", uuid: "0d415200-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Magaleta" , { code: "MGT", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Neno Parish" , { code: "NOP", uuid: "ca86238f-eab4-4c55-b244-2a8c82e86ecd" }],
-        ["Matope" , { code: "MTE", uuid: "0d416b3c-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Zalewa" , { code: "ZLA", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Nkula" , { code: "NKA", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e" }],
-        ["Midzemba" , { code: "MIHC", uuid: "0d4182e8-5ab4-11e0-870c-9f6107fee88e" }]
+      var LOCATIONS_MAP = new Map([
+        [3704 , { code: "LWAN", name: "Luwani", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
+        [3705 , { code: "MGT", name:"Magaleta", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
+        [3709, {code: "NNO", name: "Neno District Hospital", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e", locationId: 3709 }]
       ]);
 
       this.CONSTANTS = CONSTANTS;
+      this.LOCATIONS_MAPS = LOCATIONS_MAP;
 
-      this.getIdentifierSource = function () {
-        return $http.get(CONSTANTS.URLS.IDENTIFIER_SOURCE + "?v=full").then(function(resp) {
-          var idSource= null;
-          if (resp.status == 200) {
-            for (j = 0; j < resp.data.results.length; j++){
-              if (resp.data.results[0].name === CONSTANTS.CHW_IDENTIFIER_SOURCE) {
-                idSource = resp.data.results[0].uuid;
-                break;
+      this.getPatient = function(vlrRecord) {
+        return $http.get(CONSTANTS.URLS.PATIENT + "?q=" + vlrRecord.identifier + "&" + CONSTANTS.PATIENT_CUSTOM_REP)
+          .then(function (response) {
+            if ( response.status == 200 ) {
+              if (response.data && response.data.results && response.data.results.length == 1) {
+                //only one patient found with this ID
+                var patient = response.data.results[0];
+                vlrRecord.patientId = patient.id;
               }
+              return vlrRecord;
+            } else {
+              return "";
             }
-
-          }
-          return idSource;
-        }, function (error) {
-          console.log(JSON.stringify(error, undefined, 4));
-        });
+          }, function( error ) {
+            console.log("failed to retrieve patient record with ID: " + vlrRecord.identifier , error);
+          });
       };
 
 
@@ -73,7 +63,7 @@ angular.module('importVLRApp', ['ngDialog'])
     function($q, $scope, ImportVLRService, ngDialog) {
 
       $scope.content = null;
-      $scope.providerPage = ImportVLRService.CONSTANTS.URLS.PROVIDER_PAGE;
+      $scope.dashboardPage = ImportVLRService.CONSTANTS.URLS.PATIENT_DASHBOARD_PAGE;
       $scope.errorMessage = null;
       $scope.vlrContent = null;
       $scope.headerList = null;
@@ -147,6 +137,21 @@ angular.module('importVLRApp', ['ngDialog'])
         return( arrData );
       };
 
+      function parsePatientIdentifier(clinicNumber) {
+        var patientIdentifier = "";
+
+        if (clinicNumber) {
+          var clinicNo = clinicNumber.split("-", 2);
+          if (clinicNo && clinicNo.length > 1) {
+            var locationNode = ImportVLRService.LOCATIONS_MAPS.get(parseInt(clinicNo[0].trim()));
+            if ( typeof locationNode !== 'undefined' && locationNode) {
+              patientIdentifier = locationNode.code + " " + clinicNo[1].trim();
+            }
+          }
+        }
+        return patientIdentifier;
+      };
+
       function importVLResult(vlr) {
       }
 
@@ -158,10 +163,22 @@ angular.module('importVLRApp', ['ngDialog'])
 
       };
 
-      $scope.goToProviderPage = function(chw) {
-        if (chw.personId) {
-          window.location.href = $scope.providerPage + chw.personId;
+      function addPatientIdentifier() {
+        var promises = [];
+
+        if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
+          angular.forEach($scope.vlrList, function(vlrObj) {
+            var patientId = parsePatientIdentifier(vlrObj.artClinicNo);
+            if (typeof patientId !== 'undefined' && patientId.length > 0) {
+              vlrObj.identifier = patientId;
+              promises.push(ImportVLRService.getPatient(vlrObj));
+            }
+          });
         }
+        return $q.all(promises).then(function(data) {
+          console.log(data.length + " patients have been found" );
+        });
+
       };
 
       $scope.showContent = function(fileContent){
@@ -194,6 +211,7 @@ angular.module('importVLRApp', ['ngDialog'])
             }
           }
         }
+        addPatientIdentifier();
       };
 
     }])
