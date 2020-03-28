@@ -88,6 +88,7 @@
 
         setupLocationDefaults(flowsheet, html);
         setupAppointmentDateValidation(flowsheet, html);
+        setupHbA1cValidation(flowsheet, html);
         setupHeightAndWeightValidation(flowsheet, html);
         setupHtnDmValidation(flowsheet, html);
         setupViralLoadValidation(flowsheet, html);
@@ -106,6 +107,8 @@
             }
 
         }
+
+
 
         function setupAppointmentDateValidation(flowsheet, html) {
 
@@ -141,6 +144,28 @@
                 return flowsheet.toggleError(apptDateField, err)
             }
         }
+
+      function setupHbA1cValidation(flowsheet, html) {
+        var hba1cEntered = jq(html).find("#hba1c > input");
+        if (hba1cEntered) {
+            validateHbA1cValue(hba1cEntered);
+            hba1cEntered.change(function() {
+                validateHbA1cValue(hba1cEntered);
+            });
+        }
+
+        function validateHbA1cValue(hba1cField) {
+          var hba1cValue = parseInt(hba1cField[0].value);
+          var err = null;
+          if (hba1cValue){
+            if (hba1cValue < 2 || hba1cValue > 16) {
+              err = "HbA1C must be greater than 1 and less than 17"
+
+            }
+          }
+          return flowsheet.toggleError(hba1cField, err);
+        }
+      }
 
         function setupHeightAndWeightValidation(flowsheet, html) {
 
