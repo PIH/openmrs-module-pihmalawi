@@ -4,7 +4,9 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
+import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +49,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -282,6 +284,18 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(text)
                 .conceptClass(misc)
                 .name("F3C29B6C-7FBD-460F-A7D8-CE8377268FE5", "Viral Load Sample ID", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept HbA1c = install(new ConceptNumericBuilder(ChronicCareMetadata.HBA1C_CONCEPT)
+                .datatype(numeric)
+                .conceptClass(test)
+                .units("%")
+                .lowAbsolute(2d)
+                .hiAbsolute(16d)
+                .precise(true)
+                .name("661b31d0-977f-11e1-8993-905e29aff6c1", "HbA1c", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("661b30f4-977f-11e1-8993-905e29aff6c1", "Glycated hemoglobin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("65cd18ec-977f-11e1-8993-905e29aff6c1", "a lab test that shows the average amount of sugar in the blood over the last two to three months", Locale.ENGLISH)
                 .build());
     }
 }
