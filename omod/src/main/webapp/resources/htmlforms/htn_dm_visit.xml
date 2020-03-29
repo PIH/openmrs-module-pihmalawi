@@ -364,7 +364,7 @@
                     <table>
                         <tr>
                             <th>HbA1C</th>
-                            <td><obsreference conceptId="$hbA1c" showUnits="true" /></td>
+                            <td><obsreference conceptId="$hbA1c" id="hba1c" showUnits="true" /></td>
                         </tr>
                         <tr>
                             <th>Fasting blood sugar</th>
