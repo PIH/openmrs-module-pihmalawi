@@ -43,10 +43,16 @@
 </script>
 
 <div class="container" id="importVLR-app" ng-controller="ImportVLRController">
-
+    
     <div ng-if="headerList && headerList.length != 0">
         <h3>${ ui.message("Viral Load Results") }</h3>
-        <button type="button" class="confirm" ng-click="importAllVLR()">${ ui.message("Import All") }</button>
+        <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
+            <span style="text-align:center; font-weight:bold; padding-top:50px;" ng-show="processing">
+                <img src="${ui.resourceLink("uicommons", "images/spinner.gif")}">
+            </span>
+            ${ ui.message("Import All") }
+        </button>
+        <br><br>
         <table id="list-vlr" cellspacing="0" cellpadding="2">
             <thead>
             <tr>
@@ -55,9 +61,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="vlr in vlrList" ng-style="{'background': !vlr.patientId ? '#ffb3b5' : ''}">
+            <tr ng-repeat="vlr in vlrList">
                 <td>{{ vlr.artClinicNo }} </td>
-                <td>
+                <td ng-style="{'background': !vlr.patientId ? '#ffb3b5' : ''}">
                     <a ng-show="vlr.patientId" href="{{dashboardPage}}{{vlr.patientId}}">
                         {{ vlr.identifier }}
                     </a>
@@ -67,22 +73,24 @@
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob }} </td>
                 <td>{{ vlr.age }} </td>
-                <td ng-if="vlr.collectionDate">{{ vlr.collectionDate }} </td>
+                <td ng-if="vlr.collectionDate" ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ vlr.collectionDate }} </td>
                 <td ng-if="vlr.reasonForTest">{{ vlr.reasonForTest }} </td>
                 <td ng-if="vlr.dateOfReceiving">{{ vlr.dateOfReceiving }} </td>
                 <td ng-if="vlr.dateOfTesting">{{ vlr.dateOfTesting }} </td>
                 <td ng-if="vlr.result">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!vlr.patientId" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!vlr.patientId || !vlr.encounter" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <h1>${ ui.message("Select file that contains VL Results") }:</h1>
-    <input type="file" on-read-file="showContent(fileContent)" />
-    <br>
+    <div ng-if="headerList == null || headerList.length == 0">
+        <h1>${ ui.message("Select file that contains VL Results") }:</h1>
+        <input type="file" on-read-file="showContent(fileContent)" />
+        <br>
+    </div>
 
 
 </div>

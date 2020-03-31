@@ -5,16 +5,13 @@ angular.module('importVLRApp', ['ngDialog'])
         URLS: {
           PERSON: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/person",
           PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/patient",
-          PROVIDER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider",
-          PROVIDER_ATTRIBUTE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/provider/{UUID}/attribute",
-          PROVIDERMANAGEMENT_ROLE: "/" + OPENMRS_CONTEXT_PATH + "/providermanagement/providerEdit/assignProviderRoleToPerson.action",
-          IDENTIFIER_SOURCE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/idgen/identifiersource",
-          PATIENT_DASHBOARD_PAGE: "/" + OPENMRS_CONTEXT_PATH + "/patientDashboard.form?patientId=",
+          ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
+          PATIENT_DASHBOARD_PAGE: "/" + OPENMRS_CONTEXT_PATH + "/patientDashboard.form?patientId="
         },
+        VL_SCREENING_ENCOUNTER_TYPE: "9959A261-2122-4AE1-A89D-1CA444B712EA",
         PATIENT_CUSTOM_REP: "v=custom:(uuid,id,display,person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath))",
-        PROVIDER_CUSTOM_REP: "v=custom:(uuid,identifier,display,person:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses))",
         PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
-        CHW_IDENTIFIER_SOURCE: "CHW Identifier Source"
+        ENCOUNTER_CUSTOM_REP: "v=custom:(uuid,patient:(uuid),location:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),person:(uuid),obsDatetime,location:(uuid),encounter:(uuid),comment,valueCodedName:(uuid),groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,value,valueCodedName:(uuid),voided),voided,value:(uuid)))"
       };
 
       var LOCATIONS_MAP = new Map([
@@ -34,6 +31,7 @@ angular.module('importVLRApp', ['ngDialog'])
                 //only one patient found with this ID
                 var patient = response.data.results[0];
                 vlrRecord.patientId = patient.id;
+                vlrRecord.patientUuid = patient.uuid;
               }
               return vlrRecord;
             } else {
@@ -44,18 +42,26 @@ angular.module('importVLRApp', ['ngDialog'])
           });
       };
 
+      this.getVLScreeningEncounter = function(vlRecord) {
+        return $http.get(CONSTANTS.URLS.ENCOUNTER + "?patient=" + vlRecord.patientUuid
+          + "&encounterType=" + CONSTANTS.VL_SCREENING_ENCOUNTER_TYPE
+          + "&fromdate=" + vlRecord.collectionDate
+          + "&todate=" + vlRecord.collectionDate
+          + "&" + CONSTANTS.ENCOUNTER_CUSTOM_REP)
+          .then(function (response) {
+            if ( response.status == 200 ) {
+              if (response.data && response.data.results && response.data.results.length > 0) {
 
-      this.getPersonId = function (uuid) {
-        return $http.get(CONSTANTS.URLS.PERSON + "/" + uuid + "?"
-          + CONSTANTS.PERSON_CUSTOM_REP ).then(function(resp) {
-          if (resp.status == 200) {
-            return resp.data;
-          } else {
-            return null;
-          }
-        }, function (error) {
-          console.log(JSON.stringify(error, undefined, 4));
-        });
+                var encounter = response.data.results[0];
+                vlRecord.encounter = encounter;
+              }
+              return vlRecord;
+            } else {
+              return "";
+            }
+          }, function( error ) {
+            console.log("failed to retrieve VL screening encounter for patient: " + vlrRecord.identifier , error);
+          });
       };
 
     }])
@@ -69,6 +75,7 @@ angular.module('importVLRApp', ['ngDialog'])
       $scope.headerList = null;
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
+      $scope.processing = false;
 
 
 
@@ -163,7 +170,19 @@ angular.module('importVLRApp', ['ngDialog'])
 
       };
 
-      function addPatientIdentifier() {
+      function getVlEncounters() {
+        var promises = [];
+        if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
+          angular.forEach($scope.vlrList, function(vlrObj) {
+            if (typeof vlrObj.patientUuid !== 'undefined' && vlrObj.patientUuid.length > 0
+              && vlrObj.collectionDate.length > 0) {
+              promises.push(ImportVLRService.getVLScreeningEncounter(vlrObj));
+            }
+          });
+        }
+        return $q.all(promises);
+      }
+      function getPatientIdentifier() {
         var promises = [];
 
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
@@ -175,13 +194,11 @@ angular.module('importVLRApp', ['ngDialog'])
             }
           });
         }
-        return $q.all(promises).then(function(data) {
-          console.log(data.length + " patients have been found" );
-        });
-
+        return $q.all(promises);
       };
 
       $scope.showContent = function(fileContent){
+        $scope.processing = true;
         $scope.errorMessage = null;
         $scope.vlrContent = fileContent;
         $scope.content = $scope.vlrContent;
@@ -211,7 +228,11 @@ angular.module('importVLRApp', ['ngDialog'])
             }
           }
         }
-        addPatientIdentifier();
+        getPatientIdentifier().then(function(data) {
+          getVlEncounters().then(function(results) {
+            $scope.processing = false;
+          });
+        });
       };
 
     }])
