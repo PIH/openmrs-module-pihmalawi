@@ -156,9 +156,9 @@
 
         function validateHbA1cValue(hba1cField) {
           var err = null;
-          var hba1cValue = hba1cField[0].value;
-          if (hba1cValue.length > 0) {
+          if (hba1cField.length > 0) {
               // if the field is not empty
+              var hba1cValue = hba1cField[0].value;
               var hba1cIntValue = parseInt(hba1cValue);
               if (isNaN(hba1cIntValue) || hba1cIntValue < 2 || hba1cIntValue > 16) {
                 err = "HbA1C must be a Number greater than 1 and less than 17"
