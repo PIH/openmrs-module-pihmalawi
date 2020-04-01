@@ -299,6 +299,25 @@
         }
 
         function setupHtnDmValidation(flowsheet, html) {
+            // ensure there is a diagnosis checked
+            // define diagnosis fields
+            var type1Diagnosis = $('#diabetes-type-1-dx :checkbox');
+            var type2Diagnosis = $('#diabetes-type-2-dx :checkbox');
+            var hypertensionDiagnosis = $('#hypertension-dx :checkbox');
+            var diagnosisDict = [type1Diagnosis, type2Diagnosis, hypertensionDiagnosis];
+            // ensure at least on diagosis is checked on page load
+            // and when any Htn / Dm diagnosis is changed
+            // using Type 1 DM as the error field in toggleError
+            ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
+            type1Diagnosis.change(function () {
+                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
+            });
+            type2Diagnosis.change(function () {
+                ensureDiagnosisChecked(type2Diagnosis, diagnosisDict);
+            });
+            hypertensionDiagnosis.change(function () {
+                ensureDiagnosisChecked(hypertensionDiagnosis, diagnosisDict);
+            });
 
             // put in for HTN DM Lab form
             // If an HIV Result is clicked - set a hidden HIV Test Date
@@ -329,6 +348,31 @@
                     $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
                 }
             });
+        }
+
+        function ensureDiagnosisChecked(field, dxList) {
+            // function checks whether any diagnosis in a list of diagnosis
+            // fields (dxList) are checked and toggles an error on *field*
+            // if no diagnoses are checked
+	        // note that all diagnoses in the list must be on the form
+	        // for an error to toggle on
+            var dxChecked = false; // any diagnosis in list checked (initialize)
+            var dxIterBool = false; // diagnosis item in list checked (initialize)
+            var nDxRequired = dxList.length; // number of diagnosis fields expected
+            var nDxActual = 0; // Actual diagnosis fields (initialize)
+            // iterate over diagnosis list and check if any are checked
+            for (i = 0; i < dxList.length; i++) {
+                nDxActual += dxList[i].length;
+                dxIterBool = dxList[i].is(':checked');
+                dxChecked = (dxChecked || dxIterBool);
+            }
+            // if all diagnoses are unchecked toggleError
+            // else return no error
+            var err = null;
+            if (!dxChecked && (nDxActual == nDxRequired)) {
+                err = 'Must enter at least one diagnosis!';
+            }
+            return flowsheet.toggleError(field, err);
         }
 
         function validateDiabetesDiagnosisType() {
