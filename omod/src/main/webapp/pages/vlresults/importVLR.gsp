@@ -43,11 +43,11 @@
 </script>
 
 <div class="container" id="importVLR-app" ng-controller="ImportVLRController">
-    
+
     <div ng-if="headerList && headerList.length != 0">
         <h3>${ ui.message("Viral Load Results") }</h3>
         <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
-            <span style="text-align:center; font-weight:bold; padding-top:50px;" ng-show="processing">
+            <span ng-show="processing">
                 <img src="${ui.resourceLink("uicommons", "images/spinner.gif")}">
             </span>
             ${ ui.message("Import All") }
@@ -61,10 +61,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="vlr in vlrList">
+            <tr ng-repeat="vlr in vlrList" ng-style="{'background': (vlr.completed)  ? 'greenyellow' : ''}">
                 <td>{{ vlr.artClinicNo }} </td>
-                <td ng-style="{'background': !vlr.patientId ? '#ffb3b5' : ''}">
-                    <a ng-show="vlr.patientId" href="{{dashboardPage}}{{vlr.patientId}}">
+                <td ng-style="{'background': (!vlr.patientId && !processing) ? '#ffb3b5' : ''}">
+                    <a ng-show="vlr.patientId" href="{{mastercardPage}}{{vlr.patientId}}">
                         {{ vlr.identifier }}
                     </a>
                     <span ng-show="!vlr.patientId">{{ vlr.identifier }}</span>
@@ -79,7 +79,7 @@
                 <td ng-if="vlr.dateOfTesting">{{ vlr.dateOfTesting }} </td>
                 <td ng-if="vlr.result">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!vlr.patientId || !vlr.encounter" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
