@@ -20,9 +20,11 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       var LOCATIONS_MAP = new Map([
-        [3704 , { code: "LWAN", name: "Luwani", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
-        [3705 , { code: "MGT", name:"Magaleta", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
-        [3709, {code: "NNO", name: "Neno District Hospital", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e", locationId: 3709 }]
+        [3704, { code: "LWAN", name: "Luwani", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
+        [3705, { code: "MGT", name:"Magaleta", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
+        [3706, { code: "MTDN", name:"Matandani Health Center", uuid: "0d415200-5ab4-11e0-870c-9f6107fee88e", locationId: 3706 }],
+        [3709, { code: "NNO", name: "Neno District Hospital", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e", locationId: 3709 }],
+        [3714, { code: "DAM", name: "Dambe Health Center", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef", locationId: 3714 }]
       ]);
 
       this.CONSTANTS = CONSTANTS;
