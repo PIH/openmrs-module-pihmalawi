@@ -91,6 +91,7 @@
         setupHbA1cValidation(flowsheet, html);
         setupHeightAndWeightValidation(flowsheet, html);
         setupHtnDmValidation(flowsheet, html);
+        setupChronLungValidation(flowsheet, html);
         setupViralLoadValidation(flowsheet, html);
 
         function setupLocationDefaults(flowsheet, html) {
@@ -298,6 +299,22 @@
             return error;
         }
 
+        function setupChronLungValidation(flowsheet, html) {
+            // ensure there is a diagnosis checked
+            // define diagnosis fields
+            var asthmaDiagnosis = $('#asthma-dx :checkbox');
+            var copdDiagnosis = $('#copd-dx :checkbox');
+            var diagnosisDict = [asthmaDiagnosis, copdDiagnosis];
+
+            ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
+            asthmaDiagnosis.change(function () {
+                ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
+            });
+            copdDiagnosis.change(function () {
+                ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
+            });
+        }
+
         function setupHtnDmValidation(flowsheet, html) {
             // ensure there is a diagnosis checked
             // define diagnosis fields
@@ -313,10 +330,10 @@
                 ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
             });
             type2Diagnosis.change(function () {
-                ensureDiagnosisChecked(type2Diagnosis, diagnosisDict);
+                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
             });
             hypertensionDiagnosis.change(function () {
-                ensureDiagnosisChecked(hypertensionDiagnosis, diagnosisDict);
+                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
             });
 
             // put in for HTN DM Lab form
