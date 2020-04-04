@@ -30,9 +30,15 @@
     ui.includeJavascript("pihmalawi", "vlresults/importVLRController.js")
 %>
 <style type="text/css">
-.notFoundPatient {
-    background-color: #ffb3b5;
-}
+    .notFoundPatient {
+        background-color: #ffb3b5;
+    }
+
+    #list-vlr {
+        table-layout: auto;
+        display: block;
+        overflow-x: auto;
+    }
 </style>
 
 <script type="text/javascript">
@@ -49,8 +55,11 @@
         <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
             <span ng-show="processing">
                 <img src="${ui.resourceLink("uicommons", "images/spinner.gif")}">
+                ${ ui.message("Processing file") }
             </span>
-            ${ ui.message("Import All") }
+            <span ng-show="!processing">
+                ${ ui.message("Import All") }
+            </span>
         </button>
         <br><br>
         <table id="list-vlr" cellspacing="0" cellpadding="2">
@@ -73,11 +82,11 @@
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob }} </td>
                 <td>{{ vlr.age }} </td>
-                <td ng-if="vlr.collectionDate" ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ vlr.collectionDate }} </td>
-                <td ng-if="vlr.reasonForTest">{{ vlr.reasonForTest }} </td>
-                <td ng-if="vlr.dateOfReceiving">{{ vlr.dateOfReceiving }} </td>
-                <td ng-if="vlr.dateOfTesting">{{ vlr.dateOfTesting }} </td>
-                <td ng-if="vlr.result">{{ vlr.result }} </td>
+                <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ vlr.collectionDate }} </td>
+                <td>{{ vlr.reasonForTest }} </td>
+                <td>{{ vlr.dateOfReceiving }} </td>
+                <td>{{ vlr.dateOfTesting }} </td>
+                <td>{{ vlr.result }} </td>
                 <td>
                     <button ng-disabled="!vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>

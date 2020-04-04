@@ -11,6 +11,10 @@ angular.module('importVLRApp', ['ngDialog'])
         VL_SCREENING_ENCOUNTER_TYPE: "9959A261-2122-4AE1-A89D-1CA444B712EA",
         VL_TEST_SET: "83931c6d-0e5a-4302-b8ce-a31175b6475e",
         HIV_VIRAL_LOAD: "654a7694-977f-11e1-8993-905e29aff6c1",
+        REASON_FOR_TESTING: "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        ROUTINE: "e0821812-955d-11e7-abc4-cec278b6b50a",
+        CONFIRMED: "65590f06-977f-11e1-8993-905e29aff6c1",
+        TARGET: "e0821df8-955d-11e7-abc4-cec278b6b50a",
         TRUE: "655e2f90-977f-11e1-8993-905e29aff6c1",
         LDL: "e97b36a2-16f5-11e6-b6ba-3e1d05defe78",
         LESS_THAN_LIMIT: "69e87644-5562-11e9-8647-d663bd873d93",
@@ -62,7 +66,23 @@ angular.module('importVLRApp', ['ngDialog'])
         return vlResultObs;
       }
 
-      function parseEncounter(encounter, vlResultObs) {
+      function buildReasonForTestingObs(vlRecord) {
+        var vlReasonForTestingObs = {
+          concept: {
+            uuid: CONSTANTS.REASON_FOR_TESTING
+          }
+        };
+        if (vlRecord.reasonForTest) {
+          if (vlRecord.reasonForTest.toUpperCase().includes("ROUTINE")) {
+            vlReasonForTestingObs.value = CONSTANTS.ROUTINE;
+          } else if (vlRecord.reasonForTest.toUpperCase().includes("TARGET")) {
+            vlReasonForTestingObs.value = CONSTANTS.TARGET;
+          }
+        }
+        return vlReasonForTestingObs;
+      }
+
+      function parseEncounter(encounter, vlResultObs, reasonForTestingObs) {
 
         var resultObs = angular.copy(vlResultObs);
         resultObs.uuid = null;
@@ -77,6 +97,7 @@ angular.module('importVLRApp', ['ngDialog'])
             if (!parentObs.voided && parentObs.concept.uuid === CONSTANTS.VL_TEST_SET) {
               vlObs.uuid = parentObs.uuid;
               var members = [];
+              var hasReasonForTesting = false;
               angular.forEach(parentObs.groupMembers, function (childObs) {
                 var groupMember = {
                   "uuid": childObs.uuid,
@@ -96,6 +117,10 @@ angular.module('importVLRApp', ['ngDialog'])
                     groupMember.value = childObs.value;
                   }
                 }
+                if (groupMember.concept.uuid === CONSTANTS.REASON_FOR_TESTING && groupMember.value) {
+                  // Reason for Testing has been entered during sample collection
+                  hasReasonForTesting = true;
+                }
                 if (resultObs.concept.uuid == groupMember.concept.uuid) {
                   // this encounter already has a VL result, and we will update its value
                   resultObs.uuid = groupMember.uuid;
@@ -107,6 +132,9 @@ angular.module('importVLRApp', ['ngDialog'])
               });
               if (!vlResultAdded) {
                 members.push(resultObs);
+              }
+              if (!hasReasonForTesting) {
+                members.push(reasonForTestingObs);
               }
               vlObs.groupMembers = members;
               break;
@@ -171,7 +199,8 @@ angular.module('importVLRApp', ['ngDialog'])
         if (vlRecord.encounter && vlRecord.encounter.uuid) {
           var postUrl = CONSTANTS.URLS.ENCOUNTER + "/" + vlRecord.encounter.uuid;
           var vlResultObs = buildVlResultObs(vlRecord);
-          var updatedEncounter = parseEncounter(vlRecord.encounter, vlResultObs);
+          var reasonForTestingObs = buildReasonForTestingObs(vlRecord);
+          var updatedEncounter = parseEncounter(vlRecord.encounter, vlResultObs, reasonForTestingObs);
           return $http.post(postUrl , updatedEncounter)
             .then(function (response) {
               if (response.status == 200 && response.data) {
@@ -196,7 +225,7 @@ angular.module('importVLRApp', ['ngDialog'])
       $scope.headerList = null;
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
-      $scope.processing = false;
+      $scope.processing = true;
 
 
 
@@ -324,7 +353,6 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       $scope.showContent = function(fileContent){
-        $scope.processing = true;
         $scope.errorMessage = null;
         $scope.vlrContent = fileContent;
         $scope.content = $scope.vlrContent;
