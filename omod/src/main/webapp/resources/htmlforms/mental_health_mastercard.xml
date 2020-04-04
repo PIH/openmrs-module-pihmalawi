@@ -228,7 +228,7 @@
 
                                 <obsgroup groupingConceptId="$diagnosisSet">
                                     <td data-toggle-source="schizo" data-toggle-target="schizo-date" style="border-right: 1px solid #ffffff;">
-                                        <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                        <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox"
                                              answerConceptId="$schizo" answerLabel="Schizophrenia"/>
                                     </td>
                                     <td id="schizo-date" style="border-left: 1px solid #ffffff;">
@@ -276,7 +276,7 @@
                                         <tr>
                                             <obsgroup groupingConceptId="$diagnosisSet">
                                                 <td data-toggle-source="{2}" data-toggle-target="{2}-date" style="border-right: 1px solid #ffffff;">
-                                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                                    <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox"
                                                          answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
                                                 <td id="{2}-date" style="border-left: 1px solid #ffffff;">
@@ -294,7 +294,7 @@
                                 <obsgroup groupingConceptId="$diagnosisSet">
                                     <td data-toggle-source="{2}" data-toggle-target="{2}-date"
                                         style="border-right: 1px solid #ffffff;">
-                                        <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                        <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox"
                                              answerConceptId="{0}" answerLabel="{1}"/>
                                         <obs conceptId="$noncodedOtherName" />
                                     </td>

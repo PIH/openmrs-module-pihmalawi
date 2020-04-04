@@ -156,7 +156,7 @@
                             <!-- DM 1 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="diabetes-type-1-dx" data-toggle-target="diabetes-type-1-dx-date">
-                                    <obs id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                    <obs class="dx-checkbox-item" id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
                                 </td>
                                 <td>
                                     <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -174,7 +174,7 @@
                             <!-- DM 2 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="diabetes-type-2-dx" data-toggle-target="diabetes-type-2-dx-date">
-                                    <obs id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                    <obs class="dx-checkbox-item" id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
                                 </td>
                                 <td>
                                     <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -184,7 +184,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="hypertension-dx" data-toggle-target="hypertension-dx-date">
-                                    <obs id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                    <obs class="dx-checkbox-item" id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
                                 </td>
                                 <td>
                                     <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>

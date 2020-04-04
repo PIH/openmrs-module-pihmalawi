@@ -152,7 +152,7 @@
                             <!-- Asthma -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="asthma-dx" data-toggle-target="asthma-dx-date">
-                                    <obs id="asthma-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
+                                    <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
                                 </td>
                                 <td>
                                     <obs id="asthma-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
@@ -168,7 +168,7 @@
                             <!-- COPD -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="copd-dx" data-toggle-target="copd-dx-date">
-                                    <obs id="copd-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$copdDx" answerLabel="COPD" />
                                 </td>
                                 <td class="toggle-target">

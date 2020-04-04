@@ -91,7 +91,7 @@
         setupHbA1cValidation(flowsheet, html);
         setupHeightAndWeightValidation(flowsheet, html);
         setupHtnDmValidation(flowsheet, html);
-        setupChronLungValidation(flowsheet, html);
+        setupChronicCareDiagnosisValidation(flowsheet, html);
         setupViralLoadValidation(flowsheet, html);
 
         function setupLocationDefaults(flowsheet, html) {
@@ -299,43 +299,29 @@
             return error;
         }
 
-        function setupChronLungValidation(flowsheet, html) {
-            // ensure there is a diagnosis checked
-            // define diagnosis fields
-            var asthmaDiagnosis = $('#asthma-dx :checkbox');
-            var copdDiagnosis = $('#copd-dx :checkbox');
-            var diagnosisDict = [asthmaDiagnosis, copdDiagnosis];
+        function setupChronicCareDiagnosisValidation (flowsheet, html) {
+            // function finds all checkbox diagnosis items in the dx-checkbox-item
+            // class and activates toggleError if none are checked
 
-            ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
-            asthmaDiagnosis.change(function () {
-                ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
+            // get array of checkbox items
+            var diagnosisDict = [];
+            $('.dx-checkbox-item:visible').each(function (i, el) {
+                var dxItem = $(el).find(':checkbox');
+                diagnosisDict.push(dxItem);
             });
-            copdDiagnosis.change(function () {
-                ensureDiagnosisChecked(asthmaDiagnosis, diagnosisDict);
-            });
+
+            // check if any are checked on page load
+            ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+            // check if any are checked anytime any element changes
+            for (i = 0; i < diagnosisDict.length; i++) {
+                var dxElement = diagnosisDict[i];
+                dxElement.change( function() {
+                    ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+                });
+            }
         }
 
         function setupHtnDmValidation(flowsheet, html) {
-            // ensure there is a diagnosis checked
-            // define diagnosis fields
-            var type1Diagnosis = $('#diabetes-type-1-dx :checkbox');
-            var type2Diagnosis = $('#diabetes-type-2-dx :checkbox');
-            var hypertensionDiagnosis = $('#hypertension-dx :checkbox');
-            var diagnosisDict = [type1Diagnosis, type2Diagnosis, hypertensionDiagnosis];
-            // ensure at least on diagosis is checked on page load
-            // and when any Htn / Dm diagnosis is changed
-            // using Type 1 DM as the error field in toggleError
-            ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
-            type1Diagnosis.change(function () {
-                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
-            });
-            type2Diagnosis.change(function () {
-                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
-            });
-            hypertensionDiagnosis.change(function () {
-                ensureDiagnosisChecked(type1Diagnosis, diagnosisDict);
-            });
-
             // put in for HTN DM Lab form
             // If an HIV Result is clicked - set a hidden HIV Test Date
             // to the encounter date.
