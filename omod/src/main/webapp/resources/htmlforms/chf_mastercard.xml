@@ -44,6 +44,7 @@
         <macro key="strokeCCF" value="65714e68-977f-11e1-8993-905e29aff6c1" />
         <macro key="afibCCF" value="65680bfa-977f-11e1-8993-905e29aff6c1" />
         <macro key="dvtCCF" value="65717898-977f-11e1-8993-905e29aff6c1" />
+        <macro key="otherDx" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherCCF" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
         <macro key="comorbidity" value="655a8d90-977f-11e1-8993-905e29aff6c1" />
         <macro key="hypertension" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
@@ -259,11 +260,13 @@
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="dvt-dx" data-toggle-target="dvt-dx-date" rowspan="2">
-                                    <obs id="dvt-dx" conceptId="$otherCCF" labelText="Other" />
+                                <td data-toggle-source="otherCheckbox-dx" data-toggle-target="other-dx-date" rowspan="2">
+                                    <obs class="dx-checkbox-item" id="otherCheckbox-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                     answerConceptId="$otherDx" answerLabel="Other" /><br />
+                                    <obs id="other-dx" conceptId="$otherCCF" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="dvt-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
