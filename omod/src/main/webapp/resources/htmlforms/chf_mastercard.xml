@@ -44,6 +44,7 @@
         <macro key="strokeCCF" value="65714e68-977f-11e1-8993-905e29aff6c1" />
         <macro key="afibCCF" value="65680bfa-977f-11e1-8993-905e29aff6c1" />
         <macro key="dvtCCF" value="65717898-977f-11e1-8993-905e29aff6c1" />
+        <macro key="otherDx" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherCCF" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
         <macro key="comorbidity" value="655a8d90-977f-11e1-8993-905e29aff6c1" />
         <macro key="hypertension" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
@@ -155,7 +156,7 @@
                             <!--  -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="dilated-dx" data-toggle-target="dilated-dx-date">
-                                    <obs id="dilated-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="dilated-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$dilatedCCF" answerLabel="Dilated" />
                                 </td>
                                 <td class="toggle-target">
@@ -165,7 +166,7 @@
 
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="cad-dx" data-toggle-target="cad-dx-date" rowspan="2">
-                                    <obs id="cad-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="cad-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$cadCCF" answerLabel="CAD" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
@@ -175,7 +176,7 @@
 
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="pe-dx" data-toggle-target="pe-dx-date" rowspan="2">
-                                    <obs id="pe-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="pe-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$peCCF" answerLabel="PE" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
@@ -187,7 +188,7 @@
                             <!-- Restrictive -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="restrict-dx" data-toggle-target="restrict-dx-date">
-                                    <obs id="restrict-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="restrict-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$restrictiveCCF" answerLabel="Restrictive" />
                                 </td>
                                 <td class="toggle-target">
@@ -199,7 +200,7 @@
                             <!-- Valvular -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="valvular-dx" data-toggle-target="valvular-dx-date">
-                                    <obs id="valvular-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="valvular-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$valvularCCF" answerLabel="Valvular" />
                                 </td>
                                 <td class="toggle-target">
@@ -208,7 +209,7 @@
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date" rowspan="2">
-                                    <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$strokeCCF" answerLabel="Stroke" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
@@ -217,7 +218,7 @@
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="dvt-dx" data-toggle-target="dvt-dx-date" rowspan="2">
-                                    <obs id="dvt-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="dvt-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$dvtCCF" answerLabel="DVT" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
@@ -229,7 +230,7 @@
                             <!-- Unknown -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="unknown-dx" data-toggle-target="unknown-dx-date">
-                                    <obs id="unknown-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="unknown-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$unknown" answerLabel="Unknown" />
                                 </td>
                                 <td class="toggle-target">
@@ -242,7 +243,7 @@
                             <!-- Rheumatic -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="rheumatic-dx" data-toggle-target="rheumatic-dx-date">
-                                    <obs id="rheumatic-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="rheumatic-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$rheumaticCCF" answerLabel="Rheumatic" />
                                 </td>
                                 <td class="toggle-target">
@@ -251,7 +252,7 @@
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="afib-dx" data-toggle-target="afib-dx-date" rowspan="2">
-                                    <obs id="afib-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="afib-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$afibCCF" answerLabel="Afib" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
@@ -259,11 +260,13 @@
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
-                                <td data-toggle-source="dvt-dx" data-toggle-target="dvt-dx-date" rowspan="2">
-                                    <obs id="dvt-dx" conceptId="$otherCCF" labelText="Other" />
+                                <td data-toggle-source="otherCheckbox-dx" data-toggle-target="other-dx-date" rowspan="2">
+                                    <obs class="dx-checkbox-item" id="otherCheckbox-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                     answerConceptId="$otherDx" answerLabel="Other" /><br />
+                                    <obs id="other-dx" conceptId="$otherCCF" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="dvt-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -271,7 +274,7 @@
                             <!-- Congenital -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="congenital-dx" data-toggle-target="congenital-dx-date">
-                                    <obs id="congenital-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="congenital-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$congenitalCCF" answerLabel="Congenital" />
                                 </td>
                                 <td class="toggle-target">

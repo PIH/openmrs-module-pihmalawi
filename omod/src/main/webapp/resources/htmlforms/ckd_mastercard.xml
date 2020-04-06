@@ -167,7 +167,7 @@
                             <!-- CHF -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="chf-dx" data-toggle-target="chf-dx-date">
-                                    <obs id="chf-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="chf-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$chfDX" answerLabel="CHF" />
                                 </td>
                                 <td class="toggle-target">
@@ -179,7 +179,7 @@
                             <!-- Hypertension -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="htn-dx" data-toggle-target="htn-dx-date">
-                                    <obs id="htn-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="htn-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$hypertensionDx" answerLabel="Hypertension" />
                                 </td>
                                 <td class="toggle-target">
@@ -191,7 +191,7 @@
                             <!-- Diabetes -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="diabetes-dx" data-toggle-target="diabetes-dx-date">
-                                    <obs id="diabetes-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="diabetes-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$diabetesDx" answerLabel="Diabetes" />
                                 </td>
                                 <td class="toggle-target">
@@ -203,7 +203,7 @@
                             <!-- Other -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="other-dx" data-toggle-target="other-dx-date">
-                                    <obs id="other-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="other-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$otherDx" answerLabel="Other (Stroke, COPD)" />
                                 </td>
                                 <td class="toggle-target">

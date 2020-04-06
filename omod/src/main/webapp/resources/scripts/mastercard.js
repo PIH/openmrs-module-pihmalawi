@@ -91,6 +91,7 @@
         setupHbA1cValidation(flowsheet, html);
         setupHeightAndWeightValidation(flowsheet, html);
         setupHtnDmValidation(flowsheet, html);
+        setupChronicCareDiagnosisValidation(flowsheet, html);
         setupViralLoadValidation(flowsheet, html);
 
         function setupLocationDefaults(flowsheet, html) {
@@ -298,8 +299,29 @@
             return error;
         }
 
-        function setupHtnDmValidation(flowsheet, html) {
+        function setupChronicCareDiagnosisValidation (flowsheet, html) {
+            // function finds all checkbox diagnosis items in the dx-checkbox-item
+            // class and activates toggleError if none are checked
 
+            // get array of checkbox items
+            var diagnosisDict = [];
+            $('.dx-checkbox-item:visible').each(function (i, el) {
+                var dxItem = $(el).find(':checkbox');
+                diagnosisDict.push(dxItem);
+            });
+
+            // check if any are checked on page load
+            ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+            // check if any are checked anytime any element changes
+            for (i = 0; i < diagnosisDict.length; i++) {
+                var dxElement = diagnosisDict[i];
+                dxElement.change( function() {
+                    ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+                });
+            }
+        }
+
+        function setupHtnDmValidation(flowsheet, html) {
             // put in for HTN DM Lab form
             // If an HIV Result is clicked - set a hidden HIV Test Date
             // to the encounter date.
@@ -329,6 +351,31 @@
                     $("#diabetes-type-1-dx").find(":input").prop('disabled', false);
                 }
             });
+        }
+
+        function ensureDiagnosisChecked(field, dxList) {
+            // function checks whether any diagnosis in a list of diagnosis
+            // fields (dxList) are checked and toggles an error on *field*
+            // if no diagnoses are checked
+	        // note that all diagnoses in the list must be on the form
+	        // for an error to toggle on
+            var dxChecked = false; // any diagnosis in list checked (initialize)
+            var dxIterBool = false; // diagnosis item in list checked (initialize)
+            var nDxRequired = dxList.length; // number of diagnosis fields expected
+            var nDxActual = 0; // Actual diagnosis fields (initialize)
+            // iterate over diagnosis list and check if any are checked
+            for (i = 0; i < dxList.length; i++) {
+                nDxActual += dxList[i].length;
+                dxIterBool = dxList[i].is(':checked');
+                dxChecked = (dxChecked || dxIterBool);
+            }
+            // if all diagnoses are unchecked toggleError
+            // else return no error
+            var err = null;
+            if (!dxChecked && (nDxActual == nDxRequired)) {
+                err = 'Must enter at least one diagnosis!';
+            }
+            return flowsheet.toggleError(field, err);
         }
 
         function validateDiabetesDiagnosisType() {

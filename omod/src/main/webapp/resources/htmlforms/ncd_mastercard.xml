@@ -112,79 +112,79 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="5" answerLabel="Asthma"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="5" answerLabel="Asthma"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="903" answerLabel="Hypertension"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="903" answerLabel="Hypertension"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="155" answerLabel="Epilepsy"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="155" answerLabel="Epilepsy"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless-grey">
-                                        <obs conceptId="3683" answerConceptId="3720" answerLabel="Diabetes"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="3720" answerLabel="Diabetes"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <!-- TO HERE -->
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3468" answerLabel="Heart failure"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="3468" answerLabel="Heart failure"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3714" answerLabel="Cirrhosis"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="3714" answerLabel="Cirrhosis"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
                                         <!-- ToDo:  This is a synonym as Heart Failure.  Checking with Beth  -->
-                                        <obs conceptId="3683" answerConceptId="2720" answerLabel="Congestive heart disease"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="2720" answerLabel="Congestive heart disease"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="27" answerLabel="Hepatitis B"
-                                             style="checkbox"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="221" answerLabel="Rheumatic heart disease"
-                                             style="checkbox"/>
-                                    </td>
-                                    <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="7623" answerLabel="Chronic kidney disease"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="27" answerLabel="Hepatitis B"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="7518" answerLabel="Sickle cell disease"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="221" answerLabel="Rheumatic heart disease"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="8595" answerLabel="Polycystic kidney disease"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="7623" answerLabel="Chronic kidney disease"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="202" answerLabel="Rheumatoid arthritis"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="7518" answerLabel="Sickle cell disease"
                                              style="checkbox"/>
                                     </td>
                                     <td class="borderless">
-                                        <obs conceptId="3683" answerConceptId="3779" answerLabel="Tropical splenomegaly"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="8595" answerLabel="Polycystic kidney disease"
+                                             style="checkbox"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="borderless">
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="202" answerLabel="Rheumatoid arthritis"
+                                             style="checkbox"/>
+                                    </td>
+                                    <td class="borderless">
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="3779" answerLabel="Tropical splenomegaly"
                                              style="checkbox"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="borderless">
-                                        <obs conceptId="3683" answerConceptId="5622" answerLabel="Other"
+                                        <obs class="dx-checkbox-item" conceptId="3683" answerConceptId="5622" answerLabel="Other"
                                              style="checkbox"/>
                                         <obs conceptId="$otherDiagnosis" />
                                     </td>
