@@ -310,14 +310,17 @@
                 diagnosisDict.push(dxItem);
             });
 
-            // check if any are checked on page load
-            ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
-            // check if any are checked anytime any element changes
-            for (i = 0; i < diagnosisDict.length; i++) {
-                var dxElement = diagnosisDict[i];
-                dxElement.change( function() {
-                    ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
-                });
+            // Only do validation if there are checkbox diagnosis items
+            if (diagnosisDict.length > 0) {
+                // check if any are checked on page load
+                ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+                // check if any are checked anytime any element changes
+                for (i = 0; i < diagnosisDict.length; i++) {
+                    var dxElement = diagnosisDict[i];
+                    dxElement.change( function() {
+                        ensureDiagnosisChecked(diagnosisDict[0], diagnosisDict);
+                    });
+                }
             }
         }
 
