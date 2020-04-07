@@ -336,7 +336,7 @@
 
             // Allow user to select either type 1 or type 2 only for diabetes
             if ($('#diabetes-type-1-dx :checkbox').is(':checked') || $('#diabetes-type-2-dx :checkbox').is(':checked')) {
-                flowsheet.validateDiabetesDiagnosisType();
+                validateDiabetesDiagnosisType();
             }
 
             $("#diabetes-type-1-dx").change(function () {
