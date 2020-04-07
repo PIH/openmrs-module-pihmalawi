@@ -310,18 +310,38 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       function importVLResult(vlr) {
+        var deferred = $q.defer();
         if (vlr.encounter && vlr.encounter.uuid) {
           ImportVLRService.updateVLScreeningEncounter(vlr).then(function(data) {
-            console.log("VL Encounter has been updated for patient: ", data.patientUuid);
+            deferred.resolve(data);
           });
         }
+
+        return deferred.promise;
       }
 
       $scope.importVLR = function(vlr, showDialog){
         importVLResult(vlr);
       };
 
-      $scope.importAllVLR = function(chw, showDialog){
+      function importAllResults() {
+        var promises = [];
+        if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
+          angular.forEach($scope.vlrList, function(vlrObj) {
+            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate.length > 0 && vlrObj.encounter) {
+              promises.push(importVLResult(vlrObj));
+            }
+          });
+        }
+        return $q.all(promises);
+      }
+
+      $scope.importAllVLR = function(){
+        $scope.processing = true;
+        importAllResults().then(function(results) {
+          console.log("number of results imported = " + results.length);
+          $scope.processing = false;
+        });
 
       };
 
@@ -337,6 +357,7 @@ angular.module('importVLRApp', ['ngDialog'])
         }
         return $q.all(promises);
       }
+
       function getPatientIdentifier() {
         var promises = [];
 
@@ -350,7 +371,7 @@ angular.module('importVLRApp', ['ngDialog'])
           });
         }
         return $q.all(promises);
-      };
+      }
 
       $scope.showContent = function(fileContent){
         $scope.errorMessage = null;
