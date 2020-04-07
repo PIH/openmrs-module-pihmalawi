@@ -81,7 +81,7 @@
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob }} </td>
                 <td>{{ vlr.age }} </td>
-                <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ vlr.collectionDate }} </td>
+                <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
                 <td>{{ vlr.dateOfReceiving }} </td>
                 <td>{{ vlr.dateOfTesting }} </td>

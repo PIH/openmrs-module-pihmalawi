@@ -154,6 +154,25 @@ angular.module('importVLRApp', ['ngDialog'])
         return updatedEncounter;
       }
 
+      function getRestDate(dateObj) {
+        var returnDate = dateObj;
+        var newDate = new Date(dateObj);
+
+        if (newDate) {
+          var dd = newDate.getDate();
+          var mm = newDate.getMonth()+1;
+          var yyyy = newDate.getFullYear();
+          if(dd<10) {
+            dd='0' + dd;
+          }
+          if(mm<10) {
+            mm='0' + mm;
+          }
+          returnDate = yyyy + '-' +  mm + '-' + dd;
+        }
+        return returnDate;
+      }
+
       this.getPatient = function(vlRecord) {
         return $http.get(CONSTANTS.URLS.PATIENT + "?q=" + vlRecord.identifier + "&" + CONSTANTS.PATIENT_CUSTOM_REP)
           .then(function (response) {
@@ -176,8 +195,8 @@ angular.module('importVLRApp', ['ngDialog'])
       this.getVLScreeningEncounter = function(vlRecord) {
         return $http.get(CONSTANTS.URLS.ENCOUNTER + "?patient=" + vlRecord.patientUuid
           + "&encounterType=" + CONSTANTS.VL_SCREENING_ENCOUNTER_TYPE
-          + "&fromdate=" + vlRecord.collectionDate
-          + "&todate=" + vlRecord.collectionDate
+          + "&fromdate=" + getRestDate(vlRecord.collectionDate)
+          + "&todate=" + getRestDate(vlRecord.collectionDate)
           + "&" + CONSTANTS.ENCOUNTER_CUSTOM_REP)
           .then(function (response) {
             if ( response.status == 200 ) {
@@ -328,7 +347,7 @@ angular.module('importVLRApp', ['ngDialog'])
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate.length > 0 && vlrObj.encounter) {
+            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter) {
               promises.push(importVLResult(vlrObj));
             }
           });
@@ -350,7 +369,7 @@ angular.module('importVLRApp', ['ngDialog'])
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
             if (typeof vlrObj.patientUuid !== 'undefined' && vlrObj.patientUuid.length > 0
-              && vlrObj.collectionDate.length > 0) {
+              && vlrObj.collectionDate) {
               promises.push(ImportVLRService.getVLScreeningEncounter(vlrObj));
             }
           });
@@ -373,6 +392,25 @@ angular.module('importVLRApp', ['ngDialog'])
         return $q.all(promises);
       }
 
+      $scope.displayDate = function(dateObj) {
+        var returnDate = dateObj;
+        var newDate = new Date(dateObj);
+
+        if (newDate) {
+          var dd = newDate.getDate();
+          var mm = newDate.getMonth()+1;
+          var yyyy = newDate.getFullYear();
+          if(dd<10) {
+            dd='0' + dd;
+          }
+          if(mm<10) {
+            mm='0' + mm;
+          }
+          returnDate = mm + '/' + dd + '/' + yyyy;
+        }
+        return returnDate;
+      };
+
       $scope.showContent = function(fileContent){
         $scope.errorMessage = null;
         $scope.vlrContent = fileContent;
@@ -393,7 +431,8 @@ angular.module('importVLRApp', ['ngDialog'])
               vlrObj.sex = vlrValues[3];
               vlrObj.dob = vlrValues[4];
               vlrObj.age = vlrValues[5];
-              vlrObj.collectionDate = vlrValues[6];
+              // by appending T00:00:00 we prevent the Date from changing based on the local timezone
+              vlrObj.collectionDate = Date.parse(vlrValues[6]+'T00:00:00');
               vlrObj.reasonForTest = vlrValues[7];
               vlrObj.dateOfReceiving = vlrValues[8];
               vlrObj.dateOfTesting = vlrValues[9];
