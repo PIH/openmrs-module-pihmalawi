@@ -3,7 +3,6 @@
 
     ui.includeCss("uicommons", "ngDialog/ngDialog.min.css")
 
-    ui.includeCss("pihmalawi", "bootstrap.css")
 
     ui.includeJavascript("uicommons", "angular.min.js")
     ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.13.0.js")
