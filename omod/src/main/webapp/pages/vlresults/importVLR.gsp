@@ -49,7 +49,7 @@
 
 <div class="container" id="importVLR-app" ng-controller="ImportVLRController">
 
-    <div ng-if="headerList && headerList.length != 0">
+    <div ng-if="vlrList && vlrList.length > 0">
         <h3>${ ui.message("Viral Load Results") }</h3>
         <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
             <span ng-show="processing">
@@ -83,8 +83,6 @@
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
-                <td>{{ vlr.dateOfReceiving }} </td>
-                <td>{{ vlr.dateOfTesting }} </td>
                 <td>{{ vlr.result }} </td>
                 <td>
                     <button ng-disabled="!vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
@@ -94,7 +92,7 @@
         </table>
     </div>
 
-    <div ng-if="headerList == null || headerList.length == 0">
+    <div ng-if="vlrList == null || vlrList.length == 0">
         <h1>${ ui.message("Select file that contains VL Results") }:</h1>
         <input type="file" on-read-file="showContent(fileContent)" />
         <br>

@@ -24,10 +24,18 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       var LOCATIONS_MAP = new Map([
+        [3701, { code: "CFGA", name: "Chifunga HC", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e", locationId: 3701 }],
+        [3702, { code: "LGWE", name:"Ligowe HC", uuid: "0d417e38-5ab4-11e0-870c-9f6107fee88e", locationId: 3702 }],
+        [3703, { code: "LSI", name: "Lisungwi Community Hospital", uuid: "0d416376-5ab4-11e0-870c-9f6107fee88e", locationId: 3703 }],
         [3704, { code: "LWAN", name: "Luwani", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
         [3705, { code: "MGT", name:"Magaleta", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
         [3706, { code: "MTDN", name:"Matandani Health Center", uuid: "0d415200-5ab4-11e0-870c-9f6107fee88e", locationId: 3706 }],
+        [3708, { code: "LSI", name:"Midzemba HC", uuid: "0d4182e8-5ab4-11e0-870c-9f6107fee88e", locationId: 3708 }],
         [3709, { code: "NNO", name: "Neno District Hospital", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e", locationId: 3709 }],
+        [3710, { code: "NOP", name:"Neno Mission HC", uuid: "0d41505c-5ab4-11e0-870c-9f6107fee88e", locationId: 3710 }],
+        [3711, { code: "NSM", name:"Nsambe HC", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e", locationId: 3711 }],
+        [3712, { code: "NKA", name:"Nkhula", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e", locationId: 3712 }],
+        [3713, { code: "ZLA", name:"Zalewa HC", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e", locationId: 3713 }],
         [3714, { code: "DAM", name: "Dambe Health Center", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef", locationId: 3714 }]
       ]);
 
@@ -241,7 +249,17 @@ angular.module('importVLRApp', ['ngDialog'])
       $scope.mastercardPage = ImportVLRService.CONSTANTS.URLS.PATIENT_ART_MASTERCARD;
       $scope.errorMessage = null;
       $scope.vlrContent = null;
-      $scope.headerList = null;
+      $scope.headerList = [
+        "ART Clinic No",
+        "Identifier",
+        "Facility Name",
+        "Sex",
+        "DOB",
+        "Age",
+        "Collection Date",
+        "Reason for Test",
+        "Result"
+      ];
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
       $scope.processing = true;
@@ -322,6 +340,8 @@ angular.module('importVLRApp', ['ngDialog'])
             var locationNode = ImportVLRService.LOCATIONS_MAPS.get(parseInt(clinicNo[0].trim()));
             if ( typeof locationNode !== 'undefined' && locationNode) {
               patientIdentifier = locationNode.code + " " + clinicNo[1].trim();
+            } else {
+              patientIdentifier = parseInt(clinicNo[0].trim()) + " not found";
             }
           }
         }
@@ -417,26 +437,24 @@ angular.module('importVLRApp', ['ngDialog'])
         $scope.content = $scope.vlrContent;
         var arrayOfData = CSVToArray($scope.vlrContent);
         if (arrayOfData.length > 0 ){
-          $scope.headerList = arrayOfData[0];
-          $scope.pendingImportVLR = arrayOfData.slice(1);
+          //$scope.headerList = arrayOfData[0];
+          $scope.pendingImportVLR = arrayOfData;
         }
         for (i = 0; i < $scope.pendingImportVLR.length; i++) {
           var vlrValues = $scope.pendingImportVLR[i];
-          if (vlrValues.length ==  11) {
+          if (vlrValues.length >  24) {
             if ( vlrValues[0] ) {
               var vlrObj = {};
-              vlrObj.artClinicNo = vlrValues[0];
-              vlrObj.identifier = vlrValues[1];
               vlrObj.facilityName = vlrValues[2];
-              vlrObj.sex = vlrValues[3];
-              vlrObj.dob = vlrValues[4];
-              vlrObj.age = vlrValues[5];
+              vlrObj.artClinicNo = vlrValues[7];
+              vlrObj.identifier = "";
+              vlrObj.sex = vlrValues[8];
+              vlrObj.dob = vlrValues[9];
+              vlrObj.age = vlrValues[10];
               // by appending T00:00:00 we prevent the Date from changing based on the local timezone
-              vlrObj.collectionDate = Date.parse(vlrValues[6]+'T00:00:00');
-              vlrObj.reasonForTest = vlrValues[7];
-              vlrObj.dateOfReceiving = vlrValues[8];
-              vlrObj.dateOfTesting = vlrValues[9];
-              vlrObj.result = vlrValues[10].trim();
+              vlrObj.collectionDate = Date.parse(vlrValues[13]+'T00:00:00');
+              vlrObj.reasonForTest = vlrValues[17];
+              vlrObj.result = vlrValues[24].trim();
               vlrObj.personId = 0;
               $scope.vlrList.push(vlrObj);
             }
