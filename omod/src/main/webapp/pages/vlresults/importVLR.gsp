@@ -79,7 +79,7 @@
                 </td>
                 <td>{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
-                <td>{{ vlr.dob }} </td>
+                <td>{{ displayDate(vlr.dob) }} </td>
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>

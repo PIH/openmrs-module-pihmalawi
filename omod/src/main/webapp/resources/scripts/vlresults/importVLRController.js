@@ -367,7 +367,7 @@ angular.module('importVLRApp', ['ngDialog'])
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter) {
+            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter && !vlrObj.completed) {
               promises.push(importVLResult(vlrObj));
             }
           });
@@ -449,9 +449,9 @@ angular.module('importVLRApp', ['ngDialog'])
               vlrObj.artClinicNo = vlrValues[7];
               vlrObj.identifier = "";
               vlrObj.sex = vlrValues[8];
-              vlrObj.dob = vlrValues[9];
+              vlrObj.dob = Date.parse(vlrValues[9]+'T00:00:00');
               vlrObj.age = vlrValues[10];
-              // by appending T00:00:00 we prevent the Date from changing based on the local timezone
+              // by appending T00:00:00 we prevent the Date from displaying different based on the local timezone
               vlrObj.collectionDate = Date.parse(vlrValues[13]+'T00:00:00');
               vlrObj.reasonForTest = vlrValues[17];
               vlrObj.result = vlrValues[24].trim();
