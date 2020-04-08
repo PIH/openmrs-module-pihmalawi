@@ -181,6 +181,22 @@ angular.module('importVLRApp', ['ngDialog'])
         return returnDate;
       }
 
+      this.isResultValid = function(result) {
+        var validResult = false;
+        if (result) {
+          var value = parseInt(result);
+          if (!isNaN(value)) {
+            validResult = true;
+          } else if (result.startsWith("<") && result.length > 1) {
+            var ldlValue = parseInt(result.substring(1));
+            if (!isNaN(ldlValue)) {
+              validResult = true;
+            }
+          }
+        }
+        return validResult;
+      };
+
       this.getPatient = function(vlRecord) {
         return $http.get(CONSTANTS.URLS.PATIENT + "?q=" + vlRecord.identifier + "&" + CONSTANTS.PATIENT_CUSTOM_REP)
           .then(function (response) {
@@ -262,7 +278,7 @@ angular.module('importVLRApp', ['ngDialog'])
       ];
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
-      $scope.processing = true;
+      $scope.processing = false;
 
 
 
@@ -367,7 +383,7 @@ angular.module('importVLRApp', ['ngDialog'])
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if (typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter && !vlrObj.completed) {
+            if ( ImportVLRService.isResultValid(vlrObj.result) && typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter && !vlrObj.completed) {
               promises.push(importVLResult(vlrObj));
             }
           });
@@ -431,7 +447,13 @@ angular.module('importVLRApp', ['ngDialog'])
         return returnDate;
       };
 
+      $scope.parseResult = function(result) {
+        return ImportVLRService.isResultValid(result);
+      };
+
       $scope.showContent = function(fileContent){
+        $scope.processing = true;
+
         $scope.errorMessage = null;
         $scope.vlrContent = fileContent;
         $scope.content = $scope.vlrContent;

@@ -79,13 +79,13 @@
                 </td>
                 <td>{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
-                <td>{{ displayDate(vlr.dob) }} </td>
+                <td>{{ vlr.dob ? displayDate(vlr.dob) : '' }} </td>
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
-                <td>{{ vlr.result }} </td>
+                <td ng-style="{'background': (!parseResult(vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
