@@ -149,7 +149,7 @@
                             <!-- Rheumatoid Diagnosis -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="rheumatoid-dx" data-toggle-target="rheumatoid-dx-date">
-                                    <obs id="rheumatoid-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="rheumatoid-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$rheumatoidArthritis" answerLabel="Rheumatoid arthritis" />
                                 </td>
                                 <td class="toggle-target">
@@ -172,7 +172,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="cirrhosis-dx" data-toggle-target="cirrhosis-dx-date">
-                                    <obs id="cirrhosis-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="cirrhosis-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$cirrhosis" answerLabel="Cirrhosis" />
                                 </td>
                                 <td class="toggle-target">
@@ -185,7 +185,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="deepV-dx" data-toggle-target="deepV-dx-date">
-                                    <obs id="deepV-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="deepV-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$deepDiagVein" answerLabel="DVT / PE" />
                                 </td>
                                 <td class="toggle-target">
@@ -198,7 +198,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="sickle-dx" data-toggle-target="sickle-dx-date">
-                                    <obs id="sickle-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="sickle-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$sickleCellDiag" answerLabel="Sickle Cell Disease" />
                                 </td>
                                 <td class="toggle-target">
@@ -211,7 +211,7 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="nonCoded-dx" data-toggle-target="nonCoded-dx-date">
-                                    <obs id="nonCoded-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
+                                    <obs class="dx-checkbox-item" id="nonCoded-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
                                          answerConceptId="$nonCodedOtherDiag" answerLabel="Other" />
                                 </td>
                                 <td class="toggle-target">
