@@ -275,7 +275,8 @@ angular.module('importVLRApp', ['ngDialog'])
         "Age",
         "Collection Date",
         "Reason for Test",
-        "Lab_Result"
+        "EMR_Result",
+        "CSV_Result"
       ];
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
@@ -385,7 +386,13 @@ angular.module('importVLRApp', ['ngDialog'])
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if ( ImportVLRService.isResultValid(vlrObj.result) && typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter && !vlrObj.completed) {
+            if ( ImportVLRService.isResultValid(vlrObj.result)
+              && typeof vlrObj.patientId !== 'undefined'
+              && vlrObj.collectionDate
+              && (vlrObj.facilityName == $scope.getLocationName(vlrObj))
+              && vlrObj.encounter
+              && (!vlrObj.emrResult || (vlrObj.emrResult && (vlrObj.emrResult == vlrObj.result)))
+              && !vlrObj.completed) {
               promises.push(importVLResult(vlrObj));
             }
           });
@@ -413,6 +420,36 @@ angular.module('importVLRApp', ['ngDialog'])
           });
         }
         return $q.all(promises);
+      }
+
+      function getEmrVlResult(encounter) {
+        var vlResult= '';
+        if (encounter.obs) {
+          for (var i=0; i < encounter.obs.length; i++) {
+            var parentObs = encounter.obs[i];
+            if (!parentObs.voided && parentObs.concept.uuid === ImportVLRService.CONSTANTS.VL_TEST_SET) {
+              angular.forEach(parentObs.groupMembers, function (childObs) {
+                if (childObs.concept.uuid === ImportVLRService.CONSTANTS.HIV_VIRAL_LOAD) {
+                  vlResult = childObs.value;
+                } else if (childObs.concept.uuid === ImportVLRService.CONSTANTS.LESS_THAN_LIMIT) {
+                  vlResult = "<" + childObs.value;
+                } else if (childObs.concept.uuid === ImportVLRService.CONSTANTS.LDL) {
+                  vlResult = "1";
+                }
+              });
+            }
+          }
+        }
+        return vlResult;
+      }
+      function getEmrResults() {
+        if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
+          angular.forEach($scope.vlrList, function(vlrObj) {
+            if (vlrObj.encounter) {
+              vlrObj.emrResult = getEmrVlResult(vlrObj.encounter);
+            }
+          });
+        }
       }
 
       function getPatientIdentifier() {
@@ -497,6 +534,7 @@ angular.module('importVLRApp', ['ngDialog'])
         }
         getPatientIdentifier().then(function(data) {
           getVlEncounters().then(function(results) {
+            getEmrResults();
             $scope.processing = false;
           });
         });

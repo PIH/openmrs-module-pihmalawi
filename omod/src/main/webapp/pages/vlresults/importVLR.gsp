@@ -83,9 +83,10 @@
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
+                <td ng-style="{'background': (vlr.emrResult && (vlr.emrResult != vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.emrResult }}</td>
                 <td ng-style="{'background': (!parseResult(vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.emrResult && (vlr.emrResult != vlr.result)) || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
