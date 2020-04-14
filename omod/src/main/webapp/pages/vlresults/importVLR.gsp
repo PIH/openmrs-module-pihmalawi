@@ -49,9 +49,9 @@
 
 <div class="container" id="importVLR-app" ng-controller="ImportVLRController">
 
-    <div ng-if="vlrList && vlrList.length > 0">
+    <div ng-if="processing || (vlrList && vlrList.length > 0)">
         <h3>${ ui.message("Viral Load Results") }</h3>
-        <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
+        <button ng-disabled="processing" type="button" class="confirm ng-cloak" ng-click="importAllVLR()">
             <span ng-show="processing">
                 <img src="${ui.resourceLink("uicommons", "images/spinner.gif")}">
                 ${ ui.message("Processing file") }
@@ -70,14 +70,14 @@
             </thead>
             <tbody>
             <tr ng-repeat="vlr in vlrList" ng-style="{'background': (vlr.completed)  ? 'greenyellow' : ''}">
-                <td>{{ vlr.artClinicNo }} </td>
+                <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr))  ? '#ffb3b5' : ''}">{{ vlr.artClinicNo }} </td>
                 <td ng-style="{'background': (!vlr.patientId && !processing) ? '#ffb3b5' : ''}">
                     <a ng-show="vlr.patientId" href="{{mastercardPage}}{{vlr.patientId}}">
                         {{ vlr.identifier }}
                     </a>
                     <span ng-show="!vlr.patientId">{{ vlr.identifier }}</span>
                 </td>
-                <td>{{ vlr.facilityName }} </td>
+                <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr)) ? '#ffb3b5' : ''}">{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob ? displayDate(vlr.dob) : '' }} </td>
                 <td>{{ vlr.age }} </td>
@@ -85,7 +85,7 @@
                 <td>{{ vlr.reasonForTest }} </td>
                 <td ng-style="{'background': (!parseResult(vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
