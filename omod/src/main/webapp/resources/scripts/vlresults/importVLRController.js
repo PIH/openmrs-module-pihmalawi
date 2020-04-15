@@ -24,18 +24,19 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       var LOCATIONS_MAP = new Map([
-        [3701, { code: "CFGA", name: "Chifunga HC", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e", locationId: 3701 }],
-        [3702, { code: "LGWE", name:"Ligowe HC", uuid: "0d417e38-5ab4-11e0-870c-9f6107fee88e", locationId: 3702 }],
-        [3703, { code: "LSI", name: "Lisungwi Community Hospital", uuid: "0d416376-5ab4-11e0-870c-9f6107fee88e", locationId: 3703 }],
-        [3704, { code: "LWAN", name: "Luwani", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
-        [3705, { code: "MGT", name:"Magaleta", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
+        [3701, { code: "CFGA", name: "Chifunga Health Center", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e", locationId: 3701 }],
+        [3702, { code: "LGWE", name:"Ligowe Dispensary", uuid: "0d417e38-5ab4-11e0-870c-9f6107fee88e", locationId: 3702 }],
+        [3703, { code: "LSI", name: "Lisungwi Hospital", uuid: "0d416376-5ab4-11e0-870c-9f6107fee88e", locationId: 3703 }],
+        [3704, { code: "LWAN", name: "Luwani Health Center", uuid: "0d416506-5ab4-11e0-870c-9f6107fee88e", locationId: 3704 }],
+        [3705, { code: "MGT", name:"Magareta Health Center", uuid: "0d414eae-5ab4-11e0-870c-9f6107fee88e", locationId: 3705 }],
         [3706, { code: "MTDN", name:"Matandani Health Center", uuid: "0d415200-5ab4-11e0-870c-9f6107fee88e", locationId: 3706 }],
-        [3708, { code: "LSI", name:"Midzemba HC", uuid: "0d4182e8-5ab4-11e0-870c-9f6107fee88e", locationId: 3708 }],
+        [3707, { code: "MTE", name:"Matope Health Center", uuid: "0d416b3c-5ab4-11e0-870c-9f6107fee88e", locationId: 3707 }],
+        [3708, { code: "LSI", name:"Midzemba Dispensary", uuid: "0d4182e8-5ab4-11e0-870c-9f6107fee88e", locationId: 3708 }],
         [3709, { code: "NNO", name: "Neno District Hospital", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e", locationId: 3709 }],
-        [3710, { code: "NOP", name:"Neno Mission HC", uuid: "0d41505c-5ab4-11e0-870c-9f6107fee88e", locationId: 3710 }],
-        [3711, { code: "NSM", name:"Nsambe HC", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e", locationId: 3711 }],
-        [3712, { code: "NKA", name:"Nkhula", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e", locationId: 3712 }],
-        [3713, { code: "ZLA", name:"Zalewa HC", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e", locationId: 3713 }],
+        [3710, { code: "NOP", name:"Neno Parish Health Center", uuid: "0d41505c-5ab4-11e0-870c-9f6107fee88e", locationId: 3710 }],
+        [3711, { code: "NSM", name:"Nsambe Sda Health Center", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e", locationId: 3711 }],
+        [3712, { code: "NKA", name:"Nkula Health Center", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e", locationId: 3712 }],
+        [3713, { code: "ZLA", name:"Zalewa Dispensary", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e", locationId: 3713 }],
         [3714, { code: "DAM", name: "Dambe Health Center", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef", locationId: 3714 }]
       ]);
 
@@ -258,8 +259,8 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
     }])
-  .controller('ImportVLRController', ['$q', '$scope', 'ImportVLRService', 'ngDialog',
-    function($q, $scope, ImportVLRService, ngDialog) {
+  .controller('ImportVLRController', ['$q', '$scope', 'ImportVLRService', '$timeout',
+    function($q, $scope, ImportVLRService, $timeout) {
 
       $scope.content = null;
       $scope.mastercardPage = ImportVLRService.CONSTANTS.URLS.PATIENT_ART_MASTERCARD;
@@ -274,7 +275,8 @@ angular.module('importVLRApp', ['ngDialog'])
         "Age",
         "Collection Date",
         "Reason for Test",
-        "Result"
+        "EMR_Result",
+        "CSV_Result"
       ];
       $scope.pendingImportVLR = null;
       $scope.vlrList = [];
@@ -348,16 +350,17 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       function parsePatientIdentifier(clinicNumber) {
-        var patientIdentifier = "";
+        var patientIdentifier = {};
 
         if (clinicNumber) {
           var clinicNo = clinicNumber.split("-", 2);
           if (clinicNo && clinicNo.length > 1) {
             var locationNode = ImportVLRService.LOCATIONS_MAPS.get(parseInt(clinicNo[0].trim()));
             if ( typeof locationNode !== 'undefined' && locationNode) {
-              patientIdentifier = locationNode.code + " " + clinicNo[1].trim();
+              patientIdentifier.identifier = locationNode.code + " " + clinicNo[1].trim();
+              patientIdentifier.locationId = locationNode.locationId;
             } else {
-              patientIdentifier = parseInt(clinicNo[0].trim()) + " not found";
+              patientIdentifier.identifier = parseInt(clinicNo[0].trim()) + " not found";
             }
           }
         }
@@ -375,7 +378,7 @@ angular.module('importVLRApp', ['ngDialog'])
         return deferred.promise;
       }
 
-      $scope.importVLR = function(vlr, showDialog){
+      $scope.importVLR = function(vlr){
         importVLResult(vlr);
       };
 
@@ -383,7 +386,13 @@ angular.module('importVLRApp', ['ngDialog'])
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if ( ImportVLRService.isResultValid(vlrObj.result) && typeof vlrObj.patientId !== 'undefined' && vlrObj.collectionDate && vlrObj.encounter && !vlrObj.completed) {
+            if ( ImportVLRService.isResultValid(vlrObj.result)
+              && typeof vlrObj.patientId !== 'undefined'
+              && vlrObj.collectionDate
+              && (vlrObj.facilityName == $scope.getLocationName(vlrObj))
+              && vlrObj.encounter
+              && (!vlrObj.emrResult || (vlrObj.emrResult && (vlrObj.emrResult == vlrObj.result)))
+              && !vlrObj.completed) {
               promises.push(importVLResult(vlrObj));
             }
           });
@@ -413,20 +422,63 @@ angular.module('importVLRApp', ['ngDialog'])
         return $q.all(promises);
       }
 
+      function getEmrVlResult(encounter) {
+        var vlResult= '';
+        if (encounter.obs) {
+          for (var i=0; i < encounter.obs.length; i++) {
+            var parentObs = encounter.obs[i];
+            if (!parentObs.voided && parentObs.concept.uuid === ImportVLRService.CONSTANTS.VL_TEST_SET) {
+              angular.forEach(parentObs.groupMembers, function (childObs) {
+                if (childObs.concept.uuid === ImportVLRService.CONSTANTS.HIV_VIRAL_LOAD) {
+                  vlResult = childObs.value;
+                } else if (childObs.concept.uuid === ImportVLRService.CONSTANTS.LESS_THAN_LIMIT) {
+                  vlResult = "<" + childObs.value;
+                } else if (childObs.concept.uuid === ImportVLRService.CONSTANTS.LDL) {
+                  vlResult = "1";
+                }
+              });
+            }
+          }
+        }
+        return vlResult;
+      }
+      function getEmrResults() {
+        if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
+          angular.forEach($scope.vlrList, function(vlrObj) {
+            if (vlrObj.encounter) {
+              vlrObj.emrResult = getEmrVlResult(vlrObj.encounter);
+            }
+          });
+        }
+      }
+
       function getPatientIdentifier() {
         var promises = [];
 
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            var patientId = parsePatientIdentifier(vlrObj.artClinicNo);
+            var patientIdentifier = parsePatientIdentifier(vlrObj.artClinicNo);
+            var patientId = patientIdentifier.identifier;
             if (typeof patientId !== 'undefined' && patientId.length > 0) {
               vlrObj.identifier = patientId;
+              vlrObj.locationId = patientIdentifier.locationId;
               promises.push(ImportVLRService.getPatient(vlrObj));
             }
           });
         }
         return $q.all(promises);
       }
+
+      $scope.getLocationName = function(vlrObj) {
+        var locationName= '';
+        if (vlrObj && vlrObj.locationId) {
+          var location = ImportVLRService.LOCATIONS_MAPS.get(vlrObj.locationId);
+          if (location) {
+            locationName = location.name;
+          }
+        }
+        return locationName;
+      };
 
       $scope.displayDate = function(dateObj) {
         var returnDate = dateObj;
@@ -442,7 +494,7 @@ angular.module('importVLRApp', ['ngDialog'])
           if(mm<10) {
             mm='0' + mm;
           }
-          returnDate = mm + '/' + dd + '/' + yyyy;
+          returnDate = dd + '/' + mm + '/' + yyyy;
         }
         return returnDate;
       };
@@ -451,9 +503,7 @@ angular.module('importVLRApp', ['ngDialog'])
         return ImportVLRService.isResultValid(result);
       };
 
-      $scope.showContent = function(fileContent){
-        $scope.processing = true;
-
+      function importFile(fileContent) {
         $scope.errorMessage = null;
         $scope.vlrContent = fileContent;
         $scope.content = $scope.vlrContent;
@@ -471,10 +521,10 @@ angular.module('importVLRApp', ['ngDialog'])
               vlrObj.artClinicNo = vlrValues[7];
               vlrObj.identifier = "";
               vlrObj.sex = vlrValues[8];
-              vlrObj.dob = Date.parse(vlrValues[9]+'T00:00:00');
+              vlrObj.dob = Date.parse(vlrValues[9]+'T00:00:00'); //+'T00:00:00'
               vlrObj.age = vlrValues[10];
               // by appending T00:00:00 we prevent the Date from displaying different based on the local timezone
-              vlrObj.collectionDate = Date.parse(vlrValues[13]+'T00:00:00');
+              vlrObj.collectionDate = Date.parse(vlrValues[13]+'T00:00:00'); //+'T00:00:00'
               vlrObj.reasonForTest = vlrValues[17];
               vlrObj.result = vlrValues[24].trim();
               vlrObj.personId = 0;
@@ -484,9 +534,15 @@ angular.module('importVLRApp', ['ngDialog'])
         }
         getPatientIdentifier().then(function(data) {
           getVlEncounters().then(function(results) {
+            getEmrResults();
             $scope.processing = false;
           });
         });
+      }
+
+      $scope.showContent = function(fileContent){
+        $scope.processing = true;
+        setTimeout(importFile(fileContent), 5000);
       };
 
     }])

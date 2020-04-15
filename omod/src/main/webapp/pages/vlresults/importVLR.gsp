@@ -38,6 +38,41 @@
         display: block;
         overflow-x: auto;
     }
+
+    .spinner {
+        position: absolute;
+        left: 40%;
+        top: 50%;
+        height:160px;
+        width:160px;
+        margin:0px auto;
+        -webkit-animation: rotation .6s infinite linear;
+        -moz-animation: rotation .6s infinite linear;
+        -o-animation: rotation .6s infinite linear;
+        animation: rotation .6s infinite linear;
+        border-left:6px solid rgba(0,174,239,.15);
+        border-right:6px solid rgba(0,174,239,.15);
+        border-bottom:6px solid rgba(0,174,239,.15);
+        border-top:6px solid rgba(0,174,239,.8);
+        border-radius:100%;
+    }
+
+    @-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(359deg);}
+    }
+    @-moz-keyframes rotation {
+        from {-moz-transform: rotate(0deg);}
+        to {-moz-transform: rotate(359deg);}
+    }
+    @-o-keyframes rotation {
+        from {-o-transform: rotate(0deg);}
+        to {-o-transform: rotate(359deg);}
+    }
+    @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(359deg);}
+    }
 </style>
 
 <script type="text/javascript">
@@ -49,11 +84,11 @@
 
 <div class="container" id="importVLR-app" ng-controller="ImportVLRController">
 
-    <div ng-if="vlrList && vlrList.length > 0">
+    <div ng-if="processing" class="spinner"></div>
+    <div ng-if="processing || (vlrList && vlrList.length > 0)">
         <h3>${ ui.message("Viral Load Results") }</h3>
-        <button ng-disabled="processing" type="button" class="confirm" ng-click="importAllVLR()">
+        <button ng-disabled="processing" type="button" class="confirm ng-cloak" ng-click="importAllVLR()">
             <span ng-show="processing">
-                <img src="${ui.resourceLink("uicommons", "images/spinner.gif")}">
                 ${ ui.message("Processing file") }
             </span>
             <span ng-show="!processing">
@@ -70,22 +105,23 @@
             </thead>
             <tbody>
             <tr ng-repeat="vlr in vlrList" ng-style="{'background': (vlr.completed)  ? 'greenyellow' : ''}">
-                <td>{{ vlr.artClinicNo }} </td>
+                <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr))  ? '#ffb3b5' : ''}">{{ vlr.artClinicNo }} </td>
                 <td ng-style="{'background': (!vlr.patientId && !processing) ? '#ffb3b5' : ''}">
                     <a ng-show="vlr.patientId" href="{{mastercardPage}}{{vlr.patientId}}">
                         {{ vlr.identifier }}
                     </a>
                     <span ng-show="!vlr.patientId">{{ vlr.identifier }}</span>
                 </td>
-                <td>{{ vlr.facilityName }} </td>
+                <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr)) ? '#ffb3b5' : ''}">{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob ? displayDate(vlr.dob) : '' }} </td>
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
+                <td ng-style="{'background': (vlr.emrResult && (vlr.emrResult != vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.emrResult }}</td>
                 <td ng-style="{'background': (!parseResult(vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.result }} </td>
                 <td>
-                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.emrResult && (vlr.emrResult != vlr.result)) || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>
