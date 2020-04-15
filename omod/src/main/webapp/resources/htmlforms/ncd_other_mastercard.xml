@@ -212,22 +212,11 @@
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="nonCoded-dx" data-toggle-target="nonCoded-dx-date">
                                     <obs class="dx-checkbox-item" id="nonCoded-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$nonCodedOtherDiag" answerLabel="Other" />
+                                         answerConceptId="$nonCodedOtherDiag" answerLabel="Other:" />
+                                    <obs conceptId="$otherDxText" />
                                 </td>
                                 <td class="toggle-target">
                                     <obs id="nonCoded-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
-                                </td>
-                            </obsgroup>
-                        </tr>
-
-                        <!-- Other free text -->
-                        <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
-                                <td>
-                                    <obs conceptId="$otherDxText" labelText="Other: " />
-                                </td>
-                                <td>
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
                                 </td>
                             </obsgroup>
                         </tr>
