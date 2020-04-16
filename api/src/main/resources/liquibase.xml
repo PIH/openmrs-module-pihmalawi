@@ -5,6 +5,10 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+	<changeSet id="combine-other-dx-fields" author="pochedls">
+		<sqlFile endDelimiter="#" path="pihmalawiMigrations/combineOtherNonCodedAndTextDx.sql" stripComments="true" />
+	</changeSet>
+
 	<changeSet id="migrate-other-noncoded-dx" author="pochedls">
 		<sqlFile endDelimiter="#" path="pihmalawiMigrations/migrateOtherNonCodedDx.sql" stripComments="true" />
 	</changeSet>
