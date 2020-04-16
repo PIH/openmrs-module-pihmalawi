@@ -9,6 +9,10 @@
 		<sqlFile endDelimiter="#" path="pihmalawiMigrations/migrateOtherNonCodedDx.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="combine-other-dx-fields" author="pochedls">
+		<sqlFile endDelimiter="#" path="pihmalawiMigrations/combineOtherNonCodedAndTextDx.sql" stripComments="true" />
+	</changeSet>
+
 	<changeSet id="reporting-procedures" author="pochedls" runAlways="true" runOnChange="true">
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/reportingSqlProcedures.sql" stripComments="true" />
 	</changeSet>
