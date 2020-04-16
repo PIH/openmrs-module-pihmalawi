@@ -1,6 +1,7 @@
--- This is a second migration code
 -- combine coded and text "other" diagnosis fields
 --
+--
+
 drop table if exists migrate_ncd_dx_other;
 
 #
@@ -81,6 +82,7 @@ and o.obs_group_id = m.obs_group_id_text
 and o.voided = 0;
 
 #
+
 
 -- Create obs groups for value_text obs
 insert into obs
