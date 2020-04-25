@@ -99,12 +99,12 @@
             // Configure defaults we want to apply across any suitable form
             var locationInput = jq(html).find("#visitLocation").children().first();
             if (!locationInput.val() || locationInput.val().length == 0) {
-                locationInput.val(flowsheet.defaultLocationId);
+                locationInput.val(flowsheet.getDefaultLocationId());
             }
             // set flowsheet default location
             locationInput = jq(html).find("#flowsheetLocation").children().first();
             if (!locationInput.val() || locationInput.val().length == 0) {
-                locationInput.val(flowsheet.defaultLocationId);
+                locationInput.val(flowsheet.getDefaultLocationId());
             }
 
         }
