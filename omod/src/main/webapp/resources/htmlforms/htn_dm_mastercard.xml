@@ -139,10 +139,16 @@
                             <td>CHW Name</td>
                             <td>
                                 <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
-                                    #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
-                                          ${relationship.personA.personName}
-                                    #end
-                                #end "/>
+				#if( $velocityCount == 1 )
+				          #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+				                ${relationship.personA.personName}
+				          #end
+				#else
+					  #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+						&#44; ${relationship.personA.personName}
+				          #end
+				#end
+                              #end "/>
                             </td>
                         </tr>
                     </table>
