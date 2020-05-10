@@ -4,6 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
@@ -111,9 +112,46 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String TRIFLU = "657b0bba-977f-11e1-8993-905e29aff6c1";
     public static final String CLOPIXOL = "dae4eb4a-659e-11e6-8b77-86f30ca893d3";
 
+    // Dosing units UUID
+    public static final String UNIT_AMPULE = "656923d2-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_APPL = "65692c92-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_BOTTLE = "656922d8-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_CAPSULE = "6569265c-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_DROPS = "65692b66-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_GRAMS = "6562ca50-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_TABLET = "656921d4-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_TUBE = "65692760-977f-11e1-8993-905e29aff6c1";
+    public static final String UNIT_SACHET = "656924c2-977f-11e1-8993-905e29aff6c1";
+
+    // Drug frequencies
+    public static final String TWICE_A_DAY = "6563fd26-977f-11e1-8993-905e29aff6c1";
+    public static final String ONCE_A_DAY = "6563fc18-977f-11e1-8993-905e29aff6c1";
+    public static final String IMMEDIATE = "655a9a10-977f-11e1-8993-905e29aff6c1";
+    public static final String OTHERFREQ = "657140f8-977f-11e1-8993-905e29aff6c1";
+    public static final String ONCE_A_MONTH = "6563ff2e-977f-11e1-8993-905e29aff6c1";
+    public static final String THREE_A_DAY = "6563fe2a-977f-11e1-8993-905e29aff6c1";
+    public static final String TWICE_A_MONTH = "65640032-977f-11e1-8993-905e29aff6c1";
+    public static final String FOUR_TIMES_DAY = "656f969a-977f-11e1-8993-905e29aff6c1";
+    public static final String FIVE_TIMES_DAY = "656f979e-977f-11e1-8993-905e29aff6c1";
+    public static final String IN_THE_MORN = "656f9bc2-977f-11e1-8993-905e29aff6c1";
+    public static final String IN_THE_EVE = "656f9cc6-977f-11e1-8993-905e29aff6c1";
+    public static final String EVERY_DAY = "656f99b0-977f-11e1-8993-905e29aff6c1";
+    public static final String SIX_TIMES_DAY = "656f98ac-977f-11e1-8993-905e29aff6c1";
+    public static final String ONCE_A_WEEK = "655d3a7c-977f-11e1-8993-905e29aff6c1";
+    public static final String ONCE_A_DAY_AT_NIGHT = "656f9ab4-977f-11e1-8993-905e29aff6c1";
+    public static final String VARIABLE = "65745fcc-977f-11e1-8993-905e29aff6c1";
+    public static final String ONCE_A_DAY_AT_NOON = "65747d90-977f-11e1-8993-905e29aff6c1";
+    public static final String GEN_DRUG_FREQ = "65636514-977f-11e1-8993-905e29aff6c1";
+
+    // Dispensing concepts
+    public static final String AMOUNT_DISPENSED = "65614392-977f-11e1-8993-905e29aff6c1";
+    public static final String DURATION_MEDS = "159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    public static final String TIME_UNITS = "f1904502-319d-4681-9030-e642111e7ce2";
+
+
     @Override
     public int getVersion() {
-        return 7;
+        return 21;
     }
 
     @Override
@@ -121,8 +159,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
         Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
 
-	      // reinstalling/adding some ART drugs concepts to match with 2018 MoH guidelines
-	      // (addendum to 4th edition of the Malawi integrated guidelines and standard operating procedures for clinical HIV services)
+        // reinstalling/adding some ART drugs concepts to match with 2018 MoH guidelines
+        // (addendum to 4th edition of the Malawi integrated guidelines and standard operating procedures for clinical HIV services)
         Concept zeroA = MetadataUtils.existing(Concept.class, ZERO_A);
         Concept zeroP = MetadataUtils.existing(Concept.class, ZERO_P);
         Concept oneA = MetadataUtils.existing(Concept.class, ONE_A);
@@ -208,6 +246,42 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept cloza = MetadataUtils.existing(Concept.class, CLOZAP);
         Concept trifl = MetadataUtils.existing(Concept.class, TRIFLU);
         Concept clopix = MetadataUtils.existing(Concept.class, CLOPIXOL);
+
+        // Existing dosing units
+        Concept unitAmpule = MetadataUtils.existing(Concept.class, UNIT_AMPULE);
+        Concept unitApplic = MetadataUtils.existing(Concept.class, UNIT_APPL);
+        Concept unitBottle = MetadataUtils.existing(Concept.class, UNIT_BOTTLE);
+        Concept unitCapsule = MetadataUtils.existing(Concept.class, UNIT_CAPSULE);
+        Concept unitDrops = MetadataUtils.existing(Concept.class, UNIT_DROPS);
+        Concept unitGrams = MetadataUtils.existing(Concept.class, UNIT_GRAMS);
+        Concept unitTablet = MetadataUtils.existing(Concept.class, UNIT_TABLET);
+        Concept unitTube = MetadataUtils.existing(Concept.class, UNIT_TUBE);
+        Concept unitSachet = MetadataUtils.existing(Concept.class, UNIT_SACHET);
+
+        // Existing drug frequencies
+        Concept twiceAday = MetadataUtils.existing(Concept.class, TWICE_A_DAY);
+        Concept onceAday = MetadataUtils.existing(Concept.class, ONCE_A_DAY);
+	Concept immediate = MetadataUtils.existing(Concept.class, IMMEDIATE);
+	Concept otherFreq = MetadataUtils.existing(Concept.class, OTHERFREQ);
+        Concept onceAmonth = MetadataUtils.existing(Concept.class, ONCE_A_MONTH);
+        Concept threeADay = MetadataUtils.existing(Concept.class, THREE_A_DAY);
+        Concept twiceAmonth = MetadataUtils.existing(Concept.class, TWICE_A_MONTH);
+        Concept fourTimesAday = MetadataUtils.existing(Concept.class, FOUR_TIMES_DAY);
+        Concept fiveTimesAday = MetadataUtils.existing(Concept.class, FIVE_TIMES_DAY);
+        Concept inTheMorn = MetadataUtils.existing(Concept.class, IN_THE_MORN);
+        Concept inTheEve= MetadataUtils.existing(Concept.class, IN_THE_EVE);
+        Concept everyDay = MetadataUtils.existing(Concept.class, EVERY_DAY);
+        Concept sixTimesAday = MetadataUtils.existing(Concept.class, SIX_TIMES_DAY);
+        Concept onceAweek = MetadataUtils.existing(Concept.class, ONCE_A_WEEK);
+        Concept onceAdayAtnight = MetadataUtils.existing(Concept.class, ONCE_A_DAY_AT_NIGHT);
+        Concept variable = MetadataUtils.existing(Concept.class, VARIABLE);
+        Concept onceAdatAtnoon = MetadataUtils.existing(Concept.class, ONCE_A_DAY_AT_NOON);
+        Concept generalDrugFreq = MetadataUtils.existing(Concept.class, GEN_DRUG_FREQ);
+
+	// Dispensing concepts			
+        Concept amountDispensed = MetadataUtils.existing(Concept.class, AMOUNT_DISPENSED);
+        Concept durationMeds = MetadataUtils.existing(Concept.class, DURATION_MEDS); 
+        Concept timeUnits = MetadataUtils.existing(Concept.class, TIME_UNITS); 
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
                 .datatype(coded)
@@ -425,7 +499,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // re-install drugs used (NCD)
-        install(new ConceptBuilder("65585192-977f-11e1-8993-905e29aff6c1")
+        Concept currentDrugs = install(new ConceptBuilder("65585192-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("65f5c1a2-977f-11e1-8993-905e29aff6c1", "Current drugs used", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -492,5 +566,725 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         trifl,
                         clopix)
                 .build());
+
+        Concept concept10305 = install(new ConceptBuilder("162351AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125554BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Bar", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125555BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Bar(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10335 = install(new ConceptBuilder("162354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125560BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Can", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125561BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Can(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10324 = install(new ConceptBuilder("162355AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125562BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Container", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125563BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Container(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10306 = install(new ConceptBuilder("162357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125566BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Enema", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125567BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Enema(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10322 = install(new ConceptBuilder("162358AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125569BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Fluid ounce", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125568BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Oz", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125570BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Oz(s)", Locale.ENGLISH, null)
+                .name("125571BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Fluid ounce(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10336 = install(new ConceptBuilder("162359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125573BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Gallon", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125572BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "gal", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125574BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Gallon(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10313 = install(new ConceptBuilder("162360AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125578BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Gum", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125577BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Gum(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10312 = install(new ConceptBuilder("162361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125580BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Inch", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125579BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "in", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125581BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Inch(es)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10329 = install(new ConceptBuilder("162264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("125319BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "International units", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125320BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "IU", Locale.ENGLISH, ConceptNameType.SHORT)
+                .description("17187FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Unit of measurement", Locale.ENGLISH)
+                .build());
+
+        Concept concept10304 = install(new ConceptBuilder("162362AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125584BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Kilogram", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125582BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "kg", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125583BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Kilogram(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10309 = install(new ConceptBuilder("162262AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125315BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Liter", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125318BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "L", Locale.ENGLISH, ConceptNameType.SHORT)
+                .description("17185FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Unit of measurement, 1000 milliliters", Locale.ENGLISH)
+                .build());
+
+        Concept concept10328 = install(new ConceptBuilder("162363AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(text)
+                .conceptClass(unitsOfMeasure)
+                .name("125585BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Lozenge", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125588BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Troche(s)", Locale.ENGLISH, null)
+                .name("125587BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Lozenge(s)", Locale.ENGLISH, null)
+                .name("125586BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Troche", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10308 = install(new ConceptBuilder("162364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125592BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Milliequivalent", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125590BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "MEq", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125589BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Milliequivalent(s)", Locale.ENGLISH, null)
+                .name("125591BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "MEqs", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10315 = install(new ConceptBuilder("162365AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125593BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Metric drop", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125594BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Metric drop(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10319 = install(new ConceptBuilder("162366AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125595BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Microgram", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125598BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Microgram(s)", Locale.ENGLISH, null)
+                .name("125597BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "mcg", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125596BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "ug", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10311 = install(new ConceptBuilder("161553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("111176BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Milligram", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("111177BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "mg", Locale.ENGLISH, ConceptNameType.SHORT)
+                .description("17091FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Unit of measurement of mass", Locale.ENGLISH)
+                .build());
+
+        Concept concept10321 = install(new ConceptBuilder("162263AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125316BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Milliliter", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125317BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "mL", Locale.ENGLISH, ConceptNameType.SHORT)
+                .description("17186FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "Unit of measurement 1/1000 of a liter", Locale.ENGLISH)
+                .build());
+
+        Concept concept10300 = install(new ConceptBuilder("162367AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125600BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Million units", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125599BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "MU", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept10301 = install(new ConceptBuilder("162368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125602BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Nebulizer", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125604BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Neb", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125601BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Nebulizer(s)", Locale.ENGLISH, null)
+                .name("125603BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Neb(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10302 = install(new ConceptBuilder("162369AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125606BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Pad", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125605BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Pad(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10327 = install(new ConceptBuilder("162370AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125607BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Patch", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125608BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Patch(es)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10332 = install(new ConceptBuilder("162371AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125609BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Pint", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125610BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Pint(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10299 = install(new ConceptBuilder("162372AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125612BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Puff", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125611BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Puff(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10325 = install(new ConceptBuilder("162373AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125616BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Ring pessary", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125614BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Ring pessary(ies)", Locale.ENGLISH, null)
+                .name("125615BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Ring suppository", Locale.ENGLISH, null)
+                .name("125613BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Ring suppository(ies)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10331 = install(new ConceptBuilder("162374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125619BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Scoopful", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125618BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Scoop(s)", Locale.ENGLISH, null)
+                .name("125617BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Scoop", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept10316 = install(new ConceptBuilder("162375AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125620BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Spray", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125621BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Spray(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10320 = install(new ConceptBuilder("1518AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("1775BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Suppository", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("1776BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Suppositoire", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125622BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Supp", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125623BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Suppository(ies)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10303 = install(new ConceptBuilder("162377AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125627BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Syringe", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125626BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Syringe(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10317 = install(new ConceptBuilder("162378AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125628BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Tablespoon", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125629BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Tablespoon(s)", Locale.ENGLISH, null)
+                .name("125630BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Tbsp", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept10333 = install(new ConceptBuilder("162379AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125631BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Teaspoon", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125632BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Teaspoon(s)", Locale.ENGLISH, null)
+                .name("125633BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Tsp", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept10334 = install(new ConceptBuilder("162381AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125636BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Unit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125637BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Unit(s)", Locale.ENGLISH, null)
+                .name("125638BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "U", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept10326 = install(new ConceptBuilder("162382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125640BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Vial", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125639BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Vial(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10330 = install(new ConceptBuilder("162383AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("125641BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Biscuit wafer", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125642BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Wafer", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125643BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Wafer(s)", Locale.ENGLISH, null)
+                .build());
+
+        Concept concept10743 = install(new ConceptBuilder("67404d33-6a38-454f-806c-065db9aa5b9f")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("5dc8ae38-44f2-4ce5-a661-864b60ec6465", "Pump", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("295e9a7a-b664-4d83-8018-1f8ca2968d27", "Pompe", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("8ec527dc-31bb-4c10-a3c4-9a98723ad5e6", "Ponp", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept concept11679 = install(new ConceptBuilder("f2071d5f-9329-457e-89c7-574447fe3980")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("ded56519-3594-4532-a921-b201df84b759", "Milligram per square meter", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("09bda43d-1873-4f0c-9f38-1eaf4de977e1", "mg / m**2", Locale.ENGLISH, null)
+                .name("b922eede-df02-4561-aca7-479cda37b119", "mg / m^2", Locale.ENGLISH, null)
+                .build());
+
+        Concept conceptDosingUnit = install(new ConceptBuilder("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("125644BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Dosing unit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("f8b90258-b3f3-4c60-96aa-5d9acc6b9335", "Unités par dose", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125645BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Dose unit", Locale.ENGLISH, ConceptNameType.SHORT)
+                .answers(unitAmpule,
+                unitApplic,
+                concept10305,
+                unitBottle,
+                concept10335,
+                unitCapsule,
+                concept10324,
+                unitDrops,
+                concept10306,
+                concept10322,
+                concept10336,
+                unitGrams,
+                concept10313,
+                concept10312,
+                concept10329,
+                concept10304,
+                concept10309,
+                concept10328,
+                concept10308,
+                concept10315,
+                concept10319,
+                concept10311,
+                concept10321,
+                concept10300,
+                concept10301,
+                concept10302,
+                concept10327,
+                concept10332,
+                concept10299,
+                concept10325,
+                concept10331,
+                concept10316,
+                concept10320,
+                concept10303,
+                concept10334,
+                unitTablet,
+                concept10317,
+                concept10333,
+                unitTube,
+                concept10326,
+                concept10330,
+                unitSachet,
+                concept10743,
+                concept11679)
+                .build());
+
+        Concept concept9367 = install(new ConceptBuilder("9b0068ac-4104-4bea-ba76-851e5faa9f2a")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("9aff4f41-1830-403e-923b-ddddb8086d67", "Seven times a day (7D)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("e5665e74-1a19-41be-937c-2e3a28501abe", "7D", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept9368 = install(new ConceptBuilder("7cc0fa66-0467-4552-8dd7-501f2b325319")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("c071b610-2b96-4261-b8e5-25865594353f", "Eight times a day (8D)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("a721bdd4-3562-410f-b8ad-5bd1d9a3b92c", "Huit fois par jour", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("4e90a33d-2d49-4ca7-b964-e641802e7b3a", "8D", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept concept9369 = install(new ConceptBuilder("f28e1f49-2b56-4639-9312-fbe856fa0c51")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("d2c8e2a5-dd0e-4ddf-a530-ccddd59bcbd3", "Nine times a day (9D)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("70f526d7-c0ee-4c35-8d38-3dbd3cfa8698", "Neuf fois par jour", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("eb3c1080-1483-41b0-832a-cdadd5ee4410", "Nèf fwa nan yon jounen", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("182bffcd-3f1f-474e-860d-9219dc6820de", "9D", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("67a1c141-d68f-4b51-8eba-f28a0c3b54ec", "9D", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("00df8676-814f-480d-a6ca-55a545705554", "9D", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("379c5009-5233-4bcd-af6c-849ca5f6e3f6").type(sameAs).ensureTerm(pih, "9D").build())
+                .mapping(new ConceptMapBuilder("1e0017cb-4764-4048-8f5b-a11c6b33370c").type(sameAs).ensureTerm(pih, "Nine times a day").build())
+                .mapping(new ConceptMapBuilder("43420874-0ac4-4ab9-a092-310869522210").type(sameAs).ensureTerm(pih, "9369").build())
+                .build());
+
+        Concept concept9370 = install(new ConceptBuilder("059ac2ba-ce52-41e5-bac5-46707bac285a")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("1ffadcff-551f-42b1-aa21-d5aa48f08bfd", "Every 2 hours (Q2H)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("19ca2419-460c-496e-8edb-0db6ebfab3a7", "Tous les 2 heures", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("669743e9-b805-409b-b59c-27a830a144ae", "Chak 2 zèdtan", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("125236BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every two hours", Locale.ENGLISH, null)
+                .name("dbc1a906-879b-4d25-adca-795f1ae5f2cf", "Q2H", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("828f306e-074c-4f98-953e-98232a72dec0", "Q2H", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("f306d778-c4bb-405e-b44e-29c645b08073", "Q2H", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274969ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162245").build())
+                .mapping(new ConceptMapBuilder("38f17d27-cbb6-4a8e-a721-3505f589a46d").type(sameAs).ensureTerm(pih, "9370").build())
+                .mapping(new ConceptMapBuilder("f42dd7bf-abbd-4a0c-a9ed-5501531175e2").type(sameAs).ensureTerm(pih, "Q2H").build())
+                .mapping(new ConceptMapBuilder("274968ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225750008").build())
+                .mapping(new ConceptMapBuilder("9ffcc450-32c7-4f83-a7ad-014aa8efed55").type(sameAs).ensureTerm(pih, "Every 2 hours").build())
+                .build());
+
+        Concept concept9371 = install(new ConceptBuilder("f295e71a-0d7b-4a70-a193-2a6c3a73e9ed")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("29d95ac4-64b7-466c-8760-8ee734850d58", "Every 3 hours (Q3H)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("aaa54da9-e016-494e-a1c3-6935252be20e", "Tous les 3 heures", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("baddd195-147b-4d5e-8bb6-56e90f9f3c48", "Chak 3 zèdtan", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("b31e0830-45d5-49f4-b82d-3fdae858c43e", "Q3H", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125238BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every three hours", Locale.ENGLISH, null)
+                .name("42b5384e-b9d6-41f9-8065-0c4bccd5ee87", "Q3H", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("c3750ca8-395c-4b90-8446-bf65f9a76a17", "Q3H", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("c192d78c-3415-48b6-ac13-b885a7b663fd").type(sameAs).ensureTerm(pih, "Every 3 hours").build())
+                .mapping(new ConceptMapBuilder("274971ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162246").build())
+                .mapping(new ConceptMapBuilder("fc605342-4074-4f82-ab27-740e21d4f925").type(sameAs).ensureTerm(pih, "9371").build())
+                .mapping(new ConceptMapBuilder("274970ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225753005").build())
+                .mapping(new ConceptMapBuilder("78245e52-1a85-45c6-a368-08a7716fb836").type(sameAs).ensureTerm(pih, "Q3H").build())
+                .build());
+
+        Concept concept9372 = install(new ConceptBuilder("4c443187-7db1-4678-81b5-83a0c4213cfa")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("65ed571d-0cf7-4d8c-a5e1-8ac31666ebf9", "Every 4 hours (Q4H)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("a77f57c8-cea7-46df-8248-925355d93cda", "Tous les 4 heures", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("9c7de514-da34-44a1-835f-d2167021ee51", "Chak 4 èdtan", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("6a71f863-43b2-4fe5-b684-d6706697379f", "Q4H", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125239BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every four hours", Locale.ENGLISH, null)
+                .name("9e59e05d-f793-46a8-a7d4-285ff55729af", "Q4H", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("3a46df5f-042a-44ed-882d-2a68791da7bc", "Q4H", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("244fc711-4632-4822-a981-f1e0a0c0a42e").type(sameAs).ensureTerm(pih, "Every 4 hours").build())
+                .mapping(new ConceptMapBuilder("274973ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162247").build())
+                .mapping(new ConceptMapBuilder("461385cb-c736-4429-86fc-d3e958e0f6ad").type(sameAs).ensureTerm(pih, "Q4H").build())
+                .mapping(new ConceptMapBuilder("274972ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225756002").build())
+                .mapping(new ConceptMapBuilder("c9818fff-7c69-4fd6-b88a-632842379658").type(sameAs).ensureTerm(pih, "9372").build())
+                .build());
+
+        Concept concept9373 = install(new ConceptBuilder("513e8901-7909-4ad3-9bea-1874ed9a6ba2")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("7904ac05-4761-484e-b11d-12da3721405e", "Every 6 hours (Q6H)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("4335addf-c2b3-49ce-80a3-55f4711cd5f8", "Tous les 6 heures", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("e00dc6cc-cd41-4f93-a627-a78d67063b5f", "Chak 6 zèdtan", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("125244BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every six hours", Locale.ENGLISH, null)
+                .name("db35b0b0-9f99-4d80-8c36-f418472e5219", "Q6H", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("d9e3b19b-bd52-4767-8eb5-550221ac753f", "Q6H", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("c505ddc1-cef1-4dfd-a08e-15631b8d1063", "Q6H", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("46ff07ae-9d0d-4d69-87fb-efe3fb5f0fc9").type(sameAs).ensureTerm(pih, "Q6H").build())
+                .mapping(new ConceptMapBuilder("274976ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "307468000").build())
+                .mapping(new ConceptMapBuilder("d091d00e-6326-40f0-a79e-dde4304a6304").type(sameAs).ensureTerm(pih, "9373").build())
+                .mapping(new ConceptMapBuilder("9bdff2c6-0b64-400f-8d61-2c37dc18e162").type(sameAs).ensureTerm(pih, "Every 6 hours").build())
+                .mapping(new ConceptMapBuilder("274977ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162249").build())
+                .build());
+
+        Concept concept9374 = install(new ConceptBuilder("894ef033-1135-4c52-8284-7de9b157e824")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("7fca7e80-1136-4397-93ee-b85699e39846", "Every 12 hours (Q12H)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("b38cddc8-bdac-49d1-b4aa-25a4a1ff74de", "Tous les 12 heures", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("28b18adf-2546-4bdc-8140-ee854e4a399e", "Chak 12 zèdtan", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("125247BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every twelve hours", Locale.ENGLISH, null)
+                .name("03e442de-986a-49c2-9203-09ad1cc8c786", "Q12H", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("b607c9b4-bc36-43d5-b450-f16945f1132e", "Q12H", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("60004d6d-582a-4a2f-beb4-9837cacb4a6e", "Q12H", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("8eab4b4c-cdd5-4432-91f7-6c064499ecbf").type(sameAs).ensureTerm(pih, "9374").build())
+                .mapping(new ConceptMapBuilder("274981ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162251").build())
+                .mapping(new ConceptMapBuilder("274980ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "307470009").build())
+                .mapping(new ConceptMapBuilder("10120f6e-0d65-4f17-a23a-ac47a3b0b074").type(sameAs).ensureTerm(pih, "Every 12 hours").build())
+                .mapping(new ConceptMapBuilder("3b33cee0-e230-4ad6-a2a1-023b3c479d4e").type(sameAs).ensureTerm(pih, "Q12H").build())
+                .build());
+
+        Concept concept11035 = install(new ConceptBuilder("160863AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109558BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once daily, at bedtime (qHS)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109559BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "qHS", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("109557BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once a day, at bedtime", Locale.ENGLISH, null)
+                .name("125287BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once per day, at bedtime", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217981ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160863").build())
+                .mapping(new ConceptMapBuilder("145039ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396142006").build())
+                .build());
+
+        Concept concept11025 = install(new ConceptBuilder("160865AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109563BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once daily, in the morning (qAM)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109564BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "qAM", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125289BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once per day, in the morning", Locale.ENGLISH, null)
+                .name("109565BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once a day, in the morning", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217983ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160865").build())
+                .mapping(new ConceptMapBuilder("145041ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "229797004").build())
+                .build());
+
+        Concept concept11031 = install(new ConceptBuilder("160861AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109552BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice daily with meals (BIDWM)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109551BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "BIDWM", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125285BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice per day with meals", Locale.ENGLISH, null)
+                .name("109550BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice a day with meals", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217979ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160861").build())
+                .mapping(new ConceptMapBuilder("145037ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "421589008").build())
+                .build());
+
+        Concept concept11034 = install(new ConceptBuilder("160860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109548BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice daily after meals (BIDPC)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125284BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice per day after meals", Locale.ENGLISH, null)
+                .name("109549BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "BIDPC", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("109547BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice a day after meals", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217978ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160860").build())
+                .mapping(new ConceptMapBuilder("145036ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "422231003").build())
+                .build());
+
+        Concept concept11027 = install(new ConceptBuilder("160859AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109546BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice daily before meals (BIDAC)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109544BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "BIDAC", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("109545BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice a day before meals", Locale.ENGLISH, null)
+                .name("125283BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Twice per day before meals", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217977ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160859").build())
+                .mapping(new ConceptMapBuilder("145035ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "422231003").build())
+                .build());
+
+        Concept concept11029 = install(new ConceptBuilder("160867AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109571BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Thrice daily, after meals (TIDPC)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("126447BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "3 times per day, after meals", Locale.ENGLISH, null)
+                .name("109569BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times a day, after meals", Locale.ENGLISH, null)
+                .name("125291BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times per day, after meals", Locale.ENGLISH, null)
+                .name("109570BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "TIDPC", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("145043ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "421409007").build())
+                .mapping(new ConceptMapBuilder("217985ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160867").build())
+                .build());
+
+        Concept concept11036 = install(new ConceptBuilder("160868AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109572BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Thrice daily, before meals (TIDAC)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125292BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times per day, before meals", Locale.ENGLISH, null)
+                .name("109573BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times a day, before meals", Locale.ENGLISH, null)
+                .name("109574BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "TIDAC", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("126449BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "3 times per day, before meals", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("145044ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396145008").build())
+                .mapping(new ConceptMapBuilder("217986ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160868").build())
+                .build());
+
+        Concept concept11018 = install(new ConceptBuilder("160869AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109576BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Thrice daily, with meals (TIDWM)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109577BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "TIDWM", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125293BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times per day, with meals", Locale.ENGLISH, null)
+                .name("126448BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "3 times per day, with meals", Locale.ENGLISH, null)
+                .name("109575BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times a day, with meals", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("217987ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160869").build())
+                .mapping(new ConceptMapBuilder("145045ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396146009").build())
+                .build());
+
+        Concept concept11038 = install(new ConceptBuilder("160871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109582BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times daily, after meals and at bedtime (QIDPCHS)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109583BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times a day, after meals and at bedtime", Locale.ENGLISH, null)
+                .name("125295BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times per day, after meals and at bedtime", Locale.ENGLISH, null)
+                .name("109584BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "QIDPCHS", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("126452BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "4 times per day, after meals and at bedtime", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("145047ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "421969000").build())
+                .mapping(new ConceptMapBuilder("217989ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160871").build())
+                .build());
+
+        Concept concept11023 = install(new ConceptBuilder("160872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109586BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times daily, before meals and at bedtime (QIDACHS)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125296BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times a day, before meals and at bedtime", Locale.ENGLISH, null)
+                .name("109587BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "QIDACHS", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("126451BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "4 times per day, before meals and at bedtime", Locale.ENGLISH, null)
+                .name("109585BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "qac and qhs", Locale.ENGLISH, null)
+                .name("125297BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Four times per day, before meals and at bedtime", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("145048ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "420660006").build())
+                .mapping(new ConceptMapBuilder("217990ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160872").build())
+                .build());
+
+        Concept concept11024 = install(new ConceptBuilder("162135AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("124906BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "One time", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125298BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Once", Locale.ENGLISH, null)
+                .name("124907BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Single event", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("237146ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162135").build())
+                .mapping(new ConceptMapBuilder("237145ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "307486002").build())
+                .build());
+
+        Concept concept11037 = install(new ConceptBuilder("162136AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("124909BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "One time STAT", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("124908BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Single event immediately", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("237147ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(narrowerThan).ensureTerm(snomedNp, "307486002").build())
+                .mapping(new ConceptMapBuilder("237148ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162136").build())
+                .build());
+
+        Concept concept11030 = install(new ConceptBuilder("162243AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125231BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 30 min (q30m)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125230BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q30m", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274964ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225767001").build())
+                .mapping(new ConceptMapBuilder("274965ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162243").build())
+                .build());
+
+        Concept concept11028 = install(new ConceptBuilder("162244AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125232BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every hour (q1h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125233BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q1h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125234BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "hourly", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("274966ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225768006").build())
+                .mapping(new ConceptMapBuilder("274967ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162244").build())
+                .build());
+
+        Concept concept11019 = install(new ConceptBuilder("162248AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125242BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every five hours (q5h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125270BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 5 hours", Locale.ENGLISH, null)
+                .name("125241BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q5h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274974ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396137003").build())
+                .mapping(new ConceptMapBuilder("274975ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162248").build())
+                .build());
+
+        Concept concept11032 = install(new ConceptBuilder("162250AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125246BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every eight hours (q8h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125272BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 8 hours", Locale.ENGLISH, null)
+                .name("125245BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q8h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274979ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162250").build())
+                .mapping(new ConceptMapBuilder("274978ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "307469008").build())
+                .build());
+
+        Concept concept11017 = install(new ConceptBuilder("162252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125250BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every twenty-four hours (q24h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125274BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 24 hours", Locale.ENGLISH, null)
+                .name("125249BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q24h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("274983ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162252").build())
+                .mapping(new ConceptMapBuilder("274982ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396125000").build())
+                .build());
+
+        Concept concept11021 = install(new ConceptBuilder("162254AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125254BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every thirty-six hours (q36h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125253BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q36h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125276BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 36 hours", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("274987ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162254").build())
+                .mapping(new ConceptMapBuilder("274986ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396126004").build())
+                .build());
+
+        Concept concept11020 = install(new ConceptBuilder("162253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125251BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every forty-eight hours (q48h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125252BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q48h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125275BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 48 hours", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("274984ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396125000").build())
+                .mapping(new ConceptMapBuilder("274985ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162253").build())
+                .build());
+
+        Concept concept11022 = install(new ConceptBuilder("162255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125255BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every seventy-two hours (q72h)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125256BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "q72h", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("125277BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every 72 hours", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("274989ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162255").build())
+                .mapping(new ConceptMapBuilder("274988ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "396126004").build())
+                .build());
+
+        Concept concept11026 = install(new ConceptBuilder("162256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("125266BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Every Monday, Wednesday and Friday (qMWF)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("125264BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Three times a week on Monday, Wednesday and Friday", Locale.ENGLISH, null)
+                .name("125265BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "qMWF", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("126450BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "3 times a week on Monday, Wednesday and Friday", Locale.ENGLISH, null)
+                .mapping(new ConceptMapBuilder("274991ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "444763000").build())
+                .mapping(new ConceptMapBuilder("274992ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "162256").build())
+                .build());
+
+        Concept whenRequired = install(new ConceptBuilder("160857AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("109540BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "When required (PRN)", Locale.ENGLISH, null)
+                .name("1542bc96-9c5f-4100-875d-271a65302bfa", "Si nécessaire", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .name("cce30aaf-a45e-4d8f-b6b2-5e7d6fefaba5", "Lè sa nesesè", locale_HAITI, ConceptNameType.FULLY_SPECIFIED)
+                .name("109539BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "On an as needed basis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("109538BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "PRN", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("8eea2920-efe7-47a0-8017-1eb6b61c2e6d", "PRN", Locale.FRENCH, ConceptNameType.SHORT)
+                .name("66f48261-72c1-4c2e-bf52-42006ca2c8bd", "PRN", locale_HAITI, ConceptNameType.SHORT)
+                .mapping(new ConceptMapBuilder("217975ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160857").build())
+                .mapping(new ConceptMapBuilder("145033ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(snomedCt, "225761000").build())
+                .mapping(new ConceptMapBuilder("65add4ca-6f2f-4eaa-9915-cca8b128fcc2").type(sameAs).ensureTerm(pih, "PRN").build())
+                .build());
+
+        Concept medsFreq = install(new ConceptBuilder("6563fb14-977f-11e1-8993-905e29aff6c1")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("66077366-977f-11e1-8993-905e29aff6c1", "Drug frequency coded", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("7b4ad1d5-4b11-463d-90b8-82c2027eb06a", "Freq", Locale.ENGLISH, ConceptNameType.SHORT)
+                .answers(onceAday, twiceAday, onceAmonth, threeADay, fourTimesAday, fiveTimesAday, sixTimesAday, onceAweek, concept9367, concept9368, concept9369, inTheMorn, onceAdayAtnight, variable, onceAdatAtnoon, whenRequired, immediate, concept9370, concept9371, concept9372, concept9373, concept9374, otherFreq, concept11035, inTheEve, everyDay, concept11025, concept11031, concept11034, concept11027, concept11029, concept11036, concept11018, concept11038, concept11023, concept11024, concept11037, concept11030, concept11028, concept11019, concept11032, concept11017, concept11021, concept11020, concept11022, concept11026)
+                .build());
+
+        Concept concept9072 = install(new ConceptBuilder("ef7f742b-76e6-4a83-84ca-534ad6705494")
+		.datatype(text)
+		.conceptClass(miscOrder)
+		.name("4369a18f-1c8d-483e-a2b0-9b382964afc6", "Prescription instructions, non-coded", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+		.description("49dfe9e7-d6ee-4c2c-9155-4dab31668db4", "Instructions for how often, in what quantity, and in what form a prescribed medication should be administered.", Locale.ENGLISH)
+		.mapping(new ConceptMapBuilder("01360d6f-6c8c-49e4-86dc-7521c0824cbe").type(sameAs).ensureTerm(pih, "9072").build())
+		.mapping(new ConceptMapBuilder("6c3ba3e4-6812-4cd8-ac20-229508dacd86").type(sameAs).ensureTerm(pih, "Prescription instructions non-coded").build())
+		.mapping(new ConceptMapBuilder("1a5f86ed-cf9c-4db5-9378-6454d6b4c870").type(sameAs).ensureTerm(emrapi, "Prescription instructions non-coded").build())
+		.build());
+
+        Concept concept12651 = install(new ConceptBuilder("b08011b8-b1c7-4fd0-b48d-65a475397639")
+		.datatype(coded)
+		.conceptClass(question)
+		.name("48cd1100-0d05-460f-965e-39e8bf8136e4", "Routes of administration (coded)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+		.mapping(new ConceptMapBuilder("5e5631eb-bfc6-488b-9105-c0fdefd7d974").type(sameAs).ensureTerm(pih, "12651").build())
+		.build());
+
+        Concept concept10634 = install(new ConceptBuilder("f541afbd-db59-4c48-88da-ce17b8184963")
+		.datatype(coded)
+		.conceptClass(drug)
+		.name("28e3e738-8e05-419e-8bbf-e33598718ce1", "Mental health medication", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+		.mapping(new ConceptMapBuilder("9940a83f-28c1-4449-a620-1161d7102565").type(sameAs).ensureTerm(pih, "Mental health medication").build())
+		.mapping(new ConceptMapBuilder("725dba8b-1aa8-4d53-8c7a-cc807632fb00").type(sameAs).ensureTerm(pih, "10634").build())
+		.build());
+
+        /*Concept prescriptionConst = install(new ConceptBuilder("9ab17798-1486-4d56-9218-e3578646a772")
+		.datatype(notApplicable)
+		.conceptClass(convSet)
+		.name("fcec1602-0e57-4a52-ab74-f19717218560", "Prescription construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+		.description("c7eb03ad-6280-46a7-8e7b-242462c20f49", "Collects all pieces of information about a medication or product that was prescribed for the patient by a clinician", Locale.ENGLISH)
+		.setMembers(currentDrugs, amountDispensed, conceptDosingUnit, medsFreq, durationMeds, timeUnits, generalDrugFreq, concept9072, concept12651, concept10634)
+		.build());*/
     }
 }
