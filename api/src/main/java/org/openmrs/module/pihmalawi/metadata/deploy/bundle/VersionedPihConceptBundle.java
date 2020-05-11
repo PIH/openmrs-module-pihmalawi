@@ -52,6 +52,7 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
     protected ConceptClass state;
     protected ConceptClass frequency;
     protected ConceptClass miscOrder;
+    protected ConceptClass unitsOfMeasure;
 
     protected ConceptMapType sameAs;
     protected ConceptMapType narrowerThan;
@@ -114,6 +115,8 @@ public abstract class VersionedPihConceptBundle extends VersionedMetadataBundle 
         workflow = MetadataUtils.existing(ConceptClass.class, ConceptClasses.WORKFLOW);
         state = MetadataUtils.existing(ConceptClass.class, ConceptClasses.STATE);
         symptomFinding = MetadataUtils.existing(ConceptClass.class, ConceptClasses.SYMPTOM_FINDING);
+	frequency = MetadataUtils.existing(ConceptClass.class, ConceptClasses.FREQUENCY);
+	unitsOfMeasure = MetadataUtils.existing(ConceptClass.class, ConceptClasses.UNITS_OF_MEASURE);
 
         sameAs = MetadataUtils.existing(ConceptMapType.class, ConceptMapTypes.SAME_AS);
         narrowerThan = MetadataUtils.existing(ConceptMapType.class, ConceptMapTypes.NARROWER_THAN);

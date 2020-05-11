@@ -13,7 +13,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
 
     @Override
     public int getVersion() {
-        return 7;
+        return 8;
     }
 
     public static final class ConceptSources {
@@ -64,6 +64,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         public static final String STATE = "65ab79bc-977f-11e1-8993-905e29aff6c1";
         public static final String SYMPTOM_FINDING = "8d492b2a-c2cc-11de-8d13-0010c6dffd0f";
         public static final String MISC_ORDER = "8d492ee0-c2cc-11de-8d13-0010c6dffd0f";
+        public static final String UNITS_OF_MEASURE = "e30d8601-07f8-413a-9d11-cdfbb28196ec";
     }
 
     // these exist already, we don't create them
@@ -92,6 +93,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
         install(conceptClass("Test", "Acq. during patient encounter (vitals, labs, etc.)", ConceptClasses.TEST));
         install(conceptClass("Procedure", "Describes a clinical procedure", ConceptClasses.PROCEDURE));
         install(conceptClass("Frequency", "A concept used for capturing frequency information such as for medication ordering.", ConceptClasses.FREQUENCY));
+        install(conceptClass("Units of Measure", "Units of Measure", ConceptClasses.UNITS_OF_MEASURE));
 
         install(conceptSource("PIH", "Partners In Health concept dictionary using concept ids and preferred English names", null, ConceptSources.PIH));
         install(conceptSource("PIH Malawi", "Partners in Health Malawi concept dictionary", null, ConceptSources.PIH_MALAWI)); //
