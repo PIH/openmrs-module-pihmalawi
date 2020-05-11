@@ -13,7 +13,7 @@ public class CoreConceptMetadataBundle extends VersionedMetadataBundle {
 
     @Override
     public int getVersion() {
-        return 14;
+        return 8;
     }
 
     public static final class ConceptSources {
