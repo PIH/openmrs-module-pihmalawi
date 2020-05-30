@@ -157,7 +157,7 @@
 
         function validateHbA1cValue(hba1cField) {
           var err = null;
-          if (hba1cField.length > 0) {
+          if (hba1cField[0].length > 0) {
               // if the field is not empty
               var hba1cValue = hba1cField[0].value;
               var hba1cIntValue = parseInt(hba1cValue);
