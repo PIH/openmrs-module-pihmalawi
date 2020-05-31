@@ -148,7 +148,7 @@
 
       function setupHbA1cValidation(flowsheet, html) {
         var hba1cEntered = jq(html).find("#hba1c > input");
-        if (hba1cEntered) {
+        if (hba1cEntered && hba1cEntered.length > 0) {
             validateHbA1cValue(hba1cEntered);
             hba1cEntered.change(function() {
                 validateHbA1cValue(hba1cEntered);
@@ -157,7 +157,7 @@
 
         function validateHbA1cValue(hba1cField) {
           var err = null;
-          if (hba1cField[0].length > 0) {
+          if (hba1cField[0] && hba1cField[0].value) {
               // if the field is not empty
               var hba1cValue = hba1cField[0].value;
               var hba1cIntValue = parseInt(hba1cValue);
