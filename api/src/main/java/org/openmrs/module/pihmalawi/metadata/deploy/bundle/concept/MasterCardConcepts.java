@@ -151,7 +151,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -280,7 +280,6 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
 	// Dispensing concepts			
         Concept amountDispensed = MetadataUtils.existing(Concept.class, AMOUNT_DISPENSED);
-        Concept durationMeds = MetadataUtils.existing(Concept.class, DURATION_MEDS); 
         Concept timeUnits = MetadataUtils.existing(Concept.class, TIME_UNITS); 
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
@@ -1279,12 +1278,24 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 		.mapping(new ConceptMapBuilder("725dba8b-1aa8-4d53-8c7a-cc807632fb00").type(sameAs).ensureTerm(pih, "10634").build())
 		.build());
 
-        /*Concept prescriptionConst = install(new ConceptBuilder("9ab17798-1486-4d56-9218-e3578646a772")
-		.datatype(notApplicable)
-		.conceptClass(convSet)
-		.name("fcec1602-0e57-4a52-ab74-f19717218560", "Prescription construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-		.description("c7eb03ad-6280-46a7-8e7b-242462c20f49", "Collects all pieces of information about a medication or product that was prescribed for the patient by a clinician", Locale.ENGLISH)
-		.setMembers(currentDrugs, amountDispensed, conceptDosingUnit, medsFreq, durationMeds, timeUnits, generalDrugFreq, concept9072, concept12651, concept10634)
-		.build());*/
+        Concept durationMeds = install(new ConceptNumericBuilder(DURATION_MEDS)
+                .conceptClass(question)
+                .datatype(numeric)
+                .precise(false)
+                .name("94ffc78f-24d5-4c55-bc13-8b9d035ac2f5", "Medication duration", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("D94DD149-D38E-4007-BC04-46424F76EFA0")
+                        .type(sameAs).ensureTerm(ciel, "159368").build())
+                .build());
+
+        Concept medication_prescription_construct = install(new ConceptBuilder("3269F65B-1A28-42EE-8578-B9658387AA00")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("E31457B1-6A34-4596-AB9A-394DC5D01B61", "Prescription construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("98832E23-4AAE-413E-99C2-87AFBC9074A6", "Collects all pieces of information about a medication or product that was prescribed for the patient by a clinician", Locale.ENGLISH)
+                .setMembers(currentDrugs, amountDispensed, conceptDosingUnit, medsFreq, durationMeds, timeUnits, generalDrugFreq, concept9072, concept12651)
+                .build());
+
+        medication_prescription_construct.setSet(true);
+
     }
 }
