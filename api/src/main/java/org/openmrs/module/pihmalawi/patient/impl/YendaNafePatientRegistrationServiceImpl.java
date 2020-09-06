@@ -23,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-
+/**
+ *  Class implements patient creation operations for patients captured from medic mobile
+ */
 @Component
 public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatientRegistrationService {
     @Authorized( { PrivilegeConstants.ADD_PATIENTS })
@@ -33,7 +35,7 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         User user = userService.getUserByUuid(creatorUUID);
 
         String fullName = yendaNafePatientRegistrationModel.name;
-        String[] nameSplitted = fullName.split("\\s+");
+        String[] nameSplitted = fullName.split("\\s+",2);
         String firstName = nameSplitted[0];
         String lastName = nameSplitted[1];
 

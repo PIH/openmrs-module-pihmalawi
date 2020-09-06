@@ -7,7 +7,9 @@ import org.openmrs.module.pihmalawi.db.YendaNafePatientDAO;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ *  Class implements patient GET operations for patients captured from medic mobile
+ */
 @Component
 public class YendaNafePatientServiceImpl extends BaseOpenmrsService implements YendaNafePatientService {
 

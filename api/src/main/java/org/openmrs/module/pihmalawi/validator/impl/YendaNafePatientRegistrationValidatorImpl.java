@@ -10,7 +10,9 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
+/**
+ *  Class implements validation adding patient from medic mobile data model for patient registration
+ */
 @Component
 public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatientRegistrationValidator {
     public String validateRegistrationModel(YendaNafePatientRegistrationModel yendaNafePatientRequestBody, YendaNafePatientService yendaNafePatientService, LocationService locationService)
@@ -25,6 +27,11 @@ public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatie
             return "Name of patient not given.";
         }
 
+        String[] parts = yendaNafePatientRequestBody.name.split(" ", 2);
+        if(parts.length == 1)
+        {
+            return "Name is incomplete. Please provide first name and last name.";
+        }
         String sex = yendaNafePatientRequestBody.sex.toLowerCase().trim();
         if(!(sex.equals("male") || sex.equals("female")  || sex.equals("unknown")))
         {

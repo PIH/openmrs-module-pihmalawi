@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *  End point will handle adding patients in the EMR from medic mobile
+ */
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + YendaNafePatientRestController.PIHMALAWI + YendaNafePatientRestController.YENDANAFE+YendaNafePatientRestController.PATIENT)
 public class YendaNafePatientRestController {

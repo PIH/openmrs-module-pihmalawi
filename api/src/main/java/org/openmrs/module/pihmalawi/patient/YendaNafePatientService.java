@@ -6,6 +6,9 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ *  Responsible for patient GET operations for patients captured from medic mobile
+ */
 public interface YendaNafePatientService extends OpenmrsService {
 
     @Authorized({"View Patient Identifiers"})

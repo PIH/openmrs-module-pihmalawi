@@ -10,6 +10,9 @@ import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ *  Responsible for patient creation operations for patients captured from medic mobile
+ */
 public interface YendaNafePatientRegistrationService  {
     @Authorized( { PrivilegeConstants.ADD_PATIENTS })
     @Transactional

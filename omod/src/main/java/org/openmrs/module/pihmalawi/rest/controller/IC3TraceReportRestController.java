@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ *  End point will handle getting of trace report
+ */
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + IC3TraceReportRestController.PIHMALAWI + IC3TraceReportRestController.IC3TRACE)
 public class IC3TraceReportRestController  {
@@ -61,8 +63,6 @@ public class IC3TraceReportRestController  {
             ReportData data = reportDefinitionService.evaluate(rd, context);
             List<SimpleObject> traceReportData = new ArrayList<SimpleObject>();
             for (String dsName : data.getDataSets().keySet()) {
-                System.out.println(dsName);
-                System.out.println("---------------------------------");
                 traceReportData.add(getTraceReportData(data.getDataSets().get(dsName),dsName));
             }
             return traceReportData;
