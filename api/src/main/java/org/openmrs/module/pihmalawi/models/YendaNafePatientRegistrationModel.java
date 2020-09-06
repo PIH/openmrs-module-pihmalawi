@@ -36,5 +36,5 @@ public class YendaNafePatientRegistrationModel {
     public String village;
     public String health_surveillance_assistant;
     public String site;
-    public String created_by;
+    public String location_uuid;
 }

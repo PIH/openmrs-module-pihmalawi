@@ -1,10 +1,15 @@
 package org.openmrs.module.pihmalawi.rest.controller;
 
+
+import org.openmrs.Patient;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.UserService;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
+import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
+import org.openmrs.module.pihmalawi.patient.YendaNafePatientService;
+import org.openmrs.module.pihmalawi.validator.YendaNafePatientRegistrationValidator;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,111 +30,61 @@ public class YendaNafePatientRestController {
     public static final String YENDANAFE = "/yendanafe";
     public static final String PATIENT = "/patient";
 
-    public final String personUri = "http://localhost:8080/openmrs/ws/rest/v1/person";
+    public static final String YENDANAFEUIID ="23ca7da8-362d-4cf5-abd5-a40221d60da1";
 
     @Autowired
-    private PatientService patientService;
-
-    @Autowired
-    private PersonService personService;
+    private LocationService locationService;
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private LocationService locationService;
-    private Date date = new Date();
+    private PersonService personService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @Autowired
+    private YendaNafePatientRegistrationValidator yendaNafePatientRegistrationValidator;
+
+    @Autowired
+    private YendaNafePatientService yendaNafePatientService;
+
+    @Autowired
+    private YendaNafePatientRegistrationService yendaNafePatientRegistrationService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public Object getScreeningData(
+    public Object createPatient(
             @RequestBody YendaNafePatientRegistrationModel body) {
 
         List<SimpleObject> results = new ArrayList<SimpleObject>();
-        SimpleObject simpleObject = new SimpleObject();
-        simpleObject.add("hello","Matiya");
 
+        String validationResult = yendaNafePatientRegistrationValidator.validateRegistrationModel(body,yendaNafePatientService,locationService);
 
-/*
-        //User user = userService.getUserByUuid(body.get("created_by"));
-        //Date date = new Date();
+        if(!validationResult.equals(""))
+        {
+            SimpleObject errorValidationErrors = new SimpleObject();
+            errorValidationErrors.put("error", validationResult);
+            return errorValidationErrors;
+        }
+        try{
 
-        String fullName = body.name;
-        String[] nameSplitted = fullName.split("\\s+");
-        String firstName = nameSplitted[0];
-        String lastName = nameSplitted[1];
+            Patient newPatient = yendaNafePatientRegistrationService.createPatient(body,YENDANAFEUIID,personService,patientService,userService,locationService);
+            SimpleObject registeredPatient = new SimpleObject();
+            registeredPatient.add("uuid",newPatient.getUuid());
+            results.add(registeredPatient);
 
-        JsonObject newPerson = new JsonObject();
+            return results;
 
-        JsonObject personname = new JsonObject();
-        personname.put("givenName",firstName);
-        personname.put("familyName",lastName);
-
-        JSONArray names = new JSONArray(personname);
-        newPerson.put("names",names);
-        newPerson.put("gender",body.sex);
-        newPerson.put("birthdate","2020-08-08");
-
-        JSONArray personAddresses = new JSONArray();
-
-        JsonObject personAddress = new JsonObject();
-        personAddress.put("address1","");
-        personAddress.put("country","Malawi");
-       // personAddress.setCountyDistrict(body.get("district"));
-        personAddress.put("cityVillage",body.village);
-        personAddress.put("postalCode","");
-        personAddresses.put(personAddress);
-        newPerson.put("addresses",personAddresses);
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        // create auth credentials
-        //String authStr = "username:password";
-        String authStr = "kmatiya:zxqw1234@@##";
-        String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
-
-        // create headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic " + base64Creds);
-
-        // create request
-        HttpEntity request = new HttpEntity(newPerson,headers);
-
-
-        // make a request
-        ResponseEntity<String> response = new RestTemplate().exchange(personUri, HttpMethod.POST, request, String.class);
-
-        // get JSON response
-        String json = response.getBody();
-
-        SimpleObject simpleObject = new SimpleObject();
-        simpleObject.add("response",json);
-        results.add(simpleObject); */
-        return results;
-
-       /* Location patient_location = locationService.getLocationByUuid(body.get("location"));
-        PatientIdentifierType patientIdentifierType =  patientService.getPatientIdentifierTypeByUuid(PihMalawiPatientIdentifierTypes.YENDANAFE_IDENTIFIER.uuid());
-        PatientIdentifier patientIdentifier = new PatientIdentifier();
-        SortedSet<PatientIdentifier> patientIdentifiers = new TreeSet<PatientIdentifier>();
-        patientIdentifier.setIdentifierType(patientIdentifierType);
-        patientIdentifier.setLocation(patient_location);
-        patientIdentifier.setPreferred(true);
-        patientIdentifier.setDateCreated(date);
-        patientIdentifiers.add(patientIdentifier);
-        Patient newPatient = new Patient();
-        newPatient.setPersonId(savedPerson.getPersonId());
-        newPatient.setIdentifiers(patientIdentifiers);
-        newPatient.setBirthdate(new Date(body.get("dateOfBirth")));
-        Patient savedPatient = patientService.savePatient(newPatient);
-
-        SimpleObject registeredPatient = new SimpleObject();
-        registeredPatient.add("uuid",savedPatient.getUuid());
-        results.add(registeredPatient);
-
-        return results;
-        SimpleObject simpleObject = new SimpleObject();
-        simpleObject.add("input",body);
-        results.add(simpleObject);
-        return results; */
+        }
+        catch (Exception ex)
+        {
+            SimpleObject simpleObject = new SimpleObject();
+            simpleObject.add("error",ex.getMessage());
+            simpleObject.add("stacktrace",ex.getStackTrace());
+            results.add(simpleObject);
+            return results;
+        }
     }
 }
