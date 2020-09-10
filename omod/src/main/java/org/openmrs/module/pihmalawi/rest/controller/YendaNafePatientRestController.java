@@ -8,7 +8,7 @@ import org.openmrs.api.PersonService;
 import org.openmrs.api.UserService;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
-import org.openmrs.module.pihmalawi.patient.YendaNafePatientService;
+import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
 import org.openmrs.module.pihmalawi.validator.YendaNafePatientRegistrationValidator;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -50,7 +50,7 @@ public class YendaNafePatientRestController {
     private YendaNafePatientRegistrationValidator yendaNafePatientRegistrationValidator;
 
     @Autowired
-    private YendaNafePatientService yendaNafePatientService;
+    private ExtendedPatientService extendedPatientService;
 
     @Autowired
     private YendaNafePatientRegistrationService yendaNafePatientRegistrationService;
@@ -62,7 +62,7 @@ public class YendaNafePatientRestController {
 
         List<SimpleObject> results = new ArrayList<SimpleObject>();
 
-        String validationResult = yendaNafePatientRegistrationValidator.validateRegistrationModel(body,yendaNafePatientService,locationService);
+        String validationResult = yendaNafePatientRegistrationValidator.validateRegistrationModel(body, extendedPatientService,locationService);
 
         if(!validationResult.equals(""))
         {

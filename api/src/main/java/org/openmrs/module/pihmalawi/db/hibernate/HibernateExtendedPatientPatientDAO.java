@@ -2,14 +2,14 @@ package org.openmrs.module.pihmalawi.db.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.module.pihmalawi.db.YendaNafePatientDAO;
+import org.openmrs.module.pihmalawi.db.ExtendedPatientDAO;
 import org.springframework.stereotype.Component;
 
 /*
 * This class will handle the actual database calls for Yendanafe patients through Hibernate ORM
 * */
 @Component
-public class HibernateYendaNafePatientPatientDAO implements YendaNafePatientDAO {
+public class HibernateExtendedPatientPatientDAO implements ExtendedPatientDAO {
     /**
      * Hibernate session factory
      */

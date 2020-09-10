@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  *  Responsible for patient GET operations for patients captured from medic mobile
  */
-public interface YendaNafePatientService extends OpenmrsService {
+public interface ExtendedPatientService extends OpenmrsService {
 
     @Authorized({"View Patient Identifiers"})
     @Transactional(readOnly = true)

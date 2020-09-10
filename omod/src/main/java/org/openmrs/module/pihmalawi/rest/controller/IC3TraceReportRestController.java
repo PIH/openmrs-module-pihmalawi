@@ -97,7 +97,10 @@ public class IC3TraceReportRestController  {
                 {
                     facility.add("location",r.getColumnValue("parameter.location"));
                 }
+
                 facility.add("weeks",r.getColumnValue("parameter.minWeeks"));
+                facility.add("type","data_record");
+                facility.add("form", "openmrs_trace_report");
                 facilityDetails.add("end_date",r.getColumnValue("parameter.endDate"));
                 facilityDetails.add("lab_weeks",r.getColumnValue("parameter.labWeeks"));
                 facilityDetails.add("location",r.getColumnValue("parameter.location"));

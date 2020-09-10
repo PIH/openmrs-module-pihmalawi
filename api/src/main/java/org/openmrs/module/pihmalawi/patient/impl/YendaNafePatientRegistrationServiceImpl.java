@@ -16,7 +16,6 @@ import org.openmrs.api.UserService;
 import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
-import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +56,7 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         newPerson.setGender(yendaNafePatientRegistrationModel.sex);
         newPerson.setNames(personNames);
         newPerson.setCreator(user);
-        newPerson.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
+       // newPerson.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
         newPerson.setAddresses(personAddresses);
         newPerson.addName(personName);
 
@@ -72,7 +71,7 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         patientIdentifiers.add(patientIdentifier);
         Patient newPatient = new Patient(savedPerson);
         newPatient.setIdentifiers(patientIdentifiers);
-        newPatient.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
+       // newPatient.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
         return patientService.savePatient(newPatient);
     }
 }

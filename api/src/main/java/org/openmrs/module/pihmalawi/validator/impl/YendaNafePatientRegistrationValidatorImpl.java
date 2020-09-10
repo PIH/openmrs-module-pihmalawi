@@ -4,20 +4,21 @@ import org.openmrs.Location;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.api.LocationService;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
-import org.openmrs.module.pihmalawi.patient.YendaNafePatientService;
+import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
 import org.openmrs.module.pihmalawi.validator.YendaNafePatientRegistrationValidator;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+
 /**
  *  Class implements validation adding patient from medic mobile data model for patient registration
  */
 @Component
 public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatientRegistrationValidator {
-    public String validateRegistrationModel(YendaNafePatientRegistrationModel yendaNafePatientRequestBody, YendaNafePatientService yendaNafePatientService, LocationService locationService)
+    public String validateRegistrationModel(YendaNafePatientRegistrationModel yendaNafePatientRequestBody, ExtendedPatientService extendedPatientService, LocationService locationService)
     {
-        PatientIdentifier patientIdentifierInDB = yendaNafePatientService.getPatientIdentifierByYendaNafeUuid(yendaNafePatientRequestBody._id);
+        PatientIdentifier patientIdentifierInDB = extendedPatientService.getPatientIdentifierByYendaNafeUuid(yendaNafePatientRequestBody._id);
         if(patientIdentifierInDB != null)
         {
             return "_id "+ yendaNafePatientRequestBody._id +" already exist in the system. _id has to be unique";
@@ -53,7 +54,8 @@ public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatie
                 return "Invalid date format. Given date is "+ birthdate+".";
             }
         }
-        if(!(yendaNafePatientRequestBody.ncds.trim().equals("")) || !yendaNafePatientRequestBody.ncds_other.trim().equals("") ||
+
+       if(!(yendaNafePatientRequestBody.ncds.trim().equals("")) || !yendaNafePatientRequestBody.ncds_other.trim().equals("") ||
                 !yendaNafePatientRequestBody.mental_health_type.trim().equals("") || !yendaNafePatientRequestBody.mental_health_type_other.trim().equals("") ||
                 !yendaNafePatientRequestBody.eid_emr_id_source.trim().equals("") || !yendaNafePatientRequestBody.eid_emr_id_source_other.trim().equals("")||
                 !yendaNafePatientRequestBody.art_emr_id_source.trim().equals("") || !yendaNafePatientRequestBody.art_emr_id_source_other.trim().equals("") ||

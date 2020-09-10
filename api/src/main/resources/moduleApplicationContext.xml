@@ -12,12 +12,12 @@
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 
-	<bean id="yendaNafePatientService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="extendedPatientService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager"><ref bean="transactionManager"/></property>
 		<property name="target">
-			<bean class="org.openmrs.module.pihmalawi.patient.impl.YendaNafePatientServiceImpl">
-				<property name="yendaNafePatientDAO">
-					<bean class="org.openmrs.module.pihmalawi.db.hibernate.HibernateYendaNafePatientPatientDAO">
+			<bean class="org.openmrs.module.pihmalawi.patient.impl.ExtendedPatientServiceImpl">
+				<property name="extendedPatientDAO">
+					<bean class="org.openmrs.module.pihmalawi.db.hibernate.HibernateExtendedPatientPatientDAO">
 						<property name="sessionFactory"><ref bean="sessionFactory"/></property>
 					</bean>
 				</property>
@@ -34,8 +34,8 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list merge="true">
-				<value>org.openmrs.module.pihmalawi.patient.YendaNafePatientService</value>
-				<ref bean="yendaNafePatientService"/>
+				<value>org.openmrs.module.pihmalawi.patient.ExtendedPatientService</value>
+				<ref bean="extendedPatientService"/>
 			</list>
 		</property>
 	</bean>
