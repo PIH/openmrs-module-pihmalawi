@@ -37,4 +37,44 @@ public class YendaNafePatientRegistrationModel {
     public String health_surveillance_assistant;
     public String site;
     public String location_uuid;
+
+    public YendaNafePatientRegistrationModel()
+    {
+        this._id = "";
+        this.type = "";
+        this.name = "";
+        this.sex = "";
+        this.date_of_birth = "";
+        this.knows_dob = "";
+        this.art_start_date = "";
+        this.tb_treatment_start_date = "";
+        this.primary_phone_number = "";
+        this.secondary_phone_number = "";
+        this.conditions = "";
+        this.conditions_other = "";
+        this.malnutrition_program = "";
+        this.ncds = "";
+        this.ncds_other = "";
+        this.mental_health_type = "";
+        this.mental_health_type_other = "";
+        this.eid_emr_id_source = "";
+        this.eid_emr_id_source_other = "";
+        this.art_emr_id_source = "";
+        this.art_emr_id_source_other = "";
+        this.ncd_emr_id_source = "";
+        this.ncd_emr_id_source_other = "";
+        this.eid_id = "";
+        this.art_id = "";
+        this.ncd_id = "";
+        this.notes = "";
+        this.reported_date = "";
+        this.patient_id = "";
+        this.contact_type = "";
+        this.chw = "";
+        this.traditional_authority = "";
+        this.village = "";
+        this.health_surveillance_assistant = "";
+        this.site = "";
+        this.location_uuid = "";
+    }
 }
