@@ -7,7 +7,7 @@ import org.openmrs.api.OpenmrsService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *  Responsible for patient GET operations for patients captured from medic mobile
+ *  Class implements patient operations for patients extending to the PatientService
  */
 public interface ExtendedPatientService extends OpenmrsService {
 

@@ -8,7 +8,7 @@ import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 /**
- *  Class implements patient GET operations for patients captured from medic mobile
+ *  Class implements patient operations for patients extending to the PatientService
  */
 @Component
 public class ExtendedPatientServiceImpl extends BaseOpenmrsService implements ExtendedPatientService {

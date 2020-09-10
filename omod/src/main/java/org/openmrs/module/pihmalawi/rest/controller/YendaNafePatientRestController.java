@@ -75,6 +75,7 @@ public class YendaNafePatientRestController {
             Patient newPatient = yendaNafePatientRegistrationService.createPatient(body,YENDANAFEUIID,personService,patientService,userService,locationService);
             SimpleObject registeredPatient = new SimpleObject();
             registeredPatient.add("uuid",newPatient.getUuid());
+            registeredPatient.add("Name",newPatient.getGivenName()+" "+ newPatient.getFamilyName());
             results.add(registeredPatient);
 
             return results;

@@ -16,6 +16,7 @@ import org.openmrs.api.UserService;
 import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
+import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,21 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         String[] nameSplitted = fullName.split("\\s+",2);
         String firstName = nameSplitted[0];
         String lastName = nameSplitted[1];
+        String gender;
+        if(yendaNafePatientRegistrationModel.sex.toLowerCase().equals("male"))
+        {
+            gender = "M";
+        }
+        else if(yendaNafePatientRegistrationModel.sex.toLowerCase().equals("female"))
+        {
+            gender = "F";
+        }
+        else
+        {
+            gender = "U";
+        }
+
+
 
         SortedSet<PersonName> personNames = new TreeSet<PersonName>();
 
@@ -53,10 +69,10 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         personAddresses.add(personAddress);
 
         Person newPerson = new Person();
-        newPerson.setGender(yendaNafePatientRegistrationModel.sex);
+        newPerson.setGender(gender);
         newPerson.setNames(personNames);
         newPerson.setCreator(user);
-       // newPerson.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
+        newPerson.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
         newPerson.setAddresses(personAddresses);
         newPerson.addName(personName);
 
