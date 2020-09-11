@@ -24,7 +24,7 @@ public class ExtendedPatientServiceImpl extends BaseOpenmrsService implements Ex
 
     @Override
     @Transactional(readOnly = true)
-    public PatientIdentifier getPatientIdentifierByYendaNafeUuid(String uuid) throws APIException {
-        return extendedPatientDAO.getPatientIdentifierByYendaNafeUuid(uuid);
+    public PatientIdentifier getPatientIdentifierByIdentifier(String identifier) throws APIException {
+        return extendedPatientDAO.getPatientIdentifierByIdentifier(identifier);
     }
 }

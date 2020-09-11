@@ -16,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface YendaNafePatientRegistrationService  {
     @Authorized( { PrivilegeConstants.ADD_PATIENTS })
     @Transactional
-    public Patient createPatient(YendaNafePatientRegistrationModel yendaNafePatientRegistrationModel, String creatorUUID, PersonService personService, PatientService patientService, UserService userService, LocationService locationService);
+    public Patient createPatient(YendaNafePatientRegistrationModel yendaNafePatientRegistrationModel, String creatorUUID, PersonService personService, PatientService patientService, UserService userService, LocationService locationService,String PatientIdentifierUUID);
 
     }

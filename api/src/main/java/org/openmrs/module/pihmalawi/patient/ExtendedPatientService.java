@@ -13,5 +13,5 @@ public interface ExtendedPatientService extends OpenmrsService {
 
     @Authorized({"View Patient Identifiers"})
     @Transactional(readOnly = true)
-    PatientIdentifier getPatientIdentifierByYendaNafeUuid(String uuid) throws APIException;
+    PatientIdentifier getPatientIdentifierByIdentifier(String identifier) throws APIException;
 }

@@ -13,7 +13,6 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.UserService;
-import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -31,7 +30,7 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
     @Authorized( { PrivilegeConstants.ADD_PATIENTS })
     @Transactional
     @Override
-    public Patient createPatient(YendaNafePatientRegistrationModel yendaNafePatientRegistrationModel, String creatorUUID, PersonService personService, PatientService patientService, UserService userService, LocationService locationService) {
+    public Patient createPatient(YendaNafePatientRegistrationModel yendaNafePatientRegistrationModel, String creatorUUID, PersonService personService, PatientService patientService, UserService userService, LocationService locationService,String patientIdentifierUuid) {
         User user = userService.getUserByUuid(creatorUUID);
 
         String fullName = yendaNafePatientRegistrationModel.name;
@@ -39,11 +38,11 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         String firstName = nameSplitted[0];
         String lastName = nameSplitted[1];
         String gender;
-        if(yendaNafePatientRegistrationModel.sex.toLowerCase().equals("male"))
+        if(yendaNafePatientRegistrationModel.sex.toLowerCase().trim().equals("male"))
         {
             gender = "M";
         }
-        else if(yendaNafePatientRegistrationModel.sex.toLowerCase().equals("female"))
+        else if(yendaNafePatientRegistrationModel.sex.toLowerCase().trim().equals("female"))
         {
             gender = "F";
         }
@@ -51,8 +50,6 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
         {
             gender = "U";
         }
-
-
 
         SortedSet<PersonName> personNames = new TreeSet<PersonName>();
 
@@ -78,7 +75,7 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
 
         Person savedPerson = personService.savePerson(newPerson);
         Location patient_location = locationService.getLocationByUuid(yendaNafePatientRegistrationModel.location_uuid);
-        PatientIdentifierType patientIdentifierType =  patientService.getPatientIdentifierTypeByUuid(PihMalawiPatientIdentifierTypes.YENDANAFE_IDENTIFIER.uuid());
+        PatientIdentifierType patientIdentifierType =  patientService.getPatientIdentifierTypeByUuid(patientIdentifierUuid);
         PatientIdentifier patientIdentifier = new PatientIdentifier();
         SortedSet<PatientIdentifier> patientIdentifiers = new TreeSet<PatientIdentifier>();
         patientIdentifier.setIdentifier(yendaNafePatientRegistrationModel._id);

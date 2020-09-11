@@ -6,6 +6,7 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.UserService;
+import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.models.YendaNafePatientRegistrationModel;
 import org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService;
 import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
@@ -72,7 +73,7 @@ public class YendaNafePatientRestController {
         }
         try{
 
-            Patient newPatient = yendaNafePatientRegistrationService.createPatient(body,YENDANAFEUIID,personService,patientService,userService,locationService);
+            Patient newPatient = yendaNafePatientRegistrationService.createPatient(body,YENDANAFEUIID,personService,patientService,userService,locationService, PihMalawiPatientIdentifierTypes.YENDANAFE_IDENTIFIER.uuid());
             SimpleObject registeredPatient = new SimpleObject();
             registeredPatient.add("uuid",newPatient.getUuid());
             registeredPatient.add("Name",newPatient.getGivenName()+" "+ newPatient.getFamilyName());

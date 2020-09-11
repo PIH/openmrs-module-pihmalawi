@@ -26,8 +26,8 @@ public class HibernateExtendedPatientPatientDAO implements ExtendedPatientDAO {
 
 
     @Override
-    public PatientIdentifier getPatientIdentifierByYendaNafeUuid(String uuid) {
+    public PatientIdentifier getPatientIdentifierByIdentifier(String identifier) {
         return (PatientIdentifier) sessionFactory.getCurrentSession().createQuery(
-                "from PatientIdentifier p where p.identifier = :uuid").setString("uuid", uuid).uniqueResult();
+                "from PatientIdentifier p where p.identifier = :identifier").setString("identifier", identifier).uniqueResult();
     }
 }

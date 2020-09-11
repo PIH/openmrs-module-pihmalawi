@@ -18,7 +18,7 @@ import java.util.Date;
 public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatientRegistrationValidator {
     public String validateRegistrationModel(YendaNafePatientRegistrationModel yendaNafePatientRequestBody, ExtendedPatientService extendedPatientService, LocationService locationService)
     {
-        PatientIdentifier patientIdentifierInDB = extendedPatientService.getPatientIdentifierByYendaNafeUuid(yendaNafePatientRequestBody._id);
+        PatientIdentifier patientIdentifierInDB = extendedPatientService.getPatientIdentifierByIdentifier(yendaNafePatientRequestBody._id);
         if(patientIdentifierInDB != null)
         {
             return "_id "+ yendaNafePatientRequestBody._id +" already exist in the system. _id has to be unique";
