@@ -41,7 +41,7 @@ public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatie
         String birthdate = yendaNafePatientRequestBody.date_of_birth;
         if(birthdate.trim().equals("") || birthdate.trim().isEmpty())
         {
-            return "Date of birth is not given. Date given is "+birthdate;
+            return "Date of birth is not given.";
         }
         if(birthdate.length() > 0)
         {
@@ -54,8 +54,13 @@ public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatie
                 return "Invalid date format. Given date is "+ birthdate+".";
             }
         }
-
-       if(!(yendaNafePatientRequestBody.ncds.trim().equals("")) || !yendaNafePatientRequestBody.ncds_other.trim().equals("") ||
+        String locationUUID = yendaNafePatientRequestBody.location_uuid.trim();
+        Location locationInDB = locationService.getLocationByUuid(locationUUID);
+        if(locationInDB == null)
+        {
+            return "Given location uuid "+ locationUUID +" does not exist in the EMR";
+        }
+        if(!(yendaNafePatientRequestBody.ncds.trim().equals("")) || !yendaNafePatientRequestBody.ncds_other.trim().equals("") ||
                 !yendaNafePatientRequestBody.mental_health_type.trim().equals("") || !yendaNafePatientRequestBody.mental_health_type_other.trim().equals("") ||
                 !yendaNafePatientRequestBody.eid_emr_id_source.trim().equals("") || !yendaNafePatientRequestBody.eid_emr_id_source_other.trim().equals("")||
                 !yendaNafePatientRequestBody.art_emr_id_source.trim().equals("") || !yendaNafePatientRequestBody.art_emr_id_source_other.trim().equals("") ||
@@ -65,13 +70,6 @@ public class YendaNafePatientRegistrationValidatorImpl implements YendaNafePatie
         {
             return "User is registered in EMR";
         }
-        String locationUUID = yendaNafePatientRequestBody.location_uuid.trim();
-        Location locationInDB = locationService.getLocationByUuid(locationUUID);
-        if(locationInDB == null)
-        {
-            return "Given location uuid "+ locationUUID +" does not exist in the EMR";
-        }
-
         return "";
     }
 }
