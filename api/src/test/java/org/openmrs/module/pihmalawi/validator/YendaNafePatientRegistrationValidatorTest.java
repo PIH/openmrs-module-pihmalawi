@@ -233,4 +233,11 @@ public class YendaNafePatientRegistrationValidatorTest extends BaseModuleContext
         String expectedError = "User is registered in EMR";
         Assert.assertEquals(expectedError,error);
     }
+    @Test
+    public void validatePatientDetails_validModel_returnsNoErrorMessage()
+    {
+        String error = yendaNafePatientRegistrationValidator.validateRegistrationModel(yendaNafePatientRegistrationModel,extendedPatientService,locationService);
+        String expectedError = "";
+        Assert.assertEquals(expectedError,error);
+    }
 }
