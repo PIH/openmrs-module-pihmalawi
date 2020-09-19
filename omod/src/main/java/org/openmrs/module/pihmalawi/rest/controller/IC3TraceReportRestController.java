@@ -63,7 +63,7 @@ public class IC3TraceReportRestController  {
             ReportData data = reportDefinitionService.evaluate(rd, context);
             List<SimpleObject> traceReportData = new ArrayList<SimpleObject>();
             for (String dsName : data.getDataSets().keySet()) {
-                traceReportData.add(getTraceReportData(data.getDataSets().get(dsName),dsName));
+                traceReportData.addAll(getTraceReportData(data.getDataSets().get(dsName)));
             }
             return traceReportData;
         }
@@ -84,23 +84,16 @@ public class IC3TraceReportRestController  {
             return false;
         }
     }
-    public SimpleObject getTraceReportData(DataSet d, String dataSetContext) {
+    public List<SimpleObject> getTraceReportData(DataSet d) {
         Iterator iterator = d.iterator();
-        SimpleObject facility= new SimpleObject();
         List<SimpleObject> dataList = new ArrayList<SimpleObject>();
-        StringBuilder stringBuilder = new StringBuilder();
             while (iterator.hasNext())
             {
                 DataSetRow r = (DataSetRow)iterator.next();
                 SimpleObject facilityDetails= new SimpleObject();
-                if(!dataSetContext.equals("6 weeks"))
-                {
-                    facility.add("location",r.getColumnValue("parameter.location"));
-                }
-
-                facility.add("weeks",r.getColumnValue("parameter.minWeeks"));
-                facility.add("type","data_record");
-                facility.add("form", "openmrs_trace_report");
+                facilityDetails.add("weeks",r.getColumnValue("parameter.minWeeks"));
+                facilityDetails.add("type","data_record");
+                facilityDetails.add("form", "openmrs_trace_report");
                 facilityDetails.add("end_date",r.getColumnValue("parameter.endDate"));
                 facilityDetails.add("lab_weeks",r.getColumnValue("parameter.labWeeks"));
                 facilityDetails.add("location",r.getColumnValue("parameter.location"));
@@ -129,8 +122,7 @@ public class IC3TraceReportRestController  {
                 facilityDetails.add("trace_criteria",r.getColumnValue("trace_criteria"));
 
                 dataList.add(facilityDetails);
-                facility.add("trace_details",dataList);
             }
-        return facility;
+        return dataList;
     }
 }
