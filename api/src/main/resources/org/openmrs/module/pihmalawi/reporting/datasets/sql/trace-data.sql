@@ -25,7 +25,7 @@ CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWe
 
 SELECT        t.patient_id,
               p.village,
-              p.vhw,
+              p.chw,
               p.first_name,
               p.last_name,
               i.eid_number,
@@ -52,5 +52,5 @@ LEFT JOIN     rpt_active_ncd ncd on ncd.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(priority ORDER BY priority asc SEPARATOR ', ') as priority_criteria from rpt_priority_patients GROUP BY patient_id) c on c.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as diagnoses from mw_ncd_diagnoses where diagnosis_date <= @endDate GROUP BY patient_id) d on d.patient_id = p.patient_id
 GROUP BY      t.patient_id
-ORDER BY      if(p.vhw is null, 1, 0), p.vhw, p.village, p.last_name
+ORDER BY      if(p.chw is null, 1, 0), p.chw, p.village, p.last_name
 ;
