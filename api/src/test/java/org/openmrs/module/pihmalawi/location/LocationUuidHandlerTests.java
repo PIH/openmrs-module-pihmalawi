@@ -72,4 +72,12 @@ public class LocationUuidHandlerTests extends BaseModuleContextSensitiveTest {
         String uuid = locationUuidHandler.getLocationUiidByLocationName(location);
         Assert.assertEquals(expectedUuid,uuid);
     }
+    @Test
+    public void getUnknownLocationUuid_CorrectLocationName_ReturnLocationUuid()
+    {
+        String location = "Unknown Location";
+        String expectedUuid = "8d6c993e-c2cc-11de-8d13-0010c6dffd0f";
+        String uuid = locationUuidHandler.getLocationUiidByLocationName(location);
+        Assert.assertEquals(expectedUuid,uuid);
+    }
 }
