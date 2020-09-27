@@ -84,6 +84,28 @@
 		</property>
 	</bean>
 
+	<bean id="locationUuidHandler" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="target">
+			<bean class="org.openmrs.module.pihmalawi.location.Impl.LocationUuidHandlerImpl"/>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.pihmalawi.location.LocationUuidHandler</value>
+				<ref bean="locationUuidHandler"/>
+			</list>
+		</property>
+	</bean>
+
 	<context:component-scan base-package="org.openmrs.module.pihmalawi" />
 
 </beans>
