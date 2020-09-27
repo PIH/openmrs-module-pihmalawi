@@ -1,6 +1,6 @@
 package org.openmrs.module.pihmalawi.rest.controller;
 
-import org.openmrs.module.pihmalawi.reporting.reports.IC3TraceReport;
+import org.openmrs.module.pihmalawi.reporting.reports.MedicMobileIC3TraceReport;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -34,7 +34,7 @@ public class IC3TraceReportRestController  {
     public static final String IC3TRACE = "/ic3trace";
 
     @Autowired
-    IC3TraceReport ic3TraceReport;
+    MedicMobileIC3TraceReport medicMobileIC3TraceReport;
 
     @Autowired
     ReportDefinitionService reportDefinitionService;
@@ -52,10 +52,10 @@ public class IC3TraceReportRestController  {
                 message.put("error","given date "+date+ "is not valid");
                 return message;
             }
-            ReportManagerUtil.setupReport(ic3TraceReport);
+            ReportManagerUtil.setupReport(medicMobileIC3TraceReport);
             ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
             ReportUtil.updateGlobalProperty(ReportingConstants.DEFAULT_LOCALE_GP_NAME, "en");
-            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(ic3TraceReport.getUuid());
+            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(medicMobileIC3TraceReport.getUuid());
             EvaluationContext context = new EvaluationContext();
 
             context.addParameterValue("endDate", DateUtil.parseYmd(date));
@@ -100,9 +100,12 @@ public class IC3TraceReportRestController  {
                 facilityDetails.add("min_weeks",r.getColumnValue("parameter.minWeeks"));
                 facilityDetails.add("max_weeks",r.getColumnValue("parameter.maxWeeks"));
                 facilityDetails.add("phase_1",r.getColumnValue("parameter.phase1"));
+                facilityDetails.add("patient_uuid",r.getColumnValue("patient_uuid"));
                 facilityDetails.add("patient_id",r.getColumnValue("patient_id"));
+                facilityDetails.add("gender",r.getColumnValue("gender"));
+                facilityDetails.add("birthdate",r.getColumnValue("birthdate"));
                 facilityDetails.add("village",r.getColumnValue("village"));
-                facilityDetails.add("vhw",r.getColumnValue("vhw"));
+                facilityDetails.add("chw",r.getColumnValue("chw"));
                 facilityDetails.add("first_name",r.getColumnValue("first_name"));
                 facilityDetails.add("last_name",r.getColumnValue("last_name"));
                 facilityDetails.add("eid_number",r.getColumnValue("eid_number"));
