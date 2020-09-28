@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.rest.controller;
 
+import org.openmrs.module.pihmalawi.location.LocationUuidHandler;
 import org.openmrs.module.pihmalawi.reporting.reports.MedicMobileIC3TraceReport;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -38,6 +39,9 @@ public class IC3TraceReportRestController  {
 
     @Autowired
     ReportDefinitionService reportDefinitionService;
+
+    @Autowired
+    LocationUuidHandler locationUuidHandler;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -123,6 +127,7 @@ public class IC3TraceReportRestController  {
                 facilityDetails.add("diagnoses",r.getColumnValue("diagnoses"));
                 facilityDetails.add("priority_criteria",r.getColumnValue("priority_criteria"));
                 facilityDetails.add("trace_criteria",r.getColumnValue("trace_criteria"));
+                facilityDetails.add("location_uuid",locationUuidHandler.getLocationUiidByLocationName((String) r.getColumnValue("parameter.location")));
 
                 dataList.add(facilityDetails);
             }
