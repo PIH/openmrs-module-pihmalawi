@@ -87,7 +87,7 @@
 	<bean id="locationUuidHandler" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager"><ref bean="transactionManager"/></property>
 		<property name="target">
-			<bean class="org.openmrs.module.pihmalawi.location.Impl.LocationUuidHandlerImpl"/>
+			<bean class="org.openmrs.module.pihmalawi.location.impl.LocationUuidHandlerImpl"/>
 		</property>
 		<property name="preInterceptors">
 			<ref bean="serviceInterceptors" />

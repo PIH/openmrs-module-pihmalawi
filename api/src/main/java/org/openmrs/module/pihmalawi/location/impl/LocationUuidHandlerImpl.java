@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.location.Impl;
+package org.openmrs.module.pihmalawi.location.impl;
 
 
 import org.openmrs.module.pihmalawi.location.LocationUuidHandler;
