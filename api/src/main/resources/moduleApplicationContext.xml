@@ -11,6 +11,101 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
+
+	<bean id="extendedPatientService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="target">
+			<bean class="org.openmrs.module.pihmalawi.patient.impl.ExtendedPatientServiceImpl">
+				<property name="extendedPatientDAO">
+					<bean class="org.openmrs.module.pihmalawi.db.hibernate.HibernateExtendedPatientPatientDAO">
+						<property name="sessionFactory"><ref bean="sessionFactory"/></property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.pihmalawi.patient.ExtendedPatientService</value>
+				<ref bean="extendedPatientService"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yendaNafePatientRegistrationService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="target">
+			<bean class="org.openmrs.module.pihmalawi.patient.impl.YendaNafePatientRegistrationServiceImpl"/>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.pihmalawi.patient.YendaNafePatientRegistrationService</value>
+				<ref bean="yendaNafePatientRegistrationService"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yendaNafePatientRegistrationValidator" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="target">
+			<bean class="org.openmrs.module.pihmalawi.validator.impl.YendaNafePatientRegistrationValidatorImpl"/>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.pihmalawi.validator.YendaNafePatientRegistrationValidator</value>
+				<ref bean="yendaNafePatientRegistrationValidator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="locationUuidHandler" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="target">
+			<bean class="org.openmrs.module.pihmalawi.location.impl.LocationUuidHandlerImpl"/>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.pihmalawi.location.LocationUuidHandler</value>
+				<ref bean="locationUuidHandler"/>
+			</list>
+		</property>
+	</bean>
+
 	<context:component-scan base-package="org.openmrs.module.pihmalawi" />
 
 </beans>

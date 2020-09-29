@@ -26,4 +26,13 @@ public class PihMalawiPatientIdentifierTypes {
         }
     };
 
+    public static PatientIdentifierTypeDescriptor YENDANAFE_IDENTIFIER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "e4a1a524-d557-11ea-87d0-0242ac130003"; }
+        public String name() { return "Yendanafe Identifier"; }
+        public String description() { return "ID assigned to patients when registering them from Yendanafe Application"; }
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
 }
