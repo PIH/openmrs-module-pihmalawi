@@ -19,9 +19,6 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.SortedSet;
-import java.util.TreeSet;
 /**
  *  Class implements patient creation operations for patients captured from medic mobile
  */
@@ -51,39 +48,31 @@ public class YendaNafePatientRegistrationServiceImpl implements YendaNafePatient
             gender = "U";
         }
 
-        SortedSet<PersonName> personNames = new TreeSet<PersonName>();
-
         PersonName personName = new PersonName();
         personName.setGivenName(firstName);
         personName.setFamilyName(lastName);
-        personNames.add(personName);
 
-        SortedSet<PersonAddress> personAddresses = new TreeSet<PersonAddress>();
         PersonAddress personAddress = new PersonAddress();
         personAddress.setCountyDistrict("Malawi");
         personAddress.setCountyDistrict("Neno");
         personAddress.setCityVillage(yendaNafePatientRegistrationModel.village);
-        personAddresses.add(personAddress);
 
         Person newPerson = new Person();
         newPerson.setGender(gender);
-        newPerson.setNames(personNames);
         newPerson.setCreator(user);
         newPerson.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
-        newPerson.setAddresses(personAddresses);
         newPerson.addName(personName);
+        newPerson.addAddress(personAddress);
 
         Person savedPerson = personService.savePerson(newPerson);
         Location patient_location = locationService.getLocationByUuid(yendaNafePatientRegistrationModel.location_uuid);
         PatientIdentifierType patientIdentifierType =  patientService.getPatientIdentifierTypeByUuid(patientIdentifierUuid);
         PatientIdentifier patientIdentifier = new PatientIdentifier();
-        SortedSet<PatientIdentifier> patientIdentifiers = new TreeSet<PatientIdentifier>();
         patientIdentifier.setIdentifier(yendaNafePatientRegistrationModel._id);
         patientIdentifier.setIdentifierType(patientIdentifierType);
         patientIdentifier.setLocation(patient_location);
-        patientIdentifiers.add(patientIdentifier);
         Patient newPatient = new Patient(savedPerson);
-        newPatient.setIdentifiers(patientIdentifiers);
+        newPatient.addIdentifier(patientIdentifier);
        // newPatient.setBirthdate(DateUtil.parseYmd(yendaNafePatientRegistrationModel.date_of_birth));
         return patientService.savePatient(newPatient);
     }
