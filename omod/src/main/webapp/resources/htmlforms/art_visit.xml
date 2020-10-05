@@ -83,6 +83,8 @@
 
         var validateArtRegimen = function(selectedRegimen) {
           var validArtRegimen = true;
+          var warningMessage = false;
+          var errMessage = null;
           if (selectedRegimen !== 'undefined' &amp;&amp; selectedRegimen != null &amp;&amp; (selectedRegimen.length &gt; 0)
                   &amp;&amp; previousRegimens.length &gt; 0) {
             var lastRegimen = previousRegimens[0].regimen.id;
@@ -98,15 +100,19 @@
 
                 if (lastRegimenDate !== null) {
                   // prevent the form from being submitted
-                  getField('artRegimenObs.error').text("Regimen has been recorded in the past( " + (new Date(lastRegimenDate)).toDateString() + " ) but not on the last visit").show();
+                  errMessage = "Regimen has been recorded in the past( " + (new Date(lastRegimenDate)).toDateString() + " ) but not on the last visit";
                   getField('artRegimenObs.error').css("color", "red");
                   validArtRegimen = false;
                 } else {
                   // the new selected regimen was never given to this patient
-                  getField('artRegimenObs.error').text("Regimen is different from regimen at last visit").show();
-                  getField('artRegimenObs.error').css("color", "orange");
+                  warningMessage = true;
                 }
             }
+          }
+          flowsheet.toggleError(getField('artRegimenObs.value'), errMessage);
+          if (warningMessage) {
+            getField('artRegimenObs.error').text("Regimen is different from regimen at last visit").show();
+            getField('artRegimenObs.error').css("color", "orange");
           }
           return validArtRegimen;
         };
@@ -116,6 +122,10 @@
           validateArtRegimen(this.value);
         });
 
+        jq("#appointmentDate input").first().on('change', function() {
+          jq("#appointmentDate").children("input[type=hidden]").first().trigger('change');
+        });
+
         beforeValidation.push(function() {
           // validate the regimen
           return validateArtRegimen(jq("#artRegimenObs select").val());
@@ -123,9 +133,10 @@
 
         beforeValidation.push(function() {
           // make sure an appointment date has been selected
-          var nextAppointmentDate = jq("#appointmentDate input[type='hidden']").val();
+          var nextAppointmentField = jq("#appointmentDate").children("input[type=hidden]").first();
+          var nextAppointmentDate = jq("#appointmentDate").children("input[type=hidden]").first().val();
           if (nextAppointmentDate == false) {
-              getField('appointmentDate.error').text("Required").show();
+              flowsheet.toggleError(nextAppointmentField, "Required");
               return false;
           }
           return true;
