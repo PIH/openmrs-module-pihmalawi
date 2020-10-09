@@ -329,12 +329,16 @@
                 <th>Diastolic BP</th>
                 <td><obsreference conceptId="$diastolicBP" id="diastolicBPInput" showUnits="true"/></td>
             </tr>
+            <includeIf velocityTest="$patient.gender == 'F'
+                    &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &gt;= 18
+                    &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 50">
             <tr>
                 <th>Pregnant/Breastfeed.</th>
-                <td><obs conceptId="$pregnantLactating" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$currentlyPregnant,$currentlyLactating"/>
+                <td><obs id="pregnantBf" conceptId="$pregnantLactating" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$currentlyPregnant,$currentlyLactating"/>
                     <span style="font-size:.8em;">Write child HCC no. if Bf</span>
                 </td>
             </tr>
+            </includeIf>
             <tr>
                 <th>TB Status (Curr.)*</th>
                 <td>
