@@ -15,6 +15,8 @@ import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +56,8 @@ public class IC3TraceReportRestController  {
             {
                 SimpleObject message = new SimpleObject();
                 message.put("error","given date "+date+ "is not valid");
-                return message;
+                return new ResponseEntity<SimpleObject>(message, HttpStatus.BAD_REQUEST);
+
             }
             ReportManagerUtil.setupReport(medicMobileIC3TraceReport);
             ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
@@ -69,11 +72,11 @@ public class IC3TraceReportRestController  {
             for (String dsName : data.getDataSets().keySet()) {
                 traceReportData.addAll(getTraceReportData(data.getDataSets().get(dsName)));
             }
-            return traceReportData;
+            return new ResponseEntity<List<SimpleObject>>(traceReportData, HttpStatus.OK);
         }
         catch (Exception ex)
         {
-            return ex.getMessage()+ Arrays.toString(ex.getStackTrace());
+           return new ResponseEntity<String>(ex.getMessage()+ Arrays.toString(ex.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

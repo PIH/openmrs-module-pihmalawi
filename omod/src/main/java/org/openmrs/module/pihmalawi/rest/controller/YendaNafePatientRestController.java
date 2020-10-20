@@ -14,6 +14,8 @@ import org.openmrs.module.pihmalawi.validator.YendaNafePatientRegistrationValida
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /**
  *  End point will handle adding patients in the EMR from medic mobile
@@ -67,9 +70,7 @@ public class YendaNafePatientRestController {
 
         if(!validationResult.equals(""))
         {
-            SimpleObject errorValidationErrors = new SimpleObject();
-            errorValidationErrors.put("error", validationResult);
-            return errorValidationErrors;
+            return new ResponseEntity<String>(validationResult, HttpStatus.BAD_REQUEST);
         }
         try{
 
@@ -77,9 +78,8 @@ public class YendaNafePatientRestController {
             SimpleObject registeredPatient = new SimpleObject();
             registeredPatient.add("uuid",newPatient.getUuid());
             registeredPatient.add("Name",newPatient.getGivenName()+" "+ newPatient.getFamilyName());
-            results.add(registeredPatient);
 
-            return results;
+            return new ResponseEntity<SimpleObject>(registeredPatient, HttpStatus.OK);
 
         }
         catch (Exception ex)
@@ -87,8 +87,7 @@ public class YendaNafePatientRestController {
             SimpleObject simpleObject = new SimpleObject();
             simpleObject.add("error",ex.getMessage());
             simpleObject.add("stacktrace",ex.getStackTrace());
-            results.add(simpleObject);
-            return results;
+            return new ResponseEntity<SimpleObject>(simpleObject, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
