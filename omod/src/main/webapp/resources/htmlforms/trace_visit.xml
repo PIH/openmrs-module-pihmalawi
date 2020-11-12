@@ -9,7 +9,7 @@
 
         <macro key="tracker" value="C0730C1B-E6D3-43DD-A11B-99E9D22C5048" />
         <macro key="attemptNo" value="6562ea30-977f-11e1-8993-905e29aff6c1" />
-        <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nextTrackingAttempt" value="60A8AD9D-9A59-45D2-BD3D-4830EC02782E" />
 
 
     </macros>
@@ -23,7 +23,7 @@
                     <td>Attempt Date</td>
                     <td>Attempt #</td>
                     <td>Tracker</td>
-                    <td>Next Trace Attempt</td>
+                    <td>Next Tracking Attempt</td>
                 </tr>
 
             </thead>
@@ -44,8 +44,8 @@
                     </td>
 
                     <td>
-                        <!-- Next appointment -->
-                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
+                        <!-- Next tracking attempt -->
+                        <obsreference conceptId="$nextTrackingAttempt" allowFutureDates="true" allowOverride="true"/>
                     </td>
                 </tr>
             </tbody>
@@ -99,8 +99,8 @@
             </tr>
 
             <tr>
-                <th>Next trace attempt</th>
-                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
+                <th>Next tracking attempt</th>
+                <td><obsreference conceptId="$nextTrackingAttempt" allowFutureDates="true" allowOverride="true"/></td>
             </tr>
 
         </table>

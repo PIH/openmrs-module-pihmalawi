@@ -26,7 +26,7 @@ public class ETraceAccessTag extends BodyTagSupport {
 
     private static final long serialVersionUID = 2662380903505241973L;
 
-    private static final String APPOINTMENT_DATE = "Appointment date";
+    private static final String DATE_OF_NEXT_TRACKING_ATTEMPT = "Date of next tracking attempt";
     private final Log log = LogFactory.getLog(getClass());
 
     private Integer patientId;
@@ -219,17 +219,17 @@ public class ETraceAccessTag extends BodyTagSupport {
         }
         List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
         String created = "Created: " + Helper.formatDate(initialEncounter.getEncounterDatetime());
-        String visited = "Visited: no";
-        String rvd = "Appointment: none";
+        String visited = "Last Tracking Date: no";
+        String rvd = "Next Tracking Attempt: none";
         if (!followups.isEmpty()) {
             Encounter lastFollowup = followups.get(followups.size() - 1);
-            visited = "Visited: " + Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
-            Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
+            visited = "Last Tracking Date: " + Helper.formatDate(lastFollowup.getEncounterDatetime()) + " at " + lastFollowup.getLocation().getName();
+            Concept nextTrackingDate = Context.getConceptService().getConcept(DATE_OF_NEXT_TRACKING_ATTEMPT);
             Date startOfDay = DateUtil.getStartOfDay(lastFollowup.getEncounterDatetime());
             Date endOfDay = DateUtil.getEndOfDay(lastFollowup.getEncounterDatetime());
-            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), null, Arrays.asList(appt), null, null, null, Arrays.asList("dateCreated"), 1, null, startOfDay, endOfDay, false);
+            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), null, Arrays.asList(nextTrackingDate), null, null, null, Arrays.asList("dateCreated"), 1, null, startOfDay, endOfDay, false);
             if (!os.isEmpty()) {
-                rvd = "Appointment: " + Helper.formatDate(os.get(0).getValueDatetime());
+                rvd = "Next Tracking Attempt: " + Helper.formatDate(os.get(0).getValueDatetime());
             }
         }
         String details = created + ", " + visited + ", " + rvd;
