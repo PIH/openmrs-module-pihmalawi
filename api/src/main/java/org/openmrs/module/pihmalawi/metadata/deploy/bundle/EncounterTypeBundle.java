@@ -83,6 +83,11 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.TB_SCREENING);
         install(EncounterTypes.TB_TEST_RESULTS);
         install(EncounterTypes.IC3_CLINICIAN_PLAN);
+
+
+        // Trace
+        install(EncounterTypes.TRACE_INITIAL);
+        install(EncounterTypes.TRACE_FOLLOWUP);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

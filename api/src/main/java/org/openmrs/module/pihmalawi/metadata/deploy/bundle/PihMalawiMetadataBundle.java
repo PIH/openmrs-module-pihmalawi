@@ -11,6 +11,7 @@ import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChwManagement
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.MasterCardConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.PalliativeCareConcepts;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.TraceConcepts;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +21,8 @@ import org.springframework.stereotype.Component;
         ChwManagementConcepts.class,
         ChronicHeartFailureConcepts.class,
         ChronicKidneyDiseaseConcepts.class,
-        IC3ScreeningConcepts.class} )
+        IC3ScreeningConcepts.class,
+        TraceConcepts.class} )
 public class PihMalawiMetadataBundle extends AbstractMetadataBundle{
 
     @Override

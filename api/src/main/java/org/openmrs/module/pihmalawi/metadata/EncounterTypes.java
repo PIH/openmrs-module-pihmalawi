@@ -317,4 +317,16 @@ public class EncounterTypes {
         public String name() { return "Clinical Plan"; }
         public String description() { return "Clinical plan encounter type"; }
     };
+
+    public static EncounterTypeDescriptor TRACE_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "7EBBEBD8-CF07-489B-B88D-CEBA274C66D5"; }
+        public String name() { return "TRACE_INITIAL"; }
+        public String description() { return "Initial Trace encounter"; }
+    };
+
+    public static EncounterTypeDescriptor TRACE_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "563ACC45-E3CE-4930-8F34-4F41CB35017F"; }
+        public String name() { return "TRACE_FOLLOWUP"; }
+        public String description() { return "Followup trace encounter"; }
+    };
 }
