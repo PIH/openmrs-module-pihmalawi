@@ -127,8 +127,12 @@
         });
 
         beforeValidation.push(function() {
-          // validate the regimen
-          return validateArtRegimen(jq("#artRegimenObs select").val());
+            // validate the regimen not to be empty
+            if(jq("#artRegimenObs select").val()=="") {
+                getField('artRegimenObs.error').text("Required").show();
+                return false;
+            }
+            return validateArtRegimen(jq("#artRegimenObs select").val());
         });
 
         beforeValidation.push(function() {
@@ -374,7 +378,7 @@
             <tr>
                 <th>ARVs given</th>
                 <td>
-                    No. of tablets: <obs conceptId="$numArvsGiven"/>
+                    No. of tablets: <obs conceptId="$numArvsGiven" id="numArvsGiven"/>
                     <span style="padding-left:10px">To: </span>
                     <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G"/>
                 </td>
