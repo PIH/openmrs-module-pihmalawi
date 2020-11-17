@@ -186,14 +186,14 @@
 
 <div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.trace.sectionTitle" /></div>
 <div class="box${model.patientVariation}"><openmrs:message code="" />
-<div class="portlet" id="pihmalawi.trace">
-    <table cellspacing="0" cellpadding="2">
-        <tr>
-            <td>Trace Record:</td>
-            <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
-        </tr>
-    </table>
-</div>
+    <div class="portlet" id="pihmalawi.trace">
+        <table cellspacing="0" cellpadding="2">
+            <tr>
+                <td>Trace Record:</td>
+                <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
+            </tr>
+        </table>
+    </div>
 </div>
 <br />
 

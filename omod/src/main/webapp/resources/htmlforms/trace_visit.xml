@@ -7,8 +7,19 @@
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
 
-        <macro key="tracker" value="C0730C1B-E6D3-43DD-A11B-99E9D22C5048" />
         <macro key="attemptNo" value="6562ea30-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tracker" value="C0730C1B-E6D3-43DD-A11B-99E9D22C5048" />
+        <macro key="patientFound" value="6356CBD9-8256-44A2-99F7-8C13DCBBB715" />
+        <macro key="reasonForMissingAppt" value="D6635E53-F5F6-44A9-9DE2-960A8C097ACF" />
+        <macro key="healthComplaints" value="655e7086-977f-11e1-8993-905e29aff6c1" />
+        <macro key="socialComplaints" value="65616eee-977f-11e1-8993-905e29aff6c1" />
+        <macro key="agreedToReturnToClinic" value="DBEA54BD-DC98-45E3-B457-4A7FBF690CB8" />
+        <macro key="reasons" value="B5BC12B7-C769-45CC-8BC5-6E53252B019E" />
+        <macro key="dateGiven" value="DA7E403E-EC7F-445B-B8CF-65F4E818A11A" />
+        <macro key="patientBehavior" value="655bdf9c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="good" value="655c1340-977f-11e1-8993-905e29aff6c1" />
+        <macro key="bad" value="655c19f8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="fair" value="655c15ca-977f-11e1-8993-905e29aff6c1" />
         <macro key="nextTrackingAttempt" value="60A8AD9D-9A59-45D2-BD3D-4830EC02782E" />
 
 
@@ -23,6 +34,14 @@
                     <td>Attempt Date</td>
                     <td>Attempt #</td>
                     <td>Tracker</td>
+                    <td>Patient found</td>
+                    <td>Reason for missing appointment</td>
+                    <td>Health complaints</td>
+                    <td>Social complaints</td>
+                    <td>Agreed to return to clinic</td>
+                    <td>Reasons</td>
+                    <td>Date given</td>
+                    <td>Patient behavior</td>
                     <td>Next Tracking Attempt</td>
                 </tr>
 
@@ -42,7 +61,38 @@
                         <!-- Tracker -->
                         <obsreference conceptId="$tracker"/>
                     </td>
-
+                    <td>
+                        <!-- Patient found -->
+                        <obsreference conceptId="$patientFound" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                    <td>
+                        <!-- Reason for missing appointment -->
+                        <obsreference conceptId="$reasonForMissingAppt"/>
+                    </td>
+                    <td>
+                        <!-- Health complaints -->
+                        <obsreference conceptId="$healthComplaints"/>
+                    </td>
+                    <td>
+                        <!-- Social complaints -->
+                        <obsreference conceptId="$socialComplaints"/>
+                    </td>
+                    <td>
+                        <!-- Agreed to return to clinic -->
+                        <obsreference conceptId="$agreedToReturnToClinic" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Yes,No" style="radio"/>
+                    </td>
+                    <td>
+                        <!-- Reasons -->
+                        <obsreference conceptId="$reasons"/>
+                    </td>
+                    <td>
+                        <!-- Date given -->
+                        <obsreference conceptId="$dateGiven" allowFutureDates="true" allowOverride="true"/>
+                    </td>
+                    <td>
+                        <!-- Patient behavior -->
+                        <obsreference conceptId="$patientBehavior" answerConceptIds="$good,$bad,$fair" answerLabels="Good,Bad,Fair" style="radio"/>
+                    </td>
                     <td>
                         <!-- Next tracking attempt -->
                         <obsreference conceptId="$nextTrackingAttempt" allowFutureDates="true" allowOverride="true"/>
@@ -98,6 +148,39 @@
                 <td><obsreference conceptId="$tracker"/></td>
             </tr>
 
+            <tr>
+                <th>Patient found</th>
+                <td><obsreference conceptId="$patientFound" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
+            </tr>
+
+            <tr>
+                <th>Reason for missing appointment</th>
+                <td><obsreference conceptId="$reasonForMissingAppt"/></td>
+            </tr>
+            <tr>
+                <th>Health complaints</th>
+                <td><obsreference conceptId="$healthComplaints"/></td>
+            </tr>
+            <tr>
+                <th>Social complaints</th>
+                <td><obsreference conceptId="$socialComplaints"/></td>
+            </tr>
+            <tr>
+                <th>Agreed to return to clinic</th>
+                <td><obsreference conceptId="$agreedToReturnToClinic" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
+            </tr>
+            <tr>
+                <th>Reasons</th>
+                <td><obsreference conceptId="$reasons"/></td>
+            </tr>
+            <tr>
+                <th>Date given</th>
+                <td><obsreference conceptId="$dateGiven" allowFutureDates="true" allowOverride="true"/></td>
+            </tr>
+            <tr>
+                <th>Patient behavior</th>
+                <td><obsreference conceptId="$patientBehavior" answerConceptIds="$good,$bad,$fair" answerLabels="Good,Bad,Fair" style="radio"/></td>
+            </tr>
             <tr>
                 <th>Next tracking attempt</th>
                 <td><obsreference conceptId="$nextTrackingAttempt" allowFutureDates="true" allowOverride="true"/></td>
