@@ -21,6 +21,8 @@
         <macro key="bad" value="655c19f8-977f-11e1-8993-905e29aff6c1" />
         <macro key="fair" value="655c15ca-977f-11e1-8993-905e29aff6c1" />
         <macro key="nextTrackingAttempt" value="60A8AD9D-9A59-45D2-BD3D-4830EC02782E" />
+        <macro key="remarks" value="58FE59C4-C889-43EB-A88D-71829A732ABC" />
+        <macro key="missingAppDate" value="CA8A7CDE-4C95-4AED-BF1D-521C7F68B90E" />
 
 
     </macros>
@@ -34,6 +36,7 @@
                     <td>Attempt Date</td>
                     <td>Attempt #</td>
                     <td>Tracker</td>
+                    <td>Missing Appointment Date</td>
                     <td>Patient found</td>
                     <td>Reason for missing appointment</td>
                     <td>Health complaints</td>
@@ -42,6 +45,7 @@
                     <td>Reasons</td>
                     <td>Date given</td>
                     <td>Patient behavior</td>
+                    <td>Remarks</td>
                     <td>Next Tracking Attempt</td>
                 </tr>
 
@@ -60,6 +64,10 @@
                     <td>
                         <!-- Tracker -->
                         <obsreference conceptId="$tracker"/>
+                    </td>
+                    <td>
+                        <!-- Missing App Date -->
+                        <obsreference conceptId="$missingAppDate" allowFutureDates="false" allowOverride="true"/>
                     </td>
                     <td>
                         <!-- Patient found -->
@@ -92,6 +100,10 @@
                     <td>
                         <!-- Patient behavior -->
                         <obsreference conceptId="$patientBehavior" answerConceptIds="$good,$bad,$fair" answerLabels="Good,Bad,Fair" style="radio"/>
+                    </td>
+                    <td>
+                        <!-- Remarks -->
+                        <obsreference conceptId="$remarks"/>
                     </td>
                     <td>
                         <!-- Next tracking attempt -->
@@ -134,7 +146,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Visit Location</th>
+                <th>Facility</th>
                 <td><encounterLocation id="visitLocation" /></td>
             </tr>
 
@@ -147,7 +159,10 @@
                 <th>Tracker</th>
                 <td><obsreference conceptId="$tracker"/></td>
             </tr>
-
+            <tr>
+                <th>Missing Appointment Date</th>
+                <td><obsreference conceptId="$missingAppDate" allowFutureDates="false" allowOverride="true"/></td>
+            </tr>
             <tr>
                 <th>Patient found</th>
                 <td><obsreference conceptId="$patientFound" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
@@ -180,6 +195,10 @@
             <tr>
                 <th>Patient behavior</th>
                 <td><obsreference conceptId="$patientBehavior" answerConceptIds="$good,$bad,$fair" answerLabels="Good,Bad,Fair" style="radio"/></td>
+            </tr>
+            <tr>
+                <th>Remarks</th>
+                <td><obsreference conceptId="$remarks"/></td>
             </tr>
             <tr>
                 <th>Next tracking attempt</th>

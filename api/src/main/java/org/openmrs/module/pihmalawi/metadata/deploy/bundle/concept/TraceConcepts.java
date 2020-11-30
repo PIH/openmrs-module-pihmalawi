@@ -18,7 +18,7 @@ public class TraceConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -74,6 +74,18 @@ public class TraceConcepts extends VersionedPihConceptBundle {
                 .datatype(date)
                 .conceptClass(question)
                 .name("13B551BD-D480-4434-8916-110B2738E37C", "Trace, Date given", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("58FE59C4-C889-43EB-A88D-71829A732ABC")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("8E4A206C-EC2D-431A-BB70-F658F5D6ACED", "Trace remarks", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("CA8A7CDE-4C95-4AED-BF1D-521C7F68B90E")
+                .datatype(date)
+                .conceptClass(question)
+                .name("2874B99E-29E5-409D-889A-67DF423D8CCF", "Missing Appointment Date", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
