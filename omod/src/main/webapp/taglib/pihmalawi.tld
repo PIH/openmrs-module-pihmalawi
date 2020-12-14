@@ -70,6 +70,57 @@
 	</tag>
 
 	<tag>
+		<description>Renders access to Trace Encounters</description>
+		<name>eTraceAccess</name>
+		<tag-class>org.openmrs.module.pihmalawi.web.taglibs.ETraceAccessTag</tag-class>
+		<attribute>
+			<name>patientId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>formId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>formName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>initialEncounterTypeId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>initialEncounterTypeName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>followupEncounterTypeId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>followupEncounterTypeName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>readonly</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>includeAppointmentInfo</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<description>Renders access to eRecord</description>
 		<name>eRecordAccess</name>
 		<tag-class>org.openmrs.module.pihmalawi.web.taglibs.ERecordAccessTag</tag-class>
