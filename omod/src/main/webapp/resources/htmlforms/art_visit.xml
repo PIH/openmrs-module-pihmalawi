@@ -81,14 +81,19 @@
               }
         });
 
-        var validatePillCount = function() {
-            var pillCountValue = jq("#pillCount input").first().val();
-            if (pillCountValue == false) {
-                getField('pillCount.error').css("color", "red");
-                flowsheet.toggleError(getField('pillCount.value'), "Required");
+        var validateNoTabletsGiven = function() {
+            var noTabletsGivenValue = jq("#noTabletsGiven input").first().val();
+            if (noTabletsGivenValue.length == 0) {
+                getField('noTabletsGiven.error').css("color", "red");
+                var errorNoTabletsGiven = setInterval(function() {
+                    if( jq("#noTabletsGiven").find("span.field-error").length) {
+                        flowsheet.toggleError(getField('noTabletsGiven.value'), "Required");
+                        clearInterval(errorNoTabletsGiven);
+                    }
+                }, 500);
                 return false;
             } else {
-              flowsheet.toggleError(getField('pillCount.value'), null);
+              flowsheet.toggleError(getField('noTabletsGiven.value'), null);
               return true;
             }
         };
@@ -159,15 +164,15 @@
         });
 
 
-        jq("#pillCount input").first().on('change', function() {
-            flowsheet.toggleError(getField('pillCount.value'), null);
-            validatePillCount();
+        jq("#noTabletsGiven input").first().on('change', function() {
+            flowsheet.toggleError(getField('noTabletsGiven.value'), null);
+            validateNoTabletsGiven();
         });
 
-        var checkPillCount = setInterval(function() {
-            if( jq("#pillCount input").length) {
-              validatePillCount();
-              clearInterval(checkPillCount);
+        var checkNoTabletsGiven = setInterval(function() {
+            if( jq("#noTabletsGiven input").length) {
+              validateNoTabletsGiven();
+              clearInterval(checkNoTabletsGiven);
             }
         }, 500);
 
@@ -410,7 +415,7 @@
             <tr>
                 <th>ARVs given</th>
                 <td>
-                    No. of tablets: <obs conceptId="$numArvsGiven"/>
+                    No. of tablets: <obs id="noTabletsGiven" conceptId="$numArvsGiven"/>
                     <span style="padding-left:10px">To: </span>
                     <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G"/>
                 </td>
