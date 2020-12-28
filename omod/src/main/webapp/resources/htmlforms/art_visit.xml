@@ -81,6 +81,23 @@
               }
         });
 
+        var validateNoTabletsGiven = function() {
+            var noTabletsGivenValue = jq("#noTabletsGiven input").first().val();
+            if (noTabletsGivenValue.length == 0) {
+                getField('noTabletsGiven.error').css("color", "red");
+                var errorNoTabletsGiven = setInterval(function() {
+                    if( jq("#noTabletsGiven").find("span.field-error").length) {
+                        flowsheet.toggleError(getField('noTabletsGiven.value'), "Required");
+                        clearInterval(errorNoTabletsGiven);
+                    }
+                }, 500);
+                return false;
+            } else {
+              flowsheet.toggleError(getField('noTabletsGiven.value'), null);
+              return true;
+            }
+        };
+
         var validateArtRegimen = function(selectedRegimen) {
           var validArtRegimen = true;
           var warningMessage = false;
@@ -108,6 +125,10 @@
                   warningMessage = true;
                 }
             }
+          } else {
+                errMessage = "Required";
+                getField('artRegimenObs.error').css("color", "red");
+                validArtRegimen = false;
           }
           flowsheet.toggleError(getField('artRegimenObs.value'), errMessage);
           if (warningMessage) {
@@ -141,6 +162,26 @@
           }
           return true;
         });
+
+
+        jq("#noTabletsGiven input").first().on('change', function() {
+            flowsheet.toggleError(getField('noTabletsGiven.value'), null);
+            validateNoTabletsGiven();
+        });
+
+        var checkNoTabletsGiven = setInterval(function() {
+            if( jq("#noTabletsGiven input").length) {
+              validateNoTabletsGiven();
+              clearInterval(checkNoTabletsGiven);
+            }
+        }, 500);
+
+        var checkArtRegimen = setInterval(function() {
+          if( jq("#artRegimenObs select").length) {
+            validateArtRegimen(jq("#artRegimenObs select").val());
+            clearInterval(checkArtRegimen);
+          }
+        }, 500);
     });
     </script>
 
@@ -361,7 +402,7 @@
             </tr>
             <tr>
                 <th>Pill Count</th>
-                <td><obs conceptId="$pillCount"/></td>
+                <td><obs id="pillCount" conceptId="$pillCount"/></td>
             </tr>
             <tr>
                 <th>Doses Missed</th>
@@ -374,7 +415,7 @@
             <tr>
                 <th>ARVs given</th>
                 <td>
-                    No. of tablets: <obs conceptId="$numArvsGiven"/>
+                    No. of tablets: <obs id="noTabletsGiven" conceptId="$numArvsGiven"/>
                     <span style="padding-left:10px">To: </span>
                     <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G"/>
                 </td>
