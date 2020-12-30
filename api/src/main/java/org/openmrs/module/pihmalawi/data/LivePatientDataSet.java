@@ -52,6 +52,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openmrs.module.reporting.common.DateUtil;
 
 /**
  * Provides a foundational class to retain in-memory data for use by the system
@@ -208,6 +209,29 @@ public abstract class LivePatientDataSet {
       */
     protected void addColumn(PatientDataSetDefinition dsd, String columnName, PatientDataDefinition pdd) {
         dsd.addColumn(columnName, pdd, Mapped.straightThroughMappings(pdd));
+    }
+
+    /**
+     *
+     * Helper method to evaluate appointments during the day specified by the end date
+     */
+    protected Cohort evaluateApptCohort(CohortDefinition cd, Date endDate, Location location) {
+        Date apptDate = ObjectUtil.nvl(endDate, new Date());
+        Date startOfDay = DateUtil.getStartOfDay(apptDate);
+        Date endOfDay = DateUtil.getEndOfDay(apptDate);
+        EvaluationContext context = new EvaluationContext();
+        context.addParameterValue(ReportingConstants.START_DATE_PARAMETER.getName(), startOfDay);
+        context.addParameterValue(ReportingConstants.END_DATE_PARAMETER.getName(), endOfDay);
+        context.addParameterValue(ReportingConstants.LOCATION_PARAMETER.getName(), location);
+        context.setBaseCohort(null);
+
+        try {
+            EvaluatedCohort c = cohortDefinitionService.evaluate(cd, context);
+            return new Cohort(c.getMemberIds());
+        }
+        catch (EvaluationException e) {
+            throw new RuntimeException("Unable to evaluate cohort", e);
+        }
     }
 
     /**
