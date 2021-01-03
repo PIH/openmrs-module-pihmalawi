@@ -44,7 +44,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
     }
 
     public Cohort getPatientsWithAppointmentsAtLocation(Date appointmentDate, Location location) {
-        Cohort appts = evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), appointmentDate, null);
+        Cohort appts = evaluateApptCohort(baseCohorts.getPatientsWithScheduledAppointmentDuringEndDate(), appointmentDate, null);
         Cohort enrolled = evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), appointmentDate, location);
         return PatientIdSet.intersect(appts, enrolled);
     }

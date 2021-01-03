@@ -23,6 +23,7 @@ import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.EncounterCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.InProgramCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.VisitCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.BaseObsCohortDefinition.TimeModifier;
 import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.RangeComparator;
@@ -98,6 +99,19 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 		cd.addParameter(new Parameter("createdBy", "Created By", User.class));
 		return df.convert(cd, ObjectUtil.toMap("createdBy=user"));
 	}
+
+    @DocumentedDefinition
+    public CohortDefinition getPatientsWithScheduledAppointmentDuringEndDate() {
+        DateObsCohortDefinition cd = new DateObsCohortDefinition();
+        cd.setTimeModifier(TimeModifier.ANY);
+        cd.setQuestion(hivMetadata.getAppointmentDateConcept());
+
+        cd.setOperator1(RangeComparator.GREATER_EQUAL);
+        cd.addParameter(new Parameter("value1", "value1", Date.class));
+        cd.setOperator2(RangeComparator.LESS_EQUAL);
+        cd.addParameter(new Parameter("value2", "value2", Date.class));
+        return df.convert(cd, ObjectUtil.toMap("locationList=location,value1=startDate,value2=endDate"));
+    }
 
 	@DocumentedDefinition
 	public CohortDefinition getPatientsWithScheduledAppointmentOnEndDate() {
