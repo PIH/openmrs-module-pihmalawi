@@ -438,7 +438,7 @@
             </tr>
 
             <tr>
-                <th>Dyspnea on extertion</th>
+                <th>Dyspnea on exertion</th>
                 <td style="text-align: left">
                     <obs conceptId="$levelDOE" answerConceptIds="$raised,$lower,$same,$none" answerLabels="Increase,Decrease,Same,None" style="radio" />
                 </td>
