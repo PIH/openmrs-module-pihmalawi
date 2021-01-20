@@ -2,8 +2,6 @@
           formEncounterType="1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72" formVersion="1.0">
 
     <macros>
-        noAnswer=1066
-        yesAnswer=1065
         other=6408
         height=5090
         weight=5089
@@ -37,6 +35,11 @@
         sv=4060
         clinicalImpression=1364
         nextAppt=5096
+
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="anyTriggersPresent" value="DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD" />
+
     </macros>
 
     <!-- Flowsheet table view -->
@@ -115,17 +118,13 @@
 
                     <!-- Seizure activity -->
                     <td>
-                        <obs conceptId="$seizActivity" style="checkbox"
-                             answerConceptId="$seizSinceVisit"
-                             answerLabel=""/>
+                        <obs conceptId="$seizActivity" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                     </td>
                     <td>
                         <obs conceptId="$numSeizures"/>
                     </td>
                     <td>
-                        <obs conceptId="$seizActivity" style="checkbox"
-                             answerConceptId="$anyTrig"
-                             answerLabel=""/>
+                        <obs conceptId="$anyTriggersPresent" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                     </td>
 
                     <!-- Triggers -->
@@ -149,7 +148,7 @@
                     </td>
                     <td>
                         <!-- Hospitalized since last visit -->
-                        <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" />Y
+                        <obs conceptId="$hospitalSinceLast" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                     </td>
                     <td>
                         <!-- Pregnant -->
@@ -158,8 +157,7 @@
                     </td>
                     <td>
                         <!-- Family planning -->
-                        <obs conceptId="$familyPlan" answerConceptId="$yesAnswer"
-                             answerLabel="" style="checkbox"/>
+                        <obs conceptId="$familyPlan" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                     </td>
                     <!-- Treatment Details -->
                     <!-- ToDo:  Add construct with dose and frequency? -->
@@ -246,8 +244,7 @@
             <tr>
                 <th>Seizures since last visit</th>
                 <td>
-                    <obs conceptId="$seizActivity" style="checkbox"
-                         answerConceptId="$seizSinceVisit" answerLabel=""/>
+                    <obs conceptId="$seizActivity" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                 </td>
             </tr>
 
@@ -261,8 +258,7 @@
             <tr>
                 <th>Any triggers</th>
                 <td>
-                    <obs conceptId="$seizActivity" style="checkbox"
-                         answerConceptId="$anyTrig" answerLabel=""/>
+                    <obs conceptId="$anyTriggersPresent" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                 </td>
             </tr>
 
@@ -292,7 +288,7 @@
             <tr>
                 <th>Hospitalized since last visit</th>
                 <td>
-                    <obs conceptId="$hospitalSinceLast" style="checkbox" answerConceptId="$yesAnswer" answerLabel="" />Y
+                    <obs conceptId="$hospitalSinceLast" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                 </td>
             </tr>
             <tr>
@@ -305,8 +301,7 @@
             <tr>
                 <th>On family planning</th>
                 <td>
-                    <obs conceptId="$familyPlan" answerConceptId="$yesAnswer"
-                         answerLabel="" style="checkbox"/>
+                    <obs conceptId="$familyPlan" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                 </td>
             </tr>
             <tr>

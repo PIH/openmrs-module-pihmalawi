@@ -16,7 +16,7 @@ public class NCDOtherMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -346,6 +346,15 @@ public class NCDOtherMastercardConcepts extends VersionedPihConceptBundle {
                         diabetesDiag,
                         ckdDiag,
                         otherDiagText)
+                .build());
+
+        install(new ConceptBuilder("DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("091F832E-9D5D-4B29-B9A8-97961844AA6A", "Any seizure triggers present", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(
+                        yes,
+                        no)
                 .build());
     }
 }

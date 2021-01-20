@@ -82,6 +82,8 @@
         trigSleep=8535
         trigMeds=8536
         trigMenst=8537
+
+        <macro key="otherNonCoded" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <span style="display:none">
@@ -375,8 +377,7 @@
                                     <repeat with="['$smoking','Smoking'],
                                                   ['$alcohol','Alcohol'],
                                                   ['$pig','Pigs/Pork'],
-                                                  ['$tradMeds','Traditional medicine'],
-                                                  ['$other','Other']">
+                                                  ['$tradMeds','Traditional medicine']">
                                         <tr>
                                             <obsgroup groupingConceptId="$exposureGroup">
                                                 <td data-toggle-source="exposure-{0}" data-toggle-target="exposure-{0}-date">
@@ -388,6 +389,16 @@
                                            </obsgroup>
                                         </tr>
                                     </repeat>
+                                    <tr>
+                                        <obsgroup groupingConceptId="$exposureGroup">
+                                            <td data-toggle-source="exposure-other" data-toggle-target="exposure-other-date">
+                                                <obs id="exposure-other" conceptId="$exposureAns" answerConceptId="$other" answerLabel="Other:" commentFieldLabel="" />
+                                            </td>
+                                            <td>
+                                                <obs id="exposure-other-date" conceptId="$exposureDate"/>
+                                            </td>
+                                        </obsgroup>
+                                    </tr>
                                 </table>
                             </td>
                         </tr>
@@ -459,8 +470,7 @@
                                                   ['$burn','Burns'],
                                                   ['$statusEpil','Status epilepticus'],
                                                   ['$psychosis','Psychosis'],
-                                                  ['$drugRelated','Drug related'],
-                                                  ['$other','Other']">
+                                                  ['$drugRelated','Drug related']">
                                         <tr>
                                             <obsgroup groupingConceptId="$complicationGroup">
                                                 <td data-toggle-source="complication-{0}" data-toggle-target="complication-{0}-date">
@@ -472,6 +482,16 @@
                                             </obsgroup>
                                         </tr>
                                     </repeat>
+                                    <tr>
+                                        <obsgroup groupingConceptId="$complicationGroup">
+                                            <td data-toggle-source="complication-other" data-toggle-target="complication-other-date">
+                                                <obs id="complication-other" conceptId="$complicationAns" answerConceptId="$other" answerLabel="Other:" commentFieldLabel="" />
+                                            </td>
+                                            <td>
+                                                <obs id="complication-other-date" conceptId="$complicationDate"/>
+                                            </td>
+                                        </obsgroup>
+                                    </tr>
                                 </table>
                             </td>
                         </tr>
