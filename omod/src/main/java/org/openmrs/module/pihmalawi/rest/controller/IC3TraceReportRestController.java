@@ -48,7 +48,7 @@ public class IC3TraceReportRestController  {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public Object GetIC3TraceReport(
-            @RequestParam String date)  {
+            @RequestParam String date, @RequestParam int labWeeks)  {
 
        try
         {
@@ -66,6 +66,7 @@ public class IC3TraceReportRestController  {
             EvaluationContext context = new EvaluationContext();
 
             context.addParameterValue("endDate", DateUtil.parseYmd(date));
+            context.addParameterValue("labWeeks",labWeeks);
 
             ReportData data = reportDefinitionService.evaluate(rd, context);
             List<SimpleObject> traceReportData = new ArrayList<SimpleObject>();

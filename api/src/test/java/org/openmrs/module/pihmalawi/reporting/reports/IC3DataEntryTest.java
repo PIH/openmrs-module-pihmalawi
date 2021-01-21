@@ -18,8 +18,8 @@ public class IC3DataEntryTest extends ReportManagerTest{
     @Override
     public EvaluationContext getEvaluationContext() {
         EvaluationContext context = new EvaluationContext();
-        context.addParameterValue("endDate", DateUtil.getDateTime(2020, 11, 05));
-        context.addParameterValue("location",2);
+        context.addParameterValue("endDate", DateUtil.getDateTime(2021, 01, 20));
+        context.addParameterValue("location",4);
         return context;
     }
 
