@@ -84,6 +84,7 @@
         medsOtherConstruct=8576
         tradMedsConstruct=8573
 
+        <macro key="mhCodedDx" value="0459F64A-611C-4687-9C0A-7B6B57F121A2"/>
 
     </macros>
 
@@ -293,8 +294,8 @@
                                     </repeat>
 
                         <!-- todo: Add other diagnoses -->
-                        <repeat with="['$mentalHealthOther0','Other,','other1'],
-                                      ['$mentalHealthOther1','Other,','other2']">
+                        <repeat with="['$mentalHealthOther0','Other','other1'],
+                                      ['$mentalHealthOther1','Other','other2']">
 
                             <tr>
                                 <obsgroup groupingConceptId="$diagnosisSet">
@@ -313,19 +314,16 @@
 
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
-
-                                <td style="border-right: 1px solid #ffffff;">
-                                    Other:
+                                <td data-toggle-source="other-ccDiagnosis" data-toggle-target="other-ccDiagnosis-date"
+                                    style="border-right: 1px solid #ffffff;">
+                                    <obs class="dx-checkbox-item" conceptId="$mhCodedDx" style="checkbox"
+                                         answerConceptId="$yesAnswer" answerLabel="Other"/>
                                     <obs conceptId="$chronicCareDiagnosis"
                                          answerConceptIds="$stressReact,$dissoc,$puerp,$personality,$retardation,$psychDev,$hyper"
                                          answerLabels="Stress reaction disorder,Dissociative disorder,Somatoform disorder,Puerperal disorder,Mental retardation,Psych development disorder,Hyperkinetic behavior"/>
                                 </td>
-                                <td style="border-left: 1px solid #ffffff;">
-                                    <!-- ToDo:  Capture date but it doesn't work when there's no
-                                         other coded concept selected.  It shows up in the wrong
-                                         place.
+                                <td id="other-ccDiagnosis-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date"/>
-                                    -->
                                 </td>
                             </obsgroup>
                         </tr>
@@ -368,12 +366,7 @@
                                             <strong>Alcohol</strong>
                                         </td>
                                         <td style="border: 1px solid #ffffff;">
-                                            <obs conceptId="$alcoholHistory" style="checkbox"
-                                                 answerConceptId="$current" answerLabel="Current"/>
-                                            <obs conceptId="$alcoholHistory" style="checkbox"
-                                                 answerConceptId="$past" answerLabel="Past"/>
-                                            <obs conceptId="$alcoholHistory" style="checkbox"
-                                                 answerConceptId="$never" answerLabel="Never"/>
+                                            <obs conceptId="$alcoholHistory" style="radio" answerConceptIds="$current, $past, $never" answerLabels="Current,Past,Never" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -417,12 +410,7 @@
                                                 <small>(Marijuana)</small>
                                             </td>
                                             <td style="border: 1px solid #ffffff;">
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$current" answerLabel="Current"/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$past" answerLabel="Past"/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$never" answerLabel="Never"/>
+                                                <obs conceptId="$exposeHistory" style="radio" answerConceptIds="$current, $past, $never" answerLabels="Current,Past,Never" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -469,13 +457,7 @@
                                                 <obs conceptId="$noncodedOtherName" />
                                             </td>
                                             <td style="border: 1px solid #ffffff;">
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$current" answerLabel="Current"/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$past" answerLabel="Past"/>
-                                                <br/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$never" answerLabel="Never"/>
+                                                <obs conceptId="$exposeHistory" style="radio" answerConceptIds="$current, $past, $never" answerLabels="Current,Past,Never" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -523,12 +505,7 @@
                                                 <strong>Traditional<br/>medicine</strong>
                                             </td>
                                             <td style="border: 1px solid #ffffff;">
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$current" answerLabel="Current"/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$past" answerLabel="Past"/>
-                                                <obs conceptId="$exposeHistory" style="checkbox"
-                                                     answerConceptId="$never" answerLabel="Never"/>
+                                                <obs conceptId="$exposeHistory" style="radio" answerConceptIds="$current, $past, $never" answerLabels="Current,Past,Never" />
                                             </td>
                                         </tr>
                                         <tr>

@@ -65,6 +65,36 @@
         }
     </style>
 
+<script type="text/javascript">
+
+    jq(function() {
+
+      jq(".symptom-present input[type='checkbox']").change(function() {
+        if (this.checked) {
+            //symptom-present has been checked
+            var symtomAbsent = jq(this).parent().siblings(".symptom-absent:first");
+            if (symtomAbsent !== "undefined" &amp;&amp; symtomAbsent !== null) {
+                // uncheck the symptom-absent checkbox
+                symtomAbsent.children("input").first().prop("checked", false);
+            }
+        }
+      });
+
+      jq(".symptom-absent input[type='checkbox']").change(function() {
+            if (this.checked) {
+                //symptom-absent has been checked
+                var symtomPresent = jq(this).parent().siblings(".symptom-present:first");
+                if (symtomPresent !== "undefined" &amp;&amp; symtomPresent !== null) {
+                    // uncheck the symptom-present checkbox
+                    symtomPresent.children("input").first().prop("checked", false);
+                }
+            }
+      });
+
+    });
+
+</script>
+
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
 
@@ -139,8 +169,9 @@
                               ['$nonCodedOther','Other']">
                         <td style="font-size:.7em;padding: 1px">
                             <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
-                                 answerLabel="Y" style="radio"/>&amp;nbsp;<obs conceptId="$chiefCompAbsent" answerConceptId="{0}"
-                                 answerLabel="N" style="radio"/>
+                                 answerLabel="Y" style="checkbox"/>&amp;nbsp;
+                            <obs conceptId="$chiefCompAbsent" answerConceptId="{0}"
+                                 answerLabel="N" style="checkbox"/>
                         </td>
                     </repeat>
 
@@ -314,9 +345,9 @@
                             <span class="atab">{1}</span>
                             <span>
                                 <obs conceptId="$chiefCompAnswer" answerConceptId="{0}"
-                                    answerLabel="Yes" style="checkbox"/>
+                                    answerLabel="Yes" style="checkbox" class="symptom-present"/>
                                 <obs conceptId="$chiefCompAbsent" answerConceptId="{0}"
-                                    answerLabel="No" style="checkbox"/>
+                                    answerLabel="No" style="checkbox" class="symptom-absent"/>
                             </span>
                         </p>
                     </repeat>
