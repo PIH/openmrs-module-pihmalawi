@@ -39,6 +39,7 @@
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="anyTriggersPresent" value="DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD" />
+        <macro key="anySeizures" value="655033A8-AD14-409A-A79F-4D5AA2A03900" />
 
     </macros>
 
@@ -118,7 +119,7 @@
 
                     <!-- Seizure activity -->
                     <td>
-                        <obs conceptId="$seizActivity" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
+                        <obs conceptId="$anySeizures" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                     </td>
                     <td>
                         <obs conceptId="$numSeizures"/>
@@ -244,7 +245,7 @@
             <tr>
                 <th>Seizures since last visit</th>
                 <td>
-                    <obs conceptId="$seizActivity" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
+                    <obs conceptId="$anySeizures" style="radio" answerConceptIds="$yesAnswer, $noAnswer" answerLabels="Yes,No" />
                 </td>
             </tr>
 

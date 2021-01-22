@@ -16,7 +16,7 @@ public class NCDOtherMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -352,6 +352,14 @@ public class NCDOtherMastercardConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(question)
                 .name("091F832E-9D5D-4B29-B9A8-97961844AA6A", "Any seizure triggers present", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(
+                        yes,
+                        no)
+                .build());
+        install(new ConceptBuilder("655033A8-AD14-409A-A79F-4D5AA2A03900")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("62A332C8-9930-45C4-9FFC-55F9D7E64513", "Any seizure occurred since last visit", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(
                         yes,
                         no)
