@@ -21,6 +21,36 @@
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20210122-01" author="cioan">
+		<preConditions onFail="CONTINUE" onFailMessage="The new seizure concepts, Seizure occurred since last visit and Any seizure triggers present have not been added to the system yet">
+			<and>
+				<sqlCheck expectedResult="2">
+					select count(*) from concept where uuid = '655033A8-AD14-409A-A79F-4D5AA2A03900' or uuid = 'DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD'
+				</sqlCheck>
+				<not>
+					<sqlCheck expectedResult="0">select count(*) from obs o, concept c where o.concept_id=c.concept_id and c.uuid= '5f520642-cf63-11e5-ab30-625662870761'
+					</sqlCheck>
+				</not>
+			</and>
+		</preConditions>
+		<comment>
+			Migrate Epilepsy seizure activities obs, only if the new concepts have been added to the system.
+		</comment>
+		<sql>
+			SET @seizure_activity = (select concept_id from concept where uuid = '5f520642-cf63-11e5-ab30-625662870761');
+			SET @seizure_since_lv = (select concept_id from concept where uuid = '5f52025a-cf63-11e5-ab30-625662870761');
+			SET @any_seizure_trigger = (select concept_id from concept where uuid = '5f520476-cf63-11e5-ab30-625662870761');
+			SET @seizure_occured_since_lv = (select concept_id from concept where uuid = '655033A8-AD14-409A-A79F-4D5AA2A03900');
+			SET @seizure_trigger_present = (select concept_id from concept where uuid = 'DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD');
+			SET @yes_answer = (select concept_id from concept where uuid = '65576354-977f-11e1-8993-905e29aff6c1');
+			SET @no_answer = (select concept_id from concept where uuid = '6557646c-977f-11e1-8993-905e29aff6c1');
+
+			update obs set concept_id = @seizure_occured_since_lv, value_coded = @yes_answer where concept_id=@seizure_activity and value_coded=@seizure_since_lv;
+			update obs set concept_id = @seizure_trigger_present, value_coded = @yes_answer where concept_id=@seizure_activity and value_coded=@any_seizure_trigger;
+		</sql>
+
+	</changeSet>
+
 	<changeSet id="20190506-01" author="cioan">
 		<comment>
 			Migrate HIV test results from Reactive/Non-Reactive to Positive/Negative concepts.
