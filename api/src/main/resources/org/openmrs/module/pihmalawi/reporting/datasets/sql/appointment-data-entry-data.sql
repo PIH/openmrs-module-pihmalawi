@@ -17,6 +17,7 @@ g
 SET @appointment_concept_id = 5096;
 SET @arv_number_name = 'ARV Number';
 SET @chronic_number_name = 'Chronic Care Number';
+SET @hcc_number = "HCC Number";
 SET @yes = 'YES';
 SET @_no = 'NO';
 
@@ -51,7 +52,7 @@ FROM
             AND en.location_id = @location
             AND en.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name)
+            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
             AND en.patient_id NOT IN (SELECT
                 o.person_id
             FROM
@@ -95,7 +96,7 @@ FROM
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name)
+            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
             AND o.person_id IN (SELECT
                 patient_id
             FROM
@@ -136,7 +137,7 @@ FROM
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name)
+            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
             AND o.person_id NOT IN (SELECT
                 patient_id
             FROM
