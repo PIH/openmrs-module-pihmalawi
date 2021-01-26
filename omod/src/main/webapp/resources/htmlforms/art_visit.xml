@@ -67,7 +67,7 @@
               for (var index = 0; index &lt; data.results.length; ++index) {
                 var regimenObs = data.results[index];
                 var obsDatetime = new Date(regimenObs.obsDatetime);
-                if (currentEncounterDate.getTime() &gt;= obsDatetime.getTime() ) {
+                if (currentEncounterDate.getTime() &gt; obsDatetime.getTime() ) {
                     // this is a regimen that was assigned prior to current encounter date
                     previousRegimens.push({
                       obsDateTime: regimenObs.obsDatetime,
