@@ -317,7 +317,7 @@
                     </td>
                     <td>
                         <!-- Next appointment -->
-                        <obsreference conceptId="$nextAppt" />
+                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/>
                     </td>
                 </tr>
             </tbody>
