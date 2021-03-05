@@ -21,82 +21,77 @@ SET @hcc_number = "HCC Number";
 SET @yes = 'YES';
 SET @_no = 'NO';
 
-SELECT *
+SELECT
+    *
 FROM
-(
-    SELECT DISTINCT
+    (SELECT DISTINCT
         (en.patient_id),
-        GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
-        pn.given_name,
-        pn.family_name,
-        CASE
-            WHEN TRUE THEN @yes
-        END AS came_to_facility,
-        CASE
-            WHEN TRUE THEN @_no
-        END AS was_this_appointment_day
+            GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
+            pn.given_name,
+            pn.family_name,
+            pn1.given_name AS creator_first_name,
+            pn1.family_name AS creator_last_name,
+            CASE
+                WHEN TRUE THEN @yes
+            END AS came_to_facility,
+            CASE
+                WHEN TRUE THEN @_no
+            END AS was_this_appointment_day
     FROM
         encounter en
-            JOIN
-        location l ON l.location_id = en.location_id
-            JOIN
-        encounter_type ent ON ent.encounter_type_id = en.encounter_type
-            JOIN
-        patient_identifier pi ON pi.patient_id = en.patient_id
-            JOIN
-        patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
-            JOIN
-        person_name pn ON pn.person_id = en.patient_id
+    JOIN location l ON l.location_id = en.location_id
+    JOIN encounter_type ent ON ent.encounter_type_id = en.encounter_type
+    JOIN patient_identifier pi ON pi.patient_id = en.patient_id
+    JOIN patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
+    JOIN person_name pn ON pn.person_id = en.patient_id
+    JOIN users u ON en.creator = u.user_id
+    JOIN person_name pn1 ON pn1.person_id = u.person_id
     WHERE
         DATE(en.encounter_datetime) = @endDate
             AND en.location_id = @location
             AND en.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
+            AND pit.name IN (@arv_number_name , @chronic_number_name, @hcc_number)
             AND en.patient_id NOT IN (SELECT
                 o.person_id
             FROM
                 obs o
-                    JOIN
-                encounter en ON en.encounter_id = o.encounter_id
+            JOIN encounter en ON en.encounter_id = o.encounter_id
             WHERE
                 o.concept_id = @appointment_concept_id
                     AND o.location_id = @location
                     AND DATE(o.value_datetime) = @endDate
                     AND o.voided = 0)
-    GROUP BY en.patient_id
-    UNION ALL SELECT DISTINCT
+    GROUP BY en.patient_id UNION ALL SELECT DISTINCT
         (o.person_id) AS patient_id,
-        GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
-        pn.given_name,
-        pn.family_name,
-        CASE
-            WHEN TRUE THEN @yes
-        END AS came_to_facility,
-        CASE
-            WHEN TRUE THEN @yes
-        END AS was_this_appointment_day
+            GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
+            pn.given_name,
+            pn.family_name,
+            pn1.given_name AS creator_first_name,
+            pn1.family_name AS creator_last_name,
+            CASE
+                WHEN TRUE THEN @yes
+            END AS came_to_facility,
+            CASE
+                WHEN TRUE THEN @yes
+            END AS was_this_appointment_day
     FROM
         obs o
-            JOIN
-        encounter en ON en.encounter_id = o.encounter_id
-            JOIN
-        location l ON l.location_id = o.location_id
-            JOIN
-        encounter_type ent ON ent.encounter_type_id = en.encounter_type
-            JOIN
-        patient_identifier pi ON pi.patient_id = en.patient_id
-            JOIN
-        person_name pn ON pn.person_id = en.patient_id
-            JOIN
-        patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
+    JOIN encounter en ON en.encounter_id = o.encounter_id
+    JOIN location l ON l.location_id = o.location_id
+    JOIN encounter_type ent ON ent.encounter_type_id = en.encounter_type
+    JOIN patient_identifier pi ON pi.patient_id = en.patient_id
+    JOIN person_name pn ON pn.person_id = en.patient_id
+    JOIN patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
+    JOIN users u ON en.creator = u.user_id
+    JOIN person_name pn1 ON pn1.person_id = u.person_id
     WHERE
         o.concept_id = @appointment_concept_id
             AND o.location_id = @location
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
+            AND pit.name IN (@arv_number_name , @chronic_number_name, @hcc_number)
             AND o.person_id IN (SELECT
                 patient_id
             FROM
@@ -105,39 +100,38 @@ FROM
                 DATE(encounter_datetime) = @endDate
                     AND location_id = @location
                     AND voided = 0)
-    GROUP BY patient_id
-    UNION ALL SELECT DISTINCT
+    GROUP BY patient_id UNION ALL SELECT DISTINCT
         (o.person_id) AS patient_id,
-        GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
-        pn.given_name,
-        pn.family_name,
-        CASE
-            WHEN TRUE THEN @_no
-        END AS came_to_facility,
-        CASE
-            WHEN TRUE THEN @yes
-        END AS was_this_appointment_day
+            GROUP_CONCAT(DISTINCT (pi.identifier)) AS identifiers,
+            pn.given_name,
+            pn.family_name,
+            CASE
+                WHEN TRUE THEN 'N/A'
+            END AS creator_first_name,
+            CASE
+                WHEN TRUE THEN 'N/A'
+            END AS creator_last_name,
+            CASE
+                WHEN TRUE THEN @_no
+            END AS came_to_facility,
+            CASE
+                WHEN TRUE THEN @yes
+            END AS was_this_appointment_day
     FROM
         obs o
-            JOIN
-        encounter en ON en.encounter_id = o.encounter_id
-            JOIN
-        location l ON l.location_id = o.location_id
-            JOIN
-        encounter_type ent ON ent.encounter_type_id = en.encounter_type
-            JOIN
-        patient_identifier pi ON pi.patient_id = en.patient_id
-            JOIN
-        person_name pn ON pn.person_id = en.patient_id
-            JOIN
-        patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
+    JOIN encounter en ON en.encounter_id = o.encounter_id
+    JOIN location l ON l.location_id = o.location_id
+    JOIN encounter_type ent ON ent.encounter_type_id = en.encounter_type
+    JOIN patient_identifier pi ON pi.patient_id = en.patient_id
+    JOIN person_name pn ON pn.person_id = en.patient_id
+    JOIN patient_identifier_type pit ON pi.identifier_type = pit.patient_identifier_type_id
     WHERE
         o.concept_id = @appointment_concept_id
             AND o.location_id = @location
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-            AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
+            AND pit.name IN (@arv_number_name , @chronic_number_name, @hcc_number)
             AND o.person_id NOT IN (SELECT
                 patient_id
             FROM
@@ -146,5 +140,4 @@ FROM
                 DATE(encounter_datetime) = @endDate
                     AND location_id = @location
                     AND voided = 0)
-    GROUP BY patient_id
-) sub
+    GROUP BY patient_id) sub
