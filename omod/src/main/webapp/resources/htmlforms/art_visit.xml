@@ -102,34 +102,33 @@
           var validArtRegimen = true;
           var warningMessage = false;
           var errMessage = null;
-          if (selectedRegimen !== 'undefined' &amp;&amp; selectedRegimen != null &amp;&amp; (selectedRegimen.length &gt; 0)
-                  &amp;&amp; previousRegimens.length &gt; 0) {
-            var lastRegimen = previousRegimens[0].regimen.id;
-            if (selectedRegimen != lastRegimen) {
-                var lastRegimenDate = null;
-                for (var i=0; i &lt; previousRegimens.length; ++i) {
-                  var tempRegimen =  previousRegimens[i];
-                  if (tempRegimen.regimen.id == selectedRegimen) {
-                    lastRegimenDate = tempRegimen.obsDateTime;
-                    break;
-                  }
-                }
+          if (selectedRegimen === 'undefined' || selectedRegimen == null || (selectedRegimen.length &lt;1)) {
+              errMessage = "Required";
+              validArtRegimen = false;
+          } else if (previousRegimens.length &gt; 0) {
+                var lastRegimen = previousRegimens[0].regimen.id;
+                if (selectedRegimen != lastRegimen) {
+                    var lastRegimenDate = null;
+                    for (var i=0; i &lt; previousRegimens.length; ++i) {
+                        var tempRegimen =  previousRegimens[i];
+                        if (tempRegimen.regimen.id == selectedRegimen) {
+                          lastRegimenDate = tempRegimen.obsDateTime;
+                          break;
+                        }
+                    }
 
-                if (lastRegimenDate !== null) {
-                  // prevent the form from being submitted
-                  errMessage = "Regimen has been recorded in the past( " + (new Date(lastRegimenDate)).toDateString() + " ) but not on the last visit";
-                  getField('artRegimenObs.error').css("color", "red");
-                  validArtRegimen = false;
-                } else {
-                  // the new selected regimen was never given to this patient
-                  warningMessage = true;
+                    if (lastRegimenDate !== null) {
+                        // prevent the form from being submitted
+                        errMessage = "Regimen has been recorded in the past( " + (new Date(lastRegimenDate)).toDateString() + " ) but not on the last visit";
+                        getField('artRegimenObs.error').css("color", "red");
+                        validArtRegimen = false;
+                    } else {
+                        // the new selected regimen was never given to this patient
+                        warningMessage = true;
+                    }
                 }
-            }
-          } else {
-                errMessage = "Required";
-                getField('artRegimenObs.error').css("color", "red");
-                validArtRegimen = false;
-          }
+         }
+
           flowsheet.toggleError(getField('artRegimenObs.value'), errMessage);
           if (warningMessage) {
             getField('artRegimenObs.error').text("Regimen is different from regimen at last visit").show();
@@ -318,7 +317,7 @@
                     </td>
                     <td>
                         <!-- Next appointment -->
-                        <obsreference conceptId="$nextAppt" />
+                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/>
                     </td>
                 </tr>
             </tbody>
