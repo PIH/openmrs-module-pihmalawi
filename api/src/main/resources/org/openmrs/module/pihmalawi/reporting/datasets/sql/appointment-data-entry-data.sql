@@ -91,11 +91,7 @@ FROM
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-<<<<<<< HEAD
-            AND pit.name IN (@arv_number_name , @chronic_number_name, @hcc_number)
-=======
             AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
->>>>>>> 81d0c9dd178a8f2cfd961059a9ed0724b6824f05
             AND o.person_id IN (SELECT
                 patient_id
             FROM
@@ -135,11 +131,7 @@ FROM
             AND DATE(o.value_datetime) = @endDate
             AND o.voided = 0
             AND pi.location_id = @location
-<<<<<<< HEAD
-            AND pit.name IN (@arv_number_name , @chronic_number_name, @hcc_number)
-=======
             AND pit.name IN (@arv_number_name, @chronic_number_name, @hcc_number)
->>>>>>> 81d0c9dd178a8f2cfd961059a9ed0724b6824f05
             AND o.person_id NOT IN (SELECT
                 patient_id
             FROM
