@@ -20,6 +20,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
+import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.IC3AppoinmentDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
@@ -79,11 +80,13 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 
 		DataSetColumn alertColumn = new DataSetColumn("alert", "alert", String.class);
 		DataSetColumn actionsColumn = new DataSetColumn("actions", "actions", String.class);
+		DataSetColumn ic3dColumn = new DataSetColumn("ic3d_number", "ic3d_number", String.class);
 
 		SimpleDataSet ret = new SimpleDataSet(dsd, context);
 		for (Integer pId : data.keySet()) {
 			if (baseCohort.isEmpty() || baseCohort.contains(pId)) {
 				JsonObject patData = data.get(pId);
+
 				addColumnValue(ret, pId, "patient_uuid", patData);
 				addColumnValue(ret, pId, "last_name", patData);
 				addColumnValue(ret, pId, "first_name", patData);
@@ -97,6 +100,17 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 				addColumnValue(ret, pId, "eid_number", patData, "hcc_number");
 				addColumnValue(ret, pId, "art_number", patData);
 				addColumnValue(ret, pId, "ncd_number", patData);
+				List<JsonObject> ic3dIdentifiers = (List<JsonObject>) patData.get("identifiers");
+				for (JsonObject eachIdentifier: ic3dIdentifiers) {
+					String location = (String) eachIdentifier.get("location");
+					String identifierType = (String) eachIdentifier.get("identifierType");
+					if(location.equals(dsd.getLocation().getUuid()) && identifierType.equals(PihMalawiPatientIdentifierTypes.IC3D_IDENTIFIER.uuid())){
+						JsonObject ic3dIdentifier = new JsonObject();
+						ic3dIdentifier.put("ic3d_number",eachIdentifier.get("identifier"));
+						//addColumnValue(ret, pId, "ic3d_number", ic3dIdentifier);
+						ret.addColumnValue(pId, ic3dColumn,eachIdentifier.get("identifier") );
+					}
+				}
 				addColumnValue(ret, pId, "last_visit_date", patData);
 				addColumnValue(ret, pId, "last_appt_date", patData);
 
