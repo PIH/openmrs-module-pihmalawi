@@ -158,7 +158,7 @@ public class DataFactory {
 			cd.addType(type);
 		}
 		cd.setIncludeFirstNonNullOnly(true);
-		return cd;
+		return convert(cd, new PatientIdentifierConverter());
 	}
 
 	public PatientDataDefinition getFirstEncounterOfTypeByEndDate(List<EncounterType> types, DataConverter converter) {
