@@ -32,10 +32,16 @@ import java.util.List;
 public class ChronicCareMetadata extends CommonMetadata {
 
 	public static String CHRONIC_CARE_NUMBER = "Chronic Care Number";
+	public static String IC3_D_NUMBER = "IC3D Identifier";
 
 	public PatientIdentifierType getChronicCareNumber() {
 		return getPatientIdentifierType(CHRONIC_CARE_NUMBER);
 	}
+
+	public PatientIdentifierType getIC3DIdentifierType() {
+		return getPatientIdentifierType(IC3_D_NUMBER);
+	}
+
 
 	public static String CHRONIC_CARE_PROGRAM = "Chronic care program";
 	public static String CHRONIC_CARE_PROGRAM_TREATMENT_STATUS = "Chronic care treatment status";
