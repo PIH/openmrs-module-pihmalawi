@@ -14,7 +14,6 @@
         <macro key="healthComplaints" value="655e7086-977f-11e1-8993-905e29aff6c1" />
         <macro key="socialComplaints" value="65616eee-977f-11e1-8993-905e29aff6c1" />
         <macro key="agreedToReturnToClinic" value="DBEA54BD-DC98-45E3-B457-4A7FBF690CB8" />
-        <macro key="reasons" value="B5BC12B7-C769-45CC-8BC5-6E53252B019E" />
         <macro key="dateGiven" value="DA7E403E-EC7F-445B-B8CF-65F4E818A11A" />
         <macro key="patientBehavior" value="655bdf9c-977f-11e1-8993-905e29aff6c1" />
         <macro key="good" value="655c1340-977f-11e1-8993-905e29aff6c1" />
@@ -42,7 +41,6 @@
                     <td>Health complaints</td>
                     <td>Social complaints</td>
                     <td>Agreed to return to clinic</td>
-                    <td>Reasons</td>
                     <td>Date given</td>
                     <td>Patient behavior</td>
                     <td>Remarks</td>
@@ -88,10 +86,6 @@
                     <td>
                         <!-- Agreed to return to clinic -->
                         <obsreference conceptId="$agreedToReturnToClinic" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Yes,No" style="radio"/>
-                    </td>
-                    <td>
-                        <!-- Reasons -->
-                        <obsreference conceptId="$reasons"/>
                     </td>
                     <td>
                         <!-- Date given -->
@@ -183,10 +177,6 @@
             <tr>
                 <th>Agreed to return to clinic</th>
                 <td><obsreference conceptId="$agreedToReturnToClinic" answerConceptIds="$yesAnswer,$noAnswer" style="radio"/></td>
-            </tr>
-            <tr>
-                <th>Reasons</th>
-                <td><obsreference conceptId="$reasons"/></td>
             </tr>
             <tr>
                 <th>Date given</th>
