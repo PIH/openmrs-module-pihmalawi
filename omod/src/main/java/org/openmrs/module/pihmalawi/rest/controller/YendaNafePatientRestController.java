@@ -26,8 +26,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 /**
- *  End point will handle adding patients in the EMR from medic mobile
+ *  End point will handle adding patients in the EMR from medic mobile... Disabled at the moment based on change in user requirements
  */
+/*
+
+
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + YendaNafePatientRestController.PIHMALAWI + YendaNafePatientRestController.YENDANAFE+YendaNafePatientRestController.PATIENT)
 public class YendaNafePatientRestController {
@@ -91,3 +94,5 @@ public class YendaNafePatientRestController {
         }
     }
 }
+
+*/

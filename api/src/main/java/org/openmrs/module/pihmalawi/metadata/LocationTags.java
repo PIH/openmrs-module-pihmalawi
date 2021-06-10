@@ -94,4 +94,10 @@ public class LocationTags {
         public String name() { return PihMalawiConstants.HEALTH_FACILITY_GP_VALUE; }
         public String description() { return "Locations designated as Health Facilities."; }
     };
+
+    public static LocationTagDescriptor MEDIC_MOBILE_FACILITY = new LocationTagDescriptor() {
+        public String uuid() { return "7ae7db90-a601-41e7-bb09-fcdbbfbeaa87"; }
+        public String name() { return PihMalawiConstants.MEDIC_MOBILE_FACILITY; }
+        public String description() { return "Locations designated as Health Facilities."; }
+    };
 }

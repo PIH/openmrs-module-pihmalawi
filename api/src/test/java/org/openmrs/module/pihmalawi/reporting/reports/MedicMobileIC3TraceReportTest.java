@@ -32,13 +32,6 @@ import java.util.Properties;
 public class MedicMobileIC3TraceReportTest extends ReportManagerTest {
 
 	@Autowired
-	HivMetadata metadata;
-
-	@Autowired
-	HivMetadata hivMetadata;
-
-	@Autowired
-
     MedicMobileIC3TraceReport report;
 
 	@Override
@@ -48,9 +41,9 @@ public class MedicMobileIC3TraceReportTest extends ReportManagerTest {
 
     @Override
     public void performTest() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/openmrs_warehouse_local?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
-        String user = "root";
-        String password = "zxqw1234@@##";
+        String url = "jdbc:mysql://localhost:3306/openmrs_neno_warehouse?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
+        String user = "openmrs";
+        String password = "openmrs";
 
         File propertiesFile = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY, PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         Properties properties = new Properties();

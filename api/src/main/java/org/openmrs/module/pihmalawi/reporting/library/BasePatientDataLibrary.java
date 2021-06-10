@@ -165,6 +165,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
 		return df.getAllIdentifiers(new CollectionConverter(new PatientIdentifierToJsonConverter(), true, null));
 	}
 
+	@DocumentedDefinition("ic3dIdentifier")
+	public PatientDataDefinition getIC3DIdentifier() {
+    	return df.getPreferredIdentifierOfTypes(ncdMetadata.getIC3DIdentifierType());
+	}
+
 	// Vitals
 
     @DocumentedDefinition

@@ -20,6 +20,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
+import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.IC3AppoinmentDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
@@ -84,6 +85,7 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 		for (Integer pId : data.keySet()) {
 			if (baseCohort.isEmpty() || baseCohort.contains(pId)) {
 				JsonObject patData = data.get(pId);
+
 				addColumnValue(ret, pId, "patient_uuid", patData);
 				addColumnValue(ret, pId, "last_name", patData);
 				addColumnValue(ret, pId, "first_name", patData);
@@ -97,6 +99,7 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 				addColumnValue(ret, pId, "eid_number", patData, "hcc_number");
 				addColumnValue(ret, pId, "art_number", patData);
 				addColumnValue(ret, pId, "ncd_number", patData);
+				addColumnValue(ret, pId, "ic3d_number", patData);
 				addColumnValue(ret, pId, "last_visit_date", patData);
 				addColumnValue(ret, pId, "last_appt_date", patData);
 
