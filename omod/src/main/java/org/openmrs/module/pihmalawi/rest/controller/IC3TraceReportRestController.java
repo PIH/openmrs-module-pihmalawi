@@ -119,6 +119,7 @@ public class IC3TraceReportRestController  {
                 facilityDetails.add("eid_number",r.getColumnValue("eid_number"));
                 facilityDetails.add("art_number",r.getColumnValue("art_number"));
                 facilityDetails.add("ncd_number",r.getColumnValue("ncd_number"));
+                facilityDetails.add("yendanafe_number",r.getColumnValue("yendanafe_number"));
                 facilityDetails.add("art_last_visit_date",r.getColumnValue("art_last_visit_date"));
                 facilityDetails.add("art_last_appt_date",r.getColumnValue("art_last_appt_date"));
                 facilityDetails.add("art_weeks_out_of_care",r.getColumnValue("art_weeks_out_of_care"));
