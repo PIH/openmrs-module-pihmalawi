@@ -49,6 +49,9 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
     public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String VIRAL_LOAD_SAMPLE_ID = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
+    public static final String URINE_LAM = "a047e2ec-f07e-47a6-8849-7c5150550e9e";
+    public static final String POSITIVE = "6549be7a-977f-11e1-8993-905e29aff6c1";
+    public static final String NEGATIVE = "654994c2-977f-11e1-8993-905e29aff6c1";
 
     // Existing NCD drugs concepts
     public static final String DAPSONE = "6545f8b2-977f-11e1-8993-905e29aff6c1";
@@ -151,7 +154,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 9;
+        return 10;
     }
 
     @Override
@@ -184,6 +187,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept fourteenA = MetadataUtils.existing(Concept.class, FOURTEEN_A);
         Concept fifteenA = MetadataUtils.existing(Concept.class, FIFTEEN_A);
         Concept nonStandard = MetadataUtils.existing(Concept.class, NON_STANDARD);
+        Concept positive = MetadataUtils.existing(Concept.class, POSITIVE);
+        Concept negative = MetadataUtils.existing(Concept.class, NEGATIVE);
 
         // NCD Meds - existing
         Concept dapson = MetadataUtils.existing(Concept.class, DAPSONE);
@@ -1296,6 +1301,13 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .build());
 
         medication_prescription_construct.setSet(true);
+
+        install(new ConceptBuilder(URINE_LAM)
+                .datatype(coded)
+                .conceptClass(test)
+                .name("98f9594c-e0fd-4710-967a-ebb5a52f2362", "Urine LAM / CrAg Result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive,negative)
+                .build());
 
     }
 }
