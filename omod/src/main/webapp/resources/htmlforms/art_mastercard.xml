@@ -172,7 +172,7 @@
                     <h5>Status at ART Initiation</h5>
                     <table>
                         <tr>
-                            <td>WHO clinical<br/> conditions</td>
+                            <td>HIV-related<br/> diseases</td>
                             <td colspan="3">
                                 <obs conceptId="$whoClinicalConditions" size="60" />
                             </td>
