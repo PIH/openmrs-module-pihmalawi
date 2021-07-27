@@ -14,6 +14,8 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.Location;
+import org.openmrs.LocationTag;
+import org.openmrs.api.LocationService;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.LocationTags;
@@ -43,7 +45,7 @@ public class MedicMobileIC3TraceReport extends ApzuReportManager {
     public static final Parameter LAB_WEEKS_PARAMETER = new Parameter("labWeeks", "Weeks of lab results to include", Integer.class);
 
 	@Autowired
-	private HivMetadata hivMetadata;
+    private LocationService locationService;
 
 	@Override
 	public String getUuid() {
@@ -84,10 +86,11 @@ public class MedicMobileIC3TraceReport extends ApzuReportManager {
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
-        for (Location location : hivMetadata.getHivStaticSystemLocations()) {
+        LocationTag locationTag = locationService.getLocationTagByUuid(LocationTags.MEDIC_MOBILE_FACILITY.uuid());
+        for (Location location : locationService.getLocationsByTag(locationTag)) {
             add2WeekDataSet(rd, location);
         }
-        add6WeekDataSet(rd, hivMetadata.getHivStaticSystemLocations());
+        add6WeekDataSet(rd, locationService.getLocationsByTag(locationTag));
 
         return rd;
     }

@@ -19,5 +19,5 @@ public class PihMalawiConstants {
 
     public static final String TASK_MIGRATE_EID_TEST_RESULTS = "Migrate EID Test Results";
     public static final String TASK_MIGRATE_EID_TEST_RESULTS_DESCRIPTION = "Migrates EID Test Results on the Exposed Child Initial Form to the EID Screening Form";
-
+    public static final String MEDIC_MOBILE_FACILITY = "Yendanafe Catchment";
 }

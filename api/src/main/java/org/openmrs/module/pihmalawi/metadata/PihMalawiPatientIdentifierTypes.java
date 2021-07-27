@@ -35,4 +35,13 @@ public class PihMalawiPatientIdentifierTypes {
         }
     };
 
+    public static PatientIdentifierTypeDescriptor IC3D_IDENTIFIER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "70690634-6522-4552-ba66-43eda7c30217"; }
+        public String name() { return "IC3D Identifier"; }
+        public String description() { return "ID assigned to patients when enrolled in IC3D Study"; }
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
 }

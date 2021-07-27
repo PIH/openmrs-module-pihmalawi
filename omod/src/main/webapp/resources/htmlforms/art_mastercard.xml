@@ -56,6 +56,9 @@
         chwName=8431
 	transferIn=6559bc30-977f-11e1-8993-905e29aff6c1
         childHCCNo=8600
+        urineLam=a047e2ec-f07e-47a6-8849-7c5150550e9e
+        positive=6549be7a-977f-11e1-8993-905e29aff6c1
+        negative=654994c2-977f-11e1-8993-905e29aff6c1
     </macros>
 
     <span style="display:none">
@@ -65,7 +68,7 @@
     <div>
         <h4 style="font-style: italic;">
             <b>ART Patient Card</b>
-            <span style="padding-left:50px;">Version 6</span>
+            <span style="padding-left:50px;">Version 8</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -172,9 +175,15 @@
                     <h5>Status at ART Initiation</h5>
                     <table>
                         <tr>
-                            <td>WHO clinical<br/> conditions</td>
+                            <td>HIV-related<br/> diseases</td>
                             <td colspan="3">
                                 <obs conceptId="$whoClinicalConditions" size="60" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Urine LAM /<br/> CrAg Result</td>
+                            <td colspan="3">
+                                <obs conceptId="$urineLam" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative" />
                             </td>
                         </tr>
                         <tr>

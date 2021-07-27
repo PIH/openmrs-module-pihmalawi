@@ -49,11 +49,15 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
     public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String VIRAL_LOAD_SAMPLE_ID = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
+    public static final String URINE_LAM = "a047e2ec-f07e-47a6-8849-7c5150550e9e";
+    public static final String POSITIVE = "6549be7a-977f-11e1-8993-905e29aff6c1";
+    public static final String NEGATIVE = "654994c2-977f-11e1-8993-905e29aff6c1";
 
     // Existing NCD drugs concepts
     public static final String DAPSONE = "6545f8b2-977f-11e1-8993-905e29aff6c1";
     public static final String STREPTO = "65484176-977f-11e1-8993-905e29aff6c1";
     public static final String ISONIAZ = "65498bbc-977f-11e1-8993-905e29aff6c1";
+    public static final String RIFAPENTINE = "af85c07d-adce-4a5d-a8d9-fa640f41e82d";
     public static final String ETHAM = "6549f0b6-977f-11e1-8993-905e29aff6c1";
     public static final String FLUCON = "6549f2dc-977f-11e1-8993-905e29aff6c1";
     public static final String RIFAMP_ISO = "655852b4-977f-11e1-8993-905e29aff6c1";
@@ -151,7 +155,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 9;
+        return 11;
     }
 
     @Override
@@ -184,6 +188,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept fourteenA = MetadataUtils.existing(Concept.class, FOURTEEN_A);
         Concept fifteenA = MetadataUtils.existing(Concept.class, FIFTEEN_A);
         Concept nonStandard = MetadataUtils.existing(Concept.class, NON_STANDARD);
+        Concept positive = MetadataUtils.existing(Concept.class, POSITIVE);
+        Concept negative = MetadataUtils.existing(Concept.class, NEGATIVE);
 
         // NCD Meds - existing
         Concept dapson = MetadataUtils.existing(Concept.class, DAPSONE);
@@ -1296,6 +1302,22 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .build());
 
         medication_prescription_construct.setSet(true);
+
+        install(new ConceptBuilder(URINE_LAM)
+                .datatype(coded)
+                .conceptClass(test)
+                .name("98f9594c-e0fd-4710-967a-ebb5a52f2362", "Urine LAM / CrAg Result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive,negative)
+                .build());
+
+        install(new ConceptBuilder(RIFAPENTINE)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("5883ced2-8065-4c87-82f4-df9c984ec1e1", "Rifapentine", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("a6c7b840-30f2-448d-a12a-f3de3516af45","RFP",Locale.ENGLISH,ConceptNameType.SHORT)
+                .description("059019b8-d0e5-48bb-a64c-c8cb061745a3","Antibiotic used in the treatment of tuberculosis",Locale.ENGLISH)
+                .build());
+
 
     }
 }
