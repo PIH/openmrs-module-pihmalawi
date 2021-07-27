@@ -40,6 +40,10 @@
         <macro key="LDL" value="e97b36a2-16f5-11e6-b6ba-3e1d05defe78"/>
         <macro key="systolicBP" value="6569bffe-977f-11e1-8993-905e29aff6c1"/>
         <macro key="diastolicBP" value="6569c116-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="ctx" value="654b02da-977f-11e1-8993-905e29aff6c1" />
+        <macro key="inh" value="65498bbc-977f-11e1-8993-905e29aff6c1" />
+        <macro key="rfp" value="af85c07d-adce-4a5d-a8d9-fa640f41e82d" />
+        <macro key="pyridoxine" value="654a0e20-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <script type="text/javascript">
@@ -201,7 +205,7 @@
                     <td rowspan="3">Doses<br/>Missed</td>
                     <td rowspan="3">ART<br/>Regimen</td>
                     <td colspan="2">ARVs given</td>
-                    <td colspan="2">CPT/IPT Given</td>
+                    <td colspan="8">CPT/IPT Given</td>
                     <td colspan="2">Family Plan.</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
@@ -212,7 +216,13 @@
                     <td colspan="2">Confirmed</td>
                     <td rowspan="2">No. of<br/>tablets</td>
                     <td rowspan="2"><br/>To</td>
-                    <td rowspan="2">CPT/IPT</td>
+                    <td rowspan="2">CTX 960</td>
+                    <td rowspan="2">No. Tablets</td>
+                    <td rowspan="2">INH 300</td>
+                    <td rowspan="2">No. Tablets</td>
+                    <td rowspan="2">RFP 150</td>
+                    <td rowspan="2">No. Tablets</td>
+                    <td rowspan="2">Pyridoxine</td>
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Depo<br/>Given</td>
                     <td rowspan="2">No. of<br/>condom</td>
@@ -297,16 +307,20 @@
                         <!-- # ARVs given to -->
                         <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G" />
                     </td>
-                    <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
-                        <td>
-                            <!-- Regimen -->
-                            <obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
-                        </td>    
-                        <td>             
-                            <!-- # tablets -->
+                    <repeat with="['$ctx','CTX 960'],
+                                  ['$inh','INH 300'],
+                                  ['$rfp','RFP 150'],
+                                  ['$pyridoxine','Pyridoxine']">
+
+                        <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
+                            <td>
+                            <obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="{0}" answerLabels="" />
+                            </td>
+                            <td>
                             <obs conceptId="$hivPreventiveTherapyPills"/>
-                        </td>
-                    </obsgroup>
+                            </td>
+                        </obsgroup>
+                    </repeat>
                     <td>
                         <!-- depo given -->
                         <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
@@ -419,15 +433,25 @@
                     <obs conceptId="$arvsGivenTo" style="no_yes" noLabel="P" yesLabel="G"/>
                 </td>
             </tr>
-            <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
-                <tr>
-                    <th>CPT/IPT Given</th>
-                    <!-- Regimen -->
-                    <td><obs style="radio" conceptId="$hivPreventiveTherapy" answerConceptIds="$hivPreventiveTherapyDrugs" answerLabels="C,I,CI"/>
-                    <span style="padding-left:10px">No. of pills</span>
-                    <obs conceptId="$hivPreventiveTherapyPills"/></td>
-                </tr>                  
-            </obsgroup>
+            <tr>
+                <th>
+                    CPT/IPT Given
+                </th>
+                <td>
+                    <repeat with="['$ctx','CTX 960','ctx'],
+                                  ['$inh','INH 300','inh'],
+                                  ['$rfp','RFP 150','rfp'],
+                                  ['$pyridoxine','Pyridoxine','pyridoxine']">
+
+                        <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
+                            <obs class="dx-checkbox-item" style="radio" id="{2}" conceptId="$hivPreventiveTherapy" answerConceptIds="{0}" answerLabels="{1}"/>
+                                <span style="padding-left:10px">No. of pills</span>
+                                <obs conceptId="$hivPreventiveTherapyPills"/>
+                            <br/>
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
             <tr>
                 <th>Family Plan.</th>
                 <td>
