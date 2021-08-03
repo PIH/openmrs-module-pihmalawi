@@ -329,4 +329,16 @@ public class EncounterTypes {
         public String name() { return "TRACE_FOLLOWUP"; }
         public String description() { return "Followup trace encounter"; }
     };
+
+    public static EncounterTypeDescriptor PDC_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "cb6be652-c5ee-447d-9d94-1100ffb26aa8"; }
+        public String name() { return "PDC_INITIAL"; }
+        public String description() { return "Initial PDC encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "789536a6-2c12-40a7-a05a-8400eb2fcbcf"; }
+        public String name() { return "PDC_FOLLOWUP"; }
+        public String description() { return "Followup PDC encounter"; }
+    };
 }

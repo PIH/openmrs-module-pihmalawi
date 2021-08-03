@@ -88,6 +88,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // Trace
         install(EncounterTypes.TRACE_INITIAL);
         install(EncounterTypes.TRACE_FOLLOWUP);
+
+        // PDC Encounters
+        install(EncounterTypes.PDC_INITIAL);
+        install(EncounterTypes.PDC_FOLLOWUP);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
