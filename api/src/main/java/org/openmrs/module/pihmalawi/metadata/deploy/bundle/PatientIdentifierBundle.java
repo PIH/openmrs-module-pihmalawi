@@ -13,5 +13,6 @@ public class PatientIdentifierBundle extends AbstractMetadataBundle {
         install(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER);
         install(PihMalawiPatientIdentifierTypes.YENDANAFE_IDENTIFIER);
         install(PihMalawiPatientIdentifierTypes.IC3D_IDENTIFIER);
+        install(PihMalawiPatientIdentifierTypes.PDC_IDENTIFIER);
     }
 }
