@@ -41,6 +41,12 @@
 <c:set var="MHPatientDiedWorkflowState" value="D79B02C2-B473-47F1-A51C-6D40B2242B9C"/>
 <c:set var="MHTransferredOutWorkflowState" value="41AF39C1-7CE6-47E0-9BA7-9FD7C0354C12"/>
 <c:set var="MHPatientDefaultedWorkflowState" value="19CEF51A-0823-4876-A8AF-7285B7077494"/>
+<c:set var="PdcActiveStates" value="b84735a5-82ae-4e3b-87db-250c43113977,28f67846-3204-4dc5-9c7f-043acc3e4b6c"/>
+<c:set var="PdcTreatmentDischargedWorkflowState" value="38c0cc2f-eeda-4bf3-8496-4bb11736021e"/>
+<c:set var="PdcTreatmentStoppedWorkflowState" value="4c03e13a-4372-42f5-bbb1-ac0bf77c233b"/>
+<c:set var="PdcPatientDiedWorkflowState" value="7451d3db-2400-4d38-b981-133dabf1558e"/>
+<c:set var="PdcTransferredOutWorkflowState" value="4b2027c3-f6a1-4cdd-81c3-a6c2068ef9a9"/>
+<c:set var="PdcPatientDefaultedWorkflowState" value="49853073-c864-4421-8ba4-41bb743107bd"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -132,6 +138,11 @@
     </tr>
 
     <tr>
+        <td>Pediatric Development Clinic Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" followupEncounterTypeName="PDC_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
+    </tr>
+
+    <tr>
         <td><br /></td>
     </tr>
 
@@ -219,6 +230,10 @@
     <tr>
         <td>Mental Health Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}" defaultLocation="2"/><br /></td
+    </tr>
+    <tr>
+        <td>Pediatric Development Clinic Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}" defaultLocation="2"/><br /></td
     </tr>
     <tr>
         <td>Palliative Care Program:</td>
