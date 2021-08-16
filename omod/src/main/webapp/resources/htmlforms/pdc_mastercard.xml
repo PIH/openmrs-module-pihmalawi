@@ -4,94 +4,128 @@
           formVersion="1.0">
 
     <macros>
+
+        aliveNotOnART=8037
+        aliveOnART=8038
+        died=1742
+        birthWeight=5916
+        hivSuspected=1062
+        motherStatus=8036
+        gestationalAge=8912
+        siteOfBirth=3528
+        hospital=2070
+        healthCenter=3566
+        home=3527
+        childFeeding=1151
+        breastfedPredominately=1150
+        weaned=1152
+        expressedBreastMilk=1173
+        infantFormula=5254
+        breastfedExclusively=5526
+        mixedFeeding=6046
+        <macro key="perinatalInfection" value="5c1f2ade-4224-46c3-99f5-7236aab13f13"/>
+        <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
+        <macro key="lowBirthWeight" value="6575742a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="prematureBirth" value="f541084c-84c7-48a6-b502-d9ddbb3bb3b9"/>
+        <macro key="cnsInfection" value="657169d4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="hydrocephalus" value="26071668-6ad4-4d30-b661-a7a07cece1ac"/>
+        <macro key="downsSyndrome" value="722824d7-8392-4d62-a8c7-4b329f5094cd"/>
+        <macro key="cleftLip" value="735a9376-abde-4538-8f28-c73f998e5e47"/>
+        <macro key="otherDevelopmentalDelay" value="07a093b4-989e-4128-b015-38961791a714"/>
+        <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
+        <macro key="ageOfPrimaryCareTaker" value="fa7a921c-bd5f-4d5d-8e4f-4dc5060e37b7"/>
+        <macro key="occupation" value="6558df36-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="maritalStatus" value="6557571a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="married" value="656c71b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="single" value="656416a8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="divorced" value="65575b98-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="widowed" value="65575cb0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="levelOfEduction" value="655b226e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="breastFeeding" value="657a289e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="cupFeeding" value="4f3e0805-3059-4226-abcd-6100cddd9543" />
+        <!--<macro key="primary" value=""/>
+        <macro key="secondary" value=""/>
+        <macro key="tertiary" value=""/>-->
+        <macro key="numberOfChildren" value="656056da-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="transport" value="654b41b4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="walk" value="654b42b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="motorBike" value="6567061a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="miniBus" value="654b44c0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="car" value="654b45c4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="bicycle" value="654b43c6-977f-11e1-8993-905e29aff6c1"/>
+
+        yesAnswer=1065
+        noAnswer=1066
+        unknown=1067
+        positive=703
+        negative=664
+        diagnosisSet=8445
+        chronicCareDiagnosis=3683
+        diagnosisDate=6774
+        asthmaDx=5
+        asthmaFamilyHistory=8426
+        copdDx=3716
+        copdFamilyHistory=8427
+        hivStatus=3753
+        reactive=1228
+        nonReactive=1229
+        hivTestDate=1837
+        artStartDate=2516
+        tbStatus=7459
+        smearPos=2185
+        smearNeg=2186
+        eptb=1547
+        tbYear=8453
+        patientPhone=1426
+        symptom=1293
+        dryCough=2128
+        duration=2161
+        ageAtOnset=8428
+        exposureGroup=8546
+        exposureAns=8495
+        exposureDate=8545
+        tbContact=2133
+        secondHandSmoke=8443
+        occupationalExposure=8430
         guardianName=1824
-        patientPhone=6194
-        guardianPhone=3294
-        guardianRelation=1826
+        cookingLocation=8404
+        indoor=2437
+        outdoor=2438
+        smokingHistory=1551
+        inPast=1548
+        lastTimeSmoking=8432
+        guardianPhone=2616
+        occupation=1304
         relationToPatient=1328
         agreesToFollowup=2552
-        noAnswer=1066
-        yesAnswer=1065
-        whoClinicalConditions=8081
-        whoStage=7562
-        stage1=7041
-        stage2=7042
-        stage3=7043
-        stage4=7044
-        presumedSevereHiv=7036
-        tbStatus=1568
-        tbnever=1067
-        tbLast=1714
-        tbCurr=1432
-        cd4Count=5497
-        cd4Pct=730
-        ksSideEffectsWorseningOnArvs=3599
-        cd4Date=3461
-        pregnantLactating=8027
-        currentlyPregnant=1755
-        currentlyLactating=5632
-        height=5090
-        weight=5089
-        everTakenArvs=7754
-        ageAtInitiation=3467
-        lastArvsTaken=7753
-        lastArvsDate=7751
-        confirmatoryHivTestLocation=7881
-        confirmatoryHivTestDate=2515
-        confirmativeHivTestType=6982
-        hivRapidTest=1040
-        hivDnaPcr=844
-        artEducationDone=1571
-        artEducationDate=8028
-        tbRegistrationNumber=7930
-        tbTreatmentStartDate=1113
-        artRegimen1=8170
-        artRegimen2=8171
-        artRegimen3=8172
-        regimenOptions=8499,8500,8155,8156,8157,8158,8159,8160,8162,8163,8164,8165,8166,8167,8601,8168,8602,8603,8604,43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1,53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1,5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1,cf770b14-4c9d-11ea-b77f-2e728ce88125,6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1,e2ec7c88-4c9d-11ea-b77f-2e728ce88125,e2ec805c-4c9d-11ea-b77f-2e728ce88125,e2ec82b4-4c9d-11ea-b77f-2e728ce88125,e2ec871e-4c9d-11ea-b77f-2e728ce88125,e2ec899e-4c9d-11ea-b77f-2e728ce88125,826b65ba-dc53-11e8-9f8b-f2801f1b9fd1
-        regimenLabels=0A,0P,1A,1P,2A,2P,3A,3P,4A,4P,5A,6A,7A,8A,9A,9P,10A,11A,11P,12A,13A,14A,14P,15A,15P,16A,16P,17A,17P,Non Standard
-        firstLineArvStartDate=6132
-        alternativeFirstLineArvStartDate=2528
-        secondLineArvStartDate=2529
         chwName=8431
-	transferIn=6559bc30-977f-11e1-8993-905e29aff6c1
-        childHCCNo=8600
-        urineLam=a047e2ec-f07e-47a6-8849-7c5150550e9e
-        positive=6549be7a-977f-11e1-8993-905e29aff6c1
-        negative=654994c2-977f-11e1-8993-905e29aff6c1
     </macros>
 
     <span style="display:none">
-        <encounterProvider default="16576" />
+        <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
-    </span> <!-- Set provider to a default as not used -->
+    </span>
     <div>
         <h4 style="font-style: italic;">
-            <b>ART Patient Card</b>
-            <span style="padding-left:50px;">Version 8</span>
+            <b>PDC Patient Card</b>
+            <b style="padding-left:50px;">Pediatric Development Clinic</b>
+            <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
                     <encounterLocation id="mastercardLocation" />
-
-                </b>
-            </span>
-
-	    <span style="padding-left:50px;">
-                <b style="padding-right:10px;">Transfer-In Date: </b>
-                <b>
-                    <obs conceptId="$transferIn" />
+                    <span style="padding-left:20px;">
+                        Date: <encounterDate />
+                    </span>
                 </b>
             </span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">Child HCC no: </b>
+                <b style="padding-right:10px;">PDC Reg no: </b>
                 <b>
-                    <obs conceptId="$childHCCNo" labelText="" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
                 </b>
             </span>
-
-
         </h4>
         <table class="data-entry-table">
             <tr style="border: none;">
@@ -105,21 +139,26 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Sex, Birthdate</td>
+                            <td>Sex, DOB</td>
                             <td>
                                 <span class="left-cell">
                                     <lookup expression="patient.gender" />
                                 </span>
                                 <span class="right-cell">
                                     <lookup expression="patient.birthdate" />
+                                    (Age: <lookup expression="patient.age"/>)
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td>Physical Address</td>
-                            <td>
+                            <td><!-- style="height:60px;"-->
                                 <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Phone</td>
+                            <td><obs conceptId="$patientPhone" size="10"/></td>
                         </tr>
                         <tr>
                             <td>Guardian Name</td>
@@ -148,7 +187,7 @@
                         <tr>
                             <td>CHW Name</td>
                             <td>
-                              <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
+                                <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
 				#if( $velocityCount == 1 )
 				          #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
 				                ${relationship.personA.personName}
@@ -164,153 +203,142 @@
                     </table>
                 </td>
                 <td style="vertical-align:top;">
-                    <h5>Status at ART Initiation</h5>
+                    <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <td>HIV-related<br/> diseases</td>
-                            <td colspan="3">
-                                <obs conceptId="$whoClinicalConditions" size="60" />
+                            <th style="vertical-align:top;" align="left" rowspan="3">Referral Information</th>
+                            <td>Patient Referred by:</td>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Social History</th>
+                            <td>
+
+                                <obs conceptId="$ageOfPrimaryCareTaker" labelText="Age Of Primary Care Taker" />
+                            </td>
+                            <td>
+                                <!-- Marital Status -->
+                                <obs conceptId="$maritalStatus" answerConceptIds="$married,$single,$divorced,$widowed"
+                                     labelText="Marital Status"
+                                     answerLabels="Married,Single,Divorced,Widowed"/>
                             </td>
                         </tr>
                         <tr>
-                            <td>Urine LAM /<br/> CrAg Result</td>
-                            <td colspan="3">
-                                <obs conceptId="$urineLam" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Clin Stage</td>
+                            <td>Cadre:</td>
+                            <td>Occupation</td>
+                            <td>Level of Education</td>
+
+                            <!--<td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
                             <td class="nowrap">
-                                <obs conceptId="$whoStage" style="radio" answerConceptIds="$stage1,$stage2,$stage3,$stage4" answerLabels="1,2,3,4" />
-                                <obs conceptId="$presumedSevereHiv" style="checkbox" answerConceptId="$yesAnswer" answerLabel="Pres" />
-                            </td>
-                            <td>TB Status at Init.</td>
-                            <td>
-                                <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbnever,$tbLast,$tbCurr" answerLabels="Never,Last,Curr" />
-                            </td>
+                                <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>-->
                         </tr>
                         <tr>
-                            <td>CD4/TLC</td>
-                            <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$cd4Count" labelText="" />
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$cd4Pct" labelText="" /> %
-                                </span>
-                            </td>
-                            <td>KS</td>
-                            <td>
-                                <obs conceptId="$ksSideEffectsWorseningOnArvs" style="no_yes" noLabel="N" yesLabel="Y" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>CD4/TLC Date</td>
-                            <td>
-                                <obs conceptId="$cd4Date" />
-                            </td>
-                            <td>Pregnant/Lactating</td>
-                            <td>
-                                <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Height, Wt.</td>
+
+                           <td>
+                               Phone Number
+                           </td>
                             <td class="nowrap">
-                                <span class="left-cell">
-                                    <obsreference conceptId="$height" /> cm
-                                </span>
-                                <span class="right-cell">
-                                    <obsreference conceptId="$weight" /> kgs
-                                </span>
+                                <obs conceptId="$numberOfChildren"
+                                     labelText="Total number of children or dependants less than 18 years in household (including child enrolled in PDC)" />
                             </td>
-                            <td style="white-space: nowrap;">Ever taken ARVs</td>
                             <td>
-                                <obs conceptId="$everTakenArvs" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                <!-- Transport -->
+                                <obs conceptId="$transport" answerConceptIds="$walk,$motorBike,$miniBus,$bicycle,$car"  labelText="Transport"
+                                     answerLabels="Walk,Motor bike,Minibus,Bicycle,Car "/>
                             </td>
                         </tr>
                         <tr>
-                            <td>Age at Init. (yrs)</td>
+                            <th style="vertical-align:top;" align="left" rowspan="10">History of Present<br/> Illness <br/></th>
                             <td>
-                                <obs conceptId="$ageAtInitiation" />
+                                <obs conceptId="$gestationalAge" labelText="Gestational Age" showUnits="true" />
                             </td>
-                            <td>Last ARVs (drug, date)</td>
-                            <td>
-                                <obs conceptId="$lastArvsTaken" size="10"/>
-                                <obs conceptId="$lastArvsDate" />
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="vertical-align:top;">
-                    <h5><span style="text-decoration:underline;">Confirmatory</span> HIV Test before ART Start</h5>
-                    <table>
-                        <tr>
-                            <td>Site, HTC Serial No.</td>
-                            <td colspan="2">
-                                <obs conceptId="$confirmatoryHivTestLocation" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test Date</td>
-                            <td>
-                                <obs conceptId="$confirmatoryHivTestDate" />
-                            </td>
+                            <td />
+                            <!-- Birth Weight -->
                             <td class="nowrap">
-                                <obs conceptId="$confirmativeHivTestType" style="radio" answerConceptIds="$hivRapidTest,$hivDnaPcr" answerLabels="Rapid,PCR" />
+                                <obs conceptId="$birthWeight" showUnits="true" labelText=" Birth Weight" />
+                            </td>
+                            <td>
+                                <obs conceptId="$siteOfBirth" labelText="Site Of Birth" answerConceptIds="$hospital,$healthCenter,$home"
+                                     answerLabels="Hospital,Health Center,Home" />
                             </td>
                         </tr>
                         <tr>
-                            <td><b>ART</b> educat. done</td>
                             <td>
-                                <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No,Unknown"
+                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" labelText="Perinatal Infection"/>
+                            </td>
+                            <td />
+                            <td>
+                                <obs conceptId="$breastFeeding"  answerLabels="Yes,No"
+                                     answerConceptIds="$yesAnswer,$noAnswer" labelText="Breast Feeding"/>
                             </td>
                             <td>
-                                <obs conceptId="$artEducationDate" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th align="left">TB treatm.</th>
-                            <td>
-                                <obs conceptId="$tbRegistrationNumber" size="10"/>
-                            </td>
-                            <td>
-                                <obs conceptId="$tbTreatmentStartDate" />
+                                <obs conceptId="$cupFeeding"  answerLabels="Yes,No"
+                                     answerConceptIds="$yesAnswer,$noAnswer" labelText="Cup-Feeding"/>
                             </td>
                         </tr>
                         <tr>
-                            <th align="left">ART Regimens</th> <!-- continue to use old definition of 1st line, alt 1st line, and 2nd line ARVs -->
                             <td>
-                                <obs conceptId="$artRegimen1" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
+                                <span>Child Feeding (Select all that apply)</span>
+                                <br /><br />
+                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$weaned" answerLabel="Weaned" />
+                                <br />
+                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$expressedBreastMilk" answerLabel="Expressed Breast Milk" />
+                                <br />
+                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                                <br />
+                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastfedExclusively" answerLabel="Breastfed Exclusively" />
+                                <br />
+                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$mixedFeeding" answerLabel="Mixed Feeding" />
+                            </td>
+                            <td/>
+                            <td>
+                                <span>Reason for referral: (Select all that apply)</span>
+                                <br /><br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$downsSyndrome" answerLabel="Downs Syndrome (suspected or confirmed)" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip or Palate" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$otherDevelopmentalDelay" answerLabel="Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes" />
+                                <br />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition requiring  Club Foot, hospitalization (infant less than 12 months)" />
                             </td>
                             <td>
-                                <obs conceptId="$firstLineArvStartDate" />
+                                <!-- Mother Status -->
+                                <obs conceptId="$motherStatus" answerConceptIds="$aliveNotOnART,$aliveOnART,$hivSuspected"
+                                     answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Unk" labelText="HIV status of mother" />
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>
-                                <obs conceptId="$artRegimen2" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
-                            </td>
-                            <td>
-                                <obs conceptId="$alternativeFirstLineArvStartDate" />
-                            </td>
+                            <td>Child Medication</td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td>
-                                <obs conceptId="$artRegimen3" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
-                            </td>
-                            <td>
-                                <obs conceptId="$secondLineArvStartDate" />
+                            <th style="vertical-align:top;" align="left">Outcome</th>
+                            <td colspan="4">
+                                <b>
+                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
+                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                                </b>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
-        <ifMode mode="VIEW" include="false">
 
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons" style="margin-top:10px;">
+                <button class="submitButton confirm" onclick="submitHtmlForm()">
+                    <uimessage code="uicommons.save"/>
+                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                </button>
+            </div>
         </ifMode>
     </div>
 </htmlform>
