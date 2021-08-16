@@ -44,4 +44,13 @@ public class PihMalawiPatientIdentifierTypes {
         }
     };
 
+    public static PatientIdentifierTypeDescriptor PDC_IDENTIFIER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "f7de1b97-013e-49ad-a596-4ada6ede1053"; }
+        public String name() { return "PDC Identifier"; }
+        public String description() { return "ID assigned to patients when enrolled in PDC"; }
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
 }
