@@ -18,6 +18,7 @@ import java.util.Locale;
 @Requires({CoreConceptMetadataBundle.class})
 public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
+    public static final String ZALEWA_GENEXPERT= "bba9de74-1c78-4e2b-a991-efa0b7691d56";
     public static final String REFERRAL_SOURCE_CONCEPT  = "65664fc2-977f-11e1-8993-905e29aff6c1";
     public static final String HEALTH_CENTER_REFERRAL = "6566905e-977f-11e1-8993-905e29aff6c1";
     public static final String IC3_APPOINTMENT = "5004B09D-16D6-4439-9481-C9EAA2E939B5";
@@ -55,7 +56,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 36;
+        return 37;
     }
 
     @Override
@@ -79,6 +80,12 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
                 .conceptClass(misc)
                 .name("6f48e808-9ffa-11e8-98d0-529269fb1459", "Outside Neno district", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept zalewaGeneXpert = install(new ConceptBuilder(ZALEWA_GENEXPERT)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("7c5f3c75-c009-4be1-ad4c-85d2357f9741", "Zalewa GeneXpert", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         Concept healthCenter = install(new ConceptBuilder(HEALTH_CENTER_REFERRAL)
@@ -574,7 +581,7 @@ public class IC3ScreeningConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(question)
                 .name("e45d8f94-efdb-4b94-88da-b7e844cc91e3", "Location of laboratory", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(geneXLisung, geneXNeno, centralLab)
+                .answers(geneXLisung, geneXNeno, centralLab,zalewaGeneXpert)
                 .build());
 
 
