@@ -16,6 +16,7 @@ import org.openmrs.Form;
 import org.openmrs.Patient;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
 
 public class ERecordAccessTag extends BodyTagSupport {
 
@@ -66,10 +67,12 @@ public class ERecordAccessTag extends BodyTagSupport {
 					}
 				}
 			}
-
+			EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
+			encounterSearchCriteriaBuilder.setPatient(p);
+			encounterSearchCriteriaBuilder.setEncounterTypes(Arrays.asList(initialEncounterType));
+			encounterSearchCriteriaBuilder.setIncludeVoided(false);
 			List<Encounter> initials = Context.getEncounterService()
-					.getEncounters(p, null, null, null, null,
-							Arrays.asList(initialEncounterType), null, false);
+					.getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
 			if (!initials.isEmpty()) {
 				o.write("<br/>");
 			}

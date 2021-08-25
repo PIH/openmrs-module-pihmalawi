@@ -52,7 +52,7 @@ public class IC3MonthlyIndicatorReportTest extends ReportManagerTest {
         String user = "root";
         String password = "root";
 
-        File propertiesFile = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY, PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
+        File propertiesFile = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY_RUNTIME_PROPERTY, PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         Properties properties = new Properties();
         properties.put("connection.url", url);
         properties.put("connection.username", user);

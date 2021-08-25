@@ -66,7 +66,7 @@ public class QuickProgramsFormController {
 		// enroll patient
 		PatientProgram pp = enrollInProgram(request, patient, program, enrollmentDate, location, null);
 		// set initial state
-		pws.changeToState(pp, state.getProgramWorkflow(), state, enrollmentDate);
+		pp.transitionToState(state, enrollmentDate);
 		
 		return new ModelAndView(new RedirectView(returnPage));
 	}

@@ -16,8 +16,8 @@ package org.openmrs.module.pihmalawi.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.layout.web.address.AddressSupport;
-import org.openmrs.layout.web.address.AddressTemplate;
+import org.openmrs.layout.address.AddressSupport;
+import org.openmrs.layout.address.AddressTemplate;
 
 import java.util.Arrays;
 import java.util.HashMap;

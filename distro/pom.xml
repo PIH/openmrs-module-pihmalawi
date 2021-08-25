@@ -64,12 +64,7 @@
                     <version>${eventVersion}</version>
                     <scope>provided</scope>
                 </dependency>
-                <dependency>
-                    <groupId>org.openmrs.module</groupId>
-                    <artifactId>groovy-omod</artifactId>
-                    <version>${groovyVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
+
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>htmlformentry-omod</artifactId>
@@ -92,13 +87,6 @@
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>idgen-omod</artifactId>
                     <version>${idgenVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.openmrs.module</groupId>
-                    <artifactId>logic-omod</artifactId>
-                    <version>${logicVersion}</version>
-                    <type>omod</type>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -176,14 +164,9 @@
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>serialization.xstream-omod</artifactId>
-                    <version>${serializationVersion}</version>
+                    <version>${serializationxstreamVersion}</version>
                     <scope>provided</scope>
                     <type>omod</type>
-                </dependency>
-                <dependency>
-                    <groupId>org.openmrs.module</groupId>
-                    <artifactId>sync-omod</artifactId>
-                    <version>${syncVersion}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>

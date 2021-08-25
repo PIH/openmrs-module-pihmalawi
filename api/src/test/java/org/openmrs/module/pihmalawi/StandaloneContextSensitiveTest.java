@@ -57,6 +57,6 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 	protected abstract void performTest() throws Exception;
 
 	@Override
-	public void deleteAllData() throws Exception {
+	public void deleteAllData() {
 	}
 }

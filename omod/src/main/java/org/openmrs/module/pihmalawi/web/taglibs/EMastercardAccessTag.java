@@ -17,6 +17,7 @@ import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
+import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -77,7 +78,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			}
 
             // Ensure no more than one initial encounter is found
-			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(initialEncounterType), null, false);
+			EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
+			encounterSearchCriteriaBuilder.setPatient(p);
+			encounterSearchCriteriaBuilder.setEncounterTypes(Arrays.asList(initialEncounterType));
+			encounterSearchCriteriaBuilder.setIncludeVoided(false);
+			List<Encounter> initials = Context.getEncounterService().getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
 			if (initials.size() > 1) {
 				o.write("Not available: Multiple " + f.getName() + " forms found");
 				release();
@@ -302,7 +307,11 @@ public class EMastercardAccessTag extends BodyTagSupport {
         if (followupEncounterType == null) {
             followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
         }
-        List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
+		EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
+		encounterSearchCriteriaBuilder.setPatient(p);
+		encounterSearchCriteriaBuilder.setEncounterTypes(Arrays.asList(followupEncounterType));
+		encounterSearchCriteriaBuilder.setIncludeVoided(false);
+        List<Encounter> followups = Context.getEncounterService().getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
         String created = "Created: " + Helper.formatDate(initialEncounter.getEncounterDatetime());
         String visited = "Visited: no";
         String rvd = "Appointment: none";
