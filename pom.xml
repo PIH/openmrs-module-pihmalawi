@@ -58,6 +58,7 @@
         <providermanagementVersion>2.13.0</providermanagementVersion>
         <registrationappVersion>1.24.0</registrationappVersion>
         <registrationcoreVersion>1.11.0</registrationcoreVersion>
+		<reportingcompatibilityVersion>2.0.9-SNAPSHOT</reportingcompatibilityVersion>
         <reportingVersion>1.23.0</reportingVersion>
         <reportingrestVersion>1.11.0</reportingrestVersion>
         <reportinguiVersion>1.7.0</reportinguiVersion>
@@ -276,6 +277,24 @@
             <scope>test</scope>
         </dependency>
 
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>legacyui-api</artifactId>
+			<version>${legacyuiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>legacyui-omod</artifactId>
+			<version>${legacyuiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>rubygems</groupId>
 			<artifactId>sass</artifactId>
