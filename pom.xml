@@ -49,6 +49,7 @@
         <htmlformentryuiVersion>2.0.0-SNAPSHOT</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
         <idgenVersion>4.7.0</idgenVersion>
+		<groovyVersion>2.2.4</groovyVersion>
         <legacyuiVersion>1.8.2</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.4.0</metadatamappingVersion>

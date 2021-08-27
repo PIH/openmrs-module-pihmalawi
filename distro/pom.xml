@@ -64,7 +64,12 @@
                     <version>${eventVersion}</version>
                     <scope>provided</scope>
                 </dependency>
-
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
+                    <artifactId>groovy-omod</artifactId>
+                    <version>${groovyVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>htmlformentry-omod</artifactId>
