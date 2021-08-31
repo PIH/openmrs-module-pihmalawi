@@ -96,6 +96,12 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
+                    <artifactId>legacyui-omod</artifactId>
+                    <version>${legacyuiVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openmrs.module</groupId>
                     <artifactId>metadatadeploy-omod</artifactId>
                     <version>${metadatadeployVersion}</version>
                     <scope>provided</scope>
