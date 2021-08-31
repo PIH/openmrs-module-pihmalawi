@@ -1,7 +1,6 @@
 package org.openmrs.module.pihmalawi.web.taglibs;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -16,7 +15,7 @@ import org.openmrs.Form;
 import org.openmrs.Patient;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
-import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
+import org.openmrs.module.pihmalawi.Utils;
 
 public class ERecordAccessTag extends BodyTagSupport {
 
@@ -67,12 +66,7 @@ public class ERecordAccessTag extends BodyTagSupport {
 					}
 				}
 			}
-			EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
-			encounterSearchCriteriaBuilder.setPatient(p);
-			encounterSearchCriteriaBuilder.setEncounterTypes(Arrays.asList(initialEncounterType));
-			encounterSearchCriteriaBuilder.setIncludeVoided(false);
-			List<Encounter> initials = Context.getEncounterService()
-					.getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
+			List<Encounter> initials = new Utils().getEncounters(p, initialEncounterType);
 			if (!initials.isEmpty()) {
 				o.write("<br/>");
 			}
