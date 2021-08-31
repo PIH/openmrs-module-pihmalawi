@@ -16,7 +16,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.Utils;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
