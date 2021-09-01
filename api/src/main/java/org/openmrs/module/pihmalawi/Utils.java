@@ -60,7 +60,7 @@ public class Utils {
         }
     }
 
-    public List<Encounter> getEncounters(Patient patient, EncounterType encounterType) {
+    public static List<Encounter> getEncounters(Patient patient, EncounterType encounterType) {
         List<Encounter> encounters = null;
         EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
         encounterSearchCriteriaBuilder.setPatient(patient);

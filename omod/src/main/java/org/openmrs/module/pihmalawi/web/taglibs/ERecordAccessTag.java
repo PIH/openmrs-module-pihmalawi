@@ -66,7 +66,7 @@ public class ERecordAccessTag extends BodyTagSupport {
 					}
 				}
 			}
-			List<Encounter> initials = new Utils().getEncounters(p, initialEncounterType);
+			List<Encounter> initials = Utils.getEncounters(p, initialEncounterType);
 			if (!initials.isEmpty()) {
 				o.write("<br/>");
 			}

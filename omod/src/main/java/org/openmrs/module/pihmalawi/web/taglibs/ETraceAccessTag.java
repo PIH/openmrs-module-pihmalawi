@@ -68,7 +68,7 @@ public class ETraceAccessTag extends BodyTagSupport {
             }
 
             // Ensure no more than one initial encounter is found
-            List<Encounter> initials = new Utils().getEncounters(p, initialEncounterType);
+            List<Encounter> initials = Utils.getEncounters(p, initialEncounterType);
 
             if (initials.size() > 1) {
                 o.write("Not available: Multiple " + f.getName() + " forms found");
@@ -219,7 +219,7 @@ public class ETraceAccessTag extends BodyTagSupport {
         if (followupEncounterType == null) {
             followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
         }
-        List<Encounter> followups = new Utils().getEncounters(p, followupEncounterType);
+        List<Encounter> followups = Utils.getEncounters(p, followupEncounterType);
         String created = "Created: " + Helper.formatDate(initialEncounter.getEncounterDatetime());
         String visited = "Last Tracking Date: no";
         String rvd = "Next Tracking Attempt: none";

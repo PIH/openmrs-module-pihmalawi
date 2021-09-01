@@ -49,13 +49,6 @@
             <version>${webservicesRestVersion}</version>
             <scope>provided</scope>
         </dependency>
-
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>legacyui-api</artifactId>
-			<version>${legacyuiVersion}</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>legacyui-omod</artifactId>
