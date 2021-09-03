@@ -83,7 +83,7 @@ mvn openmrs-sdk:run -DserverId=malawi
 3. Click Run
 4. Once the Default Stage Stage completes
 5. Click on the Run button/icon next to the **Release to Maven** stage
-
+![Release to maven](https://github.com/PIH/openmrs-module-pihmalawi/blob/master/scripts/misc/release_to_maven.png)
 
 ### Additional references
 
