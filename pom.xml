@@ -45,7 +45,7 @@
         <emrapiVersion>1.21.0</emrapiVersion>
         <eventVersion>2.5</eventVersion>
         <htmlformentryuiVersion>2.0.0</htmlformentryuiVersion>
-        <htmlformentryVersion>3.9.2</htmlformentryVersion>
+        <htmlformentryVersion>4.0.1</htmlformentryVersion>
         <htmlwidgetsVersion>1.8.0</htmlwidgetsVersion>
         <idgenVersion>4.5.0</idgenVersion>
         <groovyVersion>2.2.4</groovyVersion>
@@ -65,7 +65,7 @@
         <syncVersion>1.3</syncVersion>
         <testutilsVersion>1.5</testutilsVersion>
         <uicommonsVersion>2.3.0</uicommonsVersion>
-        <uiframeworkVersion>3.11.0</uiframeworkVersion>
+        <uiframeworkVersion>3.21.0</uiframeworkVersion>
         <uilibraryVersion>2.0.4</uilibraryVersion>
         <validationVersion>1.0.1</validationVersion>
         <webservicesRestVersion>2.25.0</webservicesRestVersion>
