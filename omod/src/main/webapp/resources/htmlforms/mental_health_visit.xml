@@ -51,6 +51,7 @@
         noncodedText=8575
         clinicalImpression=1364
         nextAppt=5096
+        amitriptyline=931
     </macros>
 
     <style>
@@ -111,7 +112,7 @@
                     <td rowspan="2"><small>Suicide<br/>risk</small></td>
                     <td rowspan="2"><small>Medication<br/>side effect</small></td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Hospitalised<br/>since last visit</td>
-                    <td colspan="8">Treatment Details</td>
+                    <td colspan="9">Treatment Details</td>
                     <td rowspan="2"><small>Comments</small></td>
                     <td style="padding: 1px"><small>Next<br/>appointment</small></td>
                 </tr>
@@ -141,6 +142,7 @@
                     <td style="font-size:.7em;padding: 1px">SV</td>
                     <td style="font-size:.7em;padding: 1px">RIS</td>
                     <td style="font-size:.7em;padding: 1px">FLX</td>
+                    <td style="font-size:.7em;padding: 1px">AMT</td>
                     <td style="font-size:.7em;padding: 1px">Other</td>
                     <td><i style="font-size:.7em;">day/month/year</i></td>
                 </tr>
@@ -233,7 +235,8 @@
                                   ['$cbz','Carbamazepine (CBZ)'],
                                   ['$sv','Sodium Valproate (SV)'],
                                   ['$ris','Risperidone (RIS)'],
-                                  ['$flx','Fluoxetine (FLX)']">
+                                  ['$flx','Fluoxetine (FLX)'],
+                                  ['$amitriptyline','Amitriptyline (AMT)']">
                         <td style="padding: 1px;" >
                             <obsgroup groupingConceptId="$drugSet">
                                 <obs conceptId="$drugsNow" answerConceptId="{0}"
@@ -261,6 +264,11 @@
                         <br/>
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptIds="$clopixol"
+                                 answerLabel="" style="checkbox" />
+                        </obsgroup>
+                        <br/>
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptIds="$amitriptyline"
                                  answerLabel="" style="checkbox" />
                         </obsgroup>
                         <br/>
@@ -440,7 +448,8 @@
                                   ['$olanzapine','Olanzapine'],
                                   ['$clozapine','Clozapine'],
                                   ['$trifluo','Trifluoperazine'],
-                                  ['$clopixol','Clopixol']">
+                                  ['$clopixol','Clopixol'],
+                                  ['$amitriptyline','Amitriptyline (AMT)']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}"
                                  answerLabel="{1}" style="checkbox" /><br/>
