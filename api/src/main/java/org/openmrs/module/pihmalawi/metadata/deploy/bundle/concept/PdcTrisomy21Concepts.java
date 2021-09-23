@@ -32,7 +32,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 4;
+        return 1;
     }
 
     @Override
