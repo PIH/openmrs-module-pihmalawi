@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 @Component
 @Requires({CoreConceptMetadataBundle.class})
-public class PdcDevelopmentalDelay extends VersionedPihConceptBundle {
+public class PdcDevelopmentalDelayConcepts extends VersionedPihConceptBundle {
 
     public static final String INCREASE_IN_MUSCLE_TONE = "4bdff377-bec0-444c-b3de-00dbe4ba4b45";
     public static final String DECREASE_IN_MUSCLE_TONE = "2a500878-8f72-4527-a165-339b4548e9d4";
