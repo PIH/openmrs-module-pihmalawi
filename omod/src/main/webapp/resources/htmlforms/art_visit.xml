@@ -166,6 +166,15 @@
           return true;
         });
 
+        beforeSubmit.push(function() {
+          // we get to execute this function only when all the beforeValidation functions evaluate successfully and we are ready to submit the form
+         // therefore I think it is ok to clear out the validation functions
+         while ( beforeValidation.length &gt; 0 ) {
+            beforeValidation.pop();
+          }
+          return true;
+
+        });
 
         jq("#noTabletsGiven input").first().on('change', function() {
             flowsheet.toggleError(getField('noTabletsGiven.value'), null);
