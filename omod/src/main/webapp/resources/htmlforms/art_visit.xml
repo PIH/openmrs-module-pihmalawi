@@ -471,7 +471,7 @@
             </tr>
             <tr>
                 <th>Next appointment</th>
-                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/></td>
+                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
             </tr>
 
         </table>
