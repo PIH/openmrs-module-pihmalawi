@@ -76,6 +76,18 @@ cd ~/workspace/pihmalawi
 mvn openmrs-sdk:watch -DserverId=malawi
 mvn openmrs-sdk:run -DserverId=malawi
 ```
+## Release to maven a new version of pihmalawi module
+1. Navigate to CI [Bamboo pihmalawi project](http://bamboo.pih-emr.org:8085/browse/MLW-PML)
+
+2. Select Actions --> Configuration
+3. Click Run
+4. Once the Default Stage Stage completes
+5. Click on the Run button/icon next to the **Release to Maven** stage
+6. A pop-up screen will be displayed where you have to override the Maven variables:
+   - maven.release.version = THE_NEW_RELEASE_VERSION (e.g. 6.8.0)
+   - maven.development.version = THE_NEXT_SNAPSHOT_VERSION (e.g. 6.9.0-SNAPSHOT)
+![Release to maven](https://github.com/PIH/openmrs-module-pihmalawi/blob/master/scripts/misc/mvn_variables.png)
+7. Click Run
 
 ### Additional references
 

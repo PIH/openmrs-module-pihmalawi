@@ -61,6 +61,32 @@
             currentEncounterDate = new Date(+encounterDate);
         }
 
+        var searchNextApptDate = function() {
+            var visitDateInput = jq("span#visitDate input[type='hidden']").val();
+            // the Visit Date is in the format YYYY-MM-DD
+            var dateParts = visitDateInput.split("-");
+
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var visitDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
+
+            var nextAppointDate = '<lookup expression="fn.latestObs(5096).getValueDatetime()"/>';
+            if (nextAppointDate) {
+                var latestNextAppointDate = new Date(nextAppointDate);
+                var obsDatetime = '<lookup expression="fn.latestObs(5096).getObsDatetime()"/>';
+                if (obsDatetime) {
+                    var jsObsDatetime = new Date(obsDatetime);
+                    if ( visitDate.getFullYear() ===  jsObsDatetime.getFullYear() &amp;&amp;
+                         visitDate.getMonth() === jsObsDatetime.getMonth() &amp;&amp;
+                         visitDate.getDate() === jsObsDatetime.getDate() ) {
+                      //we found a Next Appointment Date set on the same day on a different encounter
+                      var appointDateWidget = getField('appointmentDate.value').datepicker('setDate', latestNextAppointDate);
+                      setValue('appointmentDate.value', latestNextAppointDate);
+                      jq("#appointmentDate").children("input[type=hidden]").first().trigger('change');
+                    }
+                }
+            }
+        }
+
         var previousRegimens = [];
 
         jq.getJSON(apiBaseUrl + "/obs", {
@@ -166,11 +192,26 @@
           return true;
         });
 
+        beforeSubmit.push(function() {
+          // we get to execute this function only when all the beforeValidation functions evaluate successfully and we are ready to submit the form
+         // therefore I think it is ok to clear out the validation functions
+         while ( beforeValidation.length &gt; 0 ) {
+            beforeValidation.pop();
+          }
+          return true;
+
+        });
 
         jq("#noTabletsGiven input").first().on('change', function() {
             flowsheet.toggleError(getField('noTabletsGiven.value'), null);
             validateNoTabletsGiven();
         });
+
+
+        var findNextApptDate = setInterval(function() {
+            searchNextApptDate();
+            clearInterval(findNextApptDate);
+        }, 500);
 
         var checkNoTabletsGiven = setInterval(function() {
             if( jq("#noTabletsGiven input").length) {
@@ -331,7 +372,7 @@
                     </td>
                     <td>
                         <!-- Next appointment -->
-                        <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/>
+                        <obs conceptId="$nextAppt" id="viewAppointmentDate" allowFutureDates="true"/>
                     </td>
                 </tr>
             </tbody>
@@ -462,7 +503,7 @@
             </tr>
             <tr>
                 <th>Next appointment</th>
-                <td><obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true"/></td>
+                <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
             </tr>
 
         </table>
