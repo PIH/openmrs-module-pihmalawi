@@ -341,4 +341,22 @@ public class EncounterTypes {
         public String name() { return "PDC_FOLLOWUP"; }
         public String description() { return "Followup PDC encounter"; }
     };
+
+    public static EncounterTypeDescriptor PDC_TRISOMY21 = new EncounterTypeDescriptor() {
+        public String uuid() { return "6ed701a4-152f-11ec-82a8-0242ac130003"; }
+        public String name() { return "PDC_TRISOMY21"; }
+        public String description() { return "Trisomy21 PDC Encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY = new EncounterTypeDescriptor() {
+        public String uuid() { return "3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"; }
+        public String name() { return "PDC_DEVELOPMENTAL_DELAY"; }
+        public String description() { return "Developmental Delay  PDC Encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET = new EncounterTypeDescriptor() {
+        public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
+        public String name() { return "PDC_CLEFT_CLIP_PALLET"; }
+        public String description() { return "Cleft Clip Pallet PDC Encounter"; }
+    };
 }
