@@ -42,6 +42,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String FOURTEEN_P = "cf770b14-4c9d-11ea-b77f-2e728ce88125";
     public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FIFTEEN_P = "e2ec7c88-4c9d-11ea-b77f-2e728ce88125";
+    public static final String FIFTEEN_PP = "e58595c7-8354-48ea-a2b8-f75584bdf594";
     public static final String SIXTEEN_A = "e2ec805c-4c9d-11ea-b77f-2e728ce88125";
     public static final String SIXTEEN_P = "e2ec82b4-4c9d-11ea-b77f-2e728ce88125";
     public static final String SEVENTEEN_A = "e2ec871e-4c9d-11ea-b77f-2e728ce88125";
@@ -155,7 +156,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 11;
+        return 12;
     }
 
     @Override
@@ -313,6 +314,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("e2ec7f12-4c9d-11ea-b77f-2e728ce88125", "15P: ABC / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        Concept fifteenPp = install(new ConceptBuilder(FIFTEEN_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("870dd964-61dd-4013-9a75-89b09994c6e6", "15PP: ABC / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
         Concept sixteenA = install(new ConceptBuilder(SIXTEEN_A)
                 .datatype(notApplicable)
                 .conceptClass(drug)
@@ -367,6 +374,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         fourteenP,
                         fifteenA,
                         fifteenP,
+                        fifteenPp,
                         sixteenA,
                         sixteenP,
                         seventeenA,
@@ -404,6 +412,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         fourteenP,
                         fifteenA,
                         fifteenP,
+                        fifteenPp,
                         sixteenA,
                         sixteenP,
                         seventeenA,
@@ -441,6 +450,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         fourteenP,
                         fifteenA,
                         fifteenP,
+                        fifteenPp,
                         sixteenA,
                         sixteenP,
                         seventeenA,
@@ -478,6 +488,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         fourteenP,
                         fifteenA,
                         fifteenP,
+                        fifteenPp,
                         sixteenA,
                         sixteenP,
                         seventeenA,
