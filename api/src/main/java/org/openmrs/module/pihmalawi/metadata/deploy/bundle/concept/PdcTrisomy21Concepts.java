@@ -124,15 +124,6 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
                 .answers(yes,no)
                 .build());
 
-        // Support Group
-        Concept supportGroup = install(new ConceptBuilder(SUPPORT_GROUP)
-                .datatype(coded)
-                .conceptClass(question)
-                .name("e2233ba3-f42a-49d8-a3b1-8c30cc11178a", "Support Group",
-                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(yes,no)
-                .build());
-
         // Group Counselling
         Concept groupCounselling = install(new ConceptBuilder(GROUP_COUNSELING)
                 .datatype(coded)
