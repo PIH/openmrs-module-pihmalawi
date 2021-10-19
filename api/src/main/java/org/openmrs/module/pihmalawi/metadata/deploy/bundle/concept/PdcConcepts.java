@@ -17,15 +17,22 @@ import java.util.Locale;
 @Requires({CoreConceptMetadataBundle.class})
 public class PdcConcepts extends VersionedPihConceptBundle {
 
+    public static String SOURCE_OF_REFERRAL = "eb76915e-104d-4500-b56e-726f3e2a75f9";
+    public static String COMMUNITY = "390c74d3-216b-4573-b38a-68503cc4e69e";
+    public static String REFERRAL_FORM_FILLED = "8f985039-f018-4542-a531-f693fca2906b";
+    public static String DEVELOPMENT_DELAY = "1be62437-3093-4530-b4ab-1cd4626b9704";
+
     @Override
     public int getVersion() {
-        return 1;
+        return 5;
     }
 
     @Override
     protected void installNewVersion() throws Exception {
         Concept yes = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.YES);
         Concept no = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.NO);
+        Concept hospital = MetadataUtils.existing(Concept.class,"655d1772-977f-11e1-8993-905e29aff6c1");
+        Concept healthFacility = MetadataUtils.existing(Concept.class,"6566905e-977f-11e1-8993-905e29aff6c1");
         Concept unknown = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.UNKNOWN);
 
         // Perinatal Infection
@@ -63,17 +70,6 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        //Asphyxia
-       /* install(new ConceptBuilder("730c4b07-8060-4690-bb23-d5674d39ce5d")
-                .datatype(coded)
-                .conceptClass(diagnosis)
-                .name(PdcMetadata.PREMATURE_BIRTH, "Premature Birth",
-                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
-
-        */
-
-
         //Hydrocephalus
         Concept hydrocephalus = install(new ConceptBuilder(PdcMetadata.HYDROCEPHALUS)
                 .datatype(coded)
@@ -90,11 +86,27 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        //Cleft Lip or Palate
-        Concept cleftLipOrPalate = install(new ConceptBuilder(PdcMetadata.CLEFT_LIP)
+        //Cleft Lip
+        Concept cleftLipOrPalate = install(new ConceptBuilder(PdcMetadata.CLEFT_LIP_OR_PALATE)
                 .datatype(coded)
                 .conceptClass(diagnosis)
                 .name("87a58bee-850e-4fda-b625-3daa674e78fd", "Cleft Lip or Palate",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        //Cleft Lip
+        Concept cleftLip = install(new ConceptBuilder(PdcMetadata.CLEFT_LIP)
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("f9261161-cb6f-49e4-9fa3-4a404897b9d8", "Cleft Lip",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        //Cleft Palate
+        Concept cleftPalate = install(new ConceptBuilder(PdcMetadata.CLEFT_PALATE)
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("88449258-b76d-459d-93f6-de2f9effb889", "Cleft Palate",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
@@ -104,6 +116,14 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .conceptClass(diagnosis)
                 .name("208cb938-9c1c-4916-8f03-b957956e9869", "Other Developmental Delay, Suspected Neuromuscular " +
                                 "Disease, and Suspected Genetic Syndromes",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        // Developmental Delay
+        Concept DevelopmentDelay =install(new ConceptBuilder(DEVELOPMENT_DELAY)
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("5a0cea8d-2a7e-407d-8d0f-c1e955742038", "Developmental Delay",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
@@ -139,7 +159,38 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .description("fe5c86fa-68e8-42f4-b762-8cccb0e621e5","Reason for referral (e.g PDC)",Locale.ENGLISH)
                 .build());
 
+        // Community
+        Concept community = install(new ConceptBuilder(COMMUNITY)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("15e98466-be5a-45d2-9c4b-4b506ffb7d51", "Community",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
 
+        // Tertiary
+        Concept tertiary = install(new ConceptBuilder(COMMUNITY)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("ada5ce61-2b67-46cc-8567-cd53e49a7cfc", "Tertiary",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
 
+        // referral source
+        Concept referralSource = install(new ConceptBuilder(SOURCE_OF_REFERRAL)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("ab55f3ee-55fb-4595-8005-fe813c79a70f", "Referral Source",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(tertiary,hospital,healthFacility,community)
+                .build());
+
+        // referral form filled
+        Concept referralFormFilled = install(new ConceptBuilder(REFERRAL_FORM_FILLED)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("f4078e25-b62a-43ad-a20f-47732d886a3c", "Referral Form Filled",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
     }
 }

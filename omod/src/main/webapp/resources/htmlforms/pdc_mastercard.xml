@@ -33,7 +33,7 @@
         <macro key="cleftLip" value="735a9376-abde-4538-8f28-c73f998e5e47"/>
         <macro key="otherDevelopmentalDelay" value="07a093b4-989e-4128-b015-38961791a714"/>
         <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
-        <macro key="ageOfPrimaryCareTaker" value="fa7a921c-bd5f-4d5d-8e4f-4dc5060e37b7"/>
+        <macro key="ageOfGuardian" value="fa7a921c-bd5f-4d5d-8e4f-4dc5060e37b7"/>
         <macro key="occupation" value="6558df36-977f-11e1-8993-905e29aff6c1"/>
         <macro key="maritalStatus" value="6557571a-977f-11e1-8993-905e29aff6c1"/>
         <macro key="married" value="656c71b8-977f-11e1-8993-905e29aff6c1"/>
@@ -43,9 +43,6 @@
         <macro key="levelOfEduction" value="655b226e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="breastFeeding" value="657a289e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="cupFeeding" value="4f3e0805-3059-4226-abcd-6100cddd9543" />
-        <!--<macro key="primary" value=""/>
-        <macro key="secondary" value=""/>
-        <macro key="tertiary" value=""/>-->
         <macro key="numberOfChildren" value="656056da-977f-11e1-8993-905e29aff6c1"/>
         <macro key="transport" value="654b41b4-977f-11e1-8993-905e29aff6c1"/>
         <macro key="walk" value="654b42b8-977f-11e1-8993-905e29aff6c1"/>
@@ -53,6 +50,10 @@
         <macro key="miniBus" value="654b44c0-977f-11e1-8993-905e29aff6c1"/>
         <macro key="car" value="654b45c4-977f-11e1-8993-905e29aff6c1"/>
         <macro key="bicycle" value="654b43c6-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
+        <macro key="sourceOfReferral" value="eb76915e-104d-4500-b56e-726f3e2a75f9" />
+        <macro key="referralFormFilled" value="8f985039-f018-4542-a531-f693fca2906b" />
+        <macro key="antibiotics" value="655853cc-977f-11e1-8993-905e29aff6c1" />
 
         yesAnswer=1065
         noAnswer=1066
@@ -108,7 +109,7 @@
     <div>
         <h4 style="font-style: italic;">
             <b>PDC Patient Card</b>
-            <b style="padding-left:50px;">Pediatric Development Clinic</b>
+            <b style="padding-left:50px;">Intake / Referral Form</b>
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
@@ -117,6 +118,13 @@
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferIn" />
                 </b>
             </span>
 
@@ -161,18 +169,6 @@
                             <td><obs conceptId="$patientPhone" size="10"/></td>
                         </tr>
                         <tr>
-                            <td>Guardian Name</td>
-                            <td>
-                                <obs id="guardianNameField" conceptId="$guardianName" size="40"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Guardian Phone</td>
-                            <td>
-                                <obs conceptId="$guardianPhone" size="10"/>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Guardian relation to patient</td>
                             <td>
                                 <obs conceptId="$relationToPatient" size="10" />
@@ -206,24 +202,16 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="3">Referral Information</th>
-                            <td>Patient Referred by:</td>
-                            <th style="vertical-align:top;" align="left" rowspan="3">Social History</th>
-                            <td>
-
-                                <obs conceptId="$ageOfPrimaryCareTaker" labelText="Age Of Primary Care Taker" />
-                            </td>
-                            <td>
-                                <!-- Marital Status -->
-                                <obs conceptId="$maritalStatus" answerConceptIds="$married,$single,$divorced,$widowed"
-                                     labelText="Marital Status"
-                                     answerLabels="Married,Single,Divorced,Widowed"/>
-                            </td>
+                            <th style="vertical-align:top;" align="left" rowspan="7">Caretaker Details</th>
+                            <td>Guardian Name: <obs id="guardianNameField" conceptId="$guardianName" size="40"/></td>
+                            <th style="vertical-align:top;" align="left" rowspan="7">General Information</th>
+                            <th style="vertical-align:top;" align="left" rowspan="2">Source of <br />Referral</th>
+                            <td> <obs conceptId="$sourceOfReferral" answerConceptIds="$hospital,$healthCenter,$home"
+                                      answerLabels="Hospital,Health Center,Home" /></td>
                         </tr>
                         <tr>
-                            <td>Cadre:</td>
+                            <td><obs conceptId="$ageOfGuardian" labelText="Age" /></td>
                             <td>Occupation</td>
-                            <td>Level of Education</td>
 
                             <!--<td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
                             <td class="nowrap">
@@ -232,103 +220,192 @@
                         </tr>
                         <tr>
 
-                           <td>
-                               Phone Number
-                           </td>
-                            <td class="nowrap">
-                                <obs conceptId="$numberOfChildren"
-                                     labelText="Total number of children or dependants less than 18 years in household (including child enrolled in PDC)" />
-                            </td>
-                            <td>
-                                <!-- Transport -->
-                                <obs conceptId="$transport" answerConceptIds="$walk,$motorBike,$miniBus,$bicycle,$car"  labelText="Transport"
-                                     answerLabels="Walk,Motor bike,Minibus,Bicycle,Car "/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="10">History of Present<br/> Illness <br/></th>
-                            <td>
-                                <obs conceptId="$gestationalAge" labelText="Gestational Age" showUnits="true" />
-                            </td>
-                            <td />
-                            <!-- Birth Weight -->
-                            <td class="nowrap">
-                                <obs conceptId="$birthWeight" showUnits="true" labelText=" Birth Weight" />
-                            </td>
-                            <td>
-                                <obs conceptId="$siteOfBirth" labelText="Site Of Birth" answerConceptIds="$hospital,$healthCenter,$home"
-                                     answerLabels="Hospital,Health Center,Home" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No,Unknown"
-                                     answerConceptIds="$yesAnswer,$noAnswer,$unknown" labelText="Perinatal Infection"/>
-                            </td>
-                            <td />
-                            <td>
-                                <obs conceptId="$breastFeeding"  answerLabels="Yes,No"
-                                     answerConceptIds="$yesAnswer,$noAnswer" labelText="Breast Feeding"/>
-                            </td>
-                            <td>
-                                <obs conceptId="$cupFeeding"  answerLabels="Yes,No"
-                                     answerConceptIds="$yesAnswer,$noAnswer" labelText="Cup-Feeding"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>Child Feeding (Select all that apply)</span>
-                                <br /><br />
-                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$weaned" answerLabel="Weaned" />
-                                <br />
-                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$expressedBreastMilk" answerLabel="Expressed Breast Milk" />
-                                <br />
-                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
-                                <br />
-                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastfedExclusively" answerLabel="Breastfed Exclusively" />
-                                <br />
-                                <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$mixedFeeding" answerLabel="Mixed Feeding" />
-                            </td>
-                            <td/>
-                            <td>
-                                <span>Reason for referral: (Select all that apply)</span>
-                                <br /><br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$downsSyndrome" answerLabel="Downs Syndrome (suspected or confirmed)" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip or Palate" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$otherDevelopmentalDelay" answerLabel="Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes" />
-                                <br />
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition requiring  Club Foot, hospitalization (infant less than 12 months)" />
-                            </td>
+                            <td>Guardian Phone:  <obs conceptId="$guardianPhone" size="10"/></td>
+                            <th style="vertical-align:top;" align="left" rowspan="2">HIV Services</th>
                             <td>
                                 <!-- Mother Status -->
-                                <obs conceptId="$motherStatus" answerConceptIds="$aliveNotOnART,$aliveOnART,$hivSuspected"
+                                <obs conceptId="$motherStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$hivSuspected"
                                      answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Unk" labelText="HIV status of mother" />
                             </td>
                         </tr>
                         <tr>
-                            <td>Child Medication</td>
+                            <td>
+                                <!-- Marital Status -->
+                                <obs conceptId="$maritalStatus" style="radio" answerConceptIds="$married,$single,$divorced,$widowed"
+                                     labelText="Marital Status"
+                                     answerLabels="Married,Single,Divorced,Widowed"/>
+                            </td>
                         </tr>
                         <tr>
-                            <th style="vertical-align:top;" align="left">Outcome</th>
-                            <td colspan="4">
-                                <b>
-                                    <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
-                                    (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
-                                </b>
+                            <td>Level of Education</td>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Income Source <br />(specify)</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <obs conceptId="$numberOfChildren" labelText="Number of Children" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                POSER
                             </td>
                         </tr>
                     </table>
                 </td>
+            </tr>
+            <tr>
+                <td>Referral Form Filled</td>
+                <td>
+                    <obs conceptId="$referralFormFilled" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" />
+                </td>
+            </tr>
+            <tr>
+                <table>
+                    <tr>
+                        <td>Complete All Sections</td>
+                        <td/>
+                        <td>Reasons for referral</td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left" rowspan="5">History of <br/> Illness <br/></th>
+                        <td>
+                            <obs conceptId="$siteOfBirth" style="radio" labelText="Site Of Birth" answerConceptIds="$hospital,$healthCenter,$home"
+                                 answerLabels="Hospital,Health Center,Home" />
+                        </td>
+                        <td>
+                            <table style="border: none;">
+                                <tr>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
+                                    </td>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
+                                    </td>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
+                                    </td>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$downsSyndrome" answerLabel="Downs Syndrome (suspected or confirmed)" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip or Palate" />
+                                    </td>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$otherDevelopmentalDelay" answerLabel="Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes" />
+                                    </td>
+                                    <td>
+                                        <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition requiring  Club Foot, hospitalization (infant less than 12 months)" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            MOD
+                        </td>
+                        <td>
+                            <b>Summary</b>
+                            <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" labelText="Enrolled In PDC" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No,Unknown"
+                                 answerConceptIds="$yesAnswer,$noAnswer,$unknown" labelText="Perinatal Infection"/>
+                        </td>
+
+                        <td>
+                            <obs conceptId="$breastFeeding"  answerLabels="Yes,No"
+                                 answerConceptIds="$yesAnswer,$noAnswer" labelText="Breast Feeding"/>
+                        </td>
+                        <td>
+                            <obs conceptId="$cupFeeding"  answerLabels="Yes,No"
+                                 answerConceptIds="$yesAnswer,$noAnswer" labelText="Cup-Feeding"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Antibiotics
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Current Medication
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left" rowspan="4">Feeding <br/> History <br/></th>
+                        <td>
+                            <span>Feeding method (Select all that apply)</span>
+                            <br /><br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$weaned" answerLabel="Weaned" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$expressedBreastMilk" answerLabel="Expressed Breast Milk" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastfedExclusively" answerLabel="Breastfed Exclusively" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$mixedFeeding" answerLabel="Mixed Feeding" />
+                        </td>
+                        <td>
+                            <span>Reason for referral: (Select all that apply)</span>
+                            <br /><br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$downsSyndrome" answerLabel="Downs Syndrome (suspected or confirmed)" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip or Palate" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$otherDevelopmentalDelay" answerLabel="Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes" />
+                            <br />
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition requiring  Club Foot, hospitalization (infant less than 12 months)" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Type of Feed (Select all that apply)</span>
+                            <br /><br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$weaned" answerLabel="Weaned" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$expressedBreastMilk" answerLabel="Expressed Breast Milk" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastfedExclusively" answerLabel="Breastfed Exclusively" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$mixedFeeding" answerLabel="Mixed Feeding" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Feeding method (Select all that apply)</span>
+                            <br /><br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$weaned" answerLabel="Weaned" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$expressedBreastMilk" answerLabel="Expressed Breast Milk" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastfedExclusively" answerLabel="Breastfed Exclusively" />
+                            <br />
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$mixedFeeding" answerLabel="Mixed Feeding" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left">Outcome</th>
+                        <td colspan="4">
+                            <b>
+                                <lookup expression="fn.currentProgramWorkflowStatus(16).state.concept.name" />
+                                (<lookup expression="fn.currentProgramWorkflowStatus(16).startDate" />)
+                            </b>
+                        </td>
+                    </tr>
+                </table>
             </tr>
         </table>
 
