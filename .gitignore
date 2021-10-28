@@ -7,6 +7,7 @@
 *.iml
 *.omod
 
+.DS_Store
 .classpath
 .idea
 .project
