@@ -96,9 +96,8 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
-                    <artifactId>logic-omod</artifactId>
-                    <version>${logicVersion}</version>
-                    <type>omod</type>
+                    <artifactId>legacyui-omod</artifactId>
+                    <version>${legacyuiVersion}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -176,7 +175,7 @@
                 <dependency>
                     <groupId>org.openmrs.module</groupId>
                     <artifactId>serialization.xstream-omod</artifactId>
-                    <version>${serializationVersion}</version>
+                    <version>${serializationxstreamVersion}</version>
                     <scope>provided</scope>
                     <type>omod</type>
                 </dependency>

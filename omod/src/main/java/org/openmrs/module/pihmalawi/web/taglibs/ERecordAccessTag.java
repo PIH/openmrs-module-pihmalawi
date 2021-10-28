@@ -1,7 +1,6 @@
 package org.openmrs.module.pihmalawi.web.taglibs;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -16,6 +15,7 @@ import org.openmrs.Form;
 import org.openmrs.Patient;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.Utils;
 
 public class ERecordAccessTag extends BodyTagSupport {
 
@@ -66,10 +66,7 @@ public class ERecordAccessTag extends BodyTagSupport {
 					}
 				}
 			}
-
-			List<Encounter> initials = Context.getEncounterService()
-					.getEncounters(p, null, null, null, null,
-							Arrays.asList(initialEncounterType), null, false);
+			List<Encounter> initials = Utils.getEncounters(p, initialEncounterType);
 			if (!initials.isEmpty()) {
 				o.write("<br/>");
 			}

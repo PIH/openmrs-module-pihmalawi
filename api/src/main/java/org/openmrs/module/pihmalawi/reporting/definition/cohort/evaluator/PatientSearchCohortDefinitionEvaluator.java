@@ -22,6 +22,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.namephonetics.NamePhoneticsService;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.PatientSearchCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
+import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -44,13 +45,13 @@ public class PatientSearchCohortDefinitionEvaluator implements CohortDefinitionE
 
 	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) {
 		PatientSearchCohortDefinition cd = (PatientSearchCohortDefinition) cohortDefinition;
-		Cohort c = new Cohort();
-		c.getMemberIds().addAll(getPatientsMatchingIdentifier(cd.getSearchPhrase(), cd.getIdentifierMatchMode(), context));
-		if (c.getMemberIds().isEmpty()) {
+		Set<Integer> patientIds = getPatientsMatchingIdentifier(cd.getSearchPhrase(), cd.getIdentifierMatchMode(), context);
+		if (patientIds.isEmpty()) {
 			boolean isSoundex = cd.getSoundexEnabled() == Boolean.TRUE;
-			c.getMemberIds().addAll(getPatientsMatchingName(cd.getSearchPhrase(), isSoundex, cd.getNameMatchMode(), context));
+			patientIds.addAll(getPatientsMatchingName(cd.getSearchPhrase(), isSoundex, cd.getNameMatchMode(), context));
 		}
-		return new EvaluatedCohort(c, cd, context);
+
+		return new EvaluatedCohort(new PatientIdSet(patientIds), cohortDefinition, context);
 	}
 
 	protected Set<Integer> getPatientsMatchingIdentifier(String searchString, MatchMode matchMode, EvaluationContext context) {

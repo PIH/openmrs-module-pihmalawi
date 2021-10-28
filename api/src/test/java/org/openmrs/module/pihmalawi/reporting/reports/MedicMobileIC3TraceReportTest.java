@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.openmrs.util.OpenmrsConstants;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public class MedicMobileIC3TraceReportTest extends ReportManagerTest {
         String user = "openmrs";
         String password = "openmrs";
 
-        File propertiesFile = new File(OpenmrsConstants.APPLICATION_DATA_DIRECTORY, PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
+        File propertiesFile = new File(OpenmrsUtil.getApplicationDataDirectory(), PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         Properties properties = new Properties();
         properties.put("connection.url", url);
         properties.put("connection.username", user);

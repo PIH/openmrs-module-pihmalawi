@@ -2,11 +2,9 @@ package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
 
 import org.openmrs.Concept;
-import org.openmrs.Location;
 import org.openmrs.ProviderAttributeType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ProviderService;
-import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.datatype.DateDatatype;
 import org.openmrs.customdatatype.datatype.FreeTextDatatype;
 import org.openmrs.module.coreapps.customdatatype.CodedConceptDatatype;
@@ -14,7 +12,6 @@ import org.openmrs.module.coreapps.customdatatype.LocationDatatype;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChwManagementConcepts;
-import org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
