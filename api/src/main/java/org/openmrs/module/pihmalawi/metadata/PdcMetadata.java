@@ -26,8 +26,8 @@ public class PdcMetadata extends CommonMetadata{
     public static String REASON_FOR_REFERRAL = "98b17e13-659f-41e7-8459-b370fdbffe0f";
     public static String CLEFT_LIP = "c415db67-75e8-4077-a0f2-ba2864ae52b1";
     public static String CLEFT_PALATE = "abe71d88-3f2c-4380-854b-c49b74946a01";
-
-
+    public static String TRISOMY_21 = "fc4bf95c-b445-44e3-959b-435145e79f01";
+    public static String HIE = "76e0ba08-d931-4baf-9651-9946543cc623";
 
 
     public static ProgramDescriptor PDC_PROGRAM = new ProgramDescriptor() {

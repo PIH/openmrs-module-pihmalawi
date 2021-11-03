@@ -19,12 +19,25 @@ public class PdcConcepts extends VersionedPihConceptBundle {
 
     public static String SOURCE_OF_REFERRAL = "eb76915e-104d-4500-b56e-726f3e2a75f9";
     public static String COMMUNITY = "390c74d3-216b-4573-b38a-68503cc4e69e";
+    public static String TERTIARY = "be50b470-9744-4f04-b9a8-bad7b4b239ea";
     public static String REFERRAL_FORM_FILLED = "8f985039-f018-4542-a531-f693fca2906b";
     public static String DEVELOPMENT_DELAY = "1be62437-3093-4530-b4ab-1cd4626b9704";
+    public static String ENROUTE = "50fe5939-7380-4a01-abe4-6a7806280bdb";
+    public static String CARE_LINKED = "0d52f232-8d34-45d4-9006-dd592bc7bf24";
+    public static String CLINICAL = "6566b8c2-977f-11e1-8993-905e29aff6c1";
+    public static String NRU = "f0bb3ac5-0e84-487a-8a2d-59b96378a797";
+    public static String OGT = "fe7d2795-3cfe-47fa-933c-cb8e9b1c42d5";
+    public static String APGAR = "687a622a-302b-49c9-87a7-2f7558549548";
+    public static String POSER_SUPPORT = "5b49fbf4-2645-4ab2-974e-4e6c961162b1";
+    public static String ENROLLED_IN_PDC = "92148ae3-642c-47f5-ae7c-2c4efa9796e8";
+    public static String BREAST_MILK = "ba528fcf-d9ee-43c3-af15-c169adcec937";
+    public static String TYPE_OF_FEED = "7f5c591e-8b74-4fa9-8bbf-f4154a0d92d3";
+    public static String INFANT_FORMULA = "656ac570-977f-11e1-8993-905e29aff6c1";
+    public static String INCOME_SOURCE = "de85f47e-0830-4840-b393-e7adcd641064";
 
     @Override
     public int getVersion() {
-        return 5;
+        return 10;
     }
 
     @Override
@@ -110,6 +123,23 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        //Trisomy21
+        Concept trisomy21 = install(new ConceptBuilder(PdcMetadata.TRISOMY_21)
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("a528d470-c061-43a4-833a-987aec47b90b", "Trisomy 21",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        // Hypoxic ischemic encephalopathy (HIE)
+        Concept hie = install(new ConceptBuilder(PdcMetadata.HIE)
+                .datatype(coded)
+                .conceptClass(diagnosis)
+                .name("9c1552be-0c61-4e2e-a172-843f38ceb333", "Hypoxic Ischemic Encephalopathy",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("3a1f5ee8-db05-47a9-97af-78734c992a5f", "HIE", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
         //Other Developmental Delay
         Concept otherDevelopmentDelay =install(new ConceptBuilder(PdcMetadata.OTHER_DEVELOPMENTAL_DELAY)
                 .datatype(coded)
@@ -131,8 +161,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
         Concept severeMalnutrition = install(new ConceptBuilder(PdcMetadata.SEVERE_MALNUTRITION)
                 .datatype(coded)
                 .conceptClass(diagnosis)
-                .name("0428535f-3efc-4c38-a5b3-179f43ac29b1", "Severe malnutrition requiring club foot, " +
-                                "hospitalization (infant < 12 months)",
+                .name("0428535f-3efc-4c38-a5b3-179f43ac29b1", "Severe malnutrition",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
@@ -155,7 +184,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .name("b71eb2d2-7326-4646-97e0-a60265ce101f", "PDC Reasons for referral",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(perinatalInfection,gestationalAge,lowBirthWeight,prematureBirth,centralNervousSystem,hydrocephalus,downsSyndrome,
-                        cleftLipOrPalate,otherDevelopmentDelay,severeMalnutrition)
+                        cleftLipOrPalate,otherDevelopmentDelay,severeMalnutrition,trisomy21,hie)
                 .description("fe5c86fa-68e8-42f4-b762-8cccb0e621e5","Reason for referral (e.g PDC)",Locale.ENGLISH)
                 .build());
 
@@ -168,10 +197,10 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // Tertiary
-        Concept tertiary = install(new ConceptBuilder(COMMUNITY)
+        Concept tertiary = install(new ConceptBuilder(TERTIARY)
                 .datatype(notApplicable)
                 .conceptClass(misc)
-                .name("ada5ce61-2b67-46cc-8567-cd53e49a7cfc", "Tertiary",
+                .name("3bb2410b-ecd1-46f6-b2a8-970efd025d6f", "Tertiary",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
@@ -192,5 +221,99 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes,no)
                 .build());
+
+        // Enroute
+        Concept enroute = install(new ConceptBuilder(ENROUTE)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("5ba41739-40aa-4764-9e56-bdbe7aabf844", "Enroute",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        // NRU
+        Concept nru = install(new ConceptBuilder(NRU)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("c4cf01a2-20d1-4bfc-959a-4bbaefeab99c", "Nutrition Rehabilitation Unit",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("b7f8cc51-ca6c-4ee6-b670-4ceede819000", "NRU",
+                        Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept clinical = MetadataUtils.existing(Concept.class, CLINICAL);
+        // OGT
+        Concept ogt = install(new ConceptBuilder(OGT)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("a3a8decb-44b4-4133-be02-ecbd99214d5b", "Orogastric tube",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("a9a9f4e6-0bec-45ec-8c87-d45b5e046558", "OGT",
+                        Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        // APGAR
+        Concept apgar = install(new ConceptBuilder(APGAR)
+                .datatype(notApplicable)
+                .conceptClass(procedure)
+                .name("88e06bb2-0725-46cd-8a25-38fbc465c0c0", "Appearance, Grimace, Pulse rate, Activity, Respirations",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("90990dbe-32c4-483f-b170-0cc7c8273358", "AGPAR",
+                        Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        // Care linked
+        Concept careLinked = install(new ConceptBuilder(CARE_LINKED)
+                .datatype(coded)
+                .conceptClass(procedure)
+                .name("f5abe191-ad67-456d-a960-316d12b2be5f", "Care Linked",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(clinical,nru)
+                .build());
+
+        // POSER support
+        Concept poserSupport = install(new ConceptBuilder(POSER_SUPPORT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("6e30176b-1d99-49db-be3e-95bc291d3fbd", "Poser Support",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        // Enrolled in PDC
+        Concept enrolledInPdc = install(new ConceptBuilder(ENROLLED_IN_PDC)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("59e438ff-a1ca-4661-84bb-40f93267ee50", "Enrolled in PDC",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        // Breast Milk
+        Concept breastMilk = install(new ConceptBuilder(BREAST_MILK)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("7db23cd5-c299-4009-86fc-b3bb86e74fe1", "Breast Milk",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept infantFormula = MetadataUtils.existing(Concept.class, INFANT_FORMULA);
+
+        // Type of Feed
+        Concept typeOfFeed = install(new ConceptBuilder(TYPE_OF_FEED)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("84901fa4-8312-4efa-a242-57f6dac2213c", "Type of Feed",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(breastMilk,infantFormula)
+                .build());
+
+        // Income Source (specify)
+        Concept incomeSource = install(new ConceptBuilder(INCOME_SOURCE)
+                .datatype(text)
+                .conceptClass(misc)
+                .name("7e0a94eb-b7d1-4ea1-8f71-1d94131b0b41", "Income Source", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("fb37aa88-efcb-4f41-bdc0-9a74bbdc879f", "Specify source of income", Locale.ENGLISH)
+                .build());
+
     }
 }
