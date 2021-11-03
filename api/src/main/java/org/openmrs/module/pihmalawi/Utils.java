@@ -2,8 +2,12 @@ package org.openmrs.module.pihmalawi;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
+import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
 import org.openmrs.util.OpenmrsUtil;
 
 import java.io.File;
@@ -11,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class Utils {
@@ -52,5 +58,16 @@ public class Utils {
         catch (Exception e) {
             throw new EvaluationException("Unable to create a new connection to the database", e);
         }
+    }
+
+    public static List<Encounter> getEncounters(Patient patient, EncounterType encounterType) {
+        List<Encounter> encounters = null;
+        EncounterSearchCriteriaBuilder encounterSearchCriteriaBuilder = new EncounterSearchCriteriaBuilder();
+        encounterSearchCriteriaBuilder.setPatient(patient);
+        encounterSearchCriteriaBuilder.setEncounterTypes(Arrays.asList(encounterType));
+        encounterSearchCriteriaBuilder.setIncludeVoided(false);
+        encounters = Context.getEncounterService().getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
+
+        return encounters;
     }
 }

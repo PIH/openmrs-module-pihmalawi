@@ -13,6 +13,7 @@ import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.Utils;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -77,7 +78,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 			}
 
             // Ensure no more than one initial encounter is found
-			List<Encounter> initials = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(initialEncounterType), null, false);
+			List<Encounter> initials = Utils.getEncounters(p, initialEncounterType);
 			if (initials.size() > 1) {
 				o.write("Not available: Multiple " + f.getName() + " forms found");
 				release();
@@ -302,7 +303,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         if (followupEncounterType == null) {
             followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
         }
-        List<Encounter> followups = Context.getEncounterService().getEncounters(p, null, null, null, null, Arrays.asList(followupEncounterType), null, false);
+        List<Encounter> followups = Utils.getEncounters(p, followupEncounterType);
         String created = "Created: " + Helper.formatDate(initialEncounter.getEncounterDatetime());
         String visited = "Visited: no";
         String rvd = "Appointment: none";

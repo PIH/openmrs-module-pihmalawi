@@ -64,7 +64,7 @@ public class LoginPageController {
         Location lastSessionLocation = null;
         List<Location> loginLocations = null;
         try {
-            Context.addProxyPrivilege(PrivilegeConstants.VIEW_LOCATIONS);
+            Context.addProxyPrivilege(PrivilegeConstants.GET_LOCATIONS);
             Context.addProxyPrivilege(GET_LOCATIONS);
             loginLocations = appFrameworkService.getLoginLocations();
             lastSessionLocation = locationService.getLocation(Integer.valueOf(lastSessionLocationId));
@@ -73,7 +73,7 @@ public class LoginPageController {
             // pass
         }
         finally {
-            Context.removeProxyPrivilege(PrivilegeConstants.VIEW_LOCATIONS);
+            Context.removeProxyPrivilege(PrivilegeConstants.GET_LOCATIONS);
             Context.removeProxyPrivilege(GET_LOCATIONS);
         }
 
@@ -111,12 +111,12 @@ public class LoginPageController {
         if (sessionLocationId != null && (sessionLocationId != null && sessionLocationId.intValue() > 0)) {
             try {
                 // TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
-                Context.addProxyPrivilege(PrivilegeConstants.VIEW_LOCATIONS);
+                Context.addProxyPrivilege(PrivilegeConstants.GET_LOCATIONS);
                 Context.addProxyPrivilege(GET_LOCATIONS);
                 sessionLocation = locationService.getLocation(sessionLocationId);
             }
             finally {
-                Context.removeProxyPrivilege(PrivilegeConstants.VIEW_LOCATIONS);
+                Context.removeProxyPrivilege(PrivilegeConstants.GET_LOCATIONS);
                 Context.removeProxyPrivilege(GET_LOCATIONS);
             }
         }
