@@ -20,10 +20,9 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.module.pihmalawi.alert.AlertNotification;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
-import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.IC3AppoinmentDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.ChronicCareCohortDefinitionLibrary;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
+import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -73,7 +72,7 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 		// Limit to patients in advanced care if appropriate
 		if (dsd.getAdvancedCare() != null && dsd.getAdvancedCare().booleanValue()) {
 			Cohort inAdvancedCare = cdService.evaluate(ccCohorts.getPatientsInAdvancedCareStateAtLocationOnEndDate(), context);
-			patients = PatientIdSet.intersect(patients, inAdvancedCare);
+			patients = CohortUtil.intersect(patients, inAdvancedCare);
 		}
 
 		Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(patients, dsd.getEndDate(), dsd.getLocation(), false);

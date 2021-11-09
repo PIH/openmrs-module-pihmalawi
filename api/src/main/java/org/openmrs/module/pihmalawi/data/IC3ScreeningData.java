@@ -16,7 +16,6 @@ import org.openmrs.module.pihmalawi.alert.AlertEngine;
 import org.openmrs.module.pihmalawi.metadata.IC3ScreeningMetadata;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.cohort.CohortUtil;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.data.patient.definition.PatientDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.definition.library.DocumentedDefinition;
@@ -39,7 +38,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         Cohort appts = evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), appointmentDate, null);
         for (Location location : hivMetadata.getSystemLocations()) {
             Cohort enrolled = evaluateCohort(baseCohorts.getPatientsActiveInHivOrChronicCareProgramAtLocationOnEndDate(), appointmentDate, location);
-            ret.put(location, PatientIdSet.intersect(appts, enrolled));
+            ret.put(location, CohortUtil.intersect(appts, enrolled));
         }
         return ret;
     }
