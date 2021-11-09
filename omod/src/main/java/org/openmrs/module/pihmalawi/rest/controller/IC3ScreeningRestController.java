@@ -9,7 +9,7 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningData;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
-import org.openmrs.module.reporting.cohort.PatientIdSet;
+import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
@@ -96,11 +96,11 @@ public class IC3ScreeningRestController {
         Cohort baseCohort = null;
         if (ObjectUtil.isNull(cohorts) || cohorts.size() == 0 || cohorts.contains(PATIENTS_WITH_APPOINTMENT)) {
             Cohort c = ic3ScreeningData.getPatientsWithAppointmentsAtLocation(endDate, location);
-            baseCohort = (baseCohort == null ? c : PatientIdSet.union(baseCohort, c));
+            baseCohort = (baseCohort == null ? c : CohortUtil.union(baseCohort, c));
         }
         if (ObjectUtil.isNull(cohorts) || cohorts.size() == 0 || cohorts.contains(PATIENTS_WITH_VISIT)) {
             Cohort c = ic3ScreeningData.getPatientsWithAVisitAtLocation(endDate, location);
-            baseCohort = (baseCohort == null ? c : PatientIdSet.union(baseCohort, c));
+            baseCohort = (baseCohort == null ? c : CohortUtil.union(baseCohort, c));
         }
         Map<Integer, JsonObject> data = ic3ScreeningData.getDataForCohort(baseCohort, endDate, location, useCache);
         return data.values();

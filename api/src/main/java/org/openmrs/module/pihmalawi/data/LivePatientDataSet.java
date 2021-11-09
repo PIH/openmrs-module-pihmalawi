@@ -27,6 +27,7 @@ import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibr
 import org.openmrs.module.pihmalawi.reporting.library.DataFactory;
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.cohort.CohortUtil;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.PatientIdSet;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -163,7 +164,7 @@ public abstract class LivePatientDataSet {
 
         Map<Integer, JsonObject> cachedData = getCache().getDataCache(effectiveDate, location);
 
-        Cohort notCached = PatientIdSet.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
+        Cohort notCached = CohortUtil.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
         log.debug("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
 
         if (!useCachedValues || notCached.size() > 0) {
