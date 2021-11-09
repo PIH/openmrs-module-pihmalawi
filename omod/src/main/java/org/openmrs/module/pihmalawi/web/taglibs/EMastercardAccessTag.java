@@ -194,7 +194,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
 		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("viral_load_test_results", "art_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_INITIAL.name(), Arrays.asList("pdc_visit"));
+		//flowsheetForms.put(EncounterTypes.PDC_INITIAL.name());
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization
@@ -208,12 +208,14 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		String headerForm = headerForms.get(encType);
 		List<String> flowsheets = flowsheetForms.get(encType);
 
-		if (headerForm != null && flowsheets != null) {
+		if (headerForm != null ) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("/openmrs/htmlformentryui/htmlform/flowsheet.page?");
 			sb.append("headerForm=pihmalawi:htmlforms/").append(headerForm).append(".xml");
-			for (String flowsheet : flowsheets) {
-				sb.append("&flowsheets=pihmalawi:htmlforms/").append(flowsheet).append(".xml");
+			if (flowsheets != null) {
+				for (String flowsheet : flowsheets) {
+					sb.append("&flowsheets=pihmalawi:htmlforms/").append(flowsheet).append(".xml");
+				}
 			}
 
 			if (StringUtils.isNotBlank(byConcept)) {
@@ -300,7 +302,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         if (StringUtils.isNotBlank(getFollowupEncounterTypeName())) {
             followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeName());
         }
-        if (followupEncounterType == null) {
+        if (followupEncounterType == null && (getFollowupEncounterTypeId() != null) ) {
             followupEncounterType = Context.getEncounterService().getEncounterType(getFollowupEncounterTypeId());
         }
         List<Encounter> followups = Utils.getEncounters(p, followupEncounterType);
