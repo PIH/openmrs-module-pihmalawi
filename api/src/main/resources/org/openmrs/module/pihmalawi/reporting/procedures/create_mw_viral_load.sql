@@ -41,8 +41,7 @@ BEGIN
            o.voided = 0 and o.obs_datetime <= _endDate and o.concept_id = @vlNumeric
         group by
            o.encounter_id,
-           o.person_id,
-           o.obs_datetime;
+           o.person_id;
 
     insert into mw_viral_load (encounter_id, patient_id, vl_date, vl_ldl)
     select o.encounter_id,
