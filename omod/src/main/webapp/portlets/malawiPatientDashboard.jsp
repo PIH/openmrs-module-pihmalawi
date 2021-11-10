@@ -139,7 +139,7 @@
 
     <tr>
         <td>Pediatric Development Clinic Record:</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" followupEncounterTypeName="PDC_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
     </tr>
 
     <tr>

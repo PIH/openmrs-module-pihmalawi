@@ -45,7 +45,7 @@
         <emrapiVersion>1.33.0-SNAPSHOT</emrapiVersion>
         <eventVersion>2.9.0</eventVersion>
         <htmlformentryVersion>4.1.0</htmlformentryVersion>
-        <htmlformentryuiVersion>2.0.0-SNAPSHOT</htmlformentryuiVersion>
+        <htmlformentryuiVersion>2.2.0-SNAPSHOT</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
         <idgenVersion>4.7.0</idgenVersion>
 		<groovyVersion>2.2.4</groovyVersion>
