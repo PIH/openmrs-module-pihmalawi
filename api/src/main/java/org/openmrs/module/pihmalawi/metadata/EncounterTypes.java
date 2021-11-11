@@ -350,8 +350,14 @@ public class EncounterTypes {
 
     public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY = new EncounterTypeDescriptor() {
         public String uuid() { return "3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"; }
-        public String name() { return "PDC_DEVELOPMENTAL_DELAY"; }
-        public String description() { return "Developmental Delay  PDC Encounter"; }
+        public String name() { return "PDC_DEVELOPMENTAL_DELAY_INITIAL"; }
+        public String description() { return "Developmental Delay  PDC Encounter - initial"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "64148b3f-f732-4809-9a23-8b8ebe11279a"; }
+        public String name() { return "PDC_DEVELOPMENTAL_DELAY_FOLLOWUP"; }
+        public String description() { return "Developmental Delay  PDC Encounter - followup"; }
     };
 
     public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET = new EncounterTypeDescriptor() {
