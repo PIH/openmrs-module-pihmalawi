@@ -25,6 +25,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
     public static String WEAK = "64af04b8-81bb-4cea-8334-a07b1072e3ef";
     public static String SUPPORT_GROUP = "836ed5c1-3d74-4e13-b695-bc429880bc52";
     public static String GROUP_COUNSELING = "cef3471e-eb0a-4b14-b402-9b24742e3869";
+    public static String GI_CONCERNS = "8ba308ba-e077-4137-83c6-50685f9277c7";
     public static String GI_CONCERNS_STOOL_SET = "f6b86b98-b054-43b4-87aa-772e5be53620";
     public static String OTHER_CONCERNS_EAR_SET = "99fd40e3-b255-455a-ad7b-70b64bea4a3f";
     public static String OTHER_CONCERNS_SLEEP_SET = "85cab2be-8d95-44b8-b7ea-f1620ac05217";
@@ -32,7 +33,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -133,13 +134,26 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
                 .answers(yes,no)
                 .build());
 
-        // Grouping concepts under GI Concerns - Stool
-        Concept giConcernsSet = install(new ConceptBuilder(GI_CONCERNS_STOOL_SET)
+        // Stool Set
+        Concept stoolSet = install(new ConceptBuilder(GI_CONCERNS_STOOL_SET)
                 .datatype(notApplicable)
                 .conceptClass(convSet)
-                .name("321f45a9-3d1b-48ed-a9c6-f52da15713f4", "GI Concerns - Stool set", Locale.ENGLISH,
+                .name("321f45a9-3d1b-48ed-a9c6-f52da15713f4", "Gastrointestinal Concerns - Stool set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED)
-                .setMembers(passageNormal, diarrheaPersistent, patientVomiting, meconiumDelayed)
+                .name("d1cc2839-f0dc-48a9-b2ae-cc7d32f8bc98", "GI Concerns - Stool set", Locale.ENGLISH,
+                        ConceptNameType.SHORT)
+                .setMembers(passageNormal, diarrheaPersistent)
+                .build());
+
+        // Grouping concepts under GI Concerns Set
+        Concept giConcernsSet = install(new ConceptBuilder(GI_CONCERNS)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("3a1d7a07-94a5-4e89-9255-fb2fe622f119", "Gastrointestinal Concerns", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .name("d1cc2839-f0dc-48a9-b2ae-cc7d32f8bc98", "GI Concerns", Locale.ENGLISH,
+                        ConceptNameType.SHORT)
+                .setMembers(stoolSet, patientVomiting)
                 .build());
 
         // Grouping concepts under Other Concerns - Ear

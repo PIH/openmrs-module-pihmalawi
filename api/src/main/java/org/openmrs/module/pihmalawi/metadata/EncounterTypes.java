@@ -348,6 +348,12 @@ public class EncounterTypes {
         public String description() { return "Trisomy21 PDC Encounter"; }
     };
 
+    public static EncounterTypeDescriptor PDC_TRISOMY21_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "f770abb3-8470-4c63-a5c6-188ab384f8df"; }
+        public String name() { return "PDC_TRISOMY21_FOLLOWUP"; }
+        public String description() { return "Trisomy21 PDC Encounter - followup"; }
+    };
+
     public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY = new EncounterTypeDescriptor() {
         public String uuid() { return "3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"; }
         public String name() { return "PDC_DEVELOPMENTAL_DELAY_INITIAL"; }
