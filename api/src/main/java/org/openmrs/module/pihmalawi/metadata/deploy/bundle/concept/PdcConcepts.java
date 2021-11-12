@@ -37,7 +37,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 10;
+        return 11;
     }
 
     @Override
@@ -243,7 +243,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
         Concept clinical = MetadataUtils.existing(Concept.class, CLINICAL);
         // OGT
         Concept ogt = install(new ConceptBuilder(OGT)
-                .datatype(notApplicable)
+                .datatype(coded)
                 .conceptClass(misc)
                 .name("a3a8decb-44b4-4133-be02-ecbd99214d5b", "Orogastric tube",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
