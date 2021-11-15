@@ -49,6 +49,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
 	private String programWorkflowStates;
 	private Integer patientIdentifierType;
 	private boolean includeAppointmentInfo = true;
+	private String condition=null;
+	private String conditionAnswer=null;
 
 	public int doStartTag() throws JspException {
 
@@ -69,6 +71,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
             if (initialEncounterType == null ) {
                 initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
             }
+			Concept conditionConcept = null;
+			Concept conditionConceptAnswer = null;
+			if (StringUtils.isNotBlank(getCondition()) && StringUtils.isNotBlank(getConditionAnswer())){
+				conditionConcept = Context.getConceptService().getConceptByUuid(getCondition());
+				conditionConceptAnswer = Context.getConceptService().getConceptByUuid(getConditionAnswer());
+			}
 
             // Ensure valid form and initial encounter type passed in
 			if (f == null || initialEncounterType == null) {
@@ -100,13 +108,17 @@ public class EMastercardAccessTag extends BodyTagSupport {
 						if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
 							o.write("Not available: No identifier for current enrollment location (" + f.getName() + ")");
 						} else {
-							if (isReadonly()) {
-								o.write("Not available (" + f.getName() + ")");
+							if (conditionConcept !=null && conditionConceptAnswer !=null && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswer)) {
+								o.write("Not available: " + conditionConceptAnswer.getDisplayString() + " diagnosis (" + f.getName() + ")");
 							} else {
-								if (p.isDead()) {
-									o.write("Not available: Patient dead (" + f.getName() + ")");
+								if (isReadonly()) {
+									o.write("Not available (" + f.getName() + ")");
 								} else {
-									o.write(createNewCardHtmlTag(p, f));
+									if (p.isDead()) {
+										o.write("Not available: Patient dead (" + f.getName() + ")");
+									} else {
+										o.write(createNewCardHtmlTag(p, f));
+									}
 								}
 							}
 						}
@@ -180,6 +192,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		headerForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, "eid_mastercard");
 		headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
 		headerForms.put(EncounterTypes.PDC_INITIAL.name(), "pdc_mastercard");
+		headerForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), "pdc_developmental_delay_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
         flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
@@ -194,6 +207,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
 		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("viral_load_test_results", "art_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("pdc_developmental_delay_visit"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization
@@ -339,6 +353,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		readonly = false;
 		patientIdentifierType = null;
 		programWorkflowStates = null;
+		condition = null;
+		conditionAnswer = null;
 
 		return EVAL_PAGE;
 	}
@@ -365,6 +381,22 @@ public class EMastercardAccessTag extends BodyTagSupport {
 
 	public Integer getInitialEncounterTypeId() {
 		return initialEncounterTypeId;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getConditionAnswer() {
+		return conditionAnswer;
+	}
+
+	public void setConditionAnswer(String conditionAnswer) {
+		this.conditionAnswer = conditionAnswer;
 	}
 
 	public void setInitialEncounterTypeId(Integer initialEncounterTypeId) {

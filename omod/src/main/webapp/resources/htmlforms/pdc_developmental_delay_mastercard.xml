@@ -1,0 +1,500 @@
+<htmlform formUuid="40917486-dd3d-4bd7-a87d-7d5cd5964519"
+          formName="PDC Developmental Delay eMastercard"
+          formEncounterType="3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"
+          formVersion="1.0">
+
+    <macros>
+        aliveNotOnART=8037
+        aliveOnART=8038
+        died=1742
+        birthWeight=5916
+        hivSuspected=1062
+        motherStatus=8036
+        gestationalAge=8912
+        siteOfBirth=3528
+        hospital=2070
+        healthCenter=3566
+        home=8633
+        childFeeding=1151
+        breastfedPredominately=1150
+        weaned=1152
+        expressedBreastMilk=1173
+        infantFormula=5254
+        breastfedExclusively=5526
+        mixedFeeding=6046
+        <macro key="perinatalInfection" value="5c1f2ade-4224-46c3-99f5-7236aab13f13"/>
+        <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
+        <macro key="lowBirthWeight" value="6575742a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="prematureBirth" value="f541084c-84c7-48a6-b502-d9ddbb3bb3b9"/>
+        <macro key="cnsInfection" value="657169d4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="hydrocephalus" value="26071668-6ad4-4d30-b661-a7a07cece1ac"/>
+        <macro key="downsSyndrome" value="722824d7-8392-4d62-a8c7-4b329f5094cd"/>
+        <macro key="cleftLip" value="c415db67-75e8-4077-a0f2-ba2864ae52b1"/>
+        <macro key="cleftPalate" value="abe71d88-3f2c-4380-854b-c49b74946a01" />
+        <macro key="trisomy" value="fc4bf95c-b445-44e3-959b-435145e79f01" />
+        <macro key="hie" value="76e0ba08-d931-4baf-9651-9946543cc623" />
+        <macro key="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
+        <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
+        <macro key="ageOfGuardian" value="fa7a921c-bd5f-4d5d-8e4f-4dc5060e37b7"/>
+        <macro key="occupation" value="6558df36-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="maritalStatus" value="6557571a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="married" value="656c71b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="single" value="656416a8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="divorced" value="65575b98-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="widowed" value="65575cb0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="levelOfEduction" value="655b226e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="breastFeeding" value="657a289e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="bmilk" value="ba528fcf-d9ee-43c3-af15-c169adcec937" />
+        <macro key="cupFeeding" value="4f3e0805-3059-4226-abcd-6100cddd9543" />
+        <macro key="numberOfChildren" value="656056da-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="transport" value="654b41b4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="walk" value="654b42b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="motorBike" value="6567061a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="miniBus" value="654b44c0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="bicycle" value="654b43c6-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
+        <macro key="sourceOfReferral" value="eb76915e-104d-4500-b56e-726f3e2a75f9" />
+        <macro key="referralFormFilled" value="8f985039-f018-4542-a531-f693fca2906b" />
+        <macro key="antibiotics" value="6575888e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="enroute" value= "50fe5939-7380-4a01-abe4-6a7806280bdb" />
+        <macro key="svd" value="6558384c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="cs" value="65583964-977f-11e1-8993-905e29aff6c1" />
+        <macro key="agpar" value="687a622a-302b-49c9-87a7-2f7558549548" />
+        <macro key="mod" value="656cd888-977f-11e1-8993-905e29aff6c1" />
+        <macro key="careLinked" value="0d52f232-8d34-45d4-9006-dd592bc7bf24" />
+        <macro key="clinical" value="6566b8c2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nru" value="f0bb3ac5-0e84-487a-8a2d-59b96378a797" />
+        <macro key="poser" value="5b49fbf4-2645-4ab2-974e-4e6c961162b1" />
+        <macro key="educationLevel" value="655b226e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="none" value="6557987e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="primary" value="65620872-977f-11e1-8993-905e29aff6c1" />
+        <macro key="secondary" value="65620a7a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="university" value="65620c82-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ogt" value="fe7d2795-3cfe-47fa-933c-cb8e9b1c42d5" />
+        <macro key="notes" value="655928e2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="drugs" value="0754f2f8-d797-11e8-9f8b-f2801f1b9fd1" />
+        <macro key="currentMedication" value="65585192-977f-11e1-8993-905e29aff6c1" />
+        <macro key="enrolledInPdc" value="92148ae3-642c-47f5-ae7c-2c4efa9796e8" />
+        <macro key="typeOfFeed" value="7f5c591e-8b74-4fa9-8bbf-f4154a0d92d3" />
+        <macro key="otherSupport" value="6562c208-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diagnosis" value="656292d8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="incomeSource" value="de85f47e-0830-4840-b393-e7adcd641064" />
+        <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea" />
+        yesAnswer=1065
+        noAnswer=1066
+        unknown=1067
+        positive=703
+        negative=664
+        diagnosisSet=8445
+        chronicCareDiagnosis=3683
+        diagnosisDate=6774
+        asthmaDx=5
+        asthmaFamilyHistory=8426
+        copdDx=3716
+        copdFamilyHistory=8427
+        hivStatus=3753
+        reactive=1228
+        nonReactive=1229
+        hivTestDate=1837
+        artStartDate=2516
+        tbStatus=7459
+        smearPos=2185
+        smearNeg=2186
+        eptb=1547
+        tbYear=8453
+        patientPhone=1426
+        symptom=1293
+        dryCough=2128
+        duration=2161
+        ageAtOnset=8428
+        exposureGroup=8546
+        exposureAns=8495
+        exposureDate=8545
+        tbContact=2133
+        secondHandSmoke=8443
+        occupationalExposure=8430
+        guardianName=1824
+        cookingLocation=8404
+        indoor=2437
+        outdoor=2438
+        smokingHistory=1551
+        inPast=1548
+        lastTimeSmoking=8432
+        guardianPhone=2616
+        occupation=1304
+        relationToPatient=1328
+        agreesToFollowup=2552
+        chwName=8431
+    </macros>
+
+    <span style="display:none">
+        <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
+        <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
+    </span>
+    <div>
+        <h4 style="font-style: italic;">
+            <b>PDC Patient Card</b>
+            <b style="padding-left:50px;">Intake / Referral Form</b>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">
+                    <encounterLocation id="mastercardLocation" />
+                    <span style="padding-left:20px;">
+                        Date: <encounterDate />
+                    </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferIn" />
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">PDC Reg no: </b>
+                <b>
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
+                </b>
+            </span>
+            <span style="padding-left:50px;">Version 1</span>
+        </h4>
+        <table class="data-entry-table">
+            <tr style="border: none;">
+                <td style="vertical-align:top;">
+                    <h5>Patient / Guardian Details</h5>
+                    <table>
+                        <tr>
+                            <td>Patient Name</td>
+                            <td>
+                                <lookup expression="patient.personName" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sex, DOB</td>
+                            <td>
+                                <span class="left-cell">
+                                    <lookup expression="patient.gender" />
+                                </span>
+                                <span class="right-cell">
+                                    <lookup expression="patient.birthdate" />
+                                    (Age: <lookup expression="patient.age"/>)
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Physical Address</td>
+                            <td><!-- style="height:60px;"-->
+                                <lookup complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Phone</td>
+                            <td><obs conceptId="$patientPhone" size="10"/></td>
+                        </tr>
+                        <tr>
+                            <td>Guardian relation to patient</td>
+                            <td>
+                                <obs conceptId="$relationToPatient" size="10" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agrees to FUP</td>
+                            <td>
+                                <obs conceptId="$agreesToFollowup" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHW Name</td>
+                            <td>
+                                <lookup complexExpression="#foreach(${relationship} in ${relationshipList})
+				#if( $velocityCount == 1 )
+				          #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+				                ${relationship.personA.personName}
+				          #end
+				#else
+					  #if(${relationship.relationshipType.uuid} == 'eb567be2-fda1-4746-9d51-833de8a7e81f')
+						&#44; ${relationship.personA.personName}
+				          #end
+				#end
+                              #end "/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="vertical-align:top;">
+                    <h5>Patient Overview</h5>
+                    <table>
+                        <tr>
+                            <th style="vertical-align:top;" align="left" rowspan="7">Caretaker Details</th>
+                            <td>Guardian Name</td>
+                            <td><obs id="guardianNameField" conceptId="$guardianName" size="40"/></td>
+                            <th style="vertical-align:top;" align="left" rowspan="7">General Information</th>
+                            <th style="vertical-align:top;" align="left" rowspan="2">Source of <br />Referral</th>
+                            <td> <obs conceptId="$sourceOfReferral" style="radio" answerConceptIds="$hospital,$healthCenter,$home,$tertiary"
+                                      answerLabels="Hospital,Health Center,Home,Tertiary" /></td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td><obs conceptId="$ageOfGuardian"/></td>
+
+                            <!--<td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                            <td class="nowrap">
+                                <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
+                                     answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>-->
+                        </tr>
+                        <tr>
+
+                            <td>Guardian Phone</td>
+                            <td><obs conceptId="$guardianPhone" size="10"/></td>
+                            <th style="vertical-align:top;" align="left" rowspan="2">HIV Services</th>
+                            <td>
+                                <!-- Mother Status -->
+                                <obs conceptId="$motherStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$hivSuspected"
+                                     answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Unk" labelText="HIV status of mother" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marital Status</td>
+                            <td>
+                                <!-- Marital Status -->
+                                <obs conceptId="$maritalStatus" style="radio" answerConceptIds="$married,$single,$divorced,$widowed"
+                                     answerLabels="Married,Single,Divorced,Widowed"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Level of Education</td>
+                            <td>
+                                <!-- Education Level -->
+                                <obs conceptId="$educationLevel" style="radio" answerConceptIds="$none,$primary,$secondary,$university"
+                                     answerLabels="None,Primary,Secondary,Tertiary"/>
+                            </td>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Income Source <br />(specify)</th>
+                            <td>
+                                <obs conceptId="$incomeSource" size="20" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Number of Children</td>
+                            <td>
+                                <obs conceptId="$numberOfChildren" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                POSER
+                            </td>
+                            <td>
+                                <obs conceptId="$poser" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Yes,No" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Referral Form Filled</td>
+                <td>
+                    <obs conceptId="$referralFormFilled" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" />
+                </td>
+            </tr>
+            <tr>
+                <table>
+                    <tr>
+                        <td colspan="6"><b>Complete All Sections</b></td>
+                        <td colspan="4"><b>Reasons for referral</b></td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left" rowspan="7">History of <br/> Illness <br/></th>
+                        <td>Birth Site</td>
+                        <td colspan="4">
+                            <obs conceptId="$siteOfBirth" style="radio" answerConceptIds="$hospital,$healthCenter,$home,$enroute"
+                                 answerLabels="Hospital,Health Center,Home,Enroute" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hie" answerLabel="HIE" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$developmentalDelay" answerLabel="Developmental Delay" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            MOD
+                        </td>
+                        <td colspan="4">
+                            <obs conceptId="$mod" style="radio" answerConceptIds="$svd,$cs,$agpar,$enroute"
+                                 answerLabels="SVD,C/S,AGPAR,Enroute" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Perinatal Infection
+                        </td>
+                        <td colspan="4">
+                            <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No"
+                                 answerConceptIds="$yesAnswer,$noAnswer" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$trisomy" answerLabel="Trisomy 21" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cleftPalate" answerLabel="Cleft Palate" />
+                        </td>
+                        <td>
+                            <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">
+                            Antibiotics
+                        </td >
+                        <td colspan="4">
+                            <obs conceptId="$antibiotics" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                                 answerLabels="Yes,No" />
+
+                        </td>
+                        <td colspan="4"><b>Summary</b></td>
+                    </tr>
+                    <tr >
+                        <td colspan="4" rowspan="2">
+                            Duration
+                        </td>
+                        <td colspan="4">
+                            <obs conceptId="$enrolledInPdc" style="radio" answerLabels="Yes,No" answerConceptIds="$yesAnswer,$noAnswer" labelText="Enrolled In PDC" />
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="4">
+                            <b>Conditions at enrollment</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Current Medication
+                        </td>
+                        <td>
+                            <obs conceptId="$currentMedication" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer"/>
+                        </td>
+                        <td colspan="3">
+                            <obs conceptId="$drugs" labelText="Specify if yes" size="50"/>
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$hie" answerLabel="HIE" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$developmentalDelay" answerLabel="Developmental Delay" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left" rowspan="7">Feeding <br/> History <br/></th>
+                        <td>Type of Feed</td>
+                        <td>
+                            <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$bmilk" answerLabel="Breast Milk" />
+                        </td>
+                        <td>
+                            <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                        </td>
+                        <td colspan="2">
+                            other
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Feeding method</td>
+                        <td>
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$breastFeeding" answerLabel="BF" />
+                        </td>
+                        <td>
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$cupFeeding" answerLabel="Cup" />
+                        </td>
+                        <td colspan="2">
+                            <obs conceptId="$childFeeding" style="checkbox" answerConceptId="$ogt" answerLabel="OGT" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$trisomy" answerLabel="Trisomy 21" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cleftPalate" answerLabel="Cleft Palate" />
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Notes
+                        </td>
+                        <td colspan="4">
+                            <obs conceptId="$notes" size="50"/>
+                        </td>
+                        <td>
+                            Care Linked
+                        </td>
+                        <td colspan="3">
+                            <!-- Care Linked -->
+                            <obs conceptId="$careLinked" style="radio" answerConceptIds="$clinical,$nru"
+                                 answerLabels="Clinical,NRU"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:top;" align="left">Outcome</th>
+                        <td colspan="4">
+                            <b>
+                                <lookup expression="fn.currentProgramWorkflowStatus(26).state.concept.name" />
+                                (<lookup expression="fn.currentProgramWorkflowStatus(26).startDate" />)
+                            </b>
+                        </td>
+                        <td>
+                            Other Support
+                        </td>
+                        <td colspan="3">
+                            <!-- Other Support -->
+                            <obs conceptId="$otherSupport" />
+                        </td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons" style="margin-top:10px;">
+                <button class="submitButton confirm" onclick="submitHtmlForm()">
+                    <uimessage code="uicommons.save"/>
+                    <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                </button>
+            </div>
+        </ifMode>
+    </div>
+</htmlform>

@@ -354,7 +354,7 @@ public class EncounterTypes {
         public String description() { return "Trisomy21 PDC Encounter - followup"; }
     };
 
-    public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor PDC_DEVELOPMENTAL_DELAY_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"; }
         public String name() { return "PDC_DEVELOPMENTAL_DELAY_INITIAL"; }
         public String description() { return "Developmental Delay  PDC Encounter - initial"; }

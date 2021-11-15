@@ -47,6 +47,8 @@
 <c:set var="PdcPatientDiedWorkflowState" value="7451d3db-2400-4d38-b981-133dabf1558e"/>
 <c:set var="PdcTransferredOutWorkflowState" value="4b2027c3-f6a1-4cdd-81c3-a6c2068ef9a9"/>
 <c:set var="PdcPatientDefaultedWorkflowState" value="49853073-c864-4421-8ba4-41bb743107bd"/>
+<c:set var="diagnosis" value="656292d8-977f-11e1-8993-905e29aff6c1"/>
+<c:set var="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -140,6 +142,10 @@
     <tr>
         <td>Pediatric Development Clinic Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
+    </tr>
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC Developmental Delay eMastercard" initialEncounterTypeName="PDC_DEVELOPMENTAL_DELAY_INITIAL" followupEncounterTypeName="PDC_DEVELOPMENTAL_DELAY_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26" condition="${diagnosis}" conditionAnswer="${developmentalDelay}"/></td>
     </tr>
 
     <tr>
