@@ -22,8 +22,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
     public static String DISCHARGE = "a9fb94ba-b3a9-4d2a-98e4-53bf19dff3d5";
     public static String APNEA = "d62a989c-055c-4fbe-bc3b-2fcc8357263c";
     public static String CHOKING = "f6f6e463-4178-44c2-a647-1d7f699808a9";
-    public static String WEAK = "64af04b8-81bb-4cea-8334-a07b1072e3ef";
-    public static String SUPPORT_GROUP = "836ed5c1-3d74-4e13-b695-bc429880bc52";
+    public static String WEAKNESS = "64af04b8-81bb-4cea-8334-a07b1072e3ef";
     public static String GROUP_COUNSELING = "cef3471e-eb0a-4b14-b402-9b24742e3869";
     public static String GI_CONCERNS = "8ba308ba-e077-4137-83c6-50685f9277c7";
     public static String GI_CONCERNS_STOOL_SET = "f6b86b98-b054-43b4-87aa-772e5be53620";
@@ -117,7 +116,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
                 .build());
 
         // Weakness
-        Concept weakness = install(new ConceptBuilder(WEAK)
+        Concept weakness = install(new ConceptBuilder(WEAKNESS)
                 .datatype(coded)
                 .conceptClass(question)
                 .name("624d6d7d-9f20-4311-86bc-2d91f0803bab", "Weak",
@@ -140,7 +139,7 @@ public class PdcTrisomy21Concepts extends VersionedPihConceptBundle{
                 .conceptClass(convSet)
                 .name("321f45a9-3d1b-48ed-a9c6-f52da15713f4", "Gastrointestinal Concerns - Stool set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED)
-                .name("d1cc2839-f0dc-48a9-b2ae-cc7d32f8bc98", "GI Concerns - Stool set", Locale.ENGLISH,
+                .name("069fd651-196d-4e9b-9938-8166c2d85062", "GI Concerns - Stool set", Locale.ENGLISH,
                         ConceptNameType.SHORT)
                 .setMembers(passageNormal, diarrheaPersistent)
                 .build());
