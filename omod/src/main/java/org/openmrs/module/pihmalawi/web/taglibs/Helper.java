@@ -3,8 +3,11 @@ package org.openmrs.module.pihmalawi.web.taglibs;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PatientProgram;
@@ -17,6 +20,7 @@ import org.openmrs.util.OpenmrsUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -40,6 +44,30 @@ public class Helper {
 		}
 		PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierType(patientIdentifierType);
 		return !p.getPatientIdentifiers(pit).isEmpty();
+	}
+
+	public static boolean hasCondition(Patient p, Concept condition, Concept answer) {
+		boolean conditionPresent = false;
+		if (p!=null && condition !=null && answer != null) {
+			List<Obs> obs = Context.getObsService().getObservations(
+					Arrays.asList((Person) p),
+					null,
+					Arrays.asList(condition),
+					Arrays.asList(answer),
+					null,
+					null,
+					null,
+					1,
+					null,
+					null,
+					null,
+					false);
+			if (!obs.isEmpty()) {
+				conditionPresent = true;
+			}
+
+		}
+		return conditionPresent;
 	}
 	
 	/**
