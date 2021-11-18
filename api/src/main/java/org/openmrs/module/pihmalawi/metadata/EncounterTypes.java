@@ -366,9 +366,9 @@ public class EncounterTypes {
         public String description() { return "Developmental Delay  PDC Encounter - followup"; }
     };
 
-    public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
-        public String name() { return "PDC_CLEFT_CLIP_PALLET"; }
+        public String name() { return "PDC_CLEFT_CLIP_PALLET_INITIAL"; }
         public String description() { return "Cleft Clip Pallet PDC Encounter"; }
     };
 }
