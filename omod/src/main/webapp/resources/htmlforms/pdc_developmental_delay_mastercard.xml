@@ -22,6 +22,7 @@
         infantFormula=5254
         breastfedExclusively=5526
         mixedFeeding=6046
+        <macro key="pdcInitial" value="cb6be652-c5ee-447d-9d94-1100ffb26aa8"/>
         <macro key="perinatalInfection" value="5c1f2ade-4224-46c3-99f5-7236aab13f13"/>
         <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
         <macro key="lowBirthWeight" value="6575742a-977f-11e1-8993-905e29aff6c1"/>
@@ -301,6 +302,15 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <uiInclude
+                            provider="pihmalawi"
+                            fragment="conditionsAtEnrollment"
+                            fragmentParams="encounterType=$pdcInitial&amp;patientUuid=$patient.uuid">
+                    </uiInclude>
+                </td>
+            </tr>
+            <tr>
                 <table>
                     <tr>
                         <td colspan="6"><b>Complete All Sections</b></td>
@@ -373,7 +383,7 @@
                         </td>
                         <td colspan="4"><b>Summary</b></td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td colspan="4" rowspan="2">
                             Duration
                         </td>
@@ -381,7 +391,7 @@
                             <obs conceptId="$enrolledInPdc" style="radio" answerLabels="Yes,No" answerConceptIds="$yesAnswer,$noAnswer" labelText="Enrolled In PDC" />
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td colspan="4">
                             <b>Conditions at enrollment</b>
                         </td>
