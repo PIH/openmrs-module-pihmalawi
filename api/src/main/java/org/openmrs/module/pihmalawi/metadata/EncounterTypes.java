@@ -342,9 +342,9 @@ public class EncounterTypes {
         public String description() { return "Followup PDC encounter"; }
     };
 
-    public static EncounterTypeDescriptor PDC_TRISOMY21 = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor PDC_TRISOMY21_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "6ed701a4-152f-11ec-82a8-0242ac130003"; }
-        public String name() { return "PDC_TRISOMY21"; }
+        public String name() { return "PDC_TRISOMY21_INITIAL"; }
         public String description() { return "Trisomy21 PDC Encounter"; }
     };
 
