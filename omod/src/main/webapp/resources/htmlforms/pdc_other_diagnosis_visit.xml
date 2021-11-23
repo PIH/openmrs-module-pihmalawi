@@ -1,5 +1,5 @@
 <htmlform formUuid="9dcf3c16-486e-11ec-81d3-0242ac130003" formName="Other Diagnosis Visit"
-          formEncounterType="60bfcb32-486a-11ec-81d3-0242ac130003" formVersion="2.0">
+          formEncounterType="60bfcb32-486a-11ec-81d3-0242ac130003" formVersion="1.0">
 
     <macros>
         noAnswer=1066
