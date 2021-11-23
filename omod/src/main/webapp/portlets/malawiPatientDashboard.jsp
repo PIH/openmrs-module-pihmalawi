@@ -49,6 +49,7 @@
 <c:set var="PdcPatientDefaultedWorkflowState" value="49853073-c864-4421-8ba4-41bb743107bd"/>
 <c:set var="diagnosis" value="656292d8-977f-11e1-8993-905e29aff6c1"/>
 <c:set var="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
+<c:set var="trisomy21" value="fc4bf95c-b445-44e3-959b-435145e79f01"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -146,6 +147,10 @@
     <tr>
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC Developmental Delay eMastercard" initialEncounterTypeName="PDC_DEVELOPMENTAL_DELAY_INITIAL" followupEncounterTypeName="PDC_DEVELOPMENTAL_DELAY_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26" condition="${diagnosis}" conditionAnswer="${developmentalDelay}"/></td>
+    </tr>
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC Trisomy eMastercard" initialEncounterTypeName="PDC_TRISOMY21_INITIAL" followupEncounterTypeName="PDC_TRISOMY21_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26" condition="${diagnosis}" conditionAnswer="${trisomy21}"/></td>
     </tr>
 
     <tr>
