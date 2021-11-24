@@ -46,14 +46,14 @@ public class Helper {
 		return !p.getPatientIdentifiers(pit).isEmpty();
 	}
 
-	public static boolean hasCondition(Patient p, Concept condition, Concept answer) {
+	public static boolean hasCondition(Patient p, Concept condition, List<Concept> answers) {
 		boolean conditionPresent = false;
-		if (p!=null && condition !=null && answer != null) {
+		if (p!=null && condition !=null && answers != null && answers.size() > 0) {
 			List<Obs> obs = Context.getObsService().getObservations(
 					Arrays.asList((Person) p),
 					null,
 					Arrays.asList(condition),
-					Arrays.asList(answer),
+					answers,
 					null,
 					null,
 					null,
@@ -130,7 +130,28 @@ public class Helper {
 		}
 		return lastStateOnDate;
 	}
-	
+
+	/**
+	 *
+	 * @param csvConceptIds a String containing comma-separated Concept UUIDs
+	 * @return the List of Concept that match the given UUIDs
+	 */
+	public static List<Concept> getConceptsFromString(String csvConceptIds) {
+		List<Concept> concepts = new ArrayList<Concept>();
+		if (StringUtils.isNotBlank(csvConceptIds)) {
+			StringTokenizer st = new StringTokenizer(csvConceptIds, ",");
+			while (st.hasMoreTokens()) {
+				Concept concept = null;
+				String uuid = st.nextToken().trim();
+				concept = Context.getConceptService().getConceptByUuid(uuid);
+				if (concept != null) {
+					concepts.add(concept);
+				}
+			}
+		}
+		return concepts;
+	}
+
 	/**
 	 * @param csvStateIds a String containing comma-separated programWorkflowState ids or UUIDs
 	 * @return the List of ProgramWorkflowStates that match the given ids
