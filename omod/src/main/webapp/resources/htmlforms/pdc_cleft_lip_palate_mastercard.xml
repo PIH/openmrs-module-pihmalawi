@@ -1,27 +1,15 @@
-<htmlform formUuid="40917486-dd3d-4bd7-a87d-7d5cd5964519"
-          formName="PDC Developmental Delay eMastercard"
-          formEncounterType="3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"
+<htmlform formUuid="74f4b94e-855a-4154-abb7-75256aefb00f"
+          formName="PDC Cleft Lip / Palate eMastercard"
+          formEncounterType="dbfc3984-6466-4ce0-a53f-fa646d74c41f"
           formVersion="1.0">
 
     <macros>
         <macro key="pdcInitial" value="cb6be652-c5ee-447d-9d94-1100ffb26aa8"/>
-        <macro key="perinatalInfection" value="5c1f2ade-4224-46c3-99f5-7236aab13f13"/>
-        <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
-        <macro key="lowBirthWeight" value="6575742a-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="prematureBirth" value="f541084c-84c7-48a6-b502-d9ddbb3bb3b9"/>
-        <macro key="cnsInfection" value="657169d4-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="hydrocephalus" value="26071668-6ad4-4d30-b661-a7a07cece1ac"/>
-        <macro key="downsSyndrome" value="722824d7-8392-4d62-a8c7-4b329f5094cd"/>
-        <macro key="cleftLip" value="c415db67-75e8-4077-a0f2-ba2864ae52b1"/>
-        <macro key="cleftPalate" value="abe71d88-3f2c-4380-854b-c49b74946a01" />
-        <macro key="trisomy" value="fc4bf95c-b445-44e3-959b-435145e79f01" />
-        <macro key="hie" value="76e0ba08-d931-4baf-9651-9946543cc623" />
-        <macro key="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
-        <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
-        <macro key="geneticSyndrome" value="77f4ecbc-b6bd-4caf-b956-15f01f613a1c" />
-        <macro key="confirmed" value="d6e34dbf-55e9-49a3-bf00-dbd9c9048609" />
-        <macro key="suspected" value="7667e58e-4332-4e83-bd85-0490bcb394fb" />
+        <macro key="facialSet" value="a4f0ade3-6f74-4e2d-8f96-9383dcf1b858" />
+        <macro key="smallJaw" value="7a138236-764e-479e-9723-1a0bf01dadce" />
+        <macro key="otherCoded" value="8797110a-d38e-427f-a08f-260300c8c896" />
+        <macro key="otherNoneCoded" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -40,7 +28,7 @@
     <div>
         <h4 style="font-style: italic;">
             <b>PDC Patient Card</b>
-            <b style="padding-left:50px;">HIE / Developmental Delay</b>
+            <b style="padding-left:50px;">PDC Cleft Lip / Palate</b>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -143,23 +131,25 @@
                             </td>
                         </tr>
                         <tr>
-                            <th rowspan="2">Genetic Syndrome</th>
+                            <th>Facial Abnormalities</th>
                             <td>
-                                <span>Suspected</span>
-                                <obsgroup groupingConceptId="$geneticSyndrome">
-                                    <obs conceptId="$suspected"
-                                        answerConceptIds="$yesAnswer,$noAnswer"
-                                        answerLabels="Yes,No" style="radio" />
-                            </obsgroup>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>Confirmed</span>
-                                <obsgroup groupingConceptId="$geneticSyndrome">
-                                    <obs conceptId="$confirmed"
-                                         answerConceptIds="$yesAnswer,$noAnswer"
-                                         answerLabels="Yes,No" style="radio" />
+                                <obsgroup groupingConceptId="$facialSet">
+                                    <b>Small Jaw:</b>
+                                    <obs conceptId="$smallJaw"
+                                         answerLabels="No,Yes" answerConceptIds="$noAnswer,$yesAnswer"
+                                         style="radio"
+                                    />
+                                    <br />
+                                    <br />
+                                    <b>Other:</b>
+                                    <obs conceptId="$otherCoded"
+                                         answerLabels="No,Yes" answerConceptIds="$noAnswer,$yesAnswer"
+                                         style="radio"
+                                    />
+                                    <br />
+                                    <br />
+                                    <b>Specify:</b>
+                                    <obs conceptId="$otherNoneCoded" />
                                 </obsgroup>
                             </td>
                         </tr>

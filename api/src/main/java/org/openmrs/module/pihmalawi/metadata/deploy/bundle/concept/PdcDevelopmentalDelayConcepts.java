@@ -52,11 +52,12 @@ public class PdcDevelopmentalDelayConcepts extends VersionedPihConceptBundle {
     public static final String WEIGHT_AGAINST_AGE = "e3d43e73-c831-421a-bf77-7e35bd11678a";
     public static final String WEIGHT_AGAINST_HEIGHT = "eaf64a61-4526-47b3-b8e2-be402c8568f2";
     public static final String GROUP_COUNSELLING = "cef3471e-eb0a-4b14-b402-9b24742e3869";
-
+    public static final String CONFIRMED = "d6e34dbf-55e9-49a3-bf00-dbd9c9048609";
+    public static final String GENETIC_SYNDROME = "77f4ecbc-b6bd-4caf-b956-15f01f613a1c";
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -337,6 +338,24 @@ public class PdcDevelopmentalDelayConcepts extends VersionedPihConceptBundle {
                 .name("1f61b143-ad1b-4c18-b802-3931a7d1c80f", "Developmental Delay TSH Test Set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .setMembers(courseHair, poorGrowth)
+                .build());
+
+        // Referred to POSER support
+        Concept confirmed = install(new ConceptBuilder(CONFIRMED)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("bf0d513f-8993-4132-a4ae-730c6a19b10d", "Confirmed (coded)",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no,unknown)
+                .build());
+
+        // Genetic Syndrome
+        install(new ConceptBuilder(GENETIC_SYNDROME)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("a56b7498-e951-46c4-8b25-9923be3e813f", "Genetic Syndrome Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED) // locale-preferred
+                .setMembers(suspected, confirmed)
                 .build());
     }
 }

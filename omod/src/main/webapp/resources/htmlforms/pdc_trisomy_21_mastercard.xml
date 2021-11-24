@@ -1,27 +1,12 @@
-<htmlform formUuid="40917486-dd3d-4bd7-a87d-7d5cd5964519"
-          formName="PDC Developmental Delay eMastercard"
-          formEncounterType="3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4"
+<htmlform formUuid="c655dafd-9efa-491d-89a7-32e665b3ac85"
+          formName="PDC Trisomy eMastercard"
+          formEncounterType="6ed701a4-152f-11ec-82a8-0242ac130003"
           formVersion="1.0">
 
     <macros>
         <macro key="pdcInitial" value="cb6be652-c5ee-447d-9d94-1100ffb26aa8"/>
-        <macro key="perinatalInfection" value="5c1f2ade-4224-46c3-99f5-7236aab13f13"/>
-        <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
-        <macro key="lowBirthWeight" value="6575742a-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="prematureBirth" value="f541084c-84c7-48a6-b502-d9ddbb3bb3b9"/>
-        <macro key="cnsInfection" value="657169d4-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="hydrocephalus" value="26071668-6ad4-4d30-b661-a7a07cece1ac"/>
-        <macro key="downsSyndrome" value="722824d7-8392-4d62-a8c7-4b329f5094cd"/>
-        <macro key="cleftLip" value="c415db67-75e8-4077-a0f2-ba2864ae52b1"/>
-        <macro key="cleftPalate" value="abe71d88-3f2c-4380-854b-c49b74946a01" />
-        <macro key="trisomy" value="fc4bf95c-b445-44e3-959b-435145e79f01" />
-        <macro key="hie" value="76e0ba08-d931-4baf-9651-9946543cc623" />
-        <macro key="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
-        <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
-        <macro key="geneticSyndrome" value="77f4ecbc-b6bd-4caf-b956-15f01f613a1c" />
-        <macro key="confirmed" value="d6e34dbf-55e9-49a3-bf00-dbd9c9048609" />
-        <macro key="suspected" value="7667e58e-4332-4e83-bd85-0490bcb394fb" />
+        <macro key="meconiumDelayed" value="9af02405-2861-4c98-87b0-6b92a4606a7d" />
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -40,7 +25,7 @@
     <div>
         <h4 style="font-style: italic;">
             <b>PDC Patient Card</b>
-            <b style="padding-left:50px;">HIE / Developmental Delay</b>
+            <b style="padding-left:50px;">Trisomy 21</b>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -143,24 +128,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <th rowspan="2">Genetic Syndrome</th>
+                            <th>Meconium Delayed</th>
                             <td>
-                                <span>Suspected</span>
-                                <obsgroup groupingConceptId="$geneticSyndrome">
-                                    <obs conceptId="$suspected"
+                                    <obs conceptId="$meconiumDelayed"
                                         answerConceptIds="$yesAnswer,$noAnswer"
                                         answerLabels="Yes,No" style="radio" />
-                            </obsgroup>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>Confirmed</span>
-                                <obsgroup groupingConceptId="$geneticSyndrome">
-                                    <obs conceptId="$confirmed"
-                                         answerConceptIds="$yesAnswer,$noAnswer"
-                                         answerLabels="Yes,No" style="radio" />
-                                </obsgroup>
                             </td>
                         </tr>
                     </table>

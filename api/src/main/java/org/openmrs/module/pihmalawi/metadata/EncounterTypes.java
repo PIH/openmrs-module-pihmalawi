@@ -342,9 +342,9 @@ public class EncounterTypes {
         public String description() { return "Followup PDC encounter"; }
     };
 
-    public static EncounterTypeDescriptor PDC_TRISOMY21 = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor PDC_TRISOMY21_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "6ed701a4-152f-11ec-82a8-0242ac130003"; }
-        public String name() { return "PDC_TRISOMY21"; }
+        public String name() { return "PDC_TRISOMY21_INITIAL"; }
         public String description() { return "Trisomy21 PDC Encounter"; }
     };
 
@@ -367,8 +367,19 @@ public class EncounterTypes {
     };
 
     public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_INITIAL = new EncounterTypeDescriptor() {
-        public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
+        public String uuid() { return "dbfc3984-6466-4ce0-a53f-fa646d74c41f"; }
         public String name() { return "PDC_CLEFT_CLIP_PALLET_INITIAL"; }
         public String description() { return "Cleft Clip Pallet PDC Encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() {return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf";}
+        public String name() {return "PDC_CLEFT_CLIP_PALLET_FOLLOWUP";}
+        public String description() {return "Cleft Clip Pallet PDC Encounter";}
+    };
+    public static EncounterTypeDescriptor PDC_OTHER_DIAGNOSIS_VISIT = new EncounterTypeDescriptor() {
+        public String uuid() { return "60bfcb32-486a-11ec-81d3-0242ac130003"; }
+        public String name() { return "PDC_PREMATURITY_VISIT"; }
+        public String description() { return "Prematurity PDC Encounter - visit"; }
     };
 }
