@@ -12,11 +12,10 @@ import java.util.Locale;
 
 @Component
 @Requires({CoreConceptMetadataBundle.class})
-public class PdcStandardVisitConcepts extends VersionedPihConceptBundle {
+public class PdcOtherDiagnosisVisitConcepts extends VersionedPihConceptBundle {
 
     public static final String  USED_MDAT= "a02e4855-b282-45ba-bf24-7e888cc18e6d";
     public static final String NORMAL_MDAT = "d34cf0b3-073c-4f4e-ac4c-1c1e8e4c9165";
-    //public static final String COMM = "";
     public static final String PERSONAL_CONCERNS = "ac3cd477-e8bb-4299-9bc7-482f0deec914";
     public static final String MUSCLES_CONCERNS = "af0d29c2-a22c-4334-a2f8-f61266d32f64";
     public static final String PROBLEM_SOLVING_CONCERNS = "6eb1d8df-af38-459a-a9e9-51065eb71e90";
@@ -36,15 +35,14 @@ public class PdcStandardVisitConcepts extends VersionedPihConceptBundle {
     public static final String FEEDING_CONCERNS = "e552ebb0-40ad-42a2-a2cd-f21f143a38d0";
     public static final String PDC_CONVULSIONS = "2f8744bd-3a88-4aaa-913f-26266fe4d41a";
     public static final String SOCIAL_SUPPORT = "0a437bf7-8a46-4204-b886-95b1bb16501e";
-    //public static final String OUTCOME_DATE = "";
-
-
-
+    public static final String COMPLICATIONS_SINCE_LAST_VISIT = "e384a58c-4a73-11ec-81d3-0242ac130003";
+    public static final String COMMUNICATION_DEVELOPMENT = "3a39e086-4a6f-11ec-81d3-0242ac130003";
+    public static final String DEV_COUNSEL = "e38498b2-4a73-11ec-81d3-0242ac130003";
 
 
     @Override
     public int getVersion() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -205,7 +203,7 @@ public class PdcStandardVisitConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
 
                 .conceptClass(convSet)
-                .name("2ca39698-ed1c-4c89-abf7-49160c019684", "Developmental Concerns", Locale.ENGLISH,
+                .name("2ca39698-ed1c-4c89-abf7-49160c019684", "Developmental Concerns Set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .setMembers(personalConcerns, musclesConcerns, problemSolvingConcerns)
                 .build());
@@ -215,7 +213,7 @@ public class PdcStandardVisitConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
 
                 .conceptClass(convSet)
-                .name("e96202a8-cc8d-450c-96ad-4026ae7002da", "Development Counsel", Locale.ENGLISH,
+                .name("e96202a8-cc8d-450c-96ad-4026ae7002da", "Development Counsel Set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED) // locale-preferred
                 .setMembers(groupSessionCounsel)
                 .build());
@@ -250,6 +248,32 @@ public class PdcStandardVisitConcepts extends VersionedPihConceptBundle {
                 .setMembers(notRequiredC, foodPackage, transportConvulsion)
                 .build());
 
+        // Complications Since Last Visit
+        Concept complications_since_last_visit = install(new ConceptBuilder(COMPLICATIONS_SINCE_LAST_VISIT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("c21e5a6a-4a68-11ec-81d3-0242ac130003", "Complications since last visit",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        // Communication Development
+        Concept commDev= install(new ConceptBuilder(COMMUNICATION_DEVELOPMENT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("3a39de74-4a6f-11ec-81d3-0242ac130003", "Communication Development",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        // Development Counsel`
+        Concept devCounsel= install(new ConceptBuilder(DEV_COUNSEL)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("e38497e0-4a73-11ec-81d3-0242ac130003", "Development Counsel",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
 
 
     }
