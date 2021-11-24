@@ -51,7 +51,8 @@
 <c:set var="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
 <c:set var="trisomy21" value="fc4bf95c-b445-44e3-959b-435145e79f01"/>
 <c:set var="cleftLipPalate" value="c415db67-75e8-4077-a0f2-ba2864ae52b1,abe71d88-3f2c-4380-854b-c49b74946a01"/>
-
+<c:set var="prematureBirth" value="f541084c-84c7-48a6-b502-d9ddbb3bb3b9"/>
+<c:set var="otherDiagnosis" value="76e0ba08-d931-4baf-9651-9946543cc623,6575742a-977f-11e1-8993-905e29aff6c1,26071668-6ad4-4d30-b661-a7a07cece1ac,657169d4-977f-11e1-8993-905e29aff6c1,a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -158,6 +159,10 @@
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC Cleft Lip / Palate eMastercard" initialEncounterTypeName="PDC_CLEFT_CLIP_PALLET_INITIAL" followupEncounterTypeName="PDC_CLEFT_CLIP_PALLET_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26" condition="${diagnosis}" conditionAnswer="${cleftLipPalate}"/></td>
     </tr>
+        <tr>
+            <td>&NonBreakingSpace;</td>
+            <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC Other Diagnosis eMastercard" initialEncounterTypeName="PDC_OTHER_DIAGNOSIS_INITIAL" followupEncounterTypeName="PDC_OTHER_DIAGNOSIS_FOLLOWUP" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26" condition="${diagnosis}" conditionAnswer="${otherDiagnosis}"/></td>
+        </tr>
     <tr>
         <td><br /></td>
     </tr>
