@@ -373,8 +373,13 @@ public class EncounterTypes {
     };
 
     public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_FOLLOWUP = new EncounterTypeDescriptor() {
-        public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
-        public String name() { return "PDC_CLEFT_CLIP_PALLET_FOLLOWUP"; }
-        public String description() { return "Cleft Clip Pallet PDC Encounter"; }
+        public String uuid() {return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf";}
+        public String name() {return "PDC_CLEFT_CLIP_PALLET_FOLLOWUP";}
+        public String description() {return "Cleft Clip Pallet PDC Encounter";}
+    };
+    public static EncounterTypeDescriptor PDC_OTHER_DIAGNOSIS_VISIT = new EncounterTypeDescriptor() {
+        public String uuid() { return "60bfcb32-486a-11ec-81d3-0242ac130003"; }
+        public String name() { return "PDC_PREMATURITY_VISIT"; }
+        public String description() { return "Prematurity PDC Encounter - visit"; }
     };
 }
