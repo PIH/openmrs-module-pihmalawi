@@ -367,8 +367,14 @@ public class EncounterTypes {
     };
 
     public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_INITIAL = new EncounterTypeDescriptor() {
-        public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
+        public String uuid() { return "dbfc3984-6466-4ce0-a53f-fa646d74c41f"; }
         public String name() { return "PDC_CLEFT_CLIP_PALLET_INITIAL"; }
+        public String description() { return "Cleft Clip Pallet PDC Encounter"; }
+    };
+
+    public static EncounterTypeDescriptor PDC_CLEFT_CLIP_PALLET_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "cfca0af9-86c9-4717-83b7-74e61f1a7bbf"; }
+        public String name() { return "PDC_CLEFT_CLIP_PALLET_FOLLOWUP"; }
         public String description() { return "Cleft Clip Pallet PDC Encounter"; }
     };
 }

@@ -4,10 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
-import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
-import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
-import org.openmrs.module.pihmalawi.metadata.PdcMetadata;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +18,7 @@ public class PdcCleftLipPalateConcepts extends VersionedPihConceptBundle{
     public static String DIFFICULT_BREATHING = "49ab956b-ef54-427a-b0bb-440c47164012";
     public static String HEART_MURMUR = "aec2dff8-9e02-4962-802b-af3cd03e1d96";
     public static String FACIAL_ABNORMALITIES = "b2cd3341-7be7-4824-aa61-824731e54dd5";
+    public static String FACIAL_ABNORMALITIES_SET = "a4f0ade3-6f74-4e2d-8f96-9383dcf1b858";
     public static String OTHER_ASSESSMENTS = "58e9b7e1-8e7b-4ece-823f-903bf66d7bf6";
     public static String SCHEDULED = "09270f6c-9bf3-4715-8d36-d5a985fbc301";
     public static final String REFERRED_OUT = "da88696b-bf1d-4a31-b49d-997326e4a777";
@@ -34,11 +32,12 @@ public class PdcCleftLipPalateConcepts extends VersionedPihConceptBundle{
     public static String PDC_CLEFT_LIP_PALATE_ADDITIONAL_PLANS_SET = "e0c6b43e-3128-49d5-9b38-ca77ba5330d7";
     public static String SURGERY_SET = "1e225eaa-d88e-41d6-b032-fc2c3c7c7ee6";
     public static String DATE_OF_SURGERY_DATE = "65634228-977f-11e1-8993-905e29aff6c1";
-
+    public static String OTHER_NONE_CODED = "d57e3a20-5802-11e6-8b77-86f30ca893d3";
+    public static String OTHER_CODED = "8797110a-d38e-427f-a08f-260300c8c896";
 
     @Override
     public int getVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -48,6 +47,7 @@ public class PdcCleftLipPalateConcepts extends VersionedPihConceptBundle{
         Concept unknown = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.UNKNOWN);
         Concept dateOfSurgery = MetadataUtils.existing(Concept.class,DATE_OF_SURGERY_DATE);
         Concept referredOut = MetadataUtils.existing(Concept.class,REFERRED_OUT);
+        Concept otherNoneCoded = MetadataUtils.existing(Concept.class, OTHER_NONE_CODED);
 
         // Feeding Issues
         Concept feedingIssues = install(new ConceptBuilder(FEEDING_ISSUES)
@@ -192,6 +192,24 @@ public class PdcCleftLipPalateConcepts extends VersionedPihConceptBundle{
                 .name("30c960fe-cd6d-4372-8086-74fc56c19a95", "PDC Cleft lip palate additional plans set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED)
                 .setMembers(supportGroup,feedingCounselling,foodSupplement)
+                .build());
+
+        // Other coded
+        Concept otherCoded = install(new ConceptBuilder(OTHER_CODED)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("b81e7aab-60e3-463d-a360-d4311cbbcb81", "Other (coded)",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+
+        // Facial Abnormalities set
+        install(new ConceptBuilder(FACIAL_ABNORMALITIES_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("649f94cd-fa86-4ba8-ab58-ae582e1954e0", "Facial Abnormalities Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(smallJaw,otherNoneCoded,otherCoded)
                 .build());
     }
 }

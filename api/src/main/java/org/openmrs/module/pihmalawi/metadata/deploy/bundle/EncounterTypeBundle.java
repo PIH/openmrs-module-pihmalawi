@@ -95,6 +95,8 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.PDC_TRISOMY21_INITIAL);
         install(EncounterTypes.PDC_TRISOMY21_FOLLOWUP);
         install(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL);
+        install(EncounterTypes.PDC_CLEFT_CLIP_PALLET_FOLLOWUP);
+        install(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_FOLLOWUP);
         install(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL);
         install(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_FOLLOWUP);
 

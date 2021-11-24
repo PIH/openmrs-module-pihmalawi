@@ -127,6 +127,7 @@ public class HtmlFormInitializer implements Initializer {
 				"pihmalawi:htmlforms/pdc_developmental_delay_mastercard.xml",
 				"pihmalawi:htmlforms/pdc_developmental_delay_visit.xml",
 				"pihmalawi:htmlforms/pdc_cleft_lip_palate_visit.xml",
+				"pihmalawi:htmlforms/pdc_cleft_lip_palate_mastercard.xml",
 				"pihmalawi:htmlforms/pdc_trisomy_21_visit.xml",
                 "pihmalawi:htmlforms/pdc_trisomy_21_mastercard.xml");
 
