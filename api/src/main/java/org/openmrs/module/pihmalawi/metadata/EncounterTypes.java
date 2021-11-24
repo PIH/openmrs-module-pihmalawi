@@ -377,9 +377,14 @@ public class EncounterTypes {
         public String name() {return "PDC_CLEFT_CLIP_PALLET_FOLLOWUP";}
         public String description() {return "Cleft Clip Pallet PDC Encounter";}
     };
-    public static EncounterTypeDescriptor PDC_OTHER_DIAGNOSIS_VISIT = new EncounterTypeDescriptor() {
+    public static EncounterTypeDescriptor PDC_OTHER_DIAGNOSIS_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "0a2f1f74-2400-4cfd-8a9e-d2141622c6d8"; }
+        public String name() { return "PDC_OTHER_DIAGNOSIS_INITIAL"; }
+        public String description() { return "PDC Other Diagnosis Encounter - initial"; }
+    };
+    public static EncounterTypeDescriptor PDC_OTHER_DIAGNOSIS_FOLLOWUP = new EncounterTypeDescriptor() {
         public String uuid() { return "60bfcb32-486a-11ec-81d3-0242ac130003"; }
-        public String name() { return "PDC_PREMATURITY_VISIT"; }
-        public String description() { return "Prematurity PDC Encounter - visit"; }
+        public String name() { return "PDC_OTHER_DIAGNOSIS_FOLLOWUP"; }
+        public String description() { return "PDC Other Diagnosis Encounter - visit"; }
     };
 }
