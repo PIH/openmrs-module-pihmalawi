@@ -210,10 +210,10 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
 		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("viral_load_test_results", "art_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("pdc_developmental_delay_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_trisomy_21_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_cleft_lip_palate_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_other_diagnosis_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_developmental_delay_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_trisomy_21_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_cleft_lip_palate_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_other_diagnosis_visit"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization
