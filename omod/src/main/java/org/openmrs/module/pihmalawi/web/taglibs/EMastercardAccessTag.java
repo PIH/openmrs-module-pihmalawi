@@ -24,6 +24,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -72,10 +73,10 @@ public class EMastercardAccessTag extends BodyTagSupport {
                 initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
             }
 			Concept conditionConcept = null;
-			Concept conditionConceptAnswer = null;
+			List<Concept> conditionConceptAnswers = null;
 			if (StringUtils.isNotBlank(getCondition()) && StringUtils.isNotBlank(getConditionAnswer())){
 				conditionConcept = Context.getConceptService().getConceptByUuid(getCondition());
-				conditionConceptAnswer = Context.getConceptService().getConceptByUuid(getConditionAnswer());
+				conditionConceptAnswers = Helper.getConceptsFromString(getConditionAnswer());
 			}
 
             // Ensure valid form and initial encounter type passed in
@@ -108,8 +109,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
 						if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
 							o.write("Not available: No identifier for current enrollment location (" + f.getName() + ")");
 						} else {
-							if (conditionConcept !=null && conditionConceptAnswer !=null && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswer)) {
-								o.write("Not available: " + conditionConceptAnswer.getDisplayString() + " diagnosis (" + f.getName() + ")");
+							if (conditionConcept !=null && conditionConceptAnswers !=null && (conditionConceptAnswers.size() > 0) && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswers)) {
+								List<String> diagnosis = new ArrayList<String>();
+								for (Concept concept : conditionConceptAnswers) {
+									diagnosis.add(concept.getDisplayString());
+								}
+								o.write("Not available: " + StringUtils.join(diagnosis, ",") + " diagnosis (" + f.getName() + ")");
 							} else {
 								if (isReadonly()) {
 									o.write("Not available (" + f.getName() + ")");
