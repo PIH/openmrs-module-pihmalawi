@@ -387,4 +387,9 @@ public class EncounterTypes {
         public String name() { return "PDC_OTHER_DIAGNOSIS_FOLLOWUP"; }
         public String description() { return "PDC Other Diagnosis Encounter - visit"; }
     };
+    public static EncounterTypeDescriptor PDC_HOSPITALIZATION_HISTORY = new EncounterTypeDescriptor() {
+        public String uuid() { return "1b78a770-4d28-11ec-81d3-0242ac130003"; }
+        public String name() { return "PDC_HOSPITALIZATION_HISTORY"; }
+        public String description() { return "PDC Hospitalization History Encounter"; }
+    };
 }

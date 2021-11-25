@@ -101,6 +101,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_FOLLOWUP);
         install(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL);
         install(EncounterTypes.PDC_OTHER_DIAGNOSIS_FOLLOWUP);
+        install(EncounterTypes.PDC_HOSPITALIZATION_HISTORY);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
