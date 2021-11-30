@@ -106,6 +106,18 @@
             <version>${emrapiVersion}</version>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-api-1.12</artifactId>
+			<version>${emrapiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-api-2.2</artifactId>
+			<version>${emrapiVersion}</version>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>emrapi-api</artifactId>
@@ -137,12 +149,6 @@
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>htmlwidgets-api</artifactId>
-            <version>${htmlwidgetsVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>htmlwidgets-omod</artifactId>
             <version>${htmlwidgetsVersion}</version>
             <scope>provided</scope>
         </dependency>
@@ -196,7 +202,7 @@
 		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>reporting-api-1.9</artifactId>
+            <artifactId>reporting-api-2.0</artifactId>
             <version>${reportingVersion}</version>
             <scope>provided</scope>
         </dependency>
@@ -216,7 +222,7 @@
 		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>serialization.xstream-api-1.9</artifactId>
+            <artifactId>serialization.xstream-api-2.0</artifactId>
             <version>${serializationxstreamVersion}</version>
             <type>jar</type>
             <scope>test</scope>
@@ -243,21 +249,6 @@
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
-			<version>${openMRSVersion}</version>
-			<type>jar</type>
-			<scope>test</scope>
-			<classifier>tests</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.openmrs.web</groupId>
-			<artifactId>openmrs-web</artifactId>
-			<version>${openMRSVersion}</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openmrs.web</groupId>
-			<artifactId>openmrs-web</artifactId>
 			<version>${openMRSVersion}</version>
 			<type>jar</type>
 			<scope>test</scope>

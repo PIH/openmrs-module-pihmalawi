@@ -7,36 +7,27 @@ import org.openmrs.test.SkipBaseSetup;
 
 import java.util.Properties;
 
-//@ContextConfiguration(locations = {"classpath:openmrs-servlet.xml"}, inheritLocations = true)
 @SkipBaseSetup
 public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSensitiveTest {
 
-	/**
-	 * @return whether or not to run the test.  By default will only run if standalone
-	 */
+	static {
+		System.setProperty("databaseUrl", "jdbc:mysql://localhost:3308/neno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
+		System.setProperty("databaseUsername", "root");
+		System.setProperty("databasePassword", "root");
+		System.setProperty("databaseDriver", "com.mysql.jdbc.Driver");
+		System.setProperty("databaseDialect", "org.hibernate.dialect.MySQLDialect");
+		System.setProperty("useInMemoryDatabase", "false");
+		System.setProperty("junit.username", "admin");
+		System.setProperty("junit.password", "Admin123");
+	}
+
 	protected boolean isEnabled() {
 		return false;
 	}
 
 	@Override
 	public Boolean useInMemoryDatabase() {
-		return !isEnabled();
-	}
-
-	/**
-	 * @return MS Note: use port 3306 as standard, 5538 for sandbox 5.5 mysql environment
-	 */
-	@Override
-	public Properties getRuntimeProperties() {
-		Properties p = super.getRuntimeProperties();
-		if (isEnabled()) {
-			p.setProperty("connection.url", "jdbc:mysql://localhost:3306/upperneno?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
-			p.setProperty("connection.username", "openmrs");
-			p.setProperty("connection.password", "openmrs");
-			p.setProperty("junit.username", "openmrs");
-			p.setProperty("junit.password", "openmrs");
-		}
-		return p;
+		return false;
 	}
 
 	@Test

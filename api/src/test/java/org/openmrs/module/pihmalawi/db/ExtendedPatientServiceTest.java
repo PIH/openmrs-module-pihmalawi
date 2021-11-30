@@ -14,9 +14,9 @@ public class ExtendedPatientServiceTest extends BaseModuleContextSensitiveTest {
 
     @Autowired
     ExtendedPatientService extendedPatientService;
+
     @Before
     public void runBeforeAllTests() throws Exception {
-        initializeInMemoryDatabase();
         executeDataSet(FIND_PATIENTS_XML);
     }
     @Test

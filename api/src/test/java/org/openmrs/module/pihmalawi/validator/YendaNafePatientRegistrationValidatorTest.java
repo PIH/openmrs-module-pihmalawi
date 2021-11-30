@@ -28,7 +28,6 @@ public class YendaNafePatientRegistrationValidatorTest extends BaseModuleContext
 
     @Before
     public void runBeforeAllTests() throws Exception {
-        initializeInMemoryDatabase();
         executeDataSet(FIND_PATIENTS_XML);
         executeDataSet(FIND_USERS_XML);
         executeDataSet(FIND_LOCATION_XML);

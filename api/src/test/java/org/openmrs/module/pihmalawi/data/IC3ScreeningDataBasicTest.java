@@ -37,7 +37,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-@SkipBaseSetup
 public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataBasicTest.class);
