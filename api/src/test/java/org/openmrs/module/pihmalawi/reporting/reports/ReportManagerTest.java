@@ -21,6 +21,7 @@ import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.dataset.DataSetUtil;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportData;
@@ -49,17 +50,14 @@ public abstract class ReportManagerTest extends StandaloneContextSensitiveTest {
 
 	public abstract EvaluationContext getEvaluationContext();
 
-	@Autowired
-	ReportDefinitionService reportDefinitionService;
-
-	@Autowired
-	ReportService reportService;
 
 	@Autowired
 	HivMetadata metadata;
 
 	@Override
 	public void performTest() throws Exception {
+		ReportService reportService = Context.getService(ReportService.class);
+		ReportDefinitionService reportDefinitionService = Context.getService(ReportDefinitionService.class);
 		ReportManagerUtil.setupReport(getReportManager());
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
         ReportUtil.updateGlobalProperty(ReportingConstants.DEFAULT_LOCALE_GP_NAME, "en");
