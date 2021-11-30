@@ -397,4 +397,9 @@ public class EncounterTypes {
         public String name() { return "VISION_TEST"; }
         public String description() { return "Vision test encounter"; }
     };
+    public static EncounterTypeDescriptor HEARING_TEST = new EncounterTypeDescriptor() {
+        public String uuid() { return "4dae2743-e48e-4232-bf4e-d6c7ed7fad81"; }
+        public String name() { return "HEARING_TEST"; }
+        public String description() { return "Hearing test encounter"; }
+    };
 }
