@@ -53,6 +53,10 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String URINE_LAM = "a047e2ec-f07e-47a6-8849-7c5150550e9e";
     public static final String POSITIVE = "6549be7a-977f-11e1-8993-905e29aff6c1";
     public static final String NEGATIVE = "654994c2-977f-11e1-8993-905e29aff6c1";
+    public static final String TEST_RESULT = "522849a5-be77-41b2-98e4-a755096df7ed";
+    public static final String PASS = "20f6787b-3f0e-4c98-91c2-ee34f771f3ff";
+    public static final String FAIL = "a2a69a69-ecc7-450f-952e-bc8830aaabe7";
+
 
     // Existing NCD drugs concepts
     public static final String DAPSONE = "6545f8b2-977f-11e1-8993-905e29aff6c1";
@@ -156,7 +160,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 12;
+        return 14;
     }
 
     @Override
@@ -1329,6 +1333,30 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .description("059019b8-d0e5-48bb-a64c-c8cb061745a3","Antibiotic used in the treatment of tuberculosis",Locale.ENGLISH)
                 .build());
 
+        install(new ConceptBuilder(TEST_RESULT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("74bc8c1e-2438-4029-8d29-44e004d4a04d", "Test Result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
 
+        Concept pass = install(new ConceptBuilder(PASS)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("54d42b74-6bb2-423f-af02-c31cd21c086f", "Pass", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept fail = install(new ConceptBuilder(FAIL)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("ff0a837c-3c76-4981-bbb3-9249043822c1", "Fail", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder(TEST_RESULT)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("74bc8c1e-2438-4029-8d29-44e004d4a04d", "Test Result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(pass, fail)
+                .build());
     }
 }
