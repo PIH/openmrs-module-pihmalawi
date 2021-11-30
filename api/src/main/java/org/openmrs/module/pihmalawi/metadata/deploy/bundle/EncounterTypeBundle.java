@@ -104,6 +104,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.PDC_HOSPITALIZATION_HISTORY);
         install(EncounterTypes.VISION_TEST);
         install(EncounterTypes.HEARING_TEST);
+        install(EncounterTypes.RADIOLOGY_SCREENING);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

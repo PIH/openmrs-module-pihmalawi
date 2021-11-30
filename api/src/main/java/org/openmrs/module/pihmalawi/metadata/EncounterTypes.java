@@ -402,4 +402,9 @@ public class EncounterTypes {
         public String name() { return "HEARING_TEST"; }
         public String description() { return "Hearing test encounter"; }
     };
+    public static EncounterTypeDescriptor RADIOLOGY_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "5e46e6fa-1d33-44f7-88f5-38d4d8dbe0c2"; }
+        public String name() { return "RADIOLOGY_SCREENING"; }
+        public String description() { return "Radiology screening encounter"; }
+    };
 }

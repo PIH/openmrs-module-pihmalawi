@@ -1,11 +1,9 @@
-<htmlform formUuid="fd447c8b-3039-497a-b238-6755e7107064" formName="PDC Hearing Test"
-          formEncounterType="4dae2743-e48e-4232-bf4e-d6c7ed7fad81" formVersion="1.0">
+<htmlform formUuid="5ef02404-3cb2-445e-8ce1-dac5c3ab42f8" formName="PDC Radiology Screening"
+          formEncounterType="5e46e6fa-1d33-44f7-88f5-38d4d8dbe0c2" formVersion="1.0">
 
     <macros>
-        <macro key="leftEar" value="44ed8c4c-abfd-4527-819b-457cb3b5c76a" />
-        <macro key="rightEar" value="65d881c2-4e5d-4837-959e-0f097fcb93e7" />
-        <macro key="pass" value="20f6787b-3f0e-4c98-91c2-ee34f771f3ff" />
-        <macro key="fail" value="a2a69a69-ecc7-450f-952e-bc8830aaabe7" />
+        <macro key="echoResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
+        <macro key="otherLabResults" value="655dfc32-977f-11e1-8993-905e29aff6c1" />
     </macros>
 
     <!-- Flowsheet table view -->
@@ -14,12 +12,12 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="4">Hearing at 12 months</th>
+                    <th colspan="4">Radiology</th>
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <th>Left</th>
-                    <th>Right</th>
+                    <th>Echo Results</th>
+                    <th>Other Results</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -29,16 +27,12 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- Left Ear -->
-                        <obs conceptId="$leftEar"
-                             answerConceptIds="$pass,$fail"
-                             answerLabels="Pass,Fail" style="radio" />
+                        <!-- Echo Result -->
+                        <obs conceptId="$echoResult"/>
                     </td>
-                    <td>
-                        <!-- Right Ear -->
-                        <obs conceptId="$rightEar"
-                             answerConceptIds="$pass,$fail"
-                             answerLabels="Pass,Fail" style="radio" />
+                    <!-- Other Results -->
+                    <td style="padding: 1px;">
+                        <obs conceptId="$otherLabResults"/>
                     </td>
                 </tr>
             </tbody>
@@ -50,7 +44,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>PDC Hearing Test</b>
+            <b>Radiology</b>
             <span style="padding-left:50px;">Version 1</span>
 
             <span style="padding-left:50px;">
@@ -79,22 +73,15 @@
                 </td>
             </tr>
             <tr>
-                <th>Left Ear</th>
+                <th>Echo Results</th>
                 <td>
-                    <!-- Left Ear -->
-                    <obs conceptId="$leftEar"
-                         answerConceptIds="$pass,$fail"
-                         answerLabels="Pass,Fail" style="radio" />
+                    <!-- Echo Result -->
+                    <obs conceptId="$echoResult"/>
                 </td>
             </tr>
             <tr>
-                <th>Right Ear</th>
-                <td>
-                    <!-- Right Ear -->
-                    <obs conceptId="$rightEar"
-                         answerConceptIds="$pass,$fail"
-                         answerLabels="Pass,Fail" style="radio" />
-                </td>
+                <th>Other Results</th>
+                <td><obs conceptId="$otherLabResults"/></td>
             </tr>
         </table>
 
