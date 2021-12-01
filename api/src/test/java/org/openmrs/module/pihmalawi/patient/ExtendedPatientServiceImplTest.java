@@ -39,12 +39,12 @@ public class ExtendedPatientServiceImplTest extends BaseModuleContextSensitiveTe
 
     @Before
     public void runBeforeAllTests() throws Exception {
-        initializeInMemoryDatabase();
         executeDataSet(CREATE_PATIENT_XML);
         executeDataSet(FIND_USERS_XML);
         executeDataSet(FIND_LOCATION_XML);
         executeDataSet(CREATE_PATIENT_IDENTIFIER);
     }
+
     @Test
     public void createPatientInDb_PatientDetailsProvided_ExpectsToCreaePatientInDb()
     {

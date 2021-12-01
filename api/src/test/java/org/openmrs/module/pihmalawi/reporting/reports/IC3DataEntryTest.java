@@ -5,7 +5,7 @@ import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class IC3DataEntryTest extends ReportManagerTest{
+public class IC3DataEntryTest extends ReportManagerTest {
 
     @Autowired
     IC3DataEntry ic3AppointmentDataEntry;
@@ -25,7 +25,7 @@ public class IC3DataEntryTest extends ReportManagerTest{
 
     @Override
     protected boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override

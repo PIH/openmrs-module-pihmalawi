@@ -21,7 +21,6 @@ import org.openmrs.test.SkipBaseSetup;
 import java.util.Date;
 import java.util.List;
 
-@SkipBaseSetup
 public class CodedValueAndDateDataEvaluatorTest extends BaseMalawiTest {
 
 	@Test
@@ -37,8 +36,8 @@ public class CodedValueAndDateDataEvaluatorTest extends BaseMalawiTest {
 
         Obs diabetes = createObs(encounter, ccMetadata.getChronicCareDiagnosisConcept(), ccMetadata.getDiabetesConcept()).save();
 
-        Obs htn = createObs(encounter, ccMetadata.getChronicCareDiagnosisConcept(), ccMetadata.getHypertensionConcept()).save();
-        Obs htnDate = createObs(encounter, ccMetadata.getDiagnosisDateConcept(), DateUtil.getDateTime(2011, 3, 18)).save();
+        Obs htn = createObs(encounter, ccMetadata.getChronicCareDiagnosisConcept(), ccMetadata.getHypertensionConcept()).get();
+        Obs htnDate = createObs(encounter, ccMetadata.getDiagnosisDateConcept(), DateUtil.getDateTime(2011, 3, 18)).get();
         Obs htnGroup = createObs(encounter, ccMetadata.getHivViralLoadTestSetConcept(), null).member(htn).member(htnDate).save();
 
         CodedValueAndDatePatientDataDefinition pdd = new CodedValueAndDatePatientDataDefinition();

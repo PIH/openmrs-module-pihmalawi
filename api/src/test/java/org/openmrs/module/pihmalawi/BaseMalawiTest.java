@@ -1,6 +1,5 @@
 package org.openmrs.module.pihmalawi;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,6 +13,7 @@ import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
@@ -27,25 +27,33 @@ import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibr
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.test.SkipBaseSetup;
-import org.openmrs.util.OpenmrsClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@SkipBaseSetup
 public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
     public static final String METADATA_XML_FOLDER = "org/openmrs/module/pihmalawi/metadata";
+    public static final String[] TABLES = {
+        "concept_class", "concept_datatype", "concept", "concept_numeric", "concept_name", "concept_description",
+        "drug", "concept_set", "concept_answer",
+        "concept_map_type", "concept_reference_source", "concept_reference_term", "concept_reference_map", "concept_reference_term_map",
+        "encounter_role", "encounter_type", "location", "location_attribute_type", "location_attribute", "location_tag", "location_tag_map",
+        "order_type", "patient_identifier_type", "person_attribute_type", "privilege", "program", "program_workflow", "program_workflow_state",
+        "relationship_type", "visit_type"
+    };
 
     @Autowired
     protected TestDataManager tdm;
+
+    @Autowired
+    protected ConceptService conceptService;
 
 	@Autowired
     protected HivPatientDataLibrary hivPatientDataLibrary;
@@ -63,27 +71,46 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
     @Autowired
     protected ChronicCareMetadata ccMetadata;
 
-    @Before
-    public void loadMetadata() throws Exception {
+    @Override
+    public Boolean useInMemoryDatabase() {
+        return true;
+    }
 
-        initializeInMemoryDatabase();
-
-        InputStream in = null;
-        BufferedReader br = null;
-        try {
-            in = OpenmrsClassLoader.getInstance().getResourceAsStream(METADATA_XML_FOLDER);
-            br = new BufferedReader(new InputStreamReader(in));
-            for (String resource = br.readLine(); resource != null; resource = br.readLine()) {
-                executeDataSet(METADATA_XML_FOLDER + "/" + resource);
+    public boolean isSetup() throws SQLException {
+        boolean isSetup = false;
+        try (PreparedStatement statement = getConnection().prepareStatement("select count(*) from concept")) {
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    isSetup = rs.getInt(1) > 100;
+                }
             }
         }
-        finally {
-            IOUtils.closeQuietly(br);
-            IOUtils.closeQuietly(in);
+        return isSetup;
+    }
+
+    @Before
+    @Override
+    public void baseSetupWithStandardDataAndAuthentication() throws SQLException {
+        if (!Context.isSessionOpen()) {
+            Context.openSession();
         }
 
-        authenticate();
-
+        if (!isSetup()) {
+            this.deleteAllData();
+            if (this.useInMemoryDatabase()) {
+                this.initializeInMemoryDatabase();
+            } else {
+                this.executeDataSet("org/openmrs/include/initialInMemoryTestDataSet.xml");
+            }
+            for (String table : TABLES) {
+                executeDataSet(METADATA_XML_FOLDER + "/" + table + ".xml");
+            }
+            this.getConnection().commit();
+            this.updateSearchIndex();
+        }
+        this.authenticate();
+        Context.flushSession();
+        Context.clearSession();
     }
 
     @After

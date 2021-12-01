@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <order_type order_type_id="1" name="Drug Order" description="An order for a medication to be given to the patient" creator="1" date_created="2005-08-08 07:06:12.0" retired="false" uuid="131168f4-15f5-102d-96e4-000c29c2a5d7"/>
+  <order_type order_type_id="1" name="Drug Order" description="An order for a medication to be given to the patient" creator="1" date_created="2005-08-08 07:06:12.0" retired="false" uuid="131168f4-15f5-102d-96e4-000c29c2a5d7" java_class_name="org.openmrs.DrugOrder"/>
+  <order_type order_type_id="2" name="Test Order" description="Order type for test orders" creator="1" date_created="2014-03-09 00:00:00.0" retired="false" uuid="52a447d3-a64a-11e3-9aeb-50e549534c5e" java_class_name="org.openmrs.TestOrder"/>
 </dataset>

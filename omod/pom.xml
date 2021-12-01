@@ -24,6 +24,28 @@
             <scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.openmrs.web</groupId>
+			<artifactId>openmrs-web</artifactId>
+			<version>${openMRSVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.web</groupId>
+			<artifactId>openmrs-web</artifactId>
+			<version>${openMRSVersion}</version>
+			<type>jar</type>
+			<scope>test</scope>
+			<classifier>tests</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlwidgets-omod</artifactId>
+			<version>${htmlwidgetsVersion}</version>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>uiframework-omod</artifactId>
@@ -296,11 +318,11 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<tasks>
-										<copy todir="${deploy.path}/WEB-INF/view/module/${project.parent.artifactId}">
-											<fileset dir="src/main/webapp" includes="**/*" />
-										</copy>
-									</tasks>
+<!--									<tasks>-->
+<!--										<copy todir="${deploy.path}/WEB-INF/view/module/${project.parent.artifactId}">-->
+<!--											<fileset dir="src/main/webapp" includes="**/*" />-->
+<!--										</copy>-->
+<!--									</tasks>-->
 								</configuration>
 							</execution>
 						</executions>

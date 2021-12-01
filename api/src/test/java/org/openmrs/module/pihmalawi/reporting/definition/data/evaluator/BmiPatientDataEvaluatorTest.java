@@ -16,7 +16,6 @@ import org.openmrs.test.SkipBaseSetup;
 
 import java.util.Date;
 
-@SkipBaseSetup
 public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
 
 	@Test

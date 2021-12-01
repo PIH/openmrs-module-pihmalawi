@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@SkipBaseSetup
 public class ArtRegimenHistoryDataEvaluatorTest extends BaseMalawiTest {
 
     @Autowired

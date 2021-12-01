@@ -36,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
-@SkipBaseSetup
 public class HivVisitsDataEvaluatorTest extends BaseMalawiTest {
 
     public static final String NENO_GENE_XPERT_LAB = "e08214c0-955d-11e7-abc4-cec278b6b50a";

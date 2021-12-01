@@ -37,7 +37,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-@SkipBaseSetup
 public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataBasicTest.class);
@@ -252,10 +251,10 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Date lastViralLoadDate = DateUtil.getDateTime(2018, 9, 22);
         Encounter enc1 = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getHivViralLoadTestSetConcept(), null);
-        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).get();
         // bled
-        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
-        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).save();
+        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).get();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 1500L).get();
 
         //groupObsBuilder.member(routineTest);
         groupObsBuilder.member(bled);
@@ -313,8 +312,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObs.member(dnaPcrTest);
         groupObs.member(positiveResult);
         groupObs.save();
@@ -323,8 +322,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
-        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).get();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObsBuilder.member(rapidTest);
         groupObsBuilder.member(positiveRapidTestResult);
         groupObsBuilder.save();
@@ -363,8 +362,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date1).save();
         // Child HIV serology construct
         ObsBuilder firstGroupObs = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs firstPositiveResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs firstPositiveResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         firstGroupObs.member(firstDnaPcrTest);
         firstGroupObs.member(firstPositiveResult);
         firstGroupObs.save();
@@ -373,8 +372,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObs.member(dnaPcrTest);
         groupObs.member(positiveResult);
         groupObs.save();
@@ -408,8 +407,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), cal.getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObs.member(dnaPcrTest);
         groupObs.member(positiveResult);
         groupObs.save();
@@ -457,8 +456,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date1).save();
         // Child HIV serology construct
         ObsBuilder firstGroupObs = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs negativeResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).save();
+        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs negativeResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).get();
         firstGroupObs.member(firstDnaPcrTest);
         firstGroupObs.member(negativeResult);
         firstGroupObs.save();
@@ -468,8 +467,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date2).save();
         // Child HIV serology construct
         ObsBuilder secondGroupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs secondDnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs firstPositiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs secondDnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs firstPositiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         secondGroupObs.member(secondDnaPcrTest);
         secondGroupObs.member(firstPositiveResult);
         secondGroupObs.save();
@@ -479,8 +478,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc3 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date3).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc3, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs dnaPcrTest = createObs(enc3, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs todayPositiveResult = createObs(enc3, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs dnaPcrTest = createObs(enc3, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs todayPositiveResult = createObs(enc3, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObs.member(dnaPcrTest);
         groupObs.member(todayPositiveResult);
         groupObs.save();
@@ -528,8 +527,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), date1).save();
         // Child HIV serology construct
         ObsBuilder firstGroupObs = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs negativeResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).save();
+        Obs firstDnaPcrTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs negativeResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).get();
         firstGroupObs.member(firstDnaPcrTest);
         firstGroupObs.member(negativeResult);
         firstGroupObs.save();
@@ -538,8 +537,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Encounter enc2 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), Calendar.getInstance().getTime()).save();
         // Child HIV serology construct
         ObsBuilder groupObs = createObs(enc2, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs dnaPcrTest = createObs(enc2, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs positiveResult = createObs(enc2, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObs.member(dnaPcrTest);
         groupObs.member(positiveResult);
         groupObs.save();
@@ -592,10 +591,10 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Date lastViralLoadDate = DateUtil.getDateTime(2018, 2, 20);
         Encounter enc1 = createEncounter(patient, hivMetadata.getExposedChildFollowupEncounterType(), lastViralLoadDate).save();
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getHivViralLoadTestSetConcept(), null);
-        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        Obs routineTest = createObs(enc1, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).get();
         // bled
-        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
-        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 0L).save();
+        Obs bled = createObs(enc1, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).get();
+        Obs numericResult = createObs(enc1, hivMetadata.getHivViralLoadConcept(), 0L).get();
 
         groupObsBuilder.member(routineTest);
         groupObsBuilder.member(bled);
@@ -650,8 +649,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         // HTC test about 2 years ago
         // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
         ObsBuilder htcGroupObsBuilder = createObs(htcEncounter, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs rapidTest = createObs(htcEncounter, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
-        Obs neagativeRapidTestResult = createObs(htcEncounter, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).save();
+        Obs rapidTest = createObs(htcEncounter, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).get();
+        Obs neagativeRapidTestResult = createObs(htcEncounter, hivMetadata.getHivTestResult(), hivMetadata.getNegativeConcept()).get();
         htcGroupObsBuilder.member(rapidTest);
         htcGroupObsBuilder.member(neagativeRapidTestResult);
         htcGroupObsBuilder.save();
@@ -659,7 +658,7 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         // more than 3 years ago
         Encounter enc1 = createEncounter(patient, screeningMetadata.getCervicalScreeningEncounterType(), DateUtil.getDateTime(currentYear -3 , currentMonth-2, currentDay)).save();
         ObsBuilder groupObsBuilder = createObs(enc1, screeningMetadata.getCervicalCancerScreeningConstructConcept(), null);
-        Obs cervicalScreening = createObs(enc1, screeningMetadata.getCervicalCancerScreeningResultsConcept(), screeningMetadata.getNormalConcept()).save();
+        Obs cervicalScreening = createObs(enc1, screeningMetadata.getCervicalCancerScreeningResultsConcept(), screeningMetadata.getNormalConcept()).get();
         groupObsBuilder.member(cervicalScreening);
         groupObsBuilder.save();
 
@@ -738,11 +737,11 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         Date lastViralLoadDate = DateUtil.getDateTime(currentYear , currentMonth  - 10, 20);
         Encounter vlEncounter = createEncounter(patient, hivMetadata.getArtFollowupEncounterType(), lastViralLoadDate).save();
         ObsBuilder groupObsBuilder = createObs(vlEncounter, hivMetadata.getHivViralLoadTestSetConcept(), null);
-        Obs routineTest = createObs(vlEncounter, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).save();
+        Obs routineTest = createObs(vlEncounter, hivMetadata.getReasonForTestingConcept(), hivMetadata.getRoutineConcept()).get();
         // bled
-        Obs bled = createObs(vlEncounter, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).save();
-        //Obs numericResult = createObs(vlEncounter, hivMetadata.getHivViralLoadConcept(), 1500L).save();
-        Obs ldlResult = createObs(vlEncounter, hivMetadata.getHivLDLConcept(), hivMetadata.getTrueConcept()).save();
+        Obs bled = createObs(vlEncounter, hivMetadata.getHivViralLoadSpecimenCollectedConcept(), hivMetadata.getTrueConcept()).get();
+        //Obs numericResult = createObs(vlEncounter, hivMetadata.getHivViralLoadConcept(), 1500L).get();
+        Obs ldlResult = createObs(vlEncounter, hivMetadata.getHivLDLConcept(), hivMetadata.getTrueConcept()).get();
 
         groupObsBuilder.member(routineTest);
         groupObsBuilder.member(bled);
@@ -755,8 +754,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
 
         Encounter enc3 = createEncounter(patient, ccMetadata.getTBScreeningEncounterType(), cal.getTime()).save();
         ObsBuilder tbSymptomsGroupObs = createObs(enc3, ccMetadata.getTbScreeningSetConcept(), null);
-        //Obs tbCoughPresent = createObs(enc3, ccMetadata.getSymptomPresentConcept(), ccMetadata.getCoughConcept()).save();
-        Obs tbCoughAbsent = createObs(enc3, ccMetadata.getSymptomAbsentConcept(), ccMetadata.getCoughConcept()).save();
+        //Obs tbCoughPresent = createObs(enc3, ccMetadata.getSymptomPresentConcept(), ccMetadata.getCoughConcept()).get();
+        Obs tbCoughAbsent = createObs(enc3, ccMetadata.getSymptomAbsentConcept(), ccMetadata.getCoughConcept()).get();
         tbSymptomsGroupObs.member(tbCoughAbsent);
         tbSymptomsGroupObs.save();
 
@@ -841,8 +840,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         // HTC test
         // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
-        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).get();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObsBuilder.member(rapidTest);
         groupObsBuilder.member(positiveRapidTestResult);
         groupObsBuilder.save();
@@ -873,8 +872,8 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         // HTC test
         // hivMetadata.getChildHivSerologyConstruct() is the same as HIV Test Construct
         ObsBuilder groupObsBuilder = createObs(enc1, hivMetadata.getChildHivSerologyConstruct(), null);
-        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).save();
-        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).save();
+        Obs rapidTest = createObs(enc1, hivMetadata.getHivTestType(), hivMetadata.getHivRapidTest()).get();
+        Obs positiveRapidTestResult = createObs(enc1, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
         groupObsBuilder.member(rapidTest);
         groupObsBuilder.member(positiveRapidTestResult);
         groupObsBuilder.save();
@@ -906,9 +905,9 @@ public class IC3ScreeningDataBasicTest extends BaseMalawiTest {
         // Blood Sugar Test Set
         ObsBuilder groupObsBuilder = createObs(enc1, screeningMetadata.getBloodSugarTestSetConcept(), null);
 
-        Obs fastingTest = createObs(enc1, ccMetadata.getBloodSugarTestTypeConcept(), ccMetadata.getFastingBloodSugarTestTypeConcept()).save();
+        Obs fastingTest = createObs(enc1, ccMetadata.getBloodSugarTestTypeConcept(), ccMetadata.getFastingBloodSugarTestTypeConcept()).get();
         // we are only using
-        Obs randomGlucoseLevel = createObs(enc1, ccMetadata.getBloodSugarTestResultConcept(), 140).save();
+        Obs randomGlucoseLevel = createObs(enc1, ccMetadata.getBloodSugarTestResultConcept(), 140).get();
         groupObsBuilder.member(fastingTest);
         groupObsBuilder.member(randomGlucoseLevel);
         groupObsBuilder.save();
