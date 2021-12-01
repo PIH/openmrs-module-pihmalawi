@@ -34,10 +34,11 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static String TYPE_OF_FEED = "7f5c591e-8b74-4fa9-8bbf-f4154a0d92d3";
     public static String INFANT_FORMULA = "656ac570-977f-11e1-8993-905e29aff6c1";
     public static String INCOME_SOURCE = "de85f47e-0830-4840-b393-e7adcd641064";
+    public static String DETAILS_OF_COMPLICATIONS = "86eacb84-51ea-11ec-bf63-0242ac130002";
 
     @Override
     public int getVersion() {
-        return 11;
+        return 12;
     }
 
     @Override
@@ -313,6 +314,14 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("7e0a94eb-b7d1-4ea1-8f71-1d94131b0b41", "Income Source", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("fb37aa88-efcb-4f41-bdc0-9a74bbdc879f", "Specify source of income", Locale.ENGLISH)
+                .build());
+
+        // Details of Complications
+        Concept detailsOfComplications = install(new ConceptBuilder(DETAILS_OF_COMPLICATIONS)
+                .datatype(text)
+                .conceptClass(misc)
+                .name("a0e220fa-51ea-11ec-bf63-0242ac130002", "Details of Complications", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ada20cc4-51ea-11ec-bf63-0242ac130002", "Enter details of complications", Locale.ENGLISH)
                 .build());
 
     }
