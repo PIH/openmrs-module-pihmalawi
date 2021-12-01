@@ -947,7 +947,7 @@
   <concept_numeric concept_id="6356" units="" allow_decimal="false"/>
   <concept_numeric concept_id="6396" hi_absolute="100.0" low_absolute="0.0" units="" allow_decimal="false"/>
   <concept_numeric concept_id="6397" hi_absolute="100.0" low_absolute="0.0" units="" allow_decimal="false"/>
-  <concept_numeric concept_id="6422" units="%" allow_decimal="true"/>
+  <concept_numeric concept_id="6422" hi_absolute="16.0" low_absolute="2.0" units="%" allow_decimal="true"/>
   <concept_numeric concept_id="6445" units="mg/dl" allow_decimal="true"/>
   <concept_numeric concept_id="6717" hi_absolute="4.0" low_absolute="1.0" units="" allow_decimal="true"/>
   <concept_numeric concept_id="6754" units="" allow_decimal="false"/>
@@ -1070,6 +1070,12 @@
   <concept_numeric concept_id="8401" low_absolute="0.0" units="" allow_decimal="false"/>
   <concept_numeric concept_id="8402" low_absolute="0.0" units="" allow_decimal="false"/>
   <concept_numeric concept_id="8403" low_absolute="0.0" units="" allow_decimal="false"/>
+  <concept_numeric concept_id="8436" allow_decimal="false"/>
+  <concept_numeric concept_id="8437" allow_decimal="false"/>
+  <concept_numeric concept_id="8438" allow_decimal="false"/>
+  <concept_numeric concept_id="8439" allow_decimal="false"/>
+  <concept_numeric concept_id="8440" allow_decimal="false"/>
+  <concept_numeric concept_id="8441" allow_decimal="false"/>
   <concept_numeric concept_id="8446" hi_absolute="7.0" low_absolute="0.0" units="days per week" allow_decimal="false"/>
   <concept_numeric concept_id="8447" low_absolute="0.0" units="mg/dL" allow_decimal="true"/>
   <concept_numeric concept_id="8448" low_absolute="0.0" units="mg/dL" allow_decimal="true"/>
@@ -1077,9 +1083,12 @@
   <concept_numeric concept_id="8460" hi_absolute="100.0" low_absolute="0.0" units="%" allow_decimal="false"/>
   <concept_numeric concept_id="8512" hi_absolute="2050.0" low_absolute="1950.0" allow_decimal="false"/>
   <concept_numeric concept_id="8513" hi_absolute="12.0" low_absolute="1.0" allow_decimal="false"/>
+  <concept_numeric concept_id="8558" allow_decimal="false"/>
   <concept_numeric concept_id="8738" units="mL/min" allow_decimal="false"/>
   <concept_numeric concept_id="8767" hi_absolute="100.0" low_absolute="0.0" units="%" allow_decimal="false"/>
   <concept_numeric concept_id="8771" allow_decimal="false"/>
   <concept_numeric concept_id="8772" allow_decimal="false"/>
-  <concept_numeric concept_id="8799" allow_decimal="false"/>
+  <concept_numeric concept_id="8801" allow_decimal="false"/>
+  <concept_numeric concept_id="8913" units="weeks" allow_decimal="false"/>
+  <concept_numeric concept_id="8921" units="Years" allow_decimal="false"/>
 </dataset>

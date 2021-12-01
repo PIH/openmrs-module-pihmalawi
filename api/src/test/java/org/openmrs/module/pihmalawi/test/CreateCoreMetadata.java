@@ -46,13 +46,8 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
     }
 
 	public String getOutputDirectory() {
-		return "/Users/cioan/workspace/pih/pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
+		return "/home/mseaton/code/github/pih/openmrs-module-pihmalawi/api/src/test/resources/org/openmrs/module/pihmalawi/metadata";
 	}
-
-	@Test
-	public void shouldCreateDbUnitTestFiles() throws Exception {
-        performTest();
-    }
 
 	public Map<String, String> getTables() {
         Map<String, String> m = new LinkedHashMap<String, String>();
@@ -63,14 +58,13 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
         m.put("concept_description", "SELECT * FROM concept_description");
         m.put("concept_map_type", "SELECT * FROM concept_map_type");
         m.put("concept_name", "SELECT * FROM concept_name");
-        //m.put("concept_name_tag", "SELECT * FROM concept_name");
-        //m.put("concept_name_tag_map", "SELECT * FROM concept_name");
         m.put("concept_numeric", "SELECT * FROM concept_numeric");
         m.put("concept_reference_map", "SELECT * FROM concept_reference_map");
         m.put("concept_reference_source", "SELECT * FROM concept_reference_source");
         m.put("concept_reference_term", "SELECT * FROM concept_reference_term");
         m.put("concept_reference_term_map", "SELECT * FROM concept_reference_term_map");
         m.put("concept_set", "SELECT * FROM concept_set");
+        m.put("drug", "SELECT * FROM drug");
         m.put("encounter_role", "SELECT * FROM encounter_role");
         m.put("encounter_type", "SELECT * FROM encounter_type");
         m.put("location", "SELECT * FROM location");
@@ -93,8 +87,7 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
     @Override
 	public void performTest() throws Exception {
 
-		// only run this test if it is being run alone and if an output directory has been specified
-		if (getLoadCount() != 1 || ObjectUtil.isNull(getOutputDirectory())) {
+		if (!isEnabled() || ObjectUtil.isNull(getOutputDirectory())) {
             return;
         }
 
@@ -125,6 +118,12 @@ public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
                 line = line.replaceAll("description=\"([^\"]*)\"", "");
                 line = line.replaceAll("form_text=\"([^\"]*)\"", "");
                 line = line.replaceAll(" +", " ");
+            }
+            else if (line.contains("<drug ")) {
+                line = line.replaceAll("route=\"([^\"]*)\"", "");
+            }
+            else if (line.contains("<patient_identifier_type ")) {
+                line = line.replaceAll("check_digit=\"([^\"]*)\"", "");
             }
             line = line.replaceAll("creator=\"[0-9]+\"", "creator=\"1\"");
             line = line.replaceAll("changed_by=\"[0-9]+\"", "changed_by=\"1\"");

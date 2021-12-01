@@ -1,6 +1,5 @@
 package org.openmrs.module.pihmalawi;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,6 +13,7 @@ import org.openmrs.PatientProgram;
 import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.contrib.testdata.TestDataManager;
 import org.openmrs.contrib.testdata.builder.EncounterBuilder;
@@ -27,14 +27,11 @@ import org.openmrs.module.pihmalawi.reporting.library.ChronicCarePatientDataLibr
 import org.openmrs.module.pihmalawi.reporting.library.HivPatientDataLibrary;
 import org.openmrs.module.reporting.data.patient.service.PatientDataService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.test.SkipBaseSetup;
-import org.openmrs.util.OpenmrsClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashSet;
@@ -42,11 +39,10 @@ import java.util.Set;
 
 public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
-    private boolean setupCompleted = false;
-
     public static final String METADATA_XML_FOLDER = "org/openmrs/module/pihmalawi/metadata";
     public static final String[] TABLES = {
-        "concept_class", "concept_datatype", "concept", "concept_numeric", "concept_name", "concept_description", "concept_set", "concept_answer",
+        "concept_class", "concept_datatype", "concept", "concept_numeric", "concept_name", "concept_description",
+        "drug", "concept_set", "concept_answer",
         "concept_map_type", "concept_reference_source", "concept_reference_term", "concept_reference_map", "concept_reference_term_map",
         "encounter_role", "encounter_type", "location", "location_attribute_type", "location_attribute", "location_tag", "location_tag_map",
         "order_type", "patient_identifier_type", "person_attribute_type", "privilege", "program", "program_workflow", "program_workflow_state",
@@ -55,6 +51,9 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
     @Autowired
     protected TestDataManager tdm;
+
+    @Autowired
+    protected ConceptService conceptService;
 
 	@Autowired
     protected HivPatientDataLibrary hivPatientDataLibrary;
@@ -77,13 +76,41 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
         return true;
     }
 
+    public boolean isSetup() throws SQLException {
+        boolean isSetup = false;
+        try (PreparedStatement statement = getConnection().prepareStatement("select count(*) from concept")) {
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    isSetup = rs.getInt(1) > 100;
+                }
+            }
+        }
+        return isSetup;
+    }
+
     @Before
     @Override
     public void baseSetupWithStandardDataAndAuthentication() throws SQLException {
-        super.baseSetupWithStandardDataAndAuthentication();
-        for (String table : TABLES) {
-            executeDataSet(METADATA_XML_FOLDER + "/" + table + ".xml");
+        if (!Context.isSessionOpen()) {
+            Context.openSession();
         }
+
+        if (!isSetup()) {
+            this.deleteAllData();
+            if (this.useInMemoryDatabase()) {
+                this.initializeInMemoryDatabase();
+            } else {
+                this.executeDataSet("org/openmrs/include/initialInMemoryTestDataSet.xml");
+            }
+            for (String table : TABLES) {
+                executeDataSet(METADATA_XML_FOLDER + "/" + table + ".xml");
+            }
+            this.getConnection().commit();
+            this.updateSearchIndex();
+        }
+        this.authenticate();
+        Context.flushSession();
+        Context.clearSession();
     }
 
     @After

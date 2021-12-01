@@ -17,8 +17,6 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 		System.setProperty("databaseDriver", "com.mysql.jdbc.Driver");
 		System.setProperty("databaseDialect", "org.hibernate.dialect.MySQLDialect");
 		System.setProperty("useInMemoryDatabase", "false");
-		System.setProperty("junit.username", "admin");
-		System.setProperty("junit.password", "Admin123");
 	}
 
 	protected boolean isEnabled() {
@@ -30,13 +28,17 @@ public abstract class StandaloneContextSensitiveTest extends BaseModuleContextSe
 		return false;
 	}
 
+	@Override
+	public Properties getRuntimeProperties() {
+		Properties p = super.getRuntimeProperties();
+		p.setProperty("junit.username", "admin");
+		p.setProperty("junit.password", "Admin123");
+		return p;
+	}
+
 	@Test
 	public void runTest() throws Exception {
 		if (isEnabled() ) {
-			if (!Context.isSessionOpen()) {
-				Context.openSession();
-			}
-			Context.clearSession();
 			authenticate();
 			performTest();
 		}

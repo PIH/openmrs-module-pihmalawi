@@ -18,7 +18,6 @@ import org.openmrs.test.SkipBaseSetup;
 import java.util.Date;
 import java.util.List;
 
-@SkipBaseSetup
 public class ViralLoadDataEvaluatorTest extends BaseMalawiTest {
 
 	@Test
@@ -54,9 +53,10 @@ public class ViralLoadDataEvaluatorTest extends BaseMalawiTest {
         testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
 
         // Test Obs Group
+        voidObs(numericResult);
         ObsBuilder groupObsBuilder = createObs(encounter, hivMetadata.getHivViralLoadTestSetConcept(), null);
-        groupObsBuilder.member(numericResult);
-        Obs groupObs = groupObsBuilder.save();
+        groupObsBuilder.member(createObs(encounter, hivMetadata.getHivViralLoadConcept(), 1500L).get());
+        Obs groupObs = tdm.getObsService().saveObs(groupObsBuilder.get(), "Add to group");
         expectedVl.setGroupId(groupObs.getObsId());
         testViralLoad(patient.getId(), 1, 1, effectiveDate, expectedVl);
 

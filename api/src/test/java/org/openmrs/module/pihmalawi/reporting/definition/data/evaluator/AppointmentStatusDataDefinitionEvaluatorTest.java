@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.Arrays;
 import java.util.Date;
 
-@SkipBaseSetup
 public class AppointmentStatusDataDefinitionEvaluatorTest extends BaseMalawiTest {
 
     @Autowired

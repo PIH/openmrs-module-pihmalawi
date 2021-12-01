@@ -8,7 +8,6 @@ import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class IC3AppointmentReportNewTest extends ReportManagerTest {
 
     @Autowired
@@ -34,7 +33,7 @@ public class IC3AppointmentReportNewTest extends ReportManagerTest {
 
     @Override
     protected boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.module.pihmalawi.BaseMalawiTest;
 import org.openmrs.module.pihmalawi.common.HivTestResult;
 import org.openmrs.module.pihmalawi.reporting.definition.data.definition.HivTestResultPatientDataDefinition;
@@ -21,7 +22,6 @@ import java.util.List;
 
 import static org.openmrs.module.pihmalawi.metadata.HivMetadata.*;
 
-@SkipBaseSetup
 public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
 
     Patient patient = null;
@@ -83,9 +83,11 @@ public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
         List<HivTestResult> results = evaluate(endDate);
         testSize(results, 1);
         testResult(results.get(0), result.getObsDatetime(), null, hivMetadata.getPositiveConcept());
+        voidObs(result);
 
-        Obs type = createObs(encounter, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).save();
-        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(type).member(result).save();
+        Obs resultObs = createObs(encounter, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
+        Obs type = createObs(encounter, hivMetadata.getHivTestType(), hivMetadata.getHivDnaPcrTest()).get();
+        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(type).member(resultObs).save();
 
         results = evaluate(endDate);
         testSize(results, 1);
@@ -101,11 +103,13 @@ public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
         List<HivTestResult> results = evaluate(endDate);
         testSize(results, 1);
         testResult(results.get(0), result.getObsDatetime(), null, hivMetadata.getPositiveConcept());
+        voidObs(result);
 
         Date sampleDate = DateUtil.getDateTime(2018, 2, 2);
 
-        Obs sampleDateObs = createObs(encounter, hivMetadata.getHivTestSampleDateConcept(), sampleDate).save();
-        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(sampleDateObs).member(result).save();
+        Obs resultObs = createObs(encounter, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
+        Obs sampleDateObs = createObs(encounter, hivMetadata.getHivTestSampleDateConcept(), sampleDate).get();
+        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(sampleDateObs).member(resultObs).save();
 
         results = evaluate(endDate);
         testSize(results, 1);
@@ -121,11 +125,14 @@ public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
         List<HivTestResult> results = evaluate(endDate);
         testSize(results, 1);
         testResult(results.get(0), result.getObsDatetime(), null, hivMetadata.getPositiveConcept());
+        voidObs(result);
 
         Date resultDate = DateUtil.getDateTime(2018, 2, 2);
 
-        Obs resultDateObs = createObs(encounter, hivMetadata.getHivTestResultDateConcept(), resultDate).save();
-        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(resultDateObs).member(result).save();
+        Obs resultObs = createObs(encounter, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
+        Obs resultDateObs = createObs(encounter, hivMetadata.getHivTestResultDateConcept(), resultDate).get();
+        ObsBuilder groupBuilder = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null);
+        Obs group = groupBuilder.member(resultDateObs).member(resultObs).save();
 
         results = evaluate(endDate);
         testSize(results, 1);
@@ -141,13 +148,15 @@ public class HivTestResultPatientDataEvaluatorTest extends BaseMalawiTest {
         List<HivTestResult> results = evaluate(endDate);
         testSize(results, 1);
         testResult(results.get(0), result.getObsDatetime(), null, hivMetadata.getPositiveConcept());
+        voidObs(result);
 
         Date sampleDate = DateUtil.getDateTime(2018, 2, 2);
         Date resultDate = DateUtil.getDateTime(2018, 3, 2);
 
-        Obs sampleDateObs = createObs(encounter, hivMetadata.getHivTestSampleDateConcept(), sampleDate).save();
-        Obs resultDateObs = createObs(encounter, hivMetadata.getHivTestResultDateConcept(), resultDate).save();
-        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(sampleDateObs).member(resultDateObs).member(result).save();
+        Obs resultObs = createObs(encounter, hivMetadata.getHivTestResult(), hivMetadata.getPositiveConcept()).get();
+        Obs sampleDateObs = createObs(encounter, hivMetadata.getHivTestSampleDateConcept(), sampleDate).get();
+        Obs resultDateObs = createObs(encounter, hivMetadata.getHivTestResultDateConcept(), resultDate).get();
+        Obs group = createObs(encounter, hivMetadata.getChildHivSerologyConstruct(), null).member(sampleDateObs).member(resultDateObs).member(resultObs).save();
 
         results = evaluate(endDate);
         testSize(results, 1);
