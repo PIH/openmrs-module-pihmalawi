@@ -24,6 +24,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -72,10 +73,10 @@ public class EMastercardAccessTag extends BodyTagSupport {
                 initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
             }
 			Concept conditionConcept = null;
-			Concept conditionConceptAnswer = null;
+			List<Concept> conditionConceptAnswers = null;
 			if (StringUtils.isNotBlank(getCondition()) && StringUtils.isNotBlank(getConditionAnswer())){
 				conditionConcept = Context.getConceptService().getConceptByUuid(getCondition());
-				conditionConceptAnswer = Context.getConceptService().getConceptByUuid(getConditionAnswer());
+				conditionConceptAnswers = Helper.getConceptsFromString(getConditionAnswer());
 			}
 
             // Ensure valid form and initial encounter type passed in
@@ -108,8 +109,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
 						if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
 							o.write("Not available: No identifier for current enrollment location (" + f.getName() + ")");
 						} else {
-							if (conditionConcept !=null && conditionConceptAnswer !=null && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswer)) {
-								o.write("Not available: " + conditionConceptAnswer.getDisplayString() + " diagnosis (" + f.getName() + ")");
+							if (conditionConcept !=null && conditionConceptAnswers !=null && (conditionConceptAnswers.size() > 0) && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswers)) {
+								List<String> diagnosis = new ArrayList<String>();
+								for (Concept concept : conditionConceptAnswers) {
+									diagnosis.add(concept.getDisplayString());
+								}
+								o.write("Not available: " + StringUtils.join(diagnosis, ",") + " diagnosis (" + f.getName() + ")");
 							} else {
 								if (isReadonly()) {
 									o.write("Not available (" + f.getName() + ")");
@@ -210,10 +215,10 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
 		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("viral_load_test_results", "art_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_developmental_delay_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_trisomy_21_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_cleft_lip_palate_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_other_diagnosis_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_developmental_delay_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_trisomy_21_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_cleft_lip_palate_visit"));
+		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_history_of_hospitalizations","pdc_complications\"","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_other_diagnosis_visit"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization

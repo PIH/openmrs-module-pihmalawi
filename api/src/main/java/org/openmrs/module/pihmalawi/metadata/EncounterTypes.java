@@ -392,6 +392,23 @@ public class EncounterTypes {
         public String name() { return "PDC_HOSPITALIZATION_HISTORY"; }
         public String description() { return "PDC Hospitalization History Encounter"; }
     };
+
+    public static EncounterTypeDescriptor VISION_TEST = new EncounterTypeDescriptor() {
+        public String uuid() { return "5595afb1-93fb-4620-bd6d-9f509acfddde"; }
+        public String name() { return "VISION_TEST"; }
+        public String description() { return "Vision test encounter"; }
+    };
+    public static EncounterTypeDescriptor HEARING_TEST = new EncounterTypeDescriptor() {
+        public String uuid() { return "4dae2743-e48e-4232-bf4e-d6c7ed7fad81"; }
+        public String name() { return "HEARING_TEST"; }
+        public String description() { return "Hearing test encounter"; }
+    };
+    public static EncounterTypeDescriptor RADIOLOGY_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "5e46e6fa-1d33-44f7-88f5-38d4d8dbe0c2"; }
+        public String name() { return "RADIOLOGY_SCREENING"; }
+        public String description() { return "Radiology screening encounter"; }
+
+    };
     public static EncounterTypeDescriptor PDC_COMPLICATIONS = new EncounterTypeDescriptor() {
         public String uuid() { return "98f13fb0-5024-11ec-bf63-0242ac130002"; }
         public String name() { return "PDC_COMPLICATIONS"; }
