@@ -392,4 +392,9 @@ public class EncounterTypes {
         public String name() { return "PDC_HOSPITALIZATION_HISTORY"; }
         public String description() { return "PDC Hospitalization History Encounter"; }
     };
+    public static EncounterTypeDescriptor PDC_COMPLICATIONS = new EncounterTypeDescriptor() {
+        public String uuid() { return "98f13fb0-5024-11ec-bf63-0242ac130002"; }
+        public String name() { return "PDC_COMPLICATIONS"; }
+        public String description() { return "PDC Complications Encounter"; }
+    };
 }
