@@ -28,24 +28,24 @@ import java.util.List;
 @Component
 public class RegimenDispensationReport extends ApzuReportManager {
 
-    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/regimen-dispensation.sql";
-    public static final String EXCEL_REPORT_DESIGN_UUID = "5eb01544-1d3a-4685-8fc5-eb5e99ef20b6";
+    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/regimen-dispensation-by-weight.sql";
+    public static final String EXCEL_REPORT_DESIGN_UUID = "7d3c14a1-4adc-45c3-abfd-8800dbcb916c";
     public static final String LOCATION_NAME_PARAM = "location";
 
 
     @Override
     public String getUuid() {
-        return "149a747d-8373-482f-adca-ef80c310ddf8";
+        return "16360e0c-3366-496e-83e8-25496e3a0c12";
     }
 
     @Override
     public String getName() {
-        return "MOH-Regimen Dispensation Report";
+        return "MOH-Regimen Dispensation By Weight Report";
     }
 
     @Override
     public String getDescription() {
-        return "MOH Regimen Dispensation, MOH/PEPFAR Reports";
+        return "MOH Regimen Dispensation By Weight Report, MOH/PEPFAR Reports";
     }
 
     @Override
@@ -73,7 +73,7 @@ public class RegimenDispensationReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
 
-        rd.addDataSetDefinition("mohRegimenDispensationReport", Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("mohRegimenDispensationByWeightReport", Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
@@ -81,8 +81,8 @@ public class RegimenDispensationReport extends ApzuReportManager {
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
-        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MOHRegimenDispensationReport.xls");
-        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: mohRegimenDispensationReport");
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MOHRegimenDispensationByWeightReport.xls");
+        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: mohRegimenDispensationByWeightReport");
         l.add(design);
         return l;
     }
