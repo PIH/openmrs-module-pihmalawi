@@ -15,6 +15,7 @@
 package org.openmrs.module.pihmalawi.reporting;
 
 import org.apache.commons.lang.time.StopWatch;
+import org.junit.Ignore;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
@@ -31,6 +32,7 @@ import java.util.List;
 /**
  * Tests for performance issues
  */
+@Ignore
 public class PerformanceTest extends StandaloneContextSensitiveTest {
 
 	@Autowired

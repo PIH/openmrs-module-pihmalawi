@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reporting.definition.cohort.evaluator;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.RelativeDateCohortDefinition;
@@ -17,6 +18,7 @@ import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Ignore
 public class RelativeDateCohortDefinitionEvaluatorTest extends StandaloneContextSensitiveTest {
 
 	@Autowired

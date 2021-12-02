@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.reporting;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.common.ViralLoad;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
+@Ignore
 public class QuickTest extends StandaloneContextSensitiveTest {
 
 	@Autowired

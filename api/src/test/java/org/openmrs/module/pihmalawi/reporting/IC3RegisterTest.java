@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.sql.SqlResult;
 import org.openmrs.module.pihmalawi.sql.SqlRunner;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Ignore
 public class IC3RegisterTest extends StandaloneContextSensitiveTest {
 
 	@Override

@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Ignore;
 import org.openmrs.Location;
 import org.openmrs.api.LocationService;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -8,6 +9,7 @@ import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Ignore
 public class IC3AppointmentReportNewTest extends ReportManagerTest {
 
     @Autowired

@@ -17,6 +17,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.QueryDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -38,6 +39,7 @@ import java.util.Map;
  * and you can copy it into the resources folder if and as appropriate
  * 5. If any of your <provider .../> rows have a provider_role_id attribute, remove that
  */
+@Ignore
 public class CreateCoreMetadata extends StandaloneContextSensitiveTest {
 
     @Override
