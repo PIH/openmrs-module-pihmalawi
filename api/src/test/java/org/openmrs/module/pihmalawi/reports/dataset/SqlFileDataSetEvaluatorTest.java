@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reports.dataset;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.activator.ReportInitializer;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
 
+@Ignore
 public class SqlFileDataSetEvaluatorTest extends StandaloneContextSensitiveTest {
 
     @Autowired @Qualifier("reportingReportDefinitionService")

@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.definition.dataset.evaluator;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
+@Ignore
 public class SqlFileDataSetEvaluatorTest extends StandaloneContextSensitiveTest {
 
 	@Autowired

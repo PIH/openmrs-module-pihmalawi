@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.reporting.definition.cohort.evaluator;
 
+import org.junit.Ignore;
 import org.openmrs.Cohort;
 import org.openmrs.module.pihmalawi.StandaloneContextSensitiveTest;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.PatientSearchCohortDefinition;
@@ -7,6 +8,7 @@ import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionSe
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Ignore
 public class PatientSearchCohortDefinitionEvaluatorTest extends StandaloneContextSensitiveTest {
 
 	@Autowired

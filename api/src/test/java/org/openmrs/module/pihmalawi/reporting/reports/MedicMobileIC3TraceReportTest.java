@@ -14,6 +14,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -30,6 +31,7 @@ import java.util.Properties;
 /**
  * Tests the TraceReport
  */
+@Ignore
 public class MedicMobileIC3TraceReportTest extends ReportManagerTest {
 
 	@Autowired

@@ -1,10 +1,12 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Ignore;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Ignore
 public class IC3DataEntryTest extends ReportManagerTest {
 
     @Autowired

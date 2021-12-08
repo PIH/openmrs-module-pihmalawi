@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the Cross-site Indicator Report
  */
+@Ignore
 public class WeeklyEncounterByUserReportTest extends ReportManagerTest {
 
 	@Autowired

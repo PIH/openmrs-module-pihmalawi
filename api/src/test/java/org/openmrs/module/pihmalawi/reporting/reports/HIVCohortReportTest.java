@@ -1,6 +1,7 @@
 
 package org.openmrs.module.pihmalawi.reporting.reports;
 
+import org.junit.Ignore;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -18,6 +19,7 @@ import java.util.Properties;
 /**
  * Tests the HIV Cohort Report
  */
+@Ignore
 public class HIVCohortReportTest extends ReportManagerTest {
 
 

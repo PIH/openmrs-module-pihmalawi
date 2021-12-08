@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Tests the methods in the PatientDataFactory
  */
+@Ignore
 public class HccRegisterTest extends ReportManagerTest {
 
 	@Autowired

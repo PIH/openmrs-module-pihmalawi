@@ -17,6 +17,7 @@ package org.openmrs.module.pihmalawi.data;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Ignore;
 import org.openmrs.Cohort;
 import org.openmrs.Location;
 import org.openmrs.Patient;
@@ -40,6 +41,7 @@ import java.util.Map;
 /**
  * Tests the IC3ScreeningData
  */
+@Ignore
 public class IC3ScreeningDataPerformanceTest extends StandaloneContextSensitiveTest {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataPerformanceTest.class);
