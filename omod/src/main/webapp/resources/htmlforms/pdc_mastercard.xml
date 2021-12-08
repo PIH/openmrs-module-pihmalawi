@@ -10,8 +10,11 @@
         birthWeight=5916
         hivSuspected=1062
         motherStatus=8036
+        motherRegNo=8046
+        childStatus=5303
         gestationalAge=8912
         siteOfBirth=3528
+        hospital=2070
         hospital=2070
         healthCenter=3566
         home=8633
@@ -80,6 +83,14 @@
         <macro key="diagnosis" value="656292d8-977f-11e1-8993-905e29aff6c1" />
         <macro key="incomeSource" value="de85f47e-0830-4840-b393-e7adcd641064" />
         <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea" />
+        <macro key="feedSet" value="38725750-df54-477a-a9b0-42527f94b709" />
+        <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="infectionSet" value="60227263-6073-44be-a6d8-c41f18b453a4" />
+        <macro key="durationCoded" value="89562b1e-9b39-4bdf-b57e-cf0e2448d815" />
+        <macro key="medicationSet" value="e2a64391-76c0-4f4b-b946-f51b05495c17" />
+        <macro key="lessThanFortyEightHours" value="ecdd9e50-ce94-49f4-a400-55421da645ab" />
+        <macro key="sevenDaysAgo" value="50300b30-0a03-4806-85f7-9a5c0239321c" />
+        <macro key="greaterThanSevenDays" value="7340a0aa-b965-4cc6-81e8-9a48236d1096" />
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -105,7 +116,6 @@
         patientPhone=1426
         symptom=1293
         dryCough=2128
-        duration=2161
         ageAtOnset=8428
         exposureGroup=8546
         exposureAns=8495
@@ -251,8 +261,10 @@
                             <th style="vertical-align:top;" align="left" rowspan="2">HIV Services</th>
                             <td>
                                 <!-- Mother Status -->
-                                <obs conceptId="$motherStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$hivSuspected"
+                                <obs conceptId="$motherStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$unknown"
                                      answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Unk" labelText="HIV status of mother" />
+                                <br />
+                                <obs conceptId="$motherRegNo" labelText="RegNo" />
                             </td>
                         </tr>
                         <tr>
@@ -261,6 +273,15 @@
                                 <!-- Marital Status -->
                                 <obs conceptId="$maritalStatus" style="radio" answerConceptIds="$married,$single,$divorced,$widowed"
                                      answerLabels="Married,Single,Divorced,Widowed"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$childStatus" style="radio" answerConceptIds="$aliveNotOnART,$aliveOnART,$unknown"
+                                     answerLabels="No&amp;nbsp;ART,On&amp;nbsp;ART, Unk" labelText="HIV status of child" />
+                                <br />
+                                <b>HCC no: </b>
+                                <b>
+                                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+                                </b>
                             </td>
                         </tr>
                         <tr>
@@ -331,8 +352,8 @@
                             MOD
                         </td>
                         <td colspan="4">
-                            <obs conceptId="$mod" style="radio" answerConceptIds="$svd,$cs,$agpar,$enroute"
-                                 answerLabels="SVD,C/S,AGPAR,Enroute" />
+                            <obs conceptId="$mod" style="radio" answerConceptIds="$svd,$cs,$agpar,$birthWeight"
+                                 answerLabels="SVD,C/S,AGPAR,BWT" />
                         </td>
                         <td>
                             <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
@@ -349,8 +370,10 @@
                             Perinatal Infection
                         </td>
                         <td colspan="4">
-                            <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No"
-                                 answerConceptIds="$yesAnswer,$noAnswer" />
+                            <obsgroup groupingConceptId="$infectionSet">
+                                <obs conceptId="$perinatalInfection" style="radio" answerLabels="Yes,No"
+                                     answerConceptIds="$yesAnswer,$noAnswer" />
+                            </obsgroup>
                         </td>
                         <td>
                             <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$trisomy" answerLabel="Trisomy 21" />
@@ -366,22 +389,24 @@
                         <td rowspan="3">
                             Antibiotics
                         </td >
-                        <td colspan="4">
-                            <obs conceptId="$antibiotics" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
-                                 answerLabels="Yes,No" />
-
+                        <td colspan="4" rowspan="3">
+                            <obsgroup groupingConceptId="$medicationSet">
+                                <obs conceptId="$antibiotics" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Yes,No" />
+                                <br />
+                                <br />
+                                <obs conceptId="$durationCoded" style="radio"  answerConceptIds="$lessThanFortyEightHours,$sevenDaysAgo,$greaterThanSevenDays"
+                                     answerLabels="Less than 48 hours,7 Days,Greater than 7 days" />
+                            </obsgroup>
                         </td>
                         <td colspan="4"><b>Summary</b></td>
                     </tr>
-                    <tr >
-                        <td colspan="4" rowspan="2">
-                            Duration
-                        </td>
+                    <tr>
                         <td colspan="4">
                             <obs conceptId="$enrolledInPdc" style="radio" answerLabels="Yes,No" answerConceptIds="$yesAnswer,$noAnswer" labelText="Enrolled In PDC" />
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td colspan="4">
                             <b>Conditions at enrollment</b>
                         </td>
@@ -413,13 +438,22 @@
                         <th style="vertical-align:top;" align="left" rowspan="7">Feeding <br/> History <br/></th>
                         <td>Type of Feed</td>
                         <td>
-                            <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$bmilk" answerLabel="Breast Milk" />
-                        </td>
+                            <obsgroup groupingConceptId="$feedSet">
+                                <obs conceptId="$typeOfFeed" style="checkbox"
+                                     answerConceptId="$bmilk" answerLabel="Breast Milk" />
+                            </obsgroup>
+                      </td>
                         <td>
-                            <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$infantFormula" answerLabel="Infant Formula" />
+                            <obsgroup groupingConceptId="$feedSet">
+                                <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$infantFormula"
+                                     answerLabel="Infant Formula" />
+                            </obsgroup>
                         </td>
                         <td colspan="2">
-                            other
+                            <obsgroup groupingConceptId="$feedSet">
+                                <obs conceptId="$otherNoneCodedText"
+                                     style="textarea" labelText="Other" cols="60"/>
+                            </obsgroup>
                         </td>
                         <td>
                             <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
