@@ -34,10 +34,19 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static String TYPE_OF_FEED = "7f5c591e-8b74-4fa9-8bbf-f4154a0d92d3";
     public static String INFANT_FORMULA = "656ac570-977f-11e1-8993-905e29aff6c1";
     public static String INCOME_SOURCE = "de85f47e-0830-4840-b393-e7adcd641064";
+    public static String DETAILS_OF_COMPLICATIONS = "86eacb84-51ea-11ec-bf63-0242ac130002";
+    public static String TYPE_OF_FEED_SET = "38725750-df54-477a-a9b0-42527f94b709";
+    public static String PERINATAL_INFECTION_SET = "60227263-6073-44be-a6d8-c41f18b453a4";
+    public static String LESS_OR_EQUAL_TO_FORTY_EIGHT_HOURS = "ecdd9e50-ce94-49f4-a400-55421da645ab";
+    public static String SEVEN_DAYS = "50300b30-0a03-4806-85f7-9a5c0239321c";
+    public static String GREATER_THAN_SEVEN_DAYS = "7340a0aa-b965-4cc6-81e8-9a48236d1096";
+    public static String DURATION_CODED = "89562b1e-9b39-4bdf-b57e-cf0e2448d815";
+    public static String ANTIBIOTICS_SET = "e2a64391-76c0-4f4b-b946-f51b05495c17";
+    public static String ANTIBIOTICS = "6575888e-977f-11e1-8993-905e29aff6c1";
 
     @Override
     public int getVersion() {
-        return 11;
+        return 15;
     }
 
     @Override
@@ -47,6 +56,8 @@ public class PdcConcepts extends VersionedPihConceptBundle {
         Concept hospital = MetadataUtils.existing(Concept.class,"655d1772-977f-11e1-8993-905e29aff6c1");
         Concept healthFacility = MetadataUtils.existing(Concept.class,"6566905e-977f-11e1-8993-905e29aff6c1");
         Concept unknown = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.UNKNOWN);
+        Concept otherNoneCodedText = MetadataUtils.existing(Concept.class,"d57e3a20-5802-11e6-8b77-86f30ca893d3");
+        Concept antibiotics = MetadataUtils.existing(Concept.class,ANTIBIOTICS);
 
         // Perinatal Infection
         Concept perinatalInfection = install(new ConceptBuilder("5c1f2ade-4224-46c3-99f5-7236aab13f13")
@@ -315,5 +326,72 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .description("fb37aa88-efcb-4f41-bdc0-9a74bbdc879f", "Specify source of income", Locale.ENGLISH)
                 .build());
 
+        // Details of Complications
+        Concept detailsOfComplications = install(new ConceptBuilder(DETAILS_OF_COMPLICATIONS)
+                .datatype(text)
+                .conceptClass(misc)
+                .name("a0e220fa-51ea-11ec-bf63-0242ac130002", "Details of Complications", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ada20cc4-51ea-11ec-bf63-0242ac130002", "Enter details of complications", Locale.ENGLISH)
+                .build());
+
+        // <= 48 Hours
+        Concept lessThanOrEqualToFortyEightHours = install(new ConceptBuilder(LESS_OR_EQUAL_TO_FORTY_EIGHT_HOURS)
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("b7433624-8fc3-49d1-b467-c75d7f637dda", "Less than or equal to 48 hours", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("ddab8330-bb80-451b-939d-cc14d3ea6642", "<= 48 Hours", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        // <= 7 days
+        Concept sevenDays = install(new ConceptBuilder(SEVEN_DAYS)
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("54ed7af6-80cd-41a2-9910-f8754ca1c90e", "Seven Days", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("c55c9760-2f4b-4136-b36f-d0a0acf1e2d6", "7 Days", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        // <= 7 days
+        Concept greaterThanSevenDays = install(new ConceptBuilder(GREATER_THAN_SEVEN_DAYS)
+                .datatype(notApplicable)
+                .conceptClass(frequency)
+                .name("7fe34306-50ba-44c4-9a06-beaa3b1c3f20", "Greater Than Seven Days", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("4756a657-13ad-4595-8a9f-3379f7d082d4", "> 7 Days", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        // Duration coded
+        Concept durationCoded = install(new ConceptBuilder(DURATION_CODED)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("522a4245-f435-4775-b4cc-f6e5b1014159", "Duration (coded)",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(lessThanOrEqualToFortyEightHours,sevenDays,greaterThanSevenDays)
+                .build());
+
+        // Type of Feed Set
+        Concept typeOfFeedSet = install(new ConceptBuilder(TYPE_OF_FEED_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("40019699-87b1-4183-85d5-b082033b30e8", "Type of Feed Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(typeOfFeed,otherNoneCodedText)
+                .build());
+
+        // Perinatal Infection Set
+        Concept perinatalInfectionSet = install(new ConceptBuilder(PERINATAL_INFECTION_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("df32705c-12c4-4980-9ec6-fc4c4c41a238", "Perinatal Infection Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(perinatalInfection,otherNoneCodedText)
+                .build());
+
+        // Antibiotic Set
+        Concept antibioticSet = install(new ConceptBuilder(ANTIBIOTICS_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("256d59d3-beda-4cb3-aa87-cbb809109bdf", "Antibiotic Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(antibiotics,durationCoded)
+                .build());
     }
 }
