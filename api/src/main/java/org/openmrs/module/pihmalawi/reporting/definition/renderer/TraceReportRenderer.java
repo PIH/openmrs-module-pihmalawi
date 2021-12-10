@@ -168,6 +168,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("VHW", headerStyle1, 20);
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
+                    builder.addCell("Birthdate", headerStyle1Centered, 12);
                     builder.addCell("ART#", headerStyle1, 15);
                     builder.addCell("EID#", headerStyle1, 15);
                     builder.addCell("NCD#", headerStyle1, 15);
@@ -178,6 +179,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("NCD#", headerStyle1, 15);
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
+                    builder.addCell("Birthdate", headerStyle1Centered, 12);
                     builder.addCell("Village", headerStyle1, 25);
                     builder.addCell("Health Facility", headerStyle1, 25);
                     builder.addCell("VHW", headerStyle1, 20);
@@ -229,6 +231,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("vhw"), rowStyle);
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("birthdate"), dateRowStyle);
                         builder.addCell(row.getColumnValue("art_number"), rowStyle);
                         builder.addCell(row.getColumnValue("eid_number"), rowStyle);
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
@@ -239,6 +242,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
+                        builder.addCell(row.getColumnValue("birthdate"), dateRowStyle);
                         builder.addCell(row.getColumnValue("village"), rowStyle);
                         builder.addCell(row.getColumnValue("parameter.location"), rowStyle);
                         builder.addCell(row.getColumnValue("vhw"), rowStyle);
