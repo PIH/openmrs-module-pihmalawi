@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.parameter.EncounterSearchCriteriaBuilder;
@@ -15,9 +16,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class Utils {
 
@@ -69,5 +68,35 @@ public class Utils {
         encounters = Context.getEncounterService().getEncounters(encounterSearchCriteriaBuilder.createEncounterSearchCriteria());
 
         return encounters;
+    }
+
+    public static List<String> getAddressHierarchyLevels() {
+        List<String> l = new ArrayList<String>();
+
+        try {
+            Class<?> svcClass = Context.loadClass("org.openmrs.module.addresshierarchy.service.AddressHierarchyService");
+            Object svc = Context.getService(svcClass);
+            List<Object> levels = (List<Object>) svcClass.getMethod("getOrderedAddressHierarchyLevels", Boolean.class, Boolean.class).invoke(svc, true, true);
+            Class<?> levelClass = Context.loadClass("org.openmrs.module.addresshierarchy.AddressHierarchyLevel");
+            Class<?> fieldClass = Context.loadClass("org.openmrs.module.addresshierarchy.AddressField");
+            for (Object o : levels) {
+                if (o != null ) {
+                    Object addressField = levelClass.getMethod("getAddressField").invoke(o);
+                    if (addressField != null) {
+                        String fieldName = (String) fieldClass.getMethod("getName").invoke(addressField);
+                        if (fieldName != null) {
+                            l.add(fieldName);
+                        }
+                    }
+                }
+            }
+            if (l.size() > 1) {
+                Collections.reverse(l);
+            }
+        } catch (Exception e) {
+            throw new APIException("Error obtaining address hierarchy levels", e);
+        }
+
+        return l;
     }
 }

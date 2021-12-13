@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.patient.impl;
 
+import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
@@ -7,6 +8,10 @@ import org.openmrs.module.pihmalawi.db.ExtendedPatientDAO;
 import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+
 /**
  *  Class implements patient operations for patients extending to the PatientService
  */
@@ -27,4 +32,11 @@ public class ExtendedPatientServiceImpl extends BaseOpenmrsService implements Ex
     public PatientIdentifier getPatientIdentifierByIdentifier(String identifier) throws APIException {
         return extendedPatientDAO.getPatientIdentifierByIdentifier(identifier);
     }
+
+    @Override
+    public List<Patient> getPatientsByDateChanged(Date dateChanged) throws APIException {
+        return extendedPatientDAO.getPatientsByChangedDate(dateChanged);
+    }
+
+
 }

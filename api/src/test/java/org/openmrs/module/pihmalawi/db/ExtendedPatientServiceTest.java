@@ -3,14 +3,20 @@ package org.openmrs.module.pihmalawi.db;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
+import org.openmrs.module.pihmalawi.Utils;
 import org.openmrs.module.pihmalawi.patient.ExtendedPatientService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.List;
+
 
 public class ExtendedPatientServiceTest extends BaseModuleContextSensitiveTest {
-    protected static final String FIND_PATIENTS_XML = "org/openmrs/api/include/PatientServiceTest-findPatients.xml";
+    protected static final String FIND_PATIENTS_XML = "org/openmrs/module/pihmalawi/api/include/PatientServiceTest-findPatients.xml";
 
     @Autowired
     ExtendedPatientService extendedPatientService;
@@ -31,5 +37,16 @@ public class ExtendedPatientServiceTest extends BaseModuleContextSensitiveTest {
     {
         PatientIdentifier getPatientIdentifier = extendedPatientService.getPatientIdentifierByIdentifier("12342345323");
         Assert.assertNull(getPatientIdentifier);
+    }
+
+    @Test
+    public void getPatientsByDateChanged_shoudlReturnPatients() throws ParseException{
+        List<String> addressHierarchyLevels = Utils.getAddressHierarchyLevels();
+
+        Calendar calendar = Calendar.getInstance();
+        // set to January 1, 2021
+        calendar.set(2021, 0, 1, 0, 0, 0);
+        List<Patient> patients = extendedPatientService.getPatientsByDateChanged(calendar.getTime());
+        Assert.assertEquals(patients.size(), 1);
     }
 }
