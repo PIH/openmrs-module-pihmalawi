@@ -170,7 +170,6 @@
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.4,)</versionRange>
 										<goals>
 											<goal>unpack-dependencies</goal>
 										</goals>
@@ -228,12 +227,6 @@
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
 					<execution>
 						<id>Fetch SASS sources from uicommons</id>
 						<goals>
