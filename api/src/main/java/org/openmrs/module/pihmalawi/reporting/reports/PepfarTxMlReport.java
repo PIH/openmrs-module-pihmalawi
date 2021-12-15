@@ -14,43 +14,48 @@
 package org.openmrs.module.pihmalawi.reporting.reports;
 
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
+import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
+import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileIndicatorDataSetDefinition;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.dataset.definition.SqlDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RegimenDispensationReport extends ApzuReportManager {
+public class PepfarTxMlReport extends ApzuReportManager {
 
-    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/regimen-dispensation.sql";
-    public static final String EXCEL_REPORT_DESIGN_UUID = "5eb01544-1d3a-4685-8fc5-eb5e99ef20b6";
+    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/pepfar-tx_ml-report.sql";
+    public static final String EXCEL_REPORT_DESIGN_UUID = "2de75efb-0a64-4297-b9b6-01bf8a914e7e";
     public static final String LOCATION_NAME_PARAM = "location";
 
 
     @Override
     public String getUuid() {
-        return "149a747d-8373-482f-adca-ef80c310ddf8";
+        return "01e4383c-5ced-4ff4-a724-ee856dea29fe";
     }
 
     @Override
     public String getName() {
-        return "MOH-Regimen Dispensation Report";
+        return "PEPFAR - TX_ML Report";
     }
 
     @Override
     public String getDescription() {
-        return "MOH Regimen Dispensation, MOH/PEPFAR Reports";
+        return "PEPFAR TX_ML Report, Revision November 2021";
     }
 
     @Override
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
+        l.add(ReportingConstants.START_DATE_PARAMETER);
         l.add(ReportingConstants.END_DATE_PARAMETER);
         l.add(ReportingConstants.LOCATION_PARAMETER);
         return l;
@@ -73,7 +78,7 @@ public class RegimenDispensationReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
 
-        rd.addDataSetDefinition("mohRegimenDispensationReport", Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("pepfarTxMlReport", Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
@@ -81,8 +86,8 @@ public class RegimenDispensationReport extends ApzuReportManager {
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
-        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MOHRegimenDispensationReport.xls");
-        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: mohRegimenDispensationReport");
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "PEPFARTXMLReport.xls");
+        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: pepfarTxMlReport");
         l.add(design);
         return l;
     }
