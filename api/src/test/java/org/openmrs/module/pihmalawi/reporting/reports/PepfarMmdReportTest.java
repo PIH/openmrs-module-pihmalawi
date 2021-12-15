@@ -54,7 +54,7 @@ public class PepfarMmdReportTest extends ReportManagerTest {
 
     @Override
     protected boolean isEnabled() {
-        return true;
+        return false;
     }
 
     @Override
