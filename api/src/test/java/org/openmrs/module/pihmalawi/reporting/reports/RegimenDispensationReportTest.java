@@ -21,7 +21,7 @@ public class RegimenDispensationReportTest extends ReportManagerTest {
 
 
     @Autowired
-    RegimenDispensationReport report;
+    MOHRegimenDispensationReport report;
 
     @Override
     public ReportManager getReportManager() {
