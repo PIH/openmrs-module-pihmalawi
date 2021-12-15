@@ -26,11 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RegimenDispensationReport extends ApzuReportManager {
+public class MOHRegimenDispensationReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/regimen-dispensation-by-weight.sql";
     public static final String EXCEL_REPORT_DESIGN_UUID = "7d3c14a1-4adc-45c3-abfd-8800dbcb916c";
-    public static final String LOCATION_NAME_PARAM = "location";
 
 
     @Override
