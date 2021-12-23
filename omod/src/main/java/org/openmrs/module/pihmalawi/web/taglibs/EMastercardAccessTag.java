@@ -69,7 +69,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
             if (StringUtils.isNotBlank(getInitialEncounterTypeName())) {
                 initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeName());
             }
-            if (initialEncounterType == null ) {
+            if (initialEncounterType == null && getInitialEncounterTypeId() !=null ) {
                 initialEncounterType = Context.getEncounterService().getEncounterType(getInitialEncounterTypeId());
             }
 			Concept conditionConcept = null;
