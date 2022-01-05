@@ -44,12 +44,12 @@
         <coreappsVersion>1.33.0</coreappsVersion>
         <emrapiVersion>1.33.0-SNAPSHOT</emrapiVersion>
         <eventVersion>2.9.0</eventVersion>
-        <htmlformentryVersion>4.1.0</htmlformentryVersion>
+        <htmlformentryVersion>4.4.0-SNAPSHOT</htmlformentryVersion>
         <htmlformentryuiVersion>2.2.0-SNAPSHOT</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
         <idgenVersion>4.7.0</idgenVersion>
 		<groovyVersion>2.2.4</groovyVersion>
-        <legacyuiVersion>1.8.2</legacyuiVersion>
+        <legacyuiVersion>1.10.0-SNAPSHOT</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.4.0</metadatamappingVersion>
         <metadatasharingVersion>1.8.0</metadatasharingVersion>
