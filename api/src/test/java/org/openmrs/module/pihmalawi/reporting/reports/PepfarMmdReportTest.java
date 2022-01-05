@@ -14,14 +14,14 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 /**
- * Test the Regimen Dispensation Report
+ * Tests the Pepfar MMD Report
  */
 @Ignore
-public class RegimenDispensationReportTest extends ReportManagerTest {
+public class PepfarMmdReportTest extends ReportManagerTest {
 
 
     @Autowired
-    MOHRegimenDispensationReport report;
+    PepfarTxMmdReport report;
 
     @Override
     public ReportManager getReportManager() {
@@ -30,9 +30,9 @@ public class RegimenDispensationReportTest extends ReportManagerTest {
 
     @Override
     public void performTest() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/openmrs_neno?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
-        String user = "openmrs";
-        String password = "opennmrs";
+        String url = "jdbc:mysql://localhost:3306/openmrs_warehouse?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
+        String user = "root";
+        String password = "root";
 
         File propertiesFile = new File(OpenmrsUtil.getApplicationDataDirectory(), PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         Properties properties = new Properties();

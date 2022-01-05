@@ -14,14 +14,14 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 /**
- * Test the Regimen Dispensation Report
+ * Tests the TX_ML Report
  */
 @Ignore
-public class RegimenDispensationReportTest extends ReportManagerTest {
+public class PepfarTxMlReportTest extends ReportManagerTest {
 
 
     @Autowired
-    MOHRegimenDispensationReport report;
+    PepfarTxMlReport report;
 
     @Override
     public ReportManager getReportManager() {
@@ -30,9 +30,9 @@ public class RegimenDispensationReportTest extends ReportManagerTest {
 
     @Override
     public void performTest() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/openmrs_neno?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
-        String user = "openmrs";
-        String password = "opennmrs";
+        String url = "jdbc:mysql://localhost:3308/openmrs_warehouse?autoReconnect=true&sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8";
+        String user = "root";
+        String password = "root";
 
         File propertiesFile = new File(OpenmrsUtil.getApplicationDataDirectory(), PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         Properties properties = new Properties();
@@ -47,7 +47,8 @@ public class RegimenDispensationReportTest extends ReportManagerTest {
     @Override
     public EvaluationContext getEvaluationContext() {
         EvaluationContext context = new EvaluationContext();
-        context.addParameterValue("endDate", DateUtil.getDateTime(2020, 3, 16));
+        context.addParameterValue("startDate", DateUtil.getDateTime(2021, 01, 01));
+        context.addParameterValue("endDate", DateUtil.getDateTime(2021, 03, 31));
         context.addParameterValue("location", "Neno District Hospital");
         return context;
     }
