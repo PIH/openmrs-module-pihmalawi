@@ -125,6 +125,11 @@
                     <td colspan="2" style="padding: 1px;">Surgery</td>
                     <td colspan="2">Recommendations</td>
                     <td colspan="1">Additional <br />Plans</td>
+                    <td></td>
+                    <td></td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Referred Out</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Plan</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Next  <br/>Visit <br/> Date</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
@@ -135,14 +140,13 @@
                     <td style="font-size:.7em;padding: 1px;">Ear discharge</td>
                     <td style="font-size:.7em;padding: 1px;">Other</td>
                     <td style="font-size:.7em;padding: 1px;">Scheduled</td>
+                    <td style="font-size:.7em;padding: 1px;">If yes <br/>Date </td>
                     <td style="font-size:.7em;padding: 1px;">Continue <br/>Follow Up</td>
                     <td style="font-size:.7em;padding: 1px;">Refer out</td>
                     <td style="font-size:.7em;padding: 1px">Support Group</td>
                     <td style="font-size:.7em;padding: 1px">Feeding Counselling</td>
                     <td style="font-size:.7em;padding: 1px">Food Supplement</td>
-                    <td style="font-size:.7em;padding: 1px">Referred Out</td>
-                    <td style="font-size:.7em;padding: 1px">Plan</td>
-                    <td style="font-size:.7em;padding: 1px">Next  <br/>Appt <br/> Date</td>
+
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -188,18 +192,20 @@
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
-                    <td>
+
                         <obsgroup groupingConceptId="$surgerySet">
                             <b>Scheduled:</b>
-                            <obs conceptId="$scheduled"
+                           <td>
+                             <obs conceptId="$scheduled"
                                  style="radio"
                                  answerConceptIds="$yesAnswer,$noAnswer"
                                  answerLabels="Yes,No"/>
-                            <br />
-                            <br />
+                           </td>
+                            <td>
                             <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
+                           </td>
                         </obsgroup>
-                    </td>
+
                     <td style="padding: 1px;" >
                         <!-- Continue Follow Up -->
                         <obs conceptId="$continueFollowUp" answerConceptIds="$yesAnswer,$noAnswer"
@@ -360,7 +366,7 @@
                                 />
                                 <br />
                                 <br />
-                                <b>Specify:</b>
+                                <b>Date:</b>
                                 <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
                             </obsgroup>
                         </td>
@@ -420,7 +426,7 @@
                 </tr>
                 <tr>
                     <!-- Comments -->
-                    <th>Comments</th>
+                    <th>Plan</th>
                     <td><obs conceptId="$clinicalImpression" style="textarea" cols="60"/></td>
                 </tr>
                 <tr>
