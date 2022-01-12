@@ -428,24 +428,24 @@
                             <obs conceptId="$drugs" labelText="Specify if yes" size="20"/>
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$prematureBirth" answerLabel="Premature Birth" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$hie" answerLabel="HIE" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$lowBirthWeight" answerLabel="Low Birth Weight" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$developmentalDelay" answerLabel="Developmental Delay" />
-                            </obsgroup>
+
                         </td>
                     </tr>
                     <tr>
@@ -466,26 +466,26 @@
                             </td>
                         </obsgroup>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$hydrocephalus" answerLabel="Hydrocephalus" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
                                 <br />
                                 <obs conceptId="$clinicalConditions" labelText="Specify:"/>
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$otherDiagnosis" labelText="Other:" rowspan="2"/>
-                            </obsgroup>
+
                         </td>
                     </tr>
                     <tr>
@@ -506,19 +506,19 @@
                             </obsgroup>
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$trisomy" answerLabel="Trisomy 21" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cleftPalate" answerLabel="Cleft Palate" />
-                            </obsgroup>
+
                         </td>
                         <td>
-                            <obsgroup groupingConceptId="$conditionsAtEnrollment">
+
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition" />
-                            </obsgroup>
+
                         </td>
                     </tr>
                     <tr>
