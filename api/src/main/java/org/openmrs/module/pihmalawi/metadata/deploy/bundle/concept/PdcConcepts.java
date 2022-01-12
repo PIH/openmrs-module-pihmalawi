@@ -43,10 +43,16 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static String DURATION_CODED = "89562b1e-9b39-4bdf-b57e-cf0e2448d815";
     public static String ANTIBIOTICS_SET = "e2a64391-76c0-4f4b-b946-f51b05495c17";
     public static String ANTIBIOTICS = "6575888e-977f-11e1-8993-905e29aff6c1";
-
+    public static String REASONS_FOR_REFERRAL_SET = "7a37ec7b-2804-46c8-be48-4707959192be";
+    public static String CARE_LINKED_SET = "657dbc1d-f753-49b8-9a6f-4c55e55c95ee";
+    public static String SOURCE_OF_REFERRAL_SET = "b5346c8a-246c-46aa-bce5-17a77534bc30";
+    public static String CONDITIONS_AT_ENROLLMENT = "cbd2080b-ffb5-4d6f-aabd-dd80b2938d5a";
+    public static String DIAGNOSIS = "656292d8-977f-11e1-8993-905e29aff6c1";
+    public static String CLINICAL_CONDITIONS = "657a53d2-977f-11e1-8993-905e29aff6c1";
+    public static String OTHER_DIAGNOSIS = "65780d0c-977f-11e1-8993-905e29aff6c1";
     @Override
     public int getVersion() {
-        return 15;
+        return 20;
     }
 
     @Override
@@ -58,6 +64,9 @@ public class PdcConcepts extends VersionedPihConceptBundle {
         Concept unknown = MetadataUtils.existing(Concept.class, CommonConcepts.Concepts.UNKNOWN);
         Concept otherNoneCodedText = MetadataUtils.existing(Concept.class,"d57e3a20-5802-11e6-8b77-86f30ca893d3");
         Concept antibiotics = MetadataUtils.existing(Concept.class,ANTIBIOTICS);
+        Concept patientDiagnosis = MetadataUtils.existing(Concept.class,DIAGNOSIS);
+        Concept clinicalConditions = MetadataUtils.existing(Concept.class,CLINICAL_CONDITIONS);
+        Concept otherDiagnosis = MetadataUtils.existing(Concept.class,OTHER_DIAGNOSIS);
 
         // Perinatal Infection
         Concept perinatalInfection = install(new ConceptBuilder("5c1f2ade-4224-46c3-99f5-7236aab13f13")
@@ -161,7 +170,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .build());
 
         // Developmental Delay
-        Concept DevelopmentDelay =install(new ConceptBuilder(DEVELOPMENT_DELAY)
+        Concept developmentDelay =install(new ConceptBuilder(DEVELOPMENT_DELAY)
                 .datatype(coded)
                 .conceptClass(diagnosis)
                 .name("5a0cea8d-2a7e-407d-8d0f-c1e955742038", "Developmental Delay",
@@ -350,7 +359,7 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .name("c55c9760-2f4b-4136-b36f-d0a0acf1e2d6", "7 Days", Locale.ENGLISH, ConceptNameType.SHORT)
                 .build());
 
-        // <= 7 days
+        // > 7 days
         Concept greaterThanSevenDays = install(new ConceptBuilder(GREATER_THAN_SEVEN_DAYS)
                 .datatype(notApplicable)
                 .conceptClass(frequency)
@@ -392,6 +401,43 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .name("256d59d3-beda-4cb3-aa87-cbb809109bdf", "Antibiotic Set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED)
                 .setMembers(antibiotics,durationCoded)
+                .build());
+
+        // Reasons for referral Set
+        Concept reasonForReferralSet = install(new ConceptBuilder(REASONS_FOR_REFERRAL_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("80085777-fd69-46cd-bf88-3a9a1a00ccb0", "Reasons for referral set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .description("faf9f212-6ecd-4f06-9576-bf0d143fae0c","Set for referrals",Locale.ENGLISH)
+                .setMembers(reasonsForReferral,otherNoneCodedText)
+                .build());
+
+        // Care linked Set
+        Concept careLinkedSet = install(new ConceptBuilder(CARE_LINKED_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("5ef34bdb-24e2-4c5b-abc7-28647e89ac9c", "Care Linked Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(careLinked,otherNoneCodedText)
+                .build());
+
+        // Source of Referral Set
+        Concept sourceOfReferralSet = install(new ConceptBuilder(SOURCE_OF_REFERRAL_SET)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("36172654-c042-4831-80a8-2d0a43efa94c", "Source Of Referral Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(careLinked,otherNoneCodedText)
+                .build());
+
+        // Conditions at Enrollment Set
+        Concept conditionsAtEnrollment = install(new ConceptBuilder(CONDITIONS_AT_ENROLLMENT)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("69e6f10d-d077-411d-b9e8-cead33613118", "Conditions At Enrollment Set", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .setMembers(patientDiagnosis,clinicalConditions,otherDiagnosis)
                 .build());
     }
 }
