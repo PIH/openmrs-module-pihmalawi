@@ -22,6 +22,8 @@
         <macro key="geneticSyndrome" value="77f4ecbc-b6bd-4caf-b956-15f01f613a1c" />
         <macro key="confirmed" value="d6e34dbf-55e9-49a3-bf00-dbd9c9048609" />
         <macro key="suspected" value="7667e58e-4332-4e83-bd85-0490bcb394fb" />
+
+
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
