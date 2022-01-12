@@ -39,6 +39,8 @@
         <macro key="poserSupportReferred" value="977c1d68-6ffa-46d5-ae89-00404e8b5904" />
         <macro key="referralSet" value="a4dfe545-8a85-41ca-ac47-b372b681391f" />
         <macro key="referredOut" value="da88696b-bf1d-4a31-b49d-997326e4a777" />
+        <macro key="severeMalnutrition" value="6558e8a0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="moderateMalnutrition" value="65731d74-977f-11e1-8993-905e29aff6c1" />
 
         chiefCompAnswer=8569
         chiefCompAbsent=8620
@@ -185,6 +187,9 @@
                     <td rowspan="2" style="padding: 1px;"><small>MDAT <br />SUMMARY</small></td>
                     <td colspan="4">Plan</td>
                     <td colspan="1">Social <br />Support</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Referred Out</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Plan</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Next  <br/>Appt <br/> Date</td>
                     <!--<td rowspan="2"><small>Family<br/>Planning</small></td>
                     <td rowspan="2"><small>Suicide<br/>risk</small></td>
                     <td rowspan="2"><small>Medication<br/>side effect</small></td>
@@ -214,9 +219,6 @@
                     <td style="font-size:.7em;padding: 1px">Play Therapy</td>
                     <td style="font-size:.7em;padding: 1px">Group <br/>Counselling <br/>Session</td>
                     <td style="font-size:.7em;padding: 1px">Referred <br/>to <br/>POSER</td>
-                    <td style="font-size:.7em;padding: 1px">Referred Out</td>
-                    <td style="font-size:.7em;padding: 1px">Plan</td>
-                    <td style="font-size:.7em;padding: 1px">Next  <br/>Appt <br/> Date</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -257,8 +259,8 @@
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$malnutrition"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Y,N" style="radio" />
+                             answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
+                             answerLabels="No,Mod,Sev" style="radio" />
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$irritability"
@@ -473,8 +475,8 @@
                 </th>
                 <td>
                     <obs conceptId="$malnutrition"
-                         answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
+                         answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
+                         answerLabels="No,Mod,Sev" style="radio" />
                 </td>
             </tr>
             <tr>
@@ -609,8 +611,8 @@
                 </obsgroup>
             </tr>
             <tr>
-                <!-- Comments -->
-                <th>Comments</th>
+                <!-- Plan -->
+                <th>Plan</th>
                 <td><obs conceptId="$clinicalImpression" style="textarea" cols="60"/></td>
             </tr>
             <tr>
