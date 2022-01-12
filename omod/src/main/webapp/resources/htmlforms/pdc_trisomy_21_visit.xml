@@ -124,6 +124,13 @@
                     <td colspan="3">GI Concerns</td>
                     <td colspan="6" style="padding: 1px;">Other Concerns</td>
                     <td colspan="1">Plan</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px;">Physiotherapy</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Play Therapy</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Support Group</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Group <br/>Counselling <br/>Session</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Referred Out</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Plan</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Next  <br/>Visit<br/> Date</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
@@ -137,13 +144,6 @@
                     <td style="font-size:.7em;padding: 1px;">Pain</td>
                     <td style="font-size:.7em;padding: 1px;">Weakness</td>
                     <td style="font-size:.7em;padding: 1px;">Continue <br/>Follow Up</td>
-                    <td style="font-size:.7em;padding: 1px;">Physiotherapy</td>
-                    <td style="font-size:.7em;padding: 1px">Play Therapy</td>
-                    <td style="font-size:.7em;padding: 1px">Support Group</td>
-                    <td style="font-size:.7em;padding: 1px">Group <br/>Counselling <br/>Session</td>
-                    <td style="font-size:.7em;padding: 1px">Referred Out</td>
-                    <td style="font-size:.7em;padding: 1px">Plan</td>
-                    <td style="font-size:.7em;padding: 1px">Next  <br/>Appt <br/> Date</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -353,7 +353,7 @@
                     </obsgroup>
                     <br />
                     <br />
-                    <b>Discharged:</b>
+                    <b>Discharge:</b>
                     <obsgroup groupingConceptId="$earSet">
                         <obs conceptId="$discharged"
                              answerConceptIds="$yesAnswer,$noAnswer"
@@ -450,8 +450,8 @@
                 </obsgroup>
             </tr>
             <tr>
-                <!-- Comments -->
-                <th>Comments</th>
+                <!-- Plan -->
+                <th>Plan</th>
                 <td><obs conceptId="$clinicalImpression" style="textarea" cols="60"/></td>
             </tr>
             <tr>
