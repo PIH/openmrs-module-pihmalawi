@@ -14,4 +14,6 @@ public final class PihMalawiWebConstants {
     public static final String SESSION_ATTRIBUTE_INFO_MESSAGE = "_REFERENCE_APPLICATION_INFO_MESSAGE_";
 
     public static final String SESSION_LOCATION_ID = "emrContext.sessionLocationId";
+
+    public static final String PATIENT_DASHBOARD_URL = "/patientDashboard.form";
 }

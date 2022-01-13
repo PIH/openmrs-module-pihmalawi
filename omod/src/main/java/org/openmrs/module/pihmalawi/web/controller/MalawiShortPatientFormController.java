@@ -17,6 +17,7 @@ import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.module.pihmalawi.validator.MalawiPatientValidator;
 import org.openmrs.util.LocationUtility;
 import org.openmrs.util.OpenmrsConstants;
@@ -58,7 +59,6 @@ public class MalawiShortPatientFormController {
 
     private static final String FIND_PATIENT_PAGE = "findPatient";
 
-    private static final String PATIENT_DASHBOARD_URL = "/patientDashboard.form";
 
     @Autowired
     PatientValidator patientValidator;
@@ -262,7 +262,7 @@ public class MalawiShortPatientFormController {
                     return SHORT_PATIENT_FORM_URL;
             }
 
-            return "redirect:" + PATIENT_DASHBOARD_URL + "?patientId=" + patient.getPatientId();
+            return "redirect:" + PihMalawiWebConstants.PATIENT_DASHBOARD_URL + "?patientId=" + patient.getPatientId();
 
         }
 

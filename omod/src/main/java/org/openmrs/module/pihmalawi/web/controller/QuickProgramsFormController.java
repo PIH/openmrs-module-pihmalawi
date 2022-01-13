@@ -7,6 +7,7 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.web.WebConstants;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class QuickProgramsFormController {
 	                           @RequestParam("programId") Integer programId,
 	                           @RequestParam("programworkflowStateId") Integer stateId,
 	                           @RequestParam("dateEnrolled") Date enrollmentDate,
-	                           @RequestParam(value="locationId", required=false) Integer locationId
+	                           @RequestParam(value="locationId", required=true) Integer locationId
 	                           ) throws ServletException, IOException {
 
 		// mostly stolen from the ProgramLocation code, which usually isn't a good idea...
@@ -61,6 +62,9 @@ public class QuickProgramsFormController {
 		Location location = null;
 		if (locationId != null) {
 			location = Context.getLocationService().getLocation(locationId);
+		} else {
+			request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, "pihmalawi.program.loocation.required");
+			return new ModelAndView(new RedirectView(PihMalawiWebConstants.PATIENT_DASHBOARD_URL + "?patientId=" + patient.getPatientId()));
 		}
 
 		// enroll patient
