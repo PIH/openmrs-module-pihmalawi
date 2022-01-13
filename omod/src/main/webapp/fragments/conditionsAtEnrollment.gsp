@@ -13,6 +13,7 @@
     def trisomy = "fc4bf95c-b445-44e3-959b-435145e79f01"
     def cleftpalate = "abe71d88-3f2c-4380-854b-c49b74946a01"
     def severeMalnutrition = "a94e5963-f6b1-4c91-b676-48dfb370a1f8"
+    def otherNonCoded = "6562c316-977f-11e1-8993-905e29aff6c1"
 
 %>
 
@@ -25,7 +26,7 @@
     jq.getJSON(apiBaseUrl + "/encounter", {
       patient: "${ patientUuid }" ,
       encounterType: "${ encounterType }",
-      v: "custom:(id,uuid,encounterDatetime,encounterType:(id,name,display),obs:(uuid,display,obsDatetime,valueCoded:(id,uuid,display),concept:(uuid,name:(display),datatype:(uuid,display))))"
+      v: "custom:(id,uuid,encounterDatetime,encounterType:(id,name,display),obs:(uuid,display,obsDatetime,comment,valueCoded:(id,uuid,display),concept:(uuid,name:(display),datatype:(uuid,display))))"
     }, function(data) {
       for (var index = 0; index < data.results.length; ++index) {
         var enc = data.results[index];
@@ -34,6 +35,10 @@
             var obs = enc.obs[j];
             if ( obs.concept.uuid === "${ diagnosis }" && obs.valueCoded != null) {
               jq("#" + obs.valueCoded.uuid).prop('checked', true);
+              if (obs.comment != null ) {
+                console.log("obs.comment: " + obs.comment);
+                jq("#" + obs.valueCoded.uuid + "_comment").val(obs.comment);
+              }
             }
           }
         }
@@ -43,7 +48,7 @@
 </script>
 
 <table>
-    <tr><td colspan="4"><div class="top-section-title"><b>Conditions at enrollment</b></div></td><tr>
+    <tr><td colspan="4"><div class="top-section-title"><h2><b>Conditions at enrollment</b></h2></div></td><tr>
 
     <tr>
         <td>
@@ -72,9 +77,10 @@
             <input type="checkbox" id="${ cleftLip }" disabled>
             <label>Cleft Lip</label>
         </td>
-        <td>
+        <td colspan="2">
             <input type="checkbox" id="${ cnsInfection }" disabled>
-            <label>CNS Infection</label>
+            <label>CNS Infection: </label>
+            <input id="${ cnsInfection }_comment" type="text" disabled>
         </td>
     </tr>
     <tr>
@@ -89,6 +95,11 @@
         <td>
             <input type="checkbox" id="${ severeMalnutrition }" disabled>
             <label>Severe Malnutrition</label>
+        </td>
+        <td>
+            <input type="checkbox" id="${ otherNonCoded }" disabled>
+            <label>Other: </label>
+            <input id="${ otherNonCoded }_comment" type="text" disabled>
         </td>
     </tr>
 

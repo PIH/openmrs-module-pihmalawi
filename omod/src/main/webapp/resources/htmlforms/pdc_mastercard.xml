@@ -47,6 +47,7 @@
         <macro key="hie" value="76e0ba08-d931-4baf-9651-9946543cc623" />
         <macro key="developmentalDelay" value="1be62437-3093-4530-b4ab-1cd4626b9704"/>
         <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8"/>
+        <macro key="nonCodedDiagnosis" value="6562c316-977f-11e1-8993-905e29aff6c1"/>
         <macro key="ageOfGuardian" value="fa7a921c-bd5f-4d5d-8e4f-4dc5060e37b7"/>
         <macro key="occupation" value="6558df36-977f-11e1-8993-905e29aff6c1"/>
         <macro key="maritalStatus" value="6557571a-977f-11e1-8993-905e29aff6c1"/>
@@ -414,7 +415,7 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <b>Conditions at enrollment</b>
+                            <b><h2>Conditions at enrollment</h2></b>
                         </td>
                     </tr>
                     <tr>
@@ -475,17 +476,8 @@
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cleftLip" answerLabel="Cleft Lip" />
 
                         </td>
-                        <td>
-
-                                <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
-                                <br />
-                                <obs conceptId="$clinicalConditions" labelText="Specify:"/>
-
-                        </td>
-                        <td>
-
-                                <obs conceptId="$otherDiagnosis" labelText="Other:" rowspan="2"/>
-
+                        <td colspan="2">
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection. " showCommentField="true" commentFieldLabel="Specify:"/>
                         </td>
                     </tr>
                     <tr>
@@ -519,6 +511,9 @@
 
                                 <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$severeMalnutrition" answerLabel="Severe Malnutrition" />
 
+                        </td>
+                        <td>
+                            <obs conceptId="$diagnosis" style="checkbox" answerConceptId="$nonCodedDiagnosis" answerLabel="Other. " showCommentField="true" commentFieldLabel="Specify:"/>
                         </td>
                     </tr>
                     <tr>
