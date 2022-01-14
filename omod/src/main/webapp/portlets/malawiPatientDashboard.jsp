@@ -236,57 +236,27 @@
 <table cellspacing="0" cellpadding="2">
     <tr>
         <td>HIV Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119" defaultLocation="2"/><br /></td>
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119" defaultLocation="16"/><br /></td>
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
     </tr>
     <tr>
         <td>Chronic Care Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,141" defaultLocation="2"/><br /></td
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,154" defaultLocation="16"/><br /></td
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,141"/><br /></td
     </tr>
     <tr>
         <td>Mental Health Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}" defaultLocation="2"/><br /></td
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}" defaultLocation="16"/><br /></td
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
         <td>Pediatric Development Clinic Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}" defaultLocation="2"/><br /></td
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}" defaultLocation="16"/><br /></td
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
         <td>Palliative Care Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}" defaultLocation="2"/><br /></td>
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}" defaultLocation="16"/><br /></td>
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}"/><br /></td>
     </tr>
     <tr>
         <td>TB Program:</td>
-        <c:if test="${upperOrLowerNeno == 'UPPER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92" defaultLocation="2"/></td>
-        </c:if>
-        <c:if test="${upperOrLowerNeno == 'LOWER_NENO'}">
-            <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92" defaultLocation="16"/></td>
-        </c:if>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/></td>
     </tr>
 </table>
 <!-- <div class="portlet"> is automatically close by openmrs:portlet  from patientOverview.jsp-->
