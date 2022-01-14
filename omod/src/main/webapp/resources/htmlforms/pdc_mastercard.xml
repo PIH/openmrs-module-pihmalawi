@@ -351,14 +351,12 @@
                         </td>
                         <td>
                             <obsgroup groupingConceptId="$reasonsForReferralSet">
-                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection" />
-                                <br />
-                                <obs conceptId="$clinicalConditions" labelText="Specify:"/>
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$cnsInfection" answerLabel="CNS infection. " showCommentField="true" commentFieldLabel="Specify:"/>
                             </obsgroup>
                         </td>
                         <td>
                             <obsgroup groupingConceptId="$reasonsForReferralSet">
-                                <obs conceptId="$otherDiagnosis" labelText="Other (specify):" />
+                                <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$nonCodedDiagnosis" answerLabel="Other. " showCommentField="true" commentFieldLabel="Specify:"/>
                             </obsgroup>
                         </td>
                     </tr>
