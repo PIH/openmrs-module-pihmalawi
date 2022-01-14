@@ -4,7 +4,6 @@
     <macros>
         noAnswer=1066
         yesAnswer=1065
-        other=6408
         height=5090
         weight=5089
         <macro key="muac" value="6558d09a-977f-11e1-8993-905e29aff6c1"/>
@@ -41,51 +40,13 @@
         <macro key="referredOut" value="da88696b-bf1d-4a31-b49d-997326e4a777" />
         <macro key="severeMalnutrition" value="6558e8a0-977f-11e1-8993-905e29aff6c1" />
         <macro key="moderateMalnutrition" value="65731d74-977f-11e1-8993-905e29aff6c1" />
+        <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
 
-        chiefCompAnswer=8569
-        chiefCompAbsent=8620
-        depressive=8568
-        elevMood=8572
-        disrupt=8566
-        abSpeech=8567
-        delusion=8565
-        hallucinate=8564
-        insight=8579
-        lacksInsight=8619
         nonCodedOther=5622
-
-        stable=8616
-        activity=8617
-
-        alcoholConstruct=2242
-        mjConstruct=8574
-        medsOtherConstruct=8576
-        exposeHistory=8571
-        alcoholHistory=1552
-        current=1550
-
-        pregnant=6131
-        familyPlan=5271
-        suicideRisk=8497
-        sideEffects=2146
-        hospitalized=8615
-        drugsNow=1193
-        drugSet=8501
-        cpz=914
-        hlp=4047
-        fpz=927
-        cbz=920
-        sv=4060
-        ris=8498
-        flx=4045
-        olanzapine=8582
-        clozapine=8583
-        trifluo=8237
-        clopixol=8584
         noncodedText=8575
         clinicalImpression=1364
         nextAppt=5096
-        amitriptyline=931
     </macros>
 
     <style>
@@ -240,7 +201,7 @@
                     <td>
                         <obsgroup groupingConceptId="$waa">
                             <obs conceptId="$inequalities"
-                                 answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                             <br />
                             <br />
                             <b>Value:</b>
@@ -250,7 +211,7 @@
                     <td>
                         <obsgroup groupingConceptId="$weh">
                             <obs conceptId="$inequalities"
-                                 answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                             <br />
                             <br />
                             <b>Value:</b>
@@ -448,7 +409,7 @@
                 <td>
                     <obsgroup groupingConceptId="$waa">
                          <obs conceptId="$inequalities"
-                             answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                         <br />
                         <br />
                         <b>Value:</b>
@@ -461,7 +422,7 @@
                 <td>
                     <obsgroup groupingConceptId="$weh">
                         <obs conceptId="$inequalities"
-                             answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                         <br />
                         <br />
                         <b>Value:</b>
