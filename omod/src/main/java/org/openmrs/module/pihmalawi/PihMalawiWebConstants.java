@@ -15,5 +15,5 @@ public final class PihMalawiWebConstants {
 
     public static final String SESSION_LOCATION_ID = "emrContext.sessionLocationId";
 
-    public static final String PATIENT_DASHBOARD_URL = "/patientDashboard.form";
+    public static final String PATIENT_DASHBOARD_URL = "patientDashboard.form";
 }

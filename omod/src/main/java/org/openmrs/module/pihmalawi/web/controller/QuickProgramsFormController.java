@@ -64,7 +64,7 @@ public class QuickProgramsFormController {
 			location = Context.getLocationService().getLocation(locationId);
 		} else {
 			request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, "pihmalawi.program.loocation.required");
-			return new ModelAndView(new RedirectView(PihMalawiWebConstants.PATIENT_DASHBOARD_URL + "?patientId=" + patient.getPatientId()));
+			return new ModelAndView(new RedirectView(returnPage));
 		}
 
 		// enroll patient
