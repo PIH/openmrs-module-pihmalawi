@@ -41,6 +41,8 @@
         <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8" />
         <macro key="moderateMalnutrition" value="655c243e-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
     </macros>
 
     <style>
@@ -205,7 +207,7 @@
                     <td>
                         <obsgroup groupingConceptId="$waa">
                             <obs conceptId="$inequalities"
-                                 answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                             <br />
                             <br />
                             <b>Value:</b>
@@ -215,7 +217,7 @@
                     <td>
                         <obsgroup groupingConceptId="$weh">
                             <obs conceptId="$inequalities"
-                                 answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                             <br />
                             <br />
                             <b>Value:</b>
@@ -380,8 +382,8 @@
                 <th>W/A</th>
                 <td>
                     <obsgroup groupingConceptId="$waa">
-                         <obs conceptId="$inequalities"
-                             answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                        <obs conceptId="$inequalities"
+                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                         <br />
                         <br />
                         <b>Value:</b>
@@ -394,7 +396,7 @@
                 <td>
                     <obsgroup groupingConceptId="$weh">
                         <obs conceptId="$inequalities"
-                             answerConceptIds="$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
+                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
                         <br />
                         <br />
                         <b>Value:</b>
