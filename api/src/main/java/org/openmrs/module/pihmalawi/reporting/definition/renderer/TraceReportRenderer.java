@@ -78,7 +78,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 String reportLabel = minWks + "w Report - ";
 
                 if (minWks == 2) {
-                    reportLabel += "VHW Site Supervisor";
+                    reportLabel += "CHW Site Supervisor";
                 }
                 else if (minWks == 6) {
                     reportLabel += "HIV Coordinator";
@@ -106,7 +106,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 instructions.put(", first verify using the mastercards whether they have truly missed a visit. ", instructionsStyle);
                 instructions.put("If they have not missed an appointment, add patient name and visit details to \"Mastercard Update\" report.  ", instructionsStyle);
                 if (minWks == 2) {
-                    instructions.put("VHWs should then visit all other patients, provide counseling, and advise them to visit the facility on the date provided. ", instructionsStyle);
+                    instructions.put("CHWs should then visit all other patients, provide counseling, and advise them to visit the facility on the date provided. ", instructionsStyle);
                     instructions.put("Patients marked high-priority should be visited right away. For patients with a missed visit, record the outcome. ", instructionsStyle);
                     instructions.put("Return the reports to Chisomo (Upper Neno) or Maxwell (Lower Neno) by the due date. ", instructionsStyle);
                     instructions.put("If the due during the week of a Site Supervisor Meeting, you are encouraged to bring the report with you to the PIH office on that day. ", instructionsStyle);
@@ -166,7 +166,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 if (minWks == 2) {
                     builder.addCell("Village", headerStyle1 + ",border=left", 25);
                     builder.addCell("TA", headerStyle1, 20);
-                    builder.addCell("VHW", headerStyle1, 20);
+                    builder.addCell("CHW", headerStyle1, 20);
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
                     builder.addCell("Birthdate", headerStyle1Centered, 12);
@@ -184,7 +184,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("Village", headerStyle1, 25);
                     builder.addCell("TA", headerStyle1, 25);
                     builder.addCell("Health Facility", headerStyle1, 25);
-                    builder.addCell("VHW", headerStyle1, 20);
+                    builder.addCell("CHW", headerStyle1, 20);
                 }
                 builder.addCell("(1) Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
                 builder.addCell("(2) Lab results ready", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
@@ -231,7 +231,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     if (minWks == 2) {
                         builder.addCell(row.getColumnValue("village"), rowStyle + ",border=left");
                         builder.addCell(row.getColumnValue("traditional_authority"), rowStyle);
-                        builder.addCell(row.getColumnValue("vhw"), rowStyle);
+                        builder.addCell(row.getColumnValue("chw"), rowStyle);
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
                         builder.addCell(row.getColumnValue("birthdate"), dateRowStyle);
@@ -249,7 +249,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("village"), rowStyle);
                         builder.addCell(row.getColumnValue("traditional_authority"), rowStyle);
                         builder.addCell(row.getColumnValue("parameter.location"), rowStyle);
-                        builder.addCell(row.getColumnValue("vhw"), rowStyle);
+                        builder.addCell(row.getColumnValue("chw"), rowStyle);
                     }
 
                     Number weeksOutOfCare = (Number)row.getColumnValue("art_weeks_out_of_care");
