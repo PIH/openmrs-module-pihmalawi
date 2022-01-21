@@ -165,6 +165,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.addCell("", null, 4);
                 if (minWks == 2) {
                     builder.addCell("Village", headerStyle1 + ",border=left", 25);
+                    builder.addCell("TA", headerStyle1, 20);
                     builder.addCell("VHW", headerStyle1, 20);
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
@@ -181,6 +182,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("Last", headerStyle1, 15);
                     builder.addCell("Birthdate", headerStyle1Centered, 12);
                     builder.addCell("Village", headerStyle1, 25);
+                    builder.addCell("TA", headerStyle1, 25);
                     builder.addCell("Health Facility", headerStyle1, 25);
                     builder.addCell("VHW", headerStyle1, 20);
                 }
@@ -228,6 +230,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
 
                     if (minWks == 2) {
                         builder.addCell(row.getColumnValue("village"), rowStyle + ",border=left");
+                        builder.addCell(row.getColumnValue("traditional_authority"), rowStyle);
                         builder.addCell(row.getColumnValue("vhw"), rowStyle);
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
@@ -244,6 +247,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
                         builder.addCell(row.getColumnValue("birthdate"), dateRowStyle);
                         builder.addCell(row.getColumnValue("village"), rowStyle);
+                        builder.addCell(row.getColumnValue("traditional_authority"), rowStyle);
                         builder.addCell(row.getColumnValue("parameter.location"), rowStyle);
                         builder.addCell(row.getColumnValue("vhw"), rowStyle);
                     }
@@ -339,7 +343,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
     private boolean hasTraceCriteria(String traceCriteria, String... checkAny) {
         if (traceCriteria != null && checkAny != null) {
             for (String s : checkAny) {
-                if (traceCriteria.toLowerCase().trim().contains(s.toLowerCase().trim())) {
+                if (traceCriteria.toLowerCase().trim().contains(s.toLowerCase().trim()))  {
                     return true;
                 }
             }
