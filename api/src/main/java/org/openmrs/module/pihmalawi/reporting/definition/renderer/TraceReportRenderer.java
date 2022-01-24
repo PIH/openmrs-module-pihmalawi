@@ -318,16 +318,6 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     }
                     builder.nextRow();
                 }
-
-                // For Phase 1, hide the NCD# and Diagnoses columns
-                if (isPhase1) {
-                    builder.getCurrentSheet().setColumnHidden(7, true);
-                    builder.getCurrentSheet().setColumnHidden(13, true);
-                }
-                // Only show "due for lab work" reason if 2 week report
-                if (minWks != 2) {
-                    builder.getCurrentSheet().setColumnHidden(10, true);
-                }
             }
         }
 
