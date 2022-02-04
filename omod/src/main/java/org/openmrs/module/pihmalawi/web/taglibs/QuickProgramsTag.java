@@ -145,10 +145,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 		s += " at <select name=\"locationId\">\n";
 		s += "<option value=\"\">Choose a location...</option>\n";
 		String defaultLocationId = getDefaultLocation();
-		if (defaultLocationId == null || "".equals(defaultLocationId)) {
-			// no default location in jsp specified, so check if the user profile has one
-			defaultLocationId = Context.getUserContext().getAuthenticatedUser().getUserProperty(OpenmrsConstants.USER_PROPERTY_DEFAULT_LOCATION);
-		}
+		
 		for (Location l : Context.getLocationService().getAllLocations(false)) {
 			if (defaultLocationId != null && !"".equals(defaultLocationId) && l.getId().equals(new Integer(defaultLocationId))) {
 				s += "<option value=\"" + l.getId() + "\" selected>" + l.getName() + "</option>\n";

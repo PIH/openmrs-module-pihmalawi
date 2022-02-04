@@ -25,6 +25,7 @@ CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWe
 
 SELECT        t.patient_id,
               p.village,
+              p.traditional_authority,
               p.chw,
               p.first_name,
               p.last_name,

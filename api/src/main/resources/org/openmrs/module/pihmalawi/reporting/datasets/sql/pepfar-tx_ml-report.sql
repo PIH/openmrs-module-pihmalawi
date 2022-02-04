@@ -49,8 +49,31 @@ WHEN age >=420 and age <= 479 and gender = "F" THEN "35-39 years"
 WHEN age >=480 and age <= 539 and gender = "F" THEN "40-44 years"
     WHEN age >=540 and age <= 599 and gender = "M" THEN "45-49 years"
 WHEN age >=540 and age <= 599 and gender = "F" THEN "45-49 years"
-    WHEN age >=600 and gender = "M" THEN "50 plus years"
-WHEN age >=600 and gender = "F" THEN "50 plus years"
+        WHEN age >=600 and age <=659 and gender = "M" THEN "50-54 years"
+        WHEN age >=600 and age <=659 and gender = "F" THEN "50-54 years"
+
+    WHEN age >=660 and age <=719 and gender = "M" THEN "55-59 years"
+    WHEN age >=660 and age <=719 and gender = "F" THEN "55-59 years"
+
+    WHEN age >=720 and age <=779 and gender = "M" THEN "60-64 years"
+    WHEN age >=720 and age <=779 and gender = "F" THEN "60-64 years"
+
+    WHEN age >=780 and age <=839 and gender = "M" THEN "65-69 years"
+    WHEN age >=780 and age <=839 and gender = "F" THEN "65-69 years"
+
+    WHEN age >=840 and age <=899 and gender = "M" THEN "70-74 years"
+    WHEN age >=840 and age <=899 and gender = "F" THEN "70-74 years"
+
+    WHEN age >=900 and age <=959 and gender = "M" THEN "75-79 years"
+    WHEN age >=900 and age <=959 and gender = "F" THEN "75-79 years"
+
+    WHEN age >=960 and age <=1019 and gender = "M" THEN "80-84 years"
+    WHEN age >=960 and age <=1019 and gender = "F" THEN "80-84 years"
+
+
+
+    WHEN age >=1020 and gender = "M" THEN "90 plus years"
+    WHEN age >=1020 and gender = "F" THEN "90 plus years"
 END as age_group,gender as "gender",
 	COUNT(IF(((state = 'patient defaulted' and start_date BETWEEN @startDate AND @endDate )
     or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultOneMonth))
