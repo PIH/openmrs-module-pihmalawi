@@ -292,7 +292,7 @@
                                 <obs conceptId="$artRegimen1" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
                             </td>
                             <td>
-                                <obs conceptId="$firstLineArvStartDate" />
+                                <obs conceptId="$firstLineArvStartDate" allowFutureDates="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -301,7 +301,7 @@
                                 <obs conceptId="$artRegimen2" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
                             </td>
                             <td>
-                                <obs conceptId="$alternativeFirstLineArvStartDate" />
+                                <obs conceptId="$alternativeFirstLineArvStartDate" allowFutureDates="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -310,7 +310,7 @@
                                 <obs conceptId="$artRegimen3" answerConceptIds="$regimenOptions" answerLabels="$regimenLabels"/>
                             </td>
                             <td>
-                                <obs conceptId="$secondLineArvStartDate" />
+                                <obs conceptId="$secondLineArvStartDate" allowFutureDates="true"/>
                             </td>
                         </tr>
                     </table>
