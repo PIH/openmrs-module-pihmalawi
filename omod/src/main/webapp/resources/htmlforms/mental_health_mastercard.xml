@@ -239,7 +239,7 @@
                                              answerConceptId="$schizo" answerLabel="Schizophrenia"/>
                                     </td>
                                     <td id="schizo-date" style="border-left: 1px solid #ffffff;">
-                                        <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                        <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                     </td>
                                 </obsgroup>
 
@@ -287,7 +287,7 @@
                                                          answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
                                                 <td id="{2}-date" style="border-left: 1px solid #ffffff;">
-                                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                                 </td>
                                             </obsgroup>
                                         </tr>
@@ -306,7 +306,7 @@
                                         <obs conceptId="$noncodedOtherName" />
                                     </td>
                                     <td id="{2}-date" style="border-left: 1px solid #ffffff;">
-                                        <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                        <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                     </td>
                                 </obsgroup>
                             </tr>
@@ -323,7 +323,7 @@
                                          answerLabels="Stress reaction disorder,Dissociative disorder,Somatoform disorder,Puerperal disorder,Mental retardation,Psych development disorder,Hyperkinetic behavior"/>
                                 </td>
                                 <td id="other-ccDiagnosis-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -337,11 +337,11 @@
                                 <obs conceptId="$hivStatus"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                                <obs conceptId="$hivTestDate" labelText="Date test" allowFutureDates="true"/>
                             </td>
                             <td>
                                 <strong>ART</strong><br/>
-                                <obs conceptId="$artStartDate" labelText="Start Date"/>
+                                <obs conceptId="$artStartDate" labelText="Start Date" allowFutureDates="true"/>
                             </td>
                             <td class="nowrap" style="border-right: 1px solid #ffffff;">
                                 <strong>TB</strong>
@@ -387,7 +387,7 @@
                                          answerConceptId="$hallucinate" answerLabel="Hallucinations"/>
                                 </td>
                                 <td id="hallu-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -398,7 +398,7 @@
                                          answerConceptId="$delusion" answerLabel="Delusions"/>
                                 </td>
                                 <td id="delu-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <td rowspan="2" colspan="2" style="padding: 0px;">
@@ -417,7 +417,7 @@
                                             <td colspan="2" id="mj-time" style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$expoYears" labelText="# years"/>
                                                 &amp;nbsp;&amp;nbsp;&amp;nbsp;
-                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                                <obs conceptId="$expoDate" labelText="Date last use" allowFutureDates="true"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -432,7 +432,7 @@
                                          answerConceptId="$disrupt" answerLabel="Disorganised/disruptive behaviour"/>
                                 </td>
                                 <td id="disrupt-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -443,7 +443,7 @@
                                          answerConceptId="$abSpeech" answerLabel="Disorganised speech"/>
                                 </td>
                                 <td id="abspeech-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -464,7 +464,7 @@
                                             <td colspan="2" id="other-meds-time" style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$expoYears" labelText="# years"/>
                                                 &amp;nbsp;&amp;nbsp;&amp;nbsp;
-                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                                <obs conceptId="$expoDate" labelText="Date last use" allowFutureDates="true"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -481,7 +481,7 @@
                                          answerConceptId="$depressive" answerLabel="Depressive symptoms"/>
                                 </td>
                                 <td id="depr-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -494,7 +494,7 @@
                                          commentFieldLabel="specify" />
                                 </td>
                                 <td id="o-date" style="border-left: 1px solid #ffffff;">
-                                    <obs conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <td rowspan="2" colspan="2" style="padding: 0px;">
@@ -512,7 +512,7 @@
                                             <td colspan="2" id="trad-time" style="border: 1px solid #ffffff;">
                                                 <obs conceptId="$expoYears" labelText="# years"/>
                                                 &amp;nbsp;&amp;nbsp;&amp;nbsp;
-                                                <obs conceptId="$expoDate" labelText="Date last use"/>
+                                                <obs conceptId="$expoDate" labelText="Date last use" allowFutureDates="true"/>
                                             </td>
                                         </tr>
                                     </table>

@@ -159,7 +159,7 @@
                                          answerConceptId="$rheumatoidArthritis" answerLabel="Rheumatoid arthritis" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="rheumatoid-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="rheumatoid-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -182,7 +182,7 @@
                                          answerConceptId="$cirrhosis" answerLabel="Cirrhosis" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="cirrhosis-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="cirrhosis-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -195,7 +195,7 @@
                                          answerConceptId="$deepDiagVein" answerLabel="DVT / PE" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="deepV-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="deepV-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -208,7 +208,7 @@
                                          answerConceptId="$sickleCellDiag" answerLabel="Sickle Cell Disease" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="sickle-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="sickle-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -222,7 +222,7 @@
                                     <obs conceptId="$otherDxText" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="nonCoded-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="nonCoded-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -231,14 +231,14 @@
                             <th style="vertical-align:top;" align="left">Patient<br/>History</th>
                             <td><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date Test"/>
+                                <obs conceptId="$hivTestDate" labelText="Date Test" allowFutureDates="true"/>
                             </td>
-                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" allowFutureDates="true"/></td>
                             <td class="nowrap">
                                 <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
                             <td class="nowrap">
-                                <obs conceptId="$tbDate" labelText="Date"/>
+                                <obs conceptId="$tbDate" labelText="Date" allowFutureDates="true"/>
                             </td>
                         </tr>
 
@@ -260,7 +260,7 @@
                             <th align="left">ECHO</th>
                             <obsgroup groupingConceptId="$echoSet">
                                 <td>
-                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$echoImagingResult" labelText="Result"/>
@@ -271,7 +271,7 @@
                             <th align="left">ECG</th>
                             <obsgroup groupingConceptId="$ecgSet">
                                 <td>
-                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$ecgResult" labelText="Result"/>
