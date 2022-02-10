@@ -166,7 +166,7 @@
                                          answerConceptId="$dilatedCCF" answerLabel="Dilated" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="dilated-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="dilated-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -176,7 +176,7 @@
                                          answerConceptId="$cadCCF" answerLabel="CAD" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="cad-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="cad-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -186,7 +186,7 @@
                                          answerConceptId="$peCCF" answerLabel="PE" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="pe-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="pe-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -198,7 +198,7 @@
                                          answerConceptId="$restrictiveCCF" answerLabel="Restrictive" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="restrict-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="restrict-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -210,7 +210,7 @@
                                          answerConceptId="$valvularCCF" answerLabel="Valvular" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="valvular-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="valvular-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -219,7 +219,7 @@
                                          answerConceptId="$strokeCCF" answerLabel="Stroke" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -228,7 +228,7 @@
                                          answerConceptId="$dvtCCF" answerLabel="DVT" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="dvt-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="dvt-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -240,7 +240,7 @@
                                          answerConceptId="$unknown" answerLabel="Unknown" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="unknown-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="unknown-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -253,7 +253,7 @@
                                          answerConceptId="$rheumaticCCF" answerLabel="Rheumatic" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="rheumatic-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="rheumatic-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -262,7 +262,7 @@
                                          answerConceptId="$afibCCF" answerLabel="Afib" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="afib-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="afib-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -272,7 +272,7 @@
                                     <obs id="other-dx" conceptId="$otherCCF" />
                                 </td>
                                 <td class="toggle-target" rowspan="2">
-                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="other-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -284,7 +284,7 @@
                                          answerConceptId="$congenitalCCF" answerLabel="Congenital" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="congenital-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="congenital-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -293,8 +293,8 @@
                             <th style="vertical-align:top;" align="left">Patient<br/>History &#38;<br/>Exposures</th>
                             <td><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date Test"/></td>
-                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                                <obs conceptId="$hivTestDate" labelText="Date Test" allowFutureDates="true"/></td>
+                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" allowFutureDates="true"/></td>
                             <td class="nowrap">
                                 <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
@@ -329,7 +329,7 @@
                     		<th align="left">ECHO</th>
                     		<obsgroup groupingConceptId="$echoSet">
                                 <td>
-                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$echoImagingResult" labelText="Result"/>
@@ -340,7 +340,7 @@
                     		<th align="left">ECG</th>
                     		<obsgroup groupingConceptId="$ecgSet">
                                 <td>
-                                    <obs conceptId="$echoEcgDate" labelText="Date"/>
+                                    <obs conceptId="$echoEcgDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                                 <td>
                                     <obs conceptId="$ecgResult" labelText="Result"/>

@@ -81,7 +81,7 @@
 	    <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Transfer-In Date: </b>
                 <b>
-                    <obs conceptId="$transferIn" />
+                    <obs conceptId="$transferIn" allowFutureDates="true"/>
                 </b>
             </span>
 
@@ -158,7 +158,7 @@
                             <tr>
                                 <td>ART</td>
                                 <td><obs conceptId="$motherRegNo" labelText="RegNo" /></td>
-                                <td><obs conceptId="$motherARTstart" labelText="Start date"/></td>
+                                <td><obs conceptId="$motherARTstart" labelText="Start date" allowFutureDates="true"/></td>
                             </tr>
                             <tr>
                                 <td rowspan="2">Child</td>
@@ -313,7 +313,7 @@
                             <tr>
                                 <td>ART</td>
                                 <td><obs conceptId="$motherRegNo" labelText="RegNo" /></td>
-                                <td><obs conceptId="$motherARTstart" labelText="Start date"/></td>
+                                <td><obs conceptId="$motherARTstart" labelText="Start date" allowFutureDates="true"/></td>
                             </tr>
                             <tr>
                                 <td rowspan="2">Child</td>

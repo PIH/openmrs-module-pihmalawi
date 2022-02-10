@@ -158,10 +158,10 @@
                             <!-- Asthma -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="asthma-dx" data-toggle-target="asthma-dx-date">
-                                    <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma" />
+                                    <obs class="dx-checkbox-item" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$asthmaDx" answerLabel="Asthma"  />
                                 </td>
                                 <td>
-                                    <obs id="asthma-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="asthma-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <th style="vertical-align:top;" align="left" rowspan="2">Family History</th>
@@ -178,7 +178,7 @@
                                          answerConceptId="$copdDx" answerLabel="COPD" />
                                 </td>
                                 <td class="toggle-target">
-                                    <obs id="copd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="copd-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <td class="nowrap">
@@ -190,8 +190,8 @@
                             <th style="vertical-align:top;" align="left" rowspan="5">Patient<br/>History &#38;<br/>Exposures</th>
                             <td><obs conceptId="$hivStatus" labelText="HIV" answerConceptIds="$reactive,$nonReactive,$unknown"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date Test"/></td>
-                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" /></td>
+                                <obs conceptId="$hivTestDate" labelText="Date Test" allowFutureDates="true"/></td>
+                            <td><obs conceptId="$artStartDate" labelText="ART Start Date" allowFutureDates="true" /></td>
                             <td class="nowrap">
                                 <obs conceptId="$tbStatus" labelText="TB" answerConceptIds="$smearPos,$smearNeg,$eptb,$unknown"
                                      answerLabels="smear pos,smear neg,EPTB,never had TB"/></td>
@@ -212,7 +212,7 @@
                                      style="checkbox" answerLabel="TB contact"/>
                             </td>
                             <td class="toggle-target">
-                                <obs id="tb-expo-date" conceptId="$exposureDate" labelText="Date" />
+                                <obs id="tb-expo-date" conceptId="$exposureDate" labelText="Date" allowFutureDates="true" />
                             </td>
                     </obsgroup>
                         </tr>
@@ -226,7 +226,7 @@
                                 <obs conceptId="$smokingHistory" answerConceptId="$inPast" style="checkbox" answerLabel="Smoking"/>
                             </td>
                             <td>
-                                <obs conceptId="$lastTimeSmoking" labelText="Date"/>
+                                <obs conceptId="$lastTimeSmoking" labelText="Date" allowFutureDates="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -240,7 +240,7 @@
                                      answerLabel="Second hand smoking" />
                             </td>
                             <td class="toggle-target">
-                                <obs id="shsmoke-expo-date" conceptId="$exposureDate" labelText="Date" />
+                                <obs id="shsmoke-expo-date" conceptId="$exposureDate" labelText="Date" allowFutureDates="true" />
                             </td>
                             </obsgroup>
                         </tr>
@@ -252,7 +252,7 @@
                                      answerLabels="Occupational Exposure"/>
                             </td>
                             <td class="toggle-target">
-                                <obs id="occ-expo-date" conceptId="$exposureDate" labelText="Date" />
+                                <obs id="occ-expo-date" conceptId="$exposureDate" labelText="Date" allowFutureDates="true" />
                             </td>
                             </obsgroup>
                             <td colspan="2"></td>

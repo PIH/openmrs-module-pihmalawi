@@ -104,7 +104,7 @@
                 <td>
                     <obsgroup groupingConceptId="$hivTestConstruct">
                         <obsreference conceptId="$hivTestResult" id="hivRadioResult" style="radio" answerConceptIds="$positive,$negative,$notDone" answerLabels="R,NR,ND"/>
-                        <obs type="hidden" id="hivTestDate" conceptId="$hivSampleDate"/>
+                        <obs type="hidden" id="hivTestDate" conceptId="$hivSampleDate" allowFutureDates="true"/>
                     </obsgroup>
                 </td>
             </tr>

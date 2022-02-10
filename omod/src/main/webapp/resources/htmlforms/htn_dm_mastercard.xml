@@ -165,7 +165,7 @@
                                     <obs class="dx-checkbox-item" id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
                                 </td>
                                 <td>
-                                    <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -183,7 +183,7 @@
                                     <obs class="dx-checkbox-item" id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
                                 </td>
                                 <td>
-                                    <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -193,7 +193,7 @@
                                     <obs class="dx-checkbox-item" id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
                                 </td>
                                 <td>
-                                    <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <!-- Family History -->
@@ -211,10 +211,10 @@
                                 <obs conceptId="$hivStatus" labelText="HIV"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                                <obs conceptId="$hivTestDate" labelText="Date test" allowFutureDates="true"/>
                             </td>
                             <td rowspan="2">
-                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                                <obs conceptId="$artStartDate" labelText="ART Start Date" allowFutureDates="true"/>
                             </td>
                             <td class="nowrap">
                                 <obs conceptId="$tbStatus" labelText="TB"
@@ -231,7 +231,7 @@
                                     <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
                                 </td>
                                 <td>
-                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -245,7 +245,7 @@
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="cardio-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="cardio-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -257,7 +257,7 @@
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -267,7 +267,7 @@
                                     <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
                                 </td>
                                 <td>
-                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -275,7 +275,7 @@
                                     <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
@@ -289,7 +289,7 @@
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -297,7 +297,7 @@
                                     <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" labelText="Date"/>
+                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
