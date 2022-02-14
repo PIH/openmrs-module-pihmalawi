@@ -50,7 +50,7 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
     public IC3ScreeningDataLoader() {
         ScheduledExecutorTask task = new ScheduledExecutorTask();
         task.setDelay(10);
-        task.setPeriod(10);
+        task.setPeriod(60);
         task.setTimeUnit(TimeUnit.MINUTES);
         task.setRunnable(new Runnable() {
             public void run() {

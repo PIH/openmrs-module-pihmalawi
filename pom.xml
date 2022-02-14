@@ -64,6 +64,7 @@
         <reportingrestVersion>1.11.0</reportingrestVersion>
         <reportinguiVersion>1.7.0</reportinguiVersion>
         <serializationxstreamVersion>0.2.15</serializationxstreamVersion>
+		<spaVersion>1.0.8</spaVersion>
 		<syncVersion>2.0.0-SNAPSHOT</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
         <uicommonsVersion>2.18.0</uicommonsVersion>
@@ -228,6 +229,13 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>spa</artifactId>
+			<version>${spaVersion}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>uiframework-api</artifactId>
