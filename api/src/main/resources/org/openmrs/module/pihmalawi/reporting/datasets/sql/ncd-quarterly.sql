@@ -64,4 +64,17 @@ INSERT INTO rpt_ic3_indicators
         AND ncdCurrentLocation=@location
 ;
 
+/*
+	NCD-H4N - Hypertension patients with a visit in last 3 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H4N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H4N', 'Patients who had any "DIABETES HYPERTENSION FOLLOWUP" encounter at the location for the report in the last 3 months to the end date and a chronic care diagnosis of "hypertension" at that "DIABETES HYPERTENSION FOLLOWUP" encounter',
+    'At date', count(*)
+  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup h
+  WHERE r.patient_id=h.patient_id and r.htnDx='X' and h.visit_date >= DATE_ADD(@endDate,INTERVAL -90 DAY) and h.visit_date <= @endDate
+        and h.location=@location
+;
+
 select * from rpt_ic3_indicators;
