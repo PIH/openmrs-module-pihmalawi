@@ -60,7 +60,8 @@ INSERT INTO rpt_ic3_indicators
     'At date', count(*)
   FROM rpt_ic3_data_table
   WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        and nextHtnDmAppt >= @startDate and nextHtnDmAppt <= DATE_ADD(@endDate,INTERVAL -56 DAY)
+        AND nextHtnDmAppt is not null
+        AND @startDate <= DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) and DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) <= @endDate
         AND ncdCurrentLocation=@location
 ;
 
