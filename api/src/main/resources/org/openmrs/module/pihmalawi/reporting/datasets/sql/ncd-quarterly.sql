@@ -60,8 +60,45 @@ INSERT INTO rpt_ic3_indicators
     'At date', count(*)
   FROM rpt_ic3_data_table
   WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        and nextHtnDmAppt >= @startDate and nextHtnDmAppt <= DATE_ADD(@endDate,INTERVAL -56 DAY)
+        AND nextHtnDmAppt is not null
+        AND @startDate <= DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) and DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) <= @endDate
         AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-H4N - Hypertension patients with a visit in last 3 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H4N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H4N', 'Patients who had any "DIABETES HYPERTENSION FOLLOWUP" encounter at the location for the report in the last 3 months to the end date and a chronic care diagnosis of "hypertension" at that "DIABETES HYPERTENSION FOLLOWUP" encounter',
+    'At date', count(*)
+  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup h
+  WHERE r.patient_id=h.patient_id and r.htnDx='X' and h.visit_date >= DATE_ADD(@endDate,INTERVAL -90 DAY) and h.visit_date <= @endDate
+        and h.location=@location
+;
+
+/*
+	NCD-H5N - Hypertension - Number of patients with a chronic care diagnosis of "hypertension" who have an "On treatment" status for the chronic care program at the facility on report end date, who have ever had any of the complications in the "DIABETES HYPERTENSION INITIAL" recorded in the past (Cardovascular disease, retinopathy, renal disease, stroke/TIA, PVD, Neuropathy, Sexual dysfunction)
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H5N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H5N', 'Currently enrolled patients that have ever experienced a complication',
+    'At date', count(*)
+  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_initial h
+  WHERE r.patient_id=h.patient_id
+        AND r.htnDx='X'
+        AND r.currentNcdState ='On treatment'
+        AND r.ncdCurrentLocation=@location
+        AND (h.cardiovascular_disease is not null
+             OR h.retinopathy is not null
+             OR h.renal_disease is not null
+             OR h.stroke_and_tia is not null
+             OR h.peripheral_vascular_disease is not null
+             OR h.neuropathy is not null
+             OR h.sexual_disorder is not null
+        )
 ;
 
 select * from rpt_ic3_indicators;

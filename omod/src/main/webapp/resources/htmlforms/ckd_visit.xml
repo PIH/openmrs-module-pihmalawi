@@ -36,9 +36,9 @@
         <macro key="paleConjunctiva" value="6548a256-977f-11e1-8993-905e29aff6c1" />
         <macro key="edema" value="bd057502-c23b-4f80-b24c-b996e8a84dfc" />
         <macro key="ckdStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
-        <macro key="OneTwoCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
-        <macro key="threeCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
-        <macro key="fourFiveCKDStage" value="fd79ad7e-53ea-461a-b075-27beee44a6cc" />
+        <macro key="OneTwoCKDStage" value="d45b3164-bdb1-4411-9f22-d998c9af116c" />
+        <macro key="threeCKDStage" value="358c0e8f-708a-48f3-ba2c-e7fe16a24cfd" />
+        <macro key="fourFiveCKDStage" value="d0a884e6-8bb5-451c-a321-f63242d216b7" />
         <macro key="nsaidUse" value="89a3d604-43f9-4d4e-95ad-8b8577f80108" />
         <macro key="glomerularFRate" value="a0d7e2b0-d69c-11e8-9f8b-f2801f1b9fd1" />
         <macro key="tobacco" value="655a4dc6-977f-11e1-8993-905e29aff6c1" />
