@@ -62,7 +62,7 @@
                                  answerConceptIds="$negative,$positive,$inconclusive,$notDone"
                                  answerLabels="Neg,Pos,Inc,Not Done"
                                  style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
+                        <td><obs conceptId="$hivResultDate" allowFutureDates="true"/></td>
                     </obsgroup>
                 </tr>
             </tbody>
@@ -115,7 +115,7 @@
                                  answerConceptIds="$negative,$positive,$inconclusive,$notDone"
                                  answerLabels="Neg,Pos,Inc,Not Done"
                                  style="radio" /></td>
-                        <td><obs conceptId="$hivResultDate" /></td>
+                        <td><obs conceptId="$hivResultDate" allowFutureDates="true"/></td>
                     </obsgroup>
                 </tr>
             </tbody>

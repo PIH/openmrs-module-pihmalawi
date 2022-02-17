@@ -278,10 +278,10 @@
                                 <obs conceptId="$hivStatus" labelText="HIV"
                                      answerConceptIds="$reactive,$nReactive,$unknown"/>
                                 <br/>
-                                <obs conceptId="$hivTestDate" labelText="Date test"/>
+                                <obs conceptId="$hivTestDate" labelText="Date test" allowFutureDates="true"/>
                             </td>
                             <td colspan="2">
-                                <obs conceptId="$artStartDate" labelText="ART Start Date"/>
+                                <obs conceptId="$artStartDate" labelText="ART Start Date" allowFutureDates="true"/>
                             </td>
                         </tr>
                         <tr>
@@ -384,7 +384,7 @@
                                                     <obs id="exposure-{0}" conceptId="$exposureAns" style="checkbox" answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
                                                 <td>
-                                                    <obs id="exposure-{0}-date" conceptId="$exposureDate"/>
+                                                    <obs id="exposure-{0}-date" conceptId="$exposureDate" allowFutureDates="true"/>
                                                 </td>
                                            </obsgroup>
                                         </tr>
@@ -395,7 +395,7 @@
                                                 <obs id="exposure-other" conceptId="$exposureAns" answerConceptId="$other" answerLabel="Other:" commentFieldLabel="" />
                                             </td>
                                             <td>
-                                                <obs id="exposure-other-date" conceptId="$exposureDate"/>
+                                                <obs id="exposure-other-date" conceptId="$exposureDate" allowFutureDates="true"/>
                                             </td>
                                         </obsgroup>
                                     </tr>
@@ -477,7 +477,7 @@
                                                     <obs id="complication-{0}" conceptId="$complicationAns" labelText="" style="checkbox" answerConceptId="{0}" answerLabel="{1}"/>
                                                 </td>
                                                 <td>
-                                                    <obs id="complication-{0}-date" conceptId="$complicationDate"/>
+                                                    <obs id="complication-{0}-date" conceptId="$complicationDate" allowFutureDates="true"/>
                                                 </td>
                                             </obsgroup>
                                         </tr>
@@ -488,7 +488,7 @@
                                                 <obs id="complication-other" conceptId="$complicationAns" answerConceptId="$other" answerLabel="Other:" commentFieldLabel="" />
                                             </td>
                                             <td>
-                                                <obs id="complication-other-date" conceptId="$complicationDate"/>
+                                                <obs id="complication-other-date" conceptId="$complicationDate" allowFutureDates="true"/>
                                             </td>
                                         </obsgroup>
                                     </tr>

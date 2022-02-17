@@ -7,7 +7,8 @@ call create_last_art_outcome_at_facility(@endDate, @location);
 select  opi.identifier, l.source_key as location_key, mwp.first_name, mwp.last_name, ops.state,ops.start_date, mwp.gender,
  If(ops.state = "On antiretrovirals",floor(datediff(@endDate,mwp.birthdate)/@birthDateDivider),floor(datediff(ops.start_date,mwp.birthdate)/@birthDateDivider)) as age,
  ops.location, patient_visit.last_appt_date, patient_visit.art_regimen as current_regimen, patient_visit.hiv_preventive_therapy, patient_visit.therapy_pills,
- patient_visit.pregnant_or_lactating as pregnant_or_lactating_at_last_visit, patient_initial_visit.initial_pregnant_or_lactating as pregnant_or_lactating_at_initial, patient_initial_visit.initial_visit_date
+ patient_visit.pregnant_or_lactating as pregnant_or_lactating_at_last_visit, patient_initial_visit.initial_pregnant_or_lactating as pregnant_or_lactating_at_initial,
+ patient_initial_visit.initial_visit_date,patient_initial_visit.transfer_in_date
 from  mw_patient mwp
 LEFT join (
 select map.patient_id, map.visit_date as followup_visit_date, map.next_appointment_date as last_appt_date, map.art_regimen, map.hiv_preventive_therapy,map.therapy_pills,
