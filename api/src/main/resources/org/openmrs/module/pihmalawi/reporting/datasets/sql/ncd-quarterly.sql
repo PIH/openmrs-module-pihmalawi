@@ -10,6 +10,7 @@
 
 */
 
+set @startDate = DATE_ADD(@endDate,INTERVAL -90 DAY);
 
 CALL create_rpt_ic3_data(@endDate, @location);
 
@@ -74,7 +75,7 @@ INSERT INTO rpt_ic3_indicators
   SELECT 'NCD-H4N', 'Patients who had any "DIABETES HYPERTENSION FOLLOWUP" encounter at the location for the report in the last 3 months to the end date and a chronic care diagnosis of "hypertension" at that "DIABETES HYPERTENSION FOLLOWUP" encounter',
     'At date', count(*)
   FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup h
-  WHERE r.patient_id=h.patient_id and r.htnDx='X' and h.visit_date >= DATE_ADD(@endDate,INTERVAL -90 DAY) and h.visit_date <= @endDate
+  WHERE r.patient_id=h.patient_id and r.htnDx='X' and h.visit_date >= @startDate and h.visit_date <= @endDate
         and h.location=@location
 ;
 
@@ -99,6 +100,56 @@ INSERT INTO rpt_ic3_indicators
              OR h.neuropathy is not null
              OR h.sexual_disorder is not null
         )
+;
+
+/*
+	NCD-H6N - Hypertension patients who had a value for CV risk (concept: 8460) recorded in the last 3 months up to the reporting end date
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H6N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H6N', 'Hypertension Patients with CV risk % assessed during visit in last 3 months',
+    'At date', count(*)
+  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup f
+  WHERE  r.patient_id=f.patient_id
+         and r.htnDx='X'
+         and f.cardiovascular_risk is not null
+         and f.visit_date >= @startDate and f.visit_date <= @endDate
+         and f.location=@location
+;
+
+/*
+	NCD-H7N - Patients with a chronic care diagnosis of "hypertension" and a "DIABETES HYPERTENSION FOLLOWUP" encounter recorded in the last 3 months
+	with a Sytolic blood pressure of <140 and Diastolic blook pressure of <90 at last visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H7N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H7N', 'Patients with a visit in last 3 months (excluding new patients) that have BP below 140/90',
+    'At date', count(*)
+  FROM 	rpt_ic3_data_table r, mw_diabetes_hypertension_followup f
+  WHERE 	r.patient_id = f.patient_id
+         AND r.htnDx='X'
+         AND f.visit_date >= @startDate and f.visit_date <= @endDate
+         AND f.bp_stystolic is not null AND f.bp_diastolic is not null
+         AND f.bp_stystolic <140 AND f.bp_diastolic < 90
+         AND f.location=@location
+;
+
+/*
+	NCD-H8N - Hypertension patients who had the observation of "hospitalization since last visit" (concept - 1715)
+	recorded at last visit in the quarter up to the end date of the report
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H8N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-H8N', 'Hypertension Patients hospitalized for the condition since last visit ',
+    'At date', count(*)
+  FROM rpt_ic3_data_table r
+  WHERE  r.htnDx='X'
+         and r.htnDmHospitalizedSinceLastVisit = 'Yes'
+         and r.lastNcdVisit >= @startDate and r.lastNcdVisit <= @endDate
+         and r.ncdCurrentLocation=@location
 ;
 
 select * from rpt_ic3_indicators;
