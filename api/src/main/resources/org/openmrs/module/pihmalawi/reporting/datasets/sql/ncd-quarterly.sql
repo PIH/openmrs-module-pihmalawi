@@ -10,7 +10,7 @@
 
 */
 
-set @startDate = DATE_ADD(@endDate,INTERVAL -90 DAY);
+set @startDate = DATE_ADD(@endDate,INTERVAL -3 MONTH);
 
 CALL create_rpt_ic3_data(@endDate, @location);
 
@@ -172,12 +172,12 @@ INSERT INTO rpt_ic3_indicators
 ;
 
 /*
-	NCD-A2N - Patients with a new chronic care diagnosis of "asthma" in the last 3 months up to end date for report
+	NCD-A2N - Asthma patients with a new chronic care diagnosis of "asthma" in the last 3 months up to end date for report
 */
 DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A2N';
 INSERT INTO rpt_ic3_indicators
 (indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A2N', 'Patients newly registered during reporting period',
+  SELECT 'NCD-A2N', 'Asthma patients newly registered during reporting period',
     'At date', count(*)
   FROM 	rpt_ic3_data_table
   WHERE 	currentNcdState = "On treatment"
@@ -276,6 +276,76 @@ INSERT INTO rpt_ic3_indicators
         AND r.lastAsthmaVisitDate is not null
         AND @startDate <= r.lastAsthmaVisitDate and r.lastAsthmaVisitDate <= @endDate
         AND r.ncdCurrentLocation=@location
+;
+
+/*
+	NCD-COPD1N - COPD patients enrolled and active in care
+	"Number of patients with a chronic care diagnosis of ""Chronic obstructive pulmonary disease""
+	who have an ""On treatment"" status for the chronic care program at the  location / facility on report end date
+  Most recent appointment date is later than end date or less than 60 days to the end date"
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD1N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-COPD1N', 'COPD patients enrolled and active in care', 'At date', count(*)
+  FROM 	rpt_ic3_data_table
+  WHERE 	currentNcdState = "On treatment"
+         AND copdDx is NOT NULL
+         AND ( nextAsthmaAppt < DATE_ADD(@endDate,INTERVAL -60 DAY) or nextAsthmaAppt > @endDate )
+         AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-COPD2N - COPD patients newly registered during reporting period
+	Patients with a new chronic care diagnosis of "Chronic obstructive pulmonary disease"
+	in the last 3 months up to end date for report
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD2N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-COPD2N', 'COPD patients newly registered during reporting period',
+    'At date', count(*)
+  FROM 	rpt_ic3_data_table
+  WHERE 	currentNcdState = "On treatment"
+         AND copdDx is NOT NULL
+         AND copdDxDate >= @startDate
+         AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-COPD3N - COPD Patients who have defaulted during the reporting period -
+	Patients whose program state at the report location / facility changed to "Patient defaulted"
+	between start date and end date of report
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD3N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-COPD3N', 'Patients who have defaulted during the reporting period',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE copdDx is not null
+        AND currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
+        AND nextAsthmaAppt is not null
+        AND @startDate <= DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) and DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) <= @endDate
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-COPD4N - COPD patients with a visit in last 3 months
+	Patients who had any "ASTHMA FOLLOWUP" encounter at the location for the report
+	in the last 3 months to the end date
+	and a chronic care diagnosis of "Chronic obstructive pulmonary disease" at that "ASTHMA FOLLOWUP" encounterr
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD4N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-COPD4N', 'COPD patients with a visit in last 3 months',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE copdDx is not null
+        AND lastAsthmaVisitDate is not null
+        AND @startDate <= lastAsthmaVisitDate and lastAsthmaVisitDate <= @endDate
+        AND ncdCurrentLocation=@location
 ;
 
 /*
@@ -511,6 +581,114 @@ INSERT INTO rpt_ic3_indicators
         AND lastHtnDmVisitDate is not null
         AND lastHtnDmVisitDate >= @startDate
         AND (longActingInsulin is not null or shortActingInsulin is not null)
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH1N - Mental Health patients enrolled and active in care
+	Number of patients with a mental health mastercard who have an "On treatment" status
+	for the chronic care program at the facility on report end date
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH1N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH1N', 'Mental Health patients enrolled and active in care', 'At date', count(*)
+  FROM 	rpt_ic3_data_table
+  WHERE 	currentNcdState = "On treatment"
+         AND nextMentalHealthAppt is not null
+         AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH2N - Mental Health patients newly registered during reporting period
+	Patients with a mental health initial encounter in the last 3 months up to end date for report
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH2N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH2N', 'Mental Health patients newly registered during reporting period',
+    'At date', count(*)
+  FROM 	rpt_ic3_data_table r, mw_mental_health_initial h
+  WHERE 	r.patient_id = h.patient_id
+        AND @startDate <= h.visit_date and h.visit_date <= @endDate
+        AND r.ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH3N - Mental Health Patients who have defaulted during the reporting period -
+	Mental health patients (having a mental health mastercard) patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH3N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH3N', 'Mental Health patients who have defaulted during the reporting period',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
+        AND nextMentalHealthAppt is not null
+        AND @startDate <= DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) and DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) <= @endDate
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH4N - Mental Health patients with a visit in last 3 months
+	Patients who had any "MENTAL HEALTH FOLLOWUP" encounter at the location for the report in the last 3 months to the end date
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH4N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH4N', 'Mental Health patients with a visit in last 3 months',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastMentalHealthVisitDate is not null
+        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH5N - Mental Health patients hospitalized since last visit (in the last 3 months)
+	Mental health patients who had "yes" to the question "Hospitalised since last visit" in the last 3 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH5N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH5N', 'Mental Health patients hospitalized since last visit (in the last 3 months)',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastMentalHealthVisitDate is not null
+        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
+        AND mentalHospitalizedSinceLastVisit ='Yes'
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH6N - Mental Health patients on medication who reported side effects at the last visit (in the last 3 months)
+	Mental health patients whose answer was "yes" to the question "Side effects" (concept : 2146)
+	at most recent visit in the last 3 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH6N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH6N', 'Mental Health patients on medication who reported side effects at the last visit (in the last 3 months)','At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastMentalHealthVisitDate is not null
+        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
+        AND mentalHealthRxSideEffectsAtLastVisit ='True'
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-MH7N - Mental Health patients in care that were reported as stable at last visit (in the last 3 months)
+	Mental health patients who had "yes" to the question "Stablet" (concept : 8816) in the last 3 months
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH7N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-MH7N', 'Mental Health patients in care that were reported as stable at last visit (in the last 3 months)','At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastMentalHealthVisitDate is not null
+        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
+        AND mentalStableAtLastVisit ='Yes'
         AND ncdCurrentLocation=@location
 ;
 
