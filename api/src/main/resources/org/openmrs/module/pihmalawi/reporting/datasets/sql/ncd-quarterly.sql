@@ -692,4 +692,93 @@ INSERT INTO rpt_ic3_indicators
         AND ncdCurrentLocation=@location
 ;
 
+
+/*
+	NCD-EP1N - Epilepsy patients enrolled and active in care
+	Number of patients with an epilepsy mastercard who have an "On treatment" status
+	for the mental health care program at the facility on report end date
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP1N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP1N', 'Epilepsy patients enrolled and active in care', 'At date', count(*)
+  FROM 	rpt_ic3_data_table
+  WHERE 	currentNcdState = "On treatment"
+         AND epilepsyDx is not null
+         AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-EP2N - Epilepsy patients newly registered during reporting period
+	Patients with a epilepsy initial encounter in the last 3 months up to end date for report
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP2N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP2N', 'Epilepsy patients newly registered during reporting period', 'At date', count(*)
+  FROM 	mw_epilepsy_initial
+  WHERE 	@startDate <= visit_date and visit_date <= @endDate
+         AND location=@location
+;
+
+/*
+	NCD-EP3N - Epilepsy patients who have defaulted during the reporting period -
+	Epilepsy patients (having an epilepsy mastercard) patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP3N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP3N', 'Epilepsy patients who have defaulted during the reporting period',
+    'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
+        AND nextEpilepsyAppt is not null
+        AND @startDate <= DATE_ADD(nextEpilepsyAppt,INTERVAL +56 DAY) and DATE_ADD(nextEpilepsyAppt,INTERVAL +56 DAY) <= @endDate
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-EP4N - Epilepsy patients with a visit in last 3 months
+	Patients who had any "EPILEPSY FOLLOWUP" encounter at the location for the report in the last 3 months to the end date
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP4N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP4N', 'Epilepsy patients with a visit in last 3 months', 'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastEpilepsyVisit is not null
+        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-EP5N - Number of epilepsy patients with no seizures since last visit (in the last 3 months)
+	Number of epilepsy patients who had the answer "No" to the question "Seizure since last visit" - (concept: 8541)
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP5N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP5N', 'Number of epilepsy patients with no seizures since last visit (in the last 3 months)', 'At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastEpilepsyVisit is not null
+        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
+        AND epilepsySeizuresSinceLastVsit ='No'
+        AND ncdCurrentLocation=@location
+;
+
+/*
+	NCD-EP6N - Epilepsy patients hospitalized since last visit (in the last 3 months)
+	Number of epilepsy patients with answer "yes" for "Hospitalization since last visit" recorded in the last 3 months at most recent visit
+*/
+DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP6N';
+INSERT INTO rpt_ic3_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'NCD-EP6N', 'Epilepsy patients hospitalized since last visit (in the last 3 months) ','At date', count(*)
+  FROM rpt_ic3_data_table
+  WHERE lastEpilepsyVisit is not null
+        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
+        AND epilepsyHospitalizedSinceLastVisit = 'Yes'
+        AND ncdCurrentLocation=@location
+;
+
 select * from rpt_ic3_indicators;
