@@ -16,7 +16,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 3;
     }
 
     @Override
@@ -76,11 +76,53 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                 .name("86c2ffe8-e7f1-11e8-9f32-f2801f1b9fd1", "Coronary artery disease", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        Concept kineticDis = install(new ConceptBuilder("cba37f2a-2058-454f-b291-f992af755a20")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("b50023d8-2280-4cfa-b777-7162b217d11c", "Hyperkinetic Conductal Disorder  (ADHD)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept moodAffectiveDisorderBipolar = install(new ConceptBuilder("a0d3ad80-f290-437c-8be3-7440dfdb7299")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("f4980896-4141-433f-ba85-b48e7308fcb6", "Mood Affective Disorder (Bipolar)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept stressReactionAdjustmentDisorder = install(new ConceptBuilder("3ac86541-7c6a-4e94-96dd-66942ced3cdb")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("0baf9917-1a47-485b-accf-19fe7ad05ed3", "Stress Reaction Adjustment Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept dissociativeConversionDisorder = install(new ConceptBuilder("c119657d-f96c-48d5-9dbe-0c24486eadf5")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("cd00f78d-1c44-4cf9-86b3-fb87e4fbff0f", "Dissociative Conversion Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept puerperalMentalDisorder = install(new ConceptBuilder("304b2b8c-db9c-4dc1-8f3a-7c2e6ea7a97a")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("6ce9857f-2cbf-4d62-a486-42e6fa52fc7a", "Puerperal Mental Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept psychologicalDevelopmentalDisorder = install(new ConceptBuilder("7d0dc2db-5c9d-46a7-b495-e22b0419dfb3")
+                .datatype(notApplicable)
+                .conceptClass(diagnosis)
+                .name("bdbfb683-8970-4520-a1a9-c1efd9358bc9", "Psychological Developmental Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
         install(new ConceptBuilder("65671c9a-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("66094394-977f-11e1-8993-905e29aff6c1", "Chronic care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(
+                        kineticDis,
+                        moodAffectiveDisorderBipolar,
+                        stressReactionAdjustmentDisorder,
+                        dissociativeConversionDisorder,
+                        puerperalMentalDisorder,
+                        psychologicalDevelopmentalDisorder,
                         asthma,
                         hypertension,
                         epilepsy,
@@ -124,7 +166,8 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                         deepVeinThrombosis,
                         congenitalHeart,
                         coronaryArteryDisease,
-                        otherDiagnosisText)
+                        otherDiagnosisText,
+                        moodAffectiveDisorderBipolar)
                 .build());
 
         //Next appointment location
