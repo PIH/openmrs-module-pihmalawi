@@ -38,7 +38,6 @@ public class NCDQuarterlyReport extends ApzuReportManager {
     public List<Parameter> getParameters() {
         List<Parameter> parameters = new ArrayList<Parameter>();
         parameters.add(ReportingConstants.LOCATION_PARAMETER);
-        parameters.add(ReportingConstants.START_DATE_PARAMETER);
         parameters.add(ReportingConstants.END_DATE_PARAMETER);
         return parameters;
     }
