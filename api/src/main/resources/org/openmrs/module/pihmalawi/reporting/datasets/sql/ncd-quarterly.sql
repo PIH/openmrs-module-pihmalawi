@@ -1,6 +1,6 @@
 /*
 
-  IC3 Indicators Dataset
+  NCD Quarterly Indicators Dataset
   Requires Pentaho Warehouse tables
   Expected parameters, which will be passed in via the Evaluation Context, are:
 
