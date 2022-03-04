@@ -91,4 +91,72 @@ INSERT INTO rpt_mh_indicators
          and  ageAtIntake >= 16
 ;
 
+/*
+	OMDC015_M_SC - Number of Male patients under 15 with a chronic organic mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OMDC015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OMDC015_M_SC', 'Number of Male patients under 15 with a chronic organic mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_organic_mental_disorder_chronic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	OMDC16_M_SC - Number of Male patients over 16 with a chronic organic mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OMDC16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OMDC16_M_SC', 'Number of Male patients over 16 with a chronic organic mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_organic_mental_disorder_chronic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	OMDC015_F_SC - Number of Female patients under 15 with a chronic organic mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OMDC015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OMDC015_F_SC', 'Number of Female patients under 15 with a chronic organic mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_organic_mental_disorder_chronic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	OMDC16_F_SC - Number of Female patients over 16 with a chronic organic mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OMDC16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OMDC16_F_SC', 'Number of Female patients over 16 with a chronic organic mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_organic_mental_disorder_chronic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit >= 16
+;
+
 select * from rpt_mh_indicators;
