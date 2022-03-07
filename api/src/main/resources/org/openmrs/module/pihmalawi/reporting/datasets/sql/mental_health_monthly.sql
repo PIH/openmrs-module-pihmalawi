@@ -568,4 +568,549 @@ INSERT INTO rpt_mh_indicators
          and  ageAtLastVisit >= 16
 ;
 
+
+/*
+	SHZ015_M_NC - Number of Male patients under 15 patients with new cases of Schizophrenia mental disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ015_M_NC', 'New Male cases under 15 yo patients with Schizophrenia disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake < 16
+;
+
+/*
+	SHZ16_M_NC - Number of Male patients over 16 yo patients with new cases of Schizophrenia mental disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ16_M_NC', 'New Male cases over 16 yo patients with Schizophrenia mental disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake >= 16
+;
+
+/*
+	SHZ015_F_NC - Number of Female patients under 15 yo patients with new cases of Schizophrenia mental disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ015_F_NC', 'New Female cases under 15 yo patients with Schizophrenia mental disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake < 16
+;
+
+/*
+	SHZ16_F_NC - Number of Female patients over 16 yo patients with new cases of Schizophrenia mental disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ16_F_NC', 'New Female cases over 16 yo patients with Schizophrenia mental disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake >= 16
+;
+
+/*
+	SHZ015_M_SC - Number of Male patients under 15 with a Schizophrenia mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ015_M_SC', 'Number of Male patients under 15 with a Schizophrenia mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	SHZ16_M_SC - Number of Male patients over 16 with a Schizophrenia mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ16_M_SC', 'Number of Male patients over 16 with a Schizophrenia mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	SHZ015_F_SC - Number of Female patients under 15 with a Schizophrenia mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ015_F_SC', 'Number of Female patients under 15 with a Schizophrenia mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	SHZ16_F_SC - Number of Female patients over 16 with a Schizophrenia mental disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SHZ16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SHZ16_F_SC', 'Number of Female patients over 16 with a Schizophrenia mental disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizophrenia is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	ATPD015_M_NC - Number of Male patients under 15 patients with new cases of Acute & transient psychotic disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD015_M_NC', 'New Male cases under 15 yo patients with Acute & transient psychotic disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake < 16
+;
+
+/*
+	ATPD16_M_NC - Number of Male patients over 16 yo patients with new cases of Acute & transient psychotic disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD16_M_NC', 'New Male cases over 16 yo patients with Acute & transient psychotic disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake >= 16
+;
+
+/*
+	ATPD015_F_NC - Number of Female patients under 15 yo patients with new cases of Acute & transient psychotic disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD015_F_NC', 'New Female cases under 15 yo patients with Acute & transient psychotic disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake < 16
+;
+
+/*
+	ATPD16_F_NC - Number of Female patients over 16 yo patients with new cases of Acute & transient psychotic disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD16_F_NC', 'New Female cases over 16 yo patients with Acute & transient psychotic disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake >= 16
+;
+
+/*
+	ATPD015_M_SC - Number of Male patients under 15 with a Acute & transient psychotic disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD015_M_SC', 'Number of Male patients under 15 with a Acute & transient psychotic disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	ATPD16_M_SC - Number of Male patients over 16 with a Acute & transient psychotic disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD16_M_SC', 'Number of Male patients over 16 with a Acute & transient psychotic disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	ATPD015_F_SC - Number of Female patients under 15 with a Acute & transient psychotic disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD015_F_SC', 'Number of Female patients under 15 with a Acute & transient psychotic disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	ATPD16_F_SC - Number of Female patients over 16 with a Acute & transient psychotic disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ATPD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ATPD16_F_SC', 'Number of Female patients over 16 with a Acute & transient psychotic disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_acute_and_transient_psychotic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	SAD015_M_NC - Number of Male patients under 15 patients with new cases of Schizo-affective disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD015_M_NC', 'New Male cases under 15 yo patients with Schizo-affective disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake < 16
+;
+
+/*
+	SAD16_M_NC - Number of Male patients over 16 yo patients with new cases of Schizo-affective disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD16_M_NC', 'New Male cases over 16 yo patients with Schizo-affective disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake >= 16
+;
+
+/*
+	SAD015_F_NC - Number of Female patients under 15 yo patients with new cases of Schizo-affective disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD015_F_NC', 'New Female cases under 15 yo patients with Schizo-affective disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake < 16
+;
+
+/*
+	SAD16_F_NC - Number of Female patients over 16 yo patients with new cases of Schizo-affective disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD16_F_NC', 'New Female cases over 16 yo patients with Schizo-affective disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake >= 16
+;
+
+/*
+	SAD015_M_SC - Number of Male patients under 15 with a Schizo-affective disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD015_M_SC', 'Number of Male patients under 15 with a Schizo-affective disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	SAD16_M_SC - Number of Male patients over 16 with a Schizo-affective disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD16_M_SC', 'Number of Male patients over 16 with a Schizo-affective disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	SAD015_F_SC - Number of Female patients under 15 with a Schizo-affective disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD015_F_SC', 'Number of Female patients under 15 with a Schizo-affective disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	SAD16_F_SC - Number of Female patients over 16 with a Schizo-affective disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SAD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SAD16_F_SC', 'Number of Female patients over 16 with a Schizo-affective disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_schizoaffective_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	MANIC015_M_NC - Number of Male patients under 15 patients with new cases of Mood Affective Disorder (MANIC)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC015_M_NC', 'New Male cases under 15 yo patients with Mood Affective Disorder (MANIC)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake < 16
+;
+
+/*
+	MANIC16_M_NC - Number of Male patients over 16 yo patients with new cases of Mood Affective Disorder (MANIC)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC16_M_NC', 'New Male cases over 16 yo patients with Mood Affective Disorder (MANIC)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtIntake >= 16
+;
+
+/*
+	MANIC015_F_NC - Number of Female patients under 15 yo patients with new cases of Mood Affective Disorder (MANIC)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC015_F_NC', 'New Female cases under 15 yo patients with Mood Affective Disorder (MANIC)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake < 16
+;
+
+/*
+	MANIC16_F_NC - Number of Female patients over 16 yo patients with new cases of Mood Affective Disorder (MANIC)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC16_F_NC', 'New Female cases over 16 yo patients with Mood Affective Disorder (MANIC)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtIntake >= 16
+;
+
+/*
+	MANIC015_M_SC - Number of Male patients under 15 with a Mood Affective Disorder (MANIC) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC015_M_SC', 'Number of Male patients under 15 with a Mood Affective Disorder (MANIC) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	MANIC16_M_SC - Number of Male patients over 16 with a Mood Affective Disorder (MANIC) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC16_M_SC', 'Number of Male patients over 16 with a Mood Affective Disorder (MANIC) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastVisit >= 16
+;
+
+/*
+	MANIC015_F_SC - Number of Female patients under 15 with a Mood Affective Disorder (MANIC) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC015_F_SC', 'Number of Female patients under 15 with a Mood Affective Disorder (MANIC) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit < 16
+;
+
+/*
+	MANIC16_F_SC - Number of Female patients over 16 with a Mood Affective Disorder (MANIC) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MANIC16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MANIC16_F_SC', 'Number of Female patients over 16 with a Mood Affective Disorder (MANIC) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_manic is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastVisit >= 16
+;
+
 select * from rpt_mh_indicators;
