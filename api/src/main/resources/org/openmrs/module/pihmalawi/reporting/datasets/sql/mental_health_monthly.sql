@@ -37,7 +37,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -54,7 +54,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -71,7 +71,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -88,7 +88,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -105,7 +105,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -122,7 +122,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -139,7 +139,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -156,7 +156,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 
@@ -174,7 +174,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -191,7 +191,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -208,7 +208,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -225,7 +225,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -242,7 +242,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -259,7 +259,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -276,7 +276,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -293,7 +293,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -310,7 +310,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -327,7 +327,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -344,7 +344,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -361,7 +361,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -378,7 +378,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -395,7 +395,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -412,7 +412,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -429,7 +429,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -446,7 +446,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -463,7 +463,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -480,7 +480,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -497,7 +497,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -514,7 +514,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -531,7 +531,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -548,7 +548,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -565,7 +565,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 
@@ -583,7 +583,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -600,7 +600,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -617,7 +617,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -634,7 +634,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -651,7 +651,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -668,7 +668,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -685,7 +685,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -702,7 +702,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -719,7 +719,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -736,7 +736,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -753,7 +753,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -770,7 +770,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -787,7 +787,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -804,7 +804,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -821,7 +821,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -838,7 +838,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -855,7 +855,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -872,7 +872,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -889,7 +889,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -906,7 +906,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -923,7 +923,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -940,7 +940,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -957,7 +957,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -974,7 +974,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -991,7 +991,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -1008,7 +1008,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'M'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -1025,7 +1025,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake < 16
+         and  ageAtMHIntake < 16
 ;
 
 /*
@@ -1042,7 +1042,7 @@ INSERT INTO rpt_mh_indicators
          and  mhIntakeVisitDate <@endDate
          and mhIntakeLocation = @location
          and gender= 'F'
-         and  ageAtIntake >= 16
+         and  ageAtMHIntake >= 16
 ;
 
 /*
@@ -1059,7 +1059,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -1076,7 +1076,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'M'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
 ;
 
 /*
@@ -1093,7 +1093,7 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit < 16
+         and  ageAtLastMHVisit < 16
 ;
 
 /*
@@ -1110,7 +1110,415 @@ INSERT INTO rpt_mh_indicators
          and  lastMHVisitDate < @endDate
          and visitLocation = @location
          and gender= 'F'
-         and  ageAtLastVisit >= 16
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	DPS015_M_NC - Number of Male patients under 15 patients with new cases of Mood Affective Disorder (Depression)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS015_M_NC', 'New Male cases under 15 yo patients with Mood Affective Disorder (Depression)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtMHIntake < 16
+;
+
+/*
+	DPS16_M_NC - Number of Male patients over 16 yo patients with new cases of Mood Affective Disorder (Depression)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS16_M_NC', 'New Male cases over 16 yo patients with Mood Affective Disorder (Depression)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	DPS015_F_NC - Number of Female patients under 15 yo patients with new cases of Mood Affective Disorder (Depression)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS015_F_NC', 'New Female cases under 15 yo patients with Mood Affective Disorder (Depression)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake < 16
+;
+
+/*
+	DPS16_F_NC - Number of Female patients over 16 yo patients with new cases of Mood Affective Disorder (Depression)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS16_F_NC', 'New Female cases over 16 yo patients with Mood Affective Disorder (Depression)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	DPS015_M_SC - Number of Male patients under 15 with a Mood Affective Disorder (Depression) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS015_M_SC', 'Number of Male patients under 15 with a Mood Affective Disorder (Depression) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	DPS16_M_SC - Number of Male patients over 16 with a Mood Affective Disorder (Depression) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS16_M_SC', 'Number of Male patients over 16 with a Mood Affective Disorder (Depression) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	DPS015_F_SC - Number of Female patients under 15 with a Mood Affective Disorder (Depression) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS015_F_SC', 'Number of Female patients under 15 with a Mood Affective Disorder (Depression) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	DPS16_F_SC - Number of Female patients over 16 with a Mood Affective Disorder (Depression) dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DPS16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DPS16_F_SC', 'Number of Female patients over 16 with a Mood Affective Disorder (Depression) dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mood_affective_disorder_depression is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	ANX015_M_NC - Number of Male patients under 15 patients with new cases of Anxiety Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX015_M_NC', 'New Male cases under 15 yo patients with Anxiety Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtMHIntake < 16
+;
+
+/*
+	ANX16_M_NC - Number of Male patients over 16 yo patients with new cases of Anxiety Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX16_M_NC', 'New Male cases over 16 yo patients with Anxiety Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	ANX015_F_NC - Number of Female patients under 15 yo patients with new cases of Anxiety Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX015_F_NC', 'New Female cases under 15 yo patients with Anxiety Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake < 16
+;
+
+/*
+	ANX16_F_NC - Number of Female patients over 16 yo patients with new cases of Anxiety Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX16_F_NC', 'New Female cases over 16 yo patients with Anxiety Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	ANX015_M_SC - Number of Male patients under 15 with a Anxiety Disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX015_M_SC', 'Number of Male patients under 15 with a Anxiety Disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	ANX16_M_SC - Number of Male patients over 16 with a Anxiety Disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX16_M_SC', 'Number of Male patients over 16 with a Anxiety Disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	ANX015_F_SC - Number of Female patients under 15 with a Anxiety Disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX015_F_SC', 'Number of Female patients under 15 with a Anxiety Disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	ANX16_F_SC - Number of Female patients over 16 with a Anxiety Disorder dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ANX16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ANX16_F_SC', 'Number of Female patients over 16 with a Anxiety Disorder dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_anxiety_disorder is not null
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	EPL015_M_NC - Number of Male patients under 15 patients with new cases of Epilepsy
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL015_M_NC', 'New Male cases under 15 yo patients with Epilepsy', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and epilepsyIntakeVisitDate> @startDate
+         and epilepsyIntakeVisitDate <@endDate
+         and epilepsyIntakeLocation = @location
+         and gender= 'M'
+         and ageAtEpilepsyIntake < 16
+;
+
+/*
+	EPL16_M_NC - Number of Male patients over 16 yo patients with new cases of Epilepsy
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL16_M_NC', 'New Male cases over 16 yo patients with Epilepsy', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and epilepsyIntakeVisitDate> @startDate
+         and epilepsyIntakeVisitDate <@endDate
+         and epilepsyIntakeLocation = @location
+         and gender= 'M'
+         and ageAtEpilepsyIntake >= 16
+;
+
+/*
+	EPL015_F_NC - Number of Female patients under 15 yo patients with new cases of Epilepsy
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL015_F_NC', 'New Female cases under 15 yo patients with Epilepsy', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and epilepsyIntakeVisitDate> @startDate
+         and epilepsyIntakeVisitDate <@endDate
+         and epilepsyIntakeLocation = @location
+         and gender = 'F'
+         and ageAtEpilepsyIntake < 16
+;
+
+/*
+	EPL16_F_NC - Number of Female patients over 16 yo patients with new cases of Epilepsy
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL16_F_NC', 'New Female cases over 16 yo patients with Epilepsy', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and epilepsyIntakeVisitDate> @startDate
+         and epilepsyIntakeVisitDate <@endDate
+         and epilepsyIntakeLocation = @location
+         and gender = 'F'
+         and ageAtEpilepsyIntake >= 16
+;
+
+/*
+	EPL015_M_SC - Number of Male patients under 15 with a Epilepsy dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL015_M_SC', 'Number of Male patients under 15 with a Epilepsy dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and lastEpilepsyVisitDate > @startDate
+         and lastEpilepsyVisitDate < @endDate
+         and lastEpilepsyVisitLocation = @location
+         and gender= 'M'
+         and ageAtLastEpilepsyVisit < 16
+;
+
+/*
+	EPL16_M_SC - Number of Male patients over 16 with a Epilepsy dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL16_M_SC', 'Number of Male patients over 16 with a Epilepsy dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and lastEpilepsyVisitDate > @startDate
+         and lastEpilepsyVisitDate < @endDate
+         and lastEpilepsyVisitLocation = @location
+         and gender= 'M'
+         and ageAtLastEpilepsyVisit >= 16
+;
+
+/*
+	EPL015_F_SC - Number of Female patients under 15 with a Epilepsy dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL015_F_SC', 'Number of Female patients under 15 with a Epilepsy dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and lastEpilepsyVisitDate > @startDate
+         and lastEpilepsyVisitDate < @endDate
+         and lastEpilepsyVisitLocation = @location
+         and gender= 'F'
+         and ageAtLastEpilepsyVisit < 16
+;
+
+/*
+	EPL16_F_SC - Number of Female patients over 16 with a Epilepsy dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'EPL16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'EPL16_F_SC', 'Number of Female patients over 16 with a Epilepsy dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	epilepsyDx is not null
+         and lastEpilepsyVisitDate > @startDate
+         and  lastEpilepsyVisitDate < @endDate
+         and lastEpilepsyVisitLocation = @location
+         and gender= 'F'
+         and  ageAtLastEpilepsyVisit >= 16
 ;
 
 select * from rpt_mh_indicators;
