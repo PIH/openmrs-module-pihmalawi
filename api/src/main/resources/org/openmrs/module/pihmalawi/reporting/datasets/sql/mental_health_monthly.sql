@@ -1521,4 +1521,140 @@ INSERT INTO rpt_mh_indicators
          and  ageAtLastEpilepsyVisit >= 16
 ;
 
+/*
+	OTH015_M_NC - Number of Male patients under 15 patients with new cases of Other MH dx
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH015_M_NC', 'New Male cases under 15 yo patients with Other MH dx ', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	OTH16_M_NC - Number of Male patients over 16 yo patients with new cases of Other MH dx
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH16_M_NC', 'New Male cases over 16 yo patients with Other MH dx ', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	OTH015_F_NC - Number of Female patients under 15 yo patients with new cases of Other MH dx
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH015_F_NC', 'New Female cases under 15 yo patients with Other MH dx ', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake < 16
+;
+
+/*
+	OTH16_F_NC - Number of Female patients over 16 yo patients with new cases of Other MH dx
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH16_F_NC', 'New Female cases over 16 yo patients with Other MH dx ', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and mhIntakeVisitDate> @startDate
+         and  mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'F'
+         and  ageAtMHIntake >= 16
+;
+
+/*
+	OTH015_M_SC - Number of Male patients under 15 with a Other MH dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH015_M_SC', 'Number of Male patients under 15 with a Other MH dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	OTH16_M_SC - Number of Male patients over 16 with a Other MH dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH16_M_SC', 'Number of Male patients over 16 with a Other MH dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and  ageAtLastMHVisit >= 16
+;
+
+/*
+	OTH015_F_SC - Number of Female patients under 15 with a Other MH dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH015_F_SC', 'Number of Female patients under 15 with a Other MH dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and lastMHVisitDate > @startDate
+         and  lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and  ageAtLastMHVisit < 16
+;
+
+/*
+	OTH16_F_SC - Number of Female patients over 16 with a Other MH dx  dx
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'OTH16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'OTH16_F_SC', 'Number of Female patients over 16 with a Other MH dx who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
 select * from rpt_mh_indicators;
