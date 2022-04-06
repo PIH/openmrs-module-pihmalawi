@@ -14,14 +14,14 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 /**
- * Tests the MOH MMD Report
+ * Tests the MOH Regimen Switch Report
  */
 @Ignore
-public class MohMmdReportTest extends ReportManagerTest {
+public class MohRegimenSwitchReportTest extends ReportManagerTest {
 
 
     @Autowired
-    MohTxMmdReport report;
+    MohRegimenSwitchReport report;
 
     @Override
     public ReportManager getReportManager() {
@@ -47,7 +47,7 @@ public class MohMmdReportTest extends ReportManagerTest {
     @Override
     public EvaluationContext getEvaluationContext() {
         EvaluationContext context = new EvaluationContext();
-        context.addParameterValue("endDate", DateUtil.getDateTime(2020, 3, 16));
+        context.addParameterValue("startDate", DateUtil.getDateTime(2022, 1, 1));
         context.addParameterValue("location", "Neno District Hospital");
         return context;
     }
