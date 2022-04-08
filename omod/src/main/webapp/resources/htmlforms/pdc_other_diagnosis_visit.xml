@@ -157,8 +157,8 @@
                 </tr>
 
                 <tr>
-                    <td rowspan="2">Height</td>
                     <td rowspan="2">Weight</td>
+                    <td rowspan="2">Height</td>
                     <td rowspan="2">MUAC</td>
                     <td rowspan="2">W/A</td>
                     <td rowspan="2">W/H</td>
@@ -194,12 +194,12 @@
                         <encounterDate/>
                     </td>
                     <td style="padding: 1px;" >
-                        <!-- Height -->
-                        <obsreference conceptId="$height" id="heightInput" size="3"/>
-                    </td>
-                    <td style="padding: 1px;" >
                         <!-- Weight -->
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Height -->
+                        <obsreference conceptId="$height" id="heightInput" size="3"/>
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$muac" />
