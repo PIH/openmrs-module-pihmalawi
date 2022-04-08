@@ -157,8 +157,8 @@
                 </tr>
 
                 <tr>
-                    <td rowspan="2">Weight</td>
                     <td rowspan="2">Height</td>
+                    <td rowspan="2">Weight</td>
                     <td rowspan="2">MUAC</td>
                     <td rowspan="2">W/A</td>
                     <td rowspan="2">W/H</td>
