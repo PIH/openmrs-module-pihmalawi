@@ -194,12 +194,12 @@
                         <encounterDate/>
                     </td>
                     <td style="padding: 1px;" >
-                        <!-- Height -->
-                        <obsreference conceptId="$height" id="heightInput" size="3"/>
-                    </td>
-                    <td style="padding: 1px;" >
                         <!-- Weight -->
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Height -->
+                        <obsreference conceptId="$height" id="heightInput" size="3"/>
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$muac" />
