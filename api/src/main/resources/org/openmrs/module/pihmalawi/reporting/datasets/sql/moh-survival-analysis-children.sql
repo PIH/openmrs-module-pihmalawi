@@ -25,6 +25,7 @@ call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 2 year),DATE_SUB(@star
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 3 year),DATE_SUB(@startDate, INTERVAL 3 year),@ageLimit,@location,@subgroup,@defaultCutOff);
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 4 year),DATE_SUB(@startDate, INTERVAL 4 year),@ageLimit,@location,@subgroup,@defaultCutOff);
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 5 year),DATE_SUB(@startDate, INTERVAL 5 year),@ageLimit,@location,@subgroup,@defaultCutOff);
+call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 6 year),DATE_SUB(@startDate, INTERVAL 6 year),@ageLimit,@location,@subgroup,@defaultCutOff);
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 7 year),DATE_SUB(@startDate, INTERVAL 7 year),@ageLimit,@location,@subgroup,@defaultCutOff);
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 8 year),DATE_SUB(@startDate, INTERVAL 8 year),@ageLimit,@location,@subgroup,@defaultCutOff);
 call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 9 year),DATE_SUB(@startDate, INTERVAL 9 year),@ageLimit,@location,@subgroup,@defaultCutOff);
