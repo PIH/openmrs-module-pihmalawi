@@ -98,12 +98,10 @@ from
 (
 select distinct(mwp.patient_id), opi.identifier, mwp.first_name, mwp.last_name, ops.program, ops.state,ops.start_date,program_state_id,  mwp.gender,
  If(ops.state = "On antiretrovirals",floor(datediff(@endDate,mwp.birthdate)/@birthDateDivider),floor(datediff(ops.start_date,mwp.birthdate)/@birthDateDivider)) as age,
- ops.location, patient_visit.last_appt_date, patient_visit.art_regimen as current_regimen, patient_visit.hiv_preventive_therapy, patient_visit.therapy_pills,
- patient_visit.pregnant_or_lactating
+ ops.location, patient_visit.last_appt_date
 from  mw_patient mwp
 LEFT join (
-	select map.patient_id, map.visit_date, map.next_appointment_date as last_appt_date, map.art_regimen, map.hiv_preventive_therapy,map.therapy_pills,
-    map.pregnant_or_lactating
+	select map.patient_id, map.visit_date, map.next_appointment_date as last_appt_date, map.art_regimen
     from mw_art_followup map
 join
 (
