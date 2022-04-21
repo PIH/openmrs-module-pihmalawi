@@ -56,6 +56,10 @@
         <macro key="hypertensionDx" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdDX" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
         <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="oralContraception" value="654a1eb0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="depoInjection" value="654acd88-977f-11e1-8993-905e29aff6c1" />
+        <macro key="noneContraception" value="6557987e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="otherContraception" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
         <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />
@@ -385,6 +389,8 @@
                             <td class="nowrap">
                                 <obs conceptId="$tbYear" labelText="Year"/>
                             </td>
+                        </tr>
+                        <tr>
                             <!-- Comorbidities -->
                             <th style="vertical-align:top;">Comorbidities</th>
                             <td>
@@ -392,6 +398,15 @@
                                 <obs conceptId="$comorbidity" answerConceptId="$diabetes" style = "checkbox"/><br />
                                 <obs conceptId="$comorbidity" answerConceptId="$hypertension" style = "checkbox"/><br />
                                 <obs conceptId="$otherComorbidity" labelText="Other: " /><br />
+                            </td>
+                            <td></td>
+
+                            <th style="vertical-align:top;">Family planning:</th>
+                            <td>
+                                <obs conceptId="$familyPlanning" answerConceptId="$oralContraception" style = "checkbox" answerLabel="OC (pills)"/><br />
+                                <obs conceptId="$familyPlanning" answerConceptId="$depoInjection" style = "checkbox" answerLabel="Depo (injection)"/><br />
+                                <obs conceptId="$familyPlanning" answerConceptId="$noneContraception" style = "checkbox" answerLabel="None"/><br />
+                                <obs conceptId="$familyPlanning" answerConceptId="$otherContraception" style = "checkbox" showCommentField="true" commentFieldLabel="(specify):" answerLabel="Other"/><br />
                             </td>
                         </tr>
 
