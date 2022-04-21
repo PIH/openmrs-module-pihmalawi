@@ -250,7 +250,7 @@
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="rheumatic-dx" data-toggle-target="rheumatic-dx-date">
                                     <obs class="dx-checkbox-item" id="rheumatic-dx" conceptId="$chronicCareDiagnosis" style="checkbox"
-                                         answerConceptId="$rheumaticCCF" answerLabel="Rheumatic" />
+                                         answerConceptId="$rheumaticCCF" answerLabel="Rheumatic (RHD)" />
                                 </td>
                                 <td class="toggle-target">
                                     <obs id="rheumatic-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
@@ -304,9 +304,9 @@
                             <!-- Comorbidities -->
                             <th style="vertical-align:top;">Comorbidities</th>
                             <td>
-                                <obs conceptId="$comorbidity" answerConceptId="$hypertension" style = "checkbox"/><br />
-                                <obs conceptId="$comorbidity" answerConceptId="$diabetes" style = "checkbox"/><br />
                                 <obs conceptId="$comorbidity" answerConceptId="$ckd" style = "checkbox"/><br />
+                                <obs conceptId="$comorbidity" answerConceptId="$diabetes" style = "checkbox"/><br />
+                                <obs conceptId="$comorbidity" answerConceptId="$hypertension" style = "checkbox"/><br />
                                 <obs conceptId="$otherComorbidity" labelText="Other: " /><br />
                             </td>
                         </tr>
