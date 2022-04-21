@@ -3,6 +3,13 @@
 
     <macros>
         <macro key="proteinuria" value="65717366-977f-11e1-8993-905e29aff6c1" />
+        <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="trace" value="6572cf72-977f-11e1-8993-905e29aff6c1" />
+        <macro key="onePlus" value="65598fb2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="twoPlus" value="65597cde-977f-11e1-8993-905e29aff6c1" />
+        <macro key="threePlus" value="65598706-977f-11e1-8993-905e29aff6c1" />
+        <macro key="fourPlus" value="E1B2AF76-4B69-4BA4-9DDC-D801649BC212" />
+
         <macro key="creatinine" value="657170a0-977f-11e1-8993-905e29aff6c1" />
         <macro key="potassium" value="6557b566-977f-11e1-8993-905e29aff6c1" />
         <macro key="rbs" value="654a98b8-977f-11e1-8993-905e29aff6c1" />
@@ -37,7 +44,7 @@
                     </td>
                     <td>
                         <!-- Proteinuria -->
-                        <obs conceptId="$proteinuria" style="radio" answerConceptIds="664,6698,1410,1408,1409" answerLabels="Negative,Trace,1+,2+,3+"/>
+                        <obs conceptId="$proteinuria" style="radio" answerConceptIds="$negative,$trace,$onePlus,$twoPlus,$threePlus,$fourPlus" answerLabels="Negative,Trace,1+,2+,3+,4+"/>
                     </td>
 
                     <td>
@@ -94,7 +101,7 @@
             <tr>
                 <th>Proteinuria</th>
                 <td>
-                    <obs conceptId="$proteinuria" style="radio" answerConceptIds="664,6698,1410,1408,1409" answerLabels="Negative,Trace,1+,2+,3+"/>
+                    <obs conceptId="$proteinuria" style="radio" answerConceptIds="$negative,$trace,$onePlus,$twoPlus,$threePlus,$fourPlus" answerLabels="Negative,Trace,1+,2+,3+,4+"/>
                 </td>
             </tr>
             <tr>
