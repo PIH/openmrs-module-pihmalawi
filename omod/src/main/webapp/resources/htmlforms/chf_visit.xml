@@ -53,6 +53,11 @@
         <macro key="agreesToFollowup" value="655fc526-977f-11e1-8993-905e29aff6c1" />
         <macro key="drugSet" value="447aaa7a-cd03-11e5-9956-625662870761" /> 
         <macro key="drugsNow" value="65585192-977f-11e1-8993-905e29aff6c1" />
+        <!-- statins=162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
+        <!-- i don't know why UUIDs are not working for those statins drugs, i had to use Integers-->
+        simvastatin=8613
+        pravastatin=8614
+        atorvastatin=8210
         <!-- diuretic=8466 -->
         <macro key="hydrochlorothiazide" value="65588df6-977f-11e1-8993-905e29aff6c1" />
         <macro key="furosemide" value="6546003c-977f-11e1-8993-905e29aff6c1" />
@@ -130,7 +135,7 @@
                     <td colspan="5"><span>Signs and Symptoms since last visit</span></td>
                     <td colspan="4"><span>Exam</span></td>
                     <td colspan="5"><span>Risk Assessment</span></td>
-                    <td colspan="7"><span>CHF Medications</span></td>
+                    <td colspan="8"><span>CHF Medications</span></td>
                     <td colspan="5"><span>Pt Ed, Referral and Homecare</span></td>
                     <td rowspan="2">Next Visit Date</td>
                 </tr>
@@ -165,6 +170,7 @@
                     <td>ACE-I</td>
                     <td>BB</td>
                     <td>CCB</td>
+                    <td>Statins</td>
                     <td>Benzathine PCN</td>
                     <td>Other</td>
 
@@ -357,6 +363,15 @@
                             </obsgroup>
                        </repeat>
                    </td>
+
+                    <!-- Statins -->
+                    <td style="text-align: left;">
+                        <repeat with="['$simvastatin ','Simvastatin'],['$pravastatin ','Pravastatin'],['$atorvastatin ','Atorvastatin']">
+                            <obsgroup groupingConceptId="$drugSet">
+                                <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                            </obsgroup>
+                        </repeat>
+                    </td>
 
                    <!-- Benzathine PCN -->
                     <td>     
@@ -621,6 +636,17 @@
                 <th>CCB</th>
                 <td>
                     <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
+                        <obsgroup groupingConceptId="$drugSet">
+                            <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                        </obsgroup>
+                    </repeat>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Statins</th>
+                <td>
+                    <repeat with="['$simvastatin ','Simvastatin'],['$pravastatin ','Pravastatin'],['$atorvastatin ','Atorvastatin']">
                         <obsgroup groupingConceptId="$drugSet">
                             <obs conceptId="$drugsNow" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
                         </obsgroup>
