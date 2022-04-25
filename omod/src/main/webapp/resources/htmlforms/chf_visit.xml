@@ -1,7 +1,7 @@
-<htmlform formName="Cardiac and Vascular Disease Visit"
-          formUuid="4a5c17b8-794e-11e8-adc0-fa7ae01bbebc"
-          formEncounterType="1f6ad830-6e94-4819-b1fd-8c4146e77280"
-          formVersion="1.0">
+<htmlform formName="Chest X-ray(CXR) imaging results"
+          formUuid="5E9774B4-C366-4B71-A543-FCDCE373746B"
+          formEncounterType="833CD694-7A98-4659-A487-AE25FD445D32"
+          formVersion="3.0">
 
     <macros>       
         <macro key="mhReferral" value="3790bbe2-13b3-45b4-94d1-a9719f5ac51d" />
@@ -430,7 +430,7 @@
 
         <h4 style="font-style: italic;">
             <b>Chronic Heart Disease Patient Card</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 3</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Chronic Care no: </b>

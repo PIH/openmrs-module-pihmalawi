@@ -1,7 +1,7 @@
 <htmlform
-        formUuid="6c88df60-794e-11e8-adc0-fa7ae01bbebc"
-        formName="Cardiac and Vascular Disease Quarterly Laboratory Tests"
-        formEncounterType="df5389a8-7715-462b-a41e-e8b1946c8c60"
+        formUuid="518F9EF4-4E31-4C38-848F-2461CFF16043"
+        formName="Echocardiogram(ultrasound) imaging results"
+        formEncounterType="0B6FB2FD-7AA3-4D90-BE33-52096ABD66DB"
         formVersion="3.0">
 
     <macros>

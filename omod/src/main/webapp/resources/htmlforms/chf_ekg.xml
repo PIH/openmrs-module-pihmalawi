@@ -1,14 +1,11 @@
 <htmlform
-        formUuid="6c88df60-794e-11e8-adc0-fa7ae01bbebc"
-        formName="Cardiac and Vascular Disease Quarterly Laboratory Tests"
-        formEncounterType="df5389a8-7715-462b-a41e-e8b1946c8c60"
+        formUuid="34CC6DBD-371E-4526-8C7D-48AACEE68F78"
+        formName="Electrocardiographic(EKG) imaging results"
+        formEncounterType="D4350F89-A421-486F-92EB-4AB713DF122B"
         formVersion="3.0">
 
     <macros>
-        <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
-        <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
-        <macro key="nReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
-        <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ekgResult" value="D3A49FE2-819B-491A-941F-E0B8A0F76C38" />
     </macros>
 
     <!-- Flowsheet table view -->
@@ -17,11 +14,11 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="2">Screening Every 3 Months</th>
+                    <th colspan="2">Electrocardiographic(EKG) Results</th>
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <th>HIV</th>
+                    <th>Results</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -31,7 +28,7 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <obs conceptId="$hivStatus"/>
+                        <obs conceptId="$ekgResult"/>
                     </td>
                 </tr>
             </tbody>
@@ -43,7 +40,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Screening Every 3 Months</b>
+            <b>Electrocardiographic(EKG) imaging results</b>
             <span style="padding-left:50px;">Version 3</span>
 
             <span style="padding-left:50px;">
@@ -73,9 +70,9 @@
             </tr>
 
             <tr>
-                <th>HIV</th>
+                <th>Results</th>
                 <td class="focus-field">
-                    <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nReactive,$unknown"/>
+                    <obs conceptId="$ekgResult" />
                 </td>
             </tr>
 

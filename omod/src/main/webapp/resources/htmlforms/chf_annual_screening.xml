@@ -1,5 +1,8 @@
-<htmlform formUuid="5e3363e6-594e-4b03-98c6-152616b955b1" formName="Cardiac and Vascular Disease Annual Laboratory Tests"
-          formEncounterType="dbab9217-29ec-477d-8d11-161cd4fd2b34" formVersion="1.0">
+<htmlform
+        formUuid="5e3363e6-594e-4b03-98c6-152616b955b1"
+        formName="Cardiac and Vascular Disease Annual Laboratory Tests"
+        formEncounterType="dbab9217-29ec-477d-8d11-161cd4fd2b34"
+        formVersion="3.0">
 
     <macros>
         <macro key="proteinuria" value="65717366-977f-11e1-8993-905e29aff6c1" />
@@ -70,7 +73,7 @@
 
         <h4 style="font-style: italic;">
             <b>Screening Every 12 Months</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 3</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no:</b>

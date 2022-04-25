@@ -48,6 +48,9 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.CHF_ANNUAL_SCREENING);
         install(EncounterTypes.CHF_QUARTERLY_HIV_SCREENING);
         install(EncounterTypes.CHF_HOSPITALIZATIONS);
+        install(EncounterTypes.CHF_ECHOCARDIOGRAM);
+        install(EncounterTypes.CHF_ELECTROCARDIOGRAPHIC);
+        install(EncounterTypes.CHF_CHEST_XRAY);
 
         //Chronic Kidney Disease
         install(EncounterTypes.CKD_INITIAL);

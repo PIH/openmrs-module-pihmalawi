@@ -179,6 +179,24 @@ public class EncounterTypes {
         public String description() { return "Hospitalizations for Chronic Heart Disease patients"; }
     };
 
+    public static EncounterTypeDescriptor CHF_ECHOCARDIOGRAM = new EncounterTypeDescriptor() {
+        public String uuid() { return "0B6FB2FD-7AA3-4D90-BE33-52096ABD66DB"; }
+        public String name() { return "CHF_ECHOCARDIOGRAM"; }
+        public String description() { return "Echocardiogram(ultrasound) imaging encounter"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_ELECTROCARDIOGRAPHIC = new EncounterTypeDescriptor() {
+        public String uuid() { return "D4350F89-A421-486F-92EB-4AB713DF122B"; }
+        public String name() { return "CHF_ELECTROCARDIOGRAPHIC"; }
+        public String description() { return "Electrocardiographic(EKG) imaging encounter"; }
+    };
+
+    public static EncounterTypeDescriptor CHF_CHEST_XRAY = new EncounterTypeDescriptor() {
+        public String uuid() { return "833CD694-7A98-4659-A487-AE25FD445D32"; }
+        public String name() { return "CHF_CHEST_XRAY"; }
+        public String description() { return "Chest X-ray(CXR) imaging encounter"; }
+    };
+
     public static EncounterTypeDescriptor CKD_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "0a3621e2-974e-11e8-9eb6-529269fb1459"; }
         public String name() { return "CKD_INITIAL"; }

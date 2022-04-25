@@ -1,5 +1,5 @@
 <htmlform formUuid="74fcc9a4-794e-11e8-adc0-fa7ae01bbebc" formName="Cardiac and Vascular Disease Hospitalization History"
-          formEncounterType="0d3f097f-206c-4c31-9fcb-2ba61145b69f" formVersion="1.0">
+          formEncounterType="0d3f097f-206c-4c31-9fcb-2ba61145b69f" formVersion="3.0">
 
     <macros>
         <macro key="hospitalDays" value="656170f6-977f-11e1-8993-905e29aff6c1" />
@@ -59,7 +59,7 @@
 
         <h4 style="font-style: italic;">
             <b>Chronic Heart Disease Hospitalization</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 3</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no:</b>

@@ -16,7 +16,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -314,6 +314,19 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                         phenytoin,
                         benzathinePcn)
         .build());
+
+        install(new ConceptBuilder("50FD8EE2-8E27-4811-991E-42011829CF37")
+                .datatype(text)
+                .conceptClass(diagnosis)
+                .name("DED17A9F-272F-49C4-BA82-AE58AC580037", "Chest X-ray(CXR) imaging result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        install(new ConceptBuilder("D3A49FE2-819B-491A-941F-E0B8A0F76C38")
+                .datatype(text)
+                .conceptClass(diagnosis)
+                .name("6BFF5FAB-25DE-4BBC-A27C-23F10F26E78C", "Electrocardiographic(EKG) imaging result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
 
     }
 }

@@ -208,7 +208,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
         flowsheetForms.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), Arrays.asList("htn_dm_labs","htn_dm_annual_labs","htn_dm_hospital","htn_dm_visit"));
         flowsheetForms.put(EncounterTypes.EPILEPSY_INITIAL.name(), Arrays.asList("epilepsy_visit"));
 		flowsheetForms.put(EncounterTypes.PALLIATIVE_INITIAL.name(), Arrays.asList("palliative_visit"));
-		flowsheetForms.put(EncounterTypes.CHF_INITIAL.name(), Arrays.asList("chf_quarterly_screening","chf_annual_screening","chf_history_of_hospitalizations","chf_visit"));
+		flowsheetForms.put(EncounterTypes.CHF_INITIAL.name(), Arrays.asList("chf_echocardiogram","chf_ekg","chf_cxr","chf_quarterly_screening","chf_annual_screening","chf_history_of_hospitalizations","chf_visit"));
 		flowsheetForms.put(EncounterTypes.CKD_INITIAL.name(), Arrays.asList("ckd_quarterly_screening","ckd_annual_screening","ckd_imaging","ckd_history_of_hospitalizations","ckd_visit"));
 		flowsheetForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), Arrays.asList("ncd_other_quarterly_screening","ncd_other_annual_screening","ncd_other_hospitalizations","ncd_other_visit"));
 		flowsheetForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), Arrays.asList("mental_health_visit"));
