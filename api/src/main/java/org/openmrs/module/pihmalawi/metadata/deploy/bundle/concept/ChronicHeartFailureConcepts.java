@@ -4,6 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -327,6 +328,27 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .name("6BFF5FAB-25DE-4BBC-A27C-23F10F26E78C", "Electrocardiographic(EKG) imaging result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        install(new ConceptBuilder("4c5236cf-412f-4ed2-ab20-869c42f09e3e")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("250b9cea-6ea7-43f5-ac00-cd186f2bdec2", "Right ventricle dimension", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("f99b16d5-5a54-470a-8586-38f7f0034f31", "Ventricle droit dimension", Locale.FRENCH, null)
+                .name("f4ac887e-d213-4f1a-9535-43269af114e3", "Right ventricular volume estimated from ultrasound (qualitative)", Locale.ENGLISH, null)
+                .name("c4f590c6-35fa-4115-a4b5-84866d9d3500", "Ventricle droit taille", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("0d917827-c005-4659-8553-e94080a8eb16").type(sameAs).ensureTerm(pih, "11997").build())
+                .mapping(new ConceptMapBuilder("3f899241-f832-413c-b686-556624f831be").type(sameAs).ensureTerm(ciel, "166871").build())
+                .mapping(new ConceptMapBuilder("ea2f2980-2d94-4a36-994a-f3c546e09e4d").type(sameAs).ensureTerm(pih, "Right ventricle dimension").build())
+                .build());
 
+        install(new ConceptBuilder("ed61396e-0835-4237-bc3d-93e990f64d1d")
+                .datatype(notApplicable)
+                .conceptClass(finding)
+                .name("d5962e3a-02fe-489a-a017-45148a763fef", "No pericardial effusion", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("0a8d73dd-aaf6-4579-8293-273c60a0b8bf", "Pas d’épanchement péricardique", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("8b71fb25-461d-404b-825e-cea354dff15b").type(narrowerThan).ensureTerm(snomedCt, "169254007").build())
+                .mapping(new ConceptMapBuilder("eefe36c9-7410-47d1-a1c0-63814d8a80ce").type(sameAs).ensureTerm(pih, "No pericardial effusion").build())
+                .mapping(new ConceptMapBuilder("bbd5efd9-0b91-4da8-9aa0-3bf8faece453").type(sameAs).ensureTerm(pih, "12000").build())
+                .mapping(new ConceptMapBuilder("ff876364-0d2a-4aee-87fe-a982de7a2c12").type(sameAs).ensureTerm(ciel, "166946").build())
+                .build());
     }
 }

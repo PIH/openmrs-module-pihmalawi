@@ -14,7 +14,7 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="2">Chest X-ray(CXR) Results</th>
+                    <th colspan="2">Chest X-ray(CXR) results</th>
                 </tr>
                 <tr>
                     <th>Date</th>
