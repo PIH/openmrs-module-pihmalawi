@@ -1,6 +1,6 @@
-<htmlform formName="Chest X-ray(CXR) imaging results"
-          formUuid="5E9774B4-C366-4B71-A543-FCDCE373746B"
-          formEncounterType="833CD694-7A98-4659-A487-AE25FD445D32"
+<htmlform formName="Cardiac and Vascular Disease Visit"
+          formUuid="4a5c17b8-794e-11e8-adc0-fa7ae01bbebc"
+          formEncounterType="1f6ad830-6e94-4819-b1fd-8c4146e77280"
           formVersion="3.0">
 
     <macros>       
