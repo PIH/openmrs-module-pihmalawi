@@ -26,31 +26,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MOHRegimenDispensationReport extends ApzuReportManager {
+public class MohRegimenSwitchReport extends ApzuReportManager {
 
-    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/regimen-dispensation.sql";
-    public static final String EXCEL_REPORT_DESIGN_UUID = "7d3c14a1-4adc-45c3-abfd-8800dbcb916c";
+    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/hiv-regimen-switch.sql";
+    public static final String EXCEL_REPORT_DESIGN_UUID = "e6addeed-1644-4af2-ac62-c2b9781013cc";
 
 
     @Override
     public String getUuid() {
-        return "149a747d-8373-482f-adca-ef80c310ddf8";
+        return "b7d70a9f-1fa1-42b5-9d39-0f853afb9a09";
     }
 
     @Override
     public String getName() {
-        return "MOH-Regimen Dispensation Report";
+        return "MOH Regimen Switch Report";
     }
 
     @Override
     public String getDescription() {
-        return "MOH Regimen Dispensation, MOH/PEPFAR Reports";
+        return "The report shows a lists all patients who have switched regimens for the past 3 months from the given start date. \n Revision April 2022";
     }
 
     @Override
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
-        l.add(ReportingConstants.END_DATE_PARAMETER);
+        l.add(ReportingConstants.START_DATE_PARAMETER);
         l.add(ReportingConstants.LOCATION_PARAMETER);
         return l;
     }
@@ -72,7 +72,7 @@ public class MOHRegimenDispensationReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
 
-        rd.addDataSetDefinition("regimenDispensation", Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("mohRegimenSwitchReport", Mapped.mapStraightThrough(dsd));
 
         return rd;
     }
@@ -80,10 +80,9 @@ public class MOHRegimenDispensationReport extends ApzuReportManager {
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
         List<ReportDesign> l = new ArrayList<ReportDesign>();
-        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MOHRegimenDispensationReport.xls");
-        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: regimenDispensation");
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MohRegimenSwitchReport.xls");
+        design.addPropertyValue("repeatingSections", "sheet:1,row:5,dataset: mohRegimenSwitchReport");
         l.add(design);
         return l;
     }
-
 }

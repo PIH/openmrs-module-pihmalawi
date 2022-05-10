@@ -13,25 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class NCDQuarterlyReport extends ApzuReportManager {
+public class MentalHealthMonthlyReport extends ApzuReportManager {
 
-
-    public static final String EXCEL_REPORT_DESIGN_UUID = "B7BDBA39-3FBB-4CAD-A310-F81F345F7564";
-    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/ncd-quarterly.sql";
+    public static final String EXCEL_REPORT_DESIGN_UUID = "42A262FF-ED9E-4012-B408-C83CC470453D";
+    public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/mental_health_monthly.sql";
 
     @Override
     public String getUuid() {
-        return "29CEEADC-0807-44B5-B7AA-2FA503BE448A";
+        return "9396887C-0208-4222-8FB2-870779A72F63";
     }
 
     @Override
     public String getName() {
-        return "NCD - Quarterly Report";
+        return "Mental Health Monthly Report";
     }
 
     @Override
     public String getDescription() {
-        return "NCD Quarterly Report by facility";
+        return "Mental Health Monthly Report by facility";
     }
 
     @Override
@@ -58,15 +57,14 @@ public class NCDQuarterlyReport extends ApzuReportManager {
         dsd.setIndicatorDescriptionColumn("description");
         dsd.setIndicatorValueColumn("indicator_value");
 
-        rd.addDataSetDefinition("NCDQuarterlyIndicatorReport", Mapped.mapStraightThrough(dsd));
+        rd.addDataSetDefinition("MentalHealthMonthlyReport", Mapped.mapStraightThrough(dsd));
         return rd;
     }
 
     @Override
     public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
-
         List<ReportDesign> reportDesign = new ArrayList<ReportDesign>();
-        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "NCDQuarterlyIndicatorReport.xls");
+        ReportDesign design = createExcelTemplateDesign(EXCEL_REPORT_DESIGN_UUID, reportDefinition, "MentalHealthMonthlyReport.xls");
         reportDesign.add(design);
 
         return reportDesign;

@@ -83,9 +83,14 @@
         mjConstruct=8574
         medsOtherConstruct=8576
         tradMedsConstruct=8573
+        bipolarMood=9046
 
         <macro key="mhCodedDx" value="0459F64A-611C-4687-9C0A-7B6B57F121A2"/>
-
+        <macro key="bipolarMood" value="a0d3ad80-f290-437c-8be3-7440dfdb7299" />
+        <macro key="kineticDis" value="cba37f2a-2058-454f-b291-f992af755a20" />
+        <macro key="stressReactAdjDis" value="3ac86541-7c6a-4e94-96dd-66942ced3cdb" />
+        <macro key="puerperalMentalDisorder" value="304b2b8c-db9c-4dc1-8f3a-7c2e6ea7a97a"/>
+        <macro key="dissoConvDis" value="c119657d-f96c-48d5-9dbe-0c24486eadf5"/>
     </macros>
 
     <span style="display:none">
@@ -231,7 +236,7 @@
                     <h5>Patient Overview</h5>
                     <table>
                         <tr>
-                            <th style="vertical-align:top;" align="left" rowspan="13">Diagnoses</th>
+                            <th style="vertical-align:top;" align="left" rowspan="21">Diagnoses</th>
 
                                 <obsgroup groupingConceptId="$diagnosisSet">
                                     <td data-toggle-source="schizo" data-toggle-target="schizo-date" style="border-right: 1px solid #ffffff;">
@@ -272,13 +277,22 @@
                                     <!-- Mental Health diagnoses -->
                                     <repeat with="['$manic','Mood affective disorder (manic)','manic'],
                                         ['$depression','Mood affective disorder (depression)','depress'],
+                                        ['$bipolarMood','Mood Affective Disorder (Bipolar)','mood-bipolar'],
                                         ['$acutePsychotic','Acute &#38; transient psychotic disorder','transient'],
                                         ['$schizoaffectiveDisorder','Schizoaffective Disorder','schizoaff'],
                                         ['$anxiety','Anxiety disorder','anxiety'],
                                         ['$acuteOrganicMentalDisorder','Organic mental disorder (acute)','organic-acute'],
                                         ['$chronicOrganicMentalDisorder','Organic mental disorder (chronic)','organic-chronic'],
                                         ['$drugUseMentalDisorder','Drug use mental disorder','drug'],
-                                        ['$alcoholUseMentalDisorder','Alcohol use mental disorder','booze']">
+                                        ['$alcoholUseMentalDisorder','Alcohol use mental disorder','booze'],
+                                        ['$stressReactAdjDis','Stress Reaction Adjustment Disorder','Stress-react-adj'],
+                                        ['$dissoConvDis','Dissociative Conversion Disorder','diss-conv-dis'],
+                                        ['$puerperalMentalDisorder','Puerperal Mental Disorder','puerperal-ment-Dis'],
+                                        ['$somato','Somatoform Disorder','soma-dis'],
+                                        ['$personality','Personality/Behavioural Disorder','pers-behav-dis'],
+                                        ['$retardation','Mental Retardation','ment-retard'],
+                                        ['$psychDev','Psychological Developmental Disorder','psych-dev'],
+                                        ['$kineticDis','Hyperkinetic Conductal Disorder  (ADHD)','kinetic-dis']">
 
                                         <tr>
                                             <obsgroup groupingConceptId="$diagnosisSet">
@@ -312,21 +326,21 @@
                             </tr>
                         </repeat>
 
-                        <tr>
+                        <!--<tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="other-ccDiagnosis" data-toggle-target="other-ccDiagnosis-date"
                                     style="border-right: 1px solid #ffffff;">
                                     <obs class="dx-checkbox-item" conceptId="$mhCodedDx" style="checkbox"
                                          answerConceptId="$yesAnswer" answerLabel="Other"/>
                                     <obs conceptId="$chronicCareDiagnosis"
-                                         answerConceptIds="$stressReact,$dissoc,$puerp,$personality,$retardation,$psychDev,$hyper"
-                                         answerLabels="Stress reaction disorder,Dissociative disorder,Somatoform disorder,Puerperal disorder,Mental retardation,Psych development disorder,Hyperkinetic behavior"/>
+                                         answerConceptIds="$stressReact,$dissoc,$puerp,$hyper"
+                                         answerLabels="Stress reaction disorder,Dissociative disorder,Puerperal disorder,Hyperkinetic behavior"/>
                                 </td>
                                 <td id="other-ccDiagnosis-date" style="border-left: 1px solid #ffffff;">
                                     <obs conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
-                        </tr>
+                        </tr> !-->
 
                         <tr>
                             <th style="vertical-align:top;" align="left" rowspan="8">Patient<br/>History &#38;<br/>

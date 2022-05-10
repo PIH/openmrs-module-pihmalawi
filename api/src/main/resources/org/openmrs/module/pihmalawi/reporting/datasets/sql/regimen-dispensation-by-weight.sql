@@ -1,4 +1,3 @@
-
 SET @defaultCutOff = 60;
 
 call create_weight_groups();
@@ -30,11 +29,12 @@ CASE WHEN 14A is null then 0 else 14A end as 14A,
 CASE WHEN 14P is null then 0 else 14P end as 14P,
 CASE WHEN 15A is null then 0 else 15A end as 15A,
 CASE WHEN 15P is null then 0 else 15P end as 15P,
+CASE WHEN 15PP is null then 0 else 15PP end as 15PP,
 CASE WHEN 16A is null then 0 else 16A end as 16A,
 CASE WHEN 16P is null then 0 else 16P end as 16P,
 CASE WHEN 17A is null then 0 else 17A end as 17A,
 CASE WHEN 17P is null then 0 else 17P end as 17P,
-CASE WHEN non_standard is null then 0 else non_standard end as 'Non standard'
+CASE WHEN non_standard is null then 0 else non_standard end as non_standard
  from weight_groups as wg
 left join
 (SELECT CASE
@@ -57,6 +57,7 @@ WHEN convert(weight,DECIMAL) >=4 and convert(weight,DECIMAL) <= 4.9 and gender =
 WHEN convert(weight,DECIMAL) >=4 and convert(weight,DECIMAL) <= 4.9 and gender = "F"   THEN "4-4.9 Kg"
 WHEN convert(weight,DECIMAL) >=40 and gender = "M" THEN "40 Kg +"
 WHEN convert(weight,DECIMAL) >=40 and gender = "F" THEN "40 Kg +"
+
 END as weight_group,gender,
 COUNT(IF((current_regimen = '0A: ABC/3TC + NVP'), 1, NULL)) as 0A,
 COUNT(IF((current_regimen = '0P: ABC/3TC + NVP'), 1, NULL)) as 0P,
@@ -87,6 +88,7 @@ COUNT(IF((current_regimen = '9P: ABC / 3TC + LPV/r'), 1, NULL)) as 9P,
 COUNT(IF((current_regimen = '11P: AZT / 3TC + LPV/r (previous AZT3TCLPV)'), 1, NULL)) as 11P,
 COUNT(IF((current_regimen = '14P: AZT / 3TC + DTG'), 1, NULL)) as 14P,
 COUNT(IF((current_regimen = '15P: ABC / 3TC + DTG'), 1, NULL)) as 15P,
+COUNT(IF((current_regimen = '15PP: ABC / 3TC + DTG'), 1, NULL)) as 15PP,
 COUNT(IF((current_regimen = 'Non standard'), 1, NULL)) as non_standard
 from
 (
@@ -111,7 +113,4 @@ and floor(datediff(@endDate,map.next_appointment_date)) <=  @defaultCutOff
 group by weight_group,gender
 order by gender, weight_group
  ) AS sub22  on sub22.weight_group = wg.weight_group and sub22.gender = wg.gender
-order by sort_value
-
-
-
+order by sort_value;
