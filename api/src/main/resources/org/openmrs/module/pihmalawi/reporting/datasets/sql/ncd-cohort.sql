@@ -6,8 +6,8 @@ call create_last_ncd_outcome_at_facility(@endDate,@location);
 
 
 
-select distinct(mwp.patient_id), opi.identifier, mwp.first_name, mwp.last_name, ops.program, ops.state,ops.start_date, mwp.gender,mwp.birthdate,
- datediff(@endDate,mwp.birthdate)/@birthDateDivider as age, ops.location, patient_visit.last_appt_date
+select distinct(mwp.patient_id), opi.identifier, mwp.first_name, mwp.last_name,  mwp.gender,mwp.birthdate,
+ datediff(@endDate,mwp.birthdate)/@birthDateDivider as age, ops.program, ops.state,ops.start_date, ops.location, patient_visit.last_appt_date
 from  mw_patient mwp
 LEFT join (
 	SELECT patient_id, MAX(obs_date) as visit_date, max(value_date) as last_appt_date FROM omrs_obs
