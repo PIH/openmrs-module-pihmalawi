@@ -43,19 +43,20 @@ call create_survival_analysis(DATE_SUB(@endDate, INTERVAL 20 year),DATE_SUB(@sta
 
  delete from survival_analysis where reporting_year <= ((select year(min(visit_date)) from mw_art_initial where location = @location));
 
- SELECT
-    reporting_year,
-    reporting_quarter,
-    CONCAT("Q",QUARTER(@endDate)," ",reporting_year) as reg_cohort,
-    ((year(curdate())-reporting_year)*12) as interval_year,
-    subgroup,
-    SUM(active+died+defaulted+treatment_stopped+transferred_out) as total_reg_database,
-    max(active) as alive,
-    max(died) as died,
-    max(defaulted) as defaulted,
-    max(treatment_stopped) as stopped,
-    max(transferred_out) as "to"
-FROM
-    survival_analysis
-GROUP BY
-    reporting_year;
+SELECT
+     reporting_year,
+     reporting_quarter,
+     CONCAT("Q",QUARTER(@endDate)," ",reporting_year) as reg_cohort,
+     ((year(curdate())-reporting_year)*12) as interval_year,
+     subgroup,
+     SUM(active+died+defaulted+treatment_stopped+transferred_out) as total_reg_database,
+     max(active) as alive,
+     max(died) as died,
+     max(defaulted) as defaulted,
+     max(treatment_stopped) as stopped,
+     max(transferred_out) as "to",
+     0 as unknown
+ FROM
+     survival_analysis
+ GROUP BY
+     reporting_year;
