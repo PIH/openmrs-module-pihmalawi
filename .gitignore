@@ -14,7 +14,10 @@
 .settings/*
 target
 
-omod/.rubygems
-omod/.rubygems-provided
-omod/src/main/compass/.sass-cache
-omod/src/main/compass/sass-external
+
+# SASS
+*.css
+*.css.map
+omod/node
+omod/node_modules
+omod/src/main/webapp/resources/styles/lib/
