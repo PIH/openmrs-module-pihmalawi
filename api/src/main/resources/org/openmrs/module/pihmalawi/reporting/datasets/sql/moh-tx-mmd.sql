@@ -14,7 +14,7 @@ CASE WHEN six_months_plus is null then 0 else six_months_plus end as six_months_
 age_groups as x
 LEFT OUTER JOIN
 (
-CASE
+SELECT CASE
 	WHEN age <= 11 and gender = "M" THEN "< 1 year"
 	WHEN age <= 11 and gender = "F" THEN "< 1 year"
 	WHEN age >=12 and age <= 59 and gender = "M" THEN "1-4 years"
