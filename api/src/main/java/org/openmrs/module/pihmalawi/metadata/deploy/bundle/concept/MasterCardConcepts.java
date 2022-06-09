@@ -28,25 +28,38 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String THREE_P = "657aba3e-977f-11e1-8993-905e29aff6c1";
     public static final String FOUR_A = "657abd9a-977f-11e1-8993-905e29aff6c1";
     public static final String FOUR_P = "657abf48-977f-11e1-8993-905e29aff6c1";
+    public static final String FOUR_PP = "1fb83022-491b-4a0b-bd81-a1a48cfc082f";
+    public static final String FOUR_PA = "0c812dc8-cb40-4e2e-926e-ebd9fb3376ff";
     public static final String FIVE_A = "657ac056-977f-11e1-8993-905e29aff6c1";
     public static final String SIX_A = "657ac164-977f-11e1-8993-905e29aff6c1";
     public static final String SEVEN_A = "657ac268-977f-11e1-8993-905e29aff6c1";
     public static final String EIGHT_A = "657ac36c-977f-11e1-8993-905e29aff6c1";
     public static final String NINE_A = "8a795372-ba39-11e6-91a8-5622a9e78e10";
     public static final String NINE_P = "657ac470-977f-11e1-8993-905e29aff6c1";
+    public static final String NINE_PP = "84e96887-5963-4cc9-8feb-b2ccd1447465";
+    public static final String NINE_PA = "e9478866-c8ce-4ca7-a593-03e8ba0166d7";
     public static final String TEN_A = "7ebc782a-baa2-11e6-91a8-5622a9e78e10";
     public static final String ELEVEN_A = "8bb7294e-baa2-11e6-91a8-5622a9e78e10";
     public static final String ELEVEN_P = "91bcdad2-baa2-11e6-91a8-5622a9e78e10";
+    public static final String ELEVEN_PP = "98ec6848-15bf-41ef-b844-5a16d7dbb0f8";
+    public static final String ELEVEN_PA = "ec5edf44-a088-4117-8a05-b23b018ec075";
+    public static final String TWELVE_PP = "3b861411-5818-430a-8a90-2deabf89f328";
+    public static final String TWELVE_PA = "007f685d-bb78-4f16-91c4-073aa8107943";
     public static final String THIRTEEN_A = "53009e3a-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FOURTEEN_A = "5e16f0b2-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FOURTEEN_P = "cf770b14-4c9d-11ea-b77f-2e728ce88125";
+    public static final String FOURTEEN_PP = "8fe981ba-2349-41e4-99d8-2d6051f24718";
+    public static final String FOURTEEN_PA = "e901ec7c-f45c-413f-a186-4c779227ac08";
     public static final String FIFTEEN_A = "6764fc5e-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String FIFTEEN_P = "e2ec7c88-4c9d-11ea-b77f-2e728ce88125";
     public static final String FIFTEEN_PP = "e58595c7-8354-48ea-a2b8-f75584bdf594";
+    public static final String FIFTEEN_PA = "fb26bc7f-ae9c-4655-9823-ce0066d8081a";
     public static final String SIXTEEN_A = "e2ec805c-4c9d-11ea-b77f-2e728ce88125";
     public static final String SIXTEEN_P = "e2ec82b4-4c9d-11ea-b77f-2e728ce88125";
     public static final String SEVENTEEN_A = "e2ec871e-4c9d-11ea-b77f-2e728ce88125";
     public static final String SEVENTEEN_P = "e2ec899e-4c9d-11ea-b77f-2e728ce88125";
+    public static final String SEVENTEEN_PP = "e13a8993-5604-40c9-90ea-8217d7d047f0";
+    public static final String SEVENTEEN_PA = "fd5521f9-00e1-42dc-98cf-103c44e64bc1";
     public static final String NON_STANDARD = "826b65ba-dc53-11e8-9f8b-f2801f1b9fd1";
     public static final String TWELVE_A = "43b86ce6-dc3f-11e8-9f8b-f2801f1b9fd1";
     public static final String VIRAL_LOAD_SAMPLE_ID = "a8a56930-6b16-11ea-b6dd-8f1bd7e7fd41";
@@ -161,7 +174,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 15;
+        return 16;
     }
 
     @Override
@@ -273,8 +286,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         // Existing drug frequencies
         Concept twiceAday = MetadataUtils.existing(Concept.class, TWICE_A_DAY);
         Concept onceAday = MetadataUtils.existing(Concept.class, ONCE_A_DAY);
-	Concept immediate = MetadataUtils.existing(Concept.class, IMMEDIATE);
-	Concept otherFreq = MetadataUtils.existing(Concept.class, OTHERFREQ);
+        Concept immediate = MetadataUtils.existing(Concept.class, IMMEDIATE);
+        Concept otherFreq = MetadataUtils.existing(Concept.class, OTHERFREQ);
         Concept onceAmonth = MetadataUtils.existing(Concept.class, ONCE_A_MONTH);
         Concept threeADay = MetadataUtils.existing(Concept.class, THREE_A_DAY);
         Concept twiceAmonth = MetadataUtils.existing(Concept.class, TWICE_A_MONTH);
@@ -290,9 +303,9 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         Concept onceAdatAtnoon = MetadataUtils.existing(Concept.class, ONCE_A_DAY_AT_NOON);
         Concept generalDrugFreq = MetadataUtils.existing(Concept.class, GEN_DRUG_FREQ);
 
-	// Dispensing concepts			
+        // Dispensing concepts
         Concept amountDispensed = MetadataUtils.existing(Concept.class, AMOUNT_DISPENSED);
-        Concept timeUnits = MetadataUtils.existing(Concept.class, TIME_UNITS); 
+        Concept timeUnits = MetadataUtils.existing(Concept.class, TIME_UNITS);
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
                 .datatype(coded)
@@ -301,16 +314,76 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .answers(yes, no)
                 .build());
 
-	Concept elevenP = install(new ConceptBuilder(ELEVEN_P)
-                 .datatype(notApplicable)
-                 .conceptClass(drug)
-                 .name("ba40105b-673d-4fa4-9263-70ce5f228230", "11P: AZT / 3TC + LPV/r (previous AZT3TCLPV)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                 .build());
+        Concept fourPP = install(new ConceptBuilder(FOUR_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("e01d2669-3df9-43aa-839f-a442eba068ff", "4PP: AZT 60 / 3TC 30 + EFV 200", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept fourPA = install(new ConceptBuilder(FOUR_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("16e8c201-46ce-490c-8838-f4f3e39dc4cf", "4PA: AZT 300 / 3TC 150 + EFV 200", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept ninePP = install(new ConceptBuilder(NINE_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("86bd5436-46f9-4404-9863-3bf0b7eef261", "9PP: ABC 120 / 3TC 60 + LPV/r 100/25", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept ninePA = install(new ConceptBuilder(NINE_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("86bd5436-46f9-4404-9863-3bf0b0eef261", "9PA: ABC 600 / 3TC 300 + LPV/r 100/25", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept elevenP = install(new ConceptBuilder(ELEVEN_P)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("ba40105b-673d-4fa4-9263-70ce5f228230", "11P: AZT / 3TC + LPV/r (previous AZT3TCLPV)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept elevenPP = install(new ConceptBuilder(ELEVEN_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("0f73f5bf-ec73-401a-8c9b-088f4c912e1c", "11PP: AZT 60 / 3TC 30 + LPV/r 100/25", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept elevenPA = install(new ConceptBuilder(ELEVEN_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("c375f3b7-adca-4707-b497-d32f7f2b7b01", "11PA: AZT 300 / 3TC 150 + LPV/r 100/25", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept twelvePP = install(new ConceptBuilder(TWELVE_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("3db6e561-fed5-443f-8f69-f0f3d3b4cc04", "12PP: DRV 150 + r 50 + DTG 10 (± NRTIs)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept twelvePA = install(new ConceptBuilder(TWELVE_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("05ba7f65-72a4-49fe-b54f-1e455444bd67", "12PA: DRV 150 + r 50 + DTG 50", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
 
         Concept fourteenP = install(new ConceptBuilder(FOURTEEN_P)
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("cf770dd0-4c9d-11ea-b77f-2e728ce88125", "14P: AZT / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept fourteenPP = install(new ConceptBuilder(FOURTEEN_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("55e43fc2-4977-4f0d-884f-40276b3831a7", "14PP: AZT 60 / 3TC 30 + DTG 10", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept fourteenPA = install(new ConceptBuilder(FOURTEEN_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("0f91810f-f9db-460f-920d-6b3493992534", "14PA: AZT 60 / 3TC 30 + DTG 50", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         Concept fifteenP = install(new ConceptBuilder(FIFTEEN_P)
@@ -323,6 +396,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(notApplicable)
                 .conceptClass(drug)
                 .name("870dd964-61dd-4013-9a75-89b09994c6e6", "15PP: ABC / 3TC + DTG", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept fifteenPA = install(new ConceptBuilder(FIFTEEN_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("b326573a-ba4a-48ef-8afa-1bb991f3331e", "15PA: ABC 120 / 3TC 60 + DTG 50", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         Concept sixteenA = install(new ConceptBuilder(SIXTEEN_A)
@@ -349,6 +428,18 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("e2ec8c14-4c9d-11ea-b77f-2e728ce88125", "17P: ABC / 3TC + EFV", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
+        Concept seventeenPP = install(new ConceptBuilder(SEVENTEEN_PP)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("cb4e01be-7e35-4e72-b971-cf47d2ba6f11", "17PP: ABC 120 / 3TC 60 + EFV 200", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept seventeenPA = install(new ConceptBuilder(SEVENTEEN_PA)
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("12a9268f-e06d-4d6d-b4d6-29312e79bd8c", "17PA: ABC 600 / 3TC 300 + EFV 200", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
         install(new ConceptBuilder("657ac57e-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(misc)
@@ -364,26 +455,39 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         threeP,
                         fourA,
                         fourP,
+                        fourPP,
+                        fourPA,
                         fiveA,
                         sixA,
                         sevenA,
                         eightA,
                         nineA,
                         nineP,
+                        ninePP,
+                        ninePA,
                         tenA,
                         elevenA,
                         elevenP,
+                        elevenPP,
+                        elevenPA,
                         twelveA,
+                        twelvePP,
+                        twelvePA,
                         thirteenA,
                         fourteenA,
                         fourteenP,
+                        fourteenPP,
+                        fourteenPA,
                         fifteenA,
                         fifteenP,
                         fifteenPp,
+                        fifteenPA,
                         sixteenA,
                         sixteenP,
                         seventeenA,
                         seventeenP,
+                        seventeenPP,
+                        seventeenPA,
                         nonStandard)
                 .build());
 
@@ -868,49 +972,49 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("f8b90258-b3f3-4c60-96aa-5d9acc6b9335", "Unités par dose", Locale.FRENCH, ConceptNameType.FULLY_SPECIFIED)
                 .name("125645BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Dose unit", Locale.ENGLISH, ConceptNameType.SHORT)
                 .answers(unitAmpule,
-                unitApplic,
-                concept10305,
-                unitBottle,
-                concept10335,
-                unitCapsule,
-                concept10324,
-                unitDrops,
-                concept10306,
-                concept10322,
-                concept10336,
-                unitGrams,
-                concept10313,
-                concept10312,
-                concept10329,
-                concept10304,
-                concept10309,
-                concept10328,
-                concept10308,
-                concept10315,
-                concept10319,
-                concept10311,
-                concept10321,
-                concept10300,
-                concept10301,
-                concept10302,
-                concept10327,
-                concept10332,
-                concept10299,
-                concept10325,
-                concept10331,
-                concept10316,
-                concept10320,
-                concept10303,
-                concept10334,
-                unitTablet,
-                concept10317,
-                concept10333,
-                unitTube,
-                concept10326,
-                concept10330,
-                unitSachet,
-                concept10743,
-                concept11679)
+                        unitApplic,
+                        concept10305,
+                        unitBottle,
+                        concept10335,
+                        unitCapsule,
+                        concept10324,
+                        unitDrops,
+                        concept10306,
+                        concept10322,
+                        concept10336,
+                        unitGrams,
+                        concept10313,
+                        concept10312,
+                        concept10329,
+                        concept10304,
+                        concept10309,
+                        concept10328,
+                        concept10308,
+                        concept10315,
+                        concept10319,
+                        concept10311,
+                        concept10321,
+                        concept10300,
+                        concept10301,
+                        concept10302,
+                        concept10327,
+                        concept10332,
+                        concept10299,
+                        concept10325,
+                        concept10331,
+                        concept10316,
+                        concept10320,
+                        concept10303,
+                        concept10334,
+                        unitTablet,
+                        concept10317,
+                        concept10333,
+                        unitTube,
+                        concept10326,
+                        concept10330,
+                        unitSachet,
+                        concept10743,
+                        concept11679)
                 .build());
 
         Concept concept9367 = install(new ConceptBuilder("9b0068ac-4104-4bea-ba76-851e5faa9f2a")
@@ -1276,29 +1380,29 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .build());
 
         Concept concept9072 = install(new ConceptBuilder("ef7f742b-76e6-4a83-84ca-534ad6705494")
-		.datatype(text)
-		.conceptClass(miscOrder)
-		.name("4369a18f-1c8d-483e-a2b0-9b382964afc6", "Prescription instructions, non-coded", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-		.description("49dfe9e7-d6ee-4c2c-9155-4dab31668db4", "Instructions for how often, in what quantity, and in what form a prescribed medication should be administered.", Locale.ENGLISH)
-		.mapping(new ConceptMapBuilder("01360d6f-6c8c-49e4-86dc-7521c0824cbe").type(sameAs).ensureTerm(pih, "9072").build())
-		.mapping(new ConceptMapBuilder("6c3ba3e4-6812-4cd8-ac20-229508dacd86").type(sameAs).ensureTerm(pih, "Prescription instructions non-coded").build())
-		.mapping(new ConceptMapBuilder("1a5f86ed-cf9c-4db5-9378-6454d6b4c870").type(sameAs).ensureTerm(emrapi, "Prescription instructions non-coded").build())
-		.build());
+                .datatype(text)
+                .conceptClass(miscOrder)
+                .name("4369a18f-1c8d-483e-a2b0-9b382964afc6", "Prescription instructions, non-coded", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("49dfe9e7-d6ee-4c2c-9155-4dab31668db4", "Instructions for how often, in what quantity, and in what form a prescribed medication should be administered.", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("01360d6f-6c8c-49e4-86dc-7521c0824cbe").type(sameAs).ensureTerm(pih, "9072").build())
+                .mapping(new ConceptMapBuilder("6c3ba3e4-6812-4cd8-ac20-229508dacd86").type(sameAs).ensureTerm(pih, "Prescription instructions non-coded").build())
+                .mapping(new ConceptMapBuilder("1a5f86ed-cf9c-4db5-9378-6454d6b4c870").type(sameAs).ensureTerm(emrapi, "Prescription instructions non-coded").build())
+                .build());
 
         Concept concept12651 = install(new ConceptBuilder("b08011b8-b1c7-4fd0-b48d-65a475397639")
-		.datatype(coded)
-		.conceptClass(question)
-		.name("48cd1100-0d05-460f-965e-39e8bf8136e4", "Routes of administration (coded)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-		.mapping(new ConceptMapBuilder("5e5631eb-bfc6-488b-9105-c0fdefd7d974").type(sameAs).ensureTerm(pih, "12651").build())
-		.build());
+                .datatype(coded)
+                .conceptClass(question)
+                .name("48cd1100-0d05-460f-965e-39e8bf8136e4", "Routes of administration (coded)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("5e5631eb-bfc6-488b-9105-c0fdefd7d974").type(sameAs).ensureTerm(pih, "12651").build())
+                .build());
 
         Concept concept10634 = install(new ConceptBuilder("f541afbd-db59-4c48-88da-ce17b8184963")
-		.datatype(coded)
-		.conceptClass(drug)
-		.name("28e3e738-8e05-419e-8bbf-e33598718ce1", "Mental health medication", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-		.mapping(new ConceptMapBuilder("9940a83f-28c1-4449-a620-1161d7102565").type(sameAs).ensureTerm(pih, "Mental health medication").build())
-		.mapping(new ConceptMapBuilder("725dba8b-1aa8-4d53-8c7a-cc807632fb00").type(sameAs).ensureTerm(pih, "10634").build())
-		.build());
+                .datatype(coded)
+                .conceptClass(drug)
+                .name("28e3e738-8e05-419e-8bbf-e33598718ce1", "Mental health medication", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("9940a83f-28c1-4449-a620-1161d7102565").type(sameAs).ensureTerm(pih, "Mental health medication").build())
+                .mapping(new ConceptMapBuilder("725dba8b-1aa8-4d53-8c7a-cc807632fb00").type(sameAs).ensureTerm(pih, "10634").build())
+                .build());
 
         Concept durationMeds = install(new ConceptNumericBuilder(DURATION_MEDS)
                 .conceptClass(question)
