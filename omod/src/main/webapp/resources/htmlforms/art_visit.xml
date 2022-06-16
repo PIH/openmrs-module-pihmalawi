@@ -416,11 +416,11 @@
             </tr>
             <tr>
                 <th>Height</th>
-                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
+                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true" allowOverride="true"/></td>
             </tr>
             <tr>
                 <th>Weight</th>
-                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
+                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true" allowOverride="true"/></td>
             </tr>
             <tr>
                 <th>Systolic BP</th>
