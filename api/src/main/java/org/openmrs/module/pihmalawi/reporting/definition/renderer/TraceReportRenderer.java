@@ -192,6 +192,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 18);
                 builder.addCell("Priority\nPatient", headerStyle1Centered, 8);
                 builder.addCell("Diagnoses", headerStyle1Centered, 20);
+                builder.addCell("Visit missed", headerStyle1Centered, 20);
                 builder.addCell("Last IC3\nVisit Date", headerStyle1Centered + leftBorderedLight, 12);
                 builder.addCell("Appointment\nDate", headerStyle1Centered, 14);
                 builder.addCell("Weeks\nout of\nCare", headerStyle1Centered, 8);
@@ -305,7 +306,15 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
                     builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
                     builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
-
+                    String lastVisitType = "ART_FOLLOWUP";
+                    Date lastArtApptDate = (Date)row.getColumnValue("ART_LAST_APPT_DATE");
+                    Date lastNcdApptDate = (Date)row.getColumnValue("NCD_LAST_APPT_DATE");
+                    if ((lastArtApptDate == null) || (
+                            (lastNcdApptDate != null) && (lastArtApptDate.compareTo(lastNcdApptDate) < 0)
+                    )) {
+                        lastVisitType = (String) row.getColumnValue("NCD_LAST_VISIT_TYPE");
+                    }
+                    builder.addCell(lastVisitType, rowStyle);
                     String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
 
                     builder.addCell(lastVisitDate, dateRowStyle + leftBorderedLight + redactIfNeeded);
