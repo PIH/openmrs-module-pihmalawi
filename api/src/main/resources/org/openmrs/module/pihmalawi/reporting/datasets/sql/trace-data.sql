@@ -9,6 +9,7 @@
   -- set @location = 'Matandani Rural Health Center';
   -- set @minWeeks = 2;
   -- set @maxWeeks = 6;
+  -- set @labWeeks = 6;
   -- set @phase1 = TRUE;
 
   The TRACE Report will include this dataset several times for various combinations of the above parameters
@@ -41,6 +42,7 @@ SELECT        t.patient_id,
               round(eid.days_late_appt / 7, 1) as eid_weeks_out_of_care,
               ncd.last_visit_date as ncd_last_visit_date,
               ncd.last_appt_date as ncd_last_appt_date,
+              ncd.last_visit_type as ncd_last_visit_type,
               round(ncd.days_late_appt / 7, 1) as ncd_weeks_out_of_care,
               TRIM(TRAILING ',' FROM concat(if(art.patient_id is null, '', 'HIV, '), if(eid.patient_id is null, '', 'EID, '), d.diagnoses)) as diagnoses,
               c.priority_criteria,

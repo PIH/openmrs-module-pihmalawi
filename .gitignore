@@ -21,3 +21,6 @@ target
 omod/node
 omod/node_modules
 omod/src/main/webapp/resources/styles/lib/
+omod/src/main/compass/.sass-cache
+omod/src/main/compass/sass-external
+omod/.rubygems
