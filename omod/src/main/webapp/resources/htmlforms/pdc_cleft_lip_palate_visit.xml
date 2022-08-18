@@ -1,13 +1,11 @@
 <htmlform formUuid="64148b3f-f732-4809-9a23-8b8ebe11279a" formName="Cleft Lip / Palate Visit"
-          formEncounterType="cfca0af9-86c9-4717-83b7-74e61f1a7bbf" formVersion="1.0">
+          formEncounterType="cfca0af9-86c9-4717-83b7-74e61f1a7bbf" formVersion="2.0">
 
     <macros>
-        noAnswer=1066
-        yesAnswer=1065
-        height=5090
-        weight=5089
         clinicalImpression=1364
         nextAppt=5096
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
         <macro key="feedingIssues" value="d7ce3c38-2844-4f46-9dfe-395738b056aa" />
         <macro key="difficultBreathing" value="49ab956b-ef54-427a-b0bb-440c47164012" />
         <macro key="heartMurmur" value="aec2dff8-9e02-4962-802b-af3cd03e1d96" />
@@ -26,6 +24,24 @@
         <macro key="referredOut" value="da88696b-bf1d-4a31-b49d-997326e4a777" />
         <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
         <macro key="continueFollowUp" value="696c6ade-1f06-40d1-aadd-4c2b257167db" />
+        <!--new Assessment fields variable declaration-->
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
+        <macro key="muac" value="6558d09a-977f-11e1-8993-905e29aff6c1"/>
+        <!-- weForAge= weight for age and heForAge=height for age-->
+        <macro key="weForAge" value="65712ec4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="heForAge" value="65712fc8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="malnutrition" value="657a2268-977f-11e1-8993-905e29aff6c1" />
+        <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8" />
+        <macro key="moderateMalnutrition" value="65731d74-977f-11e1-8993-905e29aff6c1" />
+        <macro key="mdatAssessmentSummary" value="99c7a129-5d96-4825-b8ef-eff5fa6e7727" />
+        <macro key="individualCounselling" value="cef3471e-eb0a-4b14-b402-9b24742e3869"/>
+        <macro key="poserSupport" value="5b49fbf4-2645-4ab2-974e-4e6c961162b1"/>
+        <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea"/>
+        <macro key="palliativeCare" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5"/>
+        <macro key="sourceOfRefSet" value="b5346c8a-246c-46aa-bce5-17a77534bc30"/>
+
+
     </macros>
 
     <style>
@@ -120,32 +136,41 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td style="padding: 1px;">Date</td>
-                    <td colspan="6">Assessments</td>
+                    <td colspan="1" style="padding: 1px;">Visit <br/>Date</td>
+                    <td colspan="12">Assessments</td>
                     <td colspan="2" style="padding: 1px;">Surgery</td>
                     <td colspan="2">Recommendations</td>
-                    <td colspan="1">Additional <br />Plans</td>
-                    <td></td>
-                    <td></td>
-                    <td rowspan="2" style="font-size:.7em;padding: 1px">Referred Out</td>
+                    <td colspan="4">Additional Plans</td>
+                    <td colspan="1">Social <br/> Support</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Referred <br/>Out</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">If Referred <br/>Out</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Plan</td>
-                    <td rowspan="2" style="font-size:.7em;padding: 1px">Next  <br/>Visit <br/> Date</td>
+                    <td rowspan="1" style="font-size:.7em;padding: 1px">Next <br/>Visit <br/> Date <br/><br/> Clinician<br/>Sign</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
-                    <td style="font-size:.7em;padding: 1px;">Feeding Issues</td>
+                    <!--added new fields-->
+                    <td style="font-size:.7em;padding: 1px;">Weight</td>
+                    <td style="font-size:.7em;padding: 1px;">Height</td>
+                    <td style="font-size:.7em;padding: 1px;">MUAC</td>
+                    <td style="font-size:.7em;padding: 1px;">Weight for Age</td>
+                    <td style="font-size:.7em;padding: 1px;">Height for Age</td>
+                    <td style="font-size:.7em;padding: 1px;">Malnutrition</td>
+                    <td style="font-size:.7em;padding: 1px;">Feeding Problems</td>
                     <td style="font-size:.7em;padding: 1px;">Difficult Breathing</td>
                     <td style="font-size:.7em;padding: 1px;">Heart murmur</td>
                     <td style="font-size:.7em;padding: 1px;">Ear pain</td>
                     <td style="font-size:.7em;padding: 1px;">Ear discharge</td>
                     <td style="font-size:.7em;padding: 1px;">Other</td>
                     <td style="font-size:.7em;padding: 1px;">Scheduled</td>
-                    <td style="font-size:.7em;padding: 1px;">If yes <br/>Date </td>
+                    <td style="font-size:.7em;padding: 1px;">Date of <br/>Operation </td>
                     <td style="font-size:.7em;padding: 1px;">Continue <br/>Follow Up</td>
-                    <td style="font-size:.7em;padding: 1px;">Refer out</td>
-                    <td style="font-size:.7em;padding: 1px">Support Group</td>
+                    <td style="font-size:.7em;padding: 1px">Group Therapy</td>
                     <td style="font-size:.7em;padding: 1px">Feeding Counselling</td>
+                    <td style="font-size:.7em;padding: 1px">Individual Counselling</td>
+                    <td style="font-size:.7em;padding: 1px">MDAT Assessment <br/>(Summary)</td>
                     <td style="font-size:.7em;padding: 1px">Food Supplement</td>
+                    <td style="font-size:.7em;padding: 1px;">POSER</td>
 
                 </tr>
             </thead>
@@ -153,6 +178,33 @@
                 <tr class="visit-table-row">
                     <td class="nowrap visit-date">
                         <encounterDate/>
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- Weight -->
+                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Height -->
+                        <obsreference conceptId="$height" id="heightInput" size="3"/>
+                    </td>
+                    <td style="padding: 1px;">
+                        <!-- MUAC -->
+                        <obs conceptId="$muac" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Weight for age -->
+                        <obsreference conceptId="$weForAge" allowOverride="true" size="3"/>
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Height for Age -->
+                        <obsreference conceptId="$heForAge" allowOverride="true" size="3"/>
+                    </td>
+                    <td style="padding: 1px;">
+                        <!-- malnutrition concept-->
+                        <obs conceptId="$malnutrition"
+                             answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
+                             answerLabels="No,Mod,Sev" style="radio" />
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$feedingIssues"
@@ -211,18 +263,24 @@
                         <obs conceptId="$continueFollowUp" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
-                    <td>
-                        <obsgroup groupingConceptId="$recommendationSet">
-                            <obs conceptId="$referredOut"
-                                 style="radio"
-                                 answerConceptIds="$yesAnswer,$noAnswer"
-                                 answerLabels="Yes,No" />
-                        </obsgroup>
-                    </td>
 
                     <td style="padding: 1px;">
                         <!-- Support Group -->
                         <obs conceptId="$supportGroup" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- Food Supplement -->
+                        <obs conceptId="$foodSupplement"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- Individual Counselling -->
+                        <obs conceptId="$individualCounselling"
+                             answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
@@ -233,10 +291,15 @@
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
+                    <td style="padding: 1px;">
+                        <!-- MDAT Assessment Summary -->
+                        <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
                     <td style="padding: 1px;" >
-                        <!-- Food Supplement -->
-                        <obs conceptId="$foodSupplement"
-                             answerConceptIds="$yesAnswer,$noAnswer"
+                        <!-- POSER Support -->
+                        <obs conceptId="$poserSupport" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
@@ -249,6 +312,18 @@
                             <br />
                             <br />
                             <b>Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                        </obsgroup>
+                    </td>
+
+                    <td>
+                        <!-- If Referred Out -->
+                        <obsgroup groupingConceptId="$sourceOfRefSet">
+                            <obs conceptId="$referredOut"
+                                 style="radio"
+                                 answerConceptIds="$tertiary,$palliativeCare"
+                                 answerLabels="Tertiary Care, Palliative Care" />
+                            <br />
+                            <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
                         </obsgroup>
                     </td>
 
@@ -278,7 +353,8 @@
         <div class="section-container">
             <h4 style="font-style: italic;">
                 <b>PDC Cleft Lip / Palate Card</b>
-                <span style="padding-left:50px;">Version 1</span>
+                <!-- increased Increase version to “version 2“ -->
+                <span style="padding-left:50px;">Version 2</span>
 
                 <span style="padding-left:50px;">
                     <b style="padding-right:10px;">PDC Reg no: </b>
@@ -301,9 +377,50 @@
                     <th>Visit Location</th>
                     <td><encounterLocation id="visitLocation" /></td>
                 </tr>
+                <!-- Assessments-->
+                <tr class="focus-field">
+                    <!-- weight view -->
+                    <th>Weight</th>
+                    <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
+                </tr>
+                <tr class="focus-field">
+                    <!-- height view -->
+                    <th>Height</th>
+                    <td><obsreference conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
+                </tr>
+                <tr>
+                    <!-- muac view -->
+                    <th>MUAC</th>
+                    <td>
+                        <obs conceptId="$muac"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <!-- weight for age view -->
+                    <th>Weight for Age</th>
+                    <td><obsreference conceptId="$weForAge" allowOverride="true" size="3" showUnits="true"/></td>
+                </tr>
+
+                <tr class="focus-field">
+                    <!-- height for age view -->
+                    <th>Height for Age</th>
+                    <td><obsreference conceptId="$heForAge" allowOverride="true" size="3" showUnits="true"/></td>
+                </tr>
                 <tr>
                     <th>
-                        Feeding Issues
+                        <!-- malnutrition view-->
+                        Malnutrition
+                    </th>
+                    <td>
+                        <obs conceptId="$malnutrition"
+                             answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
+                             answerLabels="No,Mod,Sev" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <!-- feeding issues to feeding problems -->
+                        Feeding Problems
                     </th>
                     <td>
                         <obs conceptId="$feedingIssues"
@@ -371,6 +488,7 @@
                             </obsgroup>
                         </td>
                 </tr>
+                <!-- Recommendations -->
                 <tr>
                     <th>Continue Follow Up</th>
                     <td>
@@ -379,30 +497,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Refer out</th>
-                    <td>
-                        <obsgroup groupingConceptId="$recommendationSet">
-                            <obs conceptId="$referredOut"
-                                 style="radio"
-                                 answerConceptIds="$yesAnswer,$noAnswer"
-                                 answerLabels="Yes,No" />
-                        </obsgroup>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Support Group</th>
+                    <!-- group therapy view -->
+                    <th>Group Therapy</th>
                     <td>
                         <obs conceptId="$supportGroup" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
                 </tr>
-                <tr>
-                    <th>Feeding Counselling</th>
-                    <td>
-                        <obs conceptId="$feedingCounselling" answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </td>
-                </tr>
+
+                <!-- Additional Recommendations -->
                 <tr>
                     <th>Food Supplement</th>
                     <td>
@@ -410,6 +513,42 @@
                              answerLabels="Yes,No" style="radio" />
                     </td>
                 </tr>
+                <tr>
+                    <!-- individual counselling view-->
+                    <th>Individual Counselling</th>
+                    <td>
+                        <obs conceptId="$individualCounselling" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Feeding Counselling</th>
+                    <td>
+                        <obs conceptId="$feedingCounselling" answerConceptIds="$yesAnswer,$noAnswer"
+                            answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                <th>
+                    <!-- mdat assessment summary view -->
+                    MDAT Assessment Summary
+                </th>
+                <td>
+                    <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+                </tr>
+
+                <!-- Social Support -->
+                <tr>
+                    <th>POSER</th>
+                    <td>
+                        <obs conceptId="$poserSupport" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+                </tr>
+
+                <!-- Referred out -->
                 <tr>
                     <th>Referred Out</th>
                     <obsgroup groupingConceptId="$referralSet">
@@ -424,6 +563,22 @@
                         </td>
                     </obsgroup>
                 </tr>
+
+                <tr>
+                    <th>If Referred Out</th>
+                    <td>
+                        <!-- If Referred Out -->
+                        <obsgroup groupingConceptId="$sourceOfRefSet">
+                            <obs conceptId="$referredOut"
+                                 style="radio"
+                                 answerConceptIds="$tertiary,$palliativeCare"
+                                 answerLabels="Tertiary Care, Palliative Care" />
+                            <br />
+                            <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                        </obsgroup>
+                    </td>
+                </tr>
+
                 <tr>
                     <!-- Comments -->
                     <th>Plan</th>
