@@ -437,5 +437,9 @@ public class EncounterTypes {
         public String name() { return "PDC_TRISOMY21_LAB_TESTS"; }
         public String description() { return "PDC lab tests results"; }
     };
-    
+    public static EncounterTypeDescriptor PDC_HB_AND_OTHER_LAB_TESTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "366E8C89-2AD0-4FDC-A8FE-E39435B11331"; }
+        public String name() { return "PDC_HB_AND_OTHER_LAB_TESTS"; }
+        public String description() { return "PDC hb and other lab tests results"; }
+    };
 }
