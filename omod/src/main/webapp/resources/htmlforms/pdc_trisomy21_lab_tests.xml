@@ -1,6 +1,6 @@
 <htmlform   formUuid="9A346FD7-6A40-4FE8-A6F8-2F974BFD4A21"
             formName="PDC Laboratory tests"
-            formEncounterType="263607B1-D616-4E07-BA54-7DF5E247FE33" formVersion="1.2">
+            formEncounterType="B1DA5916-FAEF-4A8C-A799-949C0BC8D2C6" formVersion="2.0">
 
     <macros>
         <macro key="wbc" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
@@ -68,7 +68,7 @@
                         <obs conceptId="$platelets"/>
                     </td>
                     <td>
-                        Differential
+                        ____
                     </td>
                     <td>
                         <lookup expression="fn.getObs($encounter, 'PIH Malawi:1624').obsDatetime"/>

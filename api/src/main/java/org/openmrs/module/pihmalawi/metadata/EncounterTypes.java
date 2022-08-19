@@ -432,9 +432,9 @@ public class EncounterTypes {
         public String name() { return "PDC_COMPLICATIONS"; }
         public String description() { return "PDC Complications Encounter"; }
     };
-    public static EncounterTypeDescriptor PDC_LAB_TESTS = new EncounterTypeDescriptor() {
-        public String uuid() { return "263607B1-D616-4E07-BA54-7DF5E247FE33"; }
-        public String name() { return "PDC_LAB_TESTS"; }
+    public static EncounterTypeDescriptor PDC_TRISOMY21_LAB_TESTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "B1DA5916-FAEF-4A8C-A799-949C0BC8D2C6"; }
+        public String name() { return "PDC_TRISOMY21_LAB_TESTS"; }
         public String description() { return "PDC lab tests results"; }
     };
     

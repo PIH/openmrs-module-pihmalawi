@@ -109,7 +109,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.HEARING_TEST);
         install(EncounterTypes.RADIOLOGY_SCREENING);
         install(EncounterTypes.PDC_COMPLICATIONS);
-        install(EncounterTypes.PDC_LAB_TESTS);
+        install(EncounterTypes.PDC_TRISOMY21_LAB_TESTS);
 
     }
 
