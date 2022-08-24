@@ -42,14 +42,14 @@
         <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1" />
         <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
         <macro key="feedingCounselling" value="f17754f9-c3f8-40d0-a9aa-903737a98f86" />
-        <macro key="individualCounselling" value="cef3471e-eb0a-4b14-b402-9b24742e3869"/>
+        <macro key="individualCounselling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
         <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea"/>
         <macro key="palliativeCare" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5"/>
         <macro key="sourceOfRefSet" value="b5346c8a-246c-46aa-bce5-17a77534bc30"/>
         <macro key="adjustDose" value="9ad80dac-4656-4315-8045-bb4ec92373f2"/>
         <macro key="anticonvulsant" value="5c0cda83-99c2-4d33-8e70-74d4b95b1265"/>
-        <!-- other concept for mental health program care-->
-        <macro key="mentalHealthProgramCare" value="8797110a-d38e-427f-a08f-260300c8c896"/>
+        <!-- Mental health referral concept-->
+        <macro key="mentalHealthProgramCare" value="3790bbe2-13b3-45b4-94d1-a9719f5ac51d"/>
         <!-- medication dispensed for drug and dose-->
         <macro key="medicationDispensed" value="65617506-977f-11e1-8993-905e29aff6c1"/>
 

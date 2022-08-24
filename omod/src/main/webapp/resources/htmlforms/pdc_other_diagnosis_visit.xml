@@ -1,13 +1,13 @@
 <htmlform formUuid="9dcf3c16-486e-11ec-81d3-0242ac130003" formName="Other Diagnosis Visit"
-          formEncounterType="60bfcb32-486a-11ec-81d3-0242ac130003" formVersion="1.0">
+          formEncounterType="60bfcb32-486a-11ec-81d3-0242ac130003" formVersion="2">
 
     <macros>
-        noAnswer=1066
-        yesAnswer=1065
-        height=5090
-        weight=5089
         clinicalImpression=1364
         nextAppt=5096
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
         <macro key="muac" value="6558d09a-977f-11e1-8993-905e29aff6c1"/>
         <!-- Weight Against Age (waa)-->
         <macro key="waa" value="e3d43e73-c831-421a-bf77-7e35bd11678a" />
@@ -43,6 +43,19 @@
         <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
         <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1" />
         <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
+        <!-- new concepts added -->
+        <macro key="medicationDispensed" value="65617506-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="individualCounselling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
+        <macro key="feedingCounselling" value="f17754f9-c3f8-40d0-a9aa-903737a98f86" />
+        <macro key="playTherapy" value="47729d48-1ab6-4c27-86fe-4700d734909d" />
+        <macro key="continueFollowUp" value="696c6ade-1f06-40d1-aadd-4c2b257167db" />
+        <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea"/>
+        <macro key="palliativeCare" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5"/>
+        <macro key="sourceOfRefSet" value="b5346c8a-246c-46aa-bce5-17a77534bc30"/>
+        <macro key="mdatAssessmentSummary" value="99c7a129-5d96-4825-b8ef-eff5fa6e7727" />
+        <macro key="physiotherapy" value="dcc54588-806f-4bb9-b281-25215b07053d" />
+
+
     </macros>
 
     <style>
@@ -137,14 +150,16 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td rowspan="3"> <b>Age at Visit</b></td>
+                    <!--<td rowspan="3"> <b>Age at Visit</b></td>-->
                     <td rowspan="3"> <b>Visit Date</b></td>
                     <td colspan="7"> <b>Assessments</b></td>
-                    <td colspan="6"> <b>Development</b></td>
-                    <td colspan="4"> <b>Feeding</b></td>
-                    <td colspan="3"> <b>Convulsions</b></td>
-                    <td colspan="1"> <b>Social</b> <br /><b>Soc. Support</b></td>
-                    <td rowspan="3"> <b>referred out</b></td>
+                    <td colspan="4"> <b>Convulsions</b></td>
+                    <td colspan="3"> <b>Feeding</b></td>
+                    <td colspan="6"> <b>Plan</b></td>
+                    <td colspan="1"> <b>Social</b> <br /><b>Support</b></td>
+                    <td rowspan="3"> <b>If Referred out</b></td>
+                    <td rowspan="3"> <b>Referred out</b></td>
+                    <td rowspan="3"> <b>MDAT Assessment <br/>(Summary)</b></td>
                     <td rowspan="3"> <b>Plan</b></td>
                     <td rowspan="3"> <b>Next Appointment</b> </td>
                     <!--<td rowspan="2"><small>Family<br/>Planning</small></td>
@@ -165,31 +180,28 @@
                     <td rowspan="2">Complications since last visit</td>
                     <td rowspan="2">Malnutrition</td>
                     <td rowspan="1" colspan="4">Concerns</td>
-                    <td rowspan="1" colspan="2">Counsel.</td>
-                    <td rowspan="1" colspan="4">Concerns</td>
-                    <td rowspan="2">Any since last visit</td>
-                    <td rowspan="2">Anticonvulsant?</td>
-                    <td rowspan="2">Adjust dose?</td>
-                    <td rowspan="2">Referred to POSER</td>
+                    <td rowspan="1" colspan="3">Concerns</td>
+                    <td rowspan="2">Individual Counseling</td>
+                    <td rowspan="2">Feeding Counseling</td>
+                    <td rowspan="2">Group Counseling</td>
+                    <td rowspan="2">Play Therapy </td>
+                    <td rowspan="2">Continue Follow Up </td>
+                    <td rowspan="2">Physiotherapy </td>
+                    <td rowspan="2">POSER</td>
                 </tr>
+
                 <tr>
-                    <td rowspan="1">Comm</td>
-                    <td rowspan="1">Personal</td>
-                    <td rowspan="1">Muscles</td>
-                    <td rowspan="1">Problem solv</td>
-                    <td rowspan="1">Grp sessn.</td>
-                    <td rowspan="1">Dev couns</td>
-                    <td rowspan="1">None</td>
+                    <td rowspan="1">Any since last visit</td>
+                    <td rowspan="2">Anticonvulsant</td>
+                    <td rowspan="2">Drug and Dose</td>
+                    <td rowspan="2">Adjust Dose</td>
                     <td rowspan="1">Poor Suck</td>
                     <td rowspan="1">Refs. to feed</td>
                     <td rowspan="1">Less feed</td>
-
-
                 </tr>
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
-                    <td></td>
                     <td class="nowrap visit-date">
                         <encounterDate/>
                     </td>
@@ -234,41 +246,26 @@
                              answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
                              answerLabels="No,Moderate,Severe" style="radio" />
                     </td>
+
                     <td style="padding: 1px;">
-                        <obs conceptId="$commDev"
-                             answerConceptIds="$yesAnswer,$noAnswer"
+                        <obs conceptId="$anySinceLastVisitConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
                     <td style="padding: 1px;">
-                        <obs conceptId="$personalConcerns"
-                             answerConceptIds="$yesAnswer,$noAnswer"
+                        <obs conceptId="$antConvulsants" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
+
                     <td style="padding: 1px;">
-                        <obs conceptId="$musclesConcerns"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
+                        <!-- Drug and Dose -->
+                        <obs conceptId="$medicationDispensed"/>
                     </td>
+
                     <td style="padding: 1px;">
-                        <obs conceptId="$problemSolvingConcerns"
-                             answerConceptIds="$yesAnswer,$noAnswer"
+                        <obs conceptId="$adjustDoseConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
-                    <td style="padding: 1px;">
-                        <obs conceptId="$groupSessionCounsel"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </td>
-                    <td style="padding: 1px;">
-                        <obs conceptId="$devCounsel"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </td>
-                    <td style="padding: 1px;">
-                        <obs conceptId="$noneConcerns"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </td>
+
                     <td style="padding: 1px;">
                         <obs conceptId="$poorSuckConcerns"
                              answerConceptIds="$yesAnswer,$noAnswer"
@@ -284,16 +281,45 @@
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
-                    <td style="padding: 1px;">
-                        <obs conceptId="$anySinceLastVisitConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
+
+                    <td style="padding: 1px;" >
+                        <!-- Individual Counselling -->
+                        <obs conceptId="$individualCounselling"
+                             answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
-                    <td style="padding: 1px;">
-                        <obs conceptId="$antConvulsants" answerConceptIds="$yesAnswer,$noAnswer"
+
+                    <td style="padding: 1px;" >
+                        <!-- Feeding Counselling -->
+                        <obs conceptId="$feedingCounselling"
+                             answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
+
                     <td style="padding: 1px;">
-                        <obs conceptId="$adjustDoseConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
+                        <!-- group counselling -->
+                        <obs conceptId="$groupSessionCounsel"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- play therapy -->
+                        <obs conceptId="$playTherapy"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- Continue Follow Up -->
+                        <obs conceptId="$continueFollowUp" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- physiotherapy -->
+                        <obs conceptId="$physiotherapy"
+                             answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
@@ -314,6 +340,24 @@
                         <b>Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
                         </obsgroup>
                    </td>
+
+                    <td>
+                        <!-- If Referred Out -->
+                        <obsgroup groupingConceptId="$sourceOfRefSet">
+                            <obs conceptId="$referredOut"
+                                 style="radio"
+                                 answerConceptIds="$tertiary,$palliativeCare"
+                                 answerLabels="Tertiary Care, Palliative Care" />
+                            <br />
+                            <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                        </obsgroup>
+                    </td>
+
+                    <td style="padding: 1px;">
+                        <!-- MDAT Assessment Summary -->
+                        <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
 
                     <td style="padding: 1px;">
                         <!-- Comments -->
@@ -341,7 +385,8 @@
         <div class="section-container">
         <h4 style="font-style: italic;">
             <b>PDC Other Diagnosis Card</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <!-- Increase version to version 2 -->
+            <span style="padding-left:50px;">Version 2</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
@@ -422,73 +467,30 @@
                          answerLabels="No,Moderate,Severe" style="radio" />
                 </td>
             </tr>
-            <tr>
-                <th>
-                    Comm
-                </th>
-                <td>
-                    <obs conceptId="$commDev"
-                         answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Personal
-                </th>
-                <td>
-                    <obs conceptId="$personalConcerns"
-                         answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-            </tr>
-         `  <tr>
-                <th>
-                    Muscles
-                </th>
-                <td>
-                    <obs conceptId="$musclesConcerns"
-                         answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-             </tr>`
 
             <tr>
-                <th>
-                    Prob Solv
-                </th>
+                <th>Any Since last visit</th>
                 <td>
-                    <obs conceptId="$problemSolvingConcerns"
-                         answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-            </tr>`
-
-            <tr>
-                <th>
-                    Group Session
-                </th>
-                <td>
-                    <obs conceptId="$groupSessionCounsel"
-                         answerConceptIds="$yesAnswer,$noAnswer"
+                    <obs conceptId="$anySinceLastVisitConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
                 </td>
             </tr>
             <tr>
-                <th>
-                    Dev Couns
-                </th>
+                <th>Antcolvusants</th>
                 <td>
-                    <obs conceptId="$devCounsel"
-                         answerConceptIds="$yesAnswer,$noAnswer"
+                    <obs conceptId="$antConvulsants" answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
                 </td>
             </tr>
-
             <tr>
-                <th>None Concerns </th>
-                <td><obs conceptId="$noneConcerns"
-                         answerConceptIds="$yesAnswer,$noAnswer"
+                <!-- dose and drug view-->
+                <th>Drug and Dose</th>
+                <td><obs conceptId="$medicationDispensed" style="textarea" cols="60"/></td>
+            </tr>
+            <tr>
+                <th>Adjust dose</th>
+                <td>
+                    <obs conceptId="$adjustDoseConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
                 </td>
             </tr>
@@ -515,31 +517,67 @@
                 </td>
             </tr>
 
+            <tr>
+                <!-- Individual Counselling view-->
+                <th>Individual Counseling</th>
+                <td style="padding: 1px;" >
+                    <obs conceptId="$individualCounselling"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+            <tr>
+                <!-- Feeding Counselling -->
+                <th>Feeding Counselling</th>
+                <td style="padding: 1px;" >
+                    <obs conceptId="$feedingCounselling"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+            <tr>
+                <!-- group counselling view -->
+                <th>
+                    Group Counselling
+                </th>
+                <td>
+                    <obs conceptId="$groupSessionCounsel"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+
+             <tr>
+                 <!-- play therapy view-->
+                 <th>Play Therapy</th>
+                 <td style="padding: 1px;" >
+                     <obs conceptId="$playTherapy"
+                          answerConceptIds="$yesAnswer,$noAnswer"
+                          answerLabels="Yes,No" style="radio" />
+                 </td>
+             </tr>
 
             <tr>
-                <th>Any Since last visit</th>
-                <td>
-                    <obs conceptId="$anySinceLastVisitConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-            </tr>
-            <tr>
-                <th>Antcolvusants</th>
-                <td>
-                    <obs conceptId="$antConvulsants" answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
-            </tr>
-            <tr>
-                <th>Adjust dose?</th>
-                <td>
-                    <obs conceptId="$adjustDoseConvulsions" answerConceptIds="$yesAnswer,$noAnswer"
+                <!-- Continue Follow Up view -->
+                <th>Continue Follow UP</th>
+                <td style="padding: 1px;" >
+                    <obs conceptId="$continueFollowUp" answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
                 </td>
             </tr>
 
             <tr>
-                <th>Referred to POSER Support</th>
+                <!-- physiotherapy view-->
+                <th>Physiotherapy</th>
+                <td style="padding: 1px;" >
+                    <obs conceptId="$physiotherapy"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>POSER</th>
                 <td>
                     <obs conceptId="$poserSupportReferred" answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
@@ -558,6 +596,31 @@
                         <b>Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
                     </td>
                 </obsgroup>
+            </tr>
+
+            <tr>
+                <th>If Referred Out</th>
+                <td>
+                    <!-- If Referred Out view-->
+                    <obsgroup groupingConceptId="$sourceOfRefSet">
+                        <obs conceptId="$referredOut"
+                             style="radio"
+                             answerConceptIds="$tertiary,$palliativeCare"
+                             answerLabels="Tertiary Care, Palliative Care" />
+                        <br />
+                        <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <!-- mdat assessment summary view -->
+                <th>
+                    MDAT Assessment Summary
+                </th>
+                <td>
+                    <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
             </tr>
             <tr>
                 <!-- Comments -->
