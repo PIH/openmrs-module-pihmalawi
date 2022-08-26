@@ -4,6 +4,7 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
@@ -50,9 +51,19 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static String DIAGNOSIS = "656292d8-977f-11e1-8993-905e29aff6c1";
     public static String CLINICAL_CONDITIONS = "657a53d2-977f-11e1-8993-905e29aff6c1";
     public static String OTHER_DIAGNOSIS = "65780d0c-977f-11e1-8993-905e29aff6c1";
+    public static String CARE_LINKED_TYPE_QUESTION = "24C2F817-C37B-4746-A052-18C4E0C2D93E";
+    public static String CARE_LINKED_IC3 = "3064BCF8-56F7-43C9-A8CF-D90D42EEF739";
+    public static String CARE_LINKED_ADVANCED_NCD = "2bc82b28-e84f-11e8-9f32-f2801f1b9fd1";
+    public static String CARE_LINKED_MCH_CLINIC = "9CA705D5-5DAA-40E8-8B69-F3F7C0B29E95";
+    public static String CARE_LINKED_PALIATIVE_CARE = "BB020202-552B-4253-B442-E2B7153E587C";
+    public static String CARE_LINKED_PHYSIOTHERAPY = "394B1F7B-7AD8-4038-AF3A-5B673BD4F42A";
+    public static String AGE_AT_INTAKE = "E1F83AA4-FAFE-4150-9AA5-C13B0602B985";
+    public static String TIME_UNTIS = "f1904502-319d-4681-9030-e642111e7ce2";
+    public static String AGE_OF_CHILD = "655e54a2-977f-11e1-8993-905e29aff6c1";
+
     @Override
     public int getVersion() {
-        return 20;
+        return 24;
     }
 
     @Override
@@ -438,6 +449,60 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .name("69e6f10d-d077-411d-b9e8-cead33613118", "Conditions At Enrollment Set", Locale.ENGLISH,
                         ConceptNameType.FULLY_SPECIFIED)
                 .setMembers(patientDiagnosis,clinicalConditions,otherDiagnosis)
+                .build());
+
+        install(new ConceptBuilder("71C441A7-08EF-4B4C-90DC-0EA36751556B")
+                .datatype(date)
+                .conceptClass(question)
+                .name("966D574C-D83D-436D-912F-777592469E5E","Date of enrollment",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("EDF0A41A-82E5-408E-B30E-2041AE66EB86")
+                        .type(sameAs).ensureTerm(pih, "DATE OF ENROLLMENT").build())
+                .build());
+
+        Concept careLinkedIc3 = MetadataUtils.existing(Concept.class, CARE_LINKED_IC3);
+        Concept careLinkedAdvancedNcd = MetadataUtils.existing(Concept.class, CARE_LINKED_ADVANCED_NCD);
+
+        Concept careLinkedMchClinic = install(new ConceptBuilder(CARE_LINKED_MCH_CLINIC)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("355CE3BD-90D4-4F34-ADD2-ED636650D1F0", "Mental Health Clinic", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("BC9B03E0-9CC0-4B27-9D00-DBA406265766", "Mental Health Clinic care linked", Locale.ENGLISH)
+                .build());
+
+        Concept careLinkedPaliativeCare = install(new ConceptBuilder(CARE_LINKED_PALIATIVE_CARE)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("DF24B181-A306-49E8-87BA-F76A983F035A", "Paliative linked care", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("EFED0F0B-9B6D-4F1A-AE61-FA36103980B9", "Paliative care linked care", Locale.ENGLISH)
+                .build());
+
+        Concept careLinkedPhysiotherapy = install(new ConceptBuilder(CARE_LINKED_PHYSIOTHERAPY)
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("B958860A-1F49-41A1-9601-E31EB16D09E8", "Physiotherapy linked care", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("D90400DD-5933-43C5-A96B-2DFB1A7AB545", "Physiotherapy linked care", Locale.ENGLISH)
+                .build());
+
+        install(new ConceptBuilder(CARE_LINKED_TYPE_QUESTION)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("87823C31-8155-412D-8C40-BB09D1AD5618", "Care Linked Type", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .description("7CDD6696-245D-49E4-BE47-DBA364954CBD","Set of possible care linked types",Locale.ENGLISH)
+                .answers(clinical, nru, careLinkedIc3, careLinkedAdvancedNcd, careLinkedMchClinic, careLinkedPaliativeCare,careLinkedPhysiotherapy)
+                .build());
+
+        Concept ageOfChild = MetadataUtils.existing(Concept.class, AGE_OF_CHILD);
+        Concept timeUntis = MetadataUtils.existing(Concept.class, TIME_UNTIS);
+        install(new ConceptBuilder(AGE_AT_INTAKE)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("32415A86-AE4F-4B8C-BF8B-CB1C2FA5CF74", "Age at intake", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("C5C7C9E2-516A-446E-B170-AEDC2A86AC55")
+                        .type(sameAs).ensureTerm(pih, "AGE AT INTAKE").build())
+                .setMembers(ageOfChild,timeUntis)
                 .build());
     }
 }

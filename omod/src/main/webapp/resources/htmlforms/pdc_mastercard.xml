@@ -1,7 +1,7 @@
 <htmlform formUuid="c9f43a39-c1ad-400c-bc77-fc2e37608dce"
           formName="PDC eMastercard"
           formEncounterType="cb6be652-c5ee-447d-9d94-1100ffb26aa8"
-          formVersion="1.0">
+          formVersion="2.0">
 
     <macros>
         yesAnswer=1065
@@ -75,7 +75,7 @@
         <macro key="agpar" value="687a622a-302b-49c9-87a7-2f7558549548" />
         <macro key="mod" value="656cd888-977f-11e1-8993-905e29aff6c1" />
         <macro key="careLinked" value="0d52f232-8d34-45d4-9006-dd592bc7bf24" />
-        <macro key="clinical" value="6566b8c2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="clinicalCare" value="6566b8c2-977f-11e1-8993-905e29aff6c1" />
         <macro key="nru" value="f0bb3ac5-0e84-487a-8a2d-59b96378a797" />
         <macro key="poser" value="5b49fbf4-2645-4ab2-974e-4e6c961162b1" />
         <macro key="educationLevel" value="655b226e-977f-11e1-8993-905e29aff6c1" />
@@ -108,7 +108,82 @@
         <macro key="conditionsAtEnrollment" value="cbd2080b-ffb5-4d6f-aabd-dd80b2938d5a" />
         <macro key="clinicalConditions" value="657a53d2-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherDiagnosis" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ageAtEnrollment" value="1c85571e-b2a0-405e-bcc6-07f943fabc79" />
+        <macro key="weeks" value="27baf9f0-eae3-4d98-a1ad-258e82b91285" />
+        <macro key="months" value="31bf4e2a-0574-47f3-9c68-9d530ebff898" />
+        <macro key="dateOfEnrollment" value="71C441A7-08EF-4B4C-90DC-0EA36751556B" />
+        <macro key="clt" value="623f84a6-4b22-42bd-a265-5306a5921971" />
+        <macro key="cltict" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739" />
+        <macro key="cltAdvNcd" value="2bc82b28-e84f-11e8-9f32-f2801f1b9fd1" />
+        <macro key="cltMH" value="9CA705D5-5DAA-40E8-8B69-F3F7C0B29E95" />
+        <macro key="cltPC" value="BB020202-552B-4253-B442-E2B7153E587C" />
+        <macro key="cltz" value="394B1F7B-7AD8-4038-AF3A-5B673BD4F42A" />
+        <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2" />
     </macros>
+
+    <ifMode mode="VIEW" include="true">
+        <script type="text/javascript">
+
+            jq(function() {
+              const isPatientEnrolled = jq("#enrolledInPdc span.value").text();
+              jq("#dateOfEnrollment").hide();
+              if (isPatientEnrolled &amp;&amp; isPatientEnrolled.length > 0 &amp;&amp; isPatientEnrolled.includes("[X] Yes")) {
+                jq("#dateOfEnrollment").show();
+              }
+
+            });
+
+        </script>
+    </ifMode>
+
+    <ifMode mode="EDIT" include="true">
+        <script type="text/javascript">
+
+            jq(function() {
+                const yesValue="1065";
+                const noValue="1066";
+                var isPatientEnrolled = jq("#enrolledInPdc input[type='radio']:checked").val();
+                if (isPatientEnrolled === yesValue) {
+                    jq("#dateOfEnrollment").show();
+                } else {
+                    jq("#dateOfEnrollment").hide();
+                }
+
+                jq("#enrolledInPdc input[type='radio']").change(function() {
+                    if (this.value === yesValue) {
+                        jq("#dateOfEnrollment").show();
+                    } else {
+                        jq("#dateOfEnrollment").hide();
+                        setValue('dateOfEnrollment.value', '');
+                    }
+                });
+
+                // handle Age at Intake weeks or months selection
+                jq("#atiWeekSelected input[type='checkbox']").change(function() {
+                    if (this.checked) {
+                        // if the Age at Intake Weeks checkbox is selected then clear the Months values
+                        jq("#atiMonthSelected input[type='checkbox']").prop("checked", false);
+                        jq("#atiMonths input[type='text']").val('');
+                        jq("#atiMonths input[type='text']").prop( "disabled", true );
+                        // enable the Weeks input box
+                        jq("#atiWeeks input[type='text']").prop( "disabled", false );
+                    }
+                });
+
+                jq("#atiMonthSelected input[type='checkbox']").change(function() {
+                    if (this.checked) {
+                         // if the Age at Intake Months checkbox is selected then clear the weeks values
+                        jq("#atiWeekSelected input[type='checkbox']").prop("checked", false);
+                        jq("#atiWeeks input[type='text']").val('');
+                        jq("#atiWeeks input[type='text']").prop( "disabled", true );
+                        // enable the Months input box
+                        jq("#atiMonths input[type='text']").prop( "disabled", false );
+                    }
+                });
+            });
+
+        </script>
+    </ifMode>
 
     <span style="display:none">
         <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
@@ -141,7 +216,7 @@
                     <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
                 </b>
             </span>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 2</span>
         </h4>
         <table class="data-entry-table">
             <tr style="border: none;">
@@ -164,6 +239,22 @@
                                     <lookup expression="patient.birthdate" />
                                     (Age: <lookup expression="patient.age"/>)
                                 </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Age at intake<br/>
+                                <i>(Choose one)</i>
+                            </td>
+                            <td>
+                                <obsgroup groupingConceptId="PIH:AGE AT INTAKE">
+                                    <obs id="atiWeekSelected" conceptId="$timeUnits" style="checkbox" answerConceptId="PIH Malawi:1073" answerLabel="Weeks: "/>
+                                    <obs id="atiWeeks" conceptId="PIH Malawi:2285" labelText="  "/>
+                                </obsgroup>
+                                <br/>
+                                <obsgroup groupingConceptId="PIH:AGE AT INTAKE">
+                                    <obs id="atiMonthSelected" conceptId="$timeUnits" style="checkbox" answerConceptId="PIH Malawi:1074" answerLabel="Months: "/>
+                                    <obs id="atiMonths" conceptId="PIH Malawi:2285" labelText="  "/>
+                                </obsgroup>
                             </td>
                         </tr>
                         <tr>
@@ -229,7 +320,6 @@
                             <td><obs conceptId="$ageOfGuardian"/></td>
                         </tr>
                         <tr>
-
                             <td>Guardian Phone</td>
                             <td><obs conceptId="$guardianPhone" size="10"/></td>
                             <th style="vertical-align:top;" align="left" rowspan="2">HIV Services</th>
@@ -265,9 +355,10 @@
                                 <obs conceptId="$educationLevel" style="radio" answerConceptIds="$none,$primary,$secondary,$university"
                                      answerLabels="None,Primary,Secondary,Tertiary"/>
                             </td>
-                            <th style="vertical-align:top;" align="left" rowspan="3">Income Source <br />(specify)</th>
-                            <td>
-                                <obs conceptId="$incomeSource" size="20" rowspan="3"/>
+                            <th style="vertical-align:top;" align="left" rowspan="3">Eligible for POSER <br /></th>
+                            <td style="vertical-align:top;" align="left" rowspan="3">
+                                <obs conceptId="$poser" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Yes,No" />
                             </td>
                         </tr>
                         <tr>
@@ -278,11 +369,10 @@
                         </tr>
                         <tr>
                             <td>
-                                Eligible for POSER
+                                Income Source <br />(specify)
                             </td>
                             <td>
-                                <obs conceptId="$poser" style="radio"  answerConceptIds="$yesAnswer,$noAnswer"
-                                     answerLabels="Yes,No" />
+                                <obs conceptId="$incomeSource" />
                             </td>
                         </tr>
                     </table>
@@ -333,7 +423,7 @@
                     </tr>
                     <tr>
                         <td>
-                            MOD
+                            Birth History
                         </td>
                         <td colspan="4">
                             <obs conceptId="$mod" style="radio" answerConceptIds="$svd,$cs,$agpar,$birthWeight"
@@ -407,8 +497,19 @@
                         <td colspan="4"><b>Summary</b></td>
                     </tr>
                     <tr>
-                        <td colspan="4">
-                            <obs conceptId="$enrolledInPdc" style="radio" answerLabels="Yes,No" answerConceptIds="$yesAnswer,$noAnswer" labelText="Enrolled In PDC" />
+                        <td colspan="2">
+                            <obs id="enrolledInPdc"
+                                 conceptId="$enrolledInPdc"
+                                 style="radio"
+                                 answerLabels="Yes,No"
+                                 answerConceptIds="$yesAnswer,$noAnswer"
+                                 labelText="Enrolled In PDC" />
+                        </td>
+                        <td colspan="2">
+                            <obs id="dateOfEnrollment"
+                                 conceptId="$dateOfEnrollment"
+                                 labelText="Date of enrollment: "
+                                 class="hidden" />
                         </td>
                     </tr>
                     <tr>
@@ -521,17 +622,43 @@
                         <td colspan="4">
                             <obs conceptId="$notes" size="50"/>
                         </td>
-                        <td>
-                            Care Linked
+                        <td><!-- Care Linked -->
+                            Care Linked<br/>
+                            <obs conceptId="$careLinked"
+                                 style="radio"
+                                 answerConceptIds="$yesAnswer,$noAnswer"
+                                 answerLabels="Yes,No"/>
                         </td>
-                        <td colspan="3">
-                            <obsgroup groupingConceptId="$linkedSet">
-                                <!-- Care Linked -->
-                                <obs conceptId="$careLinked" style="radio" answerConceptIds="$clinical,$nru"
-                                 answerLabels="Clinical,NRU"/>
-                                <obs conceptId="$otherNoneCodedText"
-                                     labelText="Other"/>
-                            </obsgroup>
+                        <td>
+                            <obs conceptId="$clt"
+                                 answerConceptId="$clinicalCare"
+                                 answerLabel="Clinical Care" />
+                        </td>
+                        <td>
+                            <obs conceptId="$clt"
+                                 answerConceptId="$nru"
+                                 answerLabel="NRU" />
+                        </td>
+                        <td>
+
+                            <obs conceptId="$clt"
+                                 answerConceptId="$cltict"
+                                 answerLabel="IC3" />
+
+                            <obs conceptId="$clt"
+                                 answerConceptId="$cltAdvNcd"
+                                 answerLabel="Advanced NCD" /><br/>
+
+                            <obs conceptId="$clt"
+                                 answerConceptId="$cltMH"
+                                 answerLabel="MCH" />
+                            <obs conceptId="$clt"
+                                 answerConceptId="$cltPC"
+                                 answerLabel="Palliative" /><br/>
+                            <obs conceptId="$clt"
+                                 answerConceptId="$cltz"
+                                 answerLabel="Physiotherapy" />
+
                         </td>
                     </tr>
                     <tr>
