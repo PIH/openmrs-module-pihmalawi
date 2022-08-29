@@ -651,7 +651,7 @@
 
                             <obs conceptId="$clt"
                                  answerConceptId="$cltMH"
-                                 answerLabel="MCH" />
+                                 answerLabel="Mental Health" />
                             <obs conceptId="$clt"
                                  answerConceptId="$cltPC"
                                  answerLabel="Palliative" /><br/>
