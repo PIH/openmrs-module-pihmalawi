@@ -111,6 +111,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.PDC_COMPLICATIONS);
         install(EncounterTypes.PDC_TRISOMY21_LAB_TESTS);
         install(EncounterTypes.PDC_HB_AND_OTHER_LAB_TESTS);
+        install(EncounterTypes.HIE_AND_DEV_DELAY_LAB_TESTS);
 
     }
 

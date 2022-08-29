@@ -60,10 +60,13 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static String AGE_AT_INTAKE = "E1F83AA4-FAFE-4150-9AA5-C13B0602B985";
     public static String TIME_UNTIS = "f1904502-319d-4681-9030-e642111e7ce2";
     public static String AGE_OF_CHILD = "655e54a2-977f-11e1-8993-905e29aff6c1";
+    public static final String  DONE= "584fbc24-9eda-4db4-93d2-30b77067a5c6";
+    public static final String NORMAL = "d34cf0b3-073c-4f4e-ac4c-1c1e8e4c9165";
+    public static final String TSH_RESULT_CONSTRUCT = "4E062C22-BB8D-4684-BA1E-A1F8E476A4E2";
 
     @Override
     public int getVersion() {
-        return 24;
+        return 25;
     }
 
     @Override
@@ -504,5 +507,20 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                         .type(sameAs).ensureTerm(pih, "AGE AT INTAKE").build())
                 .setMembers(ageOfChild,timeUntis)
                 .build());
+
+        Concept dateOfResult = MetadataUtils.existing(Concept.class, "656fa234-977f-11e1-8993-905e29aff6c1");
+        Concept doneResult = MetadataUtils.existing(Concept.class, DONE);
+        Concept normalResult = MetadataUtils.existing(Concept.class, NORMAL);
+        install(new ConceptBuilder(TSH_RESULT_CONSTRUCT)
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("14C63FFE-714F-4BDF-BB91-4CD8325E1073", "TSH result construct", Locale.ENGLISH,
+                        ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("AE1995AE-49A6-4754-A4BC-55A6927F1F70")
+                        .type(sameAs).ensureTerm(pih, "TSH RESULT CONSTRUCT").build())
+                .setMembers(dateOfResult, doneResult, normalResult)
+                .build());
+
+
     }
 }

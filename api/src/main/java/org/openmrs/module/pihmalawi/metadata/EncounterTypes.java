@@ -442,4 +442,9 @@ public class EncounterTypes {
         public String name() { return "PDC_HB_AND_OTHER_LAB_TESTS"; }
         public String description() { return "PDC hb and other lab tests results"; }
     };
+    public static EncounterTypeDescriptor HIE_AND_DEV_DELAY_LAB_TESTS = new EncounterTypeDescriptor() {
+        public String uuid() { return "89CD6BA9-CB92-416C-BC7E-446764344AA1"; }
+        public String name() { return "HIE_AND_DEV_DELAY_LAB_TESTS"; }
+        public String description() { return "PDC HIE/Developmental Delay lab tests encounter"; }
+    };
 }
