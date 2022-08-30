@@ -1,5 +1,5 @@
 <htmlform   formUuid="9A346FD7-6A40-4FE8-A6F8-2F974BFD4A21"
-            formName="PDC Laboratory tests"
+            formName="Trisomy 21 Laboratory tests"
             formEncounterType="B1DA5916-FAEF-4A8C-A799-949C0BC8D2C6" formVersion="2.0">
 
     <macros>
@@ -97,8 +97,8 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>PDC Lab Tests</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <b>Trisomy 21 Laboratory tests</b>
+            <span style="padding-left:50px;">Version 2</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no:</b>
