@@ -2,6 +2,13 @@
             formName="Trisomy 21 Laboratory tests"
             formEncounterType="B1DA5916-FAEF-4A8C-A799-949C0BC8D2C6" formVersion="2.0">
 
+    <style type="text/css">
+        .unitsPadding {
+            padding-left: 5px;
+            padding-right: 30px;
+        }
+    </style>
+
     <macros>
         <macro key="wbc" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
         <macro key="rbc" value="6549a4d0-977f-11e1-8993-905e29aff6c1"/>
@@ -148,8 +155,8 @@
                             <td><obs conceptId="$mcv" showUnits="true"/></td>
                         </tr>
                         <tr>
-                            <th>Platelet</th>
-                            <td><obs conceptId="$platelets" showUnits="true"/></td>
+                            <th>Platelets</th>
+                            <td><obs conceptId="$platelets"/>   /uL</td>
                         </tr>
                         <tr>
                             <th>Differential</th>
@@ -163,7 +170,7 @@
                 <td>
                     <table>
                         <tr>
-                            <td><obs conceptId="$tsh" labelText="Results: " showUnits="true" showDate="true" dateLabel=" Date:"/></td>
+                            <td><obs conceptId="$tsh" labelText="Results: " showUnits="true" unitsCssClass="unitsPadding" showDate="true" dateLabel=" Date:"/></td>
                         </tr>
                     </table>
                 </td>
