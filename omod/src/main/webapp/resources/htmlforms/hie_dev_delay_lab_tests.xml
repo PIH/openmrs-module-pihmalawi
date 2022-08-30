@@ -2,6 +2,13 @@
             formName="HIE/Developmental delay lab tests"
             formEncounterType="89CD6BA9-CB92-416C-BC7E-446764344AA1" formVersion="2.0">
 
+    <style type="text/css">
+        .unitsPadding {
+            padding-left: 5px;
+            padding-right: 30px;
+        }
+    </style>
+
     <macros>
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1"/>
@@ -13,6 +20,7 @@
         <macro key="otherLabTestResult" value="	655dfc32-977f-11e1-8993-905e29aff6c1"/>
         <macro key="otherLabTestDate" value="6563b668-977f-11e1-8993-905e29aff6c1"/>
     </macros>
+
 
     <!-- Flowsheet table view -->
     <ifMode mode="VIEW" include="true">
@@ -119,7 +127,7 @@
                 <td>
                     <table>
                         <tr>
-                            <td><obs conceptId="$hb" labelText="Result: " showUnits="true" showDate="true" dateLabel=" Date:"/></td>
+                            <td><obs conceptId="$hb" labelText="Result:" showUnits="true" unitsCssClass="unitsPadding" showDate="true" dateLabel="Date:"/></td>
                         </tr>
                     </table>
                 </td>
