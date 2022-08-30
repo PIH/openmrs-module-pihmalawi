@@ -68,7 +68,7 @@
                         <obs conceptId="$platelets"/>
                     </td>
                     <td>
-                        ____
+                        <obs conceptId="PIH:BLOOD DIFFERENTIAL TEST RESULT"/>
                     </td>
                     <td>
                         <lookup expression="fn.getObs($encounter, 'PIH Malawi:1624').obsDatetime"/>
@@ -153,7 +153,7 @@
                         </tr>
                         <tr>
                             <th>Differential</th>
-                            <td>_Enter_results_</td>
+                            <td><obs conceptId="PIH:BLOOD DIFFERENTIAL TEST RESULT" size="80"/></td>
                         </tr>
                     </table>
                 </td>

@@ -63,10 +63,11 @@ public class PdcConcepts extends VersionedPihConceptBundle {
     public static final String  DONE= "584fbc24-9eda-4db4-93d2-30b77067a5c6";
     public static final String NORMAL = "d34cf0b3-073c-4f4e-ac4c-1c1e8e4c9165";
     public static final String TSH_RESULT_CONSTRUCT = "4E062C22-BB8D-4684-BA1E-A1F8E476A4E2";
+    public static final String BLOOD_DIFFERENTIAL_RESULT_TEXT = "23618F38-CB43-4EEE-9AA0-916A9E96D9F8";
 
     @Override
     public int getVersion() {
-        return 25;
+        return 26;
     }
 
     @Override
@@ -519,6 +520,15 @@ public class PdcConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("AE1995AE-49A6-4754-A4BC-55A6927F1F70")
                         .type(sameAs).ensureTerm(pih, "TSH RESULT CONSTRUCT").build())
                 .setMembers(dateOfResult, doneResult, normalResult)
+                .build());
+
+        install(new ConceptBuilder(BLOOD_DIFFERENTIAL_RESULT_TEXT)
+                .datatype(text)
+                .conceptClass(question)
+                .name("155AAB3E-B8B7-44A4-873E-42A25D04EBB0", "Blood differential test result", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("7B75BDE9-7F15-4B1D-872E-F09D930A914F", "Blood differential test result", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("F9623C11-D78F-4BED-B9DC-6D45C474F7F9")
+                        .type(sameAs).ensureTerm(pih, "BLOOD DIFFERENTIAL TEST RESULT").build())
                 .build());
 
 
