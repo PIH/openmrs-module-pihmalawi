@@ -140,7 +140,7 @@
                     <table>
                         <tr>
                             <th>WBC</th>
-                            <td><obs conceptId="$wbc" showUnits="true"/></td>
+                            <td><obs conceptId="$wbc"/>  /uL</td>
                         </tr>
                         <tr>
                             <th>RBC</th>
