@@ -119,6 +119,8 @@
         <macro key="cltPC" value="BB020202-552B-4253-B442-E2B7153E587C" />
         <macro key="cltz" value="394B1F7B-7AD8-4038-AF3A-5B673BD4F42A" />
         <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2" />
+        <macro key="mixedFeeding" value="656f5c2a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="solids" value="77d019b9-3f20-4af5-be8a-df9a7f075c51"/>
     </macros>
 
     <ifMode mode="VIEW" include="true">
@@ -425,9 +427,21 @@
                         <td>
                             Birth History
                         </td>
-                        <td colspan="4">
-                            <obs conceptId="$mod" style="radio" answerConceptIds="$svd,$cs,$agpar,$birthWeight"
-                                 answerLabels="SVD,C/S,AGPAR,BWT" />
+                        <td>
+                            <obs conceptId="$mod" style="checkbox" answerConceptId="$svd"
+                                 answerLabel="SVD" />
+                        </td>
+                        <td>
+                            <obs conceptId="$mod" style="checkbox" answerConceptId="$cs"
+                                 answerLabel="C/S" />
+                        </td>
+                        <td>
+                            <obs conceptId="$mod" style="checkbox" answerConceptId="$agpar"
+                                 answerLabel="APGAR" />
+                        </td>
+                        <td>
+                            <obs conceptId="$mod" style="checkbox" answerConceptId="$birthWeight"
+                                 answerLabel="BWT" />
                         </td>
                         <td>
                             <obsgroup groupingConceptId="$reasonsForReferralSet">
@@ -560,10 +574,17 @@
                                 <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$infantFormula"
                                      answerLabel="Infant Formula" />
                             </td>
-                            <td colspan="2">
-                                <obs conceptId="$otherNoneCodedText"
-                                      labelText="Other"/>
+
+                            <td>
+                                <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$mixedFeeding"
+                                     answerLabel="Mixed Feeding"/>
                             </td>
+
+                            <td>
+                                <obs conceptId="$typeOfFeed" style="checkbox" answerConceptId="$solids"
+                                     answerLabel="Solids" />
+                            </td>
+
                         </obsgroup>
                         <td>
 
@@ -679,6 +700,22 @@
                     </tr>
                 </table>
             </tr>
+        </table>
+
+        <h1>Abbreviations: </h1>
+        <table border="1px" align="center">
+            <td colspan="1" style="padding: 1px;"><b>DOB: </b> Date<br/>of birth</td>
+            <td colspan="1" style="padding: 1px;"><b>FUP:</b><br/>Follow up</td>
+            <td colspan="1" style="padding: 1px;"><b>CHW: </b>Community<br/>Healthcare worker</td>
+            <td colspan="1" style="padding: 1px;"><b>R: </b><br/>Reactive</td>
+            <td colspan="1" style="padding: 1px;"><b>NR: </b><br/>Non-reactive</td>
+            <td colspan="1" style="padding: 1px;"><b>HCC: </b>HIV<br/>Care Clinic</td>
+            <td colspan="1" style="padding: 1px;"><b>HC: </b>Health<br/>Center</td>
+            <td colspan="1" style="padding: 1px;"><b>SVD: </b>Spontaneous<br/>Vaginal Delivary</td>
+            <td colspan="1" style="padding: 1px;"><b>c/s: </b>Cesarean<br/>section</td>
+            <td colspan="1" style="padding: 1px;"><b>OGT: </b>Organic Tube</td>
+            <td colspan="1" style="padding: 1px;"><b>HIE: </b>Hypoxic ischemic<br/>encephalopathy</td>
+            <td colspan="3" style="padding: 1px;"><b>CNS: </b>Central<br/>nervous system</td>
         </table>
 
         <ifMode mode="VIEW" include="false">
