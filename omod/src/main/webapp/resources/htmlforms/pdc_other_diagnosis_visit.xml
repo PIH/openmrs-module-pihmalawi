@@ -244,7 +244,7 @@
                     <td style="padding: 1px;">
                         <obs conceptId="$malnutrition"
                              answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
-                             answerLabels="No,Moderate,Severe" style="radio" />
+                             answerLabels="No,Mod,Sev" style="radio" />
                     </td>
 
                     <td style="padding: 1px;">
@@ -298,7 +298,7 @@
 
                     <td style="padding: 1px;">
                         <!-- group counselling -->
-                        <obs conceptId="$groupSessionCounsel"
+                        <obs conceptId="$groupCounselling"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Yes,No" style="radio" />
                     </td>
@@ -464,7 +464,7 @@
                 <td>
                     <obs conceptId="$malnutrition"
                          answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
-                         answerLabels="No,Moderate,Severe" style="radio" />
+                         answerLabels="No,Mod,Sev" style="radio" />
                 </td>
             </tr>
 
@@ -541,7 +541,7 @@
                     Group Counselling
                 </th>
                 <td>
-                    <obs conceptId="$groupSessionCounsel"
+                    <obs conceptId="$groupCounselling"
                          answerConceptIds="$yesAnswer,$noAnswer"
                          answerLabels="Yes,No" style="radio" />
                 </td>
