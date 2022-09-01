@@ -4,6 +4,9 @@
     <macros>
         <macro key="dateOfComplication" value="5f5213e4-cf63-11e5-ab30-625662870761" />
         <macro key="detailsOfComplication" value="86eacb84-51ea-11ec-bf63-0242ac130002" />
+        <macro key="selfReportedComplications" value="e384a58c-4a73-11ec-81d3-0242ac130003"/>
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
 
     </macros>
 
@@ -17,6 +20,7 @@
                 </tr>
                 <tr><th>Visit Date</th>
                     <th>Date of Complication</th>
+                    <th>Self-reported complications</th>
                     <th>Details of Complication</th>
                 </tr>
             </thead>
@@ -29,6 +33,13 @@
                     <td>
                         <!-- Date of Complication -->
                         <obs conceptId="$dateOfComplication"/>
+
+                    </td>
+                    <td>
+                        <!--Self-Reported Complication-->
+                        <obs conceptId="$selfReportedComplications"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
 
                     </td>
                     <td>
@@ -48,7 +59,7 @@
 
         <h4 style="font-style: italic;">
             <b>Complications</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 2</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
@@ -73,6 +84,16 @@
                     <obs conceptId="$dateOfComplication"/>
                 </td>
             </tr>
+
+            <tr>
+                <th>Self-Reported Complication</th>
+                <td>
+                    <obs conceptId="$selfReportedComplications"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+
             <tr>
                 <th>Details of Complication</th>
                 <td>

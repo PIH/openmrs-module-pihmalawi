@@ -20,7 +20,6 @@
                 <tr>
                     <th>Date of Admission</th>
                     <th>Date of Discharge</th>
-                    <th>Length of Stay<br/><i style="font-size:.7em;">days</i></th>
                     <th>Reason for<br/>Admission</th>
                     <th>Discharge<br/>Diagnosis</th>
                     <th>Discharge Medications</th>
@@ -65,7 +64,7 @@
 
         <h4 style="font-style: italic;">
             <b>PDC Hospitalization</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 2</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
@@ -99,14 +98,6 @@
                 </td>
             </tr>
 
-
-            <tr>
-                <th>Length of stay</th>
-                <td class="focus-field">
-                    <obs conceptId="$hospitalDays" />days
-                </td>
-            </tr>
-
             <tr>
                 <th>Reason for admission</th>
                 <td>
@@ -131,8 +122,8 @@
 
         </table>
 
-<submit/>
+        <submit/>
 
-</ifMode>
+    </ifMode>
 
 </htmlform>
