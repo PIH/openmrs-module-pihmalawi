@@ -1,6 +1,6 @@
 /* Pepfar Cut-off = 30, MoH cut-off = 60 */
 SET @birthDateDivider = 30;
-SET @defaultCutOff = 28;
+SET @defaultCutOff = 30;
 
 call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);

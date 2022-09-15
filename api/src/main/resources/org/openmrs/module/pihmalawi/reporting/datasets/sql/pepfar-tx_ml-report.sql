@@ -4,7 +4,7 @@ SET @birthDateDivider = 30;
 --SET @location = "Neno District Hospital";
 --SET @startDate = "2020-01-01";
 --SET @endDate = "2021-06-30";
-SET @defaultOneMonth = 28;
+SET @defaultCutOff = 30;
 
 call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);
@@ -63,19 +63,19 @@ SELECT CASE
 	WHEN age >=1080 and gender = "F" THEN "90 plus years"
 END as age_group,gender as "gender",
 	COUNT(IF(((state = 'patient defaulted' and start_date BETWEEN @startDate AND @endDate )
-    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultOneMonth))
-    and patient_id in (select patient_id from mw_art_initial where (datediff( date_add(last_appt_date, interval @defaultOneMonth DAY) , visit_date)) <=  90) , 1, NULL))
+    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultCutOff ))
+    and patient_id in (select patient_id from mw_art_initial where (datediff( date_add(last_appt_date, interval @defaultCutOff DAY) , visit_date)) <=  90) , 1, NULL))
     as ITT_less_3months,
 
 	COUNT(IF(((state = 'patient defaulted' and start_date BETWEEN @startDate AND @endDate )
-    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultOneMonth))
-    and patient_id in (select patient_id from mw_art_initial where ((datediff( date_add(last_appt_date, interval @defaultOneMonth DAY) , visit_date)) >=  90 and
-    (datediff( date_add(last_appt_date, interval @defaultOneMonth DAY), visit_date)) <=179)) , 1, NULL))
+    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultCutOff ))
+    and patient_id in (select patient_id from mw_art_initial where ((datediff( date_add(last_appt_date, interval @defaultCutOff DAY) , visit_date)) >=  90 and
+    (datediff( date_add(last_appt_date, interval @defaultCutOff  DAY), visit_date)) <=179)) , 1, NULL))
     as ITT_less_3to5_months,
 
     COUNT(IF(((state = 'patient defaulted' and start_date BETWEEN @startDate AND @endDate )
-    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >=  @defaultOneMonth))
-    and patient_id in (select patient_id from mw_art_initial where (datediff( date_add(last_appt_date, interval @defaultOneMonth DAY) , visit_date)) >=  180) , 1, NULL))
+    or (state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) >= @defaultCutOff ))
+    and patient_id in (select patient_id from mw_art_initial where (datediff( date_add(last_appt_date, interval @defaultCutOff  DAY) , visit_date)) >=  180) , 1, NULL))
     as ITT_6months_plus_months,
 
     COUNT(IF((state = 'Patient Died' and start_date BETWEEN @startDate AND @endDate), 1, NULL)) as patient_died,
