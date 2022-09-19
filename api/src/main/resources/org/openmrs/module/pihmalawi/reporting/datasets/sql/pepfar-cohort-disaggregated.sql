@@ -4,13 +4,13 @@ PEPFAR COHORT DISAGGREGATED REPORT
 Use OpenMRS data warehouse tables and stored procedures
 
 Query aggregates active patients on ART.
-Patients whose last appointment exceeds 28 days without visiting a heath facility
+Patients whose last appointment exceeds 30 days without visiting a heath facility
 are considered to be defaulters
 *************************************************************************/
 
 /* 30 for age in months*/
 SET @birthDateDivider = 30;
-SET @defaultCutOff = 28;
+SET @defaultCutOff = 30;
 
 DROP TEMPORARY TABLE IF EXISTS pepfar_cohort_disaggregated;
 CREATE TEMPORARY TABLE pepfar_cohort_disaggregated(

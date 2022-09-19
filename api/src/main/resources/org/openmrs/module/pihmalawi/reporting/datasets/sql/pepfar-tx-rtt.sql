@@ -1,6 +1,6 @@
 /*
 Number of ART patients who experienced who had no clinical contact or ARV drug pickup
-for greater than 28 days since the last expected contact during any
+for greater than 30 days since the last expected contact during any
 previous reporting period and have successfully restarted ARVs within the reporting period
 and remained on treatment until the end of the reporting period.
 
@@ -12,7 +12,7 @@ Report requires the following parameters:
 
 /* 30 for age in months*/
 SET @birthDateDivider = 30;
-SET @defaultCutOff = 28;
+SET @defaultCutOff = 30;
 
 call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);
