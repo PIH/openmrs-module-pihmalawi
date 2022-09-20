@@ -154,7 +154,7 @@
                     <td rowspan="3" style="font-size:.7em;padding: 1px"><b>Referred to <br/>POSER </b></td>
                     <td rowspan="3" style="font-size:.7em;padding: 1px"><b>Referred Out</b></td>
                     <td rowspan="3" style="font-size:.7em;padding: 1px"><b>If Referred Out</b></td>
-                    <td rowspan="3" style="font-size:.7em;padding: 1px"><b>Next  <br/>Visit<br/></b> </td>
+                    <td rowspan="3" style="font-size:.7em;padding: 1px"> <b>Next Visit Date<br/> <br/> Clinician Sign</b> </td>
                 </tr>
                 <tr>
                     <!-- <td><i rowspan="2" style="font-size:.7em;padding: 1px;">day/month/year</i></td>-->

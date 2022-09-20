@@ -14,6 +14,7 @@
     def cleftpalate = "abe71d88-3f2c-4380-854b-c49b74946a01"
     def severeMalnutrition = "a94e5963-f6b1-4c91-b676-48dfb370a1f8"
     def otherNonCoded = "6562c316-977f-11e1-8993-905e29aff6c1"
+    def epilepsy ="6546938a-977f-11e1-8993-905e29aff6c1"
 
 %>
 
@@ -77,10 +78,14 @@
             <input type="checkbox" id="${ cleftLip }" disabled>
             <label>Cleft Lip</label>
         </td>
-        <td colspan="2">
+        <td colspan="1">
             <input type="checkbox" id="${ cnsInfection }" disabled>
             <label>CNS Infection: </label>
             <input id="${ cnsInfection }_comment" type="text" disabled>
+        </td>
+        <td>
+            <input type="checkbox" id="${ epilepsy }" disabled>
+            <label>Epilepsy</label>
         </td>
     </tr>
     <tr>
