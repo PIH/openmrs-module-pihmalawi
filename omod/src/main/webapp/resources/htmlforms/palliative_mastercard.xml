@@ -145,6 +145,7 @@
 
         <macro key="onPainDrugs" value="33B4CA3D-32EE-4118-B58E-4CA18BDE6DC3"/>
         <macro key="painImprovement" value="E31DA648-4CEE-465F-B3D4-CB1AA6235588"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <style>
@@ -168,7 +169,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation"/>
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date
                         <encounterDate/>

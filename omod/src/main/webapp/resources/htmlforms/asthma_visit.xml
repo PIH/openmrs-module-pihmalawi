@@ -38,6 +38,7 @@
         otherCoded=5622
         clinicalImpression=1364
         nextAppt=5096
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <ifMode mode="VIEW" include="false">
@@ -257,7 +258,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr>
                 <!-- Planned Visit -->

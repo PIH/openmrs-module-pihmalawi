@@ -46,6 +46,7 @@
         <macro key="pyridoxine" value="654a0e20-977f-11e1-8993-905e29aff6c1" />
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
         <macro key="childHCCNo" value="48964d18-ba37-11e6-91a8-5622a9e78e10" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -59,7 +60,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
 
                 </b>
             </span>

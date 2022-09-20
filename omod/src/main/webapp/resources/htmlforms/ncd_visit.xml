@@ -2,12 +2,12 @@
           formEncounterType="664bb896-977f-11e1-8993-905e29aff6c1" formVersion="1.0">
 
     <macros>
-        <!-- Not used -->
         height=5090
         weight=5089
         systolicBP=5085
         diastolicBP=5086
         nextAppt=5096
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <ifMode mode="VIEW" include="false">
@@ -213,7 +213,7 @@
             <tr>
                 <th>Visit Location</th>
                 <td>
-                    <encounterLocation id="visitLocation"/>
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>

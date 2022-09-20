@@ -6,6 +6,7 @@
 
     <macros>
         <macro key="ekgResult" value="D3A49FE2-819B-491A-941F-E0B8A0F76C38" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -65,7 +66,7 @@
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

@@ -84,7 +84,7 @@
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

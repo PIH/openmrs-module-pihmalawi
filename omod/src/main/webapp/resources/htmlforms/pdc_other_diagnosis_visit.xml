@@ -56,6 +56,7 @@
         <macro key="physiotherapy" value="dcc54588-806f-4bb9-b281-25215b07053d" />
         <macro key="headCircumference" value="656b0c38-977f-11e1-8993-905e29aff6c1"/>
         <macro key="aOfChild" value="655e54a2-977f-11e1-8993-905e29aff6c1"/> <!--age of child for age adjusted and non-adjusted-->
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <style>
@@ -416,7 +417,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations" /></td>
             </tr>
             <tr>
                 <!-- age adjusted -->

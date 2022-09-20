@@ -71,7 +71,7 @@
         <macro key="caloriesHigh" value="3cfde72e-8626-4ee2-97e8-6f40172953f5" />
         <macro key="medicationOther" value="c8a4d207-0a73-4471-955c-c1f47cbbe2b5" />
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
-        
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -396,7 +396,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
 
             <tr>

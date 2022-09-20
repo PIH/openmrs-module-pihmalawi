@@ -6,6 +6,7 @@
         <macro key="rightEar" value="65d881c2-4e5d-4837-959e-0f097fcb93e7" />
         <macro key="pass" value="20f6787b-3f0e-4c98-91c2-ee34f771f3ff" />
         <macro key="fail" value="a2a69a69-ecc7-450f-952e-bc8830aaabe7" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -75,7 +76,7 @@
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>

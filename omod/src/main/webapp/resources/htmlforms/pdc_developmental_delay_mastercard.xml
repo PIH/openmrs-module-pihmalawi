@@ -22,7 +22,7 @@
         <macro key="geneticSyndrome" value="77f4ecbc-b6bd-4caf-b956-15f01f613a1c" />
         <macro key="confirmed" value="d6e34dbf-55e9-49a3-bf00-dbd9c9048609" />
         <macro key="suspected" value="7667e58e-4332-4e83-bd85-0490bcb394fb" />
-
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
         yesAnswer=1065
         noAnswer=1066
@@ -46,7 +46,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

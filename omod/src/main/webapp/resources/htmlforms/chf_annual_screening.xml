@@ -20,6 +20,7 @@
         <macro key="normal" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
         <macro key="highLipids" value="6623242A-F374-46C1-83D7-D17551E48A79" />
         <macro key="highTGs" value="F7A42154-66D8-41A9-97CD-C16DDE4C0F3B" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -97,7 +98,7 @@
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

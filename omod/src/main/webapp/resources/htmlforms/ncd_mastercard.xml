@@ -25,6 +25,7 @@
 
     <macros>
       otherDiagnosis=7685
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -39,7 +40,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

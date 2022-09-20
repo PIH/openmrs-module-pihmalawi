@@ -52,6 +52,7 @@
         <macro key="mentalHealthProgramCare" value="3790bbe2-13b3-45b4-94d1-a9719f5ac51d"/>
         <!-- medication dispensed for drug and dose-->
         <macro key="medicationDispensed" value="65617506-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
         nonCodedOther=5622
         noncodedText=8575
@@ -425,7 +426,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr class="focus-field">
                 <th>Height</th>

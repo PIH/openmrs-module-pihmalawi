@@ -22,7 +22,7 @@
         <macro key="nextTrackingAttempt" value="60A8AD9D-9A59-45D2-BD3D-4830EC02782E" />
         <macro key="remarks" value="58FE59C4-C889-43EB-A88D-71829A732ABC" />
         <macro key="missingAppDate" value="CA8A7CDE-4C95-4AED-BF1D-521C7F68B90E" />
-
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -141,7 +141,7 @@
             </tr>
             <tr>
                 <th>Facility</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
 
             <tr>

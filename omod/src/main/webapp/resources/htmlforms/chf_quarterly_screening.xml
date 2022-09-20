@@ -9,6 +9,7 @@
         <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
         <macro key="nReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -68,7 +69,7 @@
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

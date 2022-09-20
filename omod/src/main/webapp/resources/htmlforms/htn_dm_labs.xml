@@ -16,6 +16,7 @@
         <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1"/>
         <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
         <macro key="notDone" value="6557a4ae-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -88,7 +89,7 @@
             <tr>
                 <th>Visit Location</th>
                 <td>
-                    <encounterLocation id="visitLocation"/>
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

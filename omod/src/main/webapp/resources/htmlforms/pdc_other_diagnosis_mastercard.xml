@@ -6,6 +6,7 @@
     <macros>
         <macro key="pdcInitial" value="cb6be652-c5ee-447d-9d94-1100ffb26aa8"/>
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -28,7 +29,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

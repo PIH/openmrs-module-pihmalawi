@@ -34,6 +34,7 @@
         tbTreatmentQuestion=7850
         tbRegistrationNumber=7930
         tbTreatmentStartDate=1113
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -48,7 +49,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

@@ -375,7 +375,7 @@
                 </tr>
                 <tr>
                     <th>Visit Location</th>
-                    <td><encounterLocation id="visitLocation" /></td>
+                    <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
                 </tr>
                 <!-- Assessments-->
                 <tr class="focus-field">

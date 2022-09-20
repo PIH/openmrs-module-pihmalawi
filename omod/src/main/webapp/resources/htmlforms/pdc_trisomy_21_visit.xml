@@ -43,6 +43,7 @@
         <macro key="adjustDoseConvulsions" value="9ad80dac-4656-4315-8045-bb4ec92373f2" />
         <macro key="feedingCounselling" value="f17754f9-c3f8-40d0-a9aa-903737a98f86" />
         <macro key="poserSupportReferred" value="977c1d68-6ffa-46d5-ae89-00404e8b5904" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
      </macros>
 
     <style>
@@ -399,7 +400,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations" /></td>
             </tr>
 
             <tr class="focus-field">

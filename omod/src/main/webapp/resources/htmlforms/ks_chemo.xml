@@ -4,7 +4,7 @@
           formVersion="1">
           
     <macros>
-        <!-- not used yet -->
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -99,7 +99,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation"/></td>   
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr>
                 <th>Visit Date</th>

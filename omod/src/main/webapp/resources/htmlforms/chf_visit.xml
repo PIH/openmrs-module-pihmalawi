@@ -77,6 +77,7 @@
         <macro key="benzathinePcn" value="656930ac-977f-11e1-8993-905e29aff6c1" />
         <macro key="dietSaltFluid" value="65730a00-977f-11e1-8993-905e29aff6c1" />
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -451,7 +452,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
 
             <tr>

@@ -127,6 +127,7 @@
         <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1"/>
         <macro key="hivDiagnosis" value="655fa384-977f-11e1-8993-905e29aff6c1"/>
         <macro key="epilepsy" value="6546938a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <ifMode mode="VIEW" include="true">
@@ -204,7 +205,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>
