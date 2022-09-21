@@ -59,6 +59,7 @@
         urineLam=a047e2ec-f07e-47a6-8849-7c5150550e9e
         positive=6549be7a-977f-11e1-8993-905e29aff6c1
         negative=654994c2-977f-11e1-8993-905e29aff6c1
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -72,7 +73,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                         <span style="display:none"><encounterDate id="visitDate" size="20" /></span>

@@ -8,6 +8,7 @@
         <macro key="otherLabTestType" value="655dfb24-977f-11e1-8993-905e29aff6c1"/>
         <macro key="otherLabTestResult" value="	655dfc32-977f-11e1-8993-905e29aff6c1"/>
         <macro key="otherLabTestDate" value="6563b668-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -88,7 +89,7 @@
             <tr>
                 <th>Visit Location</th>
                 <td>
-                    <encounterLocation id="visitLocation"/>
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

@@ -63,6 +63,7 @@
         isosorbideMononitrate=7121
         clinicalImpression=1364
         nextAppt=5096
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Notes
@@ -372,7 +373,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr class="focus-field">
                 <th>Height</th>

@@ -13,6 +13,7 @@
         yes=1065
         other=6408
         typical=1115
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -92,7 +93,7 @@
             <tr>
                 <th>Visit Location</th>
                 <td>
-                    <encounterLocation id="visitLocation"/>
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
 

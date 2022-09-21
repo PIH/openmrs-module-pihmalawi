@@ -91,6 +91,7 @@
         <macro key="stressReactAdjDis" value="3ac86541-7c6a-4e94-96dd-66942ced3cdb" />
         <macro key="puerperalMentalDisorder" value="304b2b8c-db9c-4dc1-8f3a-7c2e6ea7a97a"/>
         <macro key="dissoConvDis" value="c119657d-f96c-48d5-9dbe-0c24486eadf5"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -107,7 +108,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation"/>
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date:
                         <encounterDate/>

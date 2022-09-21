@@ -35,6 +35,7 @@
         lip=2148
         other=6408
         cd4Value=3434
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <ifMode mode="VIEW" include="false">
@@ -227,7 +228,7 @@
                 <th>Visit Location</th>
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
-                        <encounterLocation id="visitLocation"/>
+                        <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                     </td>
                 </tr>
             <tr>

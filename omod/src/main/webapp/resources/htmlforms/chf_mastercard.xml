@@ -88,6 +88,7 @@
         <macro key="diabetes" value="6567426a-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckd" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherComorbidity" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -102,7 +103,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

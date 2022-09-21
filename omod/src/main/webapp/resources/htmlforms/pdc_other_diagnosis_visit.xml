@@ -54,8 +54,9 @@
         <macro key="sourceOfRefSet" value="b5346c8a-246c-46aa-bce5-17a77534bc30"/>
         <macro key="mdatAssessmentSummary" value="99c7a129-5d96-4825-b8ef-eff5fa6e7727" />
         <macro key="physiotherapy" value="dcc54588-806f-4bb9-b281-25215b07053d" />
-
-
+        <macro key="headCircumference" value="656b0c38-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="aOfChild" value="655e54a2-977f-11e1-8993-905e29aff6c1"/> <!--age of child for age adjusted and non-adjusted-->
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <style>
@@ -152,58 +153,70 @@
                 <tr> <!-- Label row -->
                     <!--<td rowspan="3"> <b>Age at Visit</b></td>-->
                     <td rowspan="3"> <b>Visit Date</b></td>
-                    <td colspan="7"> <b>Assessments</b></td>
+                    <td rowspan="3"> <b>Age Adjusted</b></td>
+                    <td rowspan="3"> <b>Age-Non Adjusted</b></td>
+                    <td colspan="8"> <b>Assessments</b></td>
                     <td colspan="4"> <b>Convulsions</b></td>
                     <td colspan="3"> <b>Feeding</b></td>
                     <td colspan="6"> <b>Plan</b></td>
                     <td colspan="1"> <b>Social</b> <br /><b>Support</b></td>
-                    <td rowspan="3"> <b>If Referred out</b></td>
                     <td rowspan="3"> <b>Referred out</b></td>
+                    <td rowspan="3"> <b>If Referred out</b></td>
                     <td rowspan="3"> <b>MDAT Assessment <br/>(Summary)</b></td>
                     <td rowspan="3"> <b>Plan</b></td>
-                    <td rowspan="3"> <b>Next Appointment</b> </td>
-                    <!--<td rowspan="2"><small>Family<br/>Planning</small></td>
+                    <td rowspan="3"> <b>Date of next Visit <br/> <br/> Clinician Sign</b> </td>
+                     <!--<td rowspan="2"><small>Family<br/>Planning</small></td>
                     <td rowspan="2"><small>Suicide<br/>risk</small></td>
                     <td rowspan="2"><small>Medication<br/>side effect</small></td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Hospitalised<br/>since last visit</td>
                     <td colspan="9">Treatment Details</td>
                     <td rowspan="2"><small>Comments</small></td>
                     <td style="padding: 1px"><small>Next<br/>appointment</small></td>-->
+                 </tr>
+
+                <tr>
+                       <td rowspan="2">Weight</td>
+                       <td rowspan="2">Height</td>
+                       <td rowspan="2">MUAC</td>
+                       <td rowspan="2">W/A</td>
+                       <td rowspan="2">W/H</td>
+                       <td rowspan="2">Complications since last visit</td>
+                       <td rowspan="2">Malnutrition</td>
+                       <td rowspan="2"> Head Circum</td>
+                       <td rowspan="1" colspan="4">Concerns</td>
+                       <td rowspan="1" colspan="3">Concerns</td>
+                       <td rowspan="2">Individual Counseling</td>
+                       <td rowspan="2">Feeding Counseling</td>
+                       <td rowspan="2">Group Counseling</td>
+                       <td rowspan="2">Play Therapy </td>
+                       <td rowspan="2">Continue Follow Up </td>
+                       <td rowspan="2">Physiotherapy </td>
+                       <td rowspan="2">POSER</td>
                 </tr>
 
                 <tr>
-                    <td rowspan="2">Weight</td>
-                    <td rowspan="2">Height</td>
-                    <td rowspan="2">MUAC</td>
-                    <td rowspan="2">W/A</td>
-                    <td rowspan="2">W/H</td>
-                    <td rowspan="2">Complications since last visit</td>
-                    <td rowspan="2">Malnutrition</td>
-                    <td rowspan="1" colspan="4">Concerns</td>
-                    <td rowspan="1" colspan="3">Concerns</td>
-                    <td rowspan="2">Individual Counseling</td>
-                    <td rowspan="2">Feeding Counseling</td>
-                    <td rowspan="2">Group Counseling</td>
-                    <td rowspan="2">Play Therapy </td>
-                    <td rowspan="2">Continue Follow Up </td>
-                    <td rowspan="2">Physiotherapy </td>
-                    <td rowspan="2">POSER</td>
-                </tr>
-
-                <tr>
-                    <td rowspan="1">Any since last visit</td>
-                    <td rowspan="2">Anticonvulsant</td>
-                    <td rowspan="2">Drug and Dose</td>
-                    <td rowspan="2">Adjust Dose</td>
-                    <td rowspan="1">Poor Suck</td>
-                    <td rowspan="1">Refs. to feed</td>
-                    <td rowspan="1">Less feed</td>
-                </tr>
+                         <td rowspan="1">Any since last visit</td>
+                         <td rowspan="2">Anticonvulsant</td>
+                         <td rowspan="2">Drug and Dose</td>
+                         <td rowspan="2">Adjust Dose</td>
+                         <td rowspan="1">Poor Suck</td>
+                         <td rowspan="1">Refs. to feed</td>
+                         <td rowspan="1">Less feed</td>
+                 </tr>
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
                     <td class="nowrap visit-date">
                         <encounterDate/>
+                    </td>
+                    <td style="padding: 1px;">
+                        <!-- age adjusted -->
+                        <obs conceptId="$aOfChild" />
+                    </td>
+
+                    <td style="padding: 1px;">
+                        <!-- age non-adjusted-->
+                        <obs conceptId="$aOfChild" />
                     </td>
                     <td style="padding: 1px;" >
                         <!-- Weight -->
@@ -216,26 +229,19 @@
                     <td style="padding: 1px;">
                         <obs conceptId="$muac" />
                     </td>
+
                     <td>
                         <obsgroup groupingConceptId="$waa">
-                            <obs conceptId="$inequalities"
-                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
-                            <br />
-                            <br />
-                            <b>Value:</b>
                             <obs conceptId="$numericValue" style="textarea" cols="60"/>
                         </obsgroup>
                     </td>
+
                     <td>
                         <obsgroup groupingConceptId="$weh">
-                            <obs conceptId="$inequalities"
-                                 answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
-                            <br />
-                            <br />
-                            <b>Value:</b>
                             <obs conceptId="$numericValue" style="textarea" cols="60"/>
                         </obsgroup>
                     </td>
+
                     <td style="padding: 1px;">
                         <obs conceptId="$complications_since_last_visit"
                              answerConceptIds="$yesAnswer,$noAnswer"
@@ -245,6 +251,10 @@
                         <obs conceptId="$malnutrition"
                              answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
                              answerLabels="No,Mod,Sev" style="radio" />
+                    </td>
+
+                    <td style="padding: 1px;">
+                        <obs conceptId="$headCircumference" />
                     </td>
 
                     <td style="padding: 1px;">
@@ -407,48 +417,65 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations" /></td>
             </tr>
-            <tr class="focus-field">
-                <th>Height</th>
-                <td><obsreference conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
+            <tr>
+                <!-- age adjusted -->
+                <th>Age Adjusted</th>
+                <td style="padding: 1px;">
+                    <obs conceptId="$aOfChild" />
+                </td>
             </tr>
-            <tr class="focus-field">
+
+            <tr><!-- age non-adjusted -->
+                <th>Age Non-Adjusted</th>
+                <td style="padding: 1px;">
+                    <obs conceptId="$aOfChild" />
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Weight view -->
                 <th>Weight</th>
-                <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
+                <td style="padding: 1px;" >
+                    <obsreference conceptId="$weight" id="weightInput" size="3"/>
+                </td>
             </tr>
+
+
+            <tr>
+                <!-- Height view -->
+                <th>Height</th>
+                <td style="padding: 1px;" >
+                    <obsreference conceptId="$height" id="heightInput" size="3"/>
+                </td>
+            </tr>
+
             <tr>
                 <th>MUAC</th>
                 <td>
                     <obs conceptId="$muac"/>
                 </td>
             </tr>
+
             <tr>
-                <th>W/A</th>
+                <th>Weight/Age</th>
                 <td>
                     <obsgroup groupingConceptId="$waa">
-                        <obs conceptId="$inequalities"
-                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
-                        <br />
-                        <br />
-                        <b>Value:</b>
                         <obs conceptId="$numericValue" style="textarea" cols="60"/>
                     </obsgroup>
                 </td>
             </tr>
+
             <tr>
-                <th>W/H</th>
+                <th>Weight/Height</th>
                 <td>
                     <obsgroup groupingConceptId="$weh">
-                        <obs conceptId="$inequalities"
-                             answerConceptIds="$positive,$negative,$lessThan,$lessOrEqualTo,$greaterThan,$greaterOrEqualTo" answerLabels="Positive,Negative,Less Than,Less Than or Equal To,Greater Than,Greater Than or Equal To"/>
-                        <br />
-                        <br />
-                        <b>Value:</b>
                         <obs conceptId="$numericValue" style="textarea" cols="60"/>
                     </obsgroup>
                 </td>
             </tr>
+
             <tr>
                 <th>Complications Since Last Visit</th>
                 <td>
@@ -465,6 +492,13 @@
                     <obs conceptId="$malnutrition"
                          answerConceptIds="$noAnswer,$moderateMalnutrition,$severeMalnutrition"
                          answerLabels="No,Mod,Sev" style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Head Circumference</th>
+                <td>
+                    <obs conceptId="$headCircumference"/>
                 </td>
             </tr>
 

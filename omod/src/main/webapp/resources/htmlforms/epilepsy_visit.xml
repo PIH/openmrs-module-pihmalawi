@@ -40,6 +40,7 @@
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="anyTriggersPresent" value="DA1FC8AF-FC15-4AC0-B980-EB8B0FFC95CD" />
         <macro key="anySeizures" value="655033A8-AD14-409A-A79F-4D5AA2A03900" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -262,7 +263,7 @@
             <tr>
                 <th>Visit Location</th>
                 <td>
-                    <encounterLocation id="visitLocation"/>
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>

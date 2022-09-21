@@ -32,6 +32,7 @@
         <macro key="ic3Location" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739" />
         <macro key="advancedLocation" value="2bc82b28-e84f-11e8-9f32-f2801f1b9fd1" />
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <ifMode mode="VIEW" include="false">
@@ -228,7 +229,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
 
             <tr>

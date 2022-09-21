@@ -3,6 +3,7 @@
 
     <macros>
         <macro key="chwName" value="941bc17e-8c33-11e5-80a3-c0430f805837" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <span style="display:none">
@@ -17,7 +18,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations" />
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>

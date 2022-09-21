@@ -42,7 +42,7 @@
 
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
         <macro key="managementPlanComments" value="16D8FC88-0180-4858-95D5-2479CF7BD6EE"/>
-
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
         hospitalSinceLast=1715
         drugsNow=1193
@@ -275,7 +275,7 @@
             </tr>
             <tr>
                 <th>Visit Location</th>
-                <td><encounterLocation id="visitLocation" /></td>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr class="focus-field">
                 <th>Height</th>

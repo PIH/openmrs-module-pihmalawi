@@ -21,7 +21,7 @@
         deliveryLocation=3452
         hivStatus=5303
         -->
-
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         azt03=8173
         azt4p=8174
         art03=8175
@@ -209,7 +209,7 @@
                     <i>For Transfer-In, location of initial encounter</i>
                 </td>
                 <td>
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>
