@@ -43,6 +43,7 @@
         agreesToFollowup=2552
         chwName=8431
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
     </macros>
     <script src="/openmrs/moduleResources/pihmalawi/scripts/validate_dx_fields.js" type="text/javascript"></script>
     <ifmode mode="EDIT" include="true">
@@ -74,6 +75,13 @@
                         Date
                         <encounterDate/>
                     </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
                 </b>
             </span>
 

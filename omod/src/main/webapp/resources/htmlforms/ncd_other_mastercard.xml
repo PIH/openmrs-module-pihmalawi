@@ -44,6 +44,7 @@
         <macro key="echoResult" value="6567b970-977f-11e1-8993-905e29aff6c1" />
         <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
         <macro key="echoEcgDate" value="6563e098-977f-11e1-8993-905e29aff6c1" />
+        <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -65,7 +66,12 @@
                     </span>
                 </b>
             </span>
-
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
+                </b>
+            </span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>

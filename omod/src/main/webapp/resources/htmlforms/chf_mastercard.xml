@@ -88,6 +88,7 @@
         <macro key="diabetes" value="6567426a-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckd" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
         <macro key="otherComorbidity" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -109,7 +110,12 @@
                     </span>
                 </b>
             </span>
-
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
+                </b>
+            </span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>
