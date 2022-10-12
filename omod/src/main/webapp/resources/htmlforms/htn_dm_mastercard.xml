@@ -43,7 +43,20 @@
         agreesToFollowup=2552
         chwName=8431
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
     </macros>
+    <script src="/openmrs/moduleResources/pihmalawi/scripts/validate_dx_fields.js" type="text/javascript"></script>
+    <ifmode mode="EDIT" include="true">
+        <script type="text/javascript">
+            jq(function () {
+                requireDxDate();
+                updateDxDate();
+                htmlForm.getBeforeValidation().push(function () {
+                    return validateDxDate();
+                });
+            });
+        </script>
+    </ifmode>
 
     <span style="display:none">
         <encounterProvider default="16576"/>
@@ -62,6 +75,13 @@
                         Date
                         <encounterDate/>
                     </span>
+                </b>
+            </span>
+
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
                 </b>
             </span>
 
@@ -163,10 +183,10 @@
                             <!-- DM 1 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="diabetes-type-1-dx" data-toggle-target="diabetes-type-1-dx-date">
-                                    <obs class="dx-checkbox-item" id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
+                                    <obs class="dx-checkbox-item dx-selected" id="diabetes-type-1-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType1Dx" answerLabel="Type 1 DM"/>
                                 </td>
                                 <td>
-                                    <obs id="diabetes-type-1-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="diabetes-type-1-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
 
@@ -181,20 +201,20 @@
                             <!-- DM 2 -->
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="diabetes-type-2-dx" data-toggle-target="diabetes-type-2-dx-date">
-                                    <obs class="dx-checkbox-item" id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
+                                    <obs class="dx-checkbox-item dx-selected" id="diabetes-type-2-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$diabetesType2Dx" answerLabel="Type 2 DM"/>
                                 </td>
                                 <td>
-                                    <obs id="diabetes-type-2-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="diabetes-type-2-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="hypertension-dx" data-toggle-target="hypertension-dx-date">
-                                    <obs class="dx-checkbox-item" id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
+                                    <obs class="dx-checkbox-item dx-selected" id="hypertension-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$hypertensionDx" answerLabel="Hypertension"/>
                                 </td>
                                 <td>
-                                    <obs id="hypertension-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="hypertension-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <!-- Family History -->
@@ -229,76 +249,76 @@
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date">
-                                    <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
+                                    <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" class="dx-selected" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
                                 </td>
                                 <td>
-                                    <obs id="stroke-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="stroke-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="cardio-dx" data-toggle-target="cardio-dx-date">
-                                    <obs id="cardio-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
+                                    <obs id="cardio-dx" conceptId="$chronicCareDiagnosis" class="dx-selected" style="checkbox" answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. heart attack, ischemic heart disease, CCF)
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="cardio-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="cardio-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="pvd-dx" data-toggle-target="pvd-dx-date">
-                                    <obs id="pvd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$pvdDx" answerLabel="PVD"/>
+                                    <obs id="pvd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$pvdDx" answerLabel="PVD"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. ulcers, gangrene)
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="pvd-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="retinopathy-dx" data-toggle-target="retinopathy-dx-date">
-                                    <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
+                                    <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
                                 </td>
                                 <td>
-                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="neuropathy-dx" data-toggle-target="neuropathy-dx-date">
-                                    <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
+                                    <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="neuropathy-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>
                         <tr>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
-                                    <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$renalDx" answerLabel="Renal Disease"/>
+                                    <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$renalDx" answerLabel="Renal Disease"/>
                                     <br/>
                                     <i style="font-size:.7em;">
                                         (e.g. elevated creatinine)
                                     </i>
                                 </td>
                                 <td>
-                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="renal-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                             <obsgroup groupingConceptId="$diagnosisSet">
                                 <td class="nowrap" data-toggle-source="sexdysfx-dx" data-toggle-target="sexdysfx-dx-date">
-                                    <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
+                                    <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
                                 </td>
                                 <td class="nowrap">
-                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="true"/>
+                                    <obs id="sexdysfx-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="true"/>
                                 </td>
                             </obsgroup>
                         </tr>

@@ -47,6 +47,7 @@
         <macro key="ckdOtherEti" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
         <macro key="ckdDrugsEti" value="0754f2f8-d797-11e8-9f8b-f2801f1b9fd1" />
         <macro key="ckdEtiUknown" value="6577bb7c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -68,7 +69,12 @@
                     </span>
                 </b>
             </span>
-
+            <span style="padding-left:50px;">
+                <b style="padding-right:10px;">Transfer-In Date: </b>
+                <b>
+                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
+                </b>
+            </span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no: </b>
                 <b>

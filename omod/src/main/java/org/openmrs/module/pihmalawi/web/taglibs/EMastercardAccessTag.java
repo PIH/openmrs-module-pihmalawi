@@ -339,8 +339,8 @@ public class EMastercardAccessTag extends BodyTagSupport {
             Concept appt = Context.getConceptService().getConcept(APPOINTMENT_DATE);
             Date startOfDay = DateUtil.getStartOfDay(lastFollowup.getEncounterDatetime());
             Date endOfDay = DateUtil.getEndOfDay(lastFollowup.getEncounterDatetime());
-			List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, Arrays.asList("dateCreated"), 1, null, startOfDay, endOfDay, false);
-			if (!os.isEmpty()) {
+            List<Obs> os = Context.getObsService().getObservations(Arrays.asList((Person) p), Arrays.asList(lastFollowup), Arrays.asList(appt), null, null, null, Arrays.asList("dateCreated"), 1, null, startOfDay, endOfDay, false);
+            if (!os.isEmpty()) {
                 rvd = "Appointment: " + Helper.formatDate(os.get(0).getValueDatetime());
             }
         }
