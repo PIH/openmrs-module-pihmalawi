@@ -55,7 +55,8 @@
         <macro key="mdatAssessmentSummary" value="99c7a129-5d96-4825-b8ef-eff5fa6e7727" />
         <macro key="physiotherapy" value="dcc54588-806f-4bb9-b281-25215b07053d" />
         <macro key="headCircumference" value="656b0c38-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="aOfChild" value="655e54a2-977f-11e1-8993-905e29aff6c1"/> <!--age of child for age adjusted and non-adjusted-->
+        <macro key="ageAdjusted" value="655e54a2-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="ageNonAdjusted" value="6566247a-977f-11e1-8993-905e29aff6c1" />
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -211,12 +212,12 @@
                     </td>
                     <td style="padding: 1px;">
                         <!-- age adjusted -->
-                        <obs conceptId="$aOfChild" />
+                        <obs conceptId="$ageAdjusted" />
                     </td>
 
                     <td style="padding: 1px;">
                         <!-- age non-adjusted-->
-                        <obs conceptId="$aOfChild" />
+                        <obs conceptId="$ageNonAdjusted" />
                     </td>
                     <td style="padding: 1px;" >
                         <!-- Weight -->
@@ -423,14 +424,14 @@
                 <!-- age adjusted -->
                 <th>Age Adjusted</th>
                 <td style="padding: 1px;">
-                    <obs conceptId="$aOfChild" />
+                    <obs conceptId="$ageAdjusted" />
                 </td>
             </tr>
 
             <tr><!-- age non-adjusted -->
                 <th>Age Non-Adjusted</th>
                 <td style="padding: 1px;">
-                    <obs conceptId="$aOfChild" />
+                    <obs conceptId="$ageNonAdjusted" />
                 </td>
             </tr>
 
