@@ -127,6 +127,7 @@
         <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1"/>
         <macro key="hivDiagnosis" value="655fa384-977f-11e1-8993-905e29aff6c1"/>
         <macro key="epilepsy" value="6546938a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="exposureConstruct" value="5f52124a-cf63-11e5-ab30-625662870761" />
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -355,7 +356,7 @@
                             <td colspan="2">Child</td>
                             <!-- child status -->
                             <td>
-                                <obsgroup groupingConceptId="$hivDiagnosis">
+                                <obsgroup groupingConceptId="$exposureConstruct">
                                     <obs conceptId="$hivStatus" style="radio" answerConceptIds="$reactive,$nonReactive,$unknown"
                                          answerLabels="R,NR,Unknown"/>
                                     <br/>
