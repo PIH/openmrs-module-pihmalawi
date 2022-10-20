@@ -51,12 +51,10 @@ function requireDxDate() {
     if ( dxDateSpan ) {
       if ( isDxChecked ) {
         // make dxDate field required
-        var $newSpan=jq("<span class='required'>*</span>");
-        dxDateSpan.append($newSpan);
+        flowsheet.toggleError(getField( dateFieldId + '.value'), "Required");
       } else {
         // remove the required requirement for the dxDate field
         dxDateSpan.find(".required").remove();
-        dxDateSpan.find(".field-error").remove();
         flowsheet.toggleError(getField( dateFieldId + '.value'), null);
       }
     }

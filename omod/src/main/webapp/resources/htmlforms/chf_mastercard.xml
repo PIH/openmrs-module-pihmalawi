@@ -113,7 +113,7 @@
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Transfer-In Date: </b>
                 <b>
-                    <obs conceptId="$transferInDate" allowFutureDates="true"/>
+                    <obs conceptId="$transferInDate" allowFutureDates="false"/>
                 </b>
             </span>
             <span style="padding-left:50px;">
