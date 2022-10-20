@@ -35,7 +35,6 @@ function updateDxDate() {
 
     if (dateValue) {
       flowsheet.toggleError(getField( parentDateId + '.value'), null);
-      jq("#" + parentDateId).find(".field-error").remove();
     }
   });
 
@@ -54,7 +53,6 @@ function requireDxDate() {
         flowsheet.toggleError(getField( dateFieldId + '.value'), "Required");
       } else {
         // remove the required requirement for the dxDate field
-        dxDateSpan.find(".required").remove();
         flowsheet.toggleError(getField( dateFieldId + '.value'), null);
       }
     }
