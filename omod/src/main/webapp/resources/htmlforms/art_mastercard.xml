@@ -275,7 +275,7 @@
                                 <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
                             </td>
                             <td>
-                                <obs conceptId="$artEducationDate" />
+                                <obs conceptId="$artEducationDate" allowFutureDates="true"/>
                             </td>
                         </tr>
                         <tr>
