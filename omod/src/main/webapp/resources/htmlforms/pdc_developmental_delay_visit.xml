@@ -218,14 +218,17 @@
                     <td style="padding: 1px;">
                         <obs conceptId="$muac" />
                     </td>
-                    <td style="padding: 1px;">
+                    <td>
                         <!-- weight against age -->
-                        <obs conceptId="$numericValue"/>
-
+                        <obsgroup groupingConceptId="$waa">
+                            <obs conceptId="$numericValue"/>
+                        </obsgroup>
                     </td>
                     <td>
-                        <!-- weight against height -->
-                        <obs conceptId="$numericValue"/>
+                        <obsgroup groupingConceptId="$weh">
+                            <!-- weight against height -->
+                            <obs conceptId="$numericValue"/>
+                        </obsgroup>
                     </td>
                     <td style="padding: 1px;">
                         <obs conceptId="$malnutrition"
@@ -445,13 +448,17 @@
             <tr>
                 <th>W/A</th>
                 <td>
-                    <obs conceptId="$numericValue"/>
+                    <obsgroup groupingConceptId="$waa">
+                        <obs conceptId="$numericValue"/>
+                    </obsgroup>
                 </td>
             </tr>
             <tr>
                 <th>W/H</th>
                 <td>
-                    <obs conceptId="$numericValue"/>
+                    <obsgroup groupingConceptId="$weh">
+                        <obs conceptId="$numericValue"/>
+                    </obsgroup>
                 </td>
             </tr>
             <tr>
