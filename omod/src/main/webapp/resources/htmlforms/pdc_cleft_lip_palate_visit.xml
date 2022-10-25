@@ -40,7 +40,7 @@
         <macro key="tertiary" value="be50b470-9744-4f04-b9a8-bad7b4b239ea"/>
         <macro key="palliativeCare" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5"/>
         <macro key="sourceOfRefSet" value="b5346c8a-246c-46aa-bce5-17a77534bc30"/>
-
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -244,19 +244,21 @@
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
+                      <td>
+                          <obsgroup groupingConceptId="$surgerySet">
+                              <b>Scheduled:</b>
+                              <td>
+                                  <obs conceptId="$scheduled"
+                                       style="radio"
+                                       answerConceptIds="$yesAnswer,$noAnswer"
+                                       answerLabels="Yes,No"/>
+                              </td>
+                              <td>
+                                  <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
+                              </td>
+                          </obsgroup>
+                      </td>
 
-                        <obsgroup groupingConceptId="$surgerySet">
-                            <b>Scheduled:</b>
-                           <td>
-                             <obs conceptId="$scheduled"
-                                 style="radio"
-                                 answerConceptIds="$yesAnswer,$noAnswer"
-                                 answerLabels="Yes,No"/>
-                           </td>
-                            <td>
-                            <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
-                           </td>
-                        </obsgroup>
 
                     <td style="padding: 1px;" >
                         <!-- Continue Follow Up -->
