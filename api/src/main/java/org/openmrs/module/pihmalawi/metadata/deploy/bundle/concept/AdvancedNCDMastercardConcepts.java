@@ -16,7 +16,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                 .name("bdbfb683-8970-4520-a1a9-c1efd9358bc9", "Psychological Developmental Disorder", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        install(new ConceptBuilder("65671c9a-977f-11e1-8993-905e29aff6c1")
+        Concept chronicCareDiagnosis = install(new ConceptBuilder("65671c9a-977f-11e1-8993-905e29aff6c1")
                 .datatype(coded)
                 .conceptClass(question)
                 .name("66094394-977f-11e1-8993-905e29aff6c1", "Chronic care diagnosis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
@@ -202,6 +202,17 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                         otherNonCodedChange,
                         yes,
                         no)
+                .build());
+
+        Concept diagnosisDate = MetadataUtils.existing(Concept.class, "65732bf2-977f-11e1-8993-905e29aff6c1");
+        Concept otherNoneCodedText = MetadataUtils.existing(Concept.class,"d57e3a20-5802-11e6-8b77-86f30ca893d3");
+        install(new ConceptBuilder("4CB5E127-C437-4514-8618-FDC27310148E")
+                .datatype(notApplicable)
+                .conceptClass(convSet)
+                .name("8C646706-4116-40AE-97F9-B475A9E7F7F2", "Patient history and complications construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("601F3187-9ABD-40C9-AB71-1052A5872152", "Patient history and complications construct", Locale.ENGLISH)
+                .setMembers(
+                        chronicCareDiagnosis, diagnosisDate, otherNoneCodedText)
                 .build());
     }
 }
