@@ -21,6 +21,62 @@
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20221026-01" author="cioan">
+		<preConditions onFail="CONTINUE" onFailMessage="Failed to migrate HTN chronic care past medical history and complications obs">
+			<and>
+				<sqlCheck expectedResult="1">
+					select count(*) from concept where uuid = '4CB5E127-C437-4514-8618-FDC27310148E'
+				</sqlCheck>
+				<not>
+					<sqlCheck expectedResult="0">
+						select count(*)
+						from obs o inner join encounter e on o.encounter_id = e.encounter_id
+						inner join encounter_type t on e.encounter_type = t.encounter_type_id and t.uuid='664b9442-977f-11e1-8993-905e29aff6c1'
+						where o.concept_id = ( select concept_id from concept where uuid= '6db168f1-0f38-42d9-9f0e-90946a3d8e72' )
+						and o.obs_id in ( select ob.obs_group_id
+						from obs ob
+						where  ob.concept_id=( select concept_id from concept where uuid= '65671c9a-977f-11e1-8993-905e29aff6c1' )
+						and ob.value_coded in ((select concept_id from concept where uuid= '65714e68-977f-11e1-8993-905e29aff6c1' ),
+						(select concept_id from concept where uuid= '654b5c58-977f-11e1-8993-905e29aff6c1' ),
+						(select concept_id from concept where uuid= '6577a218-977f-11e1-8993-905e29aff6c1' ),
+						(select concept_id from concept where uuid= '113257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ),
+						(select concept_id from concept where uuid= '115268AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ),
+						(select concept_id from concept where uuid= '656f1eea-977f-11e1-8993-905e29aff6c1'),
+						(select concept_id from concept where uuid= '126580AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' )))
+					</sqlCheck>
+				</not>
+			</and>
+		</preConditions>
+		<comment>
+			Migrate HTN medical history and complications obs, only if the new concept(medical history and complications construct) has been added to the system.
+		</comment>
+		<sql>
+			SET @htn_initial_enc_id = ( select encounter_type_id from encounter_type where uuid='664b9442-977f-11e1-8993-905e29aff6c1' );
+			SET @dx_construct_id = ( select concept_id from concept where uuid= '6db168f1-0f38-42d9-9f0e-90946a3d8e72' );
+			SET @hist_construct_id = ( select concept_id from concept where uuid= '4CB5E127-C437-4514-8618-FDC27310148E' );
+			SET @cc_dx_id = ( select concept_id from concept where uuid= '65671c9a-977f-11e1-8993-905e29aff6c1' );
+			SET @stroke = ( select concept_id from concept where uuid= '65714e68-977f-11e1-8993-905e29aff6c1' );
+			SET @cardiovs_disease = ( select concept_id from concept where uuid= '654b5c58-977f-11e1-8993-905e29aff6c1' );
+			SET @pvd = ( select concept_id from concept where uuid= '6577a218-977f-11e1-8993-905e29aff6c1' );
+			SET @retinopathy = ( select concept_id from concept where uuid= '113257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' );
+			SET @neuropathy = ( select concept_id from concept where uuid= '115268AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' );
+			SET @renalDisease = ( select concept_id from concept where uuid= '656f1eea-977f-11e1-8993-905e29aff6c1' );
+			SET @sexualDysfuc = ( select concept_id from concept where uuid= '126580AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' );
+
+			update obs b
+			set b.concept_id =  @hist_construct_id
+			where b.obs_id in ( SELECT * FROM(
+			SELECT o.obs_id FROM obs o
+			where o.encounter_id in (
+			select encounter_id from encounter e where e.encounter_type = @htn_initial_enc_id
+			) and o.concept_id = @dx_construct_id
+			and o.obs_id in ( select ob.obs_group_id
+			from obs ob
+			where  ob.concept_id=@cc_dx_id
+			and ob.value_coded in (@stroke, @cardiovs_disease, @pvd, @retinopathy, @neuropathy, @renalDisease, @sexualDysfuc))) tblTmp);
+		</sql>
+	</changeSet>
+
 	<changeSet id="20210122-01" author="cioan">
 		<preConditions onFail="CONTINUE" onFailMessage="The new seizure concepts, Seizure occurred since last visit and Any seizure triggers present have not been added to the system yet">
 			<and>
