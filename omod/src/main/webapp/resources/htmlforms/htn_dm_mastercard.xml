@@ -4,9 +4,6 @@
           formVersion="1.2">
 
     <macros>
-        diagnosisSet=8445
-        chronicCareDiagnosis=3683
-        diagnosisDate=6774
         diabetesType1Dx=6409
         diabetesType2Dx=6410
         hypertensionDx=903
@@ -42,6 +39,10 @@
         relationToPatient=1328
         agreesToFollowup=2552
         chwName=8431
+        <macro key="diagnosisSet" value="6db168f1-0f38-42d9-9f0e-90946a3d8e72" />
+        <macro key="complicationsConstruct" value="4CB5E127-C437-4514-8618-FDC27310148E" />
+        <macro key="chronicCareDiagnosis" value="65671c9a-977f-11e1-8993-905e29aff6c1" />
+        <macro key="diagnosisDate" value="65732bf2-977f-11e1-8993-905e29aff6c1" />
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
     </macros>
@@ -247,7 +248,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="stroke-dx" data-toggle-target="stroke-dx-date">
                                     <obs id="stroke-dx" conceptId="$chronicCareDiagnosis" class="dx-selected" style="checkbox" answerConceptId="$strokeDx" answerLabel="Stroke/TIA"/>
                                 </td>
@@ -257,7 +258,7 @@
                             </obsgroup>
                         </tr>
                         <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="cardio-dx" data-toggle-target="cardio-dx-date">
                                     <obs id="cardio-dx" conceptId="$chronicCareDiagnosis" class="dx-selected" style="checkbox" answerConceptId="$cardioDx" answerLabel="Cardiovascular Disease"/>
                                     <br/>
@@ -269,7 +270,7 @@
                                     <obs id="cardio-dx-date" class="dx-date-required" conceptId="$diagnosisDate" labelText="Date" allowFutureDates="false"/>
                                 </td>
                             </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="pvd-dx" data-toggle-target="pvd-dx-date">
                                     <obs id="pvd-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$pvdDx" answerLabel="PVD"/>
                                     <br/>
@@ -283,7 +284,7 @@
                             </obsgroup>
                         </tr>
                         <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="retinopathy-dx" data-toggle-target="retinopathy-dx-date">
                                     <obs id="retinopathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$retinopathyDx" answerLabel="Retinopathy"/>
                                 </td>
@@ -291,7 +292,7 @@
                                     <obs id="retinopathy-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="false"/>
                                 </td>
                             </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="neuropathy-dx" data-toggle-target="neuropathy-dx-date">
                                     <obs id="neuropathy-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$neuropathyDx" answerLabel="Neuropathy"/>
                                 </td>
@@ -301,7 +302,7 @@
                             </obsgroup>
                         </tr>
                         <tr>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td data-toggle-source="renal-dx" data-toggle-target="renal-dx-date">
                                     <obs id="renal-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$renalDx" answerLabel="Renal Disease"/>
                                     <br/>
@@ -313,7 +314,7 @@
                                     <obs id="renal-dx-date" conceptId="$diagnosisDate" class="dx-date-required" labelText="Date" allowFutureDates="false"/>
                                 </td>
                             </obsgroup>
-                            <obsgroup groupingConceptId="$diagnosisSet">
+                            <obsgroup groupingConceptId="$complicationsConstruct">
                                 <td class="nowrap" data-toggle-source="sexdysfx-dx" data-toggle-target="sexdysfx-dx-date">
                                     <obs id="sexdysfx-dx" conceptId="$chronicCareDiagnosis" style="checkbox" class="dx-selected" answerConceptId="$sexdysfxDx" answerLabel="Sexual&amp;nbsp;Dysfunction"/>
                                 </td>
