@@ -16,7 +16,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -204,6 +204,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                         no)
                 .build());
 
+        Concept pastMedicalHistory = MetadataUtils.existing(Concept.class, "1628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Concept diagnosisDate = MetadataUtils.existing(Concept.class, "65732bf2-977f-11e1-8993-905e29aff6c1");
         Concept otherNoneCodedText = MetadataUtils.existing(Concept.class,"d57e3a20-5802-11e6-8b77-86f30ca893d3");
         install(new ConceptBuilder("4CB5E127-C437-4514-8618-FDC27310148E")
@@ -212,7 +213,7 @@ public class AdvancedNCDMastercardConcepts extends VersionedPihConceptBundle {
                 .name("8C646706-4116-40AE-97F9-B475A9E7F7F2", "Patient history and complications construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("601F3187-9ABD-40C9-AB71-1052A5872152", "Patient history and complications construct", Locale.ENGLISH)
                 .setMembers(
-                        chronicCareDiagnosis, diagnosisDate, otherNoneCodedText)
+                        pastMedicalHistory, diagnosisDate, otherNoneCodedText)
                 .build());
     }
 }
