@@ -53,6 +53,7 @@
 		<sql>
 			SET @htn_initial_enc_id = ( select encounter_type_id from encounter_type where uuid='664b9442-977f-11e1-8993-905e29aff6c1' );
 			SET @dx_construct_id = ( select concept_id from concept where uuid= '6db168f1-0f38-42d9-9f0e-90946a3d8e72' );
+			SET @pastMedicalHist = ( select concept_id from concept where uuid= '1628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' );
 			SET @hist_construct_id = ( select concept_id from concept where uuid= '4CB5E127-C437-4514-8618-FDC27310148E' );
 			SET @cc_dx_id = ( select concept_id from concept where uuid= '65671c9a-977f-11e1-8993-905e29aff6c1' );
 			SET @stroke = ( select concept_id from concept where uuid= '65714e68-977f-11e1-8993-905e29aff6c1' );
@@ -74,6 +75,15 @@
 			from obs ob
 			where  ob.concept_id=@cc_dx_id
 			and ob.value_coded in (@stroke, @cardiovs_disease, @pvd, @retinopathy, @neuropathy, @renalDisease, @sexualDysfuc))) tblTmp);
+
+			update obs b
+			set b.concept_id = @pastMedicalHist
+			where b.obs_id in ( select * FROM (
+			SELECT o.obs_id
+			from obs o inner join encounter e on o.encounter_id = e.encounter_id and e.encounter_type=@htn_initial_enc_id
+			where o.concept_id = @cc_dx_id
+			and o.value_coded in (
+			@stroke, @cardiovs_disease, @pvd, @retinopathy, @neuropathy, @renalDisease, @sexualDysfuc)) tblTmp);
 		</sql>
 	</changeSet>
 
