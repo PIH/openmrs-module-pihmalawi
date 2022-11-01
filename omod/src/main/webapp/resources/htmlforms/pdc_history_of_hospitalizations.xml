@@ -95,7 +95,7 @@
             <tr>
                 <th>Date of Discharge</th>
                 <td>
-                    <obs conceptId="$dischargeDate" size="20" />
+                    <obs conceptId="$dischargeDate" allowFutureDates="true" size="20" />
                 </td>
             </tr>
 
