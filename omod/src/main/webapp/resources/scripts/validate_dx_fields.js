@@ -1,5 +1,5 @@
 var validateDxDate = function () {
-  var validationResult = false;
+  var validationResult = true;
   jq(".dx-selected input[type='checkbox']").each(function (index) {
     var isDxChecked = this.checked;
     var tdParent = jq(this).parent().parent();
@@ -22,6 +22,8 @@ var validateDxDate = function () {
         validationResult = true;
         flowsheet.toggleError(getField( dateFieldId + '.value'), null);
       }
+    } else {
+      validationResult = false;
     }
   });
   return validationResult;
