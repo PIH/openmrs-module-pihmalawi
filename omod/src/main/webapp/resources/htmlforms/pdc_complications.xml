@@ -7,6 +7,7 @@
         <macro key="selfReportedComplications" value="e384a58c-4a73-11ec-81d3-0242ac130003"/>
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -19,6 +20,7 @@
                     <th colspan="3">Complications</th>
                 </tr>
                 <tr><th>Visit Date</th>
+                    <th>Location</th>
                     <th>Date of Complication</th>
                     <th>Self-reported complications</th>
                     <th>Details of Complication</th>
@@ -30,6 +32,11 @@
                         <!-- Encounter Date -->
                         <encounterDate/>
                     </td>
+
+                    <td>
+                        <encounterLocation id="visitLocation" tags="$nenoLocations"/>
+                    </td>
+
                     <td>
                         <!-- Date of Complication -->
                         <obs conceptId="$dateOfComplication"/>
@@ -78,6 +85,12 @@
                     <encounterDate/>
                 </td>
             </tr>
+
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
+            </tr>
+
             <tr>
                 <th>Date of Complication</th>
                 <td>
