@@ -33,8 +33,8 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- Encounter Date -->
-                        <obs conceptId="$dischargeDate" />
+                        <!-- Discharge Date -->
+                        <obs conceptId="$dischargeDate" allowFutureDates="true"/>
                     </td>
                     <td>
                         <!-- Days in the hospital -->
