@@ -70,6 +70,7 @@
         <uicommonsVersion>2.18.0</uicommonsVersion>
         <uiframeworkVersion>3.21.0</uiframeworkVersion>
         <uilibraryVersion>2.0.6</uilibraryVersion>
+		<usagestatisticsVersion>2.2.0-SNAPSHOT</usagestatisticsVersion>
         <webservicesRestVersion>2.36.0</webservicesRestVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
