@@ -44,6 +44,7 @@
         <macro key="inh" value="65498bbc-977f-11e1-8993-905e29aff6c1" />
         <macro key="rfp" value="af85c07d-adce-4a5d-a8d9-fa640f41e82d" />
         <macro key="pyridoxine" value="654a0e20-977f-11e1-8993-905e29aff6c1" />
+        <macro key="threeHP" value="0f233aab-1c6b-4135-883f-47bd95f62432"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -253,7 +254,7 @@
                     <td rowspan="3">Doses<br/>Missed</td>
                     <td rowspan="3">ART<br/>Regimen</td>
                     <td colspan="2">ARVs given</td>
-                    <td colspan="8">CPT/IPT Given</td>
+                    <td colspan="10">CPT/IPT Given</td>
                     <td colspan="2">Family Plan.</td>
                     <td rowspan="3">Next appointment</td>
                 </tr>
@@ -269,6 +270,8 @@
                     <td rowspan="2">INH 300</td>
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">RFP 150</td>
+                    <td rowspan="2">No. Tablets</td>
+                    <td rowspan="2">RFP/INH</td>
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Pyridoxine</td>
                     <td rowspan="2">No. Tablets</td>
@@ -358,6 +361,7 @@
                     <repeat with="['$ctx','CTX 960'],
                                   ['$inh','INH 300'],
                                   ['$rfp','RFP 150'],
+                                  ['$threeHP','RFP/INH'],
                                   ['$pyridoxine','Pyridoxine']">
 
                         <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
@@ -489,6 +493,7 @@
                     <repeat with="['$ctx','CTX 960','ctx'],
                                   ['$inh','INH 300','inh'],
                                   ['$rfp','RFP 150','rfp'],
+                                  ['$threeHP','RFP/INH','rfp/inh'],
                                   ['$pyridoxine','Pyridoxine','pyridoxine']">
 
                         <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">

@@ -172,9 +172,10 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String TIME_UNITS = "f1904502-319d-4681-9030-e642111e7ce2";
 
 
+
     @Override
     public int getVersion() {
-        return 16;
+        return 17;
     }
 
     @Override
@@ -1476,6 +1477,13 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .conceptClass(question)
                 .name("d68cb0ef-6f44-48e3-806e-ca77c1e65f2f", "Right Ear", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(pass, fail)
+                .build());
+
+        Concept threeHp = install(new ConceptBuilder("0f233aab-1c6b-4135-883f-47bd95f62432")
+                .datatype(notApplicable)
+                .conceptClass(unitsOfMeasure)
+                .name("86035c48-55f7-4697-8a2b-5e92a3dc3274", "3HP (Rifapentine and Isoniazid)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("052983eb-e55b-492d-b2df-16924af8b04f", "3HP (RFP/INH)", Locale.ENGLISH, ConceptNameType.SHORT)
                 .build());
     }
 }
