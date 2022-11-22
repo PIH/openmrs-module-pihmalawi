@@ -80,7 +80,7 @@
         }
     </style>
 
-    <ifMode mode="VIEW" include="false">
+    <ifMode mode="ENTER" include="true">
 
         <script type="text/javascript">
 
