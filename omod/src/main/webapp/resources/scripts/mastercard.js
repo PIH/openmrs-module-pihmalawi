@@ -7,8 +7,10 @@
     var fsExt = {};
 
     fsExt.heightMap = null;
+    fsExt.duplicateEncMap = null;
 
     fsExt.afterShowVisitTable = function(flowsheet) {
+        let errorMessage = "";
         if (typeof fsExt.heightMap !== "undefined" && fsExt.heightMap != null) {
             flowsheet.clearErrorMessage();
             jq(".visit-table").find(".td-error").removeClass("td-error");
@@ -23,19 +25,42 @@
                                 // this height obs looks "abnormal"
                                 var encounterId = heightInfo.encounterId;
                                 jq("#visit-table-row-" + encounterId).find("#heightEntered").closest('td').addClass("td-error");
-                                var error = 'Please check height for ' + heightInfo.encounterDateTime.format("MMM Do YYYY");
-                                console.log(error);
-                                flowsheet.showErrorMessage(error);
+                                errorMessage = '- Please check height for ' + heightInfo.encounterDateTime.format("MMM Do YYYY");
                             }
                         }
                     }
                 }
             }
         }
+      if (typeof fsExt.duplicateEncMap !== "undefined" && fsExt.duplicateEncMap != null) {
+            for (let key in fsExt.duplicateEncMap) {
+              if (fsExt.duplicateEncMap.hasOwnProperty(key)) {
+                const encArray = fsExt.duplicateEncMap[key];
+                if (encArray) {
+                  let hasDuplicates = false;
+                  for (let index =0 ; index < encArray.length; index++ ) {
+                      if ( encArray[index].duplicate ) {
+                        jq("#visit-table-row-" + encArray[index].encounterId).find(".visit-date").closest('tr').addClass("td-error");
+                        hasDuplicates = true;
+                      }
+                  }
+                  if ( hasDuplicates ) {
+                    let msg =  " - Please check the duplicate encounters below";
+                    errorMessage = ( errorMessage.length > 0 ) ?  (errorMessage + "<br/>" + msg) : msg;
+                  }
+                }
+              }
+            }
+      }
+      if (errorMessage ) {
+        flowsheet.showErrorMessage(errorMessage);
+      }
+
     };
 
     fsExt.beforeLoadVisitTable = function(flowsheet) {
         fsExt.heightMap = new Object();
+        fsExt.duplicateEncMap = new Object();
     }
 
     fsExt.beforeLoadVisitRow = function(flowsheet, formName, encounterId, data) {
@@ -46,6 +71,27 @@
 
         if (fsExt.heightMap == null) {
             fsExt.heightMap = new Object();
+        }
+        if (fsExt.duplicateEncMap == null) {
+            fsExt.duplicateEncMap = new Object();
+        }
+        if (newVisitMoment) {
+            let encDate = null;
+            let encForm = fsExt.duplicateEncMap[formName];
+            if ( !encForm ) {
+                encForm = [];
+            } else {
+                encDate = findEncounterInArray(encForm, encounterId);
+            }
+            let isDuplicate = findDuplicateEncDate(encForm, newVisitMoment);
+            if ( !encDate ) {
+              encDate = new Object();
+              encDate.encounterId = encounterId;
+              encForm.push(encDate);
+            }
+            encDate.duplicate = isDuplicate;
+            encDate.encounterDateTime = newVisitMoment;
+            fsExt.duplicateEncMap[formName] = encForm;
         }
         if (heightField) {
             var currentHeight = parseInt(heightField.text(), 10);
@@ -82,6 +128,19 @@
             }
             return item;
         }
+
+      function findDuplicateEncDate(array, encounterDate) {
+        let returnValue = false;
+        if (array && array.length > 0 ) {
+          for (let i = 0; i < array.length; i++) {
+            if (encounterDate.isSame(array[i].encounterDateTime ) ) {
+                array[i].duplicate = true;
+                returnValue = true;
+            }
+          }
+        }
+        return returnValue;
+      }
     };
 
     fsExt.afterSetupForm = function(flowsheet, html) {
