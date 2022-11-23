@@ -45,8 +45,40 @@
         <macro key="rfp" value="af85c07d-adce-4a5d-a8d9-fa640f41e82d" />
         <macro key="pyridoxine" value="654a0e20-977f-11e1-8993-905e29aff6c1" />
         <macro key="threeHP" value="0f233aab-1c6b-4135-883f-47bd95f62432"/>
+        <macro key="formEncTypeUuid" value="664b8650-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
+
+    <ifMode mode="ENTER" include="true">
+        <script src="/openmrs/moduleResources/pihmalawi/scripts/prevent_duplicate_encounters.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            jq(function() {
+                const enctypeUuid = '$formEncTypeUuid';
+                const patientUuid = '<lookup expression="patient.uuid"/>';
+
+                var findDuplicateEncounter = setInterval(function() {
+                    try {
+                      checkForDuplicateEnc(enctypeUuid, patientUuid);
+                    } catch(error) {
+                      console.log("duplicate encounter validation error: " + error);
+                    }
+                      clearInterval(findDuplicateEncounter);
+                    }, 500);
+
+                htmlForm.getBeforeValidation().push(function () {
+                  let retValue = false;
+                  try {
+                      let duplicate = checkForDuplicateEnc(enctypeUuid, patientUuid);
+                      retValue = duplicate;
+                  } catch(error) {
+                    console.log("duplicate encounter validation error: " + error);
+                    retValue = true;
+                  }
+                  return retValue;
+                });
+            });
+        </script>
+    </ifMode>
 
     <ifMode mode="VIEW" include="false">
 
@@ -410,6 +442,7 @@ jq(function() {
             <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>
