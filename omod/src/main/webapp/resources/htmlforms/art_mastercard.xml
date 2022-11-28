@@ -218,10 +218,12 @@
                             <td>
                                 <obs conceptId="$cd4Date" />
                             </td>
-                            <td>Pregnant/Lactating</td>
-                            <td>
-                                <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
-                            </td>
+                            <includeIf velocityTest="$patient.gender == 'F'">
+                                <td>Pregnant/Lactating</td>
+                                <td>
+                                    <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
+                                </td>
+                            </includeIf>
                         </tr>
                         <tr>
                             <td>Height, Wt.</td>
