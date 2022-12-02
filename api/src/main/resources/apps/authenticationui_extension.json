@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pih.authenticationui.header",
+    "extensionPointId": "org.openmrs.module.appui.header.config",
+    "type":"config",
+    "extensionParams": {
+      "logo-icon-url": "/ms/uiframework/resource/pihmalawi/images/openMrsLogo.png",
+      "logo-link-url": "/index.htm"
+    }
+  },
+  {
+    "id": "pih.authenticationui.admin",
+    "extensionPointId": "org.openmrs.module.authenticationui.admin.config",
+    "type": "config",
+    "extensionParams": {
+      "admin-page-url": "/admin/index.htm",
+      "manage-users-page-url": "/admin/users/users.list",
+      "admin-edit-user-page-url": "/admin/users/user.form",
+      "required-privilege": "Edit User Passwords",
+      "phone-number-person-attribute-type": "667f45ee-977f-11e1-8993-905e29aff6c1",
+      "default-location-user-property": ""
+    }
+  },
+  {
+    "id": "pih.authenticationui.login",
+    "extensionPointId": "org.openmrs.module.authenticationui.loginPage.config",
+    "type": "config",
+    "extensionParams": {
+      "show-locations": true,
+      "require-location": false,
+      "location-tag-name": "Login Location",
+      "last-location-cookie-name": "pihmalawi.lastSessionLocation",
+      "welcome-message": "",
+      "warning-if-not-chrome": "",
+      "allow-password-reset": false
+    }
+  }
+]

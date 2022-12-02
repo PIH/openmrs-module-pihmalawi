@@ -20,4 +20,12 @@ public class PihMalawiConstants {
     public static final String TASK_MIGRATE_EID_TEST_RESULTS = "Migrate EID Test Results";
     public static final String TASK_MIGRATE_EID_TEST_RESULTS_DESCRIPTION = "Migrates EID Test Results on the Exposed Child Initial Form to the EID Screening Form";
     public static final String MEDIC_MOBILE_FACILITY = "Yendanafe Catchment";
+
+    public static final String REQUEST_PARAMETER_NAME_REDIRECT_URL = "redirectUrl";
+    public static final String COOKIE_NAME_LAST_SESSION_LOCATION = "pihmalawi.lastSessionLocation";
+    public static final String SESSION_ATTRIBUTE_REDIRECT_URL = "_REFERENCE_APPLICATION_REDIRECT_URL_";
+    public static final String SESSION_ATTRIBUTE_ERROR_MESSAGE = "_REFERENCE_APPLICATION_ERROR_MESSAGE_";
+    public static final String SESSION_ATTRIBUTE_INFO_MESSAGE = "_REFERENCE_APPLICATION_INFO_MESSAGE_";
+    public static final String SESSION_LOCATION_ID = "emrContext.sessionLocationId";
+    public static final String PATIENT_DASHBOARD_URL = "patientDashboard.form";
 }
