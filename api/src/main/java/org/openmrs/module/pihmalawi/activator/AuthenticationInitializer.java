@@ -4,9 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.authentication.AuthenticationConfig;
-import org.openmrs.module.authenticationui.AuthenticationUiModuleConfig;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 
 import java.util.HashSet;
 import java.util.Properties;
@@ -108,17 +106,6 @@ public class AuthenticationInitializer implements Initializer {
         for (String key : sortedKeys) {
             log.info(key + " = " + p.getProperty(key));
         }
-
-        AuthenticationUiModuleConfig.setHeaderLogoUrl("pihmalawi:images/openMrsLogo.png");
-        AuthenticationUiModuleConfig.setHomePageUrl("/index.htm");
-        AuthenticationUiModuleConfig.setRequireLoginLocation(false);
-        AuthenticationUiModuleConfig.setLastLocationCookieName(PihMalawiConstants.COOKIE_NAME_LAST_SESSION_LOCATION);
-        AuthenticationUiModuleConfig.setLoginWelcomeMessage(null);
-        AuthenticationUiModuleConfig.setLoginWarningIfNotChrome(null);
-        AuthenticationUiModuleConfig.setAllowPasswordReset(false);
-        AuthenticationUiModuleConfig.setAccountAdminPrivilege("App: coreapps.systemAdministration");
-        AuthenticationUiModuleConfig.setPhoneNumberPersonAttributeType(CommonMetadata.TELEPHONE_NUMBER_ATTRIBUTE_TYPE);
-        AuthenticationUiModuleConfig.setDefaultLocationUserProperty(null);
     }
 
     @Override
