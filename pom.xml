@@ -40,6 +40,8 @@
         <addresshierarchyVersion>2.15.0</addresshierarchyVersion>
         <appframeworkVersion>2.17.0-SNAPSHOT</appframeworkVersion>
         <appuiVersion>1.16.0</appuiVersion>
+		<authenticationVersion>1.0.0-SNAPSHOT</authenticationVersion>
+		<authenticationuiVersion>1.0.0-SNAPSHOT</authenticationuiVersion>
         <calculationVersion>1.3.0</calculationVersion>
         <coreappsVersion>1.38.0-SNAPSHOT</coreappsVersion>
         <emrapiVersion>1.33.0</emrapiVersion>
@@ -49,6 +51,7 @@
         <htmlformentryuiVersion>2.3.0-SNAPSHOT</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
         <idgenVersion>4.8.0</idgenVersion>
+		<initializerVersion>2.4.0</initializerVersion>
 		<groovyVersion>2.2.4</groovyVersion>
         <legacyuiVersion>1.13.0-SNAPSHOT</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
@@ -87,6 +90,20 @@
 			<artifactId>opencsv</artifactId>
 			<version>2.3</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>authentication-api</artifactId>
+			<version>${authenticationVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>authenticationui-api</artifactId>
+			<version>${authenticationuiVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
@@ -161,6 +178,27 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api-2.2</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api-2.3</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>metadatadeploy-api</artifactId>
