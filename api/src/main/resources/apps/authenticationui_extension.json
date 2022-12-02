@@ -4,7 +4,7 @@
     "extensionPointId": "org.openmrs.module.appui.header.config",
     "type":"config",
     "extensionParams": {
-      "logo-icon-url": "ms/uiframework/resource/pihmalawi/images/openMrsLogo.png",
+      "logo-icon-url": "/ms/uiframework/resource/pihmalawi/images/openMrsLogo.png",
       "logo-link-url": "/index.htm"
     }
   },
