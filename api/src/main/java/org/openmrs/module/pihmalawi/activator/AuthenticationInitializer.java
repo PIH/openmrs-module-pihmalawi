@@ -35,7 +35,7 @@ public class AuthenticationInitializer implements Initializer {
         AuthenticationConfig.registerClassLoader(AuthenticationInitializer.class.getClassLoader());
 
         // If no authentication scheme is explicitly configured, default to basic
-        AuthenticationConfig.setProperty(SCHEME, "basic");
+        AuthenticationConfig.setProperty(SCHEME, "2fa");
 
         // We set up white list as everything needed for the basic login page and any additional scheme login page
         // Add in any additional white list pages that are included in the config
