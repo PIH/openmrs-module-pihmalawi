@@ -1,9 +1,10 @@
--- ## report_uuid = 7DE5B887-DD09-409B-BC91-70DBD6F7EBD0
--- ## design_uuid = 9E5ECC90-EC4B-4766-9231-270861FBE7D3
--- ## report_name = Data Quality -  Duplicate encounters
--- ## report_description = Report listing patients with duplicate encounters(same encounter type on the same day)  (revision: November 2022)
+-- ## report_uuid = F889749C-36CA-40CC-A631-93E6730EC0A0
+-- ## design_uuid = 6279E31E-702B-4754-97E1-99641E7CC4E5
+-- ## report_name = Data Quality -  Duplicate encounters by location
+-- ## report_description = Report listing patients with duplicate encounters(same encounter type on the same day) by Location  (revision: November 2022)
 -- ## parameter = startDate|Start Date|java.util.Date
 -- ## parameter = endDate|End Date|java.util.Date
+-- ## parameter = location|Location|org.openmrs.Location
 
 # SET @startDate = '2022-01-01';
 # SET @endDate = '2022-11-29';
@@ -24,6 +25,7 @@ from encounter a
   inner join location loc on a.location_id = loc.location_id
   inner join encounter b on a.patient_id=b.patient_id and a.encounter_type=b.encounter_type and a.encounter_datetime = b.encounter_datetime
 where a.encounter_id <> b.encounter_id and a.voided=0 and b.voided = 0
+      and a.location_id = @location
       and a.encounter_datetime > @startDate
       and a.encounter_datetime < @endDate
 order by a.patient_id desc, a.encounter_datetime desc;
