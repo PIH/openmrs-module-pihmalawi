@@ -53,7 +53,7 @@
         <idgenVersion>4.8.0</idgenVersion>
 		<initializerVersion>2.4.0</initializerVersion>
 		<groovyVersion>2.2.4</groovyVersion>
-        <legacyuiVersion>1.13.0-SNAPSHOT</legacyuiVersion>
+        <legacyuiVersion>1.14.0-SNAPSHOT</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.5.0</metadatamappingVersion>
         <metadatasharingVersion>1.8.0</metadatasharingVersion>
