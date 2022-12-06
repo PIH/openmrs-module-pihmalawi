@@ -43,6 +43,7 @@
         <macro key="counseling" value="480E00E5-D428-45F1-B819-413FE5FAEAC0"/>
         <macro key="managementPlanComments" value="16D8FC88-0180-4858-95D5-2479CF7BD6EE"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="formEncTypeUuid" value="e082235c-955d-11e7-abc4-cec278b6b50a"/>
 
         hospitalSinceLast=1715
         drugsNow=1193
@@ -60,6 +61,37 @@
             white-space: nowrap;
         }
     </style>
+
+    <ifMode mode="ENTER" include="true">
+        <script src="/openmrs/moduleResources/pihmalawi/scripts/prevent_duplicate_encounters.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            jq(function() {
+                const enctypeUuid = '$formEncTypeUuid';
+                const patientUuid = '<lookup expression="patient.uuid"/>';
+
+                var findDuplicateEncounter = setInterval(function() {
+                    try {
+                      checkForDuplicateEnc(enctypeUuid, patientUuid);
+                    } catch(error) {
+                      console.log("duplicate encounter validation error: " + error);
+                    }
+                      clearInterval(findDuplicateEncounter);
+                    }, 500);
+
+                htmlForm.getBeforeValidation().push(function () {
+                  let retValue = false;
+                  try {
+                      let duplicate = checkForDuplicateEnc(enctypeUuid, patientUuid);
+                      retValue = duplicate;
+                  } catch(error) {
+                    console.log("duplicate encounter validation error: " + error);
+                    retValue = true;
+                  }
+                  return retValue;
+                });
+            });
+        </script>
+    </ifMode>
 
     <ifMode mode="VIEW" include="false">
 
@@ -270,6 +302,7 @@
             <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>

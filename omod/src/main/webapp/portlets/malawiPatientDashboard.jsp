@@ -35,6 +35,7 @@
 <c:set var="PccDefaultedWorkflowState" value="0f034ef4-3f70-4514-a020-5fb928fc3394"/>
 <c:set var="PccDiedWorkflowState" value="4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"/>
 <c:set var="ChronicCareActiveStates" value="66882650-977f-11e1-8993-905e29aff6c1,7c4d2e56-c8c2-11e8-9bc6-0242ac110001"/>
+<c:set var="ChronicCareTerminalStates" value="6688275e-977f-11e1-8993-905e29aff6c1,6688297a-977f-11e1-8993-905e29aff6c1,3a4eb919-b942-4c9c-ba0e-defcebe5cd4b,dbe76d47-dbc4-4608-a578-97b6b62d9f63"/>
 <c:set var="MentalHealthActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84"/>
 <c:set var="MHTreatmentDischargedWorkflowState" value="42ACC789-C2BB-4EAA-8AC2-0BE7D0F5D4E8"/>
 <c:set var="MHTreatmentStoppedWorkflowState" value="9F6F188C-42AB-45D8-BC8B-DBE78948072D"/>
@@ -240,7 +241,7 @@
     </tr>
     <tr>
         <td>Chronic Care Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="84,86,140,141"/><br /></td
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
     </tr>
     <tr>
         <td>Mental Health Program:</td>

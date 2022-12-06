@@ -64,6 +64,7 @@
         clinicalImpression=1364
         nextAppt=5096
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="formEncTypeUuid" value="66079de4-a8df-11e5-bf7f-feff819cdc9f"/>
     </macros>
 
     <!-- Notes
@@ -80,11 +81,13 @@
         }
     </style>
 
-    <ifMode mode="VIEW" include="false">
-
+    <ifMode mode="ENTER" include="true">
+        <script src="/openmrs/moduleResources/pihmalawi/scripts/prevent_duplicate_encounters.js" type="text/javascript"></script>
         <script type="text/javascript">
 
             jq(function() {
+               const enctypeUuid = '$formEncTypeUuid';
+               const patientUuid = '<lookup expression="patient.uuid"/>';
 
                 var searchNextApptDate = function() {
                     var nextAppointDateValue = jq("span#appointmentDate input[type='hidden']").val();
@@ -119,8 +122,28 @@
                     searchNextApptDate();
                     clearInterval(findNextApptDate);
                 }, 500);
-            });
 
+                var findDuplicateEncounter = setInterval(function() {
+                    try {
+                      checkForDuplicateEnc(enctypeUuid, patientUuid);
+                    } catch(error) {
+                      console.log("duplicate encounter validation error: " + error);
+                    }
+                      clearInterval(findDuplicateEncounter);
+                    }, 500);
+
+                htmlForm.getBeforeValidation().push(function () {
+                  let retValue = false;
+                  try {
+                      let duplicate = checkForDuplicateEnc(enctypeUuid, patientUuid);
+                      retValue = duplicate;
+                  } catch(error) {
+                    console.log("duplicate encounter validation error: " + error);
+                    retValue = true;
+                  }
+                  return retValue;
+                });
+            });
         </script>
     </ifMode>
 
@@ -368,6 +391,7 @@
             <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>

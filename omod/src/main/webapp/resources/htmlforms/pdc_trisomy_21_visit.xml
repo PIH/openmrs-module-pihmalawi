@@ -44,6 +44,7 @@
         <macro key="feedingCounselling" value="f17754f9-c3f8-40d0-a9aa-903737a98f86" />
         <macro key="poserSupportReferred" value="977c1d68-6ffa-46d5-ae89-00404e8b5904" />
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="formEncTypeUuid" value="f770abb3-8470-4c63-a5c6-188ab384f8df"/>
      </macros>
 
     <style>
@@ -87,6 +88,37 @@
     });
 
 </script>
+
+    <ifMode mode="ENTER" include="true">
+        <script src="/openmrs/moduleResources/pihmalawi/scripts/prevent_duplicate_encounters.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            jq(function() {
+                const enctypeUuid = '$formEncTypeUuid';
+                const patientUuid = '<lookup expression="patient.uuid"/>';
+
+                var findDuplicateEncounter = setInterval(function() {
+                    try {
+                      checkForDuplicateEnc(enctypeUuid, patientUuid);
+                    } catch(error) {
+                      console.log("duplicate encounter validation error: " + error);
+                    }
+                      clearInterval(findDuplicateEncounter);
+                    }, 500);
+
+                htmlForm.getBeforeValidation().push(function () {
+                  let retValue = false;
+                  try {
+                      let duplicate = checkForDuplicateEnc(enctypeUuid, patientUuid);
+                      retValue = duplicate;
+                  } catch(error) {
+                    console.log("duplicate encounter validation error: " + error);
+                    retValue = true;
+                  }
+                  return retValue;
+                });
+            });
+        </script>
+    </ifMode>
 
 <ifMode mode="VIEW" include="false">
 
@@ -395,6 +427,7 @@
             <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                     <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
                 </td>
             </tr>
