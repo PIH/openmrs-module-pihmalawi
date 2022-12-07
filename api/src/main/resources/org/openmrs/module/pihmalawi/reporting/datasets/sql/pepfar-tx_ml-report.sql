@@ -9,7 +9,7 @@ SET @defaultCutOff = 30;
 call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);
 
-select sort_value,x.age_group, x.gender,
+select sort_value,x.age_group, CASE WHEN x.gender = "F" THEN "Female" ELSE "Male" END as gender,
 CASE WHEN patient_died is null then 0 else patient_died end as "Died",
 CASE WHEN  ITT_less_3months is null then 0 else ITT_less_3months end as "IIT_3mo_or_less_mo",
 CASE WHEN  ITT_less_3to5_months is null then 0 else ITT_less_3to5_months end as "IIT_3to5_mo",

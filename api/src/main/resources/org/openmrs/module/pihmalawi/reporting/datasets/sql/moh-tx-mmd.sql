@@ -5,7 +5,7 @@ SET @birthDateDivider = 30;
 call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);
 
-select sort_value,x.age_group, x.gender,
+select sort_value,x.age_group, CASE WHEN x.gender = "F" THEN "Female" ELSE "Male" END as gender,
 CASE WHEN less_than_three_months is null then 0 else less_than_three_months end as less_than_three_months,
 CASE WHEN three_to_five_months is null then 0 else three_to_five_months end as three_to_five_months,
 CASE WHEN six_months_plus is null then 0 else six_months_plus end as six_months_plus

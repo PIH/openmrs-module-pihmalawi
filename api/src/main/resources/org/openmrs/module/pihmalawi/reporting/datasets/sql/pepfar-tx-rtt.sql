@@ -20,7 +20,7 @@ call create_last_art_outcome_at_facility(@endDate,@location);
 SELECT
     sort_value,
     x.age_group,
-    x.gender,
+	CASE WHEN x.gender = "F" THEN "Female" ELSE "Male" END as gender,
     CASE
         WHEN returned_less_than_three_months IS NULL THEN 0
         ELSE returned_less_than_three_months
