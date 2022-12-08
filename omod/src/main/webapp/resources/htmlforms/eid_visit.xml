@@ -174,7 +174,7 @@
         <h4 style="font-style: italic;">
             <b>EID Patient Card</b>
             <span style="padding-left:50px;">Version 4</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">ART Reg no: </b>
                 <b>
@@ -189,6 +189,7 @@
           <tr>
               <th>Visit Date</th>
               <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
+                  <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                   <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
               </td>
           </tr>

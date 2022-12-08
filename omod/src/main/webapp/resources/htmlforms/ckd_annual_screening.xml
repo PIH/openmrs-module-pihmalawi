@@ -49,7 +49,7 @@
         <h4 style="font-style: italic;">
             <b>Screening Every 12 Months</b>
             <span style="padding-left:50px;">Version 1</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no:</b>
                 <b>
@@ -67,6 +67,7 @@
                 <th>Date</th>
                 <td>
                     <encounterDate id="visitDate" default="today"/>
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                 </td>
             </tr>
             <tr>

@@ -152,6 +152,87 @@
         setupHtnDmValidation(flowsheet, html);
         setupChronicCareDiagnosisValidation(flowsheet, html);
         setupViralLoadValidation(flowsheet, html);
+        setupEncDupsValidation(flowsheet, html);
+
+        function setupEncDupsValidation(flowsheet, html) {
+            const formName = flowsheet.getCurrentlyEditingFormName();
+            const currentFlowsheet = flowsheet.getFlowsheet(formName);
+            const encTypeUuid = currentFlowsheet.encounterTypeUuid;
+            const apiBaseUrl = "/" + window.location.href.split('/')[3] + "/ws/rest/v1";
+            const patientUuid = jq(html).find("#patientUuid").text().trim();
+            if (patientUuid.length < 1) {
+              // the patientUuid was not added to the form
+              return false;
+            }
+            checkForDuplicateEnc(encTypeUuid, patientUuid, apiBaseUrl);
+            // this function gets called every time the form is displayed,
+          // and the Cancel button on the form is clicked the form is just hidden without unloading all those validation functions
+          // so we need to make sure we do not have duplicate validation functions loaded for the same form
+            if (htmlForm.getBeforeValidation().length > 0 ) {
+              for (let index=0; index < htmlForm.getBeforeValidation().length; index++) {
+                let func = (htmlForm.getBeforeValidation())[index];
+                if ( func.name == 'validateEncounter' ) {
+                  htmlForm.getBeforeValidation().splice(index,1);
+                }
+              }
+            }
+
+            const validateEncounter = function () {
+              let retValue = false;
+              try {
+                retValue = checkForDuplicateEnc(encTypeUuid, patientUuid, apiBaseUrl);
+              } catch(error) {
+                console.log("duplicate encounter validation error: " + error);
+                retValue = true;
+              }
+              return retValue;
+            };
+
+            htmlForm.getBeforeValidation().push(validateEncounter);
+
+            function getVisitDate() {
+              let visitDateInput = jq("span#visitDate input[type='hidden']").val();
+              // the Visit Date is in the format YYYY-MM-DD
+              let dateParts = visitDateInput.split("-");
+              // month is 0-based, that's why we need dataParts[1] - 1
+              let visitDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
+              return visitDate;
+            }
+
+            function checkForDuplicateEnc(encTypeUuid, patientUuid, apiBaseUrl) {
+
+              let returnValue = false;
+              const currentVisitDate = getVisitDate();
+              let visitMonth = currentVisitDate.getMonth() + 1;
+              let fromDate = currentVisitDate.getFullYear() + "-" + visitMonth + "-" + currentVisitDate.getDate();
+
+              jq.ajax({
+                async: false,
+                datatype: "json",
+                url: apiBaseUrl + "/encounter",
+                data: {
+                  encounterType: encTypeUuid,
+                  patient: patientUuid,
+                  fromdate: fromDate,
+                  todate: fromDate
+                }
+              }).done( function(data) {
+                if (data.results.length > 0 ) {
+                  // there is already an encounter of this type on this date
+                  flowsheet.clearErrorMessage();
+                  jq("#visitDateError").text("Please check the mastercard! This is a duplicate encounter").show();
+                  flowsheet.toggleError(jq("#visitDateError"), "Duplicate");
+                  returnValue = false;
+                } else {
+                  returnValue = true;
+                }
+              }).fail(function() {
+                console.log("failed to check for duplicate encounters");
+                returnValue = true;
+              });
+              return returnValue;
+            }
+        }
 
         function setupLocationDefaults(flowsheet, html) {
 
@@ -463,7 +544,6 @@
             var vlNumericField = jq(html).find("#vl-numeric :first-child");
             var vlLessThanField = jq(html).find("#vl-less-than :first-child");
             var vlLdlField = jq(html).find("#vl-LDL :checkbox");
-
             if ((typeof vlNumericField.val() !== "undefined") &&
               ( typeof vlLessThanField.val() !== "undefined") &&
               ( typeof vlLdlField.is(':checked') !== "undefined")) {

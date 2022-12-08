@@ -75,36 +75,6 @@
         <macro key="formEncTypeUuid" value="1ebe2272-974e-11e8-9eb6-529269fb1459"/>
     </macros>
 
-<ifMode mode="ENTER" include="true">
-        <script src="/openmrs/moduleResources/pihmalawi/scripts/prevent_duplicate_encounters.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            jq(function() {
-                const enctypeUuid = '$formEncTypeUuid';
-                const patientUuid = '<lookup expression="patient.uuid"/>';
-
-                var findDuplicateEncounter = setInterval(function() {
-                    try {
-                      checkForDuplicateEnc(enctypeUuid, patientUuid);
-                    } catch(error) {
-                      console.log("duplicate encounter validation error: " + error);
-                    }
-                      clearInterval(findDuplicateEncounter);
-                    }, 500);
-
-                htmlForm.getBeforeValidation().push(function () {
-                  let retValue = false;
-                  try {
-                      let duplicate = checkForDuplicateEnc(enctypeUuid, patientUuid);
-                      retValue = duplicate;
-                  } catch(error) {
-                    console.log("duplicate encounter validation error: " + error);
-                    retValue = true;
-                  }
-                  return retValue;
-                });
-            });
-        </script>
-    </ifMode>
     <ifMode mode="VIEW" include="false">
 
         <script type="text/javascript">
@@ -406,7 +376,7 @@
         <h4 style="font-style: italic;">
             <b>Chronic Kidney Disease Patient Card</b>
             <span style="padding-left:50px;">Version 1</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Chronic Care no: </b>
                 <b>
