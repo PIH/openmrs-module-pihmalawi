@@ -157,6 +157,7 @@
         function setupEncDupsValidation(flowsheet, html) {
             const formName = flowsheet.getCurrentlyEditingFormName();
             const currentFlowsheet = flowsheet.getFlowsheet(formName);
+            const currentlyEditingEncounterId = flowsheet.getCurrentlyEditingEncounterId();
             const encTypeUuid = currentFlowsheet.encounterTypeUuid;
             const apiBaseUrl = "/" + window.location.href.split('/')[3] + "/ws/rest/v1";
             const patientUuid = jq(html).find("#patientUuid").text().trim();
@@ -164,10 +165,11 @@
               // the patientUuid was not added to the form
               return false;
             }
-            checkForDuplicateEnc(encTypeUuid, patientUuid, apiBaseUrl);
+
+
             // this function gets called every time the form is displayed,
-          // and the Cancel button on the form is clicked the form is just hidden without unloading all those validation functions
-          // so we need to make sure we do not have duplicate validation functions loaded for the same form
+           // and the Cancel button on the form is clicked the form is just hidden without unloading all those validation functions
+           // so we need to make sure we do not have duplicate validation functions loaded for the same form
             if (htmlForm.getBeforeValidation().length > 0 ) {
               for (let index=0; index < htmlForm.getBeforeValidation().length; index++) {
                 let func = (htmlForm.getBeforeValidation())[index];
@@ -176,6 +178,13 @@
                 }
               }
             }
+
+            if (currentlyEditingEncounterId != null ) {
+              //we are not checking if this is editing an existing encounter
+              return true;
+            }
+
+            checkForDuplicateEnc(encTypeUuid, patientUuid, apiBaseUrl);
 
             const validateEncounter = function () {
               let retValue = false;
