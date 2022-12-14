@@ -56,6 +56,7 @@ public class AdminList extends AdministrationSectionExt {
 			map.put("/coreapps/providermanagement/editProvider.page", "Create CHW");
 		}
 		map.put("/pihmalawi/vlresults/importVLR.page", "Import VL Results");
+		map.put("/pihmalawi/duplicateEncounters.page", "Delete duplicate encounters");
 		map.put("/pihmalawi/setupReports.page", "Create or Delete Reports");
 		
 		return map;
