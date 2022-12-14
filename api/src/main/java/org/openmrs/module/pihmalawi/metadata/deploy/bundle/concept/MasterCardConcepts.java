@@ -175,7 +175,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 17;
+        return 18;
     }
 
     @Override
@@ -610,6 +610,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(text)
                 .conceptClass(misc)
                 .name("F3C29B6C-7FBD-460F-A7D8-CE8377268FE5", "Viral Load Sample ID", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+        // Lab ID
+        install(new ConceptBuilder("4A3CD51E-F542-4638-AAD1-0C19B742C31E")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("8CD19701-F3E4-49F0-841C-8F3C427E6172", "Lab ID", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
         Concept HbA1c = install(new ConceptNumericBuilder(ChronicCareMetadata.HBA1C_CONCEPT)
