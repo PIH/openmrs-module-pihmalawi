@@ -51,6 +51,7 @@ public class MohTptNewInitiationReport extends ApzuReportManager {
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
         l.add(ReportingConstants.START_DATE_PARAMETER);
+        l.add(ReportingConstants.END_DATE_PARAMETER);
         l.add(ReportingConstants.LOCATION_PARAMETER);
         return l;
     }

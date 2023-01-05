@@ -10,14 +10,13 @@ and 6H(6 months of daily isoniazid for TB preventive therapy).
 
 /* 30 for age in months*/
 SET @birthDateDivider = 30;
-SET @endDate= date_sub(date_add(@startDate, interval 3 month),interval 1 day);
-SET @defaultOneMonth = 30;
+SET @defaultOneMonth = 60;
 SET @district="Neno";
 
 call create_age_groups();
 call create_hiv_cohort(@startDate,@endDate,@location,@birthDateDivider);
 
-select sort_value,@district as district,x.age_group, x.gender,
+select sort_value,@district as district,x.age_group, CASE WHEN x.gender="F" then 'Female' else 'Male' end as gender,
 CASE WHEN new_start_three_hp is null then 0 else new_start_three_hp end as new_start_three_hp,
 CASE WHEN new_start_six_h is null then 0 else new_start_six_h end as new_start_six_h,
 CASE WHEN old_start_three_hp is null then 0 else old_start_three_hp end as previous_start_three_hp,
@@ -69,17 +68,17 @@ SELECT CASE
 	WHEN age >=1080 and gender = "F" THEN "90 plus years"
 END as age_group,gender,
 COUNT(IF(((initial_visit_date >= @startDate and transfer_in_date is null) or start_date >= @startDate)
-and (first_inh_300 is not null and first_rfp_150 is not null),1,NULL)) as new_start_three_hp,
+and ((first_inh_300 is not null and first_rfp_150 is not null) or first_rfp_inh is not null),1,NULL)) as new_start_three_hp,
 COUNT(IF(((initial_visit_date >= @startDate and transfer_in_date is null) or start_date >= @startDate)
 and (first_inh_300 is not null and first_rfp_150 is null),1,NULL)) as new_start_six_h,
 COUNT(IF(initial_visit_date < @startDate and previous_ipt_date < date_sub(@startDate, interval 1 month)
-and (first_inh_300 is not null and first_rfp_150 is not null),1,NULL)) as old_start_three_hp,
+and ((first_inh_300 is not null and first_rfp_150 is not null) or first_rfp_inh is not null),1,NULL)) as old_start_three_hp,
 COUNT(IF(initial_visit_date < @startDate and previous_ipt_date < date_sub(@startDate, interval 2 month)
 and (first_inh_300 is not null and first_rfp_150 is null),1,NULL)) as old_start_six_h
 from
 (
 	select * from hiv_cohort where
-	(first_inh_300 is not null or first_rfp_150 is not null)
+	(first_inh_300 is not null or first_rfp_150 is not null or first_rfp_inh is not null)
 and first_ipt_date >= @startDate
 )sub1
  group by age_group,gender, location
