@@ -1,13 +1,9 @@
 package org.openmrs.module.pihmalawi.web.controller;
 
-import org.openmrs.Location;
-import org.openmrs.Patient;
-import org.openmrs.PatientProgram;
-import org.openmrs.Program;
-import org.openmrs.ProgramWorkflowState;
+import org.apache.commons.lang.StringUtils;
+import org.openmrs.*;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.PihMalawiWebConstants;
 import org.openmrs.web.WebConstants;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +21,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static org.openmrs.module.pihmalawi.PihMalawiConstants.TRANSFERRED_OUT_PROGRAM_ATTRIBUTE_TYPE;
 
 @Controller
 public class QuickProgramsFormController {
@@ -74,6 +72,59 @@ public class QuickProgramsFormController {
 			pp.transitionToState(state, enrollmentDate);
 			pws.savePatientProgram(pp);
 		}
+		return new ModelAndView(new RedirectView(returnPage));
+	}
+
+
+	@RequestMapping("/module/quickprograms/transferredOutToLocation.form")
+	public ModelAndView transferOut(HttpServletRequest request,
+							   HttpServletResponse response,
+							   @RequestParam("returnPage") String returnPage,
+							   @RequestParam("patientId") Integer patientId,
+							   @RequestParam("programId") Integer programId,
+							   @RequestParam("patientProgramId") Integer patientProgramId,
+							   @RequestParam("programworkflowStateId") Integer stateId,
+							   @RequestParam("dateTransferredOut") Date transferredOutDate,
+							   @RequestParam(value="transferredOutLocation", required=true) String transferredOutLocation
+	) throws ServletException, IOException {
+
+		if (returnPage == null) {
+			throw new IllegalArgumentException("must specify a returnPage parameter in a call to transfer()");
+		}
+
+        ProgramWorkflowService pws = Context.getService(ProgramWorkflowService.class);
+        ProgramWorkflowState pwState = null;
+        if ( stateId != null ) {
+            pwState = pws.getState(stateId);
+        }
+        ProgramAttributeType transferredOutAttrType = pws.getProgramAttributeTypeByUuid(TRANSFERRED_OUT_PROGRAM_ATTRIBUTE_TYPE);
+
+        if (StringUtils.isNotBlank(transferredOutLocation)) {
+            PatientProgram patientProgram = null;
+            if (patientProgramId != null) {
+                patientProgram = pws.getPatientProgram(patientProgramId);
+                if (patientProgram != null) {
+                    List<PatientProgramAttribute> activeAttributes = patientProgram.getActiveAttributes(transferredOutAttrType);
+                    if (activeAttributes != null && activeAttributes.size() > 0) {
+                        //this patient program already has an attribute of this type,
+                        // just update its value
+                        //activeAttributes.get(0).setValue(transferredOutLocation);
+						activeAttributes.get(0).setValueReferenceInternal(transferredOutLocation);
+                    } else {
+                        //add new program attribute
+                        PatientProgramAttribute prgAttrib = new PatientProgramAttribute();
+                        prgAttrib.setAttributeType(transferredOutAttrType);
+                        prgAttrib.setValueReferenceInternal(transferredOutLocation);
+						patientProgram.setAttribute(prgAttrib);
+                    }
+                    if ( pwState != null ) {
+                        patientProgram.transitionToState(pwState, transferredOutDate);
+                    }
+                    pws.savePatientProgram(patientProgram);
+                }
+            }
+        }
+
 		return new ModelAndView(new RedirectView(returnPage));
 	}
 

@@ -18,6 +18,11 @@
         </c:choose>
     }
 
+    function completeProgram(patientProgramId, workflowId, stateId, dateField) {
+      var onDate = parseDate_2(DWRUtil.getValue(dateField));
+      console.log("completeProgram on " + onDate);
+    }
+
     function changeToState(patientProgramId, workflowId, stateId, dateField) {
         var onDate = parseDate_2(DWRUtil.getValue(dateField));
         DWRProgramWorkflowService.changeToState(patientProgramId, workflowId, stateId, onDate, function() {
