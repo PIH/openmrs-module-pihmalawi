@@ -48,6 +48,7 @@ public class MohTptNewInitiationReportTest extends ReportManagerTest {
     public EvaluationContext getEvaluationContext() {
         EvaluationContext context = new EvaluationContext();
         context.addParameterValue("startDate", DateUtil.getDateTime(2022, 1, 1));
+        context.addParameterValue("endDate", DateUtil.getDateTime(2022, 3, 31));
         context.addParameterValue("location", "Neno District Hospital");
         return context;
     }
