@@ -20,4 +20,6 @@ public class PihMalawiConstants {
     public static final String TASK_MIGRATE_EID_TEST_RESULTS = "Migrate EID Test Results";
     public static final String TASK_MIGRATE_EID_TEST_RESULTS_DESCRIPTION = "Migrates EID Test Results on the Exposed Child Initial Form to the EID Screening Form";
     public static final String MEDIC_MOBILE_FACILITY = "Yendanafe Catchment";
+
+    public static final String TRANSFERRED_OUT_PROGRAM_ATTRIBUTE_TYPE = "D576AAE9-6537-4549-88A5-49A761AA93E0";
 }

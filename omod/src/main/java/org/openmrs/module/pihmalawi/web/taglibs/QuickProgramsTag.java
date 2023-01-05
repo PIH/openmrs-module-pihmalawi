@@ -34,6 +34,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.PatientProgram;
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.util.OpenmrsConstants;
 
 /**
@@ -42,6 +43,8 @@ import org.openmrs.util.OpenmrsConstants;
 public class QuickProgramsTag extends BodyTagSupport {
 
 	public static final long serialVersionUID = 128233353L;
+
+	public static final String TRANSFERRED_OUT_CONCEPT = "655b604e-977f-11e1-8993-905e29aff6c1";
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -100,15 +103,19 @@ public class QuickProgramsTag extends BodyTagSupport {
 					for (ProgramWorkflowState pws : terminalStates) {
 						if (!(currentState != null && currentState.getState().equals(pws))) {
 							quickProgramsAvailable = true;
-							o.write(changeToStateSubmitTag("Complete",
-								currentPatientProgram(program, patient),
-								pws.getProgramWorkflow(), pws,
-								"'dateForPWS" + pws.getId() + "'")
-								+ " with "
-								+ pws.getConcept().getName()
-								+ " on "
-								+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
-								+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+							if (  StringUtils.equalsIgnoreCase(pws.getConcept().getUuid(), TRANSFERRED_OUT_CONCEPT)) {
+								o.write(transferOutForm(program, patient, pws));
+							} else {
+								o.write(changeToStateSubmitTag("Complete",
+										currentPatientProgram(program, patient),
+										pws.getProgramWorkflow(), pws,
+										"'dateForPWS" + pws.getId() + "'")
+										+ " with "
+										+ pws.getConcept().getName()
+										+ " on "
+										+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
+										+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+							}
 						}
 					}
 				}
@@ -159,6 +166,28 @@ public class QuickProgramsTag extends BodyTagSupport {
 	}
 
 	/**
+	 * Private method for constructing a new transferred out program state form
+	 */
+	private String transferOutForm(Program program, Patient patient, ProgramWorkflowState pws) {
+		String s = "";
+		s += "<form method=\"post\" action=\"/openmrs/module/quickprograms/transferredOutToLocation.form\">\n";
+		s += "<input id=\"transferOutSubmitButton-" + pws.getId() + "\" type=\"submit\" value=\"Complete\"/>\n";
+		s += "<input type=\"hidden\" name=\"method\" value=\"transferOut\"/>\n";
+		s += "<input type=\"hidden\" name=\"patientId\" value=\"" + patient.getId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"returnPage\" value=\"/openmrs/patientDashboard.form?patientId=" + patient.getId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"programId\" value=\"" + program.getId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"patientProgramId\" value=\"" + currentPatientProgram(program, patient).getPatientProgramId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"programworkflowStateId\" value=\"" + pws.getId() + "\"/>\n";
+		s += " with " + pws.getConcept().getName();
+		s += " to " + transferToLocationTag();
+		s += " on \n";
+		s += dateTag("dateTransferredOut-" + pws.getId(), "dateTransferredOut") + "\n";
+		s += " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>";
+		s += "</form><br/>";
+		return s;
+	}
+
+	/**
 	 * Utility method for retrieving the current Patient Program for a given Program and Patient
 	 */
 	private PatientProgram currentPatientProgram(Program program, Patient patient) {
@@ -170,6 +199,26 @@ public class QuickProgramsTag extends BodyTagSupport {
 		return null;
 	}
 
+	/**
+	 * Utility method for writing transfer out location field
+	 */
+	private String transferToLocationTag() {
+
+		StringBuffer sb = new StringBuffer("  <select name=\"transferredOutLocation\" style=\"width: 150px\">\n");
+
+		sb.append("<option value=\"\">Choose a location...</option>\n");
+		String defaultLocationId = getDefaultLocation();
+
+		for (Location l : Context.getLocationService().getAllLocations(false)) {
+			if (defaultLocationId != null && !"".equals(defaultLocationId) && l.getId().equals(new Integer(defaultLocationId))) {
+				sb.append("<option value=\"" + l.getName() + "\" selected>" + l.getName() + "</option>\n");
+			} else {
+				sb.append("<option value=\"" + l.getName() + "\">" + l.getName() + "</option>\n");
+			}
+		}
+		sb.append("</select>\n");
+		return sb.toString();
+	}
 	/**
 	 * Utility method for writing a change state field
 	 */

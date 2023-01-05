@@ -17,7 +17,6 @@
     </c:otherwise>
         </c:choose>
     }
-
     function changeToState(patientProgramId, workflowId, stateId, dateField) {
         var onDate = parseDate_2(DWRUtil.getValue(dateField));
         DWRProgramWorkflowService.changeToState(patientProgramId, workflowId, stateId, onDate, function() {
