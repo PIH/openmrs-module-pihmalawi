@@ -15,7 +15,7 @@ public class ProgramAttributeTypeBundle extends AbstractMetadataBundle {
         install(programAttributeType(
                 "Transferred out location",
                 "Transferred out facility location",
-                "org.openmrs.module.coreapps.customdatatype.LocationDatatype",
+                "org.openmrs.customdatatype.datatype.FreeTextDatatype",
                 "Health Facility",
                 1,
                 1,

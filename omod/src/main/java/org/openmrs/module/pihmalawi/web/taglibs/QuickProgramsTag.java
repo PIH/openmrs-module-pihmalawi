@@ -34,6 +34,7 @@ import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.PatientProgram;
+import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.util.OpenmrsConstants;
 
 /**
@@ -210,9 +211,9 @@ public class QuickProgramsTag extends BodyTagSupport {
 
 		for (Location l : Context.getLocationService().getAllLocations(false)) {
 			if (defaultLocationId != null && !"".equals(defaultLocationId) && l.getId().equals(new Integer(defaultLocationId))) {
-				sb.append("<option value=\"" + l.getUuid() + "\" selected>" + l.getName() + "</option>\n");
+				sb.append("<option value=\"" + l.getName() + "\" selected>" + l.getName() + "</option>\n");
 			} else {
-				sb.append("<option value=\"" + l.getUuid() + "\">" + l.getName() + "</option>\n");
+				sb.append("<option value=\"" + l.getName() + "\">" + l.getName() + "</option>\n");
 			}
 		}
 		sb.append("</select>\n");
