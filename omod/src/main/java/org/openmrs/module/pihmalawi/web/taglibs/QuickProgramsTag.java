@@ -179,7 +179,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 		s += "<input type=\"hidden\" name=\"patientProgramId\" value=\"" + currentPatientProgram(program, patient).getPatientProgramId() + "\"/>\n";
 		s += "<input type=\"hidden\" name=\"programworkflowStateId\" value=\"" + pws.getId() + "\"/>\n";
 		s += " with " + pws.getConcept().getName();
-		s += " to " + transferToLocationTag();
+		s += " to " + transferToLocationTag(program.getId());
 		s += " on \n";
 		s += dateTag("dateTransferredOut-" + pws.getId(), "dateTransferredOut") + "\n";
 		s += " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>";
@@ -202,21 +202,41 @@ public class QuickProgramsTag extends BodyTagSupport {
 	/**
 	 * Utility method for writing transfer out location field
 	 */
-	private String transferToLocationTag() {
+	private String transferToLocationTag(Integer programId) {
 
-		StringBuffer sb = new StringBuffer("  <select name=\"transferredOutLocation\" style=\"width: 150px\">\n");
-
-		sb.append("<option value=\"\">Choose a location...</option>\n");
-		String defaultLocationId = getDefaultLocation();
-
+		StringBuffer locations = new StringBuffer();
 		for (Location l : Context.getLocationService().getAllLocations(false)) {
-			if (defaultLocationId != null && !"".equals(defaultLocationId) && l.getId().equals(new Integer(defaultLocationId))) {
-				sb.append("<option value=\"" + l.getName() + "\" selected>" + l.getName() + "</option>\n");
-			} else {
-				sb.append("<option value=\"" + l.getName() + "\">" + l.getName() + "</option>\n");
+			if (locations.length() > 0 ) {
+				locations.append( ",");
 			}
+			locations.append( "\"").append(l.getName()).append("\"");
 		}
-		sb.append("</select>\n");
+		String locationId = "transferredOutLocation_" +  programId.intValue();
+		StringBuffer sb = new StringBuffer("");
+		sb.append("<script type=\"text/javascript\">");
+		sb.append("jQuery( function() {");
+		sb.append("var availableLocations = [");
+		sb.append(locations.toString());
+		sb.append("];\n");
+		sb.append("var searchedValue = null;\n");
+		sb.append("jQuery( \"#").append(locationId).append("\" ).autocomplete({\n" +
+				"        source: availableLocations,\n" +
+				"		 minLength: 0,\n" +
+				"        delay: 100\n" +
+				"      })");
+		sb.append(".on( \"autocompletesearch\", function(event, ui ) {        \n" +
+				"        if ( event.target.value.length > 0 ) {\n" +
+				"            searchedValue = event.target.value;\n" +
+				"        }\n" +
+				" });\n" +
+				" jQuery(\"#" + locationId + "\").blur(function(){\n" +
+				"		 if ( jQuery( \"#" + locationId + "\" ).val().length < 1 ) {\n" +
+				"            jQuery( \"#" + locationId + "\" ).val(searchedValue);\n" +
+				"        }\n" +
+				"     });\n" +
+				"});");
+		sb.append("</script>");
+		sb.append("<input id=\"" + locationId +"\" name=\"transferredOutLocation\" style=\"width: 150px\" placeholder=\"Type a location ...\">");
 		return sb.toString();
 	}
 	/**
