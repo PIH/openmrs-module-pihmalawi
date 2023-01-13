@@ -92,6 +92,7 @@ public class FindPatientPortletController {
 		DataConverter defaultConverter = new NullValueConverter("");
 
 		dsd.addColumn("patientId", builtInPatientData.getPatientId(), "", defaultConverter);
+		dsd.addColumn("patient_uuid", basePatientData.getUuid(), "");
 		dsd.addColumn("identifier", builtInPatientData.getPreferredIdentifierIdentifier(), "", defaultConverter);
 		dsd.addColumn("givenName", builtInPatientData.getPreferredGivenName(), "", defaultConverter);
 		dsd.addColumn("familyName", builtInPatientData.getPreferredFamilyName(), "", defaultConverter);

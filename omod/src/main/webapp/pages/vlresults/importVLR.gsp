@@ -105,6 +105,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="vlr in vlrList" ng-style="{'background': (vlr.completed)  ? 'greenyellow' : ''}">
+                <td>{{ vlr.rowNumber }} </td>
+                <td>{{ vlr.labId }} </td>
                 <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr))  ? '#ffb3b5' : ''}">{{ vlr.artClinicNo }} </td>
                 <td ng-style="{'background': (!vlr.patientId && !processing) ? '#ffb3b5' : ''}">
                     <a ng-show="vlr.patientId" href="{{mastercardPage}}{{vlr.patientId}}">
@@ -112,16 +114,15 @@
                     </a>
                     <span ng-show="!vlr.patientId">{{ vlr.identifier }}</span>
                 </td>
-                <td ng-style="{'background': (vlr.facilityName !== getLocationName(vlr)) ? '#ffb3b5' : ''}">{{ vlr.facilityName }} </td>
                 <td>{{ vlr.sex }} </td>
                 <td>{{ vlr.dob ? displayDate(vlr.dob) : '' }} </td>
                 <td>{{ vlr.age }} </td>
                 <td ng-style="{'background': (!vlr.encounter && vlr.patientId)  ? '#ffb3b5' : ''}">{{ displayDate(vlr.collectionDate) }} </td>
                 <td>{{ vlr.reasonForTest }} </td>
-                <td ng-style="{'background': (vlr.emrResult && (vlr.emrResult != vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.emrResult }}</td>
-                <td ng-style="{'background': (!parseResult(vlr.result))  ? '#ffb3b5' : ''}">{{ vlr.result }} </td>
+                <td ng-style="{'background': (vlr.emrResult && (vlr.emrResult != displayCsvResult(vlr.result)))  ? '#ffb3b5' : ''}">{{ vlr.emrResult }}</td>
+                <td>{{ displayCsvResult(vlr.result) }} </td>
                 <td>
-                    <button ng-disabled="!parseResult(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.emrResult && (vlr.emrResult != vlr.result)) || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
+                    <button ng-disabled="!(vlr.result) || !vlr.patientId || !vlr.encounter || (vlr.emrResult && (vlr.emrResult != displayCsvResult(vlr.result))) || (vlr.facilityName !== getLocationName(vlr)) || vlr.completed" type="button" ng-click="importVLR(vlr, true)">${ ui.message("Import") }</button>
                 </td>
             </tr>
             </tbody>

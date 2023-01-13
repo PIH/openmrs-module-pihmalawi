@@ -5,6 +5,7 @@ angular.module('importVLRApp', ['ngDialog'])
         URLS: {
           PERSON: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/person",
           PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/patient",
+          FIND_PATIENT: "/" + OPENMRS_CONTEXT_PATH + "/module/pihmalawi/findMatchingPatients.form",
           ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
           PATIENT_ART_MASTERCARD: "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/flowsheet.page?headerForm=pihmalawi:htmlforms/art_mastercard.xml&flowsheets=pihmalawi:htmlforms/viral_load_test_results.xml&flowsheets=pihmalawi:htmlforms/art_visit.xml&dashboardUrl=legacyui&customizationProvider=pihmalawi&customizationFragment=mastercard&patientId="
         },
@@ -12,15 +13,18 @@ angular.module('importVLRApp', ['ngDialog'])
         VL_TEST_SET: "83931c6d-0e5a-4302-b8ce-a31175b6475e",
         HIV_VIRAL_LOAD: "654a7694-977f-11e1-8993-905e29aff6c1",
         REASON_FOR_TESTING: "164126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        LAB_ID: "4A3CD51E-F542-4638-AAD1-0C19B742C31E",
         ROUTINE: "e0821812-955d-11e7-abc4-cec278b6b50a",
         CONFIRMED: "65590f06-977f-11e1-8993-905e29aff6c1",
         TARGET: "e0821df8-955d-11e7-abc4-cec278b6b50a",
         TRUE: "655e2f90-977f-11e1-8993-905e29aff6c1",
         LDL: "e97b36a2-16f5-11e6-b6ba-3e1d05defe78",
+        OTHER_RESULT: "656fa450-977f-11e1-8993-905e29aff6c1",
+        OTHER_NON_CODED: "656cce7e-977f-11e1-8993-905e29aff6c1",
         LESS_THAN_LIMIT: "69e87644-5562-11e9-8647-d663bd873d93",
         PATIENT_CUSTOM_REP: "v=custom:(uuid,id,display,person:(uuid,display,gender,age,birthdate,birthdateEstimated,dead,deathDate,causeOfDeath))",
         PERSON_CUSTOM_REP: "v=custom:(uuid,personId,display,gender,age,birthdate,birthdateEstimated,names,addresses)",
-        ENCOUNTER_CUSTOM_REP: "v=custom:(uuid,patient:(uuid),location:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid),person:(uuid),obsDatetime,location:(uuid),encounter:(uuid),comment,valueCodedName:(uuid),groupMembers:(uuid,display,person:(uuid),concept:(uuid),obsDatetime,value,valueCodedName:(uuid),voided),voided,value:(uuid)))"
+        ENCOUNTER_CUSTOM_REP: "v=custom:(uuid,patient:(uuid),location:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid),person:(uuid),obsDatetime,location:(uuid),encounter:(uuid),comment,valueCodedName:(uuid),groupMembers:(uuid,display,person:(uuid),concept:(uuid),obsDatetime,comment,value,valueCodedName:(uuid),voided),voided,value:(uuid)))"
       };
 
       var LOCATIONS_MAP = new Map([
@@ -61,7 +65,7 @@ angular.module('importVLRApp', ['ngDialog'])
                 "uuid": CONSTANTS.HIV_VIRAL_LOAD
               };
               // this is a numeric value
-              vlResultObs.value = value;
+              vlResultObs.value = Math.round(value);
             }
           } else if(vlRecord.result.startsWith("<")){
             vlResultObs.concept = {
@@ -69,6 +73,20 @@ angular.module('importVLRApp', ['ngDialog'])
             };
             // LESS THAN LIMIT
             vlResultObs.value = vlRecord.result.substring(1);
+          } else if (vlRecord.result.toLowerCase().includes("ldl copies")
+            || vlRecord.result.toLowerCase().includes("not detected")) {
+            //LDL again
+            vlResultObs.concept = {
+              "uuid": CONSTANTS.LDL
+            };
+            vlResultObs.value = CONSTANTS.TRUE;
+          } else if (vlRecord.result.length > 0) {
+            // Other non-coded
+            vlResultObs.concept = {
+              "uuid": CONSTANTS.OTHER_RESULT
+            };
+            vlResultObs.value = CONSTANTS.OTHER_NON_CODED;
+            vlResultObs.comment = vlRecord.result;
           }
         }
 
@@ -86,12 +104,26 @@ angular.module('importVLRApp', ['ngDialog'])
             vlReasonForTestingObs.value = CONSTANTS.ROUTINE;
           } else if (vlRecord.reasonForTest.toUpperCase().includes("TARGET")) {
             vlReasonForTestingObs.value = CONSTANTS.TARGET;
+          } else if (vlRecord.reasonForTest.toUpperCase().includes("CONFIRM")) {
+            vlReasonForTestingObs.value = CONSTANTS.CONFIRMED;
           }
         }
         return vlReasonForTestingObs;
       }
 
-      function parseEncounter(encounter, vlResultObs, reasonForTestingObs) {
+      function buildLabIdObs(vlRecord) {
+        var labIdObs = {
+          concept: {
+            uuid: CONSTANTS.LAB_ID
+          }
+        };
+        if (vlRecord.labId) {
+          labIdObs.value = vlRecord.labId;
+        }
+        return labIdObs;
+      }
+
+      function parseEncounter(encounter, vlResultObs, reasonForTestingObs, labIdObs) {
 
         var resultObs = angular.copy(vlResultObs);
         resultObs.uuid = null;
@@ -107,6 +139,7 @@ angular.module('importVLRApp', ['ngDialog'])
               vlObs.uuid = parentObs.uuid;
               var members = [];
               var hasReasonForTesting = false;
+              var hasLabId = false;
               angular.forEach(parentObs.groupMembers, function (childObs) {
                 var groupMember = {
                   "uuid": childObs.uuid,
@@ -130,6 +163,10 @@ angular.module('importVLRApp', ['ngDialog'])
                   // Reason for Testing has been entered during sample collection
                   hasReasonForTesting = true;
                 }
+                if (groupMember.concept.uuid === CONSTANTS.LAB_ID && groupMember.value) {
+                  // Lab ID has been entered during sample collection
+                  hasLabId = true;
+                }
                 if (resultObs.concept.uuid == groupMember.concept.uuid) {
                   // this encounter already has a VL result, and we will update its value
                   resultObs.uuid = groupMember.uuid;
@@ -144,6 +181,9 @@ angular.module('importVLRApp', ['ngDialog'])
               }
               if (!hasReasonForTesting) {
                 members.push(reasonForTestingObs);
+              }
+              if (!hasLabId) {
+                members.push(labIdObs);
               }
               vlObs.groupMembers = members;
               break;
@@ -199,14 +239,17 @@ angular.module('importVLRApp', ['ngDialog'])
       };
 
       this.getPatient = function(vlRecord) {
-        return $http.get(CONSTANTS.URLS.PATIENT + "?q=" + vlRecord.identifier + "&" + CONSTANTS.PATIENT_CUSTOM_REP)
+        return $http.get(CONSTANTS.URLS.FIND_PATIENT + "?phrase=" + vlRecord.identifier)
           .then(function (response) {
             if ( response.status == 200 ) {
-              if (response.data && response.data.results && response.data.results.length == 1) {
+              if (response.data && response.data && response.data.length == 1) {
                 //only one patient found with this ID
-                var patient = response.data.results[0];
-                vlRecord.patientId = patient.id;
-                vlRecord.patientUuid = patient.uuid;
+                var patient = response.data[0];
+                vlRecord.patientId = patient.patientId;
+                vlRecord.patientUuid = patient.patient_uuid;
+                vlRecord.sex= patient.gender;
+                vlRecord.age= patient.age;
+                vlRecord.dob= patient.birthdateYmd; //birthdateDisplay="01/Jan/1972";  birthdateYmd="1972-01-01" ;
               }
               return vlRecord;
             } else {
@@ -241,10 +284,11 @@ angular.module('importVLRApp', ['ngDialog'])
 
       this.updateVLScreeningEncounter = function(vlRecord) {
         if (vlRecord.encounter && vlRecord.encounter.uuid) {
-          var postUrl = CONSTANTS.URLS.ENCOUNTER + "/" + vlRecord.encounter.uuid;
+          var postUrl = CONSTANTS.URLS.ENCOUNTER + "/" + vlRecord.encounter.uuid + "?" + CONSTANTS.ENCOUNTER_CUSTOM_REP;
           var vlResultObs = buildVlResultObs(vlRecord);
           var reasonForTestingObs = buildReasonForTestingObs(vlRecord);
-          var updatedEncounter = parseEncounter(vlRecord.encounter, vlResultObs, reasonForTestingObs);
+          var labIdObs = buildLabIdObs(vlRecord);
+          var updatedEncounter = parseEncounter(vlRecord.encounter, vlResultObs, reasonForTestingObs, labIdObs);
           return $http.post(postUrl , updatedEncounter)
             .then(function (response) {
               if (response.status == 200 && response.data) {
@@ -267,9 +311,10 @@ angular.module('importVLRApp', ['ngDialog'])
       $scope.errorMessage = null;
       $scope.vlrContent = null;
       $scope.headerList = [
+        "#",
+        "Lab ID",
         "ART Clinic No",
         "Identifier",
-        "Facility Name",
         "Sex",
         "DOB",
         "Age",
@@ -379,19 +424,22 @@ angular.module('importVLRApp', ['ngDialog'])
       }
 
       $scope.importVLR = function(vlr){
-        importVLResult(vlr);
+        importVLResult(vlr).then(function(result) {
+          if (result.encounter) {
+            result.emrResult = getEmrVlResult(result.encounter);
+          }
+        });
       };
 
       function importAllResults() {
         var promises = [];
         if (angular.isDefined($scope.vlrList) && $scope.vlrList.length > 0) {
           angular.forEach($scope.vlrList, function(vlrObj) {
-            if ( ImportVLRService.isResultValid(vlrObj.result)
-              && typeof vlrObj.patientId !== 'undefined'
+            if ( typeof vlrObj.patientId !== 'undefined'
               && vlrObj.collectionDate
               && (vlrObj.facilityName == $scope.getLocationName(vlrObj))
               && vlrObj.encounter
-              && (!vlrObj.emrResult || (vlrObj.emrResult && (vlrObj.emrResult == vlrObj.result)))
+              // && (!vlrObj.emrResult || (vlrObj.emrResult && (vlrObj.emrResult == vlrObj.result)))
               && !vlrObj.completed) {
               promises.push(importVLResult(vlrObj));
             }
@@ -499,6 +547,20 @@ angular.module('importVLRApp', ['ngDialog'])
         return returnDate;
       };
 
+      $scope.displayCsvResult = function(csvResult) {
+        let result =  csvResult;
+
+        if (csvResult) {
+          var value = parseInt(csvResult);
+          if (!isNaN(value) && value > 0) {
+            result = Math.round(value);
+          } else if (csvResult.length > 1 && (csvResult.toLowerCase().includes("ldl copies") || csvResult.toLowerCase().includes("not detected"))) {
+            result = 1;
+          }
+        }
+        return result;
+      }
+
       $scope.parseResult = function(result) {
         return ImportVLRService.isResultValid(result);
       };
@@ -509,24 +571,31 @@ angular.module('importVLRApp', ['ngDialog'])
         $scope.content = $scope.vlrContent;
         var arrayOfData = CSVToArray($scope.vlrContent);
         if (arrayOfData.length > 0 ){
-          //$scope.headerList = arrayOfData[0];
+          var titleList = arrayOfData[0];
+          $scope.csvHeader = arrayOfData[1];
+
           $scope.pendingImportVLR = arrayOfData;
         }
-        for (i = 0; i < $scope.pendingImportVLR.length; i++) {
+        for (i = 2; i < $scope.pendingImportVLR.length; i++) {
           var vlrValues = $scope.pendingImportVLR[i];
-          if (vlrValues.length >  24) {
-            if ( vlrValues[0] ) {
+          if (vlrValues.length >  8) {
+            if ( vlrValues[1] ) {
               var vlrObj = {};
+              vlrObj.rowNumber = vlrValues[0];
+              vlrObj.labId = vlrValues[1];
               vlrObj.facilityName = vlrValues[2];
-              vlrObj.artClinicNo = vlrValues[7];
+              vlrObj.artClinicNo = vlrValues[3];
               vlrObj.identifier = "";
-              vlrObj.sex = vlrValues[8];
-              vlrObj.dob = Date.parse(vlrValues[9]+'T00:00:00'); //+'T00:00:00'
-              vlrObj.age = vlrValues[10];
-              // by appending T00:00:00 we prevent the Date from displaying different based on the local timezone
-              vlrObj.collectionDate = Date.parse(vlrValues[13]+'T00:00:00'); //+'T00:00:00'
-              vlrObj.reasonForTest = vlrValues[17];
-              vlrObj.result = vlrValues[24].trim();
+              vlrObj.sex = null; //vlrValues[8];
+              vlrObj.dob = null; //Date.parse(vlrValues[9]+'T00:00:00'); //+'T00:00:00'
+              vlrObj.age = null;
+              let collectionDate = new Date(Date.parse(vlrValues[4]));
+              //remove the time zone component in order to prevent the Date from displaying different based on the local timezone
+              vlrObj.collectionDate = new Date(collectionDate.toISOString().slice(0, -1));
+              vlrObj.reasonForTest = vlrValues[5];
+              vlrObj.viralLoad = vlrValues[6].trim();
+              vlrObj.result = vlrValues[7].trim();
+              vlrObj.vlComment = vlrValues[8].trim();
               vlrObj.personId = 0;
               $scope.vlrList.push(vlrObj);
             }
