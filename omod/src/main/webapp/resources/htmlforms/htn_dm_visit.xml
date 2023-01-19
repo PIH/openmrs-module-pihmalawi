@@ -65,6 +65,15 @@
         nextAppt=5096
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="formEncTypeUuid" value="66079de4-a8df-11e5-bf7f-feff819cdc9f"/>
+        <macro key="dispensingConstruct" value="3269F65B-1A28-42EE-8578-B9658387AA00"/>
+        <macro key="medicationName" value="65585192-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="qPerDose" value="160856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="dosingUnit" value="162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="drugFrequency" value="6563fb14-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="medicationDuration" value="159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2"/>
+        <macro key="amountDispensed" value="65614392-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="adminInstructions" value="ef7f742b-76e6-4a83-84ca-534ad6705494"/>
     </macros>
 
     <!-- Notes
@@ -520,6 +529,60 @@
                 <th>Next appointment<br/></th>
                 <td>
                     <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                        <h3>Medication</h3>
+                        <fieldset class="medication">
+                            <p class="field-error" style="display:none"></p>
+                            <p>
+                                <label>
+                                    <uimessage code="Name"/>
+                                </label>
+                                <obs id="name1" class="medication-name" conceptId="$medicationName" answerDrugs="true"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="Dose"/>
+                                </label>
+                                <obs id="dose1" class="doseInput" conceptId="$qPerDose"/>
+                                <obs id="doseUnit1" class="doseInput select-arrow" conceptId="$dosingUnit"/>
+                            </p>
+
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="Frequency"/>
+                                </label>
+
+
+                                <obs id="frequencyCoded1" class="frequency select-arrow" conceptId="$drugFrequency"/>
+                            </p>
+
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="Duration"  />
+                                </label>
+                                <obs id="duration1" class="duration doseInput" conceptId="$medicationDuration"/>
+                                <obs id="durationUnit1" class="duration-unit select-arrow" conceptId="$timeUnits"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="Amount"/>
+                                </label>
+                                <obs id="amount1" conceptId="$amountDispensed"/>
+                            </p>
+                            <p>
+                                <label>
+                                    <uimessage code="Administration Instructions"/>
+                                </label>
+                                <obs id="instructions1" class="medication-instructions" conceptId="$adminInstructions"/>
+                            </p>
+
+                        </fieldset>
+                    </obsgroup>
                 </td>
             </tr>
 
