@@ -270,7 +270,7 @@ jq(function() {
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">RFP 150</td>
                     <td rowspan="2">No. Tablets</td>
-                    <td rowspan="2">RFP/INH</td>
+                    <td rowspan="2">RFP/INH (3HP)</td>
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Pyridoxine</td>
                     <td rowspan="2">No. Tablets</td>
@@ -360,7 +360,7 @@ jq(function() {
                     <repeat with="['$ctx','CTX 960'],
                                   ['$inh','INH 300'],
                                   ['$rfp','RFP 150'],
-                                  ['$threeHP','RFP/INH'],
+                                  ['$threeHP','RFP/INH (3HP)'],
                                   ['$pyridoxine','Pyridoxine']">
 
                         <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
@@ -493,7 +493,7 @@ jq(function() {
                     <repeat with="['$ctx','CTX 960','ctx'],
                                   ['$inh','INH 300','inh'],
                                   ['$rfp','RFP 150','rfp'],
-                                  ['$threeHP','RFP/INH','rfp/inh'],
+                                  ['$threeHP','RFP/INH (3HP)','rfp/inh'],
                                   ['$pyridoxine','Pyridoxine','pyridoxine']">
 
                         <obsgroup groupingConceptId="$hivPreventiveTherapyGroup">
