@@ -30,6 +30,7 @@
         <require_module version="${metadatamappingVersion}">org.openmrs.module.metadatamapping</require_module>
         <require_module version="${metadatasharingVersion}">org.openmrs.module.metadatasharing</require_module>
         <require_module version="${namephoneticsVersion}">org.openmrs.module.namephonetics</require_module>
+        <require_module version="${openconceptlabVersion}">org.openmrs.module.openconceptlab</require_module>
         <require_module version="${providermanagementVersion}">org.openmrs.module.providermanagement</require_module>
 		<require_module version="${reportingVersion}">org.openmrs.module.reporting</require_module>
         <require_module version="${reportingcompatibilityVersion}">org.openmrs.module.reportingcompatibility</require_module>
