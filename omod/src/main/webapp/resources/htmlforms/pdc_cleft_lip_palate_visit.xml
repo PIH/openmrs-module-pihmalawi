@@ -28,9 +28,11 @@
         <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
         <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
         <macro key="muac" value="6558d09a-977f-11e1-8993-905e29aff6c1"/>
-        <!-- weForAge= weight for age and heForAge=height for age-->
-        <macro key="weForAge" value="65712ec4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="heForAge" value="65712fc8-977f-11e1-8993-905e29aff6c1" />
+        <!-- Weight Against Age (waa)-->
+        <macro key="waa" value="e3d43e73-c831-421a-bf77-7e35bd11678a" />
+        <!-- Weight Against Height (weh)-->
+        <macro key="weh" value="eaf64a61-4526-47b3-b8e2-be402c8568f2" />
+        <macro key="numericValue" value="7ba4b6f9-f99e-4c1f-9beb-a6ccaf04a8ca" />
         <macro key="malnutrition" value="657a2268-977f-11e1-8993-905e29aff6c1" />
         <macro key="severeMalnutrition" value="a94e5963-f6b1-4c91-b676-48dfb370a1f8" />
         <macro key="moderateMalnutrition" value="65731d74-977f-11e1-8993-905e29aff6c1" />
@@ -153,8 +155,8 @@
                     <td style="font-size:.7em;padding: 1px;">Weight</td>
                     <td style="font-size:.7em;padding: 1px;">Height</td>
                     <td style="font-size:.7em;padding: 1px;">MUAC</td>
-                    <td style="font-size:.7em;padding: 1px;">Weight for Age</td>
-                    <td style="font-size:.7em;padding: 1px;">Height for Age</td>
+                    <td style="font-size:.7em;padding: 1px;">Weight/Age</td>
+                    <td style="font-size:.7em;padding: 1px;">Weight/Height</td>
                     <td style="font-size:.7em;padding: 1px;">Malnutrition</td>
                     <td style="font-size:.7em;padding: 1px;">Feeding Problems</td>
                     <td style="font-size:.7em;padding: 1px;">Difficult Breathing</td>
@@ -192,14 +194,19 @@
                         <!-- MUAC -->
                         <obs conceptId="$muac" />
                     </td>
-                    <td style="padding: 1px;" >
-                        <!-- Weight for age -->
-                        <obsreference conceptId="$weForAge" allowOverride="true" size="3"/>
+
+                    <td style="padding: 1px;">
+                        <obsgroup groupingConceptId="$waa">
+                            <obs conceptId="$numericValue" style="textarea" cols="60"/>
+                        </obsgroup>
                     </td>
-                    <td style="padding: 1px;" >
-                        <!-- Height for Age -->
-                        <obsreference conceptId="$heForAge" allowOverride="true" size="3"/>
+
+                    <td style="padding: 1px;">
+                        <obsgroup groupingConceptId="$weh">
+                            <obs conceptId="$numericValue" style="textarea" cols="60"/>
+                        </obsgroup>
                     </td>
+
                     <td style="padding: 1px;">
                         <!-- malnutrition concept-->
                         <obs conceptId="$malnutrition"
@@ -244,20 +251,20 @@
                              answerLabels="Yes,No" style="radio" />
                     </td>
 
-                      <td>
-                          <obsgroup groupingConceptId="$surgerySet">
-                              <b>Scheduled:</b>
-                              <td>
-                                  <obs conceptId="$scheduled"
-                                       style="radio"
-                                       answerConceptIds="$yesAnswer,$noAnswer"
-                                       answerLabels="Yes,No"/>
-                              </td>
-                              <td>
-                                  <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
-                              </td>
-                          </obsgroup>
-                      </td>
+                    <td>
+                        <obsgroup groupingConceptId="$surgerySet">
+                            <b>Scheduled:</b>
+                            <td>
+                                <obs conceptId="$scheduled"
+                                     style="radio"
+                                     answerConceptIds="$yesAnswer,$noAnswer"
+                                     answerLabels="Yes,No"/>
+                            </td>
+                            <td>
+                                <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
+                            </td>
+                        </obsgroup>
+                    </td>
 
 
                     <td style="padding: 1px;" >
@@ -398,17 +405,27 @@
                         <obs conceptId="$muac"/>
                     </td>
                 </tr>
+
                 <tr class="focus-field">
                     <!-- weight for age view -->
-                    <th>Weight for Age</th>
-                    <td><obsreference conceptId="$weForAge" allowOverride="true" size="3" showUnits="true"/></td>
+                    <th>Weight/Age</th>
+                    <td>
+                        <obsgroup groupingConceptId="$waa">
+                            <obs conceptId="$numericValue" style="textarea" cols="60"/>
+                        </obsgroup>
+                    </td>
                 </tr>
 
                 <tr class="focus-field">
-                    <!-- height for age view -->
-                    <th>Height for Age</th>
-                    <td><obsreference conceptId="$heForAge" allowOverride="true" size="3" showUnits="true"/></td>
+                    <!-- Weight for Height view -->
+                    <th>Weight/Height</th>
+                    <td>
+                        <obsgroup groupingConceptId="$weh">
+                            <obs conceptId="$numericValue" style="textarea" cols="60"/>
+                        </obsgroup>
+                    </td>
                 </tr>
+
                 <tr>
                     <th>
                         <!-- malnutrition view-->
@@ -476,20 +493,20 @@
                 </tr>
                 <tr>
                     <th>Surgery</th>
-                        <td>
-                            <b>Scheduled:</b>
-                            <obsgroup groupingConceptId="$surgerySet">
-                                <obs conceptId="$scheduled"
-                                     style="radio"
-                                     answerConceptIds="$yesAnswer,$noAnswer"
-                                     answerLabels="Yes,No"
-                                />
-                                <br />
-                                <br />
-                                <b>Date:</b>
-                                <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
-                            </obsgroup>
-                        </td>
+                    <td>
+                        <b>Scheduled:</b>
+                        <obsgroup groupingConceptId="$surgerySet">
+                            <obs conceptId="$scheduled"
+                                 style="radio"
+                                 answerConceptIds="$yesAnswer,$noAnswer"
+                                 answerLabels="Yes,No"
+                            />
+                            <br />
+                            <br />
+                            <b>Date:</b>
+                            <obs conceptId="$dateOfSurgery" allowFutureDates="true"/>
+                        </obsgroup>
+                    </td>
                 </tr>
                 <!-- Recommendations -->
                 <tr>
@@ -528,18 +545,18 @@
                     <th>Feeding Counselling</th>
                     <td>
                         <obs conceptId="$feedingCounselling" answerConceptIds="$yesAnswer,$noAnswer"
-                            answerLabels="Yes,No" style="radio" />
+                             answerLabels="Yes,No" style="radio" />
                     </td>
                 </tr>
                 <tr>
-                <th>
-                    <!-- mdat assessment summary view -->
-                    MDAT Assessment Summary
-                </th>
-                <td>
-                    <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
-                         answerLabels="Yes,No" style="radio" />
-                </td>
+                    <th>
+                        <!-- mdat assessment summary view -->
+                        MDAT Assessment Summary
+                    </th>
+                    <td>
+                        <obs conceptId="$mdatAssessmentSummary" answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </td>
                 </tr>
 
                 <!-- Social Support -->
