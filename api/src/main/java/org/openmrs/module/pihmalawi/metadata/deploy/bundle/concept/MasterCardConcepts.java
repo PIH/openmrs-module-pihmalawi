@@ -175,7 +175,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 18;
+        return 20;
     }
 
     @Override
@@ -307,6 +307,20 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
         // Dispensing concepts
         Concept amountDispensed = MetadataUtils.existing(Concept.class, AMOUNT_DISPENSED);
         Concept timeUnits = MetadataUtils.existing(Concept.class, TIME_UNITS);
+
+        install(new ConceptBuilder("e0d31892-690e-4063-9570-73d103c8efb0")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("a30ab46a-4838-48b5-80eb-60268920005b", "Hours", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("5974007e-f810-4208-8983-3ec98c7f87ba", "Hrs", Locale.ENGLISH, null)
+                .description("33cf9207-7aac-4fe5-b0fe-27146290dd75", "A duration unit, 60 minutes = 1 hour.", Locale.ENGLISH)
+                .description("15878FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "A duration unit, 60 minutes = 1 hour.", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("b2fe077f-a24a-4379-b04b-d3440ac39a30").type(sameAs).ensureTerm(ciel, "1822").build())
+                .mapping(new ConceptMapBuilder("b2b26eba-4864-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "6902").build())
+                .mapping(new ConceptMapBuilder("75b230d8-4943-102e-96e9-000c29c2a5d7").type(sameAs).ensureTerm(pih, "Hours").build())
+                .mapping(new ConceptMapBuilder("b599c20c-715d-4fc6-8f4e-8b0a328c5e3f").type(sameAs).ensureTerm(snomedCt, "258702006").build())
+                .build());
+
 
         install(new ConceptBuilder(HOSPITALIZED_SINCE_LAST_VISIT_CONCEPT)
                 .datatype(coded)
@@ -1420,12 +1434,21 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         .type(sameAs).ensureTerm(ciel, "159368").build())
                 .build());
 
+        Concept quantityPerDose = install(new ConceptBuilder("160856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("109537BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Quantity of medication prescribed per dose", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("16909FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "The amount of a medication to be taken in a given dose, for example, take 2 pills every four hours (2 is the quantity, pills are the form and every four hours is the frequency)", Locale.ENGLISH)
+                .mapping(new ConceptMapBuilder("217974ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160856").build())
+                .mapping(new ConceptMapBuilder("ed6cb426-0cf3-11ec-9f8b-aa0059ea79c6").type(sameAs).ensureTerm(pih, "9073").build())
+                .build());
+
         Concept medication_prescription_construct = install(new ConceptBuilder("3269F65B-1A28-42EE-8578-B9658387AA00")
                 .datatype(notApplicable)
                 .conceptClass(convSet)
                 .name("E31457B1-6A34-4596-AB9A-394DC5D01B61", "Prescription construct", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("98832E23-4AAE-413E-99C2-87AFBC9074A6", "Collects all pieces of information about a medication or product that was prescribed for the patient by a clinician", Locale.ENGLISH)
-                .setMembers(currentDrugs, amountDispensed, conceptDosingUnit, medsFreq, durationMeds, timeUnits, generalDrugFreq, concept9072, concept12651)
+                .setMembers(currentDrugs, amountDispensed, quantityPerDose, conceptDosingUnit, medsFreq, durationMeds, timeUnits, generalDrugFreq, concept9072, concept12651)
                 .build());
 
         medication_prescription_construct.setSet(true);
