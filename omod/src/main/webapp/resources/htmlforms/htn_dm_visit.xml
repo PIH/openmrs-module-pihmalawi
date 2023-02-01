@@ -526,10 +526,10 @@
                     <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
                         <tr>
                             <td style="width: 10%;">
-                                <obs id="aspName" class="medication-name" conceptId="$medicationName" answerConceptId="$aspirin" answerLabel="ASP" style="checkbox"/>
+                                <obs id="aspName" class="medication-name" conceptId="$medicationName" answerConceptId="$aspirin" answerLabel="ASP" style="checkbox" toggle="aspDispensingInfo"/>
                             </td>
                             <td style="align: left;">
-                                <div class="section-container toggle">
+                                <div id="aspDispensingInfo" class="section-container toggle">
                                     <table>
                                         <thead>
                                             <tr>
@@ -583,7 +583,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
                                 </div>
                             </td>
                         </tr>
