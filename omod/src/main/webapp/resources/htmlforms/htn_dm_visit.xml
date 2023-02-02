@@ -304,8 +304,63 @@
                    <!-- Other medications -->
                     <td>
                         <!-- Apirin -->
-                        <obsgroup groupingConceptId="$drugSet">
-                            <obs conceptId="$drugsNow" answerConceptId="$aspirin" answerLabel="ASA" style="checkbox" />
+                        <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                            <obs class="medication-name" conceptId="$medicationName" answerConceptId="$aspirin" answerLabel="ASP" style="checkbox" toggle="aspViewDispensingInfo"/>
+                        <div id="aspViewDispensingInfo" class="section-container toggle">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <uimessage code="Dose"/>
+                                        </th>
+                                        <th>
+                                            <uimessage code="Route"/>
+                                        </th>
+                                        <th>
+                                            <uimessage code="Frequency"/>
+                                        </th>
+                                        <th colspan="2">
+                                            <uimessage code="Duration"/>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="medication-asp" class="medication">
+                                        <td style="width: 40px;">
+                                            <obs id="dose-asp" class="doseInput" conceptId="$qPerDose"/>
+                                        </td>
+                                        <td id="asp-rx-dose-unit" style="width: 80px;">
+                                            <obs id="asp-doseUnit" class="doseInput select-arrow"
+                                                 conceptId="$dosingUnit"
+                                                 answerConceptIds="$milliGram,$milliLiter,$capsule,$tablet"
+                                                 answerCodes="mg,mL,capsule,tablet"/>
+                                        </td>
+                                        <td id="asp-rx-route" style="width: 100px;">
+                                            <obs id="route-asp" class="route select-arrow"
+                                                 conceptId="$routeOfAdmin"
+                                                 answerConceptIds="$oral,$intravenous"
+                                                 answerLabels="Oral,IV"/>
+                                        </td>
+                                        <td id="asp-rx-frequency" style="width: 100px;">
+                                            <obs id="asp-frequencyCoded" class="frequency select-arrow"
+                                                 conceptId="$drugFrequency"
+                                                 answerConceptIds=
+                                                         "PIH Malawi:3321,PIH Malawi:3322,PIH Malawi:3323,PIH Malawi:6100,PIH Malawi:1619,PIH:PRN,PIH Malawi:6408"
+                                                 answerCodes="OD,BID,TID,QID,STAT,PRN,other"/>
+                                        </td>
+                                        <td id="asp-rx-duration" style="width: 60px;">
+                                            <obs id="duration-asp" class="duration doseInput" conceptId="$medicationDuration"/>
+                                        </td>
+                                        <td id="asp-rx-duration-unit" style="width: 180px;">
+                                            <obs id="durationUnit-asp" class="duration-unit select-arrow"
+                                                 conceptId="$timeUnits"
+                                                 answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         </obsgroup>
                     </td>
                     <!-- Statins -->
