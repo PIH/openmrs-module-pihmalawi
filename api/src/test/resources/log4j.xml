@@ -50,5 +50,17 @@
 		<level value="FATAL" />
 		<appender-ref ref="CONSOLE" />
 	</logger>
-	
+	<logger name="org.hibernate">
+		<level value="ERROR" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.hibernate.orm.deprecation" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.hibernate.engine.internal.StatefulPersistenceContext" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
 </log4j:configuration>

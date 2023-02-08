@@ -9,15 +9,12 @@
 	<author>Partners In Health</author>
 	<description>PIH Malawi Implementation Module</description>
 	<activator>org.openmrs.module.pihmalawi.activator.PihMalawiModuleActivator</activator>
-	<require_version>1.9.7</require_version>
-
-    <aware_of_modules>
-        <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
-    </aware_of_modules>
-
+	<require_version>${openMRSVersion}</require_version>
 	<require_modules>
         <require_module version="${addresshierarchyVersion}">org.openmrs.module.addresshierarchy</require_module>
         <require_module version="${appframeworkVersion}">org.openmrs.module.appframework</require_module>
+        <require_module version="${authenticationVersion}">org.openmrs.module.authentication</require_module>
+        <require_module version="${authenticationuiVersion}">org.openmrs.module.authenticationui</require_module>
         <require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
         <require_module version="${calculationVersion}">org.openmrs.calculation</require_module>
         <require_module version="${emrapiVersion}">org.openmrs.module.emrapi</require_module>
@@ -26,6 +23,8 @@
         <require_module version="${htmlformentryuiVersion}">org.openmrs.module.htmlformentryui</require_module>
         <require_module version="${htmlwidgetsVersion}">org.openmrs.module.htmlwidgets</require_module>
         <require_module version="${idgenVersion}">org.openmrs.module.idgen</require_module>
+        <require_module version="${initializerVersion}">org.openmrs.module.initializer</require_module>
+        <require_module version="${legacyuiVersion}">org.openmrs.module.legacyui</require_module>
         <require_module version="${metadatadeployVersion}">org.openmrs.module.metadatadeploy</require_module>
         <require_module version="${metadatamappingVersion}">org.openmrs.module.metadatamapping</require_module>
         <require_module version="${metadatasharingVersion}">org.openmrs.module.metadatasharing</require_module>
