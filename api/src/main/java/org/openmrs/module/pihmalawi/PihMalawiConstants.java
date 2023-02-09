@@ -22,4 +22,11 @@ public class PihMalawiConstants {
     public static final String MEDIC_MOBILE_FACILITY = "Yendanafe Catchment";
 
     public static final String TRANSFERRED_OUT_PROGRAM_ATTRIBUTE_TYPE = "D576AAE9-6537-4549-88A5-49A761AA93E0";
+    public static final String REQUEST_PARAMETER_NAME_REDIRECT_URL = "redirectUrl";
+    public static final String COOKIE_NAME_LAST_SESSION_LOCATION = "pihmalawi.lastSessionLocation";
+    public static final String SESSION_ATTRIBUTE_REDIRECT_URL = "_REFERENCE_APPLICATION_REDIRECT_URL_";
+    public static final String SESSION_ATTRIBUTE_ERROR_MESSAGE = "_REFERENCE_APPLICATION_ERROR_MESSAGE_";
+    public static final String SESSION_ATTRIBUTE_INFO_MESSAGE = "_REFERENCE_APPLICATION_INFO_MESSAGE_";
+    public static final String SESSION_LOCATION_ID = "emrContext.sessionLocationId";
+    public static final String PATIENT_DASHBOARD_URL = "patientDashboard.form";
 }

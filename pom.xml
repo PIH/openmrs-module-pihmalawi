@@ -36,39 +36,43 @@
 	</modules>
 
 	<properties>
-        <openMRSVersion>2.5.8-SNAPSHOT</openMRSVersion>
+        <openMRSVersion>2.5.9-SNAPSHOT</openMRSVersion>
         <addresshierarchyVersion>2.15.0</addresshierarchyVersion>
-        <appframeworkVersion>2.17.0-SNAPSHOT</appframeworkVersion>
+        <appframeworkVersion>2.17.0</appframeworkVersion>
         <appuiVersion>1.16.0</appuiVersion>
+		<authenticationVersion>1.0.0-SNAPSHOT</authenticationVersion>
+		<authenticationuiVersion>1.0.0-SNAPSHOT</authenticationuiVersion>
         <calculationVersion>1.3.0</calculationVersion>
-        <coreappsVersion>1.38.0-SNAPSHOT</coreappsVersion>
+        <coreappsVersion>1.38.0</coreappsVersion>
         <emrapiVersion>1.33.0</emrapiVersion>
         <eventVersion>2.10.0</eventVersion>
-		<fhir2Version>1.7.0-SNAPSHOT</fhir2Version>
+		<fhir2Version>1.8.0</fhir2Version>
         <htmlformentryVersion>5.1.0-SNAPSHOT</htmlformentryVersion>
-        <htmlformentryuiVersion>2.3.0</htmlformentryuiVersion>
-        <htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
-        <idgenVersion>4.8.0</idgenVersion>
+        <htmlformentryuiVersion>2.3.0-SNAPSHOT</htmlformentryuiVersion>
+        <htmlwidgetsVersion>1.11.0</htmlwidgetsVersion>
+        <idgenVersion>4.9.0</idgenVersion>
+		<initializerVersion>2.5.0-SNAPSHOT</initializerVersion>
 		<groovyVersion>2.2.4</groovyVersion>
-        <legacyuiVersion>1.14.0</legacyuiVersion>
+        <legacyuiVersion>1.14.0-SNAPSHOT</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
-        <metadatamappingVersion>1.5.0</metadatamappingVersion>
-        <metadatasharingVersion>1.8.0</metadatasharingVersion>
+        <metadatamappingVersion>1.6.0</metadatamappingVersion>
+        <metadatasharingVersion>1.9.0</metadatasharingVersion>
         <namephoneticsVersion>2.0.0-SNAPSHOT</namephoneticsVersion>
-        <owaVersion>1.13.0</owaVersion>
-        <providermanagementVersion>2.13.0</providermanagementVersion>
+		<openconceptlabVersion>2.0.0</openconceptlabVersion>
+        <owaVersion>1.14.0</owaVersion>
+        <providermanagementVersion>2.14.0</providermanagementVersion>
         <registrationappVersion>1.25.0-SNAPSHOT</registrationappVersion>
         <registrationcoreVersion>1.11.0</registrationcoreVersion>
-		<reportingcompatibilityVersion>2.0.9</reportingcompatibilityVersion>
+		<reportingcompatibilityVersion>2.0.9-SNAPSHOT</reportingcompatibilityVersion>
         <reportingVersion>1.25.0</reportingVersion>
         <reportingrestVersion>1.13.0</reportingrestVersion>
-        <reportinguiVersion>1.11.0-SNAPSHOT</reportinguiVersion>
-        <serializationxstreamVersion>0.2.15</serializationxstreamVersion>
-		<spaVersion>1.0.8</spaVersion>
+        <reportinguiVersion>1.11.0</reportinguiVersion>
+        <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
+		<spaVersion>1.0.9</spaVersion>
 		<syncVersion>3.0.0-SNAPSHOT</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
-        <uicommonsVersion>2.23.0-SNAPSHOT</uicommonsVersion>
-        <uiframeworkVersion>3.22.1</uiframeworkVersion>
+        <uicommonsVersion>2.23.0</uicommonsVersion>
+        <uiframeworkVersion>3.23.0</uiframeworkVersion>
         <uilibraryVersion>2.0.7</uilibraryVersion>
 		<usagestatisticsVersion>2.2.0-SNAPSHOT</usagestatisticsVersion>
         <webservicesRestVersion>2.37.0-SNAPSHOT</webservicesRestVersion>
@@ -87,6 +91,20 @@
 			<artifactId>opencsv</artifactId>
 			<version>2.3</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>authentication-api</artifactId>
+			<version>${authenticationVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>authenticationui-api</artifactId>
+			<version>${authenticationuiVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
@@ -134,6 +152,30 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>fhir2-api</artifactId>
+			<version>${fhir2Version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>fhir2-api-2.1</artifactId>
+			<version>${fhir2Version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>fhir2-api-2.2</artifactId>
+			<version>${fhir2Version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>fhir2-api-2.5</artifactId>
+			<version>${fhir2Version}</version>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>htmlformentry-api</artifactId>
@@ -161,6 +203,27 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api-2.2</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>initializer-api-2.3</artifactId>
+			<version>${initializerVersion}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>metadatadeploy-api</artifactId>
@@ -437,6 +500,11 @@
 		<repository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/public</url>
+		</repository>
+		<repository>
+			<id>mks-repo</id>
+			<name>Mekom Solutions Maven repository</name>
+			<url>https://nexus.mekomsolutions.net/repository/maven-public</url>
 		</repository>
 	</repositories>
 
