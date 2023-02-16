@@ -72,7 +72,7 @@
 		<syncVersion>3.0.0-SNAPSHOT</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
         <uicommonsVersion>2.23.0</uicommonsVersion>
-        <uiframeworkVersion>3.23.0</uiframeworkVersion>
+        <uiframeworkVersion>3.24.0-SNAPSHOT</uiframeworkVersion>
         <uilibraryVersion>2.0.7</uilibraryVersion>
 		<usagestatisticsVersion>2.2.0-SNAPSHOT</usagestatisticsVersion>
         <webservicesRestVersion>2.37.0-SNAPSHOT</webservicesRestVersion>
