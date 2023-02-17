@@ -52,7 +52,6 @@
         <htmlwidgetsVersion>1.11.0</htmlwidgetsVersion>
         <idgenVersion>4.9.0</idgenVersion>
 		<initializerVersion>2.5.0-SNAPSHOT</initializerVersion>
-		<groovyVersion>2.2.4</groovyVersion>
         <legacyuiVersion>1.14.0-SNAPSHOT</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.6.0</metadatamappingVersion>
