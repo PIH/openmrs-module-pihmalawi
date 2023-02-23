@@ -21,6 +21,53 @@
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20220223-01" author="cioan">
+		<preConditions onFail="CONTINUE" onFailMessage="The old or the new medication constructs concepts are not in the system">
+			<and>
+				<sqlCheck expectedResult="2">
+					select count(*) from concept where uuid = '447aaa7a-cd03-11e5-9956-625662870761' or uuid = '3269F65B-1A28-42EE-8578-B9658387AA00'
+				</sqlCheck>
+				<not>
+					<sqlCheck expectedResult="0">select count(*) from obs o1 join concept c1 on o1.concept_id=c1.concept_id and c1.uuid='65585192-977f-11e1-8993-905e29aff6c1' join obs o2 on o1.obs_group_id = o2.obs_id join concept c2 on o2.concept_id=c2.concept_id and c2.uuid='447aaa7a-cd03-11e5-9956-625662870761'
+					</sqlCheck>
+				</not>
+			</and>
+		</preConditions>
+		<comment>
+			Migrate medications prescribed to a new construct that provides administration instructions.
+		</comment>
+		<sql>
+			SET @med_name = (select concept_id from concept where uuid = '65585192-977f-11e1-8993-905e29aff6c1');
+			SET @previous_med_construct_id = (select concept_id from concept where uuid = '447aaa7a-cd03-11e5-9956-625662870761');
+			SET @new_med_construct_id = (select concept_id from concept where uuid = '3269F65B-1A28-42EE-8578-B9658387AA00');
+
+			DROP TABLE IF EXISTS med_obs_to_migrate;
+			-- find all obsgroups that use the old dispensing construct concept
+			create temporary table med_obs_to_migrate (
+				obs_id INT,
+				patient_id INT,
+				encounter_id INT,
+				obs_datetime DATETIME,
+				location_id INT,
+				obs_uuid char(38) NOT NULL,
+				PRIMARY KEY (obs_id));
+
+			insert into med_obs_to_migrate(
+				obs_id,
+				patient_id,
+				encounter_id,
+				obs_datetime,
+				location_id, obs_uuid)
+			select o2.obs_id, o2.person_id, o2.encounter_id, o2.obs_datetime, o2.location_id, o2.uuid
+			from obs o1 join obs o2 on o1.obs_group_id = o2.obs_id
+			and o1.concept_id=@med_name and o2.concept_id=@previous_med_construct_id;
+
+			update obs
+			set concept_id = @new_med_construct_id
+			where concept_id = @previous_med_construct_id and obs_id in (select obs_id from med_obs_to_migrate);
+		</sql>
+
+	</changeSet>
 	<changeSet id="20221026-01" author="cioan">
 		<preConditions onFail="CONTINUE" onFailMessage="Failed to migrate HTN chronic care past medical history and complications obs">
 			<and>
