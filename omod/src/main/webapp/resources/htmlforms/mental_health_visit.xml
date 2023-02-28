@@ -324,6 +324,7 @@
                                   ['$clopixol','Clopixol'],
                                   ['$amitriptyline','Amitriptyline (AMT)']">
                             <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                                <fieldset class="medication">
                                 <span class="nowrap">
                                     <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                     <obs class="doseInput" conceptId="$qPerDose"/>
@@ -345,10 +346,12 @@
                                          conceptId="$timeUnits"
                                          answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                 </span><br></br>
+                                </fieldset>
                             </obsgroup>
                         </repeat>
                         <!-- Other non-coded medication -->
                         <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                            <fieldset class="medication">
                             <span class="nowrap">
                                 <obs class="medication-name" conceptId="$medicationName" answerConceptId="$other" answerLabel=""/>
                                 <obs conceptId="$noncodedText" />:
@@ -371,6 +374,7 @@
                                      conceptId="$timeUnits"
                                      answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                             </span><br></br>
+                            </fieldset>
                         </obsgroup>
                     </td>
 

@@ -271,6 +271,7 @@
                         <!-- ToDo:  Add construct with dose and frequency -->
                         <repeat with="['$longActingInsulin','L'],['$shortActingRegularInsulin','S']">
                             <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                                <fieldset class="medication">
                                 <span class="nowrap">
                                     <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                     <obs class="doseInput" conceptId="$qPerDose"/>
@@ -292,6 +293,7 @@
                                          conceptId="$timeUnits"
                                          answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                 </span>
+                                </fieldset>
                             </obsgroup>
                         </repeat>
 
@@ -301,6 +303,7 @@
                         <!-- Diabetes -->
                         <repeat with="['$metformin','MET'],['$glibenclamide','GLIB']">
                             <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                                <fieldset class="medication">
                                 <span class="nowrap">
                                     <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                     <obs class="doseInput" conceptId="$qPerDose"/>
@@ -322,6 +325,7 @@
                                          conceptId="$timeUnits"
                                          answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                 </span>
+                                </fieldset>
                             </obsgroup>
                         </repeat>
                     </td>
@@ -329,6 +333,7 @@
                    <td style="text-align: left;">
                        <repeat with="['$hydrochlorothiazide','HCTZ'],['$furosemide','FURP'],['$spironolactone','SPIRO']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -350,6 +355,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>
@@ -357,6 +363,7 @@
                    <td style="text-align: left;">
                        <repeat with="['$amlodipine ','AML'],['$nifedipineModifiedRelease','NIF']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -378,6 +385,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>
@@ -385,6 +393,7 @@
                    <td style="text-align: left;">
                        <repeat with="['$enalapril ','ENAL'],['$captopril','CAPT'],['$lisinopril','LISIN']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -406,6 +415,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>
@@ -413,6 +423,7 @@
                    <td style="text-align: left;">
                        <repeat with="['$atenolol ','ATEN'],['$bisoprolol','BIS'],['$propranolol','PROP']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -434,6 +445,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>
@@ -441,6 +453,7 @@
                     <td>
                         <!-- Apirin -->
                         <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                            <fieldset class="medication">
                             <span class="nowrap">
                             <obs class="medication-name" conceptId="$medicationName" answerConceptId="$aspirin" answerLabel="ASP" style="checkbox" toggle="aspViewDispensingInfo"/>:
                             <obs id="dose-asp" class="doseInput" conceptId="$qPerDose"/>
@@ -462,12 +475,14 @@
                                  conceptId="$timeUnits"
                                  answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                             </span>
+                            </fieldset>
                         </obsgroup>
                     </td>
                     <!-- Statins -->
                    <td style="text-align: left;">
                        <repeat with="['$simvastatin ','SIMVA'],['$pravastatin ','PRAVA'],['$atorvastatin','ATORVA']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -489,6 +504,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>      
@@ -496,6 +512,7 @@
                    <td style="text-align: left;">
                        <repeat with="['$hydralazine ','HYD'],['$isosorbideMononitrate  ','ISSMN']">
                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                               <fieldset class="medication">
                                <span class="nowrap">
                                    <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
                                    <obs class="doseInput" conceptId="$qPerDose"/>
@@ -517,6 +534,7 @@
                                         conceptId="$timeUnits"
                                         answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
                                </span>
+                               </fieldset>
                            </obsgroup>
                        </repeat>
                    </td>      
