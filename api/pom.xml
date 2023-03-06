@@ -6,12 +6,11 @@
 		<artifactId>pihmalawi</artifactId>
 		<version>7.0.0-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openmrs.module</groupId>
+
 	<artifactId>pihmalawi-api</artifactId>
 	<packaging>jar</packaging>
 	<name>PIH Malawi Customizations API</name>
 	<description>API project for PIH Malawi Customizations</description>
-
 
 	<dependencies>
 		<dependency>

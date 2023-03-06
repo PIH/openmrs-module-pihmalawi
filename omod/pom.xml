@@ -5,7 +5,7 @@
 		<artifactId>pihmalawi</artifactId>
 		<version>7.0.0-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openmrs.module</groupId>
+
 	<artifactId>pihmalawi-omod</artifactId>
 	<packaging>jar</packaging>
 	<name>PIH Malawi Customizations OMOD</name>
