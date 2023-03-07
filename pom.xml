@@ -65,7 +65,7 @@
         <reportinguiVersion>1.7.0</reportinguiVersion>
         <serializationxstreamVersion>0.2.15</serializationxstreamVersion>
 		<spaVersion>1.0.8</spaVersion>
-		<syncVersion>2.0.0</syncVersion>
+		<syncVersion>2.1.0-SNAPSHOT</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
         <uicommonsVersion>2.18.0</uicommonsVersion>
         <uiframeworkVersion>3.21.0</uiframeworkVersion>
