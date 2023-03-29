@@ -1,0 +1,9 @@
+<config>
+    <globalProperties>
+        <!-- SPA -->
+        <globalProperty>
+            <property>spa.frontend.directory</property>
+            <value>configuration/frontend</value>
+        </globalProperty>
+    </globalProperties>
+</config>
