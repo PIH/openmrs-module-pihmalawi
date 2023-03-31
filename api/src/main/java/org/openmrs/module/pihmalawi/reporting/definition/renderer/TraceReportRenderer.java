@@ -306,13 +306,12 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
                     builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
                     builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
-                    String lastVisitType = "ART_FOLLOWUP";
-                    Date lastArtApptDate = (Date)row.getColumnValue("ART_LAST_APPT_DATE");
-                    Date lastNcdApptDate = (Date)row.getColumnValue("NCD_LAST_APPT_DATE");
-                    if ((lastArtApptDate == null) || (
-                            (lastNcdApptDate != null) && (lastArtApptDate.compareTo(lastNcdApptDate) < 0)
-                    )) {
-                        lastVisitType = (String) row.getColumnValue("NCD_LAST_VISIT_TYPE");
+                    String lastVisitType = null;
+                    if (lateHiv) {
+                        lastVisitType = "ART_FOLLOWUP";
+                    }
+                    if (lateNcd) {
+                        lastVisitType = (lastVisitType !=null) ? (lastVisitType + ", " + (String) row.getColumnValue("NCD_LAST_VISIT_TYPE")) : (String) row.getColumnValue("NCD_LAST_VISIT_TYPE");
                     }
                     builder.addCell(lastVisitType, rowStyle);
                     String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
