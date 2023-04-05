@@ -80,7 +80,7 @@ source *name of openmrs neno database*.sql
    - Set -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno
    - or, just run the following command
    ```
-   mvn openmrs-sdk:setup -DserverId=malawi -Ddistro=org.openmrs.distro:pihmalawi:6.9.0-SNAPSHOT -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno -DdbUser=openmrs -DdbPassword=openmrs
+   mvn openmrs-sdk:setup -DserverId=malawi -Ddistro=org.openmrs.distro:pihmalawi:7.0.0-SNAPSHOT -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno -DdbUser=openmrs -DdbPassword=openmrs
    ```
 
 5. Install configuration
