@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+
+  mysql:
+    image: library/mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    command: "mysqld \
+              --character-set-server=utf8 \
+              --collation-server=utf8_general_ci \
+              --max_allowed_packet=1G \
+              --innodb-buffer-pool-size=2G \
+              --user=mysql \
+              --server-id=1 \
+              --log-bin=mysql-bin \
+              --binlog_format=ROW \
+              --max_binlog_size=100M"
+    volumes:
+      - "$MYSQL_DATA_DIR:/var/lib/mysql"
+    ports:
+      - "$MYSQL_PORT:3306"
+
+  backend:
+    image: partnersinhealth/openmrs-server:latest
+    depends_on:
+      - mysql
+    environment:
+      OMRS_CONFIG_CONNECTION_SERVER: "mysql"
+      OMRS_CONFIG_CONNECTION_PORT: "3306"
+      OMRS_CONFIG_CONNECTION_NAME: "$MYSQL_DB_NAME"
+      OMRS_CONFIG_CONNECTION_USERNAME: "$MYSQL_USERNAME"
+      OMRS_CONFIG_CONNECTION_PASSWORD: "$MYSQL_PASSWORD"
+      OMRS_CONFIG_CONNECTION_EXTRA_ARGS: "&autoReconnect=true&sessionVariables=default_storage_engine%3DInnoDB&useUnicode=true&characterEncoding=UTF-8&useSSL=false&requireSSL=false"
+      OMRS_CONFIG_AUTO_UPDATE_DATABASE: "true"
+      OMRS_DEV_DEBUG_PORT: "$TOMCAT_DEBUG_PORT"
+    volumes:
+      - $PATH_TO_WAR:/openmrs/distribution/openmrs_webapps/openmrs.war
+      - $PATH_TO_MODULES:/openmrs/distribution/openmrs_modules
+      - $PATH_TO_CONFIG:/openmrs/distribution/openmrs_config
+      - $OPENMRS_DATA_DIR:/openmrs/data
+    ports:
+      - "$TOMCAT_PORT:8080"
+      - "$TOMCAT_DEBUG_PORT:$TOMCAT_DEBUG_PORT"
+      
+  frontend:
+    image: nginx
+    volumes:
+      - $PATH_TO_PWA
+    ports:
+      - "$PWA_PORT:80"
+      
+  gateway:
+    build: ./gateway
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "$GATEWAY_PORT:80"
+
