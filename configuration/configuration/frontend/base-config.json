@@ -1,0 +1,79 @@
+{
+  "@openmrs/esm-login-app": {
+    "logo": {
+      "src": "/openmrs/spa/site/pih-logo.png",
+      "alt": "Abwenzi Pa Za Umoyo"
+    },
+    "links": {
+      "loginSuccess": "${openmrsBase}/findPatient.htm"
+    }
+  },
+  "@openmrs/esm-patient-vitals-app": {
+    "concepts": {
+      "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
+      "diastolicBloodPressureUuid": "3ce93694-26fe-102b-80cb-0017a47871b2",
+      "pulseUuid": "3ce93824-26fe-102b-80cb-0017a47871b2",
+      "temperatureUuid": "3ce939d2-26fe-102b-80cb-0017a47871b2",
+      "oxygenSaturationUuid": "3ce9401c-26fe-102b-80cb-0017a47871b2",
+      "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
+      "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
+      "respiratoryRateUuid": "3ceb11f8-26fe-102b-80cb-0017a47871b2",
+      "generalPatientNoteUuid": "3cd9d956-26fe-102b-80cb-0017a47871b2",
+      "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
+    }
+  },
+  "@openmrs/esm-patient-registration-app": {
+    "defaultPatientIdentifierTypes": ["66784d84-977f-11e1-8993-905e29aff6c1","11a76c3e-1db8-4d16-9252-9a18b5ed1843","f7de1b97-013e-49ad-a596-4ada6ede1053"],
+    "address": {
+      "useAddressHierarchy": {
+        "enabled": true,
+        "useQuickSearch": true,
+        "searchAddressByLevel": true
+      }
+    },
+    "sections": ["demographics", "death"],
+    "fieldDefinitions": [
+        {
+          "id": "healthCenter",
+          "type": "person attribute",
+          "uuid": "8d87236c-c2cc-11de-8d13-0010c6dffd0f",
+          "placeholder": "placeholder"
+        },
+        {
+          "id": "gender",
+          "type": "Array",
+          "elements": [
+            {
+              "id": "male",
+              "value": "Male",
+              "label": "Male"
+            }
+          ]
+        }
+    ],
+    "sectionDefinitions": [
+        {
+          "id": "demographics",
+          "name": "Basic Info",
+          "fields": ["name", "gender", "dob", "id"]
+        },
+        { 
+          "id": "contact", 
+          "name": "Contact Details", 
+          "fields": ["address"] 
+        },
+        { 
+          "id": "death", 
+          "name": "Deceased", 
+          "fields": [] 
+        }        
+    ],
+    "Translation overrides": {
+      "en": {
+        "stateProvince": "District",
+        "countyDistrict": "Traditional Authority",
+        "cityVillage": "Village"        
+      }
+    }
+  }
+}
