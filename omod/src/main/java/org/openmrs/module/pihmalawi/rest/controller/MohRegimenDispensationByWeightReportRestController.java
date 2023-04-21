@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.rest.controller;
 
+import org.openmrs.module.pihmalawi.reporting.reports.MOHRegimenDispensationByWeightReport;
 import org.openmrs.module.pihmalawi.reporting.reports.MoHCohortDisaggregatedReport;
 import org.openmrs.module.pihmalawi.validator.DateValidator;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -37,7 +38,7 @@ public class MohRegimenDispensationByWeightReportRestController {
     public static final String REPORT = "/report/moh-regimen-dispensation-by-weight";
 
     @Autowired
-    MoHCohortDisaggregatedReport moHCohortDisaggregatedReport;
+    MOHRegimenDispensationByWeightReport mohRegimenDispensationByWeightReport;
 
     @Autowired
     ReportDefinitionService reportDefinitionService;
@@ -55,10 +56,10 @@ public class MohRegimenDispensationByWeightReportRestController {
                 return new ResponseEntity<SimpleObject>(message, HttpStatus.BAD_REQUEST);
 
             }
-            ReportManagerUtil.setupReport(moHCohortDisaggregatedReport);
+            ReportManagerUtil.setupReport(mohRegimenDispensationByWeightReport);
             ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
             ReportUtil.updateGlobalProperty(ReportingConstants.DEFAULT_LOCALE_GP_NAME, "en");
-            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(moHCohortDisaggregatedReport.getUuid());
+            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(mohRegimenDispensationByWeightReport.getUuid());
             EvaluationContext context = new EvaluationContext();
 
             context.addParameterValue("endDate", endDate);

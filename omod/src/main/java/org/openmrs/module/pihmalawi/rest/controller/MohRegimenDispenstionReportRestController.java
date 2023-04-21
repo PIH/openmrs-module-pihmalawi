@@ -93,6 +93,8 @@ public class MohRegimenDispenstionReportRestController {
                 reportDetails.add("artRegimen",r.getColumnValue("art_regimen"));
                 reportDetails.add("arvsGiven",r.getColumnValue("arvs_given"));
                 reportDetails.add("dispenseDate",r.getColumnValue("dispense_date"));
+                reportDetails.add("vlResult",r.getColumnValue("vl_result"));
+                reportDetails.add("dateOfVlResult",r.getColumnValue("date_of_vl_result"));
                 reportDetails.add("location",r.getColumnValue("location"));
                 dataList.add(reportDetails);
             }
