@@ -7,6 +7,16 @@ import org.openmrs.module.metadatadeploy.descriptor.PatientIdentifierTypeDescrip
 public class PihMalawiPatientIdentifierTypes {
 
 
+    public static PatientIdentifierTypeDescriptor NUTRITION_PROGRAM_NUMBER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "C9888967-8584-4F36-86B8-51AC368BC720"; }
+        public String name() { return "Nutrition Program Number"; }
+        public String description() { return "Number assigned to patient enrolled into the nutrition program."; }
+        public String formatDescription() {return "Ex. NNO 1234 NP";}
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
     public static PatientIdentifierTypeDescriptor PALLIATIVE_CARE_NUMBER = new PatientIdentifierTypeDescriptor() {
         public String uuid() { return "f2b29f9b-69d0-4339-b1aa-55a511672558"; }
         public String name() { return "Palliative Care Number"; }
