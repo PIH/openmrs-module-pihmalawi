@@ -447,4 +447,16 @@ public class EncounterTypes {
         public String name() { return "HIE_AND_DEV_DELAY_LAB_TESTS"; }
         public String description() { return "PDC HIE/Developmental Delay lab tests encounter"; }
     };
+
+    public static EncounterTypeDescriptor NUTRITION_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "F1EB0CA8-8E7C-49B5-A03C-B0B9C164181E"; }
+        public String name() { return "NUTRITION_INITIAL"; }
+        public String description() { return "Initial nutrition encounter"; }
+    };
+
+    public static EncounterTypeDescriptor NUTRITION_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "87EB5825-DFDD-4EE9-8EEC-CDBE72E76456"; }
+        public String name() { return "NUTRITION_FOLLOWUP"; }
+        public String description() { return "Followup nutrition encounter"; }
+    };
 }

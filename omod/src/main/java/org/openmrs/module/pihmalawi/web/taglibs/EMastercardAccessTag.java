@@ -201,6 +201,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		headerForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), "pdc_trisomy_21_mastercard");
 		headerForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(),"pdc_cleft_lip_palate_mastercard");
 		headerForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(),"pdc_other_diagnosis_mastercard");
+		headerForms.put(EncounterTypes.NUTRITION_INITIAL.name(), "nutrition_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
         flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
@@ -219,6 +220,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_trisomy21_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_trisomy_21_visit"));
 		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_cleft_lip_palate_visit"));
 		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_other_diagnosis_visit"));
+		flowsheetForms.put(EncounterTypes.NUTRITION_INITIAL.name(), Arrays.asList("nutrition_visit"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization

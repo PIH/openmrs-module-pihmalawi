@@ -72,7 +72,7 @@
 
     <globalProperty>
         <property>patient_identifier.importantTypes</property>
-        <defaultValue>ARV Number,HCC Number,Chronic Care Number,Palliative Care Number,PDC Identifier</defaultValue>
+        <defaultValue>ARV Number,HCC Number,Chronic Care Number,Palliative Care Number,PDC Identifier,Nutrition Program Number</defaultValue>
         <description>A comma delimited list of PatientIdentifier names : PatientIdentifier locations that will be displayed on the patient dashboard.  E.g.: ARV Number,Chronic Care Number</description>
     </globalProperty>
 

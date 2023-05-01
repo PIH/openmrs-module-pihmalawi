@@ -28,6 +28,14 @@
 
 <c:set var="personId" value="${model.personId}" />
 <c:set var="patientId" value="${model.patientId}" />
+<c:set var="NutritionOnTreatmentWorkflowState" value="4F148482-8B25-4ACD-A23C-B2A1D4701C2D"/>
+<c:set var="NutritionActiveStates" value="4F148482-8B25-4ACD-A23C-B2A1D4701C2D,35AF01AE-AAC7-4F9B-A9A1-0EFDEB84AD5B"/>
+<c:set var="NutritionTreatmentStoppedWorkflowState" value="B633E826-943D-427F-BEC9-C19DBB31DAAE"/>
+<c:set var="NutritionTransferedOutWorkflowState" value="228C3CE4-3685-459C-ABA3-41BAD3DED1D7"/>
+<c:set var="NutritionDischargedWorkflowState" value="7988D58A-94B1-4E5F-8891-300F40D50D5B"/>
+<c:set var="NutritionDefaultedWorkflowState" value="9144608D-BE07-42E0-B9C3-7BF7B2E70B4B"/>
+<c:set var="NutritionDiedWorkflowState" value="51E67592-5751-491B-8DA5-D5737D320AC5"/>
+
 <c:set var="PccOnTreatmentWorkflowState" value="7c1f852e-5120-4371-8136-f64614f5dfc7"/>
 <c:set var="PccTreatmentStoppedWorkflowState" value="b35ed57c-7d54-4795-b678-f0947a135fda"/>
 <c:set var="PccTransferedOutWorkflowState" value="e92017b9-45cf-41b9-bc69-a5b0232544c1"/>
@@ -172,6 +180,11 @@
     </tr>
 
     <tr>
+        <td>Nutrition Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
         <td><br /></td>
     </tr>
 
@@ -253,6 +266,10 @@
     <tr>
         <td>Palliative Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}"/><br /></td>
+    </tr>
+    <tr>
+        <td>Nutrition Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${NutritionActiveStates}" stateIds="${NutritionActiveStates}" terminalStateIds="${NutritionTreatmentStoppedWorkflowState},${NutritionTransferedOutWorkflowState},${NutritionDischargedWorkflowState},${NutritionDefaultedWorkflowState},${NutritionDiedWorkflowState}"/><br /></td>
     </tr>
     <tr>
         <td>TB Program:</td>
