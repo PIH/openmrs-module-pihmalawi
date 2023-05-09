@@ -1,11 +1,13 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
+import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.idSet;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.privilege;
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.role;
 
+@Component
 public class UserRoleBundle extends AbstractMetadataBundle {
 
     public static final class UserRoles {
