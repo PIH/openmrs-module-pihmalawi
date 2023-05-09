@@ -65,6 +65,8 @@
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
 
 <table cellspacing="0" cellpadding="2">
+<openmrs:hasPrivilege privilege="View clinical data">
+
     <tr>
         <td>ART Patient Card:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="64" initialEncounterTypeId="9" followupEncounterTypeId="10" patientIdentifierType="4" programWorkflowStates="7"/></td>
@@ -178,12 +180,6 @@
         <td>Palliative Care Record:</td>
             <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Palliative Care Mastercard" initialEncounterTypeName="PALLIATIVE_INITIAL" followupEncounterTypeName="PALLIATIVE_FOLLOWUP" programWorkflowStates="${PccOnTreatmentWorkflowState}" patientIdentifierType="22"/></td>
     </tr>
-
-    <tr>
-        <td>Nutrition Record:</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
-    </tr>
-
     <tr>
         <td><br /></td>
     </tr>
@@ -223,30 +219,38 @@
             <td>Not available: User does not have privileges to edit patient</td>
         </openmrs:hasPrivilege>
     </tr>
+</openmrs:hasPrivilege>
+    <tr>
+        <td>Nutrition Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+
 </table>
 </div> <!-- end <div class="portlet" id="pihmalawi.malawiPatientDashboard">-->
 </div> <!-- end <div class="box">-->
 <br />
 
-<div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.trace.sectionTitle" /></div>
-<div class="box${model.patientVariation}"><openmrs:message code="" />
-    <div class="portlet" id="pihmalawi.trace">
-        <table cellspacing="0" cellpadding="2">
-            <tr>
-                <td>Trace Record:</td>
-                <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
-            </tr>
-        </table>
+<openmrs:hasPrivilege privilege="View clinical data">
+    <div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.trace.sectionTitle" /></div>
+    <div class="box${model.patientVariation}"><openmrs:message code="" />
+        <div class="portlet" id="pihmalawi.trace">
+            <table cellspacing="0" cellpadding="2">
+                <tr>
+                    <td>Trace Record:</td>
+                    <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
-<br />
-
-
+    <br />
+</openmrs:hasPrivilege>
 
 <div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.quickprograms.sectionTitle" /></div>
 <div class="box${model.patientVariation}"><openmrs:message code="" />
 <div class="portlet" id="pihmalawi.quickPrograms">
 <table cellspacing="0" cellpadding="2">
+    <openmrs:hasPrivilege privilege="View clinical data">
     <tr>
         <td>HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
@@ -268,12 +272,14 @@
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}"/><br /></td>
     </tr>
     <tr>
-        <td>Nutrition Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${NutritionActiveStates}" stateIds="${NutritionActiveStates}" terminalStateIds="${NutritionTreatmentStoppedWorkflowState},${NutritionTransferedOutWorkflowState},${NutritionDischargedWorkflowState},${NutritionDefaultedWorkflowState},${NutritionDiedWorkflowState}"/><br /></td>
-    </tr>
-    <tr>
         <td>TB Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/></td>
+    </tr>
+    </openmrs:hasPrivilege>
+
+    <tr>
+        <td>Nutrition Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${NutritionActiveStates}" stateIds="${NutritionActiveStates}" terminalStateIds="${NutritionTreatmentStoppedWorkflowState},${NutritionTransferedOutWorkflowState},${NutritionDischargedWorkflowState},${NutritionDefaultedWorkflowState},${NutritionDiedWorkflowState}"/><br /></td>
     </tr>
 </table>
 <!-- <div class="portlet"> is automatically close by openmrs:portlet  from patientOverview.jsp-->
