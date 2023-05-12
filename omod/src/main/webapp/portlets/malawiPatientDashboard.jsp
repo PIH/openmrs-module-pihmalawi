@@ -221,6 +221,9 @@
     </tr>
 </openmrs:hasPrivilege>
     <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
         <td>Nutrition Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
     </tr>
@@ -252,33 +255,33 @@
 <table cellspacing="0" cellpadding="2">
     <openmrs:hasPrivilege privilege="View clinical data">
     <tr>
-        <td>HIV Program:</td>
+        <td style="vertical-align: top;">HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
     </tr>
     <tr>
-        <td>Chronic Care Program:</td>
+        <td style="vertical-align: top;">Chronic Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
     </tr>
     <tr>
-        <td>Mental Health Program:</td>
+        <td style="vertical-align: top;">Mental Health Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
-        <td>Pediatric Development Clinic Program:</td>
+        <td style="vertical-align: top;">Pediatric Development Clinic Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
-        <td>Palliative Care Program:</td>
+        <td style="vertical-align: top;">Palliative Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}"/><br /></td>
     </tr>
     <tr>
-        <td>TB Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/></td>
+        <td style="vertical-align: top;">TB Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/><br /></td>
     </tr>
     </openmrs:hasPrivilege>
 
     <tr>
-        <td>Nutrition Program:</td>
+        <td style="vertical-align: top;">Nutrition Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${NutritionActiveStates}" stateIds="${NutritionActiveStates}" terminalStateIds="${NutritionTreatmentStoppedWorkflowState},${NutritionTransferedOutWorkflowState},${NutritionDischargedWorkflowState},${NutritionDefaultedWorkflowState},${NutritionDiedWorkflowState}"/><br /></td>
     </tr>
 </table>
