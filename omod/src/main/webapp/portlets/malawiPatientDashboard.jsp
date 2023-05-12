@@ -79,6 +79,9 @@
             </c:if>
         </openmrs:forEachEncounter>
     <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
         <td>Pre-ART Patient Card:</td>
         <c:choose>
             <c:when test="${ not empty artInitialEncounter }">
@@ -88,6 +91,9 @@
                 <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" patientIdentifierType="19" programWorkflowStates="1"/></td>
             </c:otherwise>
         </c:choose>
+    </tr>
+    <tr>
+        <td><br /></td>
     </tr>
     <tr>
         <c:set var="artInitialEncounter" value="" />
@@ -151,7 +157,9 @@
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="${MentalHealthActiveStates}" patientIdentifierType="21"/></td>
     </tr>
-
+    <tr>
+        <td><br /></td>
+    </tr>
     <tr>
         <td>Pediatric Development Clinic Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
