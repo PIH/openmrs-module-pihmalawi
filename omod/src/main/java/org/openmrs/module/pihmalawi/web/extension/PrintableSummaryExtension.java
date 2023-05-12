@@ -14,22 +14,35 @@
  */
 package org.openmrs.module.pihmalawi.web.extension;
 
+import org.openmrs.api.context.Context;
 import org.openmrs.module.Extension;
 
 public class PrintableSummaryExtension extends Extension {
 
+    /**
+     * Returns the required privilege in order to see this section. Can be a comma delimited list of
+     * privileges. If the default empty string is returned, only an authenticated user is required
+     *
+     * @return Privilege string
+     */
+    public String getRequiredPrivilege() {
+        return "View clinical data";
+    }
+
     @Override
     public String getOverrideContent(String bodyContent) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"");
-        sb.append("pihmalawi/printableSummary.page");
-        sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
-        sb.append("HIV Patient Summary");
-        sb.append("</a>&nbsp;&nbsp;<br />");
-        sb.append("<a href=\"");
-        sb.append("pihmalawi/ncdInwardSummary.page");
-        sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
-        sb.append("NCD Inward Summary");
+        if (Context.getUserContext().hasPrivilege(getRequiredPrivilege()) ) {
+            sb.append("<a href=\"");
+            sb.append("pihmalawi/printableSummary.page");
+            sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
+            sb.append("HIV Patient Summary");
+            sb.append("</a>&nbsp;&nbsp;<br />");
+            sb.append("<a href=\"");
+            sb.append("pihmalawi/ncdInwardSummary.page");
+            sb.append("?patientId=").append(getParameterMap().get("patientId")).append("\">");
+            sb.append("NCD Inward Summary");
+        }
         return sb.toString();
     }
 
