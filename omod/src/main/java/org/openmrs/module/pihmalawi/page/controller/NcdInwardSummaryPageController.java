@@ -63,7 +63,7 @@ public class NcdInwardSummaryPageController {
 
     protected static final Log log = LogFactory.getLog(NcdInwardSummaryPageController.class);
 
-	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
+	public String controller(@RequestParam(value="patientId", required=false) Patient patient,
                            UiUtils ui, PageModel model,
                            @SpringBean("builtInPatientDataLibrary") BuiltInPatientDataLibrary builtInData,
                            @SpringBean("basePatientDataLibrary") BasePatientDataLibrary baseData,
@@ -73,153 +73,157 @@ public class NcdInwardSummaryPageController {
                            @SpringBean("dataFactory") DataFactory df,
 	                       @InjectBeans PatientDomainWrapper patientDomainWrapper) {
 
-		patientDomainWrapper.setPatient(patient);
-        model.addAttribute("patient", patientDomainWrapper);
-        model.addAttribute("dateUtil", new DateUtil());
+        if (Context.getUserContext().hasPrivilege("View clinical data")) {
+            patientDomainWrapper.setPatient(patient);
+            model.addAttribute("patient", patientDomainWrapper);
+            model.addAttribute("dateUtil", new DateUtil());
 
-        EvaluationContext context = new EvaluationContext();
-        context.setBaseCohort(new Cohort(Arrays.asList(patient.getPatientId())));
+            EvaluationContext context = new EvaluationContext();
+            context.setBaseCohort(new Cohort(Arrays.asList(patient.getPatientId())));
 
-        try {
+            try {
 
-            // Demographics, identifiers
+                // Demographics, identifiers
 
-            model.addAttribute("firstName", evaluate(builtInData.getPreferredGivenName(), context));
-            model.addAttribute( "lastName", evaluate(builtInData.getPreferredFamilyName(), context));
-            model.addAttribute( "birthDate", evaluate(baseData.getBirthdate(), context));
-            model.addAttribute( "village", evaluate(baseData.getVillage(), context));
-            model.addAttribute( "chw", evaluate(baseData.getChw(), context));
-            model.addAttribute( "ageYears", evaluate(baseData.getAgeAtEndInYears(), context));
-            model.addAttribute( "ageMonths", evaluate(baseData.getAgeAtEndInMonths(), context));
-            model.addAttribute( "gender", evaluate(builtInData.getGender(), context));
-            model.addAttribute( "hccNumber", evaluate(hivData.getHccNumberAtLocation(), context));
-            model.addAttribute( "arvNumber", evaluate(hivData.getArvNumberAtLocation(), context));
-            model.addAttribute( "ccNumber", evaluate(ccData.getChronicCareNumberAtLocation(), context));
+                model.addAttribute("firstName", evaluate(builtInData.getPreferredGivenName(), context));
+                model.addAttribute("lastName", evaluate(builtInData.getPreferredFamilyName(), context));
+                model.addAttribute("birthDate", evaluate(baseData.getBirthdate(), context));
+                model.addAttribute("village", evaluate(baseData.getVillage(), context));
+                model.addAttribute("chw", evaluate(baseData.getChw(), context));
+                model.addAttribute("ageYears", evaluate(baseData.getAgeAtEndInYears(), context));
+                model.addAttribute("ageMonths", evaluate(baseData.getAgeAtEndInMonths(), context));
+                model.addAttribute("gender", evaluate(builtInData.getGender(), context));
+                model.addAttribute("hccNumber", evaluate(hivData.getHccNumberAtLocation(), context));
+                model.addAttribute("arvNumber", evaluate(hivData.getArvNumberAtLocation(), context));
+                model.addAttribute("ccNumber", evaluate(ccData.getChronicCareNumberAtLocation(), context));
 
-            // Program enrollment status
+                // Program enrollment status
 
-            model.addAttribute("hivEnrollmentDate", evaluate(hivData.getEarliestHivProgramEnrollmentDateByEndDate(), context));
-            model.addAttribute( "hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
-            model.addAttribute( "hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
-            model.addAttribute( "hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
-            model.addAttribute( "hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));
-            model.addAttribute( "artAppointmentStatus", evaluate(hivData.getArtAppointmentStatus(), context));
-            model.addAttribute( "ccTxStatus", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
-            model.addAttribute( "ccTxStatusDate", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
-            model.addAttribute( "ccDxObs", evaluate(ccData.getAllChronicCareDiagnosisObsByEndDate(), context));
+                model.addAttribute("hivEnrollmentDate", evaluate(hivData.getEarliestHivProgramEnrollmentDateByEndDate(), context));
+                model.addAttribute("hivTxStatus", evaluate(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
+                model.addAttribute("hivTxStatusDate", evaluate(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
+                model.addAttribute("hivFirstVisitDate", evaluate(hivData.getFirstHivEncounterDateByEndDate(), context));
+                model.addAttribute("hivLastVisitDate", evaluate(hivData.getMostRecentHivEncounterDateByEndDate(), context));
+                model.addAttribute("artAppointmentStatus", evaluate(hivData.getArtAppointmentStatus(), context));
+                model.addAttribute("ccTxStatus", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
+                model.addAttribute("ccTxStatusDate", evaluate(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
+                model.addAttribute("ccDxObs", evaluate(ccData.getAllChronicCareDiagnosisObsByEndDate(), context));
 
-            // Weight, height, BMI
+                // Weight, height, BMI
 
-            List<Obs> weights = (List<Obs>) evaluate(baseData.getAllWeightObservations(), context);
-            Obs weight = getLastValue(weights, Obs.class);
-            Obs height = (Obs) evaluate(baseData.getLatestHeightObs(), context);
-            model.addAttribute("weights", weights);
-            model.addAttribute("height", height);
-            model.addAttribute("weight", weight);
-            model.put("bmi", "");
-            if (weight != null && height != null) {
-                double bmi = weight.getValueNumeric()/Math.pow(height.getValueNumeric()/100, 2);
-                model.put("bmi", ObjectUtil.format(bmi, "1"));
-                model.put("bmiValue", bmi);
-            }
-
-            // Diagnoses and mastercard dates
-
-            List<Obs> dxObs = (List<Obs>)model.getAttribute("ccDxObs");
-
-            DiagnosisSection htnSection = new DiagnosisSection("htn", "Hypertension", ccMetadata.getHtnDiabetesEncounterTypes());
-            DiagnosisSection diabetesSection = new DiagnosisSection("diabetes", "Diabetes", ccMetadata.getHtnDiabetesEncounterTypes());
-            DiagnosisSection epilepsySection = new DiagnosisSection("epilepsy", "Epilepsy", ccMetadata.getEpilepsyEncounterTypes());
-            DiagnosisSection asthmaSection = new DiagnosisSection("asthma", "Asthma / COPD", ccMetadata.getAsthmaEncounterTypes());
-            DiagnosisSection mhSection = new DiagnosisSection("mh", "Mental Health", ccMetadata.getMentalHealthEncounterTypes());
-
-            List<DiagnosisSection> diagnosisSections = Arrays.asList(htnSection, diabetesSection, epilepsySection, asthmaSection, mhSection);
-            if (dxObs != null) {
-                for (DiagnosisSection section : diagnosisSections) {
-                    for (Obs o : dxObs) {
-                        if (o.getEncounter() != null && section.getTypes().contains(o.getEncounter().getEncounterType())) {
-                            boolean add = true;
-                            if ((section.getKey().equals("htn") && !o.getValueCoded().equals(ccMetadata.getHypertensionConcept())) || (section.getKey().equals("diabetes") && o.getValueCoded().equals(ccMetadata.getHypertensionConcept()))) {
-                                add = false;
-                            }
-                            if (add) {
-                                DiagnosisRow diagnosisRow = new DiagnosisRow(o);
-                                diagnosisRow.setDiagnosisDate(getSibling(o, ccMetadata.getDiagnosisDateConcept()));
-                                section.addRow(diagnosisRow);
-                            }
-                        }
-                    }
+                List<Obs> weights = (List<Obs>) evaluate(baseData.getAllWeightObservations(), context);
+                Obs weight = getLastValue(weights, Obs.class);
+                Obs height = (Obs) evaluate(baseData.getLatestHeightObs(), context);
+                model.addAttribute("weights", weights);
+                model.addAttribute("height", height);
+                model.addAttribute("weight", weight);
+                model.put("bmi", "");
+                if (weight != null && height != null) {
+                    double bmi = weight.getValueNumeric() / Math.pow(height.getValueNumeric() / 100, 2);
+                    model.put("bmi", ObjectUtil.format(bmi, "1"));
+                    model.put("bmiValue", bmi);
                 }
-            }
 
-            for (DiagnosisSection section : diagnosisSections) {
-                if (section.getRows().size() > 0) {
-                    section.setEarliestEncounterDate((Date)evaluate(ccData.getFirstEncounterDateByEndDate(section.getTypes()), context));
-                    Encounter latestEncounter = (Encounter)evaluate(df.getMostRecentEncounterOfTypesByEndDate(section.getTypes(), null), context);
-                    if (latestEncounter != null) {
-                        section.setLatestEncounterDate(latestEncounter.getEncounterDatetime());
-                        Obs nextApptDateObs = (Obs) evaluate(df.getMostRecentObsOnGivenDate(ccMetadata.getAppointmentDateConcept(), latestEncounter.getEncounterDatetime()), context);
-                        if (nextApptDateObs != null) {
-                            section.setNextAppointmentDate(nextApptDateObs.getValueDatetime());
-                        }
+                // Diagnoses and mastercard dates
 
-                        if (section.getKey().equals("htn") || section.getKey().equals("diabetes")) {
-                            String bp = "None recorded";
-                            Obs lastSystolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, null), context);
-                            Obs lastDiastolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, null), context);
-                            if (lastSystolicBp != null && lastDiastolicBp != null) {
-                                bp = lastSystolicBp.getValueNumeric().intValue() + " / " + lastDiastolicBp.getValueNumeric().intValue();
-                            }
-                            section.addObsValue("Last Blood Pressure", bp);
-                        }
-                        if (section.getKey().equals("diabetes")) {
-                            Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, null), context);
-                            section.addObsValue("Last HbA1c result", ui.format(lastHba1cResult));
+                List<Obs> dxObs = (List<Obs>) model.getAttribute("ccDxObs");
 
-                            Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, null), context);
-                            if (bloodSugarResult != null) {
-                                Obs bloodSugarTestType = getSibling(bloodSugarResult, ccMetadata.getBloodSugarTestTypeConcept());
-                                String resultStr = ui.format(bloodSugarResult) + " on " + ui.format(bloodSugarResult.getObsDatetime());
-                                if (bloodSugarTestType != null) {
-                                    resultStr += " (" + ui.format(bloodSugarTestType) + ")";
+                DiagnosisSection htnSection = new DiagnosisSection("htn", "Hypertension", ccMetadata.getHtnDiabetesEncounterTypes());
+                DiagnosisSection diabetesSection = new DiagnosisSection("diabetes", "Diabetes", ccMetadata.getHtnDiabetesEncounterTypes());
+                DiagnosisSection epilepsySection = new DiagnosisSection("epilepsy", "Epilepsy", ccMetadata.getEpilepsyEncounterTypes());
+                DiagnosisSection asthmaSection = new DiagnosisSection("asthma", "Asthma / COPD", ccMetadata.getAsthmaEncounterTypes());
+                DiagnosisSection mhSection = new DiagnosisSection("mh", "Mental Health", ccMetadata.getMentalHealthEncounterTypes());
+
+                List<DiagnosisSection> diagnosisSections = Arrays.asList(htnSection, diabetesSection, epilepsySection, asthmaSection, mhSection);
+                if (dxObs != null) {
+                    for (DiagnosisSection section : diagnosisSections) {
+                        for (Obs o : dxObs) {
+                            if (o.getEncounter() != null && section.getTypes().contains(o.getEncounter().getEncounterType())) {
+                                boolean add = true;
+                                if ((section.getKey().equals("htn") && !o.getValueCoded().equals(ccMetadata.getHypertensionConcept())) || (section.getKey().equals("diabetes") && o.getValueCoded().equals(ccMetadata.getHypertensionConcept()))) {
+                                    add = false;
                                 }
-                                section.addObsValue("Last Blood sugar result", resultStr);
+                                if (add) {
+                                    DiagnosisRow diagnosisRow = new DiagnosisRow(o);
+                                    diagnosisRow.setDiagnosisDate(getSibling(o, ccMetadata.getDiagnosisDateConcept()));
+                                    section.addRow(diagnosisRow);
+                                }
                             }
                         }
-
-                        List<Obs> meds = (List<Obs>)evaluate(df.getAllObsOnGivenDate(ccMetadata.getCurrentDrugsUsedConcept(), latestEncounter.getEncounterDatetime()), context);
-                        section.setCurrentMedications(meds);
                     }
                 }
-            }
 
-            model.addAttribute("diagnosisSections", diagnosisSections);
+                for (DiagnosisSection section : diagnosisSections) {
+                    if (section.getRows().size() > 0) {
+                        section.setEarliestEncounterDate((Date) evaluate(ccData.getFirstEncounterDateByEndDate(section.getTypes()), context));
+                        Encounter latestEncounter = (Encounter) evaluate(df.getMostRecentEncounterOfTypesByEndDate(section.getTypes(), null), context);
+                        if (latestEncounter != null) {
+                            section.setLatestEncounterDate(latestEncounter.getEncounterDatetime());
+                            Obs nextApptDateObs = (Obs) evaluate(df.getMostRecentObsOnGivenDate(ccMetadata.getAppointmentDateConcept(), latestEncounter.getEncounterDatetime()), context);
+                            if (nextApptDateObs != null) {
+                                section.setNextAppointmentDate(nextApptDateObs.getValueDatetime());
+                            }
 
-            List<List<DiagnosisSection>> sectionLayout = new ArrayList<List<DiagnosisSection>>();
-            List<DiagnosisSection> sectionRow1 = new ArrayList<DiagnosisSection>();
-            for (DiagnosisSection ds : diagnosisSections) {
-                model.addAttribute(ds.getKey() + "Section", ds);
-                if (ds.getRows().size() > 0) {
-                    sectionRow1.add(ds);
+                            if (section.getKey().equals("htn") || section.getKey().equals("diabetes")) {
+                                String bp = "None recorded";
+                                Obs lastSystolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, null), context);
+                                Obs lastDiastolicBp = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, null), context);
+                                if (lastSystolicBp != null && lastDiastolicBp != null) {
+                                    bp = lastSystolicBp.getValueNumeric().intValue() + " / " + lastDiastolicBp.getValueNumeric().intValue();
+                                }
+                                section.addObsValue("Last Blood Pressure", bp);
+                            }
+                            if (section.getKey().equals("diabetes")) {
+                                Obs lastHba1cResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getHbA1cConcept(), null, null), context);
+                                section.addObsValue("Last HbA1c result", ui.format(lastHba1cResult));
+
+                                Obs bloodSugarResult = (Obs) evaluate(df.getMostRecentObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, null), context);
+                                if (bloodSugarResult != null) {
+                                    Obs bloodSugarTestType = getSibling(bloodSugarResult, ccMetadata.getBloodSugarTestTypeConcept());
+                                    String resultStr = ui.format(bloodSugarResult) + " on " + ui.format(bloodSugarResult.getObsDatetime());
+                                    if (bloodSugarTestType != null) {
+                                        resultStr += " (" + ui.format(bloodSugarTestType) + ")";
+                                    }
+                                    section.addObsValue("Last Blood sugar result", resultStr);
+                                }
+                            }
+
+                            List<Obs> meds = (List<Obs>) evaluate(df.getAllObsOnGivenDate(ccMetadata.getCurrentDrugsUsedConcept(), latestEncounter.getEncounterDatetime()), context);
+                            section.setCurrentMedications(meds);
+                        }
+                    }
                 }
+
+                model.addAttribute("diagnosisSections", diagnosisSections);
+
+                List<List<DiagnosisSection>> sectionLayout = new ArrayList<List<DiagnosisSection>>();
+                List<DiagnosisSection> sectionRow1 = new ArrayList<DiagnosisSection>();
+                for (DiagnosisSection ds : diagnosisSections) {
+                    model.addAttribute(ds.getKey() + "Section", ds);
+                    if (ds.getRows().size() > 0) {
+                        sectionRow1.add(ds);
+                    }
+                }
+                sectionLayout.add(sectionRow1);
+                model.addAttribute("sectionLayout", sectionLayout);
+
+                Map<Date, Map<String, Obs>> bpTable = new TreeMap<Date, Map<String, Obs>>(new ReverseComparator());
+                addObsToTable(bpTable, "sbp", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, null), context));
+                addObsToTable(bpTable, "dbp", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, null), context));
+                addObsToTable(bpTable, "bs", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, null), context));
+                addObsToTable(bpTable, "bst", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getBloodSugarTestTypeConcept(), null, null), context));
+                model.addAttribute("bpTable", bpTable);
+
+                List<Obs> seizures = (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getNumberOfSeizuresConcept(), null, null), context);
+                model.addAttribute("seizures", seizures);
+            } catch (Exception e) {
+                model.addAttribute("errors", e.getMessage());
+                log.error("An error occured while evaluating data for patient " + patient.getId() + " for printable summary", e);
             }
-            sectionLayout.add(sectionRow1);
-            model.addAttribute("sectionLayout", sectionLayout);
-
-            Map<Date, Map<String, Obs>> bpTable = new TreeMap<Date, Map<String, Obs>>(new ReverseComparator());
-            addObsToTable(bpTable, "sbp", (List<Obs>)evaluate(df.getAllObsByEndDate(ccMetadata.getSystolicBloodPressureConcept(), null, null), context));
-            addObsToTable(bpTable, "dbp", (List<Obs>)evaluate(df.getAllObsByEndDate(ccMetadata.getDiastolicBloodPressureConcept(), null, null), context));
-            addObsToTable(bpTable, "bs", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getBloodSugarTestResultConcept(), null, null), context));
-            addObsToTable(bpTable, "bst", (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getBloodSugarTestTypeConcept(), null, null), context));
-            model.addAttribute("bpTable", bpTable);
-
-            List<Obs> seizures = (List<Obs>) evaluate(df.getAllObsByEndDate(ccMetadata.getNumberOfSeizuresConcept(), null, null), context);
-            model.addAttribute("seizures", seizures);
+        } else {
+            return "redirect:/index.htm";
         }
-        catch (Exception e) {
-            model.addAttribute("errors", e.getMessage());
-            log.error("An error occured while evaluating data for patient " + patient.getId() + " for printable summary", e);
-        }
+        return null;
     }
 
     protected <T> T getLastValue(List l, Class<T> type) {
