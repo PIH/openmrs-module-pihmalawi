@@ -59,6 +59,7 @@ public class MetadataInitializer implements Initializer {
         saveGlobalProperty(EmrApiConstants.GP_VISIT_ASSIGNMENT_HANDLER_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAP,
                 EncounterTypes.CHECK_IN.uuid() + ":" + VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
         saveGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_ENABLE_VISITS, "true");
+        saveGlobalProperty("FormEntry.enableDashboardTab", "false");
         saveGlobalProperty(OpenmrsConstants.GP_VISIT_TYPES_TO_AUTO_CLOSE, VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
         saveGlobalProperty(OpenmrsConstants.GP_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAPPING,
                 EncounterTypes.CHECK_IN.uuid() + ":" + VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
