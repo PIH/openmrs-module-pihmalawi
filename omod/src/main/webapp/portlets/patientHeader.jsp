@@ -33,17 +33,30 @@
 </openmrs:hasPrivilege>
 <div id="patientHeaderPreferredIdentifier">
     <c:if test="${fn:length(model.patient.activeIdentifiers) > 0}">
-        <c:forEach var="identifier" items="${model.patient.activeIdentifiers}"
-                   begin="0" end="0">
-            <c:if test="${ ((identifier.identifierType.name != 'Nutrition Program Number') && hasClinicalDataPrivilege == 'true') || (identifier.identifierType.name == 'Nutrition Program Number')}">
-                <span class="patientHeaderPatientIdentifier"><span
-                        id="patientHeaderPatientIdentifierType"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
-                        pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
-                        type="html"
-                        parameters="identifierLocation=${identifier.location.name}" />:
-                </span> <c:out value="${identifier.identifier}" /></span>
+        <c:if test="${ !hasClinicalDataPrivilege == 'true'}">
+            <%-- display only the Nutrition Program Number--%>
+            <c:forEach var="identifier" items="${model.patient.activeIdentifiers}">
+                <c:if test="${ identifier.identifierType.name == 'Nutrition Program Number'}">
+                    <span class="patientHeaderPatientIdentifier">
+                        <span id="patientHeaderPatientIdentifierType"><c:out value="${identifier.identifierType.name}" />
+                            <openmrs:extensionPoint pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType" type="html" parameters="identifierLocation=${identifier.location.name}" />:
+                        </span>
+                        <c:out value="${identifier.identifier}" />
+                    </span>
                 </c:if>
-        </c:forEach>
+            </c:forEach>
+        </c:if>
+        <c:if test="${ hasClinicalDataPrivilege == 'true'}">
+            <c:forEach var="identifier" items="${model.patient.activeIdentifiers}"
+                       begin="0" end="0">
+                        <span class="patientHeaderPatientIdentifier"><span
+                                id="patientHeaderPatientIdentifierType"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
+                                pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
+                                type="html"
+                                parameters="identifierLocation=${identifier.location.name}" />:
+                        </span> <c:out value="${identifier.identifier}" /></span>
+            </c:forEach>
+        </c:if>
     </c:if>
 </div>
 <table id="patientHeaderGeneralInfo">
@@ -97,42 +110,42 @@
                 pointId="org.openmrs.patientDashboard.Header" type="html"
                 parameters="patientId=${model.patient.patientId}" /></td>
         <td style="width: 100%;" class="patientHeaderEmptyData">&nbsp;</td>
-        <td id="patientHeaderOtherIdentifiers"><c:if
-                test="${fn:length(model.patient.activeIdentifiers) > 1}">
-            <c:forEach var="identifier"
-                       items="${model.patient.activeIdentifiers}" begin="1" end="1">
-                <c:if test="${ ((identifier.identifierType.name != 'Nutrition Program Number') && hasClinicalDataPrivilege == 'true') || (identifier.identifierType.name == 'Nutrition Program Number')}">
-					<span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
-                            pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
-                            type="html"
-                            parameters="identifierLocation=${identifier.location.name}" />:
-						<c:out value="${identifier.identifier}" />
-					</span>
+        <c:if test="${ hasClinicalDataPrivilege == 'true'}">
+            <td id="patientHeaderOtherIdentifiers">
+                <c:if test="${fn:length(model.patient.activeIdentifiers) > 1}">
+                    <c:forEach var="identifier" items="${model.patient.activeIdentifiers}" begin="1" end="1">
+                            <span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" />
+                                <openmrs:extensionPoint
+                                    pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
+                                    type="html"
+                                    parameters="identifierLocation=${identifier.location.name}" />:
+                                <c:out value="${identifier.identifier}" />
+                            </span>
+                    </c:forEach>
                 </c:if>
-            </c:forEach>
-        </c:if> <c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
-            <div id="patientHeaderMoreIdentifiers">
-                <c:forEach var="identifier"
-                           items="${model.patient.activeIdentifiers}" begin="2">
-                    <c:if test="${ ((identifier.identifierType.name != 'Nutrition Program Number') && hasClinicalDataPrivilege == 'true') || (identifier.identifierType.name == 'Nutrition Program Number')}">
-						<span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" /><openmrs:extensionPoint
-                                pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
-                                type="html"
-                                parameters="identifierLocation=${identifier.location.name}" />:
-							<c:out value="${identifier.identifier}" />
-						</span>
-                    </c:if>
-                </c:forEach>
-            </div>
-        </c:if></td>
-        <c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
-            <td width="32" class="patientHeaderShowMoreIdentifiersData"><small><a
-                    id="patientHeaderShowMoreIdentifiers"
-                    onclick="return showMoreIdentifiers()"
-                    title='<openmrs:message code="patientDashboard.showMoreIdentifers"/>'><openmrs:message
-                    code="general.nMore"
-                    arguments="${fn:length(model.patient.activeIdentifiers) - 2}" /></a></small>
+                <c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
+                    <div id="patientHeaderMoreIdentifiers">
+                        <c:forEach var="identifier" items="${model.patient.activeIdentifiers}" begin="2">
+                                <span class="patientHeaderPatientIdentifier"><c:out value="${identifier.identifierType.name}" />
+                                    <openmrs:extensionPoint
+                                        pointId="org.openmrs.patientDashboard.afterPatientHeaderPatientIdentifierType"
+                                        type="html"
+                                        parameters="identifierLocation=${identifier.location.name}" />:
+                                    <c:out value="${identifier.identifier}" />
+                                </span>
+                        </c:forEach>
+                    </div>
+                </c:if>
             </td>
+            <c:if test="${fn:length(model.patient.activeIdentifiers) > 2}">
+                <td width="32" class="patientHeaderShowMoreIdentifiersData"><small><a
+                        id="patientHeaderShowMoreIdentifiers"
+                        onclick="return showMoreIdentifiers()"
+                        title='<openmrs:message code="patientDashboard.showMoreIdentifers"/>'><openmrs:message
+                        code="general.nMore"
+                        arguments="${fn:length(model.patient.activeIdentifiers) - 2}" /></a></small>
+                </td>
+            </c:if>
         </c:if>
     </tr>
 </table>
