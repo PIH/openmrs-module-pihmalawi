@@ -42,6 +42,10 @@ public class ChronicCareMetadata extends CommonMetadata {
 		return getPatientIdentifierType(IC3_D_NUMBER);
 	}
 
+	public PatientIdentifierType getNutritionIdentifierType() {
+		return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.NUTRITION_PROGRAM_NUMBER.name());
+	}
+
 
 	public static String CHRONIC_CARE_PROGRAM = "Chronic care program";
 	public static String CHRONIC_CARE_PROGRAM_TREATMENT_STATUS = "Chronic care treatment status";

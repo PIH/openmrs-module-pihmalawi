@@ -170,6 +170,11 @@ public class BasePatientDataLibrary extends BaseDefinitionLibrary<PatientDataDef
     	return df.getPreferredIdentifierOfTypes(ncdMetadata.getIC3DIdentifierType());
 	}
 
+	@DocumentedDefinition("nutritionIdentifier")
+	public PatientDataDefinition getNutritionIdentifier() {
+		return df.getPreferredIdentifierOfTypes(ncdMetadata.getNutritionIdentifierType());
+	}
+
 	// Vitals
 
     @DocumentedDefinition
