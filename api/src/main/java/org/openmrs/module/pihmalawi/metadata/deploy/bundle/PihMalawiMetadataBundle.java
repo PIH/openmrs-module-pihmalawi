@@ -7,6 +7,7 @@ import org.openmrs.module.pihmalawi.metadata.NutritionProgramMetadata;
 import org.openmrs.module.pihmalawi.metadata.PalliativeCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.MentalHealthMetadata;
 import org.openmrs.module.pihmalawi.metadata.PdcMetadata;
+import org.openmrs.module.pihmalawi.metadata.TeenClubProgramMetadata;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChronicHeartFailureConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChronicKidneyDiseaseConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChwManagementConcepts;
@@ -35,5 +36,6 @@ public class PihMalawiMetadataBundle extends AbstractMetadataBundle{
         install(MentalHealthMetadata.MH_CARE_PROGRAM);
         install(PdcMetadata.PDC_PROGRAM);
         install(NutritionProgramMetadata.NUTRITION_PROGRAM);
+        install(TeenClubProgramMetadata.TEEN_CLUB_PROGRAM);
     }
 }

@@ -16,7 +16,7 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
     public static final String NUTRITION_PROGRAM_CONCEPT_UUID = "655bd768-977f-11e1-8993-905e29aff6c1";
     public static final String SEVERE_MALNUTRITION_STATE_CONCEPT = "960B1212-C7A6-4247-8176-84DC462361BB";
     public static final String NUTRITION_PROGRAM_STATUS_CONCEPT_UUID = "3B0DB54D-A283-43D8-9B5E-1EF0B4CE9B78";
-    public static final String GENERIC_OUTCOME_CONCEPT_UUID = "73eb05c2-e4be-4d82-bcad-ffec1be67d01";
+
 
     public static final String LACTOGEN_TINS_CONCEPT_UUID = "b063e72d-3ddf-4e6c-8415-396375971940";
 

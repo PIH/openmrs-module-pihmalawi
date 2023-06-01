@@ -86,7 +86,7 @@ public class NutritionProgramMetadata extends CommonMetadata{
         public String conceptUuid() { return NutritionConcepts.NUTRITION_PROGRAM_CONCEPT_UUID; }
         public String name() { return "Nutrition program"; }
         public String description() { return "Nutrition program"; }
-        @Override public String outcomesConceptUuid()  { return NutritionConcepts.GENERIC_OUTCOME_CONCEPT_UUID; }
+        @Override public String outcomesConceptUuid()  { return ProgramConcepts.GENERIC_OUTCOME_CONCEPT_UUID; }
         public String uuid() { return "FECD888E-D547-4E1D-A012-56CA8874D2E1"; }
         @Override public Set<ProgramWorkflowDescriptor> workflows() {
             return Collections.singleton(NUTRITION_PROGRAM_STATUS);

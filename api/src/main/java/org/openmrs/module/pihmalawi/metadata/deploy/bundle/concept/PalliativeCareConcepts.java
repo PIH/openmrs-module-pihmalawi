@@ -19,7 +19,6 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
 
     public static final String PALLIATIVE_CARE_PROGRAM_CONCEPT_UUID = "14ce86d7-025e-4dcf-9437-67d26185c6ab";
     public static final String PALLIATIVE_CARE_PROGRAM_STATUS_CONCEPT_UUID = "e7a7c2ca-7433-4851-8687-67e8541ca40b";
-    public static final String PALLIATIVE_CARE_PROGRAM_OUTCOME_CONCEPT_UUID  = "73eb05c2-e4be-4d82-bcad-ffec1be67d01";
     public static final String ON_TREATMENT_CONCEPT_UUID = "65664784-977f-11e1-8993-905e29aff6c1";
     public static final String TREATMENT_STOPPED_CONCEPT_UUID = "655a6acc-977f-11e1-8993-905e29aff6c1";
     public static final String TRANSFERRED_OUT_CONCEPT_UUID = "655b604e-977f-11e1-8993-905e29aff6c1";
@@ -69,7 +68,7 @@ public class PalliativeCareConcepts extends VersionedPihConceptBundle{
                         .type(sameAs).ensureTerm(pih, "8416").build())
                 .build());
 
-        install(new ConceptBuilder(PALLIATIVE_CARE_PROGRAM_OUTCOME_CONCEPT_UUID)
+        install(new ConceptBuilder(ProgramConcepts.GENERIC_OUTCOME_CONCEPT_UUID)
                 .datatype(coded)
                 .conceptClass(workflow)
                 .name("e72c1cfc-3e7a-48e3-9b3b-19b539cc7070", "Generic outcome", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
