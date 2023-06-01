@@ -32,7 +32,7 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 5;
+        return 3;
     }
 
     @Override
