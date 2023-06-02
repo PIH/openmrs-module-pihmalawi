@@ -36,6 +36,10 @@
 <c:set var="NutritionDefaultedWorkflowState" value="9144608D-BE07-42E0-B9C3-7BF7B2E70B4B"/>
 <c:set var="NutritionDiedWorkflowState" value="51E67592-5751-491B-8DA5-D5737D320AC5"/>
 
+<c:set var="TeenClubActiveStates" value="F179C6EA-6AF7-4F66-8587-AFE23521400C,3E9BB98B-6BB0-431D-BCD5-B3E277922C04"/>
+<c:set var="TeenClubTerminalStates" value="BDAF0BE3-5135-423E-B22B-4A87DE3C5C4A,3700B846-6F87-454A-AB1C-1EB19BF0D48B,11DFAE63-7185-452B-9BE4-E0773AC91D34,051AB431-5F98-4351-A541-9EFE0829AE7C,BFB0D25A-96C7-44EB-B58A-8CA6DCDE36D8,E6C1B44A-8B02-4D47-944D-09A2E94D61F3"/>
+
+
 <c:set var="PccOnTreatmentWorkflowState" value="7c1f852e-5120-4371-8136-f64614f5dfc7"/>
 <c:set var="PccTreatmentStoppedWorkflowState" value="b35ed57c-7d54-4795-b678-f0947a135fda"/>
 <c:set var="PccTransferedOutWorkflowState" value="e92017b9-45cf-41b9-bc69-a5b0232544c1"/>
@@ -78,6 +82,13 @@
                 <c:set var="artInitialEncounter" value="true" />
             </c:if>
         </openmrs:forEachEncounter>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td>Teen Club Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
+    </tr>
     <tr>
         <td><br /></td>
     </tr>
@@ -265,6 +276,10 @@
     <tr>
         <td style="vertical-align: top;">HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top;">Teen Club:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${TeenClubActiveStates}" stateIds="${TeenClubActiveStates}" terminalStateIds="${TeenClubTerminalStates}"/><br /></td>
     </tr>
     <tr>
         <td style="vertical-align: top;">Chronic Care Program:</td>

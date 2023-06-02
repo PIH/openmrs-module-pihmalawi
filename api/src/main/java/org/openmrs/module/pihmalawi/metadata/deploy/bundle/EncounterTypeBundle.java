@@ -115,6 +115,8 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
 
         install(EncounterTypes.NUTRITION_INITIAL);
         install(EncounterTypes.NUTRITION_FOLLOWUP);
+        install(EncounterTypes.TEEN_CLUB_INITIAL);
+        install(EncounterTypes.TEEN_CLUB_FOLLOWUP);
 
     }
 

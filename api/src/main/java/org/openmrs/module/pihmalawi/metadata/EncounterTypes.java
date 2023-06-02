@@ -459,4 +459,16 @@ public class EncounterTypes {
         public String name() { return "NUTRITION_FOLLOWUP"; }
         public String description() { return "Followup nutrition encounter"; }
     };
+
+    public static EncounterTypeDescriptor TEEN_CLUB_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "49085C00-9EA8-481D-A5C5-FB685822D5AB"; }
+        public String name() { return "TEEN_CLUB_INITIAL"; }
+        public String description() { return "Initial teen club encounter"; }
+    };
+
+    public static EncounterTypeDescriptor TEEN_CLUB_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "A8CF446D-0FA4-4D44-AF46-1811F73BE65A"; }
+        public String name() { return "TEEN_CLUB_FOLLOWUP"; }
+        public String description() { return "Followup teen club encounter"; }
+    };
 }
