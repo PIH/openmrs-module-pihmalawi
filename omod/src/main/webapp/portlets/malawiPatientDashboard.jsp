@@ -69,6 +69,14 @@
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
 
 <table cellspacing="0" cellpadding="2">
+<c:forEach var="program" items="${model.patientPrograms}">
+    <c:if test="${!program.voided && program.program.name == 'Teen club program'}">
+        <c:set var="activeTeenClubProgram" value="true"/>
+    </c:if>
+    <c:if test="${!program.voided && program.program.name == 'HIV PROGRAM'}">
+        <c:set var="activeHIVProgram" value="true"/>
+    </c:if>
+</c:forEach>
 <openmrs:hasPrivilege privilege="View clinical data">
 
     <tr>
@@ -85,6 +93,8 @@
     <tr>
         <td><br /></td>
     </tr>
+    <!-- If patient is eligible to be enrolled in the Teen Club or the patient is already enrolled-->
+    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
     <tr>
         <td>Teen Club Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
@@ -92,6 +102,7 @@
     <tr>
         <td><br /></td>
     </tr>
+    </c:if>
     <tr>
         <td>Pre-ART Patient Card:</td>
         <c:choose>
@@ -277,10 +288,12 @@
         <td style="vertical-align: top;">HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
     </tr>
+    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
     <tr>
         <td style="vertical-align: top;">Teen Club:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${TeenClubActiveStates}" stateIds="${TeenClubActiveStates}" terminalStateIds="${TeenClubTerminalStates}"/><br /></td>
     </tr>
+    </c:if>
     <tr>
         <td style="vertical-align: top;">Chronic Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
