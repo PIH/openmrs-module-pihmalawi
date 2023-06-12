@@ -10,7 +10,17 @@
 
 */
 
-set @startDate = DATE_ADD(@endDate,INTERVAL -1 MONTH);
+
+SET @dayOfEndDate = DAY(@endDate);
+SET @startDate =
+  (SELECT
+    CASE
+      WHEN @dayOfEndDate = 28 THEN date_add(date_sub(@endDate, INTERVAL 1 MONTH), INTERVAL 4 DAY)
+      WHEN @dayOfEndDate = 29 THEN date_add(date_sub(@endDate, INTERVAL 1 MONTH), INTERVAL 3 DAY)
+      WHEN @dayOfEndDate = 31 THEN date_add(date_sub(@endDate, INTERVAL 1 MONTH), INTERVAL 1 DAY)
+      WHEN @dayOfEndDate = 30 THEN date_add(date_sub(@endDate, INTERVAL 1 MONTH), INTERVAL 2 DAY)
+      ELSE @endDate
+    END);
 
 CALL create_rpt_mh_data(@endDate, @location);
 
@@ -1650,6 +1660,1240 @@ INSERT INTO rpt_mh_indicators
   SELECT 'OTH16_F_SC', 'Number of Female patients over 16 with a Other MH dx who had a visit', 'At date', count(*)
   FROM 	rpt_mh_data_table
   WHERE 	(dx_mh_other_1 is not null or dx_mh_other_2 is not null or dx_mh_other_3 is not null)
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+/*add MH new diagnoses */
+#Somatoform Disorder
+/*
+	SMD015_M_NC - Number of Male patients under 15 patients with new cases of Somatoform Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD015_M_NC', 'New Male cases under 15 yo patients with Somatoform Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_somatoform_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	SMD16_M_NC - Number of Male patients over 16 yo patients with new cases of Somatoform Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD16_M_NC', 'New Male cases over 16 yo patients with Somatoform Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	SMD015_F_NC - Number of Female patients under 15 yo patients with new cases of Somatoform Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD015_F_NC', 'New Female cases under 15 yo patients with Somatoform Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_somatoform_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	SMD16_F_NC - Number of Female patients over 16 yo patients with new cases of Somatoform Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD16_F_NC', 'New Female cases over 16 yo patients with Somatoform Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	SMD015_M_SC - Number of Male patients under 15 with a Somatoform Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD015_M_SC', 'Number of Male patients under 15 with a Somatoform Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	SMD16_M_SC - Number of Male patients over 16 with a Somatoform Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD16_M_SC', 'Number of Male patients over 16 with a Somatoform Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	SMD015_F_SC - Number of Female patients under 15 with a Somatoform Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD015_F_SC', 'Number of Female patients under 15 with a Somatoform Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	SMD16_F_SC - Number of Female patients over 16 with a Somatoform Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SMD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SMD16_F_SC', 'Number of Female patients over 16 with a Somatoform Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_somatoform_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Personality/Behavioural Disorder
+/*
+	PBD015_M_NC - Number of Male patients under 15 patients with new cases of Personality Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD015_M_NC', 'New Male cases under 15 yo patients with Personality Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_personality_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PBD16_M_NC - Number of Male patients over 16 yo patients with new cases of Personality Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD16_M_NC', 'New Male cases over 16 yo patients with Personality Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PBD015_F_NC - Number of Female patients under 15 yo patients with new cases of Personality Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD015_F_NC', 'New Female cases under 15 yo patients with Personality Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_personality_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PBD16_F_NC - Number of Female patients over 16 yo patients with new cases of Personality Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD16_F_NC', 'New Female cases over 16 yo patients with Personality Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PBD015_M_SC - Number of Male patients under 15 with a Personality Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD015_M_SC', 'Number of Male patients under 15 with a Personality Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PBD16_M_SC - Number of Male patients over 16 with a Personality Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD16_M_SC', 'Number of Male patients over 16 with a Personality Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	PBD015_F_SC - Number of Female patients under 15 with a Personality Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD015_F_SC', 'Number of Female patients under 15 with a Personality Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PBD16_F_SC - Number of Female patients over 16 with a Personality Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PBD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PBD16_F_SC', 'Number of Female patients over 16 with a Personality Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_personality_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Mental Retardation Disorder
+/*
+	MRD015_M_NC - Number of Male patients under 15 patients with new cases of Mental Retardation Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD015_M_NC', 'New Male cases under 15 yo patients with Mental Retardation Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_mental_retardation_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	MRD16_M_NC - Number of Male patients over 16 yo patients with new cases of Mental Retardation Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD16_M_NC', 'New Male cases over 16 yo patients with Mental Retardation Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	MRD015_F_NC - Number of Female patients under 15 yo patients with new cases of Mental Retardation Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD015_F_NC', 'New Female cases under 15 yo patients with Mental Retardation Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_mental_retardation_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	MRD16_F_NC - Number of Female patients over 16 yo patients with new cases of Mental Retardation Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD16_F_NC', 'New Female cases over 16 yo patients with Mental Retardation Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	MRD015_M_SC - Number of Male patients under 15 with a Mental Retardation Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD015_M_SC', 'Number of Male patients under 15 with a Mental Retardation Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	MRD16_M_SC - Number of Male patients over 16 with a Mental Retardation Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD16_M_SC', 'Number of Male patients over 16 with a Mental Retardation Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	MRD015_F_SC - Number of Female patients under 15 with a Mental Retardation Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD015_F_SC', 'Number of Female patients under 15 with a Mental Retardation Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	MRD16_F_SC - Number of Female patients over 16 with a Mental Retardation Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'MRD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'MRD16_F_SC', 'Number of Female patients over 16 with a Mental Retardation Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_mental_retardation_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Psychological Developmental Disorder
+/*
+	PDD015_M_NC - Number of Male patients under 15 patients with new cases of Psychological Developmental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD015_M_NC', 'New Male cases under 15 yo patients with Psychological Developmental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_psych_development_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PDD16_M_NC - Number of Male patients over 16 yo patients with new cases of Psychological Developmental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD16_M_NC', 'New Male cases over 16 yo patients with Psychological Developmental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PDD015_F_NC - Number of Female patients under 15 yo patients with new cases of Psychological Developmental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD015_F_NC', 'New Female cases under 15 yo patients with Psychological Developmental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_psych_development_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PDD16_F_NC - Number of Female patients over 16 yo patients with new cases of Psychological Developmental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD16_F_NC', 'New Female cases over 16 yo patients with Psychological Developmental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PDD015_M_SC - Number of Male patients under 15 with a Psychological Developmental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD015_M_SC', 'Number of Male patients under 15 with a Psychological Developmental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PDD16_M_SC - Number of Male patients over 16 with a Psychological Developmental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD16_M_SC', 'Number of Male patients over 16 with a Psychological Developmental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	PDD015_F_SC - Number of Female patients under 15 with a Psychological Developmental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD015_F_SC', 'Number of Female patients under 15 with a Psychological Developmental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PDD16_F_SC - Number of Female patients over 16 with a Psychological Developmental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PDD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PDD16_F_SC', 'Number of Female patients over 16 with a Psychological Developmental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_psych_development_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Stress Reaction Adjustment Disorder
+/*
+	SRAD015_M_NC - Number of Male patients under 15 patients with new cases of Stress Reaction Adjustment Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD015_M_NC', 'New Male cases under 15 yo patients with Stress Reaction Adjustment Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_stress_reactive_adjustment_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	SRAD16_M_NC - Number of Male patients over 16 yo patients with new cases of Stress Reaction Adjustment Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD16_M_NC', 'New Male cases over 16 yo patients with Stress Reaction Adjustment Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	SRAD015_F_NC - Number of Female patients under 15 yo patients with new cases of Stress Reaction Adjustment Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD015_F_NC', 'New Female cases under 15 yo patients with Stress Reaction Adjustment Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_stress_reactive_adjustment_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	SRAD16_F_NC - Number of Female patients over 16 yo patients with new cases of Stress Reaction Adjustment Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD16_F_NC', 'New Female cases over 16 yo patients with Stress Reaction Adjustment Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	SRAD015_M_SC - Number of Male patients under 15 with a Stress Reaction Adjustment Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD015_M_SC', 'Number of Male patients under 15 with a Stress Reaction Adjustment Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	SRAD16_M_SC - Number of Male patients over 16 with a Stress Reaction Adjustment Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD16_M_SC', 'Number of Male patients over 16 with a Stress Reaction Adjustment Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	SRAD015_F_SC - Number of Female patients under 15 with a Stress Reaction Adjustment Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD015_F_SC', 'Number of Female patients under 15 with a Stress Reaction Adjustment Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	SRAD16_F_SC - Number of Female patients over 16 with a Stress Reaction Adjustment Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'SRAD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'SRAD16_F_SC', 'Number of Female patients over 16 with a Stress Reaction Adjustment Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_stress_reactive_adjustment_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Puerperal Mental Disorder
+/*
+	PMD015_M_NC - Number of Male patients under 15 patients with new cases of Puerperal Mental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD015_M_NC', 'New Male cases under 15 yo patients with Puerperal Mental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_puerperal_mental_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PMD16_M_NC - Number of Male patients over 16 yo patients with new cases of Puerperal Mental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD16_M_NC', 'New Male cases over 16 yo patients with Puerperal Mental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PMD015_F_NC - Number of Female patients under 15 yo patients with new cases of Puerperal Mental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD015_F_NC', 'New Female cases under 15 yo patients with Puerperal Mental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_puerperal_mental_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	PMD16_F_NC - Number of Female patients over 16 yo patients with new cases of Puerperal Mental Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD16_F_NC', 'New Female cases over 16 yo patients with Puerperal Mental Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	PMD015_M_SC - Number of Male patients under 15 with a Puerperal Mental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD015_M_SC', 'Number of Male patients under 15 with a Puerperal Mental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PMD16_M_SC - Number of Male patients over 16 with a Puerperal Mental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD16_M_SC', 'Number of Male patients over 16 with a Puerperal Mental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	PMD015_F_SC - Number of Female patients under 15 with a Puerperal Mental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD015_F_SC', 'Number of Female patients under 15 with a Puerperal Mental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	PMD16_F_SC - Number of Female patients over 16 with a Puerperal Mental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'PMD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'PMD16_F_SC', 'Number of Female patients over 16 with a Puerperal Mental Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_puerperal_mental_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Mood Affective Disorder (Bipolar)
+/*
+	BPMAD015_M_NC - Number of Male patients under 15 patients with new cases of Mood Affective Disorder (Bipolar)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD015_M_NC', 'New Male cases under 15 yo patients with Mood Affective Disorder (Bipolar)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_bipolar_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	BPMAD16_M_NC - Number of Male patients over 16 yo patients with new cases of Mood Affective Disorder (Bipolar)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD16_M_NC', 'New Male cases over 16 yo patients with Mood Affective Disorder (Bipolar)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	BPMAD015_F_NC - Number of Female patients under 15 yo patients with new cases of Mood Affective Disorder (Bipolar)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD015_F_NC', 'New Female cases under 15 yo patients with Mood Affective Disorder (Bipolar)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_bipolar_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	BPMAD16_F_NC - Number of Female patients over 16 yo patients with new cases of Mood Affective Disorder (Bipolar)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD16_F_NC', 'New Female cases over 16 yo patients with Mood Affective Disorder (Bipolar)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	BPMAD015_M_SC - Number of Male patients under 15 with a Mood Affective Disorder (Bipolar)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD015_M_SC', 'Number of Male patients under 15 with a Mood Affective Disorder (Bipolar) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	BPMAD16_M_SC - Number of Male patients over 16 with a Mood Affective Disorder (Bipolar)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD16_M_SC', 'Number of Male patients over 16 with a Mood Affective Disorder (Bipolar) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	BPMAD015_F_SC - Number of Female patients under 15 with a Puerperal Mental Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD015_F_SC', 'Number of Female patients under 15 with a Mood Affective Disorder (Bipolar) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	BPMAD16_F_SC - Number of Female patients over 16 with a Mood Affective Disorder (Bipolar)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'BPMAD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'BPMAD16_F_SC', 'Number of Female patients over 16 with a Mood Affective Disorder (Bipolar) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_bipolar_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Dissociative Conversion Disorder
+/*
+	DCD015_M_NC - Number of Male patients under 15 patients with new cases of Dissociative Conversion Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD015_M_NC', 'New Male cases under 15 yo patients with Dissociative Conversion Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_dissociative_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	DCD16_M_NC - Number of Male patients over 16 yo patients with new cases of Dissociative Conversion Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD16_M_NC', 'New Male cases over 16 yo patients with Dissociative Conversion Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	DCD015_F_NC - Number of Female patients under 15 yo patients with new cases of Dissociative Conversion Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD015_F_NC', 'New Female cases under 15 yo patients with Dissociative Conversion Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_dissociative_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	DCD16_F_NC - Number of Female patients over 16 yo patients with new cases of Dissociative Conversion Disorder
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD16_F_NC', 'New Female cases over 16 yo patients with Dissociative Conversion Disorder', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	DCD015_M_SC - Number of Male patients under 15 with a Dissociative Conversion Dissociative Conversion Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD015_M_SC', 'Number of Male patients under 15 with a Dissociative Conversion Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	DCD16_M_SC - Number of Male patients over 16 with a Dissociative Conversion Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD16_M_SC', 'Number of Male patients over 16 with a Dissociative Conversion Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	DCD015_F_SC - Number of Female patients under 15 with a Dissociative Conversion Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD015_F_SC', 'Number of Female patients under 15 with a Dissociative Conversion Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	DCD16_F_SC - Number of Female patients over 16 with a Dissociative Conversion Disorder
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'DCD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'DCD16_F_SC', 'Number of Female patients over 16 with a Dissociative Conversion Disorder who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_dissociative_mood_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit >= 16
+;
+
+#Hyperkinetic Conductal Disorder  (ADHD)
+/*
+	ADHD015_M_NC - Number of Male patients under 15 patients with new cases of Hyperkinetic Conductal Disorder  (ADHD)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD015_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD015_M_NC', 'New Male cases under 15 yo patients with Hyperkinetic Conductal Disorder  (ADHD)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE  dx_hyperkinetic_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake < 16
+;
+
+/*
+	ADHD16_M_NC - Number of Male patients over 16 yo patients with new cases of Hyperkinetic Conductal Disorder  (ADHD)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD16_M_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD16_M_NC', 'New Male cases over 16 yo patients with Hyperkinetic Conductal Disorder  (ADHD)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender= 'M'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	ADHD015_F_NC - Number of Female patients under 15 yo patients with new cases of Hyperkinetic Conductal Disorder  (ADHD)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD015_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD015_F_NC', 'New Female cases under 15 yo patients with Hyperkinetic Conductal Disorder  (ADHD)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	 dx_hyperkinetic_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake < 16
+;
+
+/*
+	ADHD16_F_NC - Number of Female patients over 16 yo patients with new cases of Hyperkinetic Conductal Disorder  (ADHD)
+	at the facility on report end date
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD16_F_NC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD16_F_NC', 'New Female cases over 16 yo patients with Hyperkinetic Conductal Disorder  (ADHD)', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
+		 and mhIntakeVisitDate> @startDate
+         and mhIntakeVisitDate <@endDate
+         and mhIntakeLocation = @location
+         and gender = 'F'
+         and ageAtMHIntake >= 16
+;
+
+/*
+	ADHD015_M_SC - Number of Male patients under 15 with a Dissociative Hyperkinetic Conductal Disorder  (ADHD)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD015_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD015_M_SC', 'Number of Male patients under 15 with a Hyperkinetic Conductal Disorder  (ADHD) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	ADHD16_M_SC - Number of Male patients over 16 with a Hyperkinetic Conductal Disorder  (ADHD)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD16_M_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD16_M_SC', 'Number of Male patients over 16 with a Hyperkinetic Conductal Disorder  (ADHD) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'M'
+         and ageAtLastMHVisit >= 16
+;
+
+/*
+	ADHD015_F_SC - Number of Female patients under 15 with a Hyperkinetic Conductal Disorder  (ADHD)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD015_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD015_F_SC', 'Number of Female patients under 15 with a Hyperkinetic Conductal Disorder  (ADHD) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
+         and lastMHVisitDate > @startDate
+         and lastMHVisitDate < @endDate
+         and visitLocation = @location
+         and gender= 'F'
+         and ageAtLastMHVisit < 16
+;
+
+/*
+	ADHD16_F_SC - Number of Female patients over 16 with a Hyperkinetic Conductal Disorder  (ADHD)
+	who had a visit (subsequent case) at the facility within the reporting period
+*/
+DELETE from rpt_mh_indicators WHERE indicator = 'ADHD16_F_SC';
+INSERT INTO rpt_mh_indicators
+(indicator, description, indicator_type, indicator_value)
+  SELECT 'ADHD16_F_SC', 'Number of Female patients over 16 with a Hyperkinetic Conductal Disorder  (ADHD) who had a visit', 'At date', count(*)
+  FROM 	rpt_mh_data_table
+  WHERE 	dx_hyperkinetic_disorder is not null
          and lastMHVisitDate > @startDate
          and lastMHVisitDate < @endDate
          and visitLocation = @location
