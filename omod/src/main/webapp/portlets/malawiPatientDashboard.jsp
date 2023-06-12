@@ -71,7 +71,10 @@
 <table cellspacing="0" cellpadding="2">
 <c:forEach var="program" items="${model.patientPrograms}">
     <c:if test="${!program.voided && program.program.name == 'Teen club program'}">
-        <c:set var="activeTeenClubProgram" value="true"/>
+        <c:set var="participatedInTeenClubProgram" value="true"/>
+        <c:if test="${program.dateCompleted == null}">
+            <c:set var="activeTeenClubProgram" value="true"/>
+        </c:if>
     </c:if>
     <c:if test="${!program.voided && program.program.name == 'HIV PROGRAM'}">
         <c:set var="activeHIVProgram" value="true"/>
@@ -94,7 +97,7 @@
         <td><br /></td>
     </tr>
     <!-- If patient is eligible to be enrolled in the Teen Club or the patient is already enrolled-->
-    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
+    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
     <tr>
         <td>Teen Club Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
