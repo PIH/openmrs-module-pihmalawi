@@ -9,6 +9,14 @@
     <macro key="muac" value="6558d09a-977f-11e1-8993-905e29aff6c1"/>
     <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1"/>
     <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+    <macro key="lactogenTins" value="b063e72d-3ddf-4e6c-8415-396375971940"/>
+    <macro key="maizeReceived" value="655bccf0-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="beansReceived" value="655bcdf4-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="likuniPhala" value="656225e6-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="oilGiven" value="656fbc24-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="typeOfFeedSet" value="38725750-df54-477a-a9b0-42527f94b709"/>
+
+    <macro key="clinicalImpressions" value="655928e2-977f-11e1-8993-905e29aff6c1"/>
 </macros>
 
 <!-- Flowsheet table view -->
@@ -19,13 +27,23 @@
             <tr> <!-- Label row -->
                 <td style="padding: 1px;" >Date</td>
                 <td colspan="3">Assessments</td>
-                <td rowspan="3" style="font-size:.7em;padding: 1px">Next <br/>Visit <br/> Date</td>
+                <td rowspan="3" style="font-size:.7em;padding: 1px">Next <br/>Appointment <br/> Date</td>
+                <td colspan="5">Food</td>
+                <!--   <td style="font-size:.7em;padding: 1px" rowspan="1">Ration<br>(Warehouse Signature)</br></td> -->
+                <td style="padding: 1px" rowspan="3">Comment</td>
             </tr>
             <tr>
                 <td><i style="font-size:.7em;padding: 1px;" rowspan="1">day/month/year</i></td>
                 <td style="padding: 1px" rowspan="2">Weight</td>
                 <td style="padding: 1px" rowspan="2">Height</td>
                 <td style="font-size:.7em;padding: 1px" rowspan="2">MUAC</td>
+                <td style="padding: 1px" rowspan="2">Lactogen (Tins)</td>
+                <td style="padding: 1px" rowspan="2">Oil (litres)</td>
+                <td style="padding: 1px" rowspan="2">Maize (Kgs)</td>
+                <td style="padding: 1px" rowspan="2">Beans (Kgs)</td>
+                <td style="padding: 1px" rowspan="2">Likuni Phala (Kgs)</td>
+
+
             </tr>
         </thead>
         <tbody class="visit-table-body">
@@ -47,6 +65,52 @@
                 <td style="padding: 1px;" >
                     <!-- Next appointment -->
                     <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
+                </td>
+
+                <td style="padding: 1px;">
+                    <!-- food - lactogen tins -->
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$lactogenTins"/>
+                    </obsgroup>
+                </td>
+
+                <td style="padding: 1px;">
+                    <!-- food - oil -->
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$oilGiven"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </obsgroup>
+                </td>
+
+                <td style="padding: 1px;">
+                    <!-- food - maize -->
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$maizeReceived"/>
+                    </obsgroup>
+                </td>
+
+                <td style="padding: 1px;">
+                    <!-- food - beans -->
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$beansReceived"/>
+                    </obsgroup>
+                </td>
+
+
+                <td style="padding: 1px;">
+                    <!-- food - likuni phala -->
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$likuniPhala"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </obsgroup>
+                </td>
+
+
+                <td style="padding: 1px;">
+                    <!-- comments -->
+                        <obs conceptId="$clinicalImpressions" style="textarea" size="50"/>
                 </td>
             </tr>
         </tbody>
@@ -102,6 +166,58 @@
                     <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                 </td>
             </tr>
+            <tr>
+                <th>Lactogen (Tins)</th>
+                <td style="padding: 1px;">
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$lactogenTins"/>
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <th>Oil (litres)</th>
+                <td style="padding: 1px;">
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$oilGiven"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <th>Maize (Kgs)</th>
+                <td style="padding: 1px;">
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$maizeReceived"/>
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <th>Beans (Kgs)</th>
+                <td style="padding: 1px;">
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$beansReceived"/>
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <th>Likuni Phala (Kgs)</th>
+                <td style="padding: 1px;">
+                    <obsgroup groupingConceptId="$typeOfFeedSet">
+                        <obs conceptId="$likuniPhala"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio" />
+                    </obsgroup>
+                </td>
+            </tr>
+            <tr>
+                <th>Comments</th>
+                <td style="padding: 1px;">
+                    <obs conceptId="$clinicalImpressions" style="textarea" size="50"/>
+                </td>
+            </tr>
+
+
         </table>
         <submit />
     </div>

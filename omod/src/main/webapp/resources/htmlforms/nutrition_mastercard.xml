@@ -11,6 +11,18 @@
     <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2" />
     <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
     <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+    <macro key="methodOfEnrolment" value="655ac210-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="enrolledInPdc" value="92148ae3-642c-47f5-ae7c-2c4efa9796e8" />
+    <macro key="TBProgram" value="655abe64-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="HIVProgram" value="6559f498-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="enrolledInNCD" value="0514c008-3738-458c-99de-9f43eca8c414"/>
+    <macro key="enrolmentReason" value="6567efa8-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="multipleBirths" value="748e0e6d-9701-4c2f-9d61-2e23858b7dcb"/>
+    <macro key="severeMaternalIllness" value="5f3ab1b3-d900-419b-ae2f-3014d4a5ab58"/>
+    <macro key="maternalDeath" value="0e529088-9f42-470e-bf9e-b6bc0af0c4e5"/>
+    <macro key="poserSupport" value="5b49fbf4-2645-4ab2-974e-4e6c961162b1"/>
+    <macro key="malnutrition" value="6545dba2-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
 </macros>
     <span style="display:none">
         <encounterProvider default="1" /><!-- Set provider to a default as not used -->
@@ -45,7 +57,7 @@
             </span>
             <span style="padding-left:50px;">Version 2</span>
         </h4>
-        <table class="data-entry-table">
+        <table class="data-entry-table" style="width:150%">
             <tr style="border: none;">
                 <td style="vertical-align:top;">
                     <h5>Patient / Guardian Details</h5>
@@ -124,8 +136,95 @@
                         </tr>
                     </table>
                 </td>
+
+
+                <td style="vertical-align:top;">
+                    <h5>Program Enrollment</h5>
+                    <table>
+                        <tr rowspan="2">
+                            <td>
+                                <obs conceptId="$methodOfEnrolment" style="checkbox" answerConceptId="$TBProgram" answerLabel="TB" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$methodOfEnrolment" style="checkbox" answerConceptId="$enrolledInNCD" answerLabel="NCD" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$methodOfEnrolment" style="checkbox" answerConceptId="$HIVProgram" answerLabel="HIV" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$methodOfEnrolment" style="checkbox" answerConceptId="$enrolledInPdc" answerLabel="PDC" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+
+                <td style="vertical-align:top;">
+                    <h5>Enrollment Reasons</h5>
+                    <table>
+                        <tr rowspan="2">
+                            <td>
+                                <obs conceptId="$enrolmentReason" style="checkbox" answerConceptId="$TBProgram" answerLabel="Maternal Death" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$enrolmentReason" style="checkbox" answerConceptId="$enrolledInNCD" answerLabel="Severe Maternal Illness" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$enrolmentReason" style="checkbox" answerConceptId="$HIVProgram" answerLabel="Multiple births/Twins" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$enrolmentReason" style="checkbox" answerConceptId="$enrolledInPdc" answerLabel="Needs Social Support (POSER)" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <obs conceptId="$enrolmentReason" style="checkbox" answerConceptId="$enrolledInPdc" answerLabel="Malnutrition" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <!--<b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>-->
+                                <obs conceptId="$enrolmentReason" style="textarea" cols="60" answerConceptId="$otherNoneCodedText" answerLabel="Other Specify" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
             </tr>
+
+
         </table>
+
+
+
+
+
         <ifMode mode="VIEW" include="false">
             <div id="buttons" style="margin-top:10px;">
                 <button class="submitButton confirm" onclick="submitHtmlForm()">
