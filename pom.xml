@@ -58,7 +58,6 @@
         <metadatamappingVersion>1.6.0</metadatamappingVersion>
         <metadatasharingVersion>1.9.0</metadatasharingVersion>
         <namephoneticsVersion>2.0.0-SNAPSHOT</namephoneticsVersion>
-		<openconceptlabVersion>2.0.0</openconceptlabVersion>
         <owaVersion>1.14.0</owaVersion>
         <providermanagementVersion>2.14.0</providermanagementVersion>
         <registrationappVersion>1.25.0-SNAPSHOT</registrationappVersion>
