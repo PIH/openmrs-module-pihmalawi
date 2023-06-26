@@ -261,6 +261,25 @@
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
     </tr>
 
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Adults eMastercard" initialEncounterTypeName="NUTRITION_ADULTS_INITIAL" followupEncounterTypeName="NUTRITION_ADULTS_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Infant eMastercard" initialEncounterTypeName="NUTRITION_INFANT_INITIAL" followupEncounterTypeName="NUTRITION_INFANT_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition PDC eMastercard" initialEncounterTypeName="NUTRITION_PDC_INITIAL" followupEncounterTypeName="NUTRITION_PDC_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Pregnant Teens eMastercard" initialEncounterTypeName="NUTRITION_PREGNANT_TEENS_INITIAL" followupEncounterTypeName="NUTRITION_PREGNANT_TEENS_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
 
 </table>
 </div> <!-- end <div class="portlet" id="pihmalawi.malawiPatientDashboard">-->
