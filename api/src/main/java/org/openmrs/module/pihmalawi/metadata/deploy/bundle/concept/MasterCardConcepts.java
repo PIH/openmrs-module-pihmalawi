@@ -171,11 +171,9 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String DURATION_MEDS = "159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     public static final String TIME_UNITS = "f1904502-319d-4681-9030-e642111e7ce2";
 
-
-
     @Override
     public int getVersion() {
-        return 20;
+        return 21;
     }
 
     @Override
@@ -1513,6 +1511,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .conceptClass(unitsOfMeasure)
                 .name("86035c48-55f7-4697-8a2b-5e92a3dc3274", "3HP (Rifapentine and Isoniazid)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("052983eb-e55b-492d-b2df-16924af8b04f", "3HP (RFP/INH)", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept phqninescore = install(new ConceptBuilder("e1bc7567-aec8-48b6-987e-b4a53d15787b")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("ceb4fb8f-c43d-4b88-95cc-e495e29f4962","PHQ 9 Score",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
