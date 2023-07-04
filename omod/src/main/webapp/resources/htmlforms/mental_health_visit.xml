@@ -373,7 +373,7 @@
         <div class="section-container">
         <h4 style="font-style: italic;">
             <b>Mental Health Patient Card</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 1.4</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no: </b>
