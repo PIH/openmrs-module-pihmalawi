@@ -1,5 +1,5 @@
 <htmlform formUuid="F374493E-8038-4F81-AE3D-79D2D0EC4D1C" formName="Mental Health Visit"
-          formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.0">
+          formEncounterType="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1" formVersion="1.4">
 
     <macros>
         noAnswer=1066
@@ -54,6 +54,10 @@
         amitriptyline=931
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="formEncTypeUuid" value="D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1"/>
+        <macro key="counsellingProvided" value="cef3471e-eb0a-4b14-b402-9b24742e3869"/>
+
+        <!--<macro key="phqNineScore" value="6566dfb4-977f-11e1-8993-905e29aff6c1"/>-->
+        <macro key="phqNineScore" value="e1bc7567-aec8-48b6-987e-b4a53d15787b"/>
     </macros>
 
     <style>
@@ -152,14 +156,14 @@
                     <td style="padding: 1px;">Date</td>
                     <td style="padding: 1px;" >Ht</td>
                     <td style="padding: 1px;" >Wt</td>
-                    <td colspan="10">Mental Status Examinations</td>
+                    <td colspan="11">Mental Status Examinations</td>
                     <td colspan="3">Current use</td>
                     <td rowspan="2" style="padding: 1px;"><small>Pregnant</small></td>
                     <td rowspan="2"><small>Family<br/>Planning</small></td>
                     <td rowspan="2"><small>Suicide<br/>risk</small></td>
                     <td rowspan="2"><small>Medication<br/>side effect</small></td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Hospitalised<br/>since last visit</td>
-                    <td colspan="9">Treatment Details</td>
+                    <td colspan="10">Treatment Details</td>
                     <td rowspan="2"><small>Comments</small></td>
                     <td style="padding: 1px"><small>Next<br/>appointment</small></td>
                 </tr>
@@ -167,6 +171,7 @@
                     <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
                     <td style="padding: 1px"><small>cm</small></td>
                     <td style="padding: 1px"><small>kg</small></td>
+                    <td style="font-size:.7em;padding: 1px">PHQ 9<br/>score</td>
                     <td style="font-size:.7em;padding: 1px">Depressed<br/>mood</td>
                     <td style="font-size:.7em;padding: 1px">Elevated<br/>mood</td>
                     <td style="font-size:.7em;padding: 1px;">Disrupted<br/>behavior</td>
@@ -182,6 +187,7 @@
                     <td style="font-size:.7em;padding: 1px;">Other<br/>drugs</td>
 
                     <!-- Using abbreviations for meds so it will fit -->
+                    <td style="font-size:.7em;padding: 1px">Counselling<br>provided</br></td>
                     <td style="font-size:.7em;padding: 1px">CPZ</td>
                     <td style="font-size:.7em;padding: 1px">HLP</td>
                     <td style="font-size:.7em;padding: 1px">FPZ</td>
@@ -199,6 +205,7 @@
                     <td class="nowrap visit-date">
                         <encounterDate/>
                     </td>
+
                     <td style="padding: 1px;" >
                         <!-- Height -->
                         <obsreference conceptId="$height" id="heightInput" size="3"/>
@@ -207,6 +214,12 @@
                         <!-- Weight -->
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
+
+                    <td style="padding: 1px;" >
+                        <!-- PHQ 9 score -->
+                        <obs conceptId="$phqNineScore" size="3"/>
+                    </td>
+
                     <!-- ToDo: Mental status examination -->
                     <repeat with="['$depressive','Depressed mood'],
                               ['$elevMood','Elevated mood'],
@@ -271,6 +284,13 @@
                     <td style="padding: 1px;" >
                         <!-- Hospitalized since last visit due to this condition -->
                         <obs conceptId="$hospitalized"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+
+                    <!-- counselling  provided-->
+                    <td>
+                        <obs conceptId="$counsellingProvided"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
@@ -353,7 +373,7 @@
         <div class="section-container">
         <h4 style="font-style: italic;">
             <b>Mental Health Patient Card</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 1.4</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">NCD Reg no: </b>
@@ -377,6 +397,7 @@
                 <th>Visit Location</th>
                 <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
+
             <tr class="focus-field">
                 <th>Height</th>
                 <td><obsreference conceptId="$height" id="heightInput" size="3" showUnits="true"/></td>
@@ -385,6 +406,14 @@
                 <th>Weight</th>
                 <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
             </tr>
+
+            <tr>
+                <th>PHQ 9 score</th>
+                <td style="padding: 1px;" >
+                    <obs conceptId="$phqNineScore" size="3"/>
+                </td>
+            </tr>
+
             <tr>
                 <!-- ToDo: Mental status examination -->
                 <th>Mental status examination (MSE)</th>
@@ -478,6 +507,15 @@
                 <td>
                     <obs conceptId="$hospitalized" answerConceptIds="$yesAnswer,$noAnswer"
                          style="radio" />
+                </td>
+            </tr>
+
+            <tr>
+                <th>Counselling Provided</th>
+                <td>
+                    <obs conceptId="$counsellingProvided"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Y,N" style="radio" />
                 </td>
             </tr>
 

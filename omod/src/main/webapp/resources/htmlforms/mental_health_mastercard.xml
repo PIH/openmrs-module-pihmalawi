@@ -1,5 +1,5 @@
 <htmlform formName="Mental Health eMastercard" formUuid="38A60208-3227-4CE7-AB2A-5802F8866BD4"
-          formEncounterType="3F94849C-F245-4593-BCC8-879EAEA29168" formVersion="1.1">
+          formEncounterType="3F94849C-F245-4593-BCC8-879EAEA29168" formVersion="1.4">
 
     <style>
         .section-container input[type="checkbox"] {
@@ -105,7 +105,7 @@
         <h4 style="font-style: italic;">
             <b>NCD Patient Card</b>
             <b style="padding-left:50px;">Mental Health</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 1.4</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
