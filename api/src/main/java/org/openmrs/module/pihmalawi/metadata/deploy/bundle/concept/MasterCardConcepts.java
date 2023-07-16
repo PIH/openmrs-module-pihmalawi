@@ -173,8 +173,11 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 21;
+        return 22;
     }
+    /* public int getVersion() {
+          return 21;
+       }*/
 
     @Override
     protected void installNewVersion() throws Exception {
@@ -1517,6 +1520,32 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(numeric)
                 .conceptClass(misc)
                 .name("ceb4fb8f-c43d-4b88-95cc-e495e29f4962","PHQ 9 Score",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept tbXpert=install(new ConceptBuilder("2eedf1c7-1c59-4f77-83ea-1196ebf14e12")
+                .datatype(coded)
+                .conceptClass(test)
+                .name("7f48b0ac-5576-400d-b032-67e49bb4cbc0","TB Xpert",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive, negative)
+                .build());
+
+        Concept tbXpertDate=install(new ConceptBuilder("c3d512e4-dd15-4943-aa5e-9c52164eea5e")
+                .datatype(date)
+                .conceptClass(question)
+                .name("30cf5bc8-6582-4efd-a786-a9b7405af497","Date of TB Xpert test",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept crag=install(new ConceptBuilder("b2b2aa80-fd10-4a05-9a63-3eaf335135a9")
+                .datatype(coded)
+                .conceptClass(test)
+                .name("aea38233-2e13-4eca-8d69-0a5512e65533","CrAg Results",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive, negative)
+                .build());
+
+        Concept cragDate=install(new ConceptBuilder("3e033e46-5bdf-41d6-9b9a-26457f6b0da5")
+                .datatype(date)
+                .conceptClass(question)
+                .name("115b57c3-13b4-448b-b1ca-5b40826d6280","Date of CrAg test",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
