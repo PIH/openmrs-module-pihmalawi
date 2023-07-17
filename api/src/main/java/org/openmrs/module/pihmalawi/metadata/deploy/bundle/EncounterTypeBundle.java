@@ -20,6 +20,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         // ART Initial + Followup
         install(EncounterTypes.ART_INITIAL);
         install(EncounterTypes.ART_FOLLOWUP);
+        install(EncounterTypes.ART_FOLLOWUP_UP_TESTING);
 
         // Hypertension and Diabetes
         install(EncounterTypes.HTN_DIABETES_INITIAL);
