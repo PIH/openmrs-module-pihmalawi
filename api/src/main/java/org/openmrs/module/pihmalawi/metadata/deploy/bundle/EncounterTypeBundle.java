@@ -116,10 +116,6 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         //Nutrition
         install(EncounterTypes.NUTRITION_INITIAL);
         install(EncounterTypes.NUTRITION_FOLLOWUP);
-<<<<<<< Updated upstream
-        install(EncounterTypes.TEEN_CLUB_INITIAL);
-        install(EncounterTypes.TEEN_CLUB_FOLLOWUP);
-=======
         install(EncounterTypes.NUTRITION_ADULTS_INITIAL);
         install(EncounterTypes.NUTRITION_ADULTS_FOLLOWUP);
         install(EncounterTypes.NUTRITION_PDC_INITIAL);
@@ -128,7 +124,9 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.NUTRITION_INFANT_FOLLOWUP);
         install(EncounterTypes.NUTRITION_PREGNANT_TEENS_INITIAL);
         install(EncounterTypes.NUTRITION_PREGNANT_TEENS_FOLLOWUP);
->>>>>>> Stashed changes
+
+        install(EncounterTypes.TEEN_CLUB_INITIAL);
+        install(EncounterTypes.TEEN_CLUB_FOLLOWUP);
 
     }
 

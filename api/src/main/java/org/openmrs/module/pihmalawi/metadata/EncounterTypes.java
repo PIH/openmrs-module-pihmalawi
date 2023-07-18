@@ -460,7 +460,6 @@ public class EncounterTypes {
         public String description() { return "Followup nutrition encounter"; }
     };
 
-<<<<<<< Updated upstream
     public static EncounterTypeDescriptor TEEN_CLUB_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "49085C00-9EA8-481D-A5C5-FB685822D5AB"; }
         public String name() { return "TEEN_CLUB_INITIAL"; }
@@ -472,7 +471,7 @@ public class EncounterTypes {
         public String name() { return "TEEN_CLUB_FOLLOWUP"; }
         public String description() { return "Followup teen club encounter"; }
     };
-=======
+
     public static  EncounterTypeDescriptor NUTRITION_INFANT_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() {return "65def8b5-6714-443e-a59a-bc481e9fd842";}
         public String name() {return "NUTRITION_INFANT_INITIAL";}
@@ -537,6 +536,4 @@ public class EncounterTypes {
         public String description() {return "followup PDC Nutrition encounter";}
 
     };
-
->>>>>>> Stashed changes
 }
