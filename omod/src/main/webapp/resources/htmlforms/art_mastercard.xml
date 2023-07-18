@@ -56,10 +56,17 @@
         chwName=8431
         transferIn=6559bc30-977f-11e1-8993-905e29aff6c1
         childHCCNo=8600
-        urineLam=a047e2ec-f07e-47a6-8849-7c5150550e9e
+        urineLm=a047e2ec-f07e-47a6-8849-7c5150550e9e
         positive=6549be7a-977f-11e1-8993-905e29aff6c1
         negative=654994c2-977f-11e1-8993-905e29aff6c1
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="linkID" value="B9E98A62-8437-4807-9DF8-37F0046FD0E8"/>
+        <macro key="tbXpert" value="da7d8448-49a3-4de8-93a0-67f082e1ba5b"/>
+        <macro key="tbXpertDate" value="c3d512e4-dd15-4943-aa5e-9c52164eea5e"/>
+
+        <macro key="urineLamDate" value="657a380c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="crag" value="b2b2aa80-fd10-4a05-9a63-3eaf335135a9"/>
+        <macro key="cragDate" value="3e033e46-5bdf-41d6-9b9a-26457f6b0da5"/>
     </macros>
 
     <span style="display:none">
@@ -69,7 +76,7 @@
     <div>
         <h4 style="font-style: italic;">
             <b>ART Patient Card</b>
-            <span style="padding-left:50px;">Version 8</span>
+            <span style="padding-left:50px;">Version 9</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -181,50 +188,27 @@
                                 <obs conceptId="$whoClinicalConditions" size="60" />
                             </td>
                         </tr>
+
                         <tr>
-                            <td>Urine LAM /<br/> CrAg Result</td>
-                            <td colspan="3">
-                                <obs conceptId="$urineLam" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Clin Stage</td>
+                            <td>WHO Stage</td>
                             <td class="nowrap">
                                 <obs conceptId="$whoStage" style="radio" answerConceptIds="$stage1,$stage2,$stage3,$stage4" answerLabels="1,2,3,4" />
                                 <obs conceptId="$presumedSevereHiv" style="checkbox" answerConceptId="$yesAnswer" answerLabel="Pres" />
-                            </td>
-                            <td>TB Status at Init.</td>
-                            <td>
-                                <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbnever,$tbLast,$tbCurr" answerLabels="Never,Last,Curr" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>CD4/TLC</td>
-                            <td>
-                                <span class="left-cell">
-                                    <obs conceptId="$cd4Count" labelText="" />
-                                </span>
-                                <span class="right-cell">
-                                    <obs conceptId="$cd4Pct" labelText="" /> %
-                                </span>
                             </td>
                             <td>KS</td>
                             <td>
                                 <obs conceptId="$ksSideEffectsWorseningOnArvs" style="no_yes" noLabel="N" yesLabel="Y" />
                             </td>
                         </tr>
+
                         <tr>
-                            <td>CD4/TLC Date</td>
+                            <td>TB Status at Init.</td>
                             <td>
-                                <obs conceptId="$cd4Date" />
+                                <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbnever,$tbLast,$tbCurr" answerLabels="Never,Last,Curr" />
                             </td>
-                            <includeIf velocityTest="$patient.gender == 'F'">
-                                <td>Pregnant/Lactating</td>
-                                <td>
-                                    <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
-                                </td>
-                            </includeIf>
                         </tr>
+
+
                         <tr>
                             <td>Height, Wt.</td>
                             <td class="nowrap">
@@ -257,10 +241,17 @@
                     <h5><span style="text-decoration:underline;">Confirmatory</span> HIV Test before ART Start</h5>
                     <table>
                         <tr>
-                            <td>Site, HTC Serial No.</td>
+                            <td>Facility</td>
                             <td colspan="2">
                                 <obs conceptId="$confirmatoryHivTestLocation" />
                             </td>
+
+                            <td>Link ID / HTC Serial No.</td>
+                            <td colspan="2">
+                                <obs conceptId="$linkID" />
+                            </td>
+
+
                         </tr>
                         <tr>
                             <td>Test Date</td>
@@ -318,6 +309,75 @@
                         </tr>
                     </table>
                 </td>
+
+
+
+                <td style="vertical-align:top;">
+                    <h5> Baseline Lab results (ART initiation)</h5>
+                    <table>
+                        <tr>
+                            <td>CD4/TLC</td>
+                            <td>
+                               <span class="left-cell">
+                                  <obs conceptId="$cd4Count" labelText="" />
+                               </span>
+                                <span class="right-cell">
+                                    <obs conceptId="$cd4Pct" labelText="" /> %
+                                </span>
+                            </td>
+
+                            <!--CD4/TLC Date-->
+                            <td>Date</td>
+                            <td>
+                                <obs conceptId="$cd4Date" />
+                            </td>
+                            <includeIf velocityTest="$patient.gender == 'F'">
+                                <td>Pregnant/Lactating</td>
+                                <td>
+                                    <obs conceptId="$pregnantLactating" style="radio" answerLabels="N,Preg,Lact" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" />
+                                </td>
+                            </includeIf>
+                        </tr>
+
+                        <tr>
+                            <td>TB Xpert</td>
+                            <td>
+                                <obs conceptId="$tbXpert" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative" />
+                            </td>
+                            <!--TB Xpert Date-->
+                            <td>Date</td>
+                            <td class="nowrap">
+                                <obs conceptId="$tbXpertDate"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Urine LAM</td>
+                            <td>
+                                <obs conceptId="$urineLm" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative"/>
+                            </td>
+                            <!--Urine LAM -->
+                            <td>Date</td>
+                            <td>
+                                <obs conceptId="$urineLamDate"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Crag</td>
+                            <td>
+                                <obs conceptId="$crag" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative"/>
+                            </td>
+                            <!--Crag -->
+                            <td>Date</td>
+                            <td>
+                                <obs conceptId="$cragDate" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+
             </tr>
         </table>
         <ifMode mode="VIEW" include="false">
