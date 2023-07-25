@@ -4,9 +4,30 @@
     <macros>
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1"/>
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="positive" value="6549be7a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="negative" value="654994c2-977f-11e1-8993-905e29aff6c1"/>
         <macro key="weight" value="6569c44a-977f-11e1-8993-905e29aff6c1" />
         <macro key="height" value="6569c562-977f-11e1-8993-905e29aff6c1" />
+        <macro key="pregBf" value="657a1c3c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="cPreg" value="655b6bac-977f-11e1-8993-905e29aff6c1" />
+        <macro key="cLactating" value="656cdab8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ntrScrOutcome" value="6558e580-977f-11e1-8993-905e29aff6c1" />
+        <macro key="normal" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="M1" value="6558e68e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="M2" value="6558e792-977f-11e1-8993-905e29aff6c1" />
+        <macro key="M3" value="6558e8a0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nutrReferral" value="85F19F2E-EC7D-4F54-9C01-EB960AF2B315" />
+        <macro key="sputumCollected" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="hospitalized" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="scrSTI" value="B5983F8D-7253-4A37-8B70-514B7AD17BD0" />
+        <macro key="stiReferral" value="CF05E412-2707-4850-87B0-08E117B66009" />
+        <macro key="tbStatus" value="65770db2-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbNotSuspected" value="6577084e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbSuspected" value="65770966-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbConfirmedNoTx" value="65770a7e-977f-11e1-8993-905e29aff6c1" />
+        <macro key="tbConfirmedTx" value="65770ca4-977f-11e1-8993-905e29aff6c1" />
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="formEncTypeUuid" value="664b8650-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -16,15 +37,25 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td style="padding: 1px;" >Date</td>
-                    <td colspan="2">Assessments</td>
-                    <td rowspan="3" style="font-size:.7em;padding: 1px">Next <br/>Visit <br/> Date</td>
+                    <td style="padding: 1px;" >Visit Date</td>
+                    <td style="padding: 1px">Hgt</td>
+                    <td style="padding: 1px">Wt</td>
+                    <td rowspan="2">Pregnant/<br/>Breastfeed.</td>
+                    <td style="padding: 1px" colspan="2">TB Status (Curr.)</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Sputum <br/>Collected</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition<br/>screening <br/>outcome</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition<br/> referred</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">STI screening <br/>outcome</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px;">Referred to STI clinic</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px;">Hospitalised</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Next <br/>Visit <br/> Date</td>
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;padding: 1px;" rowspan="1">day/month/year</i></td>
-                    <td style="padding: 1px" rowspan="2">Weight</td>
-                    <td style="padding: 1px" rowspan="2">Height</td>
-
+                    <td><i>cm</i></td>
+                    <td><i>kg</i></td>
+                    <td><i>Suspected</i></td>
+                    <td><i>Confirmed</i></td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -40,6 +71,47 @@
                         <!-- Weight -->
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
+                    <td>
+                        <obsreference conceptId="$pregBf" style="checkbox" answerLabel="Preg" answerConceptId="$cPreg" />
+                        <obsreference conceptId="$pregBf" style="checkbox" answerLabel="Bf" answerConceptId="$cLactating" />
+                    </td>
+                    <td>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes" />
+                    </td>
+                    <td>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx" />
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- Sputum Collected -->
+                        <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$ntrScrOutcome"
+                             answerConceptIds="$normal,$M1,$M2,$M3"
+                             answerLabels="normal,M1,M2,M3" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$nutrReferral"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$scrSTI"
+                             answerConceptIds="$positive,$negative"
+                             answerLabels="+,-"  />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$stiReferral"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$hospitalized"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
                     <td style="padding: 1px;" >
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
@@ -53,11 +125,11 @@
     <ifMode mode="VIEW" include="false">
         <div class="section-container">
             <h4 style="font-style: italic;">
-                <b>Nutrition Card</b>
+                <b>Teen Club screening form</b>
                 <span style="padding-left:50px;">Version 1</span>
                 <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
                 <span style="padding-left:50px;">
-                    <b style="padding-right:10px;">Nutrition no: </b>
+                    <b style="padding-right:10px;">ARV number: </b>
                     <b>
                         <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
                     </b>
@@ -83,7 +155,72 @@
                 </tr>
                 <tr class="focus-field">
                     <th>Weight</th>
-                    <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
+                    <td>
+                        <obsreference conceptId="$weight" id="weightInput" showUnits="true"/>
+                    </td>
+                </tr>
+                <includeIf velocityTest="$patient.gender == 'F'">
+                    <tr>
+                        <th>Pregnant/Breastfeed.</th>
+                        <td>
+                            <obsreference id="pregnantBf" conceptId="$pregBf" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$cPreg,$cLactating"/>
+                        </td>
+                    </tr>
+                </includeIf>
+                <tr>
+                    <th>TB Status (Curr.)</th>
+                    <td>
+                        <b>Suspected</b>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No"/>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbSuspected" answerLabel="Yes"/>
+                        <b style="padding-left:30px;">Confirmed</b>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedNoTx" answerLabel="noRx"/>
+                        <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Sputum Collected</th>
+                    <td>
+                        <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Nutrition screening outcome</th>
+                    <td>
+                        <obs conceptId="$ntrScrOutcome"
+                             answerConceptIds="$normal,$M1,$M2,$M3"
+                             answerLabels="normal,M1,M2,M3" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Nutrition referred?</th>
+                    <td>
+                        <obs conceptId="$nutrReferral"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>STI screening outcome</th>
+                    <td>
+                        <obs conceptId="$scrSTI"
+                             answerConceptIds="$positive,$negative"
+                             answerLabels="+,-" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Referred to STI clinic?</th>
+                    <td>
+                        <obs conceptId="$stiReferral" answerConceptIds="$yesAnswer,$noAnswer"
+                             style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Hospitalised?</th>
+                    <td>
+                        <obs conceptId="$hospitalized" answerConceptIds="$yesAnswer,$noAnswer"
+                             style="radio" />
+                    </td>
                 </tr>
                 <tr>
                     <!-- Next appointment -->
@@ -92,6 +229,7 @@
                         <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                     </td>
                 </tr>
+
             </table>
             <submit />
         </div>

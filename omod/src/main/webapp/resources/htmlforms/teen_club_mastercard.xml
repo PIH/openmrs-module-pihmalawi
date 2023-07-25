@@ -18,7 +18,7 @@
     </span>
     <div>
         <h4 style="font-style: italic;">
-            <b>PDC Patient Card</b>
+            <b>Teen Club Card</b>
             <b style="padding-left:50px;">Intake / Referral Form</b>
 
             <span style="padding-left:50px;">
@@ -38,7 +38,7 @@
             </span>
 
             <span style="padding-left:50px;">
-                <b style="padding-right:10px;">PDC Reg no: </b>
+                <b style="padding-right:10px;">ARV number: </b>
                 <b>
                     <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
                 </b>
