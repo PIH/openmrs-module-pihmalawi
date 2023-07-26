@@ -11,11 +11,10 @@
         <macro key="pregBf" value="657a1c3c-977f-11e1-8993-905e29aff6c1" />
         <macro key="cPreg" value="655b6bac-977f-11e1-8993-905e29aff6c1" />
         <macro key="cLactating" value="656cdab8-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ntrScrOutcome" value="6558e580-977f-11e1-8993-905e29aff6c1" />
+        <macro key="ntrBMIcoded" value="484499f2-b58b-11e5-9f22-ba0be0483c18" />
+        <macro key="underweight" value="6567eb98-977f-11e1-8993-905e29aff6c1" />
         <macro key="normal" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
-        <macro key="M1" value="6558e68e-977f-11e1-8993-905e29aff6c1" />
-        <macro key="M2" value="6558e792-977f-11e1-8993-905e29aff6c1" />
-        <macro key="M3" value="6558e8a0-977f-11e1-8993-905e29aff6c1" />
+        <macro key="overweight" value="158204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="nutrReferral" value="85F19F2E-EC7D-4F54-9C01-EB960AF2B315" />
         <macro key="sputumCollected" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="hospitalized" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
@@ -88,9 +87,9 @@
                         <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" />
                     </td>
                     <td style="padding: 1px;" >
-                        <obs conceptId="$ntrScrOutcome"
-                             answerConceptIds="$normal,$M1,$M2,$M3"
-                             answerLabels="normal,M1,M2,M3" />
+                        <obs conceptId="$ntrBMIcoded"
+                             answerConceptIds="$underweight,$normal,$overweight"
+                             answerLabels="Underweight,Normal,Overweight" />
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$nutrReferral"
@@ -187,9 +186,9 @@
                 <tr>
                     <th>Nutrition screening outcome</th>
                     <td>
-                        <obs conceptId="$ntrScrOutcome"
-                             answerConceptIds="$normal,$M1,$M2,$M3"
-                             answerLabels="normal,M1,M2,M3" style="radio" />
+                        <obs conceptId="$ntrBMIcoded"
+                             answerConceptIds="$underweight,$normal,$overweight"
+                             answerLabels="Underweight,Normal,Overweight" style="radio"/>
                     </td>
                 </tr>
                 <tr>
