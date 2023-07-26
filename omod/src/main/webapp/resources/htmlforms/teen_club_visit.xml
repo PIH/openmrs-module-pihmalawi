@@ -11,10 +11,7 @@
         <macro key="pregBf" value="657a1c3c-977f-11e1-8993-905e29aff6c1" />
         <macro key="cPreg" value="655b6bac-977f-11e1-8993-905e29aff6c1" />
         <macro key="cLactating" value="656cdab8-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ntrBMIcoded" value="484499f2-b58b-11e5-9f22-ba0be0483c18" />
-        <macro key="underweight" value="6567eb98-977f-11e1-8993-905e29aff6c1" />
-        <macro key="normal" value="6557a15c-977f-11e1-8993-905e29aff6c1" />
-        <macro key="overweight" value="158204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <macro key="nutrScreeningForMuac" value="0929A831-8B0D-4FEF-8738-A72F950A0566" />
         <macro key="nutrReferral" value="85F19F2E-EC7D-4F54-9C01-EB960AF2B315" />
         <macro key="sputumCollected" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         <macro key="hospitalized" value="165252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
@@ -42,7 +39,7 @@
                     <td rowspan="2">Pregnant/<br/>Breastfeed.</td>
                     <td style="padding: 1px" colspan="2">TB Status (Curr.)</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Sputum <br/>Collected</td>
-                    <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition<br/>screening <br/>outcome</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition screening <br/>for normal MUAC</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition<br/> referred</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">STI screening <br/>outcome</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Referred to STI clinic</td>
@@ -87,9 +84,9 @@
                         <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" />
                     </td>
                     <td style="padding: 1px;" >
-                        <obs conceptId="$ntrBMIcoded"
-                             answerConceptIds="$underweight,$normal,$overweight"
-                             answerLabels="Underweight,Normal,Overweight" />
+                        <obs conceptId="$nutrScreeningForMuac"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio"/>
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$nutrReferral"
@@ -184,11 +181,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Nutrition screening outcome</th>
+                    <th>Is nutrition screening outcome for MUAC normal? </th>
                     <td>
-                        <obs conceptId="$ntrBMIcoded"
-                             answerConceptIds="$underweight,$normal,$overweight"
-                             answerLabels="Underweight,Normal,Overweight" style="radio"/>
+                        <obs conceptId="$nutrScreeningForMuac"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Yes,No" style="radio"/>
                     </td>
                 </tr>
                 <tr>

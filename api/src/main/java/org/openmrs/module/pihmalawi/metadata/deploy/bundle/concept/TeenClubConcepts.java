@@ -21,10 +21,11 @@ public class TeenClubConcepts extends VersionedPihConceptBundle {
     public static final String STI_REFERRAL_CONCEPT_UUID = "CF05E412-2707-4850-87B0-08E117B66009";
     public static final String STI_SCREENING_CONCEPT_UUID = "B5983F8D-7253-4A37-8B70-514B7AD17BD0";
     public static final String NUTRITION_REFERRAL_CONCEPT_UUID = "85F19F2E-EC7D-4F54-9C01-EB960AF2B315";
+    public static final String NORMAL_NUTRITION_SCREENING_FOR_MUAC_CONCEPT_UUID = "0929A831-8B0D-4FEF-8738-A72F950A0566";
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -67,6 +68,13 @@ public class TeenClubConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(question)
                 .name("C225E8C6-E7E1-4D2A-9BC4-EBEE7DC88A5D", "Nutrition referral",
+                        Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes,no)
+                .build());
+        install(new ConceptBuilder(NORMAL_NUTRITION_SCREENING_FOR_MUAC_CONCEPT_UUID)
+                .datatype(coded)
+                .conceptClass(question)
+                .name("88D9799D-7876-42EB-9099-1C75975EECAB", "Normal nutrition screening for MUAC",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes,no)
                 .build());
