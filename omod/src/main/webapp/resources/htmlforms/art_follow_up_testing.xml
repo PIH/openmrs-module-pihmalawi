@@ -9,8 +9,8 @@
         <macro key="cd4Count" value="656c327a-977f-11e1-8993-905e29aff6c1"/>
         <macro key="cd4Pct" value="6549db44-977f-11e1-8993-905e29aff6c1"/>
         <macro key="phqNineScore" value="e1bc7567-aec8-48b6-987e-b4a53d15787b"/>
-
-
+        <macro key="glucoseSet" value="655dfa20-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -35,6 +35,7 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
+                    <th>Visit Location</th>
                     <th>CD4</th>
                     <th>BPS/FBS</th>
                     <th>PHQ score</th>
@@ -45,6 +46,11 @@
                     <td class="nowrap visit-date">
                         <!-- Encounter Date -->
                         <encounterDate />
+                    </td>
+
+                    <!-- Location -->
+                    <td>
+                        <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                     </td>
 
                     <!-- CD4 -->
@@ -60,11 +66,12 @@
                     <!-- RBS/FBF-->
                     <td>
                         <!-- Serum Glucose -->
-                        <obsreference conceptId="$serumGlucose"/><br/>
-                        <obsreference conceptId="$glucoseTestType" answerConceptId="$fastingTest" style="checkbox"/>
-                        <obsreference conceptId="$glucoseTestType" answerConceptId="$randomTest" style="checkbox"/>
+                        <obsgroup groupingConceptId="$glucoseSet">
+                            <obsreference conceptId="$serumGlucose"/><br/>
+                            <obsreference conceptId="$glucoseTestType" style="radio"
+                                          answerLabels="Fasting,Random" answerConceptIds="$fastingTest,$randomTest"/>
+                        </obsgroup>
                     </td>
-
 
                     <!-- PHQ 9 score -->
                     <td style="padding: 1px;" >
@@ -103,6 +110,7 @@
             <thead class="visit-table-header">
                 <tr>
                     <th>Visit Date</th>
+                    <th>Visit Location</th>
                     <th>CD4</th>
                     <th>BPS/FBS</th>
                     <th>PHQ score</th>
@@ -113,6 +121,11 @@
                     <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                         <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                         <span style="display:none"><encounterDate id="visitDate" size="20" /></span>
+                    </td>
+
+                    <!-- Location -->
+                    <td>
+                        <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                     </td>
 
                     <!-- CD4 -->
@@ -127,10 +140,13 @@
 
                     <!--RBS/FBF-->
                     <td>
-                        <obsreference conceptId="$serumGlucose" showUnits="true" /><br/><br/>
-                        <obsreference conceptId="$glucoseTestType" answerConceptIds="$fastingTest,$randomTest" style="radio"/>
+                        <!-- Serum Glucose -->
+                        <obsgroup groupingConceptId="$glucoseSet">
+                            <obsreference conceptId="$serumGlucose"/><br/>
+                            <obsreference conceptId="$glucoseTestType" style="radio"
+                                          answerLabels="Fasting,Random" answerConceptIds="$fastingTest,$randomTest"/>
+                        </obsgroup>
                     </td>
-
 
                     <!-- PHQ 9 Score-->
                     <td style="padding: 1px;" >
