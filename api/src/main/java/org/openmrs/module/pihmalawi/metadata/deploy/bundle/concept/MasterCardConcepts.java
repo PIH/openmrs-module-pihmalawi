@@ -173,7 +173,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 22;
+        return 23;
     }
     /* public int getVersion() {
           return 21;
@@ -1546,6 +1546,12 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(date)
                 .conceptClass(question)
                 .name("115b57c3-13b4-448b-b1ca-5b40826d6280","Date of CrAg test",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept urineLamDate = install(new ConceptBuilder("255188ca-7ee5-426f-a733-7381f0d78f21")
+                .datatype(date)
+                .conceptClass(question)
+                .name("f06433e4-73f0-4977-9884-df1108559def", "Date of Urine Lam", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
