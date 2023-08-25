@@ -62,6 +62,7 @@
         <providermanagementVersion>2.14.0</providermanagementVersion>
         <registrationappVersion>1.25.0-SNAPSHOT</registrationappVersion>
         <registrationcoreVersion>1.11.0</registrationcoreVersion>
+
 		<reportingcompatibilityVersion>2.0.9-SNAPSHOT</reportingcompatibilityVersion>
         <reportingVersion>1.25.0</reportingVersion>
         <reportingrestVersion>1.13.0</reportingrestVersion>
@@ -69,6 +70,7 @@
         <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
 		<spaVersion>1.0.9</spaVersion>
 		<syncVersion>3.0.0-SNAPSHOT</syncVersion>
+  
         <testutilsVersion>1.7.0</testutilsVersion>
         <uicommonsVersion>2.23.0</uicommonsVersion>
         <uiframeworkVersion>3.24.0-SNAPSHOT</uiframeworkVersion>

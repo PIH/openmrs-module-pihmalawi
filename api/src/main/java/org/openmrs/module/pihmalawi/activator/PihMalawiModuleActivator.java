@@ -39,6 +39,9 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
     public void contextRefreshed() {
         log.info("PIH Malawi Module refreshed");
         CloseStaleVisitsSetup.setupCloseStaleVisitsTask();
+
+        //MigrateViralLoadAndEIDTestResultsSetup.setupMigrateEIDTestResultsTask();
+
     }
 
     @Override

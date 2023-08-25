@@ -171,12 +171,14 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String DURATION_MEDS = "159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     public static final String TIME_UNITS = "f1904502-319d-4681-9030-e642111e7ce2";
 
-
-
     @Override
     public int getVersion() {
-        return 20;
+      
+        return 23;
     }
+    /* public int getVersion() {
+          return 21;
+       }*/
 
     @Override
     protected void installNewVersion() throws Exception {
@@ -1513,6 +1515,44 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .conceptClass(unitsOfMeasure)
                 .name("86035c48-55f7-4697-8a2b-5e92a3dc3274", "3HP (Rifapentine and Isoniazid)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .name("052983eb-e55b-492d-b2df-16924af8b04f", "3HP (RFP/INH)", Locale.ENGLISH, ConceptNameType.SHORT)
+                .build());
+
+        Concept phqninescore = install(new ConceptBuilder("e1bc7567-aec8-48b6-987e-b4a53d15787b")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("ceb4fb8f-c43d-4b88-95cc-e495e29f4962","PHQ 9 Score",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept tbXpert=install(new ConceptBuilder("2eedf1c7-1c59-4f77-83ea-1196ebf14e12")
+                .datatype(coded)
+                .conceptClass(test)
+                .name("7f48b0ac-5576-400d-b032-67e49bb4cbc0","TB Xpert",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive, negative)
+                .build());
+
+        Concept tbXpertDate=install(new ConceptBuilder("c3d512e4-dd15-4943-aa5e-9c52164eea5e")
+                .datatype(date)
+                .conceptClass(question)
+                .name("30cf5bc8-6582-4efd-a786-a9b7405af497","Date of TB Xpert test",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept crag=install(new ConceptBuilder("b2b2aa80-fd10-4a05-9a63-3eaf335135a9")
+                .datatype(coded)
+                .conceptClass(test)
+                .name("aea38233-2e13-4eca-8d69-0a5512e65533","CrAg Results",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .answers(positive, negative)
+                .build());
+
+        Concept cragDate=install(new ConceptBuilder("3e033e46-5bdf-41d6-9b9a-26457f6b0da5")
+                .datatype(date)
+                .conceptClass(question)
+                .name("115b57c3-13b4-448b-b1ca-5b40826d6280","Date of CrAg test",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept urineLamDate = install(new ConceptBuilder("255188ca-7ee5-426f-a733-7381f0d78f21")
+                .datatype(date)
+                .conceptClass(question)
+                .name("f06433e4-73f0-4977-9884-df1108559def", "Date of Urine Lam", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }

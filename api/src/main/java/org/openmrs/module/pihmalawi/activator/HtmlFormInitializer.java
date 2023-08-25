@@ -79,6 +79,7 @@ public class HtmlFormInitializer implements Initializer {
         List<String> uiHtmlForms = Arrays.asList(
                 "pihmalawi:htmlforms/art_mastercard.xml",
                 "pihmalawi:htmlforms/art_visit.xml",
+				"pihmalawi:htmlforms/art_follow_up_testing.xml",
                 "pihmalawi:htmlforms/preart_mastercard.xml",
                 "pihmalawi:htmlforms/preart_visit.xml",
 				"pihmalawi:htmlforms/eid_mastercard.xml",
