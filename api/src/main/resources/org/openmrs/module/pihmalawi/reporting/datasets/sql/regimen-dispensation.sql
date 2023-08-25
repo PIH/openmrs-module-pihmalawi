@@ -3,6 +3,7 @@ SET @defaultCutOff = 60;
 call create_last_art_outcome_at_facility(@endDate,@location);
 
 select opi.identifier,
+
        CASE WHEN mwp.gender="F" then 'Female' else 'Male' end as gender,
        mwp.birthdate as dob, mai.visit_date as art_start_date,
        CASE WHEN (map.weight is null or map.weight = "")  THEN (SELECT weight FROM mw_art_followup where patient_id = map.patient_id
@@ -44,5 +45,6 @@ from mw_art_followup map
               ON avl1.patient_id = avl2.patient_id and avl1.visit_date = avl2.date_of_vl_result
      ) avl
      on map.patient_id = avl.patient_id
+
 where map.patient_id in (select pat from last_facility_outcome where state = "On antiretrovirals")
   and floor(datediff(@endDate,map.next_appointment_date)) <=  @defaultCutOff;

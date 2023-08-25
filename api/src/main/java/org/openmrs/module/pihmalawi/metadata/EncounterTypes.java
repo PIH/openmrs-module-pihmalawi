@@ -453,5 +453,92 @@ public class EncounterTypes {
         public String name() { return "ART_FOLLOWUP_UP_TESTING";
         }
         public String description() { return "ART Followup testing encounter";}
+
+    public static EncounterTypeDescriptor NUTRITION_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "F1EB0CA8-8E7C-49B5-A03C-B0B9C164181E"; }
+        public String name() { return "NUTRITION_INITIAL"; }
+        public String description() { return "Initial nutrition encounter"; }
+    };
+
+    public static EncounterTypeDescriptor NUTRITION_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "87EB5825-DFDD-4EE9-8EEC-CDBE72E76456"; }
+        public String name() { return "NUTRITION_FOLLOWUP"; }
+        public String description() { return "Followup nutrition encounter"; }
+    };
+
+    public static EncounterTypeDescriptor TEEN_CLUB_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "49085C00-9EA8-481D-A5C5-FB685822D5AB"; }
+        public String name() { return "TEEN_CLUB_INITIAL"; }
+        public String description() { return "Initial teen club encounter"; }
+    };
+
+    public static EncounterTypeDescriptor TEEN_CLUB_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "A8CF446D-0FA4-4D44-AF46-1811F73BE65A"; }
+        public String name() { return "TEEN_CLUB_FOLLOWUP"; }
+        public String description() { return "Followup teen club encounter"; }
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_INFANT_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() {return "65def8b5-6714-443e-a59a-bc481e9fd842";}
+        public String name() {return "NUTRITION_INFANT_INITIAL";}
+
+        public String description() {return "initial Infant Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_INFANT_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() {return "cf05c255-f1c9-465f-abbd-de980403b4b6";}
+        public String name() {return "NUTRITION_INFANT_FOLLOWUP";}
+
+        public String description() {return "followup Infant Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_PREGNANT_TEENS_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() {return "d67b208d-e819-4888-9bb8-60dcb8ab2b1f";}
+        public String name() {return "NUTRITION_PREGNANT_TEENS_INITIAL";}
+
+        public String description() {return "initial Pregnant Teens Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_PREGNANT_TEENS_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() {return "d235e109-d4f7-4493-ba10-c75d9046f8bf";}
+        public String name() {return "NUTRITION_PREGNANT_TEENS_FOLLOWUP";}
+
+        public String description() {return "followup Pregnant Teens Nutrition encounter";}
+
+    };
+
+
+    public static  EncounterTypeDescriptor NUTRITION_ADULTS_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() {return "f4add6a6-0186-4617-b919-e5cdb933e25d";}
+        public String name() {return "NUTRITION_ADULTS_INITIAL";}
+
+        public String description() {return "initial Adults Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_ADULTS_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() {return "e1a92830-897c-42fe-91d4-73f61f38d1a7";}
+        public String name() {return "NUTRITION_ADULTS_FOLLOWUP";}
+
+        public String description() {return "followup Adults Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_PDC_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() {return "7ca19e74-5592-4e54-a899-575321803d9f";}
+        public String name() {return "NUTRITION_PDC_INITIAL";}
+
+        public String description() {return "initial PDC Nutrition encounter";}
+
+    };
+
+    public static  EncounterTypeDescriptor NUTRITION_PDC_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() {return "771cb90d-442c-4b84-bd25-dd9b6a82715a";}
+        public String name() {return "NUTRITION_PDC_FOLLOWUP";}
+
+        public String description() {return "followup PDC Nutrition encounter";}
     };
 }

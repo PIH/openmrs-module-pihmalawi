@@ -5,6 +5,7 @@ import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.PalliativeCareConcepts;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -71,7 +72,7 @@ public class PalliativeCareMetadata extends CommonMetadata{
         public String conceptUuid() { return PalliativeCareConcepts.PALLIATIVE_CARE_PROGRAM_CONCEPT_UUID; }
         public String name() { return "Palliative care program"; }
         public String description() { return "Palliative care program"; }
-        @Override public String outcomesConceptUuid()  { return PalliativeCareConcepts.PALLIATIVE_CARE_PROGRAM_OUTCOME_CONCEPT_UUID; }
+        @Override public String outcomesConceptUuid()  { return ProgramConcepts.GENERIC_OUTCOME_CONCEPT_UUID; }
         public String uuid() { return "acbd87f3-566f-4386-a11e-877e612d3911"; }
         @Override public Set<ProgramWorkflowDescriptor> workflows() {
             return Collections.singleton(PALLIATIVE_CARE_CLINICAL_STATUS);

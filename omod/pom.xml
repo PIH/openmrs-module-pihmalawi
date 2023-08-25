@@ -3,9 +3,9 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>pihmalawi</artifactId>
-		<version>6.9.1-SNAPSHOT</version>
+		<version>7.0.0-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openmrs.module</groupId>
+
 	<artifactId>pihmalawi-omod</artifactId>
 	<packaging>jar</packaging>
 	<name>PIH Malawi Customizations OMOD</name>
@@ -194,7 +194,7 @@
 							<includeGroupIds>${project.parent.groupId}</includeGroupIds>
 							<includeArtifactIds>${project.parent.artifactId}-api</includeArtifactIds>
 							<excludeTransitive>true</excludeTransitive>
-							<includes>**/*</includes>
+							<includes>liquibase.xml</includes>
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 						</configuration>
 					</execution>

@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.web.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.reporting.definition.cohort.definition.PatientSearchCohortDefinition;
 import org.openmrs.module.pihmalawi.reporting.library.BasePatientDataLibrary;
 import org.openmrs.module.reporting.data.converter.DataConverter;
@@ -91,9 +92,18 @@ public class FindPatientPortletController {
 
 		DataConverter defaultConverter = new NullValueConverter("");
 
+		boolean hasClinicalDataPrivilege = false;
+		if (Context.getUserContext().hasPrivilege("View clinical data")) {
+			hasClinicalDataPrivilege = true;
+		}
+
 		dsd.addColumn("patientId", builtInPatientData.getPatientId(), "", defaultConverter);
 		dsd.addColumn("patient_uuid", basePatientData.getUuid(), "");
-		dsd.addColumn("identifier", builtInPatientData.getPreferredIdentifierIdentifier(), "", defaultConverter);
+		if (hasClinicalDataPrivilege) {
+			dsd.addColumn("identifier", builtInPatientData.getPreferredIdentifierIdentifier(), "", defaultConverter);
+		} else {
+			dsd.addColumn("identifier", basePatientData.getNutritionIdentifier(), "", defaultConverter);
+		}
 		dsd.addColumn("givenName", builtInPatientData.getPreferredGivenName(), "", defaultConverter);
 		dsd.addColumn("familyName", builtInPatientData.getPreferredFamilyName(), "", defaultConverter);
 		dsd.addColumn("familyName2", builtInPatientData.getPreferredFamilyName2(), "", defaultConverter);

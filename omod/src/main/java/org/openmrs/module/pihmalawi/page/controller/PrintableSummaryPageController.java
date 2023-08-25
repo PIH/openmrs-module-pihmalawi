@@ -71,148 +71,150 @@ public class PrintableSummaryPageController {
 
     protected static final Log log = LogFactory.getLog(PrintableSummaryPageController.class);
 
-	public void controller(@RequestParam(value="patientId", required=false) Patient patient,
-                           UiUtils ui, PageModel model,
-                           @SpringBean("dataFactory") DataFactory df,
-                           @SpringBean("hivMetadata") HivMetadata hivMetadata,
-                           @SpringBean("chronicCareMetadata") ChronicCareMetadata ccMetadata,
-                           @SpringBean("builtInPatientDataLibrary") BuiltInPatientDataLibrary builtInData,
-                           @SpringBean("basePatientDataLibrary") BasePatientDataLibrary baseData,
-                           @SpringBean("hivPatientDataLibrary") HivPatientDataLibrary hivData,
-                           @SpringBean("chronicCarePatientDataLibrary") ChronicCarePatientDataLibrary ccData,
-                           @SpringBean("hivCohortDefinitionLibrary") HivCohortDefinitionLibrary hivCohorts,
-                           @SpringBean("chronicCareCohortDefinitionLibrary") ChronicCareCohortDefinitionLibrary ccCohorts,
-                           @SpringBean("reportingDataSetDefinitionService") DataSetDefinitionService dataSetDefinitionService,
-	                       @InjectBeans PatientDomainWrapper patientDomainWrapper) {
+	public String controller(@RequestParam(value="patientId", required=false) Patient patient,
+                             UiUtils ui, PageModel model,
+                             @SpringBean("dataFactory") DataFactory df,
+                             @SpringBean("hivMetadata") HivMetadata hivMetadata,
+                             @SpringBean("chronicCareMetadata") ChronicCareMetadata ccMetadata,
+                             @SpringBean("builtInPatientDataLibrary") BuiltInPatientDataLibrary builtInData,
+                             @SpringBean("basePatientDataLibrary") BasePatientDataLibrary baseData,
+                             @SpringBean("hivPatientDataLibrary") HivPatientDataLibrary hivData,
+                             @SpringBean("chronicCarePatientDataLibrary") ChronicCarePatientDataLibrary ccData,
+                             @SpringBean("hivCohortDefinitionLibrary") HivCohortDefinitionLibrary hivCohorts,
+                             @SpringBean("chronicCareCohortDefinitionLibrary") ChronicCareCohortDefinitionLibrary ccCohorts,
+                             @SpringBean("reportingDataSetDefinitionService") DataSetDefinitionService dataSetDefinitionService,
+                             @InjectBeans PatientDomainWrapper patientDomainWrapper) {
 
-		patientDomainWrapper.setPatient(patient);
-        model.addAttribute("patient", patientDomainWrapper);
-        model.addAttribute("dateUtil", new DateUtil());
+		if (Context.getUserContext().hasPrivilege("View clinical data")) {
+            patientDomainWrapper.setPatient(patient);
+            model.addAttribute("patient", patientDomainWrapper);
+            model.addAttribute("dateUtil", new DateUtil());
 
-        Date today = new Date();
+            Date today = new Date();
 
-        try {
-            EvaluationContext context = getSinglePatientEvaluationContext(patient.getPatientId());
-            model.addAttribute("firstName", getData(builtInData.getPreferredGivenName(), context));
-            model.addAttribute("lastName", getData(builtInData.getPreferredFamilyName(), context));
-            model.addAttribute("birthDate", getData(baseData.getBirthdate(), context));
-            model.addAttribute("ageYears", getData(baseData.getAgeAtEndInYears(), context));
-            model.addAttribute("ageMonths", getData(baseData.getAgeAtEndInMonths(), context));
-            model.addAttribute("gender", getData(builtInData.getGender(), context));
-            model.addAttribute("hccNumber", getData(hivData.getHccNumberAtLocation(), context));
-            model.addAttribute("arvNumber", getData(hivData.getArvNumberAtLocation(), context));
-            model.addAttribute("ccNumber", getData(ccData.getChronicCareNumberAtLocation(), context));
-            model.addAttribute("hivTxStatus", getData(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
-            model.addAttribute("hivTxStatusDate", getData(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
-            model.addAttribute("ccTxStatus", getData(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
-            model.addAttribute("ccTxStatusDate", getData(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
-            model.addAttribute("artStartDate", getData(hivData.getEarliestOnArvsStateStartDateByEndDate(), context));
-            model.addAttribute("artRegimens", getData(hivData.getArvRegimenChangesByEndDate(), context));
-            model.addAttribute("cd4s", getData(hivData.getCd4CountObservations(), context));
-            model.addAttribute("tbStatus", getData(hivData.getLatestTbStatusObs(), context));
+            try {
+                EvaluationContext context = getSinglePatientEvaluationContext(patient.getPatientId());
+                model.addAttribute("firstName", getData(builtInData.getPreferredGivenName(), context));
+                model.addAttribute("lastName", getData(builtInData.getPreferredFamilyName(), context));
+                model.addAttribute("birthDate", getData(baseData.getBirthdate(), context));
+                model.addAttribute("ageYears", getData(baseData.getAgeAtEndInYears(), context));
+                model.addAttribute("ageMonths", getData(baseData.getAgeAtEndInMonths(), context));
+                model.addAttribute("gender", getData(builtInData.getGender(), context));
+                model.addAttribute("hccNumber", getData(hivData.getHccNumberAtLocation(), context));
+                model.addAttribute("arvNumber", getData(hivData.getArvNumberAtLocation(), context));
+                model.addAttribute("ccNumber", getData(ccData.getChronicCareNumberAtLocation(), context));
+                model.addAttribute("hivTxStatus", getData(hivData.getMostRecentHivTreatmentStatusStateNameByEndDate(), context));
+                model.addAttribute("hivTxStatusDate", getData(hivData.getMostRecentHivTreatmentStatusStateStartDateByEndDate(), context));
+                model.addAttribute("ccTxStatus", getData(ccData.getMostRecentChronicCareTreatmentStatusStateAtLocationByEndDate(), context));
+                model.addAttribute("ccTxStatusDate", getData(ccData.getMostRecentChronicCareTreatmentStatusStateStartDateAtLocationByEndDate(), context));
+                model.addAttribute("artStartDate", getData(hivData.getEarliestOnArvsStateStartDateByEndDate(), context));
+                model.addAttribute("artRegimens", getData(hivData.getArvRegimenChangesByEndDate(), context));
+                model.addAttribute("cd4s", getData(hivData.getCd4CountObservations(), context));
+                model.addAttribute("tbStatus", getData(hivData.getLatestTbStatusObs(), context));
 
-            List<ViralLoad> viralLoads = getData(hivData.getAllViralLoadsByEndDate(), context);
-            String lastViralLoadValue = null;
-            Date lastViralLoadDate = null;
-            Boolean highViralLoad = false;
+                List<ViralLoad> viralLoads = getData(hivData.getAllViralLoadsByEndDate(), context);
+                String lastViralLoadValue = null;
+                Date lastViralLoadDate = null;
+                Boolean highViralLoad = false;
 
-            if (viralLoads != null) {
-                for (ViralLoad vl : viralLoads) {
-                    if (vl.getResultLdl() != null || vl.getLessThanResultNumeric() != null || vl.getResultNumeric() != null) {
-                        lastViralLoadDate = vl.getResultDate();
-                        if (vl.getResultNumeric() != null) {
-                            lastViralLoadValue = ObjectUtil.formatNumber(vl.getResultNumeric(), "1", Context.getLocale());
-                            highViralLoad = (vl.getResultNumeric() >= 1000);
-                        }
-                        else if (vl.getLessThanResultNumeric() != null) {
-                            lastViralLoadValue = "< " + vl.getLessThanResultNumeric();
-                            highViralLoad = false;
-                        }
-                        else if (vl.getResultLdl()) {
-                            lastViralLoadValue = "LDL";
-                            highViralLoad = false;
+                if (viralLoads != null) {
+                    for (ViralLoad vl : viralLoads) {
+                        if (vl.getResultLdl() != null || vl.getLessThanResultNumeric() != null || vl.getResultNumeric() != null) {
+                            lastViralLoadDate = vl.getResultDate();
+                            if (vl.getResultNumeric() != null) {
+                                lastViralLoadValue = ObjectUtil.formatNumber(vl.getResultNumeric(), "1", Context.getLocale());
+                                highViralLoad = (vl.getResultNumeric() >= 1000);
+                            } else if (vl.getLessThanResultNumeric() != null) {
+                                lastViralLoadValue = "< " + vl.getLessThanResultNumeric();
+                                highViralLoad = false;
+                            } else if (vl.getResultLdl()) {
+                                lastViralLoadValue = "LDL";
+                                highViralLoad = false;
+                            }
                         }
                     }
                 }
-            }
 
-            model.addAttribute("viralLoads", viralLoads);
-            model.addAttribute("lastViralLoadValue", lastViralLoadValue);
-            model.addAttribute("lastViralLoadDate", lastViralLoadDate);
-            model.addAttribute("highViralLoad", highViralLoad);
+                model.addAttribute("viralLoads", viralLoads);
+                model.addAttribute("lastViralLoadValue", lastViralLoadValue);
+                model.addAttribute("lastViralLoadDate", lastViralLoadDate);
+                model.addAttribute("highViralLoad", highViralLoad);
 
-            Obs ht = getData(baseData.getLatestHeightObs(), context);
-            model.addAttribute("height", ht);
+                Obs ht = getData(baseData.getLatestHeightObs(), context);
+                model.addAttribute("height", ht);
 
-            List<Obs> weights = getData(baseData.getAllWeightObservations(), context);
-            Obs wt = getLastValue(weights);
-            Obs oneYearWt = getValueAtLeastXMonthsBeforeLastValue(weights, 12);
-            model.addAttribute("weights", weights);
-            model.put("lastWeight", wt);
-            model.put("oneYearWeight", oneYearWt);
+                List<Obs> weights = getData(baseData.getAllWeightObservations(), context);
+                Obs wt = getLastValue(weights);
+                Obs oneYearWt = getValueAtLeastXMonthsBeforeLastValue(weights, 12);
+                model.addAttribute("weights", weights);
+                model.put("lastWeight", wt);
+                model.put("oneYearWeight", oneYearWt);
 
-            model.put("bmi", "");
-            model.put("bmiValue", null);
-            if (ht != null && wt != null) {
-                double bmi = wt.getValueNumeric()/Math.pow(ht.getValueNumeric()/100, 2);
-                model.put("bmi", ObjectUtil.format(bmi, "1"));
-                model.put("bmiValue", bmi);
-            }
-
-            Date aid = getData(hivData.getFirstArtInitialEncounterDateByEndDate(), context);
-            model.addAttribute("reasonCd4", getObsValueOnDate(hivMetadata.getCd4CountConcept(), aid, context));
-            model.addAttribute("reasonCd4Pct", getObsValueOnDate(hivMetadata.getCd4PercentConcept(), aid, context));
-            model.addAttribute("reasonCd4Date", getObsValueOnDate(hivMetadata.getCd4DateConcept(), aid, context));
-            model.addAttribute("reasonKs", getObsValueOnDate(hivMetadata.getKsSideEffectsWorseningOnArvsConcept(), aid, context));
-            model.addAttribute("reasonTb", getObsValueOnDate(hivMetadata.getTbTreatmentStatusConcept(), aid, context));
-            model.addAttribute("reasonStage", getObsValueOnDate(hivMetadata.getWhoStageConcept(), aid, context));
-            model.addAttribute("reasonPshd", getObsValueOnDate(hivMetadata.getPresumedSevereHivCriteriaPresentConcept(), aid, context));
-            model.addAttribute("reasonConditions", getObsValueOnDate(hivMetadata.getWhoClinicalConditionsConcept(), aid, context));
-            model.addAttribute("reasonPregnantLactating", getObsValueOnDate(hivMetadata.getPregnantOrLactatingConcept(), aid, context));
-
-            List<Encounter> encounters = getData(baseData.getAllEncounters(), context);
-            Collections.reverse(encounters);
-            model.addAttribute("encounters", encounters);
-
-            Map<String, List<AppointmentInfo>> appts = new LinkedHashMap<String, List<AppointmentInfo>>();
-
-            AppointmentInfo eidApp = getData(hivData.getEidAppointmentStatus(), context);
-            if (eidApp.isCurrentlyEnrolled()) {
-                appts.put("EID", Arrays.asList(eidApp));
-            }
-
-            AppointmentInfo artApp = getData(hivData.getArtAppointmentStatus(), context);
-            if (artApp.isCurrentlyEnrolled()) {
-                appts.put("ART", Arrays.asList(artApp));
-            }
-
-            List<AppointmentInfo> ncdList = new ArrayList<AppointmentInfo>();
-
-            List<ProgramWorkflowState> activeNcdStates = ccMetadata.getActiveChronicCareStates();
-
-            List<EncounterType> ncdTypes = new ArrayList<EncounterType>();
-            ncdTypes.add(ccMetadata.getHtnDiabetesFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getEpilepsyFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getAsthmaFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getCkdFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getPalliativeCareFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getChfFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getNcdOtherFollowupEncounterType());
-            ncdTypes.add(ccMetadata.getMentalHealthFollowupEncounterType());
-            for (EncounterType et : ncdTypes) {
-                AppointmentInfo ncdApp = getData(df.getAppointmentStatus(activeNcdStates, et), context);
-                if (ncdApp.isCurrentlyEnrolled() && ncdApp.getLastEncounterDate() != null) {
-                    ncdList.add(ncdApp);
+                model.put("bmi", "");
+                model.put("bmiValue", null);
+                if (ht != null && wt != null) {
+                    double bmi = wt.getValueNumeric() / Math.pow(ht.getValueNumeric() / 100, 2);
+                    model.put("bmi", ObjectUtil.format(bmi, "1"));
+                    model.put("bmiValue", bmi);
                 }
-            }
-            appts.put("CCC", ncdList);
 
-            model.addAttribute("appointmentStatuses", appts);
+                Date aid = getData(hivData.getFirstArtInitialEncounterDateByEndDate(), context);
+                model.addAttribute("reasonCd4", getObsValueOnDate(hivMetadata.getCd4CountConcept(), aid, context));
+                model.addAttribute("reasonCd4Pct", getObsValueOnDate(hivMetadata.getCd4PercentConcept(), aid, context));
+                model.addAttribute("reasonCd4Date", getObsValueOnDate(hivMetadata.getCd4DateConcept(), aid, context));
+                model.addAttribute("reasonKs", getObsValueOnDate(hivMetadata.getKsSideEffectsWorseningOnArvsConcept(), aid, context));
+                model.addAttribute("reasonTb", getObsValueOnDate(hivMetadata.getTbTreatmentStatusConcept(), aid, context));
+                model.addAttribute("reasonStage", getObsValueOnDate(hivMetadata.getWhoStageConcept(), aid, context));
+                model.addAttribute("reasonPshd", getObsValueOnDate(hivMetadata.getPresumedSevereHivCriteriaPresentConcept(), aid, context));
+                model.addAttribute("reasonConditions", getObsValueOnDate(hivMetadata.getWhoClinicalConditionsConcept(), aid, context));
+                model.addAttribute("reasonPregnantLactating", getObsValueOnDate(hivMetadata.getPregnantOrLactatingConcept(), aid, context));
+
+                List<Encounter> encounters = getData(baseData.getAllEncounters(), context);
+                Collections.reverse(encounters);
+                model.addAttribute("encounters", encounters);
+
+                Map<String, List<AppointmentInfo>> appts = new LinkedHashMap<String, List<AppointmentInfo>>();
+
+                AppointmentInfo eidApp = getData(hivData.getEidAppointmentStatus(), context);
+                if (eidApp.isCurrentlyEnrolled()) {
+                    appts.put("EID", Arrays.asList(eidApp));
+                }
+
+                AppointmentInfo artApp = getData(hivData.getArtAppointmentStatus(), context);
+                if (artApp.isCurrentlyEnrolled()) {
+                    appts.put("ART", Arrays.asList(artApp));
+                }
+
+                List<AppointmentInfo> ncdList = new ArrayList<AppointmentInfo>();
+
+                List<ProgramWorkflowState> activeNcdStates = ccMetadata.getActiveChronicCareStates();
+
+                List<EncounterType> ncdTypes = new ArrayList<EncounterType>();
+                ncdTypes.add(ccMetadata.getHtnDiabetesFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getEpilepsyFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getAsthmaFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getCkdFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getPalliativeCareFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getChfFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getNcdOtherFollowupEncounterType());
+                ncdTypes.add(ccMetadata.getMentalHealthFollowupEncounterType());
+                for (EncounterType et : ncdTypes) {
+                    AppointmentInfo ncdApp = getData(df.getAppointmentStatus(activeNcdStates, et), context);
+                    if (ncdApp.isCurrentlyEnrolled() && ncdApp.getLastEncounterDate() != null) {
+                        ncdList.add(ncdApp);
+                    }
+                }
+                appts.put("CCC", ncdList);
+
+                model.addAttribute("appointmentStatuses", appts);
+            } catch (Exception e) {
+                model.addAttribute("errors", e.getMessage());
+                log.error("An error occured while evaluating data for patient " + patient.getId() + " for printable summary", e);
+            }
+        } else {
+            return "redirect:/index.htm";
         }
-        catch (Exception e) {
-            model.addAttribute("errors", e.getMessage());
-            log.error("An error occured while evaluating data for patient " + patient.getId() + " for printable summary", e);
-        }
+        return null;
     }
 
     protected <T> T getLastValue(List<Obs> l) {

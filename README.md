@@ -45,7 +45,6 @@ module name = pihmalawi for openmrs-module-pihmalawi
    | -04:00             |
    +--------------------+
    ```    
-   
 
 #### Source the PIH Malawi database
 
@@ -81,17 +80,14 @@ source *name of openmrs neno database*.sql
    - Set -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno
    - or, just run the following command
    ```
-   mvn openmrs-sdk:setup -DserverId=malawi -Ddistro=org.openmrs.distro:pihmalawi:6.9.0-SNAPSHOT -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno -DdbUser=openmrs -DdbPassword=openmrs
+   mvn openmrs-sdk:setup -DserverId=malawi -Ddistro=org.openmrs.distro:pihmalawi:7.0.0-SNAPSHOT -DdbUri=jdbc:mysql://localhost:3306/openmrs_neno -DdbUser=openmrs -DdbPassword=openmrs
    ```
-5. Run SDK
-   - mvn openmrs-sdk:run -DserverId=malawi 
-6. (**_Deprecated_**) If everything starts up, but when you try to go to the login page (or any other page) you get a big stack trace that looks like it is due to Groovy, you need to remove the groovy jar file from the lib file.  Use the desktop file UI to open the openmrs-1.9.x.war file and remove the groovy jar from the logic omod.
-   - Using the system file UI, double click the openmrs war file (ie. ~/openmrs/malawi/openmrs-1.9.11.war)
-   - navigate to the WEB-INF/bundledModules folder
-   - find the logic omod and double click on the logic omod
-   - find the lib/groovy jar file and delete the groovy jar file
-   - delete the ~/openmrs/malawi/tmp directory before running 'mvn openmrs-sdk:run'
-7. Run SDK
+
+5. Install configuration
+   - cd configuration
+   - ./install.sh <serverId> (eg. ./install.sh malawi)
+
+6. Run SDK
    - mvn openmrs-sdk:run -DserverId=malawi
 
 ## Using your local development environment
@@ -124,11 +120,3 @@ mvn openmrs-sdk:run -DserverId=malawi
 ### Additional references
 
 - [OpenMRS SDK](https://wiki.openmrs.org/display/docs/OpenMRS+SDK)
-
-
-
-
-
-
-
-

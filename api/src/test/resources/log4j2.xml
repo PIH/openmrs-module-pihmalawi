@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+-->
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+	<Properties>
+		<!-- Anything defined here can be referenced below -->
+		<Property name="defaultPattern">%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n</Property>
+	</Properties>
+	<Appenders>
+		<!-- Console appender - writes to system out -->
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${defaultPattern}" />
+		</Console>
+		<!-- Memory appender - keeps most recent logging messages in memory to be displayed to the user -->
+		<Memory name="MEMORY_APPENDER" bufferSize="200"> <!-- bufferSize is how many messages are kept in memory -->
+			<PatternLayout pattern="${defaultPattern}" />
+		</Memory>
+		<!-- File appender - keeps an active openmrs.log in the application data directory.  Reset on restart -->
+		<File name="OPENMRS FILE APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
+			<PatternLayout pattern="${defaultPattern}" />
+		</File>
+	</Appenders>
+	<Loggers>
+		<!-- Library logging -->
+		<Logger name="org.apache" level="WARN" />
+		<Logger name="org.apache.fop" level="ERROR" />
+		<Logger name="org.hibernate" level="ERROR" />
+		<Logger name="org.hibernate.orm.deprecation" additivity="false" level="ERROR"/>
+		<Logger name="org.hibernate.engine.internal.StatefulPersistenceContext" additivity="false" level="ERROR" /> <!-- UHM-6758 -->
+		<Logger name="net.sf.ehcache" level="ERROR" />
+		<Logger name="org.springframework" level="WARN" />
+		<Logger name="org.springframework.context.support.ResourceBundleMessageSource" level="ERROR" />
+		<Logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR" />
+		<Logger name="liquibase" level="INFO" />
+
+		<!-- Core logging -->
+		<Logger name="org.openmrs" level="WARN" />
+		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
+		<Logger name="org.openmrs.api" level="WARN" />
+
+		<!-- MFA Logging -->
+		<Logger name="org.openmrs.module.authentication.web.AuthenticationFilter" level="INFO"/>
+
+		<!-- Setup Logging -->
+		<Logger name="org.openmrs.module.pihmalawi.activator" level="INFO" />
+
+		<Root level="WARN">
+			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="MEMORY_APPENDER" />
+			<AppenderRef ref="OPENMRS FILE APPENDER" />
+		</Root>
+	</Loggers>
+</Configuration>

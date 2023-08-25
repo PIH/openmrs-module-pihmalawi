@@ -183,7 +183,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 		s += " on \n";
 		s += dateTag("dateTransferredOut-" + pws.getId(), "dateTransferredOut") + "\n";
 		s += " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>";
-		s += "</form><br/>";
+		s += "</form>";
 		return s;
 	}
 

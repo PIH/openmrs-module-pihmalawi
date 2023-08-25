@@ -16,9 +16,4 @@ public class HomepageOverrideController {
         return "forward:/findPatient.htm";
     }
 
-    @RequestMapping("/login.htm")
-    public String showLoginHomepage() {
-        return "forward:/pihmalawi/login.page";
-    }
-
 }

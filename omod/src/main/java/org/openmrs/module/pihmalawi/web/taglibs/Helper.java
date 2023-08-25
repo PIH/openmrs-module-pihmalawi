@@ -105,7 +105,7 @@ public class Helper {
 	}
 
     public static boolean userHasEditPrivilege(){
-        return Context.getAuthenticatedUser().hasRole("Edit Patients");
+        return Context.getAuthenticatedUser().hasPrivilege("Edit Patients");
     }
 	/**
 	 * @return the most recent state in the given ProgramWorkflow for the given Patient as of the passed endDate

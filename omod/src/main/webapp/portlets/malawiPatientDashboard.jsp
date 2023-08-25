@@ -28,6 +28,18 @@
 
 <c:set var="personId" value="${model.personId}" />
 <c:set var="patientId" value="${model.patientId}" />
+<c:set var="NutritionOnTreatmentWorkflowState" value="4F148482-8B25-4ACD-A23C-B2A1D4701C2D"/>
+<c:set var="NutritionActiveStates" value="4F148482-8B25-4ACD-A23C-B2A1D4701C2D,35AF01AE-AAC7-4F9B-A9A1-0EFDEB84AD5B"/>
+<c:set var="NutritionTreatmentStoppedWorkflowState" value="B633E826-943D-427F-BEC9-C19DBB31DAAE"/>
+<c:set var="NutritionTransferedOutWorkflowState" value="228C3CE4-3685-459C-ABA3-41BAD3DED1D7"/>
+<c:set var="NutritionDischargedWorkflowState" value="7988D58A-94B1-4E5F-8891-300F40D50D5B"/>
+<c:set var="NutritionDefaultedWorkflowState" value="9144608D-BE07-42E0-B9C3-7BF7B2E70B4B"/>
+<c:set var="NutritionDiedWorkflowState" value="51E67592-5751-491B-8DA5-D5737D320AC5"/>
+
+<c:set var="TeenClubActiveStates" value="F179C6EA-6AF7-4F66-8587-AFE23521400C,3E9BB98B-6BB0-431D-BCD5-B3E277922C04"/>
+<c:set var="TeenClubTerminalStates" value="BDAF0BE3-5135-423E-B22B-4A87DE3C5C4A,3700B846-6F87-454A-AB1C-1EB19BF0D48B,11DFAE63-7185-452B-9BE4-E0773AC91D34,051AB431-5F98-4351-A541-9EFE0829AE7C,BFB0D25A-96C7-44EB-B58A-8CA6DCDE36D8,E6C1B44A-8B02-4D47-944D-09A2E94D61F3"/>
+
+
 <c:set var="PccOnTreatmentWorkflowState" value="7c1f852e-5120-4371-8136-f64614f5dfc7"/>
 <c:set var="PccTreatmentStoppedWorkflowState" value="b35ed57c-7d54-4795-b678-f0947a135fda"/>
 <c:set var="PccTransferedOutWorkflowState" value="e92017b9-45cf-41b9-bc69-a5b0232544c1"/>
@@ -57,6 +69,19 @@
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
 
 <table cellspacing="0" cellpadding="2">
+<c:forEach var="program" items="${model.patientPrograms}">
+    <c:if test="${!program.voided && program.program.name == 'Teen club program'}">
+        <c:set var="participatedInTeenClubProgram" value="true"/>
+        <c:if test="${program.dateCompleted == null}">
+            <c:set var="activeTeenClubProgram" value="true"/>
+        </c:if>
+    </c:if>
+    <c:if test="${!program.voided && program.program.name == 'HIV PROGRAM'}">
+        <c:set var="activeHIVProgram" value="true"/>
+    </c:if>
+</c:forEach>
+<openmrs:hasPrivilege privilege="View clinical data">
+
     <tr>
         <td>ART Patient Card:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="64" initialEncounterTypeId="9" followupEncounterTypeId="10" patientIdentifierType="4" programWorkflowStates="7"/></td>
@@ -69,6 +94,19 @@
             </c:if>
         </openmrs:forEachEncounter>
     <tr>
+        <td><br /></td>
+    </tr>
+    <!-- If patient is eligible to be enrolled in the Teen Club or the patient is already enrolled-->
+    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
+    <tr>
+        <td>Teen Club Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    </c:if>
+    <tr>
         <td>Pre-ART Patient Card:</td>
         <c:choose>
             <c:when test="${ not empty artInitialEncounter }">
@@ -78,6 +116,9 @@
                 <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formId="66" initialEncounterTypeId="11" followupEncounterTypeId="12" patientIdentifierType="19" programWorkflowStates="1"/></td>
             </c:otherwise>
         </c:choose>
+    </tr>
+    <tr>
+        <td><br /></td>
     </tr>
     <tr>
         <c:set var="artInitialEncounter" value="" />
@@ -141,7 +182,9 @@
         <td>&NonBreakingSpace;</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="${MentalHealthActiveStates}" patientIdentifierType="21"/></td>
     </tr>
-
+    <tr>
+        <td><br /></td>
+    </tr>
     <tr>
         <td>Pediatric Development Clinic Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="PDC eMastercard" initialEncounterTypeName="PDC_INITIAL" programWorkflowStates="${PdcActiveStates}" patientIdentifierType="26"/></td>
@@ -170,7 +213,6 @@
         <td>Palliative Care Record:</td>
             <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Palliative Care Mastercard" initialEncounterTypeName="PALLIATIVE_INITIAL" followupEncounterTypeName="PALLIATIVE_FOLLOWUP" programWorkflowStates="${PccOnTreatmentWorkflowState}" patientIdentifierType="22"/></td>
     </tr>
-
     <tr>
         <td><br /></td>
     </tr>
@@ -210,53 +252,95 @@
             <td>Not available: User does not have privileges to edit patient</td>
         </openmrs:hasPrivilege>
     </tr>
+</openmrs:hasPrivilege>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td>Nutrition Record:</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition eMastercard" initialEncounterTypeName="NUTRITION_INITIAL" followupEncounterTypeName="NUTRITION_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Adults eMastercard" initialEncounterTypeName="NUTRITION_ADULTS_INITIAL" followupEncounterTypeName="NUTRITION_ADULTS_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Infant eMastercard" initialEncounterTypeName="NUTRITION_INFANT_INITIAL" followupEncounterTypeName="NUTRITION_INFANT_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition PDC eMastercard" initialEncounterTypeName="NUTRITION_PDC_INITIAL" followupEncounterTypeName="NUTRITION_PDC_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
+    <tr>
+        <td>&NonBreakingSpace;</td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Nutrition Pregnant Teens eMastercard" initialEncounterTypeName="NUTRITION_PREGNANT_TEENS_INITIAL" followupEncounterTypeName="NUTRITION_PREGNANT_TEENS_FOLLOWUP" programWorkflowStates="${NutritionActiveStates}" patientIdentifierType="28"/></td>
+    </tr>
+
 </table>
 </div> <!-- end <div class="portlet" id="pihmalawi.malawiPatientDashboard">-->
 </div> <!-- end <div class="box">-->
 <br />
 
-<div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.trace.sectionTitle" /></div>
-<div class="box${model.patientVariation}"><openmrs:message code="" />
-    <div class="portlet" id="pihmalawi.trace">
-        <table cellspacing="0" cellpadding="2">
-            <tr>
-                <td>Trace Record:</td>
-                <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
-            </tr>
-        </table>
+<openmrs:hasPrivilege privilege="View clinical data">
+    <div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.trace.sectionTitle" /></div>
+    <div class="box${model.patientVariation}"><openmrs:message code="" />
+        <div class="portlet" id="pihmalawi.trace">
+            <table cellspacing="0" cellpadding="2">
+                <tr>
+                    <td>Trace Record:</td>
+                    <td><pihmalawi:eTraceAccess patientId="${model.patientId}" formName="Trace Mastercard" initialEncounterTypeName="TRACE_INITIAL" followupEncounterTypeName="TRACE_FOLLOWUP" /></td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
-<br />
-
-
+    <br />
+</openmrs:hasPrivilege>
 
 <div class="boxHeader${model.patientVariation}"><openmrs:message code="pihmalawi.quickprograms.sectionTitle" /></div>
 <div class="box${model.patientVariation}"><openmrs:message code="" />
 <div class="portlet" id="pihmalawi.quickPrograms">
 <table cellspacing="0" cellpadding="2">
+    <openmrs:hasPrivilege privilege="View clinical data">
     <tr>
-        <td>HIV Program:</td>
+        <td style="vertical-align: top;">HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
     </tr>
+    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
     <tr>
-        <td>Chronic Care Program:</td>
+        <td style="vertical-align: top;">Teen Club:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${TeenClubActiveStates}" stateIds="${TeenClubActiveStates}" terminalStateIds="${TeenClubTerminalStates}"/><br /></td>
+    </tr>
+    </c:if>
+    <tr>
+        <td style="vertical-align: top;">Chronic Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
     </tr>
     <tr>
-        <td>Mental Health Program:</td>
+        <td style="vertical-align: top;">Mental Health Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
-        <td>Pediatric Development Clinic Program:</td>
+        <td style="vertical-align: top;">Pediatric Development Clinic Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PdcActiveStates}" stateIds="${PdcActiveStates}" terminalStateIds="${PdcTreatmentDischargedWorkflowState},${PdcTreatmentStoppedWorkflowState},${PdcPatientDiedWorkflowState},${PdcTransferredOutWorkflowState},${PdcPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
-        <td>Palliative Care Program:</td>
+        <td style="vertical-align: top;">Palliative Care Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${PccOnTreatmentWorkflowState}" terminalStateIds="${PccTreatmentStoppedWorkflowState},${PccTransferedOutWorkflowState},${PccDefaultedWorkflowState},${PccDiedWorkflowState}"/><br /></td>
     </tr>
     <tr>
-        <td>TB Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/></td>
+        <td style="vertical-align: top;">TB Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/><br /></td>
+    </tr>
+    </openmrs:hasPrivilege>
+
+    <tr>
+        <td style="vertical-align: top;">Nutrition Program:</td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${NutritionActiveStates}" stateIds="${NutritionActiveStates}" terminalStateIds="${NutritionTreatmentStoppedWorkflowState},${NutritionTransferedOutWorkflowState},${NutritionDischargedWorkflowState},${NutritionDefaultedWorkflowState},${NutritionDiedWorkflowState}"/><br /></td>
     </tr>
 </table>
 <!-- <div class="portlet"> is automatically close by openmrs:portlet  from patientOverview.jsp-->

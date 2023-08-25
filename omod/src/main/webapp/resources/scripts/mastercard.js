@@ -55,7 +55,13 @@
       if (errorMessage ) {
         flowsheet.showErrorMessage(errorMessage);
       }
-
+      // remove medication dosage and frequency empty values: _ _ _ _ _
+      jq(".visit-table-row").find("fieldset.medication").each(function() {
+        jq(this).find('span.emptyValue').each(function() {
+          jq(this).removeClass('emptyValue');
+          jq(this).text('');
+        });
+      });
     };
 
     fsExt.beforeLoadVisitTable = function(flowsheet) {

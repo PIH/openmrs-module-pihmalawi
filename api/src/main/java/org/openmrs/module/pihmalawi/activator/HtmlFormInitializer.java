@@ -143,7 +143,19 @@ public class HtmlFormInitializer implements Initializer {
 				"pihmalawi:htmlforms/pdc_radiology.xml",
 				"pihmalawi:htmlforms/pdc_complications.xml",
 				"pihmalawi:htmlforms/pdc_trisomy21_lab_tests.xml",
-				"pihmalawi:htmlforms/pdc_hb_and_other_lab_tests.xml"
+				"pihmalawi:htmlforms/pdc_hb_and_other_lab_tests.xml",
+				"pihmalawi:htmlforms/nutrition_mastercard.xml",
+				"pihmalawi:htmlforms/nutrition_visit.xml",
+				"pihmalawi:htmlforms/teen_club_mastercard.xml",
+				"pihmalawi:htmlforms/teen_club_visit.xml",
+				"pihmalawi:htmlforms/nutrition_adults_mastercard.xml",
+				"pihmalawi:htmlforms/nutrition_adults_visit.xml",
+				"pihmalawi:htmlforms/nutrition_infant_mastercard.xml",
+				"pihmalawi:htmlforms/nutrition_infant_visit.xml",
+				"pihmalawi:htmlforms/nutrition_pdc_mastercard.xml",
+				"pihmalawi:htmlforms/nutrition_pdc_visit.xml",
+				"pihmalawi:htmlforms/nutrition_pregnant_teens_mastercard.xml",
+				"pihmalawi:htmlforms/nutrition_pregnant_teens_visit.xml"
 		);
 
 

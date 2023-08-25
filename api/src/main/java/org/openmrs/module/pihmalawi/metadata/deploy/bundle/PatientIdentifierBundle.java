@@ -9,6 +9,7 @@ public class PatientIdentifierBundle extends AbstractMetadataBundle {
 
     @Override
     public void install() throws Exception {
+        install(PihMalawiPatientIdentifierTypes.NUTRITION_PROGRAM_NUMBER);
         install(PihMalawiPatientIdentifierTypes.PALLIATIVE_CARE_NUMBER);
         install(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER);
         install(PihMalawiPatientIdentifierTypes.YENDANAFE_IDENTIFIER);
