@@ -453,6 +453,7 @@ public class EncounterTypes {
         public String name() { return "ART_FOLLOWUP_UP_TESTING";
         }
         public String description() { return "ART Followup testing encounter";}
+        };
 
     public static EncounterTypeDescriptor NUTRITION_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() { return "F1EB0CA8-8E7C-49B5-A03C-B0B9C164181E"; }
