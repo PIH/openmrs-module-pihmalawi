@@ -71,6 +71,8 @@
         <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2"/>
         <macro key="amountDispensed" value="65614392-977f-11e1-8993-905e29aff6c1"/>
         <macro key="adminInstructions" value="ef7f742b-76e6-4a83-84ca-534ad6705494"/>
+        <macro key="phq9Score" value="e1bc7567-aec8-48b6-987e-b4a53d15787b"/>
+        <macro key="counsellingProvided" value="cef3471e-eb0a-4b14-b402-9b24742e3869"/>
     </macros>
 
     <style>
@@ -202,6 +204,7 @@
                     <td><i style="font-size:.7em;padding: 1px;">day/month/year</i></td>
                     <td style="padding: 1px"><small>cm</small></td>
                     <td style="padding: 1px"><small>kg</small></td>
+                    <td style="font-size:.7em;padding: 1px">PHQ 9<br/>score</td>
                     <td style="font-size:.7em;padding: 1px">Depressed<br/>mood</td>
                     <td style="font-size:.7em;padding: 1px">Elevated<br/>mood</td>
                     <td style="font-size:.7em;padding: 1px;">Disrupted<br/>behavior</td>
@@ -217,6 +220,7 @@
                     <td style="font-size:.7em;padding: 1px;">Other<br/>drugs</td>
 
                     <!-- Using abbreviations for meds so it will fit -->
+                    <td style="font-size:.7em;padding: 1px">Counselling<br/>provided</td>
                     <td style="font-size:.7em;padding: 1px">CPZ</td>
                     <td style="font-size:.7em;padding: 1px">HLP</td>
                     <td style="font-size:.7em;padding: 1px">FPZ</td>
@@ -241,6 +245,10 @@
                     <td style="padding: 1px;" >
                         <!-- Weight -->
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
+                    </td>
+                    <td style="padding: 1px;" >
+                        <!-- PHQ 9 Score -->
+                        <obsreference conceptId="$phq9Score" id="phq9ScoreInput" size="3"/>
                     </td>
                     <!-- ToDo: Mental status examination -->
                     <repeat with="['$depressive','Depressed mood'],
@@ -309,7 +317,12 @@
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
-
+                    <td style="padding: 1px;" >
+                        <!-- Counselling provided -->
+                        <obs conceptId="$counsellingProvided"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
                     <td colspan="9" style="padding: 1px; text-align: left;">
                         <repeat with="['$cpz','Chloropromazine (CPZ)'],
                                   ['$hlp','Haloperidol (HLP)'],
@@ -436,6 +449,10 @@
                 <th>Weight</th>
                 <td><obsreference conceptId="$weight" id="weightInput" size="3" showUnits="true"/></td>
             </tr>
+            <tr class="focus-field">
+                <th>PHQ 9 Score</th>
+                <td><obsreference conceptId="$phq9Score" id="phq9ScoreInput" size="3"/></td>
+            </tr>
             <tr>
                 <!-- ToDo: Mental status examination -->
                 <th>Mental status examination (MSE)</th>
@@ -528,6 +545,13 @@
                 <th>Hospitalised since last visit due to this condition?</th>
                 <td>
                     <obs conceptId="$hospitalized" answerConceptIds="$yesAnswer,$noAnswer"
+                         style="radio" />
+                </td>
+            </tr>
+            <tr>
+                <th>Counselling Provided?</th>
+                <td>
+                    <obs conceptId="$counsellingProvided" answerConceptIds="$yesAnswer,$noAnswer"
                          style="radio" />
                 </td>
             </tr>
