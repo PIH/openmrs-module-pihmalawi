@@ -206,10 +206,12 @@
                             <td>
                                 <obs conceptId="$tbStatus" style="radio" answerConceptIds="$tbnever,$tbLast,$tbCurr" answerLabels="Never,Last,Curr" />
                             </td>
-                            <td>Preg/Breastf</td>
-                            <td>
-                                <obs conceptId="$pregnantLactating" style="radio" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" answerLabels="No,Preg,Bf" />
-                            </td>
+                            <includeIf velocityTest="$patient.gender == 'F'">
+                                <td>Preg/Breastf</td>
+                                <td>
+                                    <obs conceptId="$pregnantLactating" style="radio" answerConceptIds="$noAnswer,$currentlyPregnant,$currentlyLactating" answerLabels="No,Preg,Bf" />
+                                </td>
+                            </includeIf>
                         </tr>
 
 

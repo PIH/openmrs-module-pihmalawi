@@ -24,6 +24,7 @@
         <macro key="tbConfirmedTx" value="65770ca4-977f-11e1-8993-905e29aff6c1" />
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1"/>
         <macro key="formEncTypeUuid" value="664b8650-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="bmi" value="655d615a-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -36,7 +37,7 @@
                     <td style="padding: 1px;" >Visit Date</td>
                     <td style="padding: 1px">Hgt</td>
                     <td style="padding: 1px">Wt</td>
-                    <td rowspan="2">Pregnant/<br/>Breastfeed.</td>
+                    <td rowspan="2">MUAC/<br/>BMI</td>
                     <td style="padding: 1px" colspan="2">TB Status (Curr.)</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Sputum <br/>Collected</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition screening <br/>for normal MUAC</td>
@@ -68,8 +69,7 @@
                         <obsreference conceptId="$weight" id="weightInput" size="3"/>
                     </td>
                     <td>
-                        <obsreference conceptId="$pregBf" style="checkbox" answerLabel="Preg" answerConceptId="$cPreg" />
-                        <obsreference conceptId="$pregBf" style="checkbox" answerLabel="Bf" answerConceptId="$cLactating" />
+                        <obsreference conceptId="$bmi" id="bmiInput" size="3" allowOverride="True"/>
                     </td>
                     <td>
                         <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbNotSuspected" answerLabel="No" />
@@ -155,14 +155,12 @@
                         <obsreference conceptId="$weight" id="weightInput" showUnits="true"/>
                     </td>
                 </tr>
-                <includeIf velocityTest="$patient.gender == 'F'">
-                    <tr>
-                        <th>Pregnant/Breastfeed.</th>
+                <tr>
+                    <th>MUAC/BMI</th>
                         <td>
-                            <obsreference id="pregnantBf" conceptId="$pregBf" style="checkbox" answerLabels="Preg,Bf" answerConceptIds="$cPreg,$cLactating"/>
+                            <obsreference conceptId="$bmi" id="bmiInput" size="3"/>
                         </td>
-                    </tr>
-                </includeIf>
+                </tr>
                 <tr>
                     <th>TB Status (Curr.)</th>
                     <td>
