@@ -18,7 +18,7 @@
     <macro key="enrolmentReason" value="6567efa8-977f-11e1-8993-905e29aff6c1"/>
 </macros>
     <span style="display:none">
-        <encounterProvider default="1" /><!-- Set provider to a default as not used -->
+        <encounterProvider default="16576" /><!-- Set provider to a default as not used -->
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
     </span>
     <div>

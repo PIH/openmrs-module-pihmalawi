@@ -92,7 +92,7 @@
             </span>
         </h4>
 
-        <span style="display:none"><encounterProvider default="1" /></span> <!-- Set provider to a default as not used -->
+        <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
         <table class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>

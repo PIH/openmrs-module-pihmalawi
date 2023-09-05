@@ -8,12 +8,13 @@
         <macro key="relationToPatient" value="6558fd0e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
+        <macro key="formEncTypeUuid" value="49085C00-9EA8-481D-A5C5-FB685822D5AB"/>
         <macro key="timeUnits" value="f1904502-319d-4681-9030-e642111e7ce2" />
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
     </macros>
     <span style="display:none">
-        <encounterProvider default="1" /><!-- Set provider to a default as not used -->
+        <encounterProvider default="16576" />
         <span id="patientBirthdate"><lookup expression="patient.birthdate"/></span>
     </span>
     <div>
