@@ -32,7 +32,7 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
 
         install(new ConceptBuilder(LACTOGEN_TINS_CONCEPT_UUID)
                 .datatype(numeric)
-                .conceptClass(misc)
+                .conceptClass(question)
                 .name("d5724661-b82f-430d-be6a-6add5c6994d7", "Number of lactogen tins", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
