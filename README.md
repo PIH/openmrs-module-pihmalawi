@@ -105,17 +105,20 @@ mvn openmrs-sdk:watch -DserverId=malawi
 mvn openmrs-sdk:run -DserverId=malawi
 ```
 ## Release to maven a new version of pihmalawi module
-1. Navigate to CI [Bamboo pihmalawi project](http://bamboo.pih-emr.org:8085/browse/MLW-PML)
 
-2. Select Actions --> Configuration
-3. Click Run
-4. Once the Default Stage Stage completes
-5. Click on the Run button/icon next to the **Release to Maven** stage
-6. A pop-up screen will be displayed where you have to override the Maven variables:
-   - maven.release.version = THE_NEW_RELEASE_VERSION (e.g. 6.8.0)
-   - maven.development.version = THE_NEXT_SNAPSHOT_VERSION (e.g. 6.9.0-SNAPSHOT)
-![Release to maven](https://github.com/PIH/openmrs-module-pihmalawi/blob/master/scripts/misc/mvn_variables.png)
-7. Click Run
+1. Update pihmalawi code to latest from git
+2. Update all (5) poms to the version you want to release (eg. change 7.0.0-SNAPSHOT to 7.0.0)
+3. Build locally and confirm it builds and all of the artifacts have a version of 7.0.0
+4. Commit and push
+5. Here, you let the CI job run.  It will build and deploy, and because this is not a snapshot, it will go to the releases maven repository)
+6. Once that has successfully finished, go back into the code and:
+    - Git pull
+    - Create a tag reflecting that this is the release version (eg. tag as 7.0.0)
+    - Update all (5) poms to the next snapshot version you want to use (eg. change 7.0.0 to 7.1.0-SNAPSHOT)
+    - Build locally and confirm it builds and all of the artifacts have the right new snapshot version
+    - Commit and push
+   
+Make sure no one is going to commit any code to the repo while you are in the middle of this process, as we don’t want any changes getting committed while the version is set to a non-snapshot version.
 
 ### Additional references
 
