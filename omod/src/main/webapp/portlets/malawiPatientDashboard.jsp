@@ -97,7 +97,7 @@
         <td><br /></td>
     </tr>
     <!-- If patient is eligible to be enrolled in the Teen Club or the patient is already enrolled-->
-    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
+    <c:if test="${(model.patient.age > 7 && model.patient.age < 30 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
     <tr>
         <td>Teen Club Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
