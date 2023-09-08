@@ -97,7 +97,7 @@
         <td><br /></td>
     </tr>
     <!-- If patient is eligible to be enrolled in the Teen Club or the patient is already enrolled-->
-    <c:if test="${(model.patient.age > 7 && model.patient.age < 30 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
+    <c:if test="${(model.patient.age > 5 && model.patient.age < 30 && activeHIVProgram == 'true') || (participatedInTeenClubProgram == 'true')}">
     <tr>
         <td>Teen Club Record:</td>
         <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Teen Club eMastercard" initialEncounterTypeName="TEEN_CLUB_INITIAL" followupEncounterTypeName="TEEN_CLUB_FOLLOWUP" patientIdentifierType="4" programWorkflowStates="${TeenClubActiveStates}"/></td>
@@ -310,7 +310,7 @@
         <td style="vertical-align: top;">HIV Program:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="120,7" stateIds="7" terminalStateIds="2,12,119"/><br /></td>
     </tr>
-    <c:if test="${(model.patient.age > 10 && model.patient.age < 20 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
+    <c:if test="${(model.patient.age > 5 && model.patient.age < 30 && activeHIVProgram == 'true') || (activeTeenClubProgram == 'true')}">
     <tr>
         <td style="vertical-align: top;">Teen Club:</td>
         <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${TeenClubActiveStates}" stateIds="${TeenClubActiveStates}" terminalStateIds="${TeenClubTerminalStates}"/><br /></td>
