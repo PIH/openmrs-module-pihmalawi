@@ -5,6 +5,7 @@ import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.builder.ConceptBuilder;
 import org.openmrs.module.metadatadeploy.builder.ConceptMapBuilder;
+import org.openmrs.module.metadatadeploy.builder.ConceptNumericBuilder;
 import org.openmrs.module.metadatadeploy.bundle.Requires;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.VersionedPihConceptBundle;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -349,6 +350,15 @@ public class ChronicHeartFailureConcepts extends VersionedPihConceptBundle {
                 .mapping(new ConceptMapBuilder("eefe36c9-7410-47d1-a1c0-63814d8a80ce").type(sameAs).ensureTerm(pih, "No pericardial effusion").build())
                 .mapping(new ConceptMapBuilder("bbd5efd9-0b91-4da8-9aa0-3bf8faece453").type(sameAs).ensureTerm(pih, "12000").build())
                 .mapping(new ConceptMapBuilder("ff876364-0d2a-4aee-87fe-a982de7a2c12").type(sameAs).ensureTerm(ciel, "166946").build())
+                .build());
+
+        install(new ConceptNumericBuilder("6214728c-e515-4287-a869-bcde209f888b")
+                .datatype(numeric)
+                .conceptClass(test)
+                .precise(true)
+                .units("mL/min")
+                .name("a088b05c-853e-4f69-a928-1a2a6c7db285", "estimated glomerular filtration rate",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .name("263429b7-263f-49d4-9a7e-d2f59b2abc09","eGFR",Locale.ENGLISH,ConceptNameType.SHORT)
                 .build());
     }
 }
