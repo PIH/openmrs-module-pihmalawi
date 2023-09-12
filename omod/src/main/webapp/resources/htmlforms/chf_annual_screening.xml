@@ -13,6 +13,7 @@
         <macro key="threePlus" value="65598706-977f-11e1-8993-905e29aff6c1" />
         <macro key="fourPlus" value="E1B2AF76-4B69-4BA4-9DDC-D801649BC212" />
 
+        <macro key="egfr" value="6214728c-e515-4287-a869-bcde209f888b"/>
         <macro key="creatinine" value="657170a0-977f-11e1-8993-905e29aff6c1" />
         <macro key="potassium" value="6557b566-977f-11e1-8993-905e29aff6c1" />
         <macro key="rbs" value="654a98b8-977f-11e1-8993-905e29aff6c1" />
@@ -29,12 +30,13 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="6">Screening Every 12 Months</th>
+                    <th colspan="6">Screening (Frequency per protocol)</th>
                 </tr>
                 <tr>
                     <th>Date</th>
                     <th>Proteinuria</th>
                     <th>Cr</th>
+                    <th>eGFR</th>
                     <th>K+</th>
                     <th>RBS</th>
                     <th>Lipid profile</th>
@@ -53,6 +55,9 @@
 
                     <td>
                         <obsreference conceptId="$creatinine"/>
+                    </td>
+                    <td>
+                        <obs conceptId="$egfr"/>
                     </td>
                     <td>
                         <obs conceptId="$potassium"/>
@@ -113,6 +118,12 @@
                 <th>Cr</th>
                 <td>
                     <obsreference conceptId="$creatinine" id="creatinineInput" showUnits="true"/>
+                </td>
+            </tr>
+            <tr>
+                <th>eGFR</th>
+                <td>
+                    <obs conceptId="$egfr" showUnits="true"/>
                 </td>
             </tr>
             <tr>

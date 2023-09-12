@@ -8,6 +8,8 @@
         <macro key="palliativeReferral" value="d69886ae-5eda-40ab-b2df-6ea9794a30d5" />
         <macro key="tookMedicToday" value="5f91e983-f825-4f41-81de-077288a5d860" />
         <macro key="oedema" value="bd057502-c23b-4f80-b24c-b996e8a84dfc" />
+        <macro key="lwrExtremities" value="6558864e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="general" value="65748bbe-977f-11e1-8993-905e29aff6c1"/>
         <macro key="weaklyPos" value="65598fb2-977f-11e1-8993-905e29aff6c1" />
         <macro key="modPos" value="65597cde-977f-11e1-8993-905e29aff6c1" />
         <macro key="strongPos" value="65598706-977f-11e1-8993-905e29aff6c1" />
@@ -177,7 +179,7 @@
                     <td colspan="5"><span>Signs and Symptoms since last visit</span></td>
                     <td colspan="5"><span>Exam</span></td>
                     <td colspan="4"><span>Risk Assessment</span></td>
-                    <td colspan="8"><span>CHF Medications</span></td>
+                    <td colspan="9"><span>CHF Medications</span></td>
                     <td colspan="5"><span>Pt Ed, Referral and Homecare</span></td>
                     <td rowspan="2">Next Visit Date</td>
                 </tr>
@@ -212,6 +214,7 @@
                     <td>ACE-I</td>
                     <td>BB</td>
                     <td>CCB</td>
+                    <th>Spironolactone</th>
                     <td>Statins</td>
                     <td>Benzathine PCN</td>
                     <td>Other</td>
@@ -295,11 +298,11 @@
                         style="checkbox" />
                     </td>
 
-                    <!-- Oedema --> 
+                    <!-- Oedema -->
                     <td style="text-align: left;">
-                        <repeat with="['$none','None'],['$weaklyPos','+1'],['$modPos','+2'],['$strongPos','+3'],['$extremePos','+4']">
-                            <obs conceptId="$oedema" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
-                       </repeat>
+                        <obs conceptId="$oedema" answerConceptId="$none" answerLabel="None" style="checkbox" />
+                        <obs conceptId="$oedema" answerConceptId="$lwrExtremities" answerLabel="LE" style="checkbox" />
+                        <obs conceptId="$oedema" answerConceptId="$general" answerLabel="Gen" style="checkbox" />
                     </td>
 
                     <!-- Bibasilar Crackles -->
@@ -334,7 +337,7 @@
                     </td>
 
                    <!-- Alcohol -->
-                    <td style="text-align: left">                        
+                    <td style="text-align: left">
                         <obs conceptId="$alcohol" answerConceptId="$current" answerLabel="Current" style="checkbox" />
                         <obs conceptId="$alcohol" answerConceptId="$never" answerLabel="Never" style="checkbox" />
                         <obs conceptId="$alcohol" answerConceptId="$stopped" answerLabel="Stopped" style="checkbox" />
@@ -516,6 +519,37 @@
                            </obsgroup>
                        </repeat>
                    </td>
+
+                    <!--Spironolactone-->
+                    <td style="text-align: left;">
+                        <repeat with="['$spironolactone','SPIRO']">
+                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                                <fieldset class="medication">
+                                    <span class="nowrap">
+                                        <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/> :
+                                        <obs class="doseInput" conceptId="$qPerDose"/>
+                                        <obs class="doseInput select-arrow"
+                                             conceptId="$dosingUnit"
+                                             answerConceptIds="$milliGram,$milliLiter,$capsule,$tablet"
+                                             answerCodes="mg,mL,capsule,tablet"/>
+                                        <obs class="route select-arrow"
+                                             conceptId="$routeOfAdmin"
+                                             answerConceptIds="$oral,$intravenous"
+                                             answerLabels="Oral,IV"/>
+                                        <obs class="frequency select-arrow"
+                                             conceptId="$drugFrequency"
+                                             answerConceptIds=
+                                                     "PIH Malawi:3321,PIH Malawi:3322,PIH Malawi:3323,PIH Malawi:6100,PIH Malawi:1619,PIH:PRN,PIH Malawi:6408"
+                                             answerCodes="OD,BID,TID,QID,STAT,PRN,other"/>
+                                        <obs class="duration doseInput" conceptId="$medicationDuration"/>
+                                        <obs class="duration-unit select-arrow"
+                                             conceptId="$timeUnits"
+                                             answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
+                                    </span>
+                                </fieldset>
+                            </obsgroup>
+                        </repeat>
+                    </td>
 
                     <!-- Statins -->
                     <td style="text-align: left;">
@@ -751,8 +785,8 @@
             <tr>
                 <th>Oedema</th>   
                 <td>
-                    <obs conceptId="$oedema" answerConceptIds="$none,$weaklyPos,$modPos,$strongPos,$extremePos" 
-                    answerLabels="None,+1,+2,+3,+4" style="radio" />
+                    <obs conceptId="$oedema" answerConceptIds="$none,$lwrExtremities,$general"
+                    answerLabels="None,LE,Gen" style="radio" />
                 </td>
             </tr>
 
@@ -1174,6 +1208,79 @@
                             </tr>
                         </obsgroup>
                     </repeat>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Spironolactone</th>
+                <td>
+                    <table>
+                        <repeat with="['$spironolactone','SPIRO']">
+                            <obsgroup groupingConceptId="$dispensingConstruct" showIfEmpty="false">
+                                <tr>
+                                    <td style="width: 20%;">
+                                        <obs class="medication-name" conceptId="$medicationName" answerConceptId="{0}" answerLabel="{1}" style="checkbox" toggle="diab_{0}_med"/>
+                                    </td>
+                                    <td style="align: left;">
+                                        <div id="diab_{0}_med" class="section-container toggle">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">
+                                                            <uimessage code="Dose"/>
+                                                        </th>
+                                                        <th>
+                                                            <uimessage code="Route"/>
+                                                        </th>
+                                                        <th>
+                                                            <uimessage code="Frequency"/>
+                                                        </th>
+                                                        <th colspan="2">
+                                                            <uimessage code="Duration"/>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="medication-asp" class="medication">
+                                                        <td style="width: 40px;">
+                                                            <obs id="dose_{0}" class="doseInput" conceptId="$qPerDose"/>
+                                                        </td>
+                                                        <td id="asp-rx-dose-unit" style="width: 80px;">
+                                                            <obs id="doseUnit_{0}" class="doseInput select-arrow"
+                                                                 conceptId="$dosingUnit"
+                                                                 answerConceptIds="$milliGram,$milliLiter,$capsule,$tablet"
+                                                                 answerCodes="mg,mL,capsule,tablet"/>
+                                                        </td>
+                                                        <td id="asp-rx-route" style="width: 100px;">
+                                                            <obs id="route_{0}" class="route select-arrow"
+                                                                 conceptId="$routeOfAdmin"
+                                                                 answerConceptIds="$oral,$intravenous"
+                                                                 answerLabels="Oral,IV"/>
+                                                        </td>
+                                                        <td id="asp-rx-frequency" style="width: 100px;">
+                                                            <obs id="frequencyCoded_{0}" class="frequency select-arrow"
+                                                                 conceptId="$drugFrequency"
+                                                                 answerConceptIds=
+                                                                         "PIH Malawi:3321,PIH Malawi:3322,PIH Malawi:3323,PIH Malawi:6100,PIH Malawi:1619,PIH:PRN,PIH Malawi:6408"
+                                                                 answerCodes="OD,BID,TID,QID,STAT,PRN,other"/>
+                                                        </td>
+                                                        <td id="asp-rx-duration" style="width: 60px;">
+                                                            <obs id="duration_{0}" class="duration doseInput" conceptId="$medicationDuration"/>
+                                                        </td>
+                                                        <td id="asp-rx-duration-unit" style="width: 180px;">
+                                                            <obs id="durationUnit_{0}" class="duration-unit select-arrow"
+                                                                 conceptId="$timeUnits"
+                                                                 answerConceptIds="PIH:Hours,PIH Malawi:1072,PIH Malawi:1073,PIH Malawi:1074"/>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </obsgroup>
+                        </repeat>
                     </table>
                 </td>
             </tr>
