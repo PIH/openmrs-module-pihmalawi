@@ -39,7 +39,6 @@ CREATE TEMPORARY TABLE pepfar_cohort_disaggregated(
               17A int,
               0P int,
               2P int,
-              4P int,
               4PP int,
               4PA int,
               9P int,
@@ -55,7 +54,6 @@ CREATE TEMPORARY TABLE pepfar_cohort_disaggregated(
               15PP int,
               15PA int,
               16P int,
-              17P int,
               17PP int,
               17PA int,
               non_standard int
@@ -65,7 +63,7 @@ call create_pepfar_cohort_disaggregated(@startDate,@endDate,@location,@defaultCu
 call create_pepfar_cohort_disaggregated_male_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider);
 call create_pepfar_cohort_disaggregated_female_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Patient Pregnant","FP");
 call create_pepfar_fnp_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FNP");
-call create_pepfar_cohort_disaggregated_female_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Currently breastfeeding child","Fbf");
+call create_pepfar_cohort_disaggregated_female_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Currently breastfeeding child","FBF");
 
 select * from pepfar_cohort_disaggregated;
 
