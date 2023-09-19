@@ -1,6 +1,6 @@
 <htmlform
         formUuid="5e3363e6-594e-4b03-98c6-152616b955b1"
-        formName="Cardiac and Vascular Disease Annual Laboratory Tests"
+        formName="Cardiac and Vascular Disease Frequency Per Protocol Laboratory Tests"
         formEncounterType="dbab9217-29ec-477d-8d11-161cd4fd2b34"
         formVersion="3.0">
 
@@ -30,7 +30,7 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="6">Screening (Frequency per protocol)</th>
+                    <th colspan="7">Screening (Frequency per protocol)</th>
                 </tr>
                 <tr>
                     <th>Date</th>
