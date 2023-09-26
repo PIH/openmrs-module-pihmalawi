@@ -106,13 +106,13 @@
 <ifMode mode="VIEW" include="false">
     <div class="section-container">
         <h4 style="font-style: italic;">
-            <b>Nutrition Card</b>
+            <b>Nutrition Card for Pregnant Teens</b>
             <span style="padding-left:50px;">Version 1</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Nutrition no: </b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Nutrition Program Number&quot;) ) $!id #end" />
                 </b>
             </span>
         </h4>
@@ -170,6 +170,13 @@
                     <obsgroup groupingConceptId="$typeOfFeedSet">
                         <obs conceptId="$beansReceived"/>
                     </obsgroup>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Next appointment</th>
+                <td>
+                    <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                 </td>
             </tr>
 

@@ -92,7 +92,7 @@
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Nutrition no: </b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Nutrition Program Number&quot;) ) $!id #end" />
                 </b>
             </span>
         </h4>

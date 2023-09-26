@@ -87,7 +87,7 @@
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Nutrition no: </b>
                 <b>
-                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PDC Identifier&quot;) ) $!id #end" />
+                    <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Nutrition Program Number&quot;) ) $!id #end" />
                 </b>
             </span>
         </h4>
@@ -132,8 +132,9 @@
                     <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
                 </td>
             </tr>
-            <th>Ration (Warehouse signature)</th>
+
             <tr>
+                <th>Ration (Warehouse signature)</th>
                 <td style="padding: 1px;">
                     <obs conceptId="$givenName" style="textarea" size="20"/>
                 </td>
