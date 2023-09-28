@@ -78,7 +78,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Screening Every 12 Months</b>
+            <b>Screening (Frequency per protocol)</b>
             <span style="padding-left:50px;">Version 3</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">

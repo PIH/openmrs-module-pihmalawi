@@ -11,7 +11,7 @@
     <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     <macro key="maizeReceived" value="655bccf0-977f-11e1-8993-905e29aff6c1"/>
     <macro key="beansReceived" value="655bcdf4-977f-11e1-8993-905e29aff6c1"/>
-    <macro key="oilGiven" value="656fbc24-977f-11e1-8993-905e29aff6c1"/>
+    <macro key="oilGiven" value="655bcf02-977f-11e1-8993-905e29aff6c1"/>
     <macro key="typeOfFeedSet" value="38725750-df54-477a-a9b0-42527f94b709"/>
     <macro key="givenName" value="6570f9ea-977f-11e1-8993-905e29aff6c1"/>
     <macro key="clinicalImpressions" value="655928e2-977f-11e1-8993-905e29aff6c1"/>
@@ -61,11 +61,7 @@
 
                 <td style="padding: 1px;">
                     <!-- food - oil -->
-                    <obsgroup groupingConceptId="$typeOfFeedSet">
-                        <obs conceptId="$oilGiven"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </obsgroup>
+                        <obs conceptId="$oilGiven"/>
                 </td>
 
                 <td style="padding: 1px;">
@@ -149,11 +145,7 @@
             <tr>
                 <th>Oil (litres)</th>
                 <td style="padding: 1px;">
-                    <obsgroup groupingConceptId="$typeOfFeedSet">
-                        <obs conceptId="$oilGiven"
-                             answerConceptIds="$yesAnswer,$noAnswer"
-                             answerLabels="Yes,No" style="radio" />
-                    </obsgroup>
+                    <obs conceptId="$oilGiven"/>
                 </td>
             </tr>
             <tr>
