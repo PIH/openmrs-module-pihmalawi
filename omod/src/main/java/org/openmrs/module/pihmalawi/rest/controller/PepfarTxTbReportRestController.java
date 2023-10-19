@@ -1,6 +1,6 @@
 package org.openmrs.module.pihmalawi.rest.controller;
 
-import org.openmrs.module.pihmalawi.reporting.reports.PepfarTbPrevReport;
+import org.openmrs.module.pihmalawi.reporting.reports.PepfarTxTbReport;
 import org.openmrs.module.pihmalawi.validator.DateValidator;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.module.reporting.dataset.DataSet;
@@ -37,7 +37,7 @@ public class PepfarTxTbReportRestController {
     public static final String REPORT = "/report/pepfar-tx-tb";
 
     @Autowired
-    PepfarTbPrevReport pepfarTbPrevReport;
+    PepfarTxTbReport pepfarTxTbReport;
 
     @Autowired
     ReportDefinitionService reportDefinitionService;
@@ -55,10 +55,10 @@ public class PepfarTxTbReportRestController {
                 return new ResponseEntity<SimpleObject>(message, HttpStatus.BAD_REQUEST);
 
             }
-            ReportManagerUtil.setupReport(pepfarTbPrevReport);
+            ReportManagerUtil.setupReport(pepfarTxTbReport);
             ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
             ReportUtil.updateGlobalProperty(ReportingConstants.DEFAULT_LOCALE_GP_NAME, "en");
-            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(pepfarTbPrevReport.getUuid());
+            ReportDefinition rd = reportDefinitionService.getDefinitionByUuid(pepfarTxTbReport.getUuid());
             EvaluationContext context = new EvaluationContext();
 
             context.addParameterValue("endDate", endDate);
