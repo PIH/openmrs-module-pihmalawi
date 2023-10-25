@@ -32,7 +32,7 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -97,6 +97,12 @@ public class NutritionConcepts extends VersionedPihConceptBundle {
                 .name("df755ee5-1410-4243-b0e8-0a3e4e03ec3b", "Multiple Births",
                         Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes,no)
+                .build());
+
+        Concept lknphl=install(new ConceptBuilder("496c382a-5c92-4f31-8f87-2507f8b749fc")
+                .datatype(numeric)
+                .conceptClass(question)
+                .name("64da387c-875b-4b2e-8169-2d4a9ccaf1cc","Likuni Phala (Kgs)",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
