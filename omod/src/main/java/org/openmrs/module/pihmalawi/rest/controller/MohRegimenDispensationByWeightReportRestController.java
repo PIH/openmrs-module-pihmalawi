@@ -87,9 +87,7 @@ public class MohRegimenDispensationByWeightReportRestController {
                 reportDetails.add("weightGroup",r.getColumnValue("weight_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
                 reportDetails.add("0A",r.getColumnValue("0A"));
-                reportDetails.add("1A",r.getColumnValue("1A"));
                 reportDetails.add("2A",r.getColumnValue("2A"));
-                reportDetails.add("3A",r.getColumnValue("3A"));
                 reportDetails.add("4A",r.getColumnValue("4A"));
                 reportDetails.add("5A",r.getColumnValue("5A"));
                 reportDetails.add("6A",r.getColumnValue("6A"));
@@ -105,10 +103,7 @@ public class MohRegimenDispensationByWeightReportRestController {
                 reportDetails.add("16A",r.getColumnValue("16A"));
                 reportDetails.add("17A",r.getColumnValue("17A"));
                 reportDetails.add("0P",r.getColumnValue("0P"));
-                reportDetails.add("1P",r.getColumnValue("1P"));
                 reportDetails.add("2P",r.getColumnValue("2P"));
-                reportDetails.add("3P",r.getColumnValue("3P"));
-                reportDetails.add("4P",r.getColumnValue("4P"));
                 reportDetails.add("4PP",r.getColumnValue("4PP"));
                 reportDetails.add("4PA",r.getColumnValue("4PA"));
                 reportDetails.add("9P",r.getColumnValue("9P"));
@@ -123,11 +118,9 @@ public class MohRegimenDispensationByWeightReportRestController {
                 reportDetails.add("14P",r.getColumnValue("14P"));
                 reportDetails.add("14PP",r.getColumnValue("14PP"));
                 reportDetails.add("14PA",r.getColumnValue("14PA"));
-                reportDetails.add("15P",r.getColumnValue("15P"));
                 reportDetails.add("15PP",r.getColumnValue("15PP"));
                 reportDetails.add("15PA",r.getColumnValue("15PA"));
                 reportDetails.add("16P",r.getColumnValue("16P"));
-                reportDetails.add("17P",r.getColumnValue("17P"));
                 reportDetails.add("17PP",r.getColumnValue("17PP"));
                 reportDetails.add("17PA",r.getColumnValue("17PA"));
                 reportDetails.add("nonStandard",r.getColumnValue("non_standard"));

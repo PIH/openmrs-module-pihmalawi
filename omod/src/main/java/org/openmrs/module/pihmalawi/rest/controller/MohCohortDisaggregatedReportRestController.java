@@ -118,7 +118,6 @@ public class MohCohortDisaggregatedReportRestController {
                 reportDetails.add("17A",r.getColumnValue("17A"));
                 reportDetails.add("0P",r.getColumnValue("0P"));
                 reportDetails.add("2P",r.getColumnValue("2P"));
-                reportDetails.add("4P",r.getColumnValue("4P"));
                 reportDetails.add("4PP",r.getColumnValue("4PP"));
                 reportDetails.add("4PA",r.getColumnValue("4PA"));
                 reportDetails.add("9P",r.getColumnValue("9P"));
@@ -135,7 +134,6 @@ public class MohCohortDisaggregatedReportRestController {
                 reportDetails.add("15PP",r.getColumnValue("15PP"));
                 reportDetails.add("15PA",r.getColumnValue("15PA"));
                 reportDetails.add("16P",r.getColumnValue("16P"));
-                reportDetails.add("17P",r.getColumnValue("17P"));
                 reportDetails.add("17PP",r.getColumnValue("17PP"));
                 reportDetails.add("17PA",r.getColumnValue("17PA"));
                 reportDetails.add("nonStandard",r.getColumnValue("non_standard"));
