@@ -96,10 +96,7 @@ public class MohCohortDisaggregatedReportRestController {
                 reportDetails.add("sortValue",r.getColumnValue("sort_value"));
                 reportDetails.add("ageGroup",r.getColumnValue("age_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
-                reportDetails.add("txNew",r.getColumnValue("tx_new"));
                 reportDetails.add("txCurr",r.getColumnValue("tx_curr"));
-                reportDetails.add("txCurrIpt",r.getColumnValue("tx_curr_ipt"));
-                reportDetails.add("txCurrScreenedTb",r.getColumnValue("tx_curr_screened_tb"));
                 reportDetails.add("0A",r.getColumnValue("0A"));
                 reportDetails.add("2A",r.getColumnValue("2A"));
                 reportDetails.add("4A",r.getColumnValue("4A"));
