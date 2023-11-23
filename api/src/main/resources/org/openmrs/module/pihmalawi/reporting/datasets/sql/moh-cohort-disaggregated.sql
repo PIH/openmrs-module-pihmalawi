@@ -11,6 +11,7 @@ are considered to be defaulters
 /* 30 for age in months*/
 SET @birthDateDivider = 30;
 SET @defaultCutOff = 60;
+SET @ageGroup = "FNP";
 
 DROP TEMPORARY TABLE IF EXISTS moh_cohort_disaggregated;
      CREATE TEMPORARY TABLE moh_cohort_disaggregated(
@@ -57,9 +58,9 @@ DROP TEMPORARY TABLE IF EXISTS moh_cohort_disaggregated;
      );
 
 call create_moh_cohort_disaggregated(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider);
-call create_moh_male_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider);
-call create_moh_female_maternal_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Patient Pregnant","FP");
-call create_moh_fnp_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FNP");
-call create_moh_female_maternal_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Currently breastfeeding child","FBF");
+call create_moh_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Male");
+call create_moh_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FP");
+call create_moh_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FNP");
+call create_moh_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FBF");
 
 select * from moh_cohort_disaggregated;

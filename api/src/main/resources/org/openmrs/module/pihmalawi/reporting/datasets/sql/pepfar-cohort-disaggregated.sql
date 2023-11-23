@@ -11,6 +11,7 @@ are considered to be defaulters
 /* 30 for age in months*/
 SET @birthDateDivider = 30;
 SET @defaultCutOff = 30;
+SET @ageGroup = "FNP";
 
 DROP TEMPORARY TABLE IF EXISTS pepfar_cohort_disaggregated;
 CREATE TEMPORARY TABLE pepfar_cohort_disaggregated(
@@ -57,10 +58,10 @@ CREATE TEMPORARY TABLE pepfar_cohort_disaggregated(
 );
 
 call create_pepfar_cohort_disaggregated(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider);
-call create_pepfar_cohort_disaggregated_male_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider);
-call create_pepfar_cohort_disaggregated_female_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Patient Pregnant","FP");
-call create_pepfar_fnp_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FNP");
-call create_pepfar_cohort_disaggregated_female_aggregation(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Currently breastfeeding child","FBF");
+call create_pepfar_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"Male");
+call create_pepfar_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FP");
+call create_pepfar_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FNP");
+call create_pepfar_cohort_disaggregated_generic(@startDate,@endDate,@location,@defaultCutOff,@birthDateDivider,"FBF");
 
 select * from pepfar_cohort_disaggregated;
 
