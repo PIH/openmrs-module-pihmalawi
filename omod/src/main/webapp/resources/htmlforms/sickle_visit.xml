@@ -204,7 +204,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Chronic Kidney Disease Patient Card</b>
+            <b>Sickle Cell Disease Patient Card</b>
             <span style="padding-left:50px;">Version 1</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
@@ -262,7 +262,7 @@
                 <th>Heart Rate</th>
                 <td><obs conceptId="$heartRate" showUnits="true" /></td>
             </tr>
-            
+
             <tr>
                 <th>Next appointment</th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
