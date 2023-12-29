@@ -155,8 +155,10 @@ public class HtmlFormInitializer implements Initializer {
 				"pihmalawi:htmlforms/nutrition_pdc_mastercard.xml",
 				"pihmalawi:htmlforms/nutrition_pdc_visit.xml",
 				"pihmalawi:htmlforms/nutrition_pregnant_teens_mastercard.xml",
-				"pihmalawi:htmlforms/nutrition_pregnant_teens_visit.xml"
-		);
+				"pihmalawi:htmlforms/nutrition_pregnant_teens_visit.xml",
+				"pihmalawi:htmlforms/sickle_mastercard.xml",
+				"pihmalawi:htmlforms/sickle_visit.xml"
+				);
 
 
         if (uiHtmlForms != null) {

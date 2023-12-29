@@ -129,6 +129,10 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.TEEN_CLUB_INITIAL);
         install(EncounterTypes.TEEN_CLUB_FOLLOWUP);
 
+        //Sickle cell disease
+        install(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL);
+        install(EncounterTypes.SICKLE_CELL_DISEASE_FOLLOWUP);
+
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

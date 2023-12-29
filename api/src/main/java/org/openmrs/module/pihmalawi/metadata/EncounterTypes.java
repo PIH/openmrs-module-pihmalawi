@@ -542,4 +542,16 @@ public class EncounterTypes {
 
         public String description() {return "followup PDC Nutrition encounter";}
     };
+
+    public static EncounterTypeDescriptor SICKLE_CELL_DISEASE_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "56C2D952-DB11-4B47-B248-79C1B2A88E88"; }
+        public String name() { return "SICKLE_CELL_DISEASE_INITIAL"; }
+        public String description() { return "Initial sickle cell disease encounter"; }
+    };
+
+    public static EncounterTypeDescriptor SICKLE_CELL_DISEASE_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "D4073EB7-60B1-4586-B062-13FCE4CBC9E8"; }
+        public String name() { return "SICKLE_CELL_DISEASE_FOLLOWUP"; }
+        public String description() { return "Followup visit encounter for sickle cell disease"; }
+    };
 }
