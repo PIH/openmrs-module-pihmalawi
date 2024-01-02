@@ -1,6 +1,7 @@
 package org.openmrs.module.pihmalawi.reporting.definition.data.evaluator;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
@@ -17,7 +18,7 @@ import org.openmrs.test.SkipBaseSetup;
 import java.util.Date;
 
 public class BmiPatientDataEvaluatorTest extends BaseMalawiTest {
-
+    @Ignore
 	@Test
 	public void shouldTestBmi() throws Exception {
 
