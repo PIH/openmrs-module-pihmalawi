@@ -208,7 +208,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		headerForms.put(EncounterTypes.NUTRITION_ADULTS_INITIAL.name(),"nutrition_adults_mastercard");
 		headerForms.put(EncounterTypes.NUTRITION_INFANT_INITIAL.name(),"nutrition_infant_mastercard");
 		headerForms.put(EncounterTypes.NUTRITION_PDC_INITIAL.name(),"nutrition_pdc_mastercard");
-		headerForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(), "sickle_mastercard");
+		headerForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(), "sickle_cell_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
         flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
@@ -233,7 +233,12 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		flowsheetForms.put(EncounterTypes.NUTRITION_ADULTS_INITIAL.name(),Arrays.asList("nutrition_adults_visit"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_INFANT_INITIAL.name(),Arrays.asList("nutrition_infant_visit"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_PDC_INITIAL.name(),Arrays.asList("nutrition_pdc_visit"));
-		flowsheetForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(), Arrays.asList("sickle_visit"));
+		flowsheetForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(),
+				Arrays.asList(
+						"sickle_cell_quarterly_screening",
+						"sickle_cell_annual_screening",
+						"sickle_cell_history_of_hospitalizations",
+						"sickle_cell_visit"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization

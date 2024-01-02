@@ -554,4 +554,21 @@ public class EncounterTypes {
         public String name() { return "SICKLE_CELL_DISEASE_FOLLOWUP"; }
         public String description() { return "Followup visit encounter for sickle cell disease"; }
     };
+
+    public static EncounterTypeDescriptor SICKLE_CELL_QUARTERLY_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "119A7061-ABC7-4759-88BF-086ADC8EBB80"; }
+        public String name() { return "SICKLE_CELL_QUARTERLY_SCREENING"; }
+        public String description() { return "Quarterly screening for sickle cell disease"; }
+    };
+
+    public static EncounterTypeDescriptor SICKLE_CELL_ANNUAL_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() { return "0C0CFAD6-0F92-4B19-8B6A-675005BE7F86"; }
+        public String name() { return "SICKLE_CELL_ANNUAL_SCREENING"; }
+        public String description() { return "Annual screening for sickle cell disease"; }
+    };
+    public static EncounterTypeDescriptor SICKLE_CELL_HOSPITALIZATIONS = new EncounterTypeDescriptor() {
+        public String uuid() { return "AD864EB5-7042-4080-AE81-E0A4CF8CED43"; }
+        public String name() { return "SICKLE_CELL_HOSPITALIZATIONS"; }
+        public String description() { return "Hospitalizations for patients with sickle cell disease"; }
+    };
 }
