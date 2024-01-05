@@ -21,6 +21,26 @@
 		<sqlFile endDelimiter="#" path="sqlReportingHelperFunctions/ic3RegisterSqlProcedures.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20240105-add-authentication-event-log" author="mseaton">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="authentication_event_log"/></not>
+		</preConditions>
+		<createTable tableName="authentication_event_log">
+			<column name="login_id" type="char(36)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="event_datetime" type="datetime">
+				<constraints nullable="false"/>
+			</column>
+			<column name="ip_address" type="varchar(40)"/>
+			<column name="http_session_id" type="varchar(32)"/>
+			<column name="event_type" type="varchar(50)"/>
+			<column name="username" type="varchar(50)"/>
+			<column name="user_id" type="int"/>
+			<column name="scheme_id" type="varchar(50)"/>
+		</createTable>
+	</changeSet>
+
 	<changeSet id="20221026-01" author="cioan">
 		<preConditions onFail="CONTINUE" onFailMessage="Failed to migrate HTN chronic care past medical history and complications obs">
 			<and>

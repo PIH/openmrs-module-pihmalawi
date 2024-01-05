@@ -1,0 +1,15 @@
+key: "userRoles"
+uuid: "fc0e29e9-7ef4-11ec-ad73-0242ac110002"
+name: "User Roles"
+description: "An export of all assigned user roles in the system"
+datasets:
+  - key: "userRoles"
+    type: "sql"
+    config: "sql/user_roles.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "userRoles.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"

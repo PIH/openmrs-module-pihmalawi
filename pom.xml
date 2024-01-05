@@ -52,7 +52,7 @@
         <htmlformentryuiVersion>2.3.0</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.11.0</htmlwidgetsVersion>
         <idgenVersion>4.9.0</idgenVersion>
-		<initializerVersion>2.5.2</initializerVersion>
+		<initializerVersion>2.7.0-SNAPSHOT</initializerVersion>
         <legacyuiVersion>1.15.0</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.6.0</metadatamappingVersion>
@@ -63,7 +63,7 @@
         <registrationappVersion>1.25.0</registrationappVersion>
         <registrationcoreVersion>1.11.0</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.0.9</reportingcompatibilityVersion>
-        <reportingVersion>1.25.0</reportingVersion>
+        <reportingVersion>1.26.0</reportingVersion>
         <reportingrestVersion>1.13.0</reportingrestVersion>
         <reportinguiVersion>1.11.0</reportinguiVersion>
         <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
