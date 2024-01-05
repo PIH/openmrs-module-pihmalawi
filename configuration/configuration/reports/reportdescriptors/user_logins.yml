@@ -1,0 +1,24 @@
+key: "userLogins"
+uuid: "fc1a29e9-8ef4-12ec-bd73-0242ac110012"
+name: "User Logins"
+description: "A list of all user logins in the system"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "Start Date"
+    required: false
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "End Date"
+    required: false
+datasets:
+  - key: "userLogins"
+    type: "sql"
+    config: "sql/user_logins.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "userLogins.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"

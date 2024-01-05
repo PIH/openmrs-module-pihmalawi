@@ -24,8 +24,8 @@ import org.openmrs.module.appframework.repository.AllFreeStandingExtensions;
 import org.openmrs.module.appui.AppUiExtensions;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningDataLoader;
 import org.openmrs.module.pihmalawi.setup.CloseStaleVisitsSetup;
-import org.openmrs.module.pihmalawi.setup.MigrateViralLoadAndEIDTestResultsSetup;
 import org.openmrs.module.reporting.common.ObjectUtil;
+import org.openmrs.module.reporting.config.ReportLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,8 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		for (Initializer initializer : getInitializers()) {
 			initializer.started();
 		}
-
+        ReportLoader.loadReportsFromConfig();
+        log.warn("Reports loaded from configuration");
 		// New bug/feature in Chrome/IE/Safari causes system to log out user with default logo link url.  Update this here.
         List<AllFreeStandingExtensions> l = Context.getRegisteredComponents(AllFreeStandingExtensions.class);
         if (l != null && l.size() > 0) {

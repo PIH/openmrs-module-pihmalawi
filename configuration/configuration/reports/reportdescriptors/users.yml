@@ -1,0 +1,15 @@
+key: "users"
+uuid: "e4d1d6b0-642d-11e3-949a-0800200c9a66"
+name: "Users Data"
+description: "A list of all users in the system"
+datasets:
+  - key: "users"
+    type: "sql"
+    config: "sql/users.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "usersdateexport.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
