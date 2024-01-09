@@ -1,6 +1,8 @@
 package org.openmrs.module.pihmalawi.metadata;
 
 
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.Program;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
@@ -79,4 +81,11 @@ public class PalliativeCareMetadata extends CommonMetadata{
         }
     };
 
+    public Program getPalliativeCareProgram() {
+        return getProgram(PALLIATIVE_CARE_PROGRAM.name());
+    }
+
+    public PatientIdentifierType getPalliativeCareNumber() {
+        return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.PALLIATIVE_CARE_NUMBER.name());
+    }
 }

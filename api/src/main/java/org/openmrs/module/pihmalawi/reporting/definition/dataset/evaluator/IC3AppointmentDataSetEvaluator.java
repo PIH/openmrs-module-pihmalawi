@@ -98,6 +98,8 @@ public class IC3AppointmentDataSetEvaluator implements DataSetEvaluator {
 				addColumnValue(ret, pId, "eid_number", patData, "hcc_number");
 				addColumnValue(ret, pId, "art_number", patData);
 				addColumnValue(ret, pId, "ncd_number", patData);
+				addColumnValue(ret, pId, "pc_number", patData);
+				addColumnValue(ret, pId, "pdc_number", patData);
 				addColumnValue(ret, pId, "ic3d_number", patData);
 				addColumnValue(ret, pId, "last_visit_date", patData);
 				addColumnValue(ret, pId, "last_appt_date", patData);

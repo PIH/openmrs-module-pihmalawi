@@ -17,6 +17,8 @@ import org.openmrs.User;
 import org.openmrs.api.FormService;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
+import org.openmrs.module.pihmalawi.metadata.PalliativeCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.PdcMetadata;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.DateObsCohortDefinition;
@@ -56,6 +58,11 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
 
     @Autowired
     ChronicCareMetadata ccMetadata;
+    @Autowired
+    PalliativeCareMetadata palliativeCareMetadata;
+
+    @Autowired
+    PdcMetadata pdcMetadata;
 
     @Override
     public Class<? super CohortDefinition> getDefinitionType() {
@@ -138,6 +145,8 @@ public class BaseCohortDefinitionLibrary extends BaseDefinitionLibrary<CohortDef
         cd.addParameter(new Parameter("locations", "Locations", List.class));
         cd.addProgram(hivMetadata.getHivProgram());
         cd.addProgram(ccMetadata.getChronicCareProgram());
+        cd.addProgram(palliativeCareMetadata.getPalliativeCareProgram());
+        cd.addProgram(pdcMetadata.getPdcProgram());
         return df.convert(cd, ObjectUtil.toMap("onDate=endDate,locations=location"));
     }
 }

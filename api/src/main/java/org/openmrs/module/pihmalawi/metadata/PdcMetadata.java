@@ -1,5 +1,7 @@
 package org.openmrs.module.pihmalawi.metadata;
 
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.Program;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
@@ -101,4 +103,12 @@ public class PdcMetadata extends CommonMetadata{
         public Boolean terminal() { return true; }
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT; }
     };
+
+    public Program getPdcProgram() {
+        return getProgram(PDC_PROGRAM.name());
+    }
+
+    public PatientIdentifierType getPdcCareNumber() {
+        return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.PDC_IDENTIFIER.name());
+    }
 }

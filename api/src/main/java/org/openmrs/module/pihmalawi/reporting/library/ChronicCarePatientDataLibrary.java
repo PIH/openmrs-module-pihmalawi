@@ -20,6 +20,8 @@ import org.openmrs.PatientState;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.PalliativeCareMetadata;
+import org.openmrs.module.pihmalawi.metadata.PdcMetadata;
 import org.openmrs.module.pihmalawi.metadata.group.ChronicCareTreatmentGroup;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.EarliestCodedValueConverter;
 import org.openmrs.module.pihmalawi.reporting.definition.data.converter.PatientIdentifierConverter;
@@ -46,6 +48,12 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
 	@Autowired
 	private ChronicCareMetadata metadata;
 
+	@Autowired
+	private PalliativeCareMetadata palliativeCareMetadata;
+
+	@Autowired
+	private PdcMetadata pdcMetadata;
+
     @Autowired
     private ChronicCareTreatmentGroup treatmentGroup;
 
@@ -71,6 +79,20 @@ public class ChronicCarePatientDataLibrary extends BaseDefinitionLibrary<Patient
         PatientIdentifierType pit = metadata.getChronicCareNumber();
         return df.getAllIdentifiersOfType(pit, df.getIdentifierCollectionConverter());
     }
+
+	@DocumentedDefinition("palliativeCareNumberAtLocation")
+	public PatientDataDefinition getPalliativeCareNumberAtLocation() {
+		PatientIdentifierType pit = palliativeCareMetadata.getPalliativeCareNumber();
+		Program program = palliativeCareMetadata.getPalliativeCareProgram();
+		return df.getPreferredProgramIdentifierAtLocation(pit, program, new PatientIdentifierConverter());
+	}
+
+	@DocumentedDefinition("pdcCareNumberAtLocation")
+	public PatientDataDefinition getPdcCareNumberAtLocation() {
+		PatientIdentifierType pit = pdcMetadata.getPdcCareNumber();
+		Program program = pdcMetadata.getPdcProgram();
+		return df.getPreferredProgramIdentifierAtLocation(pit, program, new PatientIdentifierConverter());
+	}
 
 	@DocumentedDefinition("latestNcdTreatmentStatusState")
 	public PatientDataDefinition getMostRecentNcdTreatmentStatusStateByEndDate() {
