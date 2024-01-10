@@ -19,6 +19,13 @@ SELECT
     ops.location AS location,
     patient_teen_visit.last_appt_date AS last_appt_date,
     patient_visit.art_regimen AS current_regimen,
+    CASE
+        WHEN ldl IS NOT NULL THEN 'LDL'
+        WHEN other_results IS NOT NULL THEN other_results
+        WHEN viral_load_result IS NOT NULL THEN viral_load_result
+        WHEN less_than_limit IS NOT NULL THEN less_than_limit
+    END AS result,
+    test_date,
     patient_initial_visit.initial_visit_date AS date_initiated_in_art,
     FLOOR((DATEDIFF(@endDate, ops.start_date) / 30)) AS duration_in_teen_club
 FROM
@@ -84,6 +91,25 @@ FROM
         AND opi.location = ops.location
         JOIN
     lookup_location AS l ON ops.location = l.target_value
+        LEFT JOIN
+    (SELECT
+        avl1.patient_id,
+            visit_date AS test_date,
+            lab_location,
+            viral_load_result,
+            less_than_limit,
+            ldl,
+            other_results
+    FROM
+        mw_art_viral_load avl1
+    JOIN (SELECT
+        patient_id, MAX(visit_date) AS test_date
+    FROM
+        mw_art_viral_load
+    WHERE
+        visit_date <= @endDate
+    GROUP BY patient_id) avl2 ON avl1.patient_id = avl2.patient_id
+        AND avl1.visit_date = avl2.test_date) avl ON avl.patient_id = lfo.pat
 WHERE
     opi.type = 'ARV Number'
         AND ops.program = 'Teen club program'
