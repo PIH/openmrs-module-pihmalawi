@@ -117,11 +117,9 @@ public class PepfarCohortDisaggregatedReportRestController {
                 reportDetails.add("2P",r.getColumnValue("2P"));
                 reportDetails.add("4PP",r.getColumnValue("4PP"));
                 reportDetails.add("4PA",r.getColumnValue("4PA"));
-                reportDetails.add("9P",r.getColumnValue("9P"));
                 reportDetails.add("9PP",r.getColumnValue("9PP"));
                 reportDetails.add("9PA",r.getColumnValue("9PA"));
                 reportDetails.add("9PP",r.getColumnValue("9PP"));
-                reportDetails.add("11P",r.getColumnValue("11P"));
                 reportDetails.add("11PP",r.getColumnValue("11PP"));
                 reportDetails.add("11PA",r.getColumnValue("11PA"));
                 reportDetails.add("12PP",r.getColumnValue("12PP"));
