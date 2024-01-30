@@ -7,48 +7,41 @@
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
-        <macro key="diagnosisSet" value="6db168f1-0f38-42d9-9f0e-90946a3d8e72" />
-        <macro key="chronicCareDiagnosis" value="65671c9a-977f-11e1-8993-905e29aff6c1" />
         <macro key="diagnosisDate" value="65732bf2-977f-11e1-8993-905e29aff6c1" />
-        <macro key="hivStatus" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
+        <macro key="hvStts" value="6567ae62-977f-11e1-8993-905e29aff6c1" />
         <macro key="reactive" value="65587802-977f-11e1-8993-905e29aff6c1" />
         <macro key="nonReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
-        <macro key="hivTestDate" value="655bc9da-977f-11e1-8993-905e29aff6c1" />
-        <macro key="artStartDate" value="655f9eb6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="startArtDate" value="655f9eb6-977f-11e1-8993-905e29aff6c1" />
+        <!-- HIv test date -->
+        <macro key="dateOfHst" value="655bc9da-977f-11e1-8993-905e29aff6c1"/>
 
-        <macro key="historyOfDialysis" value="8dcb0708-feb4-44e8-bdb8-ed90be94c4d0" />
-        <macro key="dateOfDialysis" value="3b55eeb2-d56a-4aab-b5bf-f00668feee75" />
+        <macro key="microscopy" value="d91e1b96-c342-4d0a-9e4c-91226987e22b"/>
+        <macro key="mcrscpyDate" value="a90b4936-1d2d-464e-a1d4-aed11c822956"/>
 
-        <macro key="tbStatus" value="65770db2-977f-11e1-8993-905e29aff6c1" />
-        <macro key="smearPos" value="655ddc20-977f-11e1-8993-905e29aff6c1" />
-        <macro key="smearNeg" value="655ddd24-977f-11e1-8993-905e29aff6c1" />
-        <macro key="eptb" value="655a49ac-977f-11e1-8993-905e29aff6c1" />
-        <macro key="tbDate" value="655dd8d8-977f-11e1-8993-905e29aff6c1" />
+        <macro key="testRapd" value="cfccd5fb-f9dd-48b6-ab0c-c4ee78b4341d"/>
+        <macro key="rpdTstDate" value="84d09dae-f6a8-4117-adae-4fb3b0c1d352"/>
+        <!-- HB electrophoresis -->
+        <macro key="hbTt" value="fe8ce76a-021b-4ffa-a993-4362734be411"/>
+        <macro key="dtOfelctrph" value="2f7d5eef-9857-4f61-98af-1a928d2586d5"/>
+
+
+        <macro key="parent" value="adfee692-442e-4e36-8fac-b6ca4249c6b8"/>
+        <macro key="sibling" value="76bfbe9a-9f7c-44aa-85af-d2d5f08e4baa"/>
+        <macro key="reasonsForReferralSet" value="7a37ec7b-2804-46c8-be48-4707959192be" />
+        <macro key="reasonForReferral" value="98b17e13-659f-41e7-8459-b370fdbffe0f"/>
+        <macro key="inPatient" value="7602D441-4A44-41A9-AA49-A59853AEDC65"/>
+        <macro key="icThree" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739"/>
+        <macro key="opd" value="6578c9f4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="reasonOthr" value="655fa9e2-977f-11e1-8993-905e29aff6c1"/>
+
+
         <macro key="patientPhone" value="6559ba14-977f-11e1-8993-905e29aff6c1" />
         <macro key="guardianName" value="655bbc74-977f-11e1-8993-905e29aff6c1" />
         <macro key="guardianPhone" value="65600cd4-977f-11e1-8993-905e29aff6c1" />
         <macro key="relationToPatient" value="6558fd0e-977f-11e1-8993-905e29aff6c1" />
         <macro key="agreesToFollowup" value="655fc526-977f-11e1-8993-905e29aff6c1" />
         <macro key="chwName" value="941bc17e-8c33-11e5-80a3-c0430f805837" />
-        <macro key="chfDX" value="6566257e-977f-11e1-8993-905e29aff6c1" />
-        <macro key="hypertensionDx" value="654abfc8-977f-11e1-8993-905e29aff6c1" />
-        <macro key="diabetesDx" value="6567426a-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdDX" value="6577c7a2-977f-11e1-8993-905e29aff6c1" />
-        <macro key="otherDx" value="656cce7e-977f-11e1-8993-905e29aff6c1" />
-        <macro key="familyPlanning" value="6547ac8e-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ecgSet" value="656598f2-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ecgResult" value="656597e4-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoSet" value="6563e3ea-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoResult" value="6567b970-977f-11e1-8993-905e29aff6c1" />
-        <macro key="echoImagingResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
-        <macro key="echoEcgDate" value="6563e098-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdEtiology" value="9868d4ee-3325-49a7-9eee-ebb8416e2728" />
-        <macro key="ckdEtiHIV" value="654a9598-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdEtiNephro" value="65696f40-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdEtiOther" value="657140f8-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdOtherEti" value="65780d0c-977f-11e1-8993-905e29aff6c1" />
-        <macro key="ckdDrugsEti" value="0754f2f8-d797-11e8-9f8b-f2801f1b9fd1" />
-        <macro key="ckdEtiUknown" value="6577bb7c-977f-11e1-8993-905e29aff6c1" />
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
@@ -159,9 +152,159 @@
                         </tr>
                     </table>
                 </td>
+
                 <td style="vertical-align:top;">
                     <h5>Patient Overview</h5>
+
+                    <table>
+                        <tr>
+                            <td>
+                                Diagnosis Date:
+                            </td>
+
+                            <td colspan="2"> <obs conceptId="$diagnosisDate"/> </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <b>Diagnostic Tool</b>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Microscopy</td>
+                            <td class="nowrap">
+                                <obs conceptId="$microscopy" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                            </td>
+                            <td>
+                                Date: <obs conceptId="$mcrscpyDate"/>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+                            <td>Rapid Test</td>
+                            <td class="nowrap">
+                                <obs conceptId="$testRapd" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                            </td>
+                            <td>
+                                Date: <obs conceptId="$rpdTstDate"/>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>HB Electrophoresis</td>
+                            <td class="nowrap">
+                                <obs conceptId="$hbTt" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                            </td>
+                            <td>
+                                Date: <obs conceptId="$dtOfelctrph"/>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>HIV History</td>
+                            <td>
+                                <obs conceptId="$hvStts" style="radio" answerConceptIds="$reactive,$nonReactive" answerLabels="R,NR"/>
+                            </td>
+
+                            <td>
+                                ART Start Date: <obs conceptId="$startArtDate"/>
+                            </td>
+
+                        </tr>
+
+
+                            <tr>
+                                <td>
+
+                                </td>
+
+                                    <td colpan="2">
+                                        Date Test: <obs conceptId="$dateOfHst"/>
+                                    </td>
+                            </tr>
+
+
+                    </table>
+
+
                 </td>
+
+
+
+                <td style="vertical-align:top;">
+                    <h5>Family History</h5>
+
+                    <table>
+
+                        <tr colspan="2">
+                            <td>Parent</td>
+                            <td class="nowrap">
+                                <obs conceptId="$parent" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Sibling</td>
+                            <td class="nowrap" colspan="2">
+                                <obs conceptId="$sibling" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colpan="2">
+                                <b>Referral History</b>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colpan="2">
+                                <obsgroup groupingConceptId="$reasonsForReferralSet">
+                                    <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$inPatient" answerLabel="In-Patient" />
+                                </obsgroup>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colpan="2">
+                                <obsgroup groupingConceptId="$reasonsForReferralSet">
+                                    <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$icThree" answerLabel="IC3" />
+                                </obsgroup>
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td colpan="2">
+                                <obsgroup groupingConceptId="$reasonsForReferralSet">
+                                    <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$opd" answerLabel="OPD" />
+                                </obsgroup>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colpan="2">
+                                <obsgroup groupingConceptId="$reasonsForReferralSet">
+                                    <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$reasonOthr" answerLabel="Other" />
+                                    <br />
+                                    <obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                                </obsgroup>
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                </td>
+
+
             </tr>
         </table>
 

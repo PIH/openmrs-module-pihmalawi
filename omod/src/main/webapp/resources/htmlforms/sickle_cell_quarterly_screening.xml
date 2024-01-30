@@ -9,6 +9,9 @@
         <macro key="nReactive" value="6558791a-977f-11e1-8993-905e29aff6c1" />
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
         <macro key="haemoglobin" value="657a745c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="whiteBloodCells" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="erythrocyte" value="65659f28-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="fcb" value="654b7c7e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -23,7 +26,9 @@
                 <tr>
                     <th>Date</th>
                     <th>HIV</th>
-                    <th>HB</th>
+                    <th>FBC</th> <macro key="whiteBloodCells" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="erythrocyte" value="65659f28-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="fcb" value="654b7c7e-977f-11e1-8993-905e29aff6c1"/>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -33,10 +38,11 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <obs conceptId="$hivStatus"/>
+                        <obs conceptId="$hivStatus" style="radio" answerLabels="R,NR,Unknown" answerConceptIds="$reactive,$nReactive,$unknown"/>
                     </td>
+
                     <td>
-                        <obs conceptId="$haemoglobin"/>
+                        <obs conceptId="$fcb" style="radio" answerLabels="Wbc,Plt,Rates" answerConceptIds="$haemoglobin,$whiteBloodCells,$erythrocyte"/>
                     </td>
                 </tr>
             </tbody>
@@ -81,14 +87,14 @@
             <tr>
                 <th>HIV</th>
                 <td class="focus-field">
-                    <obs conceptId="$hivStatus" answerConceptIds="$reactive,$nReactive,$unknown"/>
+                    <obs conceptId="$hivStatus" style="radio" answerLabels="R,NR,Unknown" answerConceptIds="$reactive,$nReactive,$unknown"/>
                 </td>
             </tr>
 
             <tr>
-                <th>HB</th>
-                <td>
-                    <obs conceptId="$haemoglobin" showUnits="true"/>
+                <th>FBC</th>
+                <td class="focus-field">
+                    <obs conceptId="$fcb" style="radio" answerLabels="Wbc,Plt,Rates" answerConceptIds="$haemoglobin,$whiteBloodCells,$erythrocyte"/>
                 </td>
             </tr>
 

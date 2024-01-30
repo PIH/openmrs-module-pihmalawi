@@ -173,7 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 26;
+        return 27;
+        // current version  26
     }
 
     @Override
@@ -1556,6 +1557,92 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(numeric)
                 .conceptClass(question)
                 .name("d3b47ef7-e6eb-4621-bf87-95defc407819", "Oil given to patient(Liters)", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+
+        Concept indirectBilirubin = install(new ConceptNumericBuilder("7aa2e05d-d9f4-49ab-b340-11ebb1f48120")
+                .datatype(numeric)
+                .conceptClass(test)
+                .units("mg/dL")
+                .precise(false)
+                .name("787b7a43-d225-46da-acd9-6809b6b026a2", "In Bili", Locale.ENGLISH, ConceptNameType.SHORT)
+                .name("815a078e-39dd-4f6f-8204-2a9404ea1220", "Indirect bilirubin", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("80f14d86-edab-40f5-bdf7-4f6b9123ba97", "a test that shows excessive breakdown of red blood cells or some other conditions in the Liver", Locale.ENGLISH)
+                .build());
+
+        Concept microscopy = install(new ConceptBuilder("d91e1b96-c342-4d0a-9e4c-91226987e22b")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("1f20d9fe-75e8-4348-8d8b-01a60fe7b972", "Microscopy", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("84a94f84-3012-4cc1-9943-b96c338d8c87","observation of a patient's peripheral blood samples under a microscope and counting sickle cells",Locale.ENGLISH)
+                .answers(yes, no)
+                .build());
+
+        Concept microscopyDate = install(new ConceptBuilder("a90b4936-1d2d-464e-a1d4-aed11c822956")
+                .datatype(date)
+                .conceptClass(question)
+                .name("05363237-7abd-4d19-8146-56408f45fc3f", "Microscopy date", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("a5861c93-cf8a-4e7d-8480-9d137fe801f9","Date of Microscopy",Locale.ENGLISH)
+                .build());
+
+        Concept hbElectrophoresis = install(new ConceptBuilder("fe8ce76a-021b-4ffa-a993-4362734be411")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("bc6815d0-60ba-4487-8e33-91103c643260", "HB electrophoresis", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("cbf659dc-7dc0-42b7-b70c-fdc5468e246e","a test that measures the different types of hemoglobin in the blood",Locale.ENGLISH)
+                .answers(yes, no)
+                .build());
+
+        Concept hbElectrophoresisDate = install(new ConceptBuilder("2f7d5eef-9857-4f61-98af-1a928d2586d5")
+                .datatype(date)
+                .conceptClass(question)
+                .name("1e961897-4267-4010-839b-fd3d83944bcc", "HB electrophoresis date", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ad06304f-8244-464c-bf6e-4d5a9a660c9e","Date of HB electrophoresis",Locale.ENGLISH)
+                .build());
+
+        Concept medicationSideEffects = install(new ConceptBuilder("d046e48d-7eda-4a6f-b583-c13281d9640e")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("4af4e245-4b21-4aca-8ef4-faa261a1800b", "Medication Side Effects", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("bada305e-0aaf-45e1-884b-39900a3a5ea0","has the patient experienced any side effects due to the current medication",Locale.ENGLISH)
+                .answers(yes, no)
+                .build());
+
+        Concept hydroxyurea = install(new ConceptBuilder("e1742ab7-b110-4378-8718-50933c4cfd7c")
+                .datatype(notApplicable)
+                .conceptClass(drug)
+                .name("fa344423-0b7c-44a4-a0c0-2456b8340c5e", "Hydroxyurea", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("fa344423-0b7c-44a4-a0c0-2456b8340c5e","oral medicine for sickle cell, recommended daily use for children and adults with hemoglobin SS or Sβ0 thalassemia who have frequent painful episodes, recurrent chest crises, or severe anemia",Locale.ENGLISH)
+                .build());
+
+        Concept rapidTesting = install(new ConceptBuilder("cfccd5fb-f9dd-48b6-ab0c-c4ee78b4341d")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("f4fc6e39-a31f-4098-9441-25fa21fe094d", "Rapid Testing", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept rapidTestingDate = install(new ConceptBuilder("84d09dae-f6a8-4117-adae-4fb3b0c1d352")
+                .datatype(date)
+                .conceptClass(question)
+                .name("9201efb4-7f51-4f76-a66f-9bf677dfaa52", "Rapid testing date", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("9ed2d9f0-c744-4d4a-9bed-584dc9e8f22c","Date of rapid testing",Locale.ENGLISH)
+                .build());
+
+        Concept parent = install(new ConceptBuilder("adfee692-442e-4e36-8fac-b6ca4249c6b8")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("6819dca1-b3a0-439e-93f9-b76a7632fa03", "Parent relationship", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("6819dca1-b3a0-439e-93f9-b76a7632fa03","family member of the patient with a relationship of parent",Locale.ENGLISH)
+                .answers(yes, no)
+                .build());
+
+        Concept sibling = install(new ConceptBuilder("76bfbe9a-9f7c-44aa-85af-d2d5f08e4baa")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("89bab811-c1fe-4025-ab62-0f445104bcb3", "Sibling relationship", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("933ece89-cb86-40ee-ba1c-712ba2d68733","family member of the patient with a relationship of sibling",Locale.ENGLISH)
+                .answers(yes, no)
                 .build());
     }
 }
