@@ -11,7 +11,7 @@
         <macro key="haemoglobin" value="657a745c-977f-11e1-8993-905e29aff6c1" />
         <macro key="whiteBloodCells" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
         <macro key="erythrocyte" value="65659f28-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="fcb" value="654b7c7e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="fcb" value="65475504-977f-11e1-8993-905e29aff6c1"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -26,9 +26,7 @@
                 <tr>
                     <th>Date</th>
                     <th>HIV</th>
-                    <th>FBC</th> <macro key="whiteBloodCells" value="6549a3b8-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="erythrocyte" value="65659f28-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="fcb" value="654b7c7e-977f-11e1-8993-905e29aff6c1"/>
+                    <th>FBC</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
