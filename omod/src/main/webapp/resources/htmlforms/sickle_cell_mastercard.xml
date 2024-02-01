@@ -162,7 +162,10 @@
                                 Diagnosis Date:
                             </td>
 
-                            <td colspan="2"> <obs conceptId="$diagnosisDate"/> </td>
+                            <td colspan="2">
+                                <obs id="appointmentDate" conceptId="$diagnosisDate"/>
+
+                            </td>
                         </tr>
 
                         <tr>
