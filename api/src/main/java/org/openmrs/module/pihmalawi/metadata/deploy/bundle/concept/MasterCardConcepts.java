@@ -173,7 +173,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 27;
+        return 28;
         // current version  26
     }
 
@@ -1433,9 +1433,10 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                         .type(sameAs).ensureTerm(ciel, "159368").build())
                 .build());
 
-        Concept quantityPerDose = install(new ConceptBuilder("160856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        Concept quantityPerDose = install(new ConceptNumericBuilder("160856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 .datatype(numeric)
                 .conceptClass(question)
+                .precise(true)
                 .name("109537BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "Quantity of medication prescribed per dose", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("16909FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "The amount of a medication to be taken in a given dose, for example, take 2 pills every four hours (2 is the quantity, pills are the form and every four hours is the frequency)", Locale.ENGLISH)
                 .mapping(new ConceptMapBuilder("217974ABBBBBBBBBBBBBBBBBBBBBBBBBBBBB").type(sameAs).ensureTerm(ciel, "160856").build())
