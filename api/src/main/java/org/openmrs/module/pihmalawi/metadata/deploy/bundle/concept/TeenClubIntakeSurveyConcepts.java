@@ -135,30 +135,6 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .name("36127940-869d-4ab5-b957-3d671c6bd54b", "Total number of household members", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
 
-        Concept television = install(new ConceptBuilder("42b9b102-3af4-4fc0-8459-34518de75d74")
-                .datatype(notApplicable)
-                .conceptClass(misc)
-                .name("3874a8ec-2d9e-443c-a51c-ed3fa40364d7", "Television", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
-
-        Concept refrigerator = install(new ConceptBuilder("d0b2da00-a67b-4d23-8c70-b8114fb66cb0")
-                .datatype(notApplicable)
-                .conceptClass(misc)
-                .name("b7b2df66-a8b1-4fda-abdb-c6fa6af32434", "Refrigerator", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
-
-        Concept motorcycle = install(new ConceptBuilder("0f42c300-677e-4483-b0ab-9c9542c7dba2")
-                .datatype(notApplicable)
-                .conceptClass(misc)
-                .name("c26d0b56-dae1-4189-8e3c-09a1a5e805a3", "Motorcycle", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
-
-        Concept animalDrawnCart = install(new ConceptBuilder("f3f934a2-174c-45a0-84e1-17d31e9e548d")
-                .datatype(notApplicable)
-                .conceptClass(misc)
-                .name("bcd81973-f36f-46bf-8328-819a043aa0b0", "Animal-drawn cart", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .build());
-
         Concept electricity = install(new ConceptBuilder("4f3d9103-a1d2-40cb-953b-9aeeb9950147")
                 .datatype(notApplicable)
                 .conceptClass(misc)
@@ -206,19 +182,19 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("e59837f5-4d19-44a6-8968-005544f84062", "Water from spring", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
-////
+
         Concept bottledWater = install(new ConceptBuilder("0db5816d-8349-400d-a617-013f1e9658f7")
                 .datatype(notApplicable)
                 .conceptClass(misc)
                 .name("deb51bd5-6bce-4053-81e6-9aa731f07b7b", "Bottled Water", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
-//
+
         Concept borehole = install(new ConceptBuilder("c07c34ad-08e7-469c-a3d5-3c93f46ff5f8")
                 .datatype(notApplicable)
                 .conceptClass(misc)
                 .name("831e938f-fb8e-4ede-a15c-b1ba841a394c", "Water from Borehole", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
-////
+
         Concept toiletAtHome = install(new ConceptBuilder("9bcdf631-c727-48e7-98fd-795fcd544d32")
                 .datatype(coded)
                 .conceptClass(misc)
