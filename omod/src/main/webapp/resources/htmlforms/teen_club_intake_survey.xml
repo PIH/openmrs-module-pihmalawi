@@ -81,7 +81,7 @@
         <macro key="likeMost" value="c31911f3-038b-42ee-a929-6c14a96ae508"/>
         <macro key="dontLike" value="d7172d9b-da71-4f79-9a62-52a9ff550e88"/>
         <macro key="verySatisfied" value="8a723427-24ef-4d25-bc4c-539ddc1f8ae2"/>
-        <macro key="notSatisfied" value="a93e3448-d71a-4cba-851e-0d328a927b94"/>
+        <macro key="ntSatisfied" value="a93e3448-d71a-4cba-851e-0d328a927b94"/>
         <macro key="littleSatisfied" value="971caad2-d10f-4202-9d53-b6c80545a23c"/>
         <macro key="rateSupport" value="5a86edcb-21e8-4e3a-9472-de9a6d3fbb2b"/>
         <macro key="rateLifeChanges" value="4fbb5e58-b08a-4043-9798-ec22ff5571bf"/>
@@ -91,7 +91,7 @@
         <macro key="veryLow" value="1e9d2c9b-106d-4ad1-8384-0791f9db7ff3"/>
         <macro key="low" value="05b2aac2-56c6-43da-a1dc-6c4eca4efaca"/>
         <macro key="high" value="a41eaeb1-1769-4b02-b511-8028e4ae85ec"/>
-        <macro key="noResponse" value="81bc5d0f-6a58-4504-9f24-ea6345cb2647"/>
+        <macro key="nResponse" value="81bc5d0f-6a58-4504-9f24-ea6345cb2647"/>
         <macro key="hivTransmission" value="2aefa143-9f49-44c6-8848-56f2596ff1c5"/>
         <macro key="mosquitoBite" value="86daa7ce-0c8a-429a-9679-ad02d8fb0b73"/>
         <macro key="kissing" value="764ecc35-f17d-4193-bf18-d9d701b6d564"/>
@@ -100,7 +100,7 @@
         <macro key="m2cTransmission" value="2c01d171-701e-4848-acde-d5a2258d7b0e"/>
         <macro key="thinkingAboutFuture" value="f4d4508e-c2a3-464d-804c-8f68e6fcb070"/>
         <macro key="job" value="7d2a7965-9e3a-4f7b-822f-f5728f2c8596"/>
-        <macro key="areasOfStudyInterest" value="dab43cd5-1de7-440a-af65-b50f224c025a"/>
+        <macro key="areasOfStudyInterest" value="fb69f4f8-118f-4362-b054-1b29ece01de7"/>
         <macro key="scienceAndMath" value="ca2fcfbe-3d92-46fa-8fe3-844aac33376c"/>
         <macro key="artsAndHumanities" value="5d56164d-4b9e-4b50-ba37-b9df6597642a"/>
         <macro key="bsnssAndEntrepreneurship" value="df51523a-559e-4e81-b883-f2615a3a5043"/>
@@ -121,7 +121,7 @@
         <macro key="notInterested" value="c024e008-b537-4f8f-83e9-03451e55f826"/>
         <macro key="courses" value="7eaafacb-5a43-4f7a-abd7-3c340ea68420"/>
         <macro key="exactly" value="1d1d41cd-9493-489a-ae58-f8442b50dcd6"/>
-        <macro key="challengesInPursuingGoals" value="9230e9b6-5d9e-4a9b-995c-c03bedd5eadd"/>
+        <macro key="chllngsInPursuingGoals" value="9230e9b6-5d9e-4a9b-995c-c03bedd5eadd"/>
         <macro key="limitedJobOpp" value="a5d749ef-c840-4896-be3c-75cb9c13505d"/>
         <macro key="lackOfExp" value="dee8c72b-c1fb-48fb-a3ef-f56fd40ad20d"/>
         <macro key="financialConstraints" value="a517de4c-093b-46eb-b6b4-a98a65b7422c"/>
@@ -143,6 +143,8 @@
         <macro key="motorBike" value="75c35596-4e81-4764-9e0a-7b06b87ddceb"/>
         <macro key="cart" value="a85c5276-3f4a-4e5a-bfd4-dc0595662cb3"/>
         <macro key="truck" value="05742f26-375a-4e38-b9ee-7c7d0780c538"/>
+        <macro key="extracurricular" value="4bd44d80-5409-4c7f-a2d2-d623fdfdfc93"/>
+        <macro key="activitiesList" value="a8de56b1-833c-4293-8cc3-1281cd8cbd02"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
     <!-- Flowsheet table view -->
@@ -186,6 +188,7 @@
                     <td colspan="1" style="padding: 1px" >Purpose of teen club</td>
                     <td colspan="1" style="padding: 1px" >Teen club activities</td>
                     <td colspan="1" style="padding: 1px" >Teen club topics</td>
+                    <td colspan="1" style="padding: 1px" >Happy with teen club</td>
                     <td colspan="1" style="padding: 1px" >Social Support</td>
                     <td colspan="1" style="padding: 1px" >Kind of Support</td>
                     <td colspan="1" style="padding: 1px" >are you happy with teen club</td>
@@ -199,6 +202,8 @@
                     <td colspan="1" style="padding: 1px" >Are you thinking about the future</td>
                     <td colspan="1" style="padding: 1px" >Career after school</td>
                     <td colspan="1" style="padding: 1px" >Area of study interest</td>
+                    <td colspan="1" style="padding: 1px" >Involved in extracurricular activities or clubs</td>
+                    <td colspan="1" style="padding: 1px" >Extracurricular activities or clubs</td>
                     <td colspan="1" style="padding: 1px" >Industries you are curious about</td>
                     <td colspan="1" style="padding: 1px" >Do you have roles models</td>
                     <td colspan="1" style="padding: 1px" >Name of model(s)</td>
@@ -361,6 +366,12 @@
                         <obs conceptId="$areasOfStudyInterest" />
                     </td>
                     <td style="padding: 1px;" >
+                        <obs conceptId="$extracurricular" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$activitiesList" />
+                    </td>
+                    <td style="padding: 1px;" >
                         <obs conceptId="$industries" />
                     </td>
                     <td style="padding: 1px;" >
@@ -379,7 +390,10 @@
                         <obs conceptId="$courses" />
                     </td>
                     <td style="padding: 1px;" >
-                        <obs conceptId="$challengesInPursuingGoals" />
+                        <obs conceptId="$exactly" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$chllngsInPursuingGoals" />
                     </td>
                 </tr>
             </tbody>
@@ -626,13 +640,13 @@
                 <tr class="focus-field">
                     <th>How do you rate the support on a scale of 1 to 3?</th>
                     <td>
-                        <obs conceptId="$rateSupport" style="radio" answerConceptIds="$verySatisfied, $notSatisfied, $littleSatisfied"/>
+                        <obs conceptId="$rateSupport" style="radio" answerConceptIds="$verySatisfied, $ntSatisfied, $littleSatisfied"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
                     <th>Can you rate the changes that happened to your life from the social support on a scale of 1 to 3?</th>
                     <td>
-                        <obs conceptId="$rateLifeChanges" style="radio" answerConceptIds="$verySatisfied, $notSatisfied, $littleSatisfied"/>
+                        <obs conceptId="$rateLifeChanges" style="radio" answerConceptIds="$verySatisfied, $ntSatisfied, $littleSatisfied"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
@@ -644,7 +658,7 @@
                 <tr class="focus-field">
                     <th>How would you rate your level of knowledge about HIV?</th>
                     <td>
-                        <obs conceptId="$rateHIVKnowledge" style="radio" answerConceptIds="$veryLow, $low, $high, $noResponse"/>
+                        <obs conceptId="$rateHIVKnowledge" style="radio" answerConceptIds="$veryLow, $low, $high, $nResponse"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
@@ -669,6 +683,18 @@
                     <th>What subjects or areas of study interest you the most? </th>
                     <td>
                         <obs conceptId="$areasOfStudyInterest" style="radio" answerConceptIds="$scienceAndMath, $artsAndHumanities, $bsnssAndEntrepreneurship, $other"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Are you currently involved in any extracurricular activities or clubs related to your career interests? </th>
+                    <td>
+                        <obs conceptId="$extracurricular" style="radio" answerConceptIds="$yes, $no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>What extracurricular activities or clubs? </th>
+                    <td>
+                        <obs conceptId="$activitiesList" id="activitiesListInput"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
@@ -722,7 +748,7 @@
                 <tr class="focus-field">
                     <th>What are some challenges you face or have faced in pursuing your career goals outside of school?</th>
                     <td>
-                        <obs conceptId="$challengesInPursuingGoals" style="radio" answerConceptIds="$limitedJobOpp, $lackOfExp, $financialConstraints, $lackOfMentorship, $other"/>
+                        <obs conceptId="$chllngsInPursuingGoals" style="radio" answerConceptIds="$limitedJobOpp, $lackOfExp, $financialConstraints, $lackOfMentorship, $other"/>
                     </td>
                 </tr>
             </table>
