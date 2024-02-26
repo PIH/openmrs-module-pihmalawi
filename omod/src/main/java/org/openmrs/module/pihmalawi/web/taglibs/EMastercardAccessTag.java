@@ -228,7 +228,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_cleft_lip_palate_visit"));
 		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_other_diagnosis_visit"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_INITIAL.name(), Arrays.asList("nutrition_visit"));
-		flowsheetForms.put(EncounterTypes.TEEN_CLUB_INITIAL.name(), Arrays.asList("teen_club_visit"));
+		flowsheetForms.put(EncounterTypes.TEEN_CLUB_INITIAL.name(), Arrays.asList("teen_club_visit","teen_club_intake_survey"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_PREGNANT_TEENS_INITIAL.name(),Arrays.asList("nutrition_pregnant_teens_visit"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_ADULTS_INITIAL.name(),Arrays.asList("nutrition_adults_visit"));
 		flowsheetForms.put(EncounterTypes.NUTRITION_INFANT_INITIAL.name(),Arrays.asList("nutrition_infant_visit"));

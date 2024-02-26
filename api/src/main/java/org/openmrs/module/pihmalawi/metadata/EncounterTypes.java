@@ -479,6 +479,11 @@ public class EncounterTypes {
         public String description() { return "Followup teen club encounter"; }
     };
 
+    public static EncounterTypeDescriptor TEEN_CLUB_INTAKE_SURVEY = new EncounterTypeDescriptor() {
+        public String uuid() { return "76ae6337-13e7-4522-bbeb-9fcf68bedf87"; }
+        public String name() { return "TEEN_CLUB_INTAKE_SURVEY"; }
+        public String description() { return "Teen club intake survey encounter"; }
+    };
     public static  EncounterTypeDescriptor NUTRITION_INFANT_INITIAL = new EncounterTypeDescriptor() {
         public String uuid() {return "65def8b5-6714-443e-a59a-bc481e9fd842";}
         public String name() {return "NUTRITION_INFANT_INITIAL";}
