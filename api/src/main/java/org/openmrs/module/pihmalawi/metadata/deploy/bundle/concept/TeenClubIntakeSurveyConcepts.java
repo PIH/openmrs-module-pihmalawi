@@ -16,7 +16,7 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 1;
+        return 3;
     }
     @Override
     protected void installNewVersion() throws Exception {
@@ -848,6 +848,13 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("8198e333-bb82-4da9-aeba-f4d6feaffaeb", "Own an car/truck", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes, no, doNotKnow)
+                .build());
+ 
+       	Concept  literate = install(new ConceptBuilder("6a8daa8a-d0d7-493b-ab12-521a9bc18fce")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("ccf7676a-b3bd-4971-ba77-9fb8e7d2948d", "Literate", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
                 .build());
     }
 }
