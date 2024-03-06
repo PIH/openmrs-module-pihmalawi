@@ -28,7 +28,7 @@ public class TeenClubConcepts extends VersionedPihConceptBundle {
     public static final String TB_SCREENING_OUTCOME_CONCEPT_UUID = "73c40559-32AA-4609-A322-bde569196bd2";
     @Override
     public int getVersion() {
-        return 8;
+        return 5;
     }
 
     @Override
