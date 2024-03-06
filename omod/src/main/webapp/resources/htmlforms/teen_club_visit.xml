@@ -25,6 +25,10 @@
         <macro key="nextAppt" value="6569cbd4-977f-11e1-8993-905e29aff6c1"/>
         <macro key="formEncTypeUuid" value="664b8650-977f-11e1-8993-905e29aff6c1"/>
         <macro key="bmi" value="655d615a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="mentalhealth" value="0382C74D-22F9-4B74-9D8F-D8560B0F8514"/>
+        <macro key="adoleRfrrd" value="08DCD9CC-E729-450C-AC18-001D6C0149D5"/>
+        <macro key="registered" value="09454ECC-7B29-468B-9963-90867D4F09C6"/>
+        <macro key="outcomeTB" value="73c40559-32AA-4609-A322-bde569196bd2"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
@@ -39,9 +43,13 @@
                     <td style="padding: 1px">Wt</td>
                     <td rowspan="2">MUAC/<br/>BMI</td>
                     <td style="padding: 1px" colspan="2">TB Status (Curr.)</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">TB screening<br/>outcome</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Sputum <br/>Collected</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition screening <br/>for normal MUAC</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">Nutrition<br/> referred</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Mental health<br/> screened</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Mental health<br/> referred?</td>
+                    <td rowspan="2" style="font-size:.7em;padding: 1px">Mental health<br/> registered?</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px">STI screening <br/>outcome</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Referred to STI clinic</td>
                     <td rowspan="2" style="font-size:.7em;padding: 1px;">Hospitalised</td>
@@ -80,6 +88,11 @@
                         <obsreference conceptId="$tbStatus" style="radio" answerConceptId="$tbConfirmedTx" answerLabel="Rx" />
                     </td>
                     <td style="padding: 1px;" >
+                        <obs conceptId="$outcomeTB"
+                             answerConceptIds="$positive,$negative"
+                             answerLabels="+,-"  />
+                    </td>
+                    <td style="padding: 1px;" >
                         <!-- Sputum Collected -->
                         <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N" />
                     </td>
@@ -90,6 +103,21 @@
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$nutrReferral"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$mentalhealth"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$adoleRfrrd"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$registered"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
@@ -108,6 +136,7 @@
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
+                    
                     <td style="padding: 1px;" >
                         <!-- Next appointment -->
                         <obsreference conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/>
@@ -173,6 +202,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>TB screening outcome</th>
+                    <td>
+                        <obs conceptId="$outcomeTB"
+                             answerConceptIds="$positive,$negative"
+                             answerLabels="+,-" style="radio" />
+                    </td>
+                </tr>
+                <tr>
                     <th>Sputum Collected</th>
                     <td>
                         <obs conceptId="$sputumCollected" style="radio" answerConceptIds="$yesAnswer,$noAnswer" />
@@ -190,6 +227,30 @@
                     <th>Nutrition referred?</th>
                     <td>
                         <obs conceptId="$nutrReferral"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mental Health Screened</th>
+                    <td>
+                        <obs conceptId="$mentalhealth"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mental Health referred?</th>
+                    <td>
+                        <obs conceptId="$adoleRfrrd"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mental Health registered?</th>
+                    <td>
+                        <obs conceptId="$registered"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
