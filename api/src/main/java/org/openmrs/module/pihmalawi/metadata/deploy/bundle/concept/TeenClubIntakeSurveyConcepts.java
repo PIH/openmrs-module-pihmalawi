@@ -16,7 +16,7 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 2;
+        return 5;
     }
     @Override
     protected void installNewVersion() throws Exception {
@@ -855,6 +855,25 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("ccf7676a-b3bd-4971-ba77-9fb8e7d2948d", "Literate", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .answers(yes, no)
+                .build());
+
+        Concept  inSchool = install(new ConceptBuilder("f39717e7-b68b-4ec1-8094-a6c0ae930c7f")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("98c3f497-bd2b-49cb-b9ef-73aeab6cfd97", "Are you in school?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  dropOutClass = install(new ConceptBuilder("80f130e3-a53b-4306-a8c9-ee1731575684")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("89674692-d786-4b85-b855-bf36419ecf0d", "Dropped out School Class", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  currentClass = install(new ConceptBuilder("9715e824-23d7-44ed-a6a8-ea6fbeced93f")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("5e2d2334-e0d5-40e2-8a4d-20e53fb0e439", "Current School class", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
     }
 }
