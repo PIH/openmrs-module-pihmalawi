@@ -106,7 +106,6 @@ public class MohRegimenDispensationByWeightReportRestController {
                 reportDetails.add("2P",r.getColumnValue("2P"));
                 reportDetails.add("4PP",r.getColumnValue("4PP"));
                 reportDetails.add("4PA",r.getColumnValue("4PA"));
-                reportDetails.add("9P",r.getColumnValue("9P"));
                 reportDetails.add("9PP",r.getColumnValue("9PP"));
                 reportDetails.add("9PA",r.getColumnValue("9PA"));
                 reportDetails.add("9PP",r.getColumnValue("9PP"));
@@ -115,7 +114,6 @@ public class MohRegimenDispensationByWeightReportRestController {
                 reportDetails.add("11PA",r.getColumnValue("11PA"));
                 reportDetails.add("12PP",r.getColumnValue("12PP"));
                 reportDetails.add("12PA",r.getColumnValue("12PA"));
-                reportDetails.add("14P",r.getColumnValue("14P"));
                 reportDetails.add("14PP",r.getColumnValue("14PP"));
                 reportDetails.add("14PA",r.getColumnValue("14PA"));
                 reportDetails.add("15PP",r.getColumnValue("15PP"));

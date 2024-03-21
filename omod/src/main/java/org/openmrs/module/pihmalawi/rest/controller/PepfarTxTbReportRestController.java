@@ -86,6 +86,10 @@ public class PepfarTxTbReportRestController {
                 reportDetails.add("sortValue",r.getColumnValue("sort_value"));
                 reportDetails.add("ageGroup",r.getColumnValue("age_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
+                reportDetails.add("txCurr",r.getColumnValue("tx_curr"));
+                reportDetails.add("symptomScreenAlone",r.getColumnValue("symptom_screen_alone"));
+                reportDetails.add("cxrScreen",r.getColumnValue("cxr_screen"));
+                reportDetails.add("mwrdScreen",r.getColumnValue("mwrd_screen"));
                 reportDetails.add("screenedForTbTxNewPos",r.getColumnValue("screened_for_tb_tx_new_pos"));
                 reportDetails.add("screenedForTbTxNewNeg",r.getColumnValue("screened_for_tb_tx_new_neg"));
                 reportDetails.add("screenedForTbTxPrevPos",r.getColumnValue("screened_for_tb_tx_prev_pos"));
