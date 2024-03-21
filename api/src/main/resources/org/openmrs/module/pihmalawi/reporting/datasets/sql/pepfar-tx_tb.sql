@@ -49,6 +49,10 @@ call create_age_groups();
 call create_last_art_outcome_at_facility(@endDate,@location);
 
 select sort_value,x.age_group, x.gender,
+CASE WHEN active is null then 0 else active end as tx_curr,
+CASE WHEN symptom_screen_alone is null then 0 else symptom_screen_alone end as symptom_screen_alone,
+"0" as cxr_screen,
+"0" as mwrd_screen,
 CASE WHEN screened_for_tb_tx_new_pos is null then 0 else screened_for_tb_tx_new_pos end as screened_for_tb_tx_new_pos,
 CASE WHEN screened_for_tb_tx_new_neg is null then 0 else screened_for_tb_tx_new_neg end as  screened_for_tb_tx_new_neg,
 CASE WHEN screened_for_tb_tx_prev_pos is null then 0 else screened_for_tb_tx_prev_pos end as screened_for_tb_tx_prev_pos,
@@ -102,6 +106,8 @@ WHEN age >=1020 and age<=1079 and gender = "F" THEN "85-89 years"
 WHEN age >=1080 and gender = "M" THEN "90 plus years"
 WHEN age >=1080 and gender = "F" THEN "90 plus years"
 END as age_group,gender,
+    COUNT(IF((state = 'On antiretrovirals' and floor(datediff(@endDate,last_appt_date)) <=  @defaultOneMonth), 1, NULL)) as active,
+    COUNT(if(tb_status in ("TB suspected","TB NOT suspected","Confirmed TB on treatment","Confirmed TB NOT on treatment"),1,NULL)) as symptom_screen_alone,
     COUNT(IF(tb_status = "TB suspected" and (
     initial_visit_date BETWEEN @startDate AND @endDate and transfer_in_date is null and patient_id NOT IN (
 	select patient_id from omrs_patient_identifier where type = "ARV Number" and location != @location)
