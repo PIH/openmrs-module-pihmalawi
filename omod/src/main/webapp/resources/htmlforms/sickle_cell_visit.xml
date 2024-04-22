@@ -73,6 +73,7 @@
         <macro key="none" value="6557987e-977f-11e1-8993-905e29aff6c1" />
         <macro key="drugSet" value="447aaa7a-cd03-11e5-9956-625662870761" />
         <macro key="drugsNow" value="65585192-977f-11e1-8993-905e29aff6c1" />
+        <macro key="haemoglobin" value="657a745c-977f-11e1-8993-905e29aff6c1" />
         <!-- diuretic=8466 -->
         <macro key="hydrochlorothiazide" value="65588df6-977f-11e1-8993-905e29aff6c1" />
         <macro key="furosemide" value="6546003c-977f-11e1-8993-905e29aff6c1" />
@@ -167,7 +168,7 @@
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td rowspan="2">Visit Date</td>
-                    <td colspan="7"><span>Vitals</span></td>
+                    <td colspan="8"><span>Vitals</span></td>
                     <td colspan="7"><span>History Since Last Visit</span></td>
                     <td colspan="6"><span>Physical Examination</span></td>
                     <td colspan="5"><span>Medications</span></td>
@@ -178,7 +179,8 @@
                     <td>Wt (kg)</td>
                     <td>BMI / MUAC</td>
                     <td>Bp (mmh/g)</td>
-                    <td>HR</td>
+                    <td>HR (pbm)</td>
+                    <td>HB</td>
                     <td>%SPO2 </td>
                     <td>Temp</td>
                     <td class="rotate">Hospitalized since <b/> last visit?</td>
@@ -189,8 +191,8 @@
                     <td class="rotate">Antibiotics Rx</td>
                     <td class="rotate">Medication <b/> Side Effects?</td>
                     <td>Jaundice?</td>
-                    <td>Pink Conjunctiva?</td>
-                    <td>Clear Lungs?</td>
+                    <td>Irregular Conjunctiva?</td>
+                    <td>Abnormal Lungs Exam?</td>
                     <td>Ascites?</td>
                     <td>Enlarged Spleen?</td>
                     <td>Enlarged Liver?</td>
@@ -241,6 +243,11 @@
                     <td>
                         <!-- Heart Rate -->
                         <obs conceptId="$heartRate" />
+                    </td>
+
+                    <td>
+                        <!-- HB -->
+                        <obs conceptId="$haemoglobin" />
                     </td>
 
                     <td>
@@ -310,14 +317,14 @@
                     </td>
 
                     <td>
-                        <!-- Pink Conjunctiva-->
+                        <!-- Irregular Conjunctiva-->
                         <obs conceptId="$pinkConjunctiva"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
                     </td>
 
                     <td>
-                        <!-- Clear Lungs-->
+                        <!-- Abnormal Lungs Exam-->
                         <obs conceptId="$clearLungs"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
@@ -573,6 +580,13 @@
             </tr>
 
             <tr>
+                <th>HB</th>
+                <td>
+                    <obs conceptId="$haemoglobin" showUnits="true" />
+                </td>
+            </tr>
+
+            <tr>
                 <th>%SPO2</th>
                 <td>
                     <obs conceptId="$bloodOxygen" showUnits="true"/>
@@ -659,7 +673,7 @@
             </tr>
 
             <tr>
-                <th>Pink Conjunctiva</th>
+                <th>Irregular Conjunctiva</th>
                 <td>
                     <obs conceptId="$pinkConjunctiva"
                          answerConceptIds="$yesAnswer,$noAnswer"
@@ -668,7 +682,7 @@
             </tr>
 
             <tr>
-                <th>Clear Lungs</th>
+                <th>Abnormal Lungs Exam</th>
                 <td>
                     <obs conceptId="$clearLungs"
                          answerConceptIds="$yesAnswer,$noAnswer"
