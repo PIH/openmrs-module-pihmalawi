@@ -245,10 +245,10 @@
 
                     <table>
 
-                        <tr colspan="2">
+                        <tr colspan="3">
                             <td>Parent</td>
                             <td class="nowrap">
-                                <obs conceptId="$parent" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                                <obs conceptId="$parent" style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,Unknown"/>
                             </td>
 
                         </tr>
