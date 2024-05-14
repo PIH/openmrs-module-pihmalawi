@@ -16,7 +16,7 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 3;
+        return 54;
     }
     @Override
     protected void installNewVersion() throws Exception {
@@ -875,5 +875,171 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("5e2d2334-e0d5-40e2-8a4d-20e53fb0e439", "Current School class", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .build());
+
+        Concept  relevantTopic = install(new ConceptBuilder("80d4f28a-7818-4c34-8e0a-6cc4f81e51c2")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("a343c1f7-9e81-498e-8912-b69da3160de3", "Relevant and Useful Topic", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  activityEnjoyed = install(new ConceptBuilder("05966c17-b233-41a2-aa77-d53b68569dc4")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("39497a04-ff87-4cc3-8ff9-ca0c3157d8aa", "Activity you enjoyed most", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  condom = install(new ConceptBuilder("3fbc0349-56aa-40c2-a03a-517da6aab82c")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6fab9990-4775-402e-83e0-44211566c43c", "using condoms", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  byAbstinence = install(new ConceptBuilder("ceb54c50-7376-4449-87a1-f4051edde7e2")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("bf73c85a-0ebb-4744-b494-48f65bb447c7", "by abstinence", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  fidelity = install(new ConceptBuilder("4c024160-1f3e-4146-8733-4795ed0c445e")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("210d9a72-45e5-4b47-8796-73296a542a49", "Fidelity", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  prevention = install(new ConceptBuilder("302b77dd-f922-4f38-8f7a-6f76887dff8f")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("ad413725-2113-4d6b-b36f-7662969e4b59", "How is HIV/AIDS prevented?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(condom, byAbstinence, fidelity, doNotKnow)
+                .build());
+
+        Concept  hivCure = install(new ConceptBuilder("0490d7ce-2def-48b0-b113-16e68aa19eba")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("9e237d5d-4914-4b49-8c82-336202c43332", "Can HIV/AIDS be cured?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  hivInfection = install(new ConceptBuilder("626d3564-a7ff-48e4-a869-e3e347d55357")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("cbb49a7d-7ced-4e5a-a95d-343de70a6348", "Can a healthy-looking person have HIV infection?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  hivStudent = install(new ConceptBuilder("d3ab4a01-7942-4925-848e-08a894d4c9f0")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("0e52c62a-97f8-45d0-ad60-f91a6b709956", "Should an HIV+ student be allowed to continue studying at your school?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  punishment = install(new ConceptBuilder("da25f6e7-3816-40d7-8d1f-d91f8a157424")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("f562e890-2196-44d3-ad1f-2fcad16e99bd", "Is HIV a punishment for bad behaviour?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  badLuck = install(new ConceptBuilder("b317bada-e3fb-403d-bc6e-1d31a1203fbb")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("b5f660dc-b96c-42b2-8887-de9449801296", "Is HIV just a matter of bad luck?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  liveLonger = install(new ConceptBuilder("414489ec-b644-4579-a811-853dcdd4cb1e")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("5b652197-4582-4945-921c-753058cebcb2", "Can an HIV infected person live longer?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  afraid = install(new ConceptBuilder("ca1fd53c-5de9-4dfd-a106-ecb6fff92f6b")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("eb60c339-2fc9-41b1-b6e6-0b4619242248", "Are people afraid to be around you?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  injectableDrugs = install(new ConceptBuilder("abf95156-b5e8-40d7-8935-0ff78513065e")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("ca603968-1d1a-4dba-b20c-d5cc4e39b800", "Have you ever used injectable drugs?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  elicitDrugs = install(new ConceptBuilder("c0b66f98-7580-4c09-885f-cb4f538e6b2c")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("766bb58b-fd90-4228-ba55-89215c06e0a7", "Have you ever used elicit drugs?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  alcoholInfluence = install(new ConceptBuilder("bf68d511-2ebf-431e-99dc-e55b38bae7fe")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("6dfebd3c-df86-4026-8bd9-57d96428d704", "Do you have sex when you're under the influence of alcohol?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  exchange = install(new ConceptBuilder("56c5db66-e09b-4f70-a6e3-5b684ac9c524")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("87b4ad1c-0871-4707-b596-8c96a6a67cd4", "Did you have sex in exchange for money, goods or favor?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  older = install(new ConceptBuilder("98759c39-5164-43fe-99ab-44dffb5cf966")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("42f92270-6358-46a4-bc4c-6662f2e177e7", "Did you ever have sex with someone who is younger or you're older than them by 5 years?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  reason = install(new ConceptBuilder("128defcd-deab-4b34-a27d-9aac7e9d767a")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("448c5f8a-e90f-4046-a3a5-80965668329f", "Why do you prefer him/her?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  futureAfterTeenClub = install(new ConceptBuilder("aa63bd2e-6117-4106-adf7-e7b81327485a")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("a2c47807-d41c-4b7f-81e8-72ea27af8482", "How do you envision your future after teen club", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  parentCareer = install(new ConceptBuilder("afd95534-84e5-4dc7-8170-8da5f325d70a")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("ad02ed2a-1371-4a39-8131-ba2d3c2639b4", "What is your parent's career today?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  sourceOfIncome = install(new ConceptBuilder("6d713ae5-457b-414c-a1d3-83a7d945236a")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("003d1aa3-1351-4315-a8bd-1cbc9d6816ec", "What is the main source of income at your home?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  betterBeyond = install(new ConceptBuilder("566efb82-87ed-4008-bedc-87f18662993c")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("19208fc0-3a29-4f59-b1a2-a4345db2041c", "Do you expect to be better beyond your current family life?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  hopeful = install(new ConceptBuilder("03d9656d-07e1-478d-810e-7a21f1cf635c")
+                .datatype(coded)
+                .conceptClass(misc)
+                .name("aec9c26e-c05c-4acc-a93d-4e833e8addac", "Do you feel hopeful for your future based on teen club support?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
+        Concept  enjoyedActivity = install(new ConceptBuilder("eda0a5ec-25a3-44d6-9f1b-f45a752d839b")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("9b807d95-03ce-43d6-8fc3-fd6ab5f74e43", "Which activity of teen club did you enjoy the most?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .answers(yes, no)
+                .build());
+
     }
 }
