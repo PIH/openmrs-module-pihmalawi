@@ -10,7 +10,6 @@
   -- set @minWeeks = 2;
   -- set @maxWeeks = 6;
   -- set @labWeeks = 6;
-  -- set @phase1 = TRUE;
 
   The TRACE Report will include this dataset several times for various combinations of the above parameters
 
@@ -21,7 +20,7 @@ CALL create_rpt_active_eid(@endDate, @location);
 CALL create_rpt_active_art(@endDate, @location);
 CALL create_rpt_active_ncd(@endDate, @location);
 CALL create_rpt_priority_patients(@endDate);
-CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWeeks, @phase1);
+CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWeeks, false);
 
 
 SELECT        t.patient_id,

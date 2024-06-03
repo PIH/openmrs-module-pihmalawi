@@ -16,7 +16,6 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.Location;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.metadata.LocationTags;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.renderer.TraceReportRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -33,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class IC3TraceReport extends ApzuReportManager {
+public class IC3Trace4wReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/trace-data.sql";
     public static final String LOCATION_NAME_PARAM = "location";
@@ -46,29 +45,29 @@ public class IC3TraceReport extends ApzuReportManager {
 
 	@Override
 	public String getUuid() {
-		return "00ac1e0f-7d67-4566-b88f-2f4f06537ffa";
+		return "cc92ee99-201c-11ef-884a-0242ac120003";
 	}
 
 	@Override
 	public String getName() {
-		return "IC3 - TRACE Report";
+		return "IC3 - 4 Week TRACE Report";
 	}
 
     @Override
     public String getDescription() {
-        return "TRACE Report, revision March 2017";
+        return "4 Week TRACE Report, revision June 2024";
     }
 
     @Override
     public List<Parameter> getParameters() {
-        List<Parameter> l = new ArrayList<Parameter>();
+        List<Parameter> l = new ArrayList<>();
         l.add(ReportingConstants.END_DATE_PARAMETER);
         l.add(LAB_WEEKS_PARAMETER);
         return l;
     }
 
 	public String getReportDesignUuid() {
-		return "12d1c2e0-687f-4abe-b93f-674af5ada06f";
+		return "dbf28881-201c-11ef-884a-0242ac120003";
 	}
 
     /**
@@ -84,40 +83,23 @@ public class IC3TraceReport extends ApzuReportManager {
         rd.setParameters(getParameters());
 
         for (Location location : hivMetadata.getHivStaticSystemLocations()) {
-            add2WeekDataSet(rd, location);
+            add4WeekDataSet(rd, location);
         }
-        add6WeekDataSet(rd, hivMetadata.getHivStaticSystemLocations());
 
         return rd;
     }
 
-    public void add2WeekDataSet(ReportDefinition rd, Location location) {
-        String dsName = location.getName() + " - 2 weeks";
+    public void add4WeekDataSet(ReportDefinition rd, Location location) {
+        String dsName = location.getName() + " - 4 weeks";
         MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
         multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
         multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
         multiParamDsd.setBaseDefinition(getBaseDsd());
         Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
         mappings.put(LOCATION_NAME_PARAM, location.getName());
-        mappings.put(MIN_WKS_PARAM, 2);
+        mappings.put(MIN_WKS_PARAM, 4);
         mappings.put(MAX_WKS_PARAM, 6);
         multiParamDsd.addIteration(mappings);
-        rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
-    }
-
-    public void add6WeekDataSet(ReportDefinition rd, List<Location> locations) {
-        String dsName = "6 weeks";
-        MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
-        multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
-        multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
-        multiParamDsd.setBaseDefinition(getBaseDsd());
-        for (Location location : locations) {
-            Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
-            mappings.put(LOCATION_NAME_PARAM, location.getName());
-            mappings.put(MIN_WKS_PARAM, 6);
-            mappings.put(MAX_WKS_PARAM, 12);
-            multiParamDsd.addIteration(mappings);
-        }
         rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
     }
 
