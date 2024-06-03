@@ -64,7 +64,6 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
 
                 DataSetRow firstRow = ds.getRows().get(0);
                 String locationName = getParameterValue(firstRow, IC3TraceReport.LOCATION_NAME_PARAM, String.class);
-                boolean isPhase1 = getParameterValue(firstRow, IC3TraceReport.PHASE_1_PARAM, Boolean.class);
                 Integer minWks = getParameterValue(firstRow, IC3TraceReport.MIN_WKS_PARAM, Integer.class);
                 Integer maxWks = getParameterValue(firstRow, IC3TraceReport.MAX_WKS_PARAM, Integer.class);
 
@@ -74,7 +73,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.setLandscape();
                 builder.fitColumnsToPage();
 
-                String traceLabel = "TRACE" + (minWks == 2 ? " PHASE " + (isPhase1 ? "1" : "2") : "");
+                String traceLabel = "TRACE" + (minWks == 2 ? " PHASE 2" : "");
                 String reportLabel = minWks + "w Report - ";
 
                 if (minWks == 2) {
@@ -266,14 +265,12 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         }
                     }
 
-                    if (!isPhase1) {
-                        Number ncdWeeksOutOfCare = (Number)row.getColumnValue("ncd_weeks_out_of_care");
-                        if (ncdWeeksOutOfCare != null) {
-                            if (weeksOutOfCare == null || ncdWeeksOutOfCare.doubleValue() > weeksOutOfCare.doubleValue()) {
-                                weeksOutOfCare = ncdWeeksOutOfCare;
-                                lastVisitDate = (Date)row.getColumnValue("ncd_last_visit_date");
-                                lastApptDate = (Date)row.getColumnValue("ncd_last_appt_date");
-                            }
+                    Number ncdWeeksOutOfCare = (Number)row.getColumnValue("ncd_weeks_out_of_care");
+                    if (ncdWeeksOutOfCare != null) {
+                        if (weeksOutOfCare == null || ncdWeeksOutOfCare.doubleValue() > weeksOutOfCare.doubleValue()) {
+                            weeksOutOfCare = ncdWeeksOutOfCare;
+                            lastVisitDate = (Date)row.getColumnValue("ncd_last_visit_date");
+                            lastApptDate = (Date)row.getColumnValue("ncd_last_appt_date");
                         }
                     }
 
