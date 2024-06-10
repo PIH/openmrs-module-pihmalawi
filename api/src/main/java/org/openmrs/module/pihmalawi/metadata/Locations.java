@@ -51,4 +51,9 @@ public class Locations {
         public String name() { return "Nsambe HC"; }
         public String description() { return "Nsambe Health Center"; }
     };
+    public static LocationDescriptor TEDZANI_CLINIC_HC= new LocationDescriptor() {
+        public String uuid() { return "E76903E3-7019-4B29-96D6-8AA8E891ECA2"; }
+        public String name() { return "Tedzani Clinic"; }
+        public String description() { return "Tedzani Clinic"; }
+    };
 }

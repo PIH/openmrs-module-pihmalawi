@@ -57,7 +57,8 @@ public class LocationInitializer implements Initializer {
             "Matope HC",
             "Midzemba HC",
             "Nkhula Falls RHC",
-            "Zalewa HC"
+            "Zalewa HC",
+            "Tedzani Clinic"
     );
 
 	/**
