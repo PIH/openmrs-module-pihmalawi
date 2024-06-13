@@ -16,7 +16,7 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 566;
+        return 5;
     }
     @Override
     protected void installNewVersion() throws Exception {
