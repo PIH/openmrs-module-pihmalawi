@@ -16,7 +16,7 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
     @Override
     protected void installNewVersion() throws Exception {
@@ -1038,8 +1038,48 @@ public class TeenClubIntakeSurveyConcepts extends VersionedPihConceptBundle {
                 .datatype(text)
                 .conceptClass(misc)
                 .name("9b807d95-03ce-43d6-8fc3-fd6ab5f74e43", "Which activity of teen club did you enjoy the most?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
-                .answers(yes, no)
                 .build());
 
+        Concept  answerForTeensClubPurpose = install(new ConceptBuilder("5ab64ea0-61d0-40a2-a713-8bc580fc0993")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("1599ec14-1951-4b1d-bfbb-b27d5ee59242", "Answer for Teens Club Purpose", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  answerForActivities = install(new ConceptBuilder("07a5b93a-104a-4a25-978d-2079bd25332a")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("3764957b-c73c-4b42-a087-b4ec6b2da92a", "Answer for Teen Club Activities", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  answerForTopics = install(new ConceptBuilder("b7eeb296-53b3-4696-9cee-4c88a7c4c072")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("fd136506-9172-4119-9652-650f8ad214ad", "Answer for Teen Club Topics", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  answerForTeenClubSupportKind = install(new ConceptBuilder("04e9aa70-76ec-468c-8308-baa8c0e37c42")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("6798760a-4296-4760-b9fb-512df1e61b31", "Answer for Kind of teen club support", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  answerForTeenClubSupport = install(new ConceptBuilder("19d64830-c058-47ef-9a2c-e5ad0a1cca34")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("5d434acf-f6cc-4a59-bf7f-9c71c900d0c7", "Answer for Kind of teen club support would you like to get", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  answerForHIVTransmission = install(new ConceptBuilder("780658c4-3f9b-4e08-a511-fb1031dc988f")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("51e3d1c7-8c91-4906-a514-82de7503cb2f", "Answer for How HIV is transmitted", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept  mostRelevant = install(new ConceptBuilder("d0eb1c87-7636-4721-831d-4cd9969b8183")
+                .datatype(text)
+                .conceptClass(misc)
+                .name("03c27815-270c-48da-95f0-49b56d63b526", "Which topic have you seen as most relevant and useful in daily life?", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
     }
 }

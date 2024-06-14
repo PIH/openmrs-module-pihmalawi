@@ -62,16 +62,15 @@
         <macro key="grass" value="5eec9066-13b0-4f9f-a236-0fbaa8d7a836"/>
         <macro key="typeOfHouseRoof" value="7ee0bf27-9473-48d0-b9e5-cdfe67d34ab2"/>
         <macro key="enrolledInTeenClub" value="d3dde05f-9296-4482-8e2c-788b615c5e91"/>
-        <macro key="purposeOfTeenClub" value="3d6d5b03-14be-4baa-84e2-0c661a71f263"/>
         <macro key="empowerAdoleToBuildPosRelationships" value="4f68cc43-7f2c-4ce8-8eb5-1ce1bfb796b0"/>
         <macro key="improveSelfEsteem" value="be34f352-5c86-4ffa-b6bb-c3a4e2dc00fc"/>
         <macro key="acquireLifeSkills" value="9a35b9c4-7e60-4ac7-aa81-9626bd0906f0"/>
-        <macro key="teenClubActivities" value="80d6d139-8804-464a-820d-99c07bde4f89"/>
+        <macro key="teenClubActivities" value="07a5b93a-104a-4a25-978d-2079bd25332a"/>
         <macro key="games" value="b594b14c-3ee0-4c85-ae4c-85906796a758"/>
         <macro key="sports" value="76a918e7-4c7a-4e99-9957-6fe33073199f"/>
         <macro key="drama" value="495d9e10-4a59-4f45-93d9-07989a73c34a"/>
         <macro key="artSessions" value="ec6f9777-6f77-4aea-828a-5a7f2c5ea031"/>
-        <macro key="teenClubTopics" value="0e9df979-802c-4e8b-8396-15a556424183"/>
+        <macro key="teenClubTopics" value="b7eeb296-53b3-4696-9cee-4c88a7c4c072"/>
         <macro key="hivDiscloreAdherence" value="383900ef-2863-4d95-a08a-3bf699586a56"/>
         <macro key="goalSetting" value="a3050ad2-d8ec-4fc6-b295-594055ca90cd"/>
         <macro key="sexualAndReproHealth" value="049f6531-47ca-4378-b3b8-d8693cf97c84"/>
@@ -92,7 +91,7 @@
         <macro key="low" value="05b2aac2-56c6-43da-a1dc-6c4eca4efaca"/>
         <macro key="high" value="a41eaeb1-1769-4b02-b511-8028e4ae85ec"/>
         <macro key="nResponse" value="81bc5d0f-6a58-4504-9f24-ea6345cb2647"/>
-        <macro key="hivTransmission" value="2aefa143-9f49-44c6-8848-56f2596ff1c5"/>
+        <macro key="hivTransmission" value="780658c4-3f9b-4e08-a511-fb1031dc988f"/>
         <macro key="mosquitoBite" value="86daa7ce-0c8a-429a-9679-ad02d8fb0b73"/>
         <macro key="kissing" value="764ecc35-f17d-4193-bf18-d9d701b6d564"/>
         <macro key="sexualIntercourse" value="eadc4425-2228-4741-950e-d1f3be048e65"/>
@@ -126,7 +125,7 @@
         <macro key="lackOfExp" value="dee8c72b-c1fb-48fb-a3ef-f56fd40ad20d"/>
         <macro key="financialConstraints" value="a517de4c-093b-46eb-b6b4-a98a65b7422c"/>
         <macro key="lackOfMentorship" value="b4068cf3-ee69-4b23-b732-21cdfa321ba0"/>
-        <macro key="teenClubSupport" value="88220f57-2d23-4949-83cc-a9ddf9081a60"/>
+        <macro key="teenClubSupport" value="04e9aa70-76ec-468c-8308-baa8c0e37c42"/>
         <macro key="schoolSupport" value="6eebff3c-37fb-4dd6-bc38-c2bbb508e3c6"/>
         <macro key="accommodation" value="ab31cf84-823a-491f-8713-ed209e15eac0"/>
         <macro key="vocationalTraining" value="af310bb8-9593-4430-bd63-db91a557db99"/>
@@ -145,6 +144,24 @@
         <macro key="truck" value="05742f26-375a-4e38-b9ee-7c7d0780c538"/>
         <macro key="extracurricular" value="4bd44d80-5409-4c7f-a2d2-d623fdfdfc93"/>
         <macro key="activitiesList" value="a8de56b1-833c-4293-8cc3-1281cd8cbd02"/>
+        <macro key="purpose" value="5ab64ea0-61d0-40a2-a713-8bc580fc0993"/>
+        <macro key="teenSupport" value="19d64830-c058-47ef-9a2c-e5ad0a1cca34"/>
+        <macro key="condom" value="3fbc0349-56aa-40c2-a03a-517da6aab82c"/>
+        <macro key="abstinence" value="ceb54c50-7376-4449-87a1-f4051edde7e2"/>
+        <macro key="fidelity" value="4c024160-1f3e-4146-8733-4795ed0c445e"/>
+        <macro key="prevention" value="302b77dd-f922-4f38-8f7a-6f76887dff8f"/>
+        <macro key="cured" value="0490d7ce-2def-48b0-b113-16e68aa19eba"/>
+        <macro key="healthyPerson" value="626d3564-a7ff-48e4-a869-e3e347d55357"/>
+        <macro key="positiveStudent" value="d3ab4a01-7942-4925-848e-08a894d4c9f0"/>
+        <macro key="punishment" value="da25f6e7-3816-40d7-8d1f-d91f8a157424"/>
+        <macro key="badLuck" value="b317bada-e3fb-403d-bc6e-1d31a1203fbb"/>
+        <macro key="infectedPerson" value="414489ec-b644-4579-a811-853dcdd4cb1e"/>
+        <macro key="aroundYou" value="ca1fd53c-5de9-4dfd-a106-ecb6fff92f6b"/>
+        <macro key="injectableDrugs" value="abf95156-b5e8-40d7-8935-0ff78513065e"/>
+        <macro key="elicitDrugs" value="c0b66f98-7580-4c09-885f-cb4f538e6b2c"/>
+        <macro key="alcoholInfluence" value="bf68d511-2ebf-431e-99dc-e55b38bae7fe"/>
+        <macro key="exchange" value="56c5db66-e09b-4f70-a6e3-5b684ac9c524"/>
+        <macro key="older" value="98759c39-5164-43fe-99ab-44dffb5cf966"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
     <!-- Flowsheet table view -->
@@ -197,8 +214,22 @@
                     <td colspan="1" style="padding: 1px" >Rate social support</td>
                     <td colspan="1" style="padding: 1px" >Rate your life changes after social support</td>
                     <td colspan="1" style="padding: 1px" >Challenges you face</td>
+                    <td colspan="1" style="padding: 1px" >Support you'd like from teen club</td>
                     <td colspan="1" style="padding: 1px" >Rate your HIV knowledge</td>
                     <td colspan="1" style="padding: 1px" >How is HIV transmitted</td>
+                    <td colspan="1" style="padding: 1px" >How is HIV/AIDS prevented</td>
+                    <td colspan="1" style="padding: 1px" >Can HIV/AIDS be cured</td>
+                    <td colspan="1" style="padding: 1px" >Can a healthy-looking person have HIV infection?</td>
+                    <td colspan="1" style="padding: 1px" >Should an HIV+ student be allowed to continue studying at your school?</td>
+                    <td colspan="1" style="padding: 1px" >Is HIV is a punishment for bad behavior?</td>
+                    <td colspan="1" style="padding: 1px" >Is HIV just a matter of bad luck?</td>
+                    <td colspan="1" style="padding: 1px" >Can HIV infected person live longer?</td>
+                    <td colspan="1" style="padding: 1px" >Are people afraid to be around you?</td>
+                    <td colspan="1" style="padding: 1px" >Have you ever used injectable drugs?</td>
+                    <td colspan="1" style="padding: 1px" >Have you ever used elicit drugs?</td>
+                    <td colspan="1" style="padding: 1px" >Do you have sex when you are under the influence of alcohol?</td>
+                    <td colspan="1" style="padding: 1px" >Did you ever had sex in exchange for money, goods or favor?</td>
+                    <td colspan="1" style="padding: 1px" >Did you ever had sex with someone who is younger or older than them by 5 years</td>
                     <td colspan="1" style="padding: 1px" >Are you thinking about the future</td>
                     <td colspan="1" style="padding: 1px" >Career after school</td>
                     <td colspan="1" style="padding: 1px" >Area of study interest</td>
@@ -315,7 +346,7 @@
                         <obs conceptId="$enrolledInTeenClub" />
                     </td>
                     <td style="padding: 1px;" >
-                        <obs conceptId="$purposeOfTeenClub" />
+                        <obs conceptId="$purpose" />
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$teenClubActivities" />
@@ -351,10 +382,52 @@
                         <obs conceptId="$challenges" />
                     </td>
                     <td style="padding: 1px;" >
+                        <obs conceptId="$teenSupport" />
+                    </td>
+                    <td style="padding: 1px;" >
                         <obs conceptId="$rateHIVKnowledge" />
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$hivTransmission" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$prevention" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$cured" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$healthyPerson" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$positiveStudent" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$punishment" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$badLuck" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$infectedPerson" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$aroundYou" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$injectableDrugs" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$elicitDrugs" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$alcoholInfluence" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$exchange" />
+                    </td>
+                    <td style="padding: 1px;" >
+                        <obs conceptId="$older" />
                     </td>
                     <td style="padding: 1px;" >
                         <obs conceptId="$thinkingAboutFuture" />
@@ -592,19 +665,19 @@
                 <tr class="focus-field">
                     <th>What do you understand as the purpose of teen club?</th>
                     <td>
-                        <obs conceptId="$purposeOfTeenClub" style="radio" answerConceptIds="$empowerAdoleToBuildPosRelationships, $improveSelfEsteem, $acquireLifeSkills, $other" />
+                        <obs conceptId="$purpose" style="radio" answerConceptIds="$empowerAdoleToBuildPosRelationships, $improveSelfEsteem, $acquireLifeSkills, $other" />
                     </td>
                 </tr>
                 <tr class="focus-field">
                     <th>What sort of activities do you do at the teen clubs?</th>
                     <td>
-                        <obs conceptId="$teenClubActivities" style="radio" answerConceptIds="$games, $drama, $sports,$artSessions, $other" />
+                        <obs conceptId="$teenClubActivities"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
                     <th>What topics do you cover when you meet as teen clubs?</th>
                     <td>
-                        <obs conceptId="$teenClubTopics" style="radio" answerConceptIds="$hivDiscloreAdherence, $goalSetting, $sexualAndReproHealth, $stigmaAndDiscrimination, $other" />
+                        <obs conceptId="$teenClubTopics"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
@@ -616,7 +689,7 @@
                 <tr class="focus-field">
                     <th>What kind of support?</th>
                     <td>
-                        <obs conceptId="$teenClubSupport" style="radio" answerConceptIds="$schoolSupport, $accommodation, $vocationalTraining, $agriNutriFishing, $agriNutriCropFarming, $agriNutriAnimalFarming, $linkageToJobs, $other" />
+                        <obs conceptId="$teenClubSupport"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
@@ -656,6 +729,12 @@
                     </td>
                 </tr>
                 <tr class="focus-field">
+                    <th>What support would you like to get from teens club?</th>
+                    <td>
+                        <obs conceptId="$teenSupport" id="teenSupportInput"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
                     <th>How would you rate your level of knowledge about HIV?</th>
                     <td>
                         <obs conceptId="$rateHIVKnowledge" style="radio" answerConceptIds="$veryLow, $low, $high, $nResponse"/>
@@ -664,7 +743,85 @@
                 <tr class="focus-field">
                     <th>How is HIV transmitted?</th>
                     <td>
-                        <obs conceptId="$hivTransmission" style="radio" answerConceptIds="$mosquitoBite, $kissing, $sexualIntercourse, $bloodTransfusion, $m2cTransmission"/>
+                        <obs conceptId="$hivTransmission" id="hivTransmissionInput"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>How is HIV/AIDS prevented?</th>
+                    <td>
+                        <obs conceptId="$prevention" style="radio" answerConceptIds="$condom, $abstinence, $fidelity, $doNotKNow"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Can HIV/AIDS be cured?</th>
+                    <td>
+                        <obs conceptId="$cured" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Can a healthy-looking person have HIV infection?</th>
+                    <td>
+                        <obs conceptId="$healthyPerson" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Should an HIV+ student be allowed to continue studying at your school?</th>
+                    <td>
+                        <obs conceptId="$positiveStudent" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Is HIV is a punishment for bad behavior?</th>
+                    <td>
+                        <obs conceptId="$punishment" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Is HIV just a matter of bad luck?</th>
+                    <td>
+                        <obs conceptId="$badLuck" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Can HIV infected person live longer?</th>
+                    <td>
+                        <obs conceptId="$infectedPerson" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Are people afraid to be around you?</th>
+                    <td>
+                        <obs conceptId="$aroundYou" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Have you ever used injectable drugs??</th>
+                    <td>
+                        <obs conceptId="$injectableDrugs" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Have you ever used elicit drugs?</th>
+                    <td>
+                        <obs conceptId="$elicitDrugs" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Do you have sex when you are under the influence of alcohol?</th>
+                    <td>
+                        <obs conceptId="$alcoholInfluence" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Did you ever had sex in exchange for money, goods or favor?</th>
+                    <td>
+                        <obs conceptId="$exchange" style="radio" answerConceptIds="$yes,$no"/>
+                    </td>
+                </tr>
+                <tr class="focus-field">
+                    <th>Did you ever had sex with someone who is younger or older than them by 5 years</th>
+                    <td>
+                        <obs conceptId="$older" style="radio" answerConceptIds="$yes,$no"/>
                     </td>
                 </tr>
                 <tr class="focus-field">
