@@ -86,6 +86,7 @@ public class PepfarTxPvlsReportRestController {
                 reportDetails.add("sortValue",r.getColumnValue("sort_value"));
                 reportDetails.add("ageGroup",r.getColumnValue("age_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
+                reportDetails.add("txCurr",r.getColumnValue("tx_curr"));
                 reportDetails.add("dueForVl",r.getColumnValue("due_for_vl"));
                 reportDetails.add("routineSamplesDrawn",r.getColumnValue("routine_samples_drawn"));
                 reportDetails.add("targetSamplesDrawn",r.getColumnValue("target_samples_drawn"));

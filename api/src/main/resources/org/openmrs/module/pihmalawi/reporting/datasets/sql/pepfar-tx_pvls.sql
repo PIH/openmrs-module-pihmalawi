@@ -4,6 +4,8 @@ PEPFAR TX_PVLS REPORT
 Percentage of ART patients with a suppressed viral load (VL) result (<1000 copies/ml) documented in
 the medical or laboratory records/laboratory information systems (LIS) within the past 12 months
 **********************************************************************/
+
+SET @defaultCutOff = 30;
 set @birthDateDivider=30;
 
 set @dayOfEndDate = DAY(@endDate);
@@ -18,8 +20,10 @@ set @startOfTheYear=(SELECT
     END);
 
 call create_age_groups();
+call create_last_art_outcome_at_facility(@endDate,@location);
 
 Select sort_value,x.age_group, CASE WHEN x.gender = "F" THEN "Female" ELSE "Male" END as gender,
+CASE WHEN active is null then 0 else active end as tx_curr,
 CASE WHEN due_for_vl is null then 0 else due_for_vl end as due_for_vl,
 CASE WHEN routine_samples_drawn is null then 0 else routine_samples_drawn end as routine_samples_drawn,
 CASE WHEN target_samples_drawn is null then 0 else target_samples_drawn end as target_samples_drawn,
@@ -76,7 +80,7 @@ LEFT OUTER JOIN
 	WHEN age >=1080 and gender = "M" THEN "90 plus years"
 	WHEN age >=1080 and gender = "F" THEN "90 plus years"
 END as age_group,gender as "gender",
-
+COUNT(IF((state = 'On antiretrovirals'), 1, NULL)) as active,
 COUNT(IF((due_over_1_year='yes'), 1, NULL)) as due_for_vl,
 COUNT(IF((reason_for_test='Routine'), 1, NULL)) as routine_samples_drawn,
 COUNT(IF((reason_for_test='Target'), 1, NULL)) as target_samples_drawn,
@@ -89,6 +93,7 @@ from(
 
 SELECT opi.identifier, vl.location, mwp.gender,
  floor(datediff(@endDate,mwp.birthdate)/@birthDateDivider) as age, last_visit_date, next_appointment_date,
+ state,
 reason_for_test, test_date,
 CASE
 WHEN ldl IS NOT NULL THEN 'LDL'
@@ -139,6 +144,8 @@ on mwp.patient_id = vl.patient_id
 
 join omrs_patient_identifier opi
 on opi.patient_id=mmaf.patient_id and opi.type='arv number'
+left join last_facility_outcome lfo
+on lfo.pat=mmaf.patient_id
 WHERE  next_appointment_date BETWEEN @startOfTheYear AND @endDate
 and DATEDIFF(next_appointment_date,vl.test_date)>365  and vl.location=@location
 and reason_for_test in ('Routine', 'Target')

@@ -289,7 +289,7 @@
                     </td>
 
                     <td>
-                        <!-- Malaria Rx-->
+                        <!-- Medication Rx-->
                         <obs conceptId="$malaria"
                              answerConceptIds="$yesAnswer,$noAnswer"
                              answerLabels="Y,N" style="radio" />
@@ -637,7 +637,7 @@
             </tr>
 
             <tr>
-                <th>Malaria Rx</th>
+                <th>Medication Rx</th>
                 <td>
                     <obs conceptId="$malaria"
                          answerConceptIds="$yesAnswer,$noAnswer"
