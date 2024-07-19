@@ -33,7 +33,7 @@
         <macro key="icThree" value="3064BCF8-56F7-43C9-A8CF-D90D42EEF739"/>
         <macro key="opd" value="6578c9f4-977f-11e1-8993-905e29aff6c1"/>
         <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
-        <macro key="reasonOthr" value="655fa9e2-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="reasonOthr" value="da88696b-bf1d-4a31-b49d-997326e4a777"/>
 
 
         <macro key="patientPhone" value="6559ba14-977f-11e1-8993-905e29aff6c1" />
@@ -256,7 +256,7 @@
                         <tr>
                             <td>Sibling</td>
                             <td class="nowrap" colspan="2">
-                                <obs conceptId="$sibling" style="radio" answerConceptIds="$yesAnswer,$noAnswer" answerLabels="Y,N"/>
+                                <obs conceptId="$sibling" style="radio" answerConceptIds="$yesAnswer,$noAnswer,$unknown" answerLabels="Y,N,Unknown"/>
                             </td>
                         </tr>
 
@@ -268,26 +268,20 @@
 
                         <tr>
                             <td colpan="2">
-                                <obsgroup groupingConceptId="$reasonsForReferralSet">
                                     <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$inPatient" answerLabel="In-Patient" />
-                                </obsgroup>
                             </td>
                         </tr>
 
                         <tr>
                             <td colpan="2">
-                                <obsgroup groupingConceptId="$reasonsForReferralSet">
                                     <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$icThree" answerLabel="IC3" />
-                                </obsgroup>
                             </td>
                         </tr>
 
                         <tr>
 
                             <td colpan="2">
-                                <obsgroup groupingConceptId="$reasonsForReferralSet">
                                     <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$opd" answerLabel="OPD" />
-                                </obsgroup>
                             </td>
                         </tr>
 
@@ -296,7 +290,7 @@
                                 <obsgroup groupingConceptId="$reasonsForReferralSet">
                                     <obs conceptId="$reasonForReferral" style="checkbox" answerConceptId="$reasonOthr" answerLabel="Other" />
                                     <br />
-                                    <obs conceptId="$otherNoneCodedText" style="textarea" cols="60"/>
+                                    <b>Specify:</b><obs conceptId="$otherNoneCodedText"  style="textarea"  cols="60"/>
                                 </obsgroup>
                             </td>
 
