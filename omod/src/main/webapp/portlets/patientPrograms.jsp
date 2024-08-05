@@ -414,7 +414,7 @@
 
         <table width="100%" border="0">
         <tr bgcolor="whitesmoke">
-            <td><openmrs:message code="Program.program"/> Hello</td>
+            <td><openmrs:message code="Program.program"/></td>
             <td><openmrs:message code="Program.dateEnrolled"/></td>
             <td><openmrs:message code="Program.location"/></td>
             <td><openmrs:message code="Program.dateCompleted"/></td>
