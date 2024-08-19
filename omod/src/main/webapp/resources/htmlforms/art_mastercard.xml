@@ -144,12 +144,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Patient Phone</td>
+                            <td><obs conceptId="$patientPhone" size="10"/> </td>
+                        </tr>
+                        <tr>
+                        <tr>
                             <td>Guardian Phone</td>
                             <td>
                                 <obs conceptId="$guardianPhone" size="10"/>
                             </td>
                         </tr>
-                        <tr>
                             <td>Guardian relation to patient</td>
                             <td>
                                 <obs conceptId="$relationToPatient" size="10" />
