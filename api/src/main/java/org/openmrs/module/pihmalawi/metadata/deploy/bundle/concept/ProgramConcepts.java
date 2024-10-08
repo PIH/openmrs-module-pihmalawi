@@ -32,11 +32,13 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
     public static final String PATIENT_PREGNANT_STATE_CONCEPT_UUID = "77FF0F7E-ECEF-4D32-AE1A-7DD35F212EA4";
     public static final String PATIENT_MARRIED_STATE_CONCEPT_UUID = "0EC11643-6EEB-4EBE-BF4C-136FD8AC6B89";
     public static final String PATIENT_GRADUATED_STATE_CONCEPT_UUID = "539F6CAC-DDCD-4F7D-BB02-4ADEE912CF95";
+    public static final String MENTAL_HEALTH_TREATMENT_STATUS_CONCEPT_UUID = "48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619";
+    public static final String EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID = "ad7b930a-a1d9-4fff-bd62-212d5e55e5b2";
 
 
     @Override
     public int getVersion() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -49,6 +51,23 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
         MetadataUtils.existing(Concept.class, CHRONIC_CARE_STATUS_DISCHARGED_CONCEPT);
         MetadataUtils.existing(Concept.class, CHRONIC_CARE_STATUS_DEFAULTED_CONCEPT);
         MetadataUtils.existing(Concept.class, CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT);
+
+
+        install(new ConceptBuilder(EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(workflow)
+                .name("746e9799-bea0-4eb4-9793-2b6e85b49cea", "Epilepsy treatment status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("47481D29-50EB-4D87-BBC9-DEA9B2DA81E1")
+                        .type(sameAs).ensureTerm(pih, "Epilepsy treatment status").build())
+                .build());
+
+        install(new ConceptBuilder(MENTAL_HEALTH_TREATMENT_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(workflow)
+                .name("243E4A3D-6A3D-4B96-BB5A-C56F51F75116", "Mental health treatment status workflow", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("942F01FD-61A5-4640-85E5-7E4285C2D685")
+                        .type(sameAs).ensureTerm(pih, "Mental health treatment status").build())
+                .build());
 
         install(new ConceptBuilder(CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT)
                 .datatype(notApplicable)

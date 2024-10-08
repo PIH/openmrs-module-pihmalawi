@@ -1,0 +1,49 @@
+
+concept:
+  mentalHealthTreatmentStatus:
+    uuid: "48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619"
+  epilepsyTreatmentStatus:
+    uuid: "ad7b930a-a1d9-4fff-bd62-212d5e55e5b2"
+  onTreatment:
+    uuid: "65664784-977f-11e1-8993-905e29aff6c1"
+  inAdvanceCare:
+    uuid: "9af03945-c8c1-11e8-9bc6-0242ac110001"
+  discharged:
+    uuid: "6566dba4-977f-11e1-8993-905e29aff6c1"
+  treatmentStopped:
+    uuid: "655a6acc-977f-11e1-8993-905e29aff6c1"
+  patientDefaulted:
+    uuid: "655b5f4a-977f-11e1-8993-905e29aff6c1"
+
+program:
+  mentalHealth:
+    uuid: "60357F01-536E-4B59-A851-B000F801FB13"
+
+programWorkflow:
+  mentalHealthTreatmentStatus:
+    uuid: "DA69BBCB-01FE-4C59-9D46-8A2659ABBD73"
+    state:
+      onTreatment:
+        uuid: "2F76D426-56A9-4651-B253-A2299B442C09"
+      inAdvanceCare:
+        uuid: "79F2CAB1-E674-433E-AF42-447678FDB443"
+      discharged:
+        uuid: "6C704865-5355-412B-9A9F-46489C301B6B"
+      treatmentStopped:
+        uuid: "6633F174-E20C-4D03-B6CB-3EBD2433EE75"
+      patientDefaulted:
+        uuid: "A1F672EA-EB8D-4B7D-8193-146C309AF348"
+  epilepsyTreatmentStatus:
+    uuid: "26FD314D-138F-4A5C-8890-E01791C06336"
+    state:
+      onTreatment:
+        uuid: "CB86C6FE-4263-4A4C-AF54-49D5308459D4"
+      inAdvanceCare:
+        uuid: "61190A43-95FF-4C84-8A3F-DD7F5354171C"
+      discharged:
+        uuid: "B7FADD7E-6143-4BA8-90F3-629F79D02CD9"
+      treatmentStopped:
+        uuid: "AAE431AF-96E6-477F-B15E-2E5C66B20AEF"
+      patientDefaulted:
+        uuid: "96D5D27B-31CB-4BC7-AA5C-C6EC28B121DE"
+

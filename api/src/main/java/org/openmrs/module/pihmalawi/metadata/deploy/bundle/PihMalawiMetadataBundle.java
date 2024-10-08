@@ -33,7 +33,7 @@ public class PihMalawiMetadataBundle extends AbstractMetadataBundle{
     @Override
     public void install() throws Exception {
         install(PalliativeCareMetadata.PALLIATIVE_CARE_PROGRAM);
-        install(MentalHealthMetadata.MH_CARE_PROGRAM);
+        //install(MentalHealthMetadata.MH_CARE_PROGRAM);
         install(PdcMetadata.PDC_PROGRAM);
         install(NutritionProgramMetadata.NUTRITION_PROGRAM);
         install(TeenClubProgramMetadata.TEEN_CLUB_PROGRAM);
