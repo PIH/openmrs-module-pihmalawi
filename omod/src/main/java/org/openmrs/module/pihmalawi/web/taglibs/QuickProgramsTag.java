@@ -71,17 +71,20 @@ public class QuickProgramsTag extends BodyTagSupport {
 			ProgramWorkflow programWorkflow = initialStates.get(0).getProgramWorkflow();
 			Program program = programWorkflow.getProgram();
 			Patient patient = Context.getPatientService().getPatient(patientId);
-			
+
+			PatientProgram patientProgram = currentPatientProgram(program, patient);
 			PatientState currentState = null;
-			if (currentPatientProgram(program, patient) != null) {
-				currentState = currentPatientProgram(program, patient).getCurrentState(initialStates.get(0).getProgramWorkflow());
+			if (patientProgram != null) {
+				currentState = patientProgram.getCurrentState(initialStates.get(0).getProgramWorkflow());
 			}
 
 			boolean quickProgramsAvailable = false;
 			if (!patient.isDead()) {
 				if (!programWorkflows.isEmpty()) {
 					for (ProgramWorkflow workflow : programWorkflows) {
-						currentState = currentPatientProgram(program, patient).getCurrentState(workflow);
+						if (patientProgram != null) {
+							currentState = patientProgram.getCurrentState(workflow);
+						}
 						if ( !hasOpenProgramWorkflow(workflow, patient) ) {
 							quickProgramsAvailable = true;
 							o.write(enrollProgramWorkflowForm(program, patient, workflow));
@@ -90,7 +93,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 							List<ProgramWorkflowState> programWorkflowStates = Helper.getProgramWorkflowStates(workflow, null);
 							quickProgramsAvailable = true;
 							o.write(changeToSelectedStateSubmitTag("Change",
-									currentPatientProgram(program, patient),
+									patientProgram,
 									workflow, "stateIdForWorkflow" + workflow.getId(),
 									"'dateForPWS" + workflow.getId() + "'")
 									+ " " + workflow.getConcept().getName() +" to "
@@ -98,7 +101,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 									+ pwStateTag("stateIdForWorkflow" + workflow.getId() , "pwStateName" + workflow.getId(), programWorkflowStates, currentState)
 									+ " on "
 									+ dateTag("dateForPWS" + workflow.getId(), "dateForPWS")
-									+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/><br/>");
+									+ " at " + patientProgram.getLocation().getName() + "<br/><br/>");
 						}
 					}
 				} else {
@@ -114,14 +117,14 @@ public class QuickProgramsTag extends BodyTagSupport {
 							if (!(currentState != null && currentState.getState().equals(pws))) {
 								quickProgramsAvailable = true;
 								o.write(changeToStateSubmitTag("Change",
-										currentPatientProgram(program, patient),
+										patientProgram,
 										pws.getProgramWorkflow(), pws,
 										"'dateForPWS" + pws.getId() + "'")
 										+ " to "
 										+ pws.getConcept().getName()
 										+ " on "
 										+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
-										+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+										+ " at " + patientProgram.getLocation().getName() + "<br/>");
 							}
 						}
 						for (ProgramWorkflowState pws : terminalStates) {
@@ -131,14 +134,14 @@ public class QuickProgramsTag extends BodyTagSupport {
 									o.write(transferOutForm(program, patient, pws));
 								} else {
 									o.write(changeToStateSubmitTag("Complete",
-											currentPatientProgram(program, patient),
+											patientProgram,
 											pws.getProgramWorkflow(), pws,
 											"'dateForPWS" + pws.getId() + "'")
 											+ " with "
 											+ pws.getConcept().getName()
 											+ " on "
 											+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
-											+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+											+ " at " + patientProgram.getLocation().getName() + "<br/>");
 								}
 							}
 						}
@@ -151,6 +154,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 		} 
 		catch (Throwable e) {
 			try {
+				log.error("Error processing the QuickProgramsTag", e);
 				o.write("Unknown error, call help!");
 			} 
 			catch (IOException e1) { }
@@ -187,7 +191,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 						}
 					}
 					s += "</select>\n";
-					s += "</form>";
+					s += "</form><br/>";
 			}
 		}
 		return s;
