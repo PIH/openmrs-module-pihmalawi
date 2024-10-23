@@ -71,8 +71,11 @@ public class QuickProgramsFormController {
 			return new ModelAndView(new RedirectView(returnPage));
 		}
 
-		// enroll patient
-		PatientProgram pp = enrollInProgram(request, patient, program, enrollmentDate, location, null);
+		PatientProgram pp = isPatientEnrolledInProgram(patient, program, enrollmentDate);
+		if ( pp == null ) {
+			// enroll patient
+			pp = enrollInProgram(request, patient, program, enrollmentDate, location, null);
+		}
 		if (pp != null ) {
 			// set initial state
 			pp.transitionToState(state, enrollmentDate);
@@ -134,6 +137,15 @@ public class QuickProgramsFormController {
 		return new ModelAndView(new RedirectView(returnPage));
 	}
 
+	private PatientProgram isPatientEnrolledInProgram(Patient patient, Program program, Date enrollmentDate) {
+		PatientProgram patientProgram = null;
+		ProgramWorkflowService pws = Context.getService(ProgramWorkflowService.class);
+		List<PatientProgram> patientPrograms = pws.getPatientPrograms(patient, program, null, null, enrollmentDate, null, false);
+		if (patientPrograms != null && !patientPrograms.isEmpty()) {
+			return patientPrograms.get(0);
+		}
+		return patientProgram;
+	}
 	private PatientProgram enrollInProgram(HttpServletRequest request,
 			Patient patient, Program program, Date enrollmentDate,
 			Location location, Date completionDate) {

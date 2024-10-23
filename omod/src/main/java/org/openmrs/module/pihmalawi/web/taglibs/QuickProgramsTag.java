@@ -52,6 +52,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 	private String stateIds;
 	private String initialStateIds;
 	private String terminalStateIds;
+	private String workflowIds;
 	private String defaultLocation;
 
 	/**
@@ -65,7 +66,8 @@ public class QuickProgramsTag extends BodyTagSupport {
 			List<ProgramWorkflowState> states = Helper.getProgramWorkflowStatesFromCsvIds(stateIds);
 			List<ProgramWorkflowState> initialStates = Helper.getProgramWorkflowStatesFromCsvIds(initialStateIds);
 			List<ProgramWorkflowState> terminalStates = Helper.getProgramWorkflowStatesFromCsvIds(terminalStateIds);
-			
+			List<ProgramWorkflow> programWorkflows = Helper.getProgramWorkflowsFromUuidsList(workflowIds);
+
 			ProgramWorkflow programWorkflow = initialStates.get(0).getProgramWorkflow();
 			Program program = programWorkflow.getProgram();
 			Patient patient = Context.getPatientService().getPatient(patientId);
@@ -77,44 +79,67 @@ public class QuickProgramsTag extends BodyTagSupport {
 
 			boolean quickProgramsAvailable = false;
 			if (!patient.isDead()) {
-				if (!hasOpenProgramWorkflow(programWorkflow, patient)) {
-					// no or closed program enrollment available
-					for (ProgramWorkflowState pws : initialStates) {
-						quickProgramsAvailable = true;
-						o.write(enrollForm(program, patient, pws));
-					}
-				} 
-				else {
-					// open program enrollment available
-					for (ProgramWorkflowState pws : states) {
-						if (!(currentState != null && currentState.getState().equals(pws))) {
+				if (!programWorkflows.isEmpty()) {
+					for (ProgramWorkflow workflow : programWorkflows) {
+						currentState = currentPatientProgram(program, patient).getCurrentState(workflow);
+						if ( !hasOpenProgramWorkflow(workflow, patient) ) {
 							quickProgramsAvailable = true;
-							o.write(changeToStateSubmitTag("Change",
-								currentPatientProgram(program, patient),
-								pws.getProgramWorkflow(), pws,
-								"'dateForPWS" + pws.getId() + "'")
-								+ " to "
-								+ pws.getConcept().getName()
-								+ " on "
-								+ dateTag("dateForPWS" + pws.getId(), "dateForPWS") 
-								+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+							o.write(enrollProgramWorkflowForm(program, patient, workflow));
+						} else {
+							// patient is already enrolled in this program workflow
+							List<ProgramWorkflowState> programWorkflowStates = Helper.getProgramWorkflowStates(workflow, null);
+							quickProgramsAvailable = true;
+							o.write(changeToSelectedStateSubmitTag("Change",
+									currentPatientProgram(program, patient),
+									workflow, "stateIdForWorkflow" + workflow.getId(),
+									"'dateForPWS" + workflow.getId() + "'")
+									+ " " + workflow.getConcept().getName() +" to "
+									+ ""
+									+ pwStateTag("stateIdForWorkflow" + workflow.getId() , "pwStateName" + workflow.getId(), programWorkflowStates, currentState)
+									+ " on "
+									+ dateTag("dateForPWS" + workflow.getId(), "dateForPWS")
+									+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/><br/>");
 						}
 					}
-					for (ProgramWorkflowState pws : terminalStates) {
-						if (!(currentState != null && currentState.getState().equals(pws))) {
+				} else {
+					if (!hasOpenProgramWorkflow(programWorkflow, patient)) {
+						// no or closed program enrollment available
+						for (ProgramWorkflowState pws : initialStates) {
 							quickProgramsAvailable = true;
-							if (  StringUtils.equalsIgnoreCase(pws.getConcept().getUuid(), TRANSFERRED_OUT_CONCEPT)) {
-								o.write(transferOutForm(program, patient, pws));
-							} else {
-								o.write(changeToStateSubmitTag("Complete",
+							o.write(enrollForm(program, patient, pws));
+						}
+					} else {
+						// open program enrollment available
+						for (ProgramWorkflowState pws : states) {
+							if (!(currentState != null && currentState.getState().equals(pws))) {
+								quickProgramsAvailable = true;
+								o.write(changeToStateSubmitTag("Change",
 										currentPatientProgram(program, patient),
 										pws.getProgramWorkflow(), pws,
 										"'dateForPWS" + pws.getId() + "'")
-										+ " with "
+										+ " to "
 										+ pws.getConcept().getName()
 										+ " on "
 										+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
 										+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+							}
+						}
+						for (ProgramWorkflowState pws : terminalStates) {
+							if (!(currentState != null && currentState.getState().equals(pws))) {
+								quickProgramsAvailable = true;
+								if (StringUtils.equalsIgnoreCase(pws.getConcept().getUuid(), TRANSFERRED_OUT_CONCEPT)) {
+									o.write(transferOutForm(program, patient, pws));
+								} else {
+									o.write(changeToStateSubmitTag("Complete",
+											currentPatientProgram(program, patient),
+											pws.getProgramWorkflow(), pws,
+											"'dateForPWS" + pws.getId() + "'")
+											+ " with "
+											+ pws.getConcept().getName()
+											+ " on "
+											+ dateTag("dateForPWS" + pws.getId(), "dateForPWS")
+											+ " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>");
+								}
 							}
 						}
 					}
@@ -135,6 +160,38 @@ public class QuickProgramsTag extends BodyTagSupport {
 		return SKIP_BODY;
 	}
 
+	private String enrollProgramWorkflowForm(Program program, Patient patient, ProgramWorkflow workflow) {
+		String s = "";
+		if (workflow != null ) {
+			List<ProgramWorkflowState> programWorkflowInitialStates = Helper.getProgramWorkflowStates(workflow, Boolean.TRUE);
+			if (programWorkflowInitialStates !=null && !programWorkflowInitialStates.isEmpty()) {
+					s += "<form method=\"post\" action=\"/openmrs/module/quickprograms/enrollInProgramWithStateOnDateAtLocation.form\">\n";
+					s += "<input id=\"quickEnrollSubmitButton-" + workflow.getId() + "\" type=\"submit\" value=\"Enroll\"/>\n";
+					s += "<input type=\"hidden\" name=\"method\" value=\"enroll\"/>\n";
+					s += "<input type=\"hidden\" name=\"patientId\" value=\"" + patient.getId() + "\"/>\n";
+					s += "<input type=\"hidden\" name=\"returnPage\" value=\"/openmrs/patientDashboard.form?patientId=" + patient.getId() + "\"/>\n";
+					s += "<input type=\"hidden\" name=\"programId\" value=\"" + program.getId() + "\"/>\n";
+					//s += "<input type=\"hidden\" name=\"programworkflowStateId\" value=\"" + pws.getId() + "\"/>\n";
+					s += " in " + workflow.getConcept().getName() + " with \n";
+					s += pwStateTag("stateIdForWorkflow" + workflow.getId() , "programworkflowStateId", programWorkflowInitialStates, null) + " on \n";
+					s += dateTag("dateEnrolled-" + workflow.getId(), "dateEnrolled") + "\n";
+					s += " at <select name=\"locationId\">\n";
+					s += "<option value=\"\">Choose a location...</option>\n";
+					String defaultLocationId = getDefaultLocation();
+
+					for (Location l : Context.getLocationService().getAllLocations(false)) {
+						if (defaultLocationId != null && !"".equals(defaultLocationId) && l.getId().equals(new Integer(defaultLocationId))) {
+							s += "<option value=\"" + l.getId() + "\" selected>" + l.getName() + "</option>\n";
+						} else {
+							s += "<option value=\"" + l.getId() + "\">" + l.getName() + "</option>\n";
+						}
+					}
+					s += "</select>\n";
+					s += "</form>";
+			}
+		}
+		return s;
+	}
 	/**
 	 * Private method for constructing a new program enrollment form
 	 */
@@ -251,12 +308,41 @@ public class QuickProgramsTag extends BodyTagSupport {
 				+ ")\" />";
 	}
 
+	private String changeToSelectedStateSubmitTag(String label,
+										  PatientProgram patientProgram, ProgramWorkflow workflow,
+										  String stateField, String dateField) {
+		return "<input type=\"button\" value=\"" + label
+				+ "\" onClick=\"changeToStateField(" + patientProgram.getId() + ", "
+				+ workflow.getId() + ", " + stateField + ", " + dateField
+				+ ")\" />";
+	}
+
 	/**
 	 * Utility method for constructing a date field
 	 */
 	private String dateTag(String id, String name) {
 		String today = Context.getDateFormat().format(new Date());
 		return "<input type=\"text\" id=\"" + id + "\" name=\"" + name + "\" size=\"10\" onClick=\"showCalendar(this)\" value=\"" + today + "\" />";
+	}
+
+	/**
+	 * Utility method for constructing an input select box of available workflow states
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	private String pwStateTag(String id, String name, List<ProgramWorkflowState> pwStates, PatientState currentState) {
+		String s = "<select id=\"" + id + "\"  name=\"" + name + "\" value=\"\">Select a state...</option>\n";
+		s += "<option value=\"\">Select a state...</option>\n";
+		if (pwStates != null && !pwStates.isEmpty()) {
+			for (ProgramWorkflowState pws : pwStates) {
+				if ((currentState == null)  || !(currentState != null && currentState.getState().equals(pws))) {
+					s += "<option value=\"" + pws.getId().intValue() + "\">" + pws.getConcept().getName() + "</option>\n";
+				}
+			}
+		}
+		s += "</select>\n";
+		return s;
 	}
 
 	/**
@@ -299,6 +385,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 		terminalStateIds = null;
 		stateIds = null;
 		initialStateIds = null;
+		workflowIds = null;
 		defaultLocation = null;
 		return EVAL_PAGE;
 	}
@@ -358,8 +445,16 @@ public class QuickProgramsTag extends BodyTagSupport {
     public void setTerminalStateIds(String terminalStateIds) {
     	this.terminalStateIds = terminalStateIds;
     }
-	
-    /**
+
+	public String getWorkflowIds() {
+		return workflowIds;
+	}
+
+	public void setWorkflowIds(String workflowIds) {
+		this.workflowIds = workflowIds;
+	}
+
+	/**
      * @return the defaultLocation
      */
     public String getDefaultLocation() {

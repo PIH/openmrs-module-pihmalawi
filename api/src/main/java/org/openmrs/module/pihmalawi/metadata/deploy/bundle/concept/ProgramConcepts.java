@@ -56,17 +56,17 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
         install(new ConceptBuilder(EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID)
                 .datatype(notApplicable)
                 .conceptClass(workflow)
-                .name("746e9799-bea0-4eb4-9793-2b6e85b49cea", "Epilepsy treatment status", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("746e9799-bea0-4eb4-9793-2b6e85b49cea", "Epilepsy treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .mapping(new ConceptMapBuilder("47481D29-50EB-4D87-BBC9-DEA9B2DA81E1")
-                        .type(sameAs).ensureTerm(pih, "Epilepsy treatment status").build())
+                        .type(sameAs).ensureTerm(pih, "Epilepsy treatment status workflow").build())
                 .build());
 
         install(new ConceptBuilder(MENTAL_HEALTH_TREATMENT_STATUS_CONCEPT_UUID)
                 .datatype(notApplicable)
                 .conceptClass(workflow)
-                .name("243E4A3D-6A3D-4B96-BB5A-C56F51F75116", "Mental health treatment status workflow", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("243E4A3D-6A3D-4B96-BB5A-C56F51F75116", "Mental health treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .mapping(new ConceptMapBuilder("942F01FD-61A5-4640-85E5-7E4285C2D685")
-                        .type(sameAs).ensureTerm(pih, "Mental health treatment status").build())
+                        .type(sameAs).ensureTerm(pih, "Mental health treatment status workflow").build())
                 .build());
 
         install(new ConceptBuilder(CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT)

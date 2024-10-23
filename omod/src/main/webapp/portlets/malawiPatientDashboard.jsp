@@ -23,6 +23,14 @@
             refreshPage();
         });
     }
+	function changeToStateField(patientProgramId, workflowId, stateField, dateField) {
+		var onDate = parseDate_2(DWRUtil.getValue(dateField));
+		var stateId = DWRUtil.getValue(stateField);
+
+		DWRProgramWorkflowService.changeToState(patientProgramId, workflowId, stateId, onDate, function() {
+			refreshPage();
+		});
+	}
 </script>
 
 
@@ -47,7 +55,9 @@
 <c:set var="PccDiedWorkflowState" value="4bed1c08-1fe9-4972-8e7e-e93323c9f2c4"/>
 <c:set var="ChronicCareActiveStates" value="66882650-977f-11e1-8993-905e29aff6c1,7c4d2e56-c8c2-11e8-9bc6-0242ac110001"/>
 <c:set var="ChronicCareTerminalStates" value="6688275e-977f-11e1-8993-905e29aff6c1,6688297a-977f-11e1-8993-905e29aff6c1,3a4eb919-b942-4c9c-ba0e-defcebe5cd4b,dbe76d47-dbc4-4608-a578-97b6b62d9f63"/>
-<c:set var="MentalHealthActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84"/>
+<c:set var="MHProgramWokflows" value="26FD314D-138F-4A5C-8890-E01791C06336,DA69BBCB-01FE-4C59-9D46-8A2659ABBD73"/>
+<c:set var="MentalHealthActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84,2F76D426-56A9-4651-B253-A2299B442C09,79F2CAB1-E674-433E-AF42-447678FDB443"/>
+<c:set var="EpilepsyActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84,CB86C6FE-4263-4A4C-AF54-49D5308459D4,61190A43-95FF-4C84-8A3F-DD7F5354171C"/>
 <c:set var="MHTreatmentDischargedWorkflowState" value="42ACC789-C2BB-4EAA-8AC2-0BE7D0F5D4E8"/>
 <c:set var="MHTreatmentStoppedWorkflowState" value="9F6F188C-42AB-45D8-BC8B-DBE78948072D"/>
 <c:set var="MHPatientDiedWorkflowState" value="D79B02C2-B473-47F1-A51C-6D40B2242B9C"/>
@@ -186,7 +196,7 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="${MentalHealthActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Epilepsy eMastercard" initialEncounterTypeName="EPILEPSY_INITIAL" followupEncounterTypeName="EPILEPSY_FOLLOWUP" programWorkflowStates="${EpilepsyActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td><br /></td>
@@ -328,7 +338,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top;">Mental Health Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}"/><br /></td
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" workflowIds="${MHProgramWokflows}" initialStateIds="${MentalHealthActiveStates}" stateIds="${MentalHealthActiveStates}" terminalStateIds="${MHTreatmentDischargedWorkflowState},${MHTreatmentStoppedWorkflowState},${MHPatientDiedWorkflowState},${MHTransferredOutWorkflowState},${MHPatientDefaultedWorkflowState}"/><br /></td
     </tr>
     <tr>
         <td style="vertical-align: top;">Pediatric Development Clinic Program:</td>

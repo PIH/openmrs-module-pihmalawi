@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -74,18 +75,23 @@ public class Helper {
 	 * @return true if the passed patient has an identifier of the passed type whose location is the same as
 	 * their current PatientProgram location that is associated with the passed states
 	 */
-	public static boolean hasIdentifierForEnrollmentLocation(Patient p, Integer identifierType, ProgramWorkflow programWorkflow) {
+	public static boolean hasIdentifierForEnrollmentLocation(Patient p, Integer identifierType, List<ProgramWorkflow> workflows) {
 		if (identifierType == null) {
 			// no identifierType specified, simply accept
 			return true;
 		}
 		List<PatientIdentifier> pis = p.getPatientIdentifiers(Context.getPatientService().getPatientIdentifierType(identifierType));
-		Location enrollmentLocation = currentEnrollmentLocation(p, programWorkflow);
-		for (PatientIdentifier pi : pis) {
-			if (pi.getLocation() != null && enrollmentLocation != null && pi.getLocation().getId() == enrollmentLocation.getId()) {
-				return true;
+		if ( workflows!= null && !workflows.isEmpty()) {
+			for (ProgramWorkflow workflow : workflows) {
+				Location enrollmentLocation = currentEnrollmentLocation(p, workflow);
+				for (PatientIdentifier pi : pis) {
+					if (pi.getLocation() != null && enrollmentLocation != null && pi.getLocation().getId() == enrollmentLocation.getId()) {
+						return true;
+					}
+				}
 			}
 		}
+
 		return false;
 	}
 	
@@ -97,9 +103,11 @@ public class Helper {
 			// no states specified, simply accept
 			return true;
 		}
-		PatientState ps = getMostRecentStateAtDate(p, programWorkflowStates.get(0).getProgramWorkflow(), new Date());
-		if (ps != null && programWorkflowStates.contains(ps.getState())) {
-			return true;
+		for (ProgramWorkflowState programWorkflowState : programWorkflowStates) {
+			PatientState ps = getMostRecentStateAtDate(p, programWorkflowState.getProgramWorkflow(), new Date());
+			if (ps != null && programWorkflowStates.contains(ps.getState())) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -152,6 +160,20 @@ public class Helper {
 		return concepts;
 	}
 
+	public static List<ProgramWorkflow> getProgramWorkflowsFromUuidsList(String workflowUuids) {
+		List<ProgramWorkflow> workflows = new ArrayList<>();
+		if (StringUtils.isNotBlank(workflowUuids)) {
+			StringTokenizer st = new StringTokenizer(workflowUuids, ",");
+			while (st.hasMoreTokens()) {
+				String uuid = st.nextToken().trim();
+				ProgramWorkflow workflow = Context.getProgramWorkflowService().getWorkflowByUuid(uuid);
+				if (workflow != null) {
+					workflows.add(workflow);
+				}
+			}
+		}
+		return workflows;
+	}
 	/**
 	 * @param csvStateIds a String containing comma-separated programWorkflowState ids or UUIDs
 	 * @return the List of ProgramWorkflowStates that match the given ids
@@ -177,7 +199,22 @@ public class Helper {
 		}
 		return states;
 	}
-	
+
+	public static List<ProgramWorkflowState> getProgramWorkflowStates(ProgramWorkflow workflow, Boolean initial) {
+		List<ProgramWorkflowState>	workflowStates = new ArrayList<>();
+		if ( workflow != null ) {
+			Set<ProgramWorkflowState> states = workflow.getStates();
+			for (ProgramWorkflowState state : states) {
+				if (!state.getRetired() ) {
+					if ( (initial == null) || (initial != null && state.getInitial().equals(initial))) {
+						workflowStates.add(state);
+					}
+				}
+			}
+		}
+		return workflowStates;
+	}
+
 	/**
 	 * 	Quick hack copied from bugfix for PatientProgram from ProgramLocation module
 	 *  once OpenMRS can handle same-day-transitions this could be removed

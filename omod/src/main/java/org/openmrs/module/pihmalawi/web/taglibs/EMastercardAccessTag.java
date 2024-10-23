@@ -97,7 +97,14 @@ public class EMastercardAccessTag extends BodyTagSupport {
 
             // Ensure that the patient has a valid program enrollment, identifier, and state
 			List<ProgramWorkflowState> stateList = Helper.getProgramWorkflowStatesFromCsvIds(programWorkflowStates);
-			ProgramWorkflow workflow = (stateList == null || stateList.isEmpty() ? null : stateList.get(0).getProgramWorkflow());
+			List<ProgramWorkflow> programWorkflows = new ArrayList<>();
+			if (stateList !=null && !stateList.isEmpty()) {
+				for (ProgramWorkflowState pws : stateList) {
+					if (!programWorkflows.contains(pws.getProgramWorkflow()) ) {
+						programWorkflows.add(pws.getProgramWorkflow());
+					}
+				}
+			}
 			if (initials.size() == 0) {
                 if (!Helper.userHasEditPrivilege()) {
                     o.write("Not available: User does not have privileges to edit patient");
@@ -107,7 +114,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 					if (!Helper.hasIdentifierType(p, getPatientIdentifierType())) {
 						o.write("Not available: No identifier (" + f.getName() + ")");
 					} else {
-						if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
+						if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), programWorkflows)) {
 							o.write("Not available: No identifier for current enrollment location (" + f.getName() + ")");
 						} else {
 							if (conditionConcept !=null && conditionConceptAnswers !=null && (conditionConceptAnswers.size() > 0) && !Helper.hasCondition(p, conditionConcept, conditionConceptAnswers)) {
@@ -150,7 +157,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 					release();
 					return SKIP_BODY;
 				}
-				if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), workflow)) {
+				if (!Helper.hasIdentifierForEnrollmentLocation(p, getPatientIdentifierType(), programWorkflows)) {
 					o.write(createViewCardHtmlTag(p, f, initials.get(0), "Readonly: No identifier for current enrollment location"));
 					release();
 					return SKIP_BODY;
