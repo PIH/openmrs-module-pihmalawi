@@ -16,6 +16,8 @@ concept:
     uuid: "655b5f4a-977f-11e1-8993-905e29aff6c1"
   patientDied:
     uuid: "655b5e46-977f-11e1-8993-905e29aff6c1"
+  transferredOut:
+    uuid: "655b604e-977f-11e1-8993-905e29aff6c1"
 
 program:
   mentalHealth:
@@ -37,6 +39,8 @@ programWorkflow:
         uuid: "A1F672EA-EB8D-4B7D-8193-146C309AF348"
       patientDied:
         uuid: "5FB84A00-8AEC-42F5-8CE0-6006A1B58653"
+      transferredOut:
+        uuid: "CE543EAB-40A0-4021-9264-E8FFE835759F"
   epilepsyTreatmentStatus:
     uuid: "26FD314D-138F-4A5C-8890-E01791C06336"
     state:
@@ -52,4 +56,5 @@ programWorkflow:
         uuid: "96D5D27B-31CB-4BC7-AA5C-C6EC28B121DE"
       patientDied:
         uuid: "FB0B61BD-A641-499B-BA87-421DC7E1CA2C"
-
+      transferredOut:
+        uuid: "F63ED5E5-1707-43FA-BCA0-CE271C338AE2"

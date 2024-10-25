@@ -200,15 +200,18 @@ public class Helper {
 		return states;
 	}
 
-	public static List<ProgramWorkflowState> getProgramWorkflowStates(ProgramWorkflow workflow, Boolean initial) {
+	public static List<ProgramWorkflowState> getProgramWorkflowStates(ProgramWorkflow workflow, Boolean initial, Boolean terminal) {
 		List<ProgramWorkflowState>	workflowStates = new ArrayList<>();
 		if ( workflow != null ) {
 			Set<ProgramWorkflowState> states = workflow.getStates();
 			for (ProgramWorkflowState state : states) {
 				if (!state.getRetired() ) {
-					if ( (initial == null) || (initial != null && state.getInitial().equals(initial))) {
-						workflowStates.add(state);
+					if ( (initial != null && !state.getInitial().equals(initial)) ||
+							(terminal != null && !state.getTerminal().equals(terminal))) {
+						//do not return states that do not match the requested Initial or Terminal requested value
+						continue;
 					}
+					workflowStates.add(state);
 				}
 			}
 		}
