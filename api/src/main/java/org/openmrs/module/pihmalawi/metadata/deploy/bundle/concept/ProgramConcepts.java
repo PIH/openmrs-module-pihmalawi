@@ -35,10 +35,13 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
     public static final String MENTAL_HEALTH_TREATMENT_STATUS_CONCEPT_UUID = "48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619";
     public static final String EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID = "ad7b930a-a1d9-4fff-bd62-212d5e55e5b2";
 
+    public static final String LOST_TO_FOLLOWUP_STATUS_CONCEPT_UUID = "92964825-6952-407e-8331-8bbd0df7ef5c";
+    public static final String PATIENT_CURED_STATUS_CONCEPT_UUID = "655b6256-977f-11e1-8993-905e29aff6c1";
+
 
     @Override
     public int getVersion() {
-        return 5;
+        return 7;
     }
 
     @Override
@@ -52,6 +55,20 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
         MetadataUtils.existing(Concept.class, CHRONIC_CARE_STATUS_DEFAULTED_CONCEPT);
         MetadataUtils.existing(Concept.class, CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT);
 
+
+        install(new ConceptBuilder(PATIENT_CURED_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(state)
+                .name("65f88efa-977f-11e1-8993-905e29aff6c1", "Patient cured", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("65b7d46e-977f-11e1-8993-905e29aff6c1", "A pulmonary TB patient with bacteriologically confirmed TB at the beginning of treatment who completed treatment as recommended by the national policy, with evidence of bacteriological response and no evidence of failure", Locale.ENGLISH)
+                .build());
+
+        install(new ConceptBuilder(LOST_TO_FOLLOWUP_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(state)
+                .name("8AF4D96B-9B07-4D2B-8A0F-AF4DB3916134", "Lost to follow-up status workflow", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("10EE30B7-3CAD-43E7-ABF0-C8AE7D209ECA", "A patient who didn’t start treatment or whose treatment was interrupted for 2 consecutive months or more", Locale.ENGLISH)
+                .build());
 
         install(new ConceptBuilder(EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID)
                 .datatype(notApplicable)

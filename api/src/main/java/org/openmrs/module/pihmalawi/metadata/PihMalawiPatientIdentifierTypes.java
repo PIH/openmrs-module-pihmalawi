@@ -63,4 +63,14 @@ public class PihMalawiPatientIdentifierTypes {
         }
     };
 
+    public static PatientIdentifierTypeDescriptor TB_PROGRAM_IDENTIFIER = new PatientIdentifierTypeDescriptor() {
+        public String uuid() { return "F4319B47-4141-48DF-9F41-5CF7E6301EC6"; }
+        public String name() { return "TB program identifier"; }
+        public String description() { return "Identifier assigned to patient enrolled in the TB program."; }
+        public String formatDescription() {return "Ex. NNO 101 TB";}
+        public PatientIdentifierType.LocationBehavior locationBehavior() {
+            return PatientIdentifierType.LocationBehavior.REQUIRED;
+        }
+    };
+
 }
