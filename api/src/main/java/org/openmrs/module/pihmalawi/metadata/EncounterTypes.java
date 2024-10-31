@@ -576,4 +576,25 @@ public class EncounterTypes {
         public String name() { return "SICKLE_CELL_HOSPITALIZATIONS"; }
         public String description() { return "Hospitalizations for patients with sickle cell disease"; }
     };
+
+    public static EncounterTypeDescriptor OLD_TB_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b89ca-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "OLD_TB_INITIAL"; }
+        public String description() { return "Initial visit for TB Patient"; }
+    };
+    public static EncounterTypeDescriptor OLD_TB_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "664b8ab0-977f-11e1-8993-905e29aff6c1"; }
+        public String name() { return "OLD_TB_FOLLOWUP"; }
+        public String description() { return "Followup visit for TB Patient"; }
+    };
+    public static EncounterTypeDescriptor TB_INITIAL = new EncounterTypeDescriptor() {
+        public String uuid() { return "853B7AF6-FFC6-452A-9178-6A48BBA752EF"; }
+        public String name() { return "TB_INITIAL"; }
+        public String description() { return "Initial visit encounter for TB Patient"; }
+    };
+    public static EncounterTypeDescriptor TB_FOLLOWUP = new EncounterTypeDescriptor() {
+        public String uuid() { return "61545FD5-4EBC-4E01-B349-304195254A73"; }
+        public String name() { return "TB_FOLLOWUP"; }
+        public String description() { return "Followup visit encounter for TB Patient"; }
+    };
 }

@@ -74,6 +74,8 @@
 <c:set var="trisomy21" value="fc4bf95c-b445-44e3-959b-435145e79f01"/>
 <c:set var="cleftLipPalate" value="c415db67-75e8-4077-a0f2-ba2864ae52b1,abe71d88-3f2c-4380-854b-c49b74946a01"/>
 <c:set var="otherDiagnosis" value="6575742a-977f-11e1-8993-905e29aff6c1,26071668-6ad4-4d30-b661-a7a07cece1ac,657169d4-977f-11e1-8993-905e29aff6c1,a94e5963-f6b1-4c91-b676-48dfb370a1f8,6575742a-977f-11e1-8993-905e29aff6c1,f541084c-84c7-48a6-b502-d9ddbb3bb3b9,6562c316-977f-11e1-8993-905e29aff6c1,6546938a-977f-11e1-8993-905e29aff6c1"/>
+<c:set var="TbActiveStates" value="5088F779-AD8D-4EEF-A504-9B5C2D96ED62,77DCD910-2E24-4ECD-B71F-EBCA67F02478"/>
+<c:set var="TbPatientDiedWorkflowState" value="B0EE543D-42D5-48BC-8D20-3FF6AF93FC9B"/>
 
 <openmrs:globalProperty key="pihmalawi.showOldChronicCareCard" var="showOldChronicCareCard" defaultValue="true"/>
 <openmrs:globalProperty key="pihmalawi.upperOrLowerNeno" var="upperOrLowerNeno" defaultValue="UPPER_NENO"/>
@@ -235,7 +237,7 @@
 
     <tr>
         <td>Tuberculosis Record:</td>
-        <td><pihmalawi:eRecordAccess patientId="${model.patientId}" formId="21" encounterTypeId="14" programWorkflowStates="92" patientIdentifierType="7"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="TB eMastercard" initialEncounterTypeName="TB_INITIAL" followupEncounterTypeName="TB_FOLLOWUP" programWorkflowStates="${TbActiveStates}" patientIdentifierType="29"/></td>
     </tr>
     <tr>
         <td><br /></td>
@@ -350,7 +352,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top;">TB Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="92"/><br /></td>
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${TbActiveStates}" terminalStateIds="${TbPatientDiedWorkflowState}"/><br /></td>
     </tr>
     </openmrs:hasPrivilege>
 

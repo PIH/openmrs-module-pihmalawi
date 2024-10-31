@@ -10,9 +10,9 @@ public class PihMalawiConstants {
     public static final String HEALTH_FACILITY_GP_NAME = "providermanagement.locationTag";
     public static final String HEALTH_FACILITY_GP_VALUE = "Health Facility";
     public static final String DASHBOARD_IDENTIFIERS_GP_NAME = "dashboard.identifiers";
-    public static final String DASHBOARD_IDENTIFIERS_GP_VALUE = "{\"9\":[\"ARV Number\",\"HCC Number\",\"KS Number\",\"Chronic Care Number\",\"Palliative Care Number\",\"PDC Identifier\",\"Nutrition Program Number\"]}";
+    public static final String DASHBOARD_IDENTIFIERS_GP_VALUE = "{\"9\":[\"ARV Number\",\"HCC Number\",\"KS Number\",\"Chronic Care Number\",\"Palliative Care Number\",\"PDC Identifier\",\"Nutrition Program Number\",\"TB program identifier\"]}";
     public static final String PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_NAME = "patient_identifier.importantTypes";
-    public static final String PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_VALUE = "ARV Number,HCC Number,Chronic Care Number,Palliative Care Number,PDC Identifier,Nutrition Program Number";
+    public static final String PATIENT_IDENTIFIER_IMPORTANT_TYPES_GP_VALUE = "ARV Number,HCC Number,Chronic Care Number,Palliative Care Number,PDC Identifier,Nutrition Program Number,TB program identifier";
     public static final String TASK_CLOSE_STALE_VISITS_NAME = "PIH Malawi module - Close Stale Visits";
     public static final String TASK_CLOSE_STALE_VISITS_DESCRIPTION = "Closes any open visits that are no longer active";
     public static final long TASK_CLOSE_STALE_VISITS_REPEAT_INTERVAL = 300L;
