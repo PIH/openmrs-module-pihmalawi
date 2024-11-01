@@ -28,6 +28,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.map.util.JSONPObject;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientState;
@@ -37,6 +38,7 @@ import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
 import org.openmrs.PatientProgram;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
+import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.util.OpenmrsConstants;
 
 /**
@@ -47,6 +49,7 @@ public class QuickProgramsTag extends BodyTagSupport {
 	public static final long serialVersionUID = 128233353L;
 
 	public static final String TRANSFERRED_OUT_CONCEPT = "655b604e-977f-11e1-8993-905e29aff6c1";
+	public static final String PATIENT_DIED_CONCEPT = "655b5e46-977f-11e1-8993-905e29aff6c1";
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -130,6 +133,8 @@ public class QuickProgramsTag extends BodyTagSupport {
 								quickProgramsAvailable = true;
 								if (StringUtils.equalsIgnoreCase(terminalState.getConcept().getUuid(), TRANSFERRED_OUT_CONCEPT)) {
 									o.write(transferOutForm(program, patient, terminalState, terminalState.getProgramWorkflow()));
+								} else if (StringUtils.equalsIgnoreCase(terminalState.getConcept().getUuid(), PATIENT_DIED_CONCEPT)) {
+									o.write(patientDiedForm(program, patient, terminalState));
 								} else {
 									o.write(changeToStateSubmitTag("Complete",
 											patientProgram,
@@ -261,6 +266,25 @@ public class QuickProgramsTag extends BodyTagSupport {
 			}
 		}
 		s += "</select>\n";				
+		s += "</form>";
+		return s;
+	}
+
+	private String patientDiedForm(Program program, Patient patient, ProgramWorkflowState pws) {
+		String s = "";
+		s += "<form method=\"post\" action=\"/openmrs/module/quickprograms/patientDied.form\">\n";
+		s += "<input id=\"transferOutSubmitButton-" + pws.getId() + "\" type=\"submit\" value=\"Complete\"/>\n";
+		s += "<input type=\"hidden\" name=\"method\" value=\"patientDied\"/>\n";
+		s += "<input type=\"hidden\" name=\"returnPage\" value=\"/openmrs/patientDashboard.form?patientId=" + patient.getId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"patientProgramId\" value=\"" + currentPatientProgram(program, patient).getPatientProgramId() + "\"/>\n";
+		s += "<input type=\"hidden\" name=\"programworkflowStateId\" value=\"" + pws.getId() + "\"/>\n";
+		if ( pws != null && pws.getProgramWorkflow() != null ) {
+			s += " " + pws.getProgramWorkflow().getConcept().getName();
+		}
+		s += " with " + pws.getConcept().getName();
+		s += " on \n";
+		s += dateTag("dateStateChanged-" + pws.getId(), "dateStateChanged") + "\n";
+		s += " at " + currentPatientProgram(program, patient).getLocation().getName() + "<br/>";
 		s += "</form>";
 		return s;
 	}

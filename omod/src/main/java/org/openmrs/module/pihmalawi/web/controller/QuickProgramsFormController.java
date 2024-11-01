@@ -4,9 +4,10 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
+import org.openmrs.PatientProgramAttribute;
 import org.openmrs.Program;
 import org.openmrs.ProgramAttributeType;
-import org.openmrs.PatientProgramAttribute;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static org.openmrs.module.pihmalawi.PihMalawiConstants.TRANSFERRED_OUT_PROGRAM_ATTRIBUTE_TYPE;
 
@@ -84,6 +86,58 @@ public class QuickProgramsFormController {
 		return new ModelAndView(new RedirectView(returnPage));
 	}
 
+	@RequestMapping("/module/quickprograms/patientDied.form")
+	public ModelAndView patientDied(
+									@RequestParam("returnPage") String returnPage,
+									@RequestParam("patientProgramId") Integer patientProgramId,
+									@RequestParam("programworkflowStateId") Integer stateId,
+									@RequestParam("dateStateChanged") Date dateStateChanged
+	) throws ServletException, IOException {
+
+		if (returnPage == null) {
+			throw new IllegalArgumentException("must specify a returnPage parameter in a call to transfer()");
+		}
+
+		ProgramWorkflowService pws = Context.getService(ProgramWorkflowService.class);
+		ProgramWorkflowState pwState = null;
+		if ( stateId != null ) {
+			pwState = pws.getState(stateId);
+		}
+
+		if (patientProgramId != null) {
+			PatientProgram patientProgram = pws.getPatientProgram(patientProgramId);
+			if (patientProgram != null) {
+				if (pwState != null) {
+					patientProgram.transitionToState(pwState, dateStateChanged);
+					pws.savePatientProgram(patientProgram);
+
+					ProgramWorkflow programWorkflow = pwState.getProgramWorkflow();
+					//check if this program has other workflows
+					Set<ProgramWorkflow> workflows = patientProgram.getProgram().getWorkflows();
+					if (workflows.size() > 1) {
+						for (ProgramWorkflow workflow : workflows) {
+							if (!workflow.getProgramWorkflowId().equals(programWorkflow.getProgramWorkflowId())) {
+								//we found another program workflow different than the one was passed on
+								Set<ProgramWorkflowState> states = workflow.getStates();
+								if (states != null && states.size() > 0) {
+									//look for Patient died state
+									for (ProgramWorkflowState state : states) {
+										if (state.getConcept().getUuid().equalsIgnoreCase(pwState.getConcept().getUuid())) {
+											//we found the corresponding state in a different program workflow
+											patientProgram.transitionToState(state, dateStateChanged);
+											pws.savePatientProgram(patientProgram);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return new ModelAndView(new RedirectView(returnPage));
+	}
 
 	@RequestMapping("/module/quickprograms/transferredOutToLocation.form")
 	public ModelAndView transferOut(HttpServletRequest request,
