@@ -15,6 +15,28 @@
         relationToPatient=1328
         agreesToFollowup=2552
         chwName=8431
+        <macro key="artStartDate" value="655f9eb6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="cotrimoxazoleStartDate" value="434fd4bb-41a9-4c7c-8dcd-48c574a9f1cc"/>
+        <macro key="tbArvstatus" value="38362892-90eb-41d0-b50b-49ecc2152d2e"/>
+        <macro key="arvBeforeTB" value="4301ebd1-8675-4977-ba23-2b1c9bbe12bc"/>
+        <macro key="arvWhileTB" value="cf3e6b3e-d1cf-42b1-b2d9-4597d86d6c0b"/>
+        <macro key="arvNotDischargeTB" value="8478ca70-596d-432b-b0f2-b8059c63b4a5"/>
+        <macro key="arvStatus" value="38362892-90eb-41d0-b50b-49ecc2152d2e"/>
+        <macro key="arvNumber" value="65747e94-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="tbClassification" value="65665b2a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="pulmonary" value="6577f182-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="extraPulmonary" value="655a49ac-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="tbCaseConfirmation" value="005bed28-d8f9-465d-a2e9-48c3aec2873f"/>
+        <macro key="tbClinicallyConfirmed" value="0614a1b0-4cb1-4214-81a3-7a65729fd23f"/>
+        <macro key="tbBacteriologicallyConfirmed" value="e7edeb84-dc6f-4fb5-84e9-5468fb9e3234"/>
+        <macro key="tbPatientCategory" value="65579bd0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="newPatient" value="	6577920a-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="relapsePatient" value="655a308e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="defaultPatient" value="	655a323c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="failedTbPatient" value="655a731e-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="other" value="8797110a-d38e-427f-a08f-260300c8c896"/>
+        <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1"/>
+
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
     </macros>
@@ -27,7 +49,7 @@
         <h4 style="font-style: italic;">
             <b>Tuberculosis treatment card</b>
             <b style="padding-left:50px;">TB Disease</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 8</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
@@ -125,7 +147,88 @@
                         </tr>
                     </table>
                 </td>
+
+
+                <td style="vertical-align:top;">
+                    <h4>Disease Classification, Patient Category and Diagnosis </h4>
+                    <table>
+                        <tr>
+                            <tr >
+                                <td>Disease Classification</td>
+                                <td>
+                                    <obs conceptId="$tbClassification" style="radio" answerLabels="P,EP" answerConceptIds=",$pulmonary,$extraPulmonary" />
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>Patient Category</td>
+                                <td>
+                                    <obs conceptId="$tbPatientCategory" style="radio"
+                                         answerLabels="New,Relapse,RALTF,Fail,Other,Unknown"
+
+                                         answerConceptIds="$newPatient,$relapsePatient,$defaultPatient,$failedTbPatient,$other,$unknown"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Diagnosis</td>
+                                <td>
+                                    <obs conceptId="$tbCaseConfirmation" style="radio" answerLabels="Bacteriologically confirmed,Clinically diagnosed" answerConceptIds="$tbBacteriologicallyConfirmed,$tbClinicallyConfirmed" />
+                                </td>
+                            </tr>
+                        </tr>
+                    </table>
+                </td>
+
+
+                <td style="vertical-align:top;">
+                    <h4>Management of HIV Positive Patients</h4>
+                    <table>
+                        <tr style="border: none;">
+                                <tr>
+                                    <td>ARV Start Date</td>
+                                    <td>
+                                        <obs conceptId="$artStartDate" size="10"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CTX Start Date</td>
+                                    <td>
+                                        <obs conceptId="$cotrimoxazoleStartDate" size="10"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ARV Number</td>
+                                    <td>
+                                        <obs conceptId="$arvNumber" size="10"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ARV Status</td>
+                                    <td>
+                                        <obs conceptId="$arvStatus" style="radio" answerLabels="A,B,C" answerConceptIds="$arvBeforeTB,$arvWhileTB,$arvNotDischargeTB" />
+                                    </td>
+                                </tr>
+
+                        </tr>
+
+                    </table>
+                </td>
+
+
             </tr>
+        </table>
+
+
+        <h2>Key: </h2>
+        <table border="1px" align="center">
+            <td colspan="1" style="padding: 1px;"><b>P: </b> Pulmonary</td>
+            <td colspan="1" style="padding: 1px;"><b>EP:</b>Extra pulmonary</td>
+            <td colspan="1" style="padding: 1px;"><b>New: </b>New case</td>
+            <td colspan="1" style="padding: 1px;"><b>RALTF: </b>Treatment after lost<b/> to follow-up</td>
+            <td colspan="1" style="padding: 1px;"><b>Fail: </b>Treatment failure</td>
+            <td colspan="1" style="padding: 1px;"><b>A: </b>Started ARV before<br/>starting TB treatment</td>
+            <td colspan="1" style="padding: 1px;"><b>B: </b>Started ARV while<br/>on TB treatment</td>
+            <td colspan="1" style="padding: 1px;"><b>C: </b>ARV not started on<br/>discharge from TB treatment</td>
         </table>
 
         <ifMode mode="VIEW" include="false">
