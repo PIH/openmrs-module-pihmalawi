@@ -1,5 +1,6 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
 
+import org.glassfish.jaxb.runtime.v2.runtime.reflect.opt.Const;
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -173,8 +174,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 29;
-        // current version  28
+        return 30;
+        // current version  29
     }
 
     @Override
@@ -1652,6 +1653,64 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("7fa5052c-5adf-4b55-ae44-8f758a01d2fc", "Enlarged Liver", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .description("11574923-8a9d-4031-b59a-dff004c4d3ba","a sign of an underlying problem, such as liver disease, congestive heart failure or cancer.",Locale.ENGLISH)
                 .answers(yes, no)
+                .build());
+
+        Concept cotrimoxazoleStartDate = install(new ConceptBuilder("434fd4bb-41a9-4c7c-8dcd-48c574a9f1cc")
+                .datatype(date)
+                .conceptClass(question)
+                .name("64f94082-dfd5-45a4-be7b-22b46b132418", "Cotrimoxazole Start Date", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("3ccdf720-69f2-4c26-ba37-9ccf171eda0e","The date which the patient started cotrimoxazole prophylaxis ",Locale.ENGLISH)
+                .build());
+
+        Concept A=install(new ConceptBuilder("4301ebd1-8675-4977-ba23-2b1c9bbe12bc")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("c8cef104-0122-4514-a687-e131ed1c31b4","A",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("e18b6d12-4d8b-4e20-a932-71a485195d3a","Started ARV before TB treatment",Locale.ENGLISH)
+                .build());
+
+        Concept B=install(new ConceptBuilder("cf3e6b3e-d1cf-42b1-b2d9-4597d86d6c0b")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6af48f6a-7795-495b-afd8-4afb2f85ffe3","B",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ae91926f-c8a8-4e54-a138-cd009c140961","Started ARV while on TB treatment",Locale.ENGLISH)
+                .build());
+
+        Concept C=install(new ConceptBuilder("8478ca70-596d-432b-b0f2-b8059c63b4a5")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6b3d53a5-9ac9-485b-bca4-30cd1ed7ab86","C",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("ea64b80c-daee-4223-9a89-af74c584ccab","ARV not started on discharge from TB treatment",Locale.ENGLISH)
+                .build());
+
+        Concept tbArvstatus= install(new ConceptBuilder("38362892-90eb-41d0-b50b-49ecc2152d2e")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("31a0f7dd-472d-403d-9348-bbf5e3ed3850","TB ARV Status",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("843779bf-d5c7-4db8-8990-aef308f73a34","ARV status during TB registration",Locale.ENGLISH)
+                .answers(A,B,C)
+                .build());
+
+        Concept clinicallyConfirmed=install(new ConceptBuilder("0614a1b0-4cb1-4214-81a3-7a65729fd23f")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("b126b4d6-9085-4226-b10c-625f99d1a4a6","TB Clinically Diagnosed",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("c4169462-3253-4173-b259-75a320f7af19","Active TB cases diagnosed by a clinician or other medical practitioner who has decided to give the patient a full course of TB treatment",Locale.ENGLISH)
+                .build());
+
+        Concept bacteriologicallyConfirmed=install(new ConceptBuilder("e7edeb84-dc6f-4fb5-84e9-5468fb9e3234")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("1c63deaf-fd97-47f3-aaf1-f26243b15679","TB Bacteriologically Confirmed",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("aae1c1dc-6345-4071-bb43-49527186e2aa","Biological specimen is positive by smear microscopy, culture or WRD (e.g., Xpert MTB/RIF)",Locale.ENGLISH)
+                .build());
+
+        Concept tbCaseConfirmation=install(new ConceptBuilder("005bed28-d8f9-465d-a2e9-48c3aec2873f")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("5cd5e635-f157-421d-8422-56c6643e0ef5","TB Case Confirmation",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("89f3c2b8-0ac0-40b6-bbc5-d150056fdc09","Any person meeting the clinical or the bacteriological criteria for case confirmation",Locale.ENGLISH)
+                .answers(clinicallyConfirmed,bacteriologicallyConfirmed)
                 .build());
     }
 }
