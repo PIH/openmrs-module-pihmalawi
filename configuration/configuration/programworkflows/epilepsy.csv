@@ -1,3 +1,0 @@
-Uuid,Void/Retire,Program,Workflow concept
-${programWorkflow.epilepsyTreatmentStatus.uuid},,${program.mentalHealth.uuid},${concept.epilepsyTreatmentStatus.uuid}
-${programWorkflow.mentalHealthTreatmentStatus.uuid},,${program.mentalHealth.uuid},${concept.mentalHealthTreatmentStatus.uuid}

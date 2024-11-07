@@ -16,6 +16,7 @@ import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningC
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.MasterCardConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.NutritionConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.PalliativeCareConcepts;
+import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.TbProgramConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.TraceConcepts;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Requires( {
         PalliativeCareConcepts.class,
         MasterCardConcepts.class,
+        ProgramConcepts.class,
         ChwManagementConcepts.class,
         ChronicHeartFailureConcepts.class,
         ChronicKidneyDiseaseConcepts.class,
@@ -36,7 +38,7 @@ public class PihMalawiMetadataBundle extends AbstractMetadataBundle{
     @Override
     public void install() throws Exception {
         install(PalliativeCareMetadata.PALLIATIVE_CARE_PROGRAM);
-        //install(MentalHealthMetadata.MH_CARE_PROGRAM);
+        install(MentalHealthMetadata.MH_CARE_PROGRAM);
         install(PdcMetadata.PDC_PROGRAM);
         install(NutritionProgramMetadata.NUTRITION_PROGRAM);
         install(TeenClubProgramMetadata.TEEN_CLUB_PROGRAM);

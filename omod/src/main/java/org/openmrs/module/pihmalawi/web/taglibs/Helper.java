@@ -195,7 +195,9 @@ public class Helper {
 				// id is not an integer, it should be an UUID then
 				state = Context.getProgramWorkflowService().getStateByUuid(id);
 			}
-			states.add(state);
+			if (state != null ) {
+				states.add(state);
+			}
 		}
 		return states;
 	}
