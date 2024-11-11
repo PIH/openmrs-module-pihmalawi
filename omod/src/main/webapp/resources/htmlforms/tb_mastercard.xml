@@ -36,6 +36,8 @@
         <macro key="failedTbPatient" value="655a731e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="other" value="8797110a-d38e-427f-a08f-260300c8c896"/>
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="setCategoryPatients" value="6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478"/>
 
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
@@ -53,9 +55,9 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
+                   Health Unit: <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
-                        Date: <encounterDate />
+                       Registration Date: <encounterDate />
                     </span>
                 </b>
             </span>
@@ -162,13 +164,20 @@
                             <tr >
                                 <td>Patient Category</td>
                                 <td>
-                                    <obs conceptId="$tbPatientCategory" style="radio"
-                                         answerLabels="New,Relapse,RALTF,Fail,Other,Unknown"
+                                    <obsgroup groupingConceptId="$setCategoryPatients">
+                                        <obs conceptId="$tbPatientCategory" style="radio"
+                                             answerLabels="New,Relapse,RALTF,Fail,Other,Unknown"
 
-                                         answerConceptIds="$newPatient,$relapsePatient,$defaultPatient,$failedTbPatient,$other,$unknown"
-                                    />
+                                             answerConceptIds="$newPatient,$relapsePatient,$defaultPatient,$failedTbPatient,$other,$unknown"
+                                        />
+                                        <br />
+                                        <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="20"/>
+                                    </obsgroup>
+
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td>Diagnosis</td>
                                 <td>
@@ -185,17 +194,22 @@
                     <table>
                         <tr style="border: none;">
                                 <tr>
-                                    <td>ARV Start Date</td>
-                                    <td>
-                                        <obs conceptId="$artStartDate" size="10"/>
-                                    </td>
+                                    <th rowspan="2">Start date</th>
+                                    <td>ARV</td>
+                                    <td>CTX</td>
+
                                 </tr>
                                 <tr>
-                                    <td>CTX Start Date</td>
                                     <td>
+                                        <!-- ART start Date -->
+                                        <obs conceptId="$artStartDate" size="10"/>
+                                    </td>
+                                    <td>
+                                        <!-- CTX start date -->
                                         <obs conceptId="$cotrimoxazoleStartDate" size="10"/>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>ARV Number</td>
                                     <td>
@@ -218,14 +232,14 @@
             </tr>
         </table>
 
-
-        <h2>Key: </h2>
+        <br/>
         <table border="1px" align="center">
             <td colspan="1" style="padding: 1px;"><b>P: </b> Pulmonary</td>
             <td colspan="1" style="padding: 1px;"><b>EP:</b>Extra pulmonary</td>
             <td colspan="1" style="padding: 1px;"><b>New: </b>New case</td>
             <td colspan="1" style="padding: 1px;"><b>RALTF: </b>Treatment after lost<b/> to follow-up</td>
             <td colspan="1" style="padding: 1px;"><b>Fail: </b>Treatment failure</td>
+            <td colspan="1" style="padding: 1px;"><b>Oth: </b>Other</td>
             <td colspan="1" style="padding: 1px;"><b>A: </b>Started ARV before<br/>starting TB treatment</td>
             <td colspan="1" style="padding: 1px;"><b>B: </b>Started ARV while<br/>on TB treatment</td>
             <td colspan="1" style="padding: 1px;"><b>C: </b>ARV not started on<br/>discharge from TB treatment</td>
