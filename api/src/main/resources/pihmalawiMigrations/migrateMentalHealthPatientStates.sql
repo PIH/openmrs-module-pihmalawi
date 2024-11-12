@@ -1,7 +1,3 @@
--- Migrate Mental Health chronic care treatment statuses
---
---
-
 SET @mh_encounter_initial=(select encounter_type_id from encounter_type where name = 'MENTAL_HEALTH_INITIAL');
 SET @epilepsy_encounter_initial = (select encounter_type_id from encounter_type where name = 'EPILEPSY_INITIAL');
 SET @mh_program_id = (select program_id from program where name='MENTAL HEALTH CARE PROGRAM');
@@ -29,31 +25,26 @@ SET @cc_state_treatment_stopped = (select program_workflow_state_id from program
 SET @epilepsy_state_treatment_stopped = (select program_workflow_state_id from program_workflow_state where uuid = 'AAE431AF-96E6-477F-B15E-2E5C66B20AEF');
 SET @mh_state_treatment_stopped = (select program_workflow_state_id from program_workflow_state where uuid = '6633F174-E20C-4D03-B6CB-3EBD2433EE75');
 
-#
-
 DROP TABLE IF EXISTS mh_patient_state_migration;
 
-#
-
 create table mh_patient_state_migration (
-             state_migration_id int PRIMARY KEY AUTO_INCREMENT,
-             patient_id int,
-             patient_state_id int,
-             patient_program_id int,
-             old_state int,
-             new_state int,
-             start_date DATETIME,
-             end_date DATETIME,
-             creator int,
-             date_created DATETIME,
-             voided tinyint(1) NOT NULL DEFAULT '0',
-             uuid   char(38),
-             encounter_id int,
-             encounter_type int,
-             encounter_datetime DATETIME
+                                            state_migration_id int PRIMARY KEY AUTO_INCREMENT,
+                                            patient_id int,
+                                            patient_state_id int,
+                                            patient_program_id int,
+                                            old_state int,
+                                            new_state int,
+                                            start_date DATETIME,
+                                            end_date DATETIME,
+                                            creator int,
+                                            date_created DATETIME,
+                                            voided tinyint(1) NOT NULL DEFAULT '0',
+                                            uuid   char(38),
+                                            encounter_id int,
+                                            encounter_type int,
+                                            encounter_datetime DATETIME
 );
 
-#
 -- select all non-voided old Mental Health treatment statuses (former Chronic Care treatment statuses)
 
 insert into mh_patient_state_migration(
@@ -88,23 +79,20 @@ from patient_state ps
          inner join program_workflow_state pws on ps.state=pws.program_workflow_state_id
          left join encounter e on pp.patient_id = e.patient_id and (e.encounter_type = @mh_encounter_initial or e.encounter_type = @epilepsy_encounter_initial) and e.voided = 0
 where  pp.program_id = @mh_program_id
-        and ps.state in (
-                @cc_state_on_treatment,
-                @cc_state_in_advanced_care,
-                @cc_state_transferred_out,
-                @cc_state_died,
-                @cc_state_discharged,
-                @cc_state_defaulted,
-                @cc_state_treatment_stopped
-        ) and ps.voided = 0
+  and ps.state in (
+                   @cc_state_on_treatment,
+                   @cc_state_in_advanced_care,
+                   @cc_state_transferred_out,
+                   @cc_state_died,
+                   @cc_state_discharged,
+                   @cc_state_defaulted,
+                   @cc_state_treatment_stopped
+    ) and ps.voided = 0
 order by ps.patient_program_id desc;
-
-#
 
 SET SQL_SAFE_UPDATES = 0;
 
-#
--- migrate former Chronic Care treatment statuses to the new MH treatment and Epilepsy treatment statuses
+			-- migrate former Chronic Care treatment statuses to the new MH treatment and Epilepsy treatment statuses
 update mh_patient_state_migration m1, mh_patient_state_migration m2
 set m1.new_state = case
     when m2.old_state = @cc_state_on_treatment and (m2.encounter_type is null or m2.encounter_type = @mh_encounter_initial) then @mh_state_on_treatment
@@ -125,20 +113,17 @@ set m1.new_state = case
 end
 where m1.state_migration_id = m2.state_migration_id;
 
-#
+			SET SQL_SAFE_UPDATES = 1;
 
-SET SQL_SAFE_UPDATES = 1;
-
-#
--- add new patient states with the migrated treatment statuses
+			-- add new patient states with the migrated treatment statuses
 insert into patient_state(
-	patient_program_id,
-	state,
-	start_date,
-	end_date,
-	creator,
-	date_created,
-	uuid
+    patient_program_id,
+    state,
+    start_date,
+    end_date,
+    creator,
+    date_created,
+    uuid
 )
 select
     patient_program_id,
@@ -150,17 +135,11 @@ select
     uuid
 from mh_patient_state_migration where new_state is not null;
 
-#
-
 SET SQL_SAFE_UPDATES = 0;
 
-#
--- void old MH patient states that were migrated to the new Epilepsy and MH treatment workflow states
+			-- void old MH patient states that were migrated to the new Epilepsy and MH treatment workflow states
 update patient_state ps, mh_patient_state_migration m
 set ps.voided = 1
 where ps.patient_state_id = m.patient_state_id and m.new_state is not null;
-#
 
 SET SQL_SAFE_UPDATES = 1;
-
-#
