@@ -143,6 +143,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.OLD_TB_FOLLOWUP);
         install(EncounterTypes.TB_INITIAL);
         install(EncounterTypes.TB_FOLLOWUP);
+        install(EncounterTypes.TB_TESTS);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS
