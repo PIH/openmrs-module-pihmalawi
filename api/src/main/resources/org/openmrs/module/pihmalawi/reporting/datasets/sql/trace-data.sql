@@ -19,6 +19,7 @@ CALL create_rpt_identifiers(@location);
 CALL create_rpt_active_eid(@endDate, @location);
 CALL create_rpt_active_art(@endDate, @location);
 CALL create_rpt_active_ncd(@endDate, @location);
+CALL create_rpt_active_pdc(@endDate, @location);
 CALL create_rpt_priority_patients(@endDate);
 CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWeeks, false);
 
@@ -33,6 +34,7 @@ SELECT        t.patient_id,
               i.eid_number,
               i.art_number,
               i.ncd_number,
+              i.pdc_number,
               art.last_visit_date as art_last_visit_date,
               art.last_appt_date as art_last_appt_date,
               round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
@@ -43,7 +45,13 @@ SELECT        t.patient_id,
               ncd.last_appt_date as ncd_last_appt_date,
               ncd.last_visit_type as ncd_last_visit_type,
               round(ncd.days_late_appt / 7, 1) as ncd_weeks_out_of_care,
+              pdc.last_visit_date as pdc_last_visit_date,
+              pdc.last_appt_date as pdc_last_appt_date,
+              pdc.last_visit_type as pdc_last_visit_type,
+              round(pdc.days_late_appt / 7, 1) as pdc_weeks_out_of_care,
               TRIM(TRAILING ',' FROM concat(if(art.patient_id is null, '', 'HIV, '), if(eid.patient_id is null, '', 'EID, '), d.diagnoses)) as diagnoses,
+              y.pdc_conditions as pdc_conditions,
+              z.pdc_non_coded_conditions as pdc_non_coded_conditions,
               c.priority_criteria,
               group_concat(t.criteria ORDER BY t.criteria asc SEPARATOR ', ') as trace_criteria
 FROM          rpt_trace_criteria t
@@ -52,8 +60,11 @@ LEFT JOIN     rpt_identifiers i on i.patient_id = p.patient_id
 LEFT JOIN     rpt_active_art art on art.patient_id = p.patient_id
 LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
 LEFT JOIN     rpt_active_ncd ncd on ncd.patient_id = p.patient_id
+LEFT JOIN     rpt_active_pdc pdc on pdc.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(priority ORDER BY priority asc SEPARATOR ', ') as priority_criteria from rpt_priority_patients GROUP BY patient_id) c on c.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as diagnoses from mw_ncd_diagnoses where diagnosis_date <= @endDate GROUP BY patient_id) d on d.patient_id = p.patient_id
+LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as pdc_conditions from mw_pdc_diagnoses where diagnosis != 'Diagnosis, non-coded' and visit_date <= @endDate GROUP BY patient_id) y on y.patient_id = p.patient_id
+LEFT JOIN     ( select patient_id, comments as pdc_non_coded_conditions from mw_pdc_diagnoses where diagnosis = 'Diagnosis, non-coded' and comments is not null and visit_date <= @endDate GROUP BY patient_id) z on z.patient_id = p.patient_id
 GROUP BY      t.patient_id
 ORDER BY      if(p.chw is null, 1, 0), p.chw, p.village, p.last_name
 ;

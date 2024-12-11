@@ -172,11 +172,13 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell("ART#", headerStyle1, 15);
                     builder.addCell("EID#", headerStyle1, 15);
                     builder.addCell("NCD#", headerStyle1, 15);
+                    builder.addCell("PDC#", headerStyle1, 15);
                 }
                 else {
                     builder.addCell("ART#", headerStyle1 + ",border=left", 15);
                     builder.addCell("EID#", headerStyle1, 15);
                     builder.addCell("NCD#", headerStyle1, 15);
+                    builder.addCell("PDC#", headerStyle1, 15);
                     builder.addCell("First", headerStyle1, 12);
                     builder.addCell("Last", headerStyle1, 15);
                     builder.addCell("Birthdate", headerStyle1Centered, 12);
@@ -191,6 +193,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 18);
                 builder.addCell("Priority\nPatient", headerStyle1Centered, 8);
                 builder.addCell("Diagnoses", headerStyle1Centered, 20);
+                builder.addCell("PDC Conditions", headerStyle1Centered, 20);
                 builder.addCell("Visit missed", headerStyle1Centered, 20);
                 builder.addCell("Last IC3\nVisit Date", headerStyle1Centered + leftBorderedLight, 12);
                 builder.addCell("Appointment\nDate", headerStyle1Centered, 14);
@@ -238,11 +241,13 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         builder.addCell(row.getColumnValue("art_number"), rowStyle);
                         builder.addCell(row.getColumnValue("eid_number"), rowStyle);
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+                        builder.addCell(row.getColumnValue("pdc_number"), rowStyle);
                     }
                     else {
                         builder.addCell(row.getColumnValue("art_number"), rowStyle + ",border=left");
                         builder.addCell(row.getColumnValue("eid_number"), rowStyle);
                         builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+                        builder.addCell(row.getColumnValue("pdc_number"), rowStyle);
                         builder.addCell(row.getColumnValue("first_name"), rowStyle);
                         builder.addCell(row.getColumnValue("last_name"), rowStyle);
                         builder.addCell(row.getColumnValue("birthdate"), dateRowStyle);
@@ -274,11 +279,21 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                         }
                     }
 
+                    Number pdcWeeksOutOfCare = (Number)row.getColumnValue("pdc_weeks_out_of_care");
+                    if (pdcWeeksOutOfCare != null) {
+                        if (weeksOutOfCare == null || pdcWeeksOutOfCare.doubleValue() > weeksOutOfCare.doubleValue()) {
+                            weeksOutOfCare = pdcWeeksOutOfCare;
+                            lastVisitDate = (Date)row.getColumnValue("pdc_last_visit_date");
+                            lastApptDate = (Date)row.getColumnValue("pdc_last_appt_date");
+                        }
+                    }
+
                     String traceCriteria = (String) row.getColumnValue("trace_criteria");
 
                     boolean lateHiv = hasTraceCriteria(traceCriteria, "LATE_ART", "LATE_EID");
                     boolean lateNcd = hasTraceCriteria(traceCriteria,"LATE_NCD");
-                    boolean lateVisit = lateHiv || lateNcd;
+                    boolean latePdc = hasTraceCriteria(traceCriteria,"LATE_PDC");
+                    boolean lateVisit = lateHiv || lateNcd || latePdc;
 
                     boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
                     boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST", "EID_6_WEEK_TEST");
@@ -290,7 +305,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     if (lateHiv || hasTraceCriteria(traceCriteria, "EID_POSITIVE_6_WK", "EID_NEGATIVE")) {
                         dateToVisit = "Today";
                     }
-                    else if (hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "LATE_NCD")) {
+                    else if (hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "LATE_NCD", "LATE_PDC")) {
                         dateToVisit = "Next Clinic Day";
                     }
                     else if (ObjectUtil.notNull(traceCriteria)) {
@@ -303,12 +318,18 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                     builder.addCell(dateToVisit, rowStyle + ",align=center");
                     builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
                     builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
+                    String pdcConditions = (String) row.getColumnValue("pdc_conditions");
+                    String pdcNonCodedConditions = (String) row.getColumnValue("pdc_non_coded_conditions");
+                    builder.addCell(( pdcConditions == null ? "" : pdcConditions ) + (pdcNonCodedConditions == null ? "" : ( pdcConditions == null ? pdcNonCodedConditions : ", " + pdcNonCodedConditions)), rowStyle);
                     String lastVisitType = null;
                     if (lateHiv) {
                         lastVisitType = "ART_FOLLOWUP";
                     }
                     if (lateNcd) {
                         lastVisitType = (lastVisitType !=null) ? (lastVisitType + ", " + (String) row.getColumnValue("NCD_LAST_VISIT_TYPE")) : (String) row.getColumnValue("NCD_LAST_VISIT_TYPE");
+                    }
+                    if (latePdc) {
+                        lastVisitType = (lastVisitType !=null) ? (lastVisitType + ", " + (String) row.getColumnValue("PDC_LAST_VISIT_TYPE")) : (String) row.getColumnValue("PDC_LAST_VISIT_TYPE");
                     }
                     builder.addCell(lastVisitType, rowStyle);
                     String redactIfNeeded = (ObjectUtil.isNull(traceCriteria) || lateVisit ? "" : blackout);
