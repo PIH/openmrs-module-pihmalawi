@@ -65,7 +65,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
                 DataSetRow firstRow = ds.getRows().get(0);
                 String locationName = getParameterValue(firstRow, IC3TraceReport.LOCATION_NAME_PARAM, String.class);
                 Integer minWks = getParameterValue(firstRow, IC3TraceReport.MIN_WKS_PARAM, Integer.class);
-                Integer maxWks = getParameterValue(firstRow, IC3TraceReport.MAX_WKS_PARAM, Integer.class);
+                Integer maxWks = getParameterValue(firstRow, IC3TraceReport.MAX_WKS_PARAM.getName(), Integer.class);
 
                 builder.newSheet(key);
 

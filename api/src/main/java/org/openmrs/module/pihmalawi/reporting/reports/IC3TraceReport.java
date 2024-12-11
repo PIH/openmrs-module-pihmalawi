@@ -38,7 +38,7 @@ public class IC3TraceReport extends ApzuReportManager {
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/trace-data.sql";
     public static final String LOCATION_NAME_PARAM = "location";
     public static final String MIN_WKS_PARAM = "minWeeks";
-    public static final String MAX_WKS_PARAM = "maxWeeks";
+    public static final Parameter MAX_WKS_PARAM = new Parameter("maxWeeks", "Late max number of weeks", Integer.class);
     public static final Parameter LAB_WEEKS_PARAMETER = new Parameter("labWeeks", "Weeks of lab results to include", Integer.class);
 
 	@Autowired
@@ -63,6 +63,7 @@ public class IC3TraceReport extends ApzuReportManager {
     public List<Parameter> getParameters() {
         List<Parameter> l = new ArrayList<Parameter>();
         l.add(ReportingConstants.END_DATE_PARAMETER);
+        l.add(MAX_WKS_PARAM);
         l.add(LAB_WEEKS_PARAMETER);
         return l;
     }
@@ -95,12 +96,13 @@ public class IC3TraceReport extends ApzuReportManager {
         String dsName = location.getName() + " - 2 weeks";
         MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
         multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.addParameter(MAX_WKS_PARAM);
         multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
         multiParamDsd.setBaseDefinition(getBaseDsd());
         Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
         mappings.put(LOCATION_NAME_PARAM, location.getName());
         mappings.put(MIN_WKS_PARAM, 2);
-        mappings.put(MAX_WKS_PARAM, 6);
+        //mappings.put(MAX_WKS_PARAM, 6);
         multiParamDsd.addIteration(mappings);
         rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
     }
@@ -109,13 +111,14 @@ public class IC3TraceReport extends ApzuReportManager {
         String dsName = "6 weeks";
         MultiParameterDataSetDefinition multiParamDsd = new MultiParameterDataSetDefinition();
         multiParamDsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        multiParamDsd.addParameter(MAX_WKS_PARAM);
         multiParamDsd.addParameter(LAB_WEEKS_PARAMETER);
         multiParamDsd.setBaseDefinition(getBaseDsd());
         for (Location location : locations) {
             Map<String, Object> mappings = Mapped.straightThroughMappings(rd);
             mappings.put(LOCATION_NAME_PARAM, location.getName());
             mappings.put(MIN_WKS_PARAM, 6);
-            mappings.put(MAX_WKS_PARAM, 12);
+            //mappings.put(MAX_WKS_PARAM, 12);
             multiParamDsd.addIteration(mappings);
         }
         rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
@@ -126,10 +129,11 @@ public class IC3TraceReport extends ApzuReportManager {
         dsd.setConnectionPropertyFile(PihMalawiConstants.OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME);
         dsd.setSqlResource(SQL_DATA_SET_RESOURCE);
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
+        dsd.addParameter(MAX_WKS_PARAM);
         dsd.addParameter(LAB_WEEKS_PARAMETER);
         dsd.addParameter(new Parameter(LOCATION_NAME_PARAM, LOCATION_NAME_PARAM, String.class));
         dsd.addParameter(new Parameter(MIN_WKS_PARAM, MIN_WKS_PARAM, Integer.class));
-        dsd.addParameter(new Parameter(MAX_WKS_PARAM, MAX_WKS_PARAM, Integer.class));
+        //dsd.addParameter(new Parameter(MAX_WKS_PARAM, MAX_WKS_PARAM, Integer.class));
         return dsd;
     }
 
