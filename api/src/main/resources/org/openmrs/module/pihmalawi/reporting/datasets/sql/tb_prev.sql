@@ -7,11 +7,6 @@ Proportion of ART patients who started on a standard course of TB Preventive
  Treatment (TPT) in the previous reporting period who completed therapy.
 ***************************************************************************/
 
-use openmrs_warehouse;
-
-set @location='neno district hospital';
-set @enddate='2024-06-30';
-
 SET @defaultOneMonth = 30;
 SET @birthDateDivider = 30;
 
