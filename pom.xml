@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>pihmalawi</artifactId>
-	<version>7.1.0-SNAPSHOT</version>
+	<version>7.1.0</version>
 	<packaging>pom</packaging>
 	<name>PIH Malawi Customizations</name>
 	<description>Parent project for PIH Malawi Customizations</description>
@@ -37,7 +37,7 @@
 	</modules>
 
 	<properties>
-        <openMRSVersion>2.5.9-SNAPSHOT</openMRSVersion>
+        <openMRSVersion>2.5.9</openMRSVersion>
         <addresshierarchyVersion>2.15.0</addresshierarchyVersion>
         <appframeworkVersion>2.17.0</appframeworkVersion>
         <appuiVersion>1.16.0</appuiVersion>
