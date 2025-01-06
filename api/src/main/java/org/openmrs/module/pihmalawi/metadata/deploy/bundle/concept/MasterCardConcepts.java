@@ -1,6 +1,5 @@
 package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
 
-import org.glassfish.jaxb.runtime.v2.runtime.reflect.opt.Const;
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.metadatadeploy.MetadataUtils;

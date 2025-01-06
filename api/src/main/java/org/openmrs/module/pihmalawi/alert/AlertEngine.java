@@ -24,6 +24,7 @@ import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.OpenmrsClassLoader;
 
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.BufferedReader;
@@ -159,6 +160,7 @@ public class AlertEngine {
      */
     protected ScriptEngine createScriptEngine(Map<String, Object> variables) {
         ScriptEngine scriptEngine = scriptEngineManager.getEngineByName(SCRIPT_ENGINE_NAME);
+        scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE).put("polyglot.js.allowAllAccess", true);
         evaluateResource(scriptEngine, FUNCTIONS_RESOURCE);
         JsonObject constants = JsonObject.fromJsonResource(CONSTANTS_RESOURCE);
         for (String key : constants.keySet()) {
