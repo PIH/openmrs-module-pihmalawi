@@ -13,16 +13,16 @@ var concepts = {
  * So calculating an age would be yearsBetween(today, birthdate)
  */
 function yearsBetween(timestamp1, timestamp2) {
-    var d1 = new Date(+timestamp1);
-    var d2 = new Date(+timestamp2);
-    var years = d1.getFullYear() - d2.getFullYear();  // Start with difference in calendar year
-    var monthDiff = d1.getMonth() - d2.getMonth();
-    var dayDiff = d1.getDate() - d2.getDate();
+    let d1 = new Date(+timestamp1);
+    let d2 = new Date(+timestamp2);
+    let years = d1.getFullYear() - d2.getFullYear();  // Start with difference in calendar year
+    let monthDiff = d1.getMonth() - d2.getMonth();
+    let dayDiff = d1.getDate() - d2.getDate();
     if (monthDiff < 0 || (monthDiff == 0 && dayDiff < 0)) {  // If it is an earlier month, or earlier day in same month, subtract 1
         years--;
     }
    //java.lang.System.out.println("d1:" + d1 + "; d2: " + d2 + "; years = " + years);
-    return years;
+    return Math.floor(years);
 }
 
 /**
@@ -31,12 +31,12 @@ function yearsBetween(timestamp1, timestamp2) {
  * So calculating an age in months would be yearsBetween(today, birthdate)
  */
 function monthsBetween(timestamp1, timestamp2) {
-    var d1 = new Date(+timestamp1);
-    var d2 = new Date(+timestamp2);
-    var years = d1.getFullYear() - d2.getFullYear();  // Start with difference in calendar year
-    var months = d1.getMonth() - d2.getMonth(); // Add or subtract the months apart
-    var dayDiff = d1.getDate() - d2.getDate(); // Subtract a month if the day of the month is earlier
-    return years*12 + months - (dayDiff >= 0 ? 0 : 1);
+    let d1 = new Date(+timestamp1);
+    let d2 = new Date(+timestamp2);
+    let years = d1.getFullYear() - d2.getFullYear();  // Start with difference in calendar year
+    let months = d1.getMonth() - d2.getMonth(); // Add or subtract the months apart
+    let dayDiff = d1.getDate() - d2.getDate(); // Subtract a month if the day of the month is earlier
+    return Math.floor(years*12 + months - (dayDiff >= 0 ? 0 : 1));
 }
 
 /**

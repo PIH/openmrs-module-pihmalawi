@@ -21,7 +21,13 @@ import org.openmrs.module.reporting.common.DateUtil;
 import org.openmrs.module.reporting.common.ObjectUtil;
 
 import javax.script.ScriptEngine;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Tests the AlertEngine
@@ -771,7 +777,7 @@ public class AlertEngineTest {
         Assert.assertEquals(((AlertDefinition)evaluateMatchingAlerts.get(0)).getName().compareTo(alert.getName()), 0);
     }
 
-    protected void test(String function, int y1, int m1, int d1, int y2, int m2, int d2, double expected) throws Exception {
+    protected void test(String function, int y1, int m1, int d1, int y2, int m2, int d2, Number expected) throws Exception {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("t1", DateUtil.getDateTime(y1, m1, d1).getTime());
         variables.put("t2", DateUtil.getDateTime(y2, m2, d2).getTime());
@@ -786,7 +792,7 @@ public class AlertEngineTest {
         // t1 = March 4, 2005: 1109973600000
         // t2 = February 5, 2000: 949701600000
         Object res = engine.createScriptEngine(variables).eval("var t1='1109973600000'; var t2='949701600000'; monthsBetween(t1, t2)");
-        Assert.assertEquals(61.0, res);
+        Assert.assertEquals(61, res);
     }
 
     @Test
