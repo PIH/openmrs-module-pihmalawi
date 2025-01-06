@@ -37,23 +37,23 @@
 	</modules>
 
 	<properties>
-        <openMRSVersion>2.5.9</openMRSVersion>
-        <addresshierarchyVersion>2.15.0</addresshierarchyVersion>
+        <openMRSVersion>2.6.11</openMRSVersion>
+        <addresshierarchyVersion>2.19.0</addresshierarchyVersion>
         <appframeworkVersion>2.17.0</appframeworkVersion>
         <appuiVersion>1.16.0</appuiVersion>
 		<authenticationVersion>1.0.0</authenticationVersion>
-		<authenticationuiVersion>1.0.0</authenticationuiVersion>
+		<authenticationuiVersion>1.1.0-SNAPSHOT</authenticationuiVersion>
         <calculationVersion>1.3.0</calculationVersion>
         <coreappsVersion>1.38.0</coreappsVersion>
         <emrapiVersion>1.33.0</emrapiVersion>
         <eventVersion>2.10.0</eventVersion>
-		<fhir2Version>1.8.0</fhir2Version>
+		<fhir2Version>2.2.0</fhir2Version>
         <htmlformentryVersion>5.2.0</htmlformentryVersion>
         <htmlformentryuiVersion>2.3.0</htmlformentryuiVersion>
         <htmlwidgetsVersion>1.11.0</htmlwidgetsVersion>
-        <idgenVersion>4.9.0</idgenVersion>
+        <idgenVersion>4.14.0</idgenVersion>
 		<initializerVersion>2.7.0</initializerVersion>
-        <legacyuiVersion>1.15.0</legacyuiVersion>
+        <legacyuiVersion>1.21.0</legacyuiVersion>
         <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>1.6.0</metadatamappingVersion>
         <metadatasharingVersion>1.9.0</metadatasharingVersion>
@@ -156,15 +156,17 @@
 			<version>${fhir2Version}</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
-			<artifactId>fhir2-api-2.1</artifactId>
+			<artifactId>fhir2-api-2.5</artifactId>
 			<version>${fhir2Version}</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
-			<artifactId>fhir2-api-2.2</artifactId>
+			<artifactId>fhir2-api-2.6</artifactId>
 			<version>${fhir2Version}</version>
 			<scope>provided</scope>
 		</dependency>
