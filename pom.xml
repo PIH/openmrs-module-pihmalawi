@@ -391,6 +391,21 @@
 		</testResources>
 
 		<plugins>
+			<!-- Provide ability to auto-update dependencies as appropriate -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+					<properties>
+						<property>
+							<name>openMRSVersion</name>
+							<version>[2.6.11,2.6.99)</version>
+						</property>
+					</properties>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
