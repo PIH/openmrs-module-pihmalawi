@@ -53,7 +53,7 @@ public class FindPatientPortletController {
 		return "/module/pihmalawi/portlets/findPatient";
 	}
 
-	@RequestMapping(value = "/module/pihmalawi/findMatchingPatients")
+	@RequestMapping(value = "/module/pihmalawi/findMatchingPatients.form")
 	public void findMatchingPatients(ModelMap model,
 							   @RequestParam("phrase") String phrase,
 							   @RequestParam(value = "soundexEnabled", required = false) String soundexEnabled,
