@@ -62,7 +62,7 @@
         <providermanagementVersion>2.15.0</providermanagementVersion>
         <registrationappVersion>1.27.0-SNAPSHOT</registrationappVersion>
         <registrationcoreVersion>1.13.0</registrationcoreVersion>
-		<reportingcompatibilityVersion>2.0.9</reportingcompatibilityVersion>
+		<reportingcompatibilityVersion>2.10.0-SNAPSHOT</reportingcompatibilityVersion>
         <reportingVersion>1.27.0-SNAPSHOT</reportingVersion>
         <reportingrestVersion>1.14.0</reportingrestVersion>
         <reportinguiVersion>1.13.0-SNAPSHOT</reportinguiVersion>
