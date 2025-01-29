@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 30;
-        // current version  29
+        return 31;
+        // current version  30
     }
 
     @Override
@@ -1710,6 +1710,20 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("5cd5e635-f157-421d-8422-56c6643e0ef5","TB Case Confirmation",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("89f3c2b8-0ac0-40b6-bbc5-d150056fdc09","Any person meeting the clinical or the bacteriological criteria for case confirmation",Locale.ENGLISH)
                 .answers(clinicallyConfirmed,bacteriologicallyConfirmed)
+                .build());
+
+        Concept rhRegimen = install(new ConceptBuilder("89a51505-984f-41e3-af75-bfd80295a4ae")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("efd9cc40-3e09-41ee-b20e-d5bdd9c40e20","RH Regimen Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("1b5eb949-24cc-4497-bdf4-838b0e70503b","Number of RH tablets prescribed for TB",Locale.ENGLISH)
+                .build());
+
+        Concept rhMeningitis = install(new ConceptBuilder("b4600273-eda4-46be-9385-d314a676b66f")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("d2872be3-bd56-4574-8f80-b13169da2b7c","RH Meningitis Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("d1f05343-b47f-4e73-b100-00489959a29e","Number of RH tablets prescribed for TB Meningitis",Locale.ENGLISH)
                 .build());
     }
 }
