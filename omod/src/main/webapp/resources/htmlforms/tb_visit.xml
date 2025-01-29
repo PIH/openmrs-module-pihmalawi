@@ -12,6 +12,9 @@
         weight=5089
         nextAppt=5096
 
+        <macro key="month" value="b2fafb7e-ce9f-11e5-ab30-625662870761"/>
+        <macro key="regimen" value="89a51505-984f-41e3-af75-bfd80295a4ae"/>
+        <macro key="meningitis" value="b4600273-eda4-46be-9385-d314a676b66f"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="formEncTypeUuid" value="61545FD5-4EBC-4E01-B349-304195254A73"/>
         <macro key="noncodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
@@ -74,36 +77,31 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
+                    <td>Month</td>
                     <td rowspan="2">Visit Date</td>
-                    <td><span>Planned Visit?</span></td>
-                    <td>Ht</td>
-                    <td>Wt</td>
+                    <td>Regimen (RH)</td>
+                    <td>TB Meningitis (RH)</td>
                     <td rowspan="2">Next appt date</td>
-                </tr>
-                <tr> <!-- Units row -->
-                    <td>Y/N</td>
-                    <td>cm</td>
-                    <td>kg</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
+                    <td>
+                        <!-- Month -->
+                        <obs conceptId="$month" size="3"/>
+                    </td>
                     <td class="nowrap visit-date">
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- Planned Visit -->
-                        <obs conceptId="$plannedVisit"
-                             style="yes_no" noLabel="N" yesLabel="Y" />
+                        <!-- TB Regimen -->
+                        <obs conceptId="$regimen" size="3"/>
                     </td>
                     <td>
-                        <!-- Height -->
-                        <obsreference conceptId="$height" id="heightEntered" size="3"/>
+                        <!-- TB Meningitis -->
+                        <obs conceptId="$meningitis" size="3"/>
                     </td>
-                    <td>
-                        <!-- Weight -->
-                        <obsreference conceptId="$weight" id="weightInput" size="3"/>
-                    </td>
+
                     <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true" />
@@ -124,7 +122,7 @@
 
         <h4 style="font-style: italic;">
             <b>TB Visit Card</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 8</span>
             <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">TB Reg no: </b>
@@ -138,6 +136,11 @@
 
         <table class="visit-edit-table">
             <tr>
+                <th>Month</th>
+                <td>
+                <obs conceptId="$month" size="3"/> </td>
+            </tr>
+            <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
                     <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
@@ -149,22 +152,12 @@
                 <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr>
-                <!-- Planned Visit -->
-                <th><font>Planned Visit?</font></th>
-                <td class="focus-field">
-                    <obs conceptId="$plannedVisit"
-                         style="yes_no" noLabel="No" yesLabel="Yes" />
-                </td>
+                <th>Regimen (RH)</th>
+                <td><obs conceptId="$regimen" size="3"/></td>
             </tr>
             <tr>
-                <!-- Height -->
-                <th>Height</th>
-                <td class="focus-field"><obsreference conceptId="$height" id="heightInput" showUnits="true"/></td>
-            </tr>
-            <tr>
-                <!-- Weight -->
-                <th>Weight</th>
-                <td><obsreference conceptId="$weight" id="weightInput" showUnits="true"/></td>
+                <th>Meningitis (RH)</th>
+                <td><obs conceptId="$meningitis" size="3"/></td>
             </tr>
             <tr>
                 <!-- Next appointment -->
