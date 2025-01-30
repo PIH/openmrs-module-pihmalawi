@@ -1,6 +1,6 @@
 /* Pepfar Cut-off = 30, MoH cut-off = 60 */
 
-SET @defaultOneMonth = 60;
+SET @defaultCutOff = 60;
 SET @birthDateDivider = 30;
 
 SET @ageGroup = "FNP";
