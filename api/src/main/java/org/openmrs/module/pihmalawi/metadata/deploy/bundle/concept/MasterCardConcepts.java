@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 31;
-        // current version  30
+        return 32;
+        // current version  31
     }
 
     @Override
@@ -1724,6 +1724,32 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("d2872be3-bd56-4574-8f80-b13169da2b7c","RH Meningitis Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("d1f05343-b47f-4e73-b100-00489959a29e","Number of RH tablets prescribed for TB Meningitis",Locale.ENGLISH)
+                .build());
+
+        Concept household=install(new ConceptBuilder("7f585dd1-2f57-4d24-9451-8b6530e72219")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("6c39ce7c-0604-433c-8ebe-10e58967373a","Household",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept mobileVan=install(new ConceptBuilder("079930a0-a836-44cb-90b0-7e1a5b4ca5b3")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("b4de9387-3aa1-4639-9760-452ec1139f0d","Mobile Van",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .description("4367ba46-6b7f-4406-bc3d-1a715962f023","A mobile clinic medical vehicle equipped with medical facilities and equipment to provide medical care in various locations",Locale.ENGLISH)
+                .build());
+
+        Concept ppm=install(new ConceptBuilder("a4914851-0516-4add-90e9-748dacdcae91")
+                .datatype(notApplicable)
+                .conceptClass(misc)
+                .name("a4a56a75-6799-4e58-a31a-8e97ddc2e9ab","ppm",Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept rhrze = install(new ConceptBuilder("e0950577-7827-4757-bb92-2ee1d8eeea5d")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("b6db7bb5-da68-47d4-bd51-fe572aa86bd6","RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("7f246e6d-2045-4ec8-aa09-953a933b9d83","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
                 .build());
     }
 }

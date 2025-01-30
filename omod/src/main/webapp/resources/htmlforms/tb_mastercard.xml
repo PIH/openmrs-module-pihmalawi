@@ -36,8 +36,28 @@
         <macro key="failedTbPatient" value="655a731e-977f-11e1-8993-905e29aff6c1"/>
         <macro key="other" value="8797110a-d38e-427f-a08f-260300c8c896"/>
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1"/>
-        <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="noneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
         <macro key="setCategoryPatients" value="6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478"/>
+
+        <macro key="rhzeRegimen" value="e0950577-7827-4757-bb92-2ee1d8eeea5d"/>
+
+        <macro key="dotOption" value="6566916c-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="optGrdian" value="807bcfed-6fb9-4ca3-bb46-8286a51906a2"/>
+        <macro key="volunteer" value="6566ef36-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="hcw" value="bf997029-a496-41a2-a7e7-7981e82d2dd0"/>
+        <macro key="hsa" value="655a4060-977f-11e1-8993-905e29aff6c1"/>
+
+        <macro key="SourceOfReferral" value="eb76915e-104d-4500-b56e-726f3e2a75f9"/>
+        <macro key="household" value="7f585dd1-2f57-4d24-9451-8b6530e72219"/>
+        <macro key="cscp" value="657d1bbc-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="mobileVan" value="079930a0-a836-44cb-90b0-7e1a5b4ca5b3"/>
+        <macro key="ppm" value="a4914851-0516-4add-90e9-748dacdcae91"/>
+        <macro key="walkIn" value="655b9ae6-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="opd" value="6578c9f4-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="ward" value="20B8B0FB-F0D7-4692-96BF-5B516CA0D624"/>
+        <macro key="antiretroviral" value="657ad212-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="ncd" value="0514c008-3738-458c-99de-9f43eca8c414"/>
+        <macro key="dst" value="65664158-977f-11e1-8993-905e29aff6c1"/>
 
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
@@ -150,7 +170,6 @@
                     </table>
                 </td>
 
-
                 <td style="vertical-align:top;">
                     <h4>Disease Classification, Patient Category and Diagnosis </h4>
                     <table>
@@ -171,7 +190,7 @@
                                              answerConceptIds="$newPatient,$relapsePatient,$defaultPatient,$failedTbPatient,$other,$unknown"
                                         />
                                         <br />
-                                        <b>Other Specify:</b><obs conceptId="$otherNoneCodedText" style="textarea" cols="20"/>
+                                        <b>Other Specify:</b><obs conceptId="$noneCodedText" style="textarea" cols="20"/>
                                     </obsgroup>
 
                                 </td>
@@ -222,6 +241,48 @@
                                         <obs conceptId="$arvStatus" style="radio" answerLabels="A,B,C" answerConceptIds="$arvBeforeTB,$arvWhileTB,$arvNotDischargeTB" />
                                     </td>
                                 </tr>
+
+                        </tr>
+
+                    </table>
+                </td>
+
+
+                <td style="vertical-align:top;">
+                    <h4>Initial Intensive Phases</h4>
+                    <table>
+                        <tr style="border: none;">
+                        <tr>
+                            <td>Regimen (RHZE)</td>
+                            <td>
+                                <obs conceptId="$rhzeRegimen" size="10"/>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+                            <td>DOT Option</td>
+                            <td>
+                                <obs conceptId="$dotOption" style="radio" answerLabels="Gua,HSA,Vol,HCW"
+                                     answerConceptIds="$optGrdian,$hsa,$volunteer,$hcw" />
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <td>Source of referral</td>
+                                <td>
+                                    <obs conceptId="$SourceOfReferral" style="radio" answerLabels="HH,CSCP,Mobile Van,PPM,Walk in,OPD,Ward,ART,NCD "
+                                         answerConceptIds="$household,$cscp,$mobileVan,$ppm,$walkIn,$opd,$ward,$antiretroviral,$ncd" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>DST (MDR/RR) Result before / after TX Initiatio</td>
+                                <td>
+                                    <obs conceptId="$dst" style="radio" answerLabels="Positive,Negative,Unknown" answerConceptIds="$positive,$negative,$unknown"/>
+                                </td>
+                            </tr>
 
                         </tr>
 
