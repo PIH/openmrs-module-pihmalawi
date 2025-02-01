@@ -92,8 +92,8 @@ public class LivePatientDataCache {
         if (location != null) {
             sb.append(location.getUuid());
         }
-        sb.append("|");
-        sb.append(DateUtil.formatDate(endDate, "yyyy-MM-dd"));
+//        sb.append("|");
+//        sb.append(DateUtil.formatDate(endDate, "yyyy-MM-dd"));
         return sb.toString();
     }
 }
