@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Provides a construct for maintaining patient data
@@ -25,8 +26,8 @@ public class LivePatientDataCache {
 
     //***** PROPERTIES *****
 
-    private Map<String, Long> lastAccessTimes = new HashMap<String, Long>();
-    private Map<String, Map<Integer, JsonObject>> cachesByKey;
+    private WeakHashMap<String, Long> lastAccessTimes = new WeakHashMap<>();
+    private WeakHashMap<String, Map<Integer, JsonObject>> cachesByKey = null;
 
     //***** CONSTRUCTORS *****
 
@@ -55,19 +56,27 @@ public class LivePatientDataCache {
     }
 
     public void clearAllCaches() {
-        cachesByKey = new HashMap<String, Map<Integer, JsonObject>>();
-        lastAccessTimes = new HashMap<String, Long>();
+        cachesByKey = new WeakHashMap<String, Map<Integer, JsonObject>>();
+        lastAccessTimes = new WeakHashMap<String, Long>();
     }
 
     public void clearCaches(int minutesSinceLastAccess) {
         long now = System.currentTimeMillis();
-        long lastAccessTimeBoundary = now - minutesSinceLastAccess*60*1000;
+        long lastAccessTimeBoundary = now - minutesSinceLastAccess*20*1000; // for debugging purposes clear it every 20 minutes
         for (Iterator<String> cacheKeyIter = lastAccessTimes.keySet().iterator(); cacheKeyIter.hasNext();) {
             String cacheKey = cacheKeyIter.next();
             Long lastAccessTime = lastAccessTimes.get(cacheKey);
             if (lastAccessTime < lastAccessTimeBoundary) {
-                getDataCache(cacheKey).clear();
+                for (Iterator<String> dataCacheIter = cachesByKey.keySet().iterator(); dataCacheIter.hasNext();) {
+                    String dataKey = dataCacheIter.next();
+                    if (dataKey.equalsIgnoreCase(cacheKey)) {
+                        cachesByKey.put(dataKey, null);
+                        dataCacheIter.remove();
+                        dataKey = null;
+                    }
+                }
                 cacheKeyIter.remove();
+                cacheKey = null;
             }
         }
     }
@@ -77,11 +86,11 @@ public class LivePatientDataCache {
     private Map<Integer, JsonObject> getDataCache(String cacheKey) {
         lastAccessTimes.put(cacheKey, System.currentTimeMillis());
         if (cachesByKey == null) {
-            cachesByKey = new HashMap<String, Map<Integer, JsonObject>>();
+            cachesByKey = new WeakHashMap<String, Map<Integer, JsonObject>>();
         }
         Map<Integer, JsonObject> dataCache = cachesByKey.get(cacheKey);
         if (dataCache == null) {
-            dataCache = new HashMap<Integer, JsonObject>();
+            dataCache = new WeakHashMap<Integer, JsonObject>();
             cachesByKey.put(cacheKey, dataCache);
         }
         return dataCache;
@@ -92,8 +101,8 @@ public class LivePatientDataCache {
         if (location != null) {
             sb.append(location.getUuid());
         }
-//        sb.append("|");
-//        sb.append(DateUtil.formatDate(endDate, "yyyy-MM-dd"));
+        sb.append("|");
+        sb.append(DateUtil.formatDate(endDate, "yyyy-MM-dd"));
         return sb.toString();
     }
 }

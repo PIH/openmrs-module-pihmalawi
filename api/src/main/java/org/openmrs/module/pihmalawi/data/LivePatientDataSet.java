@@ -197,7 +197,7 @@ public abstract class LivePatientDataSet {
             getCache().updateCache(data, effectiveDate, location);
         }
         for (Integer pId : cohort.getMemberIds()) {
-            data.put(pId, cachedData.get(pId));
+            data.put(pId, getCache().getDataCache(effectiveDate, location).get(pId));
         }
 
         return data;
