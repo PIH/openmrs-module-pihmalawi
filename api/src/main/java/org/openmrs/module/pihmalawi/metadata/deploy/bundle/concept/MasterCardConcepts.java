@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 32;
-        // current version  31
+        return 33;
+        // current version  32
     }
 
     @Override
@@ -1750,6 +1750,45 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .conceptClass(misc)
                 .name("b6db7bb5-da68-47d4-bd51-fe572aa86bd6","RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("7f246e6d-2045-4ec8-aa09-953a933b9d83","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
+                .build());
+
+        Concept recentNegative = install(new ConceptBuilder("c71c4580-119f-4342-a689-d2d6f9cbe348")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("9f39f235-dd2b-4ca2-9ed4-04a5840fcc6b","Recent Negative",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("079fc455-a5c7-41ea-b2d9-975b8a3f5d20","tested HIV negative less than 3 months ago. No new test needed at this time",Locale.ENGLISH)
+                .answers(yes,no)
+                .build());
+
+        Concept newNegative = install(new ConceptBuilder("c329a7df-65e9-401a-9f3c-487d4496b402")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("cc3e6d5f-cc88-4936-abae-b6fab781e3c3","New Negative",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("5583ccea-3608-48c2-a96f-b3e6b83b5e76","tested negative while on TB treatment",Locale.ENGLISH)
+                .answers(yes,no)
+                .build());
+
+        Concept pastPositive = install(new ConceptBuilder("7ca1a5c3-7716-4ec8-add9-7b8d09c9b228")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("18f3fca3-75a4-4397-9db5-dbcffd8c5fca","Past Positive",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("2d14a374-0dc0-4d15-a673-3dece0fa2b42","tested positive before TB treatment",Locale.ENGLISH)
+                .answers(yes,no)
+                .build());
+
+        Concept newPositive = install(new ConceptBuilder("8a722a81-b26d-46ad-bd5a-440ec051b61b")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("51ebaf77-b8cd-4ba9-bf02-464c1efb2f6b","New Positive",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("c95699c2-29cc-413d-9ab1-582525cb5a8f","Tested HIV positive while on TB treatment",Locale.ENGLISH)
+                .answers(yes,no)
+                .build());
+
+        Concept regRhrzeTablets = install(new ConceptBuilder("8a7798d4-ee8f-43d3-9423-352628b616f2")
+                .datatype(numeric)
+                .conceptClass(misc)
+                .name("db6b0758-4388-43de-a1f9-00b2cb4b1e6a","Number of RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("77a559f4-88d3-47e2-8799-45f5f002f0a1","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
                 .build());
     }
 }

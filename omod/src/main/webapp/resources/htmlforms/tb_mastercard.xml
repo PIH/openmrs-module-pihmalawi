@@ -38,7 +38,7 @@
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1"/>
         <macro key="noneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
         <macro key="setCategoryPatients" value="6000c2f8-4eb5-4fd9-ac83-a9a9d6bd8478"/>
-        <macro key="rhzeRegimen" value="e0950577-7827-4757-bb92-2ee1d8eeea5d"/>
+        <macro key="regRhze" value="8a7798d4-ee8f-43d3-9423-352628b616f2"/>
         <macro key="dotOption" value="6566916c-977f-11e1-8993-905e29aff6c1"/>
         <macro key="optGrdian" value="807bcfed-6fb9-4ca3-bb46-8286a51906a2"/>
         <macro key="volunteer" value="6566ef36-977f-11e1-8993-905e29aff6c1"/>
@@ -62,13 +62,17 @@
         <macro key="xpertTestType" value="162202AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></macro>
         <macro key="lamTestType" value="a047e2ec-f07e-47a6-8849-7c5150550e9e"></macro>
         <macro key="timeOfTbTest" value="63A03D36-9D91-4013-BFCA-F29E80459947"></macro>
-
+        <macro key="recentNegative" value="c71c4580-119f-4342-a689-d2d6f9cbe348"/>
+        <macro key="newNegative" value="c329a7df-65e9-401a-9f3c-487d4496b402"/>
+        <macro key="pastPositive" value="7ca1a5c3-7716-4ec8-add9-7b8d09c9b228"/>
+        <macro key="nwPositive" value="8a722a81-b26d-46ad-bd5a-440ec051b61b"/>
+        <macro key="testHIV" value="07a0190e-10b1-11e6-a148-3e1d05defe78"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="transferInDate" value="6559bc30-977f-11e1-8993-905e29aff6c1"/>
     </macros>
     <style>
         .nowrap {
-            white-space: nowrap;
+        white-space: nowrap;
         }
     </style>
     <span style="display:none">
@@ -83,9 +87,9 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                   Health Unit: <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
+                    Health Unit: <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
-                       Registration Date: <encounterDate />
+                        Registration Date: <encounterDate />
                     </span>
                 </b>
             </span>
@@ -232,8 +236,8 @@
                                         <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
                                             <td>Initiation</td>
                                             <td><obs conceptId="$tbTestType"
-                                                    answerConceptIds="PIH Malawi:3050,PIH Malawi:3044,CIEL:162202,$lamTestType"
-                                                    answerCodes="Smear,Culture,XPERT,LAM"
+                                                     answerConceptIds="PIH Malawi:3050,PIH Malawi:3044,CIEL:162202,$lamTestType"
+                                                     answerCodes="Smear,Culture,XPERT,LAM"
                                                      style="radio"/>
                                             </td>
                                             <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
@@ -309,36 +313,51 @@
                     <h4>Management of HIV Positive Patients</h4>
                     <table>
                         <tr style="border: none;">
-                                <tr>
-                                    <th rowspan="2">Start date</th>
-                                    <td>ARV</td>
-                                    <td>CTX</td>
+                            <tr>
+                                <th rowspan="2">Start date</th>
+                                <td>ARV</td>
+                                <td>CTX</td>
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <!-- ART start Date -->
-                                        <obs conceptId="$artStartDate" size="10"/>
-                                    </td>
-                                    <td>
-                                        <!-- CTX start date -->
-                                        <obs conceptId="$cotrimoxazoleStartDate" size="10"/>
-                                    </td>
-                                </tr>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!-- ART start Date -->
+                                    <obs conceptId="$artStartDate" size="10"/>
+                                </td>
+                                <td>
+                                    <!-- CTX start date -->
+                                    <obs conceptId="$cotrimoxazoleStartDate" size="10"/>
+                                </td>
+                            </tr>
 
-                                <tr>
-                                    <td>ARV Number</td>
-                                    <td>
-                                        <obs conceptId="$arvNumber" size="10"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ARV Status</td>
-                                    <td>
-                                        <obs conceptId="$arvStatus" style="radio" answerLabels="A,B,C" answerConceptIds="$arvBeforeTB,$arvWhileTB,$arvNotDischargeTB" />
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>ARV Number</td>
+                                <td>
+                                    <obs conceptId="$arvNumber" size="10"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ARV Status</td>
+                                <td>
+                                    <obs conceptId="$arvStatus" style="radio" answerLabels="A,B,C" answerConceptIds="$arvBeforeTB,$arvWhileTB,$arvNotDischargeTB" />
+                                </td>
+                            </tr>
 
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h4>HIV Test History</h4>
+                                <table>
+                                    <tr>
+                                        <td>Test</td>
+                                        <td>
+                                            <obs conceptId="$testHIV" style="radio" answerLabels="RN,PP,NN,NP,Unk"
+                                                 answerConceptIds="$recentNegative,$pastPositive,$newNegative,$nwPositive,$unknown"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
 
                     </table>
@@ -349,19 +368,19 @@
                     <h4>Initial Intensive Phases</h4>
                     <table>
                         <tr style="border: none;">
-                        <tr>
-                            <td>Regimen (RHZE)</td>
-                            <td>
-                                <obs conceptId="$rhzeRegimen" size="10"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>DOT Option</td>
-                            <td>
-                                <obs conceptId="$dotOption" style="radio" answerLabels="Gua,HSA,Vol,HCW"
-                                     answerConceptIds="$optGrdian,$hsa,$volunteer,$hcw" />
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>Regimen (RHZE)</td>
+                                <td>
+                                    <obs conceptId="$regRhze" size="10"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>DOT Option</td>
+                                <td>
+                                    <obs conceptId="$dotOption" style="radio" answerLabels="Gua,HSA,Vol,HCW"
+                                         answerConceptIds="$optGrdian,$hsa,$volunteer,$hcw" />
+                                </td>
+                            </tr>
                             <tr>
                                 <td>Source of referral</td>
                                 <td>
