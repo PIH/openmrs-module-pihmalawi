@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * Provides a construct for maintaining patient data
@@ -26,8 +25,8 @@ public class LivePatientDataCache {
 
     //***** PROPERTIES *****
 
-    private WeakHashMap<String, Long> lastAccessTimes = new WeakHashMap<>();
-    private WeakHashMap<String, Map<Integer, JsonObject>> cachesByKey = null;
+    private Map<String, Long> lastAccessTimes = new HashMap<String, Long>();
+    private Map<String, Map<Integer, JsonObject>> cachesByKey;
 
     //***** CONSTRUCTORS *****
 
@@ -56,13 +55,13 @@ public class LivePatientDataCache {
     }
 
     public void clearAllCaches() {
-        cachesByKey = new WeakHashMap<String, Map<Integer, JsonObject>>();
-        lastAccessTimes = new WeakHashMap<String, Long>();
+        cachesByKey = new HashMap<String, Map<Integer, JsonObject>>();
+        lastAccessTimes = new HashMap<String, Long>();
     }
 
     public void clearCaches(int minutesSinceLastAccess) {
         long now = System.currentTimeMillis();
-        long lastAccessTimeBoundary = now - minutesSinceLastAccess*20*1000; // for debugging purposes clear it every 20 minutes
+        long lastAccessTimeBoundary = now - minutesSinceLastAccess*60*1000;
         for (Iterator<String> cacheKeyIter = lastAccessTimes.keySet().iterator(); cacheKeyIter.hasNext();) {
             String cacheKey = cacheKeyIter.next();
             Long lastAccessTime = lastAccessTimes.get(cacheKey);
@@ -86,11 +85,11 @@ public class LivePatientDataCache {
     private Map<Integer, JsonObject> getDataCache(String cacheKey) {
         lastAccessTimes.put(cacheKey, System.currentTimeMillis());
         if (cachesByKey == null) {
-            cachesByKey = new WeakHashMap<String, Map<Integer, JsonObject>>();
+            cachesByKey = new HashMap<String, Map<Integer, JsonObject>>();
         }
         Map<Integer, JsonObject> dataCache = cachesByKey.get(cacheKey);
         if (dataCache == null) {
-            dataCache = new WeakHashMap<Integer, JsonObject>();
+            dataCache = new HashMap<Integer, JsonObject>();
             cachesByKey.put(cacheKey, dataCache);
         }
         return dataCache;
