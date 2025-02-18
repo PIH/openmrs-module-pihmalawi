@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 33;
-        // current version  32
+        return 34;
+        // current version  33
     }
 
     @Override

@@ -245,7 +245,7 @@
                                                     <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                     <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                                     <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                                    <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
+                                                    <td></td>
                                                     </obsgroup>
                                                 </tr>
                                                 <tr>
@@ -269,7 +269,7 @@
                                                         <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                         <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                                         <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                                        <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
+                                                        <td></td>
                                                     </obsgroup>
                                                 </tr>
                                                 <tr>
@@ -281,9 +281,10 @@
                                                         <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                         <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                                         <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                                        <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
+                                                        <td></td>
                                                     </obsgroup>
                                                 </tr>
+
                                             </table>
                                         </td>
                                     </tr>
@@ -297,7 +298,7 @@
                                             <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                             <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                             <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                            <td></td>
+                                            <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                         </obsgroup>
                                     </tr>
                                     <tr>
@@ -310,7 +311,7 @@
                                             <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                             <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                             <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                            <td></td>
+                                            <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                         </obsgroup>
                                     </tr>
                                     <tr>
@@ -323,7 +324,7 @@
                                             <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                             <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                             <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                            <td></td>
+                                            <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                         </obsgroup>
                                     </tr>
                                     <tr>
@@ -336,7 +337,7 @@
                                             <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                             <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                             <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                            <td></td>
+                                            <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                         </obsgroup>
                                     </tr>
                                 </table>
@@ -383,11 +384,11 @@
                         </tr>
 
                         <tr>
-                            <td>
+                            <td colspan="3">
                                 <h4>HIV Test History</h4>
                                 <table>
                                     <tr>
-                                        <td>Test</td>
+                                        <td colspan="2">Test</td>
                                         <td>
                                             <obs conceptId="$testHIV" style="radio" answerLabels="RN,PP,NN,NP,Unk"
                                                  answerConceptIds="$recentNegative,$pastPositive,$newNegative,$nwPositive,$unknown"/>
