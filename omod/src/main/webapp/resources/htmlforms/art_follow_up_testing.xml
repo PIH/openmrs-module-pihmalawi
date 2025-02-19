@@ -38,9 +38,9 @@
                 <tr>
                     <th>Visit Date</th>
                     <th>Visit Location</th>
+                    <th>PHQ score</th>
                     <th>CD4</th>
                     <th>BPS/FBS</th>
-                    <th>PHQ score</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -53,6 +53,12 @@
                     <td>
                         <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                     </td>
+
+                    <!-- PHQ 9 score -->
+                    <td style="padding: 1px;">
+                        <obs conceptId="$phqNineScore" size="3"/>
+                    </td>
+
                     <!-- CD4 -->
                     <td>
                         <span class="left-cell">
@@ -72,10 +78,6 @@
                             <obsreference conceptId="$glucoseTestType" style="radio"
                                           answerLabels="Fasting,Random" answerConceptIds="$fastingTest,$randomTest"/>
                         </obsgroup>
-                    </td>
-                    <!-- PHQ 9 score -->
-                    <td style="padding: 1px;">
-                        <obs conceptId="$phqNineScore" size="3"/>
                     </td>
                 </tr>
             </tbody>
@@ -108,9 +110,9 @@
                     <tr>
                         <th>Visit Date</th>
                         <th>Visit Location</th>
+                        <th>PHQ score</th>
                         <th>CD4</th>
                         <th>BPS/FBS</th>
-                        <th>PHQ score</th>
                     </tr>
                 </thead>
                 <tbody class="visit-table-body">
@@ -127,6 +129,11 @@
                         <!-- Location -->
                         <td>
                             <encounterLocation id="visitLocation" tags="$nenoLocations"/>
+                        </td>
+
+                        <!-- PHQ 9 Score-->
+                        <td style="padding: 1px;">
+                            <obs conceptId="$phqNineScore" size="3"/>
                         </td>
 
                         <!-- CD4 -->
@@ -150,11 +157,6 @@
                                               answerLabels="Fasting,Random"
                                               answerConceptIds="$fastingTest,$randomTest"/>
                             </obsgroup>
-                        </td>
-
-                        <!-- PHQ 9 Score-->
-                        <td style="padding: 1px;">
-                            <obs conceptId="$phqNineScore" size="3"/>
                         </td>
 
 

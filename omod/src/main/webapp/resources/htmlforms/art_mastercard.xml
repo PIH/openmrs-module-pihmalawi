@@ -192,7 +192,12 @@
                                 <obs conceptId="$whoClinicalConditions" size="60" />
                             </td>
                         </tr>
-
+                        <tr>
+                            <td>Urine LAM/<br/>Crag Result</td>
+                            <td>
+                                <obs conceptId="$urineLm" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative"/>
+                            </td>
+                        </tr>
                         <tr>
                             <td>WHO Stage</td>
                             <td class="nowrap">
@@ -218,9 +223,28 @@
                             </includeIf>
                         </tr>
 
+                        <tr>
+                            <td>CD4</td>
+                            <td>
+                                <span class="left-cell">
+                                    <obs conceptId="$cd4Count" labelText="" />
+                                </span>
+                                <span class="right-cell">
+                                    <obs conceptId="$cd4Pct" labelText="" /> %
+                                </span>
+                            </td>
+                        </tr>
 
                         <tr>
-                            <td>Height, Wt.</td>
+                            <td>CD4 Date</td>
+                            <td>
+                                <obs conceptId="$cd4Date" />
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Height/ Wgt.</td>
                             <td class="nowrap">
                                 <span class="left-cell">
                                     <obsreference conceptId="$height" /> cm
@@ -245,42 +269,51 @@
                                 <obs conceptId="$lastArvsDate" />
                             </td>
                         </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <h4>Confirmatory HIV Test before ART Start</h4>
+                                <table>
+                                    <tr>
+                                        <td>Facility</td>
+                                        <td colspan="2">
+                                            <obs conceptId="$confirmatoryHivTestLocation" />
+                                        </td>
+
+                                        <td>Link ID / HTC Serial No.</td>
+                                        <td colspan="2">
+                                            <obs conceptId="$linkID" />
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td>Test Date</td>
+                                        <td>
+                                            <obs conceptId="$confirmatoryHivTestDate" />
+                                        </td>
+                                        <td class="nowrap">
+                                            <obs conceptId="$confirmativeHivTestType" style="radio" answerConceptIds="$hivRapidTest,$hivDnaPcr" answerLabels="Rapid,PCR" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>ART</b> educat. done</td>
+                                        <td>
+                                            <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
+                                        </td>
+                                        <td>
+                                            <obs conceptId="$artEducationDate" allowFutureDates="true"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
                     </table>
                 </td>
                 <td style="vertical-align:top;">
-                    <h5><span style="text-decoration:underline;">Confirmatory</span> HIV Test before ART Start</h5>
+                    <h5>TB Treatment &amp; ART Regimen at Initiation</h5>
                     <table>
-                        <tr>
-                            <td>Facility</td>
-                            <td colspan="2">
-                                <obs conceptId="$confirmatoryHivTestLocation" />
-                            </td>
 
-                            <td>Link ID / HTC Serial No.</td>
-                            <td colspan="2">
-                                <obs conceptId="$linkID" />
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td>Test Date</td>
-                            <td>
-                                <obs conceptId="$confirmatoryHivTestDate" />
-                            </td>
-                            <td class="nowrap">
-                                <obs conceptId="$confirmativeHivTestType" style="radio" answerConceptIds="$hivRapidTest,$hivDnaPcr" answerLabels="Rapid,PCR" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b>ART</b> educat. done</td>
-                            <td>
-                                <obs conceptId="$artEducationDone" style="radio" answerLabels="N,Y" answerConceptIds="$noAnswer,$yesAnswer" />
-                            </td>
-                            <td>
-                                <obs conceptId="$artEducationDate" allowFutureDates="true"/>
-                            </td>
-                        </tr>
                         <tr>
                             <th align="left">TB treatm.</th>
                             <td>
@@ -321,7 +354,7 @@
                 </td>
 
 
-
+                <!--
                 <td style="vertical-align:top;">
                     <h5> Baseline Lab results (ART initiation)</h5>
                     <table>
@@ -336,7 +369,7 @@
                                 </span>
                             </td>
 
-                            <!--CD4/TLC Date-->
+                            ###CD4/TLC Date
                             <td>Date</td>
                             <td>
                                 <obs conceptId="$cd4Date" />
@@ -348,7 +381,7 @@
                             <td>
                                 <obs conceptId="$tbXpert" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative" />
                             </td>
-                            <!--TB Xpert Date-->
+                            ###TB Xpert Date
                             <td>Date</td>
                             <td class="nowrap">
                                 <obs conceptId="$tbXpertDate"/>
@@ -360,7 +393,7 @@
                             <td>
                                 <obs conceptId="$urineLm" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative"/>
                             </td>
-                            <!--Urine LAM -->
+                            ###Urine LAM
                             <td>Date</td>
                             <td>
                                 <obs conceptId="$urineLamDate"/>
@@ -372,14 +405,14 @@
                             <td>
                                 <obs conceptId="$crag" style="radio" answerLabels="Positive,Negative" answerConceptIds="$positive,$negative"/>
                             </td>
-                            <!--Crag -->
+                            ###Crag
                             <td>Date</td>
                             <td>
                                 <obs conceptId="$cragDate" />
                             </td>
                         </tr>
                     </table>
-                </td>
+                </td>-->
 
 
             </tr>
