@@ -4,6 +4,9 @@
           formVersion="1.0">
 
     <macros>
+        diagnosisSet=8445
+        chronicCareDiagnosis=3683
+        <macro key="sickleCellDiagnosis" value="65774b06-977f-11e1-8993-905e29aff6c1"/>
         <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1" />
         <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
         <macro key="unknown" value="65576584-977f-11e1-8993-905e29aff6c1" />
@@ -163,8 +166,14 @@
                             </td>
 
                             <td colspan="2">
-                                <obs id="appointmentDate" conceptId="$diagnosisDate"/>
-
+                                <obsgroup groupingConceptId="$diagnosisSet"> <!-- sickle cell diagnosis-->
+                                    <span style="display:none">
+                                    <obs conceptId="$chronicCareDiagnosis" style="checkbox"
+                                         answerConceptId="$sickleCellDiagnosis"
+                                         defaultValue="$sickleCellDiagnosis"/>
+                                    </span>
+                                    <obs id="appointmentDate" conceptId="$diagnosisDate"/>
+                                </obsgroup>
                             </td>
                         </tr>
 
