@@ -254,7 +254,7 @@ jq(function() {
                     <td rowspan="3">ART<br/>Regimen</td>
                     <td colspan="2">ARVs given</td>
                     <td colspan="10">CPT/IPT Given</td>
-                    <td colspan="2">Family Plan.</td>
+                    <!-- <td colspan="2">Family Plan.</td>-->
                     <td rowspan="3">Next appointment</td>
                 </tr>
                 <tr>
@@ -274,8 +274,9 @@ jq(function() {
                     <td rowspan="2">No. Tablets</td>
                     <td rowspan="2">Pyridoxine</td>
                     <td rowspan="2">No. Tablets</td>
+                    <!--
                     <td rowspan="2">Depo<br/>Given</td>
-                    <td rowspan="2">No. of<br/>condom</td>
+                    <td rowspan="2">No. of<br/>condom</td>-->
                 </tr>
                 <tr>
                     <td><i style="font-size:.7em;">day month year</i></td>
@@ -372,14 +373,18 @@ jq(function() {
                             </td>
                         </obsgroup>
                     </repeat>
-                    <td>
-                        <!-- depo given -->
-                        <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
-                    </td>
-                    <td>
-                        <!-- # condoms -->
-                        <obs conceptId="$numCondoms"/>
-                    </td>
+
+                    <!--
+                        <td>
+                            #depo given
+                            <obs conceptId="$depoGiven" style="checkbox" answerConceptId="$yes" answerLabel="" />
+                        </td>
+                        <td>
+                            # condoms
+                            <obs conceptId="$numCondoms"/>
+                        </td>
+                        -->
+
                     <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" id="viewAppointmentDate" allowFutureDates="true"/>
@@ -505,6 +510,8 @@ jq(function() {
                     </repeat>
                 </td>
             </tr>
+
+            <!--
             <tr>
                 <th>Family Plan.</th>
                 <td>
@@ -513,6 +520,7 @@ jq(function() {
                     <obs conceptId="$numCondoms"/>
                 </td>
             </tr>
+            -->
             <tr>
                 <th>Next appointment</th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
