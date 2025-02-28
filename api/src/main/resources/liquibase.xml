@@ -215,4 +215,8 @@
 		<sqlFile path="pihmalawiMigrations/migrateMentalHealthPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
+	<changeSet id="migrate_sickle_cell_initial_encounter" author="cioan">
+		<sqlFile path="pihmalawiMigrations/migrateSickleCellDiseasesInitialEncounters.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>
