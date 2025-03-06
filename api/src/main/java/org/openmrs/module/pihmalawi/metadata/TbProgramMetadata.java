@@ -90,7 +90,7 @@ public class TbProgramMetadata extends CommonMetadata {
                     TREATMENT_FAILED_STATE,
                     LOST_TO_FOLLOWUP_STATE,
                     NOT_EVALUATED_STATE,
-                    TREATMENT_SUCCESS_STATE,
+                    /*TREATMENT_SUCCESS_STATE,*/
                     ON_TREATMENT_STATE,
                     ON_MDR_TREATMENT_STATE,
                     DIED_STATE));

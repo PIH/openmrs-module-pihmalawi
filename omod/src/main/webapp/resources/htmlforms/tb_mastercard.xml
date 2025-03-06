@@ -257,8 +257,8 @@
                                                         <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                         <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                                         <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
-                                                        <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                                     </obsgroup>
+                                                    <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                                 </tr>
                                                 <tr>
                                                     <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
