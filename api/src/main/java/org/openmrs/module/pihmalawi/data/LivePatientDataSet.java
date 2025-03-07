@@ -39,6 +39,7 @@ import org.openmrs.module.reporting.data.patient.library.BuiltInPatientDataLibra
 import org.openmrs.module.reporting.dataset.DataSet;
 import org.openmrs.module.reporting.dataset.DataSetColumn;
 import org.openmrs.module.reporting.dataset.DataSetRow;
+import org.openmrs.module.reporting.dataset.SimpleDataSet;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.service.DataSetDefinitionService;
@@ -165,10 +166,12 @@ public abstract class LivePatientDataSet {
         Map<Integer, JsonObject> cachedData = getCache().getDataCache(effectiveDate, location);
 
         Cohort notCached = CohortUtil.subtract(new Cohort(cohort.getMemberIds()), new Cohort(cachedData.keySet()));
-        log.debug("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
+        log.warn("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
 
         if (!useCachedValues || notCached.size() > 0) {
+            log.warn("getDataForCohort: memory used before evaluating dataset: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
             DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, useCachedValues ? notCached : cohort);
+            log.warn("getDataForCohort: memory used after evaluating dataset: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
             for (DataSetRow row : ds) {
                 JsonObject patientData = new JsonObject();
                 patientData.put("today", effectiveDate);
