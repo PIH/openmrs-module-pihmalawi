@@ -80,30 +80,24 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
                 running = true;
                 try {
                     Date today = DateUtil.getStartOfDay(new Date());
-log.warn("memory used before running IC3ScreeningDataLoader: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
                     // First pre-load all actively enrolled patients who have appointments
                     Map<Location, Cohort> patientsWithAppts = ic3ScreeningData.getPatientsWithAppointmentsByEnrolledLocation(today);
-                    Map<Integer, JsonObject> dataForCohort = null;
                     for (Location location : patientsWithAppts.keySet()) {
-                        dataForCohort = ic3ScreeningData.getDataForCohort(patientsWithAppts.get(location), today, location, false);// TODO: Set to true?
+                        ic3ScreeningData.getDataForCohort(patientsWithAppts.get(location), today, location, false);// TODO: Set to true?
                     }
 
                     // Next load all patients who had a visit at the given location and given date
                     for (Location location : metadata.getSystemLocations()) {
                         Cohort activeVisitPatients = ic3ScreeningData.getPatientsWithAVisitAtLocation(today, location);
-                        dataForCohort = ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location, false); // TODO: Set to true?
+                        ic3ScreeningData.getDataForCohort(activeVisitPatients, today, location, false); // TODO: Set to true?
                     }
 
                     // Clear any caches that have not been accessed in the last hour
-                    log.warn("memory used before clearing the cache: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
                     ic3ScreeningData.getCache().clearCaches(60);
-                    log.warn("memory used after clearing the cache: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
                 }
                 finally {
                     running = false;
-                    log.warn("memory used before clearing the session: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
                     Context.clearSession();
-                    log.warn("memory used after clearing the session: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
                 }
             }
         }

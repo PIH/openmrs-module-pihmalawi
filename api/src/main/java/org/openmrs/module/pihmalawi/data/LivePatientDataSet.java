@@ -169,9 +169,7 @@ public abstract class LivePatientDataSet {
         log.warn("Generating new data for " + (useCachedValues ? notCached.size() : cohort.size()) + " patients");
 
         if (!useCachedValues || notCached.size() > 0) {
-            log.warn("getDataForCohort: memory used before evaluating dataset: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
             DataSet ds = evaluateDataSet(getDataSetDefinition(), effectiveDate, location, useCachedValues ? notCached : cohort);
-            log.warn("getDataForCohort: memory used after evaluating dataset: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024) + " MB");
             for (DataSetRow row : ds) {
                 JsonObject patientData = new JsonObject();
                 patientData.put("today", effectiveDate);

@@ -23,7 +23,11 @@
     <style>
 
         .nowrap {
-        white-space: nowrap;
+            white-space: nowrap;
+        }
+        #visitTable {
+            display: block;
+            overflow-x: scroll;
         }
     </style>
 
@@ -33,39 +37,51 @@
 
             jq(function() {
 
-            var searchNextApptDate = function() {
-            var nextAppointDateValue = jq("span#appointmentDate input[type='hidden']").val();
-            if (!nextAppointDateValue) {
-            // if value was not entered yet then search within other followup encounters on the same day
-            var visitDateInput = jq("span#visitDate input[type='hidden']").val();
-            // the Visit Date is in the format YYYY-MM-DD
-            var dateParts = visitDateInput.split("-");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var visitDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
+              var searchNextApptDate = function() {
+                  var nextAppointDateValue = jq("span#appointmentDate input[type='hidden']").val();
+                  if (!nextAppointDateValue) {
+                    // if value was not entered yet then search within other followup encounters on the same day
+                    var visitDateInput = jq("span#visitDate input[type='hidden']").val();
+                    // the Visit Date is in the format YYYY-MM-DD
+                    var dateParts = visitDateInput.split("-");
+                    // month is 0-based, that's why we need dataParts[1] - 1
+                    var visitDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
 
-            var nextAppointDate = '<lookup expression="fn.latestObs(5096).getValueDatetime()"/>';
-            if (nextAppointDate) {
-            var latestNextAppointDate = new Date(nextAppointDate);
-            var obsDatetime = '<lookup expression="fn.latestObs(5096).getObsDatetime()"/>';
-            if (obsDatetime) {
-            var jsObsDatetime = new Date(obsDatetime);
-            if ( visitDate.getFullYear() ===  jsObsDatetime.getFullYear() &amp;&amp;
-            visitDate.getMonth() === jsObsDatetime.getMonth() &amp;&amp;
-            visitDate.getDate() === jsObsDatetime.getDate() ) {
-            //we found a Next Appointment Date set on the same day on a different encounter
-            var appointDateWidget = getField('appointmentDate.value').datepicker('setDate', latestNextAppointDate);
-            setValue('appointmentDate.value', latestNextAppointDate);
-            jq("#appointmentDate").children("input[type=hidden]").first().trigger('change');
-            }
-            }
-            }
-            }
-            }
+                    var nextAppointDate = '<lookup expression="fn.latestObs(5096).getValueDatetime()"/>';
+                    if (nextAppointDate) {
+                      var latestNextAppointDate = new Date(nextAppointDate);
+                      var obsDatetime = '<lookup expression="fn.latestObs(5096).getObsDatetime()"/>';
+                      if (obsDatetime) {
+                        var jsObsDatetime = new Date(obsDatetime);
+                        if ( visitDate.getFullYear() ===  jsObsDatetime.getFullYear() &amp;&amp;
+                          visitDate.getMonth() === jsObsDatetime.getMonth() &amp;&amp;
+                          visitDate.getDate() === jsObsDatetime.getDate() ) {
+                          //we found a Next Appointment Date set on the same day on a different encounter
+                          var appointDateWidget = getField('appointmentDate.value').datepicker('setDate', latestNextAppointDate);
+                          setValue('appointmentDate.value', latestNextAppointDate);
+                          jq("#appointmentDate").children("input[type=hidden]").first().trigger('change');
+                        }
+                      }
+                    }
+                  }
+              }
 
-            var findNextApptDate = setInterval(function() {
-            searchNextApptDate();
-            clearInterval(findNextApptDate);
-            }, 500);
+              var findNextApptDate = setInterval(function() {
+                  searchNextApptDate();
+                  clearInterval(findNextApptDate);
+              }, 500);
+
+              jq("#checkAllDays").change(function() {
+                if (this.checked ) {
+                  jq("#medicationTable .medicationRow input[type='checkbox']").prop("checked", true);
+                }
+              });
+              jq("#uncheckAllDays").change(function() {
+                if (this.checked ) {
+                  jq("#medicationTable .medicationRow input[type='checkbox']").prop("checked", false);
+                }
+              });
+
             });
 
         </script>
@@ -77,19 +93,49 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
-                    <td>Month</td>
                     <td rowspan="2">Visit Date</td>
-                    <td>Regimen (RH)</td>
-                    <td>TB Meningitis (RH)</td>
+                    <td  rowspan="2">Regimen (RH)</td>
+                    <td  rowspan="2">TB Meningitis (RH)</td>
                     <td rowspan="2">Next appt date</td>
+                    <td colspan="32">Medication adherence</td>
+                </tr>
+                <tr>
+                    <td>Month</td>
+                    <td>Day#1</td>
+                    <td>Day#2</td>
+                    <td>Day#3</td>
+                    <td>Day#4</td>
+                    <td>Day#5</td>
+                    <td>Day#6</td>
+                    <td>Day#7</td>
+                    <td>Day#8</td>
+                    <td>Day#9</td>
+                    <td>Day#10</td>
+                    <td>Day#11</td>
+                    <td>Day#12</td>
+                    <td>Day#13</td>
+                    <td>Day#14</td>
+                    <td>Day#15</td>
+                    <td>Day#16</td>
+                    <td>Day#17</td>
+                    <td>Day#18</td>
+                    <td>Day#19</td>
+                    <td>Day#20</td>
+                    <td>Day#21</td>
+                    <td>Day#22</td>
+                    <td>Day#23</td>
+                    <td>Day#24</td>
+                    <td>Day#25</td>
+                    <td>Day#26</td>
+                    <td>Day#27</td>
+                    <td>Day#28</td>
+                    <td>Day#29</td>
+                    <td>Day#30</td>
+                    <td>Day#31</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
                 <tr class="visit-table-row">
-                    <td>
-                        <!-- Month -->
-                        <obs conceptId="$month" size="3"/>
-                    </td>
                     <td class="nowrap visit-date">
                         <encounterDate/>
                     </td>
@@ -101,11 +147,50 @@
                         <!-- TB Meningitis -->
                         <obs conceptId="$meningitis" size="3"/>
                     </td>
-
                     <td>
                         <!-- Next appointment -->
                         <obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true" />
                     </td>
+                    <td>
+                        <!-- Month -->
+                        <obs conceptId="PIH Malawi:MEDICATION ADHERENCE MONTH" size="3"/>
+                    </td>
+                    <repeat with="
+                                ['PIH Malawi:DAY_1 ADHERENCE','Day#1'],
+                                        ['PIH Malawi:DAY_2 ADHERENCE','Day#2'],
+                                        ['PIH Malawi:DAY_3 ADHERENCE','Day#3'],
+                                        ['PIH Malawi:DAY_4 ADHERENCE','Day#4'],
+                                        ['PIH Malawi:DAY_5 ADHERENCE','Day#5'],
+                                        ['PIH Malawi:DAY_6 ADHERENCE','Day#6'],
+                                        ['PIH Malawi:DAY_7 ADHERENCE','Day#7'],
+                                        ['PIH Malawi:DAY_8 ADHERENCE','Day#8'],
+                                        ['PIH Malawi:DAY_9 ADHERENCE','Day#9'],
+                                        ['PIH Malawi:DAY_10 ADHERENCE','Day#10'],
+                                        ['PIH Malawi:DAY_11 ADHERENCE','Day#11'],
+                                        ['PIH Malawi:DAY_12 ADHERENCE','Day#12'],
+                                        ['PIH Malawi:DAY_13 ADHERENCE','Day#13'],
+                                        ['PIH Malawi:DAY_14 ADHERENCE','Day#14'],
+                                        ['PIH Malawi:DAY_15 ADHERENCE','Day#15'],
+                                        ['PIH Malawi:DAY_16 ADHERENCE','Day#16'],
+                                        ['PIH Malawi:DAY_17 ADHERENCE','Day#17'],
+                                        ['PIH Malawi:DAY_18 ADHERENCE','Day#18'],
+                                        ['PIH Malawi:DAY_19 ADHERENCE','Day#19'],
+                                        ['PIH Malawi:DAY_20 ADHERENCE','Day#20'],
+                                        ['PIH Malawi:DAY_21 ADHERENCE','Day#21'],
+                                        ['PIH Malawi:DAY_22 ADHERENCE','Day#22'],
+                                        ['PIH Malawi:DAY_23 ADHERENCE','Day#23'],
+                                        ['PIH Malawi:DAY_24 ADHERENCE','Day#24'],
+                                        ['PIH Malawi:DAY_25 ADHERENCE','Day#25'],
+                                        ['PIH Malawi:DAY_26 ADHERENCE','Day#26'],
+                                        ['PIH Malawi:DAY_27 ADHERENCE','Day#27'],
+                                        ['PIH Malawi:DAY_28 ADHERENCE','Day#28'],
+                                        ['PIH Malawi:DAY_29 ADHERENCE','Day#29'],
+                                        ['PIH Malawi:DAY_30 ADHERENCE','Day#30'],
+                                        ['PIH Malawi:DAY_31 ADHERENCE','Day#31']">
+                        <td>
+                            <obs conceptId="PIH Malawi:MEDICATION ADHERENCE DAY" answerConceptId="{0}" answerLabel="" style="checkbox"/>
+                        </td>
+                    </repeat>
                 </tr>
                 <tr>
                     <td colspan="28" align="left">
@@ -134,12 +219,7 @@
 
         <span style="display:none"><encounterProvider default="16576" /></span> <!-- Set provider to a default as not used -->
 
-        <table class="visit-edit-table">
-            <tr>
-                <th>Month</th>
-                <td>
-                <obs conceptId="$month" size="3"/> </td>
-            </tr>
+        <table id="visitTable" class="visit-edit-table">
             <tr>
                 <th>Visit Date</th>
                 <td><lookup complexExpression="#if($encounter) $ui.format($encounter.encounterDatetime) #else $ui.format($context.defaultEncounterDate) #end" />
@@ -163,6 +243,101 @@
                 <!-- Next appointment -->
                 <th>Next appointment</th>
                 <td><obs conceptId="$nextAppt" id="appointmentDate" allowFutureDates="true" allowOverride="true"/></td>
+            </tr>
+            <tr>
+                <th colspan="33">Medication adherence</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table id="medicationTable" class="visit-table data-entry-table">
+                        <thead class="visit-table-header">
+                            <tr> <!-- Header row -->
+                                <th colspan="2">Month</th>
+                                <th>Day#1</th>
+                                <th>Day#2</th>
+                                <th>Day#3</th>
+                                <th>Day#4</th>
+                                <th>Day#5</th>
+                                <th>Day#6</th>
+                                <th>Day#7</th>
+                                <th>Day#8</th>
+                                <th>Day#9</th>
+                                <th>Day#10</th>
+                                <th>Day#11</th>
+                                <th>Day#12</th>
+                                <th>Day#13</th>
+                                <th>Day#14</th>
+                                <th>Day#15</th>
+                                <th>Day#16</th>
+                                <th>Day#17</th>
+                                <th>Day#18</th>
+                                <th>Day#19</th>
+                                <th>Day#20</th>
+                                <th>Day#21</th>
+                                <th>Day#22</th>
+                                <th>Day#23</th>
+                                <th>Day#24</th>
+                                <th>Day#25</th>
+                                <th>Day#26</th>
+                                <th>Day#27</th>
+                                <th>Day#28</th>
+                                <th>Day#29</th>
+                                <th>Day#30</th>
+                                <th>Day#31</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                               <tr class="medicationRow">
+                                   <td colspan="2">
+                                       <obs conceptId="PIH Malawi:MEDICATION ADHERENCE MONTH" size="3"/>
+                                   </td>
+                                   <repeat with="
+                                        ['PIH Malawi:DAY_1 ADHERENCE','Day#1'],
+                                        ['PIH Malawi:DAY_2 ADHERENCE','Day#2'],
+                                        ['PIH Malawi:DAY_3 ADHERENCE','Day#3'],
+                                        ['PIH Malawi:DAY_4 ADHERENCE','Day#4'],
+                                        ['PIH Malawi:DAY_5 ADHERENCE','Day#5'],
+                                        ['PIH Malawi:DAY_6 ADHERENCE','Day#6'],
+                                        ['PIH Malawi:DAY_7 ADHERENCE','Day#7'],
+                                        ['PIH Malawi:DAY_8 ADHERENCE','Day#8'],
+                                        ['PIH Malawi:DAY_9 ADHERENCE','Day#9'],
+                                        ['PIH Malawi:DAY_10 ADHERENCE','Day#10'],
+                                        ['PIH Malawi:DAY_11 ADHERENCE','Day#11'],
+                                        ['PIH Malawi:DAY_12 ADHERENCE','Day#12'],
+                                        ['PIH Malawi:DAY_13 ADHERENCE','Day#13'],
+                                        ['PIH Malawi:DAY_14 ADHERENCE','Day#14'],
+                                        ['PIH Malawi:DAY_15 ADHERENCE','Day#15'],
+                                        ['PIH Malawi:DAY_16 ADHERENCE','Day#16'],
+                                        ['PIH Malawi:DAY_17 ADHERENCE','Day#17'],
+                                        ['PIH Malawi:DAY_18 ADHERENCE','Day#18'],
+                                        ['PIH Malawi:DAY_19 ADHERENCE','Day#19'],
+                                        ['PIH Malawi:DAY_20 ADHERENCE','Day#20'],
+                                        ['PIH Malawi:DAY_21 ADHERENCE','Day#21'],
+                                        ['PIH Malawi:DAY_22 ADHERENCE','Day#22'],
+                                        ['PIH Malawi:DAY_23 ADHERENCE','Day#23'],
+                                        ['PIH Malawi:DAY_24 ADHERENCE','Day#24'],
+                                        ['PIH Malawi:DAY_25 ADHERENCE','Day#25'],
+                                        ['PIH Malawi:DAY_26 ADHERENCE','Day#26'],
+                                        ['PIH Malawi:DAY_27 ADHERENCE','Day#27'],
+                                        ['PIH Malawi:DAY_28 ADHERENCE','Day#28'],
+                                        ['PIH Malawi:DAY_29 ADHERENCE','Day#29'],
+                                        ['PIH Malawi:DAY_30 ADHERENCE','Day#30'],
+                                        ['PIH Malawi:DAY_31 ADHERENCE','Day#31']">
+                                   <td>
+                                       <obs conceptId="PIH Malawi:MEDICATION ADHERENCE DAY" answerConceptId="{0}" answerLabel="" style="checkbox"/>
+                                   </td>
+                                   </repeat>
+                               </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="23">
+                                        <input id="checkAllDays" type="checkbox">Check All</input>
+                                        <input id="uncheckAllDays" type="checkbox">Uncheck All</input>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
         </table>
         <submit />
