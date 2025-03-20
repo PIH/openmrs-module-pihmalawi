@@ -40,7 +40,7 @@
                     <th>Visit Location</th>
                     <th>PHQ score</th>
                     <th>CD4</th>
-                    <th>BPS/FBS</th>
+                    <th>FBS/RBS</th>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -88,7 +88,7 @@
     <ifMode mode="VIEW" include="false">
 
         <h4 style="font-style: italic;">
-            <b>Viral Load Test Results</b>
+            <b>Targeted Screening for Comorbidities</b>
             <span style="padding-left:50px;">Follow-up testing (CD4,glucose,depression)</span>
             <span id="patientUuid" style="display:none">
                 <lookup expression="patient.uuid"/>
@@ -112,7 +112,7 @@
                         <th>Visit Location</th>
                         <th>PHQ score</th>
                         <th>CD4</th>
-                        <th>BPS/FBS</th>
+                        <th>FBS/RBS</th>
                     </tr>
                 </thead>
                 <tbody class="visit-table-body">
