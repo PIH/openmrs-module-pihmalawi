@@ -219,4 +219,21 @@
 		<sqlFile path="pihmalawiMigrations/migrateSickleCellDiseasesEncounters.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="migrate-sickle-cell-cc-states" author="cioan" runAlways="true" runOnChange="true">
+		<preConditions onFail="CONTINUE" onFailMessage="Sickle cell disease treatment statuses have not been migrated from the Chronic Care treatment statuses">
+			<sqlCheck expectedResult="0">
+				select count(*)
+				from patient_state ps, program_workflow_state pws, program_workflow pw
+				where ps.voided = 0
+				and ps.state = pws.program_workflow_state_id
+				and pws.program_workflow_id = pw.program_workflow_id
+				and  pw.uuid = '1A6C2438-99D7-41FF-8EB4-516DFCD1D199'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			Migrate Chronic care treatment statuses to Sickle Cell disease treatment statuses.
+		</comment>
+		<sqlFile path="pihmalawiMigrations/migrateSickleCellPatientStates.sql" stripComments="true"/>
+	</changeSet>
+
 </databaseChangeLog>
