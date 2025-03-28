@@ -309,9 +309,13 @@ from sickle_cell_disease_obs o, sickle_cell_initial_enc e
 where o.source_encounter_id = e.source_encounter_id
   and o.source_concept_id in (@phone_number,  @guardian, @next_of_kin_phone, @relationship, @fup, @hiv_status,@hiv_test_date,@art_start_date) ;
 
+SET SQL_SAFE_UPDATES = 0;
+
 update obs o inner join sickle_cell_disease_obs s on o.obs_id = s.source_obs_id
     inner join sickle_cell_initial_enc e on s.source_obs_id = e.source_obs_group_id or s.source_obs_group_id = e.source_obs_group_id
 set o.voided = 1, o.voided_by = 1, o.date_voided = current_timestamp(), o.void_reason = 'migrated to SICKLE_CELL_DISEASE_INITIAL encounter';
+
+SET SQL_SAFE_UPDATES = 1;
 
 drop table if exists sickle_cell_visit_enc;
 
