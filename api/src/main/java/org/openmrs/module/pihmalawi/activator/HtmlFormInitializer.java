@@ -163,7 +163,8 @@ public class HtmlFormInitializer implements Initializer {
 				"pihmalawi:htmlforms/sickle_cell_history_of_hospitalizations.xml",
 				"pihmalawi:htmlforms/tb_mastercard.xml",
 				"pihmalawi:htmlforms/tb_visit.xml",
-				"pihmalawi:htmlforms/tb_tests.xml"
+				"pihmalawi:htmlforms/tb_tests.xml",
+				"pihmalawi:htmlforms/tb_post_lung_disease.xml"
 				);
 
 

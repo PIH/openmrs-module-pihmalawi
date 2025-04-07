@@ -15,7 +15,7 @@
         relationToPatient=1328
         agreesToFollowup=2552
         chwName=8431
-        <macro key="artStartDate" value="655f9eb6-977f-11e1-8993-905e29aff6c1" />
+        <macro key="artStartDate" value="655f9d08-977f-11e1-8993-905e29aff6c1" />
         <macro key="cotrimoxazoleStartDate" value="434fd4bb-41a9-4c7c-8dcd-48c574a9f1cc"/>
         <macro key="tbArvstatus" value="38362892-90eb-41d0-b50b-49ecc2152d2e"/>
         <macro key="arvBeforeTB" value="4301ebd1-8675-4977-ba23-2b1c9bbe12bc"/>
@@ -54,7 +54,9 @@
         <macro key="ward" value="20B8B0FB-F0D7-4692-96BF-5B516CA0D624"/>
         <macro key="antiretroviral" value="657ad212-977f-11e1-8993-905e29aff6c1"/>
         <macro key="ncd" value="0514c008-3738-458c-99de-9f43eca8c414"/>
-        <macro key="dst" value="65664158-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="dst" value="655908b2-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="ptldDate" value="76a7f807-80ad-4043-aca4-2cf2b3211268"/>
+        <macro key="prpDate" value="5f644b22-23ee-4ccf-a191-d7dd6e14c800"/>
 
         <macro key="tbTestConstruct" value="4c92373c-28d6-11e9-b210-d663bd873d93"></macro>
         <macro key="tbTestType" value="38c4512a-5aef-487d-a450-ecea4bc5df7e"></macro>
@@ -360,7 +362,7 @@
                             <tr>
                                 <td>
                                     <!-- ART start Date -->
-                                    <obs conceptId="$artStartDate" size="10"/>
+                                    <obsreference conceptId="$artStartDate" size="10"/>
                                 </td>
                                 <td>
                                     <!-- CTX start date -->
@@ -427,11 +429,36 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>DST (MDR/RR) Result before / after TX Initiatio</td>
+                                <td>DST (MDR/RR) Result before / after TX Initiation</td>
                                 <td>
-                                    <obs conceptId="$dst" style="radio" answerLabels="Positive,Negative,Unknown" answerConceptIds="$positive,$negative,$unknown"/>
+                                    <obs conceptId="$dst" style="textarea" size="40"/>
                                 </td>
                             </tr>
+                        </tr>
+
+
+                        <tr>
+                            <td colspan="2">
+                                <h4>PTLD and PRP Registration Details</h4>
+                                <table>
+                                    <tr style="border: none;">
+                                         <tr>
+                                            <td colspan="2">PTLD Date Registered</td>
+                                         <td>
+                                            <obs conceptId="$ptldDate"/>
+                                         </td>
+                                         </tr>
+
+                                        <tr>
+                                            <td colspan="2">Date Started PRP</td>
+                                            <td>
+                                                <obs conceptId="$prpDate"/>
+                                            </td>
+                                        </tr>
+
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </td>
