@@ -144,6 +144,7 @@ public class EncounterTypeBundle extends AbstractMetadataBundle {
         install(EncounterTypes.TB_INITIAL);
         install(EncounterTypes.TB_FOLLOWUP);
         install(EncounterTypes.TB_TESTS);
+        install(EncounterTypes.TB_POST_LUNG_DISEASE);
     }
 
     //***** BUNDLE INSTALLATION METHODS FOR DESCRIPTORS

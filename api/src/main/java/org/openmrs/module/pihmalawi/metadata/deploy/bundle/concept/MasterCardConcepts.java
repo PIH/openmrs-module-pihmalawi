@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 34;
-        // current version  33
+        return 35;
+        // current version  34
     }
 
     @Override
@@ -1790,5 +1790,18 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .name("db6b0758-4388-43de-a1f9-00b2cb4b1e6a","Number of RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("77a559f4-88d3-47e2-8799-45f5f002f0a1","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
                 .build());
+
+        Concept ptldDate=install(new ConceptBuilder("76a7f807-80ad-4043-aca4-2cf2b3211268")
+                .datatype(date)
+                .conceptClass(question)
+                .name("f8e82793-9f1a-4ef6-a041-f0a5da059bfd","Date registered in Post TB Lung Disease (PTLD)",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept prpDate=install(new ConceptBuilder("5f644b22-23ee-4ccf-a191-d7dd6e14c800")
+                .datatype(date)
+                .conceptClass(question)
+                .name("39c7dc87-0580-46cd-85f5-9ec04dffbef1","Date started pulmonary rehabilitation program (PRP)",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
     }
 }

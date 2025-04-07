@@ -247,7 +247,7 @@ public class EMastercardAccessTag extends BodyTagSupport {
 						"sickle_cell_annual_screening",
 						"sickle_cell_history_of_hospitalizations",
 						"sickle_cell_visit"));
-		flowsheetForms.put(EncounterTypes.TB_INITIAL.name(), Arrays.asList("tb_tests","tb_visit"));
+		flowsheetForms.put(EncounterTypes.TB_INITIAL.name(), Arrays.asList(/*"tb_tests",*/"tb_visit","tb_post_lung_disease"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization

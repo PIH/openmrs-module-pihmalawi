@@ -604,4 +604,11 @@ public class EncounterTypes {
         public String description() { return "TB test results and HIV tests history";}
 
     };
+
+    public static EncounterTypeDescriptor TB_POST_LUNG_DISEASE = new EncounterTypeDescriptor() {
+        public String uuid() { return "6a23b67f-3171-4b08-9d3d-40bcf833a2e5";}
+        public String name() { return "TB_POST_LUNG_DISEASE";}
+        public String description() { return "TB post lung disease encounter";}
+
+    };
 }
