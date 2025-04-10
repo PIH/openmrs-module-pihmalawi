@@ -21,11 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
-import java.security.Signature;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -46,9 +43,7 @@ public class RegisterChildServerRestController {
     public Object registerChildServer(@RequestBody String childServer, @RequestHeader HttpHeaders headers) {
         try {
             List<String> signature = headers.get("X-Signature");
-            publicKeyProvider.init();
-            PublicKey publicKey = publicKeyProvider.getPublicKey();
-            if (signature !=null && verifySignature(childServer, signature.get(0), publicKey)) {
+            if ( signature !=null && publicKeyProvider.verifySignature(childServer, signature.get(0))) {
                 if (Context.hasPrivilege(MANAGE_SYNC_PRIVILEGE)) {
                     RemoteServer server = null;
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -122,12 +117,5 @@ public class RegisterChildServerRestController {
         }
         data.put("errorMessages",errorMessages);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
-    }
-
-    private boolean verifySignature(String data, String signature, PublicKey publicKey) throws Exception {
-        Signature sig = Signature.getInstance("SHA256withRSA");
-        sig.initVerify(publicKey);
-        sig.update(data.getBytes(StandardCharsets.UTF_8));
-        return sig.verify(Base64.getDecoder().decode(signature));
     }
 }
