@@ -5,7 +5,7 @@ public class PihMalawiConstants {
 
     public static final String MODULE_ID = "pihmalawi";
     public static final String OPENMRS_WAREHOUSE_CONNECTION_PROPERTIES_FILE_NAME = "warehouse-connection.properties";
-    public static final String REST_DIGITAL_SIGNATURE_PUBLIC_KEY = "PUBLIC_KEY";
+    public static final String REST_DIGITAL_SIGNATURE_PUBLIC_KEY = "pihmalawi.syncPublicKeyFile";
     public static final String PATIENT_LAB_TESTS_SQL_DATA_SET = "org/openmrs/module/pihmalawi/reporting/datasets/sql/get-patient-tests.sql";
     public static final String PRIV_CHW_MANAGEMENT_APP = "CHW Management App";
     public static final String HEALTH_FACILITY_GP_NAME = "providermanagement.locationTag";

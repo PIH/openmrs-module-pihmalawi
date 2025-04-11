@@ -8,6 +8,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.PublicKeyProvider;
+import org.openmrs.module.pihmalawi.RestUtils;
 import org.openmrs.module.sync.api.SyncService;
 import org.openmrs.module.sync.server.RemoteServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class RegisterChildServerRestController {
@@ -38,7 +35,7 @@ public class RegisterChildServerRestController {
 
     private static String MANAGE_SYNC_PRIVILEGE = "Manage Synchronization";
 
-    @RequestMapping(value = "/rest/v1/sync/registerChildServer", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/v1/pihmalawi/registerChildServer", method = RequestMethod.POST)
     @ResponseBody
     public Object registerChildServer(@RequestBody String childServer, @RequestHeader HttpHeaders headers) {
         try {
@@ -75,10 +72,10 @@ public class RegisterChildServerRestController {
                             }
                             server = Context.getService(SyncService.class).registerChildServer(nickname, uuid, username, password, notSendTo, notReceiveFrom);
                         }
-                        return ResponseEntity.status(HttpStatus.CREATED).body(convertServerObject(server));
+                        return ResponseEntity.status(HttpStatus.CREATED).body(RestUtils.convertServerObject(server));
                     } catch (Exception e) {
                         log.error(e);
-                        return errorResponse(e);
+                        return RestUtils.errorResponse(e);
                     }
 
                 } else {
@@ -89,33 +86,8 @@ public class RegisterChildServerRestController {
             }
         } catch (Exception e) {
             log.error(e);
-            return errorResponse(e);
+            return RestUtils.errorResponse(e);
         }
     }
 
-    protected HashMap<String, Object> convertServerObject(RemoteServer server) {
-        HashMap<String, Object> objectMap = new HashMap<>();
-        if (server != null) {
-            objectMap.put("serverId", server.getServerId());
-            objectMap.put("uuid", server.getUuid());
-            objectMap.put("serverType", server.getServerType());
-            objectMap.put("childUsername", server.getChildUsername());
-            objectMap.put("classesNotSent", server.getClassesNotSent());
-            objectMap.put("classesNotReceived", server.getClassesNotReceived());
-            objectMap.put("nickname", server.getNickname());
-            objectMap.put("username", server.getUsername());
-            objectMap.put("password", server.getPassword());
-        }
-        return objectMap;
-    }
-    protected ResponseEntity<Map<String, Object>> errorResponse(Throwable t) {
-        Map<String, Object> data = new LinkedHashMap<>();
-        List<String> errorMessages = new ArrayList<>();
-        while (t != null && !errorMessages.contains(t.getMessage())) {
-            errorMessages.add(t.getMessage());
-            t = t.getCause();
-        }
-        data.put("errorMessages",errorMessages);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
-    }
 }
