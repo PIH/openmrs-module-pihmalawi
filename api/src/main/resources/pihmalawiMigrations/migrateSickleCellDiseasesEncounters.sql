@@ -357,9 +357,8 @@ select
     e.creator,
     e.date_created,
     e.voided
-from encounter e, sickle_cell_initial_enc s, person p
-where e.patient_id = s.patient_id and e.encounter_type in (@ncd_other_followup, @ncd_other_qs, @ncd_other_as, @ncd_other_hosp ) and e.voided = 0
-  and e.patient_id = p.person_id and p.dead = 0;
+from encounter e, sickle_cell_initial_enc s
+where e.patient_id = s.patient_id and e.encounter_type in (@ncd_other_followup, @ncd_other_qs, @ncd_other_as, @ncd_other_hosp ) and e.voided = 0;
 
 drop table if exists ncd_other_visit_obs;
 
