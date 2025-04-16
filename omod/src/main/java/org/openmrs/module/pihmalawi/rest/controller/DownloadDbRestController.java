@@ -4,10 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.PublicKeyProvider;
 import org.openmrs.module.pihmalawi.RestUtils;
 import org.openmrs.module.sync.api.SyncService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @RestController
 public class DownloadDbRestController {
@@ -28,14 +24,11 @@ public class DownloadDbRestController {
 
     private static String MANAGE_SYNC_PRIVILEGE = "Manage Synchronization";
 
-    @Autowired
-    private PublicKeyProvider publicKeyProvider;
     @GetMapping(value = "/rest/v1/pihmalawi/downloadDb")
-    public ResponseEntity<byte[]> getDbBackup(@RequestHeader HttpHeaders headers) throws IOException {
-        List<String> signature = headers.get("X-Signature");
-        List<String> signatureInput = headers.get("Signature-Input");
+    public ResponseEntity<byte[]> getDbBackup(@RequestHeader HttpHeaders headers) {
+
         try {
-            if (signatureInput != null && signature != null && publicKeyProvider.verifySignature(signatureInput.get(0), signature.get(0))) {
+            if ( RestUtils.anyMacAddressesAllowed(headers.get("MAC-Address"))) {
                 if (Context.hasPrivilege(MANAGE_SYNC_PRIVILEGE)) {
                     try {
                         File outputFile = Context.getService(SyncService.class).generateDataFile();
