@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @RestController
 public class DownloadDbRestController {
@@ -27,10 +25,10 @@ public class DownloadDbRestController {
     private static String MANAGE_SYNC_PRIVILEGE = "Manage Synchronization";
 
     @GetMapping(value = "/rest/v1/pihmalawi/downloadDb")
-    public ResponseEntity<byte[]> getDbBackup(@RequestHeader HttpHeaders headers) throws IOException {
-        List<String> macAddress = headers.get("MAC-Address");
+    public ResponseEntity<byte[]> getDbBackup(@RequestHeader HttpHeaders headers) {
+
         try {
-            if ( macAddress !=null && RestUtils.isMacAddressAllowed(macAddress.get(0))) {
+            if ( RestUtils.anyMacAddressesAllowed(headers.get("MAC-Address"))) {
                 if (Context.hasPrivilege(MANAGE_SYNC_PRIVILEGE)) {
                     try {
                         File outputFile = Context.getService(SyncService.class).generateDataFile();

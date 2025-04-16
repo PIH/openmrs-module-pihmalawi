@@ -34,8 +34,7 @@ public class RegisterChildServerRestController {
     @ResponseBody
     public Object registerChildServer(@RequestBody String childServer, @RequestHeader HttpHeaders headers) {
         try {
-            List<String> macAddress = headers.get("MAC-Address");
-            if ( macAddress !=null && RestUtils.isMacAddressAllowed(macAddress.get(0))) {
+            if ( RestUtils.anyMacAddressesAllowed(headers.get("MAC-Address")) ) {
                 if (Context.hasPrivilege(MANAGE_SYNC_PRIVILEGE)) {
                     RemoteServer server = null;
                     ObjectMapper objectMapper = new ObjectMapper();

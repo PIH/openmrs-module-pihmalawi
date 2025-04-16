@@ -1,8 +1,8 @@
 package org.openmrs.module.pihmalawi;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.sync.server.RemoteServer;
+import org.openmrs.util.ConfigUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -41,11 +41,11 @@ public class RestUtils {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
     }
 
-    public static boolean isMacAddressAllowed(String macAddress) {
+    public static boolean anyMacAddressesAllowed(List<String> macAddresses) {
         boolean allowed = false;
-        if (StringUtils.isNotBlank(macAddress)) {
-            String addresses = Context.getAdministrationService().getGlobalProperty(PihMalawiConstants.SYNC_ALLOW_MAC_ADDRESSES_GP_NAME);
-            allowed = StringUtils.isNotBlank(addresses) && addresses.toLowerCase().contains(macAddress.toLowerCase());
+        if (macAddresses != null && StringUtils.isNotBlank(macAddresses.get(0))) {
+            String addresses = ConfigUtil.getGlobalProperty(PihMalawiConstants.SYNC_ALLOW_MAC_ADDRESSES_GP_NAME);
+            allowed = StringUtils.isNotBlank(addresses) && addresses.toLowerCase().contains(macAddresses.get(0).toLowerCase());
         }
         return allowed;
     }
