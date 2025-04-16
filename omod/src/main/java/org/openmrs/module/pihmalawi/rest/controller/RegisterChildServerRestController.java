@@ -7,11 +7,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.PublicKeyProvider;
 import org.openmrs.module.pihmalawi.RestUtils;
 import org.openmrs.module.sync.api.SyncService;
 import org.openmrs.module.sync.server.RemoteServer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +28,14 @@ import java.util.List;
 public class RegisterChildServerRestController {
     protected Log log = LogFactory.getLog(getClass());
 
-    @Autowired
-    private PublicKeyProvider publicKeyProvider;
-
     private static String MANAGE_SYNC_PRIVILEGE = "Manage Synchronization";
 
     @RequestMapping(value = "/rest/v1/pihmalawi/registerChildServer", method = RequestMethod.POST)
     @ResponseBody
     public Object registerChildServer(@RequestBody String childServer, @RequestHeader HttpHeaders headers) {
         try {
-            List<String> signature = headers.get("X-Signature");
-            if ( signature !=null && publicKeyProvider.verifySignature(childServer, signature.get(0))) {
+            List<String> macAddress = headers.get("MAC-Address");
+            if ( macAddress !=null && RestUtils.isMacAddressAllowed(macAddress.get(0))) {
                 if (Context.hasPrivilege(MANAGE_SYNC_PRIVILEGE)) {
                     RemoteServer server = null;
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -89,5 +84,4 @@ public class RegisterChildServerRestController {
             return RestUtils.errorResponse(e);
         }
     }
-
 }

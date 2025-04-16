@@ -58,6 +58,12 @@
     </globalProperty>
 
     <globalProperty>
+        <property>pihmalawi.syncAllowMacAddresses</property>
+        <defaultValue></defaultValue>
+        <description>A comma delimited list of MAC addresses that are allowed to access the Sync REST API</description>
+    </globalProperty>
+
+    <globalProperty>
         <property>pihmalawi.showOldChronicCareCard</property>
         <defaultValue>true</defaultValue>
         <description>Indicates whether or not to enable the link to the previous version of the CCC Mastercard</description>
