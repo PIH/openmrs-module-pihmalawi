@@ -45,7 +45,7 @@ public class RestUtils {
         boolean allowed = false;
         if (StringUtils.isNotBlank(macAddress)) {
             String addresses = Context.getAdministrationService().getGlobalProperty(PihMalawiConstants.SYNC_ALLOW_MAC_ADDRESSES_GP_NAME);
-            allowed = StringUtils.isNotBlank(addresses) && addresses.toLowerCase().contains(macAddress);
+            allowed = StringUtils.isNotBlank(addresses) && addresses.toLowerCase().contains(macAddress.toLowerCase());
         }
         return allowed;
     }
