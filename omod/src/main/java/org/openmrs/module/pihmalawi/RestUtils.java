@@ -11,8 +11,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RestUtils {
+
+    private static final String MAC_ADDRESS_PATTERN = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$";
 
     public static HashMap<String, Object> convertServerObject(RemoteServer server) {
         HashMap<String, Object> objectMap = new HashMap<>();
@@ -41,9 +45,18 @@ public class RestUtils {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(data);
     }
 
+    public static boolean isValidMacAddress(String macAddress) {
+        if ( StringUtils.isNotBlank(macAddress) ) {
+            Pattern pattern = Pattern.compile(MAC_ADDRESS_PATTERN);
+            Matcher matcher = pattern.matcher(macAddress);
+            return matcher.matches();
+        } else {
+            return false;
+        }
+    }
     public static boolean anyMacAddressesAllowed(List<String> macAddresses) {
         boolean allowed = false;
-        if (macAddresses != null && StringUtils.isNotBlank(macAddresses.get(0))) {
+        if (macAddresses != null && StringUtils.isNotBlank(macAddresses.get(0)) && isValidMacAddress(macAddresses.get(0))) {
             String addresses = ConfigUtil.getGlobalProperty(PihMalawiConstants.SYNC_ALLOW_MAC_ADDRESSES_GP_NAME);
             allowed = StringUtils.isNotBlank(addresses) && addresses.toLowerCase().contains(macAddresses.get(0).toLowerCase());
         }
