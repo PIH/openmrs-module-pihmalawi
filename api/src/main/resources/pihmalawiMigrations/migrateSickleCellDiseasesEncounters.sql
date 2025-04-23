@@ -358,7 +358,57 @@ select
     e.date_created,
     e.voided
 from encounter e, sickle_cell_initial_enc s
-where e.patient_id = s.patient_id and e.encounter_type in (@ncd_other_followup, @ncd_other_qs, @ncd_other_as, @ncd_other_hosp ) and e.voided = 0;
+where e.patient_id = s.patient_id and e.encounter_type in (@ncd_other_followup, @ncd_other_hosp ) and e.voided = 0;
+
+-- migrate only ANNUAL_SCREENING encounters that have a Creatinine observation
+insert into sickle_cell_visit_enc(
+    source_encounter_id,
+    source_encounter_type,
+    patient_id,
+    location_id,
+    encounter_datetime,
+    source_form_id,
+    creator,
+    date_created,
+    voided)
+select
+    e.encounter_id,
+    e.encounter_type,
+    e.patient_id,
+    e.location_id,
+    e.encounter_datetime,
+    e.form_id,
+    e.creator,
+    e.date_created,
+    e.voided
+from encounter e, sickle_cell_initial_enc s, obs o
+where e.patient_id = s.patient_id and e.encounter_type = @ncd_other_as and e.voided = 0
+    and e.encounter_id = o.encounter_id and o.concept_id=@creatinine and o.voided=0;
+
+-- migrate only QUARTERLY_SCREENING encounters that have a HIV Test observation
+insert into sickle_cell_visit_enc(
+    source_encounter_id,
+    source_encounter_type,
+    patient_id,
+    location_id,
+    encounter_datetime,
+    source_form_id,
+    creator,
+    date_created,
+    voided)
+select
+    e.encounter_id,
+    e.encounter_type,
+    e.patient_id,
+    e.location_id,
+    e.encounter_datetime,
+    e.form_id,
+    e.creator,
+    e.date_created,
+    e.voided
+from encounter e, sickle_cell_initial_enc s, obs o
+where e.patient_id = s.patient_id and e.encounter_type = @ncd_other_qs and e.voided = 0
+  and e.encounter_id = o.encounter_id and o.concept_id=@hiv_status and o.voided=0;
 
 drop table if exists ncd_other_visit_obs;
 
