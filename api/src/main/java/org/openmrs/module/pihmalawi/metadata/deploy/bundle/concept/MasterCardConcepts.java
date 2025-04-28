@@ -173,8 +173,8 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 35;
-        // current version  34
+        return 36;
+        // current version  35
     }
 
     @Override
@@ -1714,14 +1714,14 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
         Concept rhRegimen = install(new ConceptBuilder("89a51505-984f-41e3-af75-bfd80295a4ae")
                 .datatype(numeric)
-                .conceptClass(misc)
+                .conceptClass(question)
                 .name("efd9cc40-3e09-41ee-b20e-d5bdd9c40e20","RH Regimen Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("1b5eb949-24cc-4497-bdf4-838b0e70503b","Number of RH tablets prescribed for TB",Locale.ENGLISH)
                 .build());
 
         Concept rhMeningitis = install(new ConceptBuilder("b4600273-eda4-46be-9385-d314a676b66f")
                 .datatype(numeric)
-                .conceptClass(misc)
+                .conceptClass(question)
                 .name("d2872be3-bd56-4574-8f80-b13169da2b7c","RH Meningitis Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("d1f05343-b47f-4e73-b100-00489959a29e","Number of RH tablets prescribed for TB Meningitis",Locale.ENGLISH)
                 .build());
@@ -1747,7 +1747,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
         Concept rhrze = install(new ConceptBuilder("e0950577-7827-4757-bb92-2ee1d8eeea5d")
                 .datatype(numeric)
-                .conceptClass(misc)
+                .conceptClass(question)
                 .name("b6db7bb5-da68-47d4-bd51-fe572aa86bd6","RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("7f246e6d-2045-4ec8-aa09-953a933b9d83","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
                 .build());
@@ -1786,7 +1786,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
         Concept regRhrzeTablets = install(new ConceptBuilder("8a7798d4-ee8f-43d3-9423-352628b616f2")
                 .datatype(numeric)
-                .conceptClass(misc)
+                .conceptClass(question)
                 .name("db6b0758-4388-43de-a1f9-00b2cb4b1e6a","Number of RHZE Tablets",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
                 .description("77a559f4-88d3-47e2-8799-45f5f002f0a1","Number of RHZE tablets prescribed for TB",Locale.ENGLISH)
                 .build());
