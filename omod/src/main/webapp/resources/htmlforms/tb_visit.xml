@@ -14,6 +14,7 @@
 
         <macro key="month" value="b2fafb7e-ce9f-11e5-ab30-625662870761"/>
         <macro key="regimen" value="89a51505-984f-41e3-af75-bfd80295a4ae"/>
+        <macro key="regRhze" value="8a7798d4-ee8f-43d3-9423-352628b616f2"/>
         <macro key="meningitis" value="b4600273-eda4-46be-9385-d314a676b66f"/>
         <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         <macro key="formEncTypeUuid" value="61545FD5-4EBC-4E01-B349-304195254A73"/>
@@ -94,6 +95,7 @@
             <thead class="visit-table-header">
                 <tr> <!-- Label row -->
                     <td rowspan="2">Visit Date</td>
+                    <td rowspan="2">Regimen (RHZE)</td>
                     <td  rowspan="2">Regimen (RH)</td>
                     <td  rowspan="2">TB Meningitis (RH)</td>
                     <td rowspan="2">Next appt date</td>
@@ -138,6 +140,10 @@
                 <tr class="visit-table-row">
                     <td class="nowrap visit-date">
                         <encounterDate/>
+                    </td>
+                    <td>
+                        <!-- initiation phase TB regimen -->
+                        <obs conceptId="$regRhze" size="3"/>
                     </td>
                     <td>
                         <!-- TB Regimen -->
@@ -232,11 +238,18 @@
                 <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
             </tr>
             <tr>
-                <th>Regimen (RH)</th>
+                <th>Regimen (RHZE) <br/> Number of tablets</th>
+                <td>
+                    <obs conceptId="$regRhze" size="3"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Regimen (RH) <br/> Number of tablets</th>
+
                 <td><obs conceptId="$regimen" size="3"/></td>
             </tr>
             <tr>
-                <th>Meningitis (RH)</th>
+                <th>Meningitis (RH)<br/> Number of tablets</th>
                 <td><obs conceptId="$meningitis" size="3"/></td>
             </tr>
             <tr>
