@@ -35,6 +35,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
     public static final String MENTAL_HEALTH_TREATMENT_STATUS_CONCEPT_UUID = "48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619";
     public static final String EPILEPSY_TREATMENT_STATUS_CONCEPT_UUID = "ad7b930a-a1d9-4fff-bd62-212d5e55e5b2";
     public static final String SICKLE_CELL_DISEASE_TREATMENT_STATUS_CONCEPT_UUID = "60125522-00AF-4261-B837-4A9162264523";
+    public static final String CKD_TREATMENT_STATUS_CONCEPT_UUID = "eb4f508e-2dc0-40ca-8cf1-8b17b9dee21b";
 
     public static final String LOST_TO_FOLLOWUP_STATUS_CONCEPT_UUID = "92964825-6952-407e-8331-8bbd0df7ef5c";
     public static final String PATIENT_CURED_STATUS_CONCEPT_UUID = "655b6256-977f-11e1-8993-905e29aff6c1";
@@ -42,7 +43,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -146,6 +147,14 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
                 .name("5303120E-11A4-4B57-81D7-B058B5D6D841", "Sickle cell disease treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .mapping(new ConceptMapBuilder("DF839B68-C011-4399-BDF3-3A356D71AC33")
                         .type(sameAs).ensureTerm(pih, "Sickle cell disease treatment status workflow").build())
+                .build());
+
+        install(new ConceptBuilder(CKD_TREATMENT_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(workflow)
+                .name("f12a24c6-1200-4e3a-b988-8b8e0ba94897", "Chronic Kidney disease treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("121662c7-faeb-43bf-88ad-a142ab515b5f")
+                        .type(sameAs).ensureTerm(pih, "Chronic Kidney disease treatment status workflow").build())
                 .build());
     }
 }

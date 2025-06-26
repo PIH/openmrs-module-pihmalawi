@@ -38,7 +38,7 @@ public class Programs {
         public String description() { return "Chronic Care Program"; }
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_PROGRAM_CONCEPT; }
         public Set<ProgramWorkflowDescriptor> workflows() {
-            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW));  }
+            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW,CKD_TREATMENT_WORKFLOW));  }
     };
 
     public static ProgramWorkflowDescriptor CHRONIC_CARE_TREATMENT_STATUS = new ProgramWorkflowDescriptor() {
@@ -67,6 +67,27 @@ public class Programs {
                     SCD_STATE_TREATMENT_STOPPED,
                     SCD_STATE_TRANSFERRED_OUT,
                     SCD_STATE_DIED));
+        }
+    };
+
+    public static ProgramWorkflowDescriptor CKD_TREATMENT_WORKFLOW = new ProgramWorkflowDescriptor() {
+        public String uuid() { return "4eda02b2-48ca-47dc-9166-483a6499bcbd"; }
+
+        @Override
+        public boolean retired() {
+            return false;
+        }
+
+        public String conceptUuid() { return ProgramConcepts.CKD_TREATMENT_STATUS_CONCEPT_UUID; }
+        public Set<ProgramWorkflowStateDescriptor> states() {
+            return new HashSet<ProgramWorkflowStateDescriptor>(Arrays.asList(
+                    CKD_STATE_ON_TREATMENT,
+                    CKD_STATE_IN_ADVANCED_CARE,
+                    CKD_STATE_DISCHARGED,
+                    CKD_STATE_DEFAULTED,
+                    CKD_STATE_TREATMENT_STOPPED,
+                    CKD_STATE_TRANSFERRED_OUT,
+                    CKD_STATE_DIED));
         }
     };
 
@@ -161,5 +182,53 @@ public class Programs {
         public Boolean terminal() { return true; }
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
     };
+
+
+    public static ProgramWorkflowStateDescriptor CKD_STATE_ON_TREATMENT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "908552d7-2bb3-4e4f-9ba1-ec22c2c3f2b6"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_ON_TREATMENT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_IN_ADVANCED_CARE = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "c5ddd2d0-33f3-4d1e-8f7d-f58beec5ece9"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_DISCHARGED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "5a3d7225-f30c-4ce6-bea7-caaf3e0a550e"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DISCHARGED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_TREATMENT_STOPPED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "5b167395-c51a-4f09-a403-8fd4ac7270bd"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_DEFAULTED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "718dfd2b-5c49-48f2-abb7-cdc389758220"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DEFAULTED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_TRANSFERRED_OUT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "677d3760-e415-493e-85e5-bebe3d2df978"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TRANSFERRED_OUT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CKD_STATE_DIED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "9e7013d9-6a5d-43fa-bb5b-e176b14859ad"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return true; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
+    };
+
+
+
+
 
 }
