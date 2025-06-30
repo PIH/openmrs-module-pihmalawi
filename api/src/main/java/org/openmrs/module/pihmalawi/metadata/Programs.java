@@ -38,7 +38,7 @@ public class Programs {
         public String description() { return "Chronic Care Program"; }
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_PROGRAM_CONCEPT; }
         public Set<ProgramWorkflowDescriptor> workflows() {
-            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW,CKD_TREATMENT_WORKFLOW));  }
+            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW,CKD_TREATMENT_WORKFLOW,CHF_TREATMENT_WORKFLOW));  }
     };
 
     public static ProgramWorkflowDescriptor CHRONIC_CARE_TREATMENT_STATUS = new ProgramWorkflowDescriptor() {
@@ -88,6 +88,27 @@ public class Programs {
                     CKD_STATE_TREATMENT_STOPPED,
                     CKD_STATE_TRANSFERRED_OUT,
                     CKD_STATE_DIED));
+        }
+    };
+
+    public static ProgramWorkflowDescriptor CHF_TREATMENT_WORKFLOW = new ProgramWorkflowDescriptor() {
+        public String uuid() { return "cc76c7c2-8760-4ff6-8ed7-617a7378915b"; }
+
+        @Override
+        public boolean retired() {
+            return false;
+        }
+
+        public String conceptUuid() { return ProgramConcepts.CHF_TREATMENT_STATUS_CONCEPT_UUID; }
+        public Set<ProgramWorkflowStateDescriptor> states() {
+            return new HashSet<ProgramWorkflowStateDescriptor>(Arrays.asList(
+                    CHF_STATE_ON_TREATMENT,
+                    CHF_STATE_IN_ADVANCED_CARE,
+                    CHF_STATE_DISCHARGED,
+                    CHF_STATE_DEFAULTED,
+                    CHF_STATE_TREATMENT_STOPPED,
+                    CHF_STATE_TRANSFERRED_OUT,
+                    CHF_STATE_DIED));
         }
     };
 
@@ -227,6 +248,48 @@ public class Programs {
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
     };
 
+    public static ProgramWorkflowStateDescriptor CHF_STATE_ON_TREATMENT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "3a9724e5-fc65-4a48-8d0b-2b1265106552"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_ON_TREATMENT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_IN_ADVANCED_CARE = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "b002c86b-e22c-484a-a9a5-a12543b4a1b1"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_DISCHARGED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "e5686a3a-6097-425f-9c69-66cf07c8b1a0"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DISCHARGED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_TREATMENT_STOPPED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "5e7c2ac8-c715-4510-b128-6125cff88e57"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_DEFAULTED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "721da796-d40c-4308-a259-6354f039e559"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DEFAULTED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_TRANSFERRED_OUT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "c22b137b-d495-4486-bd9b-5cc2f717d7f8"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TRANSFERRED_OUT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor CHF_STATE_DIED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "02f1ec53-4261-40f3-a400-7de6e22c2779"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return true; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
+    };
 
 
 
