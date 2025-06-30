@@ -258,4 +258,26 @@
 		<sqlFile path="pihmalawiMigrations/migrateCKDPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
+	<changeSet id="migrate_chf_encounters" author="b-ngongonda">
+		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true" />
+		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="chf-cc-states" author="b-ngongonda" runAlways="true" runOnChange="true">
+		<preConditions onFail="CONTINUE" onFailMessage="chronic heart failure treatment statuses have not been migrated from the Chronic Care treatment statuses">
+			<sqlCheck expectedResult="0">
+				select count(*)
+				from patient_state ps, program_workflow_state pws, program_workflow pw
+				where ps.voided = 0
+				and ps.state = pws.program_workflow_state_id
+				and pws.program_workflow_id = pw.program_workflow_id
+				and  pw.uuid = 'cc76c7c2-8760-4ff6-8ed7-617a7378915b'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			Migrate Chronic care treatment statuses to chronic heart failure treatment statuses.
+		</comment>
+		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true"/>
+	</changeSet>
+
 </databaseChangeLog>
