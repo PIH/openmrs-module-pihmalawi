@@ -260,7 +260,6 @@
 
 	<changeSet id="migrate_chf_encounters" author="b-ngongonda">
 		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true" />
-		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true" />
 	</changeSet>
 
 	<changeSet id="chf-cc-states" author="b-ngongonda" runAlways="true" runOnChange="true">
@@ -278,6 +277,27 @@
 			Migrate Chronic care treatment statuses to chronic heart failure treatment statuses.
 		</comment>
 		<sqlFile path="pihmalawiMigrations/migrateCHFPatientStates.sql" stripComments="true"/>
+	</changeSet>
+
+	<changeSet id="migrate_htn_db_encounters" author="b-ngongonda">
+		<sqlFile path="pihmalawiMigrations/migrateDiabetesHypertensionPatientStates.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="htn-db-cc-states" author="b-ngongonda" runAlways="true" runOnChange="true">
+		<preConditions onFail="CONTINUE" onFailMessage="Diabetes and Hypertension treatment statuses have not been migrated from the Chronic Care treatment statuses">
+			<sqlCheck expectedResult="0">
+				select count(*)
+				from patient_state ps, program_workflow_state pws, program_workflow pw
+				where ps.voided = 0
+				and ps.state = pws.program_workflow_state_id
+				and pws.program_workflow_id = pw.program_workflow_id
+				and  pw.uuid = '9b571347-8dc3-40fe-9994-e82071fa8290'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			Migrate Chronic care treatment statuses to Diabetes and Hypertension treatment statuses.
+		</comment>
+		<sqlFile path="pihmalawiMigrations/migrateDiabetesHypertensionPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
 </databaseChangeLog>

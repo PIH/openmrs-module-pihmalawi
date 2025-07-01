@@ -37,6 +37,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
     public static final String SICKLE_CELL_DISEASE_TREATMENT_STATUS_CONCEPT_UUID = "60125522-00AF-4261-B837-4A9162264523";
     public static final String CKD_TREATMENT_STATUS_CONCEPT_UUID = "eb4f508e-2dc0-40ca-8cf1-8b17b9dee21b";
     public static final String CHF_TREATMENT_STATUS_CONCEPT_UUID = "64156b64-9ce2-4f76-9489-e026fe48e3fb";
+    public static final String DIABETES_HYPERTENSION_TREATMENT_STATUS_CONCEPT_UUID = "57f5c094-2dfa-466b-8295-1b45db99e1b0";
 
     public static final String LOST_TO_FOLLOWUP_STATUS_CONCEPT_UUID = "92964825-6952-407e-8331-8bbd0df7ef5c";
     public static final String PATIENT_CURED_STATUS_CONCEPT_UUID = "655b6256-977f-11e1-8993-905e29aff6c1";
@@ -44,7 +45,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 10;
+        return 11;
     }
 
     @Override
@@ -163,6 +164,13 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
                 .name("3b61d32b-2849-4f4d-9efb-b9b7a194ccc5", "Chronic Heart Failure treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .mapping(new ConceptMapBuilder("f86e189c-fa90-4548-8622-cd9caef5c9af")
                         .type(sameAs).ensureTerm(pih, "Chronic Heart Failure treatment status workflow").build())
+                .build());
+        install(new ConceptBuilder(DIABETES_HYPERTENSION_TREATMENT_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(workflow)
+                .name("687251c1-762b-4b7a-ab8d-adbf72d65450", "Diabetes Hypertension treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("ea43a323-b898-45c4-964f-f7c46b1a4ca9")
+                        .type(sameAs).ensureTerm(pih, "Diabetes Hypertension treatment status workflow").build())
                 .build());
     }
 }
