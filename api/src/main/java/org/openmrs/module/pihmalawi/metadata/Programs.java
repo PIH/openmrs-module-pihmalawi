@@ -38,7 +38,7 @@ public class Programs {
         public String description() { return "Chronic Care Program"; }
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_PROGRAM_CONCEPT; }
         public Set<ProgramWorkflowDescriptor> workflows() {
-            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW,CKD_TREATMENT_WORKFLOW,CHF_TREATMENT_WORKFLOW));  }
+            return new HashSet<ProgramWorkflowDescriptor>(Arrays.asList(CHRONIC_CARE_TREATMENT_STATUS, SICKLE_CELL_DISEASE_TREATMENT_WORKFLOW,CKD_TREATMENT_WORKFLOW,CHF_TREATMENT_WORKFLOW,DIABETES_HYPERTENSION_TREATMENT_WORKFLOW));  }
     };
 
     public static ProgramWorkflowDescriptor CHRONIC_CARE_TREATMENT_STATUS = new ProgramWorkflowDescriptor() {
@@ -109,6 +109,27 @@ public class Programs {
                     CHF_STATE_TREATMENT_STOPPED,
                     CHF_STATE_TRANSFERRED_OUT,
                     CHF_STATE_DIED));
+        }
+    };
+
+    public static ProgramWorkflowDescriptor DIABETES_HYPERTENSION_TREATMENT_WORKFLOW = new ProgramWorkflowDescriptor() {
+        public String uuid() { return "9b571347-8dc3-40fe-9994-e82071fa8290"; }
+
+        @Override
+        public boolean retired() {
+            return false;
+        }
+
+        public String conceptUuid() { return ProgramConcepts.DIABETES_HYPERTENSION_TREATMENT_STATUS_CONCEPT_UUID; }
+        public Set<ProgramWorkflowStateDescriptor> states() {
+            return new HashSet<ProgramWorkflowStateDescriptor>(Arrays.asList(
+                    DIABETES_HYPERTENSION_STATE_ON_TREATMENT,
+                    DIABETES_HYPERTENSION_STATE_IN_ADVANCED_CARE,
+                    DIABETES_HYPERTENSION_STATE_DISCHARGED,
+                    DIABETES_HYPERTENSION_STATE_DEFAULTED,
+                    DIABETES_HYPERTENSION_STATE_TREATMENT_STOPPED,
+                    DIABETES_HYPERTENSION_STATE_TRANSFERRED_OUT,
+                    DIABETES_HYPERTENSION_STATE_DIED));
         }
     };
 
@@ -291,7 +312,48 @@ public class Programs {
         public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
     };
 
-
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_ON_TREATMENT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "d5d2d3bf-9cca-4a1f-9c69-f7713ed8fff4"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_ON_TREATMENT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_IN_ADVANCED_CARE = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "00be3c91-ecd2-482e-8c7a-7bdd49c997e7"; }
+        public Boolean initial() { return true; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_IN_ADVANCED_CARE_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_DISCHARGED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "f06bb620-9c4f-4037-9248-71f6c2387523"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DISCHARGED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_TREATMENT_STOPPED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "08a736da-99e5-4a25-b162-66e126974c9d"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TREATMENT_STOPPED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_DEFAULTED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "40613a66-af05-4e4a-854d-6b3b76a5d12a"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DEFAULTED_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_TRANSFERRED_OUT = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "e80bf1fd-fdf7-4226-9d17-891e10cc6c9c"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return false; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_TRANSFERRED_OUT_CONCEPT; }
+    };
+    public static ProgramWorkflowStateDescriptor DIABETES_HYPERTENSION_STATE_DIED = new ProgramWorkflowStateDescriptor() {
+        public String uuid() { return "dcece218-948a-4d7f-aaac-7f20614522b3"; }
+        public Boolean initial() { return false; }
+        public Boolean terminal() { return true; }
+        public String conceptUuid() { return ProgramConcepts.CHRONIC_CARE_STATUS_DIED_CONCEPT; }
+    };
 
 
 }
