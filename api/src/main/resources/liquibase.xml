@@ -300,4 +300,25 @@
 		<sqlFile path="pihmalawiMigrations/migrateDiabetesHypertensionPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
+	<changeSet id="migrate_ncd_other_encounters" author="b-ngongonda">
+		<sqlFile path="pihmalawiMigrations/migrateNCDOtherPatientStates.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="ncd-other-cc-states" author="b-ngongonda" runAlways="true" runOnChange="true">
+		<preConditions onFail="CONTINUE" onFailMessage="NCD Other treatment statuses have not been migrated from the Chronic Care treatment statuses">
+			<sqlCheck expectedResult="0">
+				select count(*)
+				from patient_state ps, program_workflow_state pws, program_workflow pw
+				where ps.voided = 0
+				and ps.state = pws.program_workflow_state_id
+				and pws.program_workflow_id = pw.program_workflow_id
+				and  pw.uuid = '62481c50-155c-45be-b4e9-39a38a9cbfda'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			Migrate Chronic care treatment statuses to NCD Other treatment statuses.
+		</comment>
+		<sqlFile path="pihmalawiMigrations/migrateNCDOtherPatientStates.sql" stripComments="true"/>
+	</changeSet>
+
 </databaseChangeLog>
