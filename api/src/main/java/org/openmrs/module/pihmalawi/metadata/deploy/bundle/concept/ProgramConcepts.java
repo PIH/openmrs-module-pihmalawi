@@ -39,6 +39,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
     public static final String CHF_TREATMENT_STATUS_CONCEPT_UUID = "64156b64-9ce2-4f76-9489-e026fe48e3fb";
     public static final String DIABETES_HYPERTENSION_TREATMENT_STATUS_CONCEPT_UUID = "57f5c094-2dfa-466b-8295-1b45db99e1b0";
     public static final String NCD_OTHER_TREATMENT_STATUS_CONCEPT_UUID = "5540eca8-dd73-4f44-88ab-944289e5f606";
+    public static final String ASTHMA_TREATMENT_STATUS_CONCEPT_UUID = "9d6eac9c-64bc-4574-ad77-9ff7c23dc9a8";
 
     public static final String LOST_TO_FOLLOWUP_STATUS_CONCEPT_UUID = "92964825-6952-407e-8331-8bbd0df7ef5c";
     public static final String PATIENT_CURED_STATUS_CONCEPT_UUID = "655b6256-977f-11e1-8993-905e29aff6c1";
@@ -46,7 +47,7 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 12;
+        return 13;
     }
 
     @Override
@@ -179,6 +180,13 @@ public class ProgramConcepts extends VersionedPihConceptBundle {
                 .name("10d91f3c-776a-42eb-a77c-9d67fe852209", "NCD Other treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
                 .mapping(new ConceptMapBuilder("4a307517-7a26-4c28-a2e1-7fa805650e29")
                         .type(sameAs).ensureTerm(pih, "NCD Other treatment status workflow").build())
+                .build());
+        install(new ConceptBuilder(ASTHMA_TREATMENT_STATUS_CONCEPT_UUID)
+                .datatype(notApplicable)
+                .conceptClass(workflow)
+                .name("a2e94811-17a4-4a08-8429-6045625cb44d", "Asthma treatment", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .mapping(new ConceptMapBuilder("9d942382-e9f9-46ff-876c-32681567e170")
+                        .type(sameAs).ensureTerm(pih, "Asthma treatment status workflow").build())
                 .build());
     }
 }
