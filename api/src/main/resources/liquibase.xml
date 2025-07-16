@@ -321,4 +321,25 @@
 		<sqlFile path="pihmalawiMigrations/migrateNCDOtherPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
+	<changeSet id="migrate_asthma_encounters" author="b-ngongonda">
+		<sqlFile path="pihmalawiMigrations/migrateAsthmaPatientStates.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="asthma-cc-states" author="b-ngongonda" runAlways="true" runOnChange="true">
+		<preConditions onFail="CONTINUE" onFailMessage="Asthma treatment statuses have not been migrated from the Chronic Care treatment statuses">
+			<sqlCheck expectedResult="0">
+				select count(*)
+				from patient_state ps, program_workflow_state pws, program_workflow pw
+				where ps.voided = 0
+				and ps.state = pws.program_workflow_state_id
+				and pws.program_workflow_id = pw.program_workflow_id
+				and  pw.uuid = '319838b7-23cb-4e04-9b36-ad1e83cbeaaf'
+			</sqlCheck>
+		</preConditions>
+		<comment>
+			Migrate Chronic care treatment statuses to Asthma treatment statuses.
+		</comment>
+		<sqlFile path="pihmalawiMigrations/migrateAsthmaPatientStates.sql" stripComments="true"/>
+	</changeSet>
+
 </databaseChangeLog>
