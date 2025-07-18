@@ -57,6 +57,13 @@
 <c:set var="ChronicCareTerminalStates" value="6688275e-977f-11e1-8993-905e29aff6c1,6688297a-977f-11e1-8993-905e29aff6c1,3a4eb919-b942-4c9c-ba0e-defcebe5cd4b,dbe76d47-dbc4-4608-a578-97b6b62d9f63"/>
 <c:set var="MHProgramWokflows" value="26FD314D-138F-4A5C-8890-E01791C06336,DA69BBCB-01FE-4C59-9D46-8A2659ABBD73"/>
 <c:set var="MentalHealthActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84,2F76D426-56A9-4651-B253-A2299B442C09,79F2CAB1-E674-433E-AF42-447678FDB443"/>
+<c:set var="CCProgramWokflows" value="1A6C2438-99D7-41FF-8EB4-516DFCD1D199,4eda02b2-48ca-47dc-9166-483a6499bcbd,9b571347-8dc3-40fe-9994-e82071fa8290,cc76c7c2-8760-4ff6-8ed7-617a7378915b,62481c50-155c-45be-b4e9-39a38a9cbfda,319838b7-23cb-4e04-9b36-ad1e83cbeaaf"/>
+<c:set var="SCDActiveStates" value="C2B106C6-18B6-4342-B2E7-FAA0540E6DC2,03A8A8DF-E95E-4875-B730-2D3CD86502EF"/>
+<c:set var="SCDTreatmentDischargedWorkflowState" value="A3EA7AD8-FB32-4567-A19E-C3F6E9E33C7B"/>
+<c:set var="SCDTreatmentStoppedWorkflowState" value="15072B28-46E9-412D-BCA4-3C96803C15AD"/>
+<c:set var="SCDPatientDiedWorkflowState" value="5E228F5D-BA90-4F25-9524-E79ABAEFA01F"/>
+<c:set var="SCDTransferredOutWorkflowState" value="A843A2AE-FB7B-48B2-A5C2-73A82890D709"/>
+<c:set var="SCDPatientDefaultedWorkflowState" value="E850CEB4-B01B-47E0-AED2-4BAB1EE2A645"/>
 <c:set var="EpilepsyActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84,CB86C6FE-4263-4A4C-AF54-49D5308459D4,61190A43-95FF-4C84-8A3F-DD7F5354171C"/>
 <c:set var="MHTreatmentDischargedWorkflowState" value="42ACC789-C2BB-4EAA-8AC2-0BE7D0F5D4E8"/>
 <c:set var="MHTreatmentStoppedWorkflowState" value="9F6F188C-42AB-45D8-BC8B-DBE78948072D"/>
@@ -180,7 +187,7 @@
     <!-- uncomment this when all related Sickle cell disease forms are complete MLW-1568 -->
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Sickle Cell Disease eMastercard" initialEncounterTypeName="SICKLE_CELL_DISEASE_INITIAL" followupEncounterTypeName="SICKLE_CELL_DISEASE_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Sickle Cell Disease eMastercard" initialEncounterTypeName="SICKLE_CELL_DISEASE_INITIAL" followupEncounterTypeName="SICKLE_CELL_DISEASE_FOLLOWUP" programWorkflowStates="${SCDActiveStates}" patientIdentifierType="21"/></td>
     </tr>
 
     <tr>
@@ -336,7 +343,8 @@
     </c:if>
     <tr>
         <td style="vertical-align: top;">Chronic Care Program:</td>
-        <td><pihmalawi:quickPrograms patientId="${model.patientId}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
+
+        <td><pihmalawi:quickPrograms patientId="${model.patientId}" workflowIds="${CCProgramWokflows}" initialStateIds="${ChronicCareActiveStates}" stateIds="${ChronicCareActiveStates}" terminalStateIds="${ChronicCareTerminalStates}"/><br /></td
     </tr>
     <tr>
         <td style="vertical-align: top;">Mental Health Program:</td>
