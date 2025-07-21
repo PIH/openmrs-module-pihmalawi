@@ -31,7 +31,7 @@ angular.module('importChwApp', ['ngDialog'])
                 ["CHW Site Supervisor", { uuid: CONSTANTS.PROVIDER_ROLES.CHW_SITE_SUPERVISOR_PROVIDER_ROLE}]
 
             ]);
-
+//test neno-ci puppet deployment pipeline
             var locationsMap = new Map([
                 ["Neno District Hospital", {code: "NNO", uuid: "0d414ce2-5ab4-11e0-870c-9f6107fee88e"}],
                 ["Chifunga", { code: "CFGA", uuid: "0d4166a0-5ab4-11e0-870c-9f6107fee88e" }],
