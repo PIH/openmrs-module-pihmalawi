@@ -45,6 +45,7 @@
     <!-- Module Activator -->
     <activator>${project.parent.groupId}.${project.parent.artifactId}.PihMalawiActivator</activator>
 
+    <!-- Global Properties -->
 	<globalProperty>
 		<property>pihmalawi.upperOrLowerNeno</property>
 		<defaultValue>UPPER_NENO</defaultValue>
