@@ -64,6 +64,11 @@
 <c:set var="SCDPatientDiedWorkflowState" value="5E228F5D-BA90-4F25-9524-E79ABAEFA01F"/>
 <c:set var="SCDTransferredOutWorkflowState" value="A843A2AE-FB7B-48B2-A5C2-73A82890D709"/>
 <c:set var="SCDPatientDefaultedWorkflowState" value="E850CEB4-B01B-47E0-AED2-4BAB1EE2A645"/>
+<c:set var="CKDActiveStates" value="908552d7-2bb3-4e4f-9ba1-ec22c2c3f2b6,c5ddd2d0-33f3-4d1e-8f7d-f58beec5ece9"/>
+<c:set var="CHFActiveStates" value="3a9724e5-fc65-4a48-8d0b-2b1265106552,b002c86b-e22c-484a-a9a5-a12543b4a1b1"/>
+<c:set var="DIABETESHYPERTENSIONActiveStates" value="d5d2d3bf-9cca-4a1f-9c69-f7713ed8fff4,00be3c91-ecd2-482e-8c7a-7bdd49c997e7"/>
+<c:set var="NCDOTHERActiveStates" value="cfec993e-ae2f-4f16-bea5-4bd26752bc89,05865dda-5934-4fcd-93eb-3d149edbdba0"/>
+<c:set var="ASTHMASTATEActiveStates" value="7f2fc125-f9bc-4195-b879-3060a386468a,8f395143-5f5a-4171-8e10-aef931e16bcf"/>
 <c:set var="EpilepsyActiveStates" value="5925718D-EA5E-43EB-9AE2-1CB342D8E318,E0381FF3-2976-41F0-B853-28E842400E84,CB86C6FE-4263-4A4C-AF54-49D5308459D4,61190A43-95FF-4C84-8A3F-DD7F5354171C"/>
 <c:set var="MHTreatmentDischargedWorkflowState" value="42ACC789-C2BB-4EAA-8AC2-0BE7D0F5D4E8"/>
 <c:set var="MHTreatmentStoppedWorkflowState" value="9F6F188C-42AB-45D8-BC8B-DBE78948072D"/>
@@ -170,19 +175,19 @@
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Hypertension and Diabetes eMastercard" initialEncounterTypeName="DIABETES HYPERTENSION INITIAL VISIT" followupEncounterTypeName="DIABETES HYPERTENSION FOLLOWUP" programWorkflowStates="${DIABETESHYPERTENSIONActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Lung Disease eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Lung Disease eMastercard" initialEncounterTypeName="ASTHMA_INITIAL" followupEncounterTypeName="ASTHMA_FOLLOWUP" programWorkflowStates="${ASTHMASTATEActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Cardiac and Vascular Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Cardiac and Vascular Disease eMastercard" initialEncounterTypeName="CHF_INITIAL" followupEncounterTypeName="CHF_FOLLOWUP" programWorkflowStates="${CHFActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Kidney Disease eMastercard" initialEncounterTypeName="CKD_INITIAL" followupEncounterTypeName="CKD_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="Chronic Kidney Disease eMastercard" initialEncounterTypeName="CKD_INITIAL" followupEncounterTypeName="CKD_FOLLOWUP" programWorkflowStates="${CKDActiveStates}" patientIdentifierType="21"/></td>
     </tr>
     <!-- uncomment this when all related Sickle cell disease forms are complete MLW-1568 -->
     <tr>
@@ -192,7 +197,7 @@
 
     <tr>
         <td>&NonBreakingSpace;</td>
-        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="NCD Other eMastercard" initialEncounterTypeName="NCD_OTHER_INITIAL" followupEncounterTypeName="NCD_OTHER_FOLLOWUP" programWorkflowStates="${ChronicCareActiveStates}" patientIdentifierType="21"/></td>
+        <td><pihmalawi:eMastercardAccess patientId="${model.patientId}" formName="NCD Other eMastercard" initialEncounterTypeName="NCD_OTHER_INITIAL" followupEncounterTypeName="NCD_OTHER_FOLLOWUP" programWorkflowStates="${NCDOTHERActiveStates}" patientIdentifierType="21"/></td>
     </tr>
 
     <tr>
