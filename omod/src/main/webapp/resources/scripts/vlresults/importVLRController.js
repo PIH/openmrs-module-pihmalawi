@@ -40,6 +40,7 @@ angular.module('importVLRApp', ['ngDialog'])
         [3710, { code: "NOP", name:"Neno Parish Health Center", uuid: "0d41505c-5ab4-11e0-870c-9f6107fee88e", locationId: 3710 }],
         [3711, { code: "NSM", name:"Nsambe Sda Health Center", uuid: "0d416830-5ab4-11e0-870c-9f6107fee88e", locationId: 3711 }],
         [3712, { code: "NKA", name:"Nkula Health Center", uuid: "0d4169b6-5ab4-11e0-870c-9f6107fee88e", locationId: 3712 }],
+        [3715, { code: "TEC", name:"Tedzani Clinic", uuid: "fb79d8f0-54ff-4dda-8f18-29765aff0408", locationId: 3715 }],
         [3713, { code: "ZLA", name:"Zalewa Dispensary", uuid: "0d417fd2-5ab4-11e0-870c-9f6107fee88e", locationId: 3713 }],
         [3714, { code: "DAM", name: "Dambe Health Center", uuid: "976dcd06-c40e-4e2e-a0de-35a54c7a52ef", locationId: 3714 }]
       ]);
