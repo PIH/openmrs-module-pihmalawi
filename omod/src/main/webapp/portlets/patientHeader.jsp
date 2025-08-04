@@ -186,6 +186,10 @@
                                 <th class="patientStateConceptNameHeader"><c:out value="${patientState.state.concept.name}" /></th>
                             </c:if>
                         </c:forEach>
+                        <td class="vlTestBarData">|</td>
+                        <td class="programEnrollmentName"><openmrs:message
+                                code="Viral Load Result" />: </td>
+                        <th class="programEnrollmentDateHeader">${model.latestViralLoadTestResult}</th>
                     </tr>
                 </table>
             </c:if>
@@ -220,15 +224,6 @@
                 </td>
             </c:forEach>
 
-            <td id="patientHeaderObsRegimen"><openmrs:message
-                    code="Patient.regimen" />: <span id="patientHeaderRegimen">
-				<c:forEach items="${model.currentDrugOrders}" var="drugOrder"
-                           varStatus="drugOrderStatus">
-                    <c:if test="${!empty drugOrder.drug}"><c:out value="${drugOrder.drug.name}" /></c:if>
-                    <c:if test="${empty drugOrder.drug}"><c:out value="${drugOrder.concept.name.name}" /></c:if>
-                    <c:if test="${!drugOrderStatus.last}">, </c:if>
-                </c:forEach>
-		</span></td>
 </openmrs:hasPrivilege>
         </tr>
     </table>

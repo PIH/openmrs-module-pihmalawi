@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -141,6 +142,8 @@ public class PihMalawiPortletController implements Controller {
                         model.put("patientObs", patientObs);
                         Obs latestWeight = null;
                         Obs latestHeight = null;
+                        Obs latestViralLoadTestResult = null;
+                        Obs latestViralLoadLDL = null;
                         String bmiAsString = "?";
                         try {
                             String weightString = as.getGlobalProperty("concept.weight");
@@ -153,6 +156,17 @@ public class PihMalawiPortletController implements Controller {
                             if (StringUtils.hasLength(heightString)) {
                                 heightConcept = cs.getConceptNumeric(GeneralUtils.getConcept(heightString).getConceptId());
                             }
+                            String vlTestString = as.getGlobalProperty("concept.viralLoad");
+                            ConceptNumeric vlTestConcept = null;
+                            if (StringUtils.hasLength(vlTestString)) {
+                                vlTestConcept = cs.getConceptNumeric(GeneralUtils.getConcept(vlTestString).getConceptId());
+                            }
+                            String vlLDLString = as.getGlobalProperty("concept.viralLoad.ldl");
+                            Concept vlLdlConcept = null;
+                            if (StringUtils.hasLength(vlLDLString)) {
+                                vlLdlConcept = cs.getConcept((GeneralUtils.getConcept(vlLDLString).getConceptId()));
+                            }
+
                             for (Obs obs : patientObs) {
                                 if (obs.getConcept().equals(weightConcept)) {
                                     if (latestWeight == null
@@ -163,6 +177,14 @@ public class PihMalawiPortletController implements Controller {
                                         && (latestHeight == null || obs.getObsDatetime().compareTo(
                                         latestHeight.getObsDatetime()) > 0)) {
                                     latestHeight = obs;
+                                } else if (obs.getConcept().equals(vlTestConcept) && (obs.getValueNumeric() != null )
+                                        && (latestViralLoadTestResult == null || obs.getObsDatetime().compareTo(
+                                        latestViralLoadTestResult.getObsDatetime()) > 0)) {
+                                    latestViralLoadTestResult = obs;
+                                } else if (obs.getConcept().equals(vlLdlConcept) && (obs.getValueBoolean() != null )
+                                        && (latestViralLoadLDL == null || obs.getObsDatetime().compareTo(
+                                        latestViralLoadLDL.getObsDatetime()) > 0)) {
+                                    latestViralLoadLDL = obs;
                                 }
                             }
                             if (latestWeight != null) {
@@ -171,6 +193,27 @@ public class PihMalawiPortletController implements Controller {
                             if (latestHeight != null) {
                                 model.put("patientHeight", latestHeight);
                             }
+                            Date latestVLTestDate = null;
+                            String latestVLResult = null;
+                            if (latestViralLoadTestResult != null || latestViralLoadLDL != null) {
+                                if ( latestViralLoadLDL == null ) {
+                                    latestVLTestDate = latestViralLoadTestResult.getObsDatetime();
+                                    latestVLResult = latestViralLoadTestResult.getValueNumeric().toString();
+
+                                } else if (latestViralLoadTestResult == null) {
+                                    latestVLTestDate = latestViralLoadLDL.getObsDatetime();
+                                    latestVLResult = latestViralLoadLDL.getValueBoolean() == true ? latestViralLoadLDL.getConcept().getShortNameInLocale(Context.getLocale()).getName() : "";
+
+                                } else if (latestViralLoadTestResult.getObsDatetime().compareTo(latestViralLoadLDL.getObsDatetime()) >= 0 ) {
+                                    latestVLTestDate = latestViralLoadTestResult.getObsDatetime();
+                                    latestVLResult = latestViralLoadTestResult.getValueNumeric().toString();
+                                } else {
+                                    latestVLTestDate = latestViralLoadLDL.getObsDatetime();
+                                    latestVLResult = latestViralLoadLDL.getValueBoolean() == true ? latestViralLoadLDL.getConcept().getShortNameInLocale(Context.getLocale()).getName() : "";
+                                }
+                            }
+                            model.put("latestVLTestDate", latestVLTestDate);
+                            model.put("latestViralLoadTestResult", latestVLResult + "(" + (DateFormat.getDateInstance(DateFormat.MEDIUM, Context.getLocale())).format(latestVLTestDate)  +")" );
                             if (latestWeight != null && latestHeight != null) {
                                 double weightInKg;
                                 double heightInM;

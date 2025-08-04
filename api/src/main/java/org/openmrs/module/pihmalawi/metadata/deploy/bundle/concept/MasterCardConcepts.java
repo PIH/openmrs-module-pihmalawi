@@ -173,8 +173,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
 
     @Override
     public int getVersion() {
-        return 37;
-        // current version  36
+        return 38;
     }
 
     @Override
@@ -458,6 +457,7 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(coded)
                 .conceptClass(misc)
                 .name("66287052-977f-11e1-8993-905e29aff6c1", "Malawi Antiretroviral drugs received", Locale.ENGLISH, ConceptNameType.FULLY_SPECIFIED)
+                .name("03a8fb91-d7f3-4a7d-a7d5-8405a7988681", "Regimen", Locale.ENGLISH, ConceptNameType.SHORT)
                 .answers(
                         zeroA,
                         zeroP,
