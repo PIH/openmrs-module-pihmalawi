@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.authentication.AuthenticationConfig;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 
-import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
@@ -35,25 +34,6 @@ public class AuthenticationInitializer implements Initializer {
         // If no authentication scheme is explicitly configured, default to basic
         AuthenticationConfig.setProperty(SCHEME, "2fa");
 
-        // We set up white list as everything needed for the basic login page and any additional scheme login page
-        // Add in any additional white list pages that are included in the config
-
-        Set<String> whitelist = new HashSet<>();
-        whitelist.add("/login.htm");
-        whitelist.add("/authenticationui/login/login.page");
-        whitelist.add("/appui/session/getLoginLocations.action");
-        whitelist.add("/ws/rest/v1/session");
-        whitelist.add("/ws/rest/v1/location");
-        whitelist.add("/csrfguard");
-        whitelist.add("*.js");
-        whitelist.add("*.css");
-        whitelist.add("*.gif");
-        whitelist.add("*.jpg");
-        whitelist.add("*.png");
-        whitelist.add("*.ico");
-        whitelist.add("*.ttf");
-        whitelist.add("*.woff");
-
         // Set up all the supported authentication schemes with default values.
         // Allow overriding with values from the config
 
@@ -69,7 +49,7 @@ public class AuthenticationInitializer implements Initializer {
             p.put("onlyLocationsWithTag", "Login Location");
             p.put("locationSessionAttributeName", PihMalawiConstants.SESSION_LOCATION_ID);
             p.put("lastLocationCookieName", PihMalawiConstants.COOKIE_NAME_LAST_SESSION_LOCATION);
-            addScheme(BASIC, className, p, whitelist);
+            addScheme(BASIC, className, p);
         }
 
         // Secret Question Authentication Scheme.  This is an available 2nd factor
@@ -78,7 +58,7 @@ public class AuthenticationInitializer implements Initializer {
             Properties p = new Properties();
             p.put("loginPage", "/authenticationui/login/loginSecret.page");
             p.put("configurationPage", "/authenticationui/account/changeSecurityQuestion.page?schemeId={schemeId}&userId={userId}");
-            addScheme(SECRET, className, p, whitelist);
+            addScheme(SECRET, className, p);
         }
 
         // Totp Authentication Scheme.  This is an available 2nd factor
@@ -88,7 +68,7 @@ public class AuthenticationInitializer implements Initializer {
             p.put("qrCodeIssuer", "PIHEMR");
             p.put("loginPage", "/authenticationui/login/loginTotp.page");
             p.put("configurationPage", "/authenticationui/account/configureTotp.page?schemeId={schemeId}&userId={userId}");
-            addScheme(TOTP, className, p, whitelist);
+            addScheme(TOTP, className, p);
         }
 
         // Two-Factor Authentication Scheme.
@@ -97,10 +77,10 @@ public class AuthenticationInitializer implements Initializer {
             Properties p = new Properties();
             p.put("primaryOptions", BASIC);
             p.put("secondaryOptions", SECRET + "," + TOTP);
-            addScheme(TWO_FACTOR, className, p, whitelist);
+            addScheme(TWO_FACTOR, className, p);
         }
 
-        AuthenticationConfig.setProperty(WHITE_LIST, String.join(",", whitelist));
+        AuthenticationConfig.setProperty(WHITE_LIST, String.join(","));
 
         log.info("Authentication Schemes Configured");
         Properties p = AuthenticationConfig.getConfig();
@@ -118,7 +98,7 @@ public class AuthenticationInitializer implements Initializer {
     /**
      * Add configuration for a scheme with the given schemeId, if a scheme with this schemeId is not already configured
      */
-    protected void addScheme(String schemeId, String className, Properties config, Set<String> whitelist) {
+    protected void addScheme(String schemeId, String className, Properties config) {
         String schemeTypeProperty = SCHEME_TYPE_TEMPLATE.replace(SCHEME_ID, schemeId);
         if (StringUtils.isBlank(AuthenticationConfig.getProperty(schemeTypeProperty))) {
             AuthenticationConfig.setProperty(schemeTypeProperty, className);
@@ -127,9 +107,6 @@ public class AuthenticationInitializer implements Initializer {
                     String key = SCHEME_CONFIG_PREFIX_TEMPLATE.replace(SCHEME_ID, schemeId) + propertyName;
                     String value = config.getProperty(propertyName);
                     AuthenticationConfig.setProperty(key, value);
-                    if (propertyName.equalsIgnoreCase("loginPage")) {
-                        whitelist.add(value);
-                    }
                 }
             }
         }
