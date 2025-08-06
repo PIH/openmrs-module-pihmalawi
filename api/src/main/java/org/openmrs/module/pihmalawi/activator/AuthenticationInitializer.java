@@ -6,9 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.authentication.AuthenticationConfig;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.openmrs.module.authentication.AuthenticationConfig.SCHEME;
 import static org.openmrs.module.authentication.AuthenticationConfig.SCHEME_CONFIG_PREFIX_TEMPLATE;
@@ -80,7 +78,9 @@ public class AuthenticationInitializer implements Initializer {
             addScheme(TWO_FACTOR, className, p);
         }
 
-        AuthenticationConfig.setProperty(WHITE_LIST, String.join(","));
+        List<String> whiteList = new ArrayList<>();
+        whiteList.add("/ws/rest/v1/location");
+        AuthenticationConfig.setProperty(WHITE_LIST, String.join(",", whiteList));
 
         log.info("Authentication Schemes Configured");
         Properties p = AuthenticationConfig.getConfig();
