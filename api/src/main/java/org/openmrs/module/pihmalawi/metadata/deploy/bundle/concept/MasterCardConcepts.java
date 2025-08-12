@@ -172,8 +172,9 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String TIME_UNITS = "f1904502-319d-4681-9030-e642111e7ce2";
 
     @Override
-    public int getVersion() {
-        return 38;
+    public int getVersion()
+    {
+        return 39;
     }
 
     @Override
@@ -1801,6 +1802,14 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
                 .datatype(date)
                 .conceptClass(question)
                 .name("39c7dc87-0580-46cd-85f5-9ec04dffbef1","Date started pulmonary rehabilitation program (PRP)",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .build());
+
+        Concept tbBiopsy = install(new ConceptBuilder("959ceaa9-be24-46f3-b154-be30dbbf0648")
+                .datatype(coded)
+                .conceptClass(question)
+                .name("a2eda420-ba31-416c-a27b-a0c4e5393aed","TB Biopsy",Locale.ENGLISH,ConceptNameType.FULLY_SPECIFIED)
+                .description("f5773808-6537-48f4-8e5b-7149305a9a5e","TB detection using a sample of tissue, cells or fluid from the affected area",Locale.ENGLISH)
+                .answers(yes,no)
                 .build());
 
     }
