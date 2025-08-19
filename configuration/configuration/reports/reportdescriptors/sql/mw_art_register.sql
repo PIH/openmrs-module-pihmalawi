@@ -51,10 +51,19 @@ create table temp_art_register
     first_exposed_child_location         varchar(255),
     arv_start_reasons                    text,
     last_first_line_art_start_date       date,
+    last_lab_cd4_count                   double,
+    last_lab_cd4_date                    date,
+    last_clinician_reported_cd4          double,
+    last_clinician_reported_cd4_date     date,
     last_cd4_count                       double,
     last_cd4_date                        date,
-    last_viral_load                      double,
+    last_viral_load                      varchar(255),
     last_viral_load_date                 date,
+    last_viral_load_numeric              double,
+    last_viral_load_numeric_date         date,
+    last_viral_load_ldl_date             date,
+    last_viral_load_ldl_limit            double,
+    last_viral_load_ldl_limit_date       date,
     vhw                                  varchar(255),
     last_hiv_visit_date                  date,
     last_hiv_visit_location              varchar(255),
@@ -231,6 +240,87 @@ inner join (
     group by encounter_id
 ) t on r.art_initial_encounter_id = t.encounter_id
 set r.arv_start_reasons = t.reason;
+
+-- Latest obs values
+
+drop table if exists temp_obs;
+create temporary table temp_obs as
+select o.obs_id, o.person_id, o.encounter_id, o.obs_datetime, o.concept_id, o.value_coded, o.value_numeric, o.value_text, o.value_datetime
+from obs o
+inner join temp_art_register r on o.person_id = r.pid
+where o.voided = 0;
+
+create index temp_obs_person_concept_idx on temp_obs(person_id, concept_id);
+
+drop table if exists temp_latest_obs_dates;
+create table temp_latest_obs_dates as
+select o.person_id, o.concept_id, max(o.obs_datetime) as obs_datetime
+from temp_obs o
+group by o.person_id, o.concept_id;
+
+create index temp_latest_obs_person_concept_date_idx on temp_latest_obs_dates(person_id, concept_id, obs_datetime);
+
+alter table temp_obs add column latest boolean;
+update temp_obs o inner join temp_latest_obs_dates d on o.person_id = d.person_id and o.concept_id = d.concept_id and o.obs_datetime = d.obs_datetime
+set latest = true;
+
+create index temp_obs_person_concept_latest_idx on temp_obs(person_id, concept_id, latest);
+
+-- Last Date of starting first line ARVs
+
+set @dateFirstLineArvsConcept = lookup_concept('656fbe36-977f-11e1-8993-905e29aff6c1');
+update temp_art_register r set r.last_first_line_art_start_date = (select value_datetime from temp_obs where person_id = r.pid and concept_id = @dateFirstLineArvsConcept and latest = true order by obs_id desc limit 1);
+
+-- Last CD4
+
+update temp_art_register r set r.last_lab_cd4_count = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @cd4Concept and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_lab_cd4_date = (select obs_datetime from temp_obs  where person_id = r.pid and concept_id = @cd4Concept and latest = true order by obs_id desc limit 1);
+
+set @clinicanReportedCd4Concept = lookup_concept('Clinician reported to CD4');
+update temp_art_register r set r.last_clinician_reported_cd4 = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @clinicanReportedCd4Concept and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_clinician_reported_cd4_date = (select obs_datetime from temp_obs  where person_id = r.pid and concept_id = @clinicanReportedCd4Concept and latest = true order by obs_id desc limit 1);
+
+update temp_art_register set last_cd4_count = last_lab_cd4_count, last_cd4_date = last_lab_cd4_date;
+update temp_art_register set last_cd4_count = last_clinician_reported_cd4, last_cd4_date = last_clinician_reported_cd4_date where last_clinician_reported_cd4_date > last_lab_cd4_date;
+
+-- Last Viral Load
+
+set @viralLoadNumericConcept = lookup_concept('654a7694-977f-11e1-8993-905e29aff6c1');
+update temp_art_register r set r.last_viral_load_numeric = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_viral_load_numeric_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true order by obs_id desc limit 1);
+
+set @viralLoadLdlConcept = lookup_concept('e97b36a2-16f5-11e6-b6ba-3e1d05defe78');
+update temp_art_register r set r.last_viral_load_ldl_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true and value_coded = 2257 order by obs_id desc limit 1);
+
+set @viralLoadLdlLimitConcept = lookup_concept('69e87644-5562-11e9-8647-d663bd873d93');
+update temp_art_register r set r.last_viral_load_ldl_limit = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @viralLoadLdlLimitConcept and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_viral_load_ldl_limit_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadLdlLimitConcept and latest = true order by obs_id desc limit 1);
+
+update temp_art_register set last_viral_load = cast(last_viral_load_numeric as char), last_viral_load_date = last_viral_load_numeric_date;
+update temp_art_register set last_viral_load = 'LDL', last_viral_load_date = last_viral_load_ldl_date where last_viral_load_ldl_date > last_viral_load_date;
+update temp_art_register set last_viral_load = concat('<', last_viral_load_ldl_limit), last_viral_load_date = last_viral_load_ldl_limit_date where last_viral_load_ldl_limit_date > last_viral_load_date;
+
+-- VHW
+
+
+
+/*
+    vhw                                  varchar(255),
+    last_hiv_visit_date                  date,
+    last_hiv_visit_location              varchar(255),
+    last_hiv_visit_next_appointment_date date,
+    last_arvs_received                   varchar(255),
+    last_arvs_received_date              date,
+    last_tb_status                       varchar(255),
+    last_tb_status_date                  date,
+    last_art_side_effects                varchar(1000),
+    last_art_side_effects_date           date,
+    last_height_cm                       double,
+    last_weight_kg                       double,
+    last_weight_date                     date,
+    all_enrollments                      varchar(1000)
+ */
+
 
 -- Extract out
 
