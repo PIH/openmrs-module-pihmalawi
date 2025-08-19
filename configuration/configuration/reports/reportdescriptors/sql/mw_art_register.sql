@@ -11,6 +11,9 @@ select program_workflow_state_id into @onArvsState from program_workflow_state w
 select program_workflow_state_id into @exposedChildState from program_workflow_state where uuid = '668847a2-977f-11e1-8993-905e29aff6c1';
 select patient_identifier_type_id into @arvNumber from patient_identifier_type where name = 'ARV Number';
 select encounter_type_id into @artInitial from encounter_type where name = 'ART_INITIAL';
+select encounter_type_id into @artFollowup from encounter_type where name = 'ART_FOLLOWUP';
+select encounter_type_id into @preArtFollowup from encounter_type where name = 'PART_FOLLOWUP';
+select encounter_type_id into @exposedChildFollowup from encounter_type where name = 'EXPOSED_CHILD_FOLLOWUP';
 
 -- create temporary table to hold all data
 drop table if exists temp_art_register;
@@ -66,6 +69,7 @@ create table temp_art_register
     last_viral_load_ldl_limit_date       date,
     vhw                                  varchar(255),
     last_hiv_visit_date                  date,
+    last_hiv_visit_encounter_id          integer,
     last_hiv_visit_location              varchar(255),
     last_hiv_visit_next_appointment_date date,
     last_arvs_received                   varchar(255),
@@ -248,8 +252,9 @@ create temporary table temp_obs as
 select o.obs_id, o.person_id, o.encounter_id, o.obs_datetime, o.concept_id, o.value_coded, o.value_numeric, o.value_text, o.value_datetime
 from obs o
 inner join temp_art_register r on o.person_id = r.pid
-where o.voided = 0;
+where o.voided = 0 and date(o.obs_datetime) <= @endDate;
 
+create index temp_obs_encounter_idx on temp_obs(encounter_id);
 create index temp_obs_person_concept_idx on temp_obs(person_id, concept_id);
 
 drop table if exists temp_latest_obs_dates;
@@ -300,27 +305,36 @@ update temp_art_register set last_viral_load = cast(last_viral_load_numeric as c
 update temp_art_register set last_viral_load = 'LDL', last_viral_load_date = last_viral_load_ldl_date where last_viral_load_ldl_date > last_viral_load_date;
 update temp_art_register set last_viral_load = concat('<', last_viral_load_ldl_limit), last_viral_load_date = last_viral_load_ldl_limit_date where last_viral_load_ldl_limit_date > last_viral_load_date;
 
--- VHW
+-- vhw TODO
 
+-- Last HIV Visit
+update temp_art_register r set r.last_hiv_visit_date = (select max(encounter_datetime) from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and date(encounter_datetime) <= @endDate);
+update temp_art_register r set r.last_hiv_visit_encounter_id = (select encounter_id from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and encounter_datetime = r.last_hiv_visit_date);
+update temp_art_register r set r.last_hiv_visit_location = (select location_name(location_id) from encounter where encounter_id = last_hiv_visit_encounter_id);
+update temp_art_register r set r.last_hiv_visit_next_appointment_date = (select value_datetime from temp_obs o where o.encounter_id = r.last_hiv_visit_encounter_id order by obs_id desc limit 1);
 
+-- Last Obs
+set @arvsReceived = lookup_concept('Malawi Antiretroviral drugs received');
+update temp_art_register r set r.last_arvs_received = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @arvsReceived and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_arvs_received_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @arvsReceived and latest = true order by obs_id desc limit 1);
 
-/*
-    vhw                                  varchar(255),
-    last_hiv_visit_date                  date,
-    last_hiv_visit_location              varchar(255),
-    last_hiv_visit_next_appointment_date date,
-    last_arvs_received                   varchar(255),
-    last_arvs_received_date              date,
-    last_tb_status                       varchar(255),
-    last_tb_status_date                  date,
-    last_art_side_effects                varchar(1000),
-    last_art_side_effects_date           date,
-    last_height_cm                       double,
-    last_weight_kg                       double,
-    last_weight_date                     date,
-    all_enrollments                      varchar(1000)
- */
+set @tbStatus = lookup_concept('TB status');
+update temp_art_register r set r.last_tb_status = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @tbStatus and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_tb_status_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @tbStatus and latest = true order by obs_id desc limit 1);
 
+set @artSideEffects = lookup_concept('Malawi ART side effects');
+update temp_art_register r set r.last_art_side_effects = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @artSideEffects and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_art_side_effects_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @artSideEffects and latest = true order by obs_id desc limit 1);
+
+set @height = lookup_concept('Height (cm)');
+update temp_art_register r set r.last_height_cm = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @height and latest = true order by obs_id desc limit 1);
+
+set @weight = lookup_concept('Weight (kg)');
+update temp_art_register r set r.last_weight_kg = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
+update temp_art_register r set r.last_weight_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
+
+-- all_enrollments TODO
+-- df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()))
 
 -- Extract out
 
