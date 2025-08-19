@@ -360,5 +360,47 @@ create index temp_all_states_patient_idx on temp_all_states(patient_id);
 update temp_art_register r set r.all_enrollments = (select group_concat(display separator '; ') from temp_all_states where patient_id = r.pid group by patient_id);
 
 -- Extract out
-
-select * from temp_art_register;
+select
+    pid as 'PID',
+    arv_number AS 'ARV #',
+    all_arv_numbers AS 'ALL ARV #s (not filtered)',
+    art_initial_date as 'ART initial date',
+    art_initial_location as 'ART initial location',
+    given_name as 'Given name',
+    last_name as 'Last name',
+    birthdate as 'Birthdate',
+    current_age_yrs as 'Current Age (yr)',
+    current_age_months as 'Current Age (mth)',
+    gender as 'M/F',
+    village as 'Village',
+    traditional_authority as 'TA',
+    district as 'District',
+    art_outcome as 'ART Outcome',
+    art_outcome_date as 'ART Outcome date',
+    art_outcome_location as 'ART Outcome location',
+    first_art_enrollment_date as 'First time enrollment in ART',
+    first_art_enrollment_location as 'First time enrollment location',
+    first_exposed_child_date as 'First time in Exposed Child date',
+    first_exposed_child_location as 'First time in Exposed Child location',
+    arv_start_reasons as 'ARV start reasons',
+    last_first_line_art_start_date as 'Last Date of starting first line antiretroviral regimen',
+    last_cd4_count as 'Last CD4 count',
+    last_cd4_date as 'Last CD4 count date',
+    last_viral_load as 'Last Viral Load',
+    last_viral_load_date as 'Last Viral Load Date',
+    vhw as 'VHW',
+    last_hiv_visit_date as 'Last Visit date in HIV',
+    last_hiv_visit_location as 'Last Visit location',
+    last_hiv_visit_next_appointment_date as 'Last Visit appt date',
+    last_arvs_received as 'Last Malawi Antiretroviral drugs received',
+    last_arvs_received_date as 'Last Malawi Antiretroviral drugs received date',
+    last_tb_status as 'Last TB status',
+    last_tb_status_date as 'Last TB status Date',
+    last_art_side_effects as 'Last Malawi ART side effects',
+    last_art_side_effects_date as 'Last Malawi ART side effects Date',
+    last_height_cm as 'Last Height (cm)',
+    last_weight_kg as 'Last Weight (kg)',
+    last_weight_date as 'Last Weight date',
+    all_enrollments as 'All Enrollments (not filtered)'
+from temp_art_register
+order by arv_number;
