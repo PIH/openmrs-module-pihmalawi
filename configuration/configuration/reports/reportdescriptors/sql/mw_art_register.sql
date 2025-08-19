@@ -144,9 +144,10 @@ update temp_art_register set district = person_address_district(pid);
 update temp_art_register set art_outcome_state_id = latest_state_in_workflow(last_art_enrollment_id_at_location, @txStatusWorkflow, @location, @endDate);
 update temp_art_register set art_outcome = state_name(art_outcome_state_id);
 update temp_art_register set art_outcome_date = (select start_date from patient_state where patient_state_id = art_outcome_state_id);
-update temp_art_register set art_outcome_location = (select location_name(location_id) from temp_status where patient_state_id = art_outcome_state_id);  -- TODO: Why are we including this?
+update temp_art_register set art_outcome_location = (select location_name(location_id) from temp_status where patient_state_id = art_outcome_state_id);
 
-
+update temp_art_register set first_art_enrollment_date = first_art_start_date;
+update temp_art_register set first_art_enrollment_location = (select location_name(location_id) from temp_status where patient_state_id = first_art_state_id);
 
 
 -- Extract out
