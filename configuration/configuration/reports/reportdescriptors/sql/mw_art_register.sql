@@ -6,6 +6,7 @@ select program_id into @hivProgram from program where name = 'HIV PROGRAM';
 select concept_id into @txStatusConcept from concept_name where name = 'Treatment Status' and locale = 'en' and concept_name_type = 'FULLY_SPECIFIED';
 select program_workflow_id into @txStatusWorkflow from program_workflow where program_id = @hivProgram and concept_id = @txStatusConcept;
 select program_workflow_state_id into @onArvsState from program_workflow_state where uuid = '6687fa7c-977f-11e1-8993-905e29aff6c1';
+select program_workflow_state_id into @exposedChildState from program_workflow_state where uuid = '668847a2-977f-11e1-8993-905e29aff6c1';
 select patient_identifier_type_id into @arvNumber from patient_identifier_type where name = 'ARV Number';
 select encounter_type_id into @artInitial from encounter_type where name = 'ART_INITIAL';
 
@@ -22,6 +23,8 @@ create table temp_art_register
     last_art_enrollment_id_at_location   integer,
     first_art_start_date                 date,
     first_art_state_id                   integer,
+    first_exposed_child_start_date       date,
+    first_exposed_child_state_id         integer,
     arv_number                           varchar(255),
     all_arv_numbers                      varchar(255),
     art_initial_encounter_id             integer,
@@ -105,20 +108,32 @@ and (@location is null or location_id = @location)
 group by patient_id;
 
 update temp_art_register t
-inner join (select patient_id, min(start_date) as first_art_start from temp_status group by patient_id) s on t.pid = s.patient_id
+inner join (select patient_id, min(start_date) as first_art_start from temp_status where state_id = @onArvsState group by patient_id) s on t.pid = s.patient_id
 set t.first_art_start_date = s.first_art_start;
 
 update temp_art_register t
-inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date_at_location = s.start_date
+inner join (select patient_id, min(start_date) as first_art_start from temp_status where state_id = @onArvsState group by patient_id) s on t.pid = s.patient_id
+set t.first_art_start_date = s.first_art_start;
+
+update temp_art_register t
+inner join (select patient_id, min(start_date) as first_exposed_child_start from temp_status where state_id = @exposedChildState group by patient_id) s on t.pid = s.patient_id
+set t.first_exposed_child_start_date = s.first_exposed_child_start;
+
+update temp_art_register t
+inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date_at_location = s.start_date and s.state_id = @onArvsState
 set t.first_art_state_id_at_location = s.patient_state_id, t.first_art_enrollment_id_at_location = s.patient_program_id;
 
 update temp_art_register t
-inner join temp_status s on t.pid = s.patient_id and t.last_art_start_date_at_location = s.start_date
+inner join temp_status s on t.pid = s.patient_id and t.last_art_start_date_at_location = s.start_date and s.state_id = @onArvsState
 set t.last_art_state_id_at_location = s.patient_state_id, t.last_art_enrollment_id_at_location = s.patient_program_id;
 
 update temp_art_register t
-inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date = s.start_date
+inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date = s.start_date and s.state_id = @onArvsState
 set t.first_art_state_id = s.patient_state_id;
+
+update temp_art_register t
+inner join temp_status s on t.pid = s.patient_id and t.first_exposed_child_start_date = s.start_date and s.state_id = @exposedChildState
+set t.first_exposed_child_state_id = s.patient_state_id;
 
 -- Identifiers
 update temp_art_register set arv_number = patient_identifier(pid, @arvNumber, @location);
@@ -148,7 +163,8 @@ update temp_art_register set art_outcome_location = (select location_name(locati
 
 update temp_art_register set first_art_enrollment_date = first_art_start_date;
 update temp_art_register set first_art_enrollment_location = (select location_name(location_id) from temp_status where patient_state_id = first_art_state_id);
-
+update temp_art_register set first_exposed_child_date = first_exposed_child_start_date;
+update temp_art_register set first_exposed_child_location = (select location_name(location_id) from temp_status where patient_state_id = first_exposed_child_state_id);
 
 -- Extract out
 
