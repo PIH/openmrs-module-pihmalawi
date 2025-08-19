@@ -3,9 +3,6 @@
 -- You should uncomment this line to check syntax in IDE.  Liquibase handles this internally.
 DELIMITER #
 
-/*
- this function accepts patient_id and program_id and return the initial program enrollment date
-*/
 #
 DROP FUNCTION IF EXISTS first_encounter_of_type;
 #

@@ -2,7 +2,7 @@ SET sql_safe_updates = 0;
 set @endDate = '2024-12-31';
 set @location = 5;
 
-select program_id into @hivProgram from program where name = '';
+select program_id into @hivProgram from program where name = 'HIV PROGRAM';
 select concept_id into @txStatusConcept from concept_name where name = 'Treatment Status' and locale = 'en' and concept_name_type = 'FULLY_SPECIFIED';
 select program_workflow_id into @txStatusWorkflow from program_workflow where program_id = @hivProgram and concept_id = @txStatusConcept;
 select program_workflow_state_id into @onArvsState from program_workflow_state where uuid = '6687fa7c-977f-11e1-8993-905e29aff6c1';
@@ -34,6 +34,7 @@ create table temp_art_register
     village                              varchar(255),
     traditional_authority                varchar(255),
     district                             varchar(255),
+    art_outcome_state_id                 integer,
     art_outcome                          varchar(255),
     art_outcome_date                     date,
     art_outcome_location                 varchar(255),
@@ -120,6 +121,15 @@ update temp_art_register set gender = (select person.gender from person where pe
 update temp_art_register set village = person_address_village(pid);
 update temp_art_register set traditional_authority = person_address_traditional_authority(pid);
 update temp_art_register set district = person_address_district(pid);
+
+-- Most recent Treatment Status state at the given location
+update temp_art_register set art_outcome_state_id = latest_state_in_workflow(last_art_enrollment_id_at_location, @txStatusWorkflow, @location, @endDate);
+update temp_art_register set art_outcome = state_name(art_outcome_state_id);
+update temp_art_register set art_outcome_date = (select start_date from patient_state where patient_state_id = art_outcome_state_id);
+update temp_art_register set art_outcome_location = location_name(@location);  -- TODO: Why are we including this?
+
+
+
 
 -- Extract out
 
