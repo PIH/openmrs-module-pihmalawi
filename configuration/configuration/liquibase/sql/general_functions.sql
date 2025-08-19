@@ -23,9 +23,6 @@ BEGIN
 END
 #
 
-/*
-get names from the concept_name table
-*/
 #
 DROP FUNCTION IF EXISTS concept_name;
 #
@@ -50,9 +47,28 @@ END
 #
 
 #
-/*
-  Location name
-*/
+DROP FUNCTION IF EXISTS lookup_concept;
+#
+CREATE FUNCTION lookup_concept(
+    _reference VARCHAR(255)
+)
+    RETURNS INT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret INT;
+
+    select concept_id into ret from concept where uuid = _reference;
+    if ret is null then
+        select c.concept_id into ret
+        from concept c inner join concept_name n on c.concept_id = n.concept_id
+        where c.retired = 0 and name = _reference and locale = 'en' and concept_name_type = 'FULLY_SPECIFIED';
+    end if;
+
+    RETURN ret;
+END
+#
+
 #
 DROP FUNCTION IF EXISTS location_name;
 #

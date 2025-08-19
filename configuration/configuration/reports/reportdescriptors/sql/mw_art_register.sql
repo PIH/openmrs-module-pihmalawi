@@ -1,9 +1,11 @@
 SET sql_safe_updates = 0;
+SET group_concat_max_len = 100000;
+
 set @endDate = '2024-12-31';
 set @location = 5;
 
 select program_id into @hivProgram from program where name = 'HIV PROGRAM';
-select concept_id into @txStatusConcept from concept_name where name = 'Treatment Status' and locale = 'en' and concept_name_type = 'FULLY_SPECIFIED';
+set @txStatusConcept = lookup_concept('Treatment Status');
 select program_workflow_id into @txStatusWorkflow from program_workflow where program_id = @hivProgram and concept_id = @txStatusConcept;
 select program_workflow_state_id into @onArvsState from program_workflow_state where uuid = '6687fa7c-977f-11e1-8993-905e29aff6c1';
 select program_workflow_state_id into @exposedChildState from program_workflow_state where uuid = '668847a2-977f-11e1-8993-905e29aff6c1';
@@ -47,7 +49,7 @@ create table temp_art_register
     first_art_enrollment_location        varchar(255),
     first_exposed_child_date             date,
     first_exposed_child_location         varchar(255),
-    arv_start_reasons                    varchar(1000),
+    arv_start_reasons                    text,
     last_first_line_art_start_date       date,
     last_cd4_count                       double,
     last_cd4_date                        date,
@@ -165,6 +167,70 @@ update temp_art_register set first_art_enrollment_date = first_art_start_date;
 update temp_art_register set first_art_enrollment_location = (select location_name(location_id) from temp_status where patient_state_id = first_art_state_id);
 update temp_art_register set first_exposed_child_date = first_exposed_child_start_date;
 update temp_art_register set first_exposed_child_location = (select location_name(location_id) from temp_status where patient_state_id = first_exposed_child_state_id);
+
+-- Reasons for starting ART
+
+drop table if exists temp_art_initial_obs;
+create temporary table temp_art_initial_obs as
+select o.encounter_id, o.concept_id, o.value_coded, o.value_numeric, o.value_text
+from obs o
+inner join temp_art_register r on o.encounter_id = r.art_initial_encounter_id
+where o.voided = 0;
+create index temp_art_initial_obs_enc_idx on temp_art_initial_obs(encounter_id, concept_id);
+
+drop table if exists temp_start_reasons;
+create temporary table temp_start_reasons (
+    encounter_id int,
+    type varchar(20),
+    reason text
+);
+
+set @cd4Concept = lookup_concept('CD4 count');
+set @ksWorseningConcept = lookup_concept('Kaposis sarcoma side effects worsening while on ARVs?');
+set @tbTxStatusConcept = lookup_concept('Tuberculosis treatment status');
+set @whoStageConcept = lookup_concept('WHO stage');
+set @cd4PercentConcept = lookup_concept('Cd4%');
+set @pshdConcept = lookup_concept('Presumed severe HIV criteria present');
+set @conditionsConcept = lookup_concept('Clinical Conditions Text');
+set @pregLacConcept = lookup_concept('Pregnant/Lactating');
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'CD4', convert(value_numeric, char) from temp_art_initial_obs where concept_id = @cd4Concept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'KS',
+       case when value_coded = 2257 then 'Yes' when value_coded = 2258 then 'No' end
+from temp_art_initial_obs where concept_id = @ksWorseningConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'TB',
+       case when value_coded = 1067 then 'Never' when value_coded = 1714 then 'Last' when value_coded = 1432 then 'Curr' end
+from temp_art_initial_obs where concept_id = @tbTxStatusConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'TLC', convert(value_numeric, char) from temp_art_initial_obs where concept_id = @cd4PercentConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'PSHD', concept_name(value_coded) from temp_art_initial_obs where concept_id = @pshdConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'CONDITIONS', value_text from temp_art_initial_obs where concept_id = @conditionsConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'PREG',
+       case when value_coded = 1066 then 'No' when value_coded = 1755 then 'Pregnant' when value_coded = 5632 then 'Lactating' end
+from temp_art_initial_obs where concept_id = @pregLacConcept;
+
+delete from temp_start_reasons where reason is null or trim(reason) = '';
+create index temp_start_reasons_encounter_idx on temp_start_reasons(encounter_id);
+
+update temp_art_register r
+inner join (
+    select encounter_id, group_concat(concat(type, ': ', reason) separator ', ') as reason
+    from temp_start_reasons
+    group by encounter_id
+) t on r.art_initial_encounter_id = t.encounter_id
+set r.arv_start_reasons = t.reason;
 
 -- Extract out
 
