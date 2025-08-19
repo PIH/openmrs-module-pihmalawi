@@ -15,11 +15,11 @@ create table temp_art_register
 (
     pid                                  integer not null primary key,
     first_art_state_start_at_location    date,
-    first_art_state_id                   integer,
-    first_art_enrollment_id              integer,
+    first_art_state_id_at_location       integer,
+    first_art_enrollment_id_at_location  integer,
     last_art_state_start_at_location     date,
-    last_art_state_id                    integer,
-    last_art_enrollment_id               integer,
+    last_art_state_id_at_location        integer,
+    last_art_enrollment_id_at_location   integer,
     arv_number                           varchar(255),
     all_arv_numbers                      varchar(255),
     art_initial_encounter_id             integer,
@@ -93,12 +93,12 @@ select patient_id, min(start_date), max(start_date) from temp_art_state group by
 
 update temp_art_register t
 inner join temp_art_state s on t.pid = s.patient_id and t.first_art_state_start_at_location = s.start_date
-set t.first_art_state_id = s.patient_state_id, t.first_art_enrollment_id = s.patient_program_id
+set t.first_art_state_id_at_location = s.patient_state_id, t.first_art_enrollment_id_at_location = s.patient_program_id
 ;
 
 update temp_art_register t
 inner join temp_art_state s on t.pid = s.patient_id and t.last_art_state_start_at_location = s.start_date
-set t.last_art_state_id = s.patient_state_id, t.last_art_enrollment_id = s.patient_program_id
+set t.last_art_state_id_at_location = s.patient_state_id, t.last_art_enrollment_id_at_location = s.patient_program_id
 ;
 
 -- Identifiers
