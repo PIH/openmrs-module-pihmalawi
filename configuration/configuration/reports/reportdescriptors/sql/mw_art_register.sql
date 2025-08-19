@@ -81,7 +81,7 @@ create table temp_art_register
     last_height_cm                       double,
     last_weight_kg                       double,
     last_weight_date                     date,
-    all_enrollments                      varchar(1000)
+    all_enrollments                      text
 );
 
 -- Collect all patients who were in the On ARVs state at the given location on or before the given end date
@@ -333,8 +333,20 @@ set @weight = lookup_concept('Weight (kg)');
 update temp_art_register r set r.last_weight_kg = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_weight_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
 
--- all_enrollments TODO
--- df.getAllActiveStatesOnEndDate(df.getActiveStatesAsStringConverter()))
+-- All Enrollments
+drop table if exists temp_all_states;
+create temporary table temp_all_states as
+select pp.patient_id, pp.program_id, ps.state, ps.start_date
+from patient_state ps
+inner join patient_program pp on ps.patient_program_id = pp.patient_program_id
+where pp.voided = 0 and ps.voided = 0
+and date(ps.start_date) <= @endDate and (ps.end_date is null || ps.end_date > @endDate);
+
+alter table temp_all_states add column display varchar(255);
+update temp_all_states set display = concat(program_name(program_id), ': ', state_name(state), ' (since: ', start_date, ')');
+
+create index temp_all_states_patient_idx on temp_all_states(patient_id);
+update temp_art_register r set r.all_enrollments = (select group_concat(display separator '; ') from temp_all_states where patient_id = r.pid group by patient_id);
 
 -- Extract out
 

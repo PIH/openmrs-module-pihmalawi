@@ -28,6 +28,21 @@ END
 #
 
 #
+DROP FUNCTION IF EXISTS program_name;
+#
+CREATE FUNCTION program_name(_program_id int)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret varchar(255);
+
+    select name into ret from program where program_id = _program_id;
+
+    RETURN ret;
+END
+#
+
+#
 DROP FUNCTION IF EXISTS state_name;
 #
 CREATE FUNCTION state_name(_state_id int)
