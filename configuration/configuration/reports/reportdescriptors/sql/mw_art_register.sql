@@ -14,12 +14,14 @@ drop table if exists temp_art_register;
 create table temp_art_register
 (
     pid                                  integer not null primary key,
-    first_art_state_start_at_location    date,
+    first_art_start_date_at_location     date,
     first_art_state_id_at_location       integer,
     first_art_enrollment_id_at_location  integer,
-    last_art_state_start_at_location     date,
+    last_art_start_date_at_location      date,
     last_art_state_id_at_location        integer,
     last_art_enrollment_id_at_location   integer,
+    first_art_start_date                 date,
+    first_art_state_id                   integer,
     arv_number                           varchar(255),
     all_arv_numbers                      varchar(255),
     art_initial_encounter_id             integer,
@@ -65,42 +67,58 @@ create table temp_art_register
 );
 
 -- Collect all patients who were in the On ARVs state at the given location on or before the given end date
-drop temporary table if exists temp_art_state;
-create temporary table temp_art_state (
+drop temporary table if exists temp_status;
+create temporary table temp_status (
     patient_state_id int not null primary key,
     patient_program_id int,
     patient_id int,
+    location_id int,
+    state_id int,
+    state_concept_id int,
     start_date date,
     end_date date
 );
 
-insert into temp_art_state
-select s.patient_state_id, p.patient_program_id, p.patient_id, s.start_date, s.end_date
+insert into temp_status
+select s.patient_state_id, p.patient_program_id, p.patient_id, p.location_id, s.state, pws.concept_id, s.start_date, s.end_date
 from patient_state s
 inner join patient_program p on s.patient_program_id = p.patient_program_id
+inner join program_workflow_state pws on s.state = pws.program_workflow_state_id
 where p.voided = 0 and s.voided = 0
-  and s.state = @onArvsState
-  and (@location is null or p.location_id = @location)
+  and pws.program_workflow_id = @txStatusWorkflow
   and (@endDate is null or date(s.start_date) <= @endDate)
 ;
-create index temp_art_state_patient_start_idx on temp_art_state(patient_id, start_date);
+create index temp_status_patient_start_idx on temp_status(patient_id, start_date);
+create index temp_status_state_idx on temp_status(state_id);
+create index temp_status_location_idx on temp_status(location_id);
 
 -- The rows in the main table should be all patients who have ever been enrolled in ART at the given location by the given end date
+-- Add these and identifier the specific states that represent the first and last art states at the given location, and the first overall
 
 insert into temp_art_register (pid,
-                               first_art_state_start_at_location,
-                               last_art_state_start_at_location)
-select patient_id, min(start_date), max(start_date) from temp_art_state group by patient_id;
+                               first_art_start_date_at_location,
+                               last_art_start_date_at_location)
+select patient_id, min(start_date), max(start_date)
+from temp_status
+where state_id = @onArvsState
+and (@location is null or location_id = @location)
+group by patient_id;
 
 update temp_art_register t
-inner join temp_art_state s on t.pid = s.patient_id and t.first_art_state_start_at_location = s.start_date
-set t.first_art_state_id_at_location = s.patient_state_id, t.first_art_enrollment_id_at_location = s.patient_program_id
-;
+inner join (select patient_id, min(start_date) as first_art_start from temp_status group by patient_id) s on t.pid = s.patient_id
+set t.first_art_start_date = s.first_art_start;
 
 update temp_art_register t
-inner join temp_art_state s on t.pid = s.patient_id and t.last_art_state_start_at_location = s.start_date
-set t.last_art_state_id_at_location = s.patient_state_id, t.last_art_enrollment_id_at_location = s.patient_program_id
-;
+inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date_at_location = s.start_date
+set t.first_art_state_id_at_location = s.patient_state_id, t.first_art_enrollment_id_at_location = s.patient_program_id;
+
+update temp_art_register t
+inner join temp_status s on t.pid = s.patient_id and t.last_art_start_date_at_location = s.start_date
+set t.last_art_state_id_at_location = s.patient_state_id, t.last_art_enrollment_id_at_location = s.patient_program_id;
+
+update temp_art_register t
+inner join temp_status s on t.pid = s.patient_id and t.first_art_start_date = s.start_date
+set t.first_art_state_id = s.patient_state_id;
 
 -- Identifiers
 update temp_art_register set arv_number = patient_identifier(pid, @arvNumber, @location);
@@ -126,7 +144,7 @@ update temp_art_register set district = person_address_district(pid);
 update temp_art_register set art_outcome_state_id = latest_state_in_workflow(last_art_enrollment_id_at_location, @txStatusWorkflow, @location, @endDate);
 update temp_art_register set art_outcome = state_name(art_outcome_state_id);
 update temp_art_register set art_outcome_date = (select start_date from patient_state where patient_state_id = art_outcome_state_id);
-update temp_art_register set art_outcome_location = location_name(@location);  -- TODO: Why are we including this?
+update temp_art_register set art_outcome_location = (select location_name(location_id) from temp_status where patient_state_id = art_outcome_state_id);  -- TODO: Why are we including this?
 
 
 
