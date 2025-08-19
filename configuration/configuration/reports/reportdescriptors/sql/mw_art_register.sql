@@ -67,6 +67,10 @@ create table temp_art_register
     last_viral_load_ldl_date             date,
     last_viral_load_ldl_limit            double,
     last_viral_load_ldl_limit_date       date,
+    vhw_person_id                        integer,
+    vhw_date_created                     datetime,
+    guardian_person_id                   integer,
+    guardian_date_created                datetime,
     vhw                                  varchar(255),
     last_hiv_visit_date                  date,
     last_hiv_visit_encounter_id          integer,
@@ -305,7 +309,14 @@ update temp_art_register set last_viral_load = cast(last_viral_load_numeric as c
 update temp_art_register set last_viral_load = 'LDL', last_viral_load_date = last_viral_load_ldl_date where last_viral_load_ldl_date > last_viral_load_date;
 update temp_art_register set last_viral_load = concat('<', last_viral_load_ldl_limit), last_viral_load_date = last_viral_load_ldl_limit_date where last_viral_load_ldl_limit_date > last_viral_load_date;
 
--- vhw TODO
+-- vhw TODO: There are several other relationship types in the system that we may want to also pull in.
+select relationship_type_id into @chwRelationship from relationship_type where a_is_to_b = 'Community Health Worker' and b_is_to_a = 'Patient';
+select relationship_type_id into @guardianRelationship from relationship_type where a_is_to_b = 'Patient' and b_is_to_a = 'Guardian';
+update temp_art_register r set r.vhw_date_created = (select max(date_created) from relationship where person_b = r.pid and voided = 0 and relationship = @chwRelationship);
+update temp_art_register r set r.vhw_person_id = (select person_a from relationship where person_b = r.pid and voided = 0 and relationship = @chwRelationship and date_created = r.vhw_date_created);
+update temp_art_register r set guardian_date_created = (select max(date_created) from relationship where person_a = r.pid and voided = 0 and relationship = @guardianRelationship);
+update temp_art_register r set r.guardian_person_id = (select person_b from relationship where person_a = r.pid and voided = 0 and relationship = @guardianRelationship and date_created = r.guardian_date_created);
+update temp_art_register set vhw = if(vhw_person_id is null, if(guardian_person_id is null, null, concat(person_name(guardian_person_id), ' (Guardian)')), person_name(vhw_person_id));
 
 -- Last HIV Visit
 update temp_art_register r set r.last_hiv_visit_date = (select max(encounter_datetime) from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and date(encounter_datetime) <= @endDate);
