@@ -2,7 +2,7 @@ key: "art_register"
 uuid: "0d231cc2-7dcd-11f0-9e36-be568b1ab237"
 name: "HIV - ART Register"
 description: "All patients ever enrolled in ART"
-datasets:
+parameters:
   - key: "endDate"
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
@@ -12,6 +12,10 @@ datasets:
     required: false
     widgetConfiguration:
       "optionHeader": "All Locations"
+datasets:
+  - key: "art_register"
+    type: "sql"
+    config: "sql/art_register.sql"
 designs:
   - type: "excel"
     properties:
