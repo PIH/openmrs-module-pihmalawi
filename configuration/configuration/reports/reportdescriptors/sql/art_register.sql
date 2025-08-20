@@ -1,8 +1,9 @@
 SET sql_safe_updates = 0;
 SET group_concat_max_len = 100000;
 
--- set @endDate = '2024-12-31';
--- set @location = 5;
+-- Uncomment to toggle parameters for testing
+-- set @endDate = '2025-07-31';
+-- set @location = 34;
 
 set @endDate = if(@endDate is null, now(), @endDate);
 
@@ -172,7 +173,7 @@ update temp_art_register set art_initial_location = (select location_name(locati
 update temp_art_register set given_name = person_given_name(pid);
 update temp_art_register set last_name = person_family_name(pid);
 update temp_art_register set birthdate = (select birthdate from person where person_id = pid);
-update temp_art_register set deathdate = (select deathdate from person where person_id = pid);
+update temp_art_register set deathdate = (select date(death_date) from person where person_id = pid);
 update temp_art_register set age_date = if(deathdate is null or deathdate > @endDate, @endDate, deathDate);
 update temp_art_register set current_age_yrs = timestampdiff(YEAR, birthdate, age_date);
 update temp_art_register set current_age_months = timestampdiff(MONTH, birthdate, age_date);
@@ -368,7 +369,8 @@ select pp.patient_id, pp.program_id, ps.state, ps.start_date
 from patient_state ps
 inner join patient_program pp on ps.patient_program_id = pp.patient_program_id
 where pp.voided = 0 and ps.voided = 0
-and date(ps.start_date) <= @endDate and (ps.end_date is null || ps.end_date > @endDate);
+and date(ps.start_date) <= @endDate and (ps.end_date is null || ps.end_date > @endDate)
+and (pp.date_completed is null or pp.date_completed > @endDate);
 
 alter table temp_all_states add column display varchar(255);
 update temp_all_states set display = concat(program_name(program_id), ': ', state_name(state), ' (since: ', start_date, ')');
