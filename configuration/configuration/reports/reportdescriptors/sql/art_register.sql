@@ -233,6 +233,9 @@ select encounter_id, 'TB',
 from temp_art_initial_obs where concept_id = @tbTxStatusConcept;
 
 insert into temp_start_reasons (encounter_id, type, reason)
+select encounter_id, 'STAGE',concept_name(value_coded) from temp_art_initial_obs where concept_id = @whoStageConcept;
+
+insert into temp_start_reasons (encounter_id, type, reason)
 select encounter_id, 'TLC', convert(value_numeric, char) from temp_art_initial_obs where concept_id = @cd4PercentConcept;
 
 insert into temp_start_reasons (encounter_id, type, reason)
