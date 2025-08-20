@@ -50,7 +50,7 @@
 		<fhir2Version>2.5.0</fhir2Version>
         <htmlformentryVersion>6.0.0-SNAPSHOT</htmlformentryVersion>
         <htmlformentryuiVersion>3.0.0-SNAPSHOT</htmlformentryuiVersion>
-        <htmlwidgetsVersion>2.0.0-SNAPSHOT</htmlwidgetsVersion>
+        <htmlwidgetsVersion>1.11.0</htmlwidgetsVersion>
         <idgenVersion>4.14.0</idgenVersion>
 		<initializerVersion>2.9.0</initializerVersion>
         <legacyuiVersion>1.23.0</legacyuiVersion>
@@ -63,10 +63,10 @@
         <registrationappVersion>1.28.0-SNAPSHOT</registrationappVersion>
         <registrationcoreVersion>1.13.0</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.10.0-SNAPSHOT</reportingcompatibilityVersion>
-        <reportingVersion>2.0.0-SNAPSHOT</reportingVersion>
+        <reportingVersion>1.28.0-SNAPSHOT</reportingVersion>
         <reportingrestVersion>1.14.0</reportingrestVersion>
         <reportinguiVersion>1.14.0-SNAPSHOT</reportinguiVersion>
-        <serializationxstreamVersion>0.2.17-SNAPSHOT</serializationxstreamVersion>
+        <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
 		<spaVersion>2.1.0-SNAPSHOT</spaVersion>
 		<syncVersion>3.1.0-SNAPSHOT</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
@@ -257,6 +257,12 @@
 			<version>${reportingVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+            <artifactId>reporting-api-2.0</artifactId>
+            <version>${reportingVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>reporting-api</artifactId>

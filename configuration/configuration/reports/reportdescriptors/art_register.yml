@@ -13,13 +13,11 @@ parameters:
     widgetConfiguration:
       "optionHeader": "All Locations"
 datasets:
-  - key: "art_register"
-    name: "ART Register"
+  - key: "ART Register"
     type: "sql"
     config: "sql/art_register.sql"
 designs:
   - type: "excel"
-    name: "Excel"
     properties:
       "filenameBase": "art_register.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
       "includeDataSetNameAndParameters": "true"

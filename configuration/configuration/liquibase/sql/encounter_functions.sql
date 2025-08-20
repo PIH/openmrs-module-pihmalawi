@@ -1,7 +1,7 @@
 -- noinspection SqlDialectInspectionForFile
 
 -- You should uncomment this line to check syntax in IDE.  Liquibase handles this internally.
-DELIMITER #
+-- DELIMITER #
 
 #
 DROP FUNCTION IF EXISTS first_encounter_of_type;
