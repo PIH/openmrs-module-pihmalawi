@@ -77,7 +77,7 @@ public class ArtRegister extends ApzuDataExportManager {
 
 	@Override
 	public String getName() {
-		return "HIV - ART Register";
+		return "HIV - ART Register (old)";
 	}
 
 	@Override

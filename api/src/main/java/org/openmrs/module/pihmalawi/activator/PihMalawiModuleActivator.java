@@ -74,8 +74,6 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		for (Initializer initializer : getInitializers()) {
 			initializer.started();
 		}
-        ReportLoader.loadReportsFromConfig();
-        log.warn("Reports loaded from configuration");
 		// New bug/feature in Chrome/IE/Safari causes system to log out user with default logo link url.  Update this here.
         List<AllFreeStandingExtensions> l = Context.getRegisteredComponents(AllFreeStandingExtensions.class);
         if (l != null && l.size() > 0) {

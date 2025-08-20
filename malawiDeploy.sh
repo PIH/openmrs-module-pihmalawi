@@ -1,4 +1,14 @@
 #!/bin/bash
 
+SERVER_ID=${1}
+
+if [ -z ${SERVER_ID} ]; then
+  echo "Please specify serverId as argument"
+  exit 1
+fi
+
 git pull
-mvn openmrs-sdk:deploy -Ddistro=api/src/main/resources/openmrs-distro.properties -U
+mvn clean install -Pdistribution -DskipTests
+pushd distro/target/distro/web
+mvn openmrs-sdk:deploy -DserverId=${SERVER_ID}
+popd

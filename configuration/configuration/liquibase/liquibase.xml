@@ -17,4 +17,16 @@
         <sqlFile endDelimiter="#" path="sql/user_functions.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
+    <changeSet id="pihmalawi-encounter_functions" author="mseaton" runAlways="true" runOnChange="true">
+        <sqlFile endDelimiter="#" path="sql/encounter_functions.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
+    <changeSet id="pihmalawi-patient_identifier_functions" author="mseaton" runAlways="true" runOnChange="true">
+        <sqlFile endDelimiter="#" path="sql/patient_identifier_functions.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
+    <changeSet id="pihmalawi-patient_program_functions" author="mseaton" runAlways="true" runOnChange="true">
+        <sqlFile endDelimiter="#" path="sql/patient_program_functions.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
 </databaseChangeLog>
