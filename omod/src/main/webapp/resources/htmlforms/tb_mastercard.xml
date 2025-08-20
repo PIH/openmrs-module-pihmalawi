@@ -63,6 +63,9 @@
         <macro key="smearTestType" value="65628356-977f-11e1-8993-905e29aff6c1"></macro>
         <macro key="xpertTestType" value="162202AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></macro>
         <macro key="lamTestType" value="a047e2ec-f07e-47a6-8849-7c5150550e9e"></macro>
+        <macro key="xray" value="6572a1a0-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="biopsy" value="959ceaa9-be24-46f3-b154-be30dbbf0648"/>
+        <macro key="stool" value="91bd457a-b7a8-4424-a4fa-9c4a2bae35bd"/>
         <macro key="timeOfTbTest" value="63A03D36-9D91-4013-BFCA-F29E80459947"></macro>
         <macro key="recentNegative" value="c71c4580-119f-4342-a689-d2d6f9cbe348"/>
         <macro key="newNegative" value="c329a7df-65e9-401a-9f3c-487d4496b402"/>
@@ -259,8 +262,8 @@
                                                         <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                         <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
                                                         <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
+                                                        <td></td>
                                                     </obsgroup>
-                                                    <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
                                                 </tr>
                                                 <tr>
                                                     <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
@@ -279,6 +282,45 @@
                                                         <td class="nowrap"><obs conceptId="$tbTestType"
                                                                                 answerConceptId="$lamTestType"
                                                                                 answerLabel="LAM"/>
+                                                        </td>
+                                                        <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
+                                                    </obsgroup>
+                                                    <td class="nowrap"><obs conceptId="PIH Malawi:5089" labelText="" showUnits="true" size="3"></obs></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
+                                                        <td class="nowrap"><obs conceptId="$tbTestType"
+                                                                                answerConceptId="$xray"
+                                                                                answerLabel="X-ray"/>
+                                                        </td>
+                                                        <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
+                                                        <td></td>
+                                                    </obsgroup>
+                                                </tr>
+
+                                                <tr>
+                                                    <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
+                                                        <td class="nowrap"><obs conceptId="$tbTestType"
+                                                                                answerConceptId="$stool"
+                                                                                answerLabel="Stool"/>
+                                                        </td>
+                                                        <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
+                                                        <td><obs conceptId="PIH Malawi:2216" labelText=""></obs></td>
+                                                        <td></td>
+                                                    </obsgroup>
+                                                </tr>
+
+                                                <tr>
+                                                    <obsgroup groupingConceptId="$tbTestConstruct" hiddenConceptId="$timeOfTbTest" hiddenAnswerConceptId="PIH Malawi:TB INITIATION TEST">
+                                                        <td class="nowrap"><obs conceptId="$tbTestType"
+                                                                                answerConceptId="$biopsy"
+                                                                                answerLabel="Biopsy"/>
                                                         </td>
                                                         <td><obs conceptId="PIH Malawi:3302" labelText="" allowFutureDates="true"></obs></td>
                                                         <td><obs conceptId="PIH Malawi:3564" labelText=""></obs></td>
