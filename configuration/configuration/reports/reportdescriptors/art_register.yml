@@ -5,19 +5,21 @@ description: "All patients ever enrolled in ART"
 parameters:
   - key: "endDate"
     type: "java.util.Date"
-    label: "reporting.parameter.endDate"
+    label: "End Date"
   - key: "location"
     type: "org.openmrs.Location"
-    label: "reporting.parameter.location"
+    label: "Location"
     required: false
     widgetConfiguration:
       "optionHeader": "All Locations"
 datasets:
   - key: "art_register"
+    name: "ART Register"
     type: "sql"
     config: "sql/art_register.sql"
 designs:
   - type: "excel"
+    name: "Excel"
     properties:
       "filenameBase": "art_register.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
       "includeDataSetNameAndParameters": "true"

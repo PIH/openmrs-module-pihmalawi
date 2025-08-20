@@ -104,11 +104,12 @@ create temporary table temp_status (
 );
 
 insert into temp_status
-select s.patient_state_id, p.patient_program_id, p.patient_id, p.location_id, s.state, pws.concept_id, s.start_date, s.end_date
+select s.patient_state_id, pp.patient_program_id, pp.patient_id, pp.location_id, s.state, pws.concept_id, s.start_date, s.end_date
 from patient_state s
-inner join patient_program p on s.patient_program_id = p.patient_program_id
+inner join patient_program pp on s.patient_program_id = pp.patient_program_id
 inner join program_workflow_state pws on s.state = pws.program_workflow_state_id
-where p.voided = 0 and s.voided = 0
+inner join patient p on pp.patient_id = p.patient_id
+where pp.voided = 0 and s.voided = 0 and p.voided = 0
   and pws.program_workflow_id = @txStatusWorkflow
   and (@endDate is null or date(s.start_date) <= @endDate)
 ;
