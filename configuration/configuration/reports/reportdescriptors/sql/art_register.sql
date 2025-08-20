@@ -40,6 +40,8 @@ create table temp_art_register
     given_name                           varchar(255),
     last_name                            varchar(255),
     birthdate                            date,
+    deathdate                            date,
+    age_date                             date,
     current_age_yrs                      integer,
     current_age_months                   integer,
     gender                               char(1),
@@ -170,8 +172,10 @@ update temp_art_register set art_initial_location = (select location_name(locati
 update temp_art_register set given_name = person_given_name(pid);
 update temp_art_register set last_name = person_family_name(pid);
 update temp_art_register set birthdate = (select birthdate from person where person_id = pid);
-update temp_art_register set current_age_yrs = timestampdiff(YEAR, birthdate, @endDate);
-update temp_art_register set current_age_months = timestampdiff(MONTH, birthdate, @endDate);
+update temp_art_register set deathdate = (select deathdate from person where person_id = pid);
+update temp_art_register set age_date = if(deathdate is null or deathdate > @endDate, @endDate, deathDate);
+update temp_art_register set current_age_yrs = timestampdiff(YEAR, birthdate, age_date);
+update temp_art_register set current_age_months = timestampdiff(MONTH, birthdate, age_date);
 update temp_art_register set gender = (select person.gender from person where person_id = pid);
 update temp_art_register set village = person_address_village(pid);
 update temp_art_register set traditional_authority = person_address_traditional_authority(pid);
