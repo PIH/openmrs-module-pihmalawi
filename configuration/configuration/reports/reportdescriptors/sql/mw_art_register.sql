@@ -1,8 +1,10 @@
 SET sql_safe_updates = 0;
 SET group_concat_max_len = 100000;
 
-set @endDate = '2024-12-31';
-set @location = 5;
+-- set @endDate = '2024-12-31';
+-- set @location = 5;
+
+set @endDate = if(@endDate is null, now(), @endDate);
 
 select program_id into @hivProgram from program where name = 'HIV PROGRAM';
 set @txStatusConcept = lookup_concept('Treatment Status');
@@ -251,12 +253,38 @@ set r.arv_start_reasons = t.reason;
 
 -- Latest obs values
 
+set @dateFirstLineArvsConcept = lookup_concept('656fbe36-977f-11e1-8993-905e29aff6c1');
+set @clinicanReportedCd4Concept = lookup_concept('Clinician reported to CD4');
+set @viralLoadNumericConcept = lookup_concept('654a7694-977f-11e1-8993-905e29aff6c1');
+set @viralLoadLdlConcept = lookup_concept('e97b36a2-16f5-11e6-b6ba-3e1d05defe78');
+set @viralLoadLdlLimitConcept = lookup_concept('69e87644-5562-11e9-8647-d663bd873d93');
+set @appointmentDateConcept = lookup_concept('6569cbd4-977f-11e1-8993-905e29aff6c1');
+set @arvsReceived = lookup_concept('Malawi Antiretroviral drugs received');
+set @tbStatus = lookup_concept('TB status');
+set @artSideEffects = lookup_concept('Malawi ART side effects');
+set @height = lookup_concept('Height (cm)');
+set @weight = lookup_concept('Weight (kg)');
+
 drop table if exists temp_obs;
 create temporary table temp_obs as
 select o.obs_id, o.person_id, o.encounter_id, o.obs_datetime, o.concept_id, o.value_coded, o.value_numeric, o.value_text, o.value_datetime
 from obs o
 inner join temp_art_register r on o.person_id = r.pid
-where o.voided = 0 and date(o.obs_datetime) <= @endDate;
+where o.voided = 0 and date(o.obs_datetime) <= @endDate
+and o.concept_id in (
+    @dateFirstLineArvsConcept,
+    @cd4Concept,
+    @clinicanReportedCd4Concept,
+    @viralLoadNumericConcept,
+    @viralLoadLdlConcept,
+    @viralLoadLdlLimitConcept,
+    @appointmentDateConcept,
+    @arvsReceived,
+    @tbStatus,
+    @artSideEffects,
+    @height,
+    @weight
+);
 
 create index temp_obs_encounter_idx on temp_obs(encounter_id);
 create index temp_obs_person_concept_idx on temp_obs(person_id, concept_id);
@@ -277,7 +305,6 @@ create index temp_obs_person_concept_latest_idx on temp_obs(person_id, concept_i
 
 -- Last Date of starting first line ARVs
 
-set @dateFirstLineArvsConcept = lookup_concept('656fbe36-977f-11e1-8993-905e29aff6c1');
 update temp_art_register r set r.last_first_line_art_start_date = (select value_datetime from temp_obs where person_id = r.pid and concept_id = @dateFirstLineArvsConcept and latest = true order by obs_id desc limit 1);
 
 -- Last CD4
@@ -285,7 +312,6 @@ update temp_art_register r set r.last_first_line_art_start_date = (select value_
 update temp_art_register r set r.last_lab_cd4_count = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @cd4Concept and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_lab_cd4_date = (select obs_datetime from temp_obs  where person_id = r.pid and concept_id = @cd4Concept and latest = true order by obs_id desc limit 1);
 
-set @clinicanReportedCd4Concept = lookup_concept('Clinician reported to CD4');
 update temp_art_register r set r.last_clinician_reported_cd4 = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @clinicanReportedCd4Concept and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_clinician_reported_cd4_date = (select obs_datetime from temp_obs  where person_id = r.pid and concept_id = @clinicanReportedCd4Concept and latest = true order by obs_id desc limit 1);
 
@@ -294,14 +320,9 @@ update temp_art_register set last_cd4_count = last_clinician_reported_cd4, last_
 
 -- Last Viral Load
 
-set @viralLoadNumericConcept = lookup_concept('654a7694-977f-11e1-8993-905e29aff6c1');
 update temp_art_register r set r.last_viral_load_numeric = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_viral_load_numeric_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true order by obs_id desc limit 1);
-
-set @viralLoadLdlConcept = lookup_concept('e97b36a2-16f5-11e6-b6ba-3e1d05defe78');
-update temp_art_register r set r.last_viral_load_ldl_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadNumericConcept and latest = true and value_coded = 2257 order by obs_id desc limit 1);
-
-set @viralLoadLdlLimitConcept = lookup_concept('69e87644-5562-11e9-8647-d663bd873d93');
+update temp_art_register r set r.last_viral_load_ldl_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadLdlConcept and latest = true and value_coded = 2257 order by obs_id desc limit 1);
 update temp_art_register r set r.last_viral_load_ldl_limit = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @viralLoadLdlLimitConcept and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_viral_load_ldl_limit_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @viralLoadLdlLimitConcept and latest = true order by obs_id desc limit 1);
 
@@ -313,34 +334,25 @@ update temp_art_register set last_viral_load = concat('<', last_viral_load_ldl_l
 select relationship_type_id into @chwRelationship from relationship_type where a_is_to_b = 'Community Health Worker' and b_is_to_a = 'Patient';
 select relationship_type_id into @guardianRelationship from relationship_type where a_is_to_b = 'Patient' and b_is_to_a = 'Guardian';
 update temp_art_register r set r.vhw_date_created = (select max(date_created) from relationship where person_b = r.pid and voided = 0 and relationship = @chwRelationship);
-update temp_art_register r set r.vhw_person_id = (select person_a from relationship where person_b = r.pid and voided = 0 and relationship = @chwRelationship and date_created = r.vhw_date_created);
+update temp_art_register r set r.vhw_person_id = (select person_a from relationship where person_b = r.pid and voided = 0 and relationship = @chwRelationship and date_created = r.vhw_date_created order by relationship_id desc limit 1);
 update temp_art_register r set guardian_date_created = (select max(date_created) from relationship where person_a = r.pid and voided = 0 and relationship = @guardianRelationship);
-update temp_art_register r set r.guardian_person_id = (select person_b from relationship where person_a = r.pid and voided = 0 and relationship = @guardianRelationship and date_created = r.guardian_date_created);
+update temp_art_register r set r.guardian_person_id = (select person_b from relationship where person_a = r.pid and voided = 0 and relationship = @guardianRelationship and date_created = r.guardian_date_created order by relationship_id desc limit 1);
 update temp_art_register set vhw = if(vhw_person_id is null, if(guardian_person_id is null, null, concat(person_name(guardian_person_id), ' (Guardian)')), person_name(vhw_person_id));
 
 -- Last HIV Visit
 update temp_art_register r set r.last_hiv_visit_date = (select max(encounter_datetime) from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and date(encounter_datetime) <= @endDate);
-update temp_art_register r set r.last_hiv_visit_encounter_id = (select encounter_id from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and encounter_datetime = r.last_hiv_visit_date);
+update temp_art_register r set r.last_hiv_visit_encounter_id = (select encounter_id from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and encounter_datetime = r.last_hiv_visit_date order by encounter_id desc limit 1);
 update temp_art_register r set r.last_hiv_visit_location = (select location_name(location_id) from encounter where encounter_id = last_hiv_visit_encounter_id);
-update temp_art_register r set r.last_hiv_visit_next_appointment_date = (select value_datetime from temp_obs o where o.encounter_id = r.last_hiv_visit_encounter_id order by obs_id desc limit 1);
+update temp_art_register r set r.last_hiv_visit_next_appointment_date = (select value_datetime from temp_obs o where concept_id = @appointmentDateConcept and o.encounter_id = r.last_hiv_visit_encounter_id order by obs_id desc limit 1);
 
 -- Last Obs
-set @arvsReceived = lookup_concept('Malawi Antiretroviral drugs received');
 update temp_art_register r set r.last_arvs_received = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @arvsReceived and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_arvs_received_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @arvsReceived and latest = true order by obs_id desc limit 1);
-
-set @tbStatus = lookup_concept('TB status');
 update temp_art_register r set r.last_tb_status = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @tbStatus and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_tb_status_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @tbStatus and latest = true order by obs_id desc limit 1);
-
-set @artSideEffects = lookup_concept('Malawi ART side effects');
 update temp_art_register r set r.last_art_side_effects = (select concept_name(value_coded) from temp_obs where person_id = r.pid and concept_id = @artSideEffects and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_art_side_effects_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @artSideEffects and latest = true order by obs_id desc limit 1);
-
-set @height = lookup_concept('Height (cm)');
 update temp_art_register r set r.last_height_cm = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @height and latest = true order by obs_id desc limit 1);
-
-set @weight = lookup_concept('Weight (kg)');
 update temp_art_register r set r.last_weight_kg = (select value_numeric from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
 update temp_art_register r set r.last_weight_date = (select obs_datetime from temp_obs where person_id = r.pid and concept_id = @weight and latest = true order by obs_id desc limit 1);
 
