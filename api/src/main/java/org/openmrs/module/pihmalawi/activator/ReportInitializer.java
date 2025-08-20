@@ -23,6 +23,9 @@ import org.openmrs.module.pihmalawi.reporting.ApzuReportUtil;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.reports.ApzuReportManager;
 import org.openmrs.module.reporting.ReportingConstants;
+import org.openmrs.module.reporting.config.DesignDescriptor;
+import org.openmrs.module.reporting.config.ReportDescriptor;
+import org.openmrs.module.reporting.config.ReportLoader;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 import org.openmrs.module.reporting.report.ReportDesign;
@@ -30,12 +33,15 @@ import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.module.reporting.report.manager.ReportManager;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
+import org.openmrs.module.reporting.report.renderer.ExcelTemplateRenderer;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.openmrs.module.pihmalawi.reporting.ApzuReportUtil.getExcelPassword;
 
 /**
  * Initializes reports
@@ -61,6 +67,7 @@ public class ReportInitializer implements Initializer {
             }
         }
         loadSqlReports();
+        loadReportsFromConfig();
 		ReportUtil.updateGlobalProperty(ReportingConstants.GLOBAL_PROPERTY_DATA_EVALUATION_BATCH_SIZE, "-1");
 	}
 
@@ -151,6 +158,20 @@ public class ReportInitializer implements Initializer {
         catch (Exception e) {
             throw new IllegalStateException("Unable to load SQL reports from classpath", e);
         }
+    }
+
+    public static void loadReportsFromConfig() {
+        log.warn("Loading reports from configuration");
+        for(ReportDescriptor reportDescriptor : ReportLoader.loadReportDescriptors()) {
+            for (DesignDescriptor designDescriptor : reportDescriptor.getDesigns()) {
+                if (designDescriptor.getType().equalsIgnoreCase("excel")) {
+                    designDescriptor.getProperties().put(ExcelTemplateRenderer.PASSWORD_PROPERTY, getExcelPassword());
+                }
+            }
+            ReportLoader.loadReportFromDescriptor(reportDescriptor);
+            log.warn("Loaded " + reportDescriptor.getName());
+        }
+        log.warn("Reports loaded from configuration");
     }
 
     /**
