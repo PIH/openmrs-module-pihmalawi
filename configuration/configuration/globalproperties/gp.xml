@@ -7,7 +7,7 @@
         </globalProperty>
 
         <globalProperty>
-            <property>reporting.serializer.whitelist.types</property>
+            <property>pihmalawi.serializer.whitelist.types</property>
             <value>org.openmrs.**,org.apache.commons.collections.comparators.ComparableComparator</value>
         </globalProperty>
     </globalProperties>
