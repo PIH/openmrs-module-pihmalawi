@@ -15,7 +15,6 @@ select program_workflow_state_id into @exposedChildState from program_workflow_s
 select patient_identifier_type_id into @arvNumber from patient_identifier_type where name = 'ARV Number';
 select encounter_type_id into @artInitial from encounter_type where name = 'ART_INITIAL';
 select encounter_type_id into @artFollowup from encounter_type where name = 'ART_FOLLOWUP';
-select encounter_type_id into @preArtFollowup from encounter_type where name = 'PART_FOLLOWUP';
 select encounter_type_id into @exposedChildFollowup from encounter_type where name = 'EXPOSED_CHILD_FOLLOWUP';
 
 -- create temporary table to hold all data
@@ -351,8 +350,8 @@ update temp_art_register r set r.guardian_person_id = (select person_b from rela
 update temp_art_register set vhw = if(vhw_person_id is null, if(guardian_person_id is null, null, concat(person_name(guardian_person_id), ' (Guardian)')), person_name(vhw_person_id));
 
 -- Last HIV Visit
-update temp_art_register r set r.last_hiv_visit_date = (select max(encounter_datetime) from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and date(encounter_datetime) <= @endDate);
-update temp_art_register r set r.last_hiv_visit_encounter_id = (select encounter_id from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @preArtFollowup, @exposedChildFollowup) and encounter_datetime = r.last_hiv_visit_date order by encounter_id desc limit 1);
+update temp_art_register r set r.last_hiv_visit_date = (select max(encounter_datetime) from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @exposedChildFollowup) and date(encounter_datetime) <= @endDate);
+update temp_art_register r set r.last_hiv_visit_encounter_id = (select encounter_id from encounter where patient_id = r.pid and voided = 0 and encounter_type in (@artFollowup, @exposedChildFollowup) and encounter_datetime = r.last_hiv_visit_date order by encounter_id desc limit 1);
 update temp_art_register r set r.last_hiv_visit_location = (select location_name(location_id) from encounter where encounter_id = last_hiv_visit_encounter_id);
 update temp_art_register r set r.last_hiv_visit_next_appointment_date = (select value_datetime from temp_obs o where concept_id = @appointmentDateConcept and o.encounter_id = r.last_hiv_visit_encounter_id order by obs_id desc limit 1);
 
