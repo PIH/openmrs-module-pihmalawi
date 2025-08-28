@@ -43,18 +43,60 @@ END
 #
 
 #
-DROP FUNCTION IF EXISTS state_name;
+DROP FUNCTION IF EXISTS patient_program_name;
 #
-CREATE FUNCTION state_name(_state_id int)
+CREATE FUNCTION patient_program_name(_patient_program_id int)
     RETURNS varchar(255)
     DETERMINISTIC
 BEGIN
     DECLARE ret varchar(255);
 
-    select concept_name(pws.concept_id) into ret
-    from patient_state ps
-    inner join program_workflow_state pws on ps.state = pws.program_workflow_state_id
-    where ps.patient_state_id = _state_id;
+    select program_name(program_id) into ret from patient_program where patient_program_id = _patient_program_id;
+
+    RETURN ret;
+END
+#
+
+#
+DROP FUNCTION IF EXISTS workflow_name;
+#
+CREATE FUNCTION workflow_name(_program_workflow_id int)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret varchar(255);
+
+    select concept_name(concept_id) into ret from program_workflow where program_workflow_id = _program_workflow_id;
+
+    RETURN ret;
+END
+#
+
+#
+DROP FUNCTION IF EXISTS state_name;
+#
+CREATE FUNCTION state_name(_program_workflow_state_id int)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret varchar(255);
+
+    select concept_name(concept_id) into ret from program_workflow_state where program_workflow_state_id = _program_workflow_state_id;
+
+    RETURN ret;
+END
+#
+
+#
+DROP FUNCTION IF EXISTS patient_state_name;
+#
+CREATE FUNCTION patient_state_name(_patient_state_id int)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret varchar(255);
+
+    select state_name(state) into ret from patient_state ps where ps.patient_state_id = _patient_state_id;
 
     RETURN ret;
 END

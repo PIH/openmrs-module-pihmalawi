@@ -12,6 +12,7 @@ set @txStatusConcept = lookup_concept('Treatment Status');
 select program_workflow_id into @txStatusWorkflow from program_workflow where program_id = @hivProgram and concept_id = @txStatusConcept;
 select program_workflow_state_id into @onArvsState from program_workflow_state where uuid = '6687fa7c-977f-11e1-8993-905e29aff6c1';
 select program_workflow_state_id into @exposedChildState from program_workflow_state where uuid = '668847a2-977f-11e1-8993-905e29aff6c1';
+select patient_identifier_type_id into @hccNumber from patient_identifier_type where name = 'HCC Number';
 select patient_identifier_type_id into @arvNumber from patient_identifier_type where name = 'ARV Number';
 select encounter_type_id into @artInitial from encounter_type where name = 'ART_INITIAL';
 select encounter_type_id into @artFollowup from encounter_type where name = 'ART_FOLLOWUP';
@@ -30,6 +31,7 @@ create table temp_art_register
     last_art_enrollment_id_at_location   integer,
     first_art_start_date                 date,
     first_art_state_id                   integer,
+    hcc_number                           varchar(255),
     first_exposed_child_start_date       date,
     first_exposed_child_state_id         integer,
     arv_number                           varchar(255),
@@ -160,6 +162,7 @@ inner join temp_status s on t.pid = s.patient_id and t.first_exposed_child_start
 set t.first_exposed_child_state_id = s.patient_state_id;
 
 -- Identifiers
+update temp_art_register set hcc_number = patient_identifier(pid, @hccNumber, @location);
 update temp_art_register set arv_number = patient_identifier(pid, @arvNumber, @location);
 update temp_art_register set all_arv_numbers = patient_identifiers_of_type(pid, @arvNumber);
 
@@ -183,7 +186,7 @@ update temp_art_register set district = person_address_district(pid);
 
 -- Most recent Treatment Status state at the given location
 update temp_art_register set art_outcome_state_id = latest_state_in_workflow(last_art_enrollment_id_at_location, @txStatusWorkflow, @location, @endDate);
-update temp_art_register set art_outcome = state_name(art_outcome_state_id);
+update temp_art_register set art_outcome = patient_state_name(art_outcome_state_id);
 update temp_art_register set art_outcome_date = (select start_date from patient_state where patient_state_id = art_outcome_state_id);
 update temp_art_register set art_outcome_location = (select location_name(location_id) from temp_status where patient_state_id = art_outcome_state_id);
 
@@ -403,6 +406,7 @@ select
     art_outcome_location as 'ART Outcome location',
     first_art_enrollment_date as 'First time enrollment in ART',
     first_art_enrollment_location as 'First time enrollment location',
+    hcc_number as 'HCC Number',
     first_exposed_child_date as 'First time in Exposed Child date',
     first_exposed_child_location as 'First time in Exposed Child location',
     arv_start_reasons as 'ARV start reasons',
