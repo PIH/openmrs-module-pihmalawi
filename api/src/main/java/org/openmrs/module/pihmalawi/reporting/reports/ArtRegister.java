@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Deprecated
 public class ArtRegister extends ApzuDataExportManager {
 
     public static final String MONTHLY_SCHEDULED_REQUEST_UUID = "6aaa2b87-5c56-11e5-a151-e82aea237783";
