@@ -29,14 +29,16 @@ public class PatientProgramsPortletController extends PihMalawiPortletController
             List<Location> locations = Context.getLocationService().getAllLocations();
             model.put("locations", locations);
         }
-        Map<ProgramWorkflow, List<PatientState>> patientStatesByWorkflow = new LinkedHashMap<>();
-        Map<ProgramWorkflow, PatientState> latestStateByWorkflow = new HashMap<>();
+        Map<PatientProgram, Map<ProgramWorkflow, List<PatientState>>> patientStatesByWorkflow = new HashMap<>();
+        Map<PatientProgram, Map<ProgramWorkflow, PatientState>> latestStateByWorkflow = new HashMap<>();
         List<PatientProgram> patientPrograms = (List<PatientProgram>) model.get("patientPrograms");
         for (PatientProgram patientProgram : patientPrograms) {
+            patientStatesByWorkflow.put(patientProgram, new LinkedHashMap<>());
+            latestStateByWorkflow.put(patientProgram, new HashMap<>());
             for (ProgramWorkflow workflow : patientProgram.getProgram().getWorkflows()) {
                 List<PatientState> states = patientProgram.statesInWorkflow(workflow, false);
-                patientStatesByWorkflow.put(workflow, states);
-                latestStateByWorkflow.put(workflow, states.isEmpty() ? null : states.get(states.size() - 1));
+                patientStatesByWorkflow.get(patientProgram).put(workflow, states);
+                latestStateByWorkflow.get(patientProgram).put(workflow, states.isEmpty() ? null : states.get(states.size() - 1));
             }
         }
         model.put("patientStatesByWorkflow", patientStatesByWorkflow);

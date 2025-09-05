@@ -459,8 +459,8 @@
                         <table width="100%">
                             <c:forEach var="workflow" items="${program.program.workflows}">
                                 <c:if test="${!workflow.retired}">
-                                    <c:set var="mostRecentState" value="${model.latestStateByWorkflow[workflow]}" />
-                                    <c:set var="patientStates" value="${model.patientStatesByWorkflow[workflow]}" />
+                                    <c:set var="mostRecentState" value="${model.latestStateByWorkflow[program][workflow]}" />
+                                    <c:set var="patientStates" value="${model.patientStatesByWorkflow[program][workflow]}" />
                                     <tr>
                                         <td valign="top">
                                             <small><openmrs:format concept="${workflow.concept}" caseConversion="global"/>:</small>
