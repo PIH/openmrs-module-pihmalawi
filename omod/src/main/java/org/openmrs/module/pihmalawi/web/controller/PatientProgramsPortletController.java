@@ -1,10 +1,15 @@
 package org.openmrs.module.pihmalawi.web.controller;
 
 import org.openmrs.Location;
+import org.openmrs.PatientProgram;
+import org.openmrs.PatientState;
 import org.openmrs.Program;
+import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +29,17 @@ public class PatientProgramsPortletController extends PihMalawiPortletController
             List<Location> locations = Context.getLocationService().getAllLocations();
             model.put("locations", locations);
         }
+        Map<ProgramWorkflow, List<PatientState>> patientStatesByWorkflow = new LinkedHashMap<>();
+        Map<ProgramWorkflow, PatientState> latestStateByWorkflow = new HashMap<>();
+        List<PatientProgram> patientPrograms = (List<PatientProgram>) model.get("patientPrograms");
+        for (PatientProgram patientProgram : patientPrograms) {
+            for (ProgramWorkflow workflow : patientProgram.getProgram().getWorkflows()) {
+                List<PatientState> states = patientProgram.statesInWorkflow(workflow, false);
+                patientStatesByWorkflow.put(workflow, states);
+                latestStateByWorkflow.put(workflow, states.isEmpty() ? null : states.get(states.size() - 1));
+            }
+        }
+        model.put("patientStatesByWorkflow", patientStatesByWorkflow);
+        model.put("latestStateByWorkflow", latestStateByWorkflow);
     }
 }
