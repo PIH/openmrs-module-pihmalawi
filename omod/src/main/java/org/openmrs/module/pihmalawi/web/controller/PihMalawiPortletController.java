@@ -213,7 +213,9 @@ public class PihMalawiPortletController implements Controller {
                                 }
                             }
                             model.put("latestVLTestDate", latestVLTestDate);
-                            model.put("latestViralLoadTestResult", latestVLResult != null ? (latestVLResult + "(" + (DateFormat.getDateInstance(DateFormat.MEDIUM, Context.getLocale())).format(latestVLTestDate)  +")") : "" );
+
+                            model.put("latestViralLoadTestResult",  (latestVLResult != null) ? (latestVLResult + "(" + (DateFormat.getDateInstance(DateFormat.MEDIUM, Context.getLocale())).format(latestVLTestDate)  +")" ) : "");
+
                             if (latestWeight != null && latestHeight != null) {
                                 double weightInKg;
                                 double heightInM;
