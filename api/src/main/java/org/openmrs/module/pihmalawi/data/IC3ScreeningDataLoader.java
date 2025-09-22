@@ -16,7 +16,6 @@ import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
 import org.openmrs.module.DaemonToken;
-import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.reporting.library.BaseCohortDefinitionLibrary;
 import org.openmrs.module.reporting.common.DateUtil;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,8 +37,8 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataLoader.class);
 
-    private static DaemonToken daemonToken = null;
-    private static boolean running = false;
+    private volatile DaemonToken daemonToken = null;
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     @Autowired
     HivMetadata metadata;
@@ -75,9 +75,8 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
     class RefreshForLocationsRunnable implements Runnable {
         @Override
         public void run() {
-            log.debug("Running already = " + running);
-            if (!running) {
-                running = true;
+            log.debug("Running already = " + running.get());
+            if (running.compareAndSet(false, true)) {
                 try {
                     Date today = DateUtil.getStartOfDay(new Date());
                     // First pre-load all actively enrolled patients who have appointments
@@ -96,18 +95,27 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
                     ic3ScreeningData.getCache().clearCaches(60);
                 }
                 finally {
-                    running = false;
+                    running.set(false);
                     Context.clearSession();
                 }
             }
         }
-    }
+    } 
 
     public static void setDaemonToken(DaemonToken daemonToken) {
-        IC3ScreeningDataLoader.daemonToken = daemonToken;
+        if (daemonToken == null) {
+            LogFactory.getLog(IC3ScreeningDataLoader.class).warn("DaemonToken is null, not setting DaemonToken");
+            return;
+        }
+        java.util.List<IC3ScreeningDataLoader> beans = Context.getRegisteredComponents(IC3ScreeningDataLoader.class);
+        if (beans == null || beans.isEmpty()) {
+            LogFactory.getLog(IC3ScreeningDataLoader.class).warn("IC3ScreeningDataLoader bean not found to set DaemonToken");
+            return;
+        }
+        beans.get(0).daemonToken = daemonToken;
     }
 
-    public static boolean isRunning() {
-        return running;
+    public boolean isRunning() {
+        return running.get();
     }
 }
