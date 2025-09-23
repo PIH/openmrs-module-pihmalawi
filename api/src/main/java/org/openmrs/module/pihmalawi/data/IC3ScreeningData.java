@@ -33,6 +33,9 @@ public class IC3ScreeningData extends LivePatientDataSet {
     @Autowired
     private IC3ScreeningMetadata screeningMetadata;
 
+    @Autowired
+    private AlertEngine alertEngine;
+
     public Map<Location, Cohort> getPatientsWithAppointmentsByEnrolledLocation(Date appointmentDate) {
         Map<Location, Cohort> ret = new HashMap<Location, Cohort>();
         Cohort appts = evaluateCohort(baseCohorts.getPatientsWithScheduledAppointmentOnEndDate(), appointmentDate, null);
@@ -221,7 +224,7 @@ public class IC3ScreeningData extends LivePatientDataSet {
         addColumn(dsd, "family_history_diabetes", ccPatientData.getFamilyHistoryOfDiabetesByEndDate());
         addColumn(dsd, "last_breastfeeding_status", hivPatientData.getLatestBreastfeedingStatusValueByEndDate());
         addColumn(dsd, "is_pregnant", df.getMostRecentObsOnDate(ccMetadata.getIsPatientPregnantConcept(), null, df.getObsValueCodedConverter()));
-        addColumn(dsd, "tb_results_next_steps", df.getMostRecentObsOnDate(screeningMetadata.getRecommendedNextStepsConcept(), Arrays.asList(screeningMetadata.getTBTestResultsEncounterType()), df.getObsValueCodedConverter()));
+        addColumn(dsd, "tb_results_next_steps", df.getMostRecentObsOnDate(screeningMetadata.getRecommendedNextStepsConcept(), Collections.singletonList(screeningMetadata.getTBTestResultsEncounterType()), df.getObsValueCodedConverter()));
         addColumn(dsd, "current_symptoms", df.getAllRecentObsOnDate(ccMetadata.getConcept(ccMetadata.SYMPTOM_PRESENT_CONCEPT), null, df.getObsValueCodedCollectionConverter()));
         addColumn(dsd, "current_diastolic_bp", df.getMostRecentObsOnDate(ccMetadata.getDiastolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
         addColumn(dsd, "current_systolic_bp", df.getMostRecentObsOnDate(ccMetadata.getSystolicBloodPressureConcept(), null, df.getObsValueNumericConverter()));
@@ -250,7 +253,6 @@ public class IC3ScreeningData extends LivePatientDataSet {
      * @return the AlertDefinitions to evaluate for this data set
      */
     public List<AlertDefinition> getAlertDefinitions() {
-        AlertEngine alertEngine = new AlertEngine();
         List<AlertDefinition> alertDefinitions = alertEngine.getAlertDefinitions();
         return alertDefinitions;
     }

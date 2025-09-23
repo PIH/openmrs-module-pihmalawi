@@ -14,7 +14,6 @@
 
 package org.openmrs.module.pihmalawi.alert;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,10 +22,12 @@ import org.openmrs.OpenmrsObject;
 import org.openmrs.module.pihmalawi.common.JsonObject;
 import org.openmrs.module.reporting.report.util.ReportUtil;
 import org.openmrs.util.OpenmrsClassLoader;
+import org.springframework.stereotype.Component;
 
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.Map;
 /**
  * Creates a context and evalutes alerts for this context
  */
+@Component
 public class AlertEngine {
 
     private final static Log log = LogFactory.getLog(AlertEngine.class);
@@ -46,7 +48,6 @@ public class AlertEngine {
     public static final String ALERT_DEFINITIONS_RESOURCE = "org/openmrs/module/pihmalawi/alert/definitions";
     public static final String CONSTANTS_RESOURCE = "org/openmrs/module/pihmalawi/alert/constants.json";
 
-    private ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
     private ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -74,9 +75,11 @@ public class AlertEngine {
      */
     public List<AlertDefinition> getAlertDefinitions() {
         List<AlertDefinition> ret = new ArrayList<AlertDefinition>();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(OpenmrsClassLoader.getInstance().getResourceAsStream(ALERT_DEFINITIONS_RESOURCE)));
+        try (InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream(ALERT_DEFINITIONS_RESOURCE);
+             BufferedReader reader = (is == null ? null : new BufferedReader(new InputStreamReader(is)))) {
+            if (reader == null) {
+                throw new RuntimeException("Unable to load alert definitions: resource not found - " + ALERT_DEFINITIONS_RESOURCE);
+            }
             for (String resource = reader.readLine(); resource != null; resource = reader.readLine()) {
                 String json = ReportUtil.readStringFromResource(ALERT_DEFINITIONS_RESOURCE + "/" + resource);
                 List<AlertDefinition> alertDefinitionList = objectMapper.readValue(json, new TypeReference<List<AlertDefinition>>() { });
@@ -85,9 +88,6 @@ public class AlertEngine {
         }
         catch (Exception e) {
             throw new RuntimeException("Unable to load alert definitions", e);
-        }
-        finally {
-            IOUtils.closeQuietly(reader);
         }
         return ret;
     }
@@ -130,16 +130,15 @@ public class AlertEngine {
      * Evaluates the Javascript from the classpath at the given resource in the given engine
      */
     public void evaluateResource(ScriptEngine scriptEngine, String resource) {
-        InputStreamReader reader = null;
-        try {
-            reader = new InputStreamReader(OpenmrsClassLoader.getInstance().getResourceAsStream(resource));
+        try (InputStream is = OpenmrsClassLoader.getInstance().getResourceAsStream(resource);
+             InputStreamReader reader = (is == null ? null : new InputStreamReader(is))) {
+            if (reader == null) {
+                throw new RuntimeException("Unable to initialize script engine: resource not found - " + resource);
+            }
             scriptEngine.eval(reader);
         }
         catch (Exception e) {
             throw new RuntimeException("Unable to initialize script engine", e);
-        }
-        finally {
-            IOUtils.closeQuietly(reader);
         }
     }
 
@@ -159,7 +158,11 @@ public class AlertEngine {
      * Initialize a new script engine with all of the functions, and the passed variables bound
      */
     protected ScriptEngine createScriptEngine(Map<String, Object> variables) {
+        ScriptEngineManager scriptEngineManager = new ScriptEngineManager(OpenmrsClassLoader.getInstance());
         ScriptEngine scriptEngine = scriptEngineManager.getEngineByName(SCRIPT_ENGINE_NAME);
+        if (scriptEngine == null) {
+            throw new IllegalStateException("No ScriptEngine found for name: " + SCRIPT_ENGINE_NAME);
+        }
         scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE).put("polyglot.js.allowAllAccess", true);
         evaluateResource(scriptEngine, FUNCTIONS_RESOURCE);
         JsonObject constants = JsonObject.fromJsonResource(CONSTANTS_RESOURCE);
