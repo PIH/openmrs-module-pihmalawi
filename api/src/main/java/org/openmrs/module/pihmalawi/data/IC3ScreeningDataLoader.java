@@ -37,7 +37,7 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
 
     private final static Log log = LogFactory.getLog(IC3ScreeningDataLoader.class);
 
-    private volatile DaemonToken daemonToken = null;
+    private static DaemonToken daemonToken = null;
     private final AtomicBoolean running = new AtomicBoolean(false);
 
     @Autowired
@@ -103,16 +103,7 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
     } 
 
     public static void setDaemonToken(DaemonToken daemonToken) {
-        if (daemonToken == null) {
-            LogFactory.getLog(IC3ScreeningDataLoader.class).warn("DaemonToken is null, not setting DaemonToken");
-            return;
-        }
-        java.util.List<IC3ScreeningDataLoader> beans = Context.getRegisteredComponents(IC3ScreeningDataLoader.class);
-        if (beans == null || beans.isEmpty()) {
-            LogFactory.getLog(IC3ScreeningDataLoader.class).warn("IC3ScreeningDataLoader bean not found to set DaemonToken");
-            return;
-        }
-        beans.get(0).daemonToken = daemonToken;
+        IC3ScreeningDataLoader.daemonToken = daemonToken;
     }
 
     public boolean isRunning() {
