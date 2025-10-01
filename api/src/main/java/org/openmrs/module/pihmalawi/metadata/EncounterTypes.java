@@ -101,6 +101,12 @@ public class EncounterTypes {
         public String description() { return "Top section of the Mental Health Mastercard"; }
     };
 
+    public static  EncounterTypeDescriptor MENTAL_HEALTH_SCREENING = new EncounterTypeDescriptor() {
+        public String uuid() {return "1ec34eeb-0776-4f58-871e-fe0026fda111";}
+        public String name() {return "MENTAL_HEALTH_SCREENING";}
+        public String description() {return "Mental Health screening encounter";}
+    };
+
     public static EncounterTypeDescriptor MENTAL_HEALTH_FOLLOWUP = new EncounterTypeDescriptor() {
         public String uuid() { return "D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1"; }
         public String name() { return "MENTAL_HEALTH_FOLLOWUP"; }
