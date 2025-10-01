@@ -96,6 +96,7 @@ public class HtmlFormInitializer implements Initializer {
                 "pihmalawi:htmlforms/epilepsy_mastercard.xml",
                 "pihmalawi:htmlforms/epilepsy_visit.xml" ,
                 "pihmalawi:htmlforms/mental_health_mastercard.xml",
+                "pihmalawi:htmlforms/mental_health_screening.xml",
                 "pihmalawi:htmlforms/mental_health_visit.xml",
                 "pihmalawi:htmlforms/ks_header.xml",
                 "pihmalawi:htmlforms/ks_chemo.xml",
