@@ -126,6 +126,7 @@ public class MohCohortDisaggregatedReportRestController {
                 reportDetails.add("12PA",r.getColumnValue("12PA"));
                 reportDetails.add("14PP",r.getColumnValue("14PP"));
                 reportDetails.add("14PA",r.getColumnValue("14PA"));
+                reportDetails.add("15P",r.getColumnValue("15P"));
                 reportDetails.add("15PP",r.getColumnValue("15PP"));
                 reportDetails.add("15PA",r.getColumnValue("15PA"));
                 reportDetails.add("16P",r.getColumnValue("16P"));

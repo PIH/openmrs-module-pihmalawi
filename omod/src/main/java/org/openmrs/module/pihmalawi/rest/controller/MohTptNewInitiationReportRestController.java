@@ -97,8 +97,8 @@ public class MohTptNewInitiationReportRestController {
                 reportDetails.add("ageGroup",r.getColumnValue("age_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
                 reportDetails.add("newStartThreeHp",r.getColumnValue("new_start_three_hp"));
-                reportDetails.add("newStartSixH",r.getColumnValue("new_start_six_h"));
                 reportDetails.add("previousStartThreeHp",r.getColumnValue("previous_start_three_hp"));
+                reportDetails.add("newStartSixH",r.getColumnValue("new_start_six_h"));
                 reportDetails.add("previousStartSixH",r.getColumnValue("previous_start_six_h"));
                 dataList.add(reportDetails);
             }
