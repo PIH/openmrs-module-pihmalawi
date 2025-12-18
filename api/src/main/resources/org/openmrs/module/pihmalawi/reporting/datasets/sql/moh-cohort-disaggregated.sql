@@ -8,7 +8,6 @@ Patients whose last appointment exceeds 60 days without visiting a heath facilit
 are considered to be defaulters
 *************************************************************************/
 
-/* 30 for age in months*/
 SET @birthDateDivider = 30;
 SET @defaultCutOff = 60;
 SET @ageGroup = "FNP";
@@ -47,6 +46,7 @@ DROP TEMPORARY TABLE IF EXISTS moh_cohort_disaggregated;
          12PA int,
          14PP int,
          14PA int,
+         15P int,
          15PP int,
          15PA int,
          16P int,

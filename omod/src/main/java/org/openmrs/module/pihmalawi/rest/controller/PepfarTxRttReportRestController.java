@@ -95,6 +95,10 @@ public class PepfarTxRttReportRestController {
                 reportDetails.add("sortValue",r.getColumnValue("sort_value"));
                 reportDetails.add("ageGroup",r.getColumnValue("age_group"));
                 reportDetails.add("gender",r.getColumnValue("gender"));
+                reportDetails.add("cd4LessThanTwoHundred",r.getColumnValue("cd4_less_than_two_hundred"));
+                reportDetails.add("cd4EqualToOrGreaterThanTwoHundred",r.getColumnValue("cd4_equal_to_or_greater_than_two_hundred"));
+                reportDetails.add("cd4UnknownOrNotDone",r.getColumnValue("cd4_unknown_or_not_done"));
+                reportDetails.add("notEligibleForCd4",r.getColumnValue("not_eligible_for_cd4"));
                 reportDetails.add("returnedLessThanThreeMonths",r.getColumnValue("returned_less_than_three_months"));
                 reportDetails.add("returnedThreeToFiveMonths",r.getColumnValue("returned_three_to_five_months"));
                 reportDetails.add("returnedSixMonthsPlus",r.getColumnValue("returned_six_months_plus"));
