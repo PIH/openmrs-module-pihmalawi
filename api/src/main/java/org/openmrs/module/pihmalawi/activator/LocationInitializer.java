@@ -27,6 +27,8 @@ import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Initializes location-related metadata
@@ -66,15 +68,10 @@ public class LocationInitializer implements Initializer {
 	 */
 	@Override
 	public synchronized void started() {
-        if (CommonMetadata.UPPER_NENO.equalsIgnoreCase(getSystemLocation())) {
-            setLocationTags(UPPER_NENO_LOGIN_AND_VISIT_LOCATIONS);
-        }
-        else if (CommonMetadata.LOWER_NENO.equalsIgnoreCase(getSystemLocation())) {
-            setLocationTags(LOWER_NENO_LOGIN_AND_VISIT_LOCATIONS);
-        }
-        else {
-            setLocationTags(new ArrayList<String>());
-        }
+        List<String> upperAndLowerNeno = Stream.concat(UPPER_NENO_LOGIN_AND_VISIT_LOCATIONS.stream(),
+                LOWER_NENO_LOGIN_AND_VISIT_LOCATIONS.stream()).collect(Collectors.toList());
+        setLocationTags(upperAndLowerNeno);
+
     }
 
     public void setLocationTags(List<String> locationNames) {

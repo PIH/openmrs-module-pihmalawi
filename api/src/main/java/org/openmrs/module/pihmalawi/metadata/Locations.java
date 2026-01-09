@@ -11,6 +11,11 @@ public class Locations {
     };
 
     // Extracted from DB to improve querying
+    public static LocationDescriptor BINJE_OUTREACH_CLINIC = new LocationDescriptor() {
+        public String uuid() { return "3093e2ab-0eee-4bc2-aacf-8d51d77c7698"; }
+        public String name() { return "Binje Outreach Clinic"; }
+        public String description() { return "Outreach Clinics with ART services"; }
+    };
     public static LocationDescriptor NENO_DHO = new LocationDescriptor() {
         public String uuid() { return "0d414ce2-5ab4-11e0-870c-9f6107fee88e"; }
         public String name() { return "Neno District Hospital"; }
@@ -21,6 +26,11 @@ public class Locations {
         public String name() { return "Dambe Clinic"; }
         public String description() { return "Dambe Clinic"; }
     };
+    public static LocationDescriptor FELEMU_OUTREACH_CLINIC = new LocationDescriptor() {
+        public String uuid() { return "794df119-65e6-4098-8e12-851063267217"; }
+        public String name() { return "Felemu Outreach Clinic"; }
+        public String description() { return "Felemu village from Chifunga"; }
+    };
     public static LocationDescriptor LIGOWE_HC = new LocationDescriptor() {
         public String uuid() { return "0d417e38-5ab4-11e0-870c-9f6107fee88e"; }
         public String name() { return "Ligowe HC"; }
@@ -30,6 +40,11 @@ public class Locations {
         public String uuid() { return "0d416506-5ab4-11e0-870c-9f6107fee88e"; }
         public String name() { return "Luwani RHC"; }
         public String description() { return "Luwani Rural Health Center"; }
+    };
+    public static LocationDescriptor KASAMBA_OUTREACH_CLINIC = new LocationDescriptor() {
+        public String uuid() { return "6368bada-6e65-44dc-a093-c3a17a0f40f8"; }
+        public String name() { return "Kasamba Outreach Clinic"; }
+        public String description() { return "HIV Outreach Clinic"; }
     };
     public static LocationDescriptor MAGALETA_HC = new LocationDescriptor() {
         public String uuid() { return "0d414eae-5ab4-11e0-870c-9f6107fee88e"; }
