@@ -6,12 +6,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSet;
-import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
-import org.openmrs.module.initializer.api.c.ConceptLineProcessor;
+import org.openmrs.util.LocaleUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,14 +22,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_DESC;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_UUID;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_VOID_RETIRE;
+import static org.openmrs.module.initializer.api.BaseLineProcessor.LIST_SEPARATOR;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.LOCALE_SEPARATOR;
 import static org.openmrs.module.initializer.api.c.ConceptLineProcessor.HEADER_CLASS;
 import static org.openmrs.module.initializer.api.c.ConceptLineProcessor.HEADER_DATATYPE;
@@ -43,6 +47,8 @@ import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADE
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_MEMBER_TYPE_CONCEPT_SET;
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_MEMBER_TYPE_Q_AND_A;
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_SORT_WEIGHT;
+import static org.openmrs.module.initializer.api.c.MappingsConceptLineProcessor.MAPPING_HEADER_PREFIX;
+import static org.openmrs.module.initializer.api.c.MappingsConceptLineProcessor.MAPPING_HEADER_SEPARATOR;
 
 @Component
 public class ConceptExporter {
@@ -53,56 +59,79 @@ public class ConceptExporter {
 
     public byte[] getConceptExport() {
         List<String[]> concepts = new ArrayList<>();
-        List<String[]> numericConcepts = new ArrayList<>();
         List<String[]> conceptAnswers = new ArrayList<>();
         List<String[]> setMembers = new ArrayList<>();
 
-        conceptAnswers.add(new String[] {HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
-        setMembers.add(new String[] {HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
+        conceptAnswers.add(new String[]{HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
+        setMembers.add(new String[]{HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
 
-        Locale en = Locale.ENGLISH;
-        String headerEn = LOCALE_SEPARATOR + en;
+        Set<Locale> locales = new LinkedHashSet<>();
+        locales.add(Locale.ENGLISH);
+        locales.addAll(LocaleUtility.getLocalesInOrder());
 
-        // First collect and sort all names by concept
-        int maxIndexTerms = 0;
-        int maxSynonyms = 0;
-        Map<Concept, Map<String, String>> conceptsAndNames = new LinkedHashMap<>();
+        // First collect all data for which there is a variable number of headers
+        Map<Concept, Map<String, String>> variableHeadersByConcept = new LinkedHashMap<>();
+        Map<String, Set<String>> variableHeaders = new LinkedHashMap<>();
+        variableHeaders.put(HEADER_FSNAME, new LinkedHashSet<>());
+        variableHeaders.put(HEADER_SHORTNAME, new LinkedHashSet<>());
+        variableHeaders.put(HEADER_INDEX_TERM, new LinkedHashSet<>());
+        variableHeaders.put(HEADER_SYNONYM, new LinkedHashSet<>());
+        variableHeaders.put(HEADER_DESC, new LinkedHashSet<>());
+        variableHeaders.put(MAPPING_HEADER_PREFIX, new LinkedHashSet<>());
+
         for (Concept c : conceptService.getAllConcepts()) {
-            Map<String, String> names = new LinkedHashMap<>();
-            names.put(HEADER_FSNAME + headerEn, c.getFullySpecifiedName(en).getName());
-
-            String shortName = c.getShortNameInLocale(en) == null ? null : c.getShortNameInLocale(en).getName();
-            if (shortName != null && names.containsValue(shortName)) {
-                shortName = null;
-            }
-            names.put(HEADER_SHORTNAME + headerEn, shortName);
-
-            int indexTermCounter=0;
-            int synonymCounter=0;
-            for (ConceptName name : c.getNames(false)) {
-                if (name.getLocale().equals(en) && !names.containsValue(name.getName())) {
-                    if (name.getConceptNameType().equals(ConceptNameType.INDEX_TERM)) {
-                        indexTermCounter++;
-                        names.put(HEADER_INDEX_TERM + " " + indexTermCounter + headerEn, name.getName());
-                    }
-                    else {
-                        synonymCounter++;
-                        names.put(HEADER_SYNONYM + " " + synonymCounter + headerEn, name.getName());
-                    }
+            Map<String, String> headers = new LinkedHashMap<>();
+            for (Locale l : locales) {
+                ConceptName fsn = c.getFullySpecifiedName(l);
+                if (fsn != null) {
+                    String header = HEADER_FSNAME + LOCALE_SEPARATOR + l;
+                    variableHeaders.get(HEADER_FSNAME).add(header);
+                    headers.put(header, fsn.getName());
+                }
+                ConceptName shortName = c.getShortNameInLocale(l);
+                if (shortName != null) {
+                    String header = HEADER_SHORTNAME + LOCALE_SEPARATOR + l;
+                    variableHeaders.get(HEADER_FSNAME).add(header);
+                    headers.put(header, shortName.getName());
+                }
+                int indexTermCounter = 0;
+                for (ConceptName indexTerm : c.getIndexTermsForLocale(l)) {
+                    indexTermCounter++;
+                    String header = HEADER_INDEX_TERM + " " + indexTermCounter + LOCALE_SEPARATOR + l;
+                    variableHeaders.get(HEADER_INDEX_TERM).add(header);
+                    headers.put(header, indexTerm.getName());
+                }
+                int synonymCounter = 0;
+                for (ConceptName synonym : c.getSynonyms(l)) {
+                    synonymCounter++;
+                    String header = HEADER_SYNONYM + " " + synonymCounter + LOCALE_SEPARATOR + l;
+                    variableHeaders.get(HEADER_SYNONYM).add(header);
+                    headers.put(header, synonym.getName());
+                }
+                ConceptDescription description = c.getDescription(l, true);
+                if (description != null) {
+                    String header = HEADER_DESC + LOCALE_SEPARATOR + l;
+                    variableHeaders.get(HEADER_DESC).add(header);
+                    headers.put(header, description.getDescription());
                 }
             }
-            if (indexTermCounter > maxIndexTerms) {
-                maxIndexTerms = indexTermCounter;
+            Collection<ConceptMap> conceptMappings = c.getConceptMappings();
+            if (conceptMappings != null && !conceptMappings.isEmpty()) {
+                for (ConceptMap cm : conceptMappings) {
+                    String type = cm.getConceptMapType().getName();
+                    String source = cm.getConceptReferenceTerm().getConceptSource().getName();
+                    String code = cm.getConceptReferenceTerm().getCode();
+                    String header = MAPPING_HEADER_PREFIX + MAPPING_HEADER_SEPARATOR + type + MAPPING_HEADER_SEPARATOR + source;
+                    variableHeaders.get(MAPPING_HEADER_PREFIX).add(header);
+                    headers.compute(header, (k, existingValue) -> existingValue == null ? code : existingValue + LIST_SEPARATOR + code);
+                }
             }
-            if (synonymCounter > maxSynonyms) {
-                maxSynonyms = synonymCounter;
-            }
-            conceptsAndNames.put(c, names);
+            variableHeadersByConcept.put(c, headers);
         }
 
         // Next iterate over these to produce the CSV set that accounts for the max columns
 
-        for (Concept c : conceptsAndNames.keySet()) {
+        for (Concept c : variableHeadersByConcept.keySet()) {
             Map<String, String> m = new LinkedHashMap<>();
 
             m.put(HEADER_UUID, c.getUuid());
@@ -110,18 +139,12 @@ public class ConceptExporter {
             m.put(HEADER_CLASS, c.getConceptClass().getName());
             m.put(HEADER_DATATYPE, c.getDatatype().getName());
 
-            Map<String, String> names = conceptsAndNames.get(c);
-            m.put(HEADER_FSNAME + headerEn, names.remove(HEADER_FSNAME + headerEn));
-            m.put(HEADER_SHORTNAME + headerEn, names.get(HEADER_SHORTNAME + headerEn));
-            for (int i=1; i<=maxIndexTerms; i++) {
-                m.put(HEADER_INDEX_TERM + " " + i + headerEn, names.get(HEADER_INDEX_TERM + " " + i + headerEn));
+            Map<String, String> headers = variableHeadersByConcept.get(c);
+            for (Set<String> headerSet : variableHeaders.values()) {
+                for (String header : headerSet) {
+                    m.put(header, headers.get(header));
+                }
             }
-            for (int i=1; i<=maxSynonyms; i++) {
-                m.put(HEADER_INDEX_TERM + " " + i + headerEn, names.get(HEADER_INDEX_TERM + " " + i + headerEn));
-            }
-
-            ConceptDescription description = c.getDescription(Locale.ENGLISH);
-            m.put(ConceptLineProcessor.HEADER_DESC + headerEn, description == null ? null : description.getDescription());
 
             Collection<ConceptAnswer> answers = c.getAnswers(true);
             if (answers != null && !answers.isEmpty()) {
@@ -130,7 +153,7 @@ public class ConceptExporter {
                     // TODO: answer drugs are not supported yet in Iniz or OCL
                     String member = a.getAnswerDrug() != null ? a.getAnswerDrug().getUuid() : getConceptRef(a.getAnswerConcept());
                     String sortWeight = a.getSortWeight() == null ? null : a.getSortWeight().toString();
-                    conceptAnswers.add(new String[] {concept, member, sortWeight, HEADER_MEMBER_TYPE_Q_AND_A});
+                    conceptAnswers.add(new String[]{concept, member, sortWeight, HEADER_MEMBER_TYPE_Q_AND_A});
                 }
             }
 
@@ -140,11 +163,19 @@ public class ConceptExporter {
                     String concept = getConceptRef(cs.getConceptSet());
                     String member = getConceptRef(cs.getConcept());
                     String sortWeight = cs.getSortWeight() == null ? null : cs.getSortWeight().toString();
-                    setMembers.add(new String[] {concept, member, sortWeight, HEADER_MEMBER_TYPE_CONCEPT_SET});
+                    setMembers.add(new String[]{concept, member, sortWeight, HEADER_MEMBER_TYPE_CONCEPT_SET});
                 }
             }
 
-            // TODO: Figure out concept mappings.  There doesn't seem to be an Iniz domain for this.  For now we will just add to the Concepts csv
+            Collection<ConceptMap> conceptMappings = c.getConceptMappings();
+            if (conceptMappings != null && !conceptMappings.isEmpty()) {
+                for (ConceptMap cm : conceptMappings) {
+                    String concept = getConceptRef(cm.getConcept());
+                    String type = cm.getConceptMapType().getName();
+                    String source = cm.getConceptReferenceTerm().getConceptSource().getName();
+                    String code = cm.getConceptReferenceTerm().getCode();
+                }
+            }
 
             if (c instanceof ConceptNumeric) {
                 ConceptNumeric cn = (ConceptNumeric) c;
@@ -157,28 +188,30 @@ public class ConceptExporter {
                 m.put("allow decimals", cn.getAllowDecimal() == null ? null : cn.getAllowDecimal().toString());
                 m.put("units", cn.getUnits());
                 m.put("display precision", cn.getDisplayPrecision() == null ? null : cn.getDisplayPrecision().toString());
-
-                if (numericConcepts.isEmpty()) {
-                    numericConcepts.add(new ArrayList<>(m.keySet()).toArray(new String[0]));
-                }
-                numericConcepts.add(new ArrayList<>(m.values()).toArray(new String[0]));
             }
             else {
-                if (concepts.isEmpty()) {
-                    concepts.add(new ArrayList<>(m.keySet()).toArray(new String[0]));
-                }
-                concepts.add(new ArrayList<>(m.values()).toArray(new String[0]));
+                m.put("absolute high", null);
+                m.put("critical high", null);
+                m.put("normal high", null);
+                m.put("absolute low", null);
+                m.put("critical low", null);
+                m.put("normal low", null);
+                m.put("allow decimals", null);
+                m.put("units", null);
+                m.put("display precision", null);
             }
+            if (concepts.isEmpty()) {
+                concepts.add(new ArrayList<>(m.keySet()).toArray(new String[0]));
+            }
+            concepts.add(new ArrayList<>(m.values()).toArray(new String[0]));
         }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try (ZipOutputStream zos = new ZipOutputStream(bos)) {
-            addCsvFile(zos, "conceptNonNumerics.csv", concepts);
-            addCsvFile(zos, "conceptNumerics.csv", numericConcepts);
+            addCsvFile(zos, "concepts.csv", concepts);
             addCsvFile(zos, "conceptAnswers.csv", conceptAnswers);
             addCsvFile(zos, "conceptSetMembers.csv", setMembers);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error generating zip of concept csvs", e);
         }
 
