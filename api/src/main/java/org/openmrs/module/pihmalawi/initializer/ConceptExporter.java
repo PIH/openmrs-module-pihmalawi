@@ -1,15 +1,18 @@
 package org.openmrs.module.pihmalawi.initializer;
 
 import com.opencsv.CSVWriter;
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
+import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDescription;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSet;
+import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
 import org.openmrs.util.LocaleUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +24,20 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_DESC;
+import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_NAME;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_UUID;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.HEADER_VOID_RETIRE;
 import static org.openmrs.module.initializer.api.BaseLineProcessor.LIST_SEPARATOR;
@@ -47,6 +54,8 @@ import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADE
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_MEMBER_TYPE_CONCEPT_SET;
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_MEMBER_TYPE_Q_AND_A;
 import static org.openmrs.module.initializer.api.c.ConceptSetLineProcessor.HEADER_SORT_WEIGHT;
+import static org.openmrs.module.initializer.api.c.ConceptSourceLineProcessor.HEADER_HL7_CODE;
+import static org.openmrs.module.initializer.api.c.ConceptSourceLineProcessor.HEADER_UNIQUE_ID;
 import static org.openmrs.module.initializer.api.c.MappingsConceptLineProcessor.MAPPING_HEADER_PREFIX;
 import static org.openmrs.module.initializer.api.c.MappingsConceptLineProcessor.MAPPING_HEADER_SEPARATOR;
 
@@ -58,12 +67,32 @@ public class ConceptExporter {
     ConceptService conceptService;
 
     public byte[] getConceptExport() {
+        List<String[]> conceptClasses = new ArrayList<>();
+        List<String[]> conceptSources = new ArrayList<>();
         List<String[]> concepts = new ArrayList<>();
         List<String[]> conceptAnswers = new ArrayList<>();
         List<String[]> setMembers = new ArrayList<>();
 
-        conceptAnswers.add(new String[]{HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
-        setMembers.add(new String[]{HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE});
+        conceptClasses.add(new String[] { HEADER_UUID, HEADER_VOID_RETIRE, HEADER_NAME, HEADER_DESC });
+        conceptSources.add(new String[] { HEADER_UUID, HEADER_VOID_RETIRE, HEADER_NAME, HEADER_DESC, HEADER_HL7_CODE, HEADER_UNIQUE_ID });
+        conceptAnswers.add(new String[] { HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE });
+        setMembers.add(new String[] { HEADER_CONCEPT, HEADER_MEMBER, HEADER_SORT_WEIGHT, HEADER_MEMBER_TYPE });
+
+        // First populate the concept classes and sources
+
+        List<ConceptClass> conceptClassList = conceptService.getAllConceptClasses(true);
+        conceptClassList.sort(new BeanComparator<>("name"));
+        for (ConceptClass cc : conceptClassList) {
+            conceptClasses.add(new String[] { cc.getUuid(), cc.getRetired() ? "true" : null, cc.getName(), cc.getDescription() });
+        }
+
+        List<ConceptSource> conceptSourceList = conceptService.getAllConceptSources(true);
+        conceptSourceList.sort(new BeanComparator<>("name"));
+        for (ConceptSource cs : conceptSourceList) {
+            conceptSources.add(new String[] { cs.getUuid(), cs.getRetired() ? "true" : null, cs.getName(), cs.getDescription(), cs.getHl7Code(), cs.getUniqueId() });
+        }
+
+        // Next populate concepts, mappings, answers, and set members
 
         Set<Locale> locales = new LinkedHashSet<>();
         locales.add(Locale.ENGLISH);
@@ -78,6 +107,8 @@ public class ConceptExporter {
         variableHeaders.put(HEADER_SYNONYM, new LinkedHashSet<>());
         variableHeaders.put(HEADER_DESC, new LinkedHashSet<>());
         variableHeaders.put(MAPPING_HEADER_PREFIX, new LinkedHashSet<>());
+
+        Map<String, Integer> mappingHeaderCount = new HashMap<>();
 
         for (Concept c : conceptService.getAllConcepts()) {
             Map<String, String> headers = new LinkedHashMap<>();
@@ -122,12 +153,25 @@ public class ConceptExporter {
                     String source = cm.getConceptReferenceTerm().getConceptSource().getName();
                     String code = cm.getConceptReferenceTerm().getCode();
                     String header = MAPPING_HEADER_PREFIX + MAPPING_HEADER_SEPARATOR + type + MAPPING_HEADER_SEPARATOR + source;
-                    variableHeaders.get(MAPPING_HEADER_PREFIX).add(header);
+                    mappingHeaderCount.put(header, mappingHeaderCount.getOrDefault(header, 0) + 1);
                     headers.compute(header, (k, existingValue) -> existingValue == null ? code : existingValue + LIST_SEPARATOR + code);
                 }
             }
             variableHeadersByConcept.put(c, headers);
         }
+
+        // Sort the mappings by frequency
+        List<String> mappingHeaders = mappingHeaderCount.entrySet().stream().sorted((e1, e2) -> {
+            int comparison = e1.getValue().compareTo(e2.getValue()) * -1;
+            if (comparison != 0) {
+                return comparison;
+            }
+            return e1.getKey().compareTo(e2.getKey());
+        }).map(Map.Entry::getKey).collect(Collectors.toList());
+        variableHeaders.get(MAPPING_HEADER_PREFIX).addAll(mappingHeaders);
+
+        // Sort the concepts to ensure that the first, best name is used to sort first, followed by uuid
+        variableHeadersByConcept = sortConcepts(variableHeadersByConcept, variableHeaders);
 
         // Next iterate over these to produce the CSV set that accounts for the max columns
 
@@ -150,8 +194,7 @@ public class ConceptExporter {
             if (answers != null && !answers.isEmpty()) {
                 for (ConceptAnswer a : answers) {
                     String concept = getConceptRef(a.getConcept());
-                    // TODO: answer drugs are not supported yet in Iniz or OCL
-                    String member = a.getAnswerDrug() != null ? a.getAnswerDrug().getUuid() : getConceptRef(a.getAnswerConcept());
+                    String member = getConceptRef(a.getAnswerConcept()); // TODO: Note, answerDrug is not supported
                     String sortWeight = a.getSortWeight() == null ? null : a.getSortWeight().toString();
                     conceptAnswers.add(new String[]{concept, member, sortWeight, HEADER_MEMBER_TYPE_Q_AND_A});
                 }
@@ -164,16 +207,6 @@ public class ConceptExporter {
                     String member = getConceptRef(cs.getConcept());
                     String sortWeight = cs.getSortWeight() == null ? null : cs.getSortWeight().toString();
                     setMembers.add(new String[]{concept, member, sortWeight, HEADER_MEMBER_TYPE_CONCEPT_SET});
-                }
-            }
-
-            Collection<ConceptMap> conceptMappings = c.getConceptMappings();
-            if (conceptMappings != null && !conceptMappings.isEmpty()) {
-                for (ConceptMap cm : conceptMappings) {
-                    String concept = getConceptRef(cm.getConcept());
-                    String type = cm.getConceptMapType().getName();
-                    String source = cm.getConceptReferenceTerm().getConceptSource().getName();
-                    String code = cm.getConceptReferenceTerm().getCode();
                 }
             }
 
@@ -208,6 +241,8 @@ public class ConceptExporter {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try (ZipOutputStream zos = new ZipOutputStream(bos)) {
+            addCsvFile(zos, "conceptClasses.csv", conceptClasses);
+            addCsvFile(zos, "conceptSources.csv", conceptSources);
             addCsvFile(zos, "concepts.csv", concepts);
             addCsvFile(zos, "conceptAnswers.csv", conceptAnswers);
             addCsvFile(zos, "conceptSetMembers.csv", setMembers);
@@ -230,5 +265,30 @@ public class ConceptExporter {
         csvWriter.writeAll(data);
         csvWriter.flush();
         zos.closeEntry();
+    }
+
+    Map<Concept, Map<String, String>> sortConcepts(Map<Concept, Map<String, String>> variableHeadersByConcept, Map<String, Set<String>> variableHeaders) {
+        String nameHeader = null;
+        for (Set<String> headers : variableHeaders.values()) {
+            if (nameHeader == null && headers != null && !headers.isEmpty()) {
+                nameHeader = headers.iterator().next();
+            }
+        }
+        final String nameHeaderForSorting = nameHeader;
+        Map<Concept, Map<String, String>> ret = new TreeMap<>((c1, c2) -> {
+            Map<String, String> variableHeaders1 = variableHeadersByConcept.get(c1);
+            Map<String, String> variableHeaders2 = variableHeadersByConcept.get(c2);
+            String val1 = variableHeaders1.get(nameHeaderForSorting);
+            String val2 = variableHeaders2.get(nameHeaderForSorting);
+            val1 = (val1 == null ? "" : val1.trim().toLowerCase());
+            val2 = (val2 == null ? "" : val2.trim().toLowerCase());
+            int comparison = val1.compareTo(val2);
+            if (comparison != 0) {
+                return comparison;
+            }
+            return c1.getConceptId().compareTo(c2.getConceptId());
+        });
+        ret.putAll(variableHeadersByConcept);
+        return ret;
     }
 }
