@@ -21,6 +21,8 @@ CREATE TEMPORARY TABLE moh_tpt_initiation(
     district varchar(10),
     age_group VARCHAR(100),
     gender varchar(10),
+    tx_new int,
+    tx_new_eligible_tpt int,
     new_start_three_hp int,
     previous_start_three_hp int,
     new_start_six_h int,
