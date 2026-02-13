@@ -68,7 +68,6 @@
         <reportinguiVersion>1.14.0</reportinguiVersion>
         <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
 		<spaVersion>2.1.0</spaVersion>
-		<syncVersion>3.1.0</syncVersion>
         <testutilsVersion>1.7.0</testutilsVersion>
         <uicommonsVersion>2.26.0</uicommonsVersion>
         <uiframeworkVersion>4.0.0</uiframeworkVersion>
@@ -245,12 +244,6 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>sync-api</artifactId>
-			<version>${syncVersion}</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>reporting-api</artifactId>
