@@ -35,7 +35,6 @@
         <require_module version="${reportingrestVersion}">org.openmrs.module.reportingrest</require_module>
         <require_module version="${reportinguiVersion}">org.openmrs.module.reportingui</require_module>
         <require_module version="${serializationVersion}">org.openmrs.module.serialization.xstream</require_module>
-        <require_module version="${syncVersion}">org.openmrs.module.sync</require_module>
         <require_module version="${uicommonsVersion}">org.openmrs.module.uicommons</require_module>
         <require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
         <require_module version="${uilibraryVersion}">org.openmrs.module.uilibrary</require_module>
@@ -56,12 +55,6 @@
         <property>pihmalawi.excelPassword</property>
         <defaultValue></defaultValue>
         <description>Password that is used to encrypt patient data export reports</description>
-    </globalProperty>
-
-    <globalProperty>
-        <property>pihmalawi.syncAllowMacAddresses</property>
-        <defaultValue></defaultValue>
-        <description>A comma delimited list of MAC addresses that are allowed to access the Sync REST API</description>
     </globalProperty>
 
     <globalProperty>

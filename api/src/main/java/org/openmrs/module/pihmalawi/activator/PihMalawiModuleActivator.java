@@ -63,7 +63,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		l.add(new SoundexInitializer());
 		l.add(new AddressTemplateInitializer());
 		l.add(new HtmlFormInitializer());
-		l.add(new ReportInitializer());
+		//l.add(new ReportInitializer());
         l.add(new AuthenticationInitializer());
 		return l;
 	}
@@ -83,7 +83,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
             extensions.add(e);
         }
 
-        Context.getRegisteredComponents(IC3ScreeningDataLoader.class).get(0).runImmediately();
+        //Context.getRegisteredComponents(IC3ScreeningDataLoader.class).get(0).runImmediately();
     }
 
 	@Override
