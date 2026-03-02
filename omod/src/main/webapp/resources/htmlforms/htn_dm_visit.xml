@@ -59,14 +59,14 @@
         <!-- betaBlocker=8463 -->
         <macro key="atenolol" value="65635d58-977f-11e1-8993-905e29aff6c1"/>
         bisoprolol=8612
-        <!-- <macro key="bisoprolol" value="72247AAAAAAAAAAAAAAAAAAAAAAAAAAA"/> -->
+        <!-- <macro key="bisoprolol" value="72247AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/> -->
         <macro key="propranolol" value="65470f18-977f-11e1-8993-905e29aff6c1"/>
         <!-- statin=8462 -->
         simvastatin=8613
         pravastatin=8614
         <!--
-        <macro key="simvastatin" value="83936AAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <macro key="pravastatin" value="82411AAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="simvastatin" value="83936AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <macro key="pravastatin" value="82411AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
         -->
         <macro key="atorvastatin" value="657aefc2-977f-11e1-8993-905e29aff6c1"/>
         <macro key="aspirin" value="6545efde-977f-11e1-8993-905e29aff6c1"/>
