@@ -1,8 +1,8 @@
 # There are 2 concepts that have no names, but do have a description.  Add a name to each of these based on the description.
 
-insert into concept_name (concept_id, name, locale, concept_name_type, locale_preferred, creator, date_created, uuid)
+insert into concept_name (concept_id, name, locale, concept_name_type, creator, date_created, uuid)
 select
-    d.concept_id, d.description, d.locale, 'FULLY_SPECIFIED', 1, 1, now(), uuid()
+    d.concept_id, d.description, 'en', 'FULLY_SPECIFIED', 1, now(), uuid()
 from concept_description d
 inner join
 (
