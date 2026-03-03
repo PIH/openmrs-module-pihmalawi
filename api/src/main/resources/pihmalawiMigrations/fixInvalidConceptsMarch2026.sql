@@ -35,6 +35,20 @@ set n.voided = 0, n.voided_by = null, n.date_voided = null, n.void_reason = null
 where names.num = 1 and voided_names.num = 1
 ;
 
+# There are 4 concepts that have english, preferred names, but none that are fully-specified
+create temporary table tmp_fsn_to_create as
+select concept_id from concept c
+where c.concept_id not in (
+    select concept_id from concept_name n where n.voided = 0 and n.locale = 'en' and n.concept_name_type = 'FULLY_SPECIFIED'
+);
+
+update concept_name n
+inner join tmp_fsn_to_create t on n.concept_id = t.concept_id
+set n.concept_name_type = 'FULLY_SPECIFIED'
+where n.locale = 'en' and n.locale_preferred = 1;
+
+drop temporary table tmp_fsn_to_create;
+
 # There are 3 concepts whose uuids appear to have been copied from ciel incorrectly and are invalid for openmrs
 # These are getting set up in MasterCardConcepts.java and have references in htn_dm_visit.xml (commented out), both of which need a corresponding fix.
 # Also, there are some commented out references to these uuids in , which should be updated or removed
