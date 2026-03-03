@@ -342,4 +342,12 @@
 		<sqlFile path="pihmalawiMigrations/migrateAsthmaPatientStates.sql" stripComments="true"/>
 	</changeSet>
 
+	<changeSet id="20260302-retire-default-true-false-concepts" author="mseaton">
+		<sqlFile path="pihmalawiMigrations/retireDefaultTrueFalseConcepts.sql" stripComments="true" />
+	</changeSet>
+
+	<changeSet id="20260302-fix-invalid-concepts" author="mseaton">
+		<sqlFile path="pihmalawiMigrations/fixInvalidConceptsMarch2026.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>

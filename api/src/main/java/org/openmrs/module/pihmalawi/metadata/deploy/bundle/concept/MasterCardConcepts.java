@@ -119,10 +119,10 @@ public class MasterCardConcepts extends VersionedPihConceptBundle {
     public static final String CAPT = "6563597a-977f-11e1-8993-905e29aff6c1";
     public static final String LISIN = "65635a74-977f-11e1-8993-905e29aff6c1";
     public static final String ATEN = "65635d58-977f-11e1-8993-905e29aff6c1";
-    public static final String BIS = "72247AAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    public static final String BIS = "72247AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     public static final String PROP = "65470f18-977f-11e1-8993-905e29aff6c1";
-    public static final String SIMVA = "83936AAAAAAAAAAAAAAAAAAAAAAAAAAA";
-    public static final String PRAVA = "82411AAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    public static final String SIMVA = "83936AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    public static final String PRAVA = "82411AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     public static final String ATORVA = "657aefc2-977f-11e1-8993-905e29aff6c1";
     public static final String HYD = "654b10d6-977f-11e1-8993-905e29aff6c1";
     public static final String ISSMN = "6574f45a-977f-11e1-8993-905e29aff6c1";
