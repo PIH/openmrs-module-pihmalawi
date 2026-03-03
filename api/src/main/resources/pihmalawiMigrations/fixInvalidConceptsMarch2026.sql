@@ -49,6 +49,9 @@ where n.locale = 'en' and n.locale_preferred = 1;
 
 drop temporary table tmp_fsn_to_create;
 
+# There are 6 concepts that have concept_answers that refer to an answer_drug, which is not used and not well supported
+update concept_answer set answer_drug = null where answer_drug is not null;
+
 # There are 3 concepts whose uuids appear to have been copied from ciel incorrectly and are invalid for openmrs
 # These are getting set up in MasterCardConcepts.java and have references in htn_dm_visit.xml (commented out), both of which need a corresponding fix.
 # Also, there are some commented out references to these uuids in , which should be updated or removed
