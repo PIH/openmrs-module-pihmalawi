@@ -65,6 +65,7 @@
 
 		<!-- Setup Logging -->
 		<Logger name="org.openmrs.module.pihmalawi.activator" level="INFO" />
+		<Logger name="org.openmrs.module.initializer" level="DEBUG" />
 
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
