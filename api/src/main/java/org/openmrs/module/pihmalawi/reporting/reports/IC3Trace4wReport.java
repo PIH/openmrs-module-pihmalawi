@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+// Once this report is confirmed to be removed from production, this code can be removed
+@Deprecated
 @Component
 public class IC3Trace4wReport extends ApzuReportManager {
 

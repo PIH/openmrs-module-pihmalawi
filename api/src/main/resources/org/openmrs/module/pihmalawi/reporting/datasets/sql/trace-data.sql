@@ -7,11 +7,7 @@
 
   -- set @endDate = now();
   -- set @location = 'Matandani Rural Health Center';
-  -- set @minWeeks = 2;
-  -- set @maxWeeks = 6;
   -- set @labWeeks = 6;
-
-  The TRACE Report will include this dataset several times for various combinations of the above parameters
 
 *************************************************************************/
 
@@ -21,7 +17,7 @@ CALL create_rpt_active_art(@endDate, @location);
 CALL create_rpt_active_ncd(@endDate, @location);
 CALL create_rpt_active_pdc(@endDate, @location);
 CALL create_rpt_priority_patients(@endDate);
-CALL create_rpt_trace_criteria(@endDate, @location, @minWeeks, @labWeeks, @maxWeeks, false);
+CALL create_rpt_trace_criteria(@endDate, @location, 2, @labWeeks, 8, false);
 
 
 SELECT        t.patient_id,
