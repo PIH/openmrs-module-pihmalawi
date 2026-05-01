@@ -30,7 +30,6 @@ import java.util.List;
 public class IC3TraceReport extends ApzuReportManager {
 
     public static final String SQL_DATA_SET_RESOURCE = "org/openmrs/module/pihmalawi/reporting/datasets/sql/trace-data.sql";
-    public static final Parameter LAB_WEEKS_PARAMETER = new Parameter("labWeeks", "Weeks of lab results to include", Integer.class);
     public static final String DATA_SET_KEY = "trace";
 
     @Override
@@ -53,7 +52,6 @@ public class IC3TraceReport extends ApzuReportManager {
         List<Parameter> l = new ArrayList<>();
         l.add(ReportingConstants.END_DATE_PARAMETER);
         l.add(ReportingConstants.LOCATION_PARAMETER);
-        l.add(LAB_WEEKS_PARAMETER);
         return l;
     }
 
@@ -79,7 +77,6 @@ public class IC3TraceReport extends ApzuReportManager {
         dsd.setMetadataParameterConversion(SqlFileDataSetDefinition.MetadataParameterConversion.NAME);
         dsd.addParameter(ReportingConstants.END_DATE_PARAMETER);
         dsd.addParameter(ReportingConstants.LOCATION_PARAMETER);
-        dsd.addParameter(LAB_WEEKS_PARAMETER);
         rd.addDataSetDefinition(DATA_SET_KEY, Mapped.mapStraightThrough(dsd));
 
         return rd;
