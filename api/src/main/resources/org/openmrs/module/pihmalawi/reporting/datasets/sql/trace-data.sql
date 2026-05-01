@@ -7,7 +7,6 @@
 
   -- set @endDate = now();
   -- set @location = 'Matandani Rural Health Center';
-  -- set @labWeeks = 6;
 
 *************************************************************************/
 
@@ -17,8 +16,80 @@ CALL create_rpt_active_art(@endDate, @location);
 CALL create_rpt_active_ncd(@endDate, @location);
 CALL create_rpt_active_pdc(@endDate, @location);
 CALL create_rpt_priority_patients(@endDate);
-CALL create_rpt_trace_criteria(@endDate, @location, 2, @labWeeks, 8, false);
 
+drop TEMPORARY table if exists rpt_trace_criteria;
+create TEMPORARY table rpt_trace_criteria
+(
+    patient_id int not null,
+    criteria   varchar(50)
+);
+create index rpt_trace_criteria_patient_id_idx on rpt_trace_criteria(patient_id);
+
+-- Late ART
+insert into rpt_trace_criteria(patient_id, criteria)
+select  patient_id, 'LATE_ART'
+from    rpt_active_art
+where   days_late_appt is not null
+and     days_late_appt >= 14
+and     days_late_appt < 56
+;
+
+-- Late EID
+insert into rpt_trace_criteria(patient_id, criteria)
+select  patient_id, 'LATE_EID'
+from    rpt_active_eid
+where   days_late_appt is not null
+and     days_late_appt >= 14
+and     days_late_appt < 56
+;
+
+-- Late NCD
+insert into rpt_trace_criteria(patient_id, criteria)
+select  patient_id, 'LATE_NCD'
+from    rpt_active_ncd
+where   days_late_appt is not null
+and     days_late_appt >= 14
+and     days_late_appt < 56
+;
+
+-- Late PDC
+insert into rpt_trace_criteria(patient_id, criteria)
+select  patient_id, 'LATE_PDC'
+from    rpt_active_pdc
+where   days_late_appt is not null
+and     days_late_appt >= 14
+and     days_late_appt < 56
+;
+
+drop TEMPORARY table if exists rpt_active_mh;
+create TEMPORARY table rpt_active_mh
+(
+    patient_id int not null primary key,
+    mh_number  varchar(50)
+);
+
+insert into rpt_active_mh (patient_id)
+select distinct patient_id
+from    omrs_program_enrollment p
+where   p.program = 'Mental Health Care Program'
+and     p.location = @location
+and     (p.completion_date is null or p.completion_date > @endDate);
+
+update rpt_active_mh mh
+inner join  (
+        select  i.patient_id, i.identifier
+        from    omrs_patient_identifier i
+        where   i.patient_identifier_id = (
+            select      i1.patient_identifier_id
+            from        omrs_patient_identifier i1
+            where       i1.patient_id = i.patient_id
+            and         i1.location = @location
+            and         i1.type = 'Chronic Care Number'
+            order by    i1.date_created desc
+            limit 1
+        )
+) i on mh.patient_id = i.patient_id
+set mh.mh_number = i.identifier;
 
 SELECT        t.patient_id,
               p.village,
@@ -31,6 +102,7 @@ SELECT        t.patient_id,
               i.art_number,
               i.ncd_number,
               i.pdc_number,
+              mh.mh_number,
               art.last_visit_date as art_last_visit_date,
               art.last_appt_date as art_last_appt_date,
               round(art.days_late_appt / 7, 1) as art_weeks_out_of_care,
@@ -57,6 +129,7 @@ LEFT JOIN     rpt_active_art art on art.patient_id = p.patient_id
 LEFT JOIN     rpt_active_eid eid on eid.patient_id = p.patient_id
 LEFT JOIN     rpt_active_ncd ncd on ncd.patient_id = p.patient_id
 LEFT JOIN     rpt_active_pdc pdc on pdc.patient_id = p.patient_id
+LEFT JOIN     rpt_active_mh mh on mh.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(priority ORDER BY priority asc SEPARATOR ', ') as priority_criteria from rpt_priority_patients GROUP BY patient_id) c on c.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as diagnoses from mw_ncd_diagnoses where diagnosis_date <= @endDate GROUP BY patient_id) d on d.patient_id = p.patient_id
 LEFT JOIN     ( select patient_id, group_concat(diagnosis ORDER BY diagnosis asc SEPARATOR ', ') as pdc_conditions from mw_pdc_diagnoses where diagnosis != 'Diagnosis, non-coded' and visit_date <= @endDate GROUP BY patient_id) y on y.patient_id = p.patient_id

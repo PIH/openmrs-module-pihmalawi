@@ -67,11 +67,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
         builder.addCell("TRACE - " + locationName + ", " + reportDateStr, "bold,size=18").merge(10, 0);
         builder.nextRow();
 
-        for (int i = 0; i < 12; i++) {
-            builder.addCell("");
-        }
-        builder.addCell("Reason for Contact", "size=10,align=center").merge(2, 0);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 21; i++) {
             builder.addCell("");
         }
         builder.addCell("Outcome (Missed Visit Only)", "size=10,align=center").merge(6, 0);
@@ -97,10 +93,8 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
         builder.addCell("EID#", headerStyle1, 15);
         builder.addCell("NCD#", headerStyle1, 15);
         builder.addCell("PDC#", headerStyle1, 15);
-        builder.addCell("Mental Health#", headerStyle1, 15);
-        builder.addCell("(1) Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
-        builder.addCell("(2) Lab results ready", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
-        builder.addCell("(3) Due for lab work\n(viral load for EID)", headerStyle2 + leftBorderedLight + rightBorderedLight, 8);
+        builder.addCell("MH#", headerStyle1, 15);
+        builder.addCell("Missed visit", headerStyle2 + leftBorderedLight + rightBorderedLight, 4);
         builder.addCell("Date\nPatient\nShould Visit", headerStyle1Centered, 18);
         builder.addCell("Priority\nPatient", headerStyle1Centered, 8);
         builder.addCell("Diagnoses", headerStyle1Centered, 20);
@@ -154,7 +148,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             builder.addCell(row.getColumnValue("eid_number"), rowStyle);
             builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
             builder.addCell(row.getColumnValue("pdc_number"), rowStyle);
-            builder.addCell(row.getColumnValue("ncd_number"), rowStyle);
+            builder.addCell(row.getColumnValue("mh_number"), rowStyle);
 
             Number weeksOutOfCare = (Number) row.getColumnValue("art_weeks_out_of_care");
             Date lastVisitDate = (Date) row.getColumnValue("art_last_visit_date");
@@ -194,24 +188,19 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             boolean latePdc = hasTraceCriteria(traceCriteria, "LATE_PDC");
             boolean lateVisit = lateHiv || lateNcd || latePdc;
 
-            boolean labReady = hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "EID_POSITIVE_6_WK", "EID_NEGATIVE");
-            boolean labDue = hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_12_MONTH_TEST", "EID_24_MONTH_TEST", "EID_6_WEEK_TEST");
-
             String priorityCriteria = (String) row.getColumnValue("priority_criteria");
             boolean isPriorityPatient = lateHiv || hasTraceCriteria(traceCriteria, "REPEAT_VIRAL_LOAD", "EID_POSITIVE_6_WK") || (lateNcd && ObjectUtil.notNull(priorityCriteria));
 
             String dateToVisit = "";
-            if (lateHiv || hasTraceCriteria(traceCriteria, "EID_POSITIVE_6_WK", "EID_NEGATIVE")) {
+            if (lateHiv) {
                 dateToVisit = "Today";
-            } else if (hasTraceCriteria(traceCriteria, "HIGH_VIRAL_LOAD", "LATE_NCD", "LATE_PDC")) {
+            } else if (hasTraceCriteria(traceCriteria, "LATE_NCD", "LATE_PDC")) {
                 dateToVisit = "Next Clinic Day";
             } else if (ObjectUtil.notNull(traceCriteria)) {
                 dateToVisit = "Appointment Date";
             }
 
             builder.addCell((lateVisit ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // MISSED VISIT
-            builder.addCell((labReady ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // LAB RESULTS READY
-            builder.addCell((labDue ? "✓" : ""), centeredRowStyle + leftBorderedLight + rightBorderedLight); // DUE FOR LAB WORK (VIRAL LOAD FOR EID)
             builder.addCell(dateToVisit, rowStyle + ",align=center");
             builder.addCell(isPriorityPatient ? "!!!" : "", centeredRowStyle + ",color=" + HSSFColor.RED.index);
             builder.addCell(row.getColumnValue("DIAGNOSES"), rowStyle);
@@ -242,7 +231,7 @@ public class TraceReportRenderer extends ExcelTemplateRenderer {
             builder.nextRow();
         }
 
-        builder.write(out, ApzuReportUtil.getExcelPassword());
+        builder.write(out, "");
     }
 
     private void addExtraRowsToDataSet(DataSetRowList ds) {
