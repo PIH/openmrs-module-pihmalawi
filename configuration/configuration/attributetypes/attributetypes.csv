@@ -1,0 +1,2 @@
+UUID,Entity name,Name,Description,Datatype classname,Datatype config,Min occurs,Max occurs,Preferred handler classname
+62eb8441-0326-11e6-8c93-e82aea237783,Location,Location Code,Short name or code for used in identifier types and for concise display of locations,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
