@@ -371,4 +371,14 @@
 		<sqlFile path="pihmalawiMigrations/fixInvalidConceptsMarch2026.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20260818-add-program-attribute-type-privileges" author="cioan">
+		<comment>
+			Create the Get/Manage/Purge Patient Program Attribute Types privileges and grant them to roles.
+			OpenMRS core guards ProgramWorkflowService with these privileges via @Authorized string literals
+			but never creates them, so reading a ProgramAttributeType fails with "Privilege ... does not
+			exist in the database" -- which blocks the quickprograms transferred-out form. MLW-1824
+		</comment>
+		<sqlFile path="pihmalawiMigrations/addProgramAttributeTypePrivileges.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>
