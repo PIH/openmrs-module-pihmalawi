@@ -1,0 +1,37 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  build-and-publish:
+    if: github.repository_owner == 'PIH'
+    concurrency:
+      group: build-and-deploy-${{ github.ref }}
+      cancel-in-progress: true
+    uses: PIH/openmrs-contrib-distro-tools/.github/workflows/build-and-deploy-to-openmrs-jfrog.yml@main
+    with:
+      maven_profiles: distribution
+    secrets: inherit
+
+  deploy-to-nenoci:
+    if: github.repository_owner == 'PIH'
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-to-nenoci-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Deploy to nenoci
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://bamboo-ci.pih-emr.org/rest/api/latest/queue/OMRS-DEPLOYNENOCI'
+          method: 'POST'
+          bearerToken: ${{ secrets.PIH_BAMBOO_API_KEY }}
+          customHeaders: '{"Accept": "application/json"}'
+          retry: 60
+          retryWait: 60000
+          ignoreStatusCodes: 400
