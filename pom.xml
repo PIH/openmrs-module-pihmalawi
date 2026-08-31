@@ -10,8 +10,8 @@
 	<url>http://openmrs.org</url>
 
 	<scm>
-		<connection>scm:git:git@github.com:PIH/openmrs-module-pihmalawi.git</connection>
-		<developerConnection>scm:git:git@github.com:PIH/openmrs-module-pihmalawi.git</developerConnection>
+		<connection>scm:git:https://github.com/PIH/openmrs-module-pihmalawi.git</connection>
+		<developerConnection>scm:git:https://github.com/PIH/openmrs-module-pihmalawi.git</developerConnection>
 		<url>https://github.com/PIH/openmrs-module-pihmalawi/</url>
 	  <tag>HEAD</tag>
   </scm>
@@ -23,7 +23,7 @@
             <url>https://openmrs.jfrog.io/artifactory/modules-pih</url>
         </repository>
         <snapshotRepository>
-            <id>openmrs-repo-modules-pih-snapshots</id>
+            <id>openmrs-repo-modules-pih</id>
             <name>OpenMRS Snapshots</name>
             <url>https://openmrs.jfrog.io/artifactory/modules-pih-snapshots</url>
         </snapshotRepository>
@@ -388,10 +388,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>3.1.1</version>
                     <configuration>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
                         <tagNameFormat>@{project.version}</tagNameFormat>
+                        <projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
+                        <arguments>-DskipTests</arguments>
                     </configuration>
                 </plugin>
                 <plugin>
