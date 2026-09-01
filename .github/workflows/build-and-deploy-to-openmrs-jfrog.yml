@@ -21,18 +21,11 @@ jobs:
   deploy-to-nenoci:
     if: github.repository_owner == 'PIH'
     needs: build-and-publish
-    runs-on: ubuntu-latest
     concurrency:
       group: deploy-to-nenoci-${{ github.ref }}
       cancel-in-progress: true
-    steps:
-      - name: Deploy to nenoci
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://bamboo-ci.pih-emr.org/rest/api/latest/queue/OMRS-DEPLOYNENOCI'
-          method: 'POST'
-          bearerToken: ${{ secrets.PIH_BAMBOO_API_KEY }}
-          customHeaders: '{"Accept": "application/json"}'
-          retry: 60
-          retryWait: 60000
-          ignoreStatusCodes: 400
+    uses: PIH/openmrs-contrib-distro-tools/.github/workflows/deploy-via-runner.yml@main
+    with:
+      runner-label: neno-ci
+      notify_ci_dashboard: true
+    secrets: inherit
