@@ -15,6 +15,7 @@ jobs:
     uses: PIH/openmrs-contrib-distro-tools/.github/workflows/build-and-deploy-to-openmrs-jfrog.yml@main
     with:
       maven_profiles: distribution
+      notify_ci_dashboard: true
     secrets: inherit
 
   deploy-to-nenoci:
