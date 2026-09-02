@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Deprecated
 public class NCDQuarterlyReport extends ApzuReportManager {
 
 
