@@ -1,784 +1,285 @@
-/*
+/*USE openmrs_warehouse;
 
-  NCD Quarterly Indicators Dataset
-  Requires Pentaho Warehouse tables
-  Expected parameters, which will be passed in via the Evaluation Context, are:
+SET @location = 'Neno district hospital';
+SET @endDate = '2026-06-30';
+SET @defaultCutOff = 60;*/
+SET @startDate = DATE_ADD(DATE_SUB(@endDate, INTERVAL 3 MONTH), INTERVAL 1 DAY);
 
-  * set @endDate = now();
-  * set @startDate = DATE_ADD(@endDate,INTERVAL -90 DAY)
-  * set @location = 'Neno District Hospital'
+CALL create_chronic_care_outcome_at_facility(@endDate, @location);
+call create_last_mental_health_outcome_at_facility(@endDate, @location);
 
-*/
+DROP TABLE IF EXISTS active_patients_staging;
+CREATE TABLE active_patients_staging AS
+SELECT pat FROM chronic_care_last_facility_outcome WHERE state in ('on treatment','in advanced care');
 
-set @startDate = DATE_ADD(@endDate,INTERVAL -3 MONTH);
+DROP TABLE IF EXISTS active_mental_health_staging;
+CREATE TABLE active_mental_health_staging AS
+SELECT pat FROM last_mental_facility_outcome WHERE state in ('on treatment','in advanced care');
 
-CALL create_rpt_ic3_data(@endDate, @location);
+SELECT
+    @location as location,
+    CONCAT('Q', QUARTER(@endDate)) as quarter_label,
+    YEAR(@endDate) AS year_label,
+    ---------------------------------------------------------
+    -- HYPERTENSION
+    ---------------------------------------------------------
+    (SELECT COUNT(aps.pat) FROM active_patients_staging aps
+    WHERE aps.pat IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_hypertension IS NOT NULL)
+    ) AS htn_active_in_care,
 
-DROP TABLE IF EXISTS rpt_ic3_indicators;
-CREATE TABLE rpt_ic3_indicators (
-  id INT not null auto_increment primary key,
-  indicator VARCHAR(255) default NULL,
-  description VARCHAR(255) default NULL,
-  indicator_type VARCHAR(255) default NULL,
-  indicator_value NUMERIC default NULL
-);
+    (SELECT COUNT(*) FROM mw_diabetes_hypertension_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate AND diagnosis_hypertension IS NOT NULL and location=@location
+    ) AS htn_newly_registered,
 
-/*
-	NCD-H1N - Number of patients with a chronic care diagnosis of "hypertension" who have an "On treatment" status
-	for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H1N', 'Hypertension patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND htnDx is NOT NULL
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Chronic Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_hypertension IS NOT NULL)
+    ) AS htn_defaulted,
 
-/*
-	NCD-H2N - Hypertension patients with a new chronic care diagnosis (concept : 3683) of "hypertension" (concept : 903)
-	in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H2N', 'Hypertension patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND htnDx is NOT NULL
-         AND htnDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    /*(SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+     WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+     AND ops.state = 'patient died' AND ops.program = 'Chronic Care Program'
+     AND ops.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_hypertension IS NOT NULL)
+    ) AS htn_died,*/
 
-/*
-	NCD-H3N - Hypertension patients whose last given appointment date exceeded 2 months / 8 weeks
-	within the last 3 months up to the report end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H3N', 'Hypertension patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND nextHtnDmAppt is not null
-        AND @startDate <= DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) and DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT mdhf.patient_id) FROM mw_diabetes_hypertension_followup mdhf
+    INNER JOIN active_patients_staging aps ON aps.pat = mdhf.patient_id
+    WHERE mdhf.visit_date BETWEEN @startDate AND @endDate and mdhf.location=@location
+    AND mdhf.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_hypertension IS NOT NULL)
+    ) AS htn_visit_last_3_months,
 
-/*
-	NCD-H4N - Hypertension patients who had any "DIABETES HYPERTENSION FOLLOWUP" encounter at the location
-	for the report in the last 3 months to the end date
-	and a chronic care diagnosis of "hypertension" at that "DIABETES HYPERTENSION FOLLOWUP" encounter
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H4N', 'Hypertension patients with a visit in last 3 months',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup h
-  WHERE r.patient_id=h.patient_id and r.htnDx='X' and h.visit_date >= @startDate and h.visit_date <= @endDate
-        and h.location=@location
-;
+    (SELECT COUNT(DISTINCT dhi.patient_id) FROM mw_diabetes_hypertension_initial dhi
+    INNER JOIN active_patients_staging aps ON aps.pat = dhi.patient_id
+    WHERE dhi.diagnosis_hypertension IS NOT NULL and dhi.location=@location
+    AND (cardiovascular_disease IS NOT NULL OR retinopathy IS NOT NULL OR renal_disease IS NOT NULL OR stroke_and_tia IS NOT NULL)
+    ) AS htn_with_complications,
 
-/*
-	NCD-H5N - Hypertension - Number of patients with a chronic care diagnosis of "hypertension" who have an "On treatment" status for the chronic care program at the facility on report end date, who have ever had any of the complications in the "DIABETES HYPERTENSION INITIAL" recorded in the past (Cardovascular disease, retinopathy, renal disease, stroke/TIA, PVD, Neuropathy, Sexual dysfunction)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H5N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H5N', 'Currently enrolled patients that have ever experienced a complication',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_initial h
-  WHERE r.patient_id=h.patient_id
-        AND r.htnDx='X'
-        AND r.currentNcdState ='On treatment'
-        AND r.ncdCurrentLocation=@location
-        AND (h.cardiovascular_disease is not null
-             OR h.retinopathy is not null
-             OR h.renal_disease is not null
-             OR h.stroke_and_tia is not null
-             OR h.peripheral_vascular_disease is not null
-             OR h.neuropathy is not null
-             OR h.sexual_disorder is not null
-        )
-;
+    (SELECT COUNT(*) FROM mw_diabetes_hypertension_followup dhf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) AS max_v FROM mw_diabetes_hypertension_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) dhf_l
+    ON dhf.patient_id = dhf_l.patient_id AND dhf.visit_date = dhf_l.max_v
+    INNER JOIN active_patients_staging aps ON aps.pat = dhf.patient_id
+    WHERE dhf.bp_stystolic < 140 AND dhf.bp_diastolic < 90 and dhf.location=@location
+    AND dhf.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE visit_date < @startDate)
+    ) AS htn_controlled_bp,
 
-/*
-	NCD-H6N - Hypertension patients who had a value for CV risk (concept: 8460) recorded in the last 3 months up to the reporting end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H6N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H6N', 'Hypertension Patients with CV risk % assessed during visit in last 3 months',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_followup f
-  WHERE  r.patient_id=f.patient_id
-         and r.htnDx='X'
-         and f.cardiovascular_risk is not null
-         and f.visit_date >= @startDate and f.visit_date <= @endDate
-         and f.location=@location
-;
+    ---------------------------------------------------------
+    -- ASTHMA
+    ---------------------------------------------------------
+    (SELECT COUNT(aps.pat) FROM active_patients_staging aps
+    WHERE aps.pat IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_asthma IS NOT NULL)
+    ) AS asthma_active_in_care,
 
-/*
-	NCD-H7N - Patients with a chronic care diagnosis of "hypertension" and a "DIABETES HYPERTENSION FOLLOWUP" encounter recorded in the last 3 months
-	with a Sytolic blood pressure of <140 and Diastolic blook pressure of <90 at last visit
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H7N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H7N', 'Patients with a visit in last 3 months (excluding new patients) that have BP below 140/90',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table r, mw_diabetes_hypertension_followup f
-  WHERE 	r.patient_id = f.patient_id
-         AND r.htnDx='X'
-         AND f.visit_date >= @startDate and f.visit_date <= @endDate
-         AND f.bp_stystolic is not null AND f.bp_diastolic is not null
-         AND f.bp_stystolic <140 AND f.bp_diastolic < 90
-         AND f.location=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_asthma_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate AND diagnosis_asthma IS NOT NULL and location=@location
+    ) AS asthma_newly_registered,
 
-/*
-	NCD-H8N - Hypertension patients who had the observation of "hospitalization since last visit" (concept - 1715)
-	recorded at last visit in the quarter up to the end date of the report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-H8N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-H8N', 'Hypertension Patients hospitalized for the condition since last visit ',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r
-  WHERE  r.htnDx='X'
-         and r.htnDmHospitalizedSinceLastVisit = 'Yes'
-         and r.lastNcdVisit >= @startDate and r.lastNcdVisit <= @endDate
-         and r.ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Chronic Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_asthma IS NOT NULL)
+    ) AS asthma_defaulted,
 
-/*
-	NCD-A1N - Number of patients with a chronic care diagnosis of "asthma" who have an "On treatment" status
-	for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A1N', 'Asthma patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND asthmaDx is NOT NULL
-         AND ncdCurrentLocation=@location
-;
+    /*(SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+     WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+     AND ops.state = 'patient died' AND ops.program = 'Chronic Care Program'
+     AND ops.patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_asthma IS NOT NULL)
+    ) AS asthma_died,*/
 
-/*
-	NCD-A2N - Asthma patients with a new chronic care diagnosis of "asthma" in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A2N', 'Asthma patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND asthmaDx is NOT NULL
-         AND asthmaDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_asthma_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    AND patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_asthma IS NOT NULL)
+    ) AS asthma_visit_last_3_months,
 
-/*
-	NCD-A3N - Patients who have defaulted during the reporting period -
-	Asthma patients (diagnosis) patients whose last given appointment date exceeded 2 months / 8 weeks
-	within the last 3 months up to the report end date
-	but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A3N', 'Patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE asthmaDx is not null
-        AND currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND nextAsthmaAppt is not null
-        AND @startDate <= DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) and DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT asf.patient_id) FROM mw_asthma_followup asf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_asthma_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) asf1
+    ON asf.patient_id = asf1.patient_id AND asf.visit_date = asf1.max_v
+    WHERE asf.asthma_severity IS NOT NULL and asf.location=@location
+    ) AS asthma_severity_recorded,
 
-/*
-	NCD-A4N - Asthma patients with a visit in last 3 months
-	Patients who had any "ASTHMA FOLLOWUP" encounter at the location for the report in the last 3 months to the end date
-	and a chronic care diagnosis of "asthma" at that "ASTHMA FOLLOWUP" encounter
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A4N', 'Asthma patients with a visit in last 3 months',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE asthmaDx is not null
-        AND lastAsthmaVisitDate is not null
-        AND @startDate <= lastAsthmaVisitDate and lastAsthmaVisitDate <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT asf.patient_id) FROM mw_asthma_followup asf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_asthma_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) asf1
+    ON asf.patient_id = asf1.patient_id AND asf.visit_date = asf1.max_v
+    WHERE asf.asthma_severity IN ('Mild persistent', 'Intermittent') and asf.location=@location
+    ) AS asthma_controlled,
 
-/*
-	NCD-A5N - Asthma patients with disease severity recorded at most recent visit
-	Active asthma diagnosed patients who had any disease severity observation recorded at last visit  (concept: 8410)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A5N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A5N', 'Asthma patients with disease severity recorded at most recent visit',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE asthmaDx is not null
-        AND lastAsthmaVisitDate is not null
-        AND @startDate <= lastAsthmaVisitDate and lastAsthmaVisitDate <= @endDate
-        AND asthmaClassificationAtLastVisit is not null
-        AND ncdCurrentLocation=@location
-;
+    (select count(distinct(patient_id)) from omrs_obs
+    where obs_date between @startDate and @endDate and encounter_type='ASTHMA HOSPITALIZATION' and location=@location
+    ) AS asthma_hospitalized,
 
-/*
-	NCD-A6N - Asthma patients with disease controlled (severity at intermittent or "mild persistent" at last visit)
-	Active asthma diagnosed patients who had disease severity observation recorded at last visit  (concept: 8410)
-	and the answer was severity at "intermittent" or "mild persistent"
+    ---------------------------------------------------------
+    -- COPD
+    ---------------------------------------------------------
+    (SELECT COUNT(aps.pat) FROM active_patients_staging aps
+    WHERE aps.pat IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_copd IS NOT NULL)
+    ) AS copd_active_in_care,
 
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A6N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A6N', 'Asthma patients with disease severity recorded at most recent visit',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE asthmaDx is not null
-        AND lastAsthmaVisitDate is not null
-        AND @startDate <= lastAsthmaVisitDate and lastAsthmaVisitDate <= @endDate
-        AND asthmaClassificationAtLastVisit in ('Intermittent', 'Mild persistent')
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_asthma_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate AND diagnosis_copd IS NOT NULL and location=@location
+    ) AS copd_new_registered,
 
-/*
-	NCD-A7N - Asthma patients who were hospitalized for the condition since last visit
-	Asthma diagnosed patients who had an "ASTHMA HOSPITALIZATION" encounter recorded at last visit
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Chronic Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_copd IS NOT NULL)
+    ) AS copd_defaulted,
 
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-A7N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-A7N', 'Asthma patients hospitalized for the condition since last visit ',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r, omrs_encounter e
-  WHERE r.patient_id = e.patient_id
-        AND e.encounter_type = 'ASTHMA HOSPITALIZATION'
-        AND @startDate <= e.encounter_date AND e.encounter_date <= @endDate
-        AND r.asthmaDx is not null
-        AND r.lastAsthmaVisitDate is not null
-        AND @startDate <= r.lastAsthmaVisitDate and r.lastAsthmaVisitDate <= @endDate
-        AND r.ncdCurrentLocation=@location
-;
+    /*(SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+     WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+     AND ops.state = 'patient died' AND ops.program = 'Chronic Care Program'
+     AND ops.patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_copd IS NOT NULL)
+    ) AS copd_died,*/
 
-/*
-	NCD-COPD1N - COPD patients enrolled and active in care
-	"Number of patients with a chronic care diagnosis of ""Chronic obstructive pulmonary disease""
-	who have an ""On treatment"" status for the chronic care program at the  location / facility on report end date
-  Most recent appointment date is later than end date or less than 60 days to the end date"
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-COPD1N', 'COPD patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND copdDx is NOT NULL
-         AND ( nextAsthmaAppt < DATE_ADD(@endDate,INTERVAL -60 DAY) or nextAsthmaAppt > @endDate )
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_asthma_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    AND patient_id IN (SELECT patient_id FROM mw_asthma_initial WHERE diagnosis_copd IS NOT NULL)
+    ) AS copd_visit_last_3_months,
 
-/*
-	NCD-COPD2N - COPD patients newly registered during reporting period
-	Patients with a new chronic care diagnosis of "Chronic obstructive pulmonary disease"
-	in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-COPD2N', 'COPD patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND copdDx is NOT NULL
-         AND copdDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    ---------------------------------------------------------
+    -- DIABETES TYPE 1
+    ---------------------------------------------------------
+    (SELECT COUNT(aps.pat) FROM active_patients_staging aps
+    WHERE aps.pat IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_1_diabetes IS NOT NULL)
+    ) AS dm_type1_active_in_care,
 
-/*
-	NCD-COPD3N - COPD Patients who have defaulted during the reporting period -
-	Patients whose program state at the report location / facility changed to "Patient defaulted"
-	between start date and end date of report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-COPD3N', 'Patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE copdDx is not null
-        AND currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND nextAsthmaAppt is not null
-        AND @startDate <= DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) and DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(*) FROM mw_diabetes_hypertension_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate AND diagnosis_type_1_diabetes IS NOT NULL and @location=location
+    ) AS dm_type1_newly_registered,
 
-/*
-	NCD-COPD4N - COPD patients with a visit in last 3 months
-	Patients who had any "ASTHMA FOLLOWUP" encounter at the location for the report
-	in the last 3 months to the end date
-	and a chronic care diagnosis of "Chronic obstructive pulmonary disease" at that "ASTHMA FOLLOWUP" encounterr
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-COPD4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-COPD4N', 'COPD patients with a visit in last 3 months',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE copdDx is not null
-        AND lastAsthmaVisitDate is not null
-        AND @startDate <= lastAsthmaVisitDate and lastAsthmaVisitDate <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_diabetes_hypertension_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and @location=location
+    AND patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_1_diabetes IS NOT NULL)
+    ) AS dm_type1_quarterly_visits,
 
-/*
-	NCD-D1N - Diabetes patients enrolled and active in care
-	Number of patients with a chronic care diagnosis of "Type 1 diabetes" or "Type 2 diabetes"
-	who have an "On treatment" status for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D1N', 'Diabetes patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND dmDx is NOT NULL
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Chronic Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_1_diabetes IS NOT NULL)
+    ) AS dm_type1_defaulted,
 
-/*
-	NCD-D2N - Diabetes patients newly registered during reporting period
-	Patients with a new chronic care diagnosis of "Type 1 Diabetes" in the last 3 months up to end date for report
-	+ (PLUS) Patients with a new chronic care diagnosis of "Type 2 Diabetes" in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D2N', 'Diabetes patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	dmDx is NOT NULL
-         AND dmDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_diabetes_hypertension_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    AND fasting_blood_sugar <= 126
+    AND patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_1_diabetes IS NOT NULL)
+    ) AS dm_type1_controlled_fbs,
 
-/*
-	NCD-D3N - Diabetes patients currently enrolled patients that have ever experienced a complication -
-	Number of patients with a chronic care diagnosis of "Type 1 diabetes" or "Type 2 diabetes"
-	who have an "On treatment" status for the chronic care program at the facility on report end date,
-	who have ever had any of the complications in the "DIABETES HYPERTENSION INITIAL"
-	recorded in the past (Cardovascular disease, retinopathy, renal disease, stroke/TIA, PVD, Neuropathy, Sexual dysfunction)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D3N', 'Diabetes patients currently enrolled patients that have ever experienced a complication',
-    'At date', count(*)
-  FROM rpt_ic3_data_table r, mw_diabetes_hypertension_initial h
-  WHERE r.patient_id=h.patient_id
-        AND r.dmDx='X'
-        AND r.currentNcdState ='On treatment'
-        AND r.ncdCurrentLocation=@location
-        AND (h.cardiovascular_disease is not null
-             OR h.retinopathy is not null
-             OR h.renal_disease is not null
-             OR h.stroke_and_tia is not null
-             OR h.peripheral_vascular_disease is not null
-             OR h.neuropathy is not null
-             OR h.sexual_disorder is not null
-        )
-;
+    ---------------------------------------------------------
+    -- DIABETES TYPE 2
+    ---------------------------------------------------------
+    (SELECT COUNT(aps.pat) FROM active_patients_staging aps
+    WHERE aps.pat IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_2_diabetes IS NOT NULL)
+    ) AS dm_type2_active_in_care,
 
-/*
-	NCD-D4N - Diabetes Type 1 patients enrolled and active in care
-	Number of patients with a chronic care diagnosis of "Type 1 diabetes" who have an "On treatment" status
-	for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D4N', 'Diabetes Type 1 patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND dmDx1 is NOT NULL
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(*) FROM mw_diabetes_hypertension_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate AND diagnosis_type_2_diabetes IS NOT NULL and location=@location
+    ) AS dm_type2_newly_registered,
 
-/*
-	NCD-D5N - Diabetes Type 1 patients newly registered during reporting period
-	Patients with a new chronic care diagnosis of "Type 1 Diabetes" in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D5N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D5N', 'Diabetes Type 1 patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	dmDx1 is NOT NULL
-         AND dmDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_diabetes_hypertension_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    AND patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_2_diabetes IS NOT NULL)
+    ) AS dm_type2_quarterly_visits,
 
-/*
-	NCD-D6N - Diabetes Type 1 patients who have defaulted during the reporting period
-	"Type 1 diabetes" diagnosis patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report
-	end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D6N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D6N', 'Diabetes Type 1 patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND dmDx1 is not null
-        AND @startDate <= DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) and DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Chronic Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_2_diabetes IS NOT NULL)
+    ) AS dm_type2_defaulted,
 
-/*
-	NCD-D7N - Diabetes Type 2 patients enrolled and active in care
-	Number of patients with a chronic care diagnosis of "Type 2 diabetes" who have an "On treatment" status
-	for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D7N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D7N', 'Diabetes Type 2 patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND dmDx2 is NOT NULL
-         AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_diabetes_hypertension_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    AND fasting_blood_sugar <= 126
+    AND patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_2_diabetes IS NOT NULL)
+    ) AS dm_type2_controlled_fbs,
 
-/*
-	NCD-D8N - Diabetes Type 2 patients newly registered during reporting period
-	Patients with a new chronic care diagnosis of "Type 2 Diabetes" in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D8N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D8N', 'Diabetes Type 2 patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	dmDx2 is NOT NULL
-         AND dmDxDate >= @startDate
-         AND ncdCurrentLocation=@location
-;
+    -- Type 2 on Insulin (Latest visit status)
+    (SELECT COUNT(DISTINCT dhf.patient_id) FROM mw_diabetes_hypertension_followup dhf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_diabetes_hypertension_followup WHERE visit_date <= @endDate GROUP BY patient_id) dhf1
+    ON dhf.patient_id = dhf1.patient_id AND dhf.visit_date = dhf1.max_v
+    INNER JOIN active_patients_staging aps ON dhf.patient_id = aps.pat
+    WHERE (dhf.diabetes_med_long_acting IS NOT NULL OR dhf.diabetes_med_short_acting IS NOT NULL) and dhf.location=@location
+    AND dhf.patient_id IN (SELECT patient_id FROM mw_diabetes_hypertension_initial WHERE diagnosis_type_2_diabetes IS NOT NULL)
+    ) AS dm_type2_on_insulin,
 
-/*
-	NCD-D9N - Diabetes Type 2 patients who have defaulted during the reporting period
-	"Type 2 diabetes" diagnosis patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report
-	end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D9N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D9N', 'Diabetes Type 2 patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND dmDx2 is not null
-        AND @startDate <= DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) and DATE_ADD(nextHtnDmAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT dhi.patient_id) FROM mw_diabetes_hypertension_initial dhi
+    INNER JOIN active_patients_staging aps ON dhi.patient_id = aps.pat
+    WHERE (dhi.diagnosis_type_1_diabetes IS NOT NULL OR dhi.diagnosis_type_2_diabetes IS NOT NULL)
+    AND (cardiovascular_disease IS NOT NULL OR retinopathy IS NOT NULL OR renal_disease IS NOT NULL
+    OR stroke_and_tia IS NOT NULL OR peripheral_vascular_disease IS NOT NULL
+    OR neuropathy IS NOT NULL OR sexual_disorder IS NOT NULL) and dhi.location=@location
+    ) AS dm_total_with_complications,
 
-/*
-	NCD-D10N - Type 1 patients with visit in last 3 months
-	"Type 1 diabetes" diagnosis patients with a visit in the last 3 months up to reporting end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D10N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D10N', 'Type 1 patients with visit in last 3 months', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE dmDx1 is not null
-        AND lastHtnDmVisitDate is not null
-        AND lastHtnDmVisitDate >= @startDate
-        AND ncdCurrentLocation=@location
-;
+    ---------------------------------------------------------
+    -- MENTAL HEALTH
+    ---------------------------------------------------------
+    (SELECT COUNT(mhs.pat) FROM active_mental_health_staging mhs
+    WHERE mhs.pat IN (SELECT patient_id FROM mw_mental_health_initial)
+    ) AS mental_health_active_in_care,
 
-/*
-	NCD-D11N - Type 2 patients with visit in last 3 months
-	"Type 2 diabetes" diagnosis patients with a visit in the last 3 months up to reporting end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D11N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D11N', 'Type 2 patients with visit in last 3 months', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE dmDx2 is not null
-        AND lastHtnDmVisitDate is not null
-        AND lastHtnDmVisitDate >= @startDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(*) FROM mw_mental_health_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    ) AS mental_health_newly_registered,
 
-/*
-	NCD-D12N - Type 1 patients with a visit in the last three months, with FBS ( <=120 mg/dL)
-	"Type 1 diabetes" diagnosis patients with a visit in the last 3 months up to reporting end date
-	and a fingerstick recording at most recent visit with a value of <120 (concept : 887)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D12N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D12N', 'Type 1 patients with a visit in the last three months, with FBS (<=120 mg/dL)', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE dmDx1 is not null
-        AND lastHtnDmVisitDate is not null
-        AND lastHtnDmVisitDate >= @startDate
-        AND fingerStickAtLastVisit is not null
-        AND fingerStickAtLastVisit <=120
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Mental Health Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_mental_health_followup)
+    ) AS mental_health_defaulted,
 
-/*
-	NCD-D13N - Type 2 patients with a visit in the last three months, with FBS (<=120 mg/dL)
-	"Type 2 diabetes" diagnosis patients with a visit in the last 3 months up to reporting end date
-	and a fingerstick recording at most recent visit with a value of <120 (concept : 887)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D13N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D13N', 'Type 2 patients with a visit in the last three months, with FBS (<=120 mg/dL)', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE dmDx2 is not null
-        AND lastHtnDmVisitDate is not null
-        AND lastHtnDmVisitDate >= @startDate
-        AND fingerStickAtLastVisit is not null
-        AND fingerStickAtLastVisit <=120
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_mental_health_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    ) AS mental_health_quarterly_visits,
 
-/*
-	NCD-D14N - Type 2 patients on [long-acting or short-acting] Insulin
-	"Type 2 diabetes" diagnosis patients with a recording of long acting
-	or short acting insulin at most recent visit (concept : 1193)
-	and answers (concept: 6750) OR (concept : 282)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-D14N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-D14N', 'Type 2 patients on [long-acting or short-acting] Insulin', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE dmDx2 is not null
-        AND lastHtnDmVisitDate is not null
-        AND lastHtnDmVisitDate >= @startDate
-        AND (longActingInsulin is not null or shortActingInsulin is not null)
-        AND ncdCurrentLocation=@location
-;
+    -- Side Effects (Latest visit in quarter)
+    (SELECT COUNT(DISTINCT mhf.patient_id) FROM mw_mental_health_followup mhf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_mental_health_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) mhf1
+    ON mhf.patient_id = mhf1.patient_id AND mhf.visit_date = mhf1.max_v
+    WHERE mhf.medications_side_effects = TRUE and mhf.location=@location
+    ) AS mental_health_side_effects,
 
-/*
-	NCD-MH1N - Mental Health patients enrolled and active in care
-	Number of patients with a mental health mastercard who have an "On treatment" status
-	for the chronic care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH1N', 'Mental Health patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND nextMentalHealthAppt is not null
-         AND ncdCurrentLocation=@location
-;
+    -- Hospitalized (Latest visit in quarter)
+    (SELECT COUNT(DISTINCT mhf.patient_id) FROM mw_mental_health_followup mhf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_mental_health_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) mhf1
+    ON mhf.patient_id = mhf1.patient_id AND mhf.visit_date = mhf1.max_v
+    WHERE mhf.hospitalized_since_last_visit = 'Yes' and mhf.location=@location
+    ) AS mental_health_hospitalized,
 
-/*
-	NCD-MH2N - Mental Health patients newly registered during reporting period
-	Patients with a mental health initial encounter in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH2N', 'Mental Health patients newly registered during reporting period',
-    'At date', count(*)
-  FROM 	rpt_ic3_data_table r, mw_mental_health_initial h
-  WHERE 	r.patient_id = h.patient_id
-        AND @startDate <= h.visit_date and h.visit_date <= @endDate
-        AND r.ncdCurrentLocation=@location
-;
+    -- Patient Stability (Latest visit in quarter)
+    (SELECT COUNT(DISTINCT mhf.patient_id) FROM mw_mental_health_followup mhf
+    INNER JOIN (SELECT patient_id, MAX(visit_date) as max_v FROM mw_mental_health_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id) mhf1
+    ON mhf.patient_id = mhf1.patient_id AND mhf.visit_date = mhf1.max_v
+    WHERE mhf.patient_stable = 'yes' and mhf.location=@location
+    ) AS mental_health_stable,
 
-/*
-	NCD-MH3N - Mental Health Patients who have defaulted during the reporting period -
-	Mental health patients (having a mental health mastercard) patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH3N', 'Mental Health patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND nextMentalHealthAppt is not null
-        AND @startDate <= DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) and DATE_ADD(nextAsthmaAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    ---------------------------------------------------------
+    -- EPILEPSY
+    ---------------------------------------------------------
+    (SELECT COUNT(mhs.pat) FROM active_mental_health_staging mhs
+    WHERE mhs.pat IN (SELECT patient_id FROM mw_epilepsy_initial)
+    ) AS epilepsy_active_in_care,
 
-/*
-	NCD-MH4N - Mental Health patients with a visit in last 3 months
-	Patients who had any "MENTAL HEALTH FOLLOWUP" encounter at the location for the report in the last 3 months to the end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH4N', 'Mental Health patients with a visit in last 3 months',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastMentalHealthVisitDate is not null
-        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(*) FROM mw_epilepsy_initial
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    ) AS epilepsy_newly_registered,
 
-/*
-	NCD-MH5N - Mental Health patients hospitalized since last visit (in the last 3 months)
-	Mental health patients who had "yes" to the question "Hospitalised since last visit" in the last 3 months
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH5N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH5N', 'Mental Health patients hospitalized since last visit (in the last 3 months)',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastMentalHealthVisitDate is not null
-        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
-        AND mentalHospitalizedSinceLastVisit ='Yes'
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT ops.patient_id) FROM omrs_program_state ops
+    WHERE ops.location = @location AND ops.start_date BETWEEN @startDate AND @endDate
+    AND ops.state = 'patient defaulted' AND ops.program = 'Mental Health Care Program'
+    AND ops.patient_id IN (SELECT patient_id FROM mw_epilepsy_followup)
+    ) AS epilepsy_defaulted,
 
-/*
-	NCD-MH6N - Mental Health patients on medication who reported side effects at the last visit (in the last 3 months)
-	Mental health patients whose answer was "yes" to the question "Side effects" (concept : 2146)
-	at most recent visit in the last 3 months
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH6N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH6N', 'Mental Health patients on medication who reported side effects at the last visit (in the last 3 months)','At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastMentalHealthVisitDate is not null
-        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
-        AND mentalHealthRxSideEffectsAtLastVisit ='True'
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT patient_id) FROM mw_epilepsy_followup
+    WHERE visit_date BETWEEN @startDate AND @endDate and location=@location
+    ) AS epilepsy_visit_last_3_months,
 
-/*
-	NCD-MH7N - Mental Health patients in care that were reported as stable at last visit (in the last 3 months)
-	Mental health patients who had "yes" to the question "Stablet" (concept : 8816) in the last 3 months
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-MH7N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-MH7N', 'Mental Health patients in care that were reported as stable at last visit (in the last 3 months)','At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastMentalHealthVisitDate is not null
-        AND @startDate <= lastMentalHealthVisitDate and lastMentalHealthVisitDate <= @endDate
-        AND mentalStableAtLastVisit ='Yes'
-        AND ncdCurrentLocation=@location
-;
+    (SELECT COUNT(DISTINCT epf.patient_id) FROM mw_epilepsy_followup epf
+    INNER JOIN (
+    SELECT patient_id, MAX(visit_date) as max_v
+    FROM mw_epilepsy_followup WHERE visit_date BETWEEN @startDate AND @endDate GROUP BY patient_id
+    ) epf1 ON epf.patient_id = epf1.patient_id AND epf.visit_date = epf1.max_v
+    WHERE (epf.seizure_since_last_visit IS NULL OR epf.seizure_since_last_visit = 'NO') and epf.location=@location
+    ) AS epilepsy_no_seizure,
 
-
-/*
-	NCD-EP1N - Epilepsy patients enrolled and active in care
-	Number of patients with an epilepsy mastercard who have an "On treatment" status
-	for the mental health care program at the facility on report end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP1N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP1N', 'Epilepsy patients enrolled and active in care', 'At date', count(*)
-  FROM 	rpt_ic3_data_table
-  WHERE 	currentNcdState = "On treatment"
-         AND epilepsyDx is not null
-         AND ncdCurrentLocation=@location
-;
-
-/*
-	NCD-EP2N - Epilepsy patients newly registered during reporting period
-	Patients with a epilepsy initial encounter in the last 3 months up to end date for report
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP2N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP2N', 'Epilepsy patients newly registered during reporting period', 'At date', count(*)
-  FROM 	mw_epilepsy_initial
-  WHERE 	@startDate <= visit_date and visit_date <= @endDate
-         AND location=@location
-;
-
-/*
-	NCD-EP3N - Epilepsy patients who have defaulted during the reporting period -
-	Epilepsy patients (having an epilepsy mastercard) patients whose last given appointment date exceeded 2 months / 8 weeks within the last 3 months up to the report end date but did not have the outcomes (transferred out, died, treatment stopped) in the period
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP3N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP3N', 'Epilepsy patients who have defaulted during the reporting period',
-    'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE currentNcdState not in ('Patient transferred out', 'Patient died', 'Treatment stopped')
-        AND nextEpilepsyAppt is not null
-        AND @startDate <= DATE_ADD(nextEpilepsyAppt,INTERVAL +56 DAY) and DATE_ADD(nextEpilepsyAppt,INTERVAL +56 DAY) <= @endDate
-        AND ncdCurrentLocation=@location
-;
-
-/*
-	NCD-EP4N - Epilepsy patients with a visit in last 3 months
-	Patients who had any "EPILEPSY FOLLOWUP" encounter at the location for the report in the last 3 months to the end date
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP4N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP4N', 'Epilepsy patients with a visit in last 3 months', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastEpilepsyVisit is not null
-        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
-        AND ncdCurrentLocation=@location
-;
-
-/*
-	NCD-EP5N - Number of epilepsy patients with no seizures since last visit (in the last 3 months)
-	Number of epilepsy patients who had the answer "No" to the question "Seizure since last visit" - (concept: 8541)
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP5N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP5N', 'Number of epilepsy patients with no seizures since last visit (in the last 3 months)', 'At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastEpilepsyVisit is not null
-        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
-        AND epilepsySeizuresSinceLastVsit ='No'
-        AND ncdCurrentLocation=@location
-;
-
-/*
-	NCD-EP6N - Epilepsy patients hospitalized since last visit (in the last 3 months)
-	Number of epilepsy patients with answer "yes" for "Hospitalization since last visit" recorded in the last 3 months at most recent visit
-*/
-DELETE from rpt_ic3_indicators WHERE indicator = 'NCD-EP6N';
-INSERT INTO rpt_ic3_indicators
-(indicator, description, indicator_type, indicator_value)
-  SELECT 'NCD-EP6N', 'Epilepsy patients hospitalized since last visit (in the last 3 months) ','At date', count(*)
-  FROM rpt_ic3_data_table
-  WHERE lastEpilepsyVisit is not null
-        AND @startDate <= lastEpilepsyVisit and lastEpilepsyVisit <= @endDate
-        AND epilepsyHospitalizedSinceLastVisit = 'Yes'
-        AND ncdCurrentLocation=@location
-;
-
-select * from rpt_ic3_indicators;
+    (SELECT COUNT(patient_id) FROM mw_epilepsy_followup
+    WHERE hospitalized_since_last_visit = 'Yes'
+    AND visit_date BETWEEN @startDate AND @endDate and location=@location
+    ) AS epilepsy_hospitalized;
