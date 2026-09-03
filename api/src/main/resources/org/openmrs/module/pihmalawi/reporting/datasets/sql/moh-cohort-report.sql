@@ -1,8 +1,8 @@
 /*USE openmrs_warehouse;
 
 SET @location = "Neno district hospital";
-SET @startDate = "2025-07-01";
-SET @endDate   = "2025-09-30";*/
+SET @startDate = "2026-01-01";
+SET @endDate   = "2026-03-31";*/
 
 SET @birthDateDivider = 30;
 SET @defaultCutOff = 60;
@@ -46,6 +46,8 @@ SELECT
     SUM(IF(hv.gender='F' AND hv.transfer_in_date IS NULL AND (hv.initial_pregnant_or_lactating != 'Patient pregnant' OR hv.initial_pregnant_or_lactating IS NULL) AND hv.initial_visit_date <= @endDate, 1, 0)) AS cummulative_ft_female_nonpreg,
     SUM(IF(hv.gender='F' AND hv.transfer_in_date IS NULL AND hv.initial_pregnant_or_lactating = 'Patient pregnant' AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS newly_ft_female_preg,
     SUM(IF(hv.gender='F' AND hv.transfer_in_date IS NULL AND hv.initial_pregnant_or_lactating = 'Patient pregnant' AND hv.initial_visit_date <= @endDate, 1, 0)) AS cummulative_ft_female_preg,
+    '0' as quarterly_non_disaggregated,
+    '0' as cumulative_non_disaggregated,
     SUM(CASE WHEN hv.transfer_in_date IS NULL AND hv.initial_visit_date BETWEEN @startDate AND @endDate THEN 1 ELSE 0 END) AS total_ft,
     SUM(CASE WHEN hv.transfer_in_date IS NULL AND hv.initial_visit_date <= @endDate THEN 1 ELSE 0 END) AS cummulative_ft,
 
@@ -58,38 +60,41 @@ SELECT
     SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND hv.gender = 'F' AND (hv.initial_pregnant_or_lactating != 'Patient pregnant' OR hv.initial_pregnant_or_lactating IS NULL), 1, 0)) AS initial_fnp_all_ages,
     SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND hv.gender = 'F' AND hv.initial_pregnant_or_lactating = 'Patient pregnant', 1, 0)) AS initial_fp_all_ages,
     SUM(IF(hv.age < 24 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation_less_24m,
-    SUM(IF(hv.age BETWEEN 24 AND 168 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation__24m_14yrs,
+    SUM(IF(hv.age BETWEEN 24 AND 179 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation__24m_14yrs,
+    SUM(IF(hv.age >= 180 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation_15plus,
+
+    SUM(IF(hv.age BETWEEN 24 AND 179 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation__24m_14yrs,
     SUM(IF(hv.age >= 180 AND hv.initial_visit_date BETWEEN @startDate AND @endDate, 1, 0)) AS age_at_initiation_15plus,
 
     SUM(IF(initial_visit_date <= @endDate AND gender = 'M', 1, 0)) AS cummulative_males_all_ages,
     SUM(IF(initial_visit_date <= @endDate AND gender = 'F' AND (initial_pregnant_or_lactating != 'Patient pregnant' OR initial_pregnant_or_lactating IS NULL), 1, 0)) AS cummulative_fnp_all_ages,
     SUM(IF(initial_visit_date <= @endDate AND gender = 'F' AND initial_pregnant_or_lactating = 'Patient pregnant', 1, 0)) AS cummulative_fp_all_ages,
     SUM(age < 24 AND initial_visit_date <= @endDate) AS age_at_initiation_less_24m_cummulative,
-    SUM(age BETWEEN 24 AND 168 AND initial_visit_date <= @endDate) AS age_at_initiation__24m_14yrs_cummulative,
+    SUM(age BETWEEN 24 AND 179 AND initial_visit_date <= @endDate) AS age_at_initiation__24m_14yrs_cummulative,
     SUM(age >= 180 AND initial_visit_date <= @endDate) AS age_at_initiation_15plus_cummulative,
 
-    -- Reasons for Starting (piv join)
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND (piv.age_at_initiation < 1 and piv.presumed_hiv_severe_present = 'yes'), 1, 0)) AS initial_pres_sev_hiv,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.age_at_initiation < 1, 1, 0)) AS initial_infants_less_12_mths,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.age_at_initiation >= 1 AND piv.age_at_initiation < 5, 1, 0)) AS initial_children_12_59_mths,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.pregnant_or_lactating = 'Patient pregnant', 1, 0)) AS intial_preg,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.pregnant_or_lactating = 'Currently breastfeeding child', 1, 0)) AS initial_bf,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.cd4_count < 200, 1, 0)) AS initial_cd4_below_threshold,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.clinical_stage LIKE '%stage III%', 1, 0)) AS initial_who_stage_3,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND (piv.clinical_stage LIKE '%stage IV%' ), 1, 0)) AS initial_who_stage_4,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.who_clinical_conditions REGEXP '^(As|Asy|Assy|Asm|Assm|Asn)' , 1, 0)) AS initial_asymptomatic_mild,
-    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND piv.who_clinical_conditions IS NULL AND piv.clinical_stage IS NULL, 1, 0)) AS initial_unknown_reason,
+    -- Reasons for Starting (mutually-exclusive, via `reason` join)
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'SEVERE', 1, 0)) AS initial_pres_sev_hiv,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'INFANT', 1, 0)) AS initial_infants_less_12_mths,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'CHILD', 1, 0)) AS initial_children_12_59_mths,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'PREG', 1, 0)) AS intial_preg,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'BF', 1, 0)) AS initial_bf,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'CD4', 1, 0)) AS initial_cd4_below_threshold,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'STAGE3', 1, 0)) AS initial_who_stage_3,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'STAGE4', 1, 0)) AS initial_who_stage_4,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'ASYMPTOMATIC', 1, 0)) AS initial_asymptomatic_mild,
+    SUM(IF(hv.initial_visit_date BETWEEN @startDate AND @endDate AND reason.initiation_reason = 'UNKNOWN', 1, 0)) AS initial_unknown_reason,
 
-    SUM(IF(hv.initial_visit_date <= @endDate AND (piv.age_at_initiation < 1 and piv.presumed_hiv_severe_present = 'yes'), 1, 0)) AS cummulative_pres_sev_hiv,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.age_at_initiation < 1, 1, 0)) AS cummulative_infants_less_12_mths,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.age_at_initiation >= 1 AND piv.age_at_initiation < 5, 1, 0)) AS cummulative_children_12_59_mths,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.pregnant_or_lactating = 'Patient pregnant', 1, 0)) AS cummulative_preg,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.pregnant_or_lactating = 'Currently breastfeeding child', 1, 0)) AS cummulative_bf,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.cd4_count < 200, 1, 0)) AS cummulative_cd4_below_threshold,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.clinical_stage LIKE '%stage III%', 1, 0)) AS cummulative_who_stage_3,
-    SUM(IF(hv.initial_visit_date <= @endDate AND (piv.clinical_stage LIKE '%stage IV%' ), 1, 0)) AS cummulativel_who_stage_4,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.who_clinical_conditions REGEXP '^(As|Asy|Assy|Asm|Assm|Asn)' , 1, 0)) AS cummulative_asymptomatic_mild,
-    SUM(IF(hv.initial_visit_date <= @endDate AND piv.who_clinical_conditions IS NULL AND piv.clinical_stage IS NULL, 1, 0)) AS cummulative_unknown_reason,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'SEVERE', 1, 0)) AS cummulative_pres_sev_hiv,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'INFANT', 1, 0)) AS cummulative_infants_less_12_mths,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'CHILD', 1, 0)) AS cummulative_children_12_59_mths,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'PREG', 1, 0)) AS cummulative_preg,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'BF', 1, 0)) AS cummulative_bf,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'CD4', 1, 0)) AS cummulative_cd4_below_threshold,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'STAGE3', 1, 0)) AS cummulative_who_stage_3,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'STAGE4', 1, 0)) AS cummulativel_who_stage_4,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'ASYMPTOMATIC', 1, 0)) AS cummulative_asymptomatic_mild,
+    SUM(IF(hv.initial_visit_date <= @endDate AND reason.initiation_reason = 'UNKNOWN', 1, 0)) AS cummulative_unknown_reason,
 
 
     #Tb conditions at initiation
@@ -360,3 +365,26 @@ FROM hiv_cohort hv
     group by patient_id
     ) mar1
     ON mar.patient_id = mar1.patient_id and mar.visit_date = mar1.visit_date) piv on piv.patient_id=hv.patient_id
+    LEFT JOIN (
+    SELECT mar.patient_id,
+    CASE
+    WHEN mar.age_at_initiation < 1 AND mar.presumed_hiv_severe_present = 'yes' THEN 'SEVERE'
+    WHEN mar.age_at_initiation < 1 THEN 'INFANT'
+    WHEN mar.age_at_initiation >= 1 AND mar.age_at_initiation < 5 THEN 'CHILD'
+    WHEN mar.pregnant_or_lactating = 'Patient pregnant' THEN 'PREG'
+    WHEN mar.pregnant_or_lactating = 'Currently breastfeeding child' THEN 'BF'
+    WHEN mar.cd4_count < 200 THEN 'CD4'
+    WHEN mar.clinical_stage LIKE '%stage III%' THEN 'STAGE3'
+    WHEN mar.clinical_stage LIKE '%stage IV%' THEN 'STAGE4'
+    WHEN mar.who_clinical_conditions REGEXP '^(As|Asy|Assy|Asm|Assm|Asn)'
+    OR mar.clinical_stage IN ('Stage I','Stage II') THEN 'ASYMPTOMATIC'
+    ELSE 'UNKNOWN'
+    END AS initiation_reason
+    FROM mw_art_initial mar
+    JOIN
+    (
+    select patient_id,MAX(visit_date) as visit_date  from mw_art_initial where visit_date <= @endDate
+    group by patient_id
+    ) mar1
+    ON mar.patient_id = mar1.patient_id and mar.visit_date = mar1.visit_date
+    ) reason ON reason.patient_id = hv.patient_id
