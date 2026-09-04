@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
+package org.openmrs.module.pihmalawi.metadata.concept;
 
 public class PdcCleftLipPalateConcepts{
     public static String FEEDING_ISSUES = "d7ce3c38-2844-4f46-9dfe-395738b056aa";

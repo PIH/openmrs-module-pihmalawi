@@ -11,7 +11,7 @@ import org.openmrs.module.coreapps.customdatatype.CodedConceptDatatype;
 import org.openmrs.module.coreapps.customdatatype.LocationDatatype;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ChwManagementConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.ChwManagementConcepts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

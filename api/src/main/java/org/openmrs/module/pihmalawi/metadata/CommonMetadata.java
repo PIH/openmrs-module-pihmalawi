@@ -23,8 +23,8 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.MasterCardConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.MasterCardConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

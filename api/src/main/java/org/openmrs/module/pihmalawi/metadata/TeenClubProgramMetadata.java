@@ -3,8 +3,8 @@ package org.openmrs.module.pihmalawi.metadata;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.TeenClubConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.ProgramConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.TeenClubConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

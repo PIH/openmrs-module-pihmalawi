@@ -1,4 +1,4 @@
-package org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept;
+package org.openmrs.module.pihmalawi.metadata.concept;
 
 import org.openmrs.ConceptDatatype;
 

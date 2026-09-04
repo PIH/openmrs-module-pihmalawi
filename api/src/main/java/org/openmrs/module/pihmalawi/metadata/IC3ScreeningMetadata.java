@@ -2,7 +2,7 @@ package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
 import org.springframework.stereotype.Component;
 
 @Component

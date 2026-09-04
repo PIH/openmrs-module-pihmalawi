@@ -22,8 +22,8 @@ import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

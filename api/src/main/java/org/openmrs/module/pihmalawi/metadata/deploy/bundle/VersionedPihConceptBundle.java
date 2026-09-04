@@ -7,10 +7,10 @@ import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptSource;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.metadatadeploy.bundle.VersionedMetadataBundle;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.CoreConceptMetadataBundle.ConceptClasses;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.CoreConceptMetadataBundle.ConceptDatatypes;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.CoreConceptMetadataBundle.ConceptMapTypes;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.CoreConceptMetadataBundle.ConceptSources;
+import org.openmrs.module.pihmalawi.metadata.concept.CoreConceptMetadataBundle.ConceptClasses;
+import org.openmrs.module.pihmalawi.metadata.concept.CoreConceptMetadataBundle.ConceptDatatypes;
+import org.openmrs.module.pihmalawi.metadata.concept.CoreConceptMetadataBundle.ConceptMapTypes;
+import org.openmrs.module.pihmalawi.metadata.concept.CoreConceptMetadataBundle.ConceptSources;
 
 import java.util.Locale;
 
