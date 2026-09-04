@@ -1,2 +1,8 @@
 UUID,Entity name,Name,Description,Datatype classname,Datatype config,Min occurs,Max occurs,Preferred handler classname
 62eb8441-0326-11e6-8c93-e82aea237783,Location,Location Code,Short name or code for used in identifier types and for concise display of locations,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
+30375A78-FA92-4C5C-A2FD-7E8339EC69CF,Provider,Phone Number,Provider phone number,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
+0c267ae8-f793-4cf8-9b27-93accaa45d86,Provider,Households,Number of households monitored by a VHW,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
+c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb,Provider,Date Hired,The date the provider was hired.,org.openmrs.customdatatype.datatype.DateDatatype,,0,1,org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler
+C0E1F105-DD36-4577-B00E-87A08D446A3A,Provider,Passed HH Test,Passed HH Test,org.openmrs.module.coreapps.customdatatype.CodedConceptDatatype,0E483511-6278-4D1A-881A-6385C223FAC7,0,1,
+94047146-7918-4927-9401-F4284A10C7FD,Provider,Health Facility,Health Facility,org.openmrs.module.coreapps.customdatatype.LocationDatatype,Health Facility,0,1,
+D576AAE9-6537-4549-88A5-49A761AA93E0,Program,Transferred out location,Transferred out facility location,org.openmrs.customdatatype.datatype.FreeTextDatatype,Health Facility,1,1,

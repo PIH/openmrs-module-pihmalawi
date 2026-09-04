@@ -9,7 +9,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.account.ProviderIdentifierGenerator;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.ProviderAttributeTypeBundle;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -46,7 +45,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
     String getLocationCode(Provider provider) {
         String locationCode = null;
         String locationUuid = null;
-        String healthFacility = ProviderAttributeTypeBundle.ProviderAttributeTypes.HEALTH_FACILITY;
+        String healthFacility = PihMalawiConfigConstants.PROVIDERATTRIBUTETYPE_HEALTH_FACILITY_UUID;
         Set<ProviderAttribute> providerAttributes = provider.getAttributes();
         for (ProviderAttribute providerAttribute : providerAttributes) {
             if (StringUtils.equals(providerAttribute.getAttributeType().getUuid(), healthFacility)) {

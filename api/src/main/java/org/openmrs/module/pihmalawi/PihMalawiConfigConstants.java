@@ -52,4 +52,7 @@ public class PihMalawiConfigConstants {
     public static final String PATIENTIDENTIFIERTYPE_PDC_IDENTIFIER_NAME = "PDC Identifier";
     public static final String PATIENTIDENTIFIERTYPE_TB_PROGRAM_IDENTIFIER_UUID = "F4319B47-4141-48DF-9F41-5CF7E6301EC6";
     public static final String PATIENTIDENTIFIERTYPE_TB_PROGRAM_IDENTIFIER_NAME = "TB program identifier";
+
+    // Provider attribute types
+    public static final String PROVIDERATTRIBUTETYPE_HEALTH_FACILITY_UUID = "94047146-7918-4927-9401-F4284A10C7FD";
 }
