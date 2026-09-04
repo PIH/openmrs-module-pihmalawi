@@ -42,7 +42,7 @@ public class CoreConfigurationBundle extends AbstractMetadataBundle {
         properties.put(EmrApiConstants.GP_CLINICIAN_ENCOUNTER_ROLE, "4f10ad1a-ec49-48df-98c7-1391c6ac7f05"); // Consulting Clinician
         properties.put(EmrApiConstants.GP_ORDERING_PROVIDER_ENCOUNTER_ROLE, "c458d78e-8374-4767-ad58-9f8fe276e01c"); // Ordering Provider
         properties.put(EmrApiConstants.GP_CHECK_IN_CLERK_ENCOUNTER_ROLE, "cbfe0b9d-9923-404c-941b-f048adc8cdc0"); // Administrative Clerk
-        properties.put(EmrApiConstants.GP_AT_FACILITY_VISIT_TYPE, VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
+        properties.put(EmrApiConstants.GP_AT_FACILITY_VISIT_TYPE, "f01c54cb-2225-471a-9cd5-d348552c337c"); // Clinic or Hospital Visit
 
         // TODO: Look into emr.primaryIdentifierType
         // TODO: Look into emr.extraPatientIdentifierTypes
