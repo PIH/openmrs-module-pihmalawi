@@ -9,7 +9,7 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class MalawiPatientValidatorTest extends BaseModuleContextSensitiveTest {
@@ -20,13 +20,13 @@ public class MalawiPatientValidatorTest extends BaseModuleContextSensitiveTest {
     public void before() {
         // for some reason setting this up via the bundle wasn't working
         PatientIdentifierType tempIdType = new PatientIdentifierType();
-        tempIdType.setName(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.name());
-        tempIdType.setDescription(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.description());
-        tempIdType.setFormat(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.format());
-        tempIdType.setFormatDescription(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.formatDescription());
-        tempIdType.setRequired(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.required());
-        tempIdType.setLocationBehavior(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.locationBehavior());
-        tempIdType.setUuid(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.uuid());
+        tempIdType.setName(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_NAME);
+        tempIdType.setDescription(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_DESCRIPTION);
+        tempIdType.setFormat(null);
+        tempIdType.setFormatDescription(null);
+        tempIdType.setRequired(false);
+        tempIdType.setLocationBehavior(PatientIdentifierType.LocationBehavior.REQUIRED);
+        tempIdType.setUuid(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_UUID);
         Context.getPatientService().savePatientIdentifierType(tempIdType);
 
        /* PatientIdentifierType anotherIdentiferType = new PatientIdentifierType();
@@ -41,7 +41,7 @@ public class MalawiPatientValidatorTest extends BaseModuleContextSensitiveTest {
     @Test
     public void shouldAssignIC3IdentifierIfNeededWhenSavingPatient() {
 
-        PatientIdentifierType tempIdType = Context.getPatientService().getPatientIdentifierTypeByUuid(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.uuid());
+        PatientIdentifierType tempIdType = Context.getPatientService().getPatientIdentifierTypeByUuid(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_UUID);
         Location location = Context.getLocationService().getLocation(1);
 
         Patient patient = new Patient();
@@ -61,7 +61,7 @@ public class MalawiPatientValidatorTest extends BaseModuleContextSensitiveTest {
         Context.getPatientService().savePatient(patient);
 
         Assert.assertEquals(1, patient.getActiveIdentifiers().size());
-        Assert.assertEquals(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.uuid(),
+        Assert.assertEquals(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_UUID,
                 patient.getActiveIdentifiers().get(0).getIdentifierType().getUuid());
 
 

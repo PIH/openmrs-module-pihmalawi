@@ -44,7 +44,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	}
 
 	public PatientIdentifierType getNutritionIdentifierType() {
-		return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.NUTRITION_PROGRAM_NUMBER.name());
+		return getPatientIdentifierType(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_NUTRITION_PROGRAM_NUMBER_NAME);
 	}
 
 

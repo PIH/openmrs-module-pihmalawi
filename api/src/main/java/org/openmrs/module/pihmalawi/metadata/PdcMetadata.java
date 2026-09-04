@@ -5,6 +5,7 @@ import org.openmrs.Program;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
@@ -109,6 +110,6 @@ public class PdcMetadata extends CommonMetadata{
     }
 
     public PatientIdentifierType getPdcCareNumber() {
-        return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.PDC_IDENTIFIER.name());
+        return getPatientIdentifierType(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_PDC_IDENTIFIER_NAME);
     }
 }

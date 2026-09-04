@@ -6,7 +6,7 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.metadata.PihMalawiPatientIdentifierTypes;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -32,7 +32,7 @@ public class MalawiPatientValidator implements Validator {
     public void validate(Object o, Errors errors) {
 
         PatientIdentifierType ic3IdentifierType =
-                Context.getPatientService().getPatientIdentifierTypeByUuid(PihMalawiPatientIdentifierTypes.IC3_IDENTIFIER.uuid());
+                Context.getPatientService().getPatientIdentifierTypeByUuid(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_UUID);
 
         Patient patient = (Patient) o;
 

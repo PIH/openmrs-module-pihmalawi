@@ -35,4 +35,21 @@ public class PihMalawiConfigConstants {
 
     // Location attribute types
     public static final String LOCATIONATTRIBUTETYPE_LOCATION_CODE_UUID = "62eb8441-0326-11e6-8c93-e82aea237783";
+
+    // Patient identifier types
+    public static final String PATIENTIDENTIFIERTYPE_NUTRITION_PROGRAM_NUMBER_UUID = "C9888967-8584-4F36-86B8-51AC368BC720";
+    public static final String PATIENTIDENTIFIERTYPE_NUTRITION_PROGRAM_NUMBER_NAME = "Nutrition Program Number";
+    public static final String PATIENTIDENTIFIERTYPE_PALLIATIVE_CARE_NUMBER_UUID = "f2b29f9b-69d0-4339-b1aa-55a511672558";
+    public static final String PATIENTIDENTIFIERTYPE_PALLIATIVE_CARE_NUMBER_NAME = "Palliative Care Number";
+    public static final String PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_UUID = "f51dfa3a-95de-4040-b4eb-52d2de718a74";
+    public static final String PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_NAME = "IC3 Identifier";
+    public static final String PATIENTIDENTIFIERTYPE_IC3_IDENTIFIER_DESCRIPTION = "ID assigned to patients at IC3 clinic who have not be enrolled in a program";
+    public static final String PATIENTIDENTIFIERTYPE_YENDANAFE_IDENTIFIER_UUID = "e4a1a524-d557-11ea-87d0-0242ac130003";
+    public static final String PATIENTIDENTIFIERTYPE_YENDANAFE_IDENTIFIER_NAME = "Yendanafe Identifier";
+    public static final String PATIENTIDENTIFIERTYPE_IC3D_IDENTIFIER_UUID = "70690634-6522-4552-ba66-43eda7c30217";
+    public static final String PATIENTIDENTIFIERTYPE_IC3D_IDENTIFIER_NAME = "IC3D Identifier";
+    public static final String PATIENTIDENTIFIERTYPE_PDC_IDENTIFIER_UUID = "f7de1b97-013e-49ad-a596-4ada6ede1053";
+    public static final String PATIENTIDENTIFIERTYPE_PDC_IDENTIFIER_NAME = "PDC Identifier";
+    public static final String PATIENTIDENTIFIERTYPE_TB_PROGRAM_IDENTIFIER_UUID = "F4319B47-4141-48DF-9F41-5CF7E6301EC6";
+    public static final String PATIENTIDENTIFIERTYPE_TB_PROGRAM_IDENTIFIER_NAME = "TB program identifier";
 }

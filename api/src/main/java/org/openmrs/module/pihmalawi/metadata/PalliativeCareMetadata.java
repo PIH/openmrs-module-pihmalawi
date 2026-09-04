@@ -6,6 +6,7 @@ import org.openmrs.Program;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowDescriptor;
 import org.openmrs.module.metadatadeploy.descriptor.ProgramWorkflowStateDescriptor;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.concept.PalliativeCareConcepts;
 import org.openmrs.module.pihmalawi.metadata.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
@@ -86,6 +87,6 @@ public class PalliativeCareMetadata extends CommonMetadata{
     }
 
     public PatientIdentifierType getPalliativeCareNumber() {
-        return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.PALLIATIVE_CARE_NUMBER.name());
+        return getPatientIdentifierType(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_PALLIATIVE_CARE_NUMBER_NAME);
     }
 }
