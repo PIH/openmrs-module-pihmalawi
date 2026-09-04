@@ -8,7 +8,7 @@ import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.account.ProviderIdentifierGenerator;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
-import org.openmrs.module.pihmalawi.metadata.LocationAttributeTypes;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.ProviderAttributeTypeBundle;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +59,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
             if (healthLocation != null) {
                 Set<LocationAttribute> attributes = healthLocation.getAttributes();
                 for (LocationAttribute attribute : attributes) {
-                    if (StringUtils.equals(attribute.getAttributeType().getUuid(), LocationAttributeTypes.LOCATION_CODE.uuid())) {
+                    if (StringUtils.equals(attribute.getAttributeType().getUuid(), PihMalawiConfigConstants.LOCATIONATTRIBUTETYPE_LOCATION_CODE_UUID)) {
                         locationCode = attribute.getValueReference();
                         break;
                     }

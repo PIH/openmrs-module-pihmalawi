@@ -21,6 +21,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
 import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
@@ -222,7 +223,7 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
 	public List<Location> getChronicCareSystemLocations() {
-		List<Location> l = getLocationsForTag(LocationTags.CHRONIC_CARE_LOCATION.name());
+		List<Location> l = getLocationsForTag(PihMalawiConfigConstants.LOCATIONTAG_CHRONIC_CARE_LOCATION_NAME);
 		l.retainAll(getSystemLocations());
 		return l;
 	}

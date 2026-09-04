@@ -3,8 +3,8 @@ package org.openmrs.module.pihmalawi.metadata.deploy.bundle;
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.htmlformentry.HtmlFormEntryConstants;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.Concepts;
-import org.openmrs.module.pihmalawi.metadata.Locations;
 import org.openmrs.module.reporting.ReportingConstants;
 import org.openmrs.ui.framework.UiFrameworkConstants;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class CoreConfigurationBundle extends AbstractMetadataBundle {
         properties.put(UiFrameworkConstants.GP_FORMATTER_DATETIME_FORMAT, DEFAULT_DATETIME_FORMAT);
 
         // EMR API (all values are uuids of metadata)
-        properties.put(EmrApiConstants.GP_UNKNOWN_LOCATION, Locations.UNKNOWN.uuid());
+        properties.put(EmrApiConstants.GP_UNKNOWN_LOCATION, PihMalawiConfigConstants.LOCATION_UNKNOWN_UUID);
         properties.put(EmrApiConstants.GP_CLINICIAN_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.CONSULTING_CLINICIAN);
         properties.put(EmrApiConstants.GP_ORDERING_PROVIDER_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.ORDERING_PROVIDER);
         properties.put(EmrApiConstants.GP_CHECK_IN_CLERK_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.ADMINISTRATIVE_CLERK);
