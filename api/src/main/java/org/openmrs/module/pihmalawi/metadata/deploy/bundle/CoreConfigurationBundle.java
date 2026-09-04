@@ -39,9 +39,9 @@ public class CoreConfigurationBundle extends AbstractMetadataBundle {
 
         // EMR API (all values are uuids of metadata)
         properties.put(EmrApiConstants.GP_UNKNOWN_LOCATION, PihMalawiConfigConstants.LOCATION_UNKNOWN_UUID);
-        properties.put(EmrApiConstants.GP_CLINICIAN_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.CONSULTING_CLINICIAN);
-        properties.put(EmrApiConstants.GP_ORDERING_PROVIDER_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.ORDERING_PROVIDER);
-        properties.put(EmrApiConstants.GP_CHECK_IN_CLERK_ENCOUNTER_ROLE, EncounterRoleBundle.EncounterRoles.ADMINISTRATIVE_CLERK);
+        properties.put(EmrApiConstants.GP_CLINICIAN_ENCOUNTER_ROLE, "4f10ad1a-ec49-48df-98c7-1391c6ac7f05"); // Consulting Clinician
+        properties.put(EmrApiConstants.GP_ORDERING_PROVIDER_ENCOUNTER_ROLE, "c458d78e-8374-4767-ad58-9f8fe276e01c"); // Ordering Provider
+        properties.put(EmrApiConstants.GP_CHECK_IN_CLERK_ENCOUNTER_ROLE, "cbfe0b9d-9923-404c-941b-f048adc8cdc0"); // Administrative Clerk
         properties.put(EmrApiConstants.GP_AT_FACILITY_VISIT_TYPE, VisitTypeBundle.VisitTypes.CLINIC_OR_HOSPITAL_VISIT);
 
         // TODO: Look into emr.primaryIdentifierType
