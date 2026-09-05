@@ -2,6 +2,7 @@ package org.openmrs.module.pihmalawi.metadata;
 
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
 import org.springframework.stereotype.Component;
 
@@ -14,60 +15,60 @@ public class IC3ScreeningMetadata extends CommonMetadata {
     // ENCOUNTERS
 
     public EncounterType getCheckInEncounterType() {
-        return getEncounterType(EncounterTypes.CHECK_IN.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_CHECK_IN_UUID);
     }
 
     public EncounterType getBloodPressureScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.BLOOD_PRESSURE_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_BLOOD_PRESSURE_SCREENING_UUID);
     }
 
     public EncounterType getClinicianScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.IC3_CLINICIAN_PLAN.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_IC3_CLINICIAN_PLAN_UUID);
     }
 
     public EncounterType getNutritionScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.NUTRITION_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_SCREENING_UUID);
     }
 
     public EncounterType getAdherenceScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.ADHERENCE_COUNSELING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_ADHERENCE_COUNSELING_UUID);
     }
 
     public EncounterType getEIDScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.DNA_PCR_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_DNA_PCR_SCREENING_UUID);
     }
 
     public EncounterType getHTCScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.HTC_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_HTC_SCREENING_UUID);
     }
 
     public EncounterType getVLScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.VIRAL_LOAD_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_VIRAL_LOAD_SCREENING_UUID);
     }
 
     public EncounterType getTBScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.TB_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_TB_SCREENING_UUID);
     }
 
     public EncounterType getTBTestResultsEncounterType() {
-        return getEncounterType(EncounterTypes.TB_TEST_RESULTS.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_TB_TEST_RESULTS_UUID);
     }
 
 
     public EncounterType getNurseScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.NURSE_EVALUATION.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_NURSE_EVALUATION_UUID);
     }
 
     public EncounterType getCervicalScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.CERVICAL_CANCER_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_CERVICAL_CANCER_SCREENING_UUID);
     }
 
     public EncounterType getBloodSugarScreeningEncounterType() {
-        return getEncounterType(EncounterTypes.BLOOD_SUGAR_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_BLOOD_SUGAR_SCREENING_UUID);
     }
 
     public EncounterType getLabStationResultsEncounterType() {
-        return getEncounterType(EncounterTypes.LAB_STATION_SCREENING.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_LAB_STATION_SCREENING_UUID);
     }
 
 

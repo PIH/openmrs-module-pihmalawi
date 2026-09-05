@@ -1,0 +1,98 @@
+Uuid,Void/Retire,Name,Description
+ebaa2ad8-baaa-11e6-91a8-5622a9e78e10,,ANNUAL ART SCREENING,Annual ART Screening
+664b8574-977f-11e1-8993-905e29aff6c1,,ART_INITIAL,Initial HIV clinic registration encounter
+664b8650-977f-11e1-8993-905e29aff6c1,,ART_FOLLOWUP,Followup visit for ART patient
+4104867f-8f40-4273-bc42-a67958e599eb,,ART_FOLLOWUP_UP_TESTING,ART Followup testing encounter
+664b9442-977f-11e1-8993-905e29aff6c1,,DIABETES HYPERTENSION INITIAL VISIT,Diabetes hypertension initial visit
+66079de4-a8df-11e5-bf7f-feff819cdc9f,,DIABETES HYPERTENSION FOLLOWUP,Visit rows on the Hypertension and Diabetes card
+6607a082-a8df-11e5-bf7f-feff819cdc9f,,DIABETES HYPERTENSION LAB TESTS,Lab tests for Hypertension and Diabetes patients
+76f2759c-d729-11e6-8072-dce9fc320581,,ANNUAL DIABETES HYPERTENSION LAB TESTS,Annual Lab tests for Hypertension and Diabetes patients
+6607a186-a8df-11e5-bf7f-feff819cdc9f,,DIABETES HYPERTENSION HOSPITALIZATIONS,Hospitalizations for Hypertension and Diabetes patients
+a95dc43f-925c-11e5-a1de-e82aea237783,,ASTHMA_INITIAL,Top section of the Asthma Mastercard
+f4596df5-925c-11e5-a1de-e82aea237783,,ASTHMA_FOLLOWUP,Visit rows in the Asthma Mastercard
+2478C35B-9A71-4BD5-86B6-E8CCE594E934,,ASTHMA HOSPITALIZATION,Hospitalization for Lung Disease
+46028b88-c538-11e5-9912-ba0be0483c18,,ASTHMA PEAK FLOW,Peak flow / Spirometry for Lung Disease
+D8CBF1B9-EC74-4858-8764-2350E2A9925B,,EPILEPSY_INITIAL,Top section of the Epilepsy Mastercard
+1EEDD2F6-EF28-4409-8E8C-F4FEC0746E72,,EPILEPSY_FOLLOWUP,Visit rows in the Epilepsy Mastercard
+3F94849C-F245-4593-BCC8-879EAEA29168,,MENTAL_HEALTH_INITIAL,Top section of the Mental Health Mastercard
+1ec34eeb-0776-4f58-871e-fe0026fda111,,MENTAL_HEALTH_SCREENING,Mental Health screening encounter
+D51F45F8-0EEA-4231-A7E9-C45D57F1CBA1,,MENTAL_HEALTH_FOLLOWUP,Visit rows in the Mental Health Mastercard
+cb337ef3-f5cb-4e10-af8d-8d717a3a139f,,CHF_INITIAL,Initial Chronic Heart Disease encounter
+1f6ad830-6e94-4819-b1fd-8c4146e77280,,CHF_FOLLOWUP,Followup visit for Chronic Heart Disease patient
+dbab9217-29ec-477d-8d11-161cd4fd2b34,,CHF_ANNUAL_SCREENING,Annual screening for Chronic Heart Disease
+df5389a8-7715-462b-a41e-e8b1946c8c60,,CHF_QUARTERLY_HIV_SCREENING,Quarterly HIV screening for Chronic Heart Disease
+0d3f097f-206c-4c31-9fcb-2ba61145b69f,,CHF_HOSPITALIZATIONS,Hospitalizations for Chronic Heart Disease patients
+0B6FB2FD-7AA3-4D90-BE33-52096ABD66DB,,CHF_ECHOCARDIOGRAM,Echocardiogram(ultrasound) imaging encounter
+D4350F89-A421-486F-92EB-4AB713DF122B,,CHF_ELECTROCARDIOGRAPHIC,Electrocardiographic(EKG) imaging encounter
+833CD694-7A98-4659-A487-AE25FD445D32,,CHF_CHEST_XRAY,Chest X-ray(CXR) imaging encounter
+0a3621e2-974e-11e8-9eb6-529269fb1459,,CKD_INITIAL,Initial Chronic Kidney Disease encounter
+1ebe2272-974e-11e8-9eb6-529269fb1459,,CKD_FOLLOWUP,Followup visit for Chronic Kidney Disease patient
+ec0a17ba-9751-11e8-9eb6-529269fb1459,,CKD_ANNUAL_SCREENING,Annual screening for Chronic Kidney Disease
+ec0a2232-9751-11e8-9eb6-529269fb1459,,CKD_QUARTERLY_SCREENING,Quarterly screening for Chronic Kidney Disease
+ec0a2f2a-9751-11e8-9eb6-529269fb1459,,CKD_HOSPITALIZATIONS,Hospitalizations for Chronic Kidney Disease patients
+c4948e2c-9adf-11e8-9eb6-529269fb1459,,CKD_IMAGING,Imaging for Chronic Kidney Disease patients
+b562295c-e335-11e8-9f32-f2801f1b9fd1,,NCD_OTHER_INITIAL,Initial encounter for NCD Other condition clinic
+b5622bf0-e335-11e8-9f32-f2801f1b9fd1,,NCD_OTHER_FOLLOWUP,Follow up encounter for NCD Other condition clinic
+b5622d4e-e335-11e8-9f32-f2801f1b9fd1,,NCD_OTHER_QUARTERLY_LABS,Every 3 months screening for NCD Other condition clinic
+b5623082-e335-11e8-9f32-f2801f1b9fd1,,NCD_OTHER_ANNUAL_LABS,Annual screening for NCD Other condition clinic
+b56231e0-e335-11e8-9f32-f2801f1b9fd1,,NCD_OTHER_HOSPITAL,Hospitalization for NCD Other condition clinic
+e0822140-955d-11e7-abc4-cec278b6b50a,,PALLIATIVE_INITIAL,Initial Palliative care encounter
+e082235c-955d-11e7-abc4-cec278b6b50a,,PALLIATIVE_FOLLOWUP,Followup visit for Palliative care patient
+55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b,,Check-in,Check-in encounter
+0C36F6FB-660E-485F-AF04-249579C9EAC9,,Blood pressure screening,Blood pressure screening encounter
+D8D67095-0AAC-4B61-87B3-A2B32B7E1FEE,,Blood sugar screening,Blood sugar test screening encounter
+6D29EEC4-6FEE-497C-9352-CA8081543FD6,,IC3 Lab station results,Lab station results encounter
+6265F6BC-EBC0-4181-91F3-28B70BBFDB61,,Nutrition screening,Nutrition screening encounter
+1e2f8be8-8ae3-41f1-b908-84f168f26325,,Nurse evaluation,Nurse evaluation encounter
+5B7238C1-23C6-4214-957F-7912A5BE87A9,,HTC Screening,HTC screening test encounter
+AA2C2B86-1A59-49A3-905B-41D318E94FFE,,Cervical Cancer Screening,Cervical cancer screening encounter
+9959A261-2122-4AE1-A89D-1CA444B712EA,,Viral Load Screening,Viral Load screening test encounter
+8383DE35-5145-4953-A018-34876B797F3E,,EID Screening,EID screening test encounter
+7D801495-3857-422F-BE2A-A4EEB3F36278,,Adherence Counseling,Adherence counseling encounter
+45F221B9-7254-4B15-811B-5B8C8912F245,,TB Screening,IC3 TB Screening encounter type
+C770232A-4847-42D9-8F70-B01B5BA0EED8,,TB Test Results,TB test results encounter type
+04E668BA-E24F-43FF-A135-A085EC3DBE40,,Clinical Plan,Clinical plan encounter type
+7EBBEBD8-CF07-489B-B88D-CEBA274C66D5,,TRACE_INITIAL,Initial Trace encounter
+563ACC45-E3CE-4930-8F34-4F41CB35017F,,TRACE_FOLLOWUP,Followup trace encounter
+cb6be652-c5ee-447d-9d94-1100ffb26aa8,,PDC_INITIAL,Initial PDC encounter
+789536a6-2c12-40a7-a05a-8400eb2fcbcf,,PDC_FOLLOWUP,Followup PDC encounter
+6ed701a4-152f-11ec-82a8-0242ac130003,,PDC_TRISOMY21_INITIAL,Trisomy21 PDC Encounter
+f770abb3-8470-4c63-a5c6-188ab384f8df,,PDC_TRISOMY21_FOLLOWUP,Trisomy21 PDC Encounter - followup
+dbfc3984-6466-4ce0-a53f-fa646d74c41f,,PDC_CLEFT_CLIP_PALLET_INITIAL,Cleft Clip Pallet PDC Encounter
+cfca0af9-86c9-4717-83b7-74e61f1a7bbf,,PDC_CLEFT_CLIP_PALLET_FOLLOWUP,Cleft Clip Pallet PDC Encounter
+64148b3f-f732-4809-9a23-8b8ebe11279a,,PDC_DEVELOPMENTAL_DELAY_FOLLOWUP,Developmental Delay  PDC Encounter - followup
+3aa5f5fa-a0aa-49bc-b715-1c1dd68e72d4,,PDC_DEVELOPMENTAL_DELAY_INITIAL,Developmental Delay  PDC Encounter - initial
+0a2f1f74-2400-4cfd-8a9e-d2141622c6d8,,PDC_OTHER_DIAGNOSIS_INITIAL,PDC Other Diagnosis Encounter - initial
+60bfcb32-486a-11ec-81d3-0242ac130003,,PDC_OTHER_DIAGNOSIS_FOLLOWUP,PDC Other Diagnosis Encounter - visit
+1b78a770-4d28-11ec-81d3-0242ac130003,,PDC_HOSPITALIZATION_HISTORY,PDC Hospitalization History Encounter
+5595afb1-93fb-4620-bd6d-9f509acfddde,,VISION_TEST,Vision test encounter
+4dae2743-e48e-4232-bf4e-d6c7ed7fad81,,HEARING_TEST,Hearing test encounter
+5e46e6fa-1d33-44f7-88f5-38d4d8dbe0c2,,RADIOLOGY_SCREENING,Radiology screening encounter
+98f13fb0-5024-11ec-bf63-0242ac130002,,PDC_COMPLICATIONS,PDC Complications Encounter
+B1DA5916-FAEF-4A8C-A799-949C0BC8D2C6,,PDC_TRISOMY21_LAB_TESTS,PDC lab tests results
+366E8C89-2AD0-4FDC-A8FE-E39435B11331,,PDC_HB_AND_OTHER_LAB_TESTS,PDC hb and other lab tests results
+89CD6BA9-CB92-416C-BC7E-446764344AA1,,HIE_AND_DEV_DELAY_LAB_TESTS,PDC HIE/Developmental Delay lab tests encounter
+F1EB0CA8-8E7C-49B5-A03C-B0B9C164181E,,NUTRITION_INITIAL,Initial nutrition encounter
+87EB5825-DFDD-4EE9-8EEC-CDBE72E76456,,NUTRITION_FOLLOWUP,Followup nutrition encounter
+f4add6a6-0186-4617-b919-e5cdb933e25d,,NUTRITION_ADULTS_INITIAL,initial Adults Nutrition encounter
+e1a92830-897c-42fe-91d4-73f61f38d1a7,,NUTRITION_ADULTS_FOLLOWUP,followup Adults Nutrition encounter
+7ca19e74-5592-4e54-a899-575321803d9f,,NUTRITION_PDC_INITIAL,initial PDC Nutrition encounter
+771cb90d-442c-4b84-bd25-dd9b6a82715a,,NUTRITION_PDC_FOLLOWUP,followup PDC Nutrition encounter
+65def8b5-6714-443e-a59a-bc481e9fd842,,NUTRITION_INFANT_INITIAL,initial Infant Nutrition encounter
+cf05c255-f1c9-465f-abbd-de980403b4b6,,NUTRITION_INFANT_FOLLOWUP,followup Infant Nutrition encounter
+d67b208d-e819-4888-9bb8-60dcb8ab2b1f,,NUTRITION_PREGNANT_TEENS_INITIAL,initial Pregnant Teens Nutrition encounter
+d235e109-d4f7-4493-ba10-c75d9046f8bf,,NUTRITION_PREGNANT_TEENS_FOLLOWUP,followup Pregnant Teens Nutrition encounter
+49085C00-9EA8-481D-A5C5-FB685822D5AB,,TEEN_CLUB_INITIAL,Initial teen club encounter
+A8CF446D-0FA4-4D44-AF46-1811F73BE65A,,TEEN_CLUB_FOLLOWUP,Followup teen club encounter
+76ae6337-13e7-4522-bbeb-9fcf68bedf87,,TEEN_CLUB_INTAKE_SURVEY,Teen club intake survey encounter
+56C2D952-DB11-4B47-B248-79C1B2A88E88,,SICKLE_CELL_DISEASE_INITIAL,Initial sickle cell disease encounter
+D4073EB7-60B1-4586-B062-13FCE4CBC9E8,,SICKLE_CELL_DISEASE_FOLLOWUP,Followup visit encounter for sickle cell disease
+119A7061-ABC7-4759-88BF-086ADC8EBB80,,SICKLE_CELL_QUARTERLY_SCREENING,Quarterly screening for sickle cell disease
+0C0CFAD6-0F92-4B19-8B6A-675005BE7F86,,SICKLE_CELL_ANNUAL_SCREENING,Annual screening for sickle cell disease
+AD864EB5-7042-4080-AE81-E0A4CF8CED43,,SICKLE_CELL_HOSPITALIZATIONS,Hospitalizations for patients with sickle cell disease
+664b89ca-977f-11e1-8993-905e29aff6c1,,OLD_TB_INITIAL,Initial visit for TB Patient
+664b8ab0-977f-11e1-8993-905e29aff6c1,,OLD_TB_FOLLOWUP,Followup visit for TB Patient
+853B7AF6-FFC6-452A-9178-6A48BBA752EF,,TB_INITIAL,Initial visit encounter for TB Patient
+61545FD5-4EBC-4E01-B349-304195254A73,,TB_FOLLOWUP,Followup visit encounter for TB Patient
+166b77b9-1e75-4c74-856d-3038c0ec645b,,TB_TESTS,TB test results and HIV tests history
+6a23b67f-3171-4b08-9d3d-40bcf833a2e5,,TB_POST_LUNG_DISEASE,TB post lung disease encounter

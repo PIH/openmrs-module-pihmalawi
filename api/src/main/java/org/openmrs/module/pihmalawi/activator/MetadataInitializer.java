@@ -21,8 +21,8 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
-import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.util.OpenmrsConstants;
 
 public class MetadataInitializer implements Initializer {
@@ -56,12 +56,12 @@ public class MetadataInitializer implements Initializer {
 
         // enable visits, and automatically create a new visit when checking in if a visit is not already open
         saveGlobalProperty(EmrApiConstants.GP_VISIT_ASSIGNMENT_HANDLER_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAP,
-                EncounterTypes.CHECK_IN.uuid() + ":" + "f01c54cb-2225-471a-9cd5-d348552c337c");
+                PihMalawiConfigConstants.ENCOUNTERTYPE_CHECK_IN_UUID + ":" + "f01c54cb-2225-471a-9cd5-d348552c337c");
         saveGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_ENABLE_VISITS, "true");
         saveGlobalProperty("FormEntry.enableDashboardTab", "false");
         saveGlobalProperty(OpenmrsConstants.GP_VISIT_TYPES_TO_AUTO_CLOSE, "f01c54cb-2225-471a-9cd5-d348552c337c");
         saveGlobalProperty(OpenmrsConstants.GP_ENCOUNTER_TYPE_TO_VISIT_TYPE_MAPPING,
-                EncounterTypes.CHECK_IN.uuid() + ":" + "f01c54cb-2225-471a-9cd5-d348552c337c");
+                PihMalawiConfigConstants.ENCOUNTERTYPE_CHECK_IN_UUID + ":" + "f01c54cb-2225-471a-9cd5-d348552c337c");
 
         // TODO: Clean this up.  One option:
         // Create some scripts that:
