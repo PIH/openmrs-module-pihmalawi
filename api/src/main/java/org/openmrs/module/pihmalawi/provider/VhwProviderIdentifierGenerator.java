@@ -8,8 +8,7 @@ import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.account.ProviderIdentifierGenerator;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
-import org.openmrs.module.pihmalawi.metadata.LocationAttributeTypes;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.ProviderAttributeTypeBundle;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -46,7 +45,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
     String getLocationCode(Provider provider) {
         String locationCode = null;
         String locationUuid = null;
-        String healthFacility = ProviderAttributeTypeBundle.ProviderAttributeTypes.HEALTH_FACILITY;
+        String healthFacility = PihMalawiConfigConstants.PROVIDERATTRIBUTETYPE_HEALTH_FACILITY_UUID;
         Set<ProviderAttribute> providerAttributes = provider.getAttributes();
         for (ProviderAttribute providerAttribute : providerAttributes) {
             if (StringUtils.equals(providerAttribute.getAttributeType().getUuid(), healthFacility)) {
@@ -59,7 +58,7 @@ public class VhwProviderIdentifierGenerator implements ProviderIdentifierGenerat
             if (healthLocation != null) {
                 Set<LocationAttribute> attributes = healthLocation.getAttributes();
                 for (LocationAttribute attribute : attributes) {
-                    if (StringUtils.equals(attribute.getAttributeType().getUuid(), LocationAttributeTypes.LOCATION_CODE.uuid())) {
+                    if (StringUtils.equals(attribute.getAttributeType().getUuid(), PihMalawiConfigConstants.LOCATIONATTRIBUTETYPE_LOCATION_CODE_UUID)) {
                         locationCode = attribute.getValueReference();
                         break;
                     }

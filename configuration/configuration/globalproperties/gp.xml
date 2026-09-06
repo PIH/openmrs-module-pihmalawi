@@ -10,5 +10,94 @@
             <property>pihmalawi.serializer.whitelist.types</property>
             <value>org.openmrs.**,org.apache.commons.collections.comparators.ComparableComparator</value>
         </globalProperty>
+
+        <globalProperty>
+            <property>htmlformentry.dateFormat</property>
+            <value>dd/MM/yyyy</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformentry.timeFormat</property>
+            <value>h:mm aa</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformentry.showDateFormat</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.unknown</property>
+            <value>65576584-977f-11e1-8993-905e29aff6c1</value>
+        </globalProperty>
+        <globalProperty>
+            <property>reporting.testPatientsCohortDefinition</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>uiframework.formatter.dateFormat</property>
+            <value>dd/MM/yyyy</value>
+        </globalProperty>
+        <globalProperty>
+            <property>uiframework.formatter.dateAndTimeFormat</property>
+            <value>dd/MM/yyyy h:mm aa</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.unknownLocation</property>
+            <value>8d6c993e-c2cc-11de-8d13-0010c6dffd0f</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.clinicianEncounterRole</property>
+            <value>4f10ad1a-ec49-48df-98c7-1391c6ac7f05</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.orderingProviderEncounterRole</property>
+            <value>c458d78e-8374-4767-ad58-9f8fe276e01c</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.checkInClerkEncounterRole</property>
+            <value>cbfe0b9d-9923-404c-941b-f048adc8cdc0</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.atFacilityVisitType</property>
+            <value>f01c54cb-2225-471a-9cd5-d348552c337c</value>
+        </globalProperty>
+        <globalProperty>
+            <property>webservices.rest.maxResultsAbsolute</property>
+            <value>1000</value>
+        </globalProperty>
+        <globalProperty>
+            <property>webservices.rest.maxResultsDefault</property>
+            <value>500</value>
+        </globalProperty>
+        <globalProperty>
+            <property>providermanagement.locationTag</property>
+            <value>Health Facility</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.identifiers</property>
+            <value>{"9":["ARV Number","HCC Number","KS Number","Chronic Care Number","Palliative Care Number","PDC Identifier","Nutrition Program Number","TB program identifier"]}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient_identifier.importantTypes</property>
+            <value>ARV Number,HCC Number,Chronic Care Number,Palliative Care Number,PDC Identifier,Nutrition Program Number,TB program identifier</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap</property>
+            <value>55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b:f01c54cb-2225-471a-9cd5-d348552c337c</value>
+        </globalProperty>
+        <globalProperty>
+            <property>visits.enabled</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>FormEntry.enableDashboardTab</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>visits.autoCloseVisitType</property>
+            <value>f01c54cb-2225-471a-9cd5-d348552c337c</value>
+        </globalProperty>
+        <globalProperty>
+            <property>visits.encounterTypeToVisitTypeMapping</property>
+            <value>55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b:f01c54cb-2225-471a-9cd5-d348552c337c</value>
+        </globalProperty>
     </globalProperties>
 </config>

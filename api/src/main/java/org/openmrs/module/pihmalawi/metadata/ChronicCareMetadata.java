@@ -21,8 +21,9 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.ProgramConcepts;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
+import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.ProgramConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ChronicCareMetadata extends CommonMetadata {
 	}
 
 	public PatientIdentifierType getNutritionIdentifierType() {
-		return getPatientIdentifierType(PihMalawiPatientIdentifierTypes.NUTRITION_PROGRAM_NUMBER.name());
+		return getPatientIdentifierType(PihMalawiConfigConstants.PATIENTIDENTIFIERTYPE_NUTRITION_PROGRAM_NUMBER_NAME);
 	}
 
 
@@ -86,23 +87,23 @@ public class ChronicCareMetadata extends CommonMetadata {
 	}
 
 	public EncounterType getTBScreeningEncounterType() {
-		return getEncounterType(EncounterTypes.TB_SCREENING.uuid());
+		return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_TB_SCREENING_UUID);
 	}
 
 	public EncounterType getHtnDiabetesInitialEncounterType() {
-	    return getEncounterType(EncounterTypes.HTN_DIABETES_INITIAL.uuid());
+	    return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_INITIAL_UUID);
     }
 
     public EncounterType getHtnDiabetesFollowupEncounterType() {
-        return getEncounterType(EncounterTypes.HTN_DIABETES_FOLLOWUP.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_FOLLOWUP_UUID);
     }
 
     public EncounterType getHtnDiabetesTestsEncounterType() {
-        return getEncounterType(EncounterTypes.HTN_DIABETES_TESTS.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_TESTS_UUID);
     }
 
     public EncounterType getHtnDiabetesHospitalizationsEncounterType() {
-        return getEncounterType(EncounterTypes.HTN_DIABETES_HOSPITALIZATIONS.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_HOSPITALIZATIONS_UUID);
     }
 
     public List<EncounterType> getHtnDiabetesEncounterTypes() {
@@ -115,19 +116,19 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
     public EncounterType getAsthmaInitialEncounterType() {
-        return getEncounterType(EncounterTypes.ASTHMA_INITIAL.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_INITIAL_UUID);
     }
 
     public EncounterType getAsthmaFollowupEncounterType() {
-        return getEncounterType(EncounterTypes.ASTHMA_FOLLOWUP.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_FOLLOWUP_UUID);
     }
 
     public EncounterType getAsthmaPeakFlowEncounterType() {
-        return getEncounterType(EncounterTypes.ASTHMA_PEAKFLOW.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_PEAKFLOW_UUID);
     }
 
     public EncounterType getAsthmaHospitalizationsEncounterType() {
-        return getEncounterType(EncounterTypes.ASTHMA_HOSPITALIZATION.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_HOSPITALIZATION_UUID);
     }
 
     public List<EncounterType> getAsthmaEncounterTypes() {
@@ -140,11 +141,11 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
     public EncounterType getEpilepsyInitialEncounterType() {
-        return getEncounterType(EncounterTypes.EPILEPSY_INITIAL.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_EPILEPSY_INITIAL_UUID);
     }
 
     public EncounterType getEpilepsyFollowupEncounterType() {
-        return getEncounterType(EncounterTypes.EPILEPSY_FOLLOWUP.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_EPILEPSY_FOLLOWUP_UUID);
     }
 
     public List<EncounterType> getEpilepsyEncounterTypes() {
@@ -155,11 +156,11 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
     public EncounterType getMentalHealthInitialEncounterType() {
-        return getEncounterType(EncounterTypes.MENTAL_HEALTH_INITIAL.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_MENTAL_HEALTH_INITIAL_UUID);
     }
 
     public EncounterType getMentalHealthFollowupEncounterType() {
-        return getEncounterType(EncounterTypes.MENTAL_HEALTH_FOLLOWUP.uuid());
+        return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_MENTAL_HEALTH_FOLLOWUP_UUID);
     }
 
     public List<EncounterType> getMentalHealthEncounterTypes() {
@@ -170,19 +171,19 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
     public EncounterType getNcdOtherFollowupEncounterType() {
-		return getEncounterType(EncounterTypes.NCD_OTHER_FOLLOWUP.uuid());
+		return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_NCD_OTHER_FOLLOWUP_UUID);
 	}
 
 	public EncounterType getCkdFollowupEncounterType() {
-		return getEncounterType(EncounterTypes.CKD_FOLLOWUP.uuid());
+		return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_CKD_FOLLOWUP_UUID);
 	}
 
 	public EncounterType getPalliativeCareFollowupEncounterType() {
-		return getEncounterType(EncounterTypes.PALLIATIVE_FOLLOWUP.uuid());
+		return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_PALLIATIVE_FOLLOWUP_UUID);
 	}
 
 	public EncounterType getChfFollowupEncounterType() {
-		return getEncounterType(EncounterTypes.CHF_FOLLOWUP.uuid());
+		return getEncounterType(PihMalawiConfigConstants.ENCOUNTERTYPE_CHF_FOLLOWUP_UUID);
 	}
 
     public List<EncounterType> getChronicCareInitialEncounterTypes() {
@@ -222,7 +223,7 @@ public class ChronicCareMetadata extends CommonMetadata {
     }
 
 	public List<Location> getChronicCareSystemLocations() {
-		List<Location> l = getLocationsForTag(LocationTags.CHRONIC_CARE_LOCATION.name());
+		List<Location> l = getLocationsForTag(PihMalawiConfigConstants.LOCATIONTAG_CHRONIC_CARE_LOCATION_NAME);
 		l.retainAll(getSystemLocations());
 		return l;
 	}

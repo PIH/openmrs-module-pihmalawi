@@ -13,9 +13,9 @@ import org.openmrs.Person;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.Utils;
 import org.openmrs.module.pihmalawi.metadata.CommonMetadata;
-import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.reporting.common.DateUtil;
 import org.springframework.core.env.EnvironmentCapable;
@@ -193,61 +193,61 @@ public class EMastercardAccessTag extends BodyTagSupport {
 
 		Map<String, String> headerForms = new LinkedHashMap<String, String>();
 		headerForms.put(HivMetadata.PRE_ART_INITIAL, "preart_mastercard");
-		headerForms.put(EncounterTypes.ASTHMA_INITIAL.name(), "asthma_mastercard");
-		headerForms.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), "htn_dm_mastercard");
-		headerForms.put(EncounterTypes.EPILEPSY_INITIAL.name(), "epilepsy_mastercard");
-		headerForms.put(EncounterTypes.PALLIATIVE_INITIAL.name(), "palliative_mastercard");
-		headerForms.put(EncounterTypes.CHF_INITIAL.name(), "chf_mastercard");
-		headerForms.put(EncounterTypes.CKD_INITIAL.name(), "ckd_mastercard");
-		headerForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), "ncd_other_mastercard");
-		headerForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), "mental_health_mastercard");
-		headerForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), "ncd_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_INITIAL_NAME, "asthma_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_INITIAL_NAME, "htn_dm_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_EPILEPSY_INITIAL_NAME, "epilepsy_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PALLIATIVE_INITIAL_NAME, "palliative_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CHF_INITIAL_NAME, "chf_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CKD_INITIAL_NAME, "ckd_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NCD_OTHER_INITIAL_NAME, "ncd_other_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_MENTAL_HEALTH_INITIAL_NAME, "mental_health_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CHRONIC_CARE_INITIAL_NAME, "ncd_mastercard");
 		headerForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, "eid_mastercard");
-		headerForms.put(EncounterTypes.ART_INITIAL.name(), "art_mastercard");
-		headerForms.put(EncounterTypes.PDC_INITIAL.name(), "pdc_mastercard");
-		headerForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), "pdc_developmental_delay_mastercard");
-		headerForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), "pdc_trisomy_21_mastercard");
-		headerForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(),"pdc_cleft_lip_palate_mastercard");
-		headerForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(),"pdc_other_diagnosis_mastercard");
-		headerForms.put(EncounterTypes.NUTRITION_INITIAL.name(), "nutrition_mastercard");
-		headerForms.put(EncounterTypes.TEEN_CLUB_INITIAL.name(), "teen_club_mastercard");
-		headerForms.put(EncounterTypes.NUTRITION_PREGNANT_TEENS_INITIAL.name(),"nutrition_pregnant_teens_mastercard");
-		headerForms.put(EncounterTypes.NUTRITION_ADULTS_INITIAL.name(),"nutrition_adults_mastercard");
-		headerForms.put(EncounterTypes.NUTRITION_INFANT_INITIAL.name(),"nutrition_infant_mastercard");
-		headerForms.put(EncounterTypes.NUTRITION_PDC_INITIAL.name(),"nutrition_pdc_mastercard");
-		headerForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(), "sickle_cell_mastercard");
-		headerForms.put(EncounterTypes.TB_INITIAL.name(), "tb_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_ART_INITIAL_NAME, "art_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_INITIAL_NAME, "pdc_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_DEVELOPMENTAL_DELAY_INITIAL_NAME, "pdc_developmental_delay_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_TRISOMY21_INITIAL_NAME, "pdc_trisomy_21_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_CLEFT_CLIP_PALLET_INITIAL_NAME,"pdc_cleft_lip_palate_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_OTHER_DIAGNOSIS_INITIAL_NAME,"pdc_other_diagnosis_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_INITIAL_NAME, "nutrition_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TEEN_CLUB_INITIAL_NAME, "teen_club_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_PREGNANT_TEENS_INITIAL_NAME,"nutrition_pregnant_teens_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_ADULTS_INITIAL_NAME,"nutrition_adults_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_INFANT_INITIAL_NAME,"nutrition_infant_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_PDC_INITIAL_NAME,"nutrition_pdc_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_SICKLE_CELL_DISEASE_INITIAL_NAME, "sickle_cell_mastercard");
+		headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TB_INITIAL_NAME, "tb_mastercard");
 
 		Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
         flowsheetForms.put(HivMetadata.PRE_ART_INITIAL, Arrays.asList("preart_visit"));
-        flowsheetForms.put(EncounterTypes.ASTHMA_INITIAL.name(), Arrays.asList("asthma_visit","asthma_peak_flow","asthma_hospital"));
-        flowsheetForms.put(EncounterTypes.HTN_DIABETES_INITIAL.name(), Arrays.asList("htn_dm_labs","htn_dm_annual_labs","htn_dm_hospital","htn_dm_visit"));
-        flowsheetForms.put(EncounterTypes.EPILEPSY_INITIAL.name(), Arrays.asList("epilepsy_visit"));
-		flowsheetForms.put(EncounterTypes.PALLIATIVE_INITIAL.name(), Arrays.asList("palliative_visit"));
-		flowsheetForms.put(EncounterTypes.CHF_INITIAL.name(), Arrays.asList("chf_echocardiogram","chf_ekg","chf_cxr","chf_quarterly_screening","chf_annual_screening","chf_history_of_hospitalizations","chf_visit"));
-		flowsheetForms.put(EncounterTypes.CKD_INITIAL.name(), Arrays.asList("ckd_quarterly_screening","ckd_annual_screening","ckd_imaging","ckd_history_of_hospitalizations","ckd_visit"));
-		flowsheetForms.put(EncounterTypes.NCD_OTHER_INITIAL.name(), Arrays.asList("ncd_other_quarterly_screening","ncd_other_annual_screening","ncd_other_hospitalizations","ncd_other_visit"));
-		flowsheetForms.put(EncounterTypes.MENTAL_HEALTH_INITIAL.name(), Arrays.asList("mental_health_screening","mental_health_visit"));
-        flowsheetForms.put(EncounterTypes.CHRONIC_CARE_INITIAL.name(), Arrays.asList("ncd_visit"));
+        flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_ASTHMA_INITIAL_NAME, Arrays.asList("asthma_visit","asthma_peak_flow","asthma_hospital"));
+        flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_HTN_DIABETES_INITIAL_NAME, Arrays.asList("htn_dm_labs","htn_dm_annual_labs","htn_dm_hospital","htn_dm_visit"));
+        flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_EPILEPSY_INITIAL_NAME, Arrays.asList("epilepsy_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PALLIATIVE_INITIAL_NAME, Arrays.asList("palliative_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CHF_INITIAL_NAME, Arrays.asList("chf_echocardiogram","chf_ekg","chf_cxr","chf_quarterly_screening","chf_annual_screening","chf_history_of_hospitalizations","chf_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CKD_INITIAL_NAME, Arrays.asList("ckd_quarterly_screening","ckd_annual_screening","ckd_imaging","ckd_history_of_hospitalizations","ckd_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NCD_OTHER_INITIAL_NAME, Arrays.asList("ncd_other_quarterly_screening","ncd_other_annual_screening","ncd_other_hospitalizations","ncd_other_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_MENTAL_HEALTH_INITIAL_NAME, Arrays.asList("mental_health_screening","mental_health_visit"));
+        flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_CHRONIC_CARE_INITIAL_NAME, Arrays.asList("ncd_visit"));
 		flowsheetForms.put(HivMetadata.EXPOSED_CHILD_INITIAL, Arrays.asList("eid_visit", "eid_test_results"));
-		flowsheetForms.put(EncounterTypes.ART_INITIAL.name(), Arrays.asList("viral_load_test_results","art_follow_up_testing", "art_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_DEVELOPMENTAL_DELAY_INITIAL.name(), Arrays.asList("hie_dev_delay_lab_tests", "pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_developmental_delay_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_TRISOMY21_INITIAL.name(), Arrays.asList("pdc_trisomy21_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_trisomy_21_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_CLEFT_CLIP_PALLET_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_cleft_lip_palate_visit"));
-		flowsheetForms.put(EncounterTypes.PDC_OTHER_DIAGNOSIS_INITIAL.name(), Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_other_diagnosis_visit"));
-		flowsheetForms.put(EncounterTypes.NUTRITION_INITIAL.name(), Arrays.asList("nutrition_visit"));
-		flowsheetForms.put(EncounterTypes.TEEN_CLUB_INITIAL.name(), Arrays.asList("teen_club_visit","teen_club_intake_survey"));
-		flowsheetForms.put(EncounterTypes.NUTRITION_PREGNANT_TEENS_INITIAL.name(),Arrays.asList("nutrition_pregnant_teens_visit"));
-		flowsheetForms.put(EncounterTypes.NUTRITION_ADULTS_INITIAL.name(),Arrays.asList("nutrition_adults_visit"));
-		flowsheetForms.put(EncounterTypes.NUTRITION_INFANT_INITIAL.name(),Arrays.asList("nutrition_infant_visit"));
-		flowsheetForms.put(EncounterTypes.NUTRITION_PDC_INITIAL.name(),Arrays.asList("nutrition_pdc_visit"));
-		flowsheetForms.put(EncounterTypes.SICKLE_CELL_DISEASE_INITIAL.name(),
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_ART_INITIAL_NAME, Arrays.asList("viral_load_test_results","art_follow_up_testing", "art_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_DEVELOPMENTAL_DELAY_INITIAL_NAME, Arrays.asList("hie_dev_delay_lab_tests", "pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_developmental_delay_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_TRISOMY21_INITIAL_NAME, Arrays.asList("pdc_trisomy21_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_trisomy_21_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_CLEFT_CLIP_PALLET_INITIAL_NAME, Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_cleft_lip_palate_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_PDC_OTHER_DIAGNOSIS_INITIAL_NAME, Arrays.asList("pdc_hb_and_other_lab_tests","pdc_history_of_hospitalizations","pdc_complications","pdc_vision_test","pdc_hearing_test","pdc_radiology","pdc_other_diagnosis_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_INITIAL_NAME, Arrays.asList("nutrition_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TEEN_CLUB_INITIAL_NAME, Arrays.asList("teen_club_visit","teen_club_intake_survey"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_PREGNANT_TEENS_INITIAL_NAME,Arrays.asList("nutrition_pregnant_teens_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_ADULTS_INITIAL_NAME,Arrays.asList("nutrition_adults_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_INFANT_INITIAL_NAME,Arrays.asList("nutrition_infant_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_NUTRITION_PDC_INITIAL_NAME,Arrays.asList("nutrition_pdc_visit"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_SICKLE_CELL_DISEASE_INITIAL_NAME,
 				Arrays.asList(
 						"sickle_cell_quarterly_screening",
 						"sickle_cell_annual_screening",
 						"sickle_cell_history_of_hospitalizations",
 						"sickle_cell_visit"));
-		flowsheetForms.put(EncounterTypes.TB_INITIAL.name(), Arrays.asList(/*"tb_tests",*/"tb_visit","tb_post_lung_disease"));
+		flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TB_INITIAL_NAME, Arrays.asList(/*"tb_tests",*/"tb_visit","tb_post_lung_disease"));
 
 		// hack to append the byConcept to the few forms that we fetch "byConcept" instead of by encounter type
 		// TODO: move this into a more organized customization

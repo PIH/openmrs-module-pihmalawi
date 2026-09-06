@@ -35,6 +35,12 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 
 	private Log log = LogFactory.getLog(this.getClass());
 
+    // Disable Initializer's own automatic domain loading on module startup — MetadataInitializer
+    // (run first in getInitializers(), below) takes explicit control of when domains load instead.
+    static {
+        System.setProperty("initializer.startup.load", "disabled");
+    }
+
     @Override
     public void contextRefreshed() {
         log.info("PIH Malawi Module refreshed");

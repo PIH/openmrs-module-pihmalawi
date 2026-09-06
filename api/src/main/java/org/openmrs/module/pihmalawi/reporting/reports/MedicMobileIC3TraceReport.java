@@ -16,9 +16,9 @@ package org.openmrs.module.pihmalawi.reporting.reports;
 import org.openmrs.Location;
 import org.openmrs.LocationTag;
 import org.openmrs.api.LocationService;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.PihMalawiConstants;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
-import org.openmrs.module.pihmalawi.metadata.LocationTags;
 import org.openmrs.module.pihmalawi.reporting.definition.dataset.definition.SqlFileDataSetDefinition;
 import org.openmrs.module.pihmalawi.reporting.definition.renderer.TraceReportRenderer;
 import org.openmrs.module.reporting.ReportingConstants;
@@ -88,7 +88,7 @@ public class MedicMobileIC3TraceReport extends ApzuReportManager {
         rd.setDescription(getDescription());
         rd.setParameters(getParameters());
 
-        LocationTag locationTag = locationService.getLocationTagByUuid(LocationTags.MEDIC_MOBILE_FACILITY.uuid());
+        LocationTag locationTag = locationService.getLocationTagByUuid(PihMalawiConfigConstants.LOCATIONTAG_MEDIC_MOBILE_FACILITY_UUID);
         for (Location location : locationService.getLocationsByTag(locationTag)) {
             add2WeekDataSet(rd, location);
         }
@@ -107,7 +107,7 @@ public class MedicMobileIC3TraceReport extends ApzuReportManager {
         mappings.put(LOCATION_NAME_PARAM, location.getName());
         mappings.put(MIN_WKS_PARAM, 2);
         mappings.put(MAX_WKS_PARAM, 6);
-        mappings.put(PHASE_1_PARAM, location.hasTag(LocationTags.TRACE_PHASE_1_LOCATION.name()));
+        mappings.put(PHASE_1_PARAM, location.hasTag(PihMalawiConfigConstants.LOCATIONTAG_TRACE_PHASE_1_LOCATION_NAME));
         multiParamDsd.addIteration(mappings);
         rd.addDataSetDefinition(dsName, Mapped.mapStraightThrough(multiParamDsd));
     }

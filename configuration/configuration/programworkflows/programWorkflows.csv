@@ -1,0 +1,15 @@
+Uuid,Void/Retire,Program,Workflow concept
+${programWorkflow.chronicCareTreatmentStatus.uuid},,${program.chronicCare.uuid},${concept.chronicCareTreatmentStatus.uuid}
+${programWorkflow.sickleCellDiseaseTreatment.uuid},,${program.chronicCare.uuid},60125522-00AF-4261-B837-4A9162264523
+${programWorkflow.ckdTreatment.uuid},,${program.chronicCare.uuid},eb4f508e-2dc0-40ca-8cf1-8b17b9dee21b
+${programWorkflow.chfTreatment.uuid},,${program.chronicCare.uuid},64156b64-9ce2-4f76-9489-e026fe48e3fb
+${programWorkflow.diabetesHypertensionTreatment.uuid},,${program.chronicCare.uuid},57f5c094-2dfa-466b-8295-1b45db99e1b0
+${programWorkflow.ncdOtherTreatment.uuid},,${program.chronicCare.uuid},5540eca8-dd73-4f44-88ab-944289e5f606
+${programWorkflow.asthmaTreatment.uuid},,${program.chronicCare.uuid},9d6eac9c-64bc-4574-ad77-9ff7c23dc9a8
+${programWorkflow.palliativeCareClinicalStatus.uuid},,${program.palliativeCare.uuid},e7a7c2ca-7433-4851-8687-67e8541ca40b
+${programWorkflow.mentalHealthTreatmentStatus.uuid},,${program.mentalHealth.uuid},48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619
+${programWorkflow.epilepsyTreatmentStatus.uuid},,${program.mentalHealth.uuid},ad7b930a-a1d9-4fff-bd62-212d5e55e5b2
+${programWorkflow.pdcTreatmentStatus.uuid},,${program.pdc.uuid},${concept.chronicCareTreatmentStatus.uuid}
+${programWorkflow.nutritionProgramStatus.uuid},,${program.nutrition.uuid},3B0DB54D-A283-43D8-9B5E-1EF0B4CE9B78
+${programWorkflow.teenClubProgramStatus.uuid},,${program.teenClub.uuid},08304AC4-E618-43A0-8B6D-B6788EE7B780
+${programWorkflow.tbProgramWorkflowStatus.uuid},,${program.tb.uuid},A802A051-ABE2-44EC-BE8E-A118A3D747E7

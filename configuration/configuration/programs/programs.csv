@@ -1,0 +1,9 @@
+Uuid,Name,Description,Void/Retire,Program concept,Outcomes concept
+${program.chronicCare.uuid},CHRONIC CARE PROGRAM,Chronic Care Program,,655f4f42-977f-11e1-8993-905e29aff6c1,
+${program.palliativeCare.uuid},Palliative care program,Palliative care program,,14ce86d7-025e-4dcf-9437-67d26185c6ab,${concept.genericOutcome.uuid}
+${program.mentalHealth.uuid},MENTAL HEALTH CARE PROGRAM,Mental Health Care Program,,406AD643-79A3-4019-9888-3EFBB9B24FB0,
+${program.pdc.uuid},PEDIATRIC DEVELOPMENT CLINIC PROGRAM,Pediatric Development Clinic Program,,74f09d38-4e1e-4acb-a8d0-04b7090fcb77,
+${program.nutrition.uuid},Nutrition program,Nutrition program,,655bd768-977f-11e1-8993-905e29aff6c1,${concept.genericOutcome.uuid}
+${program.teenClub.uuid},Teen club program,Teen club program,,6BDEA14E-7B58-4AEA-97A7-167905B25B96,${concept.genericOutcome.uuid}
+66850d9e-977f-11e1-8993-905e29aff6c1,Old TB PROGRAM,Old Tuberculosis Program,,655abe64-977f-11e1-8993-905e29aff6c1,
+${program.tb.uuid},TB PROGRAM,Tuberculosis Program,,9E32CDCE-7781-4184-ADD4-39B91BFA0A96,
