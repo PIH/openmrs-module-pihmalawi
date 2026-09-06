@@ -181,4 +181,14 @@ public class PihMalawiConfigConstants {
     public static final String ENCOUNTERTYPE_TB_FOLLOWUP_UUID = "61545FD5-4EBC-4E01-B349-304195254A73";
     public static final String ENCOUNTERTYPE_TB_TESTS_UUID = "166b77b9-1e75-4c74-856d-3038c0ec645b";
     public static final String ENCOUNTERTYPE_TB_POST_LUNG_DISEASE_UUID = "6a23b67f-3171-4b08-9d3d-40bcf833a2e5";
+
+    // Programs
+    public static final String PROGRAM_CHRONIC_CARE_UUID = "6685164a-977f-11e1-8993-905e29aff6c1";
+    public static final String PROGRAM_PALLIATIVE_CARE_UUID = "acbd87f3-566f-4386-a11e-877e612d3911";
+    public static final String PROGRAM_MH_CARE_UUID = "60357F01-536E-4B59-A851-B000F801FB13";
+    public static final String PROGRAM_PDC_UUID = "cffd61d1-f087-41df-86c7-fbd6b6e9ab1e";
+    public static final String PROGRAM_NUTRITION_UUID = "FECD888E-D547-4E1D-A012-56CA8874D2E1";
+    public static final String PROGRAM_TEEN_CLUB_UUID = "54100564-4759-4CBD-9A73-B38D6DBAC7B9";
+    public static final String PROGRAM_OLD_TB_UUID = "66850d9e-977f-11e1-8993-905e29aff6c1";
+    public static final String PROGRAM_TB_UUID = "52D0036A-AB35-475E-A4D4-1826CCD985D6";
 }
