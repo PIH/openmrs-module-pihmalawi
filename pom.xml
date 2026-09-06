@@ -54,9 +54,7 @@
         <idgenVersion>5.0.4</idgenVersion>
 		<initializerVersion>2.12.0</initializerVersion>
         <legacyuiVersion>2.2.0</legacyuiVersion>
-        <metadatadeployVersion>1.13.0</metadatadeployVersion>
         <metadatamappingVersion>2.0.0</metadatamappingVersion>
-        <metadatasharingVersion>1.10.0</metadatasharingVersion>
         <namephoneticsVersion>1.19.0</namephoneticsVersion>
         <owaVersion>1.15.0</owaVersion>
         <registrationappVersion>1.29.0</registrationappVersion>
@@ -192,22 +190,8 @@
 		</dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>metadatadeploy-api</artifactId>
-            <version>${metadatadeployVersion}</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
             <artifactId>metadatamapping-api</artifactId>
             <version>${metadatamappingVersion}</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>metadatasharing-api</artifactId>
-            <version>${metadatasharingVersion}</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
