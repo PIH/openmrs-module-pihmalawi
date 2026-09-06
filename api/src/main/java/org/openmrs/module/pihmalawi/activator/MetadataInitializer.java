@@ -16,8 +16,10 @@ package org.openmrs.module.pihmalawi.activator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
-import org.openmrs.module.metadatadeploy.bundle.MetadataBundle;
+import org.openmrs.module.initializer.api.InitializerService;
+import org.openmrs.module.initializer.api.loaders.Loader;
+
+import java.util.Collections;
 
 public class MetadataInitializer implements Initializer {
 
@@ -28,24 +30,17 @@ public class MetadataInitializer implements Initializer {
      */
     @Override
     public synchronized void started() {
-
-        MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
-
-        // TODO: Clean this up.  One option:
-        // Create some scripts that:
-        //  select all concepts associated with obs, programs, etc. as well as the answers and sets associated with them
-        //  organize these by datatype and class
-        // Do the same for other metadata (encounter types, etc)
-        // Export these out as a series of CSVs
-        //
-        // Create generated source / class files for these via maven plugin
-        // Associate with versions and
-
-
-
-        deployService.installBundles(Context.getRegisteredComponents(MetadataBundle.class));
+        InitializerService initializerService = Context.getService(InitializerService.class);
+        for (Loader loader : initializerService.getLoaders()) {
+            log.info("Loading from Initializer: " + loader.getDomainName());
+            try {
+                loader.loadUnsafe(Collections.<String>emptyList(), true);
+            }
+            catch (Exception e) {
+                throw new IllegalStateException("An error occurred while loading Initializer domain: " + loader.getDomainName(), e);
+            }
+        }
     }
-
 
     @Override
     public void stopped() {
