@@ -45,13 +45,10 @@ import java.util.Set;
 public class ValidateFullConceptSetup extends BaseModuleContextSensitiveTest {
 
     /**
-     * The full production concept count as of MLW-1839 (counted directly from
-     * {@code configuration/configuration/concepts/concepts.csv}'s row count). Update this if the production
-     * concept set changes materially - this is a coarse sanity check, not a byte-for-byte content assertion (see
-     * the table-classification lesson on generic-payload tables: identity/count checks are the right level of
-     * rigor here, not chasing exact row-for-row equality).
+     * concepts.csv has 8,455 rows but only 8,419 load as distinct concepts (146 duplicate
+     * fully-specified names collapse onto existing concepts). Update if the concept set changes.
      */
-    private static final int EXPECTED_CONCEPT_COUNT = 8455;
+    private static final int EXPECTED_CONCEPT_COUNT = 8419;
 
     /**
      * A handful of well-known concept UUIDs referenced directly by this module's own metadata helper classes
