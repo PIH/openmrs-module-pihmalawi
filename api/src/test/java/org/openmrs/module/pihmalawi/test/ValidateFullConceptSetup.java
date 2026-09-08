@@ -142,8 +142,16 @@ public class ValidateFullConceptSetup extends BaseModuleContextSensitiveTest {
                     }
                 }
                 for (Map.Entry<Integer, String> e : mappingSourceByIdx.entrySet()) {
-                    if (!isBlank(cell(row, e.getKey()))) {
-                        increment(summary.mappingCountsBySource, e.getValue());
+                    String mappingCell = cell(row, e.getKey());
+                    if (!isBlank(mappingCell)) {
+                        // a mapping cell can hold multiple semicolon-delimited codes for the same
+                        // source (e.g. "9374;Every 12 hours;Q12H") - each becomes its own
+                        // concept_reference_map row, so count segments, not cells.
+                        for (String code : mappingCell.split(";")) {
+                            if (!isBlank(code)) {
+                                increment(summary.mappingCountsBySource, e.getValue());
+                            }
+                        }
                     }
                 }
             }
@@ -160,12 +168,7 @@ public class ValidateFullConceptSetup extends BaseModuleContextSensitiveTest {
             + "join concept_datatype cd on c.datatype_id = cd.concept_datatype_id group by cd.name", summary.countsByDatatype);
         queryGroupCounts("select cc.name, count(*) from concept c "
             + "join concept_class cc on c.class_id = cc.concept_class_id group by cc.name", summary.countsByClass);
-        // count(distinct concept_id), not count(*): a handful of concepts pick up two mapping rows
-        // to the same source when two CSV rows sharing a fully-specified name merge onto one concept
-        // (see the pre-existing, out-of-scope 146-duplicate-name gap noted on EXPECTED_CONCEPT_COUNT's
-        // old javadoc) - counting rows would fail this assertion over that already-known quirk instead
-        // of actually checking source coverage.
-        queryGroupCounts("select crs.name, count(distinct crm.concept_id) from concept_reference_map crm "
+        queryGroupCounts("select crs.name, count(*) from concept_reference_map crm "
             + "join concept_reference_term crt on crm.concept_reference_term_id = crt.concept_reference_term_id "
             + "join concept_reference_source crs on crt.concept_source_id = crs.concept_source_id "
             + "group by crs.name", summary.mappingCountsBySource);
