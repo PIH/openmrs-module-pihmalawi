@@ -1,18 +1,18 @@
-Uuid,Void/Retire,Mapping source,Mapping code,Metadata class name,Metadata uuid
-e8015f0c-50e5-4521-8c44-a3bcbfe954ec,,org.openmrs.module.emrapi,emr.admissionEncounterType,org.openmrs.EncounterType,
-bb2b2420-7c51-4b55-a219-0451fb977aee,,org.openmrs.module.emrapi,emr.admissionForm,org.openmrs.Form,
-33f55ecb-8c11-4a21-9dc5-32d11a988663,,org.openmrs.module.emrapi,emr.atFacilityVisitType,org.openmrs.VisitType,f01c54cb-2225-471a-9cd5-d348552c337c
-30244ca8-5ff3-4174-93b1-9e30b1b5b329,,org.openmrs.module.emrapi,emr.checkInClerkEncounterRole,org.openmrs.EncounterRole,cbfe0b9d-9923-404c-941b-f048adc8cdc0
-c1766feb-cee9-4bb1-859b-0e1fae7abcfe,,org.openmrs.module.emrapi,emr.checkInEncounterType,org.openmrs.EncounterType,
-fb430149-c537-4b4e-8f7e-6c80307c7de0,,org.openmrs.module.emrapi,emr.clinicianEncounterRole,org.openmrs.EncounterRole,4f10ad1a-ec49-48df-98c7-1391c6ac7f05
-c58bba26-8348-4ddb-9a00-84dbd5905bde,,org.openmrs.module.emrapi,emr.consultEncounterType,org.openmrs.EncounterType,
-e70cdff2-7886-469d-87d7-5d22ad1af3b5,,org.openmrs.module.emrapi,emr.exitFromInpatientEncounterType,org.openmrs.EncounterType,
-63e1e15d-fc4a-4898-8ee0-91d831cf2446,,org.openmrs.module.emrapi,emr.exitFromInpatientForm,org.openmrs.Form,
-4410f9c9-fc19-4a5f-a8d5-7dd8fa08fc50,,org.openmrs.module.emrapi,emr.extraPatientIdentifierTypes,org.openmrs.module.metadatamapping.MetadataSet,e4aab2eb-5d19-496f-858b-c1269d92c549
-4ef50931-72e9-483c-a9de-f8798de4604f,,org.openmrs.module.emrapi,emr.orderingProviderEncounterRole,org.openmrs.EncounterRole,c458d78e-8374-4767-ad58-9f8fe276e01c
-b32fa3f1-d2d2-4913-996b-2cf80fb27447,,org.openmrs.module.emrapi,emr.primaryIdentifierType,org.openmrs.PatientIdentifierType,
-74e031e7-8929-4bf1-9c8b-8db98357b6b3,,org.openmrs.module.emrapi,emr.transferWithinHospitalEncounterType,org.openmrs.EncounterType,
-252e6353-45dd-47b6-bc48-a981488c2cea,,org.openmrs.module.emrapi,emr.transferWithinHospitalForm,org.openmrs.Form,
-05c37f08-0729-4ce1-820b-7b37ecba2548,,org.openmrs.module.emrapi,emr.unknownLocation,org.openmrs.Location,8d6c993e-c2cc-11de-8d13-0010c6dffd0f
-2972ece8-c252-4106-92d1-218ae5eaa1ae,,org.openmrs.module.emrapi,emr.unknownProvider,org.openmrs.module.providermanagement.Provider,f9badd80-ab76-11e2-9e96-0800200c9a66
-1a43fe54-9a9d-4290-8e7e-bccb18d34164,,org.openmrs.module.emrapi,emr.visitNoteEncounterType,org.openmrs.EncounterType,
+Uuid,Mapping source,Mapping code,Metadata class name,Metadata uuid
+e8015f0c-50e5-4521-8c44-a3bcbfe954ec,org.openmrs.module.emrapi,emr.admissionEncounterType,org.openmrs.EncounterType,
+bb2b2420-7c51-4b55-a219-0451fb977aee,org.openmrs.module.emrapi,emr.admissionForm,org.openmrs.Form,
+33f55ecb-8c11-4a21-9dc5-32d11a988663,org.openmrs.module.emrapi,emr.atFacilityVisitType,org.openmrs.VisitType,f01c54cb-2225-471a-9cd5-d348552c337c
+30244ca8-5ff3-4174-93b1-9e30b1b5b329,org.openmrs.module.emrapi,emr.checkInClerkEncounterRole,org.openmrs.EncounterRole,cbfe0b9d-9923-404c-941b-f048adc8cdc0
+c1766feb-cee9-4bb1-859b-0e1fae7abcfe,org.openmrs.module.emrapi,emr.checkInEncounterType,org.openmrs.EncounterType,
+fb430149-c537-4b4e-8f7e-6c80307c7de0,org.openmrs.module.emrapi,emr.clinicianEncounterRole,org.openmrs.EncounterRole,4f10ad1a-ec49-48df-98c7-1391c6ac7f05
+c58bba26-8348-4ddb-9a00-84dbd5905bde,org.openmrs.module.emrapi,emr.consultEncounterType,org.openmrs.EncounterType,
+e70cdff2-7886-469d-87d7-5d22ad1af3b5,org.openmrs.module.emrapi,emr.exitFromInpatientEncounterType,org.openmrs.EncounterType,
+63e1e15d-fc4a-4898-8ee0-91d831cf2446,org.openmrs.module.emrapi,emr.exitFromInpatientForm,org.openmrs.Form,
+4410f9c9-fc19-4a5f-a8d5-7dd8fa08fc50,org.openmrs.module.emrapi,emr.extraPatientIdentifierTypes,org.openmrs.module.metadatamapping.MetadataSet,e4aab2eb-5d19-496f-858b-c1269d92c549
+4ef50931-72e9-483c-a9de-f8798de4604f,org.openmrs.module.emrapi,emr.orderingProviderEncounterRole,org.openmrs.EncounterRole,c458d78e-8374-4767-ad58-9f8fe276e01c
+b32fa3f1-d2d2-4913-996b-2cf80fb27447,org.openmrs.module.emrapi,emr.primaryIdentifierType,org.openmrs.PatientIdentifierType,
+74e031e7-8929-4bf1-9c8b-8db98357b6b3,org.openmrs.module.emrapi,emr.transferWithinHospitalEncounterType,org.openmrs.EncounterType,
+252e6353-45dd-47b6-bc48-a981488c2cea,org.openmrs.module.emrapi,emr.transferWithinHospitalForm,org.openmrs.Form,
+05c37f08-0729-4ce1-820b-7b37ecba2548,org.openmrs.module.emrapi,emr.unknownLocation,org.openmrs.Location,8d6c993e-c2cc-11de-8d13-0010c6dffd0f
+2972ece8-c252-4106-92d1-218ae5eaa1ae,org.openmrs.module.emrapi,emr.unknownProvider,org.openmrs.module.providermanagement.Provider,f9badd80-ab76-11e2-9e96-0800200c9a66
+1a43fe54-9a9d-4290-8e7e-bccb18d34164,org.openmrs.module.emrapi,emr.visitNoteEncounterType,org.openmrs.EncounterType,
