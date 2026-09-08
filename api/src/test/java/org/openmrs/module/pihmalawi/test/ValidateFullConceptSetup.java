@@ -45,8 +45,9 @@ import java.util.Set;
 public class ValidateFullConceptSetup extends BaseModuleContextSensitiveTest {
 
     /**
-     * concepts.csv has 8,455 rows but only 8,419 load as distinct concepts (146 duplicate
-     * fully-specified names collapse onto existing concepts). Update if the concept set changes.
+     * concepts.csv is 8,456 raw lines (8,455 data rows by naive line count), but 15 rows have
+     * multi-line quoted fields adding 36 extra raw lines, so a proper CSV parse yields 8,419 rows.
+     * Update if the concept set changes.
      */
     private static final int EXPECTED_CONCEPT_COUNT = 8419;
 
