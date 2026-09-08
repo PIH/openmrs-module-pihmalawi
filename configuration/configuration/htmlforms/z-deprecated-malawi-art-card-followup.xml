@@ -1,0 +1,109 @@
+<htmlform
+        htmlformUuid="76d97d24-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b5356558-2695-102d-b4c2-001d929acb54"
+        formName="z_deprecated_Malawi ART Card - Followup"
+        formDescription="This form contains the second half of the Malawi Patient Mastercard"
+        formVersion="2.3"
+        formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<table cellpadding="1" cellspacing="1" width="100%">
+		<tr>
+			<th align="left" colspan="13">Enter the following information from the top section of the ART mastercard. Enter only the information that was filled out during the patient's initial visit.</th>
+		</tr>
+		<tr>
+			<td colspan="3"><big><b>PATIENT MASTER RECORD CARD FOR ARV [front]:</b></big></td>
+                        <td colspan="2"><big><b>Unique ARV Number: <lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!patId #end"/></b></big></td>
+                        <td><big><b>Year:  (Not entered)</b></big></td>
+		</tr>
+		<tr>
+			<td colspan="4">Name:<lookup expression="patient.personName" class="value" size="50"/>
+			Age: <lookup expression="patient.age" class="value"/>    Sex: <lookup expression="patient.gender" class="value" codePrefix="gender_"/></td>
+			<td>Initial Wt (kg) [ENTER BELOW]</td>
+			<td>Transfer in: <obs conceptId="2536"/></td>
+		</tr>
+		<tr>
+			<td colspan="4">Address: Village: <lookup expression="patient.personAddress.cityVillage" class="value"/>
+			Traditional Authority: <lookup expression="patient.personAddress.countyDistrict" class="value"/>
+			Phone: <lookup class="value" expression="personAttributes.get(&quot;Telephone Number&quot;)"/></td>
+		</tr>
+	</table><br/>
+	<table>
+		<tr>
+			<td colspan="4">Location of initial encounter: (See ARV Number. Enter 'Unknown' if necessary)<encounterLocation order="2,34,4,3,20,16,35,37,21,22,18"/></td>
+		</tr>
+	</table><br/>
+	<table border="1" cellpadding="0" cellspacing="0">
+		<tr>
+			<th colspan="13"> Enter the following information from the first line of the register:</th>
+		</tr>
+		<tr>
+                        <td>Date</td>
+			<td>Wt (kg)</td>
+                       <td>Ht (cm)</td>
+                       <td>Outcome Status</td>
+                       <td>Of Those Alive</td>
+                       <td>Ambulatory</td>
+                       <td>Work/School</td>
+			<td>Side Effects</td>
+                        <td>No. Pills in Bottle</td>
+                        <td>Number of Pills Given (P)</td>
+                        <td>Responsible Person Present (G)?</td>
+                        <td>Taking Co-trimoxozole</td>
+                        <td>Patient Given Likuni Phala?</td>
+		</tr>
+		<tr>
+                       <td><encounterDate/></td>
+			<td><obs conceptId="5089"/></td>
+                       <td><obs conceptId="5090"/></td>
+                       <td><obs conceptId="2530" style="list" answerConceptIds="2895,1744,1743,1742,1579" answerLabels="Alive,Transferred,Defaulted,Died,Stopped"/></td>
+                       <td><obs conceptId="2538" style="list" answerConceptIds="2537,2532,2534,5424" answerLabels="Start,Substitute,Switch,Other"/></td>
+                       <td><obs conceptId="1662" style="list" answerConceptIds="1664,1665" answerLabels="Ambulatory,Bedridden"/></td>
+                       <td><obs conceptId="2539" style="list" answerConceptIds="1065,1066,1067" answerLabels="Yes,No,Unknown"/></td>
+			<td><obs conceptId="2146" style="no_yes"/><br/>Specify: <obs conceptId="1297" style="list" answerConceptIds="1107,29,512,821,5622" answerLabels="None,Hepatitis,Skin rash,Peripheral Neuropathy,Other"/></td>
+                       <td><obs conceptId="2540"/></td>
+                       <td><obs conceptId="2929"/></td>
+                       <td><obs conceptId="2122" style="checkbox" answerLabel=""/></td>
+                       <td><obs conceptId="1623" style="checkbox" answerLabel=""/></td>
+                       <td><obs conceptId="2972" style="checkbox" answerConceptId="1065" answerLabel=""/></td>
+               </tr>
+	</table><br/>
+
+	<table border="1" cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<th colspan="2">Enter the following  information from the ART Clinic Intake, Physician Followup or Nurse Followup Forms:</th>
+		</tr>
+		<tr>
+			<td><obs conceptId="5272" labelText="Pregnant?" style="no_yes"/>
+			       <obs conceptId="968" labelText="LMP: "/></td>
+		</tr>
+		<tr><td colspan="2">Comments at Conclusion of examination</td></tr>
+		<tr><td colspan="2"><obs conceptId="1620" size="100"/></td></tr>
+	</table><br/>
+
+	<table border="1" cellpadding="0" cellspacing="0" width="100%">
+		<tr><th>Data Clerk Comments:</th></tr>
+		<tr><td><obs conceptId="2922" size="100"/></td></tr>
+	</table><br/>
+	<table border="1">
+		<obsgroup groupingConceptId="6785">
+		<tr>
+			<td>Appointment date</td>
+			<td><obs conceptId="5096" allowFutureDates="true"/></td>
+		</tr>
+		<tr>
+			<td>Appointment reason</td>
+                        <td><obs conceptId="6784" style="radio" answerConceptIds="6255" answerLabels="ART Visit"/></td>
+		</tr>
+                </obsgroup>
+       </table><br/><br/>	
+
+	<table border="1" cellpadding="0" cellspacing="0" width="100%">
+		<tr><td>Form completed today by:<br/>(Enter name of clinician if signature is legible, put your name if info is not available) <encounterProvider default = "16576"/></td></tr>
+	</table><br/><br/>
+
+<submit/><br/><br/><br/>
+
+</htmlform>

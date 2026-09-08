@@ -1,0 +1,118 @@
+<htmlform
+        htmlformUuid="76d9886e-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b5364afe-2695-102d-b4c2-001d929acb54"
+        formName="z_deprecated_Pre-ART Mastercard Pediatric - Followup"
+        formDescription="This form contains the second half of the Pre - ART Mastercard"
+        formVersion="0.2"
+        formEncounterType="664b8812-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<div align="center">
+		<big>PRE-ART MASTERCARD<br/>PEDIATRIC FOLLOWUP</big>
+	</div><br/><br/>
+
+	<table>
+		<tr>
+			<td>
+				Name: <lookup expression="patient.given_name" class="value"/><lookup expression="patient.family_name" class="value"/><br/>
+				Sex: <lookup expression="patient.sex" class="value"/><br/>
+				D.O.B. <lookup expression="patient.birthdate" class="value"/><br/>
+				Age: <lookup expression="patient.age" class="value"/><br/>
+
+			</td>
+		</tr>
+	</table><br/><br/>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tr>
+			<th>Date</th>
+			<th>Age<br/>yrs</th>
+			<th>Weight<br/>kg</th>
+			<th>Length<br/>cm</th>
+			<th>WT/HT%</th>
+			<th>Diagnosis</th>
+			<th colspan="3">Nutritional<br/>Status</th>
+			<th colspan="4">Current Feeding</th>
+			<th colspan="4">Nutritional<br/>Supplement</th>
+		</tr>
+		<tr>
+			<th colspan="6"></th>
+			<th>N</th>
+			<th>M</th>
+			<th>S</th>
+			<th>N</th>
+			<th>B</th>
+			<th>F</th>
+			<th>M</th>
+			<th>N</th>
+			<th>C</th>
+			<th>LP</th>
+			<th>F</th>
+		</tr>
+		<tr>
+			<td><encounterDate/></td>
+			<td><lookup expression="patient.age" class="value"/></td>
+			<td><obs conceptId="5089"/></td>
+			<td><obs conceptId="5090"/></td>
+			<td><obs conceptId="1822"/></td>
+			<td><obs conceptId="3571" answerLabels="0 none,1 TB,2 fever&gt;4weeks,3 Oral thrush after 8 wks, 4 pneumonia,5 diarrhoea&gt;2weeks,6 meningitis,7 other WHO III/IV condition" answerConceptIds="1107,58,1291,3569,43,2709,60,3570"/></td>
+			<td><obs conceptId="1310" answerConceptId="1115" answerLabel="" labelText="" style="checkbox"/></td>
+			<td><obs conceptId="1310" answerConceptId="1311" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1310" answerConceptId="1312" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1151" answerConceptId="1152" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1151" answerConceptId="5526" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1151" answerConceptId="5524" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1151" answerConceptId="6046" answerLabel="" style="checkbox"/></td>
+			<obsgroup groupingConceptId="3573">
+				<td></td>
+				<td><obs conceptId="3572" answerConceptId="1065" answerLabel="" style="checkbox"/></td>
+				<td><obs conceptId="2972" answerConceptId="1065" answerLabel="" style="checkbox"/></td>
+				<td><obs conceptId="3581" answerConceptId="1065" answerLabel="" style="checkbox"/></td>
+			</obsgroup>
+		</tr>
+	
+	</table><br/><br/>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tr>
+			<th colspan="2">CPT<br/>given</th>
+			<th colspan="2">New<br/>WHO<br/>Staging<br/>Condition</th>
+			<th>TLC/CD4 (cells/mm<sup>3</sup>)</th>
+			<th>Comment or initials</th>
+		</tr>
+		<tr>
+			<th>Y</th>
+			<th>N</th>
+			<th>Y</th>
+			<th>N</th>
+		</tr>
+		<tr>
+			<td><obs conceptId="1623" style="checkbox" answerLabel="" /></td>
+			<td><obs conceptId="1623" style="checkbox" value="false" answerLabel="" /></td>
+			<td><obs conceptId="1248" style="checkbox" answerLabel=""/></td>
+			<td><obs conceptId="1248" style="checkbox" answerLabel="" value="false"/></td>
+			<td><obs conceptId="5497"/></td>
+			<td><obs conceptId="1620"/></td>
+		</tr>
+	
+	</table><br/><br/>
+
+	<table border="1">
+		<obsgroup groupingConceptId="6785">
+		<tr>
+			<td>Appointment date</td>
+			<td><obs conceptId="5096" allowFutureDates="true"/></td>
+		</tr>
+		<tr>
+			<td>Appointment reason</td>
+                        <td><obs conceptId="6784" style="radio" answerConceptIds="6256" answerLabels="Pre-ART Visit"/></td>
+		</tr>
+                </obsgroup>
+       </table><br/><br/>	
+	
+	Clinic:<encounterLocation order="2,34,4,3,20,16,35,37,21,22,18"/><br/><br/>
+	Entered by:<encounterProvider default="16576"/><br/><br/>
+	<submit/><br/><br/>
+
+
+</htmlform>

@@ -1,0 +1,292 @@
+<htmlform
+        htmlformUuid="76d99bba-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="ea950934-3c6d-49a6-a375-9f44aa78be70"
+        formName="z_deprecated_ART eMastercard"
+        formDescription="Initiation Information for ART patients (header of Mastercard)"
+        formVersion="3"
+        formEncounterType="664b8574-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<br />
+	<b>
+		<big>Initiation</big>
+	</b>
+	<submit />
+	<!-- Eclipse XML Code style messes around with embedded Javascript -->
+	<script language="javascript" type="text/javascript">
+		/* hack in the link to void encounters based on parsing the current url */
+		/* seems only to work reliably in firefox */
+		/* is hopefully fixed with later version of html form entry */
+		var paramName = "encounterId";
+	
+		/* regex stuff to parse out url parameters */
+		paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+		var regex = new RegExp(regexS );
+		var results = regex.exec( window.location.href );
+		if(results != null ) {
+			paramValue = results[1];
+	
+			/* create openmrs url to go back to Dashboard */ 
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/patientDashboard.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Cancel&lt;/a&gt;");
+	
+			/* create openmrs url to edit demographics */ 
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/newPatient.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Edit demographics&lt;/a&gt;");
+	
+			/* create openmrs url to void encounter only if edit */
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/encounters/encounter.form?encounterId=" + paramValue + "&gt;Void encounter&lt;/a&gt;");
+		}
+	</script>
+	<hr />
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							Patient Details
+						</th>
+					</tr>
+					<tr>
+						<td>Patient</td>
+						<td>
+							<lookup expression="patient.personName" />
+							(
+							<lookup
+								complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+							)
+						</td>
+					</tr>
+					<tr>
+						<td>Sex</td>
+						<td>
+							<lookup expression="patient.gender" />
+						</td>
+					</tr>
+					<tr>
+						<td>Birthdate</td>
+						<td>
+							<lookup expression="patient.birthdate" />
+						</td>
+					</tr>
+					<tr>
+						<td>Physical Addresses</td>
+						<td>
+							<lookup
+								complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+						</td>
+					</tr>
+					<tr>
+						<td>Agrees to FUP</td>
+						<td>
+							<obs conceptId="2552" style="radio" />
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2" align="left">
+							<hr />
+							Enrollment Details
+						</th>
+					</tr>
+					<tr>
+						<td>Clinic</td>
+						<td>
+							<encounterLocation />
+						</td>
+					</tr>
+					<tr>
+						<td>Provider</td>
+						<td>
+							<encounterProvider default="16576" />
+						</td>
+					</tr>
+					<tr>
+						<td>Enrollment Date</td>
+						<td>
+							<encounterDate default="today" />
+						</td>
+					</tr>
+					<tr>
+						<td>Current outcome</td>
+						<td>
+							<lookup
+								expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />
+							(since
+							<lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />
+							)
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							Status at ART initiation
+						</th>
+					</tr>
+					<tr>
+						<td>Clinic Stage</td>
+						<td style="white-space: nowrap;">
+							<obs conceptId="1480" style="radio" answerConceptIds="1204,1205,1206,1207"
+								answerLabels="1,2,3,4" />
+							<obs conceptId="7036" style="checkbox" answerConceptId="1065"
+								answerLabel="Pres" />
+						</td>
+					</tr>
+					<tr>
+						<td>CD4/TLC</td>
+						<td>
+							<obs conceptId="5497" labelText="" />
+							<obs conceptId="730" labelText="" />
+							%
+						</td>
+					</tr>
+					<tr>
+						<td>CD4/TLC Date</td>
+						<td>
+							<obs conceptId="3461" />
+						</td>
+					</tr>
+					<tr>
+						<td>Height, Wt</td>
+						<td>
+							<obs conceptId="5090" />
+							<obs conceptId="5089" />
+						</td>
+					</tr>
+					<tr>
+						<td>Age at init</td>
+						<td>
+							<obs conceptId="3467" />
+						</td>
+					</tr>
+					<tr>
+						<td>TB status at initiation</td>
+						<td>
+							<obs conceptId="1568" style="radio" answerConceptIds="1067,1714,1432" answerLabels="None,Past,Curr" />
+						</td>
+					</tr>
+					<tr>
+						<td>KS</td>
+						<td>
+							<obs conceptId="3599" style="no_yes" noLabel="NO" yesLabel="YES" />
+						</td>
+					</tr>
+					<tr>
+						<td>Pregnant at initiation</td>
+						<td>
+							<obs conceptId="6131" style="radio" />
+						</td>
+					</tr>
+					<tr>
+						<td style="white-space: nowrap;">Ever taken ARVs</td>
+						<td>
+							<obs conceptId="7754" style="radio" />
+						</td>
+					</tr>
+					<tr>
+						<td>Last ARVs Date</td>
+						<td>
+							<obs conceptId="7751" />
+						</td>
+					</tr>
+					<tr>
+						<td>Last ARVs Drug</td>
+						<td>
+							<obs conceptId="7753" />
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							First positive HIV test
+						</th>
+					</tr>
+					<tr>
+						<td>Date</td>
+						<td>
+							<obs conceptId="2515" />
+						</td>
+					</tr>
+					<tr>
+						<td> Place</td>
+						<td>
+							<obs conceptId="2170" />
+						</td>
+					</tr>
+					<tr>
+						<td>Type</td>
+						<td>
+							<obs conceptId="6982" style="radio" answerConceptIds="1040,844"
+								answerLabels="Rapid,PCR" />
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2" align="left">
+							<hr />
+							ART Regimens
+						</th>
+					</tr>
+					<tr>
+						<td>1st Line</td>
+						<td>
+							d4T 3TC NVP
+							<br />
+							<obs conceptId="6132" />
+						</td>
+					</tr>
+					<tr>
+						<td>Alt 1st Line</td>
+						<td>
+							<obs conceptId="2589" answerConceptIds="6878,1610,1613,1612,6880,2988,6408"
+								answerLabels="1L (D4T + 3TC + NVP), AZT (AZT + 3TC + NVP), EFV (D4T + 3TC + EFV), AZTEFV (AZT + 3TC + EFV), 2Ad (AZT + 3TC + TDF + LPV/R), 2Ch (DDI + ABC + LPV/R), NS (Non-standard)" />
+							<obs conceptId="2528" />
+						</td>
+					</tr>
+					<tr>
+						<td>2nd Line</td>
+						<td>
+							<obs conceptId="2589" answerConceptIds="6878,1610,1613,1612,6880,2988,6408"
+								answerLabels="1L (D4T + 3TC + NVP), AZT (AZT + 3TC + NVP), EFV (D4T + 3TC + EFV), AZTEFV (AZT + 3TC + EFV), 2Ad (AZT + 3TC + TDF + LPV/R), 2Ch (DDI + ABC + LPV/R), NS (Non-standard)" />
+							<obs conceptId="2529" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<hr />
+	<br />
+
+	<b>
+		<big>Visits</big>
+	</b>
+	<htmlformflowsheet formId="56" />
+	<hr />
+	<br />
+
+	<b>
+		<big>Data entry comments</big>
+	</b>
+	<ul>
+		<li>
+			If no change in regimen compared to last entry, leave it empty.
+		</li>
+		<li>
+			If no side effects, leave it empty
+		</li>
+		<li>
+			If TB status not suspected, leave it empty
+		</li>
+		<li>
+			Check for changes in header section 'ART regimens' for every visit
+		</li>
+	</ul>
+
+</htmlform>

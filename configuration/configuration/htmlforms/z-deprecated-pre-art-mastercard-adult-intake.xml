@@ -1,0 +1,129 @@
+<htmlform
+        htmlformUuid="76d9810c-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b535d380-2695-102d-b4c2-001d929acb54"
+        formName="z_deprecated_Pre-ART Mastercard Adult - Intake"
+        formDescription="This is the top half of the Pre ART Mastercard."
+        formVersion="0.1"
+        formEncounterType="664b8736-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<div align="center">
+		<big>
+		PRE-ART MASTERCARD<br/>
+		ADULT
+		</big>
+	</div><br/>
+	<table>
+		<tr>
+			<td>
+				Name: <lookup expression="patient.given_name" class="value"/><lookup expression="patient.family_name" class="value"/><br/>
+				Sex: <lookup expression="patient.sex" class="value"/><br/>
+				D.O.B. <lookup expression="patient.birthdate" class="value"/><br/>
+				Age: <lookup expression="patient.age" class="value"/><br/>
+				<obsgroup groupingConceptId="1325"><br/>				
+					<obs conceptId="2927" labelText="Primary Caregiver: (replace with proper concept)"/><obs conceptId="2928"/><br/>
+					<obs conceptId="1328" labelText="Relationship: (replace with proper concept)"/><br/>
+				</obsgroup>
+				Address: <lookup expression="patient_address.city_village" class="value"/>
+			</td>
+			<td>
+				Registration Date:<encounterDate/><br/>
+				Clinic Registration #: (REPLACE WITH PROPER #) <lookup class="value" expression="patient.arv_number"/><br/>
+				<obs conceptId="1837" labelText="HIV test date*: "/><br/>
+				<obs conceptId="1480" labelText="WHO Stage" answerConceptIds="1204,1205,1206,1207" answerLabels="I,II,III,IV"/><br/>
+				Reason for Stage: (add appropriate concept)<br/>
+				Permission given to do home visit (add appropriate concept)<br/>
+				<obsgroup groupingConceptId="1325">
+					<obs conceptId="2299" labelText="Village Health Worker: "/><obs conceptId="2298"/>
+				</obsgroup>
+			</td>
+		</tr>
+	</table><br/><br/>
+
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tr>
+			<th>Age<br/>yrs</th>
+			<th>Weight<br/>kg</th>
+			<th>Height<br/>cm</th>
+			<th>BMI<br/>kg/m<sup>2</sup></th>
+			<th>MUAC<br/>cm</th>
+			<th>Bilat<br/>Edema<br/>Y/N</th>
+			<th>Gravid<br/>Y/N</th>
+			<th>Diagnosis</th>
+			<th colspan="3">Nutritional<br/>Status</th>
+			<th colspan="2">Current<br/>Supplement</th>
+		</tr>
+		<tr>
+			<th colspan="8"></th>
+			<th>N</th>
+			<th>M</th>
+			<th>S</th>
+			<th>L</th>
+			<th>C</th>
+		</tr>
+		<tr>
+			<td><lookup expression="patient.age" class="value"/></td>
+			<td><obs conceptId="5089"/></td>
+			<td><obs conceptId="5090"/></td>
+			<td><obs conceptId="2137"/></td>
+			<td><obs conceptId="1290"/></td>
+			<td><obs conceptId="3574" style="radio"/></td>
+			<td><obs conceptId="5272" style="radio"/></td>
+			<td><obs conceptId="3571"/><br/>OR<br/><obs conceptId="1364"/></td>
+			<td><obs conceptId="1310" answerConceptId="1115" answerLabel="" labelText="" style="checkbox"/></td>
+			<td><obs conceptId="1310" answerConceptId="1311" answerLabel="" style="checkbox"/></td>
+			<td><obs conceptId="1310" answerConceptId="1312" answerLabel="" style="checkbox"/></td>
+			<obsgroup groupingConceptId="3573">
+				<td><obs conceptId="2972" answerConceptId="1065" answerLabel="" style="checkbox"/></td>
+				<td><obs conceptId="3572" answerConceptId="1065" answerLabel="" style="checkbox"/></td>
+			</obsgroup>
+		</tr>
+	
+	</table><br/><br/>
+
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tr>
+			<th colspan="2">CPT<br/>given</th>
+			<th colspan="2">WHO<br/>Staging<br/>Condition</th>
+			<th>CD4<br/>Count/TLC</th>
+			<th>Referrals</th>
+			<th>Comment or initials</th>
+		</tr>
+		<tr>
+			<th>Y</th>
+			<th>N</th>
+			<th>Y</th>
+			<th>N</th>
+		</tr>
+		<tr>
+			<td><obs conceptId="1623" style="checkbox" answerLabel="" /></td>
+			<td><obs conceptId="1623" style="checkbox" value="false" answerLabel="" /></td>
+			<td><obs conceptId="1248" style="checkbox" answerLabel=""/></td>
+			<td><obs conceptId="1248" style="checkbox" answerLabel="" value="false"/></td>
+			<td><obs conceptId="5497"/></td>
+			<td><obs conceptId="1272"/></td>
+			<td><obs conceptId="2922"/></td>
+		</tr>
+	
+	</table><br/><br/>
+
+	<table border="1">
+		<obsgroup groupingConceptId="6785">
+		<tr>
+			<td>Appointment date</td>
+			<td><obs conceptId="5096" allowFutureDates="true"/></td>
+		</tr>
+		<tr>
+			<td>Appointment reason</td>
+                        <td><obs conceptId="6784" style="radio" answerConceptIds="6256" answerLabels="Pre-ART Visit"/></td>
+		</tr>
+                </obsgroup>
+       </table><br/><br/>
+	
+	Clinic:<encounterLocation order="2,34,4,3,20,16,35,37,21,22,18"/><br/>
+	Entered by:<encounterProvider default="16576"/><br/><br/>
+	<submit/><br/><br/>
+
+</htmlform>

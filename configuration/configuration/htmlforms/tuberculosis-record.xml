@@ -1,0 +1,269 @@
+<htmlform
+        htmlformUuid="76d98e2c-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b53608a0-2695-102d-b4c2-001d929acb54"
+        formName="Tuberculosis Record"
+        formDescription="Intake portion of standard Malawi Ministry of Health Tuberculosis Treatment Card"
+        formVersion="0.1"
+        formEncounterType="664b89ca-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="false"
+>
+
+	<table>
+		<tr>
+			<td colspan="2" align="center">
+				<b>
+					<big>Tuberculosis Intake</big>
+				</b>
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Patient</th>
+			<td>
+				<lookup expression="patient.personName" />
+				(
+				<lookup class="value"
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;District TB Number&quot;) ) $!id #end" />
+				)
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+				)
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>Sex, Birthdate</th>
+			<td>
+				<lookup expression="patient.gender" />
+				,
+				<lookup expression="patient.birthdate" />
+				(Age:
+				<lookup expression="patient.age" class="value" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>Addresses</th>
+			<td>
+				<lookup
+					complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+			</td>
+		</tr>
+		<tr>
+			<th>Clinic</th>
+			<td>
+				<encounterLocation default="2" />
+			</td>
+		</tr>
+		<tr>
+			<th>Provider</th>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr>
+			<th>Date</th>
+			<td>
+				<encounterDate />
+			</td>
+		</tr>
+		<tr>
+			<th></th>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Treatment unit</th>
+			<td>
+				<obs conceptId="3452" style="location"/>
+			</td>
+		</tr>
+		<tr>
+			<th>DOT Option</th>
+			<td>
+				<obs conceptId="3567" answerConceptIds="3565,2070,3566" style="radio"
+					answerLabels="Guardian,Hospital,Health Center" /> ?VHW?
+			</td>
+		</tr>
+		<tr>
+			<th>Duration current cough</th>
+			<td>
+				<obs conceptId="7931"/>
+			</td>
+		</tr>
+		<tr>
+			<th>TB Classification</th>
+			<td>
+				<obs conceptId="1452" answerConceptIds="1347,5042" answerLabels="P,EP"
+					style="radio" />
+			</td>
+		</tr>
+		<tr>
+			<th>Patient Category</th>
+			<td>
+				<obs conceptId="2407" answerConceptIds="2406,2408,2414,2413,2411,5622"
+					answerLabels="New,Relapse,TI,Retreat,Fail,Oth" style="radio" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+				Sputum examination
+			</td>
+		</tr>
+		<tr>
+			<th>Initiation</th>
+			<td>
+				Smear: Date: ... Serial No: <obs conceptId="3564"/> Result: <obs conceptId="3052" />
+				<br/>
+				Culture: Date: ... Serial No: ... Result: <obs conceptId="3046" />
+			</td>
+		</tr>
+		<tr>
+			<th>Month 2</th>
+			<td>
+				Smear: Date: ... Serial No: ... Result: ...
+			</td>
+		</tr>
+		<tr>
+			<th>Month 3</th>
+			<td>
+				Smear: Date: ... Serial No: ... Result: ...
+			</td>
+		</tr>
+		<tr>
+			<th>Month 5</th>
+			<td>
+				Smear: Date: ... Serial No: ... Result: ...
+			</td>
+		</tr>
+		<tr>
+			<th>Last month 6/8</th>
+			<td>
+				Smear: Date: ... Serial No: ... Result: ...
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Treatment outcome</th>
+			<td>
+			<lookup
+					expression="fn.currentProgramWorkflowStatus(3).getState().getConcept().getName().getName()" />
+				(since
+				<lookup expression="fn.currentProgramWorkflowStatus(3).getStartDate()" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>HIV outcome</th>
+			<td>
+				<lookup
+					expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />
+				(since
+				<lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>HIV Test Status</th>
+			<td>
+				Test at Registration: <obs conceptId="3560" answerConceptIds="1118,3558,3559,1228"
+					answerLabels="Not Done,Non-Reactive &gt;3 months,Non-Reactive &lt;3 months,Reactive" style="radio" />
+				<br/>
+				New test: <obs conceptId="2169" answerConceptIds="3083,664,703"
+					answerLabels="No test,Negative,Positive" style="radio" />
+				<br/>
+				(should be: neg pos unknown and time of hiv test: before after)
+			</td>
+		</tr>
+		<tr>
+			<th>ARV Status</th>
+			<td>
+				<obs conceptId="2516" labelText="ART Start Date: " />
+				<br/>
+				<obs conceptId="1622" labelText="Started ARV before TB treatment"
+					style="yes_no" yesLabel="Y" noLabel="N" />
+				<br/>
+				(should be: a (started arv before tb treatment) b (started arv while on treatment) c (arv not started by the time when discharged from tb treatment))
+			</td>
+		</tr>
+		<tr>
+			<th>ARV number</th>
+			<td>
+				<obs conceptId="7014"/>
+			</td>
+		</tr>
+		<tr>
+			<th>CPT Status</th>
+			<td>
+				<obs conceptId="1623" style="radio" noLabel="N"
+					yesLabel="Y" dateLabel=", Start Date: " /><br/>
+			</td>
+		</tr>
+		<tr>
+			<th>Remarks</th>
+			<td>
+				<obs conceptId="1620"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<hr/>
+				Regimen (from Treatment Card)
+			</td>
+		</tr>
+		<tr>
+			<th>Initial phase</th>
+			<td>
+				Regimen 1 RHZE
+				<br/>
+				Regimen 2 RHZE and S
+				<br/>
+				TB Meningitis RHZS
+			</td>
+		</tr>
+		<tr>
+			<th>Continuation Phase</th>
+			<td>
+				Regimen 1: RH daily for 4 months
+				<br/>
+				Regimen 2: RHE daily for 5 months
+				<br/>
+				TB Meningitis: RH daily for 7 months	
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				<submit />
+			</td>
+			<td align="right">
+				<script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js"
+					type="text/javascript"></script>
+				<script language="javascript" type="text/javascript">
+					writeDefaultEncounterActions(
+					<lookup expression="patient.patientId" />
+					);
+				</script>
+			</td>
+		</tr>
+	</table>
+
+</htmlform>

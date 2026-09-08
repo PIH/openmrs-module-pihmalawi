@@ -1,0 +1,98 @@
+<htmlform
+        htmlformUuid="76d9aa10-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="2666240d-5051-4703-ac63-b9a7231d0e40"
+        formName="CD4 Logbook"
+        formDescription="faked encounter type"
+        formVersion="1"
+        formEncounterType="664b9280-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="false"
+>
+
+<br/>
+	<b>
+		<big>CD4 Logbook</big> 
+	</b>
+   	<!--  Eclipse XML Code style messes around with embedded Javascript -->
+	<script language="javascript" type="text/javascript">
+		/* hack in the link to void encounters based on parsing the current url */
+		/* seems only to work reliably in firefox */
+		/* is hopefully fixed with later version of html form entry */
+		var paramName = "encounterId";
+
+		/* regex stuff to parse out url parameters */
+		paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+		var regex = new RegExp(regexS );
+		var results = regex.exec( window.location.href );
+		if(results != null ) {
+			paramValue = results[1];
+
+			/* create openmrs url to go back to Dashboard */ 
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/patientDashboard.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Cancel&lt;/a&gt;");
+
+			/* create openmrs url to edit demographics */
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/newPatient.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Edit demographics&lt;/a&gt;");
+
+			/* create openmrs url to void encounter only if edit */
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/encounters/encounter.form?encounterId=" + paramValue + "&gt;Void encounter&lt;/a&gt;");
+		}
+	</script>
+	<hr/>
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>Patient</td>
+						<td>
+							<lookup expression="patient.personName" />
+							(<lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PART Number&quot;) ) $!id #end" /> <lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />)
+						</td>
+					</tr>
+					<tr>
+						<td>Sex</td>
+						<td>
+							<lookup expression="patient.gender" />
+						</td>
+					</tr>
+					<tr>
+						<td>Birthdate</td>
+						<td>
+							<lookup expression="patient.birthdate" />
+						</td>
+					</tr>
+					<tr>
+						<td>Physical Addresses</td>
+						<td>
+							<lookup
+								complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+						</td>
+					</tr>
+					<tr>
+						<td>Current outcome</td>
+						<td>
+							<lookup expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />
+							(since <lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />)
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<hr/>
+	<br/>
+	
+	<b>
+		<big>CD results from Lab</big> (do not edit)
+	</b>
+	<htmlformflowsheet formId="19" readOnly="true" />
+	<hr/>
+	<br/>
+	
+	<b>
+		<big>Pre-ART Mastercard results</big> (do not edit)
+	</b>
+	<htmlformflowsheet formId="61" readOnly="true"/>
+
+</htmlform>
