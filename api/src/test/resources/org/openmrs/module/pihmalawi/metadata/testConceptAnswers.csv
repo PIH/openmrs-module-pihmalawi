@@ -1,0 +1,1167 @@
+concept,member,sort weight,member type
+Adherence session number,First,1,q-and-a
+Adherence session number,Second,2,q-and-a
+Adherence session number,Third,3,q-and-a
+Adjust dose,Yes,1,q-and-a
+Adjust dose,No,2,q-and-a
+Adjust dose,Unknown,3,q-and-a
+Anemia,Macrocytic,9256,q-and-a
+Anemia,Microcytic,9257,q-and-a
+Anemia,Unknown,9258,q-and-a
+Anemia,Normocytic,9259,q-and-a
+Anticonvulsant,Yes,1,q-and-a
+Anticonvulsant,No,2,q-and-a
+Anticonvulsant,Unknown,3,q-and-a
+Any since last visit,Yes,1,q-and-a
+Any since last visit,No,2,q-and-a
+Any since last visit,Unknown,3,q-and-a
+Apnea,Yes,1,q-and-a
+Apnea,No,2,q-and-a
+Arthritis,Rheumatoid,9260,q-and-a
+Arthritis,Systemic lupus erythematosus,9261,q-and-a
+Arthritis,Gout,9262,q-and-a
+Arthritis,Reactive,9263,q-and-a
+Arthritis,Septic,9264,q-and-a
+Arthritis,Osteoarthritis,9265,q-and-a
+Arthritis,Unknown,9266,q-and-a
+Arthritis,Acute sarcoidosis,9267,q-and-a
+Arthritis,Psoriatic,9268,q-and-a
+Arthritis,Other cause,9269,q-and-a
+Asthma,New diagnosis,9277,q-and-a
+Asthma,Other,9278,q-and-a
+Asthma,Infective exacerbation,9279,q-and-a
+Asthma,Non-infective exacerbation,9280,q-and-a
+Bacterial,Sepsis other organism,9392,q-and-a
+Bacterial,N meningitides grown,9393,q-and-a
+Bacterial,Clinical,9394,q-and-a
+Bacterial,S pneumoniae grown,9395,q-and-a
+Biopsy done,Yes,1,q-and-a
+Biopsy done,No,2,q-and-a
+Blood sugar test type,Fasting,8344,q-and-a
+Blood sugar test type,Random,8345,q-and-a
+Blood sugar test type,Glycated hemoglobin,8529,q-and-a
+Breast feeding,Breastfeeding complimentary,9779,q-and-a
+Breast feeding,Breastfeeding stopped over 6 weeks ago,9780,q-and-a
+Breast feeding,Breastfeeding stopped in last 6 weeks,9781,q-and-a
+Breast feeding,Mixed feeding,9782,q-and-a
+Breast feeding,Breastfed exclusively,9783,q-and-a
+Candidiasis,Vulvovaginal,9289,q-and-a
+Candidiasis,Oral,9290,q-and-a
+Candidiasis,Oesophageal,9291,q-and-a
+Cardiomyopathy,Post infection,9292,q-and-a
+Cardiomyopathy,Nutritional,9293,q-and-a
+Cardiomyopathy,Peri-partum,9294,q-and-a
+Cardiomyopathy,Alcohol,9295,q-and-a
+Cardiomyopathy,Ischaemia,9296,q-and-a
+Cardiomyopathy,HIV associated,9297,q-and-a
+Cardiomyopathy,Other cause,9298,q-and-a
+Care Linked,Clinical,1,q-and-a
+Care Linked,Nutrition Rehabilitation Unit,2,q-and-a
+Care Linked Type,Clinical,1,q-and-a
+Care Linked Type,Nutrition Rehabilitation Unit,2,q-and-a
+Care Linked Type,IC3,3,q-and-a
+Care Linked Type,Advanced NCD clinic,4,q-and-a
+Care Linked Type,Mental Health Clinic,5,q-and-a
+Care Linked Type,Paliative linked care,6,q-and-a
+Care Linked Type,Physiotherapy linked care,7,q-and-a
+Chemotherapy and Bleomycin,Vincristine and Bleomycin,1,q-and-a
+Choking,Yes,1,q-and-a
+Choking,No,2,q-and-a
+Chronic care diagnosis,Hyperkinetic Conductal Disorder  (ADHD),1,q-and-a
+Chronic care diagnosis,Mood Affective Disorder (Bipolar),2,q-and-a
+Chronic care diagnosis,Stress Reaction Adjustment Disorder,3,q-and-a
+Chronic care diagnosis,Dissociative Conversion Disorder,4,q-and-a
+Chronic care diagnosis,Puerperal Mental Disorder,5,q-and-a
+Chronic care diagnosis,Psychological Developmental Disorder,6,q-and-a
+Chronic care diagnosis,Asthma,7,q-and-a
+Chronic care diagnosis,Hypertension,8,q-and-a
+Chronic care diagnosis,Epilepsy,9,q-and-a
+Chronic care diagnosis,Diabetes,10,q-and-a
+Chronic care diagnosis,Type 1 diabetes,11,q-and-a
+Chronic care diagnosis,Type 2 diabetes,12,q-and-a
+Chronic care diagnosis,Heart failure,13,q-and-a
+Chronic care diagnosis,Chronic kidney disease,14,q-and-a
+Chronic care diagnosis,Stroke,15,q-and-a
+Chronic care diagnosis,Chronic obstructive pulmonary disease,16,q-and-a
+Chronic care diagnosis,Depression,17,q-and-a
+Chronic care diagnosis,Acute Psychotic disorder,18,q-and-a
+Chronic care diagnosis,Other Mental Health Diagnosis non-coded,19,q-and-a
+Chronic care diagnosis,Other mental health diagnosis 1,20,q-and-a
+Chronic care diagnosis,Other mental health diagnosis 2,21,q-and-a
+Chronic care diagnosis,Other non-coded,22,q-and-a
+Chronic care diagnosis,Schizophrenia,23,q-and-a
+Chronic care diagnosis,Schizoaffective Disorder,24,q-and-a
+Chronic care diagnosis,Organic mental disorder (acute),25,q-and-a
+Chronic care diagnosis,Organic mental disorder (chronic),26,q-and-a
+Chronic care diagnosis,"Bipolar Affective Disorder, Manic",27,q-and-a
+Chronic care diagnosis,Anxiety disorder,28,q-and-a
+Chronic care diagnosis,Alcohol-induced mental and behavior disorder,29,q-and-a
+Chronic care diagnosis,Drug-induced mental and behavior disorder,30,q-and-a
+Chronic care diagnosis,"Reaction to severe stress, and adjustment disorder",31,q-and-a
+Chronic care diagnosis,"Dissociative, Conversion and Factitious Disorders",32,q-and-a
+Chronic care diagnosis,Somatoform Disorder,33,q-and-a
+Chronic care diagnosis,Puerperal disorder,34,q-and-a
+Chronic care diagnosis,Personality Disorder,35,q-and-a
+Chronic care diagnosis,Mental retardation,36,q-and-a
+Chronic care diagnosis,Psychological development disorder,37,q-and-a
+Chronic care diagnosis,Hyperkinetic behavior,38,q-and-a
+Chronic care diagnosis,Sickle cell disease,39,q-and-a
+Chronic care diagnosis,Tropical splenomegaly syndrome,40,q-and-a
+Chronic care diagnosis,Cirrhosis,41,q-and-a
+Chronic care diagnosis,Rheumatic heart disease,42,q-and-a
+Chronic care diagnosis,Congestive heart failure,43,q-and-a
+Chronic care diagnosis,Polycystic kidney disease,44,q-and-a
+Chronic care diagnosis,Rheumatoid arthritis,45,q-and-a
+Chronic care diagnosis,Hepatitis B,46,q-and-a
+Chronic care diagnosis,Deep vein thrombosis,47,q-and-a
+Chronic care diagnosis,Congenital heart disease,48,q-and-a
+Chronic care diagnosis,Coronary artery disease,49,q-and-a
+Chronic care diagnosis,Other diagnosis,50,q-and-a
+Chronic care diagnosis,Mood Affective Disorder (Bipolar),51,q-and-a
+Chronic liver disease,No,8949,q-and-a
+Chronic liver disease,Yes,8950,q-and-a
+Colposcopy of cervix with acetic acid,Normal,1,q-and-a
+Colposcopy of cervix with acetic acid,Abnormal,2,q-and-a
+Colposcopy of cervix with acetic acid,Neoplasm,3,q-and-a
+Colposcopy of cervix with acetic acid,Other non-coded,4,q-and-a
+Communication Development,Yes,1,q-and-a
+Communication Development,No,2,q-and-a
+Complications since last visit,Yes,1,q-and-a
+Complications since last visit,No,2,q-and-a
+Confirmatory HIV test type,HIV DNA polymerase chain reaction,9597,q-and-a
+Confirmatory HIV test type,"HIV rapid test, qualitative",9598,q-and-a
+Confirmatory HIV test type,Unknown,9599,q-and-a
+Confirmed (coded),Yes,1,q-and-a
+Confirmed (coded),No,2,q-and-a
+Confirmed (coded),Unknown,3,q-and-a
+Continue followup,Yes,1,q-and-a
+Continue followup,No,2,q-and-a
+Counseling,Yes,1,q-and-a
+Counseling,No,2,q-and-a
+Course Hair,Yes,1,q-and-a
+Course Hair,No,2,q-and-a
+Course Hair,Unknown,3,q-and-a
+Cup-feeding,Yes,1,q-and-a
+Cup-feeding,No,2,q-and-a
+Currently (or in the last week) taking antibiotics,No,8897,q-and-a
+Currently (or in the last week) taking antibiotics,Yes,8898,q-and-a
+Date scheduled,Yes,1,q-and-a
+Date scheduled,No,2,q-and-a
+Development Counsel,Yes,1,q-and-a
+Development Counsel,No,2,q-and-a
+Diabetes mellitus,Diabetic polyneuropathy,9299,q-and-a
+Diabetes mellitus,Other,9300,q-and-a
+Diabetes mellitus,Ulcers,9301,q-and-a
+Diabetes mellitus,Diabetic ketoacidosis,9302,q-and-a
+Diabetes mellitus,Hyperglycaemia,9303,q-and-a
+Diabetes mellitus,Hypoglycemia,9304,q-and-a
+Diabetes mellitus,Diabetic retinopathy,9305,q-and-a
+Diabetes mellitus,Opportunistic infections,9306,q-and-a
+Diabetes mellitus,Hyper-osmolar non-ketotic diabetic coma,9307,q-and-a
+Diabetes mellitus,Diabetic lactic acidosis,9308,q-and-a
+Diabetes mellitus,Diabetic nephropathy,9309,q-and-a
+Diagnosis,Angio-edema,3932,q-and-a
+Diagnosis,Anxiety disorder,3934,q-and-a
+Diagnosis,Acquired immunodeficiency syndrome,3935,q-and-a
+Diagnosis,Assault,3936,q-and-a
+Diagnosis,Anemia,3937,q-and-a
+Diagnosis,Arthritis,3939,q-and-a
+Diagnosis,"Anemia, blood loss",3941,q-and-a
+Diagnosis,"Anemia, hemolysis",3942,q-and-a
+Diagnosis,Anaphylaxis,3943,q-and-a
+Diagnosis,Allergy,3944,q-and-a
+Diagnosis,Amoebiasis,3946,q-and-a
+Diagnosis,Acute pneumonia presumed bacterial,3947,q-and-a
+Diagnosis,"Accident, NOT otherwise specified",3949,q-and-a
+Diagnosis,Appendicitis,3950,q-and-a
+Diagnosis,"Accident, motor vehicle",3951,q-and-a
+Diagnosis,Angular cheilitis,3952,q-and-a
+Diagnosis,Acne,3953,q-and-a
+Diagnosis,Abscess,3954,q-and-a
+Diagnosis,"Acute necrotizing ulcerative stomatitis, gingivitis or periodontitis",3955,q-and-a
+Diagnosis,"Anemia, iron deficiency",3956,q-and-a
+Diagnosis,"Bite, dog",3958,q-and-a
+Diagnosis,Bronchitis,3960,q-and-a
+Diagnosis,Asthma exacerbation,3961,q-and-a
+Diagnosis,Other neurological condition,3962,q-and-a
+Diagnosis,Schistosomiasis,3963,q-and-a
+Diagnosis,Biliary tract disease not otherwise specified,3964,q-and-a
+Diagnosis,Asthma,3965,q-and-a
+Diagnosis,"Candidiasis, vaginal",3967,q-and-a
+Diagnosis,Brucellosis,3969,q-and-a
+Diagnosis,Asymptomatic HIV infection,3971,q-and-a
+Diagnosis,Bartholin's abscess,3973,q-and-a
+Diagnosis,Bronchopneumonia,3974,q-and-a
+Diagnosis,Candidiasis,3976,q-and-a
+Diagnosis,"Bite, animal",3977,q-and-a
+Diagnosis,"Leishmaniasis, atypical disseminated",3978,q-and-a
+Diagnosis,Burn,3979,q-and-a
+Diagnosis,"Bronchitis, acute",3980,q-and-a
+Diagnosis,"Bite, human",3981,q-and-a
+Diagnosis,Cardiomyopathy,3983,q-and-a
+Diagnosis,Cardiovascular disease,3984,q-and-a
+Diagnosis,Cataract,3985,q-and-a
+Diagnosis,Cellulitis,3986,q-and-a
+Diagnosis,Toxoplasmosis of the brain,3987,q-and-a
+Diagnosis,Cerebral palsy,3988,q-and-a
+Diagnosis,Cerumen impaction,3989,q-and-a
+Diagnosis,Cervicitis,3990,q-and-a
+Diagnosis,Chalazion,3991,q-and-a
+Diagnosis,Chlamydia trachomatis,3993,q-and-a
+Diagnosis,Cholecystitis,3994,q-and-a
+Diagnosis,Cholera,3995,q-and-a
+Diagnosis,"Chronic HIV-associated lung disease, including bronchiectasis",3996,q-and-a
+Diagnosis,Chronic isosporiasis,3997,q-and-a
+Diagnosis,Congestive heart failure,4000,q-and-a
+Diagnosis,Conjunctivitis,4001,q-and-a
+Diagnosis,Seizures,4002,q-and-a
+Diagnosis,Convulsions or neurological deficit presumed cerebral lymphoma,4003,q-and-a
+Diagnosis,Convulsions or neurological deficit presumed due to tuberculosis,4004,q-and-a
+Diagnosis,Convulsions or neurological deficit presumed malaria,4005,q-and-a
+Diagnosis,Convulsions or neurological deficit presumed toxoplasmosis,4006,q-and-a
+Diagnosis,Cryptococcosis,4007,q-and-a
+Diagnosis,Deceased,4009,q-and-a
+Diagnosis,Dementia,4010,q-and-a
+Diagnosis,"Dementia, senile",4011,q-and-a
+Diagnosis,Dental caries,4012,q-and-a
+Diagnosis,Depression,4013,q-and-a
+Diagnosis,"Dermatitis, allergic",4016,q-and-a
+Diagnosis,Dermatophytosis,4017,q-and-a
+Diagnosis,Diabetes insipidus,4019,q-and-a
+Diagnosis,Diabetes mellitus,4020,q-and-a
+Diagnosis,Diarrhea,4021,q-and-a
+Diagnosis,"Diarrhea, bacterial",4023,q-and-a
+Diagnosis,"Diarrhea, parasite",4025,q-and-a
+Diagnosis,Dislocation,4028,q-and-a
+Diagnosis,Disseminated non-tuberculosis mycobacterial infection,4029,q-and-a
+Diagnosis,Duodenal ulcer,4030,q-and-a
+Diagnosis,Dysentery bacilliary,4032,q-and-a
+Diagnosis,Eczema,4033,q-and-a
+Diagnosis,Encephalopathy,4034,q-and-a
+Diagnosis,HIV encephalopathy,4035,q-and-a
+Diagnosis,Encephalopathy presumed not due to HIV,4036,q-and-a
+Diagnosis,Enteropathy,4037,q-and-a
+Diagnosis,Epilepsy,4038,q-and-a
+Diagnosis,Extrapulmonary cryptococcosis including meningitis,4039,q-and-a
+Diagnosis,Extrapulmonary tuberculosis without lymphadenopathy,4040,q-and-a
+Diagnosis,Failure to thrive,4043,q-and-a
+Diagnosis,False labor,4044,q-and-a
+Diagnosis,Fever of unknown origin,4046,q-and-a
+Diagnosis,Folliculitis,4047,q-and-a
+Diagnosis,Foreign body,4048,q-and-a
+Diagnosis,Fracture,4049,q-and-a
+Diagnosis,"Fracture, colles",4050,q-and-a
+Diagnosis,Fungal infection,4051,q-and-a
+Diagnosis,Fungal nail infection,4053,q-and-a
+Diagnosis,Furunculosis,4055,q-and-a
+Diagnosis,Gallstones,4056,q-and-a
+Diagnosis,Gastric ulcer,4057,q-and-a
+Diagnosis,"Gastritis, nos",4058,q-and-a
+Diagnosis,Gastroenteritis,4059,q-and-a
+Diagnosis,"Genital ulcers, chancroid",4060,q-and-a
+Diagnosis,"Genital ulcers, lgv",4061,q-and-a
+Diagnosis,Gingivitis,4062,q-and-a
+Diagnosis,Gonorrhea,4063,q-and-a
+Diagnosis,Head injury,4065,q-and-a
+Diagnosis,Helminthiasis,4066,q-and-a
+Diagnosis,Hepatitis,4067,q-and-a
+Diagnosis,Hepatitis A,4068,q-and-a
+Diagnosis,Hepatitis B,4069,q-and-a
+Diagnosis,Hepatitis C,4070,q-and-a
+Diagnosis,Hepatotoxicity,4071,q-and-a
+Diagnosis,Herpes simplex genital infection,4072,q-and-a
+Diagnosis,Herpes zoster,4073,q-and-a
+Diagnosis,HIV infected,4074,q-and-a
+Diagnosis,Hypertension,4075,q-and-a
+Diagnosis,Human immunodeficiency virus,4076,q-and-a
+Diagnosis,Human papillomavirus,4077,q-and-a
+Diagnosis,Hyperemesis gravidarum,4078,q-and-a
+Diagnosis,Hypokalemia,4080,q-and-a
+Diagnosis,Injury,4082,q-and-a
+Diagnosis,Congestive heart failure,4084,q-and-a
+Diagnosis,Invasive cancer of cervix,4086,q-and-a
+Diagnosis,Sexually transmitted infection,4087,q-and-a
+Diagnosis,Kaposi sarcoma oral,4089,q-and-a
+Diagnosis,Kaposis sarcoma,4090,q-and-a
+Diagnosis,Labor pain,4092,q-and-a
+Diagnosis,Laceration,4094,q-and-a
+Diagnosis,Leiomyosarcoma,4095,q-and-a
+Diagnosis,Leukaemia,4097,q-and-a
+Diagnosis,Progressive multifocal leukoencephalopathy,4098,q-and-a
+Diagnosis,Lineal gingival erythema,4099,q-and-a
+Diagnosis,Cerebral or B-cell non Hodgkin lymphoma,4101,q-and-a
+Diagnosis,Malaria,4102,q-and-a
+Diagnosis,Malnutrition,4108,q-and-a
+Diagnosis,Mastitis,4109,q-and-a
+Diagnosis,Measles,4110,q-and-a
+Diagnosis,Meningitis,4111,q-and-a
+Diagnosis,Meningitis acute bacterial,4112,q-and-a
+Diagnosis,Meningitis sub-acute presumed cryptococcus,4113,q-and-a
+Diagnosis,Meningitis sub-acute presumed tuberculosis,4114,q-and-a
+Diagnosis,Menstrual dysfunction,4115,q-and-a
+Diagnosis,Incomplete abortion,4116,q-and-a
+Diagnosis,Molluscum contagiosum,4117,q-and-a
+Diagnosis,Candidiasis,4118,q-and-a
+Diagnosis,Multidrug-resistant TB,4119,q-and-a
+Diagnosis,Mumps,4120,q-and-a
+Diagnosis,"Mycobacterium tuberculosis, extrapulmonary",4121,q-and-a
+Diagnosis,"Mycobacterium tuberculosis, pulmonary",4122,q-and-a
+Diagnosis,Neonatal sepsis,4123,q-and-a
+Diagnosis,Neoplasm,4124,q-and-a
+Diagnosis,Nephropathy,4125,q-and-a
+Diagnosis,Other neurological condition,4126,q-and-a
+Diagnosis,Peripheral neuropathy,4127,q-and-a
+Diagnosis,Nocardiosis,4128,q-and-a
+Diagnosis,Other enteritis,4133,q-and-a
+Diagnosis,Other psychiatric or neurological adverse effect,4134,q-and-a
+Diagnosis,Otitis externa,4135,q-and-a
+Diagnosis,Otitis media,4136,q-and-a
+Diagnosis,Papular itchy skin eruptions,4137,q-and-a
+Diagnosis,Paraphimosis,4138,q-and-a
+Diagnosis,Pellagra,4141,q-and-a
+Diagnosis,Pelvic inflammatory disease,4142,q-and-a
+Diagnosis,Peptic ulcer,4143,q-and-a
+Diagnosis,Peripheral neuropathy,4144,q-and-a
+Diagnosis,Persistent oral candidiasis,4145,q-and-a
+Diagnosis,Pertussis,4146,q-and-a
+Diagnosis,Pharyngitis,4147,q-and-a
+Diagnosis,Pneumocystis pneumonia,4149,q-and-a
+Diagnosis,Pneumonia,4150,q-and-a
+Diagnosis,"Pneumonia, lobar",4152,q-and-a
+Diagnosis,Pulmonary tuberculosis,4153,q-and-a
+Diagnosis,Pneumopathy,4154,q-and-a
+Diagnosis,Pneumothorax,4155,q-and-a
+Diagnosis,Poliomyelitis,4157,q-and-a
+Diagnosis,Postpartum hemorrhage,4158,q-and-a
+Diagnosis,Pregnancy,4159,q-and-a
+Diagnosis,Ectopic pregnancy,4160,q-and-a
+Diagnosis,"Pregnancy, hypertension associated",4161,q-and-a
+Diagnosis,"Pregnancy, miscarriage",4162,q-and-a
+Diagnosis,"Pregnancy, termination",4163,q-and-a
+Diagnosis,Progressive multifocal leukoencephalopathy,4164,q-and-a
+Diagnosis,Psychiatric history,4165,q-and-a
+Diagnosis,Psychosis,4166,q-and-a
+Diagnosis,Puerperal sepsis,4168,q-and-a
+Diagnosis,Pulmonary effusion,4169,q-and-a
+Diagnosis,Rectovaginal fistula,4174,q-and-a
+Diagnosis,Recurrent bacteraemia or sepsis with NTS,4175,q-and-a
+Diagnosis,"Oral ulcerations, recurrent",4176,q-and-a
+Diagnosis,"Bacterial infections, severe recurrent  (empyema, pyomyositis, meningitis, bone/joint infections but EXCLUDING pneumonia)",4177,q-and-a
+Diagnosis,Rheumatic heart disease,4180,q-and-a
+Diagnosis,Rheumatoid arthritis,4181,q-and-a
+Diagnosis,Scabies,4186,q-and-a
+Diagnosis,Schistosomiasis,4187,q-and-a
+Diagnosis,Schizophrenia,4188,q-and-a
+Diagnosis,Seborrhoeic dermatitis,4190,q-and-a
+Diagnosis,Seizures,4191,q-and-a
+Diagnosis,Severe dysphagia presumed invasive,4194,q-and-a
+Diagnosis,Sexual assault,4195,q-and-a
+Diagnosis,Sexually transmitted infection,4197,q-and-a
+Diagnosis,Shoulder dislocation,4198,q-and-a
+Diagnosis,Sinusitis,4199,q-and-a
+Diagnosis,Spondylosis,4204,q-and-a
+Diagnosis,Sub-acute pneumonia presumed pcp,4207,q-and-a
+Diagnosis,Symptomatic nephropathy or cardiomyopathy presumed due to hiv,4208,q-and-a
+Diagnosis,Synovitis,4209,q-and-a
+Diagnosis,Syphilis,4210,q-and-a
+Diagnosis,TB lymphadenopathy,4211,q-and-a
+Diagnosis,TB status drug resistance,4212,q-and-a
+Diagnosis,Thrombocytopenia,4213,q-and-a
+Diagnosis,Tinea capitis,4215,q-and-a
+Diagnosis,Tinea corporis,4216,q-and-a
+Diagnosis,Tonsillitis,4217,q-and-a
+Diagnosis,"Toxicity, drug",4218,q-and-a
+Diagnosis,"Toxicity, food",4219,q-and-a
+Diagnosis,"Toxicity, NOT otherwise specified",4220,q-and-a
+Diagnosis,Trichomonas,4221,q-and-a
+Diagnosis,Tuberculoma,4223,q-and-a
+Diagnosis,Tuberculosis,4224,q-and-a
+Diagnosis,Typhoid fever,4226,q-and-a
+Diagnosis,"Anaemia, unexplained < 8 g/dl",4231,q-and-a
+Diagnosis,Unexplained persistant heptomegaly and splenomegaly,4232,q-and-a
+Diagnosis,Upper respiratory tract infection,4234,q-and-a
+Diagnosis,Urinary tract infection,4236,q-and-a
+Diagnosis,Vaginal/urethral discharge Non-GC,4239,q-and-a
+Diagnosis,Vaginitis,4240,q-and-a
+Diagnosis,Varicella zoster,4241,q-and-a
+Diagnosis,Varicose leg ulcers,4242,q-and-a
+Diagnosis,Venous stasis,4243,q-and-a
+Diagnosis,Wart virus infection,4244,q-and-a
+Diagnosis,Vitamin C deficiency,4245,q-and-a
+Diagnosis,Vitamin D deficiency,4246,q-and-a
+Diagnosis,HIV wasting syndrome (severe weight loss + persistent fever or severe weight loss + chronic diarrhoea),4247,q-and-a
+Diagnosis,"Wound, deep",4252,q-and-a
+Diagnosis,"Wound, septic",4254,q-and-a
+Diagnosis,Yellow fever,4255,q-and-a
+Diagnosis,Herpes zoster,4256,q-and-a
+Diagnosis,"Bronchitis, recurrent",4257,q-and-a
+Diagnosis,"Rash, septic",8450,q-and-a
+Diagnosis,"Arthritis, knee",8472,q-and-a
+Diagnosis,Wound nos,8514,q-and-a
+Diagnosis,654852ce-977f-11e1-8993-905e29aff6c1,8733,q-and-a
+Diagnosis,6546bef0-977f-11e1-8993-905e29aff6c1,8734,q-and-a
+Diagnosis,65469150-977f-11e1-8993-905e29aff6c1,8735,q-and-a
+Diagnosis,654850a8-977f-11e1-8993-905e29aff6c1,8736,q-and-a
+Diagnosis,65483488-977f-11e1-8993-905e29aff6c1,8737,q-and-a
+Diagnosis,65461612-977f-11e1-8993-905e29aff6c1,8738,q-and-a
+Diagnosis,6546b1f8-977f-11e1-8993-905e29aff6c1,8739,q-and-a
+Diagnosis,6546de12-977f-11e1-8993-905e29aff6c1,8740,q-and-a
+Diagnosis,6546b536-977f-11e1-8993-905e29aff6c1,8741,q-and-a
+Diagnosis,6545d260-977f-11e1-8993-905e29aff6c1,8742,q-and-a
+Diagnosis,654b163a-977f-11e1-8993-905e29aff6c1,8743,q-and-a
+Diagnosis,656a248a-977f-11e1-8993-905e29aff6c1,8744,q-and-a
+Diagnosis,654606e0-977f-11e1-8993-905e29aff6c1,8745,q-and-a
+Diagnosis,6546c44a-977f-11e1-8993-905e29aff6c1,8746,q-and-a
+Diagnosis,6545d99a-977f-11e1-8993-905e29aff6c1,8747,q-and-a
+Diagnosis,6545d47c-977f-11e1-8993-905e29aff6c1,8748,q-and-a
+Diagnosis,6545b74e-977f-11e1-8993-905e29aff6c1,8749,q-and-a
+Diagnosis,654993aa-977f-11e1-8993-905e29aff6c1,8750,q-and-a
+Diagnosis,6547a4f0-977f-11e1-8993-905e29aff6c1,8751,q-and-a
+Diagnosis,6545ecc8-977f-11e1-8993-905e29aff6c1,8752,q-and-a
+Diagnosis,6546a2da-977f-11e1-8993-905e29aff6c1,8753,q-and-a
+Diagnosis,654695c4-977f-11e1-8993-905e29aff6c1,8754,q-and-a
+Diagnosis,6546259e-977f-11e1-8993-905e29aff6c1,8755,q-and-a
+Diagnosis,6548aae4-977f-11e1-8993-905e29aff6c1,8756,q-and-a
+Diagnosis,654afcea-977f-11e1-8993-905e29aff6c1,8757,q-and-a
+Diagnosis,6545e3ae-977f-11e1-8993-905e29aff6c1,8758,q-and-a
+Diagnosis,6545dfb2-977f-11e1-8993-905e29aff6c1,8759,q-and-a
+Diagnosis,6545b956-977f-11e1-8993-905e29aff6c1,8760,q-and-a
+Diagnosis,6547ab80-977f-11e1-8993-905e29aff6c1,8761,q-and-a
+Diagnosis,654853dc-977f-11e1-8993-905e29aff6c1,8762,q-and-a
+Diagnosis,65698a5c-977f-11e1-8993-905e29aff6c1,8763,q-and-a
+Diagnosis,6545e1b0-977f-11e1-8993-905e29aff6c1,8764,q-and-a
+Diagnosis,6546ada2-977f-11e1-8993-905e29aff6c1,8765,q-and-a
+Diagnosis,6546c008-977f-11e1-8993-905e29aff6c1,8766,q-and-a
+Diagnosis,6546d9c6-977f-11e1-8993-905e29aff6c1,8767,q-and-a
+Diagnosis,654751bc-977f-11e1-8993-905e29aff6c1,8768,q-and-a
+Diagnosis,656983f4-977f-11e1-8993-905e29aff6c1,8769,q-and-a
+Diagnosis,654a5150-977f-11e1-8993-905e29aff6c1,8770,q-and-a
+Diagnosis,6546d354-977f-11e1-8993-905e29aff6c1,8771,q-and-a
+Diagnosis,65483370-977f-11e1-8993-905e29aff6c1,8772,q-and-a
+Diagnosis,6545e9bc-977f-11e1-8993-905e29aff6c1,8773,q-and-a
+Diagnosis,6545c9f0-977f-11e1-8993-905e29aff6c1,8774,q-and-a
+Diagnosis,6545cb08-977f-11e1-8993-905e29aff6c1,8775,q-and-a
+Diagnosis,654696dc-977f-11e1-8993-905e29aff6c1,8776,q-and-a
+Diagnosis,6546b874-977f-11e1-8993-905e29aff6c1,8777,q-and-a
+Diagnosis,65483262-977f-11e1-8993-905e29aff6c1,8778,q-and-a
+Diagnosis,65462260-977f-11e1-8993-905e29aff6c1,8779,q-and-a
+Diagnosis,6546901a-977f-11e1-8993-905e29aff6c1,8780,q-and-a
+Diagnosis,6546bdd8-977f-11e1-8993-905e29aff6c1,8781,q-and-a
+Diagnosis,6545d58a-977f-11e1-8993-905e29aff6c1,8782,q-and-a
+Diagnosis,65465a96-977f-11e1-8993-905e29aff6c1,8783,q-and-a
+Diagnosis,6546e146-977f-11e1-8993-905e29aff6c1,8784,q-and-a
+Diagnosis,65474f8c-977f-11e1-8993-905e29aff6c1,8785,q-and-a
+Diagnosis,6546b64e-977f-11e1-8993-905e29aff6c1,8786,q-and-a
+Diagnosis,65485b66-977f-11e1-8993-905e29aff6c1,8787,q-and-a
+Diagnosis,654b1522-977f-11e1-8993-905e29aff6c1,8788,q-and-a
+Diagnosis,6545b852-977f-11e1-8993-905e29aff6c1,8789,q-and-a
+Diagnosis,6545da9e-977f-11e1-8993-905e29aff6c1,8790,q-and-a
+Diagnosis,65487cf4-977f-11e1-8993-905e29aff6c1,8791,q-and-a
+Diagnosis,654aaa4c-977f-11e1-8993-905e29aff6c1,8792,q-and-a
+Diagnosis,65469d6c-977f-11e1-8993-905e29aff6c1,8793,q-and-a
+Diagnosis,654ab230-977f-11e1-8993-905e29aff6c1,8794,q-and-a
+Diagnosis,654ac14e-977f-11e1-8993-905e29aff6c1,8795,q-and-a
+Diagnosis,6545e0ac-977f-11e1-8993-905e29aff6c1,8796,q-and-a
+Diagnosis,654a55a6-977f-11e1-8993-905e29aff6c1,8797,q-and-a
+Diagnosis,6546cdf0-977f-11e1-8993-905e29aff6c1,8798,q-and-a
+Diagnosis,6545dca6-977f-11e1-8993-905e29aff6c1,8799,q-and-a
+Diagnosis,6549a912-977f-11e1-8993-905e29aff6c1,8800,q-and-a
+Diagnosis,654aab50-977f-11e1-8993-905e29aff6c1,8801,q-and-a
+Diagnosis,6546c788-977f-11e1-8993-905e29aff6c1,8802,q-and-a
+Diagnosis,6547a2ca-977f-11e1-8993-905e29aff6c1,8803,q-and-a
+Diagnosis,654aea70-977f-11e1-8993-905e29aff6c1,8804,q-and-a
+Diagnosis,6546d23c-977f-11e1-8993-905e29aff6c1,8805,q-and-a
+Diagnosis,65469268-977f-11e1-8993-905e29aff6c1,8806,q-and-a
+Diagnosis,654a5038-977f-11e1-8993-905e29aff6c1,8807,q-and-a
+Diagnosis,6545a51a-977f-11e1-8993-905e29aff6c1,8808,q-and-a
+Diagnosis,654acbc6-977f-11e1-8993-905e29aff6c1,8809,q-and-a
+Diagnosis,6546d016-977f-11e1-8993-905e29aff6c1,8810,q-and-a
+Diarrhea Persistent,Yes,1,q-and-a
+Diarrhea Persistent,No,2,q-and-a
+Difficult breathing,Yes,1,q-and-a
+Difficult breathing,No,2,q-and-a
+Discharge,Yes,1,q-and-a
+Discharge,No,2,q-and-a
+DNA-PCR Testing Result,Negative,9800,q-and-a
+DNA-PCR Testing Result,Positive,9801,q-and-a
+DNA-PCR Testing Result 2,Negative,9802,q-and-a
+DNA-PCR Testing Result 2,Positive,9803,q-and-a
+DNA-PCR Testing Result 3,Negative,9804,q-and-a
+DNA-PCR Testing Result 3,Positive,9805,q-and-a
+Done,Yes,1,q-and-a
+Done,No,2,q-and-a
+Done,Unknown,3,q-and-a
+Duration (coded),Less than or equal to 48 hours,1,q-and-a
+Duration (coded),Seven Days,2,q-and-a
+Duration (coded),Greater Than Seven Days,3,q-and-a
+Dysentery,Other,9325,q-and-a
+Dysentery,Bacillary,9326,q-and-a
+Dysentery,Amoebic,9327,q-and-a
+Empyema,Test requested,8584,q-and-a
+Empyema,Result available,8585,q-and-a
+Encephalopathy,Respiratory,9336,q-and-a
+Encephalopathy,Other,9337,q-and-a
+Encephalopathy,Human immunodeficiency virus,9338,q-and-a
+Encephalopathy,Hepatic,9339,q-and-a
+Encephalopathy,Hypoxic,9340,q-and-a
+Enrolled in NCD,Yes,1,q-and-a
+Enrolled in NCD,No,2,q-and-a
+Enrolled in PDC,Yes,1,q-and-a
+Enrolled in PDC,No,2,q-and-a
+Facial abnormalities,Yes,1,q-and-a
+Facial abnormalities,No,2,q-and-a
+Family History of Diabetes Mellitus,Yes,1,q-and-a
+Family History of Diabetes Mellitus,No,2,q-and-a
+Family History of Diabetes Mellitus,Unknown,3,q-and-a
+Feeding issues,Yes,1,q-and-a
+Feeding issues,No,2,q-and-a
+First positive HIV test type,HIV DNA polymerase chain reaction,8728,q-and-a
+First positive HIV test type,"HIV rapid test, qualitative",8729,q-and-a
+First positive HIV test type,Unknown,9182,q-and-a
+Food Package,Yes,1,q-and-a
+Food Package,No,2,q-and-a
+Food Package,Unknown,3,q-and-a
+Food supplement,Yes,1,q-and-a
+Food supplement,No,2,q-and-a
+Functional status,No support,1,q-and-a
+Functional status,Needs,2,q-and-a
+Functional status,Bed ridden,3,q-and-a
+Gastroenteritis,Acute,9341,q-and-a
+Gastroenteritis,Other,9342,q-and-a
+Gastroenteritis,Chronic,9343,q-and-a
+Greater Than,Yes,1,q-and-a
+Greater Than,No,2,q-and-a
+Greater Than,Unknown,3,q-and-a
+Greater Than or equal to,Yes,1,q-and-a
+Greater Than or equal to,No,2,q-and-a
+Greater Than or equal to,Unknown,3,q-and-a
+Group Counselling,Yes,1,q-and-a
+Group Counselling,No,2,q-and-a
+Group Session,Yes,1,q-and-a
+Group Session,No,2,q-and-a
+Group Session,Unknown,3,q-and-a
+Heart failure,Congestive cardiac failure,9344,q-and-a
+Heart failure,Right ventricular failure,9345,q-and-a
+Heart failure,Left ventricular failure,9346,q-and-a
+Heart murmur,Yes,1,q-and-a
+Heart murmur,No,2,q-and-a
+Hepatitis,Acute,9350,q-and-a
+Hepatitis,Other,9351,q-and-a
+Hepatitis,Chronic,9352,q-and-a
+Herpes zoster,Specify dermatome,9358,q-and-a
+HIV DNA polymerase chain reaction,Indeterminate,5100,q-and-a
+HIV DNA polymerase chain reaction,Negative,5101,q-and-a
+HIV DNA polymerase chain reaction,Positive,5102,q-and-a
+HIV DNA polymerase chain reaction,NOT done,9784,q-and-a
+"HIV rapid test, qualitative",Indeterminate,767,q-and-a
+"HIV rapid test, qualitative",Negative,768,q-and-a
+"HIV rapid test, qualitative",Positive,769,q-and-a
+"HIV rapid test, qualitative",NOT done,9785,q-and-a
+HIV test type,"HIV rapid test, qualitative",1554,q-and-a
+HIV test type,HIV DNA polymerase chain reaction,8363,q-and-a
+Hyper,Yes,1,q-and-a
+Hyper,No,2,q-and-a
+Hyper,Unknown,3,q-and-a
+Hypertension,Other,9359,q-and-a
+Hypertension,Endocrine,9360,q-and-a
+Hypertension,Coarctation of aorta,9361,q-and-a
+Hypertension,Essential,9362,q-and-a
+Hypertension,Renal,9363,q-and-a
+Hypertension,Malignant,9364,q-and-a
+Hypo,Yes,1,q-and-a
+Hypo,No,2,q-and-a
+Hypo,Unknown,3,q-and-a
+"If yes,Adolescent referred?",Yes,1,q-and-a
+"If yes,Adolescent referred?",No,2,q-and-a
+"If yes,Adolescent registered?",Yes,1,q-and-a
+"If yes,Adolescent registered?",No,2,q-and-a
+Inequalities / Angle Brackets,Less Than,1,q-and-a
+Inequalities / Angle Brackets,Less Than or equal to,2,q-and-a
+Inequalities / Angle Brackets,Greater Than,3,q-and-a
+Inequalities / Angle Brackets,Greater Than or equal to,4,q-and-a
+Irritability (coded),Yes,1,q-and-a
+Irritability (coded),No,2,q-and-a
+Irritability (coded),Unknown,3,q-and-a
+Is patient pregnant?,No,5499,q-and-a
+Is patient pregnant?,Yes,5500,q-and-a
+Is patient pregnant?,Unknown,9181,q-and-a
+Jaundice,Yes,1,q-and-a
+Jaundice,No,2,q-and-a
+Kaposis sarcoma,Pulmonary,9365,q-and-a
+Kaposis sarcoma,Other,9366,q-and-a
+Kaposis sarcoma,Cutaneous,9367,q-and-a
+Kaposis sarcoma,Palatal,9368,q-and-a
+Kaposis sarcoma,Pulmonary effusion,9369,q-and-a
+Kaposis sarcoma,Gastrointestinal,9370,q-and-a
+Left Ear,Pass,1,q-and-a
+Left Ear,Fail,2,q-and-a
+Less feed,Yes,1,q-and-a
+Less feed,No,2,q-and-a
+Less feed,Unknown,3,q-and-a
+Less Than,Yes,1,q-and-a
+Less Than,No,2,q-and-a
+Less Than,Unknown,3,q-and-a
+Less Than or equal to,Yes,1,q-and-a
+Less Than or equal to,No,2,q-and-a
+Less Than or equal to,Unknown,3,q-and-a
+Leukaemia,Other,9375,q-and-a
+Leukaemia,Acute lymphocytic,9376,q-and-a
+Leukaemia,Acute myeloid,9377,q-and-a
+Leukaemia,Chronic myeloid,9378,q-and-a
+Leukaemia,Chronic lymphocytic,9379,q-and-a
+Location of laboratory,Lisungwi GeneXpert,1,q-and-a
+Location of laboratory,Neno GeneXpert,2,q-and-a
+Location of laboratory,Central Laboratory,3,q-and-a
+Location of laboratory,Zalewa GeneXpert,4,q-and-a
+Location of Visit,Home,1,q-and-a
+Location of Visit,IC3,2,q-and-a
+Location of Visit,Hospital Ward,3,q-and-a
+Macrocytic,Sickle cell disease,9212,q-and-a
+Macrocytic,Folate deficiency,9213,q-and-a
+Macrocytic,Malaria-associated,9214,q-and-a
+Macrocytic,Haemolysis,9215,q-and-a
+Macrocytic,Unknown,9216,q-and-a
+Macrocytic,B12 deficiency,9217,q-and-a
+Macrocytic,Chronic disease,9218,q-and-a
+Macrocytic,Blood loss,9219,q-and-a
+Macrocytic,Other cause,9220,q-and-a
+Macrocytic,Drug induced,9221,q-and-a
+Macrocytic,Iron deficiency,9222,q-and-a
+Malaria,Severe anaemia,9386,q-and-a
+Malaria,Uncomplicated,9387,q-and-a
+Malaria,"Renal failure, acute",9388,q-and-a
+Malaria,Other complication,9389,q-and-a
+Malaria,Cerebral,9390,q-and-a
+Malaria,Respiratory distress,9391,q-and-a
+Malawi Antiretroviral drugs change 1,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 1,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 1,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 1,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 1,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 1,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 1,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 1,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 1,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 1,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 1,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 1,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 1,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 1,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 1,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 1,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 1,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 1,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 1,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 1,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 1,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 1,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 1,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 1,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 1,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 1,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 1,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 1,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 1,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 1,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 1,Non standard,31,q-and-a
+Malawi Antiretroviral drugs change 2,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 2,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 2,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 2,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 2,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 2,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 2,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 2,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 2,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 2,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 2,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 2,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 2,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 2,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 2,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 2,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 2,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 2,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 2,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 2,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 2,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 2,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 2,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 2,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 2,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 2,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 2,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 2,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 2,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 2,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 2,Non standard,31,q-and-a
+Malawi Antiretroviral drugs change 3,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 3,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 3,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 3,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 3,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 3,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 3,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 3,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 3,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 3,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 3,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 3,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 3,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 3,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 3,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 3,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 3,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 3,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 3,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 3,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 3,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 3,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 3,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 3,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 3,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 3,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 3,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 3,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 3,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 3,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 3,Non standard,31,q-and-a
+Malawi Antiretroviral drugs received,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs received,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs received,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs received,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs received,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs received,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs received,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs received,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs received,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs received,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs received,4PP: AZT 60 / 3TC 30 + EFV 200,11,q-and-a
+Malawi Antiretroviral drugs received,4PA: AZT 300 / 3TC 150 + EFV 200,12,q-and-a
+Malawi Antiretroviral drugs received,5A: TDF / 3TC / EFV,13,q-and-a
+Malawi Antiretroviral drugs received,6A: TDF / 3TC + NVP,14,q-and-a
+Malawi Antiretroviral drugs received,7A: TDF / 3TC + ATV/r,15,q-and-a
+Malawi Antiretroviral drugs received,8A: AZT / 3TC + ATV/r,16,q-and-a
+Malawi Antiretroviral drugs received,9A: ABC / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs received,9P: ABC / 3TC + LPV/r,18,q-and-a
+Malawi Antiretroviral drugs received,9PP: ABC 120 / 3TC 60 + LPV/r 100/25,19,q-and-a
+Malawi Antiretroviral drugs received,9PA: ABC 600 / 3TC 300 + LPV/r 100/25,20,q-and-a
+Malawi Antiretroviral drugs received,10A: TDF / 3TC + LPV/r,21,q-and-a
+Malawi Antiretroviral drugs received,11A: AZT / 3TC + LPV,22,q-and-a
+Malawi Antiretroviral drugs received,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),23,q-and-a
+Malawi Antiretroviral drugs received,11PP: AZT 60 / 3TC 30 + LPV/r 100/25,24,q-and-a
+Malawi Antiretroviral drugs received,11PA: AZT 300 / 3TC 150 + LPV/r 100/25,25,q-and-a
+Malawi Antiretroviral drugs received,12A: DRV + r + DTG,26,q-and-a
+Malawi Antiretroviral drugs received,12PP: DRV 150 + r 50 + DTG 10 (± NRTIs),27,q-and-a
+Malawi Antiretroviral drugs received,12PA: DRV 150 + r 50 + DTG 50,28,q-and-a
+Malawi Antiretroviral drugs received,13A: TDF / 3TC / DTG,29,q-and-a
+Malawi Antiretroviral drugs received,14A: AZT / 3TC + DTG,30,q-and-a
+Malawi Antiretroviral drugs received,14P: AZT / 3TC + DTG,31,q-and-a
+Malawi Antiretroviral drugs received,14PP: AZT 60 / 3TC 30 + DTG 10,32,q-and-a
+Malawi Antiretroviral drugs received,14PA: AZT 60 / 3TC 30 + DTG 50,33,q-and-a
+Malawi Antiretroviral drugs received,15A: ABC / 3TC + DTG,34,q-and-a
+Malawi Antiretroviral drugs received,15P: ABC / 3TC + DTG,35,q-and-a
+Malawi Antiretroviral drugs received,15PP: ABC / 3TC + DTG,36,q-and-a
+Malawi Antiretroviral drugs received,15PA: ABC 120 / 3TC 60 + DTG 50,37,q-and-a
+Malawi Antiretroviral drugs received,16A: ABC / 3TC + RAL,38,q-and-a
+Malawi Antiretroviral drugs received,16P: ABC / 3TC + RAL,39,q-and-a
+Malawi Antiretroviral drugs received,17A: ABC / 3TC + EFV,40,q-and-a
+Malawi Antiretroviral drugs received,17P: ABC / 3TC + EFV,41,q-and-a
+Malawi Antiretroviral drugs received,17PP: ABC 120 / 3TC 60 + EFV 200,42,q-and-a
+Malawi Antiretroviral drugs received,17PA: ABC 600 / 3TC 300 + EFV 200,43,q-and-a
+Malawi Antiretroviral drugs received,Non standard,44,q-and-a
+Malawi Developmental Assessment Tool Summary (Normal)-(Coded),Yes,1,q-and-a
+Malawi Developmental Assessment Tool Summary (Normal)-(Coded),No,2,q-and-a
+Maternal Death,Yes,1,q-and-a
+Maternal Death,No,2,q-and-a
+Meconium delayed,Yes,1,q-and-a
+Meconium delayed,No,2,q-and-a
+Meningitis,Bacterial,9396,q-and-a
+Meningitis,Viral,9397,q-and-a
+Meningitis,Tuberculosis,9398,q-and-a
+Meningitis,Cryptococcal,9399,q-and-a
+Meningitis,Other cause,9400,q-and-a
+Mental health screened,Yes,1,q-and-a
+Mental health screened,No,2,q-and-a
+Microcytic,Sickle cell disease,9223,q-and-a
+Microcytic,Folate deficiency,9224,q-and-a
+Microcytic,Malaria-associated,9225,q-and-a
+Microcytic,Haemolysis,9226,q-and-a
+Microcytic,Unknown,9227,q-and-a
+Microcytic,B12 deficiency,9228,q-and-a
+Microcytic,Chronic disease,9229,q-and-a
+Microcytic,Blood loss,9230,q-and-a
+Microcytic,Other cause,9231,q-and-a
+Microcytic,Drug induced,9232,q-and-a
+Microcytic,Iron deficiency,9233,q-and-a
+Multiple Births,Yes,1,q-and-a
+Multiple Births,No,2,q-and-a
+Muscles,Yes,1,q-and-a
+Muscles,No,2,q-and-a
+Muscles,Unknown,3,q-and-a
+"Mycobacterium tuberculosis, extrapulmonary",No,5623,q-and-a
+"Mycobacterium tuberculosis, extrapulmonary",Yes,5624,q-and-a
+"Mycobacterium tuberculosis, extrapulmonary",Unknown,5625,q-and-a
+Nervous system diagnosis,Paraplegia,8403,q-and-a
+Nervous system diagnosis,Meningitis,8404,q-and-a
+Nervous system diagnosis,Psychiatric syndrome,8405,q-and-a
+Nervous system diagnosis,Rabies,8406,q-and-a
+Nervous system diagnosis,Peripheral neuropathy,8407,q-and-a
+Nervous system diagnosis,Subarachnoid haemorrhage,8408,q-and-a
+Nervous system diagnosis,Epilepsy,8409,q-and-a
+Nervous system diagnosis,Other nervous system condition,8410,q-and-a
+Nervous system diagnosis,Coma unknown cause,8411,q-and-a
+Nervous system diagnosis,Headache,8412,q-and-a
+Nervous system diagnosis,Tetanus,8413,q-and-a
+Nervous system diagnosis,Stroke,8414,q-and-a
+Nervous system diagnosis,Seizures,8415,q-and-a
+Nervous system diagnosis,Space occupying lesion cerebral toxoplasmosis,8416,q-and-a
+None Concerns,Yes,1,q-and-a
+None Concerns,No,2,q-and-a
+None Concerns,Unknown,3,q-and-a
+Normal nutrition screening for MUAC,Yes,1,q-and-a
+Normal nutrition screening for MUAC,No,2,q-and-a
+Normal(Generic),Yes,1,q-and-a
+Normal(Generic),No,2,q-and-a
+Normal(Generic),Unknown,3,q-and-a
+Normocytic,Sickle cell disease,9234,q-and-a
+Normocytic,Folate deficiency,9235,q-and-a
+Normocytic,Malaria-associated,9236,q-and-a
+Normocytic,Haemolysis,9237,q-and-a
+Normocytic,Unknown,9238,q-and-a
+Normocytic,B12 deficiency,9239,q-and-a
+Normocytic,Chronic disease,9240,q-and-a
+Normocytic,Blood loss,9241,q-and-a
+Normocytic,Other cause,9242,q-and-a
+Normocytic,Drug induced,9243,q-and-a
+Normocytic,Iron deficiency,9244,q-and-a
+Not required,Yes,1,q-and-a
+Not required,No,2,q-and-a
+Not required,Unknown,3,q-and-a
+Nutrition referral,Yes,1,q-and-a
+Nutrition referral,No,2,q-and-a
+Other (coded),Yes,1,q-and-a
+Other (coded),No,2,q-and-a
+Other assessments,Yes,1,q-and-a
+Other assessments,No,2,q-and-a
+Pain,Yes,1,q-and-a
+Pain,No,2,q-and-a
+Paraplegia,Unexplained,9406,q-and-a
+Paraplegia,Other,9407,q-and-a
+Paraplegia,Schistosomiasis,9408,q-and-a
+Paraplegia,Malignancy,9409,q-and-a
+Paraplegia,Tuberculosis,9410,q-and-a
+Paraplegia,Transverse myelitis,9411,q-and-a
+Paraplegia,Syphilis,9412,q-and-a
+Paraplegia,Pyogenic,9413,q-and-a
+Passed the HH model post-test,Yes,1,q-and-a
+Passed the HH model post-test,No,2,q-and-a
+Patient hospitalized since last visit,Yes,1,q-and-a
+Patient hospitalized since last visit,No,2,q-and-a
+Patient on laxative,Yes,1,q-and-a
+Patient on laxative,No,2,q-and-a
+Patient Vomiting,Yes,1,q-and-a
+Patient Vomiting,No,2,q-and-a
+PC Referral,POSER Referral,1,q-and-a
+PC Referral,QECH Referral,2,q-and-a
+PDC Reasons for referral,Perinatal infection,1,q-and-a
+PDC Reasons for referral,Gestational Age,2,q-and-a
+PDC Reasons for referral,Low birth weight,3,q-and-a
+PDC Reasons for referral,Premature Birth,4,q-and-a
+PDC Reasons for referral,Nervous system diagnosis,5,q-and-a
+PDC Reasons for referral,Hydrocephalus,6,q-and-a
+PDC Reasons for referral,Downs Syndrome (Suspected or Confirmed),7,q-and-a
+PDC Reasons for referral,Cleft Lip or Palate,8,q-and-a
+PDC Reasons for referral,"Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes",9,q-and-a
+PDC Reasons for referral,Severe malnutrition,10,q-and-a
+PDC Reasons for referral,Trisomy 21,11,q-and-a
+PDC Reasons for referral,Hypoxic Ischemic Encephalopathy,12,q-and-a
+Perinatal infection,Yes,1,q-and-a
+Perinatal infection,No,2,q-and-a
+Perinatal infection,Unknown,3,q-and-a
+Peripheral neuropathy,Drug related - stavudine,9419,q-and-a
+Peripheral neuropathy,Unexplained,9420,q-and-a
+Peripheral neuropathy,Vit B12 deficiency,9421,q-and-a
+Peripheral neuropathy,Likely due to HIV,9422,q-and-a
+Peripheral neuropathy,Drug related - TB drugs,9423,q-and-a
+Peripheral neuropathy,Other cause,9424,q-and-a
+Personal,Yes,1,q-and-a
+Personal,No,2,q-and-a
+Personal,Unknown,3,q-and-a
+Physiotherapy,Yes,1,q-and-a
+Physiotherapy,No,2,q-and-a
+Physiotherapy,Unknown,3,q-and-a
+Play therapy,Yes,1,q-and-a
+Play therapy,No,2,q-and-a
+Play therapy,Unknown,3,q-and-a
+Pneumonia,Other,9433,q-and-a
+Pneumonia,Atypical,9434,q-and-a
+Pneumonia,Lobar,9435,q-and-a
+Pneumonia,Aspiration,9436,q-and-a
+Pneumonia,Pneumocystis,9437,q-and-a
+Pneumonia,Bronchopneumonia,9438,q-and-a
+Pneumothorax,Non tension,9439,q-and-a
+Pneumothorax,Other,9440,q-and-a
+Pneumothorax,Tension,9441,q-and-a
+Poor Growth,Yes,1,q-and-a
+Poor Growth,No,2,q-and-a
+Poor Growth,Unknown,3,q-and-a
+Poor Suck,Yes,1,q-and-a
+Poor Suck,No,2,q-and-a
+Poor Suck,Unknown,3,q-and-a
+Poser Support,Yes,1,q-and-a
+Poser Support,No,2,q-and-a
+"Pregnancy, termination",Incomplete,8892,q-and-a
+"Pregnancy, termination",Completed,8893,q-and-a
+"Pregnancy, termination",Threatened,8894,q-and-a
+Pregnant/Lactating,Patient pregnant,9814,q-and-a
+Pregnant/Lactating,No,9815,q-and-a
+Pregnant/Lactating,Currently breastfeeding child,9816,q-and-a
+Problem Solving,Yes,1,q-and-a
+Problem Solving,No,2,q-and-a
+Problem Solving,Unknown,3,q-and-a
+Psychosis,Alcohol withdrawal,9447,q-and-a
+Psychosis,Acute,9448,q-and-a
+Psychosis,Organic,9449,q-and-a
+Psychosis,Other,9450,q-and-a
+Psychosis,Alcohol induced,9451,q-and-a
+Psychosis,Chronic,9452,q-and-a
+Psychosis,Drug induced,9453,q-and-a
+Pulmonary effusion,Heart failure,9425,q-and-a
+Pulmonary effusion,Renal failure,9426,q-and-a
+Pulmonary effusion,Presumed tuberculous,9427,q-and-a
+Pulmonary effusion,Other malignancy,9428,q-and-a
+Pulmonary effusion,Unknown cause,9429,q-and-a
+Pulmonary effusion,Presumed due to kaposi's sarcoma,9430,q-and-a
+Pulmonary effusion,Empyema,9431,q-and-a
+Pulmonary effusion,Para-pneumonic,9432,q-and-a
+Reason for no result,Contaminated,1,q-and-a
+Reason for no result,Insufficiant sample,2,q-and-a
+Reason for no result,Equipment failure,3,q-and-a
+Reason for no result,Technical problem at laboratory,4,q-and-a
+Reason for no result,Result missing,5,q-and-a
+Reason for no result,Blood sample coagulated,6,q-and-a
+Reason for no result,Inappropriate sample container used,7,q-and-a
+Reason for no result,Supplies not available,8,q-and-a
+Reason for no result,Other non-coded,9,q-and-a
+Reason for testing (coded),Routine,1,q-and-a
+Reason for testing (coded),Confirmed,2,q-and-a
+Reason for testing (coded),Target,3,q-and-a
+Reason for testing (coded),Exposure to HIV,4,q-and-a
+Reason for testing (coded),Presumed,5,q-and-a
+Reason for testing (coded),Unknown,6,q-and-a
+Recommended steps,Ultrasound,1,q-and-a
+Recommended steps,Xray,2,q-and-a
+Recommended steps,Any other diagnostic test or procedure,3,q-and-a
+Recommended steps,Refer to clinician,4,q-and-a
+Recommended steps,None,5,q-and-a
+Refer to screening station,Nutrition screening station,1,q-and-a
+Refer to screening station,Blood pressure screening station,2,q-and-a
+Refer to screening station,HIV Testing Station,3,q-and-a
+Refer to screening station,Viral load testing station,4,q-and-a
+Refer to screening station,Tuberculosis symptoms screening station,5,q-and-a
+Refer to screening station,Tuberculosis testing station,6,q-and-a
+Refer to screening station,Adherence counseling station,7,q-and-a
+Refer to screening station,EID screening station,8,q-and-a
+Refer to screening station,Nursing station,9,q-and-a
+Referral Form Filled,Yes,1,q-and-a
+Referral Form Filled,No,2,q-and-a
+Referral Source,Tertiary,1,q-and-a
+Referral Source,Hospital,2,q-and-a
+Referral Source,Health center,3,q-and-a
+Referral Source,Community,4,q-and-a
+Referred out,Yes,1,q-and-a
+Referred out,No,2,q-and-a
+Referred out,Unknown,3,q-and-a
+Refs to feed,Yes,1,q-and-a
+Refs to feed,No,2,q-and-a
+Refs to feed,Unknown,3,q-and-a
+Result available,No,8650,q-and-a
+Result available,Yes,8651,q-and-a
+Result of HIV test,Indeterminate,2002,q-and-a
+Result of HIV test,Negative,2003,q-and-a
+Result of HIV test,Positive,2004,q-and-a
+Result of HIV test,No test,3915,q-and-a
+Right Ear,Pass,1,q-and-a
+Right Ear,Fail,2,q-and-a
+Sample collected,Yes,1,q-and-a
+Sample collected,No,2,q-and-a
+Sample collected,Unknown,3,q-and-a
+Scheduled,Yes,1,q-and-a
+Scheduled,No,2,q-and-a
+Schistosomiasis,Paraplegia,9460,q-and-a
+Schistosomiasis,Bladder cancer,9461,q-and-a
+Schistosomiasis,Other,9462,q-and-a
+Schistosomiasis,Chronic liver disease,9463,q-and-a
+Schistosomiasis,Dysentery,9464,q-and-a
+Schistosomiasis,Obstructive uropathy,9465,q-and-a
+Seizures,Petit mal,9466,q-and-a
+Seizures,Grandmal,9467,q-and-a
+Seizures,Status epilepticus,9468,q-and-a
+Seizures,Focal,9469,q-and-a
+Seizures,Known epileptic,9470,q-and-a
+Severe Maternal Illness,Yes,1,q-and-a
+Severe Maternal Illness,No,2,q-and-a
+Signs of Cerebral Palsy,Yes,1,q-and-a
+Signs of Cerebral Palsy,No,2,q-and-a
+Signs of Cerebral Palsy,Unknown,3,q-and-a
+Small jaw,Yes,1,q-and-a
+Small jaw,No,2,q-and-a
+STI referral,Yes,1,q-and-a
+STI referral,No,2,q-and-a
+STI screening outcome,Positive,1,q-and-a
+STI screening outcome,Negative,2,q-and-a
+Stroke,Other,9493,q-and-a
+Stroke,Haemorrhagic,9494,q-and-a
+Stroke,Ischaemic,9495,q-and-a
+Stroke,Unknown type,9496,q-and-a
+Support group,Yes,1,q-and-a
+Support group,No,2,q-and-a
+Suspected,Yes,1,q-and-a
+Suspected,No,2,q-and-a
+Suspected,Unknown,3,q-and-a
+Symptom absent,Vision difficulties,1338,q-and-a
+Symptom absent,Dysphagia,1339,q-and-a
+Symptom absent,Pruritis,1340,q-and-a
+Symptom absent,Skin rash,1341,q-and-a
+Symptom absent,Fever,1342,q-and-a
+Symptom absent,Paresthesia,1343,q-and-a
+Symptom absent,Headache,1344,q-and-a
+Symptom absent,Night sweats,1345,q-and-a
+Symptom absent,Jaundice,1346,q-and-a
+Symptom absent,Hemoptysis,1347,q-and-a
+Symptom absent,Nausea,1348,q-and-a
+Symptom absent,Confusion,1349,q-and-a
+Symptom absent,Weight loss greater than ten percent,1350,q-and-a
+Symptom absent,Diarrhea less than one month,1351,q-and-a
+Symptom absent,Cough lasting more than three weeks,1352,q-and-a
+Symptom absent,Vomiting,1353,q-and-a
+Symptom absent,Diarrhea chronic (greater than or equal to 1 month),1354,q-and-a
+Symptom absent,Focal neurological deficit,1355,q-and-a
+Symptom absent,Seizures,1356,q-and-a
+Symptom absent,Fatigue,1357,q-and-a
+Symptom absent,Shortness of breath,1358,q-and-a
+Symptom absent,Genital discharge,1495,q-and-a
+Symptom absent,Genital sores,1496,q-and-a
+Symptom absent,Abdominal pain,1904,q-and-a
+Symptom absent,Otitis externa,1905,q-and-a
+Symptom absent,Nodular rash,1906,q-and-a
+Symptom absent,Abdominal swelling,1907,q-and-a
+Symptom absent,Cough,1908,q-and-a
+Symptom absent,Diarrhea,1909,q-and-a
+Symptom absent,Weight loss,1910,q-and-a
+Symptom absent,Dry cough,1992,q-and-a
+Symptom absent,Productive cough,1993,q-and-a
+Symptom absent,Night sweats for greater than 3 weeks,1996,q-and-a
+Symptom absent,Night sweats for less than 3 weeks,1997,q-and-a
+Symptom absent,Depression,3276,q-and-a
+Symptom absent,Tinnitus,3277,q-and-a
+Symptom absent,Psychosis,3278,q-and-a
+Symptom absent,Other non-coded,3393,q-and-a
+Symptom absent,Chest pain,3394,q-and-a
+Symptom absent,Loss of appetite,3397,q-and-a
+Symptom absent,Lumbar pain,3608,q-and-a
+Symptom absent,Orthopnea,5163,q-and-a
+Symptom present,Fever,835,q-and-a
+Symptom present,Night sweats,836,q-and-a
+Symptom present,Hemoptysis,838,q-and-a
+Symptom present,Diarrhea less than one month,840,q-and-a
+Symptom present,Shortness of breath,841,q-and-a
+Symptom present,Dysphagia,842,q-and-a
+Symptom present,Headache,843,q-and-a
+Symptom present,Vision difficulties,844,q-and-a
+Symptom present,Pruritis,845,q-and-a
+Symptom present,Skin rash,846,q-and-a
+Symptom present,Seizures,847,q-and-a
+Symptom present,Focal neurological deficit,848,q-and-a
+Symptom present,Confusion,849,q-and-a
+Symptom present,Nausea,851,q-and-a
+Symptom present,Vomiting,852,q-and-a
+Symptom present,Jaundice,853,q-and-a
+Symptom present,Fatigue,854,q-and-a
+Symptom present,Weight loss greater than ten percent,975,q-and-a
+Symptom present,Cough lasting more than three weeks,976,q-and-a
+Symptom present,Diarrhea chronic (greater than or equal to 1 month),977,q-and-a
+Symptom present,Paresthesia,1051,q-and-a
+Symptom present,Genital discharge,1493,q-and-a
+Symptom present,Genital sores,1494,q-and-a
+Symptom present,Abdominal pain,1890,q-and-a
+Symptom present,Otitis externa,1891,q-and-a
+Symptom present,Nodular rash,1892,q-and-a
+Symptom present,Abdominal swelling,1893,q-and-a
+Symptom present,Cough,1894,q-and-a
+Symptom present,Diarrhea,1895,q-and-a
+Symptom present,Weight loss,1896,q-and-a
+Symptom present,Dry cough,1990,q-and-a
+Symptom present,Productive cough,1991,q-and-a
+Symptom present,Night sweats for greater than 3 weeks,1994,q-and-a
+Symptom present,Night sweats for less than 3 weeks,1995,q-and-a
+Symptom present,"Diarrhea, bloody",2055,q-and-a
+Symptom present,Loss of appetite,3223,q-and-a
+Symptom present,Cough lasting greater than two weeks,3243,q-and-a
+Symptom present,Cough lasting less than two weeks,3244,q-and-a
+Symptom present,Depression,3273,q-and-a
+Symptom present,Tinnitus,3274,q-and-a
+Symptom present,Psychosis,3275,q-and-a
+Symptom present,Other non-coded,3391,q-and-a
+Symptom present,Chest pain,3392,q-and-a
+Symptom present,Lumbar pain,3607,q-and-a
+Symptom present,Gastritis with hemorrhage,4268,q-and-a
+Symptom present,"Dermatitis, allergic",4269,q-and-a
+Symptom present,Dermatophytosis,4270,q-and-a
+Symptom present,Meningitis viral,4271,q-and-a
+Symptom present,Fever of unknown origin,4272,q-and-a
+Symptom present,"Gastritis, nos",4273,q-and-a
+Symptom present,Meningitis other cause,4274,q-and-a
+Symptom present,Cardiovascular disease,4275,q-and-a
+Symptom present,Genitourinary problem,4276,q-and-a
+Symptom present,Gastritis without hemorrhage,4277,q-and-a
+Symptom present,Orthopnea,5162,q-and-a
+TB screening outcome,Positive,1,q-and-a
+TB screening outcome,Negative,2,q-and-a
+Test Result,Pass,1,q-and-a
+Test Result,Fail,2,q-and-a
+Time units,Days,1,q-and-a
+Time units,Weeks,2,q-and-a
+Time units,Months,3,q-and-a
+Time units,Years,4,q-and-a
+Transportc,Yes,1,q-and-a
+Transportc,No,2,q-and-a
+Transportc,Unknown,3,q-and-a
+Tuberculosis,Pulmonary,9500,q-and-a
+Tuberculosis,Disseminated,9501,q-and-a
+Tuberculosis,Tuberculous pericarditis,9502,q-and-a
+Tuberculosis,Abdominal,9503,q-and-a
+Tuberculosis,Miliary,9504,q-and-a
+Tuberculosis,Urogenital,9505,q-and-a
+Tuberculosis,Spinal,9506,q-and-a
+Tuberculosis,Meningitis tuberculous,9507,q-and-a
+Type of Feed,Breast Milk,1,q-and-a
+Type of Feed,Infant formula,2,q-and-a
+Type of referring clinic or hospital,SHARC,1,q-and-a
+Type of referring clinic or hospital,Outside Neno district,2,q-and-a
+Type of referring clinic or hospital,Hospital,3,q-and-a
+Type of referring clinic or hospital,Primary care clinic,4,q-and-a
+Type of referring clinic or hospital,Health clinic,5,q-and-a
+Type of referring clinic or hospital,Other non-coded,6,q-and-a
+Type of referring clinic or hospital,Ward,7,q-and-a
+Type of referring clinic or hospital,Antenatal clinic,8,q-and-a
+Type of referring clinic or hospital,Community Event,9,q-and-a
+Type of referring clinic or hospital,Outpatient consultation,10,q-and-a
+Type of referring clinic or hospital,Health center,11,q-and-a
+Type of referring clinic or hospital,Linkage to care,12,q-and-a
+Type of referring clinic or hospital,IC3 Appointment,13,q-and-a
+Ultrasound,Test requested,8594,q-and-a
+Ultrasound,Result available,8595,q-and-a
+Urine LAM / CrAg Result,Positive,1,q-and-a
+Urine LAM / CrAg Result,Negative,2,q-and-a
+Used,Yes,1,q-and-a
+Used,No,2,q-and-a
+Used,Unknown,3,q-and-a
+Wasting/malnutrition,No,9806,q-and-a
+Wasting/malnutrition,Severe,9807,q-and-a
+Wasting/malnutrition,Moderate,9808,q-and-a
+Weak,Yes,1,q-and-a
+Weak,No,2,q-and-a
+Xray,Test requested,8596,q-and-a
+Xray,Result available,8597,q-and-a
