@@ -21,7 +21,9 @@ import org.openmrs.contrib.testdata.builder.EncounterBuilder;
 import org.openmrs.contrib.testdata.builder.ObsBuilder;
 import org.openmrs.contrib.testdata.builder.PatientBuilder;
 import org.openmrs.contrib.testdata.builder.PatientProgramBuilder;
+import org.openmrs.module.initializer.api.ConfigDirUtil;
 import org.openmrs.module.initializer.api.InitializerService;
+import org.openmrs.module.initializer.api.loaders.Loader;
 import org.openmrs.module.pihmalawi.metadata.ChronicCareMetadata;
 import org.openmrs.module.pihmalawi.metadata.HivMetadata;
 import org.openmrs.module.pihmalawi.metadata.Metadata;
@@ -40,6 +42,8 @@ import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,9 +55,11 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
     /**
      * Location, on the test classpath, of the small test-only concept CSVs (see MLW-1839 Task 6)
      * that get swapped in for the full production concept set when building the test Initializer
-     * config directory below. Selected by statically scanning the metadata helper classes for
-     * concept UUID/name literals, taking the transitive closure over concept-answers, then adding
-     * anything a full-suite run still failed on - see PR #268 for the verification behind this.
+     * config directory below. Contains exactly: concepts referenced by UUID or name (case-insensitive)
+     * anywhere in api/src, concepts referenced by the programs/programworkflows/programworkflowstates
+     * CSVs (resolving constants.yml placeholders), and conceptAnswers.csv rows where both the question
+     * and answer are already in that set - verified empirically (full suite still passes) rather than
+     * assumed. See PR #268 for the verification behind this.
      */
     public static final String METADATA_XML_FOLDER = "org/openmrs/module/pihmalawi/metadata";
 
@@ -211,7 +217,7 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
     private static synchronized void loadMetadataViaInitializer() {
         try {
             File configRoot = buildTestConfigDir();
-            Set<String> includedDomains = new HashSet<>(java.util.Arrays.asList(INITIALIZER_TEST_DOMAINS.split(",")));
+            Set<String> includedDomains = new HashSet<>(Arrays.asList(INITIALIZER_TEST_DOMAINS.split(",")));
             loadInitializerDomains(configRoot, includedDomains);
         }
         catch (Exception e) {
@@ -236,24 +242,13 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
 
         InitializerService initializerService = Context.getService(InitializerService.class);
 
-        // Initializer records a per-file checksum (unconditionally, regardless of the
-        // "initializer.row.checksums.enabled" property, which only controls a separate
-        // *row*-level skip) and skips re-processing a config file whose content hasn't changed
-        // since it was last successfully loaded. Since this test's config directory (and its file
-        // content) is reused across the whole JVM run (see buildTestConfigDir()), that checksum
-        // would otherwise cause every domain to be silently skipped on any *second* load within
-        // the same JVM - which does happen: isSetup() can (correctly) decide a reload is needed
-        // again if some other, unrelated test class in this module extends
-        // BaseModuleContextSensitiveTest directly (bypassing this class's guard entirely) and
-        // triggers its own deleteAllData()+initializeInMemoryDatabase() cycle. Clearing the
-        // checksums directory before every load keeps this class's own reload path correct
-        // regardless of how many times it runs in a given JVM.
-        org.openmrs.module.initializer.api.ConfigDirUtil.deleteFilesByExtension(
-                initializerService.getChecksumsDirPath(), org.openmrs.module.initializer.api.ConfigDirUtil.CHECKSUM_FILE_EXT);
+        // Clear checksums first - Initializer skips re-processing a file whose checksum is
+        // unchanged, which would wrongly skip a reload against the same reused config directory.
+        ConfigDirUtil.deleteFilesByExtension(initializerService.getChecksumsDirPath(), ConfigDirUtil.CHECKSUM_FILE_EXT);
 
-        for (org.openmrs.module.initializer.api.loaders.Loader loader : initializerService.getLoaders()) {
+        for (Loader loader : initializerService.getLoaders()) {
             if (domainNames.contains(loader.getDomainName())) {
-                loader.loadUnsafe(java.util.Collections.<String> emptyList(), true);
+                loader.loadUnsafe(Collections.<String> emptyList(), true);
             }
         }
     }
