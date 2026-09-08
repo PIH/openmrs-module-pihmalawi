@@ -51,7 +51,9 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
     /**
      * Location, on the test classpath, of the small test-only concept CSVs (see MLW-1839 Task 6)
      * that get swapped in for the full production concept set when building the test Initializer
-     * config directory below.
+     * config directory below. Selected by statically scanning the metadata helper classes for
+     * concept UUID/name literals, taking the transitive closure over concept-answers, then adding
+     * anything a full-suite run still failed on - see PR #268 for the verification behind this.
      */
     public static final String METADATA_XML_FOLDER = "org/openmrs/module/pihmalawi/metadata";
 
@@ -209,40 +211,50 @@ public abstract class BaseMalawiTest extends BaseModuleContextSensitiveTest {
     private static synchronized void loadMetadataViaInitializer() {
         try {
             File configRoot = buildTestConfigDir();
-
-            OpenmrsUtil.setApplicationDataDirectory(configRoot.getAbsolutePath());
-            System.setProperty("OPENMRS_APPLICATION_DATA_DIRECTORY", configRoot.getAbsolutePath());
-
-            Properties runtimeProperties = Context.getRuntimeProperties();
-            runtimeProperties.setProperty(OpenmrsConstants.APPLICATION_DATA_DIRECTORY_RUNTIME_PROPERTY, configRoot.getAbsolutePath());
-            Context.setRuntimeProperties(runtimeProperties);
-
             Set<String> includedDomains = new HashSet<>(java.util.Arrays.asList(INITIALIZER_TEST_DOMAINS.split(",")));
-            InitializerService initializerService = Context.getService(InitializerService.class);
-
-            // Initializer records a per-file checksum (unconditionally, regardless of the
-            // "initializer.row.checksums.enabled" property, which only controls a separate
-            // *row*-level skip) and skips re-processing a config file whose content hasn't changed
-            // since it was last successfully loaded. Since this test's config directory (and its file
-            // content) is reused across the whole JVM run (see buildTestConfigDir()), that checksum
-            // would otherwise cause every domain to be silently skipped on any *second* load within
-            // the same JVM - which does happen: isSetup() can (correctly) decide a reload is needed
-            // again if some other, unrelated test class in this module extends
-            // BaseModuleContextSensitiveTest directly (bypassing this class's guard entirely) and
-            // triggers its own deleteAllData()+initializeInMemoryDatabase() cycle. Clearing the
-            // checksums directory before every load keeps this class's own reload path correct
-            // regardless of how many times it runs in a given JVM.
-            org.openmrs.module.initializer.api.ConfigDirUtil.deleteFilesByExtension(
-                    initializerService.getChecksumsDirPath(), org.openmrs.module.initializer.api.ConfigDirUtil.CHECKSUM_FILE_EXT);
-
-            for (org.openmrs.module.initializer.api.loaders.Loader loader : initializerService.getLoaders()) {
-                if (includedDomains.contains(loader.getDomainName())) {
-                    loader.loadUnsafe(java.util.Collections.<String> emptyList(), true);
-                }
-            }
+            loadInitializerDomains(configRoot, includedDomains);
         }
         catch (Exception e) {
             throw new IllegalStateException("Failed to load test metadata via Initializer", e);
+        }
+    }
+
+    /**
+     * Points Initializer at {@code configRoot} (an "OpenMRS application data directory" whose
+     * {@code configuration/} subfolder holds the CSVs to load) and runs only the named domains
+     * through it. Shared by this class and {@link org.openmrs.module.pihmalawi.test.ValidateFullConceptSetup},
+     * which needs the same mechanics but against a different, one-off config directory and domain
+     * set (the full production concept CSVs, not this class's small test-only substitute).
+     */
+    public static void loadInitializerDomains(File configRoot, Set<String> domainNames) throws Exception {
+        OpenmrsUtil.setApplicationDataDirectory(configRoot.getAbsolutePath());
+        System.setProperty("OPENMRS_APPLICATION_DATA_DIRECTORY", configRoot.getAbsolutePath());
+
+        Properties runtimeProperties = Context.getRuntimeProperties();
+        runtimeProperties.setProperty(OpenmrsConstants.APPLICATION_DATA_DIRECTORY_RUNTIME_PROPERTY, configRoot.getAbsolutePath());
+        Context.setRuntimeProperties(runtimeProperties);
+
+        InitializerService initializerService = Context.getService(InitializerService.class);
+
+        // Initializer records a per-file checksum (unconditionally, regardless of the
+        // "initializer.row.checksums.enabled" property, which only controls a separate
+        // *row*-level skip) and skips re-processing a config file whose content hasn't changed
+        // since it was last successfully loaded. Since this test's config directory (and its file
+        // content) is reused across the whole JVM run (see buildTestConfigDir()), that checksum
+        // would otherwise cause every domain to be silently skipped on any *second* load within
+        // the same JVM - which does happen: isSetup() can (correctly) decide a reload is needed
+        // again if some other, unrelated test class in this module extends
+        // BaseModuleContextSensitiveTest directly (bypassing this class's guard entirely) and
+        // triggers its own deleteAllData()+initializeInMemoryDatabase() cycle. Clearing the
+        // checksums directory before every load keeps this class's own reload path correct
+        // regardless of how many times it runs in a given JVM.
+        org.openmrs.module.initializer.api.ConfigDirUtil.deleteFilesByExtension(
+                initializerService.getChecksumsDirPath(), org.openmrs.module.initializer.api.ConfigDirUtil.CHECKSUM_FILE_EXT);
+
+        for (org.openmrs.module.initializer.api.loaders.Loader loader : initializerService.getLoaders()) {
+            if (domainNames.contains(loader.getDomainName())) {
+                loader.loadUnsafe(java.util.Collections.<String> emptyList(), true);
+            }
         }
     }
 
