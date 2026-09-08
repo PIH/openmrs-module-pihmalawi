@@ -1,5 +1,6 @@
 Uuid,Name,Description,Void/Retire,Program concept,Outcomes concept
 ${program.chronicCare.uuid},CHRONIC CARE PROGRAM,Chronic Care Program,,655f4f42-977f-11e1-8993-905e29aff6c1,
+${program.hiv.uuid},HIV PROGRAM,,,6559f498-977f-11e1-8993-905e29aff6c1,
 ${program.mentalHealth.uuid},MENTAL HEALTH CARE PROGRAM,Mental Health Care Program,,406AD643-79A3-4019-9888-3EFBB9B24FB0,
 ${program.nutrition.uuid},Nutrition program,Nutrition program,,655bd768-977f-11e1-8993-905e29aff6c1,${concept.genericOutcome.uuid}
 66850d9e-977f-11e1-8993-905e29aff6c1,Old TB PROGRAM,Old Tuberculosis Program,,655abe64-977f-11e1-8993-905e29aff6c1,

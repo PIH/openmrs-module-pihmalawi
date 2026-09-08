@@ -6,6 +6,7 @@ ${programWorkflow.ckdTreatment.uuid},,${program.chronicCare.uuid},eb4f508e-2dc0-
 ${programWorkflow.diabetesHypertensionTreatment.uuid},,${program.chronicCare.uuid},57f5c094-2dfa-466b-8295-1b45db99e1b0
 ${programWorkflow.ncdOtherTreatment.uuid},,${program.chronicCare.uuid},5540eca8-dd73-4f44-88ab-944289e5f606
 ${programWorkflow.sickleCellDiseaseTreatment.uuid},,${program.chronicCare.uuid},60125522-00AF-4261-B837-4A9162264523
+${programWorkflow.hivTreatmentStatus.uuid},,${program.hiv.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
 ${programWorkflow.epilepsyTreatmentStatus.uuid},,${program.mentalHealth.uuid},ad7b930a-a1d9-4fff-bd62-212d5e55e5b2
 ${programWorkflow.mentalHealthTreatmentStatus.uuid},,${program.mentalHealth.uuid},48D4C24C-5AED-43CF-BCB6-D0D5A2DEB619
 ${programWorkflow.nutritionProgramStatus.uuid},,${program.nutrition.uuid},3B0DB54D-A283-43D8-9B5E-1EF0B4CE9B78

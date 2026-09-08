@@ -38,8 +38,12 @@ program:
     uuid: "54100564-4759-4CBD-9A73-B38D6DBAC7B9"
   tb:
     uuid: "52D0036A-AB35-475E-A4D4-1826CCD985D6"
+  hiv:
+    uuid: "66850b0a-977f-11e1-8993-905e29aff6c1"
 
 programWorkflow:
+  hivTreatmentStatus:
+    uuid: "6686ffe6-977f-11e1-8993-905e29aff6c1"
   mentalHealthTreatmentStatus:
     uuid: "DA69BBCB-01FE-4C59-9D46-8A2659ABBD73"
     state:
