@@ -19,6 +19,7 @@ import org.openmrs.PatientIdentifierType;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.ProgramWorkflowState;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -212,7 +213,7 @@ public class HivMetadata extends CommonMetadata {
 	}
 
 	public List<Location> getHivStaticSystemLocations() {
-		List<Location> l = getLocationsForTag(LocationTags.HIV_STATIC.name());
+		List<Location> l = getLocationsForTag(PihMalawiConfigConstants.LOCATIONTAG_HIV_STATIC_NAME);
 		l.retainAll(getSystemLocations());
 		return l;
 	}

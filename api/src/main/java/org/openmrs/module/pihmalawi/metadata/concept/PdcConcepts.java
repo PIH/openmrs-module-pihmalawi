@@ -1,0 +1,51 @@
+package org.openmrs.module.pihmalawi.metadata.concept;
+
+public class PdcConcepts {
+
+    public static String SOURCE_OF_REFERRAL = "eb76915e-104d-4500-b56e-726f3e2a75f9";
+    public static String COMMUNITY = "390c74d3-216b-4573-b38a-68503cc4e69e";
+    public static String TERTIARY = "be50b470-9744-4f04-b9a8-bad7b4b239ea";
+    public static String REFERRAL_FORM_FILLED = "8f985039-f018-4542-a531-f693fca2906b";
+    public static String DEVELOPMENT_DELAY = "1be62437-3093-4530-b4ab-1cd4626b9704";
+    public static String ENROUTE = "50fe5939-7380-4a01-abe4-6a7806280bdb";
+    public static String CARE_LINKED = "0d52f232-8d34-45d4-9006-dd592bc7bf24";
+    public static String CLINICAL = "6566b8c2-977f-11e1-8993-905e29aff6c1";
+    public static String NRU = "f0bb3ac5-0e84-487a-8a2d-59b96378a797";
+    public static String OGT = "fe7d2795-3cfe-47fa-933c-cb8e9b1c42d5";
+    public static String APGAR = "687a622a-302b-49c9-87a7-2f7558549548";
+    public static String POSER_SUPPORT = "5b49fbf4-2645-4ab2-974e-4e6c961162b1";
+    public static String ENROLLED_IN_PDC = "92148ae3-642c-47f5-ae7c-2c4efa9796e8";
+    public static String BREAST_MILK = "ba528fcf-d9ee-43c3-af15-c169adcec937";
+    public static String TYPE_OF_FEED = "7f5c591e-8b74-4fa9-8bbf-f4154a0d92d3";
+    public static String INFANT_FORMULA = "656ac570-977f-11e1-8993-905e29aff6c1";
+    public static String INCOME_SOURCE = "de85f47e-0830-4840-b393-e7adcd641064";
+    public static String DETAILS_OF_COMPLICATIONS = "86eacb84-51ea-11ec-bf63-0242ac130002";
+    public static String TYPE_OF_FEED_SET = "38725750-df54-477a-a9b0-42527f94b709";
+    public static String PERINATAL_INFECTION_SET = "60227263-6073-44be-a6d8-c41f18b453a4";
+    public static String LESS_OR_EQUAL_TO_FORTY_EIGHT_HOURS = "ecdd9e50-ce94-49f4-a400-55421da645ab";
+    public static String SEVEN_DAYS = "50300b30-0a03-4806-85f7-9a5c0239321c";
+    public static String GREATER_THAN_SEVEN_DAYS = "7340a0aa-b965-4cc6-81e8-9a48236d1096";
+    public static String DURATION_CODED = "89562b1e-9b39-4bdf-b57e-cf0e2448d815";
+    public static String ANTIBIOTICS_SET = "e2a64391-76c0-4f4b-b946-f51b05495c17";
+    public static String ANTIBIOTICS = "6575888e-977f-11e1-8993-905e29aff6c1";
+    public static String REASONS_FOR_REFERRAL_SET = "7a37ec7b-2804-46c8-be48-4707959192be";
+    public static String CARE_LINKED_SET = "657dbc1d-f753-49b8-9a6f-4c55e55c95ee";
+    public static String SOURCE_OF_REFERRAL_SET = "b5346c8a-246c-46aa-bce5-17a77534bc30";
+    public static String CONDITIONS_AT_ENROLLMENT = "cbd2080b-ffb5-4d6f-aabd-dd80b2938d5a";
+    public static String DIAGNOSIS = "656292d8-977f-11e1-8993-905e29aff6c1";
+    public static String CLINICAL_CONDITIONS = "657a53d2-977f-11e1-8993-905e29aff6c1";
+    public static String OTHER_DIAGNOSIS = "65780d0c-977f-11e1-8993-905e29aff6c1";
+    public static String CARE_LINKED_TYPE_QUESTION = "24C2F817-C37B-4746-A052-18C4E0C2D93E";
+    public static String CARE_LINKED_IC3 = "3064BCF8-56F7-43C9-A8CF-D90D42EEF739";
+    public static String CARE_LINKED_ADVANCED_NCD = "2bc82b28-e84f-11e8-9f32-f2801f1b9fd1";
+    public static String CARE_LINKED_MCH_CLINIC = "9CA705D5-5DAA-40E8-8B69-F3F7C0B29E95";
+    public static String CARE_LINKED_PALIATIVE_CARE = "BB020202-552B-4253-B442-E2B7153E587C";
+    public static String CARE_LINKED_PHYSIOTHERAPY = "394B1F7B-7AD8-4038-AF3A-5B673BD4F42A";
+    public static String AGE_AT_INTAKE = "E1F83AA4-FAFE-4150-9AA5-C13B0602B985";
+    public static String TIME_UNTIS = "f1904502-319d-4681-9030-e642111e7ce2";
+    public static String AGE_OF_CHILD = "655e54a2-977f-11e1-8993-905e29aff6c1";
+    public static final String  DONE= "584fbc24-9eda-4db4-93d2-30b77067a5c6";
+    public static final String NORMAL = "d34cf0b3-073c-4f4e-ac4c-1c1e8e4c9165";
+    public static final String TSH_RESULT_CONSTRUCT = "4E062C22-BB8D-4684-BA1E-A1F8E476A4E2";
+    public static final String BLOOD_DIFFERENTIAL_RESULT_TEXT = "23618F38-CB43-4EEE-9AA0-916A9E96D9F8";
+}

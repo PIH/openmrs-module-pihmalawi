@@ -18,10 +18,26 @@ concept:
     uuid: "655b5e46-977f-11e1-8993-905e29aff6c1"
   transferredOut:
     uuid: "655b604e-977f-11e1-8993-905e29aff6c1"
+  chronicCareTreatmentStatus:
+    uuid: "65766b96-977f-11e1-8993-905e29aff6c1"
+  genericOutcome:
+    uuid: "73eb05c2-e4be-4d82-bcad-ffec1be67d01"
 
 program:
   mentalHealth:
     uuid: "60357F01-536E-4B59-A851-B000F801FB13"
+  chronicCare:
+    uuid: "6685164a-977f-11e1-8993-905e29aff6c1"
+  palliativeCare:
+    uuid: "acbd87f3-566f-4386-a11e-877e612d3911"
+  pdc:
+    uuid: "cffd61d1-f087-41df-86c7-fbd6b6e9ab1e"
+  nutrition:
+    uuid: "FECD888E-D547-4E1D-A012-56CA8874D2E1"
+  teenClub:
+    uuid: "54100564-4759-4CBD-9A73-B38D6DBAC7B9"
+  tb:
+    uuid: "52D0036A-AB35-475E-A4D4-1826CCD985D6"
 
 programWorkflow:
   mentalHealthTreatmentStatus:
@@ -58,3 +74,27 @@ programWorkflow:
         uuid: "FB0B61BD-A641-499B-BA87-421DC7E1CA2C"
       transferredOut:
         uuid: "F63ED5E5-1707-43FA-BCA0-CE271C338AE2"
+  chronicCareTreatmentStatus:
+    uuid: "6687086a-977f-11e1-8993-905e29aff6c1"
+  sickleCellDiseaseTreatment:
+    uuid: "1A6C2438-99D7-41FF-8EB4-516DFCD1D199"
+  ckdTreatment:
+    uuid: "4eda02b2-48ca-47dc-9166-483a6499bcbd"
+  chfTreatment:
+    uuid: "cc76c7c2-8760-4ff6-8ed7-617a7378915b"
+  diabetesHypertensionTreatment:
+    uuid: "9b571347-8dc3-40fe-9994-e82071fa8290"
+  ncdOtherTreatment:
+    uuid: "62481c50-155c-45be-b4e9-39a38a9cbfda"
+  asthmaTreatment:
+    uuid: "319838b7-23cb-4e04-9b36-ad1e83cbeaaf"
+  palliativeCareClinicalStatus:
+    uuid: "F2D47AE5-7083-4901-B630-51860D09A884"
+  pdcTreatmentStatus:
+    uuid: "31d71aad-304a-4cba-8e1f-b59ed2c8f8a1"
+  nutritionProgramStatus:
+    uuid: "FDD077BC-A96C-49BB-9A87-28992B2CBABE"
+  teenClubProgramStatus:
+    uuid: "9AB24A22-80B6-4E93-91FC-DEF586FA46EE"
+  tbProgramWorkflowStatus:
+    uuid: "6D1AD63F-8286-4191-A5DE-D747326B9883"

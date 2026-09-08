@@ -13,8 +13,8 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
 import org.openmrs.module.pihmalawi.Utils;
-import org.openmrs.module.pihmalawi.metadata.EncounterTypes;
 import org.openmrs.module.reporting.common.DateUtil;
 
 import javax.servlet.jsp.JspException;
@@ -121,9 +121,9 @@ public class ETraceAccessTag extends BodyTagSupport {
     protected String getNewMasterCardConfiguration(Form f) {
 
         Map<String, String> headerForms = new LinkedHashMap<String, String>();
-        headerForms.put(EncounterTypes.TRACE_INITIAL.name(), "trace_mastercard");
+        headerForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TRACE_INITIAL_NAME, "trace_mastercard");
         Map<String, List<String>> flowsheetForms = new LinkedHashMap<String, List<String>>();
-        flowsheetForms.put(EncounterTypes.TRACE_INITIAL.name(), Arrays.asList("trace_visit"));
+        flowsheetForms.put(PihMalawiConfigConstants.ENCOUNTERTYPE_TRACE_INITIAL_NAME, Arrays.asList("trace_visit"));
 
         String encType = f.getEncounterType().getName();
         String headerForm = headerForms.get(encType);

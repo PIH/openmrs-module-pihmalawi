@@ -22,8 +22,9 @@ import org.openmrs.LocationAttributeType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.IC3ScreeningConcepts;
-import org.openmrs.module.pihmalawi.metadata.deploy.bundle.concept.MasterCardConcepts;
+import org.openmrs.module.pihmalawi.PihMalawiConfigConstants;
+import org.openmrs.module.pihmalawi.metadata.concept.IC3ScreeningConcepts;
+import org.openmrs.module.pihmalawi.metadata.concept.MasterCardConcepts;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -665,11 +666,11 @@ public class CommonMetadata extends Metadata {
 	}
 
 	public List<Location> getUpperNenoFacilities() {
-        return getLocationsForTag(LocationTags.UPPER_NENO.name());
+        return getLocationsForTag(PihMalawiConfigConstants.LOCATIONTAG_UPPER_NENO_NAME);
 	}
 
 	public List<Location> getLowerNenoFacilities() {
-        return getLocationsForTag(LocationTags.LOWER_NENO.name());
+        return getLocationsForTag(PihMalawiConfigConstants.LOCATIONTAG_LOWER_NENO_NAME);
 	}
 
 	public List<Location> getAllLocations(Location primaryFacility) {
@@ -703,7 +704,7 @@ public class CommonMetadata extends Metadata {
 
 	public Map<Location, String> getLocationShortNames() {
 		Map<Location, String> locationShortNames = new HashMap<Location, String>();
-        LocationAttributeType locationCode = getLocationAttributeType(LocationAttributeTypes.LOCATION_CODE.uuid());
+        LocationAttributeType locationCode = getLocationAttributeType(PihMalawiConfigConstants.LOCATIONATTRIBUTETYPE_LOCATION_CODE_UUID);
         for (Location l : Context.getLocationService().getAllLocations()) {
             String code = l.getName();
             List<LocationAttribute> codes = l.getActiveAttributes(locationCode);
