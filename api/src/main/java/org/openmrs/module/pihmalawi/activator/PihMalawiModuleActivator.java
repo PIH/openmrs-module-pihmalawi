@@ -61,7 +61,6 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		l.add(new MetadataInitializer());
 		l.add(new LocationInitializer());
 		l.add(new SoundexInitializer());
-		l.add(new AddressTemplateInitializer());
 		l.add(new HtmlFormInitializer());
 		l.add(new ReportInitializer());
         l.add(new AuthenticationInitializer());
