@@ -10,4 +10,5 @@ C9888967-8584-4F36-86B8-51AC368BC720,Nutrition Program Number,Number assigned to
 f2b29f9b-69d0-4339-b1aa-55a511672558,Palliative Care Number,Number assigned to patient on palliative care.,0,,Ex. NNO 101 PC,,REQUIRED,
 f7de1b97-013e-49ad-a596-4ada6ede1053,PDC Identifier,ID assigned to patients when enrolled in PDC,0,,,,REQUIRED,
 F4319B47-4141-48DF-9F41-5CF7E6301EC6,TB program identifier,Identifier assigned to patient enrolled in the TB program.,0,,Ex. NNO 101 TB,,REQUIRED,
+66785018-977f-11e1-8993-905e29aff6c1,VHW ID,Village Health Worker ID#,0,,,,REQUIRED,
 e4a1a524-d557-11ea-87d0-0242ac130003,Yendanafe Identifier,ID assigned to patients when registering them from Yendanafe Application,0,,,,REQUIRED,
