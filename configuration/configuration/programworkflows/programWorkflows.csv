@@ -14,3 +14,17 @@ ${programWorkflow.palliativeCareClinicalStatus.uuid},${program.palliativeCare.uu
 ${programWorkflow.pdcTreatmentStatus.uuid},${program.pdc.uuid},${concept.chronicCareTreatmentStatus.uuid}
 ${programWorkflow.tbProgramWorkflowStatus.uuid},${program.tb.uuid},A802A051-ABE2-44EC-BE8E-A118A3D747E7
 ${programWorkflow.teenClubProgramStatus.uuid},${program.teenClub.uuid},08304AC4-E618-43A0-8B6D-B6788EE7B780
+${programWorkflow.eidTreatmentStatus.uuid},${program.eid.uuid},6566dca8-977f-11e1-8993-905e29aff6c1
+${programWorkflow.kaposiSarcomaTreatmentStatus.uuid},${program.kaposiSarcoma.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.foodTreatmentStatus.uuid},${program.food.uuid},655bd876-977f-11e1-8993-905e29aff6c1
+${programWorkflow.artTreatmentStatus.uuid},${program.art.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.preArtTreatmentStatus.uuid},${program.preArt.uuid},6566dca8-977f-11e1-8993-905e29aff6c1
+${programWorkflow.vhwTreatmentStatus.uuid},${program.vhw.uuid},657110b0-977f-11e1-8993-905e29aff6c1
+${programWorkflow.oldTbTreatmentStatus.uuid},${program.oldTb.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.mdrTbTreatmentStatus.uuid},${program.mdrTb.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.maternityTreatmentStatus.uuid},${program.maternity.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.ancTreatmentStatus.uuid},${program.anc.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.diabetesTreatmentStatus.uuid},${program.diabetes.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.opdTreatmentStatus.uuid},${program.opd.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.ipdTreatmentStatus.uuid},${program.ipd.uuid},6559f6aa-977f-11e1-8993-905e29aff6c1
+${programWorkflow.mentalHealthLegacyTreatmentStatus.uuid},${program.mentalHealth.uuid},65766b96-977f-11e1-8993-905e29aff6c1
