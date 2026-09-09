@@ -2,8 +2,6 @@
     <wipe>true</wipe>
     <addressComponents>
         <addressComponent>
-        </addressComponent>
-        <addressComponent>
             <field>STATE_PROVINCE</field>
             <nameMapping>pihmalawi.address.district</nameMapping>
             <sizeMapping>40</sizeMapping>
