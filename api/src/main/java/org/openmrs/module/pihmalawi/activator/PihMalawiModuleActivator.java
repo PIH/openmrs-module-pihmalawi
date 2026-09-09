@@ -44,6 +44,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
     @Override
     public void willRefreshContext() {
         log.info("Refreshing PIH Malawi Module");
+        IC3ScreeningDataLoader.setEnabled(false);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
             extensions.add(e);
         }
 
+        IC3ScreeningDataLoader.setEnabled(true);
         Context.getRegisteredComponents(IC3ScreeningDataLoader.class).get(0).runImmediately();
     }
 
