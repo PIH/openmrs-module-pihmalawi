@@ -2371,3 +2371,148 @@ Width of intihma to media part of the cartoid construct,Procedure NOT indicated,
 Width of intihma to media part of the cartoid construct,Plates present,1,concept-set
 Width of intihma to media part of the cartoid construct,Left width,2,concept-set
 Width of intihma to media part of the cartoid construct,Right width,3,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,6545c072-977f-11e1-8993-905e29aff6c1,5,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,6545c072-977f-11e1-8993-905e29aff6c1,5,concept-set
+Clinical impression,Vaginitis,14,concept-set
+Clinical impression,Syphilis,13,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Kaposis sarcoma,15,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Kaposis sarcoma,14,concept-set
+Clinical impression,Trichomonas,16,concept-set
+Laboratory examinations construct,Serum creatinine,15,concept-set
+Istat chem8 plus construct,Serum creatinine,5,concept-set
+Biochemistry results,Serum creatinine,3,concept-set
+Rwanda biochemistry set,Serum creatinine,3,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,HIV wasting syndrome (severe weight loss + persistent fever or severe weight loss + chronic diarrhoea),0,concept-set
+65585ec6-977f-11e1-8993-905e29aff6c1,Herpes zoster,0,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Herpes zoster,7,concept-set
+Clinical impression,Herpes zoster,4,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Pneumocystis pneumonia,1,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Pneumocystis pneumonia,1,concept-set
+Clinical impression,Gonorrhea,15,concept-set
+Mental disorders,Depressive episode,4,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Bacterial pneumonia, severe recurrent,3,concept-set
+TB contact construct,Names and firstnames of contact,3,concept-set
+TB contact construct,Relationships of contact,0,concept-set
+Clinical impression,Malaria diagnosis,6,concept-set
+Clinical impression,Tuberculosis assessment,0,concept-set
+Clinical impression,Pneumonia assessment,1,concept-set
+Clinical impression,Weight loss greater than ten percent,2,concept-set
+Clinical impression,Does the patient have acute diarrhea,9,concept-set
+Clinical impression,Dysphagia assessment,10,concept-set
+Clinical impression,Meningitis assessment,7,concept-set
+Clinical impression,Encephalopathy non focal,8,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,HIV encephalopathy,16,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,HIV encephalopathy,15,concept-set
+Clinical impression,Convulsions or focal neurological deficit,12,concept-set
+Clinical impression,Nodular rash,11,concept-set
+Socio-economic assistance construct,Socio-economic assistance,0,concept-set
+Previous other medication construct,Drug start date,4,concept-set
+Previous other medication construct,Drug end date,5,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Extrapulmonary tuberculosis (EPTB),13,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Extrapulmonary tuberculosis (EPTB),12,concept-set
+Previous other medication construct,Other medication 1,0,concept-set
+Active cardiac medication at beginning of encounter construct,Other medication 1,8,concept-set
+Active medicine prescribed while hospitalized,Other medication 1,5,concept-set
+Medicine previously received as outpatient construct,Other medication 1,4,concept-set
+Other medication construct,Other medication 1,0,concept-set
+Previous other medication construct,Other medication 2,1,concept-set
+Active cardiac medication at beginning of encounter construct,Other medication 2,9,concept-set
+Active medicine prescribed while hospitalized,Other medication 2,6,concept-set
+Other medication 2 construct,Other medication 2,0,concept-set
+Previous other medication construct,Other medication 3,2,concept-set
+Other medication 3 construct,Other medication 3,0,concept-set
+Previous other medication construct,Other medication 4,3,concept-set
+TB contact construct,655a5f5a-977f-11e1-8993-905e29aff6c1,2,concept-set
+TB contact construct,Previous TB treatment history,1,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Oral ulcerations, recurrent,4,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Papular itchy skin eruptions,1,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,655fe34e-977f-11e1-8993-905e29aff6c1,8,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Anaemia, unexplained < 8 g/dl,9,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Anaemia, unexplained < 8 g/dl,9,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Toxoplasmosis of the brain,2,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Cerebral or B-cell non Hodgkin lymphoma,14,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Cerebral or B-cell non Hodgkin lymphoma,13,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Invasive cancer of cervix,16,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Ptb within the past two years,6,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Ptb within the past two years,6,concept-set
+Co-trimoxazole change construct,Prophylaxis started,0,concept-set
+Fluconazole change construct,Prophylaxis started,0,concept-set
+Co-trimoxazole change construct,Prophylaxis stopped,1,concept-set
+Fluconazole change construct,Prophylaxis stopped,1,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,TB lymphadenopathy,11,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Recurrent bacteraemia or sepsis with NTS,12,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Recurrent bacteraemia or sepsis with NTS,11,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Unexplained persistant heptomegaly and splenomegaly,0,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Recurrent or chronic respiratory tract infections (sinusitis, otorrhoea, tonsillitis, otitis media),8,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,HIV associated cardiomyopathy,15,concept-set
+Other medication construct,Morning dose in milligrams,1,concept-set
+Other medication 2 construct,Morning dose in milligrams,1,concept-set
+Other medication 3 construct,Morning dose in milligrams,1,concept-set
+Other medication construct,Morning dose in pills,2,concept-set
+Other medication 2 construct,Morning dose in pills,2,concept-set
+Other medication 3 construct,Morning dose in pills,2,concept-set
+Other medication construct,Noon dose in milligrams,3,concept-set
+Other medication 2 construct,Noon dose in milligrams,3,concept-set
+Other medication 3 construct,Noon dose in milligrams,3,concept-set
+Other medication construct,Noon dose in pills,4,concept-set
+Other medication 2 construct,Noon dose in pills,4,concept-set
+Other medication 3 construct,Noon dose in pills,4,concept-set
+Other medication construct,Night dose in milligrams,5,concept-set
+Other medication 2 construct,Night dose in milligrams,5,concept-set
+Other medication 3 construct,Night dose in milligrams,5,concept-set
+Other medication construct,Night dose in pills,6,concept-set
+Other medication 2 construct,Night dose in pills,6,concept-set
+Other medication 3 construct,Night dose in pills,6,concept-set
+Other medication construct,656620ba-977f-11e1-8993-905e29aff6c1,7,concept-set
+Co-trimoxazole change construct,Date of treatment change,2,concept-set
+Fluconazole change construct,Date of treatment change,2,concept-set
+65585ec6-977f-11e1-8993-905e29aff6c1,Respiratory tract infections, recurrent (sinusitis, tonsilitus, otitis media, pharyngitis),3,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Diarrhoea, chronic (>1 month) unexplained,3,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Fever, persistent unexplained, intermittent or constant, >1 month,4,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Fever, persistent unexplained, intermittent or constant, >1 month,4,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Cryptococcosis, extrapulmonary,5,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Cryptococcosis, extrapulmonary,4,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Cytomegalovirus of an organ other than liver, spleen or lymph node,6,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Cytomegalovirus of an organ other than liver, spleen or lymph node,5,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Atypical mycobacteriosis, disseminated or lung,11,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Atypical mycobacteriosis, disseminated or lung,10,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Progressive multifocal leukoencephalopathy,8,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Progressive multifocal leukoencephalopathy,7,concept-set
+65585dae-977f-11e1-8993-905e29aff6c1,Asymptomatic HIV infection,0,concept-set
+65586f38-977f-11e1-8993-905e29aff6c1,Asymptomatic HIV infection,0,concept-set
+65585dae-977f-11e1-8993-905e29aff6c1,Persistent generalized lymphadenopathy,1,concept-set
+65586f38-977f-11e1-8993-905e29aff6c1,Persistent generalized lymphadenopathy,1,concept-set
+65585ec6-977f-11e1-8993-905e29aff6c1,Minor mucocutaneous manifestations (seborrheic dermatitis, prurigo, fungal nail infections, recurrent oral ulcerations, angular chelitis),2,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Severe bacterial infection (eg pneumonia, pyomyosistis, sepsis),7,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Severe bacterial infection (eg pneumonia, pyomyosistis, sepsis),7,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,656b23c6-977f-11e1-8993-905e29aff6c1,0,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,656b29b6-977f-11e1-8993-905e29aff6c1,1,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,656b29b6-977f-11e1-8993-905e29aff6c1,1,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Unintentional weight loss more than 10 percent of body weight in abscence of concurrent illness,2,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Unintentional weight loss more than 10 percent of body weight in abscence of concurrent illness,2,concept-set
+Clinical impression,Unintentional weight loss more than 10 percent of body weight in abscence of concurrent illness,3,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Candidiasis of oseophagus, trachea and bronchi or lungs,10,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Candidiasis of oseophagus, trachea and bronchi or lungs,9,concept-set
+Clinical impression,Candidiasis of oseophagus, trachea and bronchi or lungs,5,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Chronic herpes simplex infection (orolabial, gential / anorectal >1 month or visceral at any site),6,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Any disseminated endemic mycosis,9,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Any disseminated endemic mycosis,8,concept-set
+65585dae-977f-11e1-8993-905e29aff6c1,Unspecified stage I condition,2,concept-set
+65585ec6-977f-11e1-8993-905e29aff6c1,Unspecified stage II condition,4,concept-set
+65585fde-977f-11e1-8993-905e29aff6c1,Unspecified stage III condition,10,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,Moderate unexplained malnutrition,10,concept-set
+65587168-977f-11e1-8993-905e29aff6c1,HIV associated nephropathy,16,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Cryptosporidiosis or isosporiasis,3,concept-set
+655860f6-977f-11e1-8993-905e29aff6c1,Unspecified stage IV condition,18,concept-set
+65587050-977f-11e1-8993-905e29aff6c1,Unexplained persistent parotid gland enlargement,5,concept-set
+65587280-977f-11e1-8993-905e29aff6c1,Recurrent severe presumed pneumonia,19,concept-set
+Gastrointestinal Concerns - Stool set,Patient Vomiting,1020,concept-set
+Gastrointestinal Concerns - Stool set,Meconium delayed,1030,concept-set
+Developmental Delay Assessment Set,Hypo,1000,concept-set
+Developmental Delay Assessment Set,Hyper,1010,concept-set
+Developmental Delay Assessment Set,Malawi Developmental Assessment Tool Summary (Normal)-(Coded),1020,concept-set
+Developmental Delay Plan Set,Referred out,1020,concept-set
+Referred Out Set,Large tongue,1000,concept-set
+Referred Out Set,Course Hair,1010,concept-set
+Referred Out Set,Poor Growth,1020,concept-set
+Developmental Delay TSH Test Set,Large tongue,1000,concept-set
