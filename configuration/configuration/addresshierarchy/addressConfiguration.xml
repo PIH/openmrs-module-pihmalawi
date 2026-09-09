@@ -2,6 +2,8 @@
     <wipe>true</wipe>
     <addressComponents>
         <addressComponent>
+        </addressComponent>
+        <addressComponent>
             <field>STATE_PROVINCE</field>
             <nameMapping>pihmalawi.address.district</nameMapping>
             <sizeMapping>40</sizeMapping>
@@ -22,6 +24,6 @@
     </addressComponents>
     <addressHierarchyFile>
         <filename>malawi_address_hierarchy_entries.csv</filename>
-        <entryDelimiter>|</entryDelimiter>
+        <entryDelimiter>\|</entryDelimiter>
     </addressHierarchyFile>
 </addressConfiguration>
