@@ -1,2 +1,11 @@
 UUID,Void/Retire,A is to B,B is to A,Description
+668aeee4-977f-11e1-8993-905e29aff6c1,,Patient,Guardian,Patient Guardian
+668aeffc-977f-11e1-8993-905e29aff6c1,,Patient,Village Health Worker,Specifies village health worker for a particular patient.
+668af10a-977f-11e1-8993-905e29aff6c1,,treatment suporter,treatment suportee,Used by the mdrtb module.
+668af222-977f-11e1-8993-905e29aff6c1,,TB Contact Person,TB Index Person,This is a relationship between a TB contact person and a current TB patient who referred them to clinic
+668af33a-977f-11e1-8993-905e29aff6c1,,TB Patient,TB contact Person,A relationship between a current TB patient and people they come into contact with in the house hold
+668af448-977f-11e1-8993-905e29aff6c1,,Child,Parent,Relationship from child to parent
+668af556-977f-11e1-8993-905e29aff6c1,,Spouse/Partner,Spouse/Partner,Spouse to spouse relationship
+668af66e-977f-11e1-8993-905e29aff6c1,,Other,Other,Other type of relationship to the person
+2a5f4ff4-a179-4b8a-aa4c-40f71956ebbc,,Supervisor,Supervisee,Provider supervisor to provider supervisee relationship
 eb567be2-fda1-4746-9d51-833de8a7e81f,,Community Health Worker,Patient,CHW to Patient relationship

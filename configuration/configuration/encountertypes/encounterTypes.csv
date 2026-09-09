@@ -13,6 +13,7 @@ a95dc43f-925c-11e5-a1de-e82aea237783,ASTHMA_INITIAL,Top section of the Asthma Ma
 D8D67095-0AAC-4B61-87B3-A2B32B7E1FEE,Blood sugar screening,Blood sugar test screening encounter
 AA2C2B86-1A59-49A3-905B-41D318E94FFE,Cervical Cancer Screening,Cervical cancer screening encounter
 55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b,Check-in,Check-in encounter
+664b8fe2-977f-11e1-8993-905e29aff6c1,CHEMOTHERAPY,Chemotherapy encounter
 dbab9217-29ec-477d-8d11-161cd4fd2b34,CHF_ANNUAL_SCREENING,Annual screening for Chronic Heart Disease
 833CD694-7A98-4659-A487-AE25FD445D32,CHF_CHEST_XRAY,Chest X-ray(CXR) imaging encounter
 0B6FB2FD-7AA3-4D90-BE33-52096ABD66DB,CHF_ECHOCARDIOGRAM,Echocardiogram(ultrasound) imaging encounter
@@ -21,6 +22,8 @@ D4350F89-A421-486F-92EB-4AB713DF122B,CHF_ELECTROCARDIOGRAPHIC,Electrocardiograph
 0d3f097f-206c-4c31-9fcb-2ba61145b69f,CHF_HOSPITALIZATIONS,Hospitalizations for Chronic Heart Disease patients
 cb337ef3-f5cb-4e10-af8d-8d717a3a139f,CHF_INITIAL,Initial Chronic Heart Disease encounter
 df5389a8-7715-462b-a41e-e8b1946c8c60,CHF_QUARTERLY_HIV_SCREENING,Quarterly HIV screening for Chronic Heart Disease
+664bb896-977f-11e1-8993-905e29aff6c1,CHRONIC_CARE_FOLLOWUP,Simple followup for chronic care appointments
+664bb6de-977f-11e1-8993-905e29aff6c1,CHRONIC_CARE_INITIAL,Intake for Chronic Care patients
 ec0a17ba-9751-11e8-9eb6-529269fb1459,CKD_ANNUAL_SCREENING,Annual screening for Chronic Kidney Disease
 1ebe2272-974e-11e8-9eb6-529269fb1459,CKD_FOLLOWUP,Followup visit for Chronic Kidney Disease patient
 ec0a2f2a-9751-11e8-9eb6-529269fb1459,CKD_HOSPITALIZATIONS,Hospitalizations for Chronic Kidney Disease patients
@@ -65,6 +68,9 @@ d67b208d-e819-4888-9bb8-60dcb8ab2b1f,NUTRITION_PREGNANT_TEENS_INITIAL,initial Pr
 664b89ca-977f-11e1-8993-905e29aff6c1,OLD_TB_INITIAL,Initial visit for TB Patient
 e082235c-955d-11e7-abc4-cec278b6b50a,PALLIATIVE_FOLLOWUP,Followup visit for Palliative care patient
 e0822140-955d-11e7-abc4-cec278b6b50a,PALLIATIVE_INITIAL,Initial Palliative care encounter
+664b8812-977f-11e1-8993-905e29aff6c1,PART_FOLLOWUP,Followup visit for Pre-ART patient
+664b8736-977f-11e1-8993-905e29aff6c1,PART_INITIAL,Initial Pre-ART visit
+664b8b8c-977f-11e1-8993-905e29aff6c1,PATIENT EVALUATION,Patient evaluation encounter
 cfca0af9-86c9-4717-83b7-74e61f1a7bbf,PDC_CLEFT_CLIP_PALLET_FOLLOWUP,Cleft Clip Pallet PDC Encounter
 dbfc3984-6466-4ce0-a53f-fa646d74c41f,PDC_CLEFT_CLIP_PALLET_INITIAL,Cleft Clip Pallet PDC Encounter
 98f13fb0-5024-11ec-bf63-0242ac130002,PDC_COMPLICATIONS,PDC Complications Encounter

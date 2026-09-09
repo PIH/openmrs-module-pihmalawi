@@ -14,5 +14,5 @@ b32fa3f1-d2d2-4913-996b-2cf80fb27447,org.openmrs.module.emrapi,emr.primaryIdenti
 74e031e7-8929-4bf1-9c8b-8db98357b6b3,org.openmrs.module.emrapi,emr.transferWithinHospitalEncounterType,org.openmrs.EncounterType,
 252e6353-45dd-47b6-bc48-a981488c2cea,org.openmrs.module.emrapi,emr.transferWithinHospitalForm,org.openmrs.Form,
 05c37f08-0729-4ce1-820b-7b37ecba2548,org.openmrs.module.emrapi,emr.unknownLocation,org.openmrs.Location,8d6c993e-c2cc-11de-8d13-0010c6dffd0f
-2972ece8-c252-4106-92d1-218ae5eaa1ae,org.openmrs.module.emrapi,emr.unknownProvider,org.openmrs.module.providermanagement.Provider,f9badd80-ab76-11e2-9e96-0800200c9a66
+2972ece8-c252-4106-92d1-218ae5eaa1ae,org.openmrs.module.emrapi,emr.unknownProvider,org.openmrs.Provider,f9badd80-ab76-11e2-9e96-0800200c9a66
 1a43fe54-9a9d-4290-8e7e-bccb18d34164,org.openmrs.module.emrapi,emr.visitNoteEncounterType,org.openmrs.EncounterType,
