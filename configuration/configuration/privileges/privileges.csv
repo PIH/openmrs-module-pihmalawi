@@ -1,2 +1,85 @@
 Uuid,Privilege name,Description
 cbbfac84-e94f-42a9-9925-6e99f7a8a1b9,View clinical data,View patient's clinical data
+c85b767c-2695-102d-b4c2-001d929acb54,Add Concepts,Able to add new terms to the concept dictionary.
+c85b7820-2695-102d-b4c2-001d929acb54,Add FormEntry Archive,Allows the user to add the formentry archive
+c85b78f2-2695-102d-b4c2-001d929acb54,Add FormEntry Error,Allows a user to add a formentry error item
+c85b79ce-2695-102d-b4c2-001d929acb54,Add FormEntry Queue,Allows user to add a queue item to database
+c85b7a8c-2695-102d-b4c2-001d929acb54,Add Forms,Able to add new forms.
+c85b8306-2695-102d-b4c2-001d929acb54,Analysis Shortcut,Shortcut to patient groups on homepage
+c85b994a-2695-102d-b4c2-001d929acb54,Analyze,Work with patient groups
+7df72753-36e8-480c-be32-8fbcffb0d80c,App: coreapps.systemAdministration,Run the System Administration app
+46b91a2b-f7ac-4217-b49c-792b225a620b,CHW Management App,Allows access to the CHW Management App
+c85b9a12-2695-102d-b4c2-001d929acb54,Data Import,Allows user to access Data Import pages/functions
+c85b9c6a-2695-102d-b4c2-001d929acb54,Delete Concepts,Able to remove concepts from the dictionary.
+c85b9df0-2695-102d-b4c2-001d929acb54,Delete FormEntry Archive,Allows the user to delete a formentry archive
+c85b9ec2-2695-102d-b4c2-001d929acb54,Delete FormEntry Error,Allows a user to delete a formentry error item
+c85b9f8a-2695-102d-b4c2-001d929acb54,Delete FormEntry Queue,Allows the user to delete formentry queue items
+c85ba05c-2695-102d-b4c2-001d929acb54,Delete Forms,Able to remove forms from the system.
+c85bab56-2695-102d-b4c2-001d929acb54,Edit Concepts,Able to change attributes of existing terms.
+c85bafca-2695-102d-b4c2-001d929acb54,Edit FormEntry Archive,Allows the user to edit a formentry archive
+c85bc424-2695-102d-b4c2-001d929acb54,Edit FormEntry Error,Allows a user to edit a formentry error item
+c85bc500-2695-102d-b4c2-001d929acb54,Edit FormEntry Queue,Allows the user to edit the formentry queue
+c85bc5c8-2695-102d-b4c2-001d929acb54,Edit Forms,Able to change preexisting forms.
+34628ca2-15ef-4c01-8ccc-74063ad4159f,Enter Facility Data Reports,Allow users to fill out and view reports
+c85bcf0a-2695-102d-b4c2-001d929acb54,Find Patient Shortcut,Show find-patient shortcut on homepage
+0a2c34b5-a7ae-11f1-aff0-00155deb1000,Get Patient Program Attribute Types,Able to get patient program attribute types
+816901b5-0821-4532-940e-ff7ab0c2ba0a,Get Provider Roles,Able to get Provider Roles
+c51e9f93-f28c-47b4-a287-2a9d8a4ebe80,List Groovy Scripts,Allows user to view Groovy scripts which are saved.
+7f311137-d696-4493-8b07-97ac152996f0,Manage Facility Data Reports,"Allows user to manage reports. (e.g. create, delete, etc)"
+17f0bcc8-f941-46ed-a21a-ee8cc5aa1414,Manage Flags,"Allows user add, edit, and remove flags"
+c85bd608-2695-102d-b4c2-001d929acb54,Manage Form Exports,Allows users to manage form exports
+c85becb0-2695-102d-b4c2-001d929acb54,Manage Groups,"Able to add, edit, and delete groups"
+e0ea5ee7-d443-45bb-b0a6-ec18122d6e21,Manage OWA,"Allows to configure OWA module, upload modules"
+0a2c3c94-a7ae-11f1-aff0-00155deb1000,Manage Patient Program Attribute Types,Able to add/edit/retire patient program attribute types
+c85bf372-2695-102d-b4c2-001d929acb54,Manage Patient Programs,Core Privilege
+bc853c4d-2942-4e49-9657-917dd1bea42e,Manage Provider Roles,Able to add/edit/retire Provider Roles
+26cc1ab6-e47d-45f9-80ac-324af35b3c65,Manage Rule Definitions,Allows creation and editing of user-defined rules
+e8ea27cc-3296-47b8-a4c0-6b974c5253b4,Manage Synchronization,sync
+6e61132a-a02f-4c1f-b518-c19864e7b05f,Manage Tokens,Allows registering and removal of tokens
+5eee657a-da54-45c3-bc67-a35fe4241a7d,Manage Usage Statistics,Able to manage and configure usage statistics
+6dbd2ba0-506a-43ad-b704-33f76e5bb724,Patient Dashboard - View Visits Section,Able to view the 'Visits' tab on the patient dashboard
+b381a14a-8f97-4f73-80c9-f4ad648b0b3a,Patient Overview - View Patient Flags,Able to view the 'Patient Flags' portlet on the patient dashboard's overview tab
+74766f96-b4c4-466e-adb1-3a5989f305f6,Provider Management - Admin,Allows access to admin pages of the provider management module
+26412b83-486e-425e-b618-b5e6280e8db3,Provider Management API,Allows access to all provider management service and provider suggestion service API method
+b2e1f8e8-da0a-423a-8055-36b08f9d4e14,Provider Management API - Read-only,Allows access to all provider management service and provider suggestion service API methods that are read-only
+cf804935-3050-473f-8bd3-64b3bfe8eeee,Provider Management Dashboard - Edit Patients,Allows access to editing patient information on the provider management dashboard
+d3cf8d36-e8de-4f49-ac80-a98a329c6b53,Provider Management Dashboard - Edit Providers,Allows access to editing provider information on the provider management dashboard
+51926553-dd23-46d3-8204-34892ecfcdc7,Provider Management Dashboard - View Historical,Allows access to viewing historical patient (if user has view patients right) and supervisee information on the provider management dashboard
+035e6bb1-1106-465d-be36-a3e46bf7ee42,Provider Management Dashboard - View Patients,Allows access to viewing patient information on the provider management dashboard
+1cddd8f3-eeaf-43c9-b72f-b30377befcd1,Provider Management Dashboard - View Providers,Allows access to viewing provider information on the provider management dashboard
+0a2c3d31-a7ae-11f1-aff0-00155deb1000,Purge Patient Program Attribute Types,Able to purge patient program attribute types
+ce929703-e072-470b-b91b-e8ce94f16498,Purge Patients,Purge Patients
+c85c045c-2695-102d-b4c2-001d929acb54,Remote Form Entry Edit Properties,"Allows the user to change the remote form entry properties. (like which encounter types are initial, etc)"
+c85c0538-2695-102d-b4c2-001d929acb54,Remote Form Entry Export,Allows the user to export and download all entries in the Form Entry queue on a remote site and upload them
+c85c0600-2695-102d-b4c2-001d929acb54,Remote Form Entry Import,Allows the user to import/upload the zip file generated at the remote site that contains Form Entry queue items.
+c85c1a78-2695-102d-b4c2-001d929acb54,Remote Form Entry Receive Data,Allows the user to receive remote data on the central location.
+c85c1b5e-2695-102d-b4c2-001d929acb54,Remote Form Entry Resolve Errors,Allows user to resolve discrepancies in remote form entry queue items that were uploaded and patients could not be found
+c85c1c3a-2695-102d-b4c2-001d929acb54,Remote Form Entry Return To Remote,Allows the user to return the remote data from the central location.
+7cda71a1-428c-40fc-b8a5-71e16c849fa3,Run Groovy Scripts,Allows user to execute Groovy scripts.
+8e00b79c-9f9f-49c3-9cc9-b471f8f0b654,SQL Level Access,SQL Level Access
+a1a1e42f-03f9-4680-a25c-d3cb3994d5cb,Share Metadata,Allows user to export and import metadata
+657e8778-1665-4077-b2ac-8b2c24be9481,Test Flags,"Allows the user to test a flag, or set of flags, against a Patient set"
+92ba6126-366d-43f7-b5d1-40912861f6e0,Validate Objects,Allows to validate data and metadata
+22ab8dbf-0b5f-47d2-87a8-39bee9b4f54a,View Concept Map Types,Able to view concept map types
+0e880336-1564-48d7-b13b-a0fe7187f501,View Concept Reference Terms,Able to view concept reference terms
+e5bda654-d10e-43c1-8080-4b21b3005c99,View Data Exports,View Data Exports
+92d6b28e-021c-4b7a-89e6-d64c7001a881,View Database Changes,Able to view database changes from the admin screen
+03e92a29-cc75-449f-8a16-33ba5fcc507d,View Encounter Roles,Able to view encounter roles
+71ec8634-b8b8-4f0f-8650-8857e5b7db46,View Facility Data Reports,Allows user to view reports that are saved.
+c85c289c-2695-102d-b4c2-001d929acb54,View FormEntry Archive,Allows the user to view the formentry archive
+c85c295a-2695-102d-b4c2-001d929acb54,View FormEntry Error,Allows a user to view a formentry error
+c85c2d38-2695-102d-b4c2-001d929acb54,View FormEntry Queue,Allows user to view the queue items
+5de6a80e-6f23-46ea-b40a-2e350ca0c85f,View HL7 Inbound Archive,Able to view an HL7 archive item
+5e28946b-f8a2-4bf3-825a-924b3e91a5ef,View HL7 Inbound Exception,Able to view an HL7 archive item
+b15c6bb9-6a1f-4c07-9a46-bef1b9066989,View HL7 Inbound Queue,Able to view an HL7 Queue item
+8a307601-ef2e-47f6-a8c7-eefa42e33a14,View HL7 Source,Able to view an HL7 Source
+2278c605-060e-45b6-98d6-de3532c758a1,View Location Attribute Types,Able to view location attribute types
+c85c556a-2695-102d-b4c2-001d929acb54,View Patient Sets,Core Privilege
+a712d005-aefb-4d9b-a992-68da665fbb19,View Providers,Able to view Provider
+05f50c6c-b2fc-4171-8611-c7e60dcde1ec,View Rule Definitions,Allows viewing of user-defined rules. (This privilege is not necessary to run rules under normal usage.)
+0205b0c5-8562-4766-8b07-1da80c12c5b5,View Synchronization Records,sync
+d4cf9e64-37ad-4f44-b732-de87a08b6632,View Synchronization Status,sync
+235a8652-ff9a-4596-88da-5c9b4470b163,View Usage Statistics,Able to view usage statistics
+37a14bff-de53-4a88-b13c-73f0e5971a20,View Visit Attribute Types,Able to view visit attribute types
+044bfeaa-ae5f-4ae0-9f30-0b19a6faf9ea,View Visit Types,Able to view visit types
+2b0c87de-afb5-4b43-a226-49a660bc536c,View Visits,Able to view visits
