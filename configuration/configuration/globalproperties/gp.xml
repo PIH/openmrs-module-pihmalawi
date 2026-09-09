@@ -230,7 +230,7 @@
         </globalProperty>
         <globalProperty>
             <property>default_locale</property>
-            <value>en_GB</value>
+            <value>en</value>
         </globalProperty>
         <globalProperty>
             <property>default_theme</property>
