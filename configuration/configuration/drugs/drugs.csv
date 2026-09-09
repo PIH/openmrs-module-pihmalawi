@@ -175,7 +175,7 @@ Uuid,Void/Retire,Name,Strength,Concept drug,Concept dosage form
 1895e90a-a89d-11df-bba5-000c297f1161,,Metoclopramide (10mg tablet),10mg,6549f71e-977f-11e1-8993-905e29aff6c1,656921d4-977f-11e1-8993-905e29aff6c1
 1895eaa4-a89d-11df-bba5-000c297f1161,,Metronidazole .5% (5mg ampulle),5mg,6546f2a8-977f-11e1-8993-905e29aff6c1,656923d2-977f-11e1-8993-905e29aff6c1
 1895ec3e-a89d-11df-bba5-000c297f1161,,Metronidazole (250mg tablet),250mg,6546f2a8-977f-11e1-8993-905e29aff6c1,656921d4-977f-11e1-8993-905e29aff6c1
-1895edd8-a89d-11df-bba5-000c297f1161,true,Metronidazole (250mg tablet),250mg,6546f2a8-977f-11e1-8993-905e29aff6c1,656921d4-977f-11e1-8993-905e29aff6c1
+1895edd8-a89d-11df-bba5-000c297f1161,true,Metronidazole (250mg tablet) (retired),250mg,6546f2a8-977f-11e1-8993-905e29aff6c1,656921d4-977f-11e1-8993-905e29aff6c1
 1895ef68-a89d-11df-bba5-000c297f1161,,Miconazole 2% cream (30g tube),1application,654b0500-977f-11e1-8993-905e29aff6c1,65692760-977f-11e1-8993-905e29aff6c1
 1895f062-a89d-11df-bba5-000c297f1161,,Miconazole oral gel (20mg tube),1application,654b0500-977f-11e1-8993-905e29aff6c1,65692760-977f-11e1-8993-905e29aff6c1
 1895f15c-a89d-11df-bba5-000c297f1161,,Nalidixic Acid (1g),1g,6547307e-977f-11e1-8993-905e29aff6c1,656921d4-977f-11e1-8993-905e29aff6c1
@@ -456,7 +456,7 @@ Uuid,Void/Retire,Name,Strength,Concept drug,Concept dosage form
 189cbf32-a89d-11df-bba5-000c297f1161,,Trimethoprim,,6545f2f4-977f-11e1-8993-905e29aff6c1,
 189cc02c-a89d-11df-bba5-000c297f1161,,Tetanus Immuno Globulin,,6574f64e-977f-11e1-8993-905e29aff6c1,
 189cc126-a89d-11df-bba5-000c297f1161,,Tetanus Toxoid Vaccine,0.5ml,6574f748-977f-11e1-8993-905e29aff6c1,
-189cc22a-a89d-11df-bba5-000c297f1161,,Tetanus Toxoid Vaccine,0.5ml,6574f748-977f-11e1-8993-905e29aff6c1,
+189cc22a-a89d-11df-bba5-000c297f1161,,Tetanus Toxoid Vaccine (duplicate),0.5ml,6574f748-977f-11e1-8993-905e29aff6c1,
 189cc324-a89d-11df-bba5-000c297f1161,,2SRHZ+7RH,,6574fa36-977f-11e1-8993-905e29aff6c1,
 189cc41e-a89d-11df-bba5-000c297f1161,,2RHZE+4RH,,6560a3a6-977f-11e1-8993-905e29aff6c1,
 189cc518-a89d-11df-bba5-000c297f1161,,2SRHZE+1RHZE/5RHE,,655d566a-977f-11e1-8993-905e29aff6c1,
@@ -547,16 +547,16 @@ Uuid,Void/Retire,Name,Strength,Concept drug,Concept dosage form
 189e609e-a89d-11df-bba5-000c297f1161,,Diazepam injection (20mg),20mg (injection),6547016c-977f-11e1-8993-905e29aff6c1,
 189e61fc-a89d-11df-bba5-000c297f1161,,Diclofenac injection (50mg),50mg (injection),65483f50-977f-11e1-8993-905e29aff6c1,
 189e6972-a89d-11df-bba5-000c297f1161,,Flucloxacillin injection (500 mg),500mg (injection),65484b3a-977f-11e1-8993-905e29aff6c1,
-189e6aee-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml",40mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
-189e728c-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml",80mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
-189e7926-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml",120mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
-189e7fc0-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml",160mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
+189e6aee-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml - 40mg (injection)",40mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
+189e728c-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml - 80mg (injection)",80mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
+189e7926-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml - 120mg (injection)",120mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
+189e7fc0-a89d-11df-bba5-000c297f1161,,"Frusemide 10mg/ml, 2ml - 160mg (injection)",160mg (injection),65730d0c-977f-11e1-8993-905e29aff6c1,
 189e8dc6-a89d-11df-bba5-000c297f1161,,Gentamicin injection (80mg),80mg (injection),6546014a-977f-11e1-8993-905e29aff6c1,
 189e8ec0-a89d-11df-bba5-000c297f1161,,Gentamicin injection (160mg),160mg (injection),6546014a-977f-11e1-8993-905e29aff6c1,
 189e8fb0-a89d-11df-bba5-000c297f1161,,Gentamicin injection (240mg),240mg (injection),6546014a-977f-11e1-8993-905e29aff6c1,
-189e9096-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml),5000iu,657353ac-977f-11e1-8993-905e29aff6c1,
-189e9208-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml),10000iu,657353ac-977f-11e1-8993-905e29aff6c1,
-189e92f8-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml),15000iu,657353ac-977f-11e1-8993-905e29aff6c1,
-189e93f2-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml",2.5mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
-189e94ec-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml",5mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
-189e95e6-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml",10mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
+189e9096-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml) - 5000iu,5000iu,657353ac-977f-11e1-8993-905e29aff6c1,
+189e9208-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml) - 10000iu,10000iu,657353ac-977f-11e1-8993-905e29aff6c1,
+189e92f8-a89d-11df-bba5-000c297f1161,,Heparin 5000u/ml (5ml) - 15000iu,15000iu,657353ac-977f-11e1-8993-905e29aff6c1,
+189e93f2-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml - 2.5mg (injection)",2.5mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
+189e94ec-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml - 5mg (injection)",5mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
+189e95e6-a89d-11df-bba5-000c297f1161,,"Hydralazine HCl 20mg/ml, 1ml - 10mg (injection)",10mg (injection),654b10d6-977f-11e1-8993-905e29aff6c1,
