@@ -62,7 +62,7 @@
         </globalProperty>
         <globalProperty>
             <property>reporting.testPatientsCohortDefinition</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>spa.frontend.directory</property>
@@ -97,10 +97,6 @@
             <value>500</value>
         </globalProperty>
         <globalProperty>
-            <property>addresshierarchy.database_version</property>
-            <value>2.10.0</value>
-        </globalProperty>
-        <globalProperty>
             <property>addresshierarchy.initializeAddressHierarchyCacheOnStartup</property>
             <value>false</value>
         </globalProperty>
@@ -114,7 +110,7 @@
         </globalProperty>
         <globalProperty>
             <property>clinic.holidays</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>clinic_breaks</property>
@@ -185,16 +181,8 @@
             <value>/coreapps/patientdashboard/patientDashboard.page?patientId={{patientId}}&amp;amp;visitId={{visit.id}}#</value>
         </globalProperty>
         <globalProperty>
-            <property>cross-site-indicators.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>cross-site-indicators.started</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
             <property>dashboard.encounters.maximumNumberToShow</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>dashboard.encounters.viewWhere</property>
@@ -214,19 +202,11 @@
         </globalProperty>
         <globalProperty>
             <property>dashboard.regimen.displayDrugSetIds</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>dashboard.regimen.displayFrequencies</property>
-            <value />
-        </globalProperty>
-        <globalProperty>
-            <property>dataentrystatistics.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>dataentrystatistics.started</property>
-            <value>true</value>
+            <value></value>
         </globalProperty>
         <!-- locale.allowed.list must be set before default_locale, or saving default_locale fails validation. -->
         <globalProperty>
@@ -251,35 +231,35 @@
         </globalProperty>
         <globalProperty>
             <property>emr.admissionEncounterType</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.admissionForm</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.exitFromInpatientEncounterType</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.exitFromInpatientForm</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.extraPatientIdentifierTypes</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.primaryIdentifierType</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.transferWithinHospitalEncounterType</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.transferWithinHospitalForm</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>emr.unknownProvider</property>
@@ -287,31 +267,15 @@
         </globalProperty>
         <globalProperty>
             <property>emr.visitNoteEncounterType</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>facilitydata.dailyReportDaysOfWeek</property>
             <value>2,3,4,5</value>
         </globalProperty>
         <globalProperty>
-            <property>facilitydata.database_version</property>
-            <value>1.0</value>
-        </globalProperty>
-        <globalProperty>
-            <property>facilitydata.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>facilitydata.started</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
             <property>facilitydata.unsupportedFacilities</property>
             <value>33,32,31,13,25,6,14,15,11,12,7,38,39,23,1,8,26,27,28,29,30,36,24,9</value>
-        </globalProperty>
-        <globalProperty>
-            <property>htmlformentry.database_version</property>
-            <value>1.2.0</value>
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.addAnotherButtonPosition</property>
@@ -319,11 +283,11 @@
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.configuration</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.drugDiscontinueReason</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.encountersChronology</property>
@@ -331,15 +295,11 @@
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.links</property>
-            <value />
-        </globalProperty>
-        <globalProperty>
-            <property>htmlformflowsheet.mandatory</property>
-            <value>false</value>
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.patientChartFormIds</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>htmlformflowsheet.programConfigurationMap</property>
@@ -348,14 +308,6 @@
         <globalProperty>
             <property>htmlformflowsheet.showMdrtbCatIVLink</property>
             <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>htmlformflowsheet.started</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
-            <property>idgen.database_version</property>
-            <value>2.5.1</value>
         </globalProperty>
         <globalProperty>
             <property>interface</property>
@@ -374,52 +326,8 @@
             <value>info</value>
         </globalProperty>
         <globalProperty>
-            <property>mail.password</property>
-            <value />
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_auth</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_host</property>
-            <value>209.85.133.111</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_port</property>
-            <value>465</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_quitwait</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_socketFactory_class</property>
-            <value>javax.net.ssl.SSLSocketFactory</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_socketFactory_fallback</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_socketFactory_port</property>
-            <value>465</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.smtp_starttls_enable</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
-            <property>mail.user</property>
-            <value>smtp_test_user</value>
-        </globalProperty>
-        <globalProperty>
             <property>minSearchCharacters</property>
             <value>1</value>
-        </globalProperty>
-        <globalProperty>
-            <property>namephonetics.database_version</property>
-            <value>1.0</value>
         </globalProperty>
         <globalProperty>
             <property>owa.appBaseUrl</property>
@@ -447,35 +355,11 @@
         </globalProperty>
         <globalProperty>
             <property>peads.clinic.days</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>person.searchMaxResults</property>
             <value>500</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.167cf668-0715-488b-b159-d5f391774088.version</property>
-            <value>1.0-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.3217226d-2cb3-4875-aef7-48f613544503.version</property>
-            <value>1.0-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.cfae870d-5041-4127-b989-17ff9b407155.version</property>
-            <value>1.0-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.d37cadb3-e422-42d6-b877-456b0e48fc30.version</property>
-            <value>1.0-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.excelPassword</property>
-            <value>test</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawi.fa20c1ac-94ea-11e3-96de-0023156365e4.version</property>
-            <value>1.0-SNAPSHOT</value>
         </globalProperty>
         <globalProperty>
             <property>pihmalawi.oldReportsRemoved</property>
@@ -486,44 +370,16 @@
             <value>Upper Neno</value>
         </globalProperty>
         <globalProperty>
-            <property>pihmalawiemastercards.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>pihmalawiemastercards.started</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
-            <property>programlocation.database_version</property>
-            <value>0.0.1</value>
-        </globalProperty>
-        <globalProperty>
-            <property>programlocation.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>programlocation.started</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
             <property>provider.unknownProviderUuid</property>
             <value>f9badd80-ab76-11e2-9e96-0800200c9a66</value>
         </globalProperty>
         <globalProperty>
-            <property>quickprograms.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>quickprograms.started</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
             <property>registrationcore.mpi.personIdentifierId</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>registrationcore.mpi.username</property>
-            <value />
+            <value></value>
         </globalProperty>
         <globalProperty>
             <property>report.deleteReportsAgeInHours</property>
@@ -570,122 +426,6 @@ anyHIV = [Patients in HIV Program] OR [EID Program] OR [KS Program]
 artVisitNotEnrolled = #artScanWeekAgo# NOT #anyHIV#</value>
         </globalProperty>
         <globalProperty>
-            <property>reporting.database_version</property>
-            <value>0.2.0</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.08c63059-9017-4767-8bf3-c16d0ace92a8.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.167cf668-0715-488b-b159-d5f391774088.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.19fdad06-2a3d-11e4-8981-e82aea237783.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.29CEEADC-0807-44B5-B7AA-2FA503BE448A.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.3217226d-2cb3-4875-aef7-48f613544503.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.5168d392-40ec-4687-9f86-4daef3406b5c.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.5ffdcf34-5db2-11e7-be82-dfb5eb799ead.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.619346d1-33d5-11e4-8c21-0800200c9a66.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.62f5c617-e6aa-11e3-89c9-0023156365e4.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.86751b60-2a41-11e4-8c21-0800200c9a66.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.9880C308-8734-444E-812B-05D95ADE63BE.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.F29C2955-C278-4F24-AADB-BE89D55542E1.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.b68f0a4b-24f4-4cca-8095-99c195ccfdae.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.c472062b-3266-11e6-9f57-54ee7513a7ff.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.cc92ee99-201c-11ef-884a-0242ac120003.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.cfae870d-5041-4127-b989-17ff9b407155.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.d1378b66-5e6b-41c2-9db1-9ebbe4ddeaf7.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.d37cadb3-e422-42d6-b877-456b0e48fc30.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.d51a9909-45e9-4dc4-a570-56308dadeeae.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.dd538832-4eae-11e6-b0fb-e82aea237783.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.e6856be7-06aa-11e4-b4d8-54ee7513a7ff.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.eb6c9c1f-62f7-49fc-a8fd-748e77b9f806.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.f2659c14-651f-11e9-9c3a-dbb5f9c0d8f7.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.f677c473-06a0-11e4-b4d8-54ee7513a7ff.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.fa20c1ac-94ea-11e3-96de-0023156365e4.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>reporting.reportManager.fb44dec0-f3f4-4ae4-bb3f-4c4d26c54bb2.version</property>
-            <value>1.2-SNAPSHOT</value>
-        </globalProperty>
-        <globalProperty>
-            <property>scheduler.password</property>
-            <value>test</value>
-        </globalProperty>
-        <globalProperty>
-            <property>scheduler.username</property>
-            <value>scheduler</value>
-        </globalProperty>
-        <globalProperty>
             <property>search.caseSensitiveDatabaseStringComparison</property>
             <value>true</value>
         </globalProperty>
@@ -714,26 +454,6 @@ artVisitNotEnrolled = #artScanWeekAgo# NOT #anyHIV#</value>
             <value>5</value>
         </globalProperty>
         <globalProperty>
-            <property>smtp_password</property>
-            <value>test</value>
-        </globalProperty>
-        <globalProperty>
-            <property>smtp_server</property>
-            <value>localhost</value>
-        </globalProperty>
-        <globalProperty>
-            <property>smtp_username</property>
-            <value>smtp_test_user</value>
-        </globalProperty>
-        <globalProperty>
-            <property>soundex.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>soundex.started</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
             <property>spa.baseUrl</property>
             <value>/spa</value>
         </globalProperty>
@@ -742,23 +462,11 @@ artVisitNotEnrolled = #artScanWeekAgo# NOT #anyHIV#</value>
             <value>false</value>
         </globalProperty>
         <globalProperty>
-            <property>spa.remote.url</property>
-            <value>https://spa-modules.nyc3.digitaloceanspaces.com/@openmrs/esm-app-shell/latest/</value>
-        </globalProperty>
-        <globalProperty>
             <property>statistics.show_encounter_types</property>
             <value>REGISTRATION,VITALS,OUTPATIENT DIAGNOSIS,TREATMENT,APPOINTMENT</value>
         </globalProperty>
         <globalProperty>
             <property>use_patient_attribute.tribe</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
-            <property>validation.mandatory</property>
-            <value>false</value>
-        </globalProperty>
-        <globalProperty>
-            <property>validation.started</property>
             <value>true</value>
         </globalProperty>
     </globalProperties>
