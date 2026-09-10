@@ -9,7 +9,7 @@ Uuid,Name,Description,Format,Foreign uuid,Searchable
 8d871f2a-c2cc-11de-8d13-0010c6dffd0f,Civil Status,Marriage status of this person,org.openmrs.Concept,,
 8d872150-c2cc-11de-8d13-0010c6dffd0f,Health District,District/region in which this patient' home health center resides,java.lang.String,,
 8d87236c-c2cc-11de-8d13-0010c6dffd0f,Health Center,Specific Location of this person's home health center.,org.openmrs.Location,,
-667f40ee-977f-11e1-8993-905e29aff6c1,Treatment Supporter,,java.lang.String,,
+667f40ee-977f-11e1-8993-905e29aff6c1,Treatment Supporter,,java.lang.String,,true
 667f422e-977f-11e1-8993-905e29aff6c1,MDR-TB Patient Contact ID Number,Used by the mdrtb module to give non-patient contacts an ID number.,java.lang.String,,
 667f436e-977f-11e1-8993-905e29aff6c1,Home Village,The person's home village or place of origin,org.openmrs.Location,,
 667f44ae-977f-11e1-8993-905e29aff6c1,Mother's Maiden Name,The maiden name of the person's mother.,java.lang.String,,
