@@ -128,4 +128,16 @@
 		<sqlFile path="pihmalawiMigrations/renameRetiredMetronidazoleDuplicate.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20260910-fix-patient-identifier-type-location-behavior" author="mseaton">
+		<comment>
+			identifierTypes.csv previously had Location behavior=REQUIRED hardcoded for nearly every
+			identifier type, corrected to match real production values. But
+			PatientIdentifierTypeLineProcessor.fill() only sets location_behavior when the CSV cell is
+			non-blank - a blank cell means "leave it as-is", not "clear it" - so on a database that
+			already has the old wrong value saved, the corrected CSV can never fix it. Apply the
+			correct values directly here instead. MLW-1839
+		</comment>
+		<sqlFile path="pihmalawiMigrations/fixPatientIdentifierTypeLocationBehavior.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>
