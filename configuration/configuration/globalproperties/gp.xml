@@ -230,7 +230,7 @@
         </globalProperty>
         <globalProperty>
             <property>default_locale</property>
-            <value>en</value>
+            <value>en_GB</value>
         </globalProperty>
         <globalProperty>
             <property>default_theme</property>
@@ -366,7 +366,7 @@
         </globalProperty>
         <globalProperty>
             <property>locale.allowed.list</property>
-            <value>en</value>
+            <value>en_GB</value>
         </globalProperty>
         <globalProperty>
             <property>log.level</property>
