@@ -228,16 +228,7 @@
             <property>dataentrystatistics.started</property>
             <value>true</value>
         </globalProperty>
-        <!--
-          locale.allowed.list MUST be set before default_locale (Initializer/XStream preserves
-          document order, and AdministrationServiceImpl.saveGlobalProperties() saves the whole
-          list in one transaction, in order). default_locale's save validates against the
-          *currently saved* locale.allowed.list value, not the pending one below it - against an
-          existing production copy (whose real locale.allowed.list is "en"), setting
-          default_locale first fails with "en_GB is not in allowed locales list" before
-          locale.allowed.list ever gets a chance to update. Keep this pair adjacent, in this
-          order, if either one is ever touched again.
-        -->
+        <!-- locale.allowed.list must be set before default_locale, or saving default_locale fails validation. -->
         <globalProperty>
             <property>locale.allowed.list</property>
             <value>en_GB</value>
