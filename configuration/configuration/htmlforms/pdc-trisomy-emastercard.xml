@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="ae0b2ee9-7c4e-45c3-8758-8e65b9523ff5"
+        htmlformUuid="5023eb54-8f70-4645-b448-ef99d9ef0b38"
         formUuid="c655dafd-9efa-491d-89a7-32e665b3ac85"
         formName="PDC Trisomy eMastercard"
         formDescription=""
@@ -14,6 +14,7 @@
         <macro key="pdcInitial" value="cb6be652-c5ee-447d-9d94-1100ffb26aa8"/>
         <macro key="transferIn" value="6559bc30-977f-11e1-8993-905e29aff6c1" />
         <macro key="meconiumDelayed" value="9af02405-2861-4c98-87b0-6b92a4606a7d" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
         yesAnswer=1065
         noAnswer=1066
         unknown=1067
@@ -36,7 +37,7 @@
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">
-                    <encounterLocation id="mastercardLocation" />
+                    <encounterLocation id="mastercardLocation" tags="$nenoLocations"/>
                     <span style="padding-left:20px;">
                         Date: <encounterDate />
                     </span>
@@ -46,7 +47,7 @@
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">Transfer-In Date: </b>
                 <b>
-                    <obs conceptId="$transferIn" />
+                    <obs conceptId="$transferIn" allowFutureDates="true"/>
                 </b>
             </span>
 
@@ -90,6 +91,18 @@
                         <tr>
                             <td>Patient Phone</td>
                             <td><obs conceptId="$patientPhone" size="10"/></td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Name</td>
+                            <td>
+                                <obs id="guardianNameField" conceptId="$guardianName" size="40"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Phone</td>
+                            <td>
+                                <obs conceptId="$guardianPhone" size="10"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Guardian relation to patient</td>

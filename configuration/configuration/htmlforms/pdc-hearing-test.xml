@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="61091748-1041-4ac8-bf1d-2fb1de3be37a"
+        htmlformUuid="4b25f8c5-2e31-496b-af87-de78e681b7d5"
         formUuid="fd447c8b-3039-497a-b238-6755e7107064"
         formName="PDC Hearing Test"
         formDescription=""
@@ -15,6 +15,7 @@
         <macro key="rightEar" value="65d881c2-4e5d-4837-959e-0f097fcb93e7" />
         <macro key="pass" value="20f6787b-3f0e-4c98-91c2-ee34f771f3ff" />
         <macro key="fail" value="a2a69a69-ecc7-450f-952e-bc8830aaabe7" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -61,7 +62,7 @@
         <h4 style="font-style: italic;">
             <b>PDC Hearing Test</b>
             <span style="padding-left:50px;">Version 1</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
                 <b>
@@ -79,12 +80,13 @@
                 <th>Date</th>
                 <td>
                     <encounterDate/>
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                 </td>
             </tr>
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>

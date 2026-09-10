@@ -108,4 +108,14 @@
 		<sqlFile path="pihmalawiMigrations/addProgramAttributeTypePrivileges.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20260910-remove-duplicate-htmlforms" author="mseaton">
+		<comment>
+			Remove duplicate htmlformentry_html_form rows (multiple rows sharing the same form_id,
+			left over from historical re-imports) for 14 forms. Runs before Initializer's htmlforms
+			domain loads, since that loader looks up the existing HtmlForm only by its parent Form and
+			aborts with a duplicate-uuid error if more than one row exists for the same form. MLW-1839
+		</comment>
+		<sqlFile path="pihmalawiMigrations/removeDuplicateHtmlForms.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>

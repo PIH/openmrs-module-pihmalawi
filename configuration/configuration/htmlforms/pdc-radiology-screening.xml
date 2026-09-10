@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="79d35b5d-89a7-4d30-baa7-b23559e2ce35"
+        htmlformUuid="28ec97e0-cda4-4cf7-9504-4c9f194edd7f"
         formUuid="5ef02404-3cb2-445e-8ce1-dac5c3ab42f8"
         formName="PDC Radiology Screening"
         formDescription=""
@@ -13,6 +13,7 @@
     <macros>
         <macro key="echoResult" value="1995a751-6f80-49f5-bc89-5cc6ae767eff" />
         <macro key="otherLabResults" value="655dfc32-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -55,7 +56,7 @@
         <h4 style="font-style: italic;">
             <b>Radiology</b>
             <span style="padding-left:50px;">Version 1</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
                 <b>
@@ -73,12 +74,13 @@
                 <th>Date</th>
                 <td>
                     <encounterDate/>
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                 </td>
             </tr>
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>

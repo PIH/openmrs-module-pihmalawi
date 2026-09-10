@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="281f9fc8-1072-48a6-802a-f322f3998cd5"
+        htmlformUuid="8dafcf79-7eae-446e-847d-ca1ea1322e06"
         formUuid="7fe38b76-4d28-11ec-81d3-0242ac130003"
         formName="PDC Hospitalization History"
         formDescription=""
@@ -16,6 +16,7 @@
         <macro key="dischargeDiagnosis" value="0ed9abe4-b982-11e5-9912-ba0be0483c18" />
         <macro key="dischargeMeds" value="316bc014-ba1f-11e5-9912-ba0be0483c18" />
         <macro key="dischargeDate" value="6567df54-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -29,7 +30,6 @@
                 <tr>
                     <th>Date of Admission</th>
                     <th>Date of Discharge</th>
-                    <th>Length of Stay<br/><i style="font-size:.7em;">days</i></th>
                     <th>Reason for<br/>Admission</th>
                     <th>Discharge<br/>Diagnosis</th>
                     <th>Discharge Medications</th>
@@ -42,8 +42,8 @@
                         <encounterDate/>
                     </td>
                     <td>
-                        <!-- Encounter Date -->
-                        <obs conceptId="$dischargeDate" />
+                        <!-- Discharge Date -->
+                        <obs conceptId="$dischargeDate" allowFutureDates="true"/>
                     </td>
                     <td>
                         <!-- Days in the hospital -->
@@ -74,8 +74,8 @@
 
         <h4 style="font-style: italic;">
             <b>PDC Hospitalization</b>
-            <span style="padding-left:50px;">Version 1</span>
-
+            <span style="padding-left:50px;">Version 2</span>
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
                 <b>
@@ -93,26 +93,19 @@
                 <th>Date of Admission</th>
                 <td>
                     <encounterDate/>
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                 </td>
             </tr>
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations"/>
                 </td>
             </tr>
             <tr>
                 <th>Date of Discharge</th>
                 <td>
-                    <obs conceptId="$dischargeDate" size="20" />
-                </td>
-            </tr>
-
-
-            <tr>
-                <th>Length of stay</th>
-                <td class="focus-field">
-                    <obs conceptId="$hospitalDays" />days
+                    <obs conceptId="$dischargeDate" allowFutureDates="true" size="20" />
                 </td>
             </tr>
 
@@ -140,9 +133,9 @@
 
         </table>
 
-<submit/>
+        <submit/>
 
-</ifMode>
+    </ifMode>
 
 
 </htmlform>

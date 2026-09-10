@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="0be7f45a-81d9-4f3c-a926-87a87083051b"
+        htmlformUuid="9fca8ed6-01fd-4fec-96fc-1b0f9ad60494"
         formUuid="913d57e8-8530-444e-92f0-651d3c90a37c"
         formName="Vision Test"
         formDescription=""
@@ -19,6 +19,7 @@
         <macro key="referralSet" value="a4dfe545-8a85-41ca-ac47-b372b681391f" />
         <macro key="referredOut" value="da88696b-bf1d-4a31-b49d-997326e4a777" />
         <macro key="otherNoneCodedText" value="d57e3a20-5802-11e6-8b77-86f30ca893d3" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
     </macros>
 
     <!-- Flowsheet table view -->
@@ -72,7 +73,7 @@
         <h4 style="font-style: italic;">
             <b>PDC Vision Test</b>
             <span style="padding-left:50px;">Version 1</span>
-
+            <span id="patientUuid" style="display:none"><lookup expression="patient.uuid"/></span>
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
                 <b>
@@ -90,12 +91,13 @@
                 <th>Date</th>
                 <td>
                     <encounterDate/>
+                    <span id="visitDateError" class="error field-error" style="display:none;color: rgb(255, 0, 0);"></span>
                 </td>
             </tr>
             <tr>
                 <th>Location</th>
                 <td>
-                    <encounterLocation id="visitLocation" />
+                    <encounterLocation id="visitLocation" tags="$nenoLocations" />
                 </td>
             </tr>
             <tr>

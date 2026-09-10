@@ -1,5 +1,5 @@
 <htmlform
-        htmlformUuid="a646c3cd-e2a0-4c9d-801b-1b3857bd0cd4"
+        htmlformUuid="2a6fd929-b8af-4f7e-be31-a1ebc5035faf"
         formUuid="1a92f8a6-51f1-11ec-bf63-0242ac130002"
         formName="PDC Complications"
         formDescription=""
@@ -13,6 +13,10 @@
     <macros>
         <macro key="dateOfComplication" value="5f5213e4-cf63-11e5-ab30-625662870761" />
         <macro key="detailsOfComplication" value="86eacb84-51ea-11ec-bf63-0242ac130002" />
+        <macro key="selfReportedComplications" value="e384a58c-4a73-11ec-81d3-0242ac130003"/>
+        <macro key="yesAnswer" value="65576354-977f-11e1-8993-905e29aff6c1"/>
+        <macro key="noAnswer" value="6557646c-977f-11e1-8993-905e29aff6c1" />
+        <macro key="nenoLocations" expression="fn.globalProperty('pihmalawi.systemLocationsTag')"/>
 
     </macros>
 
@@ -22,10 +26,12 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                    <th colspan="2">Complications</th>
+                    <th colspan="3">Complications</th>
                 </tr>
                 <tr><th>Visit Date</th>
+                    <th>Location</th>
                     <th>Date of Complication</th>
+                    <th>Self-reported complications</th>
                     <th>Details of Complication</th>
                 </tr>
             </thead>
@@ -35,9 +41,21 @@
                         <!-- Encounter Date -->
                         <encounterDate/>
                     </td>
+
+                    <td>
+                        <encounterLocation id="visitLocation" tags="$nenoLocations"/>
+                    </td>
+
                     <td>
                         <!-- Date of Complication -->
                         <obs conceptId="$dateOfComplication"/>
+
+                    </td>
+                    <td>
+                        <!--Self-Reported Complication-->
+                        <obs conceptId="$selfReportedComplications"
+                             answerConceptIds="$yesAnswer,$noAnswer"
+                             answerLabels="Y,N" style="radio" />
 
                     </td>
                     <td>
@@ -57,7 +75,7 @@
 
         <h4 style="font-style: italic;">
             <b>Complications</b>
-            <span style="padding-left:50px;">Version 1</span>
+            <span style="padding-left:50px;">Version 2</span>
 
             <span style="padding-left:50px;">
                 <b style="padding-right:10px;">PDC Reg no: </b>
@@ -76,12 +94,28 @@
                     <encounterDate/>
                 </td>
             </tr>
+
+            <tr>
+                <th>Visit Location</th>
+                <td><encounterLocation id="visitLocation" tags="$nenoLocations"/></td>
+            </tr>
+
             <tr>
                 <th>Date of Complication</th>
                 <td>
                     <obs conceptId="$dateOfComplication"/>
                 </td>
             </tr>
+
+            <tr>
+                <th>Self-Reported Complication</th>
+                <td>
+                    <obs conceptId="$selfReportedComplications"
+                         answerConceptIds="$yesAnswer,$noAnswer"
+                         answerLabels="Yes,No" style="radio" />
+                </td>
+            </tr>
+
             <tr>
                 <th>Details of Complication</th>
                 <td>
