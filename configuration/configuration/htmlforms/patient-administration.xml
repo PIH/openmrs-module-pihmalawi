@@ -1,0 +1,97 @@
+<htmlform
+        htmlformUuid="76d99656-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b536c358-2695-102d-b4c2-001d929acb54"
+        formName="Patient Administration"
+        formDescription="Administration form for missing records, defaulter tracking."
+        formVersion="1.0"
+        formEncounterType="664b9280-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="false"
+>
+
+	<table>
+		<tr>
+			<td colspan="2" align="center">
+				<b>
+					<big>Patient Administration</big>
+				</b>
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Patient</th>
+			<td>
+				<lookup expression="patient.personName" />
+				(
+				<lookup class="value"
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+				<lookup class="value"
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;Pre-ART Number&quot;) ) $!id #end" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>Clinic</th>
+			<td>
+				<encounterLocation />
+			</td>
+		</tr>
+		<tr>
+			<th>Provider</th>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr>
+			<th>Date</th>
+			<td>
+				<encounterDate />
+			</td>
+		</tr>
+		<tr>
+			<th>Which program?</th>
+			<td>
+				<obs conceptId="6358" labelText="" />
+			</td>
+		</tr>
+		<tr>
+			<th>Record missing</th>
+			<td>
+				<obs conceptId="6364" labelText="" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				<submit />
+			</td>
+			<td align="right">
+				<!-- Eclipse XML Code style messes around with embedded Javascript -->
+				<script language="javascript" type="text/javascript">
+					/* hack in the link to void encounters based on parsing the current url */
+					/* seems only to work reliably in firefox */
+					/* is hopefully fixed with later version of html form entry */
+					var paramName = "encounterId";
+
+					/* regex stuff to parse out url parameters */
+					paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+					var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+					var regex = new RegExp(regexS );
+					var results = regex.exec( window.location.href );
+					if(results != null ) {
+						paramValue = results[1];
+
+						/* create openmrs url to void encounter only if edit */
+						var encounterUrl = "admin/encounters/encounter.form?encounterId="
+						document.write("&lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/" + encounterUrl + paramValue + "&gt;Void encounter&lt;/a&gt;");
+					}
+				</script>
+			</td>
+		</tr>
+	</table>
+
+</htmlform>

@@ -1,0 +1,89 @@
+<htmlform
+        htmlformUuid="76d98c7e-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b5365f08-2695-102d-b4c2-001d929acb54"
+        formName="z_deprecated_Infant Diagnosis Visit"
+        formDescription=""
+        formVersion="1.0"
+        formEncounterType="664b8d44-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<table>
+		<tr>
+			<td>Provider</td>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+			<td>Clinic</td>
+			<td>
+				<encounterLocation />
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td>Visit Date</td>
+			<td>Height</td>
+			<td>Weight</td>
+			<td>Wt/HT%</td>
+			<td>Diagnosis</td>
+			<td>Nutritional Status</td>
+			<td>Current Feeding</td>
+			<td>Infant Feeding Counseling Done</td>
+			<td>Rapid Test Done<br/>(pt &gt;9months)<br/>Results: R/NR</td>
+			<td>DNA-PCR<br/>(6wks-18mo)</td>
+			<td>CPT given</td>
+			<td>CD4 Count<br/>(absolute/%)</td>
+			<td>Appointment date</td>
+		</tr>
+		<tr>
+			<td>
+				<encounterDate  default="today"/>
+			</td>
+			<td>
+				<obs conceptId="5090" />
+			</td>
+			<td>
+				<obs conceptId="5089" />
+			</td>
+			<td>
+				<obs conceptId="1822"/>
+			</td>
+			<td>
+				<obs conceptId="3571" style="list" answerConceptIds="1107,58,1291,3569,43,2709,60,3570,123" answerLabels="none,TB,fever 4wks,oral thrush 8wks,pneumonia,diarrhoea 2wks,meningitis,other WHO condition,malaria"/>
+			</td>
+			<td>
+				<obs conceptId="1310" style="radio" answerConceptIds="1115,1311,1312"/>
+			</td>
+			<td>
+				<obs conceptId="1151" answerConceptIds="1152,5526,5254,6046" style="radio"/>
+			</td>
+			<td>
+				<obs conceptId="3587" style="checkbox"/>
+			</td>
+			<td>
+				<obs conceptId="3657" style="checkbox"/>
+				<obs conceptId="1040" style="list" answerConceptIds="664,703,1138" answerLabels="negative,positive,indeterminate"/>
+			</td>
+			<td>
+				<obs conceptId="844" style="list" answerConceptIds="664,703,1138" answerLabels="negative,positive,indeterminate"/>
+			</td>
+			<td>
+				<obs conceptId="1623" style="checkbox"/>
+			</td>
+			<td>
+				<obs conceptId="5497"/>/<obs conceptId="730"/>
+			</td>
+			<td>
+				<obs conceptId="5096" allowFutureDates="true"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="14" align="left">
+				<submit />
+			</td>
+		</tr>
+	</table>
+
+</htmlform>

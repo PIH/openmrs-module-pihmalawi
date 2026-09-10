@@ -96,5 +96,366 @@
             <property>webservices.rest.maxResultsDefault</property>
             <value>500</value>
         </globalProperty>
+        <globalProperty>
+            <property>addresshierarchy.initializeAddressHierarchyCacheOnStartup</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>art_visit.standard_art_side_effects</property>
+            <value>yes</value>
+        </globalProperty>
+        <globalProperty>
+            <property>clinic.days</property>
+            <value>Tuesday,Thursday</value>
+        </globalProperty>
+        <globalProperty>
+            <property>clinic.holidays</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>clinic_breaks</property>
+            <value>12:30pm-1:00pm,1:00pm-1:15pm</value>
+        </globalProperty>
+        <globalProperty>
+            <property>clinic_hours</property>
+            <value>7:30am-3:45pm</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.caseSensitiveNamesInConceptNameTable</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.causeOfDeath</property>
+            <value>5002</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.false</property>
+            <value>2258</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.height</property>
+            <value>5090</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.medicalRecordObservations</property>
+            <value>1238</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.none</property>
+            <value>1107</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.otherNonCoded</property>
+            <value>5622</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.patientDied</property>
+            <value>1742</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.problemList</property>
+            <value>1284</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.reasonExitedCare</property>
+            <value>1811</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.reasonOrderStopped</property>
+            <value>1812</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.true</property>
+            <value>2257</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.weight</property>
+            <value>5089</value>
+        </globalProperty>
+        <globalProperty>
+            <property>coreapps.conceptStickyNote</property>
+            <value>CIEL:162169</value>
+        </globalProperty>
+        <globalProperty>
+            <property>coreapps.visitsPageWithSpecificVisitUrl</property>
+            <value>/coreapps/patientdashboard/patientDashboard.page?patientId={{patientId}}&amp;amp;visitId={{visit.id}}#</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.encounters.maximumNumberToShow</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.encounters.viewWhere</property>
+            <value>newWindow</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.header.programs_to_show</property>
+            <value>1</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.header.showConcept</property>
+            <value>5497</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.header.workflows_to_show</property>
+            <value>1</value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.regimen.displayDrugSetIds</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>dashboard.regimen.displayFrequencies</property>
+            <value></value>
+        </globalProperty>
+        <!-- locale.allowed.list must be set before default_locale, or saving default_locale fails validation. -->
+        <globalProperty>
+            <property>locale.allowed.list</property>
+            <value>en,en_GB</value>
+        </globalProperty>
+        <globalProperty>
+            <property>default_locale</property>
+            <value>en_GB</value>
+        </globalProperty>
+        <globalProperty>
+            <property>default_theme</property>
+            <value>green</value>
+        </globalProperty>
+        <globalProperty>
+            <property>demographics.home_village</property>
+            <value>yes</value>
+        </globalProperty>
+        <globalProperty>
+            <property>demographics.mothers_surname</property>
+            <value>yes</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.admissionEncounterType</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.admissionForm</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.exitFromInpatientEncounterType</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.exitFromInpatientForm</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.extraPatientIdentifierTypes</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.primaryIdentifierType</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.transferWithinHospitalEncounterType</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.transferWithinHospitalForm</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.unknownProvider</property>
+            <value>f9badd80-ab76-11e2-9e96-0800200c9a66</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.visitNoteEncounterType</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>facilitydata.dailyReportDaysOfWeek</property>
+            <value>2,3,4,5</value>
+        </globalProperty>
+        <globalProperty>
+            <property>facilitydata.unsupportedFacilities</property>
+            <value>33,32,31,13,25,6,14,15,11,12,7,38,39,23,1,8,26,27,28,29,30,36,24,9</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.addAnotherButtonPosition</property>
+            <value>top</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.configuration</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.drugDiscontinueReason</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.encountersChronology</property>
+            <value>desc</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.links</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.patientChartFormIds</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.programConfigurationMap</property>
+            <value>{}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformflowsheet.showMdrtbCatIVLink</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>interface</property>
+            <value>fancy</value>
+        </globalProperty>
+        <globalProperty>
+            <property>legacyui.enableExitFromCare</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>log.level</property>
+            <value>info</value>
+        </globalProperty>
+        <globalProperty>
+            <property>minSearchCharacters</property>
+            <value>1</value>
+        </globalProperty>
+        <globalProperty>
+            <property>owa.appBaseUrl</property>
+            <value>/owa</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.displayAttributeTypes</property>
+            <value>Birthplace</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.headerAttributeTypes</property>
+            <value>Health Center</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.listingAttributeTypes</property>
+            <value>Health Center</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.nameValidationRegex</property>
+            <value>^[a-zA-Z \-]+$</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.viewingAttributeTypes</property>
+            <value>Health Center</value>
+        </globalProperty>
+        <globalProperty>
+            <property>peads.clinic.days</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>person.searchMaxResults</property>
+            <value>500</value>
+        </globalProperty>
+        <globalProperty>
+            <property>pihmalawi.systemLocationsTag</property>
+            <value>Upper Neno</value>
+        </globalProperty>
+        <globalProperty>
+            <property>provider.unknownProviderUuid</property>
+            <value>f9badd80-ab76-11e2-9e96-0800200c9a66</value>
+        </globalProperty>
+        <globalProperty>
+            <property>registrationcore.mpi.personIdentifierId</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>report.deleteReportsAgeInHours</property>
+            <value>96</value>
+        </globalProperty>
+        <globalProperty>
+            <property>report.xmlMacros</property>
+            <value>macroPrefix=#
+macroSuffix=#
+
+adultAtStart=[AgeOnDate|minAge=15|maxAge=|effectiveDate=${report.startDate}]
+adultAtEnd=[AgeOnDate|minAge=15|maxAge=|effectiveDate=${report.endDate}]
+
+childAtStart=[AgeOnDate|minAge=0|maxAge=14|effectiveDate=${report.startDate}]
+childAtEnd=[AgeOnDate|minAge=0|maxAge=14|effectiveDate=${report.endDate}]
+
+aliveAtStart=[Alive|effectiveDate=${report.startDate}]
+aliveAtEnd=[Alive|effectiveDate=${report.endDate]
+
+maleAdult=#adultAtStart# AND [Male]
+maleChild=#childAtStart# AND [Male]
+
+femaleAdult=#adultAtStart# AND [Female]
+femaleChild=#childAtStart# AND [Female]
+
+//Encounter Macros
+
+hadArtInitial=[ART_INITIAL|sinceDate=${report.startDate}|untilDate=${report.endDate}]
+hadArtFollowup=[ART_FOLLOWUP|sinceDate=${report.startDate}|untilDate=${report.endDate}]
+
+hadArtEncounter=#hadArtInitial# OR #hadArtFollowup#
+
+artRegLastWeek=[REGISTRATION|location=9|withinLastDays=7]
+artRegTwoWeeks=[REGISTRATION|location=9|withinLastDays=14]
+artRegWeekAgo=#artRegTwoWeeks# NOT #artRegLastWeek#
+
+artAptLastWeek=[APPOINTMENT|location=9|withinLastDays=7]
+artAptTwoWeeks=[APPOINTMENT|location=9|withinLastDays=14]
+artAptWeekAgo=#artAptTwoWeeks# NOT #artAptLastWeek#
+
+artScanWeekAgo = #artRegWeekAgo# OR #artAptWeekAgo#
+anyHIV = [Patients in HIV Program] OR [EID Program] OR [KS Program]
+
+artVisitNotEnrolled = #artScanWeekAgo# NOT #anyHIV#</value>
+        </globalProperty>
+        <globalProperty>
+            <property>search.caseSensitiveDatabaseStringComparison</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>searchWidget.maximumResults</property>
+            <value>500</value>
+        </globalProperty>
+        <globalProperty>
+            <property>searchWidget.searchDelayInterval</property>
+            <value>400</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordMinimumLength</property>
+            <value>7</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordRequiresDigit</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordRequiresUpperAndLowerCase</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.userUnlockWaitTime</property>
+            <value>5</value>
+        </globalProperty>
+        <globalProperty>
+            <property>spa.baseUrl</property>
+            <value>/spa</value>
+        </globalProperty>
+        <globalProperty>
+            <property>spa.remote.enabled</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>statistics.show_encounter_types</property>
+            <value>REGISTRATION,VITALS,OUTPATIENT DIAGNOSIS,TREATMENT,APPOINTMENT</value>
+        </globalProperty>
+        <globalProperty>
+            <property>use_patient_attribute.tribe</property>
+            <value>true</value>
+        </globalProperty>
     </globalProperties>
 </config>

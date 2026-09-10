@@ -1,0 +1,164 @@
+<htmlform
+        htmlformUuid="76d9a042-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="58422a9c-2403-44df-97ce-05c06e3179f8"
+        formName="z_deprecated_Pre-ART eMastercard"
+        formDescription=""
+        formVersion="1"
+        formEncounterType="664b8736-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+<br/>
+	<b>
+		<big>Initiation</big> 
+	</b>
+	<submit />
+   	<!--  Eclipse XML Code style messes around with embedded Javascript -->
+	<script language="javascript" type="text/javascript">
+		/* hack in the link to void encounters based on parsing the current url */
+		/* seems only to work reliably in firefox */
+		/* is hopefully fixed with later version of html form entry */
+		var paramName = "encounterId";
+
+		/* regex stuff to parse out url parameters */
+		paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+		var regex = new RegExp(regexS );
+		var results = regex.exec( window.location.href );
+		if(results != null ) {
+			paramValue = results[1];
+
+			/* create openmrs url to go back to Dashboard */ 
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/patientDashboard.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Cancel&lt;/a&gt;");
+
+			/* create openmrs url to edit demographics */ http://127.0.0.1:8080/openmrs/admin/patients/newPatient.form?patientId=15889
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/newPatient.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Edit demographics&lt;/a&gt;");
+
+			/* create openmrs url to void encounter only if edit */
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/encounters/encounter.form?encounterId=" + paramValue + "&gt;Void encounter&lt;/a&gt;");
+		}
+	</script>
+	<hr/>
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							Patient Details
+						</th>
+					</tr>
+					<tr>
+						<td>Patient</td>
+						<td>
+							<lookup expression="patient.personName" />
+							(<lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />)
+						</td>
+					</tr>
+					<tr>
+						<td>Sex</td>
+						<td>
+							<lookup expression="patient.gender" />
+						</td>
+					</tr>
+					<tr>
+						<td>Birthdate</td>
+						<td>
+							<lookup expression="patient.birthdate" />
+						</td>
+					</tr>
+					<tr>
+						<td>Physical Addresses</td>
+						<td>
+							<lookup
+								complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+						</td>
+					</tr>
+					<tr>
+						<td>Agrees to FUP</td>
+						<td>
+							<obs conceptId="2552" style="radio" />
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2" align="left">
+							<hr/>
+							Enrollment Details
+						</th>
+					</tr>
+					<tr>
+						<td>Clinic</td>
+						<td>
+							<encounterLocation/>
+						</td>
+					</tr>
+					<tr>
+						<td>Provider</td>
+						<td>
+							<encounterProvider default="16576" />
+						</td>
+					</tr>
+					<tr>
+						<td>Enrollment Date</td>
+						<td>
+							<encounterDate default="today" />
+						</td>
+					</tr>
+					<tr>
+						<td>Current outcome</td>
+						<td>
+							<lookup expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />
+							(since <lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />)
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td>Clinic Stage</td>
+						<td>
+							<obs conceptId="1480" style="radio" answerConceptIds=",1204,1205,1206,1207,1067"
+								answerLabels="1,2,3,4,Unknown" />
+							(todo: Pres)
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2" align="left">
+							First positive HIV test
+						</th>
+					</tr>
+					<tr>
+						<td>Date</td>
+						<td>
+							<obs conceptId="2515" />
+						</td>
+					</tr>
+					<tr>
+						<td> Place</td>
+						<td>
+							<obs conceptId="2170" />
+						</td>
+					</tr>
+					<tr>
+						<td>Type</td>
+						<td>
+							<obs conceptId="6982" style="radio" answerConceptIds="1040,844"
+								answerLabels="Rapid,PCR" />
+							(todo: Unknown)
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<hr/>
+	<br/>
+	
+	<b>
+		<big>Visits</big>
+	</b>
+	<htmlformflowsheet formId="61" />
+
+</htmlform>

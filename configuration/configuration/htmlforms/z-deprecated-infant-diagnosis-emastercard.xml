@@ -1,0 +1,206 @@
+<htmlform
+        htmlformUuid="76d98a30-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b53655d0-2695-102d-b4c2-001d929acb54"
+        formName="z_deprecated_Infant Diagnosis eMastercard"
+        formDescription=""
+        formVersion="1.0"
+        formEncounterType="664b8c68-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+<br/>
+	<b>
+		<big>Initiation</big> 
+	</b>
+	<submit />
+   	<!--  Eclipse XML Code style messes around with embedded Javascript -->
+	<script language="javascript" type="text/javascript">
+		/* hack in the link to void encounters based on parsing the current url */
+		/* seems only to work reliably in firefox */
+		/* is hopefully fixed with later version of html form entry */
+		var paramName = "encounterId";
+
+		/* regex stuff to parse out url parameters */
+		paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+		var regex = new RegExp(regexS );
+		var results = regex.exec( window.location.href );
+		if(results != null ) {
+			paramValue = results[1];
+
+			/* create openmrs url to go back to Dashboard */ 
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/patientDashboard.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Cancel&lt;/a&gt;");
+
+			/* create openmrs url to edit demographics */ http://127.0.0.1:8080/openmrs/admin/patients/newPatient.form?patientId=15889
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/patients/newPatient.form?patientId=" + <lookup expression="patient.patientId"/> + "&gt;Edit demographics&lt;/a&gt;");
+
+			/* create openmrs url to void encounter only if edit */
+			document.write(" &lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/admin/encounters/encounter.form?encounterId=" + paramValue + "&gt;Void encounter&lt;/a&gt;");
+		}
+	</script>
+	<hr/>
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							Patient Details
+						</th>
+					</tr>
+					<tr>
+						<td>Patient</td>
+						<td>
+							<lookup expression="patient.personName" />
+							(<lookup complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />)
+						</td>
+					</tr>
+					<tr>
+						<td>Sex</td>
+						<td>
+							<lookup expression="patient.gender" />
+						</td>
+					</tr>
+					<tr>
+						<td>Birthdate</td>
+						<td>
+							<lookup expression="patient.birthdate" />
+						</td>
+					</tr>
+					<tr>
+						<td>Physical Addresses</td>
+						<td>
+							<lookup
+								complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+						</td>
+					</tr>
+					<tr>
+						<td>Primary Caregiver (Given, Family)</td>
+						<td>
+							<obs conceptId="2927"/> <obs conceptId="2928"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Permission for home visit</td>
+						<td>
+							<obs conceptId="2552" answerConceptIds="1065,1066" answerLabels="Y,N" style="radio"/>
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2" align="left">
+							<hr/>
+							Enrollment Details
+						</th>
+					</tr>
+					<tr>
+						<td>Clinic</td>
+						<td>
+							<encounterLocation/>
+						</td>
+					</tr>
+					<tr>
+						<td>Provider</td>
+						<td>
+							<encounterProvider default="16576" />
+						</td>
+					</tr>
+					<tr>
+						<td>Enrollment Date</td>
+						<td>
+							<encounterDate default="today" />
+						</td>
+					</tr>
+					<tr>
+						<td>Current outcome</td>
+						<td>
+							<lookup expression="fn.currentProgramWorkflowStatus(5).getState().getConcept().getName().getName()" />
+							(since <lookup expression="fn.currentProgramWorkflowStatus(5).getStartDate()" />)
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<th colspan="2" align="left">
+							Status at enrollment
+						</th>
+					</tr>
+					<tr>
+						<td>WHO Stage</td>
+						<td>
+							<obs conceptId="1480" labelText="WHO Stage" answerConceptIds="1220,1221,1222,1223" answerLabels="I,II,III,IV" style="radio"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Infant received SD-NVP</td>
+						<td>
+							<obs conceptId="3582" labelText="Y" style="checkbox"/><obs conceptId="3582" labelText="N" style="checkbox" value="false"/>
+						</td>
+					</tr>
+						<th colspan="2" align="left">
+							<hr/>
+							Mothers information
+						</th>
+					<tr>
+						<td>Tick if mother dead</td>
+						<td>
+							<obs conceptId="5588" style="checkbox"/>
+						</td>
+					</tr>
+					<tr>
+						<td>HIV test date</td>
+						<td>
+							<obs conceptId="3595"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Mother's WHO Stage</td>
+						<td>
+							<obs conceptId="3583" answerConceptIds="1204,1205,1206,1207" answerLabels="I,II,III,IV" style="radio"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Mother's CD4 count</td>
+						<td>
+							<obs conceptId="3584"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Mother on ART</td>
+						<td>
+							<obs conceptId="3585" labelText="Y" style="checkbox"/><obs conceptId="3585" value="false" style="checkbox" labelText="N"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Start date</td>
+						<td>
+							<obs conceptId="3586"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Baby delivered at</td>
+						<td>
+							<obs conceptId="3528" style="radio" answerConceptIds="3527,3566" answerLabels="home,health facility"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Mother received SD-NVP</td>
+						<td>
+							<obs conceptId="3654" labelText="Y" style="checkbox"/><obs conceptId="3654" labelText="N" value="false" style="checkbox"/>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<hr/>
+	<br/>
+	
+	<b>
+		<big>Visits</big>
+	</b>
+	<htmlformflowsheet formId="29" />
+
+</htmlform>

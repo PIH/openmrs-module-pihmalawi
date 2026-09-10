@@ -22,6 +22,7 @@ import org.openmrs.module.DaemonTokenAware;
 import org.openmrs.module.appframework.domain.Extension;
 import org.openmrs.module.appframework.repository.AllFreeStandingExtensions;
 import org.openmrs.module.appui.AppUiExtensions;
+import org.openmrs.module.emrapi.EmrApiActivator;
 import org.openmrs.module.pihmalawi.data.IC3ScreeningDataLoader;
 import org.openmrs.module.pihmalawi.setup.CloseStaleVisitsSetup;
 import org.openmrs.module.reporting.common.ObjectUtil;
@@ -44,6 +45,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
     @Override
     public void willRefreshContext() {
         log.info("Refreshing PIH Malawi Module");
+        IC3ScreeningDataLoader.setEnabled(false);
     }
 
     @Override
@@ -61,7 +63,6 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		l.add(new MetadataInitializer());
 		l.add(new LocationInitializer());
 		l.add(new SoundexInitializer());
-		l.add(new AddressTemplateInitializer());
 		l.add(new HtmlFormInitializer());
 		l.add(new ReportInitializer());
         l.add(new AuthenticationInitializer());
@@ -74,6 +75,10 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
 		for (Initializer initializer : getInitializers()) {
 			initializer.started();
 		}
+		// emrapi's own contextRefreshed() already granted every privilege that existed at that
+		// point to "Privilege Level: Full"/"Privilege Level: High", but that ran before the
+		// privileges.csv loading above created ours - re-run it now that the full privilege set exists.
+		new EmrApiActivator().contextRefreshed();
 		// New bug/feature in Chrome/IE/Safari causes system to log out user with default logo link url.  Update this here.
         List<AllFreeStandingExtensions> l = Context.getRegisteredComponents(AllFreeStandingExtensions.class);
         if (l != null && l.size() > 0) {
@@ -83,6 +88,7 @@ public class PihMalawiModuleActivator extends BaseModuleActivator implements Dae
             extensions.add(e);
         }
 
+        IC3ScreeningDataLoader.setEnabled(true);
         Context.getRegisteredComponents(IC3ScreeningDataLoader.class).get(0).runImmediately();
     }
 

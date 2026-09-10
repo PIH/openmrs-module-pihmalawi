@@ -1,0 +1,164 @@
+<htmlform
+        htmlformUuid="1ae21d0a-8b3c-4771-b624-d2022529b80b"
+        formUuid="b694cc9e-eac5-4bad-bf41-25ca719ddb9f"
+        formName="DNA-PCR Testing"
+        formDescription="for Exposed Children"
+        formVersion="1"
+        formEncounterType="664b88ee-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="false"
+>
+
+	<script src="/openmrs/moduleResources/pihmalawi/htmlform_common.js"
+		type="text/javascript"></script>
+	<table>
+		<tr>
+			<th colspan="2" align="left">
+				Child Details
+			</th>
+		</tr>
+		<tr>
+			<td>Child Name</td>
+			<td>
+				<lookup expression="patient.personName" />
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;HCC Number&quot;) ) $!id #end" />
+				)
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<td>Sex, Birthdate</td>
+			<td>
+				<lookup expression="patient.gender" />
+				,
+				<lookup expression="patient.birthdate" />
+			</td>
+		</tr>
+		<tr>
+			<td>Addresses</td>
+			<td>
+				<lookup
+					complexExpression="#foreach( $addr in $patient.addresses) $!addr.getAddress1() $!addr.getCityVillage() $!addr.getStateProvince() $!addr.getCountyDistrict(), #end" />
+			</td>
+		</tr>
+		<tr style="display:none">
+			<!-- Location isn't needed here, just hide it -->
+			<td>Location</td>
+			<td>
+				<encounterLocation default="1" />
+			</td>
+		</tr>
+		<tr style="display:none">
+			<!-- Provider is close to useless for us, so just hide it -->
+			<td>Provider</td>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr style="display:none">
+			<!-- Date isn't needed here, just hide it -->
+			<td>Date</td>
+			<td>
+				<encounterDate default="today" />
+			</td>
+		</tr>
+		<tr>
+			<td>Current outcome</td>
+			<td>
+				'
+				<lookup
+					expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" />
+				'
+				(since
+				<lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />
+				)
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td colspan="2" />
+			<hr />
+		</tr>
+		<tr>
+			<td style="vertical-align:bottom">
+				<table>
+					<tr>
+						<th colspan="6" align="left">
+							DNA - PCR Testing
+						</th>
+					</tr>
+					<tr>
+						<td />
+						<td />
+						<td>Result received from lab</td>
+						<td>Result given to guardian</td>
+					</tr>
+					<tr>
+						<td>Sample Location</td>
+						<td>Sample ID and Date</td>
+						<td>Result and Date</td>
+						<td>Age (mth) and Date</td>
+					</tr>
+					<tr>
+						<td>
+							(todo)
+						</td>
+						<td>
+							<obs conceptId="8050" showDate="true"/>
+						</td>
+						<td>
+							<obs conceptId="8056"  showDate="true"/>
+						</td>
+						<td>
+							<obs conceptId="8062"  showDate="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							(todo)
+						</td>
+						<td>
+							<obs conceptId="8051" showDate="true" />
+						</td>
+						<td>
+							<obs conceptId="8057" showDate="true" />
+						</td>
+						<td>
+							<obs conceptId="8063"  showDate="true"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							(todo)
+						</td>
+						<td>
+							<obs conceptId="8052" showDate="true" />
+						</td>
+						<td>
+							<obs conceptId="8058" showDate="true" />
+						</td>
+						<td>
+							<obs conceptId="8064" showDate="true" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	<hr />
+	<submit />
+	<script language="javascript" type="text/javascript">
+		writeDefaultEncounterActions(
+		<lookup expression="patient.patientId" />
+		);
+	</script>
+
+
+</htmlform>

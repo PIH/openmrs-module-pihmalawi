@@ -1,0 +1,92 @@
+<htmlform
+        htmlformUuid="76d9a290-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="8f29d758-34e0-46b9-a6dc-96b157ca66cf"
+        formName="z_deprecated_Simplified Pre-ART Pediatric Initiation"
+        formDescription=""
+        formVersion="1"
+        formEncounterType="664b8736-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<table>
+		<tr>
+			<td colspan="2" align="center">
+				<b>
+					<big>Pre-ART Pediatric Initiation</big>
+				</b>
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Patient</th>
+			<td>
+				<lookup expression="patient.personName" />
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PART Number&quot;) ) $!id #end" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>Clinic</th>
+			<td>
+				<encounterLocation Unknown="1067" />
+			</td>
+		</tr>
+		<tr>
+			<th>Provider</th>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr>
+			<th>Visit Date</th>
+			<td>
+				<encounterDate />
+			</td>
+		</tr>
+		<tr>
+			<th>Clinic Stage</th>
+			<td>
+				<obs conceptId="1480" style="radio" answerConceptIds=",1204,1205,1206,1207,1067"
+					answerLabels="1,2,3,4,Unknown" />
+				(todo: Pres)
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<hr />
+				First positive HIV test
+			</td>
+		</tr>
+		<tr>
+			<th>Date</th>
+			<td>
+				<obs conceptId="2515" />
+			</td>
+		</tr>
+		<tr>
+			<th> Place</th>
+			<td>
+				<obs conceptId="2170" />
+			</td>
+		</tr>
+		<tr>
+			<th>Type</th>
+			<td>
+				<obs conceptId="6982" style="radio" answerConceptIds="1040,844"
+					answerLabels="Rapid,PCR" />
+				(todo: Unknown)
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+	</table>
+
+	<submit />
+
+</htmlform>

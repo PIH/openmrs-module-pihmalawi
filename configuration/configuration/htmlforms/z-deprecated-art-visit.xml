@@ -1,0 +1,93 @@
+<htmlform
+        htmlformUuid="76d99e26-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="749a14b9-07e4-43ee-b24d-6f7a50e0c8fe"
+        formName="z_deprecated_ART Visit"
+        formDescription="Regular visit for ART patients"
+        formVersion="3"
+        formEncounterType="664b8650-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<table>
+		<tr>
+			<td>Provider</td>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+			<td>Clinic</td>
+			<td>
+				<encounterLocation />
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td>Visit Date</td>
+			<td>Height</td>
+			<td>Weight</td>
+			<td>ART Regimen</td>
+			<td style="white-space: nowrap;">Side Effects</td>
+			<td>TB status current</td>
+			<td>Pill count</td>
+			<td>Doses missed</td>
+			<td>No. of ARVs</td>
+			<td>ARVs given to</td>
+			<td>No. of CPT</td>
+			<td>Next appointment</td>
+		</tr>
+		<tr>
+			<td>
+				<encounterDate  default="today"/>
+			</td>
+			<td>
+				<obs conceptId="5090" />
+			</td>
+			<td>
+				<obs conceptId="5089" />
+			</td>
+			<td>
+				<obs conceptId="2589"  answerConceptIds="6878,1610,1613,1612,6880,2988,6408" answerLabels="1L (D4T + 3TC + NVP), AZT (AZT + 3TC + NVP), EFV (D4T + 3TC + EFV), AZTEFV (AZT + 3TC + EFV), 2Ad (AZT + 3TC + TDF + LPV/R), 2Ch (DDI + ABC + LPV/R), NS (Non-standard)"/>
+			</td>
+			<td>
+				<obs conceptId="1297" style="checkbox" answerConceptId="1107"
+					answerLabel="No" />
+				<obs conceptId="1297" style="checkbox" answerConceptId="821"
+					answerLabel="PN" />
+				<obs conceptId="1297" style="checkbox" answerConceptId="29"
+					answerLabel="HP" />
+				<obs conceptId="1297" style="checkbox" answerConceptId="512"
+					answerLabel="SK" />
+				<obs conceptId="1297" style="checkbox" answerConceptId="5622"
+					answerLabel="Oth" />
+			</td>
+			<td style="white-space: nowrap;">
+				<obs conceptId="7459" style="radio" answerConceptIds="7454,7455,7456,7458" answerLabels="N,Y,C,Rx"/>
+			</td>
+			<td>
+				<obs conceptId="2540" />
+			</td>
+			<td>
+				<obs conceptId="2973" />
+			</td>
+			<td>
+				<obs conceptId="2929" />
+			</td>
+			<td style="white-space: nowrap;">
+				<obs conceptId="2122" style="no_yes" noLabel="P" yesLabel="G"/>
+			</td>
+			<td>
+				<obs conceptId="6319" />
+			</td>
+			<td>
+				<obs conceptId="5096" allowFutureDates="true" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="14" align="left">
+				<submit />
+			</td>
+		</tr>
+	</table>
+
+</htmlform>

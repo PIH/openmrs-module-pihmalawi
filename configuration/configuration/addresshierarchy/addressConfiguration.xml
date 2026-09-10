@@ -1,0 +1,27 @@
+<addressConfiguration>
+    <wipe>true</wipe>
+    <addressComponents>
+        <addressComponent>
+            <field>STATE_PROVINCE</field>
+            <nameMapping>pihmalawi.address.district</nameMapping>
+            <sizeMapping>40</sizeMapping>
+            <requiredInHierarchy>true</requiredInHierarchy>
+        </addressComponent>
+        <addressComponent>
+            <field>COUNTY_DISTRICT</field>
+            <nameMapping>pihmalawi.address.traditionalAuthority</nameMapping>
+            <sizeMapping>40</sizeMapping>
+            <requiredInHierarchy>true</requiredInHierarchy>
+        </addressComponent>
+        <addressComponent>
+            <field>CITY_VILLAGE</field>
+            <nameMapping>pihmalawi.address.village</nameMapping>
+            <sizeMapping>60</sizeMapping>
+            <requiredInHierarchy>true</requiredInHierarchy>
+        </addressComponent>
+    </addressComponents>
+    <addressHierarchyFile>
+        <filename>malawi_address_hierarchy_entries.csv</filename>
+        <entryDelimiter>\|</entryDelimiter>
+    </addressHierarchyFile>
+</addressConfiguration>

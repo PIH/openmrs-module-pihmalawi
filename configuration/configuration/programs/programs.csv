@@ -1,9 +1,22 @@
-Uuid,Name,Description,Void/Retire,Program concept,Outcomes concept
-${program.chronicCare.uuid},CHRONIC CARE PROGRAM,Chronic Care Program,,655f4f42-977f-11e1-8993-905e29aff6c1,
-${program.mentalHealth.uuid},MENTAL HEALTH CARE PROGRAM,Mental Health Care Program,,406AD643-79A3-4019-9888-3EFBB9B24FB0,
-${program.nutrition.uuid},Nutrition program,Nutrition program,,655bd768-977f-11e1-8993-905e29aff6c1,${concept.genericOutcome.uuid}
-66850d9e-977f-11e1-8993-905e29aff6c1,Old TB PROGRAM,Old Tuberculosis Program,,655abe64-977f-11e1-8993-905e29aff6c1,
-${program.palliativeCare.uuid},Palliative care program,Palliative care program,,14ce86d7-025e-4dcf-9437-67d26185c6ab,${concept.genericOutcome.uuid}
-${program.pdc.uuid},PEDIATRIC DEVELOPMENT CLINIC PROGRAM,Pediatric Development Clinic Program,,74f09d38-4e1e-4acb-a8d0-04b7090fcb77,
-${program.tb.uuid},TB PROGRAM,Tuberculosis Program,,9E32CDCE-7781-4184-ADD4-39B91BFA0A96,
-${program.teenClub.uuid},Teen club program,Teen club program,,6BDEA14E-7B58-4AEA-97A7-167905B25B96,${concept.genericOutcome.uuid}
+Uuid,Void/Retire,Name,Description,Program concept,Outcomes concept
+${program.chronicCare.uuid},,CHRONIC CARE PROGRAM,Chronic Care Program,655f4f42-977f-11e1-8993-905e29aff6c1,
+${program.hiv.uuid},,HIV PROGRAM,,6559f498-977f-11e1-8993-905e29aff6c1,
+${program.mentalHealth.uuid},,MENTAL HEALTH CARE PROGRAM,Mental Health Care Program,406AD643-79A3-4019-9888-3EFBB9B24FB0,
+${program.nutrition.uuid},,Nutrition program,Nutrition program,655bd768-977f-11e1-8993-905e29aff6c1,${concept.genericOutcome.uuid}
+${program.oldTb.uuid},,Old TB PROGRAM,Old Tuberculosis Program,655abe64-977f-11e1-8993-905e29aff6c1,
+${program.palliativeCare.uuid},,Palliative care program,Palliative care program,14ce86d7-025e-4dcf-9437-67d26185c6ab,${concept.genericOutcome.uuid}
+${program.pdc.uuid},,PEDIATRIC DEVELOPMENT CLINIC PROGRAM,Pediatric Development Clinic Program,74f09d38-4e1e-4acb-a8d0-04b7090fcb77,
+${program.tb.uuid},,TB PROGRAM,Tuberculosis Program,9E32CDCE-7781-4184-ADD4-39B91BFA0A96,
+${program.teenClub.uuid},,Teen club program,Teen club program,6BDEA14E-7B58-4AEA-97A7-167905B25B96,${concept.genericOutcome.uuid}
+${program.vhw.uuid},,VHW PROGRAM,,65669270-977f-11e1-8993-905e29aff6c1,
+${program.eid.uuid},true,Early Infant Diagnosis Program,Early Infant Diagnosis Program,6566bad4-977f-11e1-8993-905e29aff6c1,
+${program.mdrTb.uuid},,MDR-TB PROGRAM,MDR-TB PROGRAM used by the mdrb module.,6561510c-977f-11e1-8993-905e29aff6c1,
+${program.kaposiSarcoma.uuid},,KAPOSIS SARCOMA PROGRAM,Program for patients receiving chemotherapy for Kaposi's Sarcoma.,6566b714-977f-11e1-8993-905e29aff6c1,
+${program.food.uuid},true,FOOD PROGRAM,Patients receiving nutrition assistance,655bd768-977f-11e1-8993-905e29aff6c1,
+${program.art.uuid},true,ART PROGRAM,,657ad212-977f-11e1-8993-905e29aff6c1,
+${program.preArt.uuid},true,PRE-ART PROGRAM,,65710868-977f-11e1-8993-905e29aff6c1,
+${program.maternity.uuid},,MATERNITY PROGRAM,MATERNITY PROGRAM,6579c278-977f-11e1-8993-905e29aff6c1,
+${program.anc.uuid},,ANC PROGRAM,ANTENATAL PROGRAM,6579c372-977f-11e1-8993-905e29aff6c1,
+${program.diabetes.uuid},,DIABETES PROGRAM,Diabetes treatment program,657b2d8e-977f-11e1-8993-905e29aff6c1,
+${program.opd.uuid},,OPD Program,Outpatient Program,657d2422-977f-11e1-8993-905e29aff6c1,
+${program.ipd.uuid},,IPD Program,Inpatient Diagnosis Program,6559bd34-977f-11e1-8993-905e29aff6c1,

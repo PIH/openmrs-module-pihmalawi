@@ -38,6 +38,7 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
     private final static Log log = LogFactory.getLog(IC3ScreeningDataLoader.class);
 
     private static DaemonToken daemonToken = null;
+    private static volatile boolean enabled = false;
     private final AtomicBoolean running = new AtomicBoolean(false);
 
     @Autowired
@@ -75,6 +76,10 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
     class RefreshForLocationsRunnable implements Runnable {
         @Override
         public void run() {
+            if (!enabled) {
+                log.warn("System is still starting up or refreshing - skipping this data refresh, will retry on the next scheduled run");
+                return;
+            }
             log.debug("Running already = " + running.get());
             if (running.compareAndSet(false, true)) {
                 try {
@@ -104,6 +109,14 @@ public class IC3ScreeningDataLoader extends ScheduledExecutorFactoryBean {
 
     public static void setDaemonToken(DaemonToken daemonToken) {
         IC3ScreeningDataLoader.daemonToken = daemonToken;
+    }
+
+    public static void setEnabled(boolean enabled) {
+        IC3ScreeningDataLoader.enabled = enabled;
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
     }
 
     public boolean isRunning() {

@@ -1,0 +1,525 @@
+concept,member,sort weight,member type
+Adherence session number,First,1,q-and-a
+Adherence session number,Second,2,q-and-a
+Adherence session number,Third,3,q-and-a
+Adjust dose,Yes,1,q-and-a
+Adjust dose,No,2,q-and-a
+Adjust dose,Unknown,3,q-and-a
+Anticonvulsant,Yes,1,q-and-a
+Anticonvulsant,No,2,q-and-a
+Anticonvulsant,Unknown,3,q-and-a
+Any since last visit,Yes,1,q-and-a
+Any since last visit,No,2,q-and-a
+Any since last visit,Unknown,3,q-and-a
+Apnea,Yes,1,q-and-a
+Apnea,No,2,q-and-a
+Asthma,Other,9278,q-and-a
+Biopsy done,Yes,1,q-and-a
+Biopsy done,No,2,q-and-a
+Blood sugar test type,Fasting,8344,q-and-a
+Blood sugar test type,Random,8345,q-and-a
+Blood sugar test type,Glycated hemoglobin,8529,q-and-a
+Breast feeding,Breastfeeding complimentary,9779,q-and-a
+Care Linked,Clinical,1,q-and-a
+Care Linked,Nutrition Rehabilitation Unit,2,q-and-a
+Care Linked Type,Clinical,1,q-and-a
+Care Linked Type,Nutrition Rehabilitation Unit,2,q-and-a
+Care Linked Type,IC3,3,q-and-a
+Care Linked Type,Advanced NCD clinic,4,q-and-a
+Care Linked Type,Mental Health Clinic,5,q-and-a
+Care Linked Type,Paliative linked care,6,q-and-a
+Care Linked Type,Physiotherapy linked care,7,q-and-a
+Choking,Yes,1,q-and-a
+Choking,No,2,q-and-a
+Chronic care diagnosis,Asthma,7,q-and-a
+Chronic care diagnosis,Hypertension,8,q-and-a
+Chronic care diagnosis,Epilepsy,9,q-and-a
+Chronic care diagnosis,Diabetes,10,q-and-a
+Chronic care diagnosis,Type 1 diabetes,11,q-and-a
+Chronic care diagnosis,Type 2 diabetes,12,q-and-a
+Chronic care diagnosis,Heart failure,13,q-and-a
+Chronic care diagnosis,Chronic kidney disease,14,q-and-a
+Chronic care diagnosis,Stroke,15,q-and-a
+Chronic care diagnosis,Chronic obstructive pulmonary disease,16,q-and-a
+Chronic care diagnosis,Depression,17,q-and-a
+Chronic care diagnosis,Other non-coded,22,q-and-a
+Chronic care diagnosis,Sickle cell disease,39,q-and-a
+Chronic care diagnosis,Rheumatic heart disease,42,q-and-a
+Chronic care diagnosis,Congestive heart failure,43,q-and-a
+Chronic care diagnosis,Other diagnosis,50,q-and-a
+Colposcopy of cervix with acetic acid,Normal,1,q-and-a
+Colposcopy of cervix with acetic acid,Abnormal,2,q-and-a
+Colposcopy of cervix with acetic acid,Other non-coded,4,q-and-a
+Communication Development,Yes,1,q-and-a
+Communication Development,No,2,q-and-a
+Complications since last visit,Yes,1,q-and-a
+Complications since last visit,No,2,q-and-a
+Confirmatory HIV test type,HIV DNA polymerase chain reaction,9597,q-and-a
+Confirmatory HIV test type,"HIV rapid test, qualitative",9598,q-and-a
+Confirmatory HIV test type,Unknown,9599,q-and-a
+Confirmed (coded),Yes,1,q-and-a
+Confirmed (coded),No,2,q-and-a
+Confirmed (coded),Unknown,3,q-and-a
+Continue followup,Yes,1,q-and-a
+Continue followup,No,2,q-and-a
+Counseling,Yes,1,q-and-a
+Counseling,No,2,q-and-a
+Course Hair,Yes,1,q-and-a
+Course Hair,No,2,q-and-a
+Course Hair,Unknown,3,q-and-a
+Cup-feeding,Yes,1,q-and-a
+Cup-feeding,No,2,q-and-a
+Currently (or in the last week) taking antibiotics,No,8897,q-and-a
+Currently (or in the last week) taking antibiotics,Yes,8898,q-and-a
+Date scheduled,Yes,1,q-and-a
+Date scheduled,No,2,q-and-a
+Development Counsel,Yes,1,q-and-a
+Development Counsel,No,2,q-and-a
+Diagnosis,Asthma,3965,q-and-a
+Diagnosis,Congestive heart failure,4000,q-and-a
+Diagnosis,Seizures,4002,q-and-a
+Diagnosis,Deceased,4009,q-and-a
+Diagnosis,Depression,4013,q-and-a
+Diagnosis,Diarrhea,4021,q-and-a
+Diagnosis,Epilepsy,4038,q-and-a
+Diagnosis,Hepatitis,4067,q-and-a
+Diagnosis,Hypertension,4075,q-and-a
+Diagnosis,Congestive heart failure,4084,q-and-a
+Diagnosis,Kaposis sarcoma,4090,q-and-a
+Diagnosis,Malaria,4102,q-and-a
+Diagnosis,Malnutrition,4108,q-and-a
+Diagnosis,Peripheral neuropathy,4127,q-and-a
+Diagnosis,Peripheral neuropathy,4144,q-and-a
+Diagnosis,Pregnancy,4159,q-and-a
+Diagnosis,Rheumatic heart disease,4180,q-and-a
+Diagnosis,Seizures,4191,q-and-a
+Diagnosis,Tuberculosis,4224,q-and-a
+Diagnosis,654aea70-977f-11e1-8993-905e29aff6c1,8804,q-and-a
+Diarrhea Persistent,Yes,1,q-and-a
+Diarrhea Persistent,No,2,q-and-a
+Difficult breathing,Yes,1,q-and-a
+Difficult breathing,No,2,q-and-a
+Discharge,Yes,1,q-and-a
+Discharge,No,2,q-and-a
+DNA-PCR Testing Result,Negative,9800,q-and-a
+DNA-PCR Testing Result,Positive,9801,q-and-a
+DNA-PCR Testing Result 2,Negative,9802,q-and-a
+DNA-PCR Testing Result 2,Positive,9803,q-and-a
+DNA-PCR Testing Result 3,Negative,9804,q-and-a
+DNA-PCR Testing Result 3,Positive,9805,q-and-a
+Done,Yes,1,q-and-a
+Done,No,2,q-and-a
+Done,Unknown,3,q-and-a
+Duration (coded),Less than or equal to 48 hours,1,q-and-a
+Duration (coded),Seven Days,2,q-and-a
+Duration (coded),Greater Than Seven Days,3,q-and-a
+Enrolled in NCD,Yes,1,q-and-a
+Enrolled in NCD,No,2,q-and-a
+Enrolled in PDC,Yes,1,q-and-a
+Enrolled in PDC,No,2,q-and-a
+Facial abnormalities,Yes,1,q-and-a
+Facial abnormalities,No,2,q-and-a
+Family History of Diabetes Mellitus,Yes,1,q-and-a
+Family History of Diabetes Mellitus,No,2,q-and-a
+Family History of Diabetes Mellitus,Unknown,3,q-and-a
+Feeding issues,Yes,1,q-and-a
+Feeding issues,No,2,q-and-a
+First positive HIV test type,HIV DNA polymerase chain reaction,8728,q-and-a
+First positive HIV test type,"HIV rapid test, qualitative",8729,q-and-a
+First positive HIV test type,Unknown,9182,q-and-a
+Food Package,Yes,1,q-and-a
+Food Package,No,2,q-and-a
+Food Package,Unknown,3,q-and-a
+Food supplement,Yes,1,q-and-a
+Food supplement,No,2,q-and-a
+Functional status,Needs,2,q-and-a
+Greater Than,Yes,1,q-and-a
+Greater Than,No,2,q-and-a
+Greater Than,Unknown,3,q-and-a
+Greater Than or equal to,Yes,1,q-and-a
+Greater Than or equal to,No,2,q-and-a
+Greater Than or equal to,Unknown,3,q-and-a
+Group Counselling,Yes,1,q-and-a
+Group Counselling,No,2,q-and-a
+Group Session,Yes,1,q-and-a
+Group Session,No,2,q-and-a
+Group Session,Unknown,3,q-and-a
+Heart murmur,Yes,1,q-and-a
+Heart murmur,No,2,q-and-a
+Hepatitis,Other,9351,q-and-a
+Hepatitis,Chronic,9352,q-and-a
+HIV DNA polymerase chain reaction,Indeterminate,5100,q-and-a
+HIV DNA polymerase chain reaction,Negative,5101,q-and-a
+HIV DNA polymerase chain reaction,Positive,5102,q-and-a
+HIV DNA polymerase chain reaction,NOT done,9784,q-and-a
+"HIV rapid test, qualitative",Indeterminate,767,q-and-a
+"HIV rapid test, qualitative",Negative,768,q-and-a
+"HIV rapid test, qualitative",Positive,769,q-and-a
+"HIV rapid test, qualitative",NOT done,9785,q-and-a
+HIV test type,"HIV rapid test, qualitative",1554,q-and-a
+HIV test type,HIV DNA polymerase chain reaction,8363,q-and-a
+Hyper,Yes,1,q-and-a
+Hyper,No,2,q-and-a
+Hyper,Unknown,3,q-and-a
+Hypertension,Other,9359,q-and-a
+Hypo,Yes,1,q-and-a
+Hypo,No,2,q-and-a
+Hypo,Unknown,3,q-and-a
+"If yes,Adolescent referred?",Yes,1,q-and-a
+"If yes,Adolescent referred?",No,2,q-and-a
+"If yes,Adolescent registered?",Yes,1,q-and-a
+"If yes,Adolescent registered?",No,2,q-and-a
+Inequalities / Angle Brackets,Less Than,1,q-and-a
+Inequalities / Angle Brackets,Less Than or equal to,2,q-and-a
+Inequalities / Angle Brackets,Greater Than,3,q-and-a
+Inequalities / Angle Brackets,Greater Than or equal to,4,q-and-a
+Irritability (coded),Yes,1,q-and-a
+Irritability (coded),No,2,q-and-a
+Irritability (coded),Unknown,3,q-and-a
+Is patient pregnant?,No,5499,q-and-a
+Is patient pregnant?,Yes,5500,q-and-a
+Is patient pregnant?,Unknown,9181,q-and-a
+Kaposis sarcoma,Pulmonary,9365,q-and-a
+Kaposis sarcoma,Other,9366,q-and-a
+Left Ear,Pass,1,q-and-a
+Left Ear,Fail,2,q-and-a
+Less feed,Yes,1,q-and-a
+Less feed,No,2,q-and-a
+Less feed,Unknown,3,q-and-a
+Less Than,Yes,1,q-and-a
+Less Than,No,2,q-and-a
+Less Than,Unknown,3,q-and-a
+Less Than or equal to,Yes,1,q-and-a
+Less Than or equal to,No,2,q-and-a
+Less Than or equal to,Unknown,3,q-and-a
+Location of laboratory,Neno GeneXpert,2,q-and-a
+Location of laboratory,Zalewa GeneXpert,4,q-and-a
+Location of Visit,IC3,2,q-and-a
+Malaria,Cerebral,9390,q-and-a
+Malawi Antiretroviral drugs change 1,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 1,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 1,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 1,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 1,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 1,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 1,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 1,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 1,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 1,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 1,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 1,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 1,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 1,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 1,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 1,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 1,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 1,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 1,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 1,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 1,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 1,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 1,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 1,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 1,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 1,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 1,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 1,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 1,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 1,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 1,Non standard,31,q-and-a
+Malawi Antiretroviral drugs change 2,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 2,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 2,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 2,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 2,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 2,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 2,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 2,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 2,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 2,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 2,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 2,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 2,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 2,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 2,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 2,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 2,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 2,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 2,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 2,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 2,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 2,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 2,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 2,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 2,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 2,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 2,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 2,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 2,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 2,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 2,Non standard,31,q-and-a
+Malawi Antiretroviral drugs change 3,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs change 3,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs change 3,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs change 3,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs change 3,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs change 3,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs change 3,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs change 3,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs change 3,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs change 3,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs change 3,5A: TDF / 3TC / EFV,11,q-and-a
+Malawi Antiretroviral drugs change 3,6A: TDF / 3TC + NVP,12,q-and-a
+Malawi Antiretroviral drugs change 3,7A: TDF / 3TC + ATV/r,13,q-and-a
+Malawi Antiretroviral drugs change 3,8A: AZT / 3TC + ATV/r,14,q-and-a
+Malawi Antiretroviral drugs change 3,9A: ABC / 3TC + LPV/r,15,q-and-a
+Malawi Antiretroviral drugs change 3,9P: ABC / 3TC + LPV/r,16,q-and-a
+Malawi Antiretroviral drugs change 3,10A: TDF / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs change 3,11A: AZT / 3TC + LPV,18,q-and-a
+Malawi Antiretroviral drugs change 3,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),19,q-and-a
+Malawi Antiretroviral drugs change 3,12A: DRV + r + DTG,20,q-and-a
+Malawi Antiretroviral drugs change 3,13A: TDF / 3TC / DTG,21,q-and-a
+Malawi Antiretroviral drugs change 3,14A: AZT / 3TC + DTG,22,q-and-a
+Malawi Antiretroviral drugs change 3,14P: AZT / 3TC + DTG,23,q-and-a
+Malawi Antiretroviral drugs change 3,15A: ABC / 3TC + DTG,24,q-and-a
+Malawi Antiretroviral drugs change 3,15P: ABC / 3TC + DTG,25,q-and-a
+Malawi Antiretroviral drugs change 3,15PP: ABC / 3TC + DTG,26,q-and-a
+Malawi Antiretroviral drugs change 3,16A: ABC / 3TC + RAL,27,q-and-a
+Malawi Antiretroviral drugs change 3,16P: ABC / 3TC + RAL,28,q-and-a
+Malawi Antiretroviral drugs change 3,17A: ABC / 3TC + EFV,29,q-and-a
+Malawi Antiretroviral drugs change 3,17P: ABC / 3TC + EFV,30,q-and-a
+Malawi Antiretroviral drugs change 3,Non standard,31,q-and-a
+Malawi Antiretroviral drugs received,0A: ABC/3TC + NVP,1,q-and-a
+Malawi Antiretroviral drugs received,0P: ABC/3TC + NVP,2,q-and-a
+Malawi Antiretroviral drugs received,1A: d4T / 3TC / NVP (previous 1L),3,q-and-a
+Malawi Antiretroviral drugs received,1P: d4T / 3TC / NVP,4,q-and-a
+Malawi Antiretroviral drugs received,2A: AZT / 3TC / NVP (previous AZT),5,q-and-a
+Malawi Antiretroviral drugs received,2P: AZT / 3TC / NVP,6,q-and-a
+Malawi Antiretroviral drugs received,3A: d4T / 3TC + EFV (previous EFV),7,q-and-a
+Malawi Antiretroviral drugs received,3P: d4T / 3TC + EFV,8,q-and-a
+Malawi Antiretroviral drugs received,4A: AZT / 3TC + EFV (previous AZTEFV),9,q-and-a
+Malawi Antiretroviral drugs received,4P: AZT / 3TC + EFV,10,q-and-a
+Malawi Antiretroviral drugs received,4PP: AZT 60 / 3TC 30 + EFV 200,11,q-and-a
+Malawi Antiretroviral drugs received,4PA: AZT 300 / 3TC 150 + EFV 200,12,q-and-a
+Malawi Antiretroviral drugs received,5A: TDF / 3TC / EFV,13,q-and-a
+Malawi Antiretroviral drugs received,6A: TDF / 3TC + NVP,14,q-and-a
+Malawi Antiretroviral drugs received,7A: TDF / 3TC + ATV/r,15,q-and-a
+Malawi Antiretroviral drugs received,8A: AZT / 3TC + ATV/r,16,q-and-a
+Malawi Antiretroviral drugs received,9A: ABC / 3TC + LPV/r,17,q-and-a
+Malawi Antiretroviral drugs received,9P: ABC / 3TC + LPV/r,18,q-and-a
+Malawi Antiretroviral drugs received,9PP: ABC 120 / 3TC 60 + LPV/r 100/25,19,q-and-a
+Malawi Antiretroviral drugs received,9PA: ABC 600 / 3TC 300 + LPV/r 100/25,20,q-and-a
+Malawi Antiretroviral drugs received,10A: TDF / 3TC + LPV/r,21,q-and-a
+Malawi Antiretroviral drugs received,11A: AZT / 3TC + LPV,22,q-and-a
+Malawi Antiretroviral drugs received,11P: AZT / 3TC + LPV/r (previous AZT3TCLPV),23,q-and-a
+Malawi Antiretroviral drugs received,11PP: AZT 60 / 3TC 30 + LPV/r 100/25,24,q-and-a
+Malawi Antiretroviral drugs received,11PA: AZT 300 / 3TC 150 + LPV/r 100/25,25,q-and-a
+Malawi Antiretroviral drugs received,12A: DRV + r + DTG,26,q-and-a
+Malawi Antiretroviral drugs received,12PP: DRV 150 + r 50 + DTG 10 (± NRTIs),27,q-and-a
+Malawi Antiretroviral drugs received,12PA: DRV 150 + r 50 + DTG 50,28,q-and-a
+Malawi Antiretroviral drugs received,13A: TDF / 3TC / DTG,29,q-and-a
+Malawi Antiretroviral drugs received,14A: AZT / 3TC + DTG,30,q-and-a
+Malawi Antiretroviral drugs received,14P: AZT / 3TC + DTG,31,q-and-a
+Malawi Antiretroviral drugs received,14PP: AZT 60 / 3TC 30 + DTG 10,32,q-and-a
+Malawi Antiretroviral drugs received,14PA: AZT 60 / 3TC 30 + DTG 50,33,q-and-a
+Malawi Antiretroviral drugs received,15A: ABC / 3TC + DTG,34,q-and-a
+Malawi Antiretroviral drugs received,15P: ABC / 3TC + DTG,35,q-and-a
+Malawi Antiretroviral drugs received,15PP: ABC / 3TC + DTG,36,q-and-a
+Malawi Antiretroviral drugs received,15PA: ABC 120 / 3TC 60 + DTG 50,37,q-and-a
+Malawi Antiretroviral drugs received,16A: ABC / 3TC + RAL,38,q-and-a
+Malawi Antiretroviral drugs received,16P: ABC / 3TC + RAL,39,q-and-a
+Malawi Antiretroviral drugs received,17A: ABC / 3TC + EFV,40,q-and-a
+Malawi Antiretroviral drugs received,17P: ABC / 3TC + EFV,41,q-and-a
+Malawi Antiretroviral drugs received,17PP: ABC 120 / 3TC 60 + EFV 200,42,q-and-a
+Malawi Antiretroviral drugs received,17PA: ABC 600 / 3TC 300 + EFV 200,43,q-and-a
+Malawi Antiretroviral drugs received,Non standard,44,q-and-a
+Malawi Developmental Assessment Tool Summary (Normal)-(Coded),Yes,1,q-and-a
+Malawi Developmental Assessment Tool Summary (Normal)-(Coded),No,2,q-and-a
+Maternal Death,Yes,1,q-and-a
+Maternal Death,No,2,q-and-a
+Meconium delayed,Yes,1,q-and-a
+Meconium delayed,No,2,q-and-a
+Mental health screened,Yes,1,q-and-a
+Mental health screened,No,2,q-and-a
+Multiple Births,Yes,1,q-and-a
+Multiple Births,No,2,q-and-a
+Muscles,Yes,1,q-and-a
+Muscles,No,2,q-and-a
+Muscles,Unknown,3,q-and-a
+Nervous system diagnosis,Peripheral neuropathy,8407,q-and-a
+Nervous system diagnosis,Epilepsy,8409,q-and-a
+Nervous system diagnosis,Stroke,8414,q-and-a
+Nervous system diagnosis,Seizures,8415,q-and-a
+None Concerns,Yes,1,q-and-a
+None Concerns,No,2,q-and-a
+None Concerns,Unknown,3,q-and-a
+Normal nutrition screening for MUAC,Yes,1,q-and-a
+Normal nutrition screening for MUAC,No,2,q-and-a
+Normal(Generic),Yes,1,q-and-a
+Normal(Generic),No,2,q-and-a
+Normal(Generic),Unknown,3,q-and-a
+Not required,Yes,1,q-and-a
+Not required,No,2,q-and-a
+Not required,Unknown,3,q-and-a
+Nutrition referral,Yes,1,q-and-a
+Nutrition referral,No,2,q-and-a
+Other (coded),Yes,1,q-and-a
+Other (coded),No,2,q-and-a
+Other assessments,Yes,1,q-and-a
+Other assessments,No,2,q-and-a
+Pain,Yes,1,q-and-a
+Pain,No,2,q-and-a
+Passed the HH model post-test,Yes,1,q-and-a
+Passed the HH model post-test,No,2,q-and-a
+Patient hospitalized since last visit,Yes,1,q-and-a
+Patient hospitalized since last visit,No,2,q-and-a
+Patient on laxative,Yes,1,q-and-a
+Patient on laxative,No,2,q-and-a
+Patient Vomiting,Yes,1,q-and-a
+Patient Vomiting,No,2,q-and-a
+PDC Reasons for referral,Low birth weight,3,q-and-a
+PDC Reasons for referral,Premature Birth,4,q-and-a
+PDC Reasons for referral,Nervous system diagnosis,5,q-and-a
+PDC Reasons for referral,Hydrocephalus,6,q-and-a
+PDC Reasons for referral,Downs Syndrome (Suspected or Confirmed),7,q-and-a
+PDC Reasons for referral,Cleft Lip or Palate,8,q-and-a
+PDC Reasons for referral,"Other Developmental Delay, Suspected Neuromuscular Disease, and Suspected Genetic Syndromes",9,q-and-a
+PDC Reasons for referral,Severe malnutrition,10,q-and-a
+PDC Reasons for referral,Trisomy 21,11,q-and-a
+PDC Reasons for referral,Hypoxic Ischemic Encephalopathy,12,q-and-a
+Personal,Yes,1,q-and-a
+Personal,No,2,q-and-a
+Personal,Unknown,3,q-and-a
+Physiotherapy,Yes,1,q-and-a
+Physiotherapy,No,2,q-and-a
+Physiotherapy,Unknown,3,q-and-a
+Play therapy,Yes,1,q-and-a
+Play therapy,No,2,q-and-a
+Play therapy,Unknown,3,q-and-a
+Poor Growth,Yes,1,q-and-a
+Poor Growth,No,2,q-and-a
+Poor Growth,Unknown,3,q-and-a
+Poor Suck,Yes,1,q-and-a
+Poor Suck,No,2,q-and-a
+Poor Suck,Unknown,3,q-and-a
+Poser Support,Yes,1,q-and-a
+Poser Support,No,2,q-and-a
+Pregnant/Lactating,Patient pregnant,9814,q-and-a
+Pregnant/Lactating,No,9815,q-and-a
+Pregnant/Lactating,Currently breastfeeding child,9816,q-and-a
+Problem Solving,Yes,1,q-and-a
+Problem Solving,No,2,q-and-a
+Problem Solving,Unknown,3,q-and-a
+Reason for no result,Contaminated,1,q-and-a
+Reason for no result,Insufficiant sample,2,q-and-a
+Reason for no result,Result missing,5,q-and-a
+Reason for no result,Other non-coded,9,q-and-a
+Reason for testing (coded),Routine,1,q-and-a
+Reason for testing (coded),Confirmed,2,q-and-a
+Reason for testing (coded),Target,3,q-and-a
+Reason for testing (coded),Presumed,5,q-and-a
+Reason for testing (coded),Unknown,6,q-and-a
+Recommended steps,Xray,2,q-and-a
+Recommended steps,Refer to clinician,4,q-and-a
+Recommended steps,None,5,q-and-a
+Refer to screening station,Nutrition screening station,1,q-and-a
+Refer to screening station,Blood pressure screening station,2,q-and-a
+Refer to screening station,HIV Testing Station,3,q-and-a
+Refer to screening station,Viral load testing station,4,q-and-a
+Refer to screening station,Tuberculosis symptoms screening station,5,q-and-a
+Refer to screening station,Tuberculosis testing station,6,q-and-a
+Refer to screening station,Adherence counseling station,7,q-and-a
+Refer to screening station,EID screening station,8,q-and-a
+Refer to screening station,Nursing station,9,q-and-a
+Referral Form Filled,Yes,1,q-and-a
+Referral Form Filled,No,2,q-and-a
+Referral Source,Tertiary,1,q-and-a
+Referral Source,Hospital,2,q-and-a
+Referral Source,Health center,3,q-and-a
+Referral Source,Community,4,q-and-a
+Referred out,Yes,1,q-and-a
+Referred out,No,2,q-and-a
+Referred out,Unknown,3,q-and-a
+Refs to feed,Yes,1,q-and-a
+Refs to feed,No,2,q-and-a
+Refs to feed,Unknown,3,q-and-a
+Result of HIV test,Indeterminate,2002,q-and-a
+Result of HIV test,Negative,2003,q-and-a
+Result of HIV test,Positive,2004,q-and-a
+Result of HIV test,No test,3915,q-and-a
+Right Ear,Pass,1,q-and-a
+Right Ear,Fail,2,q-and-a
+Sample collected,Yes,1,q-and-a
+Sample collected,No,2,q-and-a
+Sample collected,Unknown,3,q-and-a
+Scheduled,Yes,1,q-and-a
+Scheduled,No,2,q-and-a
+Severe Maternal Illness,Yes,1,q-and-a
+Severe Maternal Illness,No,2,q-and-a
+Signs of Cerebral Palsy,Yes,1,q-and-a
+Signs of Cerebral Palsy,No,2,q-and-a
+Signs of Cerebral Palsy,Unknown,3,q-and-a
+Small jaw,Yes,1,q-and-a
+Small jaw,No,2,q-and-a
+STI referral,Yes,1,q-and-a
+STI referral,No,2,q-and-a
+STI screening outcome,Positive,1,q-and-a
+STI screening outcome,Negative,2,q-and-a
+Stroke,Other,9493,q-and-a
+Support group,Yes,1,q-and-a
+Support group,No,2,q-and-a
+Suspected,Yes,1,q-and-a
+Suspected,No,2,q-and-a
+Suspected,Unknown,3,q-and-a
+Symptom absent,Skin rash,1341,q-and-a
+Symptom absent,Fever,1342,q-and-a
+Symptom absent,Night sweats,1345,q-and-a
+Symptom absent,Cough lasting more than three weeks,1352,q-and-a
+Symptom absent,Vomiting,1353,q-and-a
+Symptom absent,Seizures,1356,q-and-a
+Symptom absent,Cough,1908,q-and-a
+Symptom absent,Diarrhea,1909,q-and-a
+Symptom absent,Weight loss,1910,q-and-a
+Symptom absent,Depression,3276,q-and-a
+Symptom absent,Other non-coded,3393,q-and-a
+Symptom present,Fever,835,q-and-a
+Symptom present,Night sweats,836,q-and-a
+Symptom present,Skin rash,846,q-and-a
+Symptom present,Seizures,847,q-and-a
+Symptom present,Vomiting,852,q-and-a
+Symptom present,Cough lasting more than three weeks,976,q-and-a
+Symptom present,Cough,1894,q-and-a
+Symptom present,Diarrhea,1895,q-and-a
+Symptom present,Weight loss,1896,q-and-a
+Symptom present,Depression,3273,q-and-a
+Symptom present,Other non-coded,3391,q-and-a
+TB screening outcome,Positive,1,q-and-a
+TB screening outcome,Negative,2,q-and-a
+Test Result,Pass,1,q-and-a
+Test Result,Fail,2,q-and-a
+Time units,Days,1,q-and-a
+Time units,Weeks,2,q-and-a
+Time units,Months,3,q-and-a
+Time units,Years,4,q-and-a
+Transportc,Yes,1,q-and-a
+Transportc,No,2,q-and-a
+Transportc,Unknown,3,q-and-a
+Tuberculosis,Pulmonary,9500,q-and-a
+Type of Feed,Breast Milk,1,q-and-a
+Type of Feed,Infant formula,2,q-and-a
+Type of referring clinic or hospital,Hospital,3,q-and-a
+Type of referring clinic or hospital,Other non-coded,6,q-and-a
+Type of referring clinic or hospital,Ward,7,q-and-a
+Type of referring clinic or hospital,Outpatient consultation,10,q-and-a
+Type of referring clinic or hospital,Health center,11,q-and-a
+Type of referring clinic or hospital,IC3 Appointment,13,q-and-a
+Urine LAM / CrAg Result,Positive,1,q-and-a
+Urine LAM / CrAg Result,Negative,2,q-and-a
+Used,Yes,1,q-and-a
+Used,No,2,q-and-a
+Used,Unknown,3,q-and-a
+Wasting/malnutrition,No,9806,q-and-a
+Wasting/malnutrition,Severe,9807,q-and-a
+Wasting/malnutrition,Moderate,9808,q-and-a
+Weak,Yes,1,q-and-a
+Weak,No,2,q-and-a

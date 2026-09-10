@@ -38,7 +38,7 @@
 
 	<properties>
         <openMRSVersion>2.8.7</openMRSVersion>
-        <addresshierarchyVersion>2.21.0</addresshierarchyVersion>
+        <addresshierarchyVersion>3.0.0-SNAPSHOT</addresshierarchyVersion>
         <appframeworkVersion>2.19.0</appframeworkVersion>
         <appuiVersion>1.18.0</appuiVersion>
 		<authenticationVersion>2.3.0</authenticationVersion>

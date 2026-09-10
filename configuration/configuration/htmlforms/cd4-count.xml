@@ -1,0 +1,120 @@
+<htmlform
+        htmlformUuid="76d9941c-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="b535e3a2-2695-102d-b4c2-001d929acb54"
+        formName="CD4 Count"
+        formDescription="CD4 count taken in lab"
+        formVersion="1"
+        formEncounterType="664b88ee-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="false"
+>
+
+	<table>
+		<tr>
+			<td colspan="2" align="center">
+				<b>
+					<big>CD4 Count</big>
+				</b>
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Name</th>
+			<td>
+				<lookup expression="patient.personName" />
+			</td>
+		</tr>
+		<tr>
+			<th>National ID</th>
+			<td>
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;National id&quot;) ) $!id #end" />
+			</td>
+		</tr>
+		<tr>
+			<th>ART Number</th>
+			<td>
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;ARV Number&quot;) ) $!id #end" />
+			</td>
+		</tr>
+		<tr>
+			<th>Pre-ART Number</th>
+			<td>
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PART Number&quot;) ) $!id #end" />
+			</td>
+		</tr>
+		<tr>
+			<th>Current state in HIV Program</th>
+			<td>
+				<lookup expression="fn.currentProgramWorkflowStatus(1).getState().getConcept().getName().getName()" /> 
+				(since <lookup expression="fn.currentProgramWorkflowStatus(1).getStartDate()" />)
+			</td>
+		</tr>
+		<tr>
+			<th>Test location</th>
+			<td>
+				<encounterLocation />
+			</td>
+		</tr>
+		<tr>
+			<th>Provider</th>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr>
+			<th>CD4 date</th>
+			<td>
+				<encounterDate />
+			</td>
+		</tr>
+		<tr>
+			<th>CD4 Count</th>
+			<td>
+				<obs conceptId="5497" labelText="" />
+			</td>
+		</tr>
+		<tr>
+			<th>CD4 Percent</th>
+			<td>
+				<obs conceptId="730" labelText="" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				<submit />
+			</td>
+			<td align="right">
+			   	<!--  Eclipse XML Code style messes around with embedded Javascript -->
+				<script language="javascript" type="text/javascript">
+					/* hack in the link to void encounters based on parsing the current url */
+					/* seems only to work reliably in firefox */
+					/* is hopefully fixed with later version of html form entry */
+					var paramName = "encounterId";
+
+					/* regex stuff to parse out url parameters */
+					paramName = paramName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+					var regexS = "[\\?&amp;]"+paramName+"=([^&amp;#]*)";
+					var regex = new RegExp(regexS );
+					var results = regex.exec( window.location.href );
+					if(results != null ) {
+						paramValue = results[1];
+
+						/* create openmrs url to void encounter only if edit */
+						var encounterUrl = "admin/encounters/encounter.form?encounterId="
+						document.write("&lt;a href=" + window.location.protocol + "//" + window.location.host + "/openmrs/" + encounterUrl + paramValue + "&gt;Void encounter&lt;/a&gt;");
+					}
+				</script>
+			</td>
+		</tr>
+	</table>
+
+
+</htmlform>

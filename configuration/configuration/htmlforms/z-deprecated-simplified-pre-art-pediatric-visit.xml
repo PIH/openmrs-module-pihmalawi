@@ -1,0 +1,86 @@
+<htmlform
+        htmlformUuid="76d9a664-e78f-11e0-baeb-445f1136dfb9"
+        formUuid="fbc86b0c-8906-430e-a2e1-bc4b51dafb4b"
+        formName="z_deprecated_Simplified Pre-ART Pediatric Visit"
+        formDescription=""
+        formVersion="1"
+        formEncounterType="664b8812-977f-11e1-8993-905e29aff6c1"
+        formPublished="false"
+        formRetired="true"
+>
+
+	<table>
+		<tr>
+			<td colspan="2" align="center">
+				<b>
+					<big>Pediatric Pre-ART Visit</big>
+				</b>
+				<hr />
+			</td>
+		</tr>
+		<tr>
+			<th>Patient</th>
+			<td>
+				<lookup expression="patient.personName" />
+				(
+				<lookup
+					complexExpression="#foreach( $id in $patientIdentifiers.get(&quot;PART Number&quot;) ) $!id #end" />
+				)
+			</td>
+		</tr>
+		<tr>
+			<th>Clinic</th>
+			<td>
+				<encounterLocation />
+			</td>
+		</tr>
+		<tr>
+			<th>Provider</th>
+			<td>
+				<encounterProvider default="16576" />
+			</td>
+		</tr>
+		<tr>
+			<th>Visit Date</th>
+			<td>
+				<encounterDate />
+			</td>
+		</tr>
+		<tr>
+			<th>Height</th>
+			<td>
+				<obs conceptId="5090" />
+			</td>
+		</tr>
+		<tr>
+			<th>Weight</th>
+			<td>
+				<obs conceptId="5089" />
+			</td>
+		</tr>
+		<tr>
+			<th>
+				TLC/CD4 (cells/mm
+				<sup>3</sup>
+				)
+			</th>
+			<td>
+				<obs conceptId="5497" />
+			</td>
+		</tr>
+		<tr>
+			<th>Next appointment</th>
+			<td>
+				<obs conceptId="5096" allowFutureDates="true" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<hr />
+			</td>
+		</tr>
+	</table>
+
+	<submit />
+
+</htmlform>
