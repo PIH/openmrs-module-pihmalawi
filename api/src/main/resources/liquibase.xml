@@ -118,4 +118,14 @@
 		<sqlFile path="pihmalawiMigrations/removeDuplicateHtmlForms.sql" stripComments="true" />
 	</changeSet>
 
+	<changeSet id="20260910-rename-retired-metronidazole-duplicate" author="mseaton">
+		<comment>
+			drugs.csv renames this already-retired duplicate drug, but openmrs-module-initializer's
+			CsvParser.shouldFill() skips the whole fill step (including the name change) for a
+			Void/Retire=true row when the entity already exists - so the rename silently never
+			applies against an existing database. Apply it directly here instead. MLW-1839
+		</comment>
+		<sqlFile path="pihmalawiMigrations/renameRetiredMetronidazoleDuplicate.sql" stripComments="true" />
+	</changeSet>
+
 </databaseChangeLog>
