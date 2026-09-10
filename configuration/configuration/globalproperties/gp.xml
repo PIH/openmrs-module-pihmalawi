@@ -314,10 +314,6 @@
             <value>fancy</value>
         </globalProperty>
         <globalProperty>
-            <property>last_error_reported</property>
-            <value>2009-11-27T23:51:02+02:00</value>
-        </globalProperty>
-        <globalProperty>
             <property>legacyui.enableExitFromCare</property>
             <value>true</value>
         </globalProperty>
@@ -362,10 +358,6 @@
             <value>500</value>
         </globalProperty>
         <globalProperty>
-            <property>pihmalawi.oldReportsRemoved</property>
-            <value>true</value>
-        </globalProperty>
-        <globalProperty>
             <property>pihmalawi.systemLocationsTag</property>
             <value>Upper Neno</value>
         </globalProperty>
@@ -375,10 +367,6 @@
         </globalProperty>
         <globalProperty>
             <property>registrationcore.mpi.personIdentifierId</property>
-            <value></value>
-        </globalProperty>
-        <globalProperty>
-            <property>registrationcore.mpi.username</property>
             <value></value>
         </globalProperty>
         <globalProperty>
