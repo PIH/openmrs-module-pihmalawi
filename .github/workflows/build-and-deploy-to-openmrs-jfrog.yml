@@ -26,6 +26,6 @@ jobs:
       cancel-in-progress: true
     uses: PIH/openmrs-contrib-distro-tools/.github/workflows/deploy-via-runner.yml@main
     with:
-      runner-label: neno-ci
+      runner-label: mw-his-neno-ci
       notify_ci_dashboard: true
     secrets: inherit
