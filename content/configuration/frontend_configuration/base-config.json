@@ -135,8 +135,13 @@
           "useQuickSearch": true,
           "searchAddressByLevel": true
         }
+      },
+      "causeOfDeath": {
+        "conceptUuid": "6569569a-977f-11e1-8993-905e29aff6c1",
+        "required": true
       }
     },
+    "freeTextFieldConceptUuid": "656cce7e-977f-11e1-8993-905e29aff6c1",
     "defaultPatientIdentifierTypes": [
       "66784d84-977f-11e1-8993-905e29aff6c1",
       "11a76c3e-1db8-4d16-9252-9a18b5ed1843",
@@ -172,7 +177,7 @@
         { 
           "id": "death", 
           "name": "Deceased", 
-          "fields": ["dateAndTimeOfDeath"] 
+          "fields": ["dateAndTimeOfDeath", "causeOfDeath"] 
         }        
     ],
     "Translation overrides": {
