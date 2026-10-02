@@ -42,7 +42,8 @@ jobs:
           PETL_MYSQL_PASSWORD: openmrs
           PETL_MYSQL_REPORTING_DATABASE: openmrs_warehouse
           OMRS_EXTRA_pihmalawi_warehouse_connection_url: "jdbc:mysql://openmrs-db:3306/openmrs_warehouse?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
-          OMRS_EXTRA_pihmalawi_warehouse_connection_username: openmrs
+          # PETL's account, which distro-tools grants the warehouse
+          OMRS_EXTRA_pihmalawi_warehouse_connection_username: petl
           OMRS_EXTRA_pihmalawi_warehouse_connection_password: openmrs
         run: openmrs-docker create e2e-malawi
 
