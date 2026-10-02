@@ -39,7 +39,10 @@ jobs:
           SERVICES: openmrs-db,openmrs,petl
           PETL_IMAGE_NAME: partnersinhealth/apzu-etl
           PETL_FULL_REFRESH_JOBS: refresh-mysql-reporting.yml
-          PETL_MYSQL_ROOT_PASSWORD: openmrs
+          PETL_MYSQL_PASSWORD: openmrs
+          PETL_MYSQL_REPORTING_DATABASE: openmrs_warehouse
+          # Required by distro-tools' petl service; unused, as this instance has no SQL Server.
+          PETL_SQLSERVER_PASSWORD: unused
           OMRS_EXTRA_pihmalawi_warehouse_connection_url: "jdbc:mysql://openmrs-db:3306/openmrs_warehouse?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
           OMRS_EXTRA_pihmalawi_warehouse_connection_username: openmrs
           OMRS_EXTRA_pihmalawi_warehouse_connection_password: openmrs
