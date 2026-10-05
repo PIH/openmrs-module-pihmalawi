@@ -106,7 +106,7 @@
         </globalProperty>
         <globalProperty>
             <property>addresshierarchy.initializeAddressHierarchyCacheOnStartup</property>
-            <value>false</value>
+            <value>true</value>
         </globalProperty>
         <globalProperty>
             <property>art_visit.standard_art_side_effects</property>
