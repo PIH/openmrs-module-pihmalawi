@@ -125,6 +125,10 @@
       "submitButton": "${openmrsBase}/patientDashboard.form?patientId=${patientUuid}"
     },
     "fieldConfigurations": {
+      "gender": [
+        { "value": "male", "label": "Male" },
+        { "value": "female", "label": "Female" }
+      ],
       "name": {
         "displayCapturePhoto": false,
         "allowUnidentifiedPatients": false
@@ -139,6 +143,9 @@
       "causeOfDeath": {
         "conceptUuid": "6569569a-977f-11e1-8993-905e29aff6c1",
         "required": true
+      },
+      "identifier": {
+        "allowPreferredSelection": true
       }
     },
     "freeTextFieldConceptUuid": "656cce7e-977f-11e1-8993-905e29aff6c1",
@@ -155,17 +162,6 @@
           "uuid": "8d87236c-c2cc-11de-8d13-0010c6dffd0f",
           "label": "Health Center",
           "locationTag": "Login Location"
-        },
-        {
-          "id": "gender",
-          "type": "Array",
-          "elements": [
-            {
-              "id": "male",
-              "value": "Male",
-              "label": "Male"
-            }
-          ]
         }
     ],
     "sectionDefinitions": [
