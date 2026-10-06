@@ -1,5 +1,10 @@
 <config>
     <globalProperties>
+        <!-- Leave users who are not logged in to the authentication module, which sends them to login and back -->
+        <globalProperty>
+            <property>owa.redirectToLoginUrl</property>
+            <value>false</value>
+        </globalProperty>
         <globalProperty>
             <property>pihmalawi.upperOrLowerNeno</property>
             <value>UPPER_NENO</value>
