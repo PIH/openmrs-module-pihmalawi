@@ -43,7 +43,7 @@ public class AuthenticationInitializer implements Initializer {
             p.put("usernameParam", "username");
             p.put("passwordParam", "password");
             p.put("locationParamName", "sessionLocation");
-            p.put("locationRequired", "false");
+            p.put("locationRequired", "true");
             p.put("onlyLocationsWithTag", "Login Location");
             p.put("locationSessionAttributeName", PihMalawiConstants.SESSION_LOCATION_ID);
             p.put("lastLocationCookieName", PihMalawiConstants.COOKIE_NAME_LAST_SESSION_LOCATION);
