@@ -27,7 +27,7 @@
     "type": "config",
     "extensionParams": {
       "show-locations": true,
-      "require-location": false,
+      "require-location": true,
       "location-tag-name": "Login Location",
       "last-location-cookie-name": "pihmalawi.lastSessionLocation",
       "welcome-message": "",
